@@ -3,7 +3,6 @@ import {
   NavigationMenuItem,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Button } from "@/components/ui/button";
 import React from "react";
 
 export default function LangSwitch(): React.ReactElement {
