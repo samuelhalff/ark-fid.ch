@@ -1,9 +1,6 @@
 import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
-import Home from "./pages/Home";
-import Team from "./pages/Team";
+import { Link } from "react-router-dom";
 import ServicesElements from "@/NavigationMenu/ServicesElements";
-import ArkLogo from "@/assets/arkfid--color.svg";
 import { NavigationMenuProps } from "@radix-ui/react-navigation-menu";
 import {
   NavigationMenu,
@@ -15,7 +12,6 @@ import {
   navigationMenuTriggerStyle,
 } from "@/NavigationMenu/NavigationComponents";
 import { useTranslation } from "react-i18next";
-import { CircleIcon } from "lucide-react";
 
 // ListItem has been updated to use Tailwind classes for a better hover effect,
 // which is standard for shadcn/ui navigation menus.
