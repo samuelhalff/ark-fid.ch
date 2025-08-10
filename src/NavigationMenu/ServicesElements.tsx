@@ -1,6 +1,11 @@
 import react from "react";
 import { Calculator } from "lucide-react";
-import { Building2, MessageSquareReply, GitFork } from "lucide-react";
+import {
+  Building2,
+  MessageSquareReply,
+  GitFork,
+  FolderCode,
+} from "lucide-react";
 
 const services: { title: string; href: string; description: string }[] = [
   {
@@ -8,27 +13,35 @@ const services: { title: string; href: string; description: string }[] = [
     title: "Accounting",
     href: "/alert-dialog",
     description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
+      "We offer comprehensive accounting services, including bookkeeping, financial reporting, and compliance with Swiss accounting standards. Our team ensures accurate and timely financial management for your business.",
+  },
+  {
+    icon: <FolderCode />,
+    title: "Odoo implementation",
+    href: "/alert-dialog",
+    description:
+      "We are official Odoo partners, providing full implementation and configuration services to ensure your Odoo setup meets Swiss accounting standards.",
   },
   {
     icon: <MessageSquareReply />,
     title: "Taxes - Company and Personal",
     href: "/progress",
     description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+      "We handle all aspects of tax compliance, including VAT registration, corporate tax filings, and personal income tax declarations.",
   },
   {
     icon: <Building2 />,
     title: "Company incorporation",
     href: "/hover-card",
     description:
-      "For sighted users to preview content available behind a link.",
+      "We assist with the entire process of company incorporation, including legal documentation, notary services, and registration with the Commercial Register.",
   },
   {
     icon: <GitFork />,
     title: "Payroll & HR",
     href: "/scroll-area",
-    description: "Visually or semantically separates content.",
+    description:
+      "We manage payroll processing, including salary calculations, payslip generation, and compliance with Swiss social security regulations.",
   },
 ];
 

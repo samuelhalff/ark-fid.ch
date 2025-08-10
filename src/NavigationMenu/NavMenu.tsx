@@ -33,7 +33,7 @@ function ListItem({
           to={href}
           className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
         >
-          <div className="flex gap-1 items-center text-sm font-medium leading-none">
+          <div className="flex gap-2 items-center text-sm font-medium leading-none">
             {icon && icon}
             {title}
           </div>
@@ -49,7 +49,11 @@ function ListItem({
 function NavMenu(props: NavigationMenuProps) {
   const { t } = useTranslation();
   return (
-    <NavigationMenu viewport={false} style={{ height: 30 }} {...props}>
+    <NavigationMenu
+      viewport={false}
+      style={{ height: 30, zIndex: 10 }}
+      {...props}
+    >
       <NavigationMenuList className="gap-6 space-x-0 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start">
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>

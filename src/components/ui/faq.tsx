@@ -7,14 +7,6 @@ import { cn } from "@/lib/utils";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { PlusIcon } from "lucide-react";
 
-const faq = Of course. Here is the updated faq array, which now includes a question about your swissdec-compliant payroll services.
-
-code
-JavaScript
-download
-content_copy
-expand_less
-
 const faq = [
   {
     question: "Who needs accounting services in Switzerland?",
@@ -42,45 +34,48 @@ const faq = [
       "Capital tax applies to a company's equity, including share capital and retained earnings. Wealth tax is levied on the total value of assets owned by individuals, which affects sole proprietors and individual entrepreneurs.",
   },
   {
-    question: "How does your collaboration work if we use Odoo for our accounting?",
+    question:
+      "How does your collaboration work if we use Odoo for our accounting?",
     answer:
-      "You maintain full ownership and control of your data with your own Odoo account. As official Odoo partners, we connect to your system to provide support. This setup allows you to oversee all operations while we assist with the tasks you delegate to us, ensuring a transparent and collaborative partnership."
+      "You maintain full ownership and control of your data with your own Odoo account. As official Odoo partners, we connect to your system to provide support. This setup allows you to oversee all operations while we assist with the tasks you delegate to us, ensuring a transparent and collaborative partnership.",
   },
   {
-    question: "Can we delegate specific accounting tasks while handling others ourselves?",
+    question:
+      "Can we delegate specific accounting tasks while handling others ourselves?",
     answer:
-      "Absolutely. Our Odoo-based service model is designed for flexibility. You can manage tasks like invoicing and expense tracking yourself, while delegating more complex work like financial closing and tax declarations to us. You control how much work is delegated."
+      "Absolutely. Our Odoo-based service model is designed for flexibility. You can manage tasks like invoicing and expense tracking yourself, while delegating more complex work like financial closing and tax declarations to us. You control how much work is delegated.",
   },
   {
     question: "Do you help with setting up Odoo for accounting and payroll?",
     answer:
-      "Yes, as official Odoo partners, we provide complete implementation and configuration services. We ensure your Odoo setup meets Swiss accounting standards and that the payroll module is fully compliant with swissdec, providing a seamless and efficient system."
+      "Yes, as official Odoo partners, we provide complete implementation and configuration services. We ensure your Odoo setup meets Swiss accounting standards and that the payroll module is fully compliant with swissdec, providing a seamless and efficient system.",
   },
   {
     question: "How do you manage swissdec-compliant payroll and insurance?",
     answer:
-      "We handle all aspects of payroll management through our swissdec-certified Odoo platform. This includes processing monthly salaries, generating payslips, and managing all electronic data transmissions for social security (AHV/AVS), pension funds (BVG/LPP), and withholding tax. We also manage all communications with insurance providers, including employee registrations, mutations, and annual declarations, to ensure you remain fully compliant."
+      "We handle all aspects of payroll management through our swissdec-certified Odoo platform. This includes processing monthly salaries, generating payslips, and managing all electronic data transmissions for social security (AHV/AVS), pension funds (BVG/LPP), and withholding tax. We also manage all communications with insurance providers, including employee registrations, mutations, and annual declarations, to ensure you remain fully compliant.",
   },
   {
     question: "How much does it cost to set up a Sole Proprietorship?",
     answer:
-      "Our fixed fee for establishing a Sole Proprietorship is CHF 690. This package includes the preparation of all required legal documents, notary fees, and our coordination to ensure a smooth registration process. Please note, this does not cover the Commercial Register fee."
+      "Our fixed fee for establishing a Sole Proprietorship is CHF 690. This package includes the preparation of all required legal documents, notary fees, and our coordination to ensure a smooth registration process. Please note, this does not cover the Commercial Register fee.",
   },
   {
-    question: "What is the fee for incorporating a Limited Liability Company (GmbH/Sàrl)?",
+    question:
+      "What is the fee for incorporating a Limited Liability Company (GmbH/Sàrl)?",
     answer:
-      "Our fixed fee for a Limited Liability Company (GmbH/Sàrl) is CHF 990. This includes drafting the necessary documents, all notary fees, and our full coordination service. The Commercial Register fee is not included in this price."
+      "Our fixed fee for a Limited Liability Company (GmbH/Sàrl) is CHF 990. This includes drafting the necessary documents, all notary fees, and our full coordination service. The Commercial Register fee is not included in this price.",
   },
   {
     question: "What is the cost to form a Corporation (AG/SA)?",
     answer:
-      "The all-inclusive fee for forming a Corporation (AG/SA) is CHF 1,090. This covers the creation of corporate documents, notary public fees, and our complete coordination service from start to finish. This fee is exclusive of the mandatory Commercial Register fee."
+      "The all-inclusive fee for forming a Corporation (AG/SA) is CHF 1,090. This covers the creation of corporate documents (standard templates, specific work outstide of standard templates shall be invoiced), notary public fees, and our complete coordination service from start to finish. This fee is exclusive of the mandatory Commercial Register fee.",
   },
   {
     question: "Do you offer other services for company formation?",
     answer:
-      "Yes, we also provide personalized assistance with opening Swiss corporate bank accounts, drafting bespoke articles of association, and preparing other specific corporate documents. These services are billed on a time basis, with rates ranging from CHF 175 to CHF 350 per hour depending on the complexity of the service."
-  }
+      "Yes, we also provide personalized assistance with opening Swiss corporate bank accounts, drafting bespoke articles of association, and preparing other specific corporate documents. These services are billed on a time basis, with rates ranging from CHF 175 to CHF 350 per hour depending on the complexity of the service.",
+  },
 ];
 
 const FAQ = () => {
