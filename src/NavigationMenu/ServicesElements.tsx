@@ -11,17 +11,17 @@ const services: { title: string; href: string; description: string }[] = [
       "A modal dialog that interrupts the user with important content and expects a response.",
   },
   {
+    title: "Taxes - Company and Personal",
+    href: "/progress",
+    description:
+      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+  },
+  {
     icon: <Building2 />,
     title: "Company incorporation",
     href: "/hover-card",
     description:
       "For sighted users to preview content available behind a link.",
-  },
-  {
-    title: "Taxes - Company and Personal",
-    href: "/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
   },
   {
     title: "Payroll & HR",
