@@ -1,6 +1,6 @@
 import react from "react";
 import { Calculator } from "lucide-react";
-import { Building2 } from "lucide-react";
+import { Building2, MessageSquareReply, GitFork } from "lucide-react";
 
 const services: { title: string; href: string; description: string }[] = [
   {
@@ -11,6 +11,7 @@ const services: { title: string; href: string; description: string }[] = [
       "A modal dialog that interrupts the user with important content and expects a response.",
   },
   {
+    icon: <MessageSquareReply />,
     title: "Taxes - Company and Personal",
     href: "/progress",
     description:
@@ -24,6 +25,7 @@ const services: { title: string; href: string; description: string }[] = [
       "For sighted users to preview content available behind a link.",
   },
   {
+    icon: <GitFork />,
     title: "Payroll & HR",
     href: "/scroll-area",
     description: "Visually or semantically separates content.",

@@ -25,11 +25,11 @@ const Services = () => {
             className="flex flex-col border rounded-xl overflow-hidden shadow-none"
           >
             <CardHeader>
-              {Service.icon}
-              <h4 className="!mt-3 text-xl font-bold tracking-tight">
-                {Service.title}
-              </h4>
-              <p className="mt-1 text-muted-foreground text-sm xs:text-[17px]">
+              <div className="flex items-center gap-2 !mt-3 text-xl font-bold tracking-tight">
+                {Service.icon}
+                <h4 className="">{Service.title}</h4>
+              </div>
+              <p className="mt-1 text-left text-muted-foreground text-sm xs:text-[17px]">
                 {Service.description}
               </p>
             </CardHeader>
