@@ -1,5 +1,179 @@
 {
   "translation": {
-    "specificKey": "Translated Value"
+    "NavBar": {
+      "Home": "Inicio",
+      "About": "Sobre nosotros",
+      "Services": "Servicios",
+      "Contact": "Contacto",
+      "Team": "Equipo"
+    },
+    "Hero": {
+      "Title": "Servicios suizos de contabilidad y corporativos",
+      "Subtitle": "Soporte experto para tu empresa, desde el inicio hasta el éxito.",
+      "CTA": "Comenzar",
+      "SecondaryCTA": "Saber más"
+    },
+    "Team": {
+      "Title": "Conoce a nuestro equipo",
+      "Subtitle": "Un equipo de talentos complementarios",
+      "Role": {
+        "Partner": "Socio",
+        "ManagingPartner": "Socio gerente",
+        "Tax": "Fiscalidad",
+        "OfficeProjectManager": "Oficina y Jefe de proyecto"
+      }
+    },
+    "specificKey": "Valor traducido",
+    "Services": {
+      "Title": "Nuestros servicios"
+    },
+    "ServicesElements": {
+      "Accounting": {
+        "Title": "Contabilidad",
+        "Description": "Ofrecemos servicios integrales de contabilidad, incluyendo la gestión de libros, informes financieros y cumplimiento con las normas contables suizas. Nuestro equipo garantiza una gestión financiera precisa y oportuna para tu empresa."
+      },
+      "TaxesCompanyPersonal": {
+        "Title": "Impuestos - Empresa y Personal",
+        "Description": "Gestionamos todos los aspectos del cumplimiento fiscal, incluyendo el registro de IVA, declaraciones fiscales corporativas y declaraciones de impuestos personales."
+      },
+      "PayrollHR": {
+        "Title": "Nómina y RRHH",
+        "Description": "Gestionamos el procesamiento de nóminas, incluyendo cálculos salariales, generación de recibos de sueldo y cumplimiento con la normativa de seguridad social suiza."
+      },
+      "OutsourcingServices": {
+        "Title": "Servicios de subcontratación",
+        "Description": "Ofrecemos servicios de subcontratación para tareas legales, administrativas y contables, permitiéndote centrarte en tus actividades principales mientras gestionamos las funciones administrativas necesarias."
+      },
+      "CorporateServices": {
+        "Title": "Servicios corporativos",
+        "Description": "Ofrecemos una gama de servicios corporativos, incluyendo la constitución de empresas, gestión de cumplimiento y apoyo a la gobernanza para asegurar que tu empresa opere correctamente y conforme a la normativa suiza."
+      },
+      "CompanyIncorporation": {
+        "Title": "Constitución de empresa",
+        "Description": "Te asistimos en todo el proceso de constitución de empresa, incluyendo la documentación legal, servicios notariales y registro en el Registro Mercantil."
+      },
+      "DomiciliationServices": {
+        "Title": "Servicios de domiciliación",
+        "Description": "Los servicios de domiciliación proporcionan a las empresas una dirección registrada para fines legales, administrativos y comerciales. Permiten establecer la sede oficial, recibir correspondencia y cumplir con los requisitos regulatorios sin necesidad de una oficina física en la ubicación."
+      },
+      "OdooImplementation": {
+        "Title": "Implementación Odoo",
+        "Description": "Somos socios oficiales de Odoo y ofrecemos servicios completos de implementación y configuración para asegurar que tu sistema Odoo cumpla con los estándares contables suizos."
+      },
+      "FAQ": {
+        "Title": "Preguntas frecuentes",
+        "Subtitle": "Respuestas rápidas a preguntas comunes sobre nuestros productos y servicios.",
+        "Question1": "¿Quién necesita servicios de contabilidad en Suiza?",
+        "Answer1": "Cualquier empresa que opere en Suiza, desde startups hasta grandes empresas, requiere servicios de contabilidad para cumplir con las leyes fiscales y financieras locales.",
+        "Question2": "¿Qué servicios ofrecen los contadores en Suiza?",
+        "Answer2": "Los contadores en Suiza ofrecen una variedad de servicios, incluyendo gestión de libros, preparación de estados financieros, planificación y declaración de impuestos, servicios de IVA, nómina, soporte de RRHH y contratos, y asistencia en auditorías.",
+        "Question3": "¿Es obligatorio el registro de IVA en Suiza?",
+        "Answer3": "Sí, si la facturación anual de tu empresa supera los CHF 100,000, debes registrarte para el IVA.",
+        "Question4": "¿Cuáles son las tasas de impuestos corporativos en Suiza?",
+        "Answer4": "Las tasas de impuestos corporativos en Suiza varían según el cantón y el municipio, con tasas efectivas que suelen oscilar entre el 11,9% y el 21,6%. La tasa federal es del 8,5% sobre el beneficio neto.",
+        "Question5": "¿Cuál es la diferencia entre el impuesto sobre el capital y el impuesto sobre el patrimonio?",
+        "Answer5": "El impuesto sobre el capital se aplica al patrimonio de la empresa, incluyendo el capital social y las reservas. El impuesto sobre el patrimonio grava el valor total de los activos de las personas físicas, lo que afecta a empresarios individuales.",
+        "Question6": "¿Cómo funciona la colaboración si usamos Odoo para la contabilidad?",
+        "Answer6": "Mantienes la propiedad y el control total de tus datos en tu propia cuenta de Odoo. Como socios oficiales de Odoo, nos conectamos a tu sistema para brindar soporte. Así puedes supervisar todas las operaciones mientras nosotros gestionamos las tareas que nos delegues, garantizando una colaboración transparente.",
+        "Question7": "¿Podemos delegar tareas contables específicas y gestionar otras nosotros mismos?",
+        "Answer7": "Por supuesto. Nuestro modelo de servicio basado en Odoo es flexible. Puedes gestionar tareas como facturación y gastos tú mismo, mientras delegas trabajos más complejos como cierres financieros y declaraciones fiscales. Tú decides cuánto delegar.",
+        "Question8": "¿Ayudan con la configuración de Odoo para contabilidad y nómina?",
+        "Answer8": "Sí, como socios oficiales de Odoo, ofrecemos servicios completos de implementación y configuración. Nos aseguramos de que tu sistema Odoo cumpla con los estándares contables suizos y que el módulo de nómina sea totalmente compatible con swissdec.",
+        "Question9": "¿Cómo gestionan la nómina y los seguros conforme a swissdec?",
+        "Answer9": "Gestionamos todos los aspectos de la nómina a través de nuestra plataforma Odoo certificada por swissdec. Esto incluye el procesamiento mensual de salarios, la generación de recibos de sueldo y la transmisión electrónica de datos para la seguridad social (AHV/AVS), fondos de pensiones (BVG/LPP) y retención de impuestos. También gestionamos la comunicación con aseguradoras, incluyendo altas, bajas y declaraciones anuales, para garantizar el cumplimiento total.",
+        "Question10": "¿Cuánto cuesta constituir una empresa individual?",
+        "Answer10": "Nuestra tarifa fija para la constitución de una empresa individual es de CHF 690. Este paquete incluye la preparación de todos los documentos legales necesarios, honorarios de notaría y nuestra coordinación para asegurar un proceso fluido. La tarifa del Registro Mercantil no está incluida.",
+        "Question11": "¿Cuál es la tarifa para constituir una Sociedad de Responsabilidad Limitada (GmbH/Sàrl)?",
+        "Answer11": "Nuestra tarifa fija para una GmbH/Sàrl es de CHF 990. Incluye la redacción de los documentos necesarios, todos los honorarios de notaría y nuestro servicio de coordinación. La tarifa del Registro Mercantil no está incluida.",
+        "Question12": "¿Cuál es el costo para formar una Sociedad Anónima (AG/SA)?",
+        "Answer12": "La tarifa total para formar una AG/SA es de CHF 1,090. Incluye la creación de documentos corporativos (plantillas estándar, trabajos específicos fuera de las plantillas estándar se facturan aparte), honorarios de notaría y nuestra coordinación completa. Esta tarifa no incluye el Registro Mercantil obligatorio.",
+        "Question13": "¿Ofrecen otros servicios para la constitución de empresas?",
+        "Answer13": "Sí, también ofrecemos asistencia personalizada para la apertura de cuentas bancarias corporativas suizas, la redacción de estatutos personalizados y la preparación de otros documentos corporativos específicos. Estos servicios se facturan por tiempo, con tarifas que van de CHF 175 a CHF 350 por hora según la complejidad."
+      },
+      "Testimonials": {
+        "SectionTitle": "Testimonios",
+        "List": [
+          {
+            "name": "Alex Weber",
+            "designation": "Director Ejecutivo",
+            "company": "Swiss Innovations GmbH",
+            "testimonial": "¡Colaborar con ellos ha transformado por completo nuestras operaciones financieras! La eficiencia de tener la contabilidad y la nómina gestionadas en Odoo no tiene comparación. Ahora podemos centrarnos en nuestro negocio, sabiendo que el cumplimiento está en manos expertas."
+          },
+          {
+            "name": "Clara Dubois",
+            "designation": "Gerente General",
+            "company": "Léman Distribution SA",
+            "testimonial": "Un servicio increíble que simplifica la complejidad de la contabilidad suiza y la nómina swissdec. Muy recomendable para cualquier PYME. Su enfoque flexible nos permite gestionar la facturación diaria mientras ellos se encargan del cierre mensual y los impuestos sin problemas."
+          },
+          {
+            "name": "Marco Rossi",
+            "designation": "Fundador",
+            "company": "Ticino Start-up",
+            "testimonial": "¡La experiencia colaborativa en Odoo es excelente! Tenemos una visión clara y en tiempo real de nuestras finanzas, y su equipo siempre está disponible para apoyarnos. La implementación fue fluida y perfectamente adaptada a nuestras necesidades."
+          },
+          {
+            "name": "Sophie Müller",
+            "designation": "Responsable de RRHH",
+            "company": "Alpine Precision AG",
+            "testimonial": "Hemos visto una mejora significativa en la eficiencia de RRHH desde que externalizamos la nómina. Su equipo gestiona todas las declaraciones swissdec y las comunicaciones con los seguros de manera impecable, lo que ha sido un cambio radical para nuestro pequeño equipo."
+          },
+          {
+            "name": "Liam Schneider",
+            "designation": "Director General",
+            "company": "Zurich Solutions",
+            "testimonial": "La mejor inversión que hemos hecho en nuestro back-office. El equipo de soporte es increíblemente receptivo y conocedor, respondiendo nuestras preguntas tanto de contabilidad como de Odoo. Su servicio ha sido invaluable desde nuestra constitución."
+          },
+          {
+            "name": "Isabelle Favre",
+            "designation": "Propietaria",
+            "company": "Geneva Consulting",
+            "testimonial": "¡Su servicio me ha ahorrado horas de trabajo administrativo! Los informes financieros y los análisis que proporcionan son muy potentes y fáciles de entender. Esto nos ayuda a tomar decisiones más inteligentes y basadas en datos para nuestro crecimiento."
+          }
+        ]
+      },
+      "Footer": {
+        "Product": {
+          "Title": "Producto",
+          "Overview": "Resumen",
+          "Features": "Características",
+          "Solutions": "Soluciones",
+          "Tutorials": "Tutoriales",
+          "Pricing": "Precios",
+          "Releases": "Lanzamientos"
+        },
+        "Company": {
+          "Title": "Empresa",
+          "AboutUs": "Sobre nosotros",
+          "Careers": "Carreras",
+          "Press": "Prensa",
+          "News": "Noticias",
+          "MediaKit": "Kit de medios",
+          "Contact": "Contacto"
+        },
+        "Resources": {
+          "Title": "Recursos",
+          "Blog": "Blog",
+          "Newsletter": "Boletín",
+          "Events": "Eventos",
+          "HelpCentre": "Centro de ayuda",
+          "Tutorials": "Tutoriales",
+          "Support": "Soporte"
+        },
+        "Social": {
+          "Title": "Social",
+          "LinkedIn": "LinkedIn"
+        },
+        "Legal": {
+          "Title": "Legal",
+          "Terms": "Términos",
+          "Privacy": "Privacidad",
+          "Cookies": "Cookies",
+          "Licenses": "Licencias",
+          "Settings": "Configuración",
+          "Contact": "Contacto"
+        },
+        "Copyright": "Ark Fiduciaire SA. Todos los derechos reservados"
+      }
+    }
   }
 }

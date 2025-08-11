@@ -24,7 +24,7 @@ const teamMembers = [
   },
   {
     name: "Samuel Halff",
-    role: "Managing Partner",
+    role: "ManagingPartner",
     profilePic: sh,
     social: {
       linkedin: "https://www.linkedin.com/in/peter-jones",
@@ -57,7 +57,7 @@ const teamMembers = [
   },
   {
     name: "Celeste Leal",
-    role: "Office & Projet Manager",
+    role: "OfficeProjectManager",
     profilePic: cl,
     social: {
       linkedin: "https://www.linkedin.com/in/peter-jones",
@@ -77,7 +77,7 @@ export default function TeamPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {teamMembers
           .sort(() => Math.random() - 0.5)
-          .map((member, index) => (
+          .map((member) => (
             <a href={member.social.linkedin} key={member.name} className="">
               <Card
                 className={
@@ -106,7 +106,7 @@ export default function TeamPage() {
                       }
                     </div>
                   </h3>
-                  <h2>{member.role}</h2>
+                  <h2>{t(`Team.Role.${member.role}`)}</h2>
                 </CardContent>
                 <CardFooter className="flex justify-center"></CardFooter>
               </Card>

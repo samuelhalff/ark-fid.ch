@@ -61,17 +61,17 @@ function NavMenu(props: NavigationMenuProps) {
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+          <NavigationMenuTrigger>{t("NavBar.Services")}</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
               {ServicesElements.map((component) => (
                 <ListItem
-                  key={component.title}
-                  title={component.title}
+                  key={component.titleKey}
+                  title={t(component.titleKey)}
                   href={component.href}
                   icon={component.icon}
                 >
-                  {component.description}
+                  {t(component.descriptionKey)}
                 </ListItem>
               ))}
             </ul>
@@ -79,7 +79,7 @@ function NavMenu(props: NavigationMenuProps) {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/team">Team</Link>
+            <Link to="/team">{t("NavBar.Team")}</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>

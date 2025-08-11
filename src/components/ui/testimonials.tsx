@@ -10,65 +10,11 @@ import {
 import { cn } from "@/lib/utils";
 import { StarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-
-const testimonials = [
-  {
-    id: 1,
-    name: "Alex Weber",
-    designation: "CEO",
-    company: "Swiss Innovations GmbH",
-    testimonial:
-      "Partnering with them has completely transformed our financial operations. The efficiency of having our accounting and payroll managed on Odoo is unmatched! We can now focus on our business, knowing our compliance is in expert hands.",
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-  },
-  {
-    id: 2,
-    name: "Clara Dubois",
-    designation: "General Manager",
-    company: "Léman Distribution SA",
-    testimonial:
-      "An amazing service that simplifies the complexities of Swiss accounting and swissdec payroll. Highly recommended for any SME. Their flexible approach lets us handle daily invoicing while they manage the monthly closing and taxes seamlessly.",
-    avatar: "https://randomuser.me/api/portraits/women/2.jpg",
-  },
-  {
-    id: 3,
-    name: "Marco Rossi",
-    designation: "Founder",
-    company: "Ticino Start-up",
-    testimonial:
-      "The collaborative experience on Odoo is top-notch! We have a clear, real-time view of our finances, and their team is always there to support us. The implementation was smooth and perfectly tailored to our needs.",
-    avatar: "https://randomuser.me/api/portraits/men/3.jpg",
-  },
-  {
-    id: 4,
-    name: "Sophie Müller",
-    designation: "HR Manager",
-    company: "Alpine Precision AG",
-    testimonial:
-      "We've seen a significant improvement in our HR efficiency since outsourcing our payroll. Their team handles all the swissdec declarations and insurance communications flawlessly, which has been a game-changer for our small team.",
-    avatar: "https://randomuser.me/api/portraits/women/4.jpg",
-  },
-  {
-    id: 5,
-    name: "Liam Schneider",
-    designation: "Managing Director",
-    company: "Zurich Solutions",
-    testimonial:
-      "The best investment we've made in our back-office. The support team is incredibly responsive and knowledgeable, answering our questions on both accounting and Odoo. Their service has been invaluable since our incorporation.",
-    avatar: "https://randomuser.me/api/portraits/men/5.jpg",
-  },
-  {
-    id: 6,
-    name: "Isabelle Favre",
-    designation: "Owner",
-    company: "Geneva Consulting",
-    testimonial:
-      "Their service has saved me hours of administrative work! The financial reports and insights they provide are incredibly powerful and easy to understand. This helps us make smarter, data-backed decisions for our growth.",
-    avatar: "https://randomuser.me/api/portraits/women/6.jpg",
-  },
-];
+import { useTranslation } from "react-i18next";
 
 const Testimonial = () => {
+  const { t } = useTranslation();
+  const testimonials = t("Testimonials.List", { returnObjects: true });
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -92,13 +38,13 @@ const Testimonial = () => {
       className="w-full max-w-screen-xl mx-auto py-6 xs:py-12 px-6"
     >
       <h2 className="mb-8 xs:mb-14 text-4xl md:text-5xl font-bold text-center tracking-tight">
-        Testimonials
+        {t("Testimonials.SectionTitle")}
       </h2>
       <div className="container w-full mx-auto">
         <Carousel setApi={setApi}>
           <CarouselContent>
-            {testimonials.map((testimonial) => (
-              <CarouselItem key={testimonial.id}>
+            {testimonials.map((testimonial: any, index: number) => (
+              <CarouselItem key={index}>
                 <TestimonialCard testimonial={testimonial} />
               </CarouselItem>
             ))}
@@ -120,16 +66,11 @@ const Testimonial = () => {
   );
 };
 
-const TestimonialCard = ({
-  testimonial,
-}: {
-  testimonial: (typeof testimonials)[number];
-}) => (
+const TestimonialCard = ({ testimonial }: { testimonial: any }) => (
   <div className="mb-8 bg-accent rounded-xl py-8 px-6 sm:py-6">
     <div className="flex items-center justify-between gap-20">
       <div className="hidden lg:block relative shrink-0 aspect-[3/4] max-w-[18rem] w-full bg-muted-foreground/20 rounded-xl">
         {/* <img src="" alt="" className="object-cover rounded-xl" /> */}
-
         <div className="absolute top-1/4 right-0 translate-x-1/2 h-12 w-12 bg-primary rounded-full flex items-center justify-center">
           <svg
             width="102"

@@ -1,47 +1,61 @@
-import react from "react";
-import { Calculator } from "lucide-react";
 import {
+  Calculator,
   Building2,
   MessageSquareReply,
   GitFork,
   FolderCode,
 } from "lucide-react";
+import Odoo from "@/assets/services/odoo.png";
 
-const services: { title: string; href: string; description: string }[] = [
+const services = [
   {
     icon: <Calculator />,
-    title: "Accounting",
+    titleKey: "ServicesElements.Accounting.Title",
     href: "/alert-dialog",
-    description:
-      "We offer comprehensive accounting services, including bookkeeping, financial reporting, and compliance with Swiss accounting standards. Our team ensures accurate and timely financial management for your business.",
-  },
-  {
-    icon: <FolderCode />,
-    title: "Odoo implementation",
-    href: "/alert-dialog",
-    description:
-      "We are official Odoo partners, providing full implementation and configuration services to ensure your Odoo setup meets Swiss accounting standards.",
+    descriptionKey: "ServicesElements.Accounting.Description",
   },
   {
     icon: <MessageSquareReply />,
-    title: "Taxes - Company and Personal",
+    titleKey: "ServicesElements.TaxesCompanyPersonal.Title",
     href: "/progress",
-    description:
-      "We handle all aspects of tax compliance, including VAT registration, corporate tax filings, and personal income tax declarations.",
-  },
-  {
-    icon: <Building2 />,
-    title: "Company incorporation",
-    href: "/hover-card",
-    description:
-      "We assist with the entire process of company incorporation, including legal documentation, notary services, and registration with the Commercial Register.",
+    descriptionKey: "ServicesElements.TaxesCompanyPersonal.Description",
   },
   {
     icon: <GitFork />,
-    title: "Payroll & HR",
+    titleKey: "ServicesElements.PayrollHR.Title",
     href: "/scroll-area",
-    description:
-      "We manage payroll processing, including salary calculations, payslip generation, and compliance with Swiss social security regulations.",
+    descriptionKey: "ServicesElements.PayrollHR.Description",
+  },
+  {
+    icon: <GitFork />,
+    titleKey: "ServicesElements.OutsourcingServices.Title",
+    href: "/hover-card",
+    descriptionKey: "ServicesElements.OutsourcingServices.Description",
+  },
+  {
+    icon: <GitFork />,
+    titleKey: "ServicesElements.CorporateServices.Title",
+    href: "/hover-card",
+    descriptionKey: "ServicesElements.CorporateServices.Description",
+  },
+  {
+    icon: <Building2 />,
+    titleKey: "ServicesElements.CompanyIncorporation.Title",
+    href: "/hover-card",
+    descriptionKey: "ServicesElements.CompanyIncorporation.Description",
+  },
+  {
+    icon: <Building2 />,
+    titleKey: "ServicesElements.DomiciliationServices.Title",
+    href: "/alert-dialog",
+    descriptionKey: "ServicesElements.DomiciliationServices.Description",
+  },
+  {
+    icon: <FolderCode />,
+    titleKey: "ServicesElements.OdooImplementation.Title",
+    href: "/alert-dialog",
+    descriptionKey: "ServicesElements.OdooImplementation.Description",
+    image: Odoo,
   },
 ];
 
