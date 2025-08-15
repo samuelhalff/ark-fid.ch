@@ -1,24 +1,10 @@
-import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Team from "./pages/Team";
-import ServicesElements from "./ServicesElements";
-import ArkLogo from "./assets/arkfid--color.svg";
+import Contact from "./pages/ContactForm";
 import NavBar from "@/NavigationMenu/Navbar";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import "./i18n.ts";
-
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/NavigationMenu/NavigationComponents";
-import LangSwitch from "@/components/ui/LangSwitch";
-import { CircleIcon } from "lucide-react";
 
 function App() {
   return (
@@ -30,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/team" element={<Team />} />
+          <Route path="/contact" element={<Contact />} />
           {/* Add more routes as needed */}
         </Routes>
       </main>

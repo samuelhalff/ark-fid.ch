@@ -43,7 +43,7 @@ const Testimonial = () => {
       <div className="container w-full mx-auto">
         <Carousel setApi={setApi}>
           <CarouselContent>
-            {testimonials.map((testimonial: any, index: number) => (
+            {(testimonials as []).map((testimonial: any, index: number) => (
               <CarouselItem key={index}>
                 <TestimonialCard testimonial={testimonial} />
               </CarouselItem>

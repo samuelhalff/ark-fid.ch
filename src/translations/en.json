@@ -11,7 +11,10 @@
       "Title": "Swiss Accounting & Corporate Services",
       "Description": "Expert support for your business, from startup to success.",
       "CTA": "Get in touch",
-      "SecondaryCTA": "Learn More"
+      "SecondaryCTA": "Learn More",
+      "Badge": "Swiss Made",
+      "AI": "AI Powered",
+      "OdooBadge": "Official Odoo Partner"
     },
     "Team": {
       "Title": "Meet our Team",

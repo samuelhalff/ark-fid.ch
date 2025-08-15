@@ -82,6 +82,11 @@ function NavMenu(props: NavigationMenuProps) {
             <Link to="/team">{t("NavBar.Team")}</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <Link to="/contact">{t("NavBar.Contact")}</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
