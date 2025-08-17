@@ -11,7 +11,7 @@
       "Title": "Swiss Accounting & Corporate Services",
       "Description": "Expert support for your business, from startup to success.",
       "CTA": "Get in touch",
-      "SecondaryCTA": "Learn More",
+      "SecondaryCTA": "Meet the Team",
       "Badge": "Swiss Made",
       "AI": "AI Powered",
       "OdooBadge": "Official Odoo Partner"
@@ -57,7 +57,6 @@
       "Question13": "Do you offer other services for company formation?",
       "Answer13": "Yes, we also provide personalized assistance with opening Swiss corporate bank accounts, drafting bespoke articles of association, and preparing other specific corporate documents. These services are billed on a time basis, with rates ranging from CHF 175 to CHF 350 per hour depending on the complexity of the service."
     },
-
     "Footer": {
       "Product": {
         "Title": "Product",
@@ -104,7 +103,7 @@
     "ServicesElements": {
       "Accounting": {
         "Title": "Accounting",
-        "Description": "We offer comprehensive accounting services, including bookkeeping, financial reporting, and compliance with Swiss accounting standards. Our team ensures accurate and timely financial management for your business."
+        "Description": "We offer comprehensive accounting services, including bookkeeping, financial reporting. We rely custom AI tools to gain efficiency and make your life easier. Our team ensures accurate and timely financial management for your business."
       },
       "TaxesCompanyPersonal": {
         "Title": "Taxes - Company and Personal",
@@ -121,10 +120,6 @@
       "CorporateServices": {
         "Title": "Corporate services",
         "Description": "We offer a range of corporate services, including company formation, compliance management, and corporate governance support to ensure your business operates smoothly and in accordance with Swiss regulations."
-      },
-      "CompanyIncorporation": {
-        "Title": "Company incorporation",
-        "Description": "We assist with the entire process of company incorporation, including legal documentation, notary services, and registration with the Commercial Register."
       },
       "DomiciliationServices": {
         "Title": "Domiciliation services",

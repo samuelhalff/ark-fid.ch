@@ -1,9 +1,10 @@
-import { ArrowUpRight, CirclePlay } from "lucide-react";
+import { ArrowUpRight, Users } from "lucide-react";
 import { Button } from "./button";
 import { Badge } from "@/components/ui/badge";
 import mainBG from "@/assets/main-bg.jpg";
 import { useTranslation } from "react-i18next";
 import odooLogo from "@/assets/odoo-logo.svg";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const { t } = useTranslation();
@@ -29,19 +30,25 @@ const Hero = () => {
             {t("Hero.Description")}
           </p>
           <div className="mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center">
-            <Button
-              size="lg"
-              className="w-full sm:w-auto rounded-full text-base"
-            >
-              {t("Hero.CTA")} <ArrowUpRight className="!h-5 !w-5" />
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="w-full sm:w-auto rounded-full text-base shadow-none"
-            >
-              <CirclePlay className="!h-5 !w-5" /> {t("Hero.SecondaryCTA")}
-            </Button>
+            <Link to="/contact" className="w-full sm:w-auto">
+              <Button
+                size="lg"
+                className="w-full sm:w-auto rounded-full text-base"
+                style={{ cursor: "pointer" }}
+              >
+                {t("Hero.CTA")} <ArrowUpRight className="!h-5 !w-5" />
+              </Button>
+            </Link>
+            <Link to="/team" className="w-full sm:w-auto">
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto rounded-full text-base shadow-none"
+                style={{ cursor: "pointer" }}
+              >
+                <Users className="!h-5 !w-5" /> {t("Hero.SecondaryCTA")}
+              </Button>
+            </Link>
           </div>
           <div className="mt-10 flex flex-col items-center justify-center">
             <img src={odooLogo} className="mt-0 w-24 h-15" alt="Odoo Logo" />

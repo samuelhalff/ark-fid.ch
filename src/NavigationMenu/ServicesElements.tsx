@@ -5,7 +5,15 @@ import {
   GitFork,
   FolderCode,
 } from "lucide-react";
-import Odoo from "@/assets/services/odoo.png";
+
+import Mountains from "@/assets/services/mountain-river.png";
+import Accounting from "@/assets/services/accounting-services.png";
+import TaxAdministration from "@/assets/services/tax-admin.png";
+import HRServices from "@/assets/services/hr-services.png";
+import Outsourcing from "@/assets/services/outsourcing.png";
+import Domiciliation from "@/assets/services/domiciliation.png";
+import CorporateServices from "@/assets/services/corporate-services.png";
+import OdooServices from "@/assets/services/odoo-services.png";
 
 const services = [
   {
@@ -13,49 +21,49 @@ const services = [
     titleKey: "ServicesElements.Accounting.Title",
     href: "/alert-dialog",
     descriptionKey: "ServicesElements.Accounting.Description",
+    image: Accounting,
   },
   {
     icon: <MessageSquareReply />,
     titleKey: "ServicesElements.TaxesCompanyPersonal.Title",
     href: "/progress",
     descriptionKey: "ServicesElements.TaxesCompanyPersonal.Description",
+    image: TaxAdministration,
   },
   {
     icon: <GitFork />,
     titleKey: "ServicesElements.PayrollHR.Title",
     href: "/scroll-area",
     descriptionKey: "ServicesElements.PayrollHR.Description",
+    image: HRServices,
   },
   {
     icon: <GitFork />,
     titleKey: "ServicesElements.OutsourcingServices.Title",
     href: "/hover-card",
     descriptionKey: "ServicesElements.OutsourcingServices.Description",
+    image: Outsourcing,
   },
   {
     icon: <GitFork />,
     titleKey: "ServicesElements.CorporateServices.Title",
     href: "/hover-card",
     descriptionKey: "ServicesElements.CorporateServices.Description",
-  },
-  {
-    icon: <Building2 />,
-    titleKey: "ServicesElements.CompanyIncorporation.Title",
-    href: "/hover-card",
-    descriptionKey: "ServicesElements.CompanyIncorporation.Description",
+    image: CorporateServices,
   },
   {
     icon: <Building2 />,
     titleKey: "ServicesElements.DomiciliationServices.Title",
     href: "/alert-dialog",
     descriptionKey: "ServicesElements.DomiciliationServices.Description",
+    image: Domiciliation,
   },
   {
     icon: <FolderCode />,
     titleKey: "ServicesElements.OdooImplementation.Title",
     href: "/alert-dialog",
     descriptionKey: "ServicesElements.OdooImplementation.Description",
-    image: Odoo,
+    image: OdooServices,
   },
 ];
 

@@ -28,7 +28,14 @@ const Services = () => {
               </p>
             </CardHeader>
             <CardContent className="px-0 pb-0">
-              <div className="bg-muted h-52 ml-6 rounded-tl-xl" />
+              <div className="bg-muted h-55 ml-6 rounded-tl-xl">
+                <img
+                  src={service.image}
+                  alt={t(service.titleKey)}
+                  className="w-full h-full object-cover rounded-tl-xl"
+                  style={{ objectFit: "cover", objectPosition: "0% 55%" }}
+                />
+              </div>
             </CardContent>
           </Card>
         ))}
