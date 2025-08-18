@@ -153,6 +153,16 @@
         "CTA": "Get in touch"
       }
     },
+    "Payroll": {
+      "Hero": {
+        "Badge": "Swiss Made",
+        "ReadMore": "Read more",
+        "AI": "AI Powered",
+        "Title": "Payroll & HR",
+        "Description": "We manage payroll processing, including salary calculations, payslip generation, and compliance with Swiss social security regulations. Our Odoo-based service ensures a seamless payroll experience.",
+        "CTA": "Get in touch"
+      }
+    },
     "Testimonials": {
       "SectionTitle": "Testimonials",
       "List": [

@@ -6,6 +6,9 @@ import Presentation from "./components/presentation";
 const Home: React.FC = () => {
   return (
     <div style={{ padding: "2rem", textAlign: "center" }}>
+      <div>
+        <title>Fiscalité & Conseil | Ark Fiduciaire</title>
+      </div>
       <Hero />
       <Presentation />
       <FAQ />

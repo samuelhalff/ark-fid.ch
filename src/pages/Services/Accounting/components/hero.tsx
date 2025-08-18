@@ -11,7 +11,7 @@ const Hero = () => {
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent">
       <div className="max-w-screen-xl w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-y-14 gap-x-10 px-6 py-12 lg:py-0">
-        <div className="max-w-xl">
+        <div className="max-w-xl animate-in fade-in duration-800">
           <div className="gap-2 flex justify-center items-center">
             <Badge className="rounded-full py-1 border-none">
               {t("Accounting.Hero.Badge")}
@@ -68,7 +68,7 @@ const Hero = () => {
             </div>
           </a>
         </div>
-        <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square">
+        <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
           <img
             src={financialPrompt}
             alt=""

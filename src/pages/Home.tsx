@@ -7,13 +7,16 @@ import ContactForm from "./ContactForm";
 
 const Home: React.FC = () => {
   return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
+    <main className="max-w-screen-xl mx-auto w-full py-12 xs:py-20 px-6">
+      <div>
+        <title>Home | Ark Fiduciaire</title>
+      </div>
       <Hero />
       <Services />
       <FAQ />
       <Testimonials />
       <ContactForm />
-    </div>
+    </main>
   );
 };
 

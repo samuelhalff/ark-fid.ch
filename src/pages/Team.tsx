@@ -69,6 +69,17 @@ export default function TeamPage() {
   const { t } = useTranslation();
   return (
     <div className="container mx-auto px-4 py-16">
+      <div>
+        <title>Notre équipe | Ark Fiduciaire</title>
+        <meta
+          name="description"
+          content="Découvrez la vision holistique de la comptabilité proposée par Ark Fiduciaire : expertise, conseil, solutions personnalisées et technologies avancées pour la gestion de vos finances."
+        />
+        <meta
+          name="keywords"
+          content="comptabilité, conseil, Ark Fiduciaire, expertise, gestion financière, solutions personnalisées, dashboards, fiscalité, services sur mesure"
+        />
+      </div>
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold">{t("Team.Title")}</h1>
         <p className="text-muted-foreground mt-2">{t("Team.Subtitle")}</p>

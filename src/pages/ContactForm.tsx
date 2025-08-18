@@ -104,7 +104,10 @@ const ContactForm: FC = () => {
 
   return (
     <div>
-      <h1 className="mb-8 xs:mb-14 text-4xl md:text-5xl font-bold text-center tracking-tight">
+      <div>
+        <title>Contact | Ark Fiduciaire</title>
+      </div>
+      <h1 className="mb-3 xs:mb-14 text-4xl md:text-5xl font-bold text-center tracking-tight mt-8">
         Get in touch
       </h1>
       <div className="flex items-center justify-center">

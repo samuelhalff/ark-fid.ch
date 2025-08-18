@@ -1,4 +1,4 @@
-import { ArrowUpRight, Users } from "lucide-react";
+import { ArrowUpRight, BadgeCheckIcon, Users } from "lucide-react";
 import { Button } from "@/components/ui//button";
 import { Badge } from "@/components/ui/badge";
 import mainBG from "@/assets/main-bg.jpg";
@@ -11,7 +11,7 @@ const Hero = () => {
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent">
       <div className="max-w-screen-xl w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-y-14 gap-x-10 px-6 py-12 lg:py-0">
-        <div className="max-w-xl">
+        <div className="max-w-xl text-center animate-in fade-in duration-800">
           <div className="gap-2 flex justify-center items-center">
             <Badge className="rounded-full py-1 border-none">
               {t("Hero.Badge")}
@@ -56,17 +56,18 @@ const Hero = () => {
             rel="noopener noreferrer"
           >
             <div className="mt-10 flex flex-col items-center justify-center">
-              <img src={odooLogo} className="mt-0 w-24 h-15" alt="Odoo Logo" />
+              <img src={odooLogo} className="mt-0 w-24 h-16" alt="Odoo Logo" />
               <Badge
-                variant="secondary"
-                className="rounded-full h-5 py-3 px-4 border-none"
+                variant="outline"
+                className="rounded-full h-5 py-3 px-4 border-black bg-transparent mt-0 flex items-center justify-center"
               >
+                <BadgeCheckIcon className="inline h-4 w-4 mr-1" />
                 {t("Hero.OdooBadge")}
               </Badge>
             </div>
           </a>
         </div>
-        <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square">
+        <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
           <img
             src={mainBG}
             alt=""

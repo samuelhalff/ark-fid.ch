@@ -33,7 +33,7 @@ const services = [
   {
     icon: <GitFork />,
     titleKey: "ServicesElements.PayrollHR.Title",
-    href: "/scroll-area",
+    href: "/payroll",
     descriptionKey: "ServicesElements.PayrollHR.Description",
     image: HRServices,
   },

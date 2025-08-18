@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import {
   CheckCircle,
   UserCheck,
@@ -45,10 +44,10 @@ const Presentation = () => {
         Vision holistique de votre comptabilité
       </h1>
       <div className="max-w-3xl text-left">
-        <h2 className="text-1xl xs:text-2xl md:text-2xl font-bold mb-6 md:leading-[2rem] tracking-tight text-left">
+        <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-6 md:leading-[2rem] tracking-tight">
           Une offre à 360°
         </h2>
-        <p className="mb-4 text-base">
+        <p className="mb-6 text-base">
           Nous nous consacrons à fournir des solutions complètes et
           personnalisées, conçues pour adresser chaque facette de vos besoins
           financiers et comptables avec précision et perspicacité.
@@ -59,12 +58,12 @@ const Presentation = () => {
           exploiter les opportunités de marché avec discernement. Nous sommes le
           partenaire stratégique engagé dans la réussite de votre entreprise.
         </p>
-        <div className="space-y-10">
+        <div className="space-y-12">
           <section>
-            <h3 className="text-2xl font-semibold mb-2">
+            <h3 className="text-2xl font-semibold mb-3">
               Comptabilité générale
             </h3>
-            <p className="mb-2 text-base">
+            <p className="mb-4 text-base">
               Chez Ark Fiduciaire, nous maîtrisons toutes les facettes de la
               comptabilité générale, du grand livre aux états financiers, en
               passant par la comptabilité de gestion. Nos professionnels
@@ -80,10 +79,10 @@ const Presentation = () => {
             </ul>
           </section>
           <section>
-            <h3 className="text-2xl font-semibold mb-2">
+            <h3 className="text-2xl font-semibold mb-3">
               Comptabilité analytique
             </h3>
-            <p className="text-base">
+            <p className="mb-6 text-base">
               La comptabilité analytique est un outil puissant pour comprendre
               où et comment vous générez des profits, ainsi que pour identifier
               les domaines qui nécessitent une attention particulière. Nos
@@ -93,8 +92,8 @@ const Presentation = () => {
             </p>
           </section>
           <section>
-            <h3 className="text-2xl font-semibold mb-2">Tâches périodiques</h3>
-            <p className="mb-2 text-base">
+            <h3 className="text-2xl font-semibold mb-3">Tâches périodiques</h3>
+            <p className="mb-4 text-base">
               Découvrez une gestion sereine grâce à notre expertise dans
               l'établissement des décomptes périodiques pour toutes vos
               obligations, incluant :
@@ -107,15 +106,15 @@ const Presentation = () => {
               <li>assemblée générale ordinaire et extraordinaires</li>
               <li>conseil d'administration</li>
             </ul>
-            <p className="text-base">
+            <p className="mt-4 text-base">
               Notre équipe dédiée vous accompagne à chaque étape, garantissant
               une gestion transparente et optimisée de vos décomptes, vous
               permettant ainsi de vous concentrer sur le cœur de votre activité.
             </p>
           </section>
           <section>
-            <h3 className="text-2xl font-semibold mb-2">Dashboards</h3>
-            <p className="text-base">
+            <h3 className="text-2xl font-semibold mb-3">Dashboards</h3>
+            <p className="mb-6 text-base">
               Optimisez la visibilité et le contrôle de vos finances avec nos
               solutions de dashboard comptables innovantes. Les tableaux de bord
               offrent une synthèse claire et accessible de vos données
@@ -127,7 +126,7 @@ const Presentation = () => {
             </p>
           </section>
           <section>
-            <h3 className="text-2xl font-semibold mb-2">
+            <h3 className="text-2xl font-semibold mb-3">
               Des services sur mesure
             </h3>
             <ul className="space-y-6 mt-4">

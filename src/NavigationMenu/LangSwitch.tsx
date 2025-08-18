@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 
 export default function LangSwitch(): React.ReactElement {
   const {
-    t,
     i18n: { changeLanguage, language },
   } = useTranslation();
 
