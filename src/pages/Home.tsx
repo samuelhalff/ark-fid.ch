@@ -2,8 +2,8 @@ import Hero from "@/components/ui/hero";
 import Services from "@/components/ui/services";
 import FAQ from "@/components/ui/faq";
 import Testimonials from "@/components/ui/testimonials";
-import Footer from "@/components/ui/footer";
 import React from "react";
+import ContactForm from "./ContactForm";
 
 const Home: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const Home: React.FC = () => {
       <Services />
       <FAQ />
       <Testimonials />
-      <Footer />
+      <ContactForm />
     </div>
   );
 };

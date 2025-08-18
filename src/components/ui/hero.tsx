@@ -1,5 +1,5 @@
 import { ArrowUpRight, Users } from "lucide-react";
-import { Button } from "./button";
+import { Button } from "@/components/ui//button";
 import { Badge } from "@/components/ui/badge";
 import mainBG from "@/assets/main-bg.jpg";
 import { useTranslation } from "react-i18next";
@@ -50,15 +50,21 @@ const Hero = () => {
               </Button>
             </Link>
           </div>
-          <div className="mt-10 flex flex-col items-center justify-center">
-            <img src={odooLogo} className="mt-0 w-24 h-15" alt="Odoo Logo" />
-            <Badge
-              variant="secondary"
-              className="rounded-full h-5 py-3 px-4 border-none"
-            >
-              {t("Hero.OdooBadge")}
-            </Badge>
-          </div>
+          <a
+            href="https://www.odoo.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div className="mt-10 flex flex-col items-center justify-center">
+              <img src={odooLogo} className="mt-0 w-24 h-15" alt="Odoo Logo" />
+              <Badge
+                variant="secondary"
+                className="rounded-full h-5 py-3 px-4 border-none"
+              >
+                {t("Hero.OdooBadge")}
+              </Badge>
+            </div>
+          </a>
         </div>
         <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square">
           <img

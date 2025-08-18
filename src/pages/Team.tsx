@@ -74,7 +74,7 @@ export default function TeamPage() {
         <p className="text-muted-foreground mt-2">{t("Team.Subtitle")}</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-25">
         {teamMembers
           .sort(() => Math.random() - 0.5)
           .map((member) => (

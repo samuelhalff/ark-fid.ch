@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -103,137 +103,138 @@ const ContactForm: FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <Card className="my-8 max-w-[1200px] min-w-[350px] w-full">
-        <CardHeader className="flex flex-row items-start font-karla-bold">
-          <CardTitle>Get in touch</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Toaster position="top-center" />
-          <Form {...form}>
-            <form
-              className="flex flex-col gap-6"
-              id="contact-form"
-              onSubmit={form.handleSubmit(onSubmit, onError)}
-              action="https://submit-form.com/1e26cwX66"
-            >
-              <div className="flex flex-col md:flex-row justify-between gap-4">
+    <div>
+      <h1 className="mb-8 xs:mb-14 text-4xl md:text-5xl font-bold text-center tracking-tight">
+        Get in touch
+      </h1>
+      <div className="flex items-center justify-center">
+        <Card className="my-8 max-w-[1200px] min-w-[350px] w-full mb-15">
+          <CardContent>
+            <Toaster position="top-center" />
+            <Form {...form}>
+              <form
+                className="flex flex-col gap-6"
+                id="contact-form"
+                onSubmit={form.handleSubmit(onSubmit, onError)}
+                action="https://submit-form.com/1e26cwX66"
+              >
+                <div className="flex flex-col md:flex-row justify-between gap-4">
+                  <FormField
+                    control={form.control}
+                    name="firstName"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="flex-auto">
+                          <FormLabel className="form-label">
+                            Name
+                            <span className="text-green-600">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage className="place-self-start text-primary-red !m-1" />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </div>
                 <FormField
                   control={form.control}
-                  name="firstName"
-                  render={({ field }) => {
-                    return (
-                      <FormItem className="flex-auto">
-                        <FormLabel className="form-label">
-                          Name
-                          <span className="text-green-600">*</span>
-                        </FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage className="place-self-start text-primary-red !m-1" />
-                      </FormItem>
-                    );
-                  }}
-                />
-              </div>
-              <FormField
-                control={form.control}
-                name="companyName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="form-label">Company name</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage className="place-self-start text-primary-red !m-1" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="form-label">Phone</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage className="place-self-start text-primary-red !m-1" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="form-label">
-                      Email
-                      <span className="text-green-600">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage className="place-self-start text-primary-red !m-1" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="message"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="form-label">
-                      Message
-                      <span className="text-green-600">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        rows={8}
-                        placeholder="Type your message here..."
-                        className="field-sizing-fixed"
-                      />
-                    </FormControl>
-                    <FormMessage className="place-self-start text-primary-red !m-1" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="consent"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <div className="flex flex-row content-center justify-items-start items-center gap-3">
+                  name="companyName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="form-label">Company name</FormLabel>
                       <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
+                        <Input {...field} />
                       </FormControl>
-                      <FormLabel className="!mt-0 hover:cursor-pointer">
-                        I consent to being contacted by Ark Fiduciaire
-                        &nbsp;&nbsp;
+                      <FormMessage className="place-self-start text-primary-red !m-1" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="form-label">Phone</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage className="place-self-start text-primary-red !m-1" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="form-label">
+                        Email
                         <span className="text-green-600">*</span>
                       </FormLabel>
-                    </div>
-                    <FormMessage className="text-primary-red !m-1 place-self-start" />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="submit"
-                name="submit"
-                disabled={sending}
-                style={{ cursor: "pointer" }}
-              >
-                Submit
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage className="place-self-start text-primary-red !m-1" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="form-label">
+                        Message
+                        <span className="text-green-600">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          rows={8}
+                          placeholder="Type your message here..."
+                          className="field-sizing-fixed"
+                        />
+                      </FormControl>
+                      <FormMessage className="place-self-start text-primary-red !m-1" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="consent"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <div className="flex flex-row content-center justify-items-start items-center gap-3">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormLabel className="!mt-0 hover:cursor-pointer">
+                          I consent to being contacted by Ark Fiduciaire
+                          <span className="text-green-600">*</span>
+                        </FormLabel>
+                      </div>
+                      <FormMessage className="text-primary-red !m-1 place-self-start" />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="submit"
+                  name="submit"
+                  disabled={sending}
+                  style={{ cursor: "pointer" }}
+                >
+                  Submit
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

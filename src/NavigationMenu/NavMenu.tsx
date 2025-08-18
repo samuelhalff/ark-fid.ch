@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ServicesElements from "@/NavigationMenu/ServicesElements";
 import { NavigationMenuProps } from "@radix-ui/react-navigation-menu";
 import {
@@ -48,6 +48,12 @@ function ListItem({
 
 function NavMenu(props: NavigationMenuProps) {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
+  const isActive = React.useCallback(
+    (path: string) => pathname === path,
+    [pathname]
+  );
+
   return (
     <NavigationMenu
       viewport={false}
@@ -56,7 +62,12 @@ function NavMenu(props: NavigationMenuProps) {
     >
       <NavigationMenuList className="gap-6 space-x-0 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start">
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink
+            asChild
+            className={
+              navigationMenuTriggerStyle() + (isActive("/") ? " bg-accent" : "")
+            }
+          >
             <Link to="/">{t("NavBar.Home")}</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -78,12 +89,24 @@ function NavMenu(props: NavigationMenuProps) {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink
+            asChild
+            className={
+              navigationMenuTriggerStyle() +
+              (isActive("/team") ? " bg-accent" : "")
+            }
+          >
             <Link to="/team">{t("NavBar.Team")}</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink
+            asChild
+            className={
+              navigationMenuTriggerStyle() +
+              (isActive("/contact") ? " bg-accent" : "")
+            }
+          >
             <Link to="/contact">{t("NavBar.Contact")}</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>

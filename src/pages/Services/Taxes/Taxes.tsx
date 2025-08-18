@@ -1,0 +1,16 @@
+import Hero from "./components/hero";
+import FAQ from "@/components/ui/faq";
+import React from "react";
+import Presentation from "./components/presentation";
+
+const Home: React.FC = () => {
+  return (
+    <div style={{ padding: "2rem", textAlign: "center" }}>
+      <Hero />
+      <Presentation />
+      <FAQ />
+    </div>
+  );
+};
+
+export default Home;

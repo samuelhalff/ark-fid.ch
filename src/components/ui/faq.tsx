@@ -27,7 +27,10 @@ const faq = [
 const FAQ = () => {
   const { t } = useTranslation();
   return (
-    <div id="faq" className="w-full max-w-screen-xl mx-auto py-8 xs:py-16 px-6">
+    <div
+      id="faq"
+      className="w-full max-w-screen-xl mx-auto py-8 xs:py-16 px-6 mb-10"
+    >
       <h2 className="md:text-center text-3xl xs:text-4xl md:text-5xl !leading-[1.15] font-bold tracking-tighter">
         {t("FAQ.Title")}
       </h2>

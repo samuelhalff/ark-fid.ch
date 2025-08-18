@@ -19,14 +19,14 @@ const services = [
   {
     icon: <Calculator />,
     titleKey: "ServicesElements.Accounting.Title",
-    href: "/alert-dialog",
+    href: "/accounting",
     descriptionKey: "ServicesElements.Accounting.Description",
     image: Accounting,
   },
   {
     icon: <MessageSquareReply />,
     titleKey: "ServicesElements.TaxesCompanyPersonal.Title",
-    href: "/progress",
+    href: "/taxes",
     descriptionKey: "ServicesElements.TaxesCompanyPersonal.Description",
     image: TaxAdministration,
   },

@@ -117,4 +117,19 @@
   body {
     @apply bg-background text-foreground;
   }
+  html {
+    scroll-behavior: smooth;
+  }
+  .abstract-background-light {
+    background-image: url("/src/assets/abstract-background-light.png");
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+  .abstract-background-dark {
+    background-image: url("/src/assets/abstract-background-dark.png");
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
 }
