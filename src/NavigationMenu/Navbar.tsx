@@ -15,7 +15,7 @@ const Navbar = () => {
 
     return () => window.removeEventListener("scroll", onScroll);
   }, [scrollTop]);
-  console.log(scrollTop);
+
   return (
     <div className="sticky top-0 w-full z-15">
       <nav
