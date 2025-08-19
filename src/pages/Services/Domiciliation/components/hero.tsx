@@ -1,7 +1,6 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui//button";
 import { Badge } from "@/components/ui/badge";
-import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import domiciliation from "@/assets/services/domiciliation.png";
 

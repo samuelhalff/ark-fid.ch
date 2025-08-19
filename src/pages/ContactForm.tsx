@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast, Toaster } from "sonner";
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import type { FieldErrors } from "react-hook-form";
 
 const formSchema = z.object({
   firstName: z.string().min(1, { message: "This field is required" }),
@@ -38,9 +39,9 @@ const formSchema = z.object({
 
 type FormValues = {
   firstName: string;
-  companyName: string;
+  companyName?: string;
   email: string;
-  phone: string;
+  phone?: string;
   consent: boolean;
   message: string;
 };
@@ -65,11 +66,9 @@ const ContactForm: FC = () => {
   const [sending, setSending] = React.useState(false);
   const navigate = useNavigate();
 
-  const onError: SubmitHandler<FormValues> = (
-    data: z.infer<typeof formSchema>
-  ) => {
+  const onError = (errors: FieldErrors<FormValues>) => {
     setSending(false);
-    console.error("Form submission error:", data);
+    console.error("Form submission error:", errors);
   };
 
   const onSubmit: SubmitHandler<FormValues> = async (
