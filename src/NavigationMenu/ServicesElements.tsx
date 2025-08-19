@@ -6,7 +6,6 @@ import {
   FolderCode,
 } from "lucide-react";
 
-import Mountains from "@/assets/services/mountain-river.png";
 import Accounting from "@/assets/services/accounting-services.png";
 import TaxAdministration from "@/assets/services/tax-admin.png";
 import HRServices from "@/assets/services/hr-services.png";

@@ -4,7 +4,6 @@ import {
   UserCheck,
   CheckCircle,
   Lightbulb,
-  FileText,
 } from "lucide-react";
 import { StylishList } from "@/components/ui/stylish-list";
 

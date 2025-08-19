@@ -3,7 +3,6 @@ import {
   Clock,
   Settings,
   CheckCircle,
-  Lightbulb,
   Briefcase,
 } from "lucide-react";
 import { StylishList } from "@/components/ui/stylish-list";

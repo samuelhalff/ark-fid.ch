@@ -117,11 +117,10 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
     <NavigationMenu
       viewport={false}
       style={{
-        height: isMobile ? undefined : 30,
         zIndex: 10,
         paddingTop: 15,
         paddingBottom: 15,
-        overflowY: isMobile ? undefined : "scroll",
+        overflowY: !isMobile ? undefined : "scroll",
       }}
       orientation={orientation}
       {...props}
@@ -184,7 +183,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
                 </span>
               </button>
               {servicesOpen && (
-                <ul id="services-mobile-list" className="w-full py-2">
+                <ul id="services-mobile-list" className="w-full py-2 ml-7">
                   {ServicesElements.map((component) => (
                     <ListItem
                       key={component.titleKey}
@@ -207,7 +206,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
                 {t("NavBar.Services")}
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-2 md:w-[350px] md:grid-cols-1 lg:w-[600px]">
+                <ul className="grid w-[400px] gap-2 md:w-[350px] md:grid-cols-2 lg:w-[600px]">
                   {ServicesElements.map((component) => (
                     <ListItem
                       key={component.titleKey}
