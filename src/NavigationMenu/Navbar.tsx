@@ -26,8 +26,10 @@ const Navbar = () => {
       >
         <div className="h-full flex items-center justify-between max-w-screen-xl mx-auto px-4 sm:px-6">
           <Link to={"/"}>
-            <img className="light:hidden" src={LogoLight} width={100} />
-            <img className="dark:hidden" src={Logo} width={100} />
+            <span>
+              <img className="light:hidden" src={LogoLight} width={100} />
+              <img className="dark:hidden" src={Logo} width={100} />
+            </span>
           </Link>
           <NavMenu className="hidden md:block" />
           <div className="md:hidden">
