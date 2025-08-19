@@ -8,6 +8,7 @@ import {
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Menu } from "lucide-react";
 import Logo from "@/assets/arkfid--color.svg";
+import LogoLight from "@/assets/arkfid--light.svg";
 import NavMenu from "@/NavigationMenu/NavMenu";
 
 export const NavigationSheet = () => {
@@ -22,8 +23,9 @@ export const NavigationSheet = () => {
         </Button>
       </SheetTrigger>
       <SheetContent>
-        <img src={Logo} width={100} />
-        <NavMenu orientation="vertical" className="mt-12" />
+        <img className="light:hidden" src={LogoLight} width={100} />
+        <img className="dark:hidden" src={Logo} width={100} />
+        <NavMenu orientation="vertical" className="mt-10" />
       </SheetContent>
     </Sheet>
   );

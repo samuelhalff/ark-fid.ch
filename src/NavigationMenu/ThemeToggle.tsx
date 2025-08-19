@@ -1,32 +1,54 @@
 import { Moon, Sun } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
-  DropdownMenuItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-  DropdownMenu,
-} from "@/components/ui/dropdown-menu";
+  NavigationMenuItem,
+  NavigationMenuContent,
+  NavigationMenuTrigger,
+  NavigationMenuLink,
+} from "@/NavigationMenu/NavigationComponents";
 import { useTheme } from "@/components/ui/theme-provider";
 
-export default function ModeToggle() {
+function ListItem({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <li onClick={onClick}>
+      <NavigationMenuLink asChild>
+        <a className="text-md cursor-pointer py-3 px-4">{children}</a>
+      </NavigationMenuLink>
+    </li>
+  );
+}
+
+export default function ThemeToggle({ mobile }: { mobile?: boolean } = {}) {
   const { setTheme } = useTheme();
 
+  if (mobile) {
+    // Only render the dropdown content for mobile collapse
+    return (
+      <ul className="flex flex-col gap-1">
+        <ListItem onClick={() => setTheme("light")}>Light</ListItem>
+        <ListItem onClick={() => setTheme("dark")}>Dark</ListItem>
+        <ListItem onClick={() => setTheme("system")}>System</ListItem>
+      </ul>
+    );
+  }
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">
-          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:hidden dark:scale-0 dark:-rotate-90" />
-          <Moon className="h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all light:hidden light:scale-0 light:-rotate-90 dark:scale-100 dark:rotate-0" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <NavigationMenuItem>
+      <NavigationMenuTrigger className="px-2">
+        <Sun className="h-5 w-8 dark:hidden w-10" />
+        <Moon className="h-5 w-8 light:hidden w-10" />
+        <span className="sr-only">Toggle theme</span>
+      </NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <ListItem onClick={() => setTheme("light")}>Light</ListItem>
+        <ListItem onClick={() => setTheme("dark")}>Dark</ListItem>
+        <ListItem onClick={() => setTheme("system")}>System</ListItem>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
   );
 }

@@ -9,21 +9,21 @@ const Services = () => {
       id="services"
       className="max-w-screen-xl mx-auto w-full py-12 xs:py-20 px-6"
     >
-      <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight sm:max-w-xl sm:text-center sm:mx-auto">
+      <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight sm:max-w-xl sm:text-center sm:mx-auto mb-10">
         {t("Services.Title")}
       </h2>
       <div className="mt-8 xs:mt-14 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
         {Service.map((service) => (
           <Card
             key={service.titleKey}
-            className="flex flex-col border rounded-xl overflow-hidden shadow-none"
+            className="flex flex-col border rounded-xl overflow-hidden shadow-none hover:brightness-105"
           >
             <CardHeader style={{ padding: "1.5rem 1.5rem 0", minHeight: 190 }}>
               <div className="flex items-center gap-2 !mt-3 text-xl font-bold tracking-tight">
                 {service.icon}
                 <h4 className="text-left">{t(service.titleKey)}</h4>
               </div>
-              <p className="mt-1 text-left text-muted-foreground text-sm xs:text-[17px]">
+              <p className="mt-1 text-left text-gray-700 dark:text-gray-300 text-md xs:text-[17px]">
                 {t(service.descriptionKey)}
               </p>
             </CardHeader>

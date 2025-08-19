@@ -2,6 +2,7 @@ import Hero from "./components/hero";
 import FAQ from "@/components/ui/faq";
 import React from "react";
 import Presentation from "./components/presentation";
+import ContactForm from "@/pages/ContactForm";
 
 const Home: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const Home: React.FC = () => {
       <Hero />
       <Presentation />
       <FAQ />
+      <ContactForm />
     </div>
   );
 };

@@ -7,7 +7,7 @@ import ContactForm from "./ContactForm";
 
 const Home: React.FC = () => {
   return (
-    <main className="max-w-screen-xl mx-auto w-full py-12 xs:py-20 px-6">
+    <div className="max-w-screen-xl mx-auto w-full py-12 xs:py-20 px-6">
       <div>
         <title>Home | Ark Fiduciaire</title>
       </div>
@@ -16,7 +16,7 @@ const Home: React.FC = () => {
       <FAQ />
       <Testimonials />
       <ContactForm />
-    </main>
+    </div>
   );
 };
 

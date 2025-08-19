@@ -107,11 +107,11 @@ const ContactForm: FC = () => {
       <div>
         <title>Contact | Ark Fiduciaire</title>
       </div>
-      <h1 className="mb-3 xs:mb-14 text-4xl md:text-5xl font-bold text-center tracking-tight mt-8">
+      <h1 className="mb-3 xs:mb-14 text-4xl md:text-5xl font-bold text-center tracking-tight mt-8 animate-in fade-in duration-700">
         Get in touch
       </h1>
       <div className="flex items-center justify-center">
-        <Card className="my-8 max-w-[1200px] min-w-[350px] w-full mb-15">
+        <Card className="my-8 max-w-[1200px] min-w-[350px] w-full mb-15 animate-in slide-in-from-bottom-7 duration-500">
           <CardContent>
             <Toaster position="top-center" />
             <Form {...form}>
@@ -133,7 +133,7 @@ const ContactForm: FC = () => {
                             <span className="text-green-600">*</span>
                           </FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} tabIndex={0} />
                           </FormControl>
                           <FormMessage className="place-self-start text-primary-red !m-1" />
                         </FormItem>
@@ -148,7 +148,7 @@ const ContactForm: FC = () => {
                     <FormItem>
                       <FormLabel className="form-label">Company name</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} tabIndex={0} />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red !m-1" />
                     </FormItem>
@@ -161,7 +161,7 @@ const ContactForm: FC = () => {
                     <FormItem>
                       <FormLabel className="form-label">Phone</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} tabIndex={0} />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red !m-1" />
                     </FormItem>
@@ -177,7 +177,7 @@ const ContactForm: FC = () => {
                         <span className="text-green-600">*</span>
                       </FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} tabIndex={0} />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red !m-1" />
                     </FormItem>
@@ -198,6 +198,7 @@ const ContactForm: FC = () => {
                           rows={8}
                           placeholder="Type your message here..."
                           className="field-sizing-fixed"
+                          tabIndex={0}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red !m-1" />
@@ -214,6 +215,7 @@ const ContactForm: FC = () => {
                           <Checkbox
                             checked={field.value}
                             onCheckedChange={field.onChange}
+                            tabIndex={0}
                           />
                         </FormControl>
                         <FormLabel className="!mt-0 hover:cursor-pointer">
@@ -230,6 +232,7 @@ const ContactForm: FC = () => {
                   name="submit"
                   disabled={sending}
                   style={{ cursor: "pointer" }}
+                  tabIndex={0}
                 >
                   Submit
                 </Button>

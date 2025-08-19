@@ -5,7 +5,9 @@
       "About": "About Us",
       "Services": "Services",
       "Contact": "Contact",
-      "Team": "Team"
+      "Team": "Team",
+      "Language": "Language",
+      "Theme": "Theme"
     },
     "Hero": {
       "Title": "Accounting, Tax & Corporate Services",
@@ -23,7 +25,8 @@
         "Partner": "Partner",
         "ManagingPartner": "Managing Partner",
         "Tax": "Tax",
-        "OfficeProjectManager": "Office & Project Manager"
+        "OfficeProjectManager": "Office & Project Manager",
+        "SeniorAccountant": "Senior Accountant"
       }
     },
     "specificKey": "Translated Value",
@@ -103,7 +106,7 @@
     "ServicesElements": {
       "Accounting": {
         "Title": "Accounting",
-        "Description": "Comprehensive accounting services, including bookkeeping, financial reporting. We rely on custom AI tools to gain efficiency and make your life easier. Our team ensures accurate and timely financial management for your business."
+        "Description": "Comprehensive accounting services, including bookkeeping, financial reporting. We rely on custom AI tools to gain efficiency and make your life easier."
       },
       "TaxesCompanyPersonal": {
         "Title": "Taxes - Company and Personal",
@@ -119,11 +122,11 @@
       },
       "CorporateServices": {
         "Title": "Corporate services",
-        "Description": "We offer a range of corporate services, including company formation, compliance management, and corporate governance support to ensure your business operates smoothly and in accordance with Swiss regulations."
+        "Description": "We offer a range of corporate services, including company formation, compliance management, and corporate governance support to ensure your business operates smoothly."
       },
       "DomiciliationServices": {
         "Title": "Domiciliation services",
-        "Description": "Domiciliation services provide businesses with a registered address for legal, administrative, and commercial purposes. These services allow companies to establish their official headquarters, receive mail, and fulfill regulatory requirements without needing a physical office at the location."
+        "Description": "Domiciliation services provide businesses with a registered address. These services allow companies to establish their official headquarters without needing a physical office at the location."
       },
       "OdooImplementation": {
         "Title": "Odoo implementation",

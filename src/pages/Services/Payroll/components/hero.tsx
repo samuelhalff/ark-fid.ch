@@ -36,7 +36,7 @@ const Hero = () => {
                 className="w-full sm:w-auto rounded-full text-base"
                 style={{ cursor: "pointer" }}
               >
-                <ArrowDown className="!h-5 !w-5" />
+                <ArrowDown className="!h-5 !w-5 animate-in slide-in-from-top-20 repeat-20 duration-800" />
                 {t("Payroll.Hero.ReadMore")}
               </Button>
             </a>

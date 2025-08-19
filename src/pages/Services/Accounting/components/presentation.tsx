@@ -4,7 +4,10 @@ import {
   Clock,
   Settings,
   Lightbulb,
+  ListChecks,
+  CalendarCheck2,
 } from "lucide-react";
+import { StylishList } from "@/components/ui/stylish-list";
 
 const listItems = [
   {
@@ -34,25 +37,42 @@ const listItems = [
   },
 ];
 
+const COMPTA_LIST = [
+  "Plan comptable personnalisé",
+  "Gestion des créanciers et débiteurs",
+  "Gestion des paiements",
+  "Gestion de la trésorerie",
+];
+
+const PERIODIC_LIST = [
+  "Clôture intermédiaire et/ou annuelle",
+  "TVA semestrielle ou trimestrielle",
+  "Les assurances sociales",
+  "Déclaration fiscale",
+  "Assemblée générale ordinaire et extraordinaires",
+  "Conseil d'administration",
+];
+
 const Presentation = () => {
   return (
     <section
-      className="max-w-screen-xl mx-auto w-full py-12 xs:py-20 px-6"
+      className="max-w-screen-xl mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25"
       id="presentation"
     >
-      <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left">
+      <h1 className="max-w-3xl text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
         Vision holistique de votre comptabilité
       </h1>
+
       <div className="max-w-3xl text-left">
-        <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-6 md:leading-[2rem] tracking-tight">
+        <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
           Une offre à 360°
         </h2>
-        <p className="mb-6 text-base">
+        <p className="mb-8 text-lg">
           Nous nous consacrons à fournir des solutions complètes et
           personnalisées, conçues pour adresser chaque facette de vos besoins
           financiers et comptables avec précision et perspicacité.
         </p>
-        <p className="mb-8 text-base">
+        <p className="mb-8 text-lg">
           Au-delà des chiffres, nous offrons un conseil stratégique visant à
           soutenir votre croissance, à naviguer à travers les défis et à
           exploiter les opportunités de marché avec discernement. Nous sommes le
@@ -60,10 +80,10 @@ const Presentation = () => {
         </p>
         <div className="space-y-12">
           <section>
-            <h3 className="text-2xl font-semibold mb-3">
+            <h3 className="text-2xl font-semibold mb-6">
               Comptabilité générale
             </h3>
-            <p className="mb-4 text-base">
+            <p className="mb-8 text-lg">
               Chez Ark Fiduciaire, nous maîtrisons toutes les facettes de la
               comptabilité générale, du grand livre aux états financiers, en
               passant par la comptabilité de gestion. Nos professionnels
@@ -71,18 +91,19 @@ const Presentation = () => {
               et conforme aux normes de l'industrie et aux réglementations en
               vigueur.
             </p>
-            <ul className="list-disc list-inside mt-3 ml-4 mb-2 text-left space-y-1 text-base">
-              <li>plan comptable personnalisé</li>
-              <li>des créanciers et débiteurs</li>
-              <li>des paiements</li>
-              <li>de la trésorerie</li>
-            </ul>
+            <StylishList
+              items={COMPTA_LIST}
+              Icon={ListChecks}
+              iconClass="text-primary"
+              bulletBg="light:bg-primary/5 dark:bg-primary/15"
+              className="mt-3 mb-2"
+            />
           </section>
           <section>
-            <h3 className="text-2xl font-semibold mb-3">
+            <h3 className="text-2xl font-semibold mb-6">
               Comptabilité analytique
             </h3>
-            <p className="mb-6 text-base">
+            <p className="mb-8 text-lg">
               La comptabilité analytique est un outil puissant pour comprendre
               où et comment vous générez des profits, ainsi que pour identifier
               les domaines qui nécessitent une attention particulière. Nos
@@ -92,29 +113,28 @@ const Presentation = () => {
             </p>
           </section>
           <section>
-            <h3 className="text-2xl font-semibold mb-3">Tâches périodiques</h3>
-            <p className="mb-4 text-base">
+            <h3 className="text-2xl font-semibold mb-6">Tâches périodiques</h3>
+            <p className="mb-8 text-lg">
               Découvrez une gestion sereine grâce à notre expertise dans
               l'établissement des décomptes périodiques pour toutes vos
               obligations, incluant :
             </p>
-            <ul className="list-disc list-inside mt-3 ml-4 mb-2 text-left space-y-1 text-base">
-              <li>clôture intermédiaire et/ou annuelle</li>
-              <li>TVA semestrielle ou trimestrielle</li>
-              <li>les assurances sociales</li>
-              <li>déclaration fiscale</li>
-              <li>assemblée générale ordinaire et extraordinaires</li>
-              <li>conseil d'administration</li>
-            </ul>
-            <p className="mt-4 text-base">
+            <StylishList
+              items={PERIODIC_LIST}
+              Icon={CalendarCheck2}
+              iconClass="text-blue-500"
+              bulletBg="light:bg-blue-100 dark:bg-primary/15"
+              className="mt-3 mb-2"
+            />
+            <p className="mt-6 text-lg">
               Notre équipe dédiée vous accompagne à chaque étape, garantissant
               une gestion transparente et optimisée de vos décomptes, vous
               permettant ainsi de vous concentrer sur le cœur de votre activité.
             </p>
           </section>
           <section>
-            <h3 className="text-2xl font-semibold mb-3">Dashboards</h3>
-            <p className="mb-6 text-base">
+            <h3 className="text-2xl font-semibold mb-6">Dashboards</h3>
+            <p className="mb-8 text-lg">
               Optimisez la visibilité et le contrôle de vos finances avec nos
               solutions de dashboard comptables innovantes. Les tableaux de bord
               offrent une synthèse claire et accessible de vos données
@@ -126,18 +146,23 @@ const Presentation = () => {
             </p>
           </section>
           <section>
-            <h3 className="text-2xl font-semibold mb-3">
+            <h3 className="text-2xl font-semibold mb-6">
               Des services sur mesure
             </h3>
             <ul className="space-y-6 mt-4">
               {listItems.map((item, idx) => (
-                <li key={idx} className="flex items-start gap-4">
+                <li
+                  key={idx}
+                  className="flex items-start gap-4 px-4 py-3 rounded-xl bg-muted/50 shadow-none hover:shadow-md transition-shadow"
+                >
                   <span className="mt-1">{item.icon}</span>
                   <div>
-                    <span className="font-semibold text-base">
+                    <span className="font-semibold text-lg text-gray-900 dark:text-gray-100">
                       {item.title}
                     </span>
-                    <span className="ml-1 text-base">: {item.desc}</span>
+                    <span className="ml-1 text-lg text-gray-700 dark:text-gray-300">
+                      : {item.desc}
+                    </span>
                   </div>
                 </li>
               ))}

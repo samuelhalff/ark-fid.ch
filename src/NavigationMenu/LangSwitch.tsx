@@ -1,41 +1,60 @@
 import {
-  DropdownMenuItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-  DropdownMenu,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+  NavigationMenuItem,
+  NavigationMenuContent,
+  NavigationMenuTrigger,
+  NavigationMenuLink,
+} from "@/NavigationMenu/NavigationComponents";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-export default function LangSwitch(): React.ReactElement {
+function ListItem({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick: () => {};
+}) {
+  return (
+    <li onClick={onClick}>
+      <NavigationMenuLink asChild>
+        <a className="text-md cursor-pointer py-3 px-4">{children}</a>
+      </NavigationMenuLink>
+    </li>
+  );
+}
+
+export default function LangSwitch({
+  mobile,
+}: { mobile?: boolean } = {}): React.ReactElement {
   const {
     i18n: { changeLanguage, language },
   } = useTranslation();
 
+  if (mobile) {
+    // Only render the dropdown content for mobile collapse
+    return (
+      <ul className="flex flex-col gap-1">
+        <ListItem onClick={() => changeLanguage("en")}>English</ListItem>
+        <ListItem onClick={() => changeLanguage("fr")}>Français</ListItem>
+        <ListItem onClick={() => changeLanguage("de")}>Deutsch</ListItem>
+        <ListItem onClick={() => changeLanguage("es")}>Español</ListItem>
+      </ul>
+    );
+  }
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">
-          <GlobeIcon className="h-5 w-8" />
-          <span style={{ minWidth: 17 }}>{language}</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem onClick={() => changeLanguage("en")}>
-          English
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeLanguage("fr")}>
-          Français
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeLanguage("de")}>
-          Deutsch
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => changeLanguage("es")}>
-          Español
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <NavigationMenuItem className="md:ml-30">
+      <NavigationMenuTrigger className="px-2">
+        <GlobeIcon className="h-5 w-8" />
+        <span style={{ minWidth: 17 }}>{language}</span>
+      </NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <ListItem onClick={() => changeLanguage("en")}>English</ListItem>
+        <ListItem onClick={() => changeLanguage("fr")}>Français</ListItem>
+        <ListItem onClick={() => changeLanguage("de")}>Deutsch</ListItem>
+        <ListItem onClick={() => changeLanguage("es")}>Español</ListItem>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
   );
 }
 

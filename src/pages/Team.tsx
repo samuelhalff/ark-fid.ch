@@ -11,6 +11,7 @@ import rs from "@/assets/rs.jpg";
 import ld from "@/assets/ld.png";
 import sh from "@/assets/sh.jpg";
 import at from "@/assets/at.jpg";
+import sg from "@/assets/sg.jpg";
 import linkedInLogo from "@/assets/li.png";
 
 const teamMembers = [
@@ -63,6 +64,14 @@ const teamMembers = [
       linkedin: "https://www.linkedin.com/in/peter-jones",
     },
   },
+  {
+    name: "Sébastien Gallié",
+    role: "SeniorAccountant",
+    profilePic: sg,
+    social: {
+      linkedin: "https://www.linkedin.com/in/peter-jones",
+    },
+  },
 ];
 
 export default function TeamPage() {
@@ -80,19 +89,19 @@ export default function TeamPage() {
           content="comptabilité, conseil, Ark Fiduciaire, expertise, gestion financière, solutions personnalisées, dashboards, fiscalité, services sur mesure"
         />
       </div>
-      <div className="text-center mb-12">
+      <div className="text-center mb-12 animate-in fade-in duration-900">
         <h1 className="text-4xl font-bold">{t("Team.Title")}</h1>
         <p className="text-muted-foreground mt-2">{t("Team.Subtitle")}</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-25">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-25 animate-in slide-in-from-bottom-7 duration-500">
         {teamMembers
           .sort(() => Math.random() - 0.5)
           .map((member) => (
             <a href={member.social.linkedin} key={member.name} className="">
               <Card
                 className={
-                  "animate-in fade-in duration-250 text-center shadow-none hover:shadow-lg transition-shadow gap-2 py-5 border-0"
+                  "animate-in fade-in duration-250 text-center shadow-none hover:shadow-lg transition-shadow gap-2 py-5 border-0 hover:brightness-115"
                 }
               >
                 <CardHeader>

@@ -5,6 +5,7 @@ import {
   SearchCheck,
   Landmark,
 } from "lucide-react";
+import { StylishList } from "@/components/ui/stylish-list";
 
 const listItems = [
   {
@@ -32,10 +33,10 @@ const listItems = [
 const Presentation = () => {
   return (
     <section
-      className="max-w-screen-xl mx-auto w-full py-12 xs:py-20 px-6"
+      className="max-w-screen-xl mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center"
       id="presentation"
     >
-      <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left">
+      <h1 className="max-w-3xl text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
         Nos fiscalistes à votre écoute
       </h1>
       <div className="max-w-3xl text-left">
@@ -90,49 +91,19 @@ const Presentation = () => {
               et stratégique. Nous structurons notre accompagnement fiscal en
               plusieurs étapes déterminantes :
             </p>
-            <ul className="mt-3 mb-6 text-left space-y-3">
-              <li className="flex items-start gap-2">
-                <CheckCircle className="text-primary mt-1" size={20} />
-                <span>
-                  <span className="font-semibold">Évaluation méticuleuse</span>{" "}
-                  de votre profil fiscal et identification d'opportunités de
-                  planification fiscale,
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="text-primary mt-1" size={20} />
-                <span>
-                  <span className="font-semibold">
-                    Conseil et mise en œuvre
-                  </span>{" "}
-                  de stratégies fiscales visant à minimiser légalement votre
-                  charge fiscale,
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="text-primary mt-1" size={20} />
-                <span>
-                  <span className="font-semibold">
-                    Préparation et soumission
-                  </span>{" "}
-                  précises de vos déclarations fiscales,
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="text-primary mt-1" size={20} />
-                <span>
-                  <span className="font-semibold">Représentation</span> devant
-                  les autorités fiscales en cas de vérifications et de litiges,
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle className="text-primary mt-1" size={20} />
-                <span>
-                  <span className="font-semibold">Anticipation et conseil</span>{" "}
-                  sur les implications fiscales des décisions d'affaires.
-                </span>
-              </li>
-            </ul>
+            <StylishList
+              items={[
+                "Évaluation méticuleuse de votre profil fiscal et identification d'opportunités de planification fiscale",
+                "Conseil et mise en œuvre de stratégies fiscales visant à minimiser légalement votre charge fiscale",
+                "Préparation et soumission précises de vos déclarations fiscales",
+                "Représentation devant les autorités fiscales en cas de vérifications et de litiges",
+                "Anticipation et conseil sur les implications fiscales des décisions d'affaires.",
+              ]}
+              Icon={CheckCircle}
+              iconClass="text-primary"
+              bulletBg="bg-primary/5"
+              className="mt-3 mb-6"
+            />
             <p className="mb-6 text-justify">
               L'univers fiscal suisse, avec ses différentes couches de
               législation aux niveaux fédéral, cantonal et communal, exige une
@@ -150,13 +121,18 @@ const Presentation = () => {
             </h3>
             <ul className="space-y-6 mt-4">
               {listItems.map((item, idx) => (
-                <li key={idx} className="flex items-start gap-4">
+                <li
+                  key={idx}
+                  className="flex items-start gap-4 px-4 py-3 rounded-xl bg-muted/50 shadow-none hover:shadow-md transition-shadow"
+                >
                   <span className="mt-1">{item.icon}</span>
                   <div>
-                    <span className="font-semibold text-base">
+                    <span className="font-semibold text-lg text-gray-900 dark:text-gray-100">
                       {item.title}
                     </span>
-                    <span className="ml-1 text-base">: {item.desc}</span>
+                    <span className="ml-1 text-lg text-gray-700 dark:text-gray-300">
+                      : {item.desc}
+                    </span>
                   </div>
                 </li>
               ))}
