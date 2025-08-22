@@ -26,7 +26,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <NavBar />
-          <main className="p-4 abstract-background text-foreground pt-15">
+          <main className="p-4 abstract-background text-foreground pt-15 mt-10">
             {children}
           </main>
           <Footer />

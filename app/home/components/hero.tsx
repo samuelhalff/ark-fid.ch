@@ -14,14 +14,17 @@ const Hero = () => (
           <Badge className="rounded-full py-1 border-none">
             <TranslatedText
               translationKey="Home.Hero.Badge"
-              fallbackText="AI"
+              fallbackText="Swiss Made"
             />
           </Badge>
           <Badge
             variant="destructive"
             className="rounded-full py-1 border-none"
           >
-            <TranslatedText translationKey="Home.Hero.AI" fallbackText="AI" />
+            <TranslatedText
+              translationKey="Home.Hero.OdooBadge"
+              fallbackText="Official Odoo Partner"
+            />
           </Badge>
         </div>
         <h1 className="mt-6 max-w-[20ch] w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight m-auto">
@@ -46,7 +49,7 @@ const Hero = () => (
               <TranslatedText
                 translationKey="Home.Hero.CTA"
                 fallbackText="Contact"
-              />{" "}
+              />
               <ArrowUpRight className="h-5! w-5!" />
             </Button>
           </Link>
@@ -98,7 +101,7 @@ const Hero = () => (
           alt="main background"
           className="object-cover rounded-xl"
           sizes="100vw"
-          style={{ width: "100%", height: "auto" }}
+          style={{ height: "100%", width: "auto" }}
           priority
           width={0}
           height={0}

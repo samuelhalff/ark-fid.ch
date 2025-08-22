@@ -1,1 +1,12 @@
-{}
+{
+  "/_not-found": "app/_not-found.js",
+  "/contact/page": "app/contact/page.js",
+  "/services/Accounting/page": "app/services/Accounting/page.js",
+  "/page": "app/page.js",
+  "/services/Corporate/page": "app/services/Corporate/page.js",
+  "/services/Odoo/page": "app/services/Odoo/page.js",
+  "/services/Outsourcing/page": "app/services/Outsourcing/page.js",
+  "/services/Taxes/page": "app/services/Taxes/page.js",
+  "/services/Payroll/page": "app/services/Payroll/page.js",
+  "/team/page": "app/team/page.js"
+}

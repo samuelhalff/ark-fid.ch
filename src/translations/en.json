@@ -34,7 +34,24 @@
         "SectionTitle": "Testimonials"
       },
       "Contact": {
-        "Title": "Get in touch"
+        "Title": "Get in touch",
+        "Form": {
+          "FirstName": "First Name",
+          "Email": "Email",
+          "CompanyName": "Company Name (Optional)",
+          "Phone": "Phone Number (Optional)",
+          "Message": "Message",
+          "Consent": "I agree to be contacted about my request",
+          "Submit": "Send Message",
+          "Success": "Message sent successfully!",
+          "Error": "Failed to send message. Please try again."
+        },
+        "Errors": {
+          "Required": "This field is required",
+          "InvalidEmail": "Please enter a valid email address",
+          "MaxLength": "Message cannot exceed 500 characters",
+          "Consent": "You must agree to be contacted"
+        }
       }
     },
     "Team": {
@@ -80,14 +97,8 @@
       "Answer13": "Yes, we also provide personalized assistance with opening Swiss corporate bank accounts, drafting bespoke articles of association, and preparing other specific corporate documents. These services are billed on a time basis, with rates ranging from CHF 175 to CHF 350 per hour depending on the complexity of the service."
     },
     "Footer": {
-      "Product": {
-        "Title": "Product",
-        "Overview": "Overview",
-        "Features": "Features",
-        "Solutions": "Solutions",
-        "Tutorials": "Tutorials",
-        "Pricing": "Pricing",
-        "Releases": "Releases"
+      "Services": {
+        "Title": "Services"
       },
       "Company": {
         "Title": "Company",
@@ -156,6 +167,14 @@
       "Title": "Our Services"
     },
     "Taxes": {
+      "Hero": {
+        "Badge": "Swiss Made",
+        "ReadMore": "Read more",
+        "AI": "AI Powered",
+        "Title": "Taxes",
+        "Description": "We handle all aspects of tax compliance, including VAT registration, corporate tax filings, and personal income tax declarations. Our expertise ensures you meet all Swiss tax obligations efficiently.",
+        "CTA": "Get in touch"
+      },
       "Presentation": {
         "Title": "Our tax experts at your service",
         "Intro": [
@@ -271,16 +290,6 @@
         }
       }
     },
-    "Taxes": {
-      "Hero": {
-        "Badge": "Swiss Made",
-        "ReadMore": "Read more",
-        "AI": "AI Powered",
-        "Title": "Taxes",
-        "Description": "We handle all aspects of tax compliance, including VAT registration, corporate tax filings, and personal income tax declarations. Our expertise ensures you meet all Swiss tax obligations efficiently.",
-        "CTA": "Get in touch"
-      }
-    },
     "Payroll": {
       "Hero": {
         "Badge": "Swiss Made",
@@ -370,6 +379,54 @@
           {
             "Title": "Confidentiality and compliance",
             "Desc": "Your data is handled in accordance with the strictest security and confidentiality standards, in full compliance with Swiss law."
+          }
+        ]
+      }
+    },
+    "Corporate": {
+      "Hero": {
+        "Badge": "Swiss Made",
+        "AI": "AI Powered",
+        "Title": "Corporate Services",
+        "Description": "We offer comprehensive corporate services to help you establish and maintain your business in Switzerland. From company formation to ongoing compliance, we ensure your business operates smoothly.",
+        "CTA": "Get in touch"
+      },
+      "Presentation": {
+        "Title": "Corporate Solutions",
+        "Subtitle": "Your trusted partner for corporate services",
+        "Intro": [
+          "In today's complex business environment, establishing and maintaining a corporate presence in Switzerland requires expert guidance and support.",
+          "Our corporate services team provides comprehensive solutions to help you navigate the intricacies of Swiss business regulations and requirements.",
+          "Whether you're setting up a new company, managing compliance, or looking for domiciliation services, we're here to support your business journey."
+        ],
+        "List": [
+          "Company formation (AG/SA, GmbH/Sàrl, Branch office)",
+          "Corporate secretarial services",
+          "Regulatory compliance management",
+          "Board meeting support",
+          "Shareholder management"
+        ],
+        "StrengthsTitle": "Our Corporate Services",
+        "Strengths": [
+          {
+            "Title": "Company Formation",
+            "Desc": "Expert guidance through the entire process of establishing your business in Switzerland, including preparation of all necessary documentation and coordination with authorities."
+          },
+          {
+            "Title": "Corporate Compliance",
+            "Desc": "Ongoing support to ensure your company meets all regulatory requirements and maintains good standing with Swiss authorities."
+          },
+          {
+            "Title": "Secretarial Services",
+            "Desc": "Comprehensive corporate secretarial support, including maintenance of statutory records, filing of annual returns, and organization of board meetings."
+          },
+          {
+            "Title": "Business Advisory",
+            "Desc": "Strategic advice on corporate structure, governance, and regulatory compliance to support your business growth and success."
+          },
+          {
+            "Title": "Domiciliation Services",
+            "Desc": "Professional registered office address and mail handling services to establish your corporate presence in Switzerland."
           }
         ]
       }

@@ -5,11 +5,9 @@ import frJSON from "@/src/translations/fr.json";
 import esJSON from "@/src/translations/es.json";
 import deJSON from "@/src/translations/de.json";
 import detector from "i18next-browser-languagedetector";
-import Backend from "i18next-http-backend";
 
 i18n
   .use(detector)
-  .use(Backend)
   .use(initReactI18next)
   .init({
     supportedLngs: ['de', 'en', 'fr', 'es'],

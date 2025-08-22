@@ -7,43 +7,52 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "/assets/arkfid--color.svg";
-import LogoLight from "/assets/arkfid--light.svg";
 import TranslatedText from "@/src/components/ui/translated-text";
 
 // Replace '#' with real or placeholder URLs for SEO. Update as needed.
 const footerSections = [
   {
-    titleKey: "Footer.Product.Title",
+    titleKey: "Footer.Services.Title",
     links: [
-      { titleKey: "Footer.Product.Overview", href: "/overview" },
-      { titleKey: "Footer.Product.Features", href: "/features" },
-      { titleKey: "Footer.Product.Solutions", href: "/solutions" },
-      { titleKey: "Footer.Product.Tutorials", href: "/tutorials" },
-      { titleKey: "Footer.Product.Pricing", href: "/pricing" },
-      { titleKey: "Footer.Product.Releases", href: "/releases" },
+      {
+        titleKey: "ServicesElements.Accounting.Title",
+        href: "/services/Accounting",
+      },
+      {
+        titleKey: "ServicesElements.TaxesCompanyPersonal.Title",
+        href: "/services/Taxes",
+      },
+      {
+        titleKey: "ServicesElements.PayrollHR.Title",
+        href: "/services/Payroll",
+      },
+      {
+        titleKey: "ServicesElements.OutsourcingServices.Title",
+        href: "/services/Outsourcing",
+      },
+      {
+        titleKey: "ServicesElements.CorporateServices.Title",
+        href: "/services/Corporate",
+      },
+      {
+        titleKey: "ServicesElements.OdooImplementation.Title",
+        href: "/services/Odoo",
+      },
     ],
   },
   {
     titleKey: "Footer.Company.Title",
     links: [
-      { titleKey: "Footer.Company.AboutUs", href: "/about" },
-      { titleKey: "Footer.Company.Careers", href: "/careers" },
-      { titleKey: "Footer.Company.Press", href: "/press" },
-      { titleKey: "Footer.Company.News", href: "/news" },
-      { titleKey: "Footer.Company.MediaKit", href: "/media-kit" },
-      { titleKey: "Footer.Company.Contact", href: "/contact" },
+      { titleKey: "NavBar.About", href: "/about" },
+      { titleKey: "NavBar.Team", href: "/team" },
+      { titleKey: "NavBar.Contact", href: "/contact" },
     ],
   },
   {
-    titleKey: "Footer.Resources.Title",
+    titleKey: "Footer.Legal.Title",
     links: [
-      { titleKey: "Footer.Resources.Blog", href: "/blog" },
-      { titleKey: "Footer.Resources.Newsletter", href: "/newsletter" },
-      { titleKey: "Footer.Resources.Events", href: "/events" },
-      { titleKey: "Footer.Resources.HelpCentre", href: "/help-centre" },
-      { titleKey: "Footer.Resources.Tutorials", href: "/tutorials" },
-      { titleKey: "Footer.Resources.Support", href: "/support" },
+      { titleKey: "Footer.Legal.Terms", href: "/legal/terms" },
+      { titleKey: "Footer.Legal.Privacy", href: "/legal/privacy" },
     ],
   },
   {
@@ -78,7 +87,7 @@ const Footer = () => {
         <Link href={"/"} aria-label="Ark Fiduciaire homepage">
           <span>
             <Image
-              className="light:hidden"
+              className="hidden dark:block"
               src="/assets/arkfid--light.svg"
               width={100}
               height={40}

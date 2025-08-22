@@ -1,3 +1,5 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { CheckCircle } from "lucide-react";
 import { StylishList } from "@/src/components/ui/stylish-list";

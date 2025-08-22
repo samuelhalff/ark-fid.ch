@@ -1,7 +1,10 @@
+"use client";
+
 import { useTranslation } from "react-i18next";
 import { CheckCircle } from "lucide-react";
 import { StylishList } from "@/src/components/ui/stylish-list";
 import TranslatedText from "@/src/components/ui/translated-text";
+import TranslatedTextArray from "@/src/components/ui/translated-text-array";
 
 const AccountingPresentation = () => {
   const { t } = useTranslation();
@@ -22,13 +25,11 @@ const AccountingPresentation = () => {
           fallbackText={"Subtitle"}
         />
       </h2>
-      {(
-        t("Accounting.Presentation.Intro", { returnObjects: true }) as string[]
-      ).map((text, idx) => (
-        <p key={idx} className="mb-8 text-lg text-justify">
-          {text}
-        </p>
-      ))}
+      <TranslatedTextArray
+        translationKey={"Accounting.Presentation.Intro"}
+        fallbackText={["Welcome to our Accounting Services"]}
+      />
+      {/* Use useTranslation hook for StylishList since it expects an array directly */}
       <StylishList
         items={
           t("Accounting.Presentation.General.List", {

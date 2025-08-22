@@ -1,9 +1,11 @@
-import type { NextConfig } from 'next'
- 
+import type { NextConfig } from "next";
+
 const nextConfig: NextConfig = {
-  experimental: {
-    typedEnv: true,
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "hi"],
   },
-}
- 
-export default nextConfig
+  swcMinify: true,
+};
+
+export default nextConfig;

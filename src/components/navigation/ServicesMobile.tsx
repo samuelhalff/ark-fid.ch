@@ -1,9 +1,7 @@
 import services from "@/app/services/navigation";
-import { useTranslation } from "react-i18next";
 import TranslatedText from "@/src/components/ui/translated-text";
 
 export default function ServicesMobile() {
-  const { t } = useTranslation();
   return (
     <div>
       <div className="flex items-center gap-3 text-md px-2 py-2 rounded font-medium text-muted-foreground border-b rounded-none border-muted">
