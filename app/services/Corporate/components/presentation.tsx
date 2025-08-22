@@ -18,14 +18,14 @@ const Presentation = () => {
   const iconList = iconMap;
   return (
     <section
-      className="max-w-screen-xl mx-auto w-full py-12 xs:py-20 px-4 sm:px-6 flex flex-col items-center pt-25"
+      className="max-w-(--breakpoint-xl) mx-auto w-full py-12 xs:py-20 px-4 sm:px-6 flex flex-col items-center pt-25"
       id="presentation"
     >
-      <h1 className="max-w-3xl text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
+      <h1 className="max-w-3xl text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight mb-8 text-left w-full">
         {t("Corporate.Presentation.Title")}
       </h1>
       <div className="max-w-3xl text-left">
-        <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
+        <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-8 tracking-tight">
           {t("Corporate.Presentation.Subtitle")}
         </h2>
         {(

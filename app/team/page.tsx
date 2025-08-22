@@ -89,7 +89,7 @@ export default function TeamPage() {
         />
       </div>
       <div className="text-center mb-12 animate-in fade-in duration-900">
-        <h1 className=" text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold !leading-[1.2] tracking-tight">
+        <h1 className=" text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.2]! tracking-tight">
           <TranslatedText
             translationKey={"Team.Title"}
             fallbackText={"Notre équipe"}
@@ -114,7 +114,7 @@ export default function TeamPage() {
                 }
               >
                 <CardHeader>
-                  <div className="aspect-[4/5] w-full rounded-md overflow-hidden mb-4 relative">
+                  <div className="aspect-4/5 w-full rounded-md overflow-hidden mb-4 relative">
                     <Image
                       src={member.profilePic}
                       alt={`Portrait of ${member.name}`}

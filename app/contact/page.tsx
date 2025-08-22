@@ -21,7 +21,6 @@ import { toast, Toaster } from "sonner";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import type { FieldErrors } from "react-hook-form";
 
 // 1. Import our hydration-safe component
 import TranslatedText from "@/src/components/ui/translated-text";
@@ -130,7 +129,7 @@ const ContactForm: FC = () => {
                         <FormControl>
                           <Input {...field} />
                         </FormControl>
-                        <FormMessage className="place-self-start text-primary-red !m-1" />
+                        <FormMessage className="place-self-start text-primary-red m-1!" />
                       </FormItem>
                     )}
                   />
@@ -149,7 +148,7 @@ const ContactForm: FC = () => {
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
-                      <FormMessage className="place-self-start text-primary-red !m-1" />
+                      <FormMessage className="place-self-start text-primary-red m-1!" />
                     </FormItem>
                   )}
                 />
@@ -167,7 +166,7 @@ const ContactForm: FC = () => {
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
-                      <FormMessage className="place-self-start text-primary-red !m-1" />
+                      <FormMessage className="place-self-start text-primary-red m-1!" />
                     </FormItem>
                   )}
                 />
@@ -186,7 +185,7 @@ const ContactForm: FC = () => {
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
-                      <FormMessage className="place-self-start text-primary-red !m-1" />
+                      <FormMessage className="place-self-start text-primary-red m-1!" />
                     </FormItem>
                   )}
                 />
@@ -209,7 +208,7 @@ const ContactForm: FC = () => {
                           placeholder={t("form.placeholders.message")}
                         />
                       </FormControl>
-                      <FormMessage className="place-self-start text-primary-red !m-1" />
+                      <FormMessage className="place-self-start text-primary-red m-1!" />
                     </FormItem>
                   )}
                 />
@@ -225,7 +224,7 @@ const ContactForm: FC = () => {
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
-                        <FormLabel className="!mt-0 hover:cursor-pointer">
+                        <FormLabel className="mt-0! hover:cursor-pointer">
                           <TranslatedText
                             translationKey="form.labels.consent"
                             fallbackText="I consent to being contacted"
@@ -233,7 +232,7 @@ const ContactForm: FC = () => {
                           <span className="text-green-600">*</span>
                         </FormLabel>
                       </div>
-                      <FormMessage className="text-primary-red !m-1 place-self-start" />
+                      <FormMessage className="text-primary-red m-1! place-self-start" />
                     </FormItem>
                   )}
                 />

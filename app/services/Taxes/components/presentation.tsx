@@ -18,10 +18,10 @@ const Presentation = () => {
   }) as Array<{ Title: string; Desc: string }>;
   return (
     <section
-      className="max-w-screen-xl mx-auto w-full py-12 xs:py-20 px-4 sm:px-6 flex flex-col items-center"
+      className="max-w-(--breakpoint-xl) mx-auto w-full py-12 xs:py-20 px-4 sm:px-6 flex flex-col items-center"
       id="presentation"
     >
-      <h1 className="max-w-3xl text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
+      <h1 className="max-w-3xl text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight mb-8 text-left w-full">
         <TranslatedText
           translationKey={"Taxes.Presentation.Title"}
           fallbackText={"Taxes"}
@@ -37,7 +37,7 @@ const Presentation = () => {
         ))}
         <div className="space-y-12">
           <section>
-            <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-6 md:leading-[2rem] tracking-tight text-left">
+            <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-6 md:leading-8 tracking-tight text-left">
               {t("Taxes.Presentation.ExpertiseTitle")}
             </h2>
           </section>
