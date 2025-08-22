@@ -52,7 +52,7 @@ const Testimonial = () => {
   return (
     <div
       id="testimonials"
-      className="w-full max-w-screen-xl mx-auto py-6 xs:py-12 px-6 mb-10"
+      className="w-full max-w-(--breakpoint-xl) mx-auto py-6 xs:py-12 px-6 mb-10"
     >
       <h2 className="mb-8 xs:mb-14 text-4xl md:text-5xl font-bold text-center tracking-tight">
         <TranslatedText
@@ -89,7 +89,7 @@ const Testimonial = () => {
 const TestimonialCard = ({ testimonial }: { testimonial: any }) => (
   <div className="mb-8 bg-accent rounded-xl py-8 px-6 sm:py-6">
     <div className="flex items-center justify-between gap-20">
-      <div className="hidden lg:block relative shrink-0 aspect-[3/4] max-w-[18rem] w-full bg-muted-foreground/20 rounded-xl">
+      <div className="hidden lg:block relative shrink-0 aspect-3/4 max-w-[18rem] w-full bg-muted-foreground/20 rounded-xl">
         {/* <Image src="/assets/testimonial.jpg" alt="Testimonial" className="object-cover rounded-xl" width={288} height={384} /> */}
         <div className="absolute top-1/4 right-0 translate-x-1/2 h-12 w-12 bg-primary rounded-full flex items-center justify-center">
           <svg
@@ -140,7 +140,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: any }) => (
             <StarIcon className="w-5 h-5 fill-muted-foreground stroke-muted-foreground" />
           </div>
         </div>
-        <p className="mt-6 text-lg text-left sm:text-2xl lg:text-[1.75rem] xl:text-3xl leading-normal lg:!leading-normal font-semibold tracking-tight">
+        <p className="mt-6 text-lg text-left sm:text-2xl lg:text-[1.75rem] xl:text-3xl leading-normal lg:leading-normal! font-semibold tracking-tight">
           &quot;
           <TranslatedText
             translationKey={testimonial.testimonialKey}

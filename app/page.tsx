@@ -25,7 +25,7 @@ export default function Home() {
         <meta name="twitter:card" content="summary_large_image" />
       </span>
       <main
-        className="max-w-screen-xl mx-auto w-full pb-4 xs:py-20 md:px-6"
+        className="max-w-(--breakpoint-xl) mx-auto w-full pb-4 xs:py-20 md:px-6"
         role="main"
       >
         <section id="hero">

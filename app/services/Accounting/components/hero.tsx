@@ -2,7 +2,7 @@ import TranslatedText from "@/src/components/ui/translated-text";
 
 const AccountingHero = () => {
   return (
-    <section className="w-full py-16 md:py-24 lg:py-32 bg-gradient-to-b from-primary/10 to-background">
+    <section className="w-full py-16 md:py-24 lg:py-32 bg-linear-to-b from-primary/10 to-background">
       <div className="container px-4 mx-auto flex flex-col items-center text-center">
         <span className="inline-block mb-4 px-3 py-1 rounded-full bg-primary/10 text-primary font-semibold text-xs tracking-widest uppercase">
           <TranslatedText

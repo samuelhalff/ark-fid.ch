@@ -11,9 +11,9 @@ const Services = () => {
   return (
     <div
       id="services"
-      className="max-w-screen-xl mx-auto w-full py-12 xs:py-20 px-6"
+      className="max-w-(--breakpoint-xl) mx-auto w-full py-12 xs:py-20 px-6"
     >
-      <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight sm:max-w-xl sm:text-center sm:mx-auto mb-10">
+      <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight sm:max-w-xl sm:text-center sm:mx-auto mb-10">
         {/* 4. CHANGE: Replaced t() with our hydration-safe component */}
         <TranslatedText
           translationKey="Services.Title"
@@ -28,7 +28,7 @@ const Services = () => {
             className="flex flex-col border rounded-xl overflow-hidden shadow-none"
           >
             <CardHeader style={{ padding: "1.5rem 1.5rem 0", minHeight: 190 }}>
-              <div className="flex items-center gap-2 !mt-3 text-xl font-bold tracking-tight">
+              <div className="flex items-center gap-2 mt-3! text-xl font-bold tracking-tight">
                 {service.icon}
                 <h4 className="text-left">
                   <TranslatedText
@@ -46,7 +46,7 @@ const Services = () => {
             </CardHeader>
 
             {/* 5. FUNDAMENTAL CHANGE: The Layout Logic */}
-            <CardContent className="flex-grow p-0">
+            <CardContent className="grow p-0">
               {/* 
                 This div now has a fixed height and provides the left-offset
                 using PADDING, not a margin. This creates a correctly sized

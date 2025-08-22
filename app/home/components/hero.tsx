@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const Hero = () => (
   <div className="min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent">
-    <div className="max-w-screen-xl w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-y-14 gap-x-10 px-6 py-12 lg:py-0">
+    <div className="max-w-(--breakpoint-xl) w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-y-14 gap-x-10 px-6 py-12 lg:py-0">
       <div className="max-w-xl text-center animate-in fade-in duration-800">
         <div className="gap-2 flex justify-center items-center">
           <Badge className="rounded-full py-1 border-none">
@@ -47,7 +47,7 @@ const Hero = () => (
                 translationKey="Home.Hero.CTA"
                 fallbackText="Contact"
               />{" "}
-              <ArrowUpRight className="!h-5 !w-5" />
+              <ArrowUpRight className="h-5! w-5!" />
             </Button>
           </Link>
           <Link href="/team" className="w-full sm:w-auto">
@@ -57,7 +57,7 @@ const Hero = () => (
               className="w-full sm:w-auto rounded-full text-base shadow-none"
               style={{ cursor: "pointer" }}
             >
-              <Users className="!h-5 !w-5" />{" "}
+              <Users className="h-5! w-5!" />{" "}
               <TranslatedText
                 translationKey="Home.Hero.SecondaryCTA"
                 fallbackText="Team"
