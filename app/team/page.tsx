@@ -6,19 +6,11 @@ import {
 } from "@/src/components/ui/card";
 import TranslatedText from "@/src/components/ui/translated-text";
 import Image from "next/image";
-import hb from "assets/hb.jpg";
-import cl from "assets/cl.png";
-import rs from "assets/rs.jpg";
-import ld from "assets/ld.png";
-import sh from "assets/sh.jpg";
-import at from "assets/at.jpg";
-import sg from "assets/sg.jpg";
-
 const teamMembers = [
   {
     name: "Hassan Barbir",
     role: "Partner",
-    profilePic: hb,
+    profilePic: "/public/assets/hb.jpg",
     social: {
       linkedin: "https://www.linkedin.com/in/jane-doe",
     },
@@ -26,7 +18,7 @@ const teamMembers = [
   {
     name: "Samuel Halff",
     role: "ManagingPartner",
-    profilePic: sh,
+    profilePic: "/public/assets/sh.jpg",
     social: {
       linkedin: "https://www.linkedin.com/in/peter-jones",
     },
@@ -34,16 +26,15 @@ const teamMembers = [
   {
     name: "Rodrigue Sperisen",
     role: "Partner",
-    profilePic: rs,
+    profilePic: "/public/assets/rs.jpg",
     social: {
       linkedin: "https://www.linkedin.com/in/john-smith",
     },
   },
-
   {
     name: "Lassana Dioum",
     role: "Partner",
-    profilePic: ld,
+    profilePic: "/public/assets/ld.png",
     social: {
       linkedin: "https://www.linkedin.com/in/peter-jones",
     },
@@ -51,7 +42,7 @@ const teamMembers = [
   {
     name: "Anthony Touboul",
     role: "Tax",
-    profilePic: at,
+    profilePic: "/public/assets/at.jpg",
     social: {
       linkedin: "https://www.linkedin.com/in/peter-jones",
     },
@@ -59,7 +50,7 @@ const teamMembers = [
   {
     name: "Celeste Leal",
     role: "OfficeProjectManager",
-    profilePic: cl,
+    profilePic: "/public/assets/cl.png",
     social: {
       linkedin: "https://www.linkedin.com/in/peter-jones",
     },
@@ -67,7 +58,7 @@ const teamMembers = [
   {
     name: "Sébastien Gallié",
     role: "SeniorAccountant",
-    profilePic: sg,
+    profilePic: "/public/assets/sg.jpg",
     social: {
       linkedin: "https://www.linkedin.com/in/peter-jones",
     },
@@ -114,7 +105,7 @@ export default function TeamPage() {
                 }
               >
                 <CardHeader>
-                  <div className="aspect-4/5 w-full rounded-md overflow-hidden mb-4 relative">
+                  <div className="aspect-4/5 w-full rounded-md overflow-hidden mb-4 relative h-96">
                     <Image
                       src={member.profilePic}
                       alt={`Portrait of ${member.name}`}

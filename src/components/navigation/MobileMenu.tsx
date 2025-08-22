@@ -24,7 +24,7 @@ const MobileMenu = () => {
         <div className="flex items-center px-4 pt-4 border-b pb-4">
           <div className="flex-1 flex justify-start">
             <Image
-              className="light:hidden"
+              className="hidden dark:block"
               src="/assets/arkfid--light.svg"
               width={100}
               height={32}

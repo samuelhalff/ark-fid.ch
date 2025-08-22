@@ -3,9 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "dev": "next dev --turbopack -p 5000",
+    "dev": "next dev -p 5000",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 5000",
     "lint": "next lint"
   },
   "dependencies": {
@@ -20,39 +20,33 @@
     "@radix-ui/react-radio-group": "^1.2.0",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
-    "autoprefixer": "^10.4.21",
-    "class-variance-authority": "^0.7.0",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.1.7",
     "i18next": "^23.12.2",
     "i18next-browser-languagedetector": "^8.0.0",
-    "i18next-http-backend": "^2.5.2",
     "lucide-react": "^0.417.0",
-    "next": "15.5.0",
+    "next": "14.1.0",
     "next-themes": "^0.3.0",
-    "postcss": "^8.5.6",
-    "react": "^19",
-    "react-dom": "^19",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-hook-form": "^7.52.1",
     "react-i18next": "^15.0.0",
     "sonner": "^1.5.0",
-    "tailwind-merge": "^2.4.0",
-    "tailwindcss": "^4.1.12",
-    "tw-animate-css": "^1.3.7",
+    "tailwind-merge": "^2.6.0",
     "vaul": "^0.9.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.12",
     "@types/node": "^20.14.12",
-    "@types/react": "19.1.10",
-    "@types/react-dom": "19.1.7",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "autoprefixer": "^10.4.21",
     "eslint": "^8.57.0",
-    "eslint-config-next": "15.5.0",
-    "typescript": "^5.5.4"
-  },
-  "overrides": {
-    "@types/react": "19.1.10",
-    "@types/react-dom": "19.1.7"
+    "eslint-config-next": "14.1.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.1",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.3.3"
   }
 }

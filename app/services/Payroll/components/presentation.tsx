@@ -1,10 +1,21 @@
+"use client";
+
 import TranslatedText from "@/src/components/ui/translated-text";
 import { useTranslation } from "react-i18next";
 import { CheckCircle } from "lucide-react";
-import { StylishList } from "@/src/components/ui/stylish-list";
+import TranslatedTextArray from "@/src/components/ui/translated-text-array";
+
+interface ServiceItem {
+  Title: string;
+  Desc: string;
+}
 
 const PayrollPresentation = () => {
   const { t } = useTranslation();
+
+  const services = t("Payroll.Presentation.Services", {
+    returnObjects: true,
+  }) as ServiceItem[];
 
   return (
     <section
@@ -23,29 +34,41 @@ const PayrollPresentation = () => {
           fallbackText="Subtitle"
         />
       </h2>
-      {(
-        t("Payroll.Presentation.Intro", { returnObjects: true }) as string[]
-      ).map((text, idx) => (
-        <p key={idx} className="mb-8 text-lg text-justify">
-          {text}
-        </p>
-      ))}
-      <StylishList
-        items={
-          t("Payroll.Presentation.Services", {
-            returnObjects: true,
-          }) as string[]
-        }
-        Icon={CheckCircle}
-        iconClass="text-primary"
-        bulletBg="bg-primary/5"
-        className="mt-3 mb-8"
+      <TranslatedTextArray
+        translationKey="Payroll.Presentation.Intro"
+        fallbackText={["Welcome to our Payroll Services"]}
       />
+      <div className="space-y-6 mt-4">
+        {services.map((item, idx) => (
+          <div
+            key={idx}
+            className="flex items-start gap-4 px-4 py-3 rounded-xl bg-muted/50 shadow-none hover:shadow-md transition-shadow"
+          >
+            <span className="mt-1">
+              <CheckCircle className="text-primary min-w-[22px]" size={22} />
+            </span>
+            <div>
+              <span className="font-semibold text-lg text-gray-900 dark:text-gray-100">
+                {item.Title}
+              </span>
+              <span className="ml-1 text-lg text-gray-700 dark:text-gray-300">
+                : {item.Desc}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
       <h3 className="text-2xl font-semibold mb-6">
-        {t("Payroll.Presentation.StrengthsTitle")}
+        <TranslatedText
+          translationKey="Payroll.Presentation.StrengthsTitle"
+          fallbackText="Our Strengths"
+        />
       </h3>
       <p className="mb-8 text-lg text-justify">
-        {t("Payroll.Presentation.StrengthsDesc")}
+        <TranslatedText
+          translationKey="Payroll.Presentation.StrengthsDesc"
+          fallbackText="Description of our strengths"
+        />
       </p>
     </section>
   );

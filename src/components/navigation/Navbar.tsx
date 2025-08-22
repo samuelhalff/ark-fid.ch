@@ -17,7 +17,7 @@ const Navbar = () => {
   }, [scrollTop]);
 
   return (
-    <div className="fixed top-0 w-full z-15">
+    <div className="fixed top-0 w-full z-50">
       <nav
         className={
           "h-16 bg-background border-b border-accent " +
@@ -28,11 +28,11 @@ const Navbar = () => {
           <Link href={"/"}>
             <span>
               <Image
-                className="light:hidden"
+                className="hidden dark:block"
                 src="/assets/arkfid--light.svg"
                 width={100}
                 height={32}
-                alt="Logo Light"
+                alt="Ark Fiduciaire"
                 priority
               />
               <Image
@@ -40,7 +40,7 @@ const Navbar = () => {
                 src="/assets/arkfid--color.svg"
                 width={100}
                 height={32}
-                alt="Logo Dark"
+                alt="Ark Fiduciaire"
                 priority
               />
             </span>
