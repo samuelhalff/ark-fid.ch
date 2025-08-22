@@ -27,5 +27,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "app/services", "app/shared", "app/team", "app/home", "app/contact", "app/services"]
 }

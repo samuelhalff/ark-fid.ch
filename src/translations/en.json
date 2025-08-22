@@ -9,14 +9,33 @@
       "Language": "Language",
       "Theme": "Theme"
     },
-    "Hero": {
-      "Title": "Accounting, Tax & Corporate Services",
-      "Description": "Expert support for your business, from startup to success.",
-      "CTA": "Get in touch",
-      "SecondaryCTA": "Meet the Team",
-      "Badge": "Swiss Made",
-      "AI": "AI Powered",
-      "OdooBadge": "Official Odoo Partner"
+    "Home": {
+      "Meta": {
+        "Title": "Home | Ark Fiduciaire",
+        "Description": "Expert support for your business, from startup to success. Accounting, tax, payroll, and corporate services in Switzerland."
+      },
+      "Hero": {
+        "Title": "Accounting, Tax & Corporate Services",
+        "Description": "Expert support for your business, from startup to success.",
+        "CTA": "Get in touch",
+        "SecondaryCTA": "Meet the Team",
+        "Badge": "Swiss Made",
+        "AI": "AI Powered",
+        "OdooBadge": "Official Odoo Partner"
+      },
+      "Services": {
+        "Title": "Our Services"
+      },
+      "FAQ": {
+        "Title": "Frequently Asked Questions",
+        "Subtitle": "Quick answers to common questions about our products and services."
+      },
+      "Testimonials": {
+        "SectionTitle": "Testimonials"
+      },
+      "Contact": {
+        "Title": "Get in touch"
+      }
     },
     "Team": {
       "Title": "Meet our Team",
@@ -136,6 +155,50 @@
     "Services": {
       "Title": "Our Services"
     },
+    "Taxes": {
+      "Presentation": {
+        "Title": "Our tax experts at your service",
+        "Intro": [
+          "Understanding and navigating the complex landscape of taxation is a constant challenge, especially in a multifaceted context like Switzerland. Renowned for its economic stability and prosperity, Switzerland offers an attractive but also inherently complex tax system, with various levels of taxation and cantonal specificities.",
+          "Companies operating in Switzerland face a diversity of tax obligations, which vary not only depending on the canton in which they operate, but also according to their legal structure and sector of activity. Direct taxes, VAT, stamp duties, withholding taxes, and other levies require wise management to optimize the tax burden and ensure compliance with ever-evolving regulations.",
+          "Tax advice for companies goes far beyond simple compliance. It is a comprehensive strategy integrating planning, compliance, and risk management, ensuring that tax obligations are aligned with the company's long-term goals."
+        ],
+        "ExpertiseTitle": "At Ark Fiduciaire, we provide you with the expertise of a team of tax lawyers and tax advisors.",
+        "ReinventedTitle": "Tax reinvented",
+        "Reinvented": [
+          "Taxation, with its nuances and complexity, plays a crucial role in the conduct and management of a business in Switzerland.",
+          "At Ark Fiduciaire, our tax experts help you navigate confidently through the various tax regulations, ensuring not only compliance but also the optimization of your obligations. Our specialists are committed to providing you with unparalleled service, ensuring that every aspect of your taxation is managed with expertise and foresight.",
+          "Your entrepreneurial success depends on skillful and strategic tax management. We structure our tax support in several key stages:"
+        ],
+        "ReinventedList": [
+          "Meticulous assessment of your tax profile and identification of tax planning opportunities",
+          "Advice and implementation of tax strategies to legally minimize your tax burden",
+          "Accurate preparation and submission of your tax returns",
+          "Representation before tax authorities in case of audits and disputes",
+          "Anticipation and advice on the tax implications of business decisions."
+        ],
+        "ReinventedOutro": "The Swiss tax universe, with its different layers of legislation at the federal, cantonal, and municipal levels, requires skillful navigation. Whether it is corporate income tax, VAT, or stamp duties, Ark Fiduciaire is committed to ensuring you peace of mind, making sure all tax requirements are not only met but also used strategically to drive your business toward sustainable growth.",
+        "ServicesTitle": "Tailored services",
+        "Services": [
+          {
+            "Title": "Tax returns",
+            "Desc": "Our tax lawyers and accountants assist you in preparing your company's annual tax return as well as various VAT returns. Our experts guide you in handling income, deductions, and tax credits with precision."
+          },
+          {
+            "Title": "Corporate taxation",
+            "Desc": "Our tax experts support you daily on all taxes that may affect your business, mainly corporate income tax, capital tax, VAT, and withholding taxes related to dividend distributions or interest payments."
+          },
+          {
+            "Title": "Tax audit",
+            "Desc": "A tax audit is a crucial step in validating the compliance of tax returns and payments in Switzerland. It is a thorough review, carried out by seasoned professionals, scrutinizing every detail of the company's tax situation to ensure adherence to current laws. A tax audit can not only prevent costly errors but also reveal opportunities for tax savings, making this procedure a strategic component in the financial management of a business entity."
+          },
+          {
+            "Title": "Tax rulings",
+            "Desc": "Our experts stand by your side when requesting tax rulings to obtain legal certainty regarding your tax situation. Our tax lawyers will help clarify how a specific transaction will be treated for tax purposes."
+          }
+        ]
+      }
+    },
     "Accounting": {
       "Hero": {
         "Badge": "Swiss Made",
@@ -144,6 +207,68 @@
         "Title": "Accounting",
         "Description": "We offer accounting services along with state-of-the art technology to help you manage your finances efficiently. Our team ensures compliance with Swiss regulations while providing you with the tools to make informed decisions.",
         "CTA": "Get in touch"
+      },
+      "Presentation": {
+        "Title": "Holistic vision of your accounting",
+        "Subtitle": "A 360° offering",
+        "Intro": [
+          "We are dedicated to providing comprehensive and personalized solutions, designed to address every facet of your financial and accounting needs with precision and insight.",
+          "Beyond the numbers, we offer strategic advice to support your growth, navigate challenges, and seize market opportunities with discernment. We are your strategic partner committed to your business success."
+        ],
+        "General": {
+          "Title": "General accounting",
+          "Desc": "At Ark Fiduciaire, we master all aspects of general accounting, from the general ledger to financial statements, including management accounting. Our professionals ensure that every account book is kept up to date, accurate, and compliant with industry standards and regulations.",
+          "List": [
+            "Custom chart of accounts",
+            "Accounts payable and receivable management",
+            "Payment management",
+            "Cash management"
+          ]
+        },
+        "Analytic": {
+          "Title": "Analytical accounting",
+          "Desc": "Analytical accounting is a powerful tool to understand where and how you generate profits, as well as to identify areas that require special attention. Our experts at Ark Fiduciaire will help you set up and analyze an effective analytical accounting system, enabling you to make more informed business decisions."
+        },
+        "Periodic": {
+          "Title": "Periodic tasks",
+          "Desc": "Enjoy peace of mind with our expertise in preparing periodic statements for all your obligations, including:",
+          "List": [
+            "Interim and/or annual closing",
+            "Semi-annual or quarterly VAT",
+            "Social insurance",
+            "Tax declaration",
+            "Ordinary and extraordinary general meetings",
+            "Board of directors"
+          ],
+          "Followup": "Our dedicated team supports you at every step, ensuring transparent and optimized management of your statements, so you can focus on your core business."
+        },
+        "Dashboards": {
+          "Title": "Dashboards",
+          "Desc": "Optimize the visibility and control of your finances with our innovative accounting dashboard solutions. Dashboards provide a clear and accessible summary of your financial data, enabling informed and strategic decision-making. Enjoy simplified management with intuitive dashboards tailored to your specific needs. With a user-friendly interface and precise analytics, our solutions ensure effective monitoring of your financial health."
+        },
+        "Custom": {
+          "Title": "Tailored services"
+        },
+        "Experts": {
+          "Title": "Experts",
+          "Desc": "Ark Fiduciaire relies on a team of experienced and certified accountants and tax specialists, mastering local and international regulations. This expertise ensures accurate and compliant accounts, guaranteeing reliable and harmonious management."
+        },
+        "TimeEfficiency": {
+          "Title": "Time saving and efficiency",
+          "Desc": "By outsourcing accounting to Ark Fiduciaire, companies can focus on their core business. Our services save time and improve operational efficiency by taking care of complete financial management."
+        },
+        "CustomSolutions": {
+          "Title": "Custom solutions",
+          "Desc": "Ark Fiduciaire offers tailor-made accounting services, adapted to the specific needs of each client. Whether you are a small business, a large company, an NGO, or a subsidiary, we adapt our services to meet your expectations, offering flexible solutions."
+        },
+        "AdvancedTech": {
+          "Title": "Advanced technology and real-time management",
+          "Desc": "We use the latest accounting technologies and software to ensure optimal management. These tools enable precise and fast management of financial data, as well as easy and secure real-time access to information."
+        },
+        "Consulting": {
+          "Title": "Consulting",
+          "Desc": "At Ark Fiduciaire, we do not limit ourselves to bookkeeping. We also offer quality accounting support. Our experts help you structure your finances, plan your taxes, and manage your cash flow, while identifying opportunities for improvement."
+        }
       }
     },
     "Taxes": {
@@ -164,6 +289,137 @@
         "Title": "Payroll & HR",
         "Description": "We manage payroll processing, including salary calculations, payslip generation, and compliance with Swiss social security regulations. Our Odoo-based service ensures a seamless payroll experience.",
         "CTA": "Get in touch"
+      },
+      "Presentation": {
+        "Title": "Dedicated HR & Payroll Service",
+        "Subtitle": "A 360° offering",
+        "Intro": [
+          "In the entrepreneurial ecosystem of French-speaking Switzerland, payroll management is central, combining precision, compliance, and efficiency. At Ark Fiduciaire, we deeply understand this need and offer a 360° solution covering all aspects of payroll.",
+          "Our holistic approach to salary management ensures that every element, from base salaries to bonuses and various benefits, is meticulously managed, ensuring optimal employee satisfaction and regulatory compliance.",
+          "We provide you with cutting-edge technological solutions to simplify and optimize your employee and payroll management processes, offering flawless accuracy and real-time access to crucial data.",
+          "Our offering goes beyond numbers and payslips. We are also dedicated to providing strategic HR advice, helping your business maximize productivity, satisfaction, and employee retention through innovative compensation strategies.",
+          "Thanks to our Insurance branch, we can also create complex projections and models in a particularly transparent and efficient way.",
+          "At Ark Fiduciaire, we are more than just payroll managers. We are your strategic partners, committed to delivering operational excellence in all aspects of payroll management."
+        ],
+        "ServicesTitle": "Our payroll services",
+        "Services": [
+          {
+            "Title": "Salary simulations",
+            "Desc": "By incorporating various elements such as salary increases, bonuses, social charges, and benefits in kind, our experts create tailor-made salary simulation models, providing you with valuable insights and supporting informed decisions. Through these simulations, you will be better equipped to develop competitive compensation strategies, ensuring both employee satisfaction and financial viability."
+          },
+          {
+            "Title": "Payslip preparation",
+            "Desc": "Payslip preparation is a crucial task in any company, synonymous with legal compliance and transparency for employees. At Ark Fiduciaire, we turn this obligation into a simplified and precise process for companies in French-speaking Switzerland, thanks in particular to the technology at your disposal. Our experts ensure rigorous payslip preparation, integrating salaries, bonuses, deductions, and other variables."
+          },
+          {
+            "Title": "Annual salary certificate preparation",
+            "Desc": "Preparing annual salary certificates requires flawless expertise and precision. At Ark Fiduciaire, we provide this essential service, ensuring perfect accuracy."
+          },
+          {
+            "Title": "Withholding tax declarations",
+            "Desc": "Withholding tax declarations are a key link in corporate tax compliance in Switzerland. At Ark Fiduciaire, we ensure rigorous and compliant management of declarations. Our experts skillfully navigate the nuances of tax regulations, ensuring accurate and timely declarations."
+          },
+          {
+            "Title": "Coordination with social insurance and occupational benefits",
+            "Desc": "Coordination with social insurance and occupational benefits, AVS declarations, and annual social insurance statements are crucial aspects of business management in Switzerland. Ark Fiduciaire, in partnership with its insurance branch HelveBroker, ensures smooth and stress-free management of these processes with a single point of contact."
+          }
+        ]
+      }
+    },
+    "Outsourcing": {
+      "Hero": {
+        "BadgeMain": "Outsourcing Services",
+        "BadgeAlt": "Tailored Outsourcing",
+        "Title": "Outsource your administrative tasks, focus on what matters",
+        "Description": "Ark Fiduciaire takes care of your administrative, accounting, or HR functions so you can refocus on your core business. Enjoy flexible, secure outsourcing tailored to your needs.",
+        "LearnMore": "Learn more",
+        "ContactUs": "Contact us"
+      },
+      "Presentation": {
+        "Title": "Outsource, optimize, grow",
+        "Subtitle": "Outsourcing, a performance lever for your business",
+        "Intro": [
+          "Outsourcing strategic functions allows companies to gain agility, reduce costs, and refocus on their development. Ark Fiduciaire offers outsourcing solutions tailored to every structure, from SMEs to large enterprises.",
+          "Our team handles administrative, accounting, HR, or legal management according to your needs, guaranteeing confidentiality, compliance, and efficiency. We provide you with powerful digital tools for transparent monitoring and regular reporting."
+        ],
+        "List": [
+          "Administrative and accounting outsourcing",
+          "Payroll and human resources management",
+          "Legal and tax support",
+          "Provision of digital tools",
+          "Tailored support and regular reporting"
+        ],
+        "StrengthsTitle": "Our strengths for your outsourcing",
+        "Strengths": [
+          {
+            "Title": "Complete outsourcing",
+            "Desc": "Entrust us with the management of your administrative, accounting, or HR functions so you can focus on your core business. We provide comprehensive, flexible, and secure handling of your key processes."
+          },
+          {
+            "Title": "Dedicated expertise",
+            "Desc": "Benefit from the support of experienced specialists who listen to your needs and can provide tailored solutions for every outsourced aspect."
+          },
+          {
+            "Title": "Time saving and efficiency",
+            "Desc": "Free yourself from time-consuming tasks and optimize your internal resources. Our team guarantees continuity, responsiveness, and quality of service."
+          },
+          {
+            "Title": "Advanced technologies",
+            "Desc": "We use high-performance digital tools to automate, secure, and streamline the outsourced management of your activities."
+          },
+          {
+            "Title": "Confidentiality and compliance",
+            "Desc": "Your data is handled in accordance with the strictest security and confidentiality standards, in full compliance with Swiss law."
+          }
+        ]
+      }
+    },
+    "Odoo": {
+      "Hero": {
+        "BadgeMain": "Odoo Implementation",
+        "BadgeAlt": "Digitalisation & ERP",
+        "Title": "Odoo: digitize your management",
+        "Description": "Ark Fiduciaire supports you in the integration, customization, and evolution of your Odoo solution. Optimize your processes, automate tasks, and manage your business with a complete and scalable ERP.",
+        "LearnMore": "Learn more",
+        "ContactUs": "Contact us"
+      },
+      "Presentation": {
+        "Title": "Odoo: digitize your business",
+        "Subtitle": "A complete and scalable ERP solution",
+        "Intro": [
+          "Odoo is a modular and flexible ERP solution, ideal for digitizing and optimizing your business management. Ark Fiduciaire supports you in the integration, customization, and evolution of your Odoo system.",
+          "We analyze your needs, configure the right modules, and train your teams to ensure rapid and effective adoption. Our technical support ensures the continuity and security of your Odoo environment."
+        ],
+        "List": [
+          "Needs analysis and process audit",
+          "Odoo deployment and configuration",
+          "Data migration and integration with your tools",
+          "User training and technical support",
+          "Solution evolution and maintenance"
+        ],
+        "StrengthsTitle": "Our strengths for your digital transformation",
+        "Strengths": [
+          {
+            "Title": "Tailored Odoo integration",
+            "Desc": "Deployment, configuration, and customization of the Odoo solution to precisely meet your business needs. We ensure a smooth transition and comprehensive support."
+          },
+          {
+            "Title": "Process automation",
+            "Desc": "Optimization of your workflows through the automation of administrative, accounting, sales, or HR tasks via Odoo."
+          },
+          {
+            "Title": "Training and support",
+            "Desc": "Support for your teams at every stage: training, technical assistance, and ongoing support to ensure the success of your Odoo project."
+          },
+          {
+            "Title": "Security and compliance",
+            "Desc": "Implementation of secure solutions, meeting the confidentiality and compliance standards in force in Switzerland."
+          },
+          {
+            "Title": "Consulting and evolution",
+            "Desc": "Our experts advise you on the evolution of your information system and the integration of new Odoo modules as your business grows."
+          }
+        ]
       }
     },
     "Testimonials": {

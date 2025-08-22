@@ -7,11 +7,33 @@
       "Contact": "Kontakt",
       "Team": "Team"
     },
-    "Hero": {
-      "Title": "Schweizer Buchhaltungs- & Firmendienstleistungen",
-      "Subtitle": "Fachkundige Unterstützung für Ihr Unternehmen – von der Gründung bis zum Erfolg.",
-      "CTA": "Kontakt aufnehmen",
-      "SecondaryCTA": "Mehr erfahren"
+    "Home": {
+      "Meta": {
+        "Title": "Startseite | Ark Fiduciaire",
+        "Description": "Fachkundige Unterstützung für Ihr Unternehmen – von der Gründung bis zum Erfolg. Buchhaltung, Steuern, Lohnabrechnung und Firmendienstleistungen in der Schweiz."
+      },
+      "Hero": {
+        "Title": "Schweizer Buchhaltungs- & Firmendienstleistungen",
+        "Description": "Fachkundige Unterstützung für Ihr Unternehmen – von der Gründung bis zum Erfolg.",
+        "CTA": "Kontakt aufnehmen",
+        "SecondaryCTA": "Mehr erfahren",
+        "Badge": "Swiss Made",
+        "AI": "KI-gestützt",
+        "OdooBadge": "Offizieller Odoo-Partner"
+      },
+      "Services": {
+        "Title": "Unsere Dienstleistungen"
+      },
+      "FAQ": {
+        "Title": "Häufig gestellte Fragen",
+        "Subtitle": "Schnelle Antworten auf häufige Fragen zu unseren Produkten und Dienstleistungen."
+      },
+      "Testimonials": {
+        "SectionTitle": "Referenzen"
+      },
+      "Contact": {
+        "Title": "Kontakt aufnehmen"
+      }
     },
     "Team": {
       "Title": "Unser Team kennenlernen",
@@ -24,6 +46,70 @@
       }
     },
     "specificKey": "Übersetzter Wert",
+    "Accounting": {
+      "Presentation": {
+        "Title": "Ganzheitliche Sicht auf Ihre Buchhaltung",
+        "Subtitle": "Ein 360°-Angebot",
+        "Intro": [
+          "Wir widmen uns der Bereitstellung umfassender und maßgeschneiderter Lösungen, die darauf ausgelegt sind, alle Aspekte Ihrer finanziellen und buchhalterischen Anforderungen mit Präzision und Weitblick zu adressieren.",
+          "Über die Zahlen hinaus bieten wir strategische Beratung, um Ihr Wachstum zu unterstützen, Herausforderungen zu meistern und Marktchancen mit Weitblick zu nutzen. Wir sind Ihr strategischer Partner, der sich für den Erfolg Ihres Unternehmens engagiert."
+        ],
+        "General": {
+          "Title": "Finanzbuchhaltung",
+          "Desc": "Bei Ark Fiduciaire beherrschen wir alle Facetten der Finanzbuchhaltung – vom Hauptbuch über den Jahresabschluss bis hin zum Controlling. Unsere Fachleute sorgen dafür, dass jedes Buch aktuell, präzise und konform mit Branchenstandards und Vorschriften geführt wird.",
+          "List": [
+            "Individueller Kontenplan",
+            "Kreditoren- und Debitorenmanagement",
+            "Zahlungsmanagement",
+            "Liquiditätsmanagement"
+          ]
+        },
+        "Analytic": {
+          "Title": "Kostenrechnung",
+          "Desc": "Die Kostenrechnung ist ein leistungsstarkes Instrument, um zu verstehen, wo und wie Sie Gewinne erzielen, sowie Bereiche zu identifizieren, die besondere Aufmerksamkeit erfordern. Unsere Experten bei Ark Fiduciaire helfen Ihnen, ein effektives Kostenrechnungssystem einzurichten und zu analysieren, damit Sie fundiertere Geschäftsentscheidungen treffen können."
+        },
+        "Periodic": {
+          "Title": "Periodische Aufgaben",
+          "Desc": "Profitieren Sie von einer sorgenfreien Verwaltung dank unserer Expertise bei der Erstellung periodischer Abrechnungen für alle Ihre Verpflichtungen, darunter:",
+          "List": [
+            "Zwischen- und/oder Jahresabschluss",
+            "Halbjährliche oder vierteljährliche Mehrwertsteuer",
+            "Sozialversicherungen",
+            "Steuererklärung",
+            "Ordentliche und außerordentliche Generalversammlungen",
+            "Verwaltungsrat"
+          ],
+          "Followup": "Unser engagiertes Team begleitet Sie bei jedem Schritt und sorgt für eine transparente und optimierte Verwaltung Ihrer Abrechnungen, damit Sie sich auf Ihr Kerngeschäft konzentrieren können."
+        },
+        "Dashboards": {
+          "Title": "Dashboards",
+          "Desc": "Optimieren Sie die Übersicht und Kontrolle über Ihre Finanzen mit unseren innovativen Buchhaltungs-Dashboards. Die Dashboards bieten eine klare und zugängliche Zusammenfassung Ihrer Finanzdaten und ermöglichen fundierte und strategische Entscheidungen. Genießen Sie eine vereinfachte Verwaltung mit intuitiven Dashboards, die auf Ihre spezifischen Bedürfnisse zugeschnitten sind. Mit einer benutzerfreundlichen Oberfläche und präzisen Analysen sorgen unsere Lösungen für eine effektive Überwachung Ihrer finanziellen Gesundheit."
+        },
+        "Custom": {
+          "Title": "Maßgeschneiderte Dienstleistungen"
+        },
+        "Experts": {
+          "Title": "Experten",
+          "Desc": "Ark Fiduciaire stützt sich auf ein Team erfahrener und zertifizierter Buchhalter und Steuerexperten, die lokale und internationale Vorschriften beherrschen. Diese Expertise gewährleistet präzise und konforme Buchführung und sorgt für eine zuverlässige und harmonische Verwaltung."
+        },
+        "TimeEfficiency": {
+          "Title": "Zeitersparnis und Effizienz",
+          "Desc": "Durch die Auslagerung der Buchhaltung an Ark Fiduciaire können sich Unternehmen auf ihr Kerngeschäft konzentrieren. Unsere Dienstleistungen sparen Zeit und verbessern die operative Effizienz, indem wir das gesamte Finanzmanagement übernehmen."
+        },
+        "CustomSolutions": {
+          "Title": "Individuelle Lösungen",
+          "Desc": "Ark Fiduciaire bietet maßgeschneiderte Buchhaltungsdienstleistungen, die auf die spezifischen Bedürfnisse jedes Kunden zugeschnitten sind. Ob kleines Unternehmen, Großkonzern, NGO oder Tochtergesellschaft – wir passen unsere Leistungen flexibel an Ihre Anforderungen an."
+        },
+        "AdvancedTech": {
+          "Title": "Fortschrittliche Technologie und Echtzeit-Management",
+          "Desc": "Wir nutzen die neuesten Buchhaltungstechnologien und -software, um ein optimales Management zu gewährleisten. Diese Tools ermöglichen eine präzise und schnelle Verwaltung der Finanzdaten sowie einen einfachen und sicheren Echtzeitzugriff auf Informationen."
+        },
+        "Consulting": {
+          "Title": "Beratung",
+          "Desc": "Bei Ark Fiduciaire beschränken wir uns nicht auf die Buchführung. Wir bieten auch hochwertige Buchhaltungsberatung. Unsere Experten helfen Ihnen, Ihre Finanzen zu strukturieren, Ihre Steuern zu planen und Ihre Liquidität zu steuern, während sie Verbesserungsmöglichkeiten identifizieren."
+        }
+      }
+    },
     "ServicesElements": {
       "FAQ": {
         "Title": "Häufig gestellte Fragen",

@@ -1,5 +1,42 @@
 {
   "translation": {
+    "Payroll": {
+      "Presentation": {
+        "Title": "Servicio dedicado de RRHH y Nómina",
+        "Subtitle": "Una oferta 360°",
+        "Intro": [
+          "En el ecosistema empresarial de Suiza francófona, la gestión de nóminas ocupa un lugar central, combinando precisión, cumplimiento y eficiencia. En Ark Fiduciaire, comprendemos profundamente esta necesidad y ofrecemos una solución 360° que abarca todos los aspectos de la nómina.",
+          "Nuestro enfoque holístico de la gestión salarial garantiza que cada elemento, desde los salarios base hasta los bonos y diversos beneficios, se gestione meticulosamente, asegurando la máxima satisfacción de los empleados y el cumplimiento normativo.",
+          "Ponemos a tu disposición soluciones tecnológicas de vanguardia para simplificar y optimizar tus procesos de gestión de empleados y nóminas, ofreciendo una precisión impecable y acceso en tiempo real a los datos cruciales.",
+          "Nuestra oferta va más allá de los números y los recibos de sueldo. También nos dedicamos a brindar asesoramiento estratégico en RRHH, ayudando a tu empresa a maximizar la productividad, la satisfacción y la retención de empleados a través de estrategias de compensación innovadoras.",
+          "Gracias a nuestra rama de Seguros, también podemos realizar proyecciones y modelos complejos de manera especialmente transparente y eficiente.",
+          "En Ark Fiduciaire, somos más que simples gestores de nóminas. Somos tus socios estratégicos, comprometidos a brindar excelencia operativa en todos los aspectos de la gestión de nóminas."
+        ],
+        "ServicesTitle": "Nuestros servicios de nómina",
+        "Services": [
+          {
+            "Title": "Simulaciones salariales",
+            "Desc": "Al incorporar diversos elementos como aumentos salariales, bonificaciones, cargas sociales y beneficios en especie, nuestros expertos crean modelos de simulación salarial a medida, brindándote información valiosa y apoyando decisiones informadas. A través de estas simulaciones, estarás mejor preparado para desarrollar estrategias de compensación competitivas, garantizando tanto la satisfacción de los empleados como la viabilidad financiera."
+          },
+          {
+            "Title": "Elaboración de recibos de sueldo",
+            "Desc": "La elaboración de recibos de sueldo es una tarea crucial en cualquier empresa, sinónimo de cumplimiento legal y transparencia para los empleados. En Ark Fiduciaire, transformamos esta obligación en un proceso simplificado y preciso para las empresas de Suiza francófona, gracias especialmente a la tecnología a tu disposición. Nuestros expertos garantizan una elaboración rigurosa de los recibos, integrando salarios, primas, deducciones y otras variables."
+          },
+          {
+            "Title": "Elaboración de certificados salariales anuales",
+            "Desc": "La elaboración de certificados salariales anuales requiere una experiencia y precisión impecables. En Ark Fiduciaire, te ofrecemos este servicio esencial, garantizando una exactitud total."
+          },
+          {
+            "Title": "Declaraciones de retención en la fuente",
+            "Desc": "Las declaraciones de retención en la fuente son un eslabón clave en el cumplimiento fiscal de las empresas en Suiza. En Ark Fiduciaire, garantizamos una gestión rigurosa y conforme de las declaraciones. Nuestros expertos navegan hábilmente por las complejidades de la normativa fiscal, asegurando declaraciones precisas y puntuales."
+          },
+          {
+            "Title": "Coordinación con seguros sociales y previsión profesional",
+            "Desc": "La coordinación con los seguros sociales y la previsión profesional, las declaraciones AVS y los informes anuales de seguros sociales son aspectos cruciales de la gestión empresarial en Suiza. Ark Fiduciaire, en colaboración con su rama de seguros HelveBroker, garantiza una gestión fluida y sin complicaciones de estos trámites con un solo punto de contacto."
+          }
+        ]
+      }
+    },
     "NavBar": {
       "Home": "Inicio",
       "About": "Sobre nosotros",
@@ -7,11 +44,33 @@
       "Contact": "Contacto",
       "Team": "Equipo"
     },
-    "Hero": {
-      "Title": "Servicios suizos de contabilidad y corporativos",
-      "Subtitle": "Soporte experto para tu empresa, desde el inicio hasta el éxito.",
-      "CTA": "Comenzar",
-      "SecondaryCTA": "Saber más"
+    "Home": {
+      "Meta": {
+        "Title": "Inicio | Ark Fiduciaire",
+        "Description": "Soporte experto para tu empresa, desde el inicio hasta el éxito. Contabilidad, impuestos, nómina y servicios corporativos en Suiza."
+      },
+      "Hero": {
+        "Title": "Servicios suizos de contabilidad y corporativos",
+        "Description": "Soporte experto para tu empresa, desde el inicio hasta el éxito.",
+        "CTA": "Comenzar",
+        "SecondaryCTA": "Saber más",
+        "Badge": "Swiss Made",
+        "AI": "Impulsado por IA",
+        "OdooBadge": "Socio oficial de Odoo"
+      },
+      "Services": {
+        "Title": "Nuestros servicios"
+      },
+      "FAQ": {
+        "Title": "Preguntas frecuentes",
+        "Subtitle": "Respuestas rápidas a preguntas comunes sobre nuestros productos y servicios."
+      },
+      "Testimonials": {
+        "SectionTitle": "Testimonios"
+      },
+      "Contact": {
+        "Title": "Contáctanos"
+      }
     },
     "Team": {
       "Title": "Conoce a nuestro equipo",
@@ -24,6 +83,70 @@
       }
     },
     "specificKey": "Valor traducido",
+    "Accounting": {
+      "Presentation": {
+        "Title": "Visión holística de tu contabilidad",
+        "Subtitle": "Una oferta 360°",
+        "Intro": [
+          "Nos dedicamos a proporcionar soluciones completas y personalizadas, diseñadas para abordar cada aspecto de tus necesidades financieras y contables con precisión y perspicacia.",
+          "Más allá de los números, ofrecemos asesoramiento estratégico para apoyar tu crecimiento, navegar desafíos y aprovechar oportunidades de mercado con discernimiento. Somos tu socio estratégico comprometido con el éxito de tu empresa."
+        ],
+        "General": {
+          "Title": "Contabilidad general",
+          "Desc": "En Ark Fiduciaire dominamos todos los aspectos de la contabilidad general, desde el libro mayor hasta los estados financieros, incluyendo la contabilidad de gestión. Nuestros profesionales se aseguran de que cada libro contable esté actualizado, sea preciso y cumpla con los estándares y regulaciones del sector.",
+          "List": [
+            "Plan contable personalizado",
+            "Gestión de acreedores y deudores",
+            "Gestión de pagos",
+            "Gestión de tesorería"
+          ]
+        },
+        "Analytic": {
+          "Title": "Contabilidad analítica",
+          "Desc": "La contabilidad analítica es una herramienta poderosa para comprender dónde y cómo generas beneficios, así como para identificar áreas que requieren atención especial. Nuestros expertos en Ark Fiduciaire te ayudarán a implementar y analizar un sistema de contabilidad analítica eficaz, que te permitirá tomar decisiones empresariales más informadas."
+        },
+        "Periodic": {
+          "Title": "Tareas periódicas",
+          "Desc": "Disfruta de una gestión tranquila gracias a nuestra experiencia en la elaboración de liquidaciones periódicas para todas tus obligaciones, incluyendo:",
+          "List": [
+            "Cierre intermedio y/o anual",
+            "IVA semestral o trimestral",
+            "Seguros sociales",
+            "Declaración fiscal",
+            "Junta general ordinaria y extraordinaria",
+            "Consejo de administración"
+          ],
+          "Followup": "Nuestro equipo dedicado te acompaña en cada etapa, garantizando una gestión transparente y optimizada de tus liquidaciones, permitiéndote así concentrarte en el núcleo de tu actividad."
+        },
+        "Dashboards": {
+          "Title": "Dashboards",
+          "Desc": "Optimiza la visibilidad y el control de tus finanzas con nuestras soluciones innovadoras de dashboards contables. Los paneles ofrecen una síntesis clara y accesible de tus datos financieros, permitiendo una toma de decisiones informada y estratégica. Disfruta de una gestión simplificada gracias a dashboards intuitivos, adaptados a tus necesidades específicas. Con una interfaz amigable y análisis precisos, nuestras soluciones te aseguran una supervisión eficaz de tu salud financiera."
+        },
+        "Custom": {
+          "Title": "Servicios a medida"
+        },
+        "Experts": {
+          "Title": "Expertos",
+          "Desc": "Ark Fiduciaire cuenta con un equipo de contadores y fiscalistas experimentados y certificados, que dominan las normativas locales e internacionales. Esta experiencia garantiza cuentas precisas y conformes, asegurando una gestión fiable y armoniosa."
+        },
+        "TimeEfficiency": {
+          "Title": "Ahorro de tiempo y eficiencia",
+          "Desc": "Al externalizar la contabilidad con Ark Fiduciaire, las empresas pueden centrarse en su actividad principal. Nuestros servicios permiten ahorrar tiempo y mejorar la eficiencia operativa, encargándonos de la gestión financiera completa."
+        },
+        "CustomSolutions": {
+          "Title": "Soluciones personalizadas",
+          "Desc": "Ark Fiduciaire ofrece servicios de contabilidad a medida, adaptados a las necesidades específicas de cada cliente. Ya seas una pequeña empresa, una gran compañía, una ONG o una filial, adaptamos nuestros servicios para responder a tus expectativas, ofreciendo soluciones flexibles."
+        },
+        "AdvancedTech": {
+          "Title": "Tecnología avanzada y gestión en tiempo real",
+          "Desc": "Utilizamos las últimas tecnologías y software de contabilidad para garantizar una gestión óptima. Estas herramientas permiten una gestión precisa y rápida de los datos financieros, así como un acceso fácil y seguro a la información en tiempo real."
+        },
+        "Consulting": {
+          "Title": "Asesoramiento",
+          "Desc": "En Ark Fiduciaire no nos limitamos a llevar tus libros. También ofrecemos acompañamiento contable de calidad. Nuestros expertos te ayudan a estructurar tus finanzas, planificar tus impuestos y gestionar tu liquidez, identificando oportunidades de mejora."
+        }
+      }
+    },
     "Services": {
       "Title": "Nuestros servicios"
     },
