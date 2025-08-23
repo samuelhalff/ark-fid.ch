@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowUpRight, Users } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
@@ -13,7 +15,8 @@ const CorporateHero = () => {
           <div className="gap-2 flex items-center justify-center lg:justify-start">
             <Badge className="rounded-full py-1 border-none">
               <TranslatedText
-                translationKey="Corporate.Hero.Badge"
+                ns="corporate"
+                translationKey="Hero.Badge"
                 fallbackText="Swiss Excellence"
               />
             </Badge>
@@ -22,7 +25,8 @@ const CorporateHero = () => {
               className="rounded-full py-1 border-none"
             >
               <TranslatedText
-                translationKey="Corporate.Hero.BadgeTwo"
+                ns="corporate"
+                translationKey="Hero.BadgeTwo"
                 fallbackText="Business Experts"
               />
             </Badge>
@@ -30,14 +34,16 @@ const CorporateHero = () => {
 
           <h1 className="mt-6 max-w-[20ch] text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight">
             <TranslatedText
-              translationKey="Corporate.Hero.Title"
+              ns="corporate"
+              translationKey="Hero.Title"
               fallbackText="Strategic Corporate Services for Your Success"
             />
           </h1>
 
           <p className="mt-6 text-xl text-muted-foreground">
             <TranslatedText
-              translationKey="Corporate.Hero.Description"
+              ns="corporate"
+              translationKey="Hero.Description"
               fallbackText="From company formation to business restructuring, we provide comprehensive corporate services to help your business thrive in Switzerland."
             />
           </p>
@@ -49,7 +55,8 @@ const CorporateHero = () => {
                 className="w-full sm:w-auto rounded-full text-base"
               >
                 <TranslatedText
-                  translationKey="Corporate.Hero.PrimaryCTA"
+                  ns="corporate"
+                  translationKey="Hero.PrimaryCTA"
                   fallbackText="Get Started"
                 />
                 <ArrowUpRight className="h-5 w-5 ml-2" />
@@ -63,7 +70,8 @@ const CorporateHero = () => {
               >
                 <Users className="h-5 w-5 mr-2" />
                 <TranslatedText
-                  translationKey="Corporate.Hero.SecondaryCTA"
+                  ns="corporate"
+                  translationKey="Hero.SecondaryCTA"
                   fallbackText="Meet the Team"
                 />
               </Button>

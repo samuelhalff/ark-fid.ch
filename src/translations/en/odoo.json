@@ -1,0 +1,48 @@
+{
+    "Hero": {
+        "BadgeMain": "Odoo Implementation",
+        "BadgeAlt": "Digitalisation & ERP",
+        "Title": "Odoo: digitize your management",
+        "Description": "Ark Fiduciaire supports you in the integration, customization, and evolution of your Odoo solution. Optimize your processes, automate tasks, and manage your business with a complete and scalable ERP.",
+        "LearnMore": "Learn more",
+        "ContactUs": "Contact us"
+    },
+    "Presentation": {
+        "Title": "Odoo: digitize your business",
+        "Subtitle": "A complete and scalable ERP solution",
+        "Intro": [
+            "Odoo is a modular and flexible ERP solution, ideal for digitizing and optimizing your business management. Ark Fiduciaire supports you in the integration, customization, and evolution of your Odoo system.",
+            "We analyze your needs, configure the right modules, and train your teams to ensure rapid and effective adoption. Our technical support ensures the continuity and security of your Odoo environment."
+        ],
+        "List": [
+            "Needs analysis and process audit",
+            "Odoo deployment and configuration",
+            "Data migration and integration with your tools",
+            "User training and technical support",
+            "Solution evolution and maintenance"
+        ],
+        "StrengthsTitle": "Our strengths for your digital transformation",
+        "Strengths": [
+            {
+                "Title": "Tailored Odoo integration",
+                "Desc": "Deployment, configuration, and customization of the Odoo solution to precisely meet your business needs. We ensure a smooth transition and comprehensive support."
+            },
+            {
+                "Title": "Process automation",
+                "Desc": "Optimization of your workflows through the automation of administrative, accounting, sales, or HR tasks via Odoo."
+            },
+            {
+                "Title": "Training and support",
+                "Desc": "Support for your teams at every stage: training, technical assistance, and ongoing support to ensure the success of your Odoo project."
+            },
+            {
+                "Title": "Security and compliance",
+                "Desc": "Implementation of secure solutions, meeting the confidentiality and compliance standards in force in Switzerland."
+            },
+            {
+                "Title": "Consulting and evolution",
+                "Desc": "Our experts advise you on the evolution of your information system and the integration of new Odoo modules as your business grows."
+            }
+        ]
+    }
+}

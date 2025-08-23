@@ -75,6 +75,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
           >
             <Link href="/">
               <TranslatedText
+                ns="home"
                 translationKey="NavBar.Home"
                 fallbackText="Home"
               />
@@ -91,6 +92,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
           >
             <Link href="/team">
               <TranslatedText
+                ns="home"
                 translationKey="NavBar.Team"
                 fallbackText="Team"
               />
@@ -100,6 +102,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
         <NavigationMenuItem>
           <NavigationMenuTrigger>
             <TranslatedText
+              ns="home"
               translationKey="NavBar.Services"
               fallbackText="Services"
             />
@@ -111,6 +114,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
                   key={component.titleKey}
                   title={
                     <TranslatedText
+                      ns="home"
                       translationKey={component.titleKey}
                       fallbackText={component.titleKey.replace("NavBar.", "")}
                     />
@@ -119,6 +123,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
                   icon={component.icon}
                 >
                   <TranslatedText
+                    ns="home"
                     translationKey={component.descriptionKey}
                     fallbackText={component.descriptionKey.replace(
                       "NavBar.",
@@ -140,6 +145,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
           >
             <Link href="/ressources">
               <TranslatedText
+                ns="home"
                 translationKey="NavBar.Ressources"
                 fallbackText="Ressources"
               />
@@ -156,6 +162,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
           >
             <Link href="/contact">
               <TranslatedText
+                ns="home"
                 translationKey="NavBar.Contact"
                 fallbackText="Contact"
               />

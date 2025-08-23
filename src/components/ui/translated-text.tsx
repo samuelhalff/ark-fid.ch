@@ -7,11 +7,13 @@ import { useTranslation } from "react-i18next";
 const TranslatedText = ({
   translationKey,
   fallbackText,
+  ns,
 }: {
   translationKey: string;
   fallbackText: string;
+  ns: string;
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(ns || "");
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -19,6 +21,7 @@ const TranslatedText = ({
   }, []);
 
   // Return the translated text if on the client, otherwise the fallback.
+
   return <>{isClient ? t(translationKey) : fallbackText}</>;
 };
 

@@ -1,8 +1,6 @@
 "use client";
 
 import {
-  ListChecks,
-  CalendarCheck2,
   Users,
   Clock,
   ShieldCheck,
@@ -15,12 +13,11 @@ import TranslatedText from "@/src/components/ui/translated-text";
 import TranslatedTextArray from "@/src/components/ui/translated-text-array";
 import { useTranslation } from "react-i18next";
 import React from "react";
-import { convertRawToList } from "@/lib/utils";
 
 const iconMap = [Users, Clock, ShieldCheck, Rocket, MessageSquare];
 
 const DomiciliationPresentation = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("domiciliation");
   return (
     <section
       className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25"
@@ -28,20 +25,23 @@ const DomiciliationPresentation = () => {
     >
       <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
         <TranslatedText
-          translationKey="Domiciliation.Presentation.Title"
+          ns="domiciliation"
+          translationKey="Presentation.Title"
           fallbackText="Professional Domiciliation Services"
         />
       </h1>
       <div className="text-left w-full">
         <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
           <TranslatedText
-            translationKey="Domiciliation.Presentation.Subtitle"
+            ns="domiciliation"
+            translationKey="Presentation.Subtitle"
             fallbackText="Your Swiss Business Address Solution"
           />
         </h2>
         <div className="space-y-6 mb-12">
           <TranslatedTextArray
-            translationKey="Domiciliation.Presentation.Intro"
+            ns="domiciliation"
+            translationKey="Presentation.Intro"
             fallbackText={[
               "Our domiciliation services provide your company with a prestigious Swiss address, mail handling, and compliance support. We help you establish a credible presence in Switzerland, whether you are a startup, SME, or international group.",
               "Benefit from our expertise in regulatory requirements and our commitment to confidentiality and efficiency.",
@@ -50,7 +50,7 @@ const DomiciliationPresentation = () => {
         </div>
         <StylishList
           items={
-            t("Domiciliation.Presentation.List", {
+            t("Presentation.List", {
               returnObjects: true,
             }) as string[]
           }
@@ -63,12 +63,13 @@ const DomiciliationPresentation = () => {
           <section>
             <h3 className="text-2xl font-semibold mb-6">
               <TranslatedText
-                translationKey="Domiciliation.Presentation.StrengthsTitle"
+                ns="domiciliation"
+                translationKey="Presentation.StrengthsTitle"
                 fallbackText="Our Domiciliation Strengths"
               />
             </h3>
             {(() => {
-              const strengths = t("Domiciliation.Presentation.Strengths", {
+              const strengths = t("Presentation.Strengths", {
                 returnObjects: true,
               }) as Array<{ Title: string; Desc: string }>;
               return (

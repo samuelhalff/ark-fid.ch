@@ -82,13 +82,15 @@ export default function TeamPage() {
       <div className="text-center mb-12 animate-in fade-in duration-900">
         <h1 className=" text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.2]! tracking-tight">
           <TranslatedText
-            translationKey={"Team.Title"}
+            ns="team"
+            translationKey={"Title"}
             fallbackText={"Notre équipe"}
           />
         </h1>
         <p className="text-muted-foreground mt-2">
           <TranslatedText
-            translationKey={"Team.Subtitle"}
+            ns="team"
+            translationKey={"Subtitle"}
             fallbackText={"Subtitle"}
           />
         </p>
@@ -132,7 +134,8 @@ export default function TeamPage() {
                   </h3>
                   <h2>
                     <TranslatedText
-                      translationKey={`Team.Role.${member.role}`}
+                      ns="team"
+                      translationKey={`Role.${member.role}`}
                       fallbackText={member.role}
                     />
                   </h2>

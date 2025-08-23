@@ -1,4 +1,5 @@
 "use client";
+
 import { ArrowUpRight, Users } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
@@ -14,7 +15,8 @@ const DomiciliationHero = () => {
           <div className="gap-2 flex items-center justify-center lg:justify-start">
             <Badge className="rounded-full py-1 border-none">
               <TranslatedText
-                translationKey="Domiciliation.Hero.Badge"
+                ns="domiciliation"
+                translationKey="Hero.Badge"
                 fallbackText="Swiss Domiciliation"
               />
             </Badge>
@@ -23,7 +25,8 @@ const DomiciliationHero = () => {
               className="rounded-full py-1 border-none"
             >
               <TranslatedText
-                translationKey="Domiciliation.Hero.AI"
+                ns="domiciliation"
+                translationKey="Hero.AI"
                 fallbackText="Business Address Experts"
               />
             </Badge>
@@ -31,14 +34,16 @@ const DomiciliationHero = () => {
 
           <h1 className="mt-6 max-w-[20ch] text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight">
             <TranslatedText
-              translationKey="Domiciliation.Hero.Title"
+              ns="domiciliation"
+              translationKey="Hero.Title"
               fallbackText="Professional Domiciliation Services in Switzerland"
             />
           </h1>
 
           <p className="mt-6 text-xl text-muted-foreground">
             <TranslatedText
-              translationKey="Domiciliation.Hero.Description"
+              ns="domiciliation"
+              translationKey="Hero.Description"
               fallbackText="Establish your business presence with a prestigious Swiss address. We provide reliable domiciliation and mail handling for companies of all sizes."
             />
           </p>
@@ -50,7 +55,8 @@ const DomiciliationHero = () => {
                 className="w-full sm:w-auto rounded-full text-base"
               >
                 <TranslatedText
-                  translationKey="Domiciliation.Hero.CTA"
+                  ns="domiciliation"
+                  translationKey="Hero.CTA"
                   fallbackText="Get Started"
                 />
                 <ArrowUpRight className="h-5 w-5 ml-2" />
@@ -64,6 +70,7 @@ const DomiciliationHero = () => {
               >
                 <Users className="h-5 w-5 mr-2" />
                 <TranslatedText
+                  ns="home"
                   translationKey="Home.Hero.SecondaryCTA"
                   fallbackText="Meet the Team"
                 />
@@ -73,7 +80,7 @@ const DomiciliationHero = () => {
         </div>
         <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
           <Image
-            src="/assets/services/domiciliation.png"
+            src="/assets/services/png"
             alt="Domiciliation Services"
             fill
             className="object-cover rounded-xl brightness-100"

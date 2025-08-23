@@ -1,0 +1,20 @@
+{
+    "Title": "Get in touch",
+    "Form": {
+        "FirstName": "First Name",
+        "Email": "Email",
+        "CompanyName": "Company Name (Optional)",
+        "Phone": "Phone Number (Optional)",
+        "Message": "Message",
+        "Consent": "I agree to be contacted about my request",
+        "Submit": "Send Message",
+        "Success": "Message sent successfully!",
+        "Error": "Failed to send message. Please try again."
+    },
+    "Errors": {
+        "Required": "This field is required",
+        "InvalidEmail": "Please enter a valid email address",
+        "MaxLength": "Message cannot exceed 500 characters",
+        "Consent": "You must agree to be contacted"
+    }
+}

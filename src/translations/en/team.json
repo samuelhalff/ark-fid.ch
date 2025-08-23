@@ -1,0 +1,11 @@
+{
+    "Title": "Meet our Team",
+    "Subtitle": "A team of complementary talents",
+    "Role": {
+        "Partner": "Partner",
+        "ManagingPartner": "Managing Partner",
+        "Tax": "Tax",
+        "OfficeProjectManager": "Office & Project Manager",
+        "SeniorAccountant": "Senior Accountant"
+    }
+}

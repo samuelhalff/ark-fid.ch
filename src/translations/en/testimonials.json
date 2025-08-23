@@ -1,0 +1,41 @@
+{
+    "SectionTitle": "Testimonials",
+    "List": [
+        {
+            "name": "Alex Weber",
+            "designation": "CEO",
+            "company": "Swiss Innovations GmbH",
+            "testimonial": "Partnering with them has completely transformed our financial operations. The efficiency of having our accounting and payroll managed on Odoo is unmatched! We can now focus on our business, knowing our compliance is in expert hands."
+        },
+        {
+            "name": "Clara Dubois",
+            "designation": "General Manager",
+            "company": "Léman Distribution SA",
+            "testimonial": "An amazing service that simplifies the complexities of Swiss accounting and swissdec payroll. Highly recommended for any SME. Their flexible approach lets us handle daily invoicing while they manage the monthly closing and taxes seamlessly."
+        },
+        {
+            "name": "Marco Rossi",
+            "designation": "Founder",
+            "company": "Ticino Start-up",
+            "testimonial": "The collaborative experience on Odoo is top-notch! We have a clear, real-time view of our finances, and their team is always there to support us. The implementation was smooth and perfectly tailored to our needs."
+        },
+        {
+            "name": "Sophie Müller",
+            "designation": "HR Manager",
+            "company": "Alpine Precision AG",
+            "testimonial": "We've seen a significant improvement in our HR efficiency since outsourcing our payroll. Their team handles all the swissdec declarations and insurance communications flawlessly, which has been a game-changer for our small team."
+        },
+        {
+            "name": "Liam Schneider",
+            "designation": "Managing Director",
+            "company": "Zurich Solutions",
+            "testimonial": "The best investment we've made in our back-office. The support team is incredibly responsive and knowledgeable, answering our questions on both accounting and Odoo. Their service has been invaluable since our incorporation."
+        },
+        {
+            "name": "Isabelle Favre",
+            "designation": "Owner",
+            "company": "Geneva Consulting",
+            "testimonial": "Their service has saved me hours of administrative work! The financial reports and insights they provide are incredibly powerful and easy to understand. This helps us make smarter, data-backed decisions for our growth."
+        }
+    ]
+}

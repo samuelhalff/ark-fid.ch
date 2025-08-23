@@ -13,7 +13,8 @@ const Hero = () => (
         <div className="gap-2 flex justify-center items-center">
           <Badge className="rounded-full py-1 border-none">
             <TranslatedText
-              translationKey="Home.Hero.Badge"
+              ns="home"
+              translationKey="Hero.Badge"
               fallbackText="Swiss Made"
             />
           </Badge>
@@ -22,20 +23,23 @@ const Hero = () => (
             className="rounded-full py-1 border-none"
           >
             <TranslatedText
-              translationKey="Home.Hero.OdooBadge"
+              ns="home"
+              translationKey="Hero.OdooBadge"
               fallbackText="Official Odoo Partner"
             />
           </Badge>
         </div>
         <h1 className="mt-6 max-w-[20ch] w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight m-auto">
           <TranslatedText
-            translationKey="Home.Hero.Title"
+            ns="home"
+            translationKey="Hero.Title"
             fallbackText="Title"
           />
         </h1>
         <p className="mt-6 max-w-[60ch] xs:text-lg">
           <TranslatedText
-            translationKey="Home.Hero.Description"
+            ns="home"
+            translationKey="Hero.Description"
             fallbackText="Description"
           />
         </p>
@@ -47,7 +51,8 @@ const Hero = () => (
               style={{ cursor: "pointer" }}
             >
               <TranslatedText
-                translationKey="Home.Hero.CTA"
+                ns="home"
+                translationKey="Hero.CTA"
                 fallbackText="Contact"
               />
               <ArrowUpRight className="h-5! w-5!" />
@@ -62,7 +67,8 @@ const Hero = () => (
             >
               <Users className="h-5! w-5!" />{" "}
               <TranslatedText
-                translationKey="Home.Hero.SecondaryCTA"
+                ns="home"
+                translationKey="Hero.SecondaryCTA"
                 fallbackText="Team"
               />
             </Button>
@@ -88,7 +94,8 @@ const Hero = () => (
             >
               <BadgeCheckIcon className="inline h-4 w-4 mr-1" />
               <TranslatedText
-                translationKey="Home.Hero.OdooBadge"
+                ns="home"
+                translationKey="Hero.OdooBadge"
                 fallbackText="Odoo Partner"
               />
             </Badge>

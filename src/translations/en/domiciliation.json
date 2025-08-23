@@ -1,0 +1,43 @@
+{
+    "Hero": {
+        "Badge": "Domiciliation",
+        "Title": "Domiciliation",
+        "Description": "Ark Fiduciaire offers domiciliation services for your company in Switzerland. Benefit from a prestigious address and comprehensive administrative support for your business.",
+        "CTA": "Contact us",
+        "SecondaryCTA": "Our services"
+    },
+    "Presentation": {
+        "Title": "Domiciliation: your address in Switzerland",
+        "Subtitle": "A strategic location for your business",
+        "Intro": [
+            "We provide a registered office address for your company, along with mail management and administrative support.",
+            "Our services ensure your company is compliant and benefits from a professional image."
+        ],
+        "List": [
+            "Registered office address",
+            "Mail management",
+            "Administrative support",
+            "Meeting room rental",
+            "Company incorporation assistance"
+        ],
+        "StrengthsTitle": "Our strengths for your domiciliation needs",
+        "Strengths": [
+            {
+                "Title": "Prestigious address",
+                "Desc": "Benefit from a recognized address in Switzerland for your company."
+            },
+            {
+                "Title": "Administrative support",
+                "Desc": "We handle your mail and provide all necessary administrative assistance."
+            },
+            {
+                "Title": "Compliance and security",
+                "Desc": "We ensure your company meets all legal requirements for domiciliation."
+            },
+            {
+                "Title": "Flexibility and services",
+                "Desc": "We offer additional services such as meeting room rental and company incorporation support."
+            }
+        ]
+    }
+}

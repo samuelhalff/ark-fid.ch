@@ -1,0 +1,43 @@
+{
+    "Hero": {
+        "Badge": "Corporate Services",
+        "Title": "Corporate Administration",
+        "Description": "Ark Fiduciaire provides comprehensive corporate administration services, ensuring your company is compliant, well-structured, and ready for growth. We handle all administrative, legal, and regulatory aspects so you can focus on your business.",
+        "CTA": "Contact us",
+        "SecondaryCTA": "Our services"
+    },
+    "Presentation": {
+        "Title": "Corporate administration: your company, our expertise",
+        "Subtitle": "A solid foundation for your business",
+        "Intro": [
+            "Our team supports you in all stages of your company's life: from incorporation to daily management, including statutory changes and liquidations.",
+            "We ensure compliance with Swiss regulations and offer strategic advice for optimal governance."
+        ],
+        "List": [
+            "Company incorporation",
+            "Statutory changes",
+            "Board and general meetings",
+            "Corporate housekeeping",
+            "Liquidation and restructuring"
+        ],
+        "StrengthsTitle": "Our strengths for your corporate needs",
+        "Strengths": [
+            {
+                "Title": "Expertise in Swiss law",
+                "Desc": "Our specialists master the legal and regulatory framework, ensuring your company is always compliant."
+            },
+            {
+                "Title": "Personalized support",
+                "Desc": "A dedicated contact person accompanies you at every stage, offering tailored solutions for your business."
+            },
+            {
+                "Title": "Administrative efficiency",
+                "Desc": "We take care of all administrative formalities, allowing you to focus on your core business."
+            },
+            {
+                "Title": "Strategic advice",
+                "Desc": "Benefit from our experience to optimize your company's structure and governance."
+            }
+        ]
+    }
+}

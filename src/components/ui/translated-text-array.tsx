@@ -6,19 +6,21 @@ import { useTranslation } from "react-i18next";
 interface TranslatedTextArrayProps {
   translationKey: string;
   fallbackText?: string[];
+  ns?: string;
   renderItem?: (text: string, index: number) => React.ReactNode;
 }
 
 const TranslatedTextArray = ({
   translationKey,
   fallbackText = [],
+  ns,
   renderItem = (text, index) => (
     <p key={index} className="mb-8 text-lg text-justify">
       {text}
     </p>
   ),
 }: TranslatedTextArrayProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(ns);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {

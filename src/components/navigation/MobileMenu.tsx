@@ -5,7 +5,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/src/components/ui/sheet";
-import { Menu, X } from "lucide-react";
+import { ListEnd, Menu, X } from "lucide-react";
 import LangSwitchMobile from "@/src/components/navigation/LangSwitchMobile";
 import ThemeToggleMobile from "@/src/components/navigation/ThemeToggleMobile";
 import ServicesMobile from "@/src/components/navigation/ServicesMobile";
@@ -86,6 +86,9 @@ const MobileMenu = () => {
               >
                 <span>Ressources</span>
               </a>
+            </div>
+            <div className="text-muted-foreground w-full text-center">
+              <span></span>
             </div>
           </nav>
         </div>

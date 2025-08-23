@@ -1,6 +1,7 @@
 import React from "react";
 import { FileText, FileSpreadsheet, File } from "lucide-react";
 import Link from "next/link";
+import TranslatedText from "@/src/components/ui/translated-text";
 
 // Map file extensions to Lucide icons (fallback to FileText for Word/PDF)
 const iconMap: Record<string, React.ReactNode> = {
@@ -46,7 +47,11 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
           download
           className="mt-auto text-blue-600 hover:underline font-medium"
         >
-          Download
+          <TranslatedText
+            ns="ressources"
+            translationKey="Download"
+            fallbackText="Download"
+          />
         </a>
       ) : (
         <Link
@@ -54,7 +59,11 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
           className="mt-auto text-blue-600 hover:underline font-medium"
           target="_blank"
         >
-          Read Article
+          <TranslatedText
+            ns="ressources"
+            translationKey="ReadArticle"
+            fallbackText="Read Article"
+          />
         </Link>
       )}
     </div>

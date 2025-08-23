@@ -1,0 +1,25 @@
+{
+    "Meta": {
+        "Title": "Home | Ark Fiduciaire",
+        "Description": "Expert support for your business, from startup to success. Accounting, tax, payroll, and corporate services in Switzerland."
+    },
+    "Hero": {
+        "Title": "Accounting, Tax & Corporate Services",
+        "Description": "Expert support for your business, from startup to success.",
+        "CTA": "Get in touch",
+        "SecondaryCTA": "Meet the Team",
+        "Badge": "Swiss Made",
+        "AI": "AI Powered",
+        "OdooBadge": "Official Odoo Partner"
+    },
+    "Services": {
+        "Title": "Our Services"
+    },
+    "FAQ": {
+        "Title": "Frequently Asked Questions",
+        "Subtitle": "Quick answers to common questions about our products and services."
+    },
+    "Testimonials": {
+        "SectionTitle": "Testimonials"
+    }
+}
