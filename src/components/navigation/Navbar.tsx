@@ -17,14 +17,14 @@ const Navbar = () => {
   }, [scrollTop]);
 
   return (
-    <div className="fixed top-0 w-full z-50">
+    <div className="fixed top-0 w-full max-w-[100vw] z-50">
       <nav
         className={
           "h-16 bg-background border-b border-accent " +
           (scrollTop > 100 ? "shadow-2xl" : "")
         }
       >
-        <div className="h-full flex items-center justify-between max-w-(--breakpoint-xl) mx-auto px-4 sm:px-6">
+        <div className="h-full flex items-center max-w-[100vw] justify-between px-4 sm:px-6">
           <Link href={"/"}>
             <span>
               <Image
@@ -48,7 +48,7 @@ const Navbar = () => {
           <div className="hidden md:block">
             <NavMenu />
           </div>
-          <div className="md:hidden">
+          <div className="md:hidden pb-30">
             <MobileMenu />
           </div>
         </div>

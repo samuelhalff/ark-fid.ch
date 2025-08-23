@@ -40,16 +40,16 @@ const defaultValues = {
 // 2. Create a function that builds the schema, accepting the `t` function
 const createFormSchema = (t: (key: string) => string) =>
   z.object({
-    firstName: z.string().min(1, { message: t("form.errors.required") }),
-    email: z.string().email({ message: t("form.errors.invalidEmail") }),
+    firstName: z.string().min(1, { message: t("Contact.Errors.Required") }),
+    email: z.string().email({ message: t("Contact.Errors.InvalidEmail") }),
     companyName: z.string().optional(),
     phone: z.string().optional(),
     message: z
       .string()
-      .min(1, { message: t("form.errors.required") })
-      .max(500),
+      .min(1, { message: t("Contact.Errors.Required") })
+      .max(500, { message: t("Contact.Errors.MaxLength") }),
     consent: z.boolean().refine((val) => val === true, {
-      message: t("form.errors.consentRequired"),
+      message: t("Contact.Errors.Consent"),
     }),
   });
 
@@ -84,9 +84,8 @@ const ContactForm: FC = () => {
       body: JSON.stringify(data),
     });
     // The `t` function is safe to use here as it's a client-side event handler
-    toast.success(t("toast.success.title"), {
-      description: t("toast.success.description"),
-      action: { label: t("toast.close"), onClick: () => toast.dismiss },
+    toast.success(t("Contact.Form.Success"), {
+      action: { label: "Close", onClick: () => toast.dismiss },
       duration: 5000,
       onAutoClose: goHome,
       onDismiss: goHome,
@@ -121,8 +120,8 @@ const ContactForm: FC = () => {
                       <FormItem className="flex-auto">
                         <FormLabel className="form-label">
                           <TranslatedText
-                            translationKey="form.labels.name"
-                            fallbackText="Name"
+                            translationKey="Contact.Form.FirstName"
+                            fallbackText="First Name"
                           />
                           <span className="text-green-600">*</span>
                         </FormLabel>
@@ -141,8 +140,8 @@ const ContactForm: FC = () => {
                     <FormItem>
                       <FormLabel className="form-label">
                         <TranslatedText
-                          translationKey="form.labels.company"
-                          fallbackText="Company name"
+                          translationKey="Contact.Form.CompanyName"
+                          fallbackText="Company Name (Optional)"
                         />
                       </FormLabel>
                       <FormControl>
@@ -159,8 +158,8 @@ const ContactForm: FC = () => {
                     <FormItem>
                       <FormLabel className="form-label">
                         <TranslatedText
-                          translationKey="form.labels.phone"
-                          fallbackText="Phone"
+                          translationKey="Contact.Form.Phone"
+                          fallbackText="Phone Number (Optional)"
                         />
                       </FormLabel>
                       <FormControl>
@@ -177,7 +176,7 @@ const ContactForm: FC = () => {
                     <FormItem>
                       <FormLabel className="form-label">
                         <TranslatedText
-                          translationKey="form.labels.email"
+                          translationKey="Contact.Form.Email"
                           fallbackText="Email"
                         />
                         <span className="text-green-600">*</span>
@@ -196,7 +195,7 @@ const ContactForm: FC = () => {
                     <FormItem>
                       <FormLabel className="form-label">
                         <TranslatedText
-                          translationKey="form.labels.message"
+                          translationKey="Contact.Form.Message"
                           fallbackText="Message"
                         />
                         <span className="text-green-600">*</span>

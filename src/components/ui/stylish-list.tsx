@@ -16,11 +16,11 @@ export const StylishList: React.FC<StylishListProps> = ({
   bulletBg = "bg-primary/10",
   className = "",
 }) => (
-  <ul className={`space-y-3 ${className}`}>
+  <ul className={`space-y-3 mx-2 ${className}`}>
     {items.map((text, i) => (
       <li key={i} className="flex items-center gap-3 group">
         <span
-          className={`flex items-center justify-center rounded-full h-7 w-7 ${bulletBg} group-hover:scale-110 transition-all duration-150`}
+          className={`flex items-center justify-center rounded-full ${bulletBg} group-hover:scale-110 transition-all duration-150`}
         >
           <Icon className={iconClass + " w-4 h-4"} aria-hidden />
           <span className="sr-only">✔</span>

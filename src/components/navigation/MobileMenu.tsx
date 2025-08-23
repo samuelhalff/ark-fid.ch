@@ -19,7 +19,7 @@ const MobileMenu = () => {
           <Menu className="size-5" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-full p-0" hideClose>
+      <SheetContent side="right" className="w-full max-w-[100vw] p-0" hideClose>
         <SheetTitle className="hidden">Mobile Navigation</SheetTitle>
         <div className="flex items-center px-4 pt-4 border-b pb-4">
           <div className="flex-1 flex justify-start">
@@ -49,44 +49,46 @@ const MobileMenu = () => {
             </button>
           </SheetTrigger>
         </div>
-        <nav className="flex flex-col gap-3 px-4 mt-3 overflow-y-auto h-[calc(100vh-4rem)] pb-30 mb-20 pt-2">
-          <ThemeToggleMobile />
-          <LangSwitchMobile />
-          <div className="mt-3 mb-3">
-            <a
-              href="/contact"
-              className="block w-full text-center font-semibold text-lg py-3 rounded-xl border border-accent bg-transparent hover:bg-accent/30 transition-colors"
-              style={{ letterSpacing: 0.5 }}
-            >
-              Contact
-            </a>
-          </div>
-          <div>
-            <a
-              href="/"
-              className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors"
-            >
-              <span>Home</span>
-            </a>
-          </div>
-          <div>
-            <a
-              href="/team"
-              className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors"
-            >
-              <span>Team</span>
-            </a>
-          </div>
-          <ServicesMobile />
-          <div>
-            <a
-              href="/ressources"
-              className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors"
-            >
-              <span>Ressources</span>
-            </a>
-          </div>
-        </nav>
+        <div className=" max-h-[100vh] overflow-y-auto">
+          <nav className="flex flex-col gap-3 px-4 mt-3 pb-10 mb-20 pt-2">
+            <ThemeToggleMobile />
+            <LangSwitchMobile />
+            <div className="mt-3 mb-3">
+              <a
+                href="/contact"
+                className="block w-full text-center font-semibold text-lg py-3 rounded-xl border border-accent bg-transparent hover:bg-accent/30 transition-colors"
+                style={{ letterSpacing: 0.5 }}
+              >
+                Contact
+              </a>
+            </div>
+            <div>
+              <a
+                href="/"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors"
+              >
+                <span>Home</span>
+              </a>
+            </div>
+            <div>
+              <a
+                href="/team"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors"
+              >
+                <span>Team</span>
+              </a>
+            </div>
+            <ServicesMobile />
+            <div>
+              <a
+                href="/ressources"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors"
+              >
+                <span>Ressources</span>
+              </a>
+            </div>
+          </nav>
+        </div>
       </SheetContent>
     </Sheet>
   );
