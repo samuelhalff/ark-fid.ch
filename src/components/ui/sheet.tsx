@@ -55,7 +55,11 @@ interface SheetContentProps
 
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
-  SheetContentProps & { hideClose?: boolean }
+  SheetContentProps & {
+    hideClose?: boolean;
+    children: React.JSX.Element[];
+    className: string;
+  }
 >(({ side = "right", hideClose, className, children, ...props }, ref) => (
   <SheetPortal>
     <SheetOverlay />

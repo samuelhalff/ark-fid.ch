@@ -39,8 +39,8 @@ const Hero = () => (
             fallbackText="Description"
           />
         </p>
-        <div className="mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center">
-          <Link href="/contact" className="w-full sm:w-auto">
+        <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center">
+          <Link href="/contact" className="w-full">
             <Button
               size="lg"
               className="w-full sm:w-auto rounded-full text-base"
@@ -53,7 +53,7 @@ const Hero = () => (
               <ArrowUpRight className="h-5! w-5!" />
             </Button>
           </Link>
-          <Link href="/team" className="w-full sm:w-auto">
+          <Link href="/team" className="w-full">
             <Button
               variant="outline"
               size="lg"

@@ -49,13 +49,6 @@ const footerSections = [
     ],
   },
   {
-    titleKey: "Footer.Legal.Title",
-    links: [
-      { titleKey: "Footer.Legal.Terms", href: "/legal/terms" },
-      { titleKey: "Footer.Legal.Privacy", href: "/legal/privacy" },
-    ],
-  },
-  {
     titleKey: "Footer.Social.Title",
     links: [
       {

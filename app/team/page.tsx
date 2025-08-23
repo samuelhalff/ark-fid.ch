@@ -10,7 +10,7 @@ const teamMembers = [
   {
     name: "Hassan Barbir",
     role: "Partner",
-    profilePic: "/public/assets/hb.jpg",
+    profilePic: "/assets/hb.jpg",
     social: {
       linkedin: "https://www.linkedin.com/in/jane-doe",
     },
@@ -18,7 +18,7 @@ const teamMembers = [
   {
     name: "Samuel Halff",
     role: "ManagingPartner",
-    profilePic: "/public/assets/sh.jpg",
+    profilePic: "/assets/sh.jpg",
     social: {
       linkedin: "https://www.linkedin.com/in/peter-jones",
     },
@@ -26,7 +26,7 @@ const teamMembers = [
   {
     name: "Rodrigue Sperisen",
     role: "Partner",
-    profilePic: "/public/assets/rs.jpg",
+    profilePic: "/assets/rs.jpg",
     social: {
       linkedin: "https://www.linkedin.com/in/john-smith",
     },
@@ -34,7 +34,7 @@ const teamMembers = [
   {
     name: "Lassana Dioum",
     role: "Partner",
-    profilePic: "/public/assets/ld.png",
+    profilePic: "/assets/ld.png",
     social: {
       linkedin: "https://www.linkedin.com/in/peter-jones",
     },
@@ -42,7 +42,7 @@ const teamMembers = [
   {
     name: "Anthony Touboul",
     role: "Tax",
-    profilePic: "/public/assets/at.jpg",
+    profilePic: "/assets/at.jpg",
     social: {
       linkedin: "https://www.linkedin.com/in/peter-jones",
     },
@@ -50,7 +50,7 @@ const teamMembers = [
   {
     name: "Celeste Leal",
     role: "OfficeProjectManager",
-    profilePic: "/public/assets/cl.png",
+    profilePic: "/assets/cl.png",
     social: {
       linkedin: "https://www.linkedin.com/in/peter-jones",
     },
@@ -58,7 +58,7 @@ const teamMembers = [
   {
     name: "Sébastien Gallié",
     role: "SeniorAccountant",
-    profilePic: "/public/assets/sg.jpg",
+    profilePic: "/assets/sg.jpg",
     social: {
       linkedin: "https://www.linkedin.com/in/peter-jones",
     },
@@ -67,7 +67,7 @@ const teamMembers = [
 
 export default function TeamPage() {
   return (
-    <div className="container mx-auto px-4 py-15">
+    <div className="container mx-auto px-4 py-15 mt-10">
       <div>
         <title>Notre équipe | Ark Fiduciaire</title>
         <meta

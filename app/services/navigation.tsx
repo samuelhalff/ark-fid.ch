@@ -48,7 +48,7 @@ const ServicesElements = [
   {
     titleKey: "ServicesElements.DomiciliationServices.Title",
     descriptionKey: "ServicesElements.DomiciliationServices.Description",
-    href: "/services/corporate#domiciliation",
+    href: "/services/domiciliation",
     icon: <Building2 className="text-primary" size={20} />,
   },
 ];

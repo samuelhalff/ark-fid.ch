@@ -1,106 +1,60 @@
 {
   "pages": {
-    "/_not-found": [
-      "static/chunks/webpack-1db7cac32c148f8d.js",
-      "static/chunks/fd9d1056-a1858ee07aa273e2.js",
-      "static/chunks/69-69cd7c4b93a2055b.js",
-      "static/chunks/main-app-cf39c3e8fac24eb7.js",
-      "static/chunks/app/_not-found-462701bbc9c83c0d.js"
-    ],
     "/layout": [
-      "static/chunks/webpack-1db7cac32c148f8d.js",
-      "static/chunks/fd9d1056-a1858ee07aa273e2.js",
-      "static/chunks/69-69cd7c4b93a2055b.js",
-      "static/chunks/main-app-cf39c3e8fac24eb7.js",
-      "static/chunks/635-8cebca9ae2edc501.js",
-      "static/chunks/550-b731e3836b7b41db.js",
-      "static/chunks/749-211ae5ef2b738c2d.js",
-      "static/chunks/485-926b2b2b91319b65.js",
-      "static/chunks/132-0e4087e084e5f0a5.js",
-      "static/css/2a37a419858f137e.css",
-      "static/chunks/app/layout-91334c11abe837b8.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
+    ],
+    "/services/accounting/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/accounting/page.js"
     ],
     "/contact/page": [
-      "static/chunks/webpack-1db7cac32c148f8d.js",
-      "static/chunks/fd9d1056-a1858ee07aa273e2.js",
-      "static/chunks/69-69cd7c4b93a2055b.js",
-      "static/chunks/main-app-cf39c3e8fac24eb7.js",
-      "static/chunks/635-8cebca9ae2edc501.js",
-      "static/chunks/550-b731e3836b7b41db.js",
-      "static/chunks/437-509053c7b74094cb.js",
-      "static/chunks/142-2adde5b0989eb32c.js",
-      "static/chunks/app/contact/page-2dd1eaf4a60e87d2.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/contact/page.js"
     ],
-    "/services/Accounting/page": [
-      "static/chunks/webpack-1db7cac32c148f8d.js",
-      "static/chunks/fd9d1056-a1858ee07aa273e2.js",
-      "static/chunks/69-69cd7c4b93a2055b.js",
-      "static/chunks/main-app-cf39c3e8fac24eb7.js",
-      "static/chunks/635-8cebca9ae2edc501.js",
-      "static/chunks/app/services/Accounting/page-2bca3cbbad94d678.js"
+    "/services/taxes/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/taxes/page.js"
+    ],
+    "/services/domiciliation/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/domiciliation/page.js"
+    ],
+    "/services/corporate/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/corporate/page.js"
+    ],
+    "/services/payroll/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/payroll/page.js"
+    ],
+    "/services/odoo/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/odoo/page.js"
+    ],
+    "/services/outsourcing/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/outsourcing/page.js"
     ],
     "/page": [
-      "static/chunks/webpack-1db7cac32c148f8d.js",
-      "static/chunks/fd9d1056-a1858ee07aa273e2.js",
-      "static/chunks/69-69cd7c4b93a2055b.js",
-      "static/chunks/main-app-cf39c3e8fac24eb7.js",
-      "static/chunks/635-8cebca9ae2edc501.js",
-      "static/chunks/550-b731e3836b7b41db.js",
-      "static/chunks/749-211ae5ef2b738c2d.js",
-      "static/chunks/437-509053c7b74094cb.js",
-      "static/chunks/485-926b2b2b91319b65.js",
-      "static/chunks/661-864de75dba035547.js",
-      "static/chunks/142-2adde5b0989eb32c.js",
-      "static/chunks/app/page-3e5da59b64cbc33b.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
     ],
-    "/services/Corporate/page": [
-      "static/chunks/webpack-1db7cac32c148f8d.js",
-      "static/chunks/fd9d1056-a1858ee07aa273e2.js",
-      "static/chunks/69-69cd7c4b93a2055b.js",
-      "static/chunks/main-app-cf39c3e8fac24eb7.js",
-      "static/chunks/635-8cebca9ae2edc501.js",
-      "static/chunks/app/services/Corporate/page-9a6434c987655f51.js"
-    ],
-    "/services/Odoo/page": [
-      "static/chunks/webpack-1db7cac32c148f8d.js",
-      "static/chunks/fd9d1056-a1858ee07aa273e2.js",
-      "static/chunks/69-69cd7c4b93a2055b.js",
-      "static/chunks/main-app-cf39c3e8fac24eb7.js",
-      "static/chunks/635-8cebca9ae2edc501.js",
-      "static/chunks/app/services/Odoo/page-bd56fd3af7ff856e.js"
-    ],
-    "/services/Outsourcing/page": [
-      "static/chunks/webpack-1db7cac32c148f8d.js",
-      "static/chunks/fd9d1056-a1858ee07aa273e2.js",
-      "static/chunks/69-69cd7c4b93a2055b.js",
-      "static/chunks/main-app-cf39c3e8fac24eb7.js",
-      "static/chunks/635-8cebca9ae2edc501.js",
-      "static/chunks/app/services/Outsourcing/page-f3161f6b89a8195b.js"
-    ],
-    "/services/Taxes/page": [
-      "static/chunks/webpack-1db7cac32c148f8d.js",
-      "static/chunks/fd9d1056-a1858ee07aa273e2.js",
-      "static/chunks/69-69cd7c4b93a2055b.js",
-      "static/chunks/main-app-cf39c3e8fac24eb7.js",
-      "static/chunks/635-8cebca9ae2edc501.js",
-      "static/chunks/app/services/Taxes/page-2593e70018663552.js"
-    ],
-    "/services/Payroll/page": [
-      "static/chunks/webpack-1db7cac32c148f8d.js",
-      "static/chunks/fd9d1056-a1858ee07aa273e2.js",
-      "static/chunks/69-69cd7c4b93a2055b.js",
-      "static/chunks/main-app-cf39c3e8fac24eb7.js",
-      "static/chunks/635-8cebca9ae2edc501.js",
-      "static/chunks/app/services/Payroll/page-ffbfb9ca2d4bfaa8.js"
-    ],
-    "/team/page": [
-      "static/chunks/webpack-1db7cac32c148f8d.js",
-      "static/chunks/fd9d1056-a1858ee07aa273e2.js",
-      "static/chunks/69-69cd7c4b93a2055b.js",
-      "static/chunks/main-app-cf39c3e8fac24eb7.js",
-      "static/chunks/635-8cebca9ae2edc501.js",
-      "static/chunks/749-211ae5ef2b738c2d.js",
-      "static/chunks/app/team/page-a481569cfe1e7170.js"
+    "/ressources/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/ressources/page.js"
     ]
   }
 }
