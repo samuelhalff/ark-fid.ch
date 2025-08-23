@@ -1,0 +1,44 @@
+{
+    "IntroTitle": "Resources for Your Business",
+    "IntroText": "Below you will find a selection of documents and articles provided by Ark Fiduciaire. These resources are offered for your convenience and are to be used at your sole responsibility. For personalized advice, please contact our team.",
+    "FilesTitle": "Downloadable Documents",
+    "ArticlesTitle": "Expert Articles",
+    "Files": [
+        {
+            "filename": "sample-contract.pdf",
+            "title": "Sample Contract",
+            "description": "A template contract for Swiss SMEs."
+        },
+        {
+            "filename": "tax-guide-2025.pdf",
+            "title": "Swiss Tax Guide 2025",
+            "description": "Comprehensive guide to Swiss corporate and personal taxes."
+        }
+    ],
+    "Articles": [
+        {
+            "slug": "swiss-company-formation",
+            "title": "How to Form a Company in Switzerland",
+            "description": "Step-by-step guide to Swiss company formation.",
+            "content": "Forming a company in Switzerland involves several key steps...",
+            "references": [
+                {
+                    "label": "Swiss Government Portal",
+                    "url": "https://www.ch.ch/en/companies/"
+                }
+            ]
+        },
+        {
+            "slug": "vat-in-switzerland",
+            "title": "Understanding VAT in Switzerland",
+            "description": "A practical overview of VAT rules for businesses.",
+            "content": "Value Added Tax (VAT) in Switzerland is...",
+            "references": [
+                {
+                    "label": "Swiss VAT Office",
+                    "url": "https://www.estv.admin.ch/estv/en/home/mehrwertsteuer.html"
+                }
+            ]
+        }
+    ]
+}

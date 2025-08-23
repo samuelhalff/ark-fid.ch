@@ -1,0 +1,43 @@
+{
+    "Hero": {
+        "Badge": "Payroll Services",
+        "Title": "Payroll & HR",
+        "Description": "Ark Fiduciaire manages your payroll and HR administration with precision and confidentiality. We ensure compliance with Swiss labor law and provide support for all your HR needs.",
+        "CTA": "Contact us",
+        "SecondaryCTA": "Our services"
+    },
+    "Presentation": {
+        "Title": "Payroll & HR: secure and efficient management",
+        "Subtitle": "Your employees, our priority",
+        "Intro": [
+            "We take care of all payroll and HR administrative tasks, from salary calculations to social insurance declarations.",
+            "Our experts ensure compliance and provide advice for optimal HR management."
+        ],
+        "List": [
+            "Payroll processing",
+            "Social insurance management",
+            "HR administration",
+            "Employment contracts",
+            "Advice and support"
+        ],
+        "StrengthsTitle": "Our strengths for your HR needs",
+        "Strengths": [
+            {
+                "Title": "Confidentiality and security",
+                "Desc": "We guarantee the confidentiality of your data and compliance with all legal requirements."
+            },
+            {
+                "Title": "Expertise in Swiss labor law",
+                "Desc": "Our specialists master the legal framework and ensure your HR management is always compliant."
+            },
+            {
+                "Title": "Personalized support",
+                "Desc": "A dedicated contact person accompanies you and your employees at every stage."
+            },
+            {
+                "Title": "Administrative efficiency",
+                "Desc": "We take care of all administrative formalities, allowing you to focus on your core business."
+            }
+        ]
+    }
+}

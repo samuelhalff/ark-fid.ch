@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowUpRight, Users } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
@@ -13,7 +15,8 @@ const TaxesHero = () => {
           <div className="gap-2 flex items-center justify-center lg:justify-start">
             <Badge className="rounded-full py-1 border-none">
               <TranslatedText
-                translationKey="Taxes.Hero.Badge"
+                ns="taxes"
+                translationKey="Hero.Badge"
                 fallbackText="Swiss Expertise"
               />
             </Badge>
@@ -22,7 +25,8 @@ const TaxesHero = () => {
               className="rounded-full py-1 border-none"
             >
               <TranslatedText
-                translationKey="Taxes.Hero.BadgeTwo"
+                ns="taxes"
+                translationKey="Hero.BadgeTwo"
                 fallbackText="Tax Specialists"
               />
             </Badge>
@@ -30,14 +34,16 @@ const TaxesHero = () => {
 
           <h1 className="mt-6 max-w-[20ch] text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight">
             <TranslatedText
-              translationKey="Taxes.Hero.Title"
+              ns="taxes"
+              translationKey="Hero.Title"
               fallbackText="Expert Tax Services in Switzerland"
             />
           </h1>
 
           <p className="mt-6 text-xl text-muted-foreground">
             <TranslatedText
-              translationKey="Taxes.Hero.Description"
+              ns="taxes"
+              translationKey="Hero.Description"
               fallbackText="Navigate Swiss tax regulations with confidence. Our experts ensure optimal tax planning and compliance."
             />
           </p>
@@ -49,7 +55,8 @@ const TaxesHero = () => {
                 className="w-full sm:w-auto rounded-full text-base"
               >
                 <TranslatedText
-                  translationKey="Taxes.Hero.PrimaryCTA"
+                  ns="taxes"
+                  translationKey="Hero.PrimaryCTA"
                   fallbackText="Get Started"
                 />
                 <ArrowUpRight className="h-5 w-5 ml-2" />
@@ -63,7 +70,8 @@ const TaxesHero = () => {
               >
                 <Users className="h-5 w-5 mr-2" />
                 <TranslatedText
-                  translationKey="Taxes.Hero.SecondaryCTA"
+                  ns="taxes"
+                  translationKey="Hero.SecondaryCTA"
                   fallbackText="Meet the Team"
                 />
               </Button>

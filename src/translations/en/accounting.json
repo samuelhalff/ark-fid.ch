@@ -1,0 +1,107 @@
+{
+    "Hero": {
+        "Badge": "Swiss Made",
+        "AI": "AI Powered",
+        "ReadMore": "Read more",
+        "Title": "Accounting",
+        "Description": "We offer accounting services along with state-of-the art technology to help you manage your finances efficiently. Our team ensures compliance with Swiss regulations while providing you with the tools to make informed decisions.",
+        "CTA": "Get in touch",
+        "SecondaryCTA": "Meet the Team"
+    },
+    "Presentation": {
+        "Title": "Holistic vision of your accounting",
+        "Subtitle": "A 360° offering",
+        "Intro": [
+            "We are dedicated to providing comprehensive and personalized solutions, designed to address every facet of your financial and accounting needs with precision and insight.",
+            "Beyond the numbers, we offer strategic advice to support your growth, navigate challenges, and seize market opportunities with discernment. We are your strategic partner committed to your business success."
+        ],
+        "List": [
+            "General accounting",
+            "Analytical accounting",
+            "Periodic tasks",
+            "Dashboards",
+            "Tailored services"
+        ],
+        "General": {
+            "Title": "General accounting",
+            "Desc": "At Ark Fiduciaire, we master all aspects of general accounting, from the general ledger to financial statements, including management accounting. Our professionals ensure that every account book is kept up to date, accurate, and compliant with industry standards and regulations.",
+            "List": [
+                "Custom chart of accounts",
+                "Accounts payable and receivable management",
+                "Payment management",
+                "Cash management"
+            ]
+        },
+        "Analytic": {
+            "Title": "Analytical accounting",
+            "Desc": "Analytical accounting is a powerful tool to understand where and how you generate profits, as well as to identify areas that require special attention. Our experts at Ark Fiduciaire will help you set up and analyze an effective analytical accounting system, enabling you to make more informed business decisions."
+        },
+        "Periodic": {
+            "Title": "Periodic tasks",
+            "Desc": "Enjoy peace of mind with our expertise in preparing periodic statements for all your obligations, including:",
+            "List": [
+                "Interim and/or annual closing",
+                "Semi-annual or quarterly VAT",
+                "Social insurance",
+                "Tax declaration",
+                "Ordinary and extraordinary general meetings",
+                "Board of directors"
+            ],
+            "Followup": "Our dedicated team supports you at every step, ensuring transparent and optimized management of your statements, so you can focus on your core business."
+        },
+        "Dashboards": {
+            "Title": "Dashboards",
+            "Desc": "Optimize the visibility and control of your finances with our innovative accounting dashboard solutions. Dashboards provide a clear and accessible summary of your financial data, enabling informed and strategic decision-making. Enjoy simplified management with intuitive dashboards tailored to your specific needs. With a user-friendly interface and precise analytics, our solutions ensure effective monitoring of your financial health."
+        },
+        "Custom": {
+            "Title": "Tailored services"
+        },
+        "CustomServicesList": [
+            {
+                "Icon": "Users",
+                "Title": "Experts",
+                "Desc": "Ark Fiduciaire relies on a team of experienced and certified accountants and tax specialists, mastering local and international regulations. This expertise ensures accurate and compliant accounts, guaranteeing reliable and harmonious management."
+            },
+            {
+                "Icon": "Clock",
+                "Title": "Time saving and efficiency",
+                "Desc": "By outsourcing accounting to Ark Fiduciaire, companies can focus on their core business. Our services save time and improve operational efficiency by taking care of complete financial management."
+            },
+            {
+                "Icon": "Settings",
+                "Title": "Custom solutions",
+                "Desc": "Ark Fiduciaire offers tailor-made accounting services, adapted to the specific needs of each client. Whether you are a small business, a large company, an NGO, or a subsidiary, we adapt our services to meet your expectations, offering flexible solutions."
+            },
+            {
+                "Icon": "Laptop",
+                "Title": "Advanced technology and real-time management",
+                "Desc": "We use the latest accounting technologies and software to ensure optimal management. These tools enable precise and fast management of financial data, as well as easy and secure real-time access to information."
+            },
+            {
+                "Icon": "MessageSquare",
+                "Title": "Consulting",
+                "Desc": "At Ark Fiduciaire, we do not limit ourselves to bookkeeping. We also offer quality accounting support. Our experts help you structure your finances, plan your taxes, and manage your cash flow, while identifying opportunities for improvement."
+            }
+        ],
+        "Experts": {
+            "Title": "Experts",
+            "Desc": "Ark Fiduciaire relies on a team of experienced and certified accountants and tax specialists, mastering local and international regulations. This expertise ensures accurate and compliant accounts, guaranteeing reliable and harmonious management."
+        },
+        "TimeEfficiency": {
+            "Title": "Time saving and efficiency",
+            "Desc": "By outsourcing accounting to Ark Fiduciaire, companies can focus on their core business. Our services save time and improve operational efficiency by taking care of complete financial management."
+        },
+        "CustomSolutions": {
+            "Title": "Custom solutions",
+            "Desc": "Ark Fiduciaire offers tailor-made accounting services, adapted to the specific needs of each client. Whether you are a small business, a large company, an NGO, or a subsidiary, we adapt our services to meet your expectations, offering flexible solutions."
+        },
+        "AdvancedTech": {
+            "Title": "Advanced technology and real-time management",
+            "Desc": "We use the latest accounting technologies and software to ensure optimal management. These tools enable precise and fast management of financial data, as well as easy and secure real-time access to information."
+        },
+        "Consulting": {
+            "Title": "Consulting",
+            "Desc": "At Ark Fiduciaire, we do not limit ourselves to bookkeeping. We also offer quality accounting support. Our experts help you structure your finances, plan your taxes, and manage your cash flow, while identifying opportunities for improvement."
+        }
+    }
+}

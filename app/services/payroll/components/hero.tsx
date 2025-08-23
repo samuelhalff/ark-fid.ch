@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowUpRight, Users } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
@@ -13,7 +15,8 @@ const PayrollHero = () => {
           <div className="gap-2 flex items-center justify-center lg:justify-start">
             <Badge className="rounded-full py-1 border-none">
               <TranslatedText
-                translationKey="Payroll.Hero.Badge"
+                ns={"payroll"}
+                translationKey="Hero.Badge"
                 fallbackText="Swiss Quality"
               />
             </Badge>
@@ -22,7 +25,8 @@ const PayrollHero = () => {
               className="rounded-full py-1 border-none"
             >
               <TranslatedText
-                translationKey="Payroll.Hero.BadgeTwo"
+                ns={"payroll"}
+                translationKey="Hero.BadgeTwo"
                 fallbackText="HR Specialists"
               />
             </Badge>
@@ -30,14 +34,16 @@ const PayrollHero = () => {
 
           <h1 className="mt-6 max-w-[20ch] text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight">
             <TranslatedText
-              translationKey="Payroll.Hero.Title"
+              ns={"payroll"}
+              translationKey="Hero.Title"
               fallbackText="Swiss Payroll Services Made Simple"
             />
           </h1>
 
           <p className="mt-6 text-xl text-muted-foreground">
             <TranslatedText
-              translationKey="Payroll.Hero.Description"
+              ns={"payroll"}
+              translationKey="Hero.Description"
               fallbackText="Streamline your payroll processes with our expert solutions. From salary calculations to social insurance compliance."
             />
           </p>
@@ -49,7 +55,8 @@ const PayrollHero = () => {
                 className="w-full sm:w-auto rounded-full text-base"
               >
                 <TranslatedText
-                  translationKey="Payroll.Hero.PrimaryCTA"
+                  ns={"payroll"}
+                  translationKey="Hero.PrimaryCTA"
                   fallbackText="Get Started"
                 />
                 <ArrowUpRight className="h-5 w-5 ml-2" />
@@ -63,7 +70,8 @@ const PayrollHero = () => {
               >
                 <Users className="h-5 w-5 mr-2" />
                 <TranslatedText
-                  translationKey="Payroll.Hero.SecondaryCTA"
+                  ns={"payroll"}
+                  translationKey="Hero.SecondaryCTA"
                   fallbackText="Meet the Team"
                 />
               </Button>

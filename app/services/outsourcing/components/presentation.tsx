@@ -18,8 +18,8 @@ import { StylishList } from "@/src/components/ui/stylish-list";
 const iconMap = [Users, Clock, Settings, Laptop, MessageSquare];
 
 const OutsourcingPresentation = () => {
-  const { t } = useTranslation();
-  const listItemsRaw = t("Outsourcing.Presentation.Strengths", {
+  const { t } = useTranslation("outsourcing");
+  const listItemsRaw = t("Presentation.Strengths", {
     returnObjects: true,
   }) as Array<{ Title: string; Desc: string }>;
   const listItems = listItemsRaw.map((item, idx) => ({
@@ -36,7 +36,7 @@ const OutsourcingPresentation = () => {
       <div className="w-full max-w-[1200px] px-4 sm:px-6">
         <div className="space-y-6 sm:space-y-8 mb-12 sm:mb-16">
           <TranslatedTextArray
-            translationKey="Outsourcing.Presentation.Intro"
+            translationKey="Presentation.Intro"
             fallbackText={[
               "We understand that managing back-office operations can be time-consuming and resource-intensive. Our comprehensive outsourcing solutions are designed to streamline your business processes and improve operational efficiency.",
               "By leveraging our expertise and Swiss precision, we help you focus on your core business while ensuring your administrative tasks are handled with utmost professionalism and attention to detail.",
@@ -45,7 +45,7 @@ const OutsourcingPresentation = () => {
         </div>
         <StylishList
           items={
-            t("Outsourcing.Presentation.List", {
+            t("Presentation.List", {
               returnObjects: true,
             }) as string[]
           }
@@ -58,7 +58,8 @@ const OutsourcingPresentation = () => {
           <section>
             <h3 className="text-2xl font-semibold mb-6">
               <TranslatedText
-                translationKey="Outsourcing.Presentation.StrengthsTitle"
+                ns="outsourcing"
+                translationKey="Presentation.StrengthsTitle"
                 fallbackText="Our strengths for your outsourcing"
               />
             </h3>

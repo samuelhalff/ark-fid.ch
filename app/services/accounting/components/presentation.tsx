@@ -20,8 +20,8 @@ import { convertRawToList } from "@/lib/utils";
 const iconMap = [Users, Clock, ShieldCheck, Rocket, MessageSquare];
 
 const AccountingPresentation = () => {
-  const { t } = useTranslation();
-  const listItemsRaw = t("Accounting.Presentation.CustomServicesList", {
+  const { t } = useTranslation("accounting");
+  const listItemsRaw = t("Presentation.CustomServicesList", {
     returnObjects: true,
   }) as Array<{ titleKey: string; descKey: string }>;
 
@@ -32,7 +32,8 @@ const AccountingPresentation = () => {
     >
       <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
         <TranslatedText
-          translationKey="Accounting.Presentation.Title"
+          ns="accounting"
+          translationKey="Presentation.Title"
           fallbackText="Holistic Vision of Your Accounting"
         />
       </h1>
@@ -40,14 +41,16 @@ const AccountingPresentation = () => {
       <div className="text-left w-full">
         <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
           <TranslatedText
-            translationKey="Accounting.Presentation.Subtitle"
+            ns="accounting"
+            translationKey="Presentation.Subtitle"
             fallbackText="A 360° Offer"
           />
         </h2>
 
         <div className="space-y-6 mb-12">
           <TranslatedTextArray
-            translationKey="Accounting.Presentation.Intro"
+            ns="accounting"
+            translationKey="Presentation.Intro"
             fallbackText={[
               "We are dedicated to providing comprehensive and personalized solutions, designed to address every facet of your financial and accounting needs with precision and insight.",
               "Beyond the numbers, we offer strategic advice aimed at supporting your growth, navigating challenges, and leveraging market opportunities with discernment. We are the strategic partner committed to your company's success.",
@@ -59,19 +62,21 @@ const AccountingPresentation = () => {
           <section>
             <h3 className="text-2xl font-semibold mb-6">
               <TranslatedText
-                translationKey="Accounting.Presentation.General.Title"
+                ns="accounting"
+                translationKey="Presentation.General.Title"
                 fallbackText="General Accounting"
               />
             </h3>
             <p className="mb-8 text-lg text-muted-foreground">
               <TranslatedText
-                translationKey="Accounting.Presentation.General.Desc"
-                fallbackText="At Ark Fiduciaire, we master all aspects of general accounting, from the general ledger to financial statements and management accounting. Our professionals ensure that each book of accounts is up-to-date, accurate, and compliant with industry standards and current regulations."
+                ns="accounting"
+                translationKey="Presentation.General.Desc"
+                fallbackText="At Ark Fiduciaire, we master all aspects of general accounting, from the general ledger to financial statements and management  Our professionals ensure that each book of accounts is up-to-date, accurate, and compliant with industry standards and current regulations."
               />
             </p>
             <StylishList
               items={
-                (t("Accounting.Presentation.General.List", {
+                (t("Presentation.General.List", {
                   returnObjects: true,
                 }) as string[]) || []
               }
@@ -85,13 +90,15 @@ const AccountingPresentation = () => {
           <section>
             <h3 className="text-2xl font-semibold mb-6">
               <TranslatedText
-                translationKey="Accounting.Presentation.Analytic.Title"
+                ns="accounting"
+                translationKey="Presentation.Analytic.Title"
                 fallbackText="Analytical Accounting"
               />
             </h3>
             <p className="mb-8 text-lg text-muted-foreground">
               <TranslatedText
-                translationKey="Accounting.Presentation.Analytic.Desc"
+                ns="accounting"
+                translationKey="Presentation.Analytic.Desc"
                 fallbackText="Analytical accounting is a powerful tool for understanding where and how you generate profits, as well as identifying areas that need attention. Our experts at Ark Fiduciaire will help you set up and analyze an effective analytical accounting system that will enable you to make more informed business decisions."
               />
             </p>
@@ -100,19 +107,21 @@ const AccountingPresentation = () => {
           <section>
             <h3 className="text-2xl font-semibold mb-6">
               <TranslatedText
-                translationKey="Accounting.Presentation.Periodic.Title"
+                ns="accounting"
+                translationKey="Presentation.Periodic.Title"
                 fallbackText="Periodic Tasks"
               />
             </h3>
             <p className="mb-8 text-lg text-muted-foreground">
               <TranslatedText
-                translationKey="Accounting.Presentation.Periodic.Desc"
+                ns="accounting"
+                translationKey="Presentation.Periodic.Desc"
                 fallbackText="Experience peace of mind through our expertise in establishing periodic statements for all your obligations, including:"
               />
             </p>
             <StylishList
               items={
-                (t("Accounting.Presentation.Periodic.List", {
+                (t("Presentation.Periodic.List", {
                   returnObjects: true,
                 }) as string[]) || []
               }
@@ -126,20 +135,22 @@ const AccountingPresentation = () => {
           <section>
             <h3 className="text-2xl font-semibold mb-6">
               <TranslatedText
-                translationKey="Accounting.Presentation.Dashboards.Title"
+                ns="accounting"
+                translationKey="Presentation.Dashboards.Title"
                 fallbackText="Dashboards"
               />
             </h3>
             <p className="mb-8 text-lg text-muted-foreground">
               <TranslatedText
-                translationKey="Accounting.Presentation.Dashboards.Desc"
+                ns="accounting"
+                translationKey="Presentation.Dashboards.Desc"
                 fallbackText="Optimize the visibility and control of your finances with our innovative accounting dashboard solutions. The dashboards provide a clear and accessible summary of your financial data, enabling informed and strategic decision-making. Enjoy simplified management through intuitive dashboards tailored to your specific needs. With a user-friendly interface and precise analytics, our solutions ensure effective monitoring of your financial health."
               />
             </p>
           </section>
           <StylishList
             items={
-              t("Accounting.Presentation.List", {
+              t("Presentation.List", {
                 returnObjects: true,
               }) as string[]
             }
@@ -151,7 +162,8 @@ const AccountingPresentation = () => {
           <section>
             <h3 className="text-2xl font-semibold mb-6">
               <TranslatedText
-                translationKey="Accounting.Presentation.Custom.Title"
+                ns="accounting"
+                translationKey="Presentation.Custom.Title"
                 fallbackText="Custom Services"
               />
             </h3>
@@ -165,6 +177,7 @@ const AccountingPresentation = () => {
                   <div>
                     <span className="font-semibold text-lg">
                       <TranslatedText
+                        ns="accounting"
                         translationKey={item.Title}
                         fallbackText={"Feature title"}
                       />
@@ -172,6 +185,7 @@ const AccountingPresentation = () => {
                     <span className="ml-1 text-lg text-muted-foreground">
                       :{" "}
                       <TranslatedText
+                        ns="accounting"
                         translationKey={item.Desc}
                         fallbackText={"Feature description"}
                       />

@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowUpRight, Users } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
@@ -13,7 +15,8 @@ const OdooHero = () => {
           <div className="gap-2 flex items-center justify-center lg:justify-start">
             <Badge className="rounded-full py-1 border-none">
               <TranslatedText
-                translationKey="Odoo.Hero.Badge"
+                ns="odoo"
+                translationKey="Hero.Badge"
                 fallbackText="Official Partner"
               />
             </Badge>
@@ -22,7 +25,8 @@ const OdooHero = () => {
               className="rounded-full py-1 border-none"
             >
               <TranslatedText
-                translationKey="Odoo.Hero.BadgeTwo"
+                ns="odoo"
+                translationKey="Hero.BadgeTwo"
                 fallbackText="ERP Experts"
               />
             </Badge>
@@ -30,14 +34,16 @@ const OdooHero = () => {
 
           <h1 className="mt-6 max-w-[20ch] text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight">
             <TranslatedText
-              translationKey="Odoo.Hero.Title"
+              ns="odoo"
+              translationKey="Hero.Title"
               fallbackText="Empower Your Business with Odoo"
             />
           </h1>
 
           <p className="mt-6 text-xl text-muted-foreground">
             <TranslatedText
-              translationKey="Odoo.Hero.Description"
+              ns="odoo"
+              translationKey="Hero.Description"
               fallbackText="Transform your business operations with Odoo's integrated suite of business applications. Official Odoo Partner expertise at your service."
             />
           </p>
@@ -49,7 +55,8 @@ const OdooHero = () => {
                 className="w-full sm:w-auto rounded-full text-base"
               >
                 <TranslatedText
-                  translationKey="Odoo.Hero.PrimaryCTA"
+                  ns="odoo"
+                  translationKey="Hero.PrimaryCTA"
                   fallbackText="Get Started"
                 />
                 <ArrowUpRight className="h-5 w-5 ml-2" />
@@ -63,7 +70,8 @@ const OdooHero = () => {
               >
                 <Users className="h-5 w-5 mr-2" />
                 <TranslatedText
-                  translationKey="Odoo.Hero.SecondaryCTA"
+                  ns="odoo"
+                  translationKey="Hero.SecondaryCTA"
                   fallbackText="Meet the Team"
                 />
               </Button>

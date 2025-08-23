@@ -40,16 +40,16 @@ const defaultValues = {
 // 2. Create a function that builds the schema, accepting the `t` function
 const createFormSchema = (t: (key: string) => string) =>
   z.object({
-    firstName: z.string().min(1, { message: t("Contact.Errors.Required") }),
-    email: z.string().email({ message: t("Contact.Errors.InvalidEmail") }),
+    firstName: z.string().min(1, { message: t("Errors.Required") }),
+    email: z.string().email({ message: t("Errors.InvalidEmail") }),
     companyName: z.string().optional(),
     phone: z.string().optional(),
     message: z
       .string()
-      .min(1, { message: t("Contact.Errors.Required") })
-      .max(500, { message: t("Contact.Errors.MaxLength") }),
+      .min(1, { message: t("Errors.Required") })
+      .max(500, { message: t("Errors.MaxLength") }),
     consent: z.boolean().refine((val) => val === true, {
-      message: t("Contact.Errors.Consent"),
+      message: t("Errors.Consent"),
     }),
   });
 
@@ -84,7 +84,7 @@ const ContactForm: FC = () => {
       body: JSON.stringify(data),
     });
     // The `t` function is safe to use here as it's a client-side event handler
-    toast.success(t("Contact.Form.Success"), {
+    toast.success(t("Form.Success"), {
       action: { label: "Close", onClick: () => toast.dismiss },
       duration: 5000,
       onAutoClose: goHome,
@@ -95,9 +95,10 @@ const ContactForm: FC = () => {
   return (
     <div className="p-15 xs:p-10 md:p-16 w-full max-w-5xl mx-auto">
       {/* 4. REMOVED: The <title> tag. This must be handled by the page's metadata export. */}
-      <h1 className="mb-3 text-center xs:mb-14 text-2xl/7 font-bold sm:text-3xl sm:tracking-tight mt-8 animate-in fade-in duration-700">
+      <h1 className="mb-3 text-center xs:mb-14 text-2xl/7 font-bold sm:text-3xl sm:tracking-tight mt-10 animate-in fade-in duration-700">
         <TranslatedText
-          translationKey="Home.Contact.Title"
+          ns="contact"
+          translationKey="Title"
           fallbackText="Get in Touch"
         />
       </h1>
@@ -120,7 +121,8 @@ const ContactForm: FC = () => {
                       <FormItem className="flex-auto">
                         <FormLabel className="form-label">
                           <TranslatedText
-                            translationKey="Contact.Form.FirstName"
+                            ns="contact"
+                            translationKey="Form.FirstName"
                             fallbackText="First Name"
                           />
                           <span className="text-green-600">*</span>
@@ -140,7 +142,8 @@ const ContactForm: FC = () => {
                     <FormItem>
                       <FormLabel className="form-label">
                         <TranslatedText
-                          translationKey="Contact.Form.CompanyName"
+                          ns="contact"
+                          translationKey="Form.CompanyName"
                           fallbackText="Company Name (Optional)"
                         />
                       </FormLabel>
@@ -158,7 +161,8 @@ const ContactForm: FC = () => {
                     <FormItem>
                       <FormLabel className="form-label">
                         <TranslatedText
-                          translationKey="Contact.Form.Phone"
+                          ns="contact"
+                          translationKey="Form.Phone"
                           fallbackText="Phone Number (Optional)"
                         />
                       </FormLabel>
@@ -176,7 +180,8 @@ const ContactForm: FC = () => {
                     <FormItem>
                       <FormLabel className="form-label">
                         <TranslatedText
-                          translationKey="Contact.Form.Email"
+                          ns="contact"
+                          translationKey="Form.Email"
                           fallbackText="Email"
                         />
                         <span className="text-green-600">*</span>
@@ -195,7 +200,8 @@ const ContactForm: FC = () => {
                     <FormItem>
                       <FormLabel className="form-label">
                         <TranslatedText
-                          translationKey="Contact.Form.Message"
+                          ns="contact"
+                          translationKey="Form.Message"
                           fallbackText="Message"
                         />
                         <span className="text-green-600">*</span>
@@ -225,7 +231,8 @@ const ContactForm: FC = () => {
                         </FormControl>
                         <FormLabel className="mt-0! hover:cursor-pointer">
                           <TranslatedText
-                            translationKey="form.labels.consent"
+                            ns="contact"
+                            translationKey="Form.Consent"
                             fallbackText="I consent to being contacted"
                           />
                           <span className="text-green-600">*</span>
@@ -242,7 +249,8 @@ const ContactForm: FC = () => {
                   style={{ cursor: "pointer" }}
                 >
                   <TranslatedText
-                    translationKey="form.buttons.submit"
+                    ns="contact"
+                    translationKey="Form.Submit"
                     fallbackText="Submit"
                   />
                 </Button>

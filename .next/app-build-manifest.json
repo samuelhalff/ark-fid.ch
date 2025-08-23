@@ -1,15 +1,45 @@
 {
   "pages": {
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
     "/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/team/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/team/page.js"
+    ],
+    "/ressources/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/ressources/page.js"
+    ],
     "/services/accounting/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/services/accounting/page.js"
+    ],
+    "/services/corporate/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/corporate/page.js"
+    ],
+    "/services/outsourcing/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/outsourcing/page.js"
+    ],
+    "/services/odoo/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/services/odoo/page.js"
     ],
     "/contact/page": [
       "static/chunks/webpack.js",
@@ -21,40 +51,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/services/taxes/page.js"
     ],
-    "/services/domiciliation/page": [
+    "/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/services/domiciliation/page.js"
-    ],
-    "/services/corporate/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/services/corporate/page.js"
-    ],
-    "/services/payroll/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/services/payroll/page.js"
-    ],
-    "/services/odoo/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/services/odoo/page.js"
-    ],
-    "/services/outsourcing/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/services/outsourcing/page.js"
-    ],
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
-    ],
-    "/ressources/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/ressources/page.js"
+      "static/chunks/app/not-found.js"
     ]
   }
 }

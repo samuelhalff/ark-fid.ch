@@ -1,0 +1,57 @@
+{
+    "Hero": {
+        "Badge": "Tax Services",
+        "BadgeTwo": "AI Assisted",
+        "Title": "Taxation",
+        "Description": "Ark Fiduciaire offers expert tax services for individuals and companies. We optimize your tax situation, ensure compliance, and provide strategic advice for all your tax obligations in Switzerland.",
+        "CTA": "Contact us",
+        "SecondaryCTA": "Our services"
+    },
+    "Presentation": {
+        "Title": "Taxation: optimize and secure your situation",
+        "Subtitle": "Expertise and compliance",
+        "Intro": [
+            "Our tax specialists support you in all your tax obligations, from declarations to strategic planning.",
+            "We ensure compliance with Swiss tax law and help you optimize your tax situation."
+        ],
+        "ExpertiseTitle": "Our Tax Expertise",
+        "List": [
+            "Tax returns for individuals and companies",
+            "Tax planning and optimization",
+            "VAT and indirect taxes",
+            "Tax representation",
+            "Tax rulings and negotiations"
+        ],
+        "ReinventedTitle": "Streamlined Tax Process",
+        "Reinvented": [
+            "We've revolutionized tax compliance with modern digital tools and expert guidance.",
+            "Our streamlined approach ensures accuracy while saving you time and reducing complexity."
+        ],
+        "StrengthsTitle": "Our strengths for your tax needs",
+        "Strengths": [
+            {
+                "Title": "Comprehensive expertise",
+                "Desc": "Our team covers all areas of Swiss taxation, ensuring complete and reliable support."
+            },
+            {
+                "Title": "Personalized advice",
+                "Desc": "We analyze your situation to offer tailored solutions and optimize your tax burden."
+            },
+            {
+                "Title": "Compliance and security",
+                "Desc": "We guarantee compliance with all legal obligations and secure your tax situation."
+            },
+            {
+                "Title": "Representation and negotiation",
+                "Desc": "We represent you with tax authorities and negotiate on your behalf when necessary."
+            }
+        ],
+        "ServicesTitle": "Our Tax Services",
+        "Services": [
+            "Tax Returns: Complete preparation and filing of individual and corporate tax returns",
+            "Tax Planning: Strategic planning to optimize your tax burden and ensure compliance",
+            "VAT Management: Comprehensive VAT registration, filing, and compliance services",
+            "Tax Representation: Professional representation with tax authorities and negotiations"
+        ]
+    }
+}

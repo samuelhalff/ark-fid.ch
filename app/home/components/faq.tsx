@@ -11,18 +11,18 @@ import { PlusIcon } from "lucide-react";
 import TranslatedText from "@/src/components/ui/translated-text";
 
 const faq = [
-  { questionKey: "FAQ.Question1", answerKey: "FAQ.Answer1" },
-  { questionKey: "FAQ.Question2", answerKey: "FAQ.Answer2" },
-  { questionKey: "FAQ.Question3", answerKey: "FAQ.Answer3" },
-  { questionKey: "FAQ.Question4", answerKey: "FAQ.Answer4" },
-  { questionKey: "FAQ.Question5", answerKey: "FAQ.Answer5" },
-  { questionKey: "FAQ.Question6", answerKey: "FAQ.Answer6" },
-  { questionKey: "FAQ.Question7", answerKey: "FAQ.Answer7" },
-  { questionKey: "FAQ.Question8", answerKey: "FAQ.Answer8" },
-  { questionKey: "FAQ.Question9", answerKey: "FAQ.Answer9" },
-  { questionKey: "FAQ.Question10", answerKey: "FAQ.Answer10" },
-  { questionKey: "FAQ.Question11", answerKey: "FAQ.Answer11" },
-  { questionKey: "FAQ.Question12", answerKey: "FAQ.Answer12" },
+  { questionKey: "Question1", answerKey: "Answer1" },
+  { questionKey: "Question2", answerKey: "Answer2" },
+  { questionKey: "Question3", answerKey: "Answer3" },
+  { questionKey: "Question4", answerKey: "Answer4" },
+  { questionKey: "Question5", answerKey: "Answer5" },
+  { questionKey: "Question6", answerKey: "Answer6" },
+  { questionKey: "Question7", answerKey: "Answer7" },
+  { questionKey: "Question8", answerKey: "Answer8" },
+  { questionKey: "Question9", answerKey: "Answer9" },
+  { questionKey: "Question10", answerKey: "Answer10" },
+  { questionKey: "Question11", answerKey: "Answer11" },
+  { questionKey: "Question12", answerKey: "Answer12" },
 ];
 
 const FAQ = () => {
@@ -32,11 +32,12 @@ const FAQ = () => {
       className="w-full max-w-(--breakpoint-xl) mx-auto py-8 xs:py-16 px-6 mb-10"
     >
       <h2 className="md:text-center text-3xl xs:text-4xl md:text-5xl leading-[1.15]! font-bold tracking-tighter">
-        <TranslatedText translationKey="Home.FAQ.Title" fallbackText="FAQ" />
+        <TranslatedText ns="faq" translationKey="Title" fallbackText="FAQ" />
       </h2>
       <p className="mt-1.5 md:text-center xs:text-lg text-muted-foreground">
         <TranslatedText
-          translationKey="Home.FAQ.Subtitle"
+          ns="faq"
+          translationKey="Subtitle"
           fallbackText="Subtitle"
         />
       </p>
@@ -61,16 +62,18 @@ const FAQ = () => {
                   )}
                 >
                   <TranslatedText
+                    ns="faq"
                     translationKey={questionKey}
-                    fallbackText={questionKey.replace("FAQ.", "")}
+                    fallbackText={questionKey.replace("", "")}
                   />
                   <PlusIcon className="h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-200" />
                 </AccordionPrimitive.Trigger>
               </AccordionPrimitive.Header>
               <AccordionContent className="text-[15px] text-left text-muted-foreground">
                 <TranslatedText
+                  ns="faq"
                   translationKey={answerKey}
-                  fallbackText={answerKey.replace("FAQ.", "")}
+                  fallbackText={answerKey.replace("", "")}
                 />
               </AccordionContent>
             </AccordionItem>

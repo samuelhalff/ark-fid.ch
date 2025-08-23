@@ -11,30 +11,21 @@ import { cn } from "@/src/lib/utils";
 import { StarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import TranslatedText from "@/src/components/ui/translated-text";
-
-const testimonials = [
-  {
-    nameKey: "Testimonials.1.Name",
-    designationKey: "Testimonials.1.Designation",
-    testimonialKey: "Testimonials.1.Text",
-  },
-  {
-    nameKey: "Testimonials.2.Name",
-    designationKey: "Testimonials.2.Designation",
-    testimonialKey: "Testimonials.2.Text",
-  },
-  {
-    nameKey: "Testimonials.3.Name",
-    designationKey: "Testimonials.3.Designation",
-    testimonialKey: "Testimonials.3.Text",
-  },
-  // Add more testimonial objects as needed
-];
+import { useTranslation } from "react-i18next";
 
 const Testimonial = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
+  const { t } = useTranslation("testimonials");
+
+  // Get testimonials from the translation
+  const testimonials = t("List", { returnObjects: true }) as Array<{
+    name: string;
+    designation: string;
+    company: string;
+    testimonial: string;
+  }>;
 
   useEffect(() => {
     if (!api) {
@@ -56,7 +47,8 @@ const Testimonial = () => {
     >
       <h2 className="mb-8 xs:mb-14 text-4xl md:text-5xl font-bold text-center tracking-tight">
         <TranslatedText
-          translationKey="Home.Testimonials.SectionTitle"
+          ns="testimonials"
+          translationKey="SectionTitle"
           fallbackText="Testimonials"
         />
       </h2>
@@ -111,25 +103,12 @@ const TestimonialCard = ({ testimonial }: { testimonial: any }) => (
           <div className="hidden sm:flex md:hidden items-center gap-4">
             <Avatar className="w-8 h-8 md:w-10 md:h-10">
               <AvatarFallback className="text-xl font-medium bg-primary text-primary-foreground">
-                <TranslatedText
-                  translationKey={testimonial.nameKey}
-                  fallbackText="A"
-                />
+                {testimonial.name?.charAt(0) || "A"}
               </AvatarFallback>
             </Avatar>
             <div className="text-left">
-              <p className="text-lg font-semibold">
-                <TranslatedText
-                  translationKey={testimonial.nameKey}
-                  fallbackText="Name"
-                />
-              </p>
-              <p className="text-sm text-gray-500">
-                <TranslatedText
-                  translationKey={testimonial.designationKey}
-                  fallbackText="Designation"
-                />
-              </p>
+              <p className="text-lg font-semibold">{testimonial.name}</p>
+              <p className="text-sm text-gray-500">{testimonial.designation}</p>
             </div>
           </div>
           <div className="flex items-center gap-1">
@@ -141,35 +120,17 @@ const TestimonialCard = ({ testimonial }: { testimonial: any }) => (
           </div>
         </div>
         <p className="mt-6 text-lg text-left sm:text-2xl lg:text-[1.75rem] xl:text-3xl leading-normal lg:leading-normal! font-semibold tracking-tight">
-          &quot;
-          <TranslatedText
-            translationKey={testimonial.testimonialKey}
-            fallbackText="Testimonial text"
-          />
-          &quot;
+          &quot;{testimonial.testimonial}&quot;
         </p>
         <div className="flex sm:hidden md:flex mt-6 items-center gap-4">
           <Avatar>
             <AvatarFallback className="text-xl font-medium bg-primary text-primary-foreground">
-              <TranslatedText
-                translationKey={testimonial.nameKey}
-                fallbackText="A"
-              />
+              {testimonial.name?.charAt(0) || "A"}
             </AvatarFallback>
           </Avatar>
           <div className="text-left">
-            <p className="text-lg font-semibold">
-              <TranslatedText
-                translationKey={testimonial.nameKey}
-                fallbackText="Name"
-              />
-            </p>
-            <p className="text-sm text-gray-500">
-              <TranslatedText
-                translationKey={testimonial.designationKey}
-                fallbackText="Designation"
-              />
-            </p>
+            <p className="text-lg font-semibold">{testimonial.name}</p>
+            <p className="text-sm text-gray-500">{testimonial.designation}</p>
           </div>
         </div>
       </div>

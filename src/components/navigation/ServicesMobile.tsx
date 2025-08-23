@@ -16,8 +16,9 @@ export default function ServicesMobile() {
           >
             <span>
               <TranslatedText
+                ns="servicesItems"
                 translationKey={service.titleKey}
-                fallbackText={service.titleKey.replace("NavBar.", "")}
+                fallbackText={service.titleKey}
               />
             </span>
           </a>

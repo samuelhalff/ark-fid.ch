@@ -12,60 +12,67 @@ import TranslatedText from "@/src/components/ui/translated-text";
 // Replace '#' with real or placeholder URLs for SEO. Update as needed.
 const footerSections = [
   {
-    titleKey: "Footer.Services.Title",
+    titleKey: "Services.Title",
     links: [
       {
-        titleKey: "ServicesElements.Accounting.Title",
-        href: "/services/Accounting",
+        titleKey: "Accounting.Title",
+        href: "/services/accounting",
+        ns: "servicesItems",
       },
       {
-        titleKey: "ServicesElements.TaxesCompanyPersonal.Title",
-        href: "/services/Taxes",
+        titleKey: "TaxesCompanyPersonal.Title",
+        href: "/services/taxes",
+        ns: "servicesItems",
       },
       {
-        titleKey: "ServicesElements.PayrollHR.Title",
-        href: "/services/Payroll",
+        titleKey: "PayrollHR.Title",
+        href: "/services/payroll",
+        ns: "servicesItems",
       },
       {
-        titleKey: "ServicesElements.OutsourcingServices.Title",
-        href: "/services/Outsourcing",
+        titleKey: "OutsourcingServices.Title",
+        href: "/services/outsourcing",
+        ns: "servicesItems",
       },
       {
-        titleKey: "ServicesElements.CorporateServices.Title",
-        href: "/services/Corporate",
+        titleKey: "CorporateServices.Title",
+        href: "/services/corporate",
+        ns: "servicesItems",
       },
       {
-        titleKey: "ServicesElements.OdooImplementation.Title",
-        href: "/services/Odoo",
+        titleKey: "OdooImplementation.Title",
+        href: "/services/odoo",
+        ns: "servicesItems",
       },
     ],
   },
   {
-    titleKey: "Footer.Company.Title",
+    titleKey: "Company.Title",
     links: [
-      { titleKey: "NavBar.About", href: "/about" },
-      { titleKey: "NavBar.Team", href: "/team" },
-      { titleKey: "NavBar.Contact", href: "/contact" },
+      { titleKey: "About", href: "/about", ns: "navbar" },
+      { titleKey: "Team", href: "/team", ns: "navbar" },
+      { titleKey: "Contact", href: "/contact", ns: "navbar" },
     ],
   },
   {
-    titleKey: "Footer.Social.Title",
+    titleKey: "Social.Title",
     links: [
       {
-        titleKey: "Footer.Social.LinkedIn",
+        titleKey: "Social.LinkedIn",
         href: "https://www.linkedin.com/company/arkfiduciaire/",
+        ns: "footer",
       },
     ],
   },
   {
-    titleKey: "Footer.Legal.Title",
+    titleKey: "Legal.Title",
     links: [
-      { titleKey: "Footer.Legal.Terms", href: "/terms" },
-      { titleKey: "Footer.Legal.Privacy", href: "/privacy" },
-      { titleKey: "Footer.Legal.Cookies", href: "/cookies" },
-      { titleKey: "Footer.Legal.Licenses", href: "/licenses" },
-      { titleKey: "Footer.Legal.Settings", href: "/settings" },
-      { titleKey: "Footer.Legal.Contact", href: "/contact" },
+      { titleKey: "Legal.Terms", href: "/terms", ns: "footer" },
+      { titleKey: "Legal.Privacy", href: "/privacy", ns: "footer" },
+      { titleKey: "Legal.Cookies", href: "/cookies", ns: "footer" },
+      { titleKey: "Legal.Licenses", href: "/licenses", ns: "footer" },
+      { titleKey: "Legal.Settings", href: "/settings", ns: "footer" },
+      { titleKey: "Legal.Contact", href: "/contact", ns: "footer" },
     ],
   },
 ];
@@ -106,12 +113,13 @@ const Footer = () => {
           >
             <h6 className="font-semibold text-foreground">
               <TranslatedText
+                ns="footer"
                 translationKey={titleKey}
                 fallbackText={titleKey}
               />
             </h6>
             <ul className="mt-6 space-y-4">
-              {links.map(({ titleKey, href }) => (
+              {links.map(({ titleKey, href, ns }) => (
                 <li key={titleKey}>
                   {href.startsWith("http") ? (
                     <a
@@ -121,6 +129,7 @@ const Footer = () => {
                       rel="noopener noreferrer"
                     >
                       <TranslatedText
+                        ns={ns || "footer"}
                         translationKey={titleKey}
                         fallbackText={titleKey}
                       />
@@ -131,6 +140,7 @@ const Footer = () => {
                       className="text-muted-foreground hover:text-foreground"
                     >
                       <TranslatedText
+                        ns={ns || "footer"}
                         translationKey={titleKey}
                         fallbackText={titleKey}
                       />
@@ -152,7 +162,8 @@ const Footer = () => {
           </a>
           .{" "}
           <TranslatedText
-            translationKey={"Footer.Copyright"}
+            ns="footer"
+            translationKey={"Copyright"}
             fallbackText={"All rights reserved"}
           />
           .
