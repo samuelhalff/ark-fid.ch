@@ -51,6 +51,7 @@ const footerSections = [
     links: [
       { titleKey: "About", href: "/about", ns: "navbar" },
       { titleKey: "Team", href: "/team", ns: "navbar" },
+      { titleKey: "Our partners", href: "/partners", ns: "navbar" },
       { titleKey: "Contact", href: "/contact", ns: "navbar" },
     ],
   },
@@ -59,7 +60,7 @@ const footerSections = [
     links: [
       {
         titleKey: "Social.LinkedIn",
-        href: "https://www.linkedin.com/company/arkfiduciaire/",
+        href: "https://www.linkedin.com/company/ark-fiduciaire/",
         ns: "footer",
       },
     ],
@@ -67,12 +68,9 @@ const footerSections = [
   {
     titleKey: "Legal.Title",
     links: [
-      { titleKey: "Legal.Terms", href: "/terms", ns: "footer" },
-      { titleKey: "Legal.Privacy", href: "/privacy", ns: "footer" },
-      { titleKey: "Legal.Cookies", href: "/cookies", ns: "footer" },
-      { titleKey: "Legal.Licenses", href: "/licenses", ns: "footer" },
-      { titleKey: "Legal.Settings", href: "/settings", ns: "footer" },
-      { titleKey: "Legal.Contact", href: "/contact", ns: "footer" },
+      { titleKey: "Legal.Terms", href: "/legal/terms", ns: "footer" },
+      { titleKey: "Legal.Privacy", href: "/legal/privacy", ns: "footer" },
+      { titleKey: "Legal.Cookies", href: "/legal/cookies", ns: "footer" },
     ],
   },
 ];
@@ -83,7 +81,7 @@ const Footer = () => {
       className="mt-12 xs:mt-20 bg-background border-t"
       role="contentinfo"
     >
-      <div className="max-w-(--breakpoint-xl) mx-auto py-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-x-8 gap-y-10 px-6">
+      <div className="max-w-[var(--breakpoint-xl)] mx-auto py-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-x-8 gap-y-10 px-6">
         <Link href={"/"} aria-label="Ark Fiduciaire homepage">
           <span>
             <Image
@@ -153,56 +151,22 @@ const Footer = () => {
         ))}
       </div>
       <Separator />
-      <div className="max-w-(--breakpoint-xl) mx-auto py-8 flex flex-col-reverse sm:flex-row items-center justify-between gap-x-2 gap-y-5 px-6">
+      <div className="max-w-[var(--breakpoint-xl)] mx-auto py-8 flex flex-col-reverse sm:flex-row items-center justify-between gap-x-2 gap-y-5 px-6">
         {/* Copyright */}
-        <span className="text-muted-foreground text-center xs:text-start">
-          &copy; {new Date().getFullYear()}{" "}
-          <a href="/" className="hover:underline">
-            Ark Fiduciaire
-          </a>
-          .{" "}
+        <span className="w-full text-muted-foreground text-center xs:text-start">
+          <TranslatedText
+            ns="footer"
+            translationKey={"Ark Fiduciaire SA"}
+            fallbackText={"Ark Fiduciaire SA"}
+          />{" "}
+          -{" "}
           <TranslatedText
             ns="footer"
             translationKey={"Copyright"}
             fallbackText={"All rights reserved"}
-          />
-          .
+          />{" "}
+          - {new Date().getFullYear()} <br />
         </span>
-
-        <div className="flex items-center gap-5 text-muted-foreground">
-          <a
-            href="https://twitter.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Twitter"
-          >
-            <TwitterIcon className="h-5 w-5" />
-          </a>
-          <a
-            href="https://dribbble.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Dribbble"
-          >
-            <DribbbleIcon className="h-5 w-5" />
-          </a>
-          <a
-            href="https://twitch.tv/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Twitch"
-          >
-            <TwitchIcon className="h-5 w-5" />
-          </a>
-          <a
-            href="https://github.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-          >
-            <GithubIcon className="h-5 w-5" />
-          </a>
-        </div>
       </div>
     </footer>
   );

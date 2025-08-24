@@ -1,7 +1,8 @@
 {
     "Title": "Get in touch",
+    "Subtitle": "We usually reply within 24 hours.",
     "Form": {
-        "FirstName": "First Name",
+        "Name": "Name",
         "Email": "Email",
         "CompanyName": "Company Name (Optional)",
         "Phone": "Phone Number (Optional)",

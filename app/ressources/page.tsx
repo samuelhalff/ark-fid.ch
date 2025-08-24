@@ -18,7 +18,7 @@ const RessourcesPage = () => {
   }>;
 
   return (
-    <main className="max-w-5xl mx-auto px-4 py-12">
+    <main className="max-w-[var(--breakpoint-xl)] mx-auto px-4 py-10 mt-20">
       <section className="mb-12">
         <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-4">
           <TranslatedText

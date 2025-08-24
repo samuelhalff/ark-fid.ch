@@ -26,6 +26,7 @@
     --input: 0.922 0 0;
     --ring: 0.708 0 0;
     --radius: 0.625rem;
+    --breakpoint-xl: 1200px;
   }
 
   .dark {
@@ -71,9 +72,11 @@
   .light .abstract-background {
     background-image: linear-gradient(
         to bottom,
-        oklch(0.98 0 0 / 0),
-        oklch(0.98 0 0 / 0.8),
-        transparent
+        oklch(var(--background) / 0),
+        oklch(var(--background) / 0.3) 20%,
+        oklch(var(--background) / 0.6) 60%,
+        oklch(var(--background) / 0.85) 90%,
+        oklch(var(--background) / 1)
       ),
       url("/assets/abstract-background-light.png");
     background-position: left top;
@@ -84,9 +87,11 @@
   .dark .abstract-background {
     background-image: linear-gradient(
         to bottom,
-        oklch(0.15 0 0 / 0),
-        oklch(0.15 0 0 / 0.8),
-        transparent
+        oklch(var(--background) / 0),
+        oklch(var(--background) / 0.3) 40%,
+        oklch(var(--background) / 0.6) 70%,
+        oklch(var(--background) / 0.85) 90%,
+        oklch(var(--background) / 1)
       ),
       url("/assets/abstract-background-dark.png");
     background-position: left top;

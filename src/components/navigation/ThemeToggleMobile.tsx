@@ -1,5 +1,6 @@
 import { Laptop, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import TranslatedText from "@/src/components/ui/translated-text";
 
 export function ThemeToggleMobile() {
   const { theme, setTheme } = useTheme();
@@ -7,7 +8,11 @@ export function ThemeToggleMobile() {
   return (
     <div className="flex items-center">
       <span className="flex items-center gap-3 p-2 text-muted-foreground">
-        Theme
+        <TranslatedText
+          ns="navbar"
+          translationKey="Theme"
+          fallbackText="Theme"
+        />
       </span>
       <div className="flex gap-2 ml-auto">
         <button

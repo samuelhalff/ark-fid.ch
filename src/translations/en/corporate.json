@@ -1,10 +1,11 @@
 {
     "Hero": {
-        "Badge": "Corporate Services",
-        "Title": "Corporate Administration",
+        "Badge": "Swiss made",
+        "BadgeTwo": "Trusted partner",
+        "Title": "Corporate Services",
         "Description": "Ark Fiduciaire provides comprehensive corporate administration services, ensuring your company is compliant, well-structured, and ready for growth. We handle all administrative, legal, and regulatory aspects so you can focus on your business.",
         "CTA": "Contact us",
-        "SecondaryCTA": "Our services"
+        "SecondaryCTA": "Meet the team"
     },
     "Presentation": {
         "Title": "Corporate administration: your company, our expertise",
@@ -19,6 +20,12 @@
             "Board and general meetings",
             "Corporate housekeeping",
             "Liquidation and restructuring"
+        ],
+        "Services": [
+            "Company Incorporation: Complete assistance with setting up your Swiss company",
+            "Statutory Changes: Professional handling of all corporate structure modifications",
+            "Board Meetings: Organization and documentation of board and general meetings",
+            "Corporate Housekeeping: Ongoing compliance and administrative management"
         ],
         "StrengthsTitle": "Our strengths for your corporate needs",
         "Strengths": [

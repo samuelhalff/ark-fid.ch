@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import TranslatedText from "@/src/components/ui/translated-text";
 
 const LANGS = [
   { code: "en", label: "EN" },
@@ -13,7 +14,11 @@ export default function LangSwitchMobile() {
   return (
     <div className="flex items-center">
       <span className="flex items-center gap-3 p-2 text-muted-foreground">
-        Language
+        <TranslatedText
+          ns="navbar"
+          translationKey="Language"
+          fallbackText="Language"
+        />
       </span>
       <div className="flex gap-3 text-md p-1 ml-auto">
         {LANGS.map((lang) => (

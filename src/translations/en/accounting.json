@@ -1,7 +1,7 @@
 {
     "Hero": {
         "Badge": "Swiss Made",
-        "AI": "AI Powered",
+        "BadgeTwo": "AI Powered",
         "ReadMore": "Read more",
         "Title": "Accounting",
         "Description": "We offer accounting services along with state-of-the art technology to help you manage your finances efficiently. Our team ensures compliance with Swiss regulations while providing you with the tools to make informed decisions.",
@@ -56,6 +56,12 @@
         "Custom": {
             "Title": "Tailored services"
         },
+        "Services": [
+            "General Accounting: Complete management of your chart of accounts and financial transactions",
+            "Financial Reporting: Preparation of comprehensive financial statements and management reports",
+            "Analytical Accounting: Detailed cost analysis and profitability tracking by project or department",
+            "Custom Dashboards: Real-time financial analytics and KPI monitoring tailored to your business"
+        ],
         "CustomServicesList": [
             {
                 "Icon": "Users",

@@ -29,12 +29,12 @@ const FAQ = () => {
   return (
     <div
       id="faq"
-      className="w-full max-w-(--breakpoint-xl) mx-auto py-8 xs:py-16 px-6 mb-10"
+      className="w-full max-w-[var(--breakpoint-xl)] mx-auto py-8 xs:py-16 px-6 mb-10"
     >
-      <h2 className="md:text-center text-3xl xs:text-4xl md:text-5xl leading-[1.15]! font-bold tracking-tighter">
+      <h2 className="text-center text-3xl xs:text-4xl md:text-5xl leading-[1.15]! font-bold tracking-tighter max-w-4xl mx-auto">
         <TranslatedText ns="faq" translationKey="Title" fallbackText="FAQ" />
       </h2>
-      <p className="mt-1.5 md:text-center xs:text-lg text-muted-foreground">
+      <p className="mt-1.5 text-center xs:text-lg text-muted-foreground max-w-2xl mx-auto">
         <TranslatedText
           ns="faq"
           translationKey="Subtitle"

@@ -9,7 +9,9 @@ import { ListEnd, Menu, X } from "lucide-react";
 import LangSwitchMobile from "@/src/components/navigation/LangSwitchMobile";
 import ThemeToggleMobile from "@/src/components/navigation/ThemeToggleMobile";
 import ServicesMobile from "@/src/components/navigation/ServicesMobile";
+import TranslatedText from "@/src/components/ui/translated-text";
 import Image from "next/image";
+import Footer from "@/app/shared/footer";
 
 const MobileMenu = () => {
   return (
@@ -20,7 +22,13 @@ const MobileMenu = () => {
         </Button>
       </SheetTrigger>
       <SheetContent side="right" className="w-full max-w-[100vw] p-0" hideClose>
-        <SheetTitle className="hidden">Mobile Navigation</SheetTitle>
+        <SheetTitle className="hidden">
+          <TranslatedText
+            ns="navbar"
+            translationKey="MobileNavigation"
+            fallbackText="Mobile Navigation"
+          />
+        </SheetTitle>
         <div className="flex items-center px-4 pt-4 border-b pb-4">
           <div className="flex-1 flex justify-start">
             <Image
@@ -49,8 +57,14 @@ const MobileMenu = () => {
             </button>
           </SheetTrigger>
         </div>
-        <div className=" max-h-[100vh] overflow-y-auto">
-          <nav className="flex flex-col gap-3 px-4 mt-3 pb-10 mb-20 pt-2">
+        <div
+          className=" max-h-[calc(100vh-70px)] overflow-y-auto [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:bg-gray-100
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+        >
+          <nav className="flex flex-col gap-3 px-4 mt-3 pb-10 pt-2">
             <ThemeToggleMobile />
             <LangSwitchMobile />
             <div className="mt-3 mb-3">
@@ -59,37 +73,57 @@ const MobileMenu = () => {
                 className="block w-full text-center font-semibold text-lg py-3 rounded-xl border border-accent bg-transparent hover:bg-accent/30 transition-colors"
                 style={{ letterSpacing: 0.5 }}
               >
-                Contact
+                <TranslatedText
+                  ns="navbar"
+                  translationKey="Contact"
+                  fallbackText="Contact"
+                />
               </a>
             </div>
             <div>
               <a
                 href="/"
-                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
-                <span>Home</span>
+                <span>
+                  <TranslatedText
+                    ns="navbar"
+                    translationKey="Home"
+                    fallbackText="Home"
+                  />
+                </span>
               </a>
             </div>
             <div>
               <a
                 href="/team"
-                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
-                <span>Team</span>
+                <span>
+                  <TranslatedText
+                    ns="navbar"
+                    translationKey="Team"
+                    fallbackText="Team"
+                  />
+                </span>
               </a>
             </div>
             <ServicesMobile />
             <div>
               <a
                 href="/ressources"
-                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
-                <span>Ressources</span>
+                <span>
+                  <TranslatedText
+                    ns="navbar"
+                    translationKey="Ressources"
+                    fallbackText="Ressources"
+                  />
+                </span>
               </a>
             </div>
-            <div className="text-muted-foreground w-full text-center">
-              <span></span>
-            </div>
+            <Footer />
           </nav>
         </div>
       </SheetContent>

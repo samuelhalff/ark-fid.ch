@@ -1,0 +1,69 @@
+{
+    "IntroTitle": "Our Partners",
+    "IntroText": "We collaborate with trusted partners to provide comprehensive professional services to our clients.",
+    "Hero": {
+        "Badge": "Strategic Partnerships",
+        "CTA": "Partner With Us",
+        "SecondaryCTA": "Our Services"
+    },
+    "Presentation": {
+        "Title": "Building Strong Partnerships",
+        "Subtitle": "Strategic Collaboration Network",
+        "Description": "Through strategic partnerships, we expand our capabilities and deliver comprehensive solutions that meet all your professional service needs."
+    },
+    "PartnersTitle": "Our Partner Network",
+    "PartnersDescription": "Discover our network of professional partners who share our commitment to excellence and client service.",
+    "Partners": [
+        {
+            "title": "PBM Attorneys-at-law",
+            "description": "Leading Swiss law firm specializing in business law, corporate governance, and legal advisory services for businesses of all sizes.",
+            "website": "https://www.pbm.law/en",
+            "logo": "/assets/partners/pbm-logo.jpeg"
+        },
+        {
+            "title": "HelveBroker",
+            "description": "Premier insurance brokerage firm providing comprehensive risk management and insurance solutions for corporate clients.",
+            "website": "https://helvegroup.ch/fr",
+            "logo": "/assets/partners/logo-helvebroker.svg"
+        }
+    ],
+    "ServiceAreas": {
+        "Title": "Collaborative Service Areas",
+        "Description": "Through our partnerships, we offer enhanced capabilities across multiple domains:",
+        "Areas": [
+            {
+                "title": "Legal Advisory",
+                "description": "Comprehensive legal support through our attorney partnerships"
+            },
+            {
+                "title": "Risk Management",
+                "description": "Professional insurance and risk assessment services"
+            },
+            {
+                "title": "Business Consulting",
+                "description": "Strategic advisory services for business development"
+            },
+            {
+                "title": "Compliance Support",
+                "description": "Regulatory compliance and governance assistance"
+            }
+        ]
+    },
+    "Partnership": {
+        "Title": "Partnership Benefits",
+        "Description": "Our strategic partnerships enable us to:",
+        "Benefits": [
+            "Provide comprehensive service coverage",
+            "Access specialized expertise across industries",
+            "Offer seamless client referrals and collaboration",
+            "Maintain the highest professional standards",
+            "Deliver integrated solutions for complex business needs"
+        ]
+    },
+    "Contact": {
+        "Title": "Partner with Us",
+        "Description": "Interested in exploring partnership opportunities?",
+        "CallToAction": "Contact us to discuss how we can collaborate to serve our clients better.",
+        "ButtonText": "Contact us"
+    }
+}

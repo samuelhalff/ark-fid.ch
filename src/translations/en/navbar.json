@@ -4,6 +4,50 @@
     "Services": "Services",
     "Contact": "Contact",
     "Team": "Team",
+    "Our partners": "Our Partners",
     "Language": "Language",
-    "Theme": "Theme"
+    "Theme": "Theme",
+    "Ressources": "Resources",
+    "MobileNavigation": "Mobile Navigation",
+    "CloseMenu": "Close menu",
+    "CompanyFooter": "Ark Fiduciaire",
+    "Lang": {
+        "en": "English",
+        "fr": "Français",
+        "de": "Deutsch",
+        "es": "Español"
+    },
+    "Themes": {
+        "Light": "Light",
+        "Dark": "Dark",
+        "System": "System"
+    },
+    "Accounting": {
+        "Title": "Accounting",
+        "Description": "Comprehensive accounting services, including bookkeeping, financial reporting. We rely on custom AI tools to gain efficiency and make your life easier."
+    },
+    "TaxesCompanyPersonal": {
+        "Title": "Taxes - Company and Personal",
+        "Description": "We handle all aspects of tax compliance, including VAT registration, corporate tax filings, and personal income tax declarations."
+    },
+    "PayrollHR": {
+        "Title": "Payroll & HR",
+        "Description": "We manage payroll processing, including salary calculations, payslip generation, and compliance with Swiss social security regulations."
+    },
+    "OutsourcingServices": {
+        "Title": "Outsourcing Services",
+        "Description": "We provide outsourcing services for legal, administrative, and accounting tasks, allowing you to focus on your core business activities while we handle the necessary back-office functions."
+    },
+    "CorporateServices": {
+        "Title": "Corporate services",
+        "Description": "We offer a range of corporate services, including company formation, compliance management, and corporate governance support to ensure your business operates smoothly."
+    },
+    "DomiciliationServices": {
+        "Title": "Domiciliation services",
+        "Description": "Domiciliation services provide businesses with a registered address. These services allow companies to establish their official headquarters without needing a physical office at the location."
+    },
+    "OdooImplementation": {
+        "Title": "Odoo implementation",
+        "Description": "We are official Odoo partners, providing full implementation and configuration services to ensure your Odoo setup meets Swiss accounting standards."
+    }
 }

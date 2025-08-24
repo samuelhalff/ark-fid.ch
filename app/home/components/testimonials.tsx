@@ -43,7 +43,7 @@ const Testimonial = () => {
   return (
     <div
       id="testimonials"
-      className="w-full max-w-(--breakpoint-xl) mx-auto py-6 xs:py-12 px-6 mb-10"
+      className="w-full max-w-[var(--breakpoint-xl)] mx-auto py-6 xs:py-12 px-6 mb-10"
     >
       <h2 className="mb-8 xs:mb-14 text-4xl md:text-5xl font-bold text-center tracking-tight">
         <TranslatedText
