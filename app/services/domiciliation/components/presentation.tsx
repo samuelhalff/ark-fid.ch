@@ -1,20 +1,19 @@
 "use client";
 
 import {
+  Building,
+  MapPin,
+  Mail,
+  Shield,
   Users,
-  Clock,
-  ShieldCheck,
-  Rocket,
-  MessageSquare,
   CheckCircle,
 } from "lucide-react";
 import TranslatedText from "@/src/components/ui/translated-text";
 import TranslatedTextArray from "@/src/components/ui/translated-text-array";
 import TranslatedObjectArray from "@/src/components/ui/translated-object-array";
 import ServicesList from "@/src/components/ui/services-list";
-import StrengthsList from "@/src/components/ui/strengths-list";
 
-const iconMap = [Users, Clock, ShieldCheck, Rocket, MessageSquare];
+const iconMap = [Building, MapPin, Mail, Shield, Users];
 
 const DomiciliationPresentation = () => {
   return (
@@ -27,6 +26,7 @@ const DomiciliationPresentation = () => {
             fallbackText="Professional Domiciliation Services"
           />
         </h1>
+
         <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight text-muted-foreground">
           <TranslatedText
             ns="domiciliation"
@@ -41,33 +41,56 @@ const DomiciliationPresentation = () => {
               ns="domiciliation"
               translationKey="Presentation.Intro"
               fallbackText={[
-                "Our domiciliation services provide your company with a prestigious Swiss address, mail handling, and compliance support. We help you establish a credible presence in Switzerland, whether you are a startup, SME, or international group.",
-                "Benefit from our expertise in regulatory requirements and our commitment to confidentiality and efficiency.",
+                "Our domiciliation services provide your company with a prestigious Swiss address, mail handling, and compliance support.",
+                "We help you establish a credible presence in Switzerland, whether you are a startup, SME, or international group.",
               ]}
             />
           </div>
 
           <div className="space-y-16">
             <section>
-              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight text-left">
+              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
                 <TranslatedText
                   ns="domiciliation"
-                  translationKey="Presentation.ServicesTitle"
-                  fallbackText="Meet the team"
+                  translationKey="Presentation.StrengthsTitle"
+                  fallbackText="Our Strengths"
                 />
               </h3>
               <div className="space-y-4 mb-8">
-                <TranslatedTextArray
+                <TranslatedObjectArray
                   ns="domiciliation"
-                  translationKey="Presentation.List"
-                  fallbackText={["Domiciliation services"]}
-                  renderItem={(text, index) => (
-                    <div key={index} className="flex items-start gap-4 py-2">
+                  translationKey="Presentation.Strengths"
+                  fallbackItems={[
+                    {
+                      Title: "Prestigious location",
+                      Desc: "Premium Swiss business address for your company.",
+                    },
+                    {
+                      Title: "Professional handling",
+                      Desc: "Expert management of mail and administrative tasks.",
+                    },
+                    {
+                      Title: "Legal compliance",
+                      Desc: "Full adherence to Swiss regulatory requirements.",
+                    },
+                  ]}
+                  renderItem={(item, index) => (
+                    <div
+                      key={index}
+                      className="flex items-start gap-4 px-6 py-4 rounded-lg bg-primary/5 mb-4"
+                    >
                       <CheckCircle
-                        className="text-blue-500 mt-1 min-w-[20px]"
+                        className="text-blue-400 mt-1 min-w-[20px]"
                         size={20}
                       />
-                      <span className="text-base leading-relaxed">{text}</span>
+                      <div>
+                        <span className="font-semibold block text-lg mb-2">
+                          {item.Title}
+                        </span>
+                        <span className="text-base leading-relaxed text-muted-foreground">
+                          {item.Desc}
+                        </span>
+                      </div>
                     </div>
                   )}
                 />
@@ -79,7 +102,7 @@ const DomiciliationPresentation = () => {
                 <TranslatedText
                   ns="domiciliation"
                   translationKey="Presentation.ServicesTitle"
-                  fallbackText="Our Services"
+                  fallbackText="Services"
                 />
               </h3>
               <ServicesList
@@ -89,39 +112,10 @@ const DomiciliationPresentation = () => {
                   "Service 1: Description",
                   "Service 2: Description",
                   "Service 3: Description",
+                  "Service 4: Description",
                 ]}
                 iconMap={iconMap}
-                className="space-y-6 mb-12"
-              />
-            </section>
-
-            <section>
-              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
-                <TranslatedText
-                  ns="domiciliation"
-                  translationKey="Presentation.StrengthsTitle"
-                  fallbackText="Our Strengths"
-                />
-              </h3>
-              <StrengthsList
-                ns="domiciliation"
-                translationKey="Presentation.Strengths"
-                fallbackItems={[
-                  {
-                    Title: "Prestigious address",
-                    Desc: "Benefit from a recognized address in Switzerland for your company.",
-                  },
-                  {
-                    Title: "Administrative support",
-                    Desc: "We handle your mail and provide all necessary administrative assistance.",
-                  },
-                  {
-                    Title: "Compliance and security",
-                    Desc: "We ensure your company meets all legal requirements for domiciliation.",
-                  },
-                ]}
-                iconMap={iconMap}
-                className="space-y-4 mb-12"
+                className="space-y-6"
               />
             </section>
           </div>

@@ -4,21 +4,18 @@ import {
   Building2,
   UserCheck,
   FileText,
-  CheckCircle,
+  Shield,
   Lightbulb,
+  CheckCircle,
 } from "lucide-react";
-import { StylishList } from "@/src/components/ui/stylish-list";
 import TranslatedText from "@/src/components/ui/translated-text";
 import TranslatedTextArray from "@/src/components/ui/translated-text-array";
-import { useTranslation } from "react-i18next";
-import { convertRawToList } from "@/lib/utils";
+import TranslatedObjectArray from "@/src/components/ui/translated-object-array";
 import ServicesList from "@/src/components/ui/services-list";
 
-const iconList = [Building2, UserCheck, FileText, CheckCircle, Lightbulb];
+const iconMap = [Building2, UserCheck, FileText, Shield, Lightbulb];
 
 const CorporatePresentation = () => {
-  const { t } = useTranslation("corporate");
-
   return (
     <section className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
       <div className="w-full max-w-[1200px]">
@@ -29,91 +26,99 @@ const CorporatePresentation = () => {
             fallbackText="Corporate Services"
           />
         </h1>
-        <div className="text-left">
-          <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-8 tracking-tight">
-            <TranslatedText
+
+        <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight text-muted-foreground">
+          <TranslatedText
+            ns="corporate"
+            translationKey="Presentation.Subtitle"
+            fallbackText="Expert Corporate Services"
+          />
+        </h2>
+
+        <div className="text-left w-full">
+          <div className="space-y-6 mb-12">
+            <TranslatedTextArray
               ns="corporate"
-              translationKey="Presentation.Subtitle"
-              fallbackText="Expert Corporate Services"
+              translationKey="Presentation.Intro"
+              fallbackText={[
+                "We provide comprehensive corporate services to help you manage your business structure and compliance effectively.",
+                "From company formation to ongoing corporate governance, we ensure your business operates smoothly and meets all regulatory requirements.",
+              ]}
             />
-          </h2>
-          <TranslatedTextArray
-            ns="corporate"
-            translationKey="Presentation.Intro"
-            fallbackText={["Corporate services description"]}
-            renderItem={(text, idx) => (
-              <p key={idx} className="mb-8 text-lg text-left">
-                {text}
-              </p>
-            )}
-          />
-          <StylishList
-            items={
-              t("Presentation.List", {
-                returnObjects: true,
-              }) as string[]
-            }
-            Icon={CheckCircle}
-            iconClass="text-blue-400"
-            bulletBg="bg-primary/5"
-            className="mt-3 mb-8"
-          />
-          <ServicesList
-            ns="corporate"
-            translationKey="Presentation.Services"
-            fallbackText={[
-              "Service 1: Description",
-              "Service 2: Description",
-              "Service 3: Description",
-            ]}
-            iconMap={iconList}
-            className="space-y-6 mt-8 mb-12"
-          />
-          <section>
-            <h3 className="text-2xl font-semibold mb-6">
-              <TranslatedText
-                ns="corporate"
-                translationKey="Presentation.StrengthsTitle"
-                fallbackText="Our Strengths"
-              />
-            </h3>
-            <ul className="space-y-6 mt-4">
-              {convertRawToList(
-                t("Presentation.Strengths", {
-                  returnObjects: true,
-                }) as { Title: string; Desc: string }[]
-              ).map((item, idx) => {
-                const Icon = iconList[idx] || CheckCircle;
-                return (
-                  <li
-                    key={idx}
-                    className="flex items-start gap-6 px-6 py-6 rounded-xl bg-muted/50 shadow-sm hover:shadow-md transition-shadow"
-                  >
-                    <span className="mt-1">
-                      <Icon className="text-primary min-w-[24px]" size={24} />
-                    </span>
-                    <div>
-                      <span className="font-semibold text-lg text-gray-900 dark:text-gray-100">
-                        <TranslatedText
-                          ns="corporate"
-                          translationKey={item.Title}
-                          fallbackText="Service title"
-                        />
-                      </span>
-                      <span className="ml-1 text-lg text-gray-700 dark:text-gray-300">
-                        :{" "}
-                        <TranslatedText
-                          ns="corporate"
-                          translationKey={item.Desc}
-                          fallbackText="Service description"
-                        />
-                      </span>
+          </div>
+
+          <div className="space-y-16">
+            <section>
+              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
+                <TranslatedText
+                  ns="corporate"
+                  translationKey="Presentation.StrengthsTitle"
+                  fallbackText="Our Strengths"
+                />
+              </h3>
+              <div className="space-y-4 mb-8">
+                <TranslatedObjectArray
+                  ns="corporate"
+                  translationKey="Presentation.Strengths"
+                  fallbackItems={[
+                    {
+                      Title: "Legal expertise",
+                      Desc: "Deep knowledge of Swiss corporate law and regulations.",
+                    },
+                    {
+                      Title: "Efficient processes",
+                      Desc: "Streamlined procedures for quick and accurate results.",
+                    },
+                    {
+                      Title: "Ongoing support",
+                      Desc: "Continuous assistance for all your corporate needs.",
+                    },
+                  ]}
+                  renderItem={(item, index) => (
+                    <div
+                      key={index}
+                      className="flex items-start gap-4 px-6 py-4 rounded-lg bg-primary/5 mb-4"
+                    >
+                      <CheckCircle
+                        className="text-blue-400 mt-1 min-w-[20px]"
+                        size={20}
+                      />
+                      <div>
+                        <span className="font-semibold block text-lg mb-2">
+                          {item.Title}
+                        </span>
+                        <span className="text-base leading-relaxed text-muted-foreground">
+                          {item.Desc}
+                        </span>
+                      </div>
                     </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
+                  )}
+                />
+              </div>
+            </section>
+
+            <section>
+              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
+                <TranslatedText
+                  ns="corporate"
+                  translationKey="Presentation.ServicesTitle"
+                  fallbackText="Services"
+                />
+              </h3>
+              <ServicesList
+                ns="corporate"
+                translationKey="Presentation.Services"
+                fallbackText={[
+                  "Service 1: Description",
+                  "Service 2: Description",
+                  "Service 3: Description",
+                  "Service 4: Description",
+                ]}
+                iconMap={iconMap}
+                className="space-y-6"
+              />
+            </section>
+          </div>
         </div>
       </div>
     </section>

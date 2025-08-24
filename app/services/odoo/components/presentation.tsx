@@ -1,98 +1,124 @@
 "use client";
 
 import {
-  CheckCircle,
   Settings,
   Laptop,
   MessageSquare,
   Users,
+  Zap,
+  CheckCircle,
 } from "lucide-react";
 import TranslatedText from "@/src/components/ui/translated-text";
-import ServicesList from "@/src/components/ui/services-list";
-import StrengthsList from "@/src/components/ui/strengths-list";
 import TranslatedTextArray from "@/src/components/ui/translated-text-array";
+import TranslatedObjectArray from "@/src/components/ui/translated-object-array";
+import ServicesList from "@/src/components/ui/services-list";
 
-const iconMapServices = [Settings, Laptop, MessageSquare, Users];
+const iconMap = [Settings, Laptop, MessageSquare, Users, Zap];
 
 const OdooPresentation = () => {
   return (
-    <section className="w-full flex justify-center py-16 sm:py-24 lg:py-32">
-      <div className="w-full max-w-[1200px] px-4 sm:px-6">
-        <h1 className="max-w-3xl text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight mb-8 text-left w-full">
+    <section className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
+      <div className="w-full max-w-[1200px]">
+        <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
           <TranslatedText
             ns="odoo"
             translationKey="Presentation.Title"
             fallbackText="Odoo Presentation"
           />
         </h1>
-        <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-8 tracking-tight">
+
+        <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight text-muted-foreground">
           <TranslatedText
             ns="odoo"
             translationKey="Presentation.Subtitle"
-            fallbackText="Subtitle"
+            fallbackText="Complete Business Management Solution"
           />
         </h2>
 
-        <div className="space-y-6 mb-12">
-          <TranslatedTextArray
-            ns="odoo"
-            translationKey="Presentation.Intro"
-            fallbackText={["Welcome to our Odoo services"]}
-            renderItem={(text, idx) => (
-              <p key={idx} className="mb-8 text-lg text-justify">
-                {text}
-              </p>
-            )}
-          />
-        </div>
+        <div className="text-left w-full">
+          <div className="space-y-6 mb-12">
+            <TranslatedTextArray
+              ns="odoo"
+              translationKey="Presentation.Intro"
+              fallbackText={[
+                "Odoo is a comprehensive business management suite that integrates all your business processes into one unified platform.",
+                "From CRM and sales to accounting and inventory, we help you implement and optimize Odoo for your specific needs.",
+              ]}
+            />
+          </div>
 
-        <div className="mt-3 mb-8">
-          <TranslatedTextArray
-            ns="odoo"
-            translationKey="Presentation.List"
-            fallbackText={[
-              "Odoo service 1",
-              "Odoo service 2",
-              "Odoo service 3",
-            ]}
-            renderItem={(text, index) => (
-              <div key={index} className="flex items-start gap-4 py-2">
-                <CheckCircle
-                  className="text-green-400 mt-1 min-w-[20px]"
-                  size={20}
+          <div className="space-y-16">
+            <section>
+              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
+                <TranslatedText
+                  ns="odoo"
+                  translationKey="Presentation.StrengthsTitle"
+                  fallbackText="Our Strengths"
                 />
-                <span className="text-base leading-relaxed">{text}</span>
+              </h3>
+              <div className="space-y-4 mb-8">
+                <TranslatedObjectArray
+                  ns="odoo"
+                  translationKey="Presentation.Strengths"
+                  fallbackItems={[
+                    {
+                      Title: "Implementation expertise",
+                      Desc: "Deep knowledge of Odoo modules and best practices.",
+                    },
+                    {
+                      Title: "Custom solutions",
+                      Desc: "Tailored implementations to match your business processes.",
+                    },
+                    {
+                      Title: "Ongoing support",
+                      Desc: "Continuous assistance and system optimization.",
+                    },
+                  ]}
+                  renderItem={(item, index) => (
+                    <div
+                      key={index}
+                      className="flex items-start gap-4 px-6 py-4 rounded-lg bg-primary/5 mb-4"
+                    >
+                      <CheckCircle
+                        className="text-blue-400 mt-1 min-w-[20px]"
+                        size={20}
+                      />
+                      <div>
+                        <span className="font-semibold block text-lg mb-2">
+                          {item.Title}
+                        </span>
+                        <span className="text-base leading-relaxed text-muted-foreground">
+                          {item.Desc}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                />
               </div>
-            )}
-          />
-        </div>
-        <h3 className="text-2xl font-semibold mb-6">
-          <TranslatedText
-            ns="odoo"
-            translationKey="Presentation.StrengthsTitle"
-            fallbackText="Strengths"
-          />
-        </h3>
-        <div className="mb-12">
-          <StrengthsList
-            ns="odoo"
-            translationKey="Presentation.Strengths"
-            fallbackItems={[
-              {
-                Title: "Expertise and reliability",
-                Desc: "Our team guarantees high-quality services.",
-              },
-              {
-                Title: "Cost control",
-                Desc: "Optimize your costs with scalable solutions.",
-              },
-              {
-                Title: "Flexibility",
-                Desc: "Our services adapt to your business needs.",
-              },
-            ]}
-            iconMap={iconMapServices}
-          />
+            </section>
+
+            <section>
+              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
+                <TranslatedText
+                  ns="odoo"
+                  translationKey="Presentation.ServicesTitle"
+                  fallbackText="Services"
+                />
+              </h3>
+              <ServicesList
+                ns="odoo"
+                translationKey="Presentation.Services"
+                fallbackText={[
+                  "Service 1: Description",
+                  "Service 2: Description",
+                  "Service 3: Description",
+                  "Service 4: Description",
+                ]}
+                iconMap={iconMap}
+                className="space-y-6"
+              />
+            </section>
+          </div>
         </div>
       </div>
     </section>

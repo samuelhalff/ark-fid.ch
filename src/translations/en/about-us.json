@@ -1,0 +1,68 @@
+{
+    "Meta": {
+        "Title": "About Us | Ark Fiduciaire",
+        "Description": "Learn about Ark Fiduciaire SA, born from the union of two specialized firms in 2025, bringing together decades of expertise in Swiss accounting and fiduciary services."
+    },
+    "Hero": {
+        "Title": "About Ark Fiduciaire",
+        "Subtitle": "Born from Excellence, United for Innovation",
+        "Badge": "Established 2025"
+    },
+    "Foundation": {
+        "Title": "Our Foundation",
+        "Content": [
+            "Ark Fiduciaire SA was founded in 2025 through the strategic union of two established Swiss fiduciary firms, each bringing their unique expertise and client relationships to create a stronger, more comprehensive service offering.",
+            "This merger represents the culmination of years of parallel growth in the Swiss market, combining complementary specializations to better serve our clients' evolving needs in an increasingly complex business environment."
+        ]
+    },
+    "DNA": {
+        "Title": "Our DNA",
+        "Subtitle": "The Values That Define Us",
+        "Values": [
+            {
+                "Title": "Swiss Precision",
+                "Desc": "We embody the traditional Swiss values of accuracy, reliability, and attention to detail in every aspect of our work."
+            },
+            {
+                "Title": "Innovation Forward",
+                "Desc": "While respecting tradition, we embrace cutting-edge technology and modern methodologies to enhance our services."
+            },
+            {
+                "Title": "Client-Centric Approach",
+                "Desc": "Our diverse team brings together different perspectives and expertise to provide tailored solutions for each client."
+            },
+            {
+                "Title": "Collaborative Excellence",
+                "Desc": "The union of our firms has created a culture where collaboration and knowledge sharing drive superior results."
+            }
+        ]
+    },
+    "Expertise": {
+        "Title": "Collective Expertise",
+        "Content": [
+            "Our team combines decades of experience across accounting, taxation, corporate services, and business consulting. This wealth of knowledge, gathered from two successful firms, allows us to approach challenges from multiple angles and provide comprehensive solutions.",
+            "The diversity of our backgrounds—from traditional Swiss accounting practices to international business dynamics—enables us to serve both local SMEs and multinational corporations with equal expertise and dedication."
+        ]
+    },
+    "Vision": {
+        "Title": "Our Vision",
+        "Content": [
+            "We envision Ark Fiduciaire as the trusted partner for businesses navigating the complexities of the Swiss market while expanding internationally. Our goal is to simplify financial management and regulatory compliance, allowing our clients to focus on what they do best—growing their businesses.",
+            "Through continuous innovation and the integration of technologies like Odoo ERP systems, we aim to transform traditional fiduciary services into dynamic, forward-thinking business partnerships."
+        ]
+    },
+    "Partnership": {
+        "Title": "The Power of Partnership",
+        "Content": [
+            "The 2025 merger that created Ark Fiduciaire represents more than just combining resources—it's about creating synergies that benefit our clients. By bringing together complementary expertise and client portfolios, we've expanded our capabilities while maintaining the personal touch that defines Swiss service.",
+            "This partnership approach extends to our client relationships, where we act not just as service providers, but as strategic advisors invested in your long-term success."
+        ]
+    },
+    "Future": {
+        "Title": "Looking Forward",
+        "Content": [
+            "As we establish ourselves in the Swiss market, we remain committed to the principles that made our founding firms successful: excellence in execution, innovation in approach, and unwavering dedication to client success.",
+            "The future of Ark Fiduciaire is built on the solid foundation of our merged expertise, enhanced by our shared vision of what modern fiduciary services can achieve."
+        ]
+    }
+}

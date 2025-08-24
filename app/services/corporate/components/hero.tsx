@@ -5,7 +5,7 @@ const CorporateHero = () => {
   return (
     <ServiceHero
       namespace="corporate"
-      imageSrc="/assets/services/modern-office.png"
+      imageSrc="/assets/services/corporate-services.png"
       imageAlt="Corporate Services"
       badge1Key="Hero.Badge"
       badge1Fallback="Swiss Excellence"

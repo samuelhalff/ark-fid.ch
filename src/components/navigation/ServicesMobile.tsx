@@ -1,7 +1,11 @@
 import services from "@/app/services/navigation";
 import TranslatedText from "@/src/components/ui/translated-text";
 
-export default function ServicesMobile() {
+interface ServicesMobileProps {
+  onLinkClick?: () => void;
+}
+
+export default function ServicesMobile({ onLinkClick }: ServicesMobileProps) {
   return (
     <div>
       <div className="flex items-center gap-3 text-md px-2 py-2 rounded font-medium text-muted-foreground border-b rounded-none border-muted">
@@ -12,6 +16,7 @@ export default function ServicesMobile() {
           <a
             key={service.href}
             href={service.href}
+            onClick={onLinkClick}
             className="flex items-center gap-4 text-md py-3 rounded hover:bg-accent transition-colors pl-6"
           >
             <span>

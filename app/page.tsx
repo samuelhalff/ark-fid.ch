@@ -3,7 +3,7 @@ import Hero from "@/app/home/components/hero";
 import Services from "@/app/home/components/services";
 import FAQ from "@/app/home/components/faq";
 import Testimonials from "@/app/home/components/testimonials";
-import Contact from "@/app/contact/page";
+import Contact from "@/src/components/ui/contact-form";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {

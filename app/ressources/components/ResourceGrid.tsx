@@ -29,7 +29,7 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({ files, articles }) => {
             type="file"
             title={file.title}
             description={file.description}
-            href={`/ressources/${file.filename}`}
+            href={`/assets/downloads/${file.filename}`}
             extension={ext}
           />
         );
