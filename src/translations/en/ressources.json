@@ -1,13 +1,14 @@
 {
     "IntroTitle": "Resources for Your Business",
     "IntroText": "Below you will find a selection of documents and articles provided by Ark Fiduciaire. These resources are offered for your convenience and are to be used at your sole responsibility. For personalized advice, please contact our team.",
-    "FilesTitle": "Downloadable Documents",
+    "FilesTitle": "Documents available to download",
     "ArticlesTitle": "Expert Articles",
+    "ReadArticle": "Read Article",
     "Files": [
         {
-            "filename": "sample-contract.pdf",
-            "title": "Sample Contract",
-            "description": "A template contract for Swiss SMEs."
+            "filename": "guide-salaire.pdf",
+            "title": "Guide d'établissement du certificat de salaire",
+            "description": "Tout employeur est tenu de délivrer un certificat de salaire récapitulant toutes les prestations et tous les avantages appréciables en argent qu’il fournit à I'employé ou au retraité dans le cadre ou en lien avec un contrat de travail présent ou passé. Ce principe ainsi que les dispositions énoncées ci-dessous s'appliquent par analogie aux institutions de prévoyance qui versent une rente. A ce titre, elles sont tenues de délivrer une attestation de rentes sur le formulaire 11 ou un formulaire particulier analogue"
         },
         {
             "filename": "tax-guide-2025.pdf",

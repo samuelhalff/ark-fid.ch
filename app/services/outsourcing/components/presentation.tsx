@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import {
   Users,
   Clock,
@@ -27,6 +26,7 @@ const OutsourcingPresentation = () => {
             fallbackText="Outsourcing"
           />
         </h1>
+
         <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight text-muted-foreground">
           <TranslatedText
             ns="outsourcing"
@@ -40,31 +40,57 @@ const OutsourcingPresentation = () => {
             <TranslatedTextArray
               ns="outsourcing"
               translationKey="Presentation.Intro"
-              fallbackText={["Welcome to our outsourcing services"]}
+              fallbackText={[
+                "Focus on your core business while we handle your administrative and operational tasks.",
+                "Our outsourcing services allow you to reduce costs, increase efficiency, and access specialized expertise.",
+              ]}
             />
           </div>
 
           <div className="space-y-16">
             <section>
-              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight text-left">
+              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
                 <TranslatedText
                   ns="outsourcing"
-                  translationKey="Presentation.ServicesTitle"
-                  fallbackText="Meet the team"
+                  translationKey="Presentation.StrengthsTitle"
+                  fallbackText="Our Strengths"
                 />
               </h3>
               <div className="space-y-4 mb-8">
-                <TranslatedTextArray
+                <TranslatedObjectArray
                   ns="outsourcing"
-                  translationKey="Presentation.List"
-                  fallbackText={["Outsourcing services"]}
-                  renderItem={(text, index) => (
-                    <div key={index} className="flex items-start gap-4 py-2">
+                  translationKey="Presentation.Strengths"
+                  fallbackItems={[
+                    {
+                      Title: "Cost efficiency",
+                      Desc: "Reduce operational costs while maintaining quality.",
+                    },
+                    {
+                      Title: "Scalable solutions",
+                      Desc: "Flexible services that grow with your business.",
+                    },
+                    {
+                      Title: "Expert team",
+                      Desc: "Access to specialized skills and experience.",
+                    },
+                  ]}
+                  renderItem={(item, index) => (
+                    <div
+                      key={index}
+                      className="flex items-start gap-4 px-6 py-4 rounded-lg bg-primary/5 mb-4"
+                    >
                       <CheckCircle
-                        className="text-blue-500 mt-1 min-w-[20px]"
+                        className="text-blue-400 mt-1 min-w-[20px]"
                         size={20}
                       />
-                      <span className="text-base leading-relaxed">{text}</span>
+                      <div>
+                        <span className="font-semibold block text-lg mb-2">
+                          {item.Title}
+                        </span>
+                        <span className="text-base leading-relaxed text-muted-foreground">
+                          {item.Desc}
+                        </span>
+                      </div>
                     </div>
                   )}
                 />
@@ -76,7 +102,7 @@ const OutsourcingPresentation = () => {
                 <TranslatedText
                   ns="outsourcing"
                   translationKey="Presentation.ServicesTitle"
-                  fallbackText="Our Services"
+                  fallbackText="Services"
                 />
               </h3>
               <ServicesList
@@ -86,64 +112,11 @@ const OutsourcingPresentation = () => {
                   "Service 1: Description",
                   "Service 2: Description",
                   "Service 3: Description",
+                  "Service 4: Description",
                 ]}
                 iconMap={iconMap}
-                className="space-y-6 mb-12"
+                className="space-y-6"
               />
-            </section>
-
-            <section>
-              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
-                <TranslatedText
-                  ns="outsourcing"
-                  translationKey="Presentation.StrengthsTitle"
-                  fallbackText="Our Strengths"
-                />
-              </h3>
-              <div className="space-y-4 mb-12">
-                <TranslatedObjectArray
-                  ns="outsourcing"
-                  translationKey="Presentation.Strengths"
-                  fallbackItems={[
-                    {
-                      Title: "Expertise and reliability",
-                      Desc: "Our team guarantees high-quality services and strict confidentiality.",
-                    },
-                    {
-                      Title: "Cost control",
-                      Desc: "Outsourcing allows you to optimize your costs and benefit from scalable solutions.",
-                    },
-                    {
-                      Title: "Flexibility and scalability",
-                      Desc: "Our services adapt to your needs and the evolution of your business.",
-                    },
-                  ]}
-                  renderItem={(item, index) => {
-                    const Icon = iconMap[index] || CheckCircle;
-                    return (
-                      <div
-                        key={index}
-                        className="flex items-start gap-6 px-6 py-6 rounded-xl bg-muted/50 shadow-sm hover:shadow-md transition-shadow"
-                      >
-                        <span className="mt-1">
-                          <Icon
-                            className="text-primary min-w-[24px]"
-                            size={24}
-                          />
-                        </span>
-                        <div>
-                          <span className="font-semibold text-lg text-gray-900 dark:text-gray-100 block mb-2">
-                            {item.Title}
-                          </span>
-                          <span className="text-base text-gray-700 dark:text-gray-300 leading-relaxed">
-                            {item.Desc}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  }}
-                />
-              </div>
             </section>
           </div>
         </div>

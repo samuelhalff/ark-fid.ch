@@ -5,7 +5,7 @@ const AccountingHero = () => {
   return (
     <ServiceHero
       namespace="accounting"
-      imageSrc="/assets/services/financial-prompt.png"
+      imageSrc="/assets/services/accounting-services.png"
       imageAlt="Accounting Services"
       badge1Key="Hero.Badge"
       badge1Fallback="Swiss Excellence"

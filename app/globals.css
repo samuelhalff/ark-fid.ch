@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@custom-variant dark (&:is(.dark *));
+@custom-variant light (&:is(.light *));
+
+@layer base {
+  :root {
+    --background: 1 0 0;
+    --foreground: 0.145 0 0;
+    --card: 1 0 0;
+    --card-foreground: 0.145 0 0;
+    --popover: 1 0 0;
+    --popover-foreground: 0.145 0 0;
+    --primary: 0.205 0 0;
+    --primary-foreground: 0.985 0 0;
+    --secondary: 0.97 0 0;
+    --secondary-foreground: 0.205 0 0;
+    --muted: 0.97 0 0;
+    --muted-foreground: 0.556 0 0;
+    --accent: 0.97 0 0;
+    --accent-foreground: 0.205 0 0;
+    --destructive: 0.577 0.245 27.325;
+    --border: 0.922 0 0;
+    --input: 0.922 0 0;
+    --ring: 0.708 0 0;
+    --radius: 0.625rem;
+    --breakpoint-xl: 1200px;
+  }
+
+  .dark {
+    --background: 0.145 0 0;
+    --foreground: 0.985 0 0;
+    --card: 0.205 0 0;
+    --card-foreground: 0.985 0 0;
+    --popover: 0.205 0 0;
+    --popover-foreground: 0.985 0 0;
+    --primary: 0.922 0 0;
+    --primary-foreground: 0.205 0 0;
+    --secondary: 0.269 0 0;
+    --secondary-foreground: 0.985 0 0;
+    --muted: 0.269 0 0;
+    --muted-foreground: 0.708 0 0;
+    --accent: 0.269 0 0;
+    --accent-foreground: 0.985 0 0;
+    --destructive: 0.704 0.191 22.216;
+    --border: 1 0 0 / 0.1;
+    --input: 1 0 0 / 0.15;
+    --ring: 0.556 0 0;
+  }
+
+  * {
+    border-color: oklch(var(--border));
+  }
+
+  body {
+    background-color: oklch(var(--background));
+    color: oklch(var(--foreground));
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .abstract-background {
+    position: relative;
+  }
+
+  .light .abstract-background {
+    background-image: linear-gradient(
+        to bottom,
+        oklch(var(--background) / 0),
+        oklch(var(--background) / 0.2) 10%,
+        oklch(var(--background) / 0.6) 30%,
+        oklch(var(--background) / 0.85) 70%,
+        oklch(var(--background) / 1)
+      ),
+      url("/assets/abstract-background-light.png");
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .dark .abstract-background {
+    background-color: black;
+    background-image: linear-gradient(
+        to bottom,
+        oklch(var(--background) / 0),
+        oklch(var(--background) / 0.2) 10%,
+        oklch(var(--background) / 0.6) 30%,
+        oklch(var(--background) / 0.85) 70%,
+        oklch(var(--background) / 1)
+      ),
+      url("/assets/abstract-background-dark.png");
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+}

@@ -1,8 +1,5 @@
-"use client";
-
 // You'll want a global CSS file for base styles and Tailwind imports
-import "./global.css";
-import "@/src/i18n";
+import "./globals.css";
 
 import NavBar from "@/src/components/navigation/Navbar";
 import Footer from "@/app/shared/footer";

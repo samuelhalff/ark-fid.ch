@@ -1,5 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import aboutUs from "@/src/translations/en/about-us.json";
 import accounting from "@/src/translations/en/accounting.json";
 import contact from "@/src/translations/en/contact.json";
 import corporate from "@/src/translations/en/corporate.json";
@@ -26,6 +27,7 @@ import detector from "i18next-browser-languagedetector";
 
 // Collect all English translations
 const englishTranslations = {
+  aboutUs,
   accounting,
   contact,
   corporate,

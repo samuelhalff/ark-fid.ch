@@ -44,28 +44,28 @@ export default function LangSwitch(): React.ReactElement {
       <NavigationMenuContent>
         <ListItem onClick={() => changeLanguage("en")}>
           <TranslatedText
-            ns="home"
+            ns="navbar"
             translationKey="Lang.en"
             fallbackText="English"
           />
         </ListItem>
         <ListItem onClick={() => changeLanguage("fr")}>
           <TranslatedText
-            ns="home"
+            ns="navbar"
             translationKey="Lang.fr"
             fallbackText="Français"
           />
         </ListItem>
         <ListItem onClick={() => changeLanguage("de")}>
           <TranslatedText
-            ns="home"
+            ns="navbar"
             translationKey="Lang.de"
             fallbackText="Deutsch"
           />
         </ListItem>
         <ListItem onClick={() => changeLanguage("es")}>
           <TranslatedText
-            ns="home"
+            ns="navbar"
             translationKey="Lang.es"
             fallbackText="Español"
           />

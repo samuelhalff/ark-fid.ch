@@ -12,10 +12,17 @@ import ServicesMobile from "@/src/components/navigation/ServicesMobile";
 import TranslatedText from "@/src/components/ui/translated-text";
 import Image from "next/image";
 import Footer from "@/app/shared/footer";
+import { useState } from "react";
 
 const MobileMenu = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleLinkClick = () => {
+    setOpen(false);
+  };
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button variant="ghost" className="w-auto px-2 py-1 rounded-md">
           <Menu className="size-5" />
@@ -70,6 +77,7 @@ const MobileMenu = () => {
             <div className="mt-3 mb-3">
               <a
                 href="/contact"
+                onClick={handleLinkClick}
                 className="block w-full text-center font-semibold text-lg py-3 rounded-xl border border-accent bg-transparent hover:bg-accent/30 transition-colors"
                 style={{ letterSpacing: 0.5 }}
               >
@@ -83,6 +91,7 @@ const MobileMenu = () => {
             <div>
               <a
                 href="/"
+                onClick={handleLinkClick}
                 className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
                 <span>
@@ -97,6 +106,7 @@ const MobileMenu = () => {
             <div>
               <a
                 href="/team"
+                onClick={handleLinkClick}
                 className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
                 <span>
@@ -108,10 +118,26 @@ const MobileMenu = () => {
                 </span>
               </a>
             </div>
-            <ServicesMobile />
+            <div>
+              <a
+                href="/about"
+                onClick={handleLinkClick}
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
+              >
+                <span>
+                  <TranslatedText
+                    ns="navbar"
+                    translationKey="About"
+                    fallbackText="About"
+                  />
+                </span>
+              </a>
+            </div>
+            <ServicesMobile onLinkClick={handleLinkClick} />
             <div>
               <a
                 href="/ressources"
+                onClick={handleLinkClick}
                 className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
                 <span>
@@ -123,7 +149,9 @@ const MobileMenu = () => {
                 </span>
               </a>
             </div>
-            <Footer />
+            <div onClick={handleLinkClick}>
+              <Footer />
+            </div>
           </nav>
         </div>
       </SheetContent>

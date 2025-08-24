@@ -100,6 +100,23 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
+          <NavigationMenuLink
+            asChild
+            className={
+              navigationMenuTriggerStyle() +
+              (isActive("/about") ? " bg-accent" : "")
+            }
+          >
+            <Link href="/about">
+              <TranslatedText
+                ns="navbar"
+                translationKey="About"
+                fallbackText="About"
+              />
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
           <NavigationMenuTrigger>
             <TranslatedText
               ns="navbar"

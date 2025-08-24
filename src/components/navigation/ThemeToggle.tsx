@@ -34,7 +34,7 @@ export default function ThemeToggle() {
     <NavigationMenuItem>
       <NavigationMenuTrigger className="flex items-center gap-1 px-2">
         <Sun className="h-4 w-4 dark:hidden" />
-        <Moon className="h-4 w-4 light:hidden" />
+        <Moon className="h-4 w-4 hidden dark:block" />
         <span className="sr-only">Toggle theme</span>
       </NavigationMenuTrigger>
       <NavigationMenuContent>

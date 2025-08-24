@@ -42,8 +42,8 @@ const ServiceHero = ({
   secondaryCtaFallback,
 }: ServiceHeroProps) => (
   <div className="min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent">
-    <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-y-14 gap-x-10 px-6 py-12 lg:py-0">
-      <div className="max-w-2xl text-center animate-in fade-in duration-800">
+    <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
+      <div className="flex-1 max-w-3xl text-center animate-in fade-in duration-800">
         <div className="gap-2 flex justify-center items-center">
           <Badge className="rounded-full py-1 border-none">
             <TranslatedText
@@ -109,7 +109,7 @@ const ServiceHero = ({
           </Link>
         </div>
       </div>
-      <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
+      <div className="flex-1 relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
         <Image
           src={imageSrc}
           alt={imageAlt}
