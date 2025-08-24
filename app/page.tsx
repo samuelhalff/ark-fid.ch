@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function Home() {
   return (
     <main
-      className="max-w-(--breakpoint-xl) mx-auto w-full pb-4 xs:py-20 md:px-6"
+      className="max-w-[var(--breakpoint-xl)] mx-auto w-full pb-4 xs:py-20 md:px-6"
       role="main"
     >
       <section id="hero">

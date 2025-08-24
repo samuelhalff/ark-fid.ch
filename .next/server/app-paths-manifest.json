@@ -1,8 +1,8 @@
 {
-  "/not-found": "app/not-found.js",
-  "/services/outsourcing/page": "app/services/outsourcing/page.js",
-  "/services/odoo/page": "app/services/odoo/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/services/taxes/page": "app/services/taxes/page.js",
-  "/page": "app/page.js"
+  "/services/accounting/page": "app/services/accounting/page.js",
+  "/services/corporate/page": "app/services/corporate/page.js",
+  "/services/domiciliation/page": "app/services/domiciliation/page.js",
+  "/page": "app/page.js",
+  "/partners/page": "app/partners/page.js",
+  "/services/payroll/page": "app/services/payroll/page.js"
 }

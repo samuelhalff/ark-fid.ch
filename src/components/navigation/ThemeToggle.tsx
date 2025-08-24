@@ -27,31 +27,14 @@ function ListItem({
   );
 }
 
-export default function ThemeToggle({ mobile }: { mobile?: boolean } = {}) {
+export default function ThemeToggle() {
   const { setTheme } = useTheme();
-
-  if (mobile) {
-    // Only render the dropdown content for mobile collapse
-    return (
-      <ul className="flex flex-col gap-2 pl-5">
-        <ListItem onClick={() => setTheme("light")} isMobile={mobile}>
-          Light
-        </ListItem>
-        <ListItem onClick={() => setTheme("dark")} isMobile={mobile}>
-          Dark
-        </ListItem>
-        <ListItem onClick={() => setTheme("system")} isMobile={mobile}>
-          System
-        </ListItem>
-      </ul>
-    );
-  }
 
   return (
     <NavigationMenuItem>
-      <NavigationMenuTrigger className="px-2">
-        <Sun className="h-5 w-8 dark:hidden w-10" />
-        <Moon className="h-5 w-8 light:hidden w-10" />
+      <NavigationMenuTrigger className="flex items-center gap-1 px-2">
+        <Sun className="h-4 w-4 dark:hidden" />
+        <Moon className="h-4 w-4 light:hidden" />
         <span className="sr-only">Toggle theme</span>
       </NavigationMenuTrigger>
       <NavigationMenuContent>

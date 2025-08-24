@@ -1,94 +1,25 @@
 "use client";
-
-import { ArrowUpRight, Users } from "lucide-react";
-import { Button } from "@/src/components/ui/button";
-import { Badge } from "@/src/components/ui/badge";
-import TranslatedText from "@/src/components/ui/translated-text";
-import Image from "next/image";
-import Link from "next/link";
+import ServiceHero from "@/src/components/ui/service-hero";
 
 const PayrollHero = () => {
   return (
-    <div className="min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent">
-      <div className="max-w-(--breakpoint-xl) w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-y-14 gap-x-10 px-6 py-12 lg:py-0">
-        <div className="max-w-xl text-center lg:text-left animate-in fade-in duration-800">
-          <div className="gap-2 flex items-center justify-center lg:justify-start">
-            <Badge className="rounded-full py-1 border-none">
-              <TranslatedText
-                ns={"payroll"}
-                translationKey="Hero.Badge"
-                fallbackText="Swiss Quality"
-              />
-            </Badge>
-            <Badge
-              variant="destructive"
-              className="rounded-full py-1 border-none"
-            >
-              <TranslatedText
-                ns={"payroll"}
-                translationKey="Hero.BadgeTwo"
-                fallbackText="HR Specialists"
-              />
-            </Badge>
-          </div>
-
-          <h1 className="mt-6 max-w-[20ch] text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight">
-            <TranslatedText
-              ns={"payroll"}
-              translationKey="Hero.Title"
-              fallbackText="Swiss Payroll Services Made Simple"
-            />
-          </h1>
-
-          <p className="mt-6 text-xl text-muted-foreground">
-            <TranslatedText
-              ns={"payroll"}
-              translationKey="Hero.Description"
-              fallbackText="Streamline your payroll processes with our expert solutions. From salary calculations to social insurance compliance."
-            />
-          </p>
-
-          <div className="w-full mt-10 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-            <Link href="/contact" className="w-full">
-              <Button
-                size="lg"
-                className="w-full sm:w-auto rounded-full text-base"
-              >
-                <TranslatedText
-                  ns={"payroll"}
-                  translationKey="Hero.PrimaryCTA"
-                  fallbackText="Get Started"
-                />
-                <ArrowUpRight className="h-5 w-5 ml-2" />
-              </Button>
-            </Link>
-            <Link href="/team" className="w-full">
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full sm:w-auto rounded-full text-base shadow-none"
-              >
-                <Users className="h-5 w-5 mr-2" />
-                <TranslatedText
-                  ns={"payroll"}
-                  translationKey="Hero.SecondaryCTA"
-                  fallbackText="Meet the Team"
-                />
-              </Button>
-            </Link>
-          </div>
-        </div>
-        <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
-          <Image
-            src="/assets/services/hr-services.png"
-            alt="Payroll Services"
-            fill
-            className="object-cover rounded-xl brightness-100"
-            priority
-          />
-        </div>
-      </div>
-    </div>
+    <ServiceHero
+      namespace="payroll"
+      imageSrc="/assets/services/hr-services.png"
+      imageAlt="Payroll & HR Services"
+      badge1Key="Hero.Badge"
+      badge1Fallback="Swiss Standards"
+      badge2Key="Hero.BadgeTwo"
+      badge2Fallback="HR Experts"
+      titleKey="Hero.Title"
+      titleFallback="Professional Payroll & HR Services"
+      descriptionKey="Hero.Description"
+      descriptionFallback="We manage payroll processing, including salary calculations, payslip generation, and compliance with Swiss labor laws."
+      ctaKey="Hero.CTA"
+      ctaFallback="Contact us"
+      secondaryCtaKey="Hero.SecondaryCTA"
+      secondaryCtaFallback="Meet the Team"
+    />
   );
 };
 

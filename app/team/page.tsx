@@ -67,24 +67,13 @@ const teamMembers = [
 
 export default function TeamPage() {
   return (
-    <div className="container mx-auto px-4 py-15 mt-10">
-      <div>
-        <title>Notre équipe | Ark Fiduciaire</title>
-        <meta
-          name="description"
-          content="Découvrez la vision holistique de la comptabilité proposée par Ark Fiduciaire : expertise, conseil, solutions personnalisées et technologies avancées pour la gestion de vos finances."
-        />
-        <meta
-          name="keywords"
-          content="comptabilité, conseil, Ark Fiduciaire, expertise, gestion financière, solutions personnalisées, dashboards, fiscalité, services sur mesure"
-        />
-      </div>
+    <div className="container mx-auto px-4 py-15 mt-20 max-w-[var(--breakpoint-xl)]">
       <div className="text-center mb-12 animate-in fade-in duration-900">
-        <h1 className=" text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.2]! tracking-tight">
+        <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.2]! tracking-tight">
           <TranslatedText
             ns="team"
             translationKey={"Title"}
-            fallbackText={"Notre équipe"}
+            fallbackText="Our Team"
           />
         </h1>
         <p className="text-muted-foreground mt-2">

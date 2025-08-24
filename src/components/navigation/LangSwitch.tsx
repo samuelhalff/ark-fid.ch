@@ -37,8 +37,8 @@ export default function LangSwitch(): React.ReactElement {
 
   return (
     <NavigationMenuItem className="md:ml-30">
-      <NavigationMenuTrigger className="px-2">
-        <GlobeIcon className="h-5 w-8" />
+      <NavigationMenuTrigger className="flex items-center gap-1 px-2">
+        <GlobeIcon className="h-4 w-4 mx-1" />
         <span style={{ minWidth: 17 }}> {isClient ? language : ""}</span>
       </NavigationMenuTrigger>
       <NavigationMenuContent>

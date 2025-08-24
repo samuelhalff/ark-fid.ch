@@ -12,9 +12,9 @@ const Services = () => {
   return (
     <div
       id="services"
-      className="max-w-(--breakpoint-xl) mx-auto w-full py-12 xs:py-20 px-6"
+      className="max-w-[var(--breakpoint-xl)] mx-auto w-full py-12 xs:py-20 px-6"
     >
-      <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight sm:max-w-xl sm:text-center sm:mx-auto mb-10">
+      <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight max-w-4xl mx-auto text-center mb-10">
         {/* 4. CHANGE: Replaced t() with our hydration-safe component */}
         <TranslatedText
           translationKey="Services.Title"
@@ -33,26 +33,26 @@ const Services = () => {
               // Add `overflow-hidden` as a safety net to ensure nothing can visually escape the card.
               className="flex flex-col border rounded-xl overflow-hidden shadow-none h-full cursor-pointer hover:shadow-lg transition-shadow"
             >
-              <CardHeader
-                style={{ padding: "1.5rem 1.5rem 0", minHeight: 190 }}
-              >
-                <div className="flex items-center gap-2 mt-3! text-xl font-bold tracking-tight">
-                  {service.icon}
-                  <h4 className="text-left">
-                    <TranslatedText
-                      translationKey={service.titleKey}
-                      fallbackText={service.titleKey}
-                      ns="servicesItems"
-                    />
-                  </h4>
+              <CardHeader style={{ padding: "1rem 1rem 0", minHeight: 190 }}>
+                <div className="flex items-start gap-4 mt-3!">
+                  <div className="flex-shrink-0 mt-1">{service.icon}</div>
+                  <div className="flex-1">
+                    <h4 className="text-left text-xl font-bold tracking-tight">
+                      <TranslatedText
+                        translationKey={service.titleKey}
+                        fallbackText={service.titleKey}
+                        ns="servicesItems"
+                      />
+                    </h4>
+                    <p className="mt-2 text-left text-gray-700 dark:text-gray-300 text-md xs:text-[17px]">
+                      <TranslatedText
+                        translationKey={service.descriptionKey}
+                        fallbackText={service.descriptionKey}
+                        ns="servicesItems"
+                      />
+                    </p>
+                  </div>
                 </div>
-                <p className="mt-1 text-left text-gray-700 dark:text-gray-300 text-md xs:text-[17px]">
-                  <TranslatedText
-                    translationKey={service.descriptionKey}
-                    fallbackText={service.descriptionKey}
-                    ns="servicesItems"
-                  />
-                </p>
               </CardHeader>
 
               {/* 5. FUNDAMENTAL CHANGE: The Layout Logic */}

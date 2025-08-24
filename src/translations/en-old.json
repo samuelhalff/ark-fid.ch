@@ -357,7 +357,7 @@
 }
 },
 "Hero": {
-"BadgeMain": "Odoo Implementation",
+"Badge": "Odoo Implementation",
 "BadgeAlt": "Digitalisation & ERP",
 "Title": "Odoo: digitize your management",
 "Description": "Ark Fiduciaire supports you in the integration, customization, and evolution of your Odoo solution. Optimize your processes, automate tasks, and manage your business with a complete and scalable ERP.",

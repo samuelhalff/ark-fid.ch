@@ -1,10 +1,11 @@
 {
     "Hero": {
         "Badge": "Outsourcing",
+        "BadgeTwo": "BPO Experts",
         "Title": "Outsourcing",
         "Description": "Ark Fiduciaire offers outsourcing solutions for your accounting, payroll, and administrative tasks. Focus on your core business while we handle the rest with expertise and confidentiality.",
         "CTA": "Contact us",
-        "SecondaryCTA": "Our services"
+        "SecondaryCTA": "Meet the Team"
     },
     "Presentation": {
         "Title": "Outsourcing: efficiency and peace of mind",
@@ -13,12 +14,19 @@
             "We take care of your accounting, payroll, and administrative management, allowing you to concentrate on your business development.",
             "Our outsourcing solutions are flexible and tailored to your needs, ensuring efficiency and cost control."
         ],
+        "ServicesTitle": "Our Outsourcing Services",
         "List": [
             "Accounting outsourcing",
             "Payroll outsourcing",
             "Administrative management",
             "Process optimization",
             "Reporting and dashboards"
+        ],
+        "Services": [
+            "Accounting Outsourcing: Complete management of your bookkeeping and financial reporting",
+            "Payroll Outsourcing: Full payroll processing and HR administration services",
+            "Administrative Management: Comprehensive handling of all your administrative tasks",
+            "Process Optimization: Streamlining and improving your business processes for efficiency"
         ],
         "StrengthsTitle": "Our strengths for your outsourcing needs",
         "Strengths": [

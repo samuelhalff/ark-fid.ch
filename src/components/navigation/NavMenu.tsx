@@ -65,7 +65,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
       orientation={orientation}
       {...props}
     >
-      <NavigationMenuList className="pt-3 text-md gap-8 space-x-0">
+      <NavigationMenuList className="pt-3 text-md gap-1 space-x-0 md:mr-10">
         <NavigationMenuItem>
           <NavigationMenuLink
             asChild
@@ -75,8 +75,8 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
           >
             <Link href="/">
               <TranslatedText
-                ns="home"
-                translationKey="NavBar.Home"
+                ns="navbar"
+                translationKey="Home"
                 fallbackText="Home"
               />
             </Link>
@@ -92,8 +92,8 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
           >
             <Link href="/team">
               <TranslatedText
-                ns="home"
-                translationKey="NavBar.Team"
+                ns="navbar"
+                translationKey="Team"
                 fallbackText="Team"
               />
             </Link>
@@ -102,33 +102,30 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
         <NavigationMenuItem>
           <NavigationMenuTrigger>
             <TranslatedText
-              ns="home"
-              translationKey="NavBar.Services"
+              ns="navbar"
+              translationKey="Services"
               fallbackText="Services"
             />
           </NavigationMenuTrigger>
-          <NavigationMenuContent>
+          <NavigationMenuContent className="left-auto right-0">
             <ul className="grid w-[400px] gap-2 md:w-[350px] md:grid-cols-2 lg:w-[600px]">
               {ServicesElements.map((component) => (
                 <ListItem
                   key={component.titleKey}
                   title={
                     <TranslatedText
-                      ns="home"
+                      ns="navbar"
                       translationKey={component.titleKey}
-                      fallbackText={component.titleKey.replace("NavBar.", "")}
+                      fallbackText={component.titleKey}
                     />
                   }
                   href={component.href}
                   icon={component.icon}
                 >
                   <TranslatedText
-                    ns="home"
+                    ns="navbar"
                     translationKey={component.descriptionKey}
-                    fallbackText={component.descriptionKey.replace(
-                      "NavBar.",
-                      ""
-                    )}
+                    fallbackText={component.descriptionKey}
                   />
                 </ListItem>
               ))}
@@ -145,8 +142,8 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
           >
             <Link href="/ressources">
               <TranslatedText
-                ns="home"
-                translationKey="NavBar.Ressources"
+                ns="navbar"
+                translationKey="Ressources"
                 fallbackText="Ressources"
               />
             </Link>
@@ -162,8 +159,8 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
           >
             <Link href="/contact">
               <TranslatedText
-                ns="home"
-                translationKey="NavBar.Contact"
+                ns="navbar"
+                translationKey="Contact"
                 fallbackText="Contact"
               />
             </Link>

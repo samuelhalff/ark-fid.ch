@@ -7,9 +7,11 @@ import domiciliation from "@/src/translations/en/domiciliation.json";
 import faq from "@/src/translations/en/faq.json";
 import footer from "@/src/translations/en/footer.json";
 import home from "@/src/translations/en/home.json";
+import legal from "@/src/translations/en/legal.json";
 import navbar from "@/src/translations/en/navbar.json";
 import odoo from "@/src/translations/en/odoo.json";
 import outsourcing from "@/src/translations/en/outsourcing.json";
+import partners from "@/src/translations/en/partners.json";
 import payroll from "@/src/translations/en/payroll.json";
 import ressources from "@/src/translations/en/ressources.json";
 import services from "@/src/translations/en/services.json";
@@ -31,9 +33,11 @@ const englishTranslations = {
   faq,
   footer,
   home,
+  legal,
   navbar,
   odoo,
   outsourcing,
+  partners,
   payroll,
   ressources,
   services,

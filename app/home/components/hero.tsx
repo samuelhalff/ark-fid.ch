@@ -8,8 +8,8 @@ import Link from "next/link";
 
 const Hero = () => (
   <div className="min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent">
-    <div className="max-w-(--breakpoint-xl) w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-y-14 gap-x-10 px-6 py-12 lg:py-0">
-      <div className="max-w-xl text-center animate-in fade-in duration-800">
+    <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-y-14 gap-x-10 px-6 py-12 lg:py-0">
+      <div className="max-w-2xl text-center animate-in fade-in duration-800">
         <div className="gap-2 flex justify-center items-center">
           <Badge className="rounded-full py-1 border-none">
             <TranslatedText
@@ -29,22 +29,22 @@ const Hero = () => (
             />
           </Badge>
         </div>
-        <h1 className="mt-6 max-w-[20ch] w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight m-auto">
+        <h1 className="mt-6 max-w-full w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight mx-auto">
           <TranslatedText
             ns="home"
             translationKey="Hero.Title"
             fallbackText="Title"
           />
         </h1>
-        <p className="mt-6 max-w-[60ch] xs:text-lg">
+        <p className="mt-6 max-w-full w-full xs:text-lg mx-auto">
           <TranslatedText
             ns="home"
             translationKey="Hero.Description"
             fallbackText="Description"
           />
         </p>
-        <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center">
-          <Link href="/contact" className="w-full">
+        <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center max-w-md mx-auto">
+          <Link href="/contact" className="w-full sm:w-auto">
             <Button
               size="lg"
               className="w-full sm:w-auto rounded-full text-base"
@@ -58,7 +58,7 @@ const Hero = () => (
               <ArrowUpRight className="h-5! w-5!" />
             </Button>
           </Link>
-          <Link href="/team" className="w-full">
+          <Link href="/team" className="w-full sm:w-auto">
             <Button
               variant="outline"
               size="lg"
