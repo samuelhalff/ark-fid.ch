@@ -1,0 +1,57 @@
+{
+    "Hero": {
+        "Badge": "Servicios Fiscales",
+        "BadgeTwo": "Asistido por IA",
+        "Title": "Fiscalidad",
+        "Description": "Ark Fiduciaire ofrece servicios fiscales expertos para individuos y empresas. Optimizamos su situación fiscal, aseguramos el cumplimiento y proporcionamos asesoramiento estratégico para todas sus obligaciones fiscales en Suiza.",
+        "CTA": "Contáctanos",
+        "SecondaryCTA": "Conocer al equipo"
+    },
+    "Presentation": {
+        "Title": "Fiscalidad: optimizar y asegurar su situación",
+        "Subtitle": "Experiencia y cumplimiento",
+        "Intro": [
+            "Nuestros especialistas fiscales lo apoyan en todas sus obligaciones fiscales, desde declaraciones hasta planificación estratégica.",
+            "Aseguramos el cumplimiento con la ley fiscal suiza y lo ayudamos a optimizar su situación fiscal."
+        ],
+        "ExpertiseTitle": "Nuestra Experiencia Fiscal",
+        "List": [
+            "Declaraciones fiscales para individuos y empresas",
+            "Planificación y optimización fiscal",
+            "IVA e impuestos indirectos",
+            "Representación fiscal",
+            "Dictámenes fiscales y negociaciones"
+        ],
+        "ReinventedTitle": "Proceso Fiscal Optimizado",
+        "Reinvented": [
+            "Hemos revolucionado el cumplimiento fiscal con herramientas digitales modernas y orientación experta.",
+            "Nuestro enfoque optimizado asegura precisión mientras le ahorra tiempo y reduce la complejidad."
+        ],
+        "StrengthsTitle": "Nuestras fortalezas para sus necesidades fiscales",
+        "Strengths": [
+            {
+                "Title": "Experiencia integral",
+                "Desc": "Nuestro equipo cubre todas las áreas de la fiscalidad suiza, asegurando apoyo completo y confiable."
+            },
+            {
+                "Title": "Asesoramiento personalizado",
+                "Desc": "Analizamos su situación para ofrecer soluciones personalizadas y optimizar su carga fiscal."
+            },
+            {
+                "Title": "Cumplimiento y seguridad",
+                "Desc": "Garantizamos el cumplimiento con todas las obligaciones legales y aseguramos su situación fiscal."
+            },
+            {
+                "Title": "Representación y negociación",
+                "Desc": "Lo representamos ante las autoridades fiscales y negociamos en su nombre cuando sea necesario."
+            }
+        ],
+        "ServicesTitle": "Nuestros Servicios Fiscales",
+        "Services": [
+            "Declaraciones Fiscales: Preparación y presentación completa de declaraciones fiscales individuales y corporativas",
+            "Planificación Fiscal: Planificación estratégica para optimizar su carga fiscal y asegurar el cumplimiento",
+            "Gestión de IVA: Servicios integrales de registro, declaración y cumplimiento de IVA",
+            "Representación Fiscal: Representación profesional ante autoridades fiscales y negociaciones"
+        ]
+    }
+}

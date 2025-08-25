@@ -4,21 +4,10 @@ import Services from "@/app/home/components/services";
 import FAQ from "@/app/home/components/faq";
 import Testimonials from "@/app/home/components/testimonials";
 import Contact from "@/src/components/ui/contact-form";
+import { generateMetadataForPage } from "@/src/lib/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "Ark Fiduciaire",
-    description: "Expert support for your business, from startup to success",
-    openGraph: {
-      title: "Ark Fiduciaire",
-      description: "Expert support for your business, from startup to success",
-      type: "website",
-      siteName: "Ark Fiduciaire",
-    },
-    twitter: {
-      card: "summary_large_image",
-    },
-  };
+  return await generateMetadataForPage("/");
 }
 
 export default function Home() {

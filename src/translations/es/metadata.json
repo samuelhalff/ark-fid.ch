@@ -1,0 +1,103 @@
+{
+  "default": {
+    "title": "Ark Fiduciaire - Servicios Fiduciarios Profesionales en Suiza",
+    "description": "Servicios fiduciarios, contables y fiscales expertos en Suiza. Servicios corporativos, gestión de nóminas, domiciliación y soluciones empresariales integrales.",
+    "keywords": "servicios fiduciarios, contabilidad, servicios fiscales, Suiza, servicios corporativos, nóminas, domiciliación",
+    "author": "Ark Fiduciaire",
+    "siteName": "Ark Fiduciaire"
+  },
+  "pages": {
+    "/": {
+      "title": "Ark Fiduciaire - Servicios Fiduciarios Profesionales en Suiza",
+      "description": "Servicios fiduciarios, contables y fiscales expertos en Suiza. Servicios corporativos, gestión de nóminas, domiciliación y soluciones empresariales integrales.",
+      "keywords": "servicios fiduciarios, contabilidad, servicios fiscales, Suiza, servicios corporativos, nóminas, domiciliación"
+    },
+    "/about": {
+      "title": "Acerca de Nosotros - Ark Fiduciaire",
+      "description": "Conozca la experiencia de Ark Fiduciaire en servicios fiduciarios suizos, nuestro equipo de profesionales y nuestro compromiso con la excelencia en contabilidad y servicios fiscales.",
+      "keywords": "acerca de ark fiduciaire, expertos fiduciarios suizos, profesionales contables, especialistas fiscales"
+    },
+    "/contact": {
+      "title": "Contáctanos - Ark Fiduciaire",
+      "description": "Póngase en contacto con Ark Fiduciaire para servicios fiduciarios, contables y fiscales profesionales en Suiza. Contacte a nuestros expertos hoy.",
+      "keywords": "contacto ark fiduciaire, contacto servicios fiduciarios, servicios contables suiza"
+    },
+    "/team": {
+      "title": "Nuestro Equipo - Ark Fiduciaire",
+      "description": "Conozca a los profesionales experimentados de Ark Fiduciaire. Nuestro equipo de contadores certificados y especialistas fiscales brinda servicios fiduciarios expertos.",
+      "keywords": "equipo ark fiduciaire, contadores certificados, especialistas fiscales, profesionales fiduciarios"
+    },
+    "/partners": {
+      "title": "Socios - Ark Fiduciaire",
+      "description": "Descubra nuestras oportunidades de asociación y red de colaboradores de confianza. Únase al ecosistema de socios de Ark Fiduciaire para el crecimiento mutuo.",
+      "keywords": "socios ark fiduciaire, oportunidades asociación, colaboración empresarial, red confianza"
+    },
+    "/ressources": {
+      "title": "Recursos - Ark Fiduciaire",
+      "description": "Acceda a recursos valiosos, guías y artículos sobre regulaciones fiscales suizas, estándares contables y mejores prácticas fiduciarias.",
+      "keywords": "recursos fiduciarios, guías fiscales, artículos contables, regulaciones suizas, recursos empresariales"
+    },
+    "/services": {
+      "title": "Servicios - Ark Fiduciaire",
+      "description": "Servicios fiduciarios integrales que incluyen contabilidad, planificación fiscal, servicios corporativos, gestión de nóminas y domiciliación empresarial.",
+      "keywords": "servicios fiduciarios, servicios contables, servicios fiscales, servicios corporativos, gestión nóminas"
+    },
+    "/services/accounting": {
+      "title": "Servicios Contables - Ark Fiduciaire",
+      "description": "Servicios contables profesionales en Suiza. Teneduría de libros experta, informes financieros y cumplimiento contable para empresas de todos los tamaños.",
+      "keywords": "servicios contables suiza, teneduría libros, informes financieros, cumplimiento contable"
+    },
+    "/services/corporate": {
+      "title": "Servicios Corporativos - Ark Fiduciaire",
+      "description": "Servicios corporativos completos que incluyen formación de empresas, gobierno corporativo, cumplimiento y soporte administrativo en Suiza.",
+      "keywords": "servicios corporativos, formación empresas, gobierno corporativo, cumplimiento empresarial suiza"
+    },
+    "/services/domiciliation": {
+      "title": "Servicios de Domiciliación - Ark Fiduciaire",
+      "description": "Servicios profesionales de domiciliación empresarial en Suiza. Direcciones de oficina registradas y soporte administrativo para su empresa.",
+      "keywords": "servicios domiciliación, oficina registrada, dirección empresarial suiza, soporte administrativo"
+    },
+    "/services/odoo": {
+      "title": "Implementación Odoo - Ark Fiduciaire",
+      "description": "Servicios expertos de implementación y personalización de Odoo ERP. Optimice sus procesos empresariales con soluciones Odoo profesionales.",
+      "keywords": "implementación odoo, soluciones erp, automatización procesos empresariales, personalización odoo"
+    },
+    "/services/outsourcing": {
+      "title": "Servicios de Outsourcing - Ark Fiduciaire",
+      "description": "Servicios profesionales de outsourcing de procesos empresariales. Concéntrese en su negocio principal mientras manejamos sus operaciones administrativas y financieras.",
+      "keywords": "outsourcing empresarial, outsourcing procesos, servicios administrativos, outsourcing financiero"
+    },
+    "/services/payroll": {
+      "title": "Servicios de Nóminas - Ark Fiduciaire",
+      "description": "Servicios integrales de gestión de nóminas en Suiza. Procesamiento experto de salarios, cumplimiento de seguridad social y administración de RRHH.",
+      "keywords": "servicios nóminas suiza, procesamiento salarios, cumplimiento seguridad social, administración rrhh"
+    },
+    "/services/taxes": {
+      "title": "Servicios Fiscales - Ark Fiduciaire",
+      "description": "Servicios fiscales y consultoría expertos en Suiza. Planificación fiscal corporativa, cumplimiento de IVA y estrategias de optimización fiscal personal.",
+      "keywords": "servicios fiscales suiza, consultoría fiscal, cumplimiento iva, planificación fiscal corporativa"
+    },
+    "/legal/privacy": {
+      "title": "Política de Privacidad - Ark Fiduciaire",
+      "description": "Política de privacidad de Ark Fiduciaire. Aprenda cómo protegemos y manejamos sus datos personales en cumplimiento con las regulaciones suizas y de la UE.",
+      "keywords": "política privacidad, protección datos, cumplimiento gdpr, datos personales"
+    },
+    "/legal/terms": {
+      "title": "Términos de Servicio - Ark Fiduciaire",
+      "description": "Términos de servicio y condiciones para usar el sitio web y servicios de Ark Fiduciaire. Términos legales y condiciones de uso.",
+      "keywords": "términos servicio, términos legales, condiciones uso, acuerdo servicio"
+    },
+    "/legal/cookies": {
+      "title": "Política de Cookies - Ark Fiduciaire",
+      "description": "Información sobre cómo Ark Fiduciaire usa cookies y tecnologías similares en nuestro sitio web para una experiencia de usuario mejorada.",
+      "keywords": "política cookies, cookies sitio web, configuración privacidad, experiencia usuario"
+    }
+  },
+  "dynamic": {
+    "articles": {
+      "titleTemplate": "{articleTitle} - Ark Fiduciaire",
+      "descriptionTemplate": "{articleDescription} | Perspectivas expertas de los profesionales de Ark Fiduciaire.",
+      "keywords": "regulaciones fiscales, perspectivas contables, experiencia fiduciaria, negocio suizo"
+    }
+  }
+}

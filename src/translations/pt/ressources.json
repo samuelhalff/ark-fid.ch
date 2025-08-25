@@ -1,0 +1,41 @@
+{
+  "IntroTitle": "Recursos para Seu Negócio",
+  "IntroText": "Abaixo você encontrará uma seleção de documentos e artigos fornecidos pela Ark Fiduciaire. Estes recursos são oferecidos para sua conveniência e devem ser usados sob sua única responsabilidade. Para consultoria personalizada, entre em contato com nossa equipe.",
+  "FilesTitle": "Documentos disponíveis para download",
+  "ArticlesTitle": "Artigos de Especialistas",
+  "ReadArticle": "Ler Artigo",
+  "Files": [
+    {
+      "filename": "guide-salaire.pdf",
+      "title": "Guia para estabelecimento do certificado de salário",
+      "description": "Todo empregador é obrigado a emitir um certificado de salário resumindo todas as prestações e vantagens apreciáveis em dinheiro que fornece ao empregado ou aposentado no âmbito ou em conexão com um contrato de trabalho presente ou passado. Este princípio bem como as disposições enunciadas abaixo se aplicam por analogia às instituições de previdência que pagam uma pensão. Como tais, são obrigadas a emitir uma atestação de pensões no formulário 11 ou um formulário particular análogo",
+      "date": "2024-12-01"
+    }
+  ],
+  "Articles": [
+    {
+      "slug": "annual-vat-settlement-2025",
+      "title": "Liquidação Anual de IVA na Suíça: Pontos-Chave para 2025",
+      "description": "Um resumo das principais regras e pontos de atenção para liquidação anual de IVA em 2025.",
+      "content": "Para o ano fiscal de 2025, empresas suíças devem continuar usando ou o **método efetivo** (baseado em 4 declarações de IVA) ou o **método de Taxa de Imposto Líquido (TIL)** (2 declarações de IVA), como aplicado anteriormente.\n\n## Características principais da liquidação anual de IVA\n\n- Mudar seu método de liquidação de IVA requer notificar a Administração Federal de Contribuições (AFC) no início de cada período fiscal, dentro de 60 dias (para 2026: entre 01.01.2026 e 28.02.2026 para uma primeira mudança). O novo método deve ser mantido por pelo menos um período fiscal completo para empresas com faturamento abaixo de CHF 5'005'000.\n- Outras condições: todas as dívidas fiscais devem estar completamente pagas e todas as declarações submetidas a tempo pelos três períodos fiscais anteriores.\n- A AFC determina o valor dos pagamentos antecipados, faturados em três parcelas. Estes podem ser ajustados até 10 dias antes da data de vencimento relevante.\n- Extensões de prazo permanecem possíveis.\n- A AFC pode revogar a autorização se:\n  - Teve que iniciar procedimento de cobrança contra o contribuinte,\n  - O contribuinte excedeu o limite de CHF 5'005'000 de faturamento por três períodos consecutivos,\n  - A AFC teve que estimar impostos devido a declarações em falta.\n\n## Pontos de atenção\n\n- Se pagamentos antecipados são muito baixos, juros de mora (4,5%) serão cobrados.\n- Sem possibilidade de reivindicar reembolsos de imposto prévio baseados em pagamentos antecipados.\n- Autorização pode ser revogada se pagamentos antecipados desviam muito dos valores realmente devidos.\n- Se há crédito fiscal, só pode ser reembolsado no ano seguinte (em março).\n",
+      "author": "Sébastien Gallié",
+      "date": "2025-08-25",
+      "references": [
+        {
+          "labelKey": "SwissVATOffice",
+          "url": "https://www.estv.admin.ch/estv/pt/home/mehrwertsteuer.html"
+        }
+      ]
+    }
+  ],
+  "References": "Referências",
+  "By": "Por",
+  "Published": "Publicado em",
+  "Download": "Baixar",
+  "SwissVATOffice": "Escritório Federal de IVA da Suíça (AFC)",
+  "Contact": {
+    "Title": "Dúvidas sobre este artigo?",
+    "Description": "Nossos especialistas estão aqui para ajudá-lo a entender os detalhes e implicações para seu negócio. Obtenha consultoria personalizada adaptada à sua situação.",
+    "ButtonText": "Contatar Nossa Equipe"
+  }
+}

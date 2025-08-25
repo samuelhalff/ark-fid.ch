@@ -1,0 +1,51 @@
+{
+    "Hero": {
+        "Badge": "Swiss made",
+        "BadgeTwo": "Partenaire de confiance",
+        "Title": "Services Corporatifs",
+        "Description": "Ark Fiduciaire fournit des services d'administration corporative complets, assurant que votre entreprise soit conforme, bien structurée et prête pour la croissance. Nous gérons tous les aspects administratifs, juridiques et réglementaires afin que vous puissiez vous concentrer sur votre entreprise.",
+        "CTA": "Nous contacter",
+        "SecondaryCTA": "Rencontrer l'équipe"
+    },
+    "Presentation": {
+        "Title": "Administration corporative : votre entreprise, notre expertise",
+        "Subtitle": "Une base solide pour votre entreprise",
+        "Intro": [
+            "Notre équipe vous accompagne dans toutes les étapes de la vie de votre entreprise : de la constitution à la gestion quotidienne, en passant par les modifications statutaires et les liquidations.",
+            "Nous assurons la conformité avec les réglementations suisses et offrons des conseils stratégiques pour une gouvernance optimale."
+        ],
+        "List": [
+            "Constitution d'entreprise",
+            "Modifications statutaires",
+            "Assemblées du conseil et générales",
+            "Gestion corporative courante",
+            "Liquidation et restructuration"
+        ],
+        "ServicesTitle": "Nos Services Corporatifs",
+        "Services": [
+            "Constitution d'Entreprise : Assistance complète pour créer votre entreprise suisse",
+            "Modifications Statutaires : Gestion professionnelle de toutes les modifications de structure corporative",
+            "Assemblées du Conseil : Organisation et documentation des assemblées du conseil et générales",
+            "Gestion Corporative Courante : Gestion continue de la conformité et administration"
+        ],
+        "StrengthsTitle": "Nos forces pour vos besoins corporatifs",
+        "Strengths": [
+            {
+                "Title": "Expertise en droit suisse",
+                "Desc": "Nos spécialistes maîtrisent le cadre juridique et réglementaire, assurant que votre entreprise soit toujours conforme."
+            },
+            {
+                "Title": "Accompagnement personnalisé",
+                "Desc": "Une personne de contact dédiée vous accompagne à chaque étape, offrant des solutions sur mesure pour votre entreprise."
+            },
+            {
+                "Title": "Efficacité administrative",
+                "Desc": "Nous nous occupons de toutes les formalités administratives, vous permettant de vous concentrer sur votre cœur de métier."
+            },
+            {
+                "Title": "Conseil stratégique",
+                "Desc": "Bénéficiez de notre expérience pour optimiser la structure et la gouvernance de votre entreprise."
+            }
+        ]
+    }
+}

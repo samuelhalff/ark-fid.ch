@@ -1,0 +1,26 @@
+{
+    "Meta": {
+        "Title": "Início | Ark Fiduciaire",
+        "Description": "Suporte especializado para o seu negócio, desde o arranque até ao sucesso. Serviços de contabilidade, impostos, folha de pagamento e corporativos na Suíça."
+    },
+    "Hero": {
+        "Title": "Serviços de Contabilidade, Impostos e Corporativos",
+        "Description": "Suporte especializado para o seu negócio, desde o arranque até ao sucesso.",
+        "CTA": "Entre em contacto",
+        "SecondaryCTA": "Conheça a Equipa",
+        "Badge": "Fabricado na Suíça",
+        "BadgeTwo": "Potenciado por IA",
+        "OdooBadge": "Parceiro Oficial Odoo"
+    },
+    "Services": {
+        "Title": "Os Nossos Serviços",
+        "Subtitle": "Serviços fiduciários, contabilísticos e fiscais abrangentes, adaptados às necessidades do seu negócio. Soluções especializadas para empresas suíças de todos os tamanhos."
+    },
+    "FAQ": {
+        "Title": "Perguntas Frequentes",
+        "Subtitle": "Respostas rápidas às perguntas mais comuns sobre os nossos produtos e serviços."
+    },
+    "Testimonials": {
+        "SectionTitle": "Testemunhos"
+    }
+}

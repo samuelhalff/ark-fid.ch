@@ -1,0 +1,69 @@
+{
+    "IntroTitle": "Nossos Parceiros",
+    "IntroText": "Colaboramos com parceiros confiáveis para fornecer serviços profissionais abrangentes aos nossos clientes.",
+    "Hero": {
+        "Badge": "Parcerias Estratégicas",
+        "CTA": "Fazer Parceria Conosco",
+        "SecondaryCTA": "Conhecer nossa equipe"
+    },
+    "Presentation": {
+        "Title": "Construindo Parcerias Fortes",
+        "Subtitle": "Rede de Colaboração Estratégica",
+        "Description": "Através de parcerias estratégicas, expandimos nossas capacidades e entregamos soluções abrangentes que atendem todas suas necessidades de serviços profissionais."
+    },
+    "PartnersTitle": "Nossa Rede de Parceiros",
+    "PartnersDescription": "Descubra nossa rede de parceiros profissionais que compartilham nosso compromisso com a excelência e atendimento ao cliente.",
+    "Partners": [
+        {
+            "title": "PBM Advogados",
+            "description": "Firma de advocacia suíça líder especializada em direito empresarial, governança corporativa e serviços de consultoria legal para empresas de todos os tamanhos.",
+            "website": "https://www.pbm.law/en",
+            "logo": "/assets/partners/pbm-logo.jpeg"
+        },
+        {
+            "title": "HelveBroker",
+            "description": "Firma de corretagem de seguros premier fornecendo soluções abrangentes de gestão de riscos e seguros para clientes corporativos.",
+            "website": "https://helvegroup.ch/fr",
+            "logo": "/assets/partners/logo-helvebroker.svg"
+        }
+    ],
+    "ServiceAreas": {
+        "Title": "Áreas de Serviços Colaborativos",
+        "Description": "Através de nossas parcerias, oferecemos capacidades aprimoradas em múltiplos domínios:",
+        "Areas": [
+            {
+                "title": "Consultoria Legal",
+                "description": "Suporte legal abrangente através de nossas parcerias de advocacia"
+            },
+            {
+                "title": "Gestão de Riscos",
+                "description": "Serviços profissionais de seguros e avaliação de riscos"
+            },
+            {
+                "title": "Consultoria Empresarial",
+                "description": "Serviços de consultoria estratégica para desenvolvimento empresarial"
+            },
+            {
+                "title": "Suporte de Conformidade",
+                "description": "Assistência em conformidade regulatória e governança"
+            }
+        ]
+    },
+    "Partnership": {
+        "Title": "Benefícios da Parceria",
+        "Description": "Nossas parcerias estratégicas nos permitem:",
+        "Benefits": [
+            "Fornecer cobertura abrangente de serviços",
+            "Acessar expertise especializada em todas as indústrias",
+            "Oferecer referências de clientes e colaboração perfeita",
+            "Manter os mais altos padrões profissionais",
+            "Entregar soluções integradas para necessidades comerciais complexas"
+        ]
+    },
+    "Contact": {
+        "Title": "Fazer Parceria Conosco",
+        "Description": "Interessado em explorar oportunidades de parceria?",
+        "CallToAction": "Entre em contato conosco para discutir como podemos colaborar para servir melhor nossos clientes.",
+        "ButtonText": "Entre em contato"
+    }
+}

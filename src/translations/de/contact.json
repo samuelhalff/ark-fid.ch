@@ -1,0 +1,21 @@
+{
+    "Title": "Kontakt aufnehmen",
+    "Subtitle": "Wir antworten normalerweise innerhalb von 24 Stunden.",
+    "Form": {
+        "Name": "Name",
+        "Email": "E-Mail",
+        "CompanyName": "Firmenname (Optional)",
+        "Phone": "Telefonnummer (Optional)",
+        "Message": "Nachricht",
+        "Consent": "Ich stimme zu, bezüglich meiner Anfrage kontaktiert zu werden",
+        "Submit": "Nachricht senden",
+        "Success": "Nachricht erfolgreich gesendet!",
+        "Error": "Fehler beim Senden der Nachricht. Bitte versuchen Sie es erneut."
+    },
+    "Errors": {
+        "Required": "Dieses Feld ist erforderlich",
+        "InvalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+        "MaxLength": "Die Nachricht darf 500 Zeichen nicht überschreiten",
+        "Consent": "Sie müssen zustimmen, kontaktiert zu werden"
+    }
+}

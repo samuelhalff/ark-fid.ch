@@ -1,0 +1,41 @@
+{
+    "SectionTitle": "Referenzen",
+    "List": [
+        {
+            "name": "Alex Weber",
+            "designation": "CEO",
+            "company": "Swiss Innovations GmbH",
+            "testimonial": "Die Partnerschaft mit ihnen hat unsere Finanzoperationen vollständig transformiert. Die Effizienz, unsere Buchhaltung und Lohnbuchhaltung auf Odoo verwaltet zu haben, ist unübertroffen! Wir können uns jetzt auf unser Geschäft konzentrieren und wissen, dass unsere Compliance in Expertenhänden ist."
+        },
+        {
+            "name": "Clara Dubois",
+            "designation": "Geschäftsführerin",
+            "company": "Léman Distribution SA",
+            "testimonial": "Ein erstaunlicher Service, der die Komplexitäten der schweizerischen Buchhaltung und swissdec-Lohnbuchhaltung vereinfacht. Sehr empfehlenswert für jedes KMU. Ihr flexibler Ansatz ermöglicht es uns, die tägliche Rechnungsstellung zu handhaben, während sie den monatlichen Abschluss und die Steuern nahtlos verwalten."
+        },
+        {
+            "name": "Marco Rossi",
+            "designation": "Gründer",
+            "company": "Ticino Start-up",
+            "testimonial": "Die kollaborative Erfahrung auf Odoo ist erstklassig! Wir haben eine klare Echtzeit-Ansicht unserer Finanzen, und ihr Team ist immer da, um uns zu unterstützen. Die Implementierung war reibungslos und perfekt auf unsere Bedürfnisse zugeschnitten."
+        },
+        {
+            "name": "Sophie Müller",
+            "designation": "HR-Managerin",
+            "company": "Alpine Precision AG",
+            "testimonial": "Wir haben eine signifikante Verbesserung unserer HR-Effizienz seit der Auslagerung unserer Lohnbuchhaltung gesehen. Ihr Team handhabt alle swissdec-Erklärungen und Versicherungskommunikationen tadellos, was ein Game-Changer für unser kleines Team war."
+        },
+        {
+            "name": "Liam Schneider",
+            "designation": "Geschäftsführer",
+            "company": "Zurich Solutions",
+            "testimonial": "Die beste Investition, die wir in unser Back-Office gemacht haben. Das Support-Team ist unglaublich reaktionsschnell und sachkundig, beantwortet unsere Fragen sowohl zur Buchhaltung als auch zu Odoo. Ihr Service war seit unserer Gründung von unschätzbarem Wert."
+        },
+        {
+            "name": "Isabelle Favre",
+            "designation": "Inhaberin",
+            "company": "Geneva Consulting",
+            "testimonial": "Ihr Service hat mir Stunden administrativer Arbeit erspart! Die Finanzberichte und Einblicke, die sie liefern, sind unglaublich kraftvoll und leicht zu verstehen. Das hilft uns, intelligentere, datengestützte Entscheidungen für unser Wachstum zu treffen."
+        }
+    ]
+}

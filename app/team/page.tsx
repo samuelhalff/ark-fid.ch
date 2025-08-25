@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import {
   Card,
   CardContent,
@@ -6,6 +7,9 @@ import {
 } from "@/src/components/ui/card";
 import TranslatedText from "@/src/components/ui/translated-text";
 import Image from "next/image";
+import { generateMetadataForPage } from "@/src/lib/metadata";
+
+export const metadata: Metadata = generateMetadataForPage("/team");
 const teamMembers = [
   {
     name: "Hassan Barbir",

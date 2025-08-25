@@ -1,0 +1,21 @@
+{
+    "Title": "Ponerse en contacto",
+    "Subtitle": "Normalmente respondemos en 24 horas.",
+    "Form": {
+        "Name": "Nombre",
+        "Email": "Correo electrónico",
+        "CompanyName": "Nombre de la empresa (Opcional)",
+        "Phone": "Número de teléfono (Opcional)",
+        "Message": "Mensaje",
+        "Consent": "Acepto ser contactado sobre mi solicitud",
+        "Submit": "Enviar mensaje",
+        "Success": "¡Mensaje enviado exitosamente!",
+        "Error": "Error al enviar el mensaje. Por favor intente de nuevo."
+    },
+    "Errors": {
+        "Required": "Este campo es obligatorio",
+        "InvalidEmail": "Por favor ingrese una dirección de correo válida",
+        "MaxLength": "El mensaje no puede exceder 500 caracteres",
+        "Consent": "Debe aceptar ser contactado"
+    }
+}

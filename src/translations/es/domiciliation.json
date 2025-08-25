@@ -1,0 +1,50 @@
+{
+    "Hero": {
+        "Badge": "Domiciliación",
+        "Title": "Domiciliación",
+        "Description": "Ark Fiduciaire ofrece servicios de domiciliación para su empresa en Suiza. Benefíciese de una dirección prestigiosa y soporte administrativo integral para su negocio.",
+        "CTA": "Contáctanos",
+        "SecondaryCTA": "Conocer al equipo"
+    },
+    "Presentation": {
+        "Title": "Domiciliación: su dirección en Suiza",
+        "Subtitle": "Una ubicación estratégica para su negocio",
+        "Intro": [
+            "Proporcionamos una dirección de oficina registrada para su empresa, junto con gestión de correo y soporte administrativo.",
+            "Nuestros servicios aseguran que su empresa sea conforme y se beneficie de una imagen profesional."
+        ],
+        "ServicesTitle": "Nuestros Servicios de Domiciliación",
+        "List": [
+            "Dirección de oficina registrada",
+            "Gestión de correo",
+            "Soporte administrativo",
+            "Alquiler de salas de reuniones",
+            "Asistencia en incorporación de empresa"
+        ],
+        "Services": [
+            "Oficina Registrada: Dirección comercial profesional en una ubicación prestigiosa suiza",
+            "Gestión de Correo: Manejo completo y reenvío de toda su correspondencia comercial",
+            "Soporte Administrativo: Asistencia administrativa completa para todas sus necesidades comerciales",
+            "Salas de Reuniones: Espacios de reunión profesionales disponibles para alquiler cuando sea necesario"
+        ],
+        "StrengthsTitle": "Nuestras fortalezas para sus necesidades de domiciliación",
+        "Strengths": [
+            {
+                "Title": "Dirección prestigiosa",
+                "Desc": "Benefíciese de una dirección reconocida en Suiza para su empresa."
+            },
+            {
+                "Title": "Soporte administrativo",
+                "Desc": "Manejamos su correo y proporcionamos toda la asistencia administrativa necesaria."
+            },
+            {
+                "Title": "Cumplimiento y seguridad",
+                "Desc": "Aseguramos que su empresa cumpla con todos los requisitos legales para domiciliación."
+            },
+            {
+                "Title": "Flexibilidad y servicios",
+                "Desc": "Ofrecemos servicios adicionales como alquiler de salas de reuniones y soporte para incorporación de empresas."
+            }
+        ]
+    }
+}

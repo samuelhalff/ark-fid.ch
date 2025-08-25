@@ -1,0 +1,41 @@
+{
+  "IntroTitle": "Ressources pour Votre Entreprise",
+  "IntroText": "Ci-dessous, vous trouverez une sélection de documents et d'articles fournis par Ark Fiduciaire. Ces ressources sont offertes pour votre commodité et doivent être utilisées sous votre seule responsabilité. Pour des conseils personnalisés, veuillez contacter notre équipe.",
+  "FilesTitle": "Documents disponibles au téléchargement",
+  "ArticlesTitle": "Articles d'Experts",
+  "ReadArticle": "Lire l'Article",
+  "Files": [
+    {
+      "filename": "guide-salaire.pdf",
+      "title": "Guide d'établissement du certificat de salaire",
+      "description": "Tout employeur est tenu de délivrer un certificat de salaire récapitulant toutes les prestations et tous les avantages appréciables en argent qu'il fournit à I'employé ou au retraité dans le cadre ou en lien avec un contrat de travail présent ou passé. Ce principe ainsi que les dispositions énoncées ci-dessous s'appliquent par analogie aux institutions de prévoyance qui versent une rente. A ce titre, elles sont tenues de délivrer une attestation de rentes sur le formulaire 11 ou un formulaire particulier analogue",
+      "date": "2024-12-01"
+    }
+  ],
+  "Articles": [
+    {
+      "slug": "annual-vat-settlement-2025",
+      "title": "Décompte TVA Annuel en Suisse : Points Clés pour 2025",
+      "description": "Un résumé des principales règles et points d'attention pour le décompte TVA annuel en 2025.",
+      "content": "Pour l'année fiscale 2025, les entreprises suisses doivent continuer à utiliser soit la **méthode effective** (basée sur 4 déclarations TVA) soit la **méthode du Taux de l'Impôt Net (TIN)** (2 déclarations TVA), comme appliqué précédemment.\n\n## Caractéristiques clés du décompte TVA annuel\n\n- Changer votre méthode de décompte TVA nécessite de notifier l'Administration fédérale des contributions (AFC) au début de chaque période fiscale, dans les 60 jours (pour 2026 : entre le 01.01.2026 et le 28.02.2026 pour un premier changement). La nouvelle méthode doit être conservée pendant au moins une période fiscale complète pour les entreprises avec un chiffre d'affaires inférieur à CHF 5'005'000.\n- Autres conditions : toutes les dettes fiscales doivent être entièrement payées et toutes les déclarations soumises à temps pour les trois périodes fiscales précédentes.\n- L'AFC détermine le montant des acomptes, facturés en trois versements. Ceux-ci peuvent être ajustés jusqu'à 10 jours avant la date d'échéance pertinente.\n- Les extensions de délai restent possibles.\n- L'AFC peut révoquer l'autorisation si :\n  - Elle a dû initier une procédure de recouvrement contre le contribuable,\n  - Le contribuable a dépassé la limite de CHF 5'005'000 de chiffre d'affaires pendant trois périodes consécutives,\n  - L'AFC a dû estimer les impôts dus à des déclarations manquantes.\n\n## Points d'attention\n\n- Si les acomptes sont trop bas, des intérêts de retard (4,5%) seront facturés.\n- Pas de possibilité de réclamer des remboursements d'impôt préalable basés sur les acomptes.\n- L'autorisation peut être révoquée si les acomptes dévient trop des montants réellement dus.\n- S'il y a un crédit d'impôt, il ne peut être remboursé que l'année suivante (en mars).\n",
+      "author": "Sébastien Gallié",
+      "date": "2025-08-25",
+      "references": [
+        {
+          "labelKey": "SwissVATOffice",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        }
+      ]
+    }
+  ],
+  "References": "Références",
+  "By": "Par",
+  "Published": "Publié le",
+  "Download": "Télécharger",
+  "SwissVATOffice": "Office fédéral de la TVA (AFC)",
+  "Contact": {
+    "Title": "Questions sur cet article ?",
+    "Description": "Nos experts sont là pour vous aider à comprendre les détails et implications pour votre entreprise. Obtenez des conseils personnalisés adaptés à votre situation.",
+    "ButtonText": "Contacter Notre Équipe"
+  }
+}

@@ -1,0 +1,51 @@
+{
+    "Hero": {
+        "Badge": "Terceirização",
+        "BadgeTwo": "Especialistas BPO",
+        "Title": "Terceirização",
+        "Description": "A Ark Fiduciaire oferece soluções de terceirização para suas tarefas contábeis, de folha de pagamento e administrativas. Concentre-se no seu negócio principal enquanto cuidamos do resto com expertise e confidencialidade.",
+        "CTA": "Entre em contato",
+        "SecondaryCTA": "Conhecer a Equipe"
+    },
+    "Presentation": {
+        "Title": "Terceirização: eficiência e tranquilidade",
+        "Subtitle": "Delegar, focar, crescer",
+        "Intro": [
+            "Cuidamos da sua contabilidade, folha de pagamento e gestão administrativa, permitindo que você se concentre no desenvolvimento do seu negócio.",
+            "Nossas soluções de terceirização são flexíveis e adaptadas às suas necessidades, garantindo eficiência e controle de custos."
+        ],
+        "ServicesTitle": "Nossos Serviços de Terceirização",
+        "List": [
+            "Terceirização contábil",
+            "Terceirização de folha de pagamento",
+            "Gestão administrativa",
+            "Otimização de processos",
+            "Relatórios e painéis de controle"
+        ],
+        "Services": [
+            "Terceirização Contábil: Gestão completa da sua escrituração e relatórios financeiros",
+            "Terceirização de Folha de Pagamento: Serviços completos de processamento de folha e administração de RH",
+            "Gestão Administrativa: Manuseio abrangente de todas suas tarefas administrativas",
+            "Otimização de Processos: Racionalização e melhoria dos seus processos comerciais para eficiência"
+        ],
+        "StrengthsTitle": "Nossos pontos fortes para suas necessidades de terceirização",
+        "Strengths": [
+            {
+                "Title": "Expertise e confiabilidade",
+                "Desc": "Nossa equipe garante serviços de alta qualidade e confidencialidade rigorosa."
+            },
+            {
+                "Title": "Controle de custos",
+                "Desc": "A terceirização permite otimizar seus custos e se beneficiar de soluções escaláveis."
+            },
+            {
+                "Title": "Flexibilidade e escalabilidade",
+                "Desc": "Nossos serviços se adaptam às suas necessidades e à evolução do seu negócio."
+            },
+            {
+                "Title": "Foco no seu negócio principal",
+                "Desc": "Delegue tarefas administrativas e concentre-se no que mais importa: seu crescimento."
+            }
+        ]
+    }
+}

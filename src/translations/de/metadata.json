@@ -1,0 +1,103 @@
+{
+  "default": {
+    "title": "Ark Fiduciaire - Professionelle Treuhanddienste in der Schweiz",
+    "description": "Experte Treuhand-, Buchhaltungs- und Steuerdienstleistungen in der Schweiz. Unternehmensdienstleistungen, Lohnbuchhaltung, Domizilierung und umfassende Geschäftslösungen.",
+    "keywords": "Treuhanddienste, Buchhaltung, Steuerdienstleistungen, Schweiz, Unternehmensdienstleistungen, Lohnbuchhaltung, Domizilierung",
+    "author": "Ark Fiduciaire",
+    "siteName": "Ark Fiduciaire"
+  },
+  "pages": {
+    "/": {
+      "title": "Ark Fiduciaire - Professionelle Treuhanddienste in der Schweiz",
+      "description": "Experte Treuhand-, Buchhaltungs- und Steuerdienstleistungen in der Schweiz. Unternehmensdienstleistungen, Lohnbuchhaltung, Domizilierung und umfassende Geschäftslösungen.",
+      "keywords": "Treuhanddienste, Buchhaltung, Steuerdienstleistungen, Schweiz, Unternehmensdienstleistungen, Lohnbuchhaltung, Domizilierung"
+    },
+    "/about": {
+      "title": "Über Uns - Ark Fiduciaire",
+      "description": "Erfahren Sie mehr über Ark Fiduciaires Expertise in schweizerischen Treuhanddiensten, unser Team von Fachleuten und unser Engagement für Exzellenz in Buchhaltung und Steuerdienstleistungen.",
+      "keywords": "über ark fiduciaire, schweizer treuhandexperten, buchhaltungsfachleute, steuerspezialisten"
+    },
+    "/contact": {
+      "title": "Kontakt - Ark Fiduciaire",
+      "description": "Kontaktieren Sie Ark Fiduciaire für professionelle Treuhand-, Buchhaltungs- und Steuerdienstleistungen in der Schweiz. Kontaktieren Sie unsere Experten noch heute.",
+      "keywords": "kontakt ark fiduciaire, treuhanddienste kontakt, buchhaltungsdienstleistungen schweiz"
+    },
+    "/team": {
+      "title": "Unser Team - Ark Fiduciaire",
+      "description": "Lernen Sie die erfahrenen Fachleute von Ark Fiduciaire kennen. Unser Team aus zertifizierten Buchhaltern und Steuerspezialisten bietet experte Treuhanddienste.",
+      "keywords": "ark fiduciaire team, zertifizierte buchhalter, steuerspezialisten, treuhandfachleute"
+    },
+    "/partners": {
+      "title": "Partner - Ark Fiduciaire",
+      "description": "Entdecken Sie unsere Partnerschaftsmöglichkeiten und unser Netzwerk vertrauensvoller Mitarbeiter. Treten Sie Ark Fiduciaires Partnerökosystem für gegenseitiges Wachstum bei.",
+      "keywords": "ark fiduciaire partner, partnerschaftsmöglichkeiten, geschäftliche zusammenarbeit, vertrauensnetzwerk"
+    },
+    "/ressources": {
+      "title": "Ressourcen - Ark Fiduciaire",
+      "description": "Zugang zu wertvollen Ressourcen, Leitfäden und Artikeln über schweizerische Steuervorschriften, Buchhaltungsstandards und bewährte Treuhandpraktiken.",
+      "keywords": "treuhandressourcen, steuerleitfäden, buchhaltungsartikel, schweizer vorschriften, geschäftsressourcen"
+    },
+    "/services": {
+      "title": "Dienstleistungen - Ark Fiduciaire",
+      "description": "Umfassende Treuhanddienste einschließlich Buchhaltung, Steuerplanung, Unternehmensdienstleistungen, Lohnbuchhaltung und Geschäftsdomizilierung.",
+      "keywords": "treuhanddienste, buchhaltungsdienstleistungen, steuerdienstleistungen, unternehmensdienstleistungen, lohnbuchhaltung"
+    },
+    "/services/accounting": {
+      "title": "Buchhaltungsdienstleistungen - Ark Fiduciaire",
+      "description": "Professionelle Buchhaltungsdienstleistungen in der Schweiz. Experte Buchführung, Finanzberichterstattung und Buchhaltungskonformität für Unternehmen aller Größen.",
+      "keywords": "buchhaltungsdienstleistungen schweiz, buchführung, finanzberichterstattung, buchhaltungskonformität"
+    },
+    "/services/corporate": {
+      "title": "Unternehmensdienstleistungen - Ark Fiduciaire",
+      "description": "Vollständige Unternehmensdienstleistungen einschließlich Firmengründung, Unternehmensführung, Compliance und administrative Unterstützung in der Schweiz.",
+      "keywords": "unternehmensdienstleistungen, firmengründung, unternehmensführung, geschäftscompliance schweiz"
+    },
+    "/services/domiciliation": {
+      "title": "Domizilierungsdienstleistungen - Ark Fiduciaire",
+      "description": "Professionelle Geschäftsdomizilierungsdienstleistungen in der Schweiz. Registrierte Büroadressen und administrative Unterstützung für Ihr Unternehmen.",
+      "keywords": "domizilierungsdienstleistungen, registrierte büros, geschäftsadresse schweiz, administrative unterstützung"
+    },
+    "/services/odoo": {
+      "title": "Odoo-Implementierung - Ark Fiduciaire",
+      "description": "Experte Odoo ERP-Implementierung und Anpassungsdienstleistungen. Optimieren Sie Ihre Geschäftsprozesse mit professionellen Odoo-Lösungen.",
+      "keywords": "odoo implementierung, erp lösungen, geschäftsprozessautomatisierung, odoo anpassung"
+    },
+    "/services/outsourcing": {
+      "title": "Outsourcing-Dienstleistungen - Ark Fiduciaire",
+      "description": "Professionelle Geschäftsprozess-Outsourcing-Dienstleistungen. Konzentrieren Sie sich auf Ihr Kerngeschäft, während wir Ihre administrativen und finanziellen Abläufe handhaben.",
+      "keywords": "geschäfts outsourcing, prozess outsourcing, administrative dienstleistungen, finanz outsourcing"
+    },
+    "/services/payroll": {
+      "title": "Lohnbuchhaltungsdienstleistungen - Ark Fiduciaire",
+      "description": "Umfassende Lohnbuchhaltungsdienstleistungen in der Schweiz. Experte Gehaltsabrechnung, Sozialversicherungskonformität und HR-Administration.",
+      "keywords": "lohnbuchhaltungsdienstleistungen schweiz, gehaltsabrechnung, sozialversicherungskonformität, hr administration"
+    },
+    "/services/taxes": {
+      "title": "Steuerdienstleistungen - Ark Fiduciaire",
+      "description": "Experte Steuerdienstleistungen und Beratung in der Schweiz. Unternehmenssteuerplanung, MWST-Konformität und persönliche Steueroptimierungsstrategien.",
+      "keywords": "steuerdienstleistungen schweiz, steuerberatung, mwst konformität, unternehmenssteuerplanung"
+    },
+    "/legal/privacy": {
+      "title": "Datenschutzrichtlinie - Ark Fiduciaire",
+      "description": "Ark Fiduciaires Datenschutzrichtlinie. Erfahren Sie, wie wir Ihre persönlichen Daten in Übereinstimmung mit schweizerischen und EU-Vorschriften schützen und behandeln.",
+      "keywords": "datenschutzrichtlinie, datenschutz, dsgvo konformität, persönliche daten"
+    },
+    "/legal/terms": {
+      "title": "Nutzungsbedingungen - Ark Fiduciaire",
+      "description": "Nutzungsbedingungen für die Nutzung von Ark Fiduciaires Website und Dienstleistungen. Rechtliche Bedingungen und Nutzungsvereinbarungen.",
+      "keywords": "nutzungsbedingungen, rechtliche bedingungen, nutzungsvereinbarung, dienstleistungsvertrag"
+    },
+    "/legal/cookies": {
+      "title": "Cookie-Richtlinie - Ark Fiduciaire",
+      "description": "Informationen darüber, wie Ark Fiduciaire Cookies und ähnliche Technologien auf unserer Website für eine verbesserte Benutzererfahrung verwendet.",
+      "keywords": "cookie richtlinie, website cookies, datenschutzeinstellungen, benutzererfahrung"
+    }
+  },
+  "dynamic": {
+    "articles": {
+      "titleTemplate": "{articleTitle} - Ark Fiduciaire",
+      "descriptionTemplate": "{articleDescription} | Experteneinblicke von Ark Fiduciaires Fachleuten.",
+      "keywords": "steuervorschriften, buchhaltungseinblicke, treuhandexpertise, schweizer geschäft"
+    }
+  }
+}

@@ -5,6 +5,7 @@ import NavBar from "@/src/components/navigation/Navbar";
 import Footer from "@/app/shared/footer";
 
 import { Providers } from "@/src/components/providers"; // Import your new client provider
+import { Metadata } from "next";
 
 // import { Inter } from "next/font/google";
 
@@ -12,6 +13,43 @@ import { Providers } from "@/src/components/providers"; // Import your new clien
 
 // Here we define the STATIC metadata for the entire site
 // This is the baseline, and can be overridden by individual pages
+
+export const metadata: Metadata = {
+  title: {
+    template: "%s - Ark Fiduciaire",
+    default: "Ark Fiduciaire - Professional Fiduciary Services in Switzerland",
+  },
+  description:
+    "Expert fiduciary, accounting, and tax services in Switzerland. Corporate services, payroll management, domiciliation, and comprehensive business solutions.",
+  keywords:
+    "fiduciary services, accounting, tax services, Switzerland, corporate services, payroll, domiciliation",
+  authors: [{ name: "Ark Fiduciaire" }],
+  creator: "Ark Fiduciaire",
+  publisher: "Ark Fiduciaire",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: [
+      {
+        url: "/favicon.ico",
+        sizes: "any",
+      },
+      {
+        url: "/favicon.png",
+        type: "image/png",
+      },
+    ],
+    apple: [
+      {
+        url: "/favicon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+  },
+};
 
 export default function RootLayout({
   children,

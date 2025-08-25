@@ -1,0 +1,51 @@
+{
+    "Hero": {
+        "Badge": "Swiss made",
+        "BadgeTwo": "Parceiro confiável",
+        "Title": "Serviços Corporativos",
+        "Description": "A Ark Fiduciaire fornece serviços abrangentes de administração corporativa, garantindo que sua empresa seja conforme, bem estruturada e pronta para o crescimento. Cuidamos de todos os aspectos administrativos, legais e regulatórios para que você possa focar no seu negócio.",
+        "CTA": "Entre em contato",
+        "SecondaryCTA": "Conheça a equipe"
+    },
+    "Presentation": {
+        "Title": "Administração corporativa: sua empresa, nossa expertise",
+        "Subtitle": "Uma base sólida para seu negócio",
+        "Intro": [
+            "Nossa equipe o apoia em todas as fases da vida de sua empresa: desde a incorporação até a gestão diária, incluindo mudanças estatutárias e liquidações.",
+            "Garantimos conformidade com as regulamentações suíças e oferecemos consultoria estratégica para governança ótima."
+        ],
+        "List": [
+            "Incorporação de empresa",
+            "Mudanças estatutárias",
+            "Assembleias de diretoria e gerais",
+            "Gestão corporativa contínua",
+            "Liquidação e reestruturação"
+        ],
+        "ServicesTitle": "Nossos Serviços Corporativos",
+        "Services": [
+            "Incorporação de Empresa: Assistência completa para estabelecer sua empresa suíça",
+            "Mudanças Estatutárias: Gestão profissional de todas as modificações de estrutura corporativa",
+            "Reuniões de Diretoria: Organização e documentação de reuniões de diretoria e assembleias gerais",
+            "Gestão Corporativa Contínua: Gestão contínua de conformidade e administração"
+        ],
+        "StrengthsTitle": "Nossos pontos fortes para suas necessidades corporativas",
+        "Strengths": [
+            {
+                "Title": "Expertise em direito suíço",
+                "Desc": "Nossos especialistas dominam o framework legal e regulatório, garantindo que sua empresa esteja sempre em conformidade."
+            },
+            {
+                "Title": "Suporte personalizado",
+                "Desc": "Uma pessoa de contato dedicada o acompanha em cada etapa, oferecendo soluções personalizadas para seu negócio."
+            },
+            {
+                "Title": "Eficiência administrativa",
+                "Desc": "Cuidamos de todas as formalidades administrativas, permitindo que você se concentre no seu negócio principal."
+            },
+            {
+                "Title": "Consultoria estratégica",
+                "Desc": "Beneficie-se de nossa experiência para otimizar a estrutura e governança de sua empresa."
+            }
+        ]
+    }
+}

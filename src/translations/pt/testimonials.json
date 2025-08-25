@@ -1,0 +1,41 @@
+{
+    "SectionTitle": "Depoimentos",
+    "List": [
+        {
+            "name": "Alex Weber",
+            "designation": "CEO",
+            "company": "Swiss Innovations GmbH",
+            "testimonial": "Fazer parceria com eles transformou completamente nossas operações financeiras. A eficiência de ter nossa contabilidade e folha de pagamento gerenciadas no Odoo é incomparável! Agora podemos focar no nosso negócio, sabendo que nossa conformidade está em mãos expertas."
+        },
+        {
+            "name": "Clara Dubois",
+            "designation": "Gerente Geral",
+            "company": "Léman Distribution SA",
+            "testimonial": "Um serviço incrível que simplifica as complexidades da contabilidade suíça e folha de pagamento swissdec. Altamente recomendado para qualquer PME. Sua abordagem flexível nos permite lidar com faturamento diário enquanto eles gerenciam o fechamento mensal e impostos perfeitamente."
+        },
+        {
+            "name": "Marco Rossi",
+            "designation": "Fundador",
+            "company": "Ticino Start-up",
+            "testimonial": "A experiência colaborativa no Odoo é de primeira classe! Temos uma visão clara e em tempo real de nossas finanças, e sua equipe está sempre lá para nos apoiar. A implementação foi suave e perfeitamente adaptada às nossas necessidades."
+        },
+        {
+            "name": "Sophie Müller",
+            "designation": "Gerente de RH",
+            "company": "Alpine Precision AG",
+            "testimonial": "Vimos uma melhoria significativa em nossa eficiência de RH desde que terceirizamos nossa folha de pagamento. Sua equipe lida com todas as declarações swissdec e comunicações de seguros impecavelmente, o que foi revolucionário para nossa pequena equipe."
+        },
+        {
+            "name": "Liam Schneider",
+            "designation": "Diretor Executivo",
+            "company": "Zurich Solutions",
+            "testimonial": "O melhor investimento que fizemos em nosso back-office. A equipe de suporte é incrivelmente responsiva e conhecedora, respondendo nossas perguntas sobre contabilidade e Odoo. Seu serviço tem sido inestimável desde nossa incorporação."
+        },
+        {
+            "name": "Isabelle Favre",
+            "designation": "Proprietária",
+            "company": "Geneva Consulting",
+            "testimonial": "Seu serviço me poupou horas de trabalho administrativo! Os relatórios financeiros e insights que eles fornecem são incrivelmente poderosos e fáceis de entender. Isso nos ajuda a tomar decisões mais inteligentes e baseadas em dados para nosso crescimento."
+        }
+    ]
+}

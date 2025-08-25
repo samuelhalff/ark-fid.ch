@@ -4,12 +4,9 @@ import TranslatedText from "@/src/components/ui/translated-text";
 import TranslatedTextArray from "@/src/components/ui/translated-text-array";
 import DNAValuesSection from "@/src/components/ui/dna-values-section";
 import { Metadata } from "next";
+import { generateMetadataForPage } from "@/src/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "About Us | Ark Fiduciaire",
-  description:
-    "Learn about Ark Fiduciaire SA, born from the union of two specialized firms in 2025, bringing together decades of expertise in Swiss accounting and fiduciary services.",
-};
+export const metadata: Metadata = generateMetadataForPage("/about");
 
 export default function AboutUsPage() {
   return (

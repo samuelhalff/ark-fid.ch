@@ -1,0 +1,113 @@
+{
+    "Hero": {
+        "Badge": "Swiss Made",
+        "BadgeTwo": "Alimenté par l'IA",
+        "ReadMore": "Lire plus",
+        "Title": "Comptabilité",
+        "Description": "Nous offrons des services de comptabilité avec une technologie de pointe pour vous aider à gérer vos finances efficacement. Notre équipe assure la conformité avec les réglementations suisses tout en vous fournissant les outils pour prendre des décisions éclairées.",
+        "CTA": "Nous contacter",
+        "SecondaryCTA": "Rencontrer l'équipe"
+    },
+    "Presentation": {
+        "Title": "Vision holistique de votre comptabilité",
+        "Subtitle": "Une offre à 360°",
+        "Intro": [
+            "Nous nous consacrons à fournir des solutions complètes et personnalisées, conçues pour aborder chaque facette de vos besoins financiers et comptables avec précision et perspicacité.",
+            "Au-delà des chiffres, nous offrons des conseils stratégiques pour soutenir votre croissance, naviguer les défis, et saisir les opportunités du marché avec discernement. Nous sommes votre partenaire stratégique engagé dans le succès de votre entreprise."
+        ],
+        "List": [
+            "Comptabilité générale",
+            "Comptabilité analytique",
+            "Tâches périodiques",
+            "Tableaux de bord",
+            "Services sur mesure"
+        ],
+        "General": {
+            "Title": "Comptabilité générale",
+            "Desc": "Chez Ark Fiduciaire, nous maîtrisons tous les aspects de la comptabilité générale, du grand livre aux états financiers, en passant par la comptabilité de gestion. Nos professionnels s'assurent que chaque livre de comptes est tenu à jour, précis et conforme aux normes et réglementations de l'industrie.",
+            "List": [
+                "Plan comptable personnalisé",
+                "Gestion des comptes fournisseurs et clients",
+                "Gestion des paiements",
+                "Gestion de trésorerie"
+            ]
+        },
+        "Analytic": {
+            "Title": "Comptabilité analytique",
+            "Desc": "La comptabilité analytique est un outil puissant pour comprendre où et comment vous générez des profits, ainsi que pour identifier les domaines qui nécessitent une attention particulière. Nos experts d'Ark Fiduciaire vous aideront à mettre en place et analyser un système de comptabilité analytique efficace, vous permettant de prendre des décisions commerciales plus éclairées."
+        },
+        "Periodic": {
+            "Title": "Tâches périodiques",
+            "Desc": "Profitez de la tranquillité d'esprit avec notre expertise dans la préparation des déclarations périodiques pour toutes vos obligations, notamment :",
+            "List": [
+                "Clôture intermédiaire et/ou annuelle",
+                "TVA semestrielle ou trimestrielle",
+                "Assurances sociales",
+                "Déclaration fiscale",
+                "Assemblées générales ordinaires et extraordinaires",
+                "Conseil d'administration"
+            ],
+            "Followup": "Notre équipe dédiée vous accompagne à chaque étape, assurant une gestion transparente et optimisée de vos déclarations, afin que vous puissiez vous concentrer sur votre cœur de métier."
+        },
+        "Dashboards": {
+            "Title": "Tableaux de bord",
+            "Desc": "Optimisez la visibilité et le contrôle de vos finances avec nos solutions innovantes de tableaux de bord comptables. Les tableaux de bord fournissent un résumé clair et accessible de vos données financières, permettant une prise de décision éclairée et stratégique. Profitez d'une gestion simplifiée avec des tableaux de bord intuitifs adaptés à vos besoins spécifiques. Avec une interface conviviale et des analyses précises, nos solutions assurent un suivi efficace de votre santé financière."
+        },
+        "Custom": {
+            "Title": "Services sur mesure"
+        },
+        "Services": [
+            "Comptabilité Générale : Gestion complète de votre plan comptable et transactions financières",
+            "Reporting Financier : Préparation d'états financiers complets et rapports de gestion",
+            "Comptabilité Analytique : Analyse détaillée des coûts et suivi de rentabilité par projet ou département",
+            "Tableaux de Bord Personnalisés : Analyses financières en temps réel et surveillance KPI adaptées à votre entreprise"
+        ],
+        "CustomServicesList": [
+            {
+                "Icon": "Users",
+                "Title": "Experts",
+                "Desc": "Ark Fiduciaire s'appuie sur une équipe de comptables expérimentés et certifiés et de spécialistes fiscaux, maîtrisant les réglementations locales et internationales. Cette expertise assure des comptes précis et conformes, garantissant une gestion fiable et harmonieuse."
+            },
+            {
+                "Icon": "Clock",
+                "Title": "Gain de temps et efficacité",
+                "Desc": "En externalisant la comptabilité à Ark Fiduciaire, les entreprises peuvent se concentrer sur leur cœur de métier. Nos services font gagner du temps et améliorent l'efficacité opérationnelle en prenant en charge la gestion financière complète."
+            },
+            {
+                "Icon": "Settings",
+                "Title": "Solutions personnalisées",
+                "Desc": "Ark Fiduciaire offre des services comptables sur mesure, adaptés aux besoins spécifiques de chaque client. Que vous soyez une petite entreprise, une grande société, une ONG, ou une filiale, nous adaptons nos services pour répondre à vos attentes, offrant des solutions flexibles."
+            },
+            {
+                "Icon": "Laptop",
+                "Title": "Technologie avancée et gestion en temps réel",
+                "Desc": "Nous utilisons les dernières technologies et logiciels comptables pour assurer une gestion optimale. Ces outils permettent une gestion précise et rapide des données financières, ainsi qu'un accès facile et sécurisé aux informations en temps réel."
+            },
+            {
+                "Icon": "MessageSquare",
+                "Title": "Conseil",
+                "Desc": "Chez Ark Fiduciaire, nous ne nous limitons pas à la tenue de livres. Nous offrons également un accompagnement comptable de qualité. Nos experts vous aident à structurer vos finances, planifier vos impôts, et gérer votre flux de trésorerie, tout en identifiant les opportunités d'amélioration."
+            }
+        ],
+        "Experts": {
+            "Title": "Experts",
+            "Desc": "Ark Fiduciaire s'appuie sur une équipe de comptables expérimentés et certifiés et de spécialistes fiscaux, maîtrisant les réglementations locales et internationales. Cette expertise assure des comptes précis et conformes, garantissant une gestion fiable et harmonieuse."
+        },
+        "TimeEfficiency": {
+            "Title": "Gain de temps et efficacité",
+            "Desc": "En externalisant la comptabilité à Ark Fiduciaire, les entreprises peuvent se concentrer sur leur cœur de métier. Nos services font gagner du temps et améliorent l'efficacité opérationnelle en prenant en charge la gestion financière complète."
+        },
+        "CustomSolutions": {
+            "Title": "Solutions personnalisées",
+            "Desc": "Ark Fiduciaire offre des services comptables sur mesure, adaptés aux besoins spécifiques de chaque client. Que vous soyez une petite entreprise, une grande société, une ONG, ou une filiale, nous adaptons nos services pour répondre à vos attentes, offrant des solutions flexibles."
+        },
+        "AdvancedTech": {
+            "Title": "Technologie avancée et gestion en temps réel",
+            "Desc": "Nous utilisons les dernières technologies et logiciels comptables pour assurer une gestion optimale. Ces outils permettent une gestion précise et rapide des données financières, ainsi qu'un accès facile et sécurisé aux informations en temps réel."
+        },
+        "Consulting": {
+            "Title": "Conseil",
+            "Desc": "Chez Ark Fiduciaire, nous ne nous limitons pas à la tenue de livres. Nous offrons également un accompagnement comptable de qualité. Nos experts vous aident à structurer vos finances, planifier vos impôts, et gérer votre flux de trésorerie, tout en identifiant les opportunités d'amélioration."
+        }
+    }
+}

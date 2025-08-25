@@ -1,0 +1,51 @@
+{
+    "Hero": {
+        "Badge": "Swiss made",
+        "BadgeTwo": "Vertrauenspartner",
+        "Title": "Unternehmensdienstleistungen",
+        "Description": "Ark Fiduciaire bietet umfassende Unternehmensverwaltungsdienstleistungen und stellt sicher, dass Ihr Unternehmen konform, gut strukturiert und wachstumsbereit ist. Wir kümmern uns um alle administrativen, rechtlichen und regulatorischen Aspekte, damit Sie sich auf Ihr Geschäft konzentrieren können.",
+        "CTA": "Kontakt aufnehmen",
+        "SecondaryCTA": "Team kennenlernen"
+    },
+    "Presentation": {
+        "Title": "Unternehmensverwaltung: Ihr Unternehmen, unsere Expertise",
+        "Subtitle": "Ein solides Fundament für Ihr Geschäft",
+        "Intro": [
+            "Unser Team unterstützt Sie in allen Phasen des Unternehmenslebens: von der Gründung bis zur täglichen Verwaltung, einschließlich statutarischer Änderungen und Liquidationen.",
+            "Wir gewährleisten die Einhaltung schweizerischer Vorschriften und bieten strategische Beratung für optimale Governance."
+        ],
+        "List": [
+            "Unternehmensgründung",
+            "Statutarische Änderungen",
+            "Vorstands- und Generalversammlungen",
+            "Laufende Unternehmensverwaltung",
+            "Liquidation und Umstrukturierung"
+        ],
+        "ServicesTitle": "Unsere Unternehmensdienstleistungen",
+        "Services": [
+            "Unternehmensgründung: Vollständige Unterstützung bei der Gründung Ihres schweizerischen Unternehmens",
+            "Statutarische Änderungen: Professionelle Abwicklung aller Unternehmensstrukturänderungen",
+            "Vorstandssitzungen: Organisation und Dokumentation von Vorstands- und Generalversammlungen",
+            "Laufende Unternehmensverwaltung: Fortlaufende Compliance- und Verwaltungsbetreuung"
+        ],
+        "StrengthsTitle": "Unsere Stärken für Ihre Unternehmensbedürfnisse",
+        "Strengths": [
+            {
+                "Title": "Expertise im schweizerischen Recht",
+                "Desc": "Unsere Spezialisten beherrschen den rechtlichen und regulatorischen Rahmen und stellen sicher, dass Ihr Unternehmen immer konform ist."
+            },
+            {
+                "Title": "Persönliche Betreuung",
+                "Desc": "Ein engagierter Ansprechpartner begleitet Sie in jeder Phase und bietet maßgeschneiderte Lösungen für Ihr Unternehmen."
+            },
+            {
+                "Title": "Administrative Effizienz",
+                "Desc": "Wir kümmern uns um alle administrativen Formalitäten und ermöglichen es Ihnen, sich auf Ihr Kerngeschäft zu konzentrieren."
+            },
+            {
+                "Title": "Strategische Beratung",
+                "Desc": "Profitieren Sie von unserer Erfahrung zur Optimierung der Struktur und Governance Ihres Unternehmens."
+            }
+        ]
+    }
+}

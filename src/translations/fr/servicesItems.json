@@ -1,0 +1,30 @@
+{
+    "Accounting": {
+        "Title": "Comptabilité",
+        "Description": "Services comptables complets, incluant la tenue de livres et les rapports financiers. Nous nous appuyons sur des outils IA personnalisés pour gagner en efficacité et vous simplifier la vie."
+    },
+    "TaxesCompanyPersonal": {
+        "Title": "Impôts - Entreprise et Personnel",
+        "Description": "Nous gérons tous les aspects de la conformité fiscale, incluant l'inscription TVA, les déclarations d'impôts corporatifs et les déclarations d'impôts sur le revenu personnel."
+    },
+    "PayrollHR": {
+        "Title": "Paie et RH",
+        "Description": "Nous gérons le traitement de la paie, incluant les calculs de salaire, la génération de bulletins de paie et la conformité avec les réglementations suisses de sécurité sociale."
+    },
+    "OutsourcingServices": {
+        "Title": "Services d'Externalisation",
+        "Description": "Nous fournissons des services d'externalisation pour les tâches juridiques, administratives et comptables, vous permettant de vous concentrer sur vos activités commerciales principales pendant que nous gérons les fonctions back-office nécessaires."
+    },
+    "CorporateServices": {
+        "Title": "Services corporatifs",
+        "Description": "Nous offrons une gamme de services corporatifs, incluant la formation d'entreprise, la gestion de conformité et le support de gouvernance corporative pour assurer le bon fonctionnement de votre entreprise."
+    },
+    "DomiciliationServices": {
+        "Title": "Services de domiciliation",
+        "Description": "Les services de domiciliation fournissent aux entreprises une adresse enregistrée. Ces services permettent aux entreprises d'établir leur siège social officiel sans avoir besoin d'un bureau physique à cet endroit."
+    },
+    "OdooImplementation": {
+        "Title": "Implémentation Odoo",
+        "Description": "Nous sommes partenaires officiels Odoo, fournissant des services complets d'implémentation et de configuration pour assurer que votre installation Odoo respecte les standards comptables suisses."
+    }
+}

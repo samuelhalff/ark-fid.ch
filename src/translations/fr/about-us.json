@@ -1,0 +1,74 @@
+{
+    "Meta": {
+        "Title": "À Propos de Nous | Ark Fiduciaire",
+        "Description": "Découvrez Ark Fiduciaire SA, née de l'union de deux cabinets spécialisés en 2025, réunissant des décennies d'expertise en comptabilité et services fiduciaires suisses."
+    },
+    "Hero": {
+        "Title": "À Propos d'Ark Fiduciaire",
+        "Subtitle": "Née de l'Excellence, Unie pour l'Innovation",
+        "Badge": "Établie en 2025"
+    },
+    "Foundation": {
+        "Title": "Notre Fondation",
+        "Content": [
+            "Ark Fiduciaire SA a été fondée en 2025 grâce à l'union stratégique de deux cabinets fiduciaires suisses établis, chacun apportant son expertise unique et ses relations clients pour créer une offre de services plus forte et plus complète.",
+            "Cette fusion représente l'aboutissement d'années de croissance parallèle sur le marché suisse, combinant des spécialisations complémentaires pour mieux servir les besoins évolutifs de nos clients dans un environnement commercial de plus en plus complexe."
+        ]
+    },
+    "DNA": {
+        "Title": "Notre ADN",
+        "Subtitle": "Les Valeurs Qui Nous Définissent",
+        "Values": [
+            {
+                "Title": "Précision Suisse",
+                "Desc": "Nous incarnons les valeurs suisses traditionnelles de précision, fiabilité et attention aux détails dans tous les aspects de notre travail."
+            },
+            {
+                "Title": "Innovation en Avant",
+                "Desc": "Tout en respectant la tradition, nous adoptons des technologies de pointe et des méthodologies modernes pour améliorer nos services."
+            },
+            {
+                "Title": "Approche Centrée Client",
+                "Desc": "Notre équipe diversifiée rassemble différentes perspectives et expertises pour fournir des solutions sur mesure pour chaque client."
+            },
+            {
+                "Title": "Excellence Collaborative",
+                "Desc": "L'union de nos cabinets a créé une culture où la collaboration et le partage de connaissances génèrent des résultats supérieurs."
+            }
+        ]
+    },
+    "Expertise": {
+        "Title": "Expertise Collective",
+        "Content": [
+            "Notre équipe combine des décennies d'expérience en comptabilité, fiscalité, services corporatifs et conseil d'entreprise. Cette richesse de connaissances, rassemblée de deux cabinets prospères, nous permet d'aborder les défis sous plusieurs angles et de fournir des solutions complètes.",
+            "La diversité de nos backgrounds—des pratiques comptables suisses traditionnelles aux dynamiques commerciales internationales—nous permet de servir tant les PME locales que les multinationales avec une expertise et un dévouement égaux."
+        ]
+    },
+    "Vision": {
+        "Title": "Notre Vision",
+        "Content": [
+            "Nous envisageons Ark Fiduciaire comme le partenaire de confiance pour les entreprises naviguant les complexités du marché suisse tout en s'étendant à l'international. Notre objectif est de simplifier la gestion financière et la conformité réglementaire, permettant à nos clients de se concentrer sur ce qu'ils font de mieux—développer leurs entreprises.",
+            "Grâce à l'innovation continue et l'intégration de technologies comme les systèmes ERP Odoo, nous visons à transformer les services fiduciaires traditionnels en partenariats commerciaux dynamiques et avant-gardistes."
+        ]
+    },
+    "Partnership": {
+        "Title": "Le Pouvoir du Partenariat",
+        "Content": [
+            "La fusion de 2025 qui a créé Ark Fiduciaire représente plus que la simple combinaison de ressources—il s'agit de créer des synergies qui profitent à nos clients. En rassemblant une expertise complémentaire et des portefeuilles clients, nous avons élargi nos capacités tout en maintenant la touche personnelle qui définit le service suisse.",
+            "Cette approche de partenariat s'étend à nos relations clients, où nous agissons non seulement comme prestataires de services, mais comme conseillers stratégiques investis dans votre succès à long terme."
+        ]
+    },
+    "Future": {
+        "Title": "Regard vers l'Avenir",
+        "Content": [
+            "Alors que nous nous établissons sur le marché suisse, nous restons fidèles aux principes qui ont rendu nos cabinets fondateurs prospères : excellence dans l'exécution, innovation dans l'approche, et dévouement inébranlable au succès client.",
+            "L'avenir d'Ark Fiduciaire est construit sur la base solide de notre expertise fusionnée, renforcée par notre vision partagée de ce que les services fiduciaires modernes peuvent accomplir."
+        ]
+    },
+    "CTA": {
+        "Title": "Prêt à Vous Associer avec Nous ?",
+        "Description": "Découvrez comment notre expertise combinée peut bénéficier à votre entreprise.",
+        "ContactButton": "Nous Contacter",
+        "TeamButton": "Rencontrer Notre Équipe"
+    }
+}

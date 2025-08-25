@@ -1,0 +1,54 @@
+{
+    "Home": "Accueil",
+    "About": "À propos",
+    "Services": "Services",
+    "Contact": "Contact",
+    "Team": "Équipe",
+    "Our partners": "Nos Partenaires",
+    "Language": "Langue",
+    "Theme": "Thème",
+    "Ressources": "Ressources",
+    "MobileNavigation": "Navigation Mobile",
+    "CloseMenu": "Fermer le menu",
+    "CompanyFooter": "Ark Fiduciaire",
+    "Lang": {
+        "en": "English",
+        "fr": "Français",
+        "de": "Deutsch",
+        "es": "Español",
+        "pt": "Português"
+    },
+    "Themes": {
+        "Light": "Clair",
+        "Dark": "Sombre",
+        "System": "Système"
+    },
+    "Accounting": {
+        "Title": "Comptabilité",
+        "Description": "Services comptables complets, y compris tenue de livres et rapports financiers. Nous nous appuyons sur des outils d'IA personnalisés pour gagner en efficacité et vous faciliter la vie."
+    },
+    "TaxesCompanyPersonal": {
+        "Title": "Impôts - Entreprise et Personnel",
+        "Description": "Nous gérons tous les aspects de la conformité fiscale, y compris l'enregistrement TVA, les déclarations d'impôts sur les sociétés et les déclarations d'impôt sur le revenu personnel."
+    },
+    "PayrollHR": {
+        "Title": "Paie et RH",
+        "Description": "Nous gérons le traitement de la paie, y compris les calculs de salaire, la génération de bulletins de paie et la conformité avec les réglementations de sécurité sociale suisse."
+    },
+    "OutsourcingServices": {
+        "Title": "Services d'Externalisation",
+        "Description": "Nous fournissons des services d'externalisation pour les tâches juridiques, administratives et comptables, vous permettant de vous concentrer sur vos activités commerciales principales pendant que nous gérons les fonctions de back-office nécessaires."
+    },
+    "CorporateServices": {
+        "Title": "Services d'entreprise",
+        "Description": "Nous offrons une gamme de services d'entreprise, y compris la formation d'entreprise, la gestion de la conformité et le soutien à la gouvernance d'entreprise pour assurer le bon fonctionnement de votre entreprise."
+    },
+    "DomiciliationServices": {
+        "Title": "Services de domiciliation",
+        "Description": "Les services de domiciliation fournissent aux entreprises une adresse enregistrée. Ces services permettent aux entreprises d'établir leur siège social officiel sans avoir besoin d'un bureau physique à cet endroit."
+    },
+    "OdooImplementation": {
+        "Title": "Implémentation Odoo",
+        "Description": "Nous sommes des partenaires officiels d'Odoo, fournissant des services complets d'implémentation et de configuration pour garantir que votre configuration Odoo répond aux normes comptables suisses."
+    }
+}

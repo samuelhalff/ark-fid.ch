@@ -1,0 +1,54 @@
+{
+    "Home": "Início",
+    "About": "Sobre nós",
+    "Services": "Serviços",
+    "Contact": "Contacto",
+    "Team": "Equipa",
+    "Our partners": "Os Nossos Parceiros",
+    "Language": "Idioma",
+    "Theme": "Tema",
+    "Ressources": "Recursos",
+    "MobileNavigation": "Navegação Móvel",
+    "CloseMenu": "Fechar menu",
+    "CompanyFooter": "Ark Fiduciaire",
+    "Lang": {
+        "en": "English",
+        "fr": "Français",
+        "de": "Deutsch",
+        "es": "Español",
+        "pt": "Português"
+    },
+    "Themes": {
+        "Light": "Claro",
+        "Dark": "Escuro",
+        "System": "Sistema"
+    },
+    "Accounting": {
+        "Title": "Contabilidade",
+        "Description": "Serviços contabilísticos abrangentes, incluindo escrituração, relatórios financeiros. Contamos com ferramentas de IA personalizadas para ganhar eficiência e simplificar a sua vida."
+    },
+    "TaxesCompanyPersonal": {
+        "Title": "Impostos - Empresas e Particulares",
+        "Description": "Tratamos de todos os aspetos da conformidade fiscal, incluindo registo de IVA, declarações de impostos corporativos e declarações de rendimentos pessoais."
+    },
+    "PayrollHR": {
+        "Title": "Folha de Pagamento e RH",
+        "Description": "Gerimos o processamento de folha de pagamento, incluindo cálculos salariais, geração de recibos de vencimento e conformidade com as regulamentações de segurança social suíças."
+    },
+    "OutsourcingServices": {
+        "Title": "Serviços de Outsourcing",
+        "Description": "Fornecemos serviços de outsourcing para tarefas legais, administrativas e contabilísticas, permitindo que se concentre nas suas atividades empresariais principais enquanto tratamos das funções de back-office necessárias."
+    },
+    "CorporateServices": {
+        "Title": "Serviços corporativos",
+        "Description": "Oferecemos uma gama de serviços corporativos, incluindo formação de empresas, gestão de conformidade e suporte de governança corporativa para garantir que o seu negócio funcione sem problemas."
+    },
+    "DomiciliationServices": {
+        "Title": "Serviços de domiciliação",
+        "Description": "Os serviços de domiciliação fornecem às empresas um endereço registado. Estes serviços permitem às empresas estabelecer a sua sede oficial sem necessidade de um escritório físico no local."
+    },
+    "OdooImplementation": {
+        "Title": "Implementação Odoo",
+        "Description": "Somos parceiros oficiais Odoo, fornecendo serviços completos de implementação e configuração para garantir que a sua configuração Odoo cumpre os padrões contabilísticos suíços."
+    }
+}
