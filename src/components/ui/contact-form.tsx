@@ -65,7 +65,7 @@ const ContactForm: FC<ContactFormProps> = ({
   showTitle = true,
   showSubtitle = true,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("contact");
   const router = useRouter();
   const [sending, setSending] = React.useState(false);
 
@@ -148,7 +148,10 @@ const ContactForm: FC<ContactFormProps> = ({
                           <span className="text-green-600">*</span>
                         </FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input
+                            {...field}
+                            placeholder={t("Form.Placeholders.Name")}
+                          />
                         </FormControl>
                         <FormMessage className="place-self-start text-primary-red m-1!" />
                       </FormItem>
@@ -168,7 +171,10 @@ const ContactForm: FC<ContactFormProps> = ({
                         />
                       </FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input
+                          {...field}
+                          placeholder={t("Form.Placeholders.CompanyName")}
+                        />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
                     </FormItem>
@@ -187,7 +193,10 @@ const ContactForm: FC<ContactFormProps> = ({
                         />
                       </FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input
+                          {...field}
+                          placeholder={t("Form.Placeholders.Phone")}
+                        />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
                     </FormItem>
@@ -207,7 +216,10 @@ const ContactForm: FC<ContactFormProps> = ({
                         <span className="text-green-600">*</span>
                       </FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input
+                          {...field}
+                          placeholder={t("Form.Placeholders.Email")}
+                        />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
                     </FormItem>
@@ -230,7 +242,7 @@ const ContactForm: FC<ContactFormProps> = ({
                         <Textarea
                           {...field}
                           rows={8}
-                          placeholder={t("form.placeholders.message")}
+                          placeholder={t("Form.Placeholders.Message")}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />

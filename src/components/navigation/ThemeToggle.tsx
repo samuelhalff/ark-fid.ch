@@ -22,7 +22,9 @@ function ListItem({
       className={isMobile ? "text-xl" : "text-md"}
       onClick={onClick}
     >
-      <a className="text-md cursor-pointer py-3 px-4">{children}</a>
+      <button className="text-md cursor-pointer py-3 px-4 text-left w-full">
+        {children}
+      </button>
     </NavigationMenuLink>
   );
 }

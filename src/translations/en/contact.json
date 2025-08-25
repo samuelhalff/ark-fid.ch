@@ -7,10 +7,26 @@
         "CompanyName": "Company Name (Optional)",
         "Phone": "Phone Number (Optional)",
         "Message": "Message",
+        "Placeholders": {
+            "Message": "Your message..."
+        },
         "Consent": "I agree to be contacted about my request",
         "Submit": "Send Message",
         "Success": "Message sent successfully!",
         "Error": "Failed to send message. Please try again."
+    },
+    "Contact": {
+        "CompanyName": "Ark Fiduciaire",
+        "Email": "Email: info@ark-fid.ch",
+        "Address": "Address: 26 Boulevard Georges Favon, 1204 Geneva",
+        "Commitment": "We are committed to maintaining the highest standards of professional service and client satisfaction."
+    },
+    "Form.Placeholders": {
+        "Name": "Your name",
+        "Email": "your@email.com",
+        "CompanyName": "Company (optional)",
+        "Phone": "+41...",
+        "Message": "Your message..."
     },
     "Errors": {
         "Required": "This field is required",

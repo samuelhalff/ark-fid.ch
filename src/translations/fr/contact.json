@@ -1,5 +1,5 @@
 {
-    "Title": "Entrer en contact",
+    "Title": "Contactez-nous",
     "Subtitle": "Nous répondons généralement dans les 24 heures.",
     "Form": {
         "Name": "Nom",
@@ -7,6 +7,13 @@
         "CompanyName": "Nom de l'entreprise (Optionnel)",
         "Phone": "Numéro de téléphone (Optionnel)",
         "Message": "Message",
+        "Placeholders": {
+            "Name": "Votre nom",
+            "Email": "votre@email.com",
+            "CompanyName": "Entreprise (optionnel)",
+            "Phone": "+41...",
+            "Message": "Votre message..."
+        },
         "Consent": "J'accepte d'être contacté concernant ma demande",
         "Submit": "Envoyer le message",
         "Success": "Message envoyé avec succès !",
@@ -17,5 +24,11 @@
         "InvalidEmail": "Veuillez saisir une adresse e-mail valide",
         "MaxLength": "Le message ne peut pas dépasser 500 caractères",
         "Consent": "Vous devez accepter d'être contacté"
+    },
+    "Contact": {
+        "CompanyName": "Ark Fiduciaire",
+        "Email": "Email: info@ark-fid.ch",
+        "Address": "Address: 26 Boulevard Georges Favon, 1204 Geneva",
+        "Commitment": "Nous nous engageons à maintenir les normes les plus élevées de service professionnel et de satisfaction client."
     }
 }

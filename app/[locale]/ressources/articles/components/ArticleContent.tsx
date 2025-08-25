@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 import TranslatedText from "@/src/components/ui/translated-text";
 import ContactSection from "./ContactSection";
+import Link from "next/link";
 
 interface ArticleContentProps {
   slug: string;
@@ -49,7 +50,7 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
             translationKey="Published"
             fallbackText="Published on"
           />{" "}
-          {new Date(article.date).toLocaleDateString()}
+          {formatDateDeterministic(article.date)}
         </p>
       </div>
 
@@ -69,7 +70,7 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
             {(article.references as { labelKey: string; url: string }[]).map(
               (ref, i) => (
                 <li key={i}>
-                  <a
+                  <Link
                     href={ref.url}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -80,7 +81,7 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
                       translationKey={ref.labelKey}
                       fallbackText={ref.labelKey}
                     />
-                  </a>
+                  </Link>
                 </li>
               )
             )}
@@ -91,4 +92,17 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
       <ContactSection />
     </main>
   );
+}
+
+function formatDateDeterministic(date?: string) {
+  if (!date) return "";
+  try {
+    return new Intl.DateTimeFormat("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }).format(new Date(date));
+  } catch (e) {
+    return new Date(date).toISOString().split("T")[0];
+  }
 }

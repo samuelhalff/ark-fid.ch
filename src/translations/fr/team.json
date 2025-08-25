@@ -6,6 +6,7 @@
         "ManagingPartner": "Associé Gérant",
         "Tax": "Fiscalité",
         "OfficeProjectManager": "Gestionnaire de Bureau et Projets",
-        "SeniorAccountant": "Comptable Senior"
+        "SeniorAccountant": "Comptable Senior",
+        "Associate": "Associé"
     }
 }

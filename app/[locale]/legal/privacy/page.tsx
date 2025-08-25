@@ -824,13 +824,13 @@ export default function PrivacyPage() {
                   fallbackText="Address: 26 Boulevard Georges Favon, 1204 Geneva"
                 />
               </p>
-              <p>
+              {/* <p>
                 <TranslatedText
                   ns="legal"
                   translationKey="Privacy.Contact.Phone"
                   fallbackText="Phone: +41 XX XXX XX XX"
                 />
-              </p>
+              </p> */}
             </div>
           </div>
         </section>

@@ -1,5 +1,5 @@
 "use client";
-import services from "@/app/services/navigation";
+import services from "@/app/[locale]/navigation";
 import TranslatedText from "@/src/components/ui/translated-text";
 import Link from "next/link";
 

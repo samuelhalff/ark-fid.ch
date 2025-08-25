@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import ServicesElements from "@/app/services/navigation";
+import ServicesElements from "@/app/[locale]/navigation";
 import { NavigationMenuProps } from "@radix-ui/react-navigation-menu";
 import {
   NavigationMenu,

@@ -35,29 +35,29 @@ const Services = ({ showSubtitle = false }: ServicesProps) => {
           />
         </p>
       )}
-      <div className="mt-8 xs:mt-14 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-20">
+      <div className="mt-8 xs:mt-14 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-10">
         {services.map((service) => (
           <Link
             key={service.titleKey}
             href={`/services${service.href}`}
-            className="block transition-transform hover:scale-105"
+            className="block h-full transition-transform hover:scale-105"
           >
             <Card
               // Add `overflow-hidden` as a safety net to ensure nothing can visually escape the card.
-              className="flex flex-col border rounded-xl overflow-hidden shadow-none h-full cursor-pointer hover:shadow-lg transition-shadow"
+              className="flex flex-col justify-between items-center text-center border rounded-xl overflow-hidden shadow-none h-full cursor-pointer hover:shadow-lg transition-shadow"
             >
-              <CardHeader style={{ padding: "1rem 1rem 0", minHeight: 190 }}>
-                <div className="flex items-start gap-4 mt-3!">
+              <CardHeader className="p-4 pt-4 h-[250px]">
+                <div className="flex flex-col items-center gap-4 mt-3">
                   <div className="flex-shrink-0 mt-1">{service.icon}</div>
                   <div className="flex-1">
-                    <h4 className="text-left text-xl font-bold tracking-tight">
+                    <h4 className="text-xl font-bold tracking-tight break-anywhere hyphenate">
                       <TranslatedText
                         translationKey={service.titleKey}
                         fallbackText={service.titleKey}
                         ns="servicesItems"
                       />
                     </h4>
-                    <p className="mt-2 text-left text-gray-700 dark:text-gray-300 text-md xs:text-[17px]">
+                    <p className="mt-2 text-gray-700 dark:text-gray-300 text-md xs:text-[17px] break-anywhere hyphenate">
                       <TranslatedText
                         translationKey={service.descriptionKey}
                         fallbackText={service.descriptionKey}
@@ -70,24 +70,17 @@ const Services = ({ showSubtitle = false }: ServicesProps) => {
 
               {/* 5. FUNDAMENTAL CHANGE: The Layout Logic */}
               <CardContent className="grow p-0">
-                {/* 
-                  This div now has a fixed height and provides the left-offset
-                  using PADDING, not a margin. This creates a correctly sized
-                  "window" for the image.
-                */}
-                <div className="h-56 w-full p-0 pl-6 pb-6 box-border">
-                  {/* 
-                    This is the container that the image will fill. It is RELATIVE
-                    and will perfectly fill the padded space of its parent.
-                  */}
-                  <div className="relative h-full w-full rounded-tl-xl overflow-hidden">
+                {/* fixed-height image area; use Next/Image fill + object-cover to ensure consistent cropping and centering */}
+                <div className="w-[100%] w-full p-0 box-border flex items-center justify-center">
+                  {/* Add a light rounded container so images that don't reach the card edge keep a subtle rounded appearance */}
+                  <div className="relative h-full w-full max-w-[90%] overflow-hidden rounded-lg bg-muted/30 p-2 mt-5">
                     <Image
                       src={service.image}
-                      alt={service.titleKey} // The alt text should also be translated for accessibility
+                      alt={service.titleKey}
                       width={0}
                       height={0}
-                      sizes="100vw"
-                      style={{ width: "100%", height: "auto" }}
+                      sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
+                      className="object-cover w-full h-full rounded-md"
                     />
                   </div>
                 </div>

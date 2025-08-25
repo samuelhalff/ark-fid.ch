@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 120 120" role="img" aria-label="Missing profile">
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1">
+      <stop offset="0%" stop-color="#111827" />
+      <stop offset="100%" stop-color="#1F2937" />
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="12" fill="url(#g1)" />
+  <g fill="#D1D5DB" transform="translate(20,18)">
+    <circle cx="40" cy="24" r="18" />
+    <rect x="6" y="54" width="68" height="34" rx="8" />
+  </g>
+  <g transform="translate(20,18)" fill="#111827" opacity="0.06">
+    <circle cx="40" cy="24" r="18" />
+  </g>
+  <rect x="6" y="54" width="68" height="34" rx="8" fill="#111827" opacity="0.04" />
+</svg>

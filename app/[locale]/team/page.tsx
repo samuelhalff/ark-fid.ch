@@ -7,6 +7,8 @@ import {
 } from "@/src/components/ui/card";
 import TranslatedText from "@/src/components/ui/translated-text";
 import Image from "next/image";
+import Link from "next/link";
+import ImageWithFallback from "@/src/components/ui/image-with-fallback";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -18,7 +20,7 @@ const teamMembers = [
     role: "Partner",
     profilePic: "/assets/hb.jpg",
     social: {
-      linkedin: "https://www.linkedin.com/in/jane-doe",
+      linkedin: "https://www.linkedin.com/in/hassanbarbir",
     },
   },
   {
@@ -26,7 +28,7 @@ const teamMembers = [
     role: "ManagingPartner",
     profilePic: "/assets/sh.jpg",
     social: {
-      linkedin: "https://www.linkedin.com/in/peter-jones",
+      linkedin: "https://www.linkedin.com/in/samuelhalff",
     },
   },
   {
@@ -34,7 +36,7 @@ const teamMembers = [
     role: "Partner",
     profilePic: "/assets/rs.jpg",
     social: {
-      linkedin: "https://www.linkedin.com/in/john-smith",
+      linkedin: "https://www.linkedin.com/in/rodrigue-sperisen-74543a185",
     },
   },
   {
@@ -42,7 +44,7 @@ const teamMembers = [
     role: "Partner",
     profilePic: "/assets/ld.png",
     social: {
-      linkedin: "https://www.linkedin.com/in/peter-jones",
+      linkedin: "https://www.linkedin.com/in/lassana-dioum-b429622b",
     },
   },
   {
@@ -50,7 +52,7 @@ const teamMembers = [
     role: "Tax",
     profilePic: "/assets/at.jpg",
     social: {
-      linkedin: "https://www.linkedin.com/in/peter-jones",
+      linkedin: "https://ch.linkedin.com/in/touboulanthony",
     },
   },
   {
@@ -58,7 +60,7 @@ const teamMembers = [
     role: "OfficeProjectManager",
     profilePic: "/assets/cl.png",
     social: {
-      linkedin: "https://www.linkedin.com/in/peter-jones",
+      linkedin: "https://www.linkedin.com/in/c%C3%A9lesteleal",
     },
   },
   {
@@ -66,7 +68,15 @@ const teamMembers = [
     role: "SeniorAccountant",
     profilePic: "/assets/sg.jpg",
     social: {
-      linkedin: "https://www.linkedin.com/in/peter-jones",
+      linkedin: "https://ch.linkedin.com/in/s%C3%A9bastien-galli%C3%A9",
+    },
+  },
+  {
+    name: "Maulk Hamdi",
+    role: "Associate",
+    profilePic: "/assets/maulk-hamdi.jpg",
+    social: {
+      linkedin: "https://www.linkedin.com/in/maulk-hamdi-b47b68361",
     },
   },
 ];
@@ -95,7 +105,13 @@ export default function TeamPage() {
         {teamMembers
           .sort(() => Math.random() - 0.5)
           .map((member) => (
-            <a href={member.social.linkedin} key={member.name} className="">
+            <Link
+              href={member.social.linkedin}
+              key={member.name}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block"
+            >
               <Card
                 className={
                   "animate-in fade-in duration-250 text-center shadow-none hover:shadow-lg transition-shadow gap-2 py-5 border-0 hover:brightness-115"
@@ -103,7 +119,7 @@ export default function TeamPage() {
               >
                 <CardHeader>
                   <div className="aspect-4/5 w-full rounded-md overflow-hidden mb-4 relative h-96">
-                    <Image
+                    <ImageWithFallback
                       src={member.profilePic}
                       alt={`Portrait of ${member.name}`}
                       className="w-full h-full object-cover"
@@ -137,7 +153,7 @@ export default function TeamPage() {
                 </CardContent>
                 <CardFooter className="flex justify-center"></CardFooter>
               </Card>
-            </a>
+            </Link>
           ))}
       </div>
     </div>
