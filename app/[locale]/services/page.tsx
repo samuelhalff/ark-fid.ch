@@ -1,5 +1,5 @@
 import React from "react";
-import Service from "@/app/home/components/services";
+import Service from "@/app/[locale]/home/components/services";
 import ContactForm from "@/src/components/ui/contact-form";
 
 export default function ServicesPage() {

@@ -2,7 +2,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader } from "@/src/components/ui/card";
-import services from "@/app/home/components/services-items"; // Corrected import path
+import services from "@/app/[locale]/home/components/services-items"; // Corrected import path
 import TranslatedText from "@/src/components/ui/translated-text"; // 2. ADD: Import our hydration-safe component
 import Image from "next/image"; // 3. CHANGE: We are now using the Next.js Image component
 import Link from "next/link"; // ADD: Import Link for navigation
