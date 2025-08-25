@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/src/components/ui/button";
 import {
   Sheet,
@@ -11,15 +12,18 @@ import ThemeToggleMobile from "@/src/components/navigation/ThemeToggleMobile";
 import ServicesMobile from "@/src/components/navigation/ServicesMobile";
 import TranslatedText from "@/src/components/ui/translated-text";
 import Image from "next/image";
-import Footer from "@/app/shared/footer";
+import Footer from "@/app/[locale]/shared/footer";
 import { useState } from "react";
+import Link from "next/link";
+// no usePathname needed; compute pathname from window when required
 
-const MobileMenu = () => {
+const MobileMenu = ({ locale }: { locale?: string }) => {
   const [open, setOpen] = useState(false);
 
   const handleLinkClick = () => {
     setOpen(false);
   };
+  const localePrefix = locale ? `/${locale}` : "/fr";
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -73,10 +77,10 @@ const MobileMenu = () => {
         >
           <nav className="flex flex-col gap-3 px-4 mt-3 pb-10 pt-2">
             <ThemeToggleMobile />
-            <LangSwitchMobile />
+            <LangSwitchMobile onLocaleChange={handleLinkClick} />
             <div className="mt-3 mb-3">
-              <a
-                href="/contact"
+              <Link
+                href={`${localePrefix}/contact`}
                 onClick={handleLinkClick}
                 className="block w-full text-center font-semibold text-lg py-3 rounded-xl border border-accent bg-transparent hover:bg-accent/30 transition-colors"
                 style={{ letterSpacing: 0.5 }}
@@ -86,11 +90,11 @@ const MobileMenu = () => {
                   translationKey="Contact"
                   fallbackText="Contact"
                 />
-              </a>
+              </Link>
             </div>
             <div>
-              <a
-                href="/"
+              <Link
+                href={`${localePrefix}/`}
                 onClick={handleLinkClick}
                 className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
@@ -101,11 +105,11 @@ const MobileMenu = () => {
                     fallbackText="Home"
                   />
                 </span>
-              </a>
+              </Link>
             </div>
             <div>
-              <a
-                href="/team"
+              <Link
+                href={`${localePrefix}/team`}
                 onClick={handleLinkClick}
                 className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
@@ -116,11 +120,11 @@ const MobileMenu = () => {
                     fallbackText="Team"
                   />
                 </span>
-              </a>
+              </Link>
             </div>
             <div>
-              <a
-                href="/about"
+              <Link
+                href={`${localePrefix}/about`}
                 onClick={handleLinkClick}
                 className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
@@ -131,12 +135,12 @@ const MobileMenu = () => {
                     fallbackText="About"
                   />
                 </span>
-              </a>
+              </Link>
             </div>
             <ServicesMobile onLinkClick={handleLinkClick} />
             <div>
-              <a
-                href="/ressources"
+              <Link
+                href={`${localePrefix}/ressources`}
                 onClick={handleLinkClick}
                 className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
@@ -147,7 +151,7 @@ const MobileMenu = () => {
                     fallbackText="Ressources"
                   />
                 </span>
-              </a>
+              </Link>
             </div>
             <div onClick={handleLinkClick}>
               <Footer />

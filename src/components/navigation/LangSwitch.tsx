@@ -7,6 +7,7 @@ import {
 } from "@/src/components/navigation/NavigationComponents";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/navigation";
 import TranslatedText from "@/src/components/ui/translated-text";
 
 function ListItem({
@@ -35,6 +36,20 @@ export default function LangSwitch(): React.ReactElement {
     setIsClient(true);
   }, []);
 
+  const router = useRouter();
+  const pathname =
+    typeof window !== "undefined" ? window.location.pathname : "/";
+
+  function navigateToLocale(targetLocale: string) {
+    const parts = pathname?.split("/") || [];
+    const remainder = parts.length > 2 ? parts.slice(2).join("/") : "";
+    const newPath = `/${targetLocale}${remainder ? `/${remainder}` : ""}`;
+    router.push(newPath);
+    try {
+      changeLanguage(targetLocale);
+    } catch (e) {}
+  }
+
   return (
     <NavigationMenuItem className="md:ml-30">
       <NavigationMenuTrigger className="flex items-center gap-1 px-2">
@@ -42,28 +57,28 @@ export default function LangSwitch(): React.ReactElement {
         <span style={{ minWidth: 17 }}> {isClient ? language : ""}</span>
       </NavigationMenuTrigger>
       <NavigationMenuContent>
-        <ListItem onClick={() => changeLanguage("en")}>
+        <ListItem onClick={() => navigateToLocale("en")}>
           <TranslatedText
             ns="navbar"
             translationKey="Lang.en"
             fallbackText="English"
           />
         </ListItem>
-        <ListItem onClick={() => changeLanguage("fr")}>
+        <ListItem onClick={() => navigateToLocale("fr")}>
           <TranslatedText
             ns="navbar"
             translationKey="Lang.fr"
             fallbackText="Français"
           />
         </ListItem>
-        <ListItem onClick={() => changeLanguage("de")}>
+        <ListItem onClick={() => navigateToLocale("de")}>
           <TranslatedText
             ns="navbar"
             translationKey="Lang.de"
             fallbackText="Deutsch"
           />
         </ListItem>
-        <ListItem onClick={() => changeLanguage("es")}>
+        <ListItem onClick={() => navigateToLocale("es")}>
           <TranslatedText
             ns="navbar"
             translationKey="Lang.es"
