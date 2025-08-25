@@ -1,0 +1,55 @@
+{
+    "Hero": {
+        "Badge": "Implementación Odoo",
+        "BadgeTwo": "Digitalización & ERP",
+        "Title": "Odoo: digitalice su gestión",
+        "Description": "Ark Fiduciaire lo apoya en la integración, personalización y evolución de su solución Odoo. Optimice sus procesos, automatice tareas y gestione su negocio con un ERP completo y escalable.",
+        "CTA": "Contáctanos",
+        "SecondaryCTA": "Conocer al Equipo"
+    },
+    "Presentation": {
+        "Title": "Odoo: digitalice su negocio",
+        "Subtitle": "Una solución ERP completa y escalable",
+        "Intro": [
+            "Odoo es una solución ERP modular y flexible, ideal para digitalizar y optimizar la gestión de su negocio. Ark Fiduciaire lo apoya en la integración, personalización y evolución de su sistema Odoo.",
+            "Analizamos sus necesidades, configuramos los módulos correctos y capacitamos a sus equipos para asegurar una adopción rápida y efectiva. Nuestro soporte técnico garantiza la continuidad y seguridad de su entorno Odoo."
+        ],
+        "List": [
+            "Análisis de necesidades y auditoría de procesos",
+            "Despliegue y configuración de Odoo",
+            "Migración de datos e integración con sus herramientas",
+            "Capacitación de usuarios y soporte técnico",
+            "Evolución y mantenimiento de la solución"
+        ],
+        "ServicesTitle": "Nuestros Servicios Odoo",
+        "Services": [
+            "Implementación Odoo: Despliegue y configuración completa de Odoo adaptada a las necesidades de su negocio",
+            "Automatización de Procesos: Racionalización de sus flujos de trabajo con tareas administrativas y operativas automatizadas",
+            "Migración de Datos: Transferencia fluida de sus datos existentes al nuevo sistema Odoo",
+            "Capacitación y Soporte: Capacitación integral de usuarios y asistencia técnica continua"
+        ],
+        "StrengthsTitle": "Nuestras fortalezas para su transformación digital",
+        "Strengths": [
+            {
+                "Title": "Integración Odoo personalizada",
+                "Desc": "Despliegue, configuración y personalización de la solución Odoo para satisfacer precisamente las necesidades de su negocio. Aseguramos una transición suave y soporte integral."
+            },
+            {
+                "Title": "Automatización de procesos",
+                "Desc": "Optimización de sus flujos de trabajo a través de la automatización de tareas administrativas, contables, de ventas o de RRHH vía Odoo."
+            },
+            {
+                "Title": "Capacitación y soporte",
+                "Desc": "Apoyo para sus equipos en cada etapa: capacitación, asistencia técnica y soporte continuo para asegurar el éxito de su proyecto Odoo."
+            },
+            {
+                "Title": "Seguridad y cumplimiento",
+                "Desc": "Implementación de soluciones seguras, cumpliendo con los estándares de confidencialidad y cumplimiento vigentes en Suiza."
+            },
+            {
+                "Title": "Consultoría y evolución",
+                "Desc": "Nuestros expertos lo asesoran sobre la evolución de su sistema de información y la integración de nuevos módulos Odoo conforme crece su negocio."
+            }
+        ]
+    }
+}

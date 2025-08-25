@@ -1,0 +1,51 @@
+{
+    "Hero": {
+        "Badge": "Externalización",
+        "BadgeTwo": "Expertos BPO",
+        "Title": "Externalización",
+        "Description": "Ark Fiduciaire ofrece soluciones de externalización para sus tareas contables, de nómina y administrativas. Enfóquese en su negocio principal mientras nosotros manejamos el resto con experiencia y confidencialidad.",
+        "CTA": "Contáctanos",
+        "SecondaryCTA": "Conocer al Equipo"
+    },
+    "Presentation": {
+        "Title": "Externalización: eficiencia y tranquilidad",
+        "Subtitle": "Delegar, enfocar, crecer",
+        "Intro": [
+            "Nos ocupamos de su contabilidad, nómina y gestión administrativa, permitiéndole concentrarse en el desarrollo de su negocio.",
+            "Nuestras soluciones de externalización son flexibles y adaptadas a sus necesidades, asegurando eficiencia y control de costos."
+        ],
+        "ServicesTitle": "Nuestros Servicios de Externalización",
+        "List": [
+            "Externalización contable",
+            "Externalización de nómina",
+            "Gestión administrativa",
+            "Optimización de procesos",
+            "Informes y paneles de control"
+        ],
+        "Services": [
+            "Externalización Contable: Gestión completa de su contabilidad e informes financieros",
+            "Externalización de Nómina: Servicios completos de procesamiento de nómina y administración de RRHH",
+            "Gestión Administrativa: Manejo integral de todas sus tareas administrativas",
+            "Optimización de Procesos: Racionalización y mejora de sus procesos comerciales para eficiencia"
+        ],
+        "StrengthsTitle": "Nuestras fortalezas para sus necesidades de externalización",
+        "Strengths": [
+            {
+                "Title": "Experiencia y confiabilidad",
+                "Desc": "Nuestro equipo garantiza servicios de alta calidad y estricta confidencialidad."
+            },
+            {
+                "Title": "Control de costos",
+                "Desc": "La externalización le permite optimizar sus costos y beneficiarse de soluciones escalables."
+            },
+            {
+                "Title": "Flexibilidad y escalabilidad",
+                "Desc": "Nuestros servicios se adaptan a sus necesidades y la evolución de su negocio."
+            },
+            {
+                "Title": "Enfoque en su negocio principal",
+                "Desc": "Delegue tareas administrativas y enfóquese en lo que más importa: su crecimiento."
+            }
+        ]
+    }
+}

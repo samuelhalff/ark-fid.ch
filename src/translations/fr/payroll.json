@@ -1,0 +1,51 @@
+{
+    "Hero": {
+        "Badge": "Services de Paie",
+        "BadgeTwo": "Alimenté par l'IA",
+        "Title": "Paie et RH",
+        "Description": "Ark Fiduciaire gère votre paie et administration RH avec précision et confidentialité. Nous assurons la conformité avec le droit du travail suisse et fournissons un soutien pour tous vos besoins RH.",
+        "CTA": "Nous contacter",
+        "SecondaryCTA": "Rencontrer l'équipe"
+    },
+    "Presentation": {
+        "Title": "Paie et RH : gestion sécurisée et efficace",
+        "Subtitle": "Vos employés, notre priorité",
+        "Intro": [
+            "Nous nous occupons de toutes les tâches administratives de paie et RH, des calculs de salaire aux déclarations d'assurances sociales.",
+            "Nos experts assurent la conformité et fournissent des conseils pour une gestion RH optimale."
+        ],
+        "List": [
+            "Traitement de la paie",
+            "Gestion des assurances sociales",
+            "Administration RH",
+            "Contrats de travail",
+            "Conseil et accompagnement"
+        ],
+        "ServicesTitle": "Nos Services Paie et RH",
+        "Services": [
+            "Traitement de la Paie : Calculs complets de salaires, déductions d'assurances sociales et gestion des paiements",
+            "Administration RH : Gestion des dossiers employés, préparation de contrats et support administratif",
+            "Assurances Sociales : Inscription, déclarations et conformité avec les systèmes de sécurité sociale suisses",
+            "Droit du Travail : Services de conseil sur le droit du travail suisse et conformité réglementaire"
+        ],
+        "StrengthsTitle": "Nos forces pour vos besoins RH",
+        "Strengths": [
+            {
+                "Title": "Confidentialité et sécurité",
+                "Desc": "Nous garantissons la confidentialité de vos données et la conformité avec toutes les exigences légales."
+            },
+            {
+                "Title": "Expertise en droit du travail suisse",
+                "Desc": "Nos spécialistes maîtrisent le cadre juridique et assurent que votre gestion RH soit toujours conforme."
+            },
+            {
+                "Title": "Accompagnement personnalisé",
+                "Desc": "Une personne de contact dédiée vous accompagne, vous et vos employés, à chaque étape."
+            },
+            {
+                "Title": "Efficacité administrative",
+                "Desc": "Nous nous occupons de toutes les formalités administratives, vous permettant de vous concentrer sur votre cœur de métier."
+            }
+        ]
+    }
+}

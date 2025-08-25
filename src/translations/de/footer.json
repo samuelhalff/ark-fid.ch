@@ -1,0 +1,38 @@
+{
+    "Services": {
+        "Title": "Dienstleistungen"
+    },
+    "Company": {
+        "Title": "Unternehmen",
+        "AboutUs": "Über uns",
+        "Careers": "Karriere",
+        "Press": "Presse",
+        "News": "Nachrichten",
+        "MediaKit": "Medienkit",
+        "Contact": "Kontakt"
+    },
+    "Resources": {
+        "Title": "Ressourcen",
+        "Blog": "Blog",
+        "Newsletter": "Newsletter",
+        "Events": "Veranstaltungen",
+        "HelpCentre": "Hilfezentrum",
+        "Tutorials": "Tutorials",
+        "Support": "Support"
+    },
+    "Social": {
+        "Title": "Social",
+        "LinkedIn": "LinkedIn"
+    },
+    "Legal": {
+        "Title": "Rechtliches",
+        "Terms": "Bedingungen",
+        "Privacy": "Datenschutz",
+        "Cookies": "Cookies",
+        "Licenses": "Lizenzen",
+        "Settings": "Einstellungen",
+        "Contact": "Kontakt"
+    },
+    "Copyright": "Alle Rechte vorbehalten",
+    "Ark Fiduciaire SA": "Ark Fiduciaire SA"
+}

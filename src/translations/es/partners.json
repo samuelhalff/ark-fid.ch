@@ -1,0 +1,69 @@
+{
+    "IntroTitle": "Nuestros Socios",
+    "IntroText": "Colaboramos con socios de confianza para proporcionar servicios profesionales integrales a nuestros clientes.",
+    "Hero": {
+        "Badge": "Asociaciones Estratégicas",
+        "CTA": "Asociarse con Nosotros",
+        "SecondaryCTA": "Conocer a nuestro equipo"
+    },
+    "Presentation": {
+        "Title": "Construyendo Asociaciones Fuertes",
+        "Subtitle": "Red de Colaboración Estratégica",
+        "Description": "A través de asociaciones estratégicas, ampliamos nuestras capacidades y entregamos soluciones integrales que satisfacen todas sus necesidades de servicios profesionales."
+    },
+    "PartnersTitle": "Nuestra Red de Socios",
+    "PartnersDescription": "Descubra nuestra red de socios profesionales que comparten nuestro compromiso con la excelencia y el servicio al cliente.",
+    "Partners": [
+        {
+            "title": "PBM Abogados",
+            "description": "Firma de abogados suiza líder especializada en derecho empresarial, gobierno corporativo y servicios de asesoramiento legal para empresas de todos los tamaños.",
+            "website": "https://www.pbm.law/en",
+            "logo": "/assets/partners/pbm-logo.jpeg"
+        },
+        {
+            "title": "HelveBroker",
+            "description": "Firma de corretaje de seguros premier que proporciona soluciones integrales de gestión de riesgos y seguros para clientes corporativos.",
+            "website": "https://helvegroup.ch/fr",
+            "logo": "/assets/partners/logo-helvebroker.svg"
+        }
+    ],
+    "ServiceAreas": {
+        "Title": "Áreas de Servicios Colaborativos",
+        "Description": "A través de nuestras asociaciones, ofrecemos capacidades mejoradas en múltiples dominios:",
+        "Areas": [
+            {
+                "title": "Asesoramiento Legal",
+                "description": "Apoyo legal integral a través de nuestras asociaciones de abogados"
+            },
+            {
+                "title": "Gestión de Riesgos",
+                "description": "Servicios profesionales de seguros y evaluación de riesgos"
+            },
+            {
+                "title": "Consultoría Empresarial",
+                "description": "Servicios de asesoramiento estratégico para desarrollo empresarial"
+            },
+            {
+                "title": "Apoyo de Cumplimiento",
+                "description": "Asistencia en cumplimiento regulatorio y gobernanza"
+            }
+        ]
+    },
+    "Partnership": {
+        "Title": "Beneficios de la Asociación",
+        "Description": "Nuestras asociaciones estratégicas nos permiten:",
+        "Benefits": [
+            "Proporcionar cobertura de servicio integral",
+            "Acceder a experiencia especializada en todas las industrias",
+            "Ofrecer referencias de clientes y colaboración sin problemas",
+            "Mantener los más altos estándares profesionales",
+            "Entregar soluciones integradas para necesidades comerciales complejas"
+        ]
+    },
+    "Contact": {
+        "Title": "Asociarse con Nosotros",
+        "Description": "¿Interesado en explorar oportunidades de asociación?",
+        "CallToAction": "Contáctanos para discutir cómo podemos colaborar para servir mejor a nuestros clientes.",
+        "ButtonText": "Contáctanos"
+    }
+}

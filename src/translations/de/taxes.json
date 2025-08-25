@@ -1,0 +1,57 @@
+{
+    "Hero": {
+        "Badge": "Steuerdienstleistungen",
+        "BadgeTwo": "KI-Unterstützt",
+        "Title": "Besteuerung",
+        "Description": "Ark Fiduciaire bietet Experten-Steuerdienstleistungen für Privatpersonen und Unternehmen. Wir optimieren Ihre Steuersituation, gewährleisten Compliance und bieten strategische Beratung für alle Ihre Steuerverpflichtungen in der Schweiz.",
+        "CTA": "Kontakt aufnehmen",
+        "SecondaryCTA": "Team kennenlernen"
+    },
+    "Presentation": {
+        "Title": "Besteuerung: optimieren und sichern Sie Ihre Situation",
+        "Subtitle": "Expertise und Compliance",
+        "Intro": [
+            "Unsere Steuerexperten unterstützen Sie bei allen Ihren Steuerverpflichtungen, von Erklärungen bis zur strategischen Planung.",
+            "Wir gewährleisten Compliance mit dem schweizerischen Steuerrecht und helfen Ihnen, Ihre Steuersituation zu optimieren."
+        ],
+        "ExpertiseTitle": "Unsere Steuerexpertise",
+        "List": [
+            "Steuererklärungen für Privatpersonen und Unternehmen",
+            "Steuerplanung und -optimierung",
+            "Mehrwertsteuer und indirekte Steuern",
+            "Steuerliche Vertretung",
+            "Steuerliche Rulings und Verhandlungen"
+        ],
+        "ReinventedTitle": "Rationalisierter Steuerprozess",
+        "Reinvented": [
+            "Wir haben die Steuer-Compliance mit modernen digitalen Tools und Expertenberatung revolutioniert.",
+            "Unser rationalisierter Ansatz gewährleistet Genauigkeit und spart Ihnen Zeit bei reduzierter Komplexität."
+        ],
+        "StrengthsTitle": "Unsere Stärken für Ihre Steuerbedürfnisse",
+        "Strengths": [
+            {
+                "Title": "Umfassende Expertise",
+                "Desc": "Unser Team deckt alle Bereiche der schweizerischen Besteuerung ab und gewährleistet vollständige und zuverlässige Unterstützung."
+            },
+            {
+                "Title": "Persönliche Beratung",
+                "Desc": "Wir analysieren Ihre Situation, um maßgeschneiderte Lösungen anzubieten und Ihre Steuerlast zu optimieren."
+            },
+            {
+                "Title": "Compliance und Sicherheit",
+                "Desc": "Wir garantieren Compliance mit allen rechtlichen Verpflichtungen und sichern Ihre Steuersituation."
+            },
+            {
+                "Title": "Vertretung und Verhandlung",
+                "Desc": "Wir vertreten Sie bei Steuerbehörden und verhandeln in Ihrem Namen, wenn nötig."
+            }
+        ],
+        "ServicesTitle": "Unsere Steuerdienstleistungen",
+        "Services": [
+            "Steuererklärungen: Vollständige Vorbereitung und Einreichung von Privat- und Unternehmenssteuererklärungen",
+            "Steuerplanung: Strategische Planung zur Optimierung Ihrer Steuerlast und Gewährleistung der Compliance",
+            "Mehrwertsteuerverwaltung: Umfassende Mehrwertsteueranmeldung, -erklärung und -compliance-Dienstleistungen",
+            "Steuerliche Vertretung: Professionelle Vertretung bei Steuerbehörden und Verhandlungen"
+        ]
+    }
+}

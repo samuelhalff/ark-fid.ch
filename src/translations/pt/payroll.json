@@ -1,0 +1,51 @@
+{
+    "Hero": {
+        "Badge": "Serviços de Folha",
+        "BadgeTwo": "Alimentado por IA",
+        "Title": "Folha de Pagamento e RH",
+        "Description": "A Ark Fiduciaire gerencia sua folha de pagamento e administração de RH com precisão e confidencialidade. Garantimos conformidade com a lei trabalhista suíça e fornecemos suporte para todas suas necessidades de RH.",
+        "CTA": "Entre em contato",
+        "SecondaryCTA": "Conhecer a equipe"
+    },
+    "Presentation": {
+        "Title": "Folha de Pagamento e RH: gestão segura e eficiente",
+        "Subtitle": "Seus funcionários, nossa prioridade",
+        "Intro": [
+            "Cuidamos de todas as tarefas administrativas de folha de pagamento e RH, desde cálculos salariais até declarações de seguros sociais.",
+            "Nossos especialistas garantem conformidade e fornecem consultoria para gestão ótima de RH."
+        ],
+        "List": [
+            "Processamento de folha de pagamento",
+            "Gestão de seguros sociais",
+            "Administração de RH",
+            "Contratos de trabalho",
+            "Consultoria e suporte"
+        ],
+        "ServicesTitle": "Nossos Serviços de Folha de Pagamento e RH",
+        "Services": [
+            "Processamento de Folha: Cálculos completos de salários, deduções de seguros sociais e gestão de pagamentos",
+            "Administração de RH: Gestão de registros de funcionários, preparação de contratos e suporte administrativo",
+            "Seguros Sociais: Registro, declarações e conformidade com sistemas de seguridade social suíços",
+            "Direito Trabalhista: Serviços de consultoria sobre lei trabalhista suíça e conformidade regulatória"
+        ],
+        "StrengthsTitle": "Nossos pontos fortes para suas necessidades de RH",
+        "Strengths": [
+            {
+                "Title": "Confidencialidade e segurança",
+                "Desc": "Garantimos a confidencialidade de seus dados e conformidade com todos os requisitos legais."
+            },
+            {
+                "Title": "Expertise em lei trabalhista suíça",
+                "Desc": "Nossos especialistas dominam o framework legal e garantem que sua gestão de RH seja sempre conforme."
+            },
+            {
+                "Title": "Suporte personalizado",
+                "Desc": "Uma pessoa de contato dedicada acompanha você e seus funcionários em cada etapa."
+            },
+            {
+                "Title": "Eficiência administrativa",
+                "Desc": "Cuidamos de todas as formalidades administrativas, permitindo que você se concentre no seu negócio principal."
+            }
+        ]
+    }
+}

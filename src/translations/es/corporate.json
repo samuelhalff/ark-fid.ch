@@ -1,0 +1,51 @@
+{
+    "Hero": {
+        "Badge": "Swiss made",
+        "BadgeTwo": "Socio de confianza",
+        "Title": "Servicios Corporativos",
+        "Description": "Ark Fiduciaire proporciona servicios integrales de administración corporativa, asegurando que su empresa sea conforme, esté bien estructurada y lista para el crecimiento. Manejamos todos los aspectos administrativos, legales y regulatorios para que pueda enfocarse en su negocio.",
+        "CTA": "Contáctanos",
+        "SecondaryCTA": "Conocer al equipo"
+    },
+    "Presentation": {
+        "Title": "Administración corporativa: su empresa, nuestra experiencia",
+        "Subtitle": "Una base sólida para su negocio",
+        "Intro": [
+            "Nuestro equipo lo apoya en todas las etapas de la vida de su empresa: desde la incorporación hasta la gestión diaria, incluyendo cambios estatutarios y liquidaciones.",
+            "Aseguramos el cumplimiento con las regulaciones suizas y ofrecemos asesoramiento estratégico para una gobernanza óptima."
+        ],
+        "List": [
+            "Incorporación de empresa",
+            "Cambios estatutarios",
+            "Asambleas de directorio y generales",
+            "Gestión corporativa continua",
+            "Liquidación y reestructuración"
+        ],
+        "ServicesTitle": "Nuestros Servicios Corporativos",
+        "Services": [
+            "Incorporación de Empresa: Asistencia completa para establecer su empresa suiza",
+            "Cambios Estatutarios: Manejo profesional de todas las modificaciones de estructura corporativa",
+            "Reuniones de Directorio: Organización y documentación de reuniones de directorio y asambleas generales",
+            "Gestión Corporativa Continua: Gestión continua de cumplimiento y administración"
+        ],
+        "StrengthsTitle": "Nuestras fortalezas para sus necesidades corporativas",
+        "Strengths": [
+            {
+                "Title": "Experiencia en derecho suizo",
+                "Desc": "Nuestros especialistas dominan el marco legal y regulatorio, asegurando que su empresa siempre esté en cumplimiento."
+            },
+            {
+                "Title": "Apoyo personalizado",
+                "Desc": "Una persona de contacto dedicada lo acompaña en cada etapa, ofreciendo soluciones personalizadas para su negocio."
+            },
+            {
+                "Title": "Eficiencia administrativa",
+                "Desc": "Nos encargamos de todas las formalidades administrativas, permitiéndole enfocarse en su negocio principal."
+            },
+            {
+                "Title": "Asesoramiento estratégico",
+                "Desc": "Benefíciese de nuestra experiencia para optimizar la estructura y gobernanza de su empresa."
+            }
+        ]
+    }
+}

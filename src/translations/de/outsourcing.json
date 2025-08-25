@@ -1,0 +1,51 @@
+{
+    "Hero": {
+        "Badge": "Outsourcing",
+        "BadgeTwo": "BPO-Experten",
+        "Title": "Outsourcing",
+        "Description": "Ark Fiduciaire bietet Outsourcing-Lösungen für Ihre Buchhaltungs-, Lohn- und Verwaltungsaufgaben. Konzentrieren Sie sich auf Ihr Kerngeschäft, während wir den Rest mit Expertise und Vertraulichkeit handhaben.",
+        "CTA": "Kontakt aufnehmen",
+        "SecondaryCTA": "Team kennenlernen"
+    },
+    "Presentation": {
+        "Title": "Outsourcing: Effizienz und Seelenfrieden",
+        "Subtitle": "Delegieren, fokussieren, wachsen",
+        "Intro": [
+            "Wir kümmern uns um Ihre Buchhaltung, Lohnabrechnung und Verwaltung, damit Sie sich auf die Entwicklung Ihres Unternehmens konzentrieren können.",
+            "Unsere Outsourcing-Lösungen sind flexibel und auf Ihre Bedürfnisse zugeschnitten, um Effizienz und Kostenkontrolle zu gewährleisten."
+        ],
+        "ServicesTitle": "Unsere Outsourcing-Dienstleistungen",
+        "List": [
+            "Buchhaltungs-Outsourcing",
+            "Lohnbuchhaltungs-Outsourcing",
+            "Verwaltungsmanagement",
+            "Prozessoptimierung",
+            "Reporting und Dashboards"
+        ],
+        "Services": [
+            "Buchhaltungs-Outsourcing: Vollständige Verwaltung Ihrer Buchführung und Finanzberichterstattung",
+            "Lohnbuchhaltungs-Outsourcing: Vollständige Lohnverarbeitung und HR-Verwaltungsdienstleistungen",
+            "Verwaltungsmanagement: Umfassende Abwicklung aller Ihrer Verwaltungsaufgaben",
+            "Prozessoptimierung: Rationalisierung und Verbesserung Ihrer Geschäftsprozesse für Effizienz"
+        ],
+        "StrengthsTitle": "Unsere Stärken für Ihre Outsourcing-Bedürfnisse",
+        "Strengths": [
+            {
+                "Title": "Expertise und Zuverlässigkeit",
+                "Desc": "Unser Team garantiert hochwertige Dienstleistungen und strenge Vertraulichkeit."
+            },
+            {
+                "Title": "Kostenkontrolle",
+                "Desc": "Outsourcing ermöglicht es Ihnen, Ihre Kosten zu optimieren und von skalierbaren Lösungen zu profitieren."
+            },
+            {
+                "Title": "Flexibilität und Skalierbarkeit",
+                "Desc": "Unsere Dienstleistungen passen sich Ihren Bedürfnissen und der Entwicklung Ihres Unternehmens an."
+            },
+            {
+                "Title": "Fokus auf Ihr Kerngeschäft",
+                "Desc": "Delegieren Sie Verwaltungsaufgaben und konzentrieren Sie sich auf das Wichtigste: Ihr Wachstum."
+            }
+        ]
+    }
+}

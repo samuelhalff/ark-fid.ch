@@ -1,0 +1,50 @@
+{
+    "Hero": {
+        "Badge": "Domiciliation",
+        "Title": "Domiciliation",
+        "Description": "Ark Fiduciaire offre des services de domiciliation pour votre entreprise en Suisse. Bénéficiez d'une adresse prestigieuse et d'un support administratif complet pour votre entreprise.",
+        "CTA": "Nous contacter",
+        "SecondaryCTA": "Rencontrer l'équipe"
+    },
+    "Presentation": {
+        "Title": "Domiciliation : votre adresse en Suisse",
+        "Subtitle": "Un emplacement stratégique pour votre entreprise",
+        "Intro": [
+            "Nous fournissons une adresse de siège social pour votre entreprise, accompagnée de la gestion du courrier et du support administratif.",
+            "Nos services assurent que votre entreprise soit conforme et bénéficie d'une image professionnelle."
+        ],
+        "ServicesTitle": "Nos Services de Domiciliation",
+        "List": [
+            "Adresse de siège social",
+            "Gestion du courrier",
+            "Support administratif",
+            "Location de salles de réunion",
+            "Assistance à la constitution d'entreprise"
+        ],
+        "Services": [
+            "Siège Social : Adresse commerciale professionnelle dans un lieu prestigieux en Suisse",
+            "Gestion du Courrier : Traitement et expédition complète de toute votre correspondance commerciale",
+            "Support Administratif : Assistance administrative complète pour tous vos besoins d'entreprise",
+            "Salles de Réunion : Espaces de réunion professionnels disponibles à la location selon les besoins"
+        ],
+        "StrengthsTitle": "Nos forces pour vos besoins de domiciliation",
+        "Strengths": [
+            {
+                "Title": "Adresse prestigieuse",
+                "Desc": "Bénéficiez d'une adresse reconnue en Suisse pour votre entreprise."
+            },
+            {
+                "Title": "Support administratif",
+                "Desc": "Nous gérons votre courrier et fournissons toute l'assistance administrative nécessaire."
+            },
+            {
+                "Title": "Conformité et sécurité",
+                "Desc": "Nous nous assurons que votre entreprise respecte toutes les exigences légales de domiciliation."
+            },
+            {
+                "Title": "Flexibilité et services",
+                "Desc": "Nous offrons des services supplémentaires tels que la location de salles de réunion et le support à la constitution d'entreprise."
+            }
+        ]
+    }
+}

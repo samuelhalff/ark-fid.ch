@@ -1,0 +1,50 @@
+{
+    "Hero": {
+        "Badge": "Domizilierung",
+        "Title": "Domizilierung",
+        "Description": "Ark Fiduciaire bietet Domizilierungsdienstleistungen für Ihr Unternehmen in der Schweiz. Profitieren Sie von einer prestigeträchtigen Adresse und umfassender administrativer Unterstützung für Ihr Geschäft.",
+        "CTA": "Kontakt aufnehmen",
+        "SecondaryCTA": "Team kennenlernen"
+    },
+    "Presentation": {
+        "Title": "Domizilierung: Ihre Adresse in der Schweiz",
+        "Subtitle": "Ein strategischer Standort für Ihr Unternehmen",
+        "Intro": [
+            "Wir stellen eine Geschäftsadresse für Ihr Unternehmen zur Verfügung, zusammen mit Postverwaltung und administrativer Unterstützung.",
+            "Unsere Dienstleistungen stellen sicher, dass Ihr Unternehmen konform ist und von einem professionellen Image profitiert."
+        ],
+        "ServicesTitle": "Unsere Domizilierungsdienstleistungen",
+        "List": [
+            "Geschäftsadresse",
+            "Postverwaltung",
+            "Administrative Unterstützung",
+            "Besprechungsraumvermietung",
+            "Unterstützung bei der Unternehmensgründung"
+        ],
+        "Services": [
+            "Geschäftssitz: Professionelle Geschäftsadresse an einem prestigeträchtigen schweizerischen Standort",
+            "Postverwaltung: Vollständige Bearbeitung und Weiterleitung Ihrer gesamten Geschäftskorrespondenz",
+            "Administrative Unterstützung: Vollständige administrative Hilfe für alle Ihre Geschäftsbedürfnisse",
+            "Besprechungsräume: Professionelle Besprechungsräume verfügbar zur Miete bei Bedarf"
+        ],
+        "StrengthsTitle": "Unsere Stärken für Ihre Domizilierungsbedürfnisse",
+        "Strengths": [
+            {
+                "Title": "Prestigeträchtige Adresse",
+                "Desc": "Profitieren Sie von einer anerkannten Adresse in der Schweiz für Ihr Unternehmen."
+            },
+            {
+                "Title": "Administrative Unterstützung",
+                "Desc": "Wir verwalten Ihre Post und bieten alle notwendige administrative Hilfe."
+            },
+            {
+                "Title": "Compliance und Sicherheit",
+                "Desc": "Wir stellen sicher, dass Ihr Unternehmen alle rechtlichen Anforderungen für die Domizilierung erfüllt."
+            },
+            {
+                "Title": "Flexibilität und Dienstleistungen",
+                "Desc": "Wir bieten zusätzliche Dienstleistungen wie Besprechungsraumvermietung und Unterstützung bei der Unternehmensgründung."
+            }
+        ]
+    }
+}

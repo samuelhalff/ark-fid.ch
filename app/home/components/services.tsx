@@ -7,7 +7,11 @@ import TranslatedText from "@/src/components/ui/translated-text"; // 2. ADD: Imp
 import Image from "next/image"; // 3. CHANGE: We are now using the Next.js Image component
 import Link from "next/link"; // ADD: Import Link for navigation
 
-const Services = () => {
+interface ServicesProps {
+  showSubtitle?: boolean;
+}
+
+const Services = ({ showSubtitle = false }: ServicesProps) => {
   // We no longer need `useTranslation()` here, as TranslatedText handles it.
   return (
     <div
@@ -22,6 +26,15 @@ const Services = () => {
           ns="home"
         />
       </h2>
+      {showSubtitle && (
+        <p className="text-lg text-muted-foreground text-center mb-8 max-w-3xl mx-auto">
+          <TranslatedText
+            translationKey="Services.Subtitle"
+            fallbackText="Comprehensive fiduciary, accounting, and tax services tailored to your business needs."
+            ns="home"
+          />
+        </p>
+      )}
       <div className="mt-8 xs:mt-14 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-20">
         {services.map((service) => (
           <Link

@@ -1,0 +1,11 @@
+{
+    "Title": "Conozca nuestro equipo",
+    "Subtitle": "Un equipo de talentos complementarios",
+    "Role": {
+        "Partner": "Socio",
+        "ManagingPartner": "Socio Gerente",
+        "Tax": "Impuestos",
+        "OfficeProjectManager": "Gerente de Oficina y Proyectos",
+        "SeniorAccountant": "Contador Senior"
+    }
+}

@@ -1,0 +1,51 @@
+{
+    "Hero": {
+        "Badge": "Servicios de Nómina",
+        "BadgeTwo": "Impulsado por IA",
+        "Title": "Nómina y RRHH",
+        "Description": "Ark Fiduciaire gestiona su nómina y administración de RRHH con precisión y confidencialidad. Aseguramos el cumplimiento con la ley laboral suiza y proporcionamos apoyo para todas sus necesidades de RRHH.",
+        "CTA": "Contáctanos",
+        "SecondaryCTA": "Conocer al equipo"
+    },
+    "Presentation": {
+        "Title": "Nómina y RRHH: gestión segura y eficiente",
+        "Subtitle": "Sus empleados, nuestra prioridad",
+        "Intro": [
+            "Nos ocupamos de todas las tareas administrativas de nómina y RRHH, desde cálculos salariales hasta declaraciones de seguros sociales.",
+            "Nuestros expertos aseguran el cumplimiento y proporcionan asesoramiento para una gestión óptima de RRHH."
+        ],
+        "List": [
+            "Procesamiento de nómina",
+            "Gestión de seguros sociales",
+            "Administración de RRHH",
+            "Contratos laborales",
+            "Asesoramiento y apoyo"
+        ],
+        "ServicesTitle": "Nuestros Servicios de Nómina y RRHH",
+        "Services": [
+            "Procesamiento de Nómina: Cálculos completos de salarios, deducciones de seguros sociales y gestión de pagos",
+            "Administración de RRHH: Gestión de registros de empleados, preparación de contratos y soporte administrativo",
+            "Seguros Sociales: Registro, declaraciones y cumplimiento con sistemas de seguridad social suizos",
+            "Derecho Laboral: Servicios de asesoramiento sobre ley laboral suiza y cumplimiento regulatorio"
+        ],
+        "StrengthsTitle": "Nuestras fortalezas para sus necesidades de RRHH",
+        "Strengths": [
+            {
+                "Title": "Confidencialidad y seguridad",
+                "Desc": "Garantizamos la confidencialidad de sus datos y el cumplimiento con todos los requisitos legales."
+            },
+            {
+                "Title": "Experiencia en ley laboral suiza",
+                "Desc": "Nuestros especialistas dominan el marco legal y aseguran que su gestión de RRHH sea siempre conforme."
+            },
+            {
+                "Title": "Apoyo personalizado",
+                "Desc": "Una persona de contacto dedicada lo acompaña a usted y sus empleados en cada etapa."
+            },
+            {
+                "Title": "Eficiencia administrativa",
+                "Desc": "Nos ocupamos de todas las formalidades administrativas, permitiéndole enfocarse en su negocio principal."
+            }
+        ]
+    }
+}

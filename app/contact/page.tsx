@@ -1,12 +1,9 @@
 import { Metadata } from "next";
 import ContactForm from "@/src/components/ui/contact-form";
 import TranslatedText from "@/src/components/ui/translated-text";
+import { generateMetadataForPage } from "@/src/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Contact | Ark Fiduciaire",
-  description:
-    "Get in touch with Ark Fiduciaire SA for expert accounting, tax, and corporate services in Switzerland.",
-};
+export const metadata: Metadata = generateMetadataForPage("/contact");
 
 export default function ContactPage() {
   return (

@@ -1,0 +1,41 @@
+{
+  "IntroTitle": "Ressourcen für Ihr Unternehmen",
+  "IntroText": "Nachstehend finden Sie eine Auswahl von Dokumenten und Artikeln von Ark Fiduciaire. Diese Ressourcen werden zu Ihrer Bequemlichkeit angeboten und sind auf Ihre alleinige Verantwortung zu verwenden. Für persönliche Beratung kontaktieren Sie bitte unser Team.",
+  "FilesTitle": "Zum Download verfügbare Dokumente",
+  "ArticlesTitle": "Expertenartikel",
+  "ReadArticle": "Artikel lesen",
+  "Files": [
+    {
+      "filename": "guide-salaire.pdf",
+      "title": "Leitfaden zur Erstellung von Lohnausweisen",
+      "description": "Jeder Arbeitgeber ist verpflichtet, einen Lohnausweis auszustellen, der alle Leistungen und alle in Geld schätzbaren Vorteile zusammenfasst, die er dem Arbeitnehmer oder Rentner im Rahmen oder in Verbindung mit einem gegenwärtigen oder vergangenen Arbeitsvertrag gewährt. Dieses Prinzip sowie die nachstehend aufgeführten Bestimmungen gelten sinngemäß für Vorsorgeeinrichtungen, die eine Rente auszahlen. Als solche sind sie verpflichtet, eine Rentenbescheinigung auf Formular 11 oder einem entsprechenden besonderen Formular auszustellen",
+      "date": "2024-12-01"
+    }
+  ],
+  "Articles": [
+    {
+      "slug": "annual-vat-settlement-2025",
+      "title": "Jährliche Mehrwertsteuerabrechnung in der Schweiz: Wichtige Punkte für 2025",
+      "description": "Eine Zusammenfassung der wichtigsten Regeln und Aufmerksamkeitspunkte für die jährliche Mehrwertsteuerabrechnung 2025.",
+      "content": "Für das Steuerjahr 2025 müssen schweizerische Unternehmen weiterhin entweder die **effektive Methode** (basierend auf 4 Mehrwertsteuererklärungen) oder die **Nettosteuersatzmethode (NSS)** (2 Mehrwertsteuererklärungen) verwenden, wie zuvor angewendet.\n\n## Hauptmerkmale der jährlichen Mehrwertsteuerabrechnung\n\n- Die Änderung Ihrer Mehrwertsteuerabrechnungsmethode erfordert eine Benachrichtigung der Eidgenössischen Steuerverwaltung (ESTV) zu Beginn jeder Steuerperiode, innerhalb von 60 Tagen (für 2026: zwischen 01.01.2026 und 28.02.2026 für eine erste Änderung). Die neue Methode muss für mindestens eine vollständige Steuerperiode für Unternehmen mit einem Umsatz unter CHF 5'005'000 beibehalten werden.\n- Weitere Bedingungen: alle Steuerschulden müssen vollständig bezahlt und alle Erklärungen für die vorherigen drei Steuerperioden rechtzeitig eingereicht worden sein.\n- Die ESTV bestimmt die Höhe der Vorauszahlungen, die in drei Raten berechnet werden. Diese können bis zu 10 Tage vor dem entsprechenden Fälligkeitsdatum angepasst werden.\n- Fristverlängerungen bleiben möglich.\n- Die ESTV kann die Bewilligung widerrufen, wenn:\n  - Sie ein Betreibungsverfahren gegen den Steuerpflichtigen einleiten musste,\n  - Der Steuerpflichtige die CHF 5'005'000 Umsatzgrenze für drei aufeinanderfolgende Perioden überschritten hat,\n  - Die ESTV Steuern aufgrund fehlender Erklärungen schätzen musste.\n\n## Aufmerksamkeitspunkte\n\n- Wenn Vorauszahlungen zu niedrig sind, werden Verzugszinsen (4,5%) berechnet.\n- Keine Möglichkeit, Vorsteuervergütungen basierend auf Vorauszahlungen zu beanspruchen.\n- Die Bewilligung kann widerrufen werden, wenn Vorauszahlungen zu stark von den tatsächlich geschuldeten Beträgen abweichen.\n- Wenn es ein Steuerguthaben gibt, kann es nur im folgenden Jahr (im März) erstattet werden.\n",
+      "author": "Sébastien Gallié",
+      "date": "2025-08-25",
+      "references": [
+        {
+          "labelKey": "SwissVATOffice",
+          "url": "https://www.estv.admin.ch/estv/de/home/mehrwertsteuer.html"
+        }
+      ]
+    }
+  ],
+  "References": "Referenzen",
+  "By": "Von",
+  "Published": "Veröffentlicht am",
+  "Download": "Herunterladen",
+  "SwissVATOffice": "Schweizerisches Mehrwertsteueramt (ESTV)",
+  "Contact": {
+    "Title": "Fragen zu diesem Artikel?",
+    "Description": "Unsere Experten sind hier, um Ihnen zu helfen, die Details und Auswirkungen für Ihr Unternehmen zu verstehen. Erhalten Sie persönliche Beratung, die auf Ihre Situation zugeschnitten ist.",
+    "ButtonText": "Unser Team kontaktieren"
+  }
+}

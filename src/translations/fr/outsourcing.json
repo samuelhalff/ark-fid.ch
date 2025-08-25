@@ -1,0 +1,51 @@
+{
+    "Hero": {
+        "Badge": "Externalisation",
+        "BadgeTwo": "Experts BPO",
+        "Title": "Externalisation",
+        "Description": "Ark Fiduciaire offre des solutions d'externalisation pour vos tâches comptables, de paie et administratives. Concentrez-vous sur votre cœur de métier pendant que nous nous occupons du reste avec expertise et confidentialité.",
+        "CTA": "Nous contacter",
+        "SecondaryCTA": "Rencontrer l'Équipe"
+    },
+    "Presentation": {
+        "Title": "Externalisation : efficacité et tranquillité d'esprit",
+        "Subtitle": "Déléguer, se concentrer, grandir",
+        "Intro": [
+            "Nous nous occupons de votre comptabilité, paie et gestion administrative, vous permettant de vous concentrer sur le développement de votre entreprise.",
+            "Nos solutions d'externalisation sont flexibles et adaptées à vos besoins, assurant efficacité et contrôle des coûts."
+        ],
+        "ServicesTitle": "Nos Services d'Externalisation",
+        "List": [
+            "Externalisation comptable",
+            "Externalisation de la paie",
+            "Gestion administrative",
+            "Optimisation des processus",
+            "Reporting et tableaux de bord"
+        ],
+        "Services": [
+            "Externalisation Comptable : Gestion complète de votre tenue de livres et rapports financiers",
+            "Externalisation de la Paie : Services complets de traitement de paie et administration RH",
+            "Gestion Administrative : Prise en charge complète de toutes vos tâches administratives",
+            "Optimisation des Processus : Rationalisation et amélioration de vos processus d'affaires pour l'efficacité"
+        ],
+        "StrengthsTitle": "Nos forces pour vos besoins d'externalisation",
+        "Strengths": [
+            {
+                "Title": "Expertise et fiabilité",
+                "Desc": "Notre équipe garantit des services de haute qualité et une confidentialité stricte."
+            },
+            {
+                "Title": "Contrôle des coûts",
+                "Desc": "L'externalisation vous permet d'optimiser vos coûts et de bénéficier de solutions évolutives."
+            },
+            {
+                "Title": "Flexibilité et évolutivité",
+                "Desc": "Nos services s'adaptent à vos besoins et à l'évolution de votre entreprise."
+            },
+            {
+                "Title": "Focus sur votre cœur de métier",
+                "Desc": "Déléguez les tâches administratives et concentrez-vous sur l'essentiel : votre croissance."
+            }
+        ]
+    }
+}

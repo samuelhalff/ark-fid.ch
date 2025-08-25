@@ -1,0 +1,21 @@
+{
+    "Title": "Entrer en contact",
+    "Subtitle": "Nous répondons généralement dans les 24 heures.",
+    "Form": {
+        "Name": "Nom",
+        "Email": "E-mail",
+        "CompanyName": "Nom de l'entreprise (Optionnel)",
+        "Phone": "Numéro de téléphone (Optionnel)",
+        "Message": "Message",
+        "Consent": "J'accepte d'être contacté concernant ma demande",
+        "Submit": "Envoyer le message",
+        "Success": "Message envoyé avec succès !",
+        "Error": "Échec de l'envoi du message. Veuillez réessayer."
+    },
+    "Errors": {
+        "Required": "Ce champ est obligatoire",
+        "InvalidEmail": "Veuillez saisir une adresse e-mail valide",
+        "MaxLength": "Le message ne peut pas dépasser 500 caractères",
+        "Consent": "Vous devez accepter d'être contacté"
+    }
+}

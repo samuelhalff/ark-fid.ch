@@ -1,0 +1,69 @@
+{
+    "IntroTitle": "Nos Partenaires",
+    "IntroText": "Nous collaborons avec des partenaires de confiance pour fournir des services professionnels complets à nos clients.",
+    "Hero": {
+        "Badge": "Partenariats Stratégiques",
+        "CTA": "Partenariat avec Nous",
+        "SecondaryCTA": "Rencontrer notre équipe"
+    },
+    "Presentation": {
+        "Title": "Construire des Partenariats Forts",
+        "Subtitle": "Réseau de Collaboration Stratégique",
+        "Description": "Grâce à des partenariats stratégiques, nous élargissons nos capacités et livrons des solutions complètes qui répondent à tous vos besoins de services professionnels."
+    },
+    "PartnersTitle": "Notre Réseau de Partenaires",
+    "PartnersDescription": "Découvrez notre réseau de partenaires professionnels qui partagent notre engagement envers l'excellence et le service client.",
+    "Partners": [
+        {
+            "title": "PBM Avocats",
+            "description": "Cabinet d'avocats suisse de premier plan spécialisé dans le droit des affaires, la gouvernance d'entreprise et les services de conseil juridique pour les entreprises de toutes tailles.",
+            "website": "https://www.pbm.law/en",
+            "logo": "/assets/partners/pbm-logo.jpeg"
+        },
+        {
+            "title": "HelveBroker",
+            "description": "Cabinet de courtage d'assurance de premier plan fournissant des solutions complètes de gestion des risques et d'assurance pour les clients corporatifs.",
+            "website": "https://helvegroup.ch/fr",
+            "logo": "/assets/partners/logo-helvebroker.svg"
+        }
+    ],
+    "ServiceAreas": {
+        "Title": "Domaines de Services Collaboratifs",
+        "Description": "Grâce à nos partenariats, nous offrons des capacités améliorées dans plusieurs domaines :",
+        "Areas": [
+            {
+                "title": "Conseil Juridique",
+                "description": "Support juridique complet grâce à nos partenariats d'avocats"
+            },
+            {
+                "title": "Gestion des Risques",
+                "description": "Services professionnels d'assurance et d'évaluation des risques"
+            },
+            {
+                "title": "Conseil d'Entreprise",
+                "description": "Services de conseil stratégique pour le développement d'entreprise"
+            },
+            {
+                "title": "Support de Conformité",
+                "description": "Assistance en conformité réglementaire et gouvernance"
+            }
+        ]
+    },
+    "Partnership": {
+        "Title": "Avantages du Partenariat",
+        "Description": "Nos partenariats stratégiques nous permettent de :",
+        "Benefits": [
+            "Fournir une couverture de service complète",
+            "Accéder à une expertise spécialisée dans tous les secteurs",
+            "Offrir des références clients et une collaboration transparentes",
+            "Maintenir les plus hauts standards professionnels",
+            "Livrer des solutions intégrées pour des besoins commerciaux complexes"
+        ]
+    },
+    "Contact": {
+        "Title": "Partenariat avec Nous",
+        "Description": "Intéressé par l'exploration d'opportunités de partenariat ?",
+        "CallToAction": "Contactez-nous pour discuter de la façon dont nous pouvons collaborer pour mieux servir nos clients.",
+        "ButtonText": "Nous contacter"
+    }
+}

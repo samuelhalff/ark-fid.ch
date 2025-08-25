@@ -1,0 +1,113 @@
+{
+    "Hero": {
+        "Badge": "Swiss Made",
+        "BadgeTwo": "Alimentado por IA",
+        "ReadMore": "Ler mais",
+        "Title": "Contabilidade",
+        "Description": "Oferecemos serviços de contabilidade junto com tecnologia de ponta para ajudá-lo a gerenciar suas finanças de forma eficiente. Nossa equipe garante conformidade com as regulamentações suíças, fornecendo as ferramentas para tomar decisões informadas.",
+        "CTA": "Entrar em contato",
+        "SecondaryCTA": "Conhecer a equipe"
+    },
+    "Presentation": {
+        "Title": "Visão holística da sua contabilidade",
+        "Subtitle": "Uma oferta de 360°",
+        "Intro": [
+            "Nos dedicamos a fornecer soluções abrangentes e personalizadas, projetadas para abordar cada faceta de suas necessidades financeiras e contábeis com precisão e perspicácia.",
+            "Além dos números, oferecemos consultoria estratégica para apoiar seu crescimento, navegar desafios e aproveitar oportunidades de mercado com discernimento. Somos seu parceiro estratégico comprometido com o sucesso do seu negócio."
+        ],
+        "List": [
+            "Contabilidade geral",
+            "Contabilidade analítica",
+            "Tarefas periódicas",
+            "Painéis de controle",
+            "Serviços personalizados"
+        ],
+        "General": {
+            "Title": "Contabilidade geral",
+            "Desc": "Na Ark Fiduciaire, dominamos todos os aspectos da contabilidade geral, do razão geral às demonstrações financeiras, incluindo contabilidade gerencial. Nossos profissionais garantem que cada livro de contas seja mantido atualizado, preciso e conforme aos padrões e regulamentações da indústria.",
+            "List": [
+                "Plano de contas personalizado",
+                "Gestão de contas a pagar e a receber",
+                "Gestão de pagamentos",
+                "Gestão de tesouraria"
+            ]
+        },
+        "Analytic": {
+            "Title": "Contabilidade analítica",
+            "Desc": "A contabilidade analítica é uma ferramenta poderosa para entender onde e como você gera lucros, bem como identificar áreas que requerem atenção especial. Nossos especialistas da Ark Fiduciaire ajudarão você a configurar e analisar um sistema de contabilidade analítica eficaz, permitindo tomar decisões comerciais mais informadas."
+        },
+        "Periodic": {
+            "Title": "Tarefas periódicas",
+            "Desc": "Desfrute de tranquilidade com nossa expertise na preparação de declarações periódicas para todas suas obrigações, incluindo:",
+            "List": [
+                "Fechamento intermediário e/ou anual",
+                "IVA semestral ou trimestral",
+                "Seguros sociais",
+                "Declaração de impostos",
+                "Assembleias gerais ordinárias e extraordinárias",
+                "Conselho de administração"
+            ],
+            "Followup": "Nossa equipe dedicada apoia você em cada etapa, garantindo gestão transparente e otimizada de suas declarações, para que possa focar no seu negócio principal."
+        },
+        "Dashboards": {
+            "Title": "Painéis de controle",
+            "Desc": "Otimize a visibilidade e controle de suas finanças com nossas soluções inovadoras de painéis contábeis. Os painéis fornecem um resumo claro e acessível de seus dados financeiros, permitindo tomada de decisão informada e estratégica. Desfrute de gestão simplificada com painéis intuitivos adaptados às suas necessidades específicas. Com interface amigável e análises precisas, nossas soluções garantem monitoramento eficaz de sua saúde financeira."
+        },
+        "Custom": {
+            "Title": "Serviços personalizados"
+        },
+        "Services": [
+            "Contabilidade Geral: Gestão completa do seu plano de contas e transações financeiras",
+            "Relatórios Financeiros: Preparação de demonstrações financeiras abrangentes e relatórios gerenciais",
+            "Contabilidade Analítica: Análise detalhada de custos e acompanhamento de rentabilidade por projeto ou departamento",
+            "Painéis Personalizados: Análises financeiras em tempo real e monitoramento de KPIs adaptados ao seu negócio"
+        ],
+        "CustomServicesList": [
+            {
+                "Icon": "Users",
+                "Title": "Especialistas",
+                "Desc": "A Ark Fiduciaire conta com uma equipe de contadores experientes e certificados e especialistas fiscais, dominando regulamentações locais e internacionais. Esta expertise garante contas precisas e conformes, assegurando gestão confiável e harmoniosa."
+            },
+            {
+                "Icon": "Clock",
+                "Title": "Economia de tempo e eficiência",
+                "Desc": "Ao terceirizar a contabilidade para a Ark Fiduciaire, as empresas podem focar em seu negócio principal. Nossos serviços economizam tempo e melhoram a eficiência operacional cuidando da gestão financeira completa."
+            },
+            {
+                "Icon": "Settings",
+                "Title": "Soluções personalizadas",
+                "Desc": "A Ark Fiduciaire oferece serviços contábeis sob medida, adaptados às necessidades específicas de cada cliente. Seja uma pequena empresa, grande corporação, ONG ou subsidiária, adaptamos nossos serviços para atender suas expectativas, oferecendo soluções flexíveis."
+            },
+            {
+                "Icon": "Laptop",
+                "Title": "Tecnologia avançada e gestão em tempo real",
+                "Desc": "Utilizamos as mais recentes tecnologias e softwares contábeis para garantir gestão ótima. Essas ferramentas permitem gestão precisa e rápida de dados financeiros, bem como acesso fácil e seguro a informações em tempo real."
+            },
+            {
+                "Icon": "MessageSquare",
+                "Title": "Consultoria",
+                "Desc": "Na Ark Fiduciaire, não nos limitamos à escrituração. Também oferecemos suporte contábil de qualidade. Nossos especialistas ajudam você a estruturar suas finanças, planejar impostos e gerenciar fluxo de caixa, identificando oportunidades de melhoria."
+            }
+        ],
+        "Experts": {
+            "Title": "Especialistas",
+            "Desc": "A Ark Fiduciaire conta com uma equipe de contadores experientes e certificados e especialistas fiscais, dominando regulamentações locais e internacionais. Esta expertise garante contas precisas e conformes, assegurando gestão confiável e harmoniosa."
+        },
+        "TimeEfficiency": {
+            "Title": "Economia de tempo e eficiência",
+            "Desc": "Ao terceirizar a contabilidade para a Ark Fiduciaire, as empresas podem focar em seu negócio principal. Nossos serviços economizam tempo e melhoram a eficiência operacional cuidando da gestão financeira completa."
+        },
+        "CustomSolutions": {
+            "Title": "Soluções personalizadas",
+            "Desc": "A Ark Fiduciaire oferece serviços contábeis sob medida, adaptados às necessidades específicas de cada cliente. Seja uma pequena empresa, grande corporação, ONG ou subsidiária, adaptamos nossos serviços para atender suas expectativas, oferecendo soluções flexíveis."
+        },
+        "AdvancedTech": {
+            "Title": "Tecnologia avançada e gestão em tempo real",
+            "Desc": "Utilizamos as mais recentes tecnologias e softwares contábeis para garantir gestão ótima. Essas ferramentas permitem gestão precisa e rápida de dados financeiros, bem como acesso fácil e seguro a informações em tempo real."
+        },
+        "Consulting": {
+            "Title": "Consultoria",
+            "Desc": "Na Ark Fiduciaire, não nos limitamos à escrituração. Também oferecemos suporte contábil de qualidade. Nossos especialistas ajudam você a estruturar suas finanças, planejar impostos e gerenciar fluxo de caixa, identificando oportunidades de melhoria."
+        }
+    }
+}

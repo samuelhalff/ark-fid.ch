@@ -1,0 +1,74 @@
+{
+    "Meta": {
+        "Title": "Über Uns | Ark Fiduciaire",
+        "Description": "Erfahren Sie mehr über Ark Fiduciaire SA, entstanden aus der Vereinigung zweier spezialisierter Firmen im Jahr 2025, die jahrzehntelange Expertise in schweizerischer Buchhaltung und Treuhanddienstleistungen zusammenbringt."
+    },
+    "Hero": {
+        "Title": "Über Ark Fiduciaire",
+        "Subtitle": "Geboren aus Exzellenz, Vereint für Innovation",
+        "Badge": "Gegründet 2025"
+    },
+    "Foundation": {
+        "Title": "Unsere Gründung",
+        "Content": [
+            "Ark Fiduciaire SA wurde 2025 durch die strategische Vereinigung zweier etablierter schweizerischer Treuhandfirmen gegründet, wobei jede ihre einzigartige Expertise und Kundenbeziehungen einbringt, um ein stärkeres, umfassenderes Serviceangebot zu schaffen.",
+            "Diese Fusion repräsentiert den Höhepunkt jahrelangen parallelen Wachstums auf dem schweizerischen Markt und kombiniert komplementäre Spezialisierungen, um den sich entwickelnden Bedürfnissen unserer Kunden in einem zunehmend komplexen Geschäftsumfeld besser zu dienen."
+        ]
+    },
+    "DNA": {
+        "Title": "Unsere DNA",
+        "Subtitle": "Die Werte, Die Uns Definieren",
+        "Values": [
+            {
+                "Title": "Schweizer Präzision",
+                "Desc": "Wir verkörpern die traditionellen schweizerischen Werte von Genauigkeit, Zuverlässigkeit und Aufmerksamkeit für Details in jedem Aspekt unserer Arbeit."
+            },
+            {
+                "Title": "Innovation Voraus",
+                "Desc": "Während wir die Tradition respektieren, begrüßen wir modernste Technologie und moderne Methodologien zur Verbesserung unserer Dienstleistungen."
+            },
+            {
+                "Title": "Kundenorientierter Ansatz",
+                "Desc": "Unser diverses Team bringt verschiedene Perspektiven und Expertise zusammen, um maßgeschneiderte Lösungen für jeden Kunden zu bieten."
+            },
+            {
+                "Title": "Kollaborative Exzellenz",
+                "Desc": "Die Vereinigung unserer Firmen hat eine Kultur geschaffen, in der Zusammenarbeit und Wissensaustausch überlegene Ergebnisse fördern."
+            }
+        ]
+    },
+    "Expertise": {
+        "Title": "Kollektive Expertise",
+        "Content": [
+            "Unser Team kombiniert jahrzehntelange Erfahrung in Buchhaltung, Besteuerung, Unternehmensdienstleistungen und Unternehmensberatung. Diese Fülle von Wissen, gesammelt aus zwei erfolgreichen Firmen, ermöglicht es uns, Herausforderungen aus mehreren Blickwinkeln anzugehen und umfassende Lösungen zu bieten.",
+            "Die Vielfalt unserer Hintergründe—von traditionellen schweizerischen Buchhaltungspraktiken bis hin zu internationalen Geschäftsdynamiken—ermöglicht es uns, sowohl lokale KMU als auch multinationale Konzerne mit gleicher Expertise und Hingabe zu bedienen."
+        ]
+    },
+    "Vision": {
+        "Title": "Unsere Vision",
+        "Content": [
+            "Wir sehen Ark Fiduciaire als vertrauenswürdigen Partner für Unternehmen, die die Komplexitäten des schweizerischen Marktes navigieren und gleichzeitig international expandieren. Unser Ziel ist es, Finanzmanagement und regulatorische Compliance zu vereinfachen, damit sich unsere Kunden auf das konzentrieren können, was sie am besten können—ihre Unternehmen zu entwickeln.",
+            "Durch kontinuierliche Innovation und die Integration von Technologien wie Odoo ERP-Systemen zielen wir darauf ab, traditionelle Treuhanddienstleistungen in dynamische, zukunftsorientierte Geschäftspartnerschaften zu transformieren."
+        ]
+    },
+    "Partnership": {
+        "Title": "Die Kraft der Partnerschaft",
+        "Content": [
+            "Die Fusion von 2025, die Ark Fiduciaire schuf, repräsentiert mehr als nur die Kombination von Ressourcen—es geht darum, Synergien zu schaffen, die unseren Kunden zugutekommen. Durch das Zusammenbringen komplementärer Expertise und Kundenportfolios haben wir unsere Fähigkeiten erweitert und dabei die persönliche Note beibehalten, die schweizerischen Service definiert.",
+            "Dieser Partnerschaftsansatz erstreckt sich auf unsere Kundenbeziehungen, wo wir nicht nur als Dienstleister agieren, sondern als strategische Berater, die in Ihren langfristigen Erfolg investiert sind."
+        ]
+    },
+    "Future": {
+        "Title": "Blick in die Zukunft",
+        "Content": [
+            "Während wir uns auf dem schweizerischen Markt etablieren, bleiben wir den Prinzipien treu, die unsere Gründungsfirmen erfolgreich machten: Exzellenz in der Ausführung, Innovation im Ansatz und unerschütterliche Hingabe zum Kundenerfolg.",
+            "Die Zukunft von Ark Fiduciaire ist auf dem soliden Fundament unserer fusionierteren Expertise aufgebaut, verstärkt durch unsere gemeinsame Vision dessen, was moderne Treuhanddienstleistungen erreichen können."
+        ]
+    },
+    "CTA": {
+        "Title": "Bereit für eine Partnerschaft mit Uns?",
+        "Description": "Entdecken Sie, wie unsere kombinierte Expertise Ihrem Unternehmen zugutekommen kann.",
+        "ContactButton": "Kontakt Aufnehmen",
+        "TeamButton": "Unser Team Kennenlernen"
+    }
+}

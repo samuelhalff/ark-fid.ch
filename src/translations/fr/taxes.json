@@ -1,0 +1,57 @@
+{
+    "Hero": {
+        "Badge": "Services Fiscaux",
+        "BadgeTwo": "Assisté par IA",
+        "Title": "Fiscalité",
+        "Description": "Ark Fiduciaire offre des services fiscaux experts pour les particuliers et les entreprises. Nous optimisons votre situation fiscale, assurons la conformité et fournissons des conseils stratégiques pour toutes vos obligations fiscales en Suisse.",
+        "CTA": "Nous contacter",
+        "SecondaryCTA": "Rencontrer l'équipe"
+    },
+    "Presentation": {
+        "Title": "Fiscalité : optimiser et sécuriser votre situation",
+        "Subtitle": "Expertise et conformité",
+        "Intro": [
+            "Nos spécialistes fiscaux vous accompagnent dans toutes vos obligations fiscales, des déclarations à la planification stratégique.",
+            "Nous assurons la conformité avec le droit fiscal suisse et vous aidons à optimiser votre situation fiscale."
+        ],
+        "ExpertiseTitle": "Notre Expertise Fiscale",
+        "List": [
+            "Déclarations fiscales pour particuliers et entreprises",
+            "Planification et optimisation fiscale",
+            "TVA et impôts indirects",
+            "Représentation fiscale",
+            "Rulings fiscaux et négociations"
+        ],
+        "ReinventedTitle": "Processus Fiscal Rationalisé",
+        "Reinvented": [
+            "Nous avons révolutionné la conformité fiscale avec des outils numériques modernes et des conseils d'experts.",
+            "Notre approche rationalisée assure la précision tout en vous faisant gagner du temps et en réduisant la complexité."
+        ],
+        "StrengthsTitle": "Nos forces pour vos besoins fiscaux",
+        "Strengths": [
+            {
+                "Title": "Expertise complète",
+                "Desc": "Notre équipe couvre tous les domaines de la fiscalité suisse, assurant un support complet et fiable."
+            },
+            {
+                "Title": "Conseil personnalisé",
+                "Desc": "Nous analysons votre situation pour offrir des solutions sur mesure et optimiser votre charge fiscale."
+            },
+            {
+                "Title": "Conformité et sécurité",
+                "Desc": "Nous garantissons la conformité avec toutes les obligations légales et sécurisons votre situation fiscale."
+            },
+            {
+                "Title": "Représentation et négociation",
+                "Desc": "Nous vous représentons auprès des autorités fiscales et négocions en votre nom quand nécessaire."
+            }
+        ],
+        "ServicesTitle": "Nos Services Fiscaux",
+        "Services": [
+            "Déclarations Fiscales : Préparation et dépôt complets de déclarations fiscales individuelles et corporatives",
+            "Planification Fiscale : Planification stratégique pour optimiser votre charge fiscale et assurer la conformité",
+            "Gestion TVA : Services complets d'inscription, déclaration et conformité TVA",
+            "Représentation Fiscale : Représentation professionnelle auprès des autorités fiscales et négociations"
+        ]
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "Meta": {
+        "Title": "Startseite | Ark Fiduciaire",
+        "Description": "Expertenunterstützung für Ihr Unternehmen, von der Gründung bis zum Erfolg. Buchhaltungs-, Steuer-, Lohn- und Unternehmensdienstleistungen in der Schweiz."
+    },
+    "Hero": {
+        "Title": "Buchhaltungs-, Steuer- und Unternehmensdienstleistungen",
+        "Description": "Expertenunterstützung für Ihr Unternehmen, von der Gründung bis zum Erfolg.",
+        "CTA": "Kontakt aufnehmen",
+        "SecondaryCTA": "Team kennenlernen",
+        "Badge": "Swiss Made",
+        "BadgeTwo": "KI-gestützt",
+        "OdooBadge": "Offizieller Odoo Partner"
+    },
+    "Services": {
+        "Title": "Unsere Dienstleistungen",
+        "Subtitle": "Umfassende Treuhand-, Buchhaltungs- und Steuerdienstleistungen, die auf die Bedürfnisse Ihres Unternehmens zugeschnitten sind. Expertenlösungen für Schweizer Unternehmen aller Größen."
+    },
+    "FAQ": {
+        "Title": "Häufig Gestellte Fragen",
+        "Subtitle": "Schnelle Antworten auf häufige Fragen zu unseren Produkten und Dienstleistungen."
+    },
+    "Testimonials": {
+        "SectionTitle": "Erfahrungsberichte"
+    }
+}

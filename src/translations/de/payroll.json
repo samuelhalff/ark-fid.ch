@@ -1,0 +1,51 @@
+{
+    "Hero": {
+        "Badge": "Lohndienstleistungen",
+        "BadgeTwo": "KI-gestützt",
+        "Title": "Lohnbuchhaltung & HR",
+        "Description": "Ark Fiduciaire verwaltet Ihre Lohnbuchhaltung und HR-Administration mit Präzision und Vertraulichkeit. Wir gewährleisten die Einhaltung des schweizerischen Arbeitsrechts und bieten Unterstützung für alle Ihre HR-Bedürfnisse.",
+        "CTA": "Kontakt aufnehmen",
+        "SecondaryCTA": "Team kennenlernen"
+    },
+    "Presentation": {
+        "Title": "Lohnbuchhaltung & HR: sichere und effiziente Verwaltung",
+        "Subtitle": "Ihre Mitarbeiter, unsere Priorität",
+        "Intro": [
+            "Wir kümmern uns um alle Lohn- und HR-Verwaltungsaufgaben, von Gehaltsberechnungen bis zu Sozialversicherungserklärungen.",
+            "Unsere Experten gewährleisten Compliance und bieten Beratung für optimales HR-Management."
+        ],
+        "List": [
+            "Lohnverarbeitung",
+            "Sozialversicherungsmanagement",
+            "HR-Administration",
+            "Arbeitsverträge",
+            "Beratung und Unterstützung"
+        ],
+        "ServicesTitle": "Unsere Lohnbuchhaltungs- & HR-Dienstleistungen",
+        "Services": [
+            "Lohnverarbeitung: Vollständige Gehaltsberechnungen, Sozialversicherungsabzüge und Zahlungsmanagement",
+            "HR-Administration: Mitarbeiterdatenverwaltung, Vertragserstellung und administrative Unterstützung",
+            "Sozialversicherungen: Anmeldung, Erklärungen und Compliance mit schweizerischen Sozialversicherungssystemen",
+            "Arbeitsrecht: Beratungsdienstleistungen zum schweizerischen Arbeitsrecht und regulatorische Compliance"
+        ],
+        "StrengthsTitle": "Unsere Stärken für Ihre HR-Bedürfnisse",
+        "Strengths": [
+            {
+                "Title": "Vertraulichkeit und Sicherheit",
+                "Desc": "Wir garantieren die Vertraulichkeit Ihrer Daten und die Einhaltung aller rechtlichen Anforderungen."
+            },
+            {
+                "Title": "Expertise im schweizerischen Arbeitsrecht",
+                "Desc": "Unsere Spezialisten beherrschen den rechtlichen Rahmen und stellen sicher, dass Ihr HR-Management immer konform ist."
+            },
+            {
+                "Title": "Persönliche Betreuung",
+                "Desc": "Ein engagierter Ansprechpartner begleitet Sie und Ihre Mitarbeiter in jeder Phase."
+            },
+            {
+                "Title": "Administrative Effizienz",
+                "Desc": "Wir kümmern uns um alle administrativen Formalitäten und ermöglichen es Ihnen, sich auf Ihr Kerngeschäft zu konzentrieren."
+            }
+        ]
+    }
+}

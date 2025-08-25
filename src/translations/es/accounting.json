@@ -1,0 +1,113 @@
+{
+    "Hero": {
+        "Badge": "Swiss Made",
+        "BadgeTwo": "Impulsado por IA",
+        "ReadMore": "Leer más",
+        "Title": "Contabilidad",
+        "Description": "Ofrecemos servicios de contabilidad junto con tecnología de vanguardia para ayudarle a gestionar sus finanzas de manera eficiente. Nuestro equipo asegura el cumplimiento con las regulaciones suizas mientras le proporciona las herramientas para tomar decisiones informadas.",
+        "CTA": "Ponerse en contacto",
+        "SecondaryCTA": "Conocer al equipo"
+    },
+    "Presentation": {
+        "Title": "Visión holística de su contabilidad",
+        "Subtitle": "Una oferta de 360°",
+        "Intro": [
+            "Nos dedicamos a proporcionar soluciones integrales y personalizadas, diseñadas para abordar cada faceta de sus necesidades financieras y contables con precisión y perspicacia.",
+            "Más allá de los números, ofrecemos asesoramiento estratégico para apoyar su crecimiento, navegar desafíos y aprovechar las oportunidades del mercado con discernimiento. Somos su socio estratégico comprometido con el éxito de su negocio."
+        ],
+        "List": [
+            "Contabilidad general",
+            "Contabilidad analítica",
+            "Tareas periódicas",
+            "Paneles de control",
+            "Servicios personalizados"
+        ],
+        "General": {
+            "Title": "Contabilidad general",
+            "Desc": "En Ark Fiduciaire, dominamos todos los aspectos de la contabilidad general, desde el libro mayor hasta los estados financieros, incluyendo la contabilidad de gestión. Nuestros profesionales aseguran que cada libro de cuentas esté actualizado, preciso y conforme a los estándares y regulaciones de la industria.",
+            "List": [
+                "Plan de cuentas personalizado",
+                "Gestión de cuentas por pagar y por cobrar",
+                "Gestión de pagos",
+                "Gestión de tesorería"
+            ]
+        },
+        "Analytic": {
+            "Title": "Contabilidad analítica",
+            "Desc": "La contabilidad analítica es una herramienta poderosa para entender dónde y cómo genera ganancias, así como para identificar áreas que requieren atención especial. Nuestros expertos en Ark Fiduciaire le ayudarán a establecer y analizar un sistema de contabilidad analítica efectivo, permitiéndole tomar decisiones comerciales más informadas."
+        },
+        "Periodic": {
+            "Title": "Tareas periódicas",
+            "Desc": "Disfrute de tranquilidad con nuestra experiencia en la preparación de declaraciones periódicas para todas sus obligaciones, incluyendo:",
+            "List": [
+                "Cierre intermedio y/o anual",
+                "IVA semestral o trimestral",
+                "Seguros sociales",
+                "Declaración de impuestos",
+                "Asambleas generales ordinarias y extraordinarias",
+                "Junta directiva"
+            ],
+            "Followup": "Nuestro equipo dedicado le apoya en cada paso, asegurando una gestión transparente y optimizada de sus declaraciones, para que pueda concentrarse en su negocio principal."
+        },
+        "Dashboards": {
+            "Title": "Paneles de control",
+            "Desc": "Optimice la visibilidad y control de sus finanzas con nuestras soluciones innovadoras de paneles de control contables. Los paneles de control proporcionan un resumen claro y accesible de sus datos financieros, permitiendo una toma de decisiones informada y estratégica. Disfrute de una gestión simplificada con paneles de control intuitivos adaptados a sus necesidades específicas. Con una interfaz fácil de usar y análisis precisos, nuestras soluciones aseguran un monitoreo efectivo de su salud financiera."
+        },
+        "Custom": {
+            "Title": "Servicios personalizados"
+        },
+        "Services": [
+            "Contabilidad General: Gestión completa de su plan de cuentas y transacciones financieras",
+            "Informes Financieros: Preparación de estados financieros completos e informes de gestión",
+            "Contabilidad Analítica: Análisis detallado de costos y seguimiento de rentabilidad por proyecto o departamento",
+            "Paneles de Control Personalizados: Análisis financieros en tiempo real y monitoreo KPI adaptado a su negocio"
+        ],
+        "CustomServicesList": [
+            {
+                "Icon": "Users",
+                "Title": "Expertos",
+                "Desc": "Ark Fiduciaire se apoya en un equipo de contadores experimentados y certificados y especialistas fiscales, dominando las regulaciones locales e internacionales. Esta experiencia asegura cuentas precisas y conformes, garantizando una gestión confiable y armoniosa."
+            },
+            {
+                "Icon": "Clock",
+                "Title": "Ahorro de tiempo y eficiencia",
+                "Desc": "Al externalizar la contabilidad a Ark Fiduciaire, las empresas pueden concentrarse en su negocio principal. Nuestros servicios ahorran tiempo y mejoran la eficiencia operacional al hacerse cargo de la gestión financiera completa."
+            },
+            {
+                "Icon": "Settings",
+                "Title": "Soluciones personalizadas",
+                "Desc": "Ark Fiduciaire ofrece servicios contables personalizados, adaptados a las necesidades específicas de cada cliente. Ya sea una pequeña empresa, una gran compañía, una ONG, o una subsidiaria, adaptamos nuestros servicios para cumplir con sus expectativas, ofreciendo soluciones flexibles."
+            },
+            {
+                "Icon": "Laptop",
+                "Title": "Tecnología avanzada y gestión en tiempo real",
+                "Desc": "Utilizamos las últimas tecnologías y software contables para asegurar una gestión óptima. Estas herramientas permiten una gestión precisa y rápida de datos financieros, así como acceso fácil y seguro a información en tiempo real."
+            },
+            {
+                "Icon": "MessageSquare",
+                "Title": "Consultoría",
+                "Desc": "En Ark Fiduciaire, no nos limitamos a la teneduría de libros. También ofrecemos apoyo contable de calidad. Nuestros expertos le ayudan a estructurar sus finanzas, planificar sus impuestos y gestionar su flujo de efectivo, mientras identificamos oportunidades de mejora."
+            }
+        ],
+        "Experts": {
+            "Title": "Expertos",
+            "Desc": "Ark Fiduciaire se apoya en un equipo de contadores experimentados y certificados y especialistas fiscales, dominando las regulaciones locales e internacionales. Esta experiencia asegura cuentas precisas y conformes, garantizando una gestión confiable y armoniosa."
+        },
+        "TimeEfficiency": {
+            "Title": "Ahorro de tiempo y eficiencia",
+            "Desc": "Al externalizar la contabilidad a Ark Fiduciaire, las empresas pueden concentrarse en su negocio principal. Nuestros servicios ahorran tiempo y mejoran la eficiencia operacional al hacerse cargo de la gestión financiera completa."
+        },
+        "CustomSolutions": {
+            "Title": "Soluciones personalizadas",
+            "Desc": "Ark Fiduciaire ofrece servicios contables personalizados, adaptados a las necesidades específicas de cada cliente. Ya sea una pequeña empresa, una gran compañía, una ONG, o una subsidiaria, adaptamos nuestros servicios para cumplir con sus expectativas, ofreciendo soluciones flexibles."
+        },
+        "AdvancedTech": {
+            "Title": "Tecnología avanzada y gestión en tiempo real",
+            "Desc": "Utilizamos las últimas tecnologías y software contables para asegurar una gestión óptima. Estas herramientas permiten una gestión precisa y rápida de datos financieros, así como acceso fácil y seguro a información en tiempo real."
+        },
+        "Consulting": {
+            "Title": "Consultoría",
+            "Desc": "En Ark Fiduciaire, no nos limitamos a la teneduría de libros. También ofrecemos apoyo contable de calidad. Nuestros expertos le ayudan a estructurar sus finanzas, planificar sus impuestos y gestionar su flujo de efectivo, mientras identificamos oportunidades de mejora."
+        }
+    }
+}

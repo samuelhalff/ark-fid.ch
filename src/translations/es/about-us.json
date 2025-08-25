@@ -1,0 +1,74 @@
+{
+    "Meta": {
+        "Title": "Acerca de Nosotros | Ark Fiduciaire",
+        "Description": "Conoce Ark Fiduciaire SA, nacida de la unión de dos firmas especializadas en 2025, reuniendo décadas de experiencia en contabilidad suiza y servicios fiduciarios."
+    },
+    "Hero": {
+        "Title": "Acerca de Ark Fiduciaire",
+        "Subtitle": "Nacida de la Excelencia, Unida para la Innovación",
+        "Badge": "Establecida en 2025"
+    },
+    "Foundation": {
+        "Title": "Nuestra Fundación",
+        "Content": [
+            "Ark Fiduciaire SA fue fundada en 2025 a través de la unión estratégica de dos firmas fiduciarias suizas establecidas, cada una aportando su experiencia única y relaciones con clientes para crear una oferta de servicios más fuerte y completa.",
+            "Esta fusión representa la culminación de años de crecimiento paralelo en el mercado suizo, combinando especializaciones complementarias para servir mejor las necesidades evolutivas de nuestros clientes en un entorno empresarial cada vez más complejo."
+        ]
+    },
+    "DNA": {
+        "Title": "Nuestro ADN",
+        "Subtitle": "Los Valores Que Nos Definen",
+        "Values": [
+            {
+                "Title": "Precisión Suiza",
+                "Desc": "Encarnamos los valores suizos tradicionales de precisión, confiabilidad y atención al detalle en todos los aspectos de nuestro trabajo."
+            },
+            {
+                "Title": "Innovación Adelante",
+                "Desc": "Respetando la tradición, abrazamos tecnología de vanguardia y metodologías modernas para mejorar nuestros servicios."
+            },
+            {
+                "Title": "Enfoque Centrado en el Cliente",
+                "Desc": "Nuestro equipo diverso reúne diferentes perspectivas y experiencia para proporcionar soluciones personalizadas para cada cliente."
+            },
+            {
+                "Title": "Excelencia Colaborativa",
+                "Desc": "La unión de nuestras firmas ha creado una cultura donde la colaboración y el intercambio de conocimientos impulsan resultados superiores."
+            }
+        ]
+    },
+    "Expertise": {
+        "Title": "Experiencia Colectiva",
+        "Content": [
+            "Nuestro equipo combina décadas de experiencia en contabilidad, fiscalidad, servicios corporativos y consultoría empresarial. Esta riqueza de conocimiento, reunida de dos firmas exitosas, nos permite abordar desafíos desde múltiples ángulos y proporcionar soluciones integrales.",
+            "La diversidad de nuestros antecedentes—desde prácticas contables suizas tradicionales hasta dinámicas comerciales internacionales—nos permite servir tanto a PYME locales como corporaciones multinacionales con igual experiencia y dedicación."
+        ]
+    },
+    "Vision": {
+        "Title": "Nuestra Visión",
+        "Content": [
+            "Visualizamos Ark Fiduciaire como el socio de confianza para empresas navegando las complejidades del mercado suizo mientras se expanden internacionalmente. Nuestro objetivo es simplificar la gestión financiera y el cumplimiento regulatorio, permitiendo a nuestros clientes enfocarse en lo que mejor hacen—hacer crecer sus negocios.",
+            "A través de la innovación continua y la integración de tecnologías como sistemas ERP Odoo, buscamos transformar los servicios fiduciarios tradicionales en asociaciones comerciales dinámicas y visionarias."
+        ]
+    },
+    "Partnership": {
+        "Title": "El Poder de la Asociación",
+        "Content": [
+            "La fusión de 2025 que creó Ark Fiduciaire representa más que simplemente combinar recursos—se trata de crear sinergias que beneficien a nuestros clientes. Al reunir experiencia complementaria y carteras de clientes, hemos expandido nuestras capacidades mientras mantenemos el toque personal que define el servicio suizo.",
+            "Este enfoque de asociación se extiende a nuestras relaciones con clientes, donde actuamos no solo como proveedores de servicios, sino como asesores estratégicos invertidos en su éxito a largo plazo."
+        ]
+    },
+    "Future": {
+        "Title": "Mirando Hacia Adelante",
+        "Content": [
+            "Mientras nos establecemos en el mercado suizo, permanecemos comprometidos con los principios que hicieron exitosas a nuestras firmas fundadoras: excelencia en la ejecución, innovación en el enfoque, y dedicación inquebrantable al éxito del cliente.",
+            "El futuro de Ark Fiduciaire está construido sobre la base sólida de nuestra experiencia fusionada, mejorada por nuestra visión compartida de lo que los servicios fiduciarios modernos pueden lograr."
+        ]
+    },
+    "CTA": {
+        "Title": "¿Listo para Asociarte con Nosotros?",
+        "Description": "Descubre cómo nuestra experiencia combinada puede beneficiar a tu negocio.",
+        "ContactButton": "Ponte en Contacto",
+        "TeamButton": "Conoce Nuestro Equipo"
+    }
+}

@@ -1,0 +1,69 @@
+{
+    "IntroTitle": "Unsere Partner",
+    "IntroText": "Wir arbeiten mit vertrauenswürdigen Partnern zusammen, um unseren Kunden umfassende professionelle Dienstleistungen zu bieten.",
+    "Hero": {
+        "Badge": "Strategische Partnerschaften",
+        "CTA": "Partner werden",
+        "SecondaryCTA": "Unser Team kennenlernen"
+    },
+    "Presentation": {
+        "Title": "Starke Partnerschaften aufbauen",
+        "Subtitle": "Strategisches Kooperationsnetzwerk",
+        "Description": "Durch strategische Partnerschaften erweitern wir unsere Fähigkeiten und liefern umfassende Lösungen, die alle Ihre professionellen Servicebedürfnisse erfüllen."
+    },
+    "PartnersTitle": "Unser Partnernetzwerk",
+    "PartnersDescription": "Entdecken Sie unser Netzwerk professioneller Partner, die unser Engagement für Exzellenz und Kundenservice teilen.",
+    "Partners": [
+        {
+            "title": "PBM Rechtsanwälte",
+            "description": "Führende schweizerische Anwaltskanzlei spezialisiert auf Wirtschaftsrecht, Corporate Governance und rechtliche Beratungsdienstleistungen für Unternehmen aller Größen.",
+            "website": "https://www.pbm.law/en",
+            "logo": "/assets/partners/pbm-logo.jpeg"
+        },
+        {
+            "title": "HelveBroker",
+            "description": "Erstklassiges Versicherungsmaklerbüro, das umfassende Risikomanagement- und Versicherungslösungen für Unternehmenskunden bietet.",
+            "website": "https://helvegroup.ch/fr",
+            "logo": "/assets/partners/logo-helvebroker.svg"
+        }
+    ],
+    "ServiceAreas": {
+        "Title": "Kollaborative Servicebereiche",
+        "Description": "Durch unsere Partnerschaften bieten wir erweiterte Fähigkeiten in mehreren Bereichen:",
+        "Areas": [
+            {
+                "title": "Rechtsberatung",
+                "description": "Umfassende rechtliche Unterstützung durch unsere Anwaltspartnerschaften"
+            },
+            {
+                "title": "Risikomanagement",
+                "description": "Professionelle Versicherungs- und Risikobewertungsdienstleistungen"
+            },
+            {
+                "title": "Unternehmensberatung",
+                "description": "Strategische Beratungsdienstleistungen für Geschäftsentwicklung"
+            },
+            {
+                "title": "Compliance-Unterstützung",
+                "description": "Regulatory Compliance und Governance-Unterstützung"
+            }
+        ]
+    },
+    "Partnership": {
+        "Title": "Partnerschaftsvorteile",
+        "Description": "Unsere strategischen Partnerschaften ermöglichen es uns:",
+        "Benefits": [
+            "Umfassende Serviceabdeckung zu bieten",
+            "Auf spezialisierte Expertise branchenübergreifend zuzugreifen",
+            "Nahtlose Kundenempfehlungen und Zusammenarbeit anzubieten",
+            "Höchste professionelle Standards zu halten",
+            "Integrierte Lösungen für komplexe Geschäftsbedürfnisse zu liefern"
+        ]
+    },
+    "Contact": {
+        "Title": "Partner werden",
+        "Description": "Interessiert an der Erkundung von Partnerschaftsmöglichkeiten?",
+        "CallToAction": "Kontaktieren Sie uns, um zu besprechen, wie wir zusammenarbeiten können, um unsere Kunden besser zu bedienen.",
+        "ButtonText": "Kontakt aufnehmen"
+    }
+}

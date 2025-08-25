@@ -1,0 +1,26 @@
+{
+    "Meta": {
+        "Title": "Accueil | Ark Fiduciaire",
+        "Description": "Soutien expert pour votre entreprise, du démarrage au succès. Services de comptabilité, fiscalité, paie et corporate en Suisse."
+    },
+    "Hero": {
+        "Title": "Services de Comptabilité, Fiscalité et Corporate",
+        "Description": "Soutien expert pour votre entreprise, du démarrage au succès.",
+        "CTA": "Prendre contact",
+        "SecondaryCTA": "Rencontrer l'équipe",
+        "Badge": "Swiss Made",
+        "BadgeTwo": "Alimenté par l'IA",
+        "OdooBadge": "Partenaire Officiel Odoo"
+    },
+    "Services": {
+        "Title": "Nos Services",
+        "Subtitle": "Services fiduciaires, comptables et fiscaux complets adaptés aux besoins de votre entreprise. Solutions expertes pour les entreprises suisses de toutes tailles."
+    },
+    "FAQ": {
+        "Title": "Questions Fréquemment Posées",
+        "Subtitle": "Réponses rapides aux questions courantes sur nos produits et services."
+    },
+    "Testimonials": {
+        "SectionTitle": "Témoignages"
+    }
+}
