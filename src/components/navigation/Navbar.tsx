@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-const Navbar = () => {
+const Navbar = ({ locale }: { locale?: string }) => {
+  const localePrefix = locale ? `/${locale}` : "/fr";
   const [scrollTop, setScrollTop] = useState(0);
   useEffect(() => {
     const onScroll = (e: any) => {
@@ -25,7 +26,8 @@ const Navbar = () => {
         }
       >
         <div className="h-full flex items-center max-w-[1200px] mx-auto justify-between px-4 sm:px-6">
-          <Link href={"/"}>
+          {/* preserve current locale in the logo link */}
+          <Link href={`${localePrefix}/`}>
             <span>
               <Image
                 className="hidden dark:block"
@@ -46,10 +48,10 @@ const Navbar = () => {
             </span>
           </Link>
           <div className="hidden md:block">
-            <NavMenu />
+            <NavMenu locale={locale} />
           </div>
           <div className="md:hidden pb-30">
-            <MobileMenu />
+            <MobileMenu locale={locale} />
           </div>
         </div>
       </nav>

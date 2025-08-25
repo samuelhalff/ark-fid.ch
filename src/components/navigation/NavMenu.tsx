@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
 import ServicesElements from "@/app/services/navigation";
 import { NavigationMenuProps } from "@radix-ui/react-navigation-menu";
@@ -51,12 +50,20 @@ function ListItem({
   );
 }
 
-function NavMenu({ orientation, ...props }: NavigationMenuProps) {
-  const pathname = usePathname();
-  const isActive = React.useCallback(
-    (path: string) => pathname === path,
-    [pathname]
-  );
+function NavMenu({
+  orientation,
+  locale,
+  ...props
+}: NavigationMenuProps & { locale?: string }) {
+  const isActive = React.useCallback((path: string) => {
+    // active state is best-effort in client; keep simple equality check against window.pathname
+    try {
+      return typeof window !== "undefined" && window.location.pathname === path;
+    } catch {
+      return false;
+    }
+  }, []);
+  const localePrefix = locale ? `/${locale}` : "";
 
   return (
     <NavigationMenu
@@ -73,7 +80,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
               navigationMenuTriggerStyle() + (isActive("/") ? " bg-accent" : "")
             }
           >
-            <Link href="/">
+            <Link href={`${localePrefix}/`}>
               <TranslatedText
                 ns="navbar"
                 translationKey="Home"
@@ -90,7 +97,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
               (isActive("/team") ? " bg-accent" : "")
             }
           >
-            <Link href="/team">
+            <Link href={`${localePrefix}/team`}>
               <TranslatedText
                 ns="navbar"
                 translationKey="Team"
@@ -107,7 +114,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
               (isActive("/about") ? " bg-accent" : "")
             }
           >
-            <Link href="/about">
+            <Link href={`${localePrefix}/about`}>
               <TranslatedText
                 ns="navbar"
                 translationKey="About"
@@ -136,7 +143,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
                       fallbackText={component.titleKey}
                     />
                   }
-                  href={component.href}
+                  href={localePrefix + component.href}
                   icon={component.icon}
                 >
                   <TranslatedText
@@ -157,7 +164,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
               (isActive("/ressources") ? " bg-accent" : "")
             }
           >
-            <Link href="/ressources">
+            <Link href={`${localePrefix}/ressources`}>
               <TranslatedText
                 ns="navbar"
                 translationKey="Ressources"
@@ -174,7 +181,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
               (isActive("/contact") ? " bg-accent" : "")
             }
           >
-            <Link href="/contact">
+            <Link href={`${localePrefix}/contact`}>
               <TranslatedText
                 ns="navbar"
                 translationKey="Contact"

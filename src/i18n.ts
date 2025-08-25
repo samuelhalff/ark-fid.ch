@@ -104,10 +104,23 @@ import taxesPt from "@/src/translations/pt/taxes.json";
 import teamPt from "@/src/translations/pt/team.json";
 import testimonialsPt from "@/src/translations/pt/testimonials.json";
 
-import detector from "i18next-browser-languagedetector";
+// Determine initial language from URL pathname in the browser to keep
+// the client language synced with our URL-based routing.
+const getInitialLang = () => {
+  if (typeof window === 'undefined') return undefined;
+  try {
+    const segments = window.location.pathname.split('/').filter(Boolean);
+    const potential = segments[0];
+    const valid = ['en', 'fr', 'de', 'es', 'pt'];
+    return valid.includes(potential) ? potential : undefined;
+  } catch (e) {
+    return undefined;
+  }
+};
 
-// Collect all English translations
-export const translations = {
+const initialLng = getInitialLang();
+
+const translations = {
   en: {
     aboutUs,
     accounting,
@@ -220,15 +233,10 @@ export const translations = {
   },
 };
 
-i18n
-  .use(detector)
-  .use(initReactI18next)
-  .init({
-    supportedLngs: ['de', 'en', 'fr', 'es'],
-    fallbackLng: 'en',
-    //ns: Object.keys(englishTranslations),
-    interpolation: {
-      escapeValue: false,
-    },
-    resources: translations
-  });
+i18n.use(initReactI18next).init({
+  supportedLngs: ["de", "en", "fr", "es", "pt"],
+  fallbackLng: "fr",
+  lng: initialLng,
+  interpolation: { escapeValue: false },
+  resources: translations,
+});

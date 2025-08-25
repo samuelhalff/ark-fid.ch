@@ -9,7 +9,9 @@ import TranslatedText from "@/src/components/ui/translated-text";
 import Image from "next/image";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 
-export const metadata: Metadata = generateMetadataForPage("/team");
+export async function generateMetadata(): Promise<Metadata> {
+  return await generateMetadataForPage("/team");
+}
 const teamMembers = [
   {
     name: "Hassan Barbir",
@@ -93,7 +95,13 @@ export default function TeamPage() {
         {teamMembers
           .sort(() => Math.random() - 0.5)
           .map((member) => (
-            <a href={member.social.linkedin} key={member.name} className="">
+            <a
+              href={member.social.linkedin}
+              key={member.name}
+              className=""
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Card
                 className={
                   "animate-in fade-in duration-250 text-center shadow-none hover:shadow-lg transition-shadow gap-2 py-5 border-0 hover:brightness-115"

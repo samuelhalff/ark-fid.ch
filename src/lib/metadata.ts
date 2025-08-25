@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { headers } from "next/headers";
+import { Locale, locales, getCurrentLocale } from "./i18n";
 
 interface MetadataConfig {
   default: {
@@ -23,39 +23,8 @@ interface MetadataConfig {
   };
 }
 
-// Function to get the current locale from various sources
-function getCurrentLocale(): string {
-  try {
-    // Try to get locale from headers (for server-side rendering)
-    const headersList = headers();
-    const acceptLanguage = headersList.get('accept-language');
-    
-    if (acceptLanguage) {
-      // Parse the Accept-Language header to get preferred locale
-      const locales = acceptLanguage.split(',').map(lang => {
-        const [locale] = lang.trim().split(';');
-        return locale.split('-')[0]; // Get base language (en from en-US)
-      });
-      
-      // Check if any preferred locale is supported
-      const supportedLocales = ['en', 'fr', 'de', 'es', 'pt'];
-      for (const locale of locales) {
-        if (supportedLocales.includes(locale)) {
-          return locale;
-        }
-      }
-    }
-  } catch (error) {
-    // Headers might not be available in all contexts
-    console.log('Could not get locale from headers, defaulting to en');
-  }
-  
-  // Default to English
-  return 'en';
-}
-
 // Function to load metadata config for a specific locale
-async function loadMetadataConfig(locale: string): Promise<MetadataConfig> {
+async function loadMetadataConfig(locale: Locale): Promise<MetadataConfig> {
   try {
     const config = await import(`@/src/translations/${locale}/metadata.json`);
     return config.default;
@@ -66,12 +35,14 @@ async function loadMetadataConfig(locale: string): Promise<MetadataConfig> {
   }
 }
 
-export async function getPageMetadata(path: string, customData?: {
-  articleTitle?: string;
-  articleDescription?: string;
-  locale?: string;
-}): Promise<Metadata> {
-  const locale = customData?.locale || getCurrentLocale();
+export async function getPageMetadata(
+  locale: Locale,
+  path: string,
+  customData?: {
+    articleTitle?: string;
+    articleDescription?: string;
+  }
+): Promise<Metadata> {
   const config = await loadMetadataConfig(locale);
   
   // Get page-specific metadata or fall back to default
@@ -86,7 +57,17 @@ export async function getPageMetadata(path: string, customData?: {
     description = config.dynamic.articles.descriptionTemplate.replace("{articleDescription}", customData.articleDescription || "");
   }
   
+  // Generate proper URLs for each locale (all locales have prefix in our setup)
+  const canonicalPath = `/${locale}${path}`;
+  const alternateUrls = locales.reduce((acc, loc) => {
+    const locPath = `/${loc}${path}`;
+    // hreflang keys should be locale codes like 'en', 'fr' etc.
+    acc[loc] = `https://ark-fid.ch${locPath}`;
+    return acc;
+  }, {} as Record<string, string>);
+
   const metadata: Metadata = {
+    metadataBase: new URL('https://ark-fid.ch'),
     title,
     description,
     keywords: pageData.keywords || config.default.keywords,
@@ -109,14 +90,15 @@ export async function getPageMetadata(path: string, customData?: {
       locale: locale === 'en' ? 'en_US' : 
               locale === 'fr' ? 'fr_FR' : 
               locale === 'de' ? 'de_DE' : 
-              locale === 'es' ? 'es_ES' : 'en_US',
-      url: `https://ark-fid.ch${path}`,
+              locale === 'es' ? 'es_ES' : 
+              locale === 'pt' ? 'pt_PT' : 'en_US',
+      url: `https://ark-fid.ch${canonicalPath}`,
       title,
       description,
       siteName: config.default.siteName,
       images: [
         {
-          url: "https://ark-fid.ch/assets/arkfid--color.svg",
+          url: "/assets/arkfid--color.svg",
           width: 800,
           height: 600,
           alt: "Ark Fiduciaire Logo",
@@ -127,7 +109,7 @@ export async function getPageMetadata(path: string, customData?: {
       card: "summary_large_image",
       title,
       description,
-      images: ["https://ark-fid.ch/assets/arkfid--color.svg"],
+      images: ["/assets/arkfid--color.svg"],
     },
     icons: {
       icon: [
@@ -149,36 +131,51 @@ export async function getPageMetadata(path: string, customData?: {
       ],
     },
     alternates: {
-      canonical: `https://ark-fid.ch${path}`,
-      languages: {
-        'en': `https://ark-fid.ch/en${path}`,
-        'fr': `https://ark-fid.ch/fr${path}`,
-        'de': `https://ark-fid.ch/de${path}`,
-        'es': `https://ark-fid.ch/es${path}`,
-      },
+      canonical: `https://ark-fid.ch${canonicalPath}`,
+      languages: Object.assign({ 'x-default': `https://ark-fid.ch${path}` }, alternateUrls),
     },
   };
 
   return metadata;
 }
 
-// Helper function for static pages
-export async function generateMetadataForPage(path: string, locale?: string) {
-  return await getPageMetadata(path, { locale });
+// Helper function for static pages (backward compatibility)
+export async function generateMetadataForPage(
+  localeOrPath: Locale | string,
+  path?: string
+): Promise<Metadata> {
+  if (typeof localeOrPath === 'string' && !path) {
+    // Old signature: generateMetadataForPage("/path") - default to French
+    return await getPageMetadata('fr' as Locale, localeOrPath);
+  } else if (typeof localeOrPath === 'string' && path) {
+    // New signature: generateMetadataForPage(locale, path)
+    return await getPageMetadata(localeOrPath as Locale, path);
+  } else {
+    // New signature: generateMetadataForPage(locale, path)
+    return await getPageMetadata(localeOrPath as Locale, path || '/');
+  }
 }
 
 // Helper function for dynamic pages (like articles)
 export async function generateMetadataForArticle(
-  slug: string,
-  articleTitle: string,
-  articleDescription: string,
-  locale?: string
-) {
-  return await getPageMetadata(`/ressources/articles/${slug}`, {
-    articleTitle,
-    articleDescription,
-    locale,
-  });
+  localeOrSlug: Locale | string,
+  slugOrTitle?: string,
+  titleOrDescription?: string,
+  description?: string
+): Promise<Metadata> {
+  if (typeof localeOrSlug === 'string' && slugOrTitle && titleOrDescription && !description) {
+    // Old signature: generateMetadataForArticle(slug, title, description)
+    return await getPageMetadata('fr' as Locale, `/ressources/articles/${localeOrSlug}`, {
+      articleTitle: slugOrTitle,
+      articleDescription: titleOrDescription,
+    });
+  } else {
+    // New signature: generateMetadataForArticle(locale, slug, title, description)
+    return await getPageMetadata(localeOrSlug as Locale, `/ressources/articles/${slugOrTitle}`, {
+      articleTitle: titleOrDescription,
+      articleDescription: description,
+    });
+  }
 }
 
 // Generate structured data for organization
@@ -193,7 +190,7 @@ export function generateOrganizationStructuredData() {
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer service",
-      "availableLanguage": ["English", "French", "German", "Spanish"]
+      "availableLanguage": ["English", "French", "German", "Spanish", "Portuguese"]
     },
     "address": {
       "@type": "PostalAddress",

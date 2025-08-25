@@ -1,8 +1,8 @@
 // You'll want a global CSS file for base styles and Tailwind imports
 import "./globals.css";
 
-import NavBar from "@/src/components/navigation/Navbar";
-import Footer from "@/app/shared/footer";
+// NavBar moved into locale layout so it can receive the current locale from params
+import Footer from "@/app/[locale]/shared/footer";
 
 import { Providers } from "@/src/components/providers"; // Import your new client provider
 import { Metadata } from "next";
@@ -60,8 +60,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <Providers>
-          <NavBar />
-          <main className="p-4 abstract-background text-foreground pt-15 mt-10">
+          <main className="pt-3 abstract-background text-foreground pt-15 mt-10">
             {children}
           </main>
           <Footer />
