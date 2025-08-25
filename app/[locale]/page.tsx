@@ -1,8 +1,8 @@
 import { type Metadata } from "next";
-import Hero from "@/app/home/components/hero";
-import Services from "@/app/home/components/services";
-import FAQ from "@/app/home/components/faq";
-import Testimonials from "@/app/home/components/testimonials";
+import Hero from "@/app/[locale]/home/components/hero";
+import Services from "@/app/[locale]/home/components/services";
+import FAQ from "@/app/[locale]/home/components/faq";
+import Testimonials from "@/app/[locale]/home/components/testimonials";
 import Contact from "@/src/components/ui/contact-form";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { type Locale } from "@/src/lib/i18n";
