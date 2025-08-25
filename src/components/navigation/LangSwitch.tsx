@@ -19,7 +19,9 @@ function ListItem({
 }) {
   return (
     <NavigationMenuLink asChild className="text-md" onClick={onClick}>
-      <a className="cursor-pointer py-3 px-4">{children}</a>
+      <button className="cursor-pointer py-3 px-4 text-left w-full">
+        {children}
+      </button>
     </NavigationMenuLink>
   );
 }

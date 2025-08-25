@@ -99,4 +99,30 @@
     background-repeat: no-repeat;
     background-size: contain;
   }
+
+  /* Utility: allow long words to break without overflowing */
+  .break-anywhere {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* Utility: enable automatic hyphenation when lang is set (e.g. lang="de") */
+  .hyphenate {
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+  }
+}
+
+/* Target German pages only: apply safe breaks and hyphenation to headings and paragraphs */
+[data-locale="de"] h1,
+[data-locale="de"] h2,
+[data-locale="de"] h3,
+[data-locale="de"] p,
+[data-locale="de"] .break-anywhere {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
 }

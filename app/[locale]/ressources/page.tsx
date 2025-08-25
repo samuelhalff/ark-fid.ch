@@ -1,21 +1,36 @@
-"use client";
 import React from "react";
-import { useTranslation } from "react-i18next";
 import TranslatedText from "@/src/components/ui/translated-text";
 import ResourceGrid from "./components/ResourceGrid";
+import { notFound } from "next/navigation";
 
-const RessourcesPage = () => {
-  const { t } = useTranslation("ressources");
-  const files = t("Files", { returnObjects: true }) as Array<{
-    filename: string;
-    title: string;
-    description: string;
-  }>;
-  const articles = t("Articles", { returnObjects: true }) as Array<{
-    slug: string;
-    title: string;
-    description: string;
-  }>;
+type LocaleParams = { params: { locale: string } };
+
+export default async function RessourcesPage({ params }: LocaleParams) {
+  const locale = params?.locale || "fr";
+
+  // Load translation JSON directly on the server to avoid importing client libraries
+  let ressourcesModule;
+  try {
+    ressourcesModule = await import(
+      `@/src/translations/${locale}/ressources.json`
+    );
+  } catch (e) {
+    try {
+      ressourcesModule = await import(`@/src/translations/fr/ressources.json`);
+    } catch (err) {
+      return notFound();
+    }
+  }
+  const ressources = ressourcesModule.default;
+
+  const files = ressources.Files || [];
+  const articles = ressources.Articles || [];
+  const labels = {
+    ReadArticle: ressources.ReadArticle || "Read Article",
+    Download: ressources.Download || "Download",
+    By: ressources.By || "By",
+    Published: ressources.Published || "Published on",
+  };
 
   return (
     <main className="max-w-[1200px] mx-auto px-4 py-10 mt-10">
@@ -43,7 +58,12 @@ const RessourcesPage = () => {
             fallbackText="Files"
           />
         </h2>
-        <ResourceGrid files={files} articles={[]} />
+        <ResourceGrid
+          files={files}
+          articles={[]}
+          locale={locale}
+          labels={labels}
+        />
       </section>
       <section>
         <h2 className="text-2xl font-semibold mb-6">
@@ -53,10 +73,13 @@ const RessourcesPage = () => {
             fallbackText="Articles"
           />
         </h2>
-        <ResourceGrid files={[]} articles={articles} />
+        <ResourceGrid
+          files={[]}
+          articles={articles}
+          locale={locale}
+          labels={labels}
+        />
       </section>
     </main>
   );
-};
-
-export default RessourcesPage;
+}

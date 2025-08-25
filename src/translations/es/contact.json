@@ -7,6 +7,13 @@
         "CompanyName": "Nombre de la empresa (Opcional)",
         "Phone": "Número de teléfono (Opcional)",
         "Message": "Mensaje",
+        "Placeholders": {
+            "Name": "Su nombre",
+            "Email": "su@email.com",
+            "CompanyName": "Empresa (opcional)",
+            "Phone": "+41...",
+            "Message": "Su mensaje..."
+        },
         "Consent": "Acepto ser contactado sobre mi solicitud",
         "Submit": "Enviar mensaje",
         "Success": "¡Mensaje enviado exitosamente!",
@@ -17,5 +24,11 @@
         "InvalidEmail": "Por favor ingrese una dirección de correo válida",
         "MaxLength": "El mensaje no puede exceder 500 caracteres",
         "Consent": "Debe aceptar ser contactado"
+    },
+    "Contact": {
+        "CompanyName": "Ark Fiduciaire",
+        "Email": "Email: info@ark-fid.ch",
+        "Address": "Address: 26 Boulevard Georges Favon, 1204 Geneva",
+        "Commitment": "Estamos comprometidos a mantener los más altos estándares de servicio profesional y satisfacción del cliente."
     }
 }

@@ -66,14 +66,14 @@ const ServiceHero = ({
               />
             </Badge>
           </div>
-          <h1 className="mt-6 max-w-full w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight mx-auto">
+          <h1 className="mt-6 max-w-full w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight mx-auto break-anywhere hyphenate">
             <TranslatedText
               ns={namespace}
               translationKey={titleKey}
               fallbackText={titleFallback}
             />
           </h1>
-          <p className="mt-6 max-w-full w-full xs:text-lg mx-auto">
+          <p className="mt-6 max-w-full w-full xs:text-lg mx-auto break-anywhere hyphenate">
             <TranslatedText
               ns={namespace}
               translationKey={descriptionKey}

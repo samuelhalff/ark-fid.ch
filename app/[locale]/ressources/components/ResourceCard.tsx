@@ -13,6 +13,13 @@ const iconMap: Record<string, React.ReactNode> = {
   txt: <FileText className="text-gray-500" size={32} />,
 };
 
+interface Labels {
+  ReadArticle?: string;
+  Download?: string;
+  By?: string;
+  Published?: string;
+}
+
 interface ResourceCardProps {
   type: "file" | "article";
   title: string;
@@ -21,8 +28,8 @@ interface ResourceCardProps {
   extension?: string;
   date?: string;
   author?: string;
+  labels?: Labels;
 }
-
 const ResourceCard: React.FC<ResourceCardProps> = ({
   type,
   title,
@@ -31,6 +38,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   extension,
   date,
   author,
+  labels,
 }) => {
   const icon =
     type === "file" && extension ? (
@@ -51,41 +59,24 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
         <div className="text-xs text-muted-foreground mb-3">
           {author && type === "article" && (
             <p>
-              <TranslatedText
-                ns="ressources"
-                translationKey="By"
-                fallbackText="By"
-              />{" "}
-              {author}
+              {(labels && labels.By) || "By"} {author}
             </p>
           )}
           {date && (
             <p>
-              <TranslatedText
-                ns="ressources"
-                translationKey="Published"
-                fallbackText="Published on"
-              />{" "}
-              {new Date(date).toLocaleDateString()}
+              {(labels && labels.Published) || "Published on"}{" "}
+              <time dateTime={new Date(date).toISOString()}>
+                {formatDateDeterministic(date)}
+              </time>
             </p>
           )}
         </div>
       )}
 
       <div className="mt-auto text-blue-600 hover:underline font-medium">
-        {type === "file" ? (
-          <TranslatedText
-            ns="ressources"
-            translationKey="Download"
-            fallbackText="Download"
-          />
-        ) : (
-          <TranslatedText
-            ns="ressources"
-            translationKey="ReadArticle"
-            fallbackText="Read Article"
-          />
-        )}
+        {type === "file"
+          ? (labels && labels.Download) || "Download"
+          : (labels && labels.ReadArticle) || "Read Article"}
       </div>
     </div>
   );
@@ -113,3 +104,18 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
 };
 
 export default ResourceCard;
+
+function formatDateDeterministic(date?: string) {
+  if (!date) return "";
+  try {
+    // Use a fixed locale to produce consistent server/client output (day/month/year)
+    return new Intl.DateTimeFormat("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }).format(new Date(date));
+  } catch (e) {
+    // Fallback to ISO date if formatting fails
+    return new Date(date).toISOString().split("T")[0];
+  }
+}

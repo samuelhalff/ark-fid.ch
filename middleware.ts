@@ -46,6 +46,7 @@ function getLocale(request: NextRequest): string {
 }
 
 export const config = {
-  // Skip all paths that should not be internationalized
-  matcher: ['/((?!_next|api|favicon.ico|assets|ressources).*)']
+  // Skip only internal/static paths that should not be internationalized
+  // Allow `ressources` and other content routes to be redirected to /<locale>/...
+  matcher: ['/((?!_next|api|favicon.ico|assets).*)']
 }

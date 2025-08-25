@@ -29,7 +29,7 @@ export default async function ArticlePage({ params }: Params) {
           {ressources.By} {article.author}
         </p>
         <p>
-          {ressources.Published} {new Date(article.date).toLocaleDateString()}
+          {ressources.Published} {formatDateDeterministic(article.date)}
         </p>
       </div>
 
@@ -87,4 +87,17 @@ export async function generateMetadata({ params }: Params) {
     article.title,
     article.description
   );
+}
+
+function formatDateDeterministic(date?: string) {
+  if (!date) return "";
+  try {
+    return new Intl.DateTimeFormat("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }).format(new Date(date));
+  } catch (e) {
+    return new Date(date).toISOString().split("T")[0];
+  }
 }

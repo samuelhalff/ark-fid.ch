@@ -2,6 +2,7 @@ import { type Metadata } from "next";
 import TranslatedText from "@/src/components/ui/translated-text";
 import { Separator } from "@/src/components/ui/separator";
 import TranslatedDate from "@/src/components/ui/translated-date";
+import ContactInfo from "@/src/components/ui/contact-info";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -441,36 +442,7 @@ export default function TermsPage() {
                 fallbackText="For questions regarding these Terms of Service or our professional services, please contact us:"
               />
             </p>
-            <div className="bg-muted/50 p-6 rounded-lg">
-              <p className="font-semibold">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Terms.Contact.CompanyName"
-                  fallbackText="Ark Fiduciaire"
-                />
-              </p>
-              <p>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Terms.Contact.Email"
-                  fallbackText="Email: info@ark-fid.ch"
-                />
-              </p>
-              <p>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Terms.Contact.Phone"
-                  fallbackText="Phone: +41 XX XXX XX XX"
-                />
-              </p>
-              <p>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Terms.Contact.Address"
-                  fallbackText="Address: 26 Boulevard Georges Favon, 1204 Geneva"
-                />
-              </p>
-            </div>
+            <ContactInfo />
             <p>
               <TranslatedText
                 ns="legal"

@@ -20,12 +20,19 @@ interface ResourceGridProps {
   files: FileResource[];
   articles: ArticleResource[];
   locale?: string;
+  labels?: {
+    ReadArticle?: string;
+    Download?: string;
+    By?: string;
+    Published?: string;
+  };
 }
 
 const ResourceGrid: React.FC<ResourceGridProps> = ({
   files,
   articles,
   locale,
+  labels,
 }) => {
   const prefix = locale ? `/${locale}` : "";
   return (
@@ -41,6 +48,7 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
             href={`/assets/downloads/${file.filename}`}
             extension={ext}
             date={file.date}
+            labels={labels}
           />
         );
       })}
@@ -53,6 +61,7 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
           href={`${prefix}/ressources/articles/${article.slug}`}
           author={article.author}
           date={article.date}
+          labels={labels}
         />
       ))}
     </div>
