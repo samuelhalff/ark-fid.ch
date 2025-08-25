@@ -36,9 +36,9 @@ export default function Home() {
       <section id="faq">
         <FAQ />
       </section>
-      <section id="testimonials">
+      {/* <section id="testimonials">
         <Testimonials />
-      </section>
+      </section> */}
       <section id="contact">
         <Contact />
       </section>

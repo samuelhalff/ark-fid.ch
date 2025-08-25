@@ -1,19 +1,8 @@
 {
-  "/_not-found": "app/_not-found.js",
-  "/legal/privacy/page": "app/legal/privacy/page.js",
-  "/legal/terms/page": "app/legal/terms/page.js",
-  "/legal/cookies/page": "app/legal/cookies/page.js",
-  "/page": "app/page.js",
-  "/partners/page": "app/partners/page.js",
   "/ressources/page": "app/ressources/page.js",
-  "/services/accounting/page": "app/services/accounting/page.js",
-  "/services/corporate/page": "app/services/corporate/page.js",
-  "/services/domiciliation/page": "app/services/domiciliation/page.js",
-  "/services/odoo/page": "app/services/odoo/page.js",
-  "/services/outsourcing/page": "app/services/outsourcing/page.js",
-  "/services/payroll/page": "app/services/payroll/page.js",
-  "/services/taxes/page": "app/services/taxes/page.js",
-  "/team/page": "app/team/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/about/page": "app/about/page.js"
+  "/ressources/articles/[slug]/page": "app/ressources/articles/[slug]/page.js",
+  "/partners/page": "app/partners/page.js",
+  "/page": "app/page.js",
+  "/about/page": "app/about/page.js",
+  "/team/page": "app/team/page.js"
 }

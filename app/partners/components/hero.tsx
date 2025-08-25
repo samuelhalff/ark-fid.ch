@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const PartnersHero = () => (
   <div className="min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent">
-    <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-y-14 gap-x-10 px-6 py-12 lg:py-0">
+    <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
       <div className="max-w-2xl text-center animate-in fade-in duration-800">
         <div className="gap-2 flex justify-center items-center mb-6">
           <Badge className="rounded-full py-1 border-none bg-blue-100 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
@@ -38,7 +38,7 @@ const PartnersHero = () => (
           <Link href="/contact" className="w-full sm:w-auto">
             <Button
               size="lg"
-              className="w-full sm:w-auto rounded-full text-base"
+              className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
               style={{ cursor: "pointer" }}
             >
               <TranslatedText
@@ -49,18 +49,18 @@ const PartnersHero = () => (
               <Handshake className="h-5 w-5 ml-2" />
             </Button>
           </Link>
-          <Link href="/services" className="w-full sm:w-auto">
+          <Link href="/team" className="w-full sm:w-auto">
             <Button
               variant="outline"
               size="lg"
-              className="w-full sm:w-auto rounded-full text-base shadow-none"
+              className="w-full sm:w-auto rounded-full text-base shadow-none transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
               style={{ cursor: "pointer" }}
             >
               <Users className="h-5 w-5 mr-2" />
               <TranslatedText
                 ns="partners"
                 translationKey="Hero.SecondaryCTA"
-                fallbackText="Our Services"
+                fallbackText="Meet our team"
               />
             </Button>
           </Link>

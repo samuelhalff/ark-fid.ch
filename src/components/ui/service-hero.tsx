@@ -81,7 +81,7 @@ const ServiceHero = ({
           <Link href="/contact" className="w-full sm:w-auto">
             <Button
               size="lg"
-              className="w-full sm:w-auto rounded-full text-base"
+              className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
               style={{ cursor: "pointer" }}
             >
               <TranslatedText
@@ -96,7 +96,7 @@ const ServiceHero = ({
             <Button
               variant="outline"
               size="lg"
-              className="w-full sm:w-auto rounded-full text-base shadow-none"
+              className="w-full sm:w-auto rounded-full text-base shadow-none transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
               style={{ cursor: "pointer" }}
             >
               <Users className="h-5! w-5!" />{" "}
