@@ -5,12 +5,15 @@ interface FileResource {
   filename: string;
   title: string;
   description: string;
+  date?: string;
 }
 
 interface ArticleResource {
   slug: string;
   title: string;
   description: string;
+  author?: string;
+  date?: string;
 }
 
 interface ResourceGridProps {
@@ -31,6 +34,7 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({ files, articles }) => {
             description={file.description}
             href={`/assets/downloads/${file.filename}`}
             extension={ext}
+            date={file.date}
           />
         );
       })}
@@ -40,7 +44,9 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({ files, articles }) => {
           type="article"
           title={article.title}
           description={article.description}
-          href={`/ressources/${article.slug}`}
+          href={`/ressources/articles/${article.slug}`}
+          author={article.author}
+          date={article.date}
         />
       ))}
     </div>

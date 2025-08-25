@@ -22,7 +22,7 @@ const Services = () => {
           ns="home"
         />
       </h2>
-      <div className="mt-8 xs:mt-14 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
+      <div className="mt-8 xs:mt-14 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-20">
         {services.map((service) => (
           <Link
             key={service.titleKey}

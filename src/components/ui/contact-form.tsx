@@ -55,7 +55,16 @@ const createFormSchema = (t: (key: string) => string) =>
 
 const FORMSPARK_ACTION_URL = "https://submit-form.com/1e26cwX66";
 
-const ContactForm: FC = () => {
+// Removed duplicate ContactForm declaration. The correct one is below with props.
+interface ContactFormProps {
+  showTitle?: boolean;
+  showSubtitle?: boolean;
+}
+
+const ContactForm: FC<ContactFormProps> = ({
+  showTitle = true,
+  showSubtitle = true,
+}) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [sending, setSending] = React.useState(false);
@@ -93,22 +102,26 @@ const ContactForm: FC = () => {
   };
 
   return (
-    <div className="p-15 xs:p-10 md:p-16 w-full max-w-[var(--breakpoint-xl)] mx-auto">
+    <div className="p-1 xs:p-10 md:p-10 w-full max-w-[var(--breakpoint-xl)] mx-auto">
       {/* 4. REMOVED: The <title> tag. This must be handled by the page's metadata export. */}
-      <h1 className="mb-3 text-center xs:mb-14 text-2xl/7 font-bold sm:text-3xl sm:tracking-tight mt-10 animate-in fade-in duration-700">
-        <TranslatedText
-          ns="contact"
-          translationKey="Title"
-          fallbackText="Get in Touch"
-        />
-      </h1>
-      <p className="mt-6 w-full text-center text-muted-foreground">
-        <TranslatedText
-          ns="contact"
-          translationKey="Subtitle"
-          fallbackText="Subtitle"
-        />
-      </p>
+      {showTitle && (
+        <h1 className="mb-3 text-center xs:mb-14 text-2xl/7 font-bold sm:text-3xl sm:tracking-tight mt-0 animate-in fade-in duration-700">
+          <TranslatedText
+            ns="contact"
+            translationKey="Title"
+            fallbackText="Get in Touch"
+          />
+        </h1>
+      )}
+      {showSubtitle && (
+        <p className="w-full text-center text-muted-foreground">
+          <TranslatedText
+            ns="contact"
+            translationKey="Subtitle"
+            fallbackText="Subtitle"
+          />
+        </p>
+      )}
       <div className="flex items-center justify-center">
         <Card className="my-8 max-w-[1200px] min-w-[350px] w-full mb-15 animate-in slide-in-from-bottom-7 duration-500">
           <CardContent>

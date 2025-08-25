@@ -24,7 +24,7 @@ const Navbar = () => {
           (scrollTop > 100 ? "shadow-2xl" : "")
         }
       >
-        <div className="h-full flex items-center max-w-[100vw] justify-between px-4 sm:px-6">
+        <div className="h-full flex items-center max-w-[1200px] mx-auto justify-between px-4 sm:px-6">
           <Link href={"/"}>
             <span>
               <Image

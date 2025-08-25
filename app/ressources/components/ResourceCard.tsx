@@ -19,6 +19,8 @@ interface ResourceCardProps {
   description: string;
   href: string;
   extension?: string;
+  date?: string;
+  author?: string;
 }
 
 const ResourceCard: React.FC<ResourceCardProps> = ({
@@ -27,6 +29,8 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   description,
   href,
   extension,
+  date,
+  author,
 }) => {
   const icon =
     type === "file" && extension ? (
@@ -34,40 +38,78 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
     ) : (
       <FileText className="text-primary" size={32} />
     );
-  return (
-    <div className="bg-white dark:bg-muted rounded-xl shadow-md hover:shadow-lg transition-shadow p-5 flex flex-col h-full">
+  const cardContent = (
+    <div className="flex flex-col border rounded-xl overflow-hidden shadow-none h-full cursor-pointer hover:shadow-lg transition-shadow bg-white dark:bg-muted p-5 group-hover:shadow-lg">
       <div className="flex items-center gap-3 mb-3">
         {icon}
         <h3 className="text-lg font-semibold flex-1">{title}</h3>
       </div>
       <p className="text-muted-foreground mb-4 flex-1">{description}</p>
-      {type === "file" ? (
-        <a
-          href={href}
-          download
-          className="mt-auto text-blue-600 hover:underline font-medium"
-        >
+
+      {/* Date and Author info */}
+      {(date || author) && (
+        <div className="text-xs text-muted-foreground mb-3">
+          {author && type === "article" && (
+            <p>
+              <TranslatedText
+                ns="ressources"
+                translationKey="By"
+                fallbackText="By"
+              />{" "}
+              {author}
+            </p>
+          )}
+          {date && (
+            <p>
+              <TranslatedText
+                ns="ressources"
+                translationKey="Published"
+                fallbackText="Published on"
+              />{" "}
+              {new Date(date).toLocaleDateString()}
+            </p>
+          )}
+        </div>
+      )}
+
+      <div className="mt-auto text-blue-600 hover:underline font-medium">
+        {type === "file" ? (
           <TranslatedText
             ns="ressources"
             translationKey="Download"
             fallbackText="Download"
           />
-        </a>
-      ) : (
-        <Link
-          href={href}
-          className="mt-auto text-blue-600 hover:underline font-medium"
-          target="_blank"
-        >
+        ) : (
           <TranslatedText
             ns="ressources"
             translationKey="ReadArticle"
             fallbackText="Read Article"
           />
-        </Link>
-      )}
+        )}
+      </div>
     </div>
   );
+  if (type === "file") {
+    return (
+      <a
+        href={href}
+        download
+        className="block h-full group transition-transform hover:scale-105"
+      >
+        {cardContent}
+      </a>
+    );
+  } else {
+    return (
+      <Link
+        href={href}
+        target="_blank"
+        className="block h-full group transition-transform hover:scale-105"
+      >
+        {cardContent}
+      </Link>
+    );
+  }
 };
 
 export default ResourceCard;

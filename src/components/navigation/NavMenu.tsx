@@ -65,7 +65,7 @@ function NavMenu({ orientation, ...props }: NavigationMenuProps) {
       orientation={orientation}
       {...props}
     >
-      <NavigationMenuList className="pt-3 text-md gap-1 space-x-0 md:mr-10">
+      <NavigationMenuList className="pt-1 text-md gap-1 space-x-0">
         <NavigationMenuItem>
           <NavigationMenuLink
             asChild
