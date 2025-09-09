@@ -1,10 +1,4 @@
 import { Separator } from "@/src/components/ui/separator";
-import {
-  DribbbleIcon,
-  GithubIcon,
-  TwitchIcon,
-  TwitterIcon,
-} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import TranslatedText from "@/src/components/ui/translated-text";
