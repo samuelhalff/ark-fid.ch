@@ -75,14 +75,14 @@ const footerSections = [
   },
 ];
 
-const Footer = () => {
+const Footer = ({ locale }: { locale?: string }) => {
   return (
     <footer
       className="mt-12 xs:mt-20 bg-background border-t"
       role="contentinfo"
     >
       <div className="max-w-[var(--breakpoint-xl)] mx-auto py-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-x-8 gap-y-10 px-6">
-        <Link href={"/"} aria-label="Ark Fiduciaire homepage">
+        <Link href={"/"} aria-label="Ark Fiduciaire homepage" locale={locale}>
           <span>
             <Image
               className="hidden dark:block"
@@ -136,6 +136,7 @@ const Footer = () => {
                     <Link
                       href={href}
                       className="text-muted-foreground hover:text-foreground"
+                      locale={locale}
                     >
                       <TranslatedText
                         ns={ns || "footer"}

@@ -29,6 +29,13 @@ const services = [
     image: "/assets/services/hr-services.png",
   },
   {
+    icon: <Building2 />,
+    titleKey: "Incorporation.Title",
+    href: "/incorporation",
+    descriptionKey: "Incorporation.Description",
+    image: "/assets/services/tax-desk.png",
+  },
+  {
     icon: <GitFork />,
     titleKey: "OutsourcingServices.Title",
     href: "/outsourcing",

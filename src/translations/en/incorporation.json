@@ -1,0 +1,41 @@
+{
+    "incorporation": {
+        "Presentation": {
+            "Title": "Company Incorporation Services",
+            "Subtitle": "Fast, compliant company formation for your business",
+            "Intro": [
+                "We help you incorporate your business quickly and correctly. Choose a company type, submit required documents, and we'll handle registration, filings, and compliance."
+            ],
+            "StrengthsTitle": "Why Choose Our Incorporation Services",
+            "Strengths": [
+                {
+                    "Title": "Formation expertise",
+                    "Desc": "Experienced guidance on entity selection, registration steps and documentation."
+                },
+                {
+                    "Title": "Regulatory compliance",
+                    "Desc": "Ensure your new company meets all local legal and tax requirements from day one."
+                },
+                {
+                    "Title": "Post-incorporation support",
+                    "Desc": "Registered office, nominee services and ongoing reporting assistance."
+                }
+            ],
+            "ServicesTitle": "Incorporation Services",
+            "Services": [
+                "Company registration and formation",
+                "Preparation and filing of incorporation documents",
+                "Registered office and nominee services",
+                "Tax registration and compliance onboarding"
+            ]
+        },
+        "Hero": {
+            "Badge": "Swiss Excellence",
+            "BadgeTwo": "Business Experts",
+            "Title": "Company Incorporation Services",
+            "Description": "Expert guidance for seamless company formation and registration in Switzerland.",
+            "CTA": "Contact us",
+            "SecondaryCTA": "Learn more"
+        }
+    }
+}

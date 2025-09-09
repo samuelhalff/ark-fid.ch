@@ -82,6 +82,7 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
               <Link
                 href={`${localePrefix}/contact`}
                 onClick={handleLinkClick}
+                locale={locale}
                 className="block w-full text-center font-semibold text-lg py-3 rounded-xl border border-accent bg-transparent hover:bg-accent/30 transition-colors"
                 style={{ letterSpacing: 0.5 }}
               >
@@ -96,6 +97,7 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
               <Link
                 href={`${localePrefix}/`}
                 onClick={handleLinkClick}
+                locale={locale}
                 className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
                 <span>
@@ -111,6 +113,7 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
               <Link
                 href={`${localePrefix}/team`}
                 onClick={handleLinkClick}
+                locale={locale}
                 className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
                 <span>
@@ -126,6 +129,7 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
               <Link
                 href={`${localePrefix}/about`}
                 onClick={handleLinkClick}
+                locale={locale}
                 className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
                 <span>
@@ -137,11 +141,12 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
                 </span>
               </Link>
             </div>
-            <ServicesMobile onLinkClick={handleLinkClick} />
+            <ServicesMobile locale={locale} onLinkClick={handleLinkClick} />
             <div>
               <Link
                 href={`${localePrefix}/ressources`}
                 onClick={handleLinkClick}
+                locale={locale}
                 className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
                 <span>

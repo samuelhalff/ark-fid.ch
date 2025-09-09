@@ -1,9 +1,9 @@
 {
-  "IntroTitle": "Ressources pour Votre Entreprise",
+  "IntroTitle": "Ressources pour votre entreprise",
   "IntroText": "Ci-dessous, vous trouverez une sélection de documents et d'articles fournis par Ark Fiduciaire. Ces ressources sont offertes pour votre commodité et doivent être utilisées sous votre seule responsabilité. Pour des conseils personnalisés, veuillez contacter notre équipe.",
   "FilesTitle": "Documents disponibles au téléchargement",
-  "ArticlesTitle": "Articles d'Experts",
-  "ReadArticle": "Lire l'Article",
+  "ArticlesTitle": "Articles d'experts",
+  "ReadArticle": "Lire l'article",
   "Files": [
     {
       "filename": "guide-salaire.pdf",
@@ -36,6 +36,6 @@
   "Contact": {
     "Title": "Questions sur cet article ?",
     "Description": "Nos experts sont là pour vous aider à comprendre les détails et implications pour votre entreprise. Obtenez des conseils personnalisés adaptés à votre situation.",
-    "ButtonText": "Contacter Notre Équipe"
+    "ButtonText": "Contacter notre équipe"
   }
 }

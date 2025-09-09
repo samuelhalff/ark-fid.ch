@@ -24,6 +24,7 @@ export default function ServicesMobile({
             key={service.href}
             href={`${localePrefix}${service.href}`}
             onClick={onLinkClick}
+            locale={locale}
             className="flex items-center gap-4 text-md py-3 rounded hover:bg-accent transition-colors pl-6"
           >
             <span>

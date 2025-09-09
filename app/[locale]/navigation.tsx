@@ -40,6 +40,12 @@ const ServicesElements = [
     icon: <Building2 className="text-primary" size={20} />,
   },
   {
+    titleKey: "Incorporation.Title",
+    descriptionKey: "Incorporation.Description",
+    href: "/services/incorporation",
+    icon: <Building2 className="text-primary" size={20} />,
+  },
+  {
     titleKey: "OdooImplementation.Title",
     descriptionKey: "OdooImplementation.Description",
     href: "/services/odoo",

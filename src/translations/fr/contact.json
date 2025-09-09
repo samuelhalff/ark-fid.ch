@@ -4,8 +4,8 @@
     "Form": {
         "Name": "Nom",
         "Email": "E-mail",
-        "CompanyName": "Nom de l'entreprise (Optionnel)",
-        "Phone": "Numéro de téléphone (Optionnel)",
+        "CompanyName": "Nom de l'entreprise (optionnel)",
+        "Phone": "Numéro de téléphone (optionnel)",
         "Message": "Message",
         "Placeholders": {
             "Name": "Votre nom",

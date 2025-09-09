@@ -1,0 +1,41 @@
+{
+    "incorporation": {
+        "Presentation": {
+            "Title": "Firmengründung",
+            "Subtitle": "Schnelle, rechtskonforme Gründung für Ihr Unternehmen",
+            "Intro": [
+                "Wir helfen Ihnen, Ihr Unternehmen schnell und korrekt zu gründen. Wählen Sie die Gesellschaftsform, reichen Sie die erforderlichen Unterlagen ein, und wir übernehmen Anmeldung, Einreichungen und Compliance."
+            ],
+            "StrengthsTitle": "Warum unsere Gründungsdienste wählen",
+            "Strengths": [
+                {
+                    "Title": "Gründungsexpertise",
+                    "Desc": "Erfahrene Beratung zur Wahl der Rechtsform, zu Registrierungsschritten und Dokumentation."
+                },
+                {
+                    "Title": "Rechtliche Konformität",
+                    "Desc": "Ihr neues Unternehmen erfüllt von Anfang an alle gesetzlichen und steuerlichen Anforderungen."
+                },
+                {
+                    "Title": "Unterstützung nach der Gründung",
+                    "Desc": "Registrierte Adresse, Treuhanddienste und laufende Unterstützung bei Meldungen."
+                }
+            ],
+            "ServicesTitle": "Gründungsdienste",
+            "Services": [
+                "Unternehmensregistrierung und Gründung",
+                "Vorbereitung und Einreichung der Gründungsunterlagen",
+                "Registrierte Adresse und Treuhanddienste",
+                "Steuerregistrierung und Compliance"
+            ]
+        },
+        "Hero": {
+            "Badge": "Schweizer Qualität",
+            "BadgeTwo": "Unternehmensexperten",
+            "Title": "Firmengründung",
+            "Description": "Fachkundige Begleitung für eine reibungslose Unternehmensgründung und Anmeldung in der Schweiz.",
+            "CTA": "Kontaktieren",
+            "SecondaryCTA": "Mehr erfahren"
+        }
+    }
+}

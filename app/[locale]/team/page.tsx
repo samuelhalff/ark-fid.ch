@@ -103,7 +103,13 @@ export default function TeamPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-25 animate-in slide-in-from-bottom-7 duration-500">
         {teamMembers
-          .sort(() => Math.random() - 0.5)
+          .sort((a, b) =>
+            a.name
+              .split(" ")[1]
+              .localeCompare(b.name.split(" ")[1], undefined, {
+                sensitivity: "base",
+              })
+          )
           .map((member) => (
             <Link
               href={member.social.linkedin}

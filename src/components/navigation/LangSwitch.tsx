@@ -43,9 +43,19 @@ export default function LangSwitch(): React.ReactElement {
     typeof window !== "undefined" ? window.location.pathname : "/";
 
   function navigateToLocale(targetLocale: string) {
-    const parts = pathname?.split("/") || [];
-    const remainder = parts.length > 2 ? parts.slice(2).join("/") : "";
-    const newPath = `/${targetLocale}${remainder ? `/${remainder}` : ""}`;
+    // Remove leading/trailing slashes and split
+    const segments = pathname.replace(/^\/+|\/+$/g, "").split("/");
+    // If first segment is a valid locale, replace it
+    const validLocales = ["en", "fr", "de", "es", "pt"];
+    let newSegments;
+    if (validLocales.includes(segments[0])) {
+      segments[0] = targetLocale;
+      newSegments = segments;
+    } else {
+      // If no locale, just add it
+      newSegments = [targetLocale, ...segments.filter(Boolean)];
+    }
+    const newPath = `/${newSegments.join("/")}`;
     router.push(newPath);
     try {
       changeLanguage(targetLocale);

@@ -1,3 +1,8 @@
+import incorporation from "@/src/translations/en/incorporation.json";
+import incorporationFr from "@/src/translations/fr/incorporation.json";
+import incorporationDe from "@/src/translations/de/incorporation.json";
+import incorporationEs from "@/src/translations/es/incorporation.json";
+import incorporationPt from "@/src/translations/pt/incorporation.json";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import aboutUs from "@/src/translations/en/about-us.json";
@@ -107,11 +112,11 @@ import testimonialsPt from "@/src/translations/pt/testimonials.json";
 // Determine initial language from URL pathname in the browser to keep
 // the client language synced with our URL-based routing.
 const getInitialLang = () => {
-  if (typeof window === 'undefined') return undefined;
+  if (typeof window === "undefined") return undefined;
   try {
-    const segments = window.location.pathname.split('/').filter(Boolean);
+    const segments = window.location.pathname.split("/").filter(Boolean);
     const potential = segments[0];
-    const valid = ['en', 'fr', 'de', 'es', 'pt'];
+    const valid = ["en", "fr", "de", "es", "pt"];
     return valid.includes(potential) ? potential : undefined;
   } catch (e) {
     return undefined;
@@ -142,6 +147,7 @@ const translations = {
     taxes,
     team,
     testimonials,
+    incorporation,
   },
   fr: {
     aboutUs: aboutUsFr,
@@ -164,6 +170,7 @@ const translations = {
     taxes: taxesFr,
     team: teamFr,
     testimonials: testimonialsFr,
+    incorporation: incorporationFr,
   },
   de: {
     aboutUs: aboutUsDe,
@@ -186,6 +193,7 @@ const translations = {
     taxes: taxesDe,
     team: teamDe,
     testimonials: testimonialsDe,
+    incorporation: incorporationDe,
   },
   es: {
     aboutUs: aboutUsEs,
@@ -208,6 +216,7 @@ const translations = {
     taxes: taxesEs,
     team: teamEs,
     testimonials: testimonialsEs,
+    incorporation: incorporationEs,
   },
   pt: {
     aboutUs: aboutUsPt,
@@ -230,6 +239,7 @@ const translations = {
     taxes: taxesPt,
     team: teamPt,
     testimonials: testimonialsPt,
+    incorporation: incorporationPt,
   },
 };
 

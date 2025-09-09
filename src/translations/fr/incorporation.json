@@ -1,0 +1,41 @@
+{
+    "incorporation": {
+        "Presentation": {
+            "Title": "Constitution d'entreprise",
+            "Subtitle": "Création rapide et conforme pour votre société",
+            "Intro": [
+                "Nous vous aidons à constituer votre entreprise rapidement et correctement. Choisissez un type de société, fournissez les documents requis, et nous nous occupons de l'enregistrement, des formalités et de la conformité."
+            ],
+            "StrengthsTitle": "Pourquoi choisir notre service de constitution",
+            "Strengths": [
+                {
+                    "Title": "Expertise en création",
+                    "Desc": "Conseils expérimentés sur le choix de la forme juridique, les étapes d'enregistrement et la documentation."
+                },
+                {
+                    "Title": "Conformité réglementaire",
+                    "Desc": "Votre nouvelle société respecte toutes les exigences légales et fiscales dès le premier jour."
+                },
+                {
+                    "Title": "Support après constitution",
+                    "Desc": "Adresse enregistrée, services de mandataire et assistance continue pour les déclarations."
+                }
+            ],
+            "ServicesTitle": "Services de constitution",
+            "Services": [
+                "Enregistrement et création d'entreprise",
+                "Préparation et dépôt des documents de constitution",
+                "Adresse enregistrée et services de mandataire",
+                "Enregistrement fiscal et mise en conformité"
+            ]
+        },
+        "Hero": {
+            "Badge": "Excellence suisse",
+            "BadgeTwo": "Experts en entreprise",
+            "Title": "Constitution d'entreprise",
+            "Description": "Conseils experts pour une création et un enregistrement d'entreprise sans souci en Suisse.",
+            "CTA": "Nous contacter",
+            "SecondaryCTA": "En savoir plus"
+        }
+    }
+}

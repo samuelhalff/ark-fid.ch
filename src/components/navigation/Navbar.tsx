@@ -27,7 +27,7 @@ const Navbar = ({ locale }: { locale?: string }) => {
       >
         <div className="h-full flex items-center max-w-[1200px] mx-auto justify-between px-4 sm:px-6">
           {/* preserve current locale in the logo link */}
-          <Link href={`${localePrefix}/`}>
+          <Link href={`${localePrefix}/`} locale={locale}>
             <span>
               <Image
                 className="hidden dark:block"

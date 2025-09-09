@@ -1,6 +1,6 @@
 {
   "default": {
-    "title": "Ark Fiduciaire - Services Fiduciaires Professionnels en Suisse",
+    "title": "Ark Fiduciaire - Services fiduciaires professionnels en Suisse",
     "description": "Services fiduciaires, comptables et fiscaux experts en Suisse. Services d'entreprise, gestion de paie, domiciliation et solutions commerciales complètes.",
     "keywords": "services fiduciaires, comptabilité, services fiscaux, Suisse, services d'entreprise, paie, domiciliation",
     "author": "Ark Fiduciaire",
@@ -8,12 +8,12 @@
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire - Services Fiduciaires Professionnels en Suisse",
+      "title": "Ark Fiduciaire - Services fiduciaires professionnels en Suisse",
       "description": "Services fiduciaires, comptables et fiscaux experts en Suisse. Services d'entreprise, gestion de paie, domiciliation et solutions commerciales complètes.",
       "keywords": "services fiduciaires, comptabilité, services fiscaux, Suisse, services d'entreprise, paie, domiciliation"
     },
     "/about": {
-      "title": "À Propos - Ark Fiduciaire",
+      "title": "À propos - Ark Fiduciaire",
       "description": "Découvrez l'expertise d'Ark Fiduciaire en services fiduciaires suisses, notre équipe de professionnels et notre engagement envers l'excellence en comptabilité et services fiscaux.",
       "keywords": "à propos ark fiduciaire, experts fiduciaires suisses, professionnels comptables, spécialistes fiscaux"
     },
@@ -23,7 +23,7 @@
       "keywords": "contact ark fiduciaire, contact services fiduciaires, services comptables suisse"
     },
     "/team": {
-      "title": "Notre Équipe - Ark Fiduciaire",
+      "title": "Notre équipe - Ark Fiduciaire",
       "description": "Rencontrez les professionnels expérimentés d'Ark Fiduciaire. Notre équipe de comptables certifiés et spécialistes fiscaux fournit des services fiduciaires experts.",
       "keywords": "équipe ark fiduciaire, comptables certifiés, spécialistes fiscaux, professionnels fiduciaires"
     },
@@ -43,17 +43,17 @@
       "keywords": "services fiduciaires, services comptables, services fiscaux, services d'entreprise, gestion paie"
     },
     "/services/accounting": {
-      "title": "Services Comptables - Ark Fiduciaire",
+      "title": "Services comptables - Ark Fiduciaire",
       "description": "Services comptables professionnels en Suisse. Tenue de livres experte, rapports financiers et conformité comptable pour entreprises de toutes tailles.",
       "keywords": "services comptables suisse, tenue livres, rapports financiers, conformité comptable"
     },
     "/services/corporate": {
-      "title": "Services d'Entreprise - Ark Fiduciaire",
+      "title": "Services d'entreprise - Ark Fiduciaire",
       "description": "Services d'entreprise complets incluant formation de société, gouvernance d'entreprise, conformité et support administratif en Suisse.",
       "keywords": "services entreprise, formation société, gouvernance entreprise, conformité commerciale suisse"
     },
     "/services/domiciliation": {
-      "title": "Services de Domiciliation - Ark Fiduciaire",
+      "title": "Services de domiciliation - Ark Fiduciaire",
       "description": "Services de domiciliation commerciale professionnels en Suisse. Adresses de siège social et support administratif pour votre entreprise.",
       "keywords": "services domiciliation, siège social, adresse commerciale suisse, support administratif"
     },
@@ -63,32 +63,32 @@
       "keywords": "implémentation odoo, solutions erp, automatisation processus commerciaux, personnalisation odoo"
     },
     "/services/outsourcing": {
-      "title": "Services d'Externalisation - Ark Fiduciaire",
+      "title": "Services d'externalisation - Ark Fiduciaire",
       "description": "Services professionnels d'externalisation de processus commerciaux. Concentrez-vous sur votre cœur de métier pendant que nous gérons vos opérations administratives et financières.",
       "keywords": "externalisation commerciale, externalisation processus, services administratifs, externalisation financière"
     },
     "/services/payroll": {
-      "title": "Services de Paie - Ark Fiduciaire",
+      "title": "Services de paie - Ark Fiduciaire",
       "description": "Services complets de gestion de paie en Suisse. Traitement expert des salaires, conformité sécurité sociale et administration RH.",
       "keywords": "services paie suisse, traitement salaires, conformité sécurité sociale, administration rh"
     },
     "/services/taxes": {
-      "title": "Services Fiscaux - Ark Fiduciaire",
+      "title": "Services fiscaux - Ark Fiduciaire",
       "description": "Services fiscaux et conseil experts en Suisse. Planification fiscale d'entreprise, conformité TVA et stratégies d'optimisation fiscale personnelle.",
       "keywords": "services fiscaux suisse, conseil fiscal, conformité tva, planification fiscale entreprise"
     },
     "/legal/privacy": {
-      "title": "Politique de Confidentialité - Ark Fiduciaire",
+      "title": "Politique de confidentialité - Ark Fiduciaire",
       "description": "Politique de confidentialité d'Ark Fiduciaire. Découvrez comment nous protégeons et traitons vos données personnelles en conformité avec les réglementations suisses et européennes.",
       "keywords": "politique confidentialité, protection données, conformité rgpd, données personnelles"
     },
     "/legal/terms": {
-      "title": "Conditions de Service - Ark Fiduciaire",
+      "title": "Conditions de service - Ark Fiduciaire",
       "description": "Conditions de service et d'utilisation du site web et des services d'Ark Fiduciaire. Conditions légales et termes d'utilisation.",
       "keywords": "conditions service, termes légaux, conditions utilisation, accord service"
     },
     "/legal/cookies": {
-      "title": "Politique des Cookies - Ark Fiduciaire",
+      "title": "Politique des cookies - Ark Fiduciaire",
       "description": "Informations sur l'utilisation des cookies et technologies similaires par Ark Fiduciaire sur notre site web pour une expérience utilisateur améliorée.",
       "keywords": "politique cookies, cookies site web, paramètres confidentialité, expérience utilisateur"
     }

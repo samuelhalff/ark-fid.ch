@@ -22,12 +22,14 @@ function ListItem({
   href,
   icon,
   onClick,
+  locale,
 }: {
   title: React.JSX.Element;
   children: React.ReactNode;
   href: string;
   icon: React.ReactNode;
   onClick?: () => void;
+  locale?: string;
 }) {
   return (
     <li>
@@ -35,6 +37,7 @@ function ListItem({
         <Link
           href={href}
           onClick={onClick}
+          locale={locale}
           className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
         >
           <div className="flex gap-2 items-center text-sm font-medium leading-none">
@@ -80,7 +83,7 @@ function NavMenu({
               navigationMenuTriggerStyle() + (isActive("/") ? " bg-accent" : "")
             }
           >
-            <Link href={`${localePrefix}/`}>
+            <Link href={`${localePrefix}/`} locale={locale}>
               <TranslatedText
                 ns="navbar"
                 translationKey="Home"
@@ -97,7 +100,7 @@ function NavMenu({
               (isActive("/team") ? " bg-accent" : "")
             }
           >
-            <Link href={`${localePrefix}/team`}>
+            <Link href={`${localePrefix}/team`} locale={locale}>
               <TranslatedText
                 ns="navbar"
                 translationKey="Team"
@@ -114,7 +117,7 @@ function NavMenu({
               (isActive("/about") ? " bg-accent" : "")
             }
           >
-            <Link href={`${localePrefix}/about`}>
+            <Link href={`${localePrefix}/about`} locale={locale}>
               <TranslatedText
                 ns="navbar"
                 translationKey="About"
@@ -145,6 +148,7 @@ function NavMenu({
                   }
                   href={localePrefix + component.href}
                   icon={component.icon}
+                  locale={locale}
                 >
                   <TranslatedText
                     ns="navbar"
@@ -164,7 +168,7 @@ function NavMenu({
               (isActive("/ressources") ? " bg-accent" : "")
             }
           >
-            <Link href={`${localePrefix}/ressources`}>
+            <Link href={`${localePrefix}/ressources`} locale={locale}>
               <TranslatedText
                 ns="navbar"
                 translationKey="Ressources"
@@ -181,7 +185,7 @@ function NavMenu({
               (isActive("/contact") ? " bg-accent" : "")
             }
           >
-            <Link href={`${localePrefix}/contact`}>
+            <Link href={`${localePrefix}/contact`} locale={locale}>
               <TranslatedText
                 ns="navbar"
                 translationKey="Contact"

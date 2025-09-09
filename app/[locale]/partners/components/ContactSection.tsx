@@ -25,7 +25,7 @@ const ContactSection = ({ locale }: { locale?: string }) => {
             fallbackText="We're always looking for new partnership opportunities. Get in touch to explore how we can collaborate."
           />
         </p>
-        <Link href={`${localePrefix}/contact`}>
+        <Link href={`${localePrefix}/contact`} locale={locale}>
           <Button size="lg" className="rounded-full">
             <TranslatedText
               ns="partners"

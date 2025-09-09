@@ -11,15 +11,25 @@
       "static/chunks/main-app.js",
       "static/chunks/app/[locale]/layout.js"
     ],
+    "/[locale]/about/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/about/page.js"
+    ],
     "/[locale]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/[locale]/page.js"
     ],
-    "/[locale]/contact/page": [
+    "/[locale]/team/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/[locale]/contact/page.js"
+      "static/chunks/app/[locale]/team/page.js"
+    ],
+    "/[locale]/services/incorporation/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/services/incorporation/page.js"
     ]
   }
 }

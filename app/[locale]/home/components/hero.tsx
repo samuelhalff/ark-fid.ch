@@ -50,7 +50,11 @@ const Hero = ({ locale }: HeroProps) => {
             />
           </p>
           <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center max-w-md mx-auto">
-            <Link href={`${localePrefix}/contact`} className="w-full sm:w-auto">
+            <Link
+              href={`${localePrefix}/contact`}
+              className="w-full sm:w-auto"
+              locale={locale}
+            >
               <Button
                 size="lg"
                 className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
@@ -64,7 +68,11 @@ const Hero = ({ locale }: HeroProps) => {
                 <ArrowUpRight className="h-5! w-5!" />
               </Button>
             </Link>
-            <Link href={`${localePrefix}/team`} className="w-full sm:w-auto">
+            <Link
+              href={`${localePrefix}/team`}
+              className="w-full sm:w-auto"
+              locale={locale}
+            >
               <Button
                 variant="outline"
                 size="lg"

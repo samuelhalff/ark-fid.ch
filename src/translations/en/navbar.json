@@ -34,6 +34,10 @@
         "Title": "Payroll & HR",
         "Description": "We manage payroll processing, including salary calculations, payslip generation, and compliance with Swiss social security regulations."
     },
+    "Incorporation": {
+        "Title": "Company Incorporation",
+        "Description": "We assist with the entire company incorporation process, ensuring compliance with Swiss regulations and providing ongoing support."
+    },
     "OutsourcingServices": {
         "Title": "Outsourcing Services",
         "Description": "We provide outsourcing services for legal, administrative, and accounting tasks, allowing you to focus on your core business activities while we handle the necessary back-office functions."

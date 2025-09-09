@@ -9,9 +9,10 @@ import Link from "next/link"; // ADD: Import Link for navigation
 
 interface ServicesProps {
   showSubtitle?: boolean;
+  locale?: string;
 }
 
-const Services = ({ showSubtitle = false }: ServicesProps) => {
+const Services = ({ showSubtitle = false, locale }: ServicesProps) => {
   // We no longer need `useTranslation()` here, as TranslatedText handles it.
   return (
     <div
@@ -40,6 +41,7 @@ const Services = ({ showSubtitle = false }: ServicesProps) => {
           <Link
             key={service.titleKey}
             href={`/services${service.href}`}
+            locale={locale}
             className="block h-full transition-transform hover:scale-105"
           >
             <Card

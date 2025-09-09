@@ -39,6 +39,10 @@
         "Title": "Services d'Externalisation",
         "Description": "Nous fournissons des services d'externalisation pour les tâches juridiques, administratives et comptables, vous permettant de vous concentrer sur vos activités commerciales principales pendant que nous gérons les fonctions de back-office nécessaires."
     },
+    "Incorporation": {
+        "Title": "Constitution d'entreprise",
+        "Description": "Nous vous accompagnons dans toutes les étapes de la constitution d'entreprise, en assurant la conformité avec la réglementation suisse et un support continu."
+    },
     "CorporateServices": {
         "Title": "Services d'entreprise",
         "Description": "Nous offrons une gamme de services d'entreprise, y compris la formation d'entreprise, la gestion de la conformité et le soutien à la gouvernance d'entreprise pour assurer le bon fonctionnement de votre entreprise."
