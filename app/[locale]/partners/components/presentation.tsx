@@ -27,7 +27,7 @@ const PartnersPresentation = ({ locale }: { locale?: string }) => {
           </h2>
 
           <div className="max-w-4xl mx-auto mb-12">
-            <p className="text-lg text-muted-foreground leading-relaxed">
+            <p className="text-lg leading-relaxed">
               <TranslatedText
                 ns="partners"
                 translationKey="Presentation.Description"
@@ -47,7 +47,7 @@ const PartnersPresentation = ({ locale }: { locale?: string }) => {
                 fallbackText="Our Partner Network"
               />
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="max-w-2xl mx-auto">
               <TranslatedText
                 ns="partners"
                 translationKey="PartnersDescription"
@@ -68,7 +68,7 @@ const PartnersPresentation = ({ locale }: { locale?: string }) => {
                 fallbackText="Collaborative Service Areas"
               />
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="max-w-2xl mx-auto">
               <TranslatedText
                 ns="partners"
                 translationKey="ServiceAreas.Description"
@@ -89,7 +89,7 @@ const PartnersPresentation = ({ locale }: { locale?: string }) => {
                 fallbackText="Partnership Benefits"
               />
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="max-w-2xl mx-auto">
               <TranslatedText
                 ns="partners"
                 translationKey="Partnership.Description"

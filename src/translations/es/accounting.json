@@ -54,7 +54,7 @@
             "Desc": "Optimice la visibilidad y control de sus finanzas con nuestras soluciones innovadoras de paneles de control contables. Los paneles de control proporcionan un resumen claro y accesible de sus datos financieros, permitiendo una toma de decisiones informada y estratégica. Disfrute de una gestión simplificada con paneles de control intuitivos adaptados a sus necesidades específicas. Con una interfaz fácil de usar y análisis precisos, nuestras soluciones aseguran un monitoreo efectivo de su salud financiera."
         },
         "Custom": {
-            "Title": "Servicios personalizados"
+            "Title": "Servicios completos y personalizados"
         },
         "Services": [
             "Contabilidad General: Gestión completa de su plan de cuentas y transacciones financieras",
@@ -62,6 +62,7 @@
             "Contabilidad Analítica: Análisis detallado de costos y seguimiento de rentabilidad por proyecto o departamento",
             "Paneles de Control Personalizados: Análisis financieros en tiempo real y monitoreo KPI adaptado a su negocio"
         ],
+        "ServicesTitle": "Nuestros Servicios de Contabilidad",
         "CustomServicesList": [
             {
                 "Icon": "Users",
@@ -88,26 +89,6 @@
                 "Title": "Consultoría",
                 "Desc": "En Ark Fiduciaire, no nos limitamos a la teneduría de libros. También ofrecemos apoyo contable de calidad. Nuestros expertos le ayudan a estructurar sus finanzas, planificar sus impuestos y gestionar su flujo de efectivo, mientras identificamos oportunidades de mejora."
             }
-        ],
-        "Experts": {
-            "Title": "Expertos",
-            "Desc": "Ark Fiduciaire se apoya en un equipo de contadores experimentados y certificados y especialistas fiscales, dominando las regulaciones locales e internacionales. Esta experiencia asegura cuentas precisas y conformes, garantizando una gestión confiable y armoniosa."
-        },
-        "TimeEfficiency": {
-            "Title": "Ahorro de tiempo y eficiencia",
-            "Desc": "Al externalizar la contabilidad a Ark Fiduciaire, las empresas pueden concentrarse en su negocio principal. Nuestros servicios ahorran tiempo y mejoran la eficiencia operacional al hacerse cargo de la gestión financiera completa."
-        },
-        "CustomSolutions": {
-            "Title": "Soluciones personalizadas",
-            "Desc": "Ark Fiduciaire ofrece servicios contables personalizados, adaptados a las necesidades específicas de cada cliente. Ya sea una pequeña empresa, una gran compañía, una ONG, o una subsidiaria, adaptamos nuestros servicios para cumplir con sus expectativas, ofreciendo soluciones flexibles."
-        },
-        "AdvancedTech": {
-            "Title": "Tecnología avanzada y gestión en tiempo real",
-            "Desc": "Utilizamos las últimas tecnologías y software contables para asegurar una gestión óptima. Estas herramientas permiten una gestión precisa y rápida de datos financieros, así como acceso fácil y seguro a información en tiempo real."
-        },
-        "Consulting": {
-            "Title": "Consultoría",
-            "Desc": "En Ark Fiduciaire, no nos limitamos a la teneduría de libros. También ofrecemos apoyo contable de calidad. Nuestros expertos le ayudan a estructurar sus finanzas, planificar sus impuestos y gestionar su flujo de efectivo, mientras identificamos oportunidades de mejora."
-        }
+        ]
     }
 }

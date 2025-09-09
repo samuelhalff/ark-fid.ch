@@ -25,7 +25,7 @@ const Presentation = () => {
             fallbackText="Taxes"
           />
         </h1>
-        <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight text-muted-foreground">
+        <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
           <TranslatedText
             ns="taxes"
             translationKey="Presentation.Subtitle"
@@ -97,7 +97,7 @@ const Presentation = () => {
                         <span className="font-semibold block text-lg mb-2">
                           {item.Title}
                         </span>
-                        <span className="text-base leading-relaxed text-muted-foreground">
+                        <span className="text-base leading-relaxed">
                           {item.Desc}
                         </span>
                       </div>

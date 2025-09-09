@@ -42,7 +42,7 @@ export default async function RessourcesPage({ params }: LocaleParams) {
             fallbackText="Resources"
           />
         </h1>
-        <p className="text-lg text-muted-foreground max-w-[700px]">
+        <p className="text-lg max-w-[700px]">
           <TranslatedText
             ns="ressources"
             translationKey="IntroText"

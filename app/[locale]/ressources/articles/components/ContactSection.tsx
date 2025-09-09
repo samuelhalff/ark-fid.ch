@@ -18,7 +18,7 @@ const ContactSection = ({ locale }: { locale?: string }) => {
             fallbackText="Questions about this article?"
           />
         </h3>
-        <p className="text-muted-foreground mb-6">
+        <p className="mb-6">
           <TranslatedText
             ns="ressources"
             translationKey="Contact.Description"

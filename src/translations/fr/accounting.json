@@ -54,7 +54,7 @@
             "Desc": "Optimisez la visibilité et le contrôle de vos finances avec nos solutions innovantes de tableaux de bord comptables. Les tableaux de bord fournissent un résumé clair et accessible de vos données financières, permettant une prise de décision éclairée et stratégique. Profitez d'une gestion simplifiée avec des tableaux de bord intuitifs adaptés à vos besoins spécifiques. Avec une interface conviviale et des analyses précises, nos solutions assurent un suivi efficace de votre santé financière."
         },
         "Custom": {
-            "Title": "Services sur mesure"
+            "Title": "Une offre complète et personnalisée"
         },
         "Services": [
             "Comptabilité Générale : Gestion complète de votre plan comptable et transactions financières",
@@ -62,6 +62,7 @@
             "Comptabilité Analytique : Analyse détaillée des coûts et suivi de rentabilité par projet ou département",
             "Tableaux de Bord Personnalisés : Analyses financières en temps réel et surveillance KPI adaptées à votre entreprise"
         ],
+        "ServicesTitle": "Nos services de comptabilité",
         "CustomServicesList": [
             {
                 "Icon": "Users",
@@ -88,26 +89,6 @@
                 "Title": "Conseil",
                 "Desc": "Chez Ark Fiduciaire, nous ne nous limitons pas à la tenue de livres. Nous offrons également un accompagnement comptable de qualité. Nos experts vous aident à structurer vos finances, planifier vos impôts, et gérer votre flux de trésorerie, tout en identifiant les opportunités d'amélioration."
             }
-        ],
-        "Experts": {
-            "Title": "Experts",
-            "Desc": "Ark Fiduciaire s'appuie sur une équipe de comptables expérimentés et certifiés et de spécialistes fiscaux, maîtrisant les réglementations locales et internationales. Cette expertise assure des comptes précis et conformes, garantissant une gestion fiable et harmonieuse."
-        },
-        "TimeEfficiency": {
-            "Title": "Gain de temps et efficacité",
-            "Desc": "En externalisant la comptabilité à Ark Fiduciaire, les entreprises peuvent se concentrer sur leur cœur de métier. Nos services font gagner du temps et améliorent l'efficacité opérationnelle en prenant en charge la gestion financière complète."
-        },
-        "CustomSolutions": {
-            "Title": "Solutions personnalisées",
-            "Desc": "Ark Fiduciaire offre des services comptables sur mesure, adaptés aux besoins spécifiques de chaque client. Que vous soyez une petite entreprise, une grande société, une ONG, ou une filiale, nous adaptons nos services pour répondre à vos attentes, offrant des solutions flexibles."
-        },
-        "AdvancedTech": {
-            "Title": "Technologie avancée et gestion en temps réel",
-            "Desc": "Nous utilisons les dernières technologies et logiciels comptables pour assurer une gestion optimale. Ces outils permettent une gestion précise et rapide des données financières, ainsi qu'un accès facile et sécurisé aux informations en temps réel."
-        },
-        "Consulting": {
-            "Title": "Conseil",
-            "Desc": "Chez Ark Fiduciaire, nous ne nous limitons pas à la tenue de livres. Nous offrons également un accompagnement comptable de qualité. Nos experts vous aident à structurer vos finances, planifier vos impôts, et gérer votre flux de trésorerie, tout en identifiant les opportunités d'amélioration."
-        }
+        ]
     }
 }

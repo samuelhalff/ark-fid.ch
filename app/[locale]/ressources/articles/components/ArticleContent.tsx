@@ -30,12 +30,10 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
       <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
         {article.title}
       </h1>
-      <p className="text-muted-foreground text-lg mb-8 text-center">
-        {article.description}
-      </p>
+      <p className="text-lg mb-8 text-center">{article.description}</p>
 
       {/* Author and Date */}
-      <div className="text-center text-sm text-muted-foreground mb-8">
+      <div className="text-center text-sm mb-8">
         <p>
           <TranslatedText
             ns="ressources"

@@ -13,6 +13,7 @@ interface ServicesProps {
 }
 
 const Services = ({ showSubtitle = false, locale }: ServicesProps) => {
+  const localePrefix = locale ? `/${locale}` : "/fr";
   // We no longer need `useTranslation()` here, as TranslatedText handles it.
   return (
     <div
@@ -28,7 +29,7 @@ const Services = ({ showSubtitle = false, locale }: ServicesProps) => {
         />
       </h2>
       {showSubtitle && (
-        <p className="text-lg text-muted-foreground text-center mb-8 max-w-3xl mx-auto">
+        <p className="text-lg text-center mb-8 max-w-3xl mx-auto">
           <TranslatedText
             translationKey="Services.Subtitle"
             fallbackText="Comprehensive fiduciary, accounting, and tax services tailored to your business needs."
@@ -40,7 +41,7 @@ const Services = ({ showSubtitle = false, locale }: ServicesProps) => {
         {services.map((service) => (
           <Link
             key={service.titleKey}
-            href={`/services${service.href}`}
+            href={`${localePrefix}/services${service.href}`}
             locale={locale}
             className="block h-full transition-transform hover:scale-105"
           >

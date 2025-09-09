@@ -29,6 +29,7 @@ interface ResourceCardProps {
   date?: string;
   author?: string;
   labels?: Labels;
+  locale?: string;
 }
 const ResourceCard: React.FC<ResourceCardProps> = ({
   type,
@@ -39,6 +40,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   date,
   author,
   labels,
+  locale,
 }) => {
   const icon =
     type === "file" && extension ? (
@@ -52,11 +54,11 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
         {icon}
         <h3 className="text-lg font-semibold flex-1">{title}</h3>
       </div>
-      <p className="text-muted-foreground mb-4 flex-1">{description}</p>
+      <p className="mb-4 flex-1">{description}</p>
 
       {/* Date and Author info */}
       {(date || author) && (
-        <div className="text-xs text-muted-foreground mb-3">
+        <div className="text-xs mb-3">
           {author && type === "article" && (
             <p>
               {(labels && labels.By) || "By"} {author}
@@ -94,6 +96,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
     return (
       <Link
         href={href}
+  locale={locale}
         target="_blank"
         className="block h-full group transition-transform hover:scale-105"
       >

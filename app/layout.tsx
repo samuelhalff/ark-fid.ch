@@ -2,7 +2,6 @@
 import "./globals.css";
 
 // NavBar moved into locale layout so it can receive the current locale from params
-import Footer from "@/app/[locale]/shared/footer";
 
 import { Providers } from "@/src/components/providers"; // Import your new client provider
 import { Metadata } from "next";
@@ -15,6 +14,7 @@ import { Metadata } from "next";
 // This is the baseline, and can be overridden by individual pages
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   title: {
     template: "%s - Ark Fiduciaire",
     default: "Ark Fiduciaire - Professional Fiduciary Services in Switzerland",
@@ -57,7 +57,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+  <html suppressHydrationWarning>
       <body>
         {/* Inline script to set theme class before React hydrates to avoid flicker */}
         <script
@@ -66,10 +66,9 @@ export default function RootLayout({
           }}
         />
         <Providers>
-          <main className="pt-3 abstract-background text-foreground pt-15 mt-10">
+      <main className="pt-3 abstract-background text-foreground pt-15 mt-10">
             {children}
           </main>
-          <Footer />
         </Providers>
       </body>
     </html>

@@ -44,9 +44,7 @@ function ListItem({
             {icon && icon}
             {title}
           </div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
+          <p className="line-clamp-2 text-sm leading-snug">{children}</p>
         </Link>
       </NavigationMenuLink>
     </li>

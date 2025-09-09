@@ -46,12 +46,15 @@ export default async function LocaleLayout({
   // Nested layouts must NOT render html/body. Keep this layout minimal so
   // providers (ThemeProvider) and NavBar remain singletons in the root.
   const Navbar = (await import("@/src/components/navigation/Navbar")).default;
+  const Footer = (await import("@/app/[locale]/shared/footer")).default;
   return (
     <div data-locale={locale} lang={locale}>
       {/* Render client NavBar with server-provided locale */}
       {/* @ts-ignore-next-line */}
       <Navbar locale={locale} />
       {children}
+      {/* @ts-ignore-next-line */}
+      <Footer locale={locale} />
     </div>
   );
 }

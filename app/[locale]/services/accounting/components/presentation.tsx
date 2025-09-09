@@ -27,7 +27,7 @@ const AccountingPresentation = () => {
           />
         </h1>
 
-        <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight text-muted-foreground">
+        <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
           <TranslatedText
             ns="accounting"
             translationKey="Presentation.Subtitle"
@@ -52,14 +52,14 @@ const AccountingPresentation = () => {
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
                 <TranslatedText
                   ns="accounting"
-                  translationKey="Presentation.StrengthsTitle"
-                  fallbackText="Our Strengths"
+                  translationKey="Presentation.Custom.Title"
+                  fallbackText="Custom Services"
                 />
               </h3>
               <div className="space-y-4 mb-8">
                 <TranslatedObjectArray
                   ns="accounting"
-                  translationKey="Presentation.Strengths"
+                  translationKey="Presentation.CustomServicesList"
                   fallbackItems={[
                     {
                       Title: "Expertise and experience",
@@ -87,7 +87,7 @@ const AccountingPresentation = () => {
                         <span className="font-semibold block text-lg mb-2">
                           {item.Title}
                         </span>
-                        <span className="text-base leading-relaxed text-muted-foreground">
+                        <span className="text-base leading-relaxed">
                           {item.Desc}
                         </span>
                       </div>

@@ -72,10 +72,10 @@
   .light .abstract-background {
     background-image: linear-gradient(
         to bottom,
-        oklch(var(--background) / 0),
-        oklch(var(--background) / 0.2) 10%,
-        oklch(var(--background) / 0.6) 30%,
-        oklch(var(--background) / 0.85) 70%,
+        oklch(var(--background) / 0.5),
+        oklch(var(--background) / 0.75),
+        oklch(var(--background) / 0.8),
+        oklch(var(--background) / 0.9),
         oklch(var(--background) / 1)
       ),
       url("/assets/abstract-background-light.png");
@@ -88,10 +88,10 @@
     background-color: black;
     background-image: linear-gradient(
         to bottom,
-        oklch(var(--background) / 0),
-        oklch(var(--background) / 0.2) 10%,
-        oklch(var(--background) / 0.6) 30%,
-        oklch(var(--background) / 0.85) 70%,
+        oklch(var(--background) / 0.5),
+        oklch(var(--background) / 0.75),
+        oklch(var(--background) / 0.8),
+        oklch(var(--background) / 0.9),
         oklch(var(--background) / 1)
       ),
       url("/assets/abstract-background-dark.png");

@@ -28,14 +28,14 @@ export default function PrivacyPage() {
             fallbackText="Privacy Policy"
           />
         </h1>
-        <p className="text-lg text-muted-foreground dark:text-white mb-2 mb-2">
+        <p className="text-lg dark:text-white mb-2 mb-2">
           <TranslatedText
             ns="legal"
             translationKey="Privacy.Subtitle"
             fallbackText="Data Protection and Privacy Notice"
           />
         </p>
-        <p className="text-xs text-muted-foreground dark:text-white mb-2">
+        <p className="text-xs dark:text-white mb-2">
           <TranslatedText
             ns="legal"
             translationKey="Privacy.LastUpdated"

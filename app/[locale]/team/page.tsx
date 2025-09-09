@@ -92,7 +92,7 @@ export default function TeamPage() {
             fallbackText="Our Team"
           />
         </h1>
-        <p className="text-muted-foreground mt-2">
+        <p className="mt-2">
           <TranslatedText
             ns="team"
             translationKey={"Subtitle"}

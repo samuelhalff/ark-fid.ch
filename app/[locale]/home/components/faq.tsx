@@ -34,7 +34,7 @@ const FAQ = () => {
       <h2 className="text-center text-3xl xs:text-4xl md:text-5xl leading-[1.15]! font-bold tracking-tighter max-w-4xl mx-auto">
         <TranslatedText ns="faq" translationKey="Title" fallbackText="FAQ" />
       </h2>
-      <p className="mt-1.5 text-center xs:text-lg text-muted-foreground max-w-2xl mx-auto">
+      <p className="mt-1.5 text-center xs:text-lg max-w-2xl mx-auto">
         <TranslatedText
           ns="faq"
           translationKey="Subtitle"
@@ -66,10 +66,10 @@ const FAQ = () => {
                     translationKey={questionKey}
                     fallbackText={questionKey.replace("", "")}
                   />
-                  <PlusIcon className="h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-200" />
+                  <PlusIcon className="h-5 w-5 shrink-0 transition-transform duration-200" />
                 </AccordionPrimitive.Trigger>
               </AccordionPrimitive.Header>
-              <AccordionContent className="text-[15px] text-left text-muted-foreground">
+              <AccordionContent className="text-[15px] text-left">
                 <TranslatedText
                   ns="faq"
                   translationKey={answerKey}

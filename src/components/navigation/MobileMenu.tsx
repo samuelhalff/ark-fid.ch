@@ -159,7 +159,8 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
               </Link>
             </div>
             <div onClick={handleLinkClick}>
-              <Footer />
+              {/* @ts-ignore-next-line */}
+              <Footer locale={locale} />
             </div>
           </nav>
         </div>

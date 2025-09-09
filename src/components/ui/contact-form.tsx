@@ -114,7 +114,7 @@ const ContactForm: FC<ContactFormProps> = ({
         </h1>
       )}
       {showSubtitle && (
-        <p className="w-full text-center text-muted-foreground">
+        <p className="w-full text-center">
           <TranslatedText
             ns="contact"
             translationKey="Subtitle"

@@ -76,13 +76,18 @@ const footerSections = [
 ];
 
 const Footer = ({ locale }: { locale?: string }) => {
+  const localePrefix = `/${locale || "fr"}`;
   return (
     <footer
       className="mt-12 xs:mt-20 bg-background border-t"
       role="contentinfo"
     >
       <div className="max-w-[var(--breakpoint-xl)] mx-auto py-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-x-8 gap-y-10 px-6">
-        <Link href={"/"} aria-label="Ark Fiduciaire homepage" locale={locale}>
+        <Link
+          href={`${localePrefix}/`}
+          aria-label="Ark Fiduciaire homepage"
+          locale={locale}
+        >
           <span>
             <Image
               className="hidden dark:block"
@@ -122,7 +127,7 @@ const Footer = ({ locale }: { locale?: string }) => {
                   {href.startsWith("http") ? (
                     <a
                       href={href}
-                      className="text-muted-foreground hover:text-foreground"
+                      className="hover:text-foreground"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -134,8 +139,8 @@ const Footer = ({ locale }: { locale?: string }) => {
                     </a>
                   ) : (
                     <Link
-                      href={href}
-                      className="text-muted-foreground hover:text-foreground"
+                      href={`${localePrefix}${href}`}
+                      className="hover:text-foreground"
                       locale={locale}
                     >
                       <TranslatedText
@@ -154,7 +159,7 @@ const Footer = ({ locale }: { locale?: string }) => {
       <Separator />
       <div className="max-w-[var(--breakpoint-xl)] mx-auto py-8 flex flex-col-reverse sm:flex-row items-center justify-between gap-x-2 gap-y-5 px-6">
         {/* Copyright */}
-        <span className="w-full text-muted-foreground text-center xs:text-start">
+        <span className="w-full text-center xs:text-start">
           <TranslatedText
             ns="footer"
             translationKey={"Ark Fiduciaire SA"}

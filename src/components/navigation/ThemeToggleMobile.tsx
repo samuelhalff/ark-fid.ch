@@ -7,7 +7,7 @@ export function ThemeToggleMobile() {
 
   return (
     <div className="flex items-center">
-      <span className="flex items-center gap-3 p-2 text-muted-foreground">
+      <span className="flex items-center gap-3 p-2">
         <TranslatedText
           ns="navbar"
           translationKey="Theme"

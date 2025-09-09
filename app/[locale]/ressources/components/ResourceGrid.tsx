@@ -62,6 +62,7 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
           author={article.author}
           date={article.date}
           labels={labels}
+          locale={locale}
         />
       ))}
     </div>

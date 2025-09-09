@@ -34,7 +34,7 @@ const PartnersHero = ({ locale }: PartnersHeroProps) => {
               fallbackText="Our Partners"
             />
           </h1>
-          <p className="text-lg xs:text-xl text-muted-foreground leading-relaxed mb-8">
+          <p className="text-lg xs:text-xl leading-relaxed mb-8">
             <TranslatedText
               ns="partners"
               translationKey="IntroText"

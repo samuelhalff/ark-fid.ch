@@ -28,14 +28,14 @@ export default function CookiesPage() {
             fallbackText="Cookies Policy"
           />
         </h1>
-        <p className="text-lg text-muted-foreground dark:text-white mb-2">
+        <p className="text-lg dark:text-white mb-2">
           <TranslatedText
             ns="legal"
             translationKey="Cookies.Subtitle"
             fallbackText="Information about our use of cookies and tracking technologies"
           />
         </p>
-        <p className="text-xs text-muted-foreground dark:text-white">
+        <p className="text-xs dark:text-white">
           <TranslatedText
             ns="legal"
             translationKey="Cookies.LastUpdated"

@@ -7,7 +7,7 @@ import {
 } from "@/src/components/navigation/NavigationComponents";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import TranslatedText from "@/src/components/ui/translated-text";
 
 function ListItem({
@@ -28,7 +28,7 @@ function ListItem({
 
 export default function LangSwitch(): React.ReactElement {
   const {
-    i18n: { changeLanguage, language },
+    i18n: { language },
   } = useTranslation();
 
   // 2. Add the isClient state and useEffect hook
@@ -39,27 +39,22 @@ export default function LangSwitch(): React.ReactElement {
   }, []);
 
   const router = useRouter();
-  const pathname =
-    typeof window !== "undefined" ? window.location.pathname : "/";
+  const pathname = usePathname() || "/";
+  const searchParams = useSearchParams();
 
   function navigateToLocale(targetLocale: string) {
-    // Remove leading/trailing slashes and split
     const segments = pathname.replace(/^\/+|\/+$/g, "").split("/");
-    // If first segment is a valid locale, replace it
     const validLocales = ["en", "fr", "de", "es", "pt"];
-    let newSegments;
+    let newSegments: string[];
     if (validLocales.includes(segments[0])) {
       segments[0] = targetLocale;
       newSegments = segments;
     } else {
-      // If no locale, just add it
       newSegments = [targetLocale, ...segments.filter(Boolean)];
     }
-    const newPath = `/${newSegments.join("/")}`;
+    const qs = searchParams?.toString();
+    const newPath = `/${newSegments.join("/")}${qs ? `?${qs}` : ""}`;
     router.push(newPath);
-    try {
-      changeLanguage(targetLocale);
-    } catch (e) {}
   }
 
   return (

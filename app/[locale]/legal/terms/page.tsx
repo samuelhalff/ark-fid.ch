@@ -29,14 +29,14 @@ export default function TermsPage() {
             fallbackText="Terms of Service"
           />
         </h1>
-        <p className="text-lg text-muted-foreground dark:text-white mb-2 mb-2">
+        <p className="text-lg dark:text-white mb-2 mb-2">
           <TranslatedText
             ns="legal"
             translationKey="Terms.Subtitle"
             fallbackText="Our terms of service"
           />
         </p>
-        <p className="text-xs text-muted-foreground dark:text-white mb-2">
+        <p className="text-xs dark:text-white mb-2">
           <TranslatedText
             ns="legal"
             translationKey="Terms.LastUpdated"

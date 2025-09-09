@@ -15,7 +15,7 @@ export default function ServicesMobile({
 
   return (
     <div>
-      <div className="flex items-center gap-3 text-md px-2 py-2 rounded font-medium text-muted-foreground border-b rounded-none border-muted">
+      <div className="flex items-center gap-3 text-md px-2 py-2 rounded font-medium border-b rounded-none border-muted">
         <span>Services</span>
       </div>
       <div className="flex flex-col mt-1">

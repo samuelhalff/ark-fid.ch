@@ -10,6 +10,7 @@ interface ItemCardProps {
   icon?: React.ReactNode;
   className?: string;
   linkText?: string;
+  locale?: string;
 }
 
 const ItemCard: React.FC<ItemCardProps> = ({
@@ -20,6 +21,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
   icon,
   className = "",
   linkText,
+  locale,
 }) => {
   const getIcon = () => {
     if (icon) return icon;
@@ -58,9 +60,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
         </div>
       </div>
       <div className="flex flex-col h-full">
-        <p className="text-muted-foreground leading-relaxed flex-1 mb-4">
-          {description}
-        </p>
+        <p className="leading-relaxed flex-1 mb-4">{description}</p>
 
         {link && (
           <div className="mt-auto">
@@ -80,7 +80,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
 
   if (type === "internal") {
     return (
-      <Link href={link} className="block">
+      <Link href={link} className="block" locale={locale}>
         {cardContent}
       </Link>
     );

@@ -22,7 +22,7 @@ export default function ContactPage() {
           fallbackText="Get in Touch"
         />
       </h1>
-      <p className="text-muted-foreground mt-2 w-full text-center">
+      <p className="mt-2 w-full text-center">
         <TranslatedText
           ns="contact"
           translationKey={"Subtitle"}

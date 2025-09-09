@@ -39,7 +39,7 @@ export default function AboutUsPage() {
             />
           </h1>
 
-          <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight text-muted-foreground">
+          <h2 className="text-xl xs:text-2xl md:text-2xl mb-8 md:leading-[2rem] tracking-tight">
             <TranslatedText
               ns="aboutUs"
               translationKey="Hero.Subtitle"
@@ -168,7 +168,7 @@ export default function AboutUsPage() {
                 fallbackText="Ready to Partner with Us?"
               />
             </h3>
-            <p className="text-lg text-muted-foreground mb-6">
+            <p className="text-lg mb-6">
               <TranslatedText
                 ns="aboutUs"
                 translationKey="CTA.Description"

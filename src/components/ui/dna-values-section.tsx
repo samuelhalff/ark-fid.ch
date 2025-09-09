@@ -41,7 +41,7 @@ export default function DNAValuesSection() {
           fallbackText="Our DNA"
         />
       </h3>
-      <h4 className="text-lg font-semibold mb-8 text-muted-foreground">
+      <h4 className="text-lg font-semibold mb-8">
         <TranslatedText
           ns="aboutUs"
           translationKey="DNA.Subtitle"
@@ -60,9 +60,7 @@ export default function DNAValuesSection() {
             })}
             <div>
               <h5 className="font-semibold text-lg mb-2">{item.Title}</h5>
-              <p className="text-base leading-relaxed text-muted-foreground">
-                {item.Desc}
-              </p>
+              <p className="text-base leading-relaxed">{item.Desc}</p>
             </div>
           </div>
         ))}

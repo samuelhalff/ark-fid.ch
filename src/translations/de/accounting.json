@@ -54,7 +54,7 @@
             "Desc": "Optimieren Sie die Sichtbarkeit und Kontrolle Ihrer Finanzen mit unseren innovativen Buchhaltungs-Dashboard-Lösungen. Dashboards bieten eine klare und zugängliche Zusammenfassung Ihrer Finanzdaten und ermöglichen fundierte und strategische Entscheidungsfindung. Genießen Sie vereinfachtes Management mit intuitiven Dashboards, die auf Ihre spezifischen Bedürfnisse zugeschnitten sind. Mit einer benutzerfreundlichen Oberfläche und präzisen Analysen gewährleisten unsere Lösungen eine effektive Überwachung Ihrer finanziellen Gesundheit."
         },
         "Custom": {
-            "Title": "Maßgeschneiderte Dienstleistungen"
+            "Title": "Ein umfassendes und personalisiertes Angebot"
         },
         "Services": [
             "Allgemeine Buchhaltung: Vollständige Verwaltung Ihres Kontenplans und Finanztransaktionen",
@@ -62,6 +62,7 @@
             "Analytische Buchhaltung: Detaillierte Kostenanalyse und Rentabilitätsverfolgung nach Projekt oder Abteilung",
             "Individuelle Dashboards: Echtzeit-Finanzanalysen und KPI-Überwachung angepasst an Ihr Unternehmen"
         ],
+        "ServicesTitle": "Unsere Buchhaltungsdienstleistungen",
         "CustomServicesList": [
             {
                 "Icon": "Users",
@@ -88,26 +89,6 @@
                 "Title": "Beratung",
                 "Desc": "Bei Ark Fiduciaire beschränken wir uns nicht auf die Buchführung. Wir bieten auch qualitativ hochwertige Buchhaltungsunterstützung. Unsere Experten helfen Ihnen dabei, Ihre Finanzen zu strukturieren, Ihre Steuern zu planen und Ihren Cashflow zu verwalten, während wir Verbesserungsmöglichkeiten identifizieren."
             }
-        ],
-        "Experts": {
-            "Title": "Experten",
-            "Desc": "Ark Fiduciaire stützt sich auf ein Team erfahrener und zertifizierter Buchhalter und Steuerexperten, die lokale und internationale Vorschriften beherrschen. Diese Expertise gewährleistet genaue und konforme Konten und garantiert zuverlässiges und harmonisches Management."
-        },
-        "TimeEfficiency": {
-            "Title": "Zeitersparnis und Effizienz",
-            "Desc": "Durch die Auslagerung der Buchhaltung an Ark Fiduciaire können sich Unternehmen auf ihr Kerngeschäft konzentrieren. Unsere Dienstleistungen sparen Zeit und verbessern die operative Effizienz durch die Übernahme des kompletten Finanzmanagements."
-        },
-        "CustomSolutions": {
-            "Title": "Maßgeschneiderte Lösungen",
-            "Desc": "Ark Fiduciaire bietet maßgeschneiderte Buchhaltungsdienstleistungen, die an die spezifischen Bedürfnisse jedes Kunden angepasst sind. Ob Sie ein kleines Unternehmen, eine große Gesellschaft, eine NGO oder eine Tochtergesellschaft sind, wir passen unsere Dienstleistungen an Ihre Erwartungen an und bieten flexible Lösungen."
-        },
-        "AdvancedTech": {
-            "Title": "Fortgeschrittene Technologie und Echtzeit-Management",
-            "Desc": "Wir verwenden die neuesten Buchhaltungstechnologien und -software, um optimales Management zu gewährleisten. Diese Werkzeuge ermöglichen präzises und schnelles Management von Finanzdaten sowie einfachen und sicheren Echtzeitzugang zu Informationen."
-        },
-        "Consulting": {
-            "Title": "Beratung",
-            "Desc": "Bei Ark Fiduciaire beschränken wir uns nicht auf die Buchführung. Wir bieten auch qualitativ hochwertige Buchhaltungsunterstützung. Unsere Experten helfen Ihnen dabei, Ihre Finanzen zu strukturieren, Ihre Steuern zu planen und Ihren Cashflow zu verwalten, während wir Verbesserungsmöglichkeiten identifizieren."
-        }
+        ]
     }
 }

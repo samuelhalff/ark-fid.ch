@@ -1,7 +1,7 @@
 "use client";
 import { useTranslation } from "react-i18next";
 import TranslatedText from "@/src/components/ui/translated-text";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const LANGS = [
   { code: "en", label: "EN" },
@@ -20,23 +20,23 @@ export default function LangSwitchMobile({
   const { i18n } = useTranslation();
   const current = i18n.language;
   const router = useRouter();
-  const pathname =
-    typeof window !== "undefined" ? window.location.pathname : "/";
+  const pathname = usePathname() || "/";
+  const searchParams = useSearchParams();
 
   function navigateToLocale(targetLocale: string) {
-    const parts = pathname?.split("/") || [];
-    const remainder = parts.length > 2 ? parts.slice(2).join("/") : "";
-    const newPath = `/${targetLocale}${remainder ? `/${remainder}` : ""}`;
+    const parts = pathname.replace(/^\/+|\/+$/g, "").split("/");
+    const valid = ["en", "fr", "de", "es", "pt"];
+    if (valid.includes(parts[0])) parts[0] = targetLocale;
+    else parts.unshift(targetLocale);
+    const qs = searchParams?.toString();
+    const newPath = `/${parts.join("/")}${qs ? `?${qs}` : ""}`;
     router.push(newPath);
-    try {
-      i18n.changeLanguage(targetLocale);
-    } catch (e) {}
     if (onLocaleChange) onLocaleChange();
   }
 
   return (
     <div className="flex items-center">
-      <span className="flex items-center gap-3 p-2 text-muted-foreground">
+      <span className="flex items-center gap-3 p-2">
         <TranslatedText
           ns="navbar"
           translationKey="Language"

@@ -16,15 +16,13 @@ export default async function ArticlePage({ params }: Params) {
   if (!article) return notFound();
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-12">
+    <main className="max-w-3xl mx-auto px-4 py-12 mt-8">
       <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
         {article.title}
       </h1>
-      <p className="text-muted-foreground text-lg mb-8 text-center">
-        {article.description}
-      </p>
+      <p className="text-lg mb-8 text-center">{article.description}</p>
 
-      <div className="text-center text-sm text-muted-foreground mb-8">
+      <div className="text-center text-sm mb-8">
         <p>
           {ressources.By} {article.author}
         </p>

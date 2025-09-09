@@ -16,7 +16,7 @@ const BenefitsList = () => {
             <div className="flex-shrink-0">
               <CheckCircle className="w-5 h-5 text-green-500" />
             </div>
-            <p className="text-muted-foreground leading-relaxed">{benefit}</p>
+            <p className="leading-relaxed">{benefit}</p>
           </div>
         ))}
       </div>
