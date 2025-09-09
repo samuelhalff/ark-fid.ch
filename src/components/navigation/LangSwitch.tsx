@@ -40,7 +40,7 @@ export default function LangSwitch(): React.ReactElement {
   // Determine active locale from the URL to avoid hydration flashes
   const activeLang = useMemo(() => {
     const seg0 = pathname.replace(/^\/+|\/+$|/g, "").split("/")[0];
-  return validLocalesArray.includes(seg0) ? seg0 : "fr";
+    return validLocalesArray.includes(seg0) ? seg0 : "fr";
   }, [pathname]);
   const options = useMemo(
     () =>
@@ -55,9 +55,9 @@ export default function LangSwitch(): React.ReactElement {
   );
 
   function navigateToLocale(targetLocale: string) {
-  const segments = pathname.replace(/^\/+|\/+$/g, "").split("/");
+    const segments = pathname.replace(/^\/+|\/+$/g, "").split("/");
     let newSegments: string[];
-  if (validLocalesArray.includes(segments[0])) {
+    if (validLocalesArray.includes(segments[0])) {
       segments[0] = targetLocale;
       newSegments = segments;
     } else {

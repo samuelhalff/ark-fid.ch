@@ -4,7 +4,7 @@ import "./globals.css";
 // NavBar moved into locale layout so it can receive the current locale from params
 
 import { Providers } from "@/src/components/providers"; // Import your new client provider
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 
 // import { Inter } from "next/font/google";
 
@@ -14,7 +14,9 @@ import { Metadata } from "next";
 // This is the baseline, and can be overridden by individual pages
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  ),
   title: {
     template: "%s - Ark Fiduciaire",
     default: "Ark Fiduciaire - Professional Fiduciary Services in Switzerland",
@@ -51,13 +53,25 @@ export const metadata: Metadata = {
   },
 };
 
+// Viewport configuration for SEO and mobile
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-  <html suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <body>
         {/* Inline script to set theme class before React hydrates to avoid flicker */}
         <script
@@ -66,7 +80,7 @@ export default function RootLayout({
           }}
         />
         <Providers>
-      <main className="pt-3 abstract-background text-foreground pt-15 mt-10">
+          <main className="pt-3 abstract-background text-foreground pt-15 mt-10">
             {children}
           </main>
         </Providers>
