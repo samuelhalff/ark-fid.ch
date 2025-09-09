@@ -1,4 +1,4 @@
-import { ArrowUpRight, Users } from "lucide-react";
+import { ArrowUpRight, BadgeCheckIcon, Users } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import TranslatedText from "@/src/components/ui/translated-text";
@@ -119,6 +119,35 @@ const ServiceHero = ({
               </Button>
             </Link>
           </div>
+          {namespace === "accounting" && (
+            <a
+              href="https://www.odoo.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="mt-10 flex flex-col items-center justify-center">
+                <Image
+                  src="/assets/odoo-logo.svg"
+                  className="mt-0 w-24 h-16"
+                  alt="Odoo Logo"
+                  width={96}
+                  height={64}
+                  priority
+                />
+                <Badge
+                  variant="outline"
+                  className="rounded-full h-5 py-3 px-4 border-black bg-transparent mt-0 flex items-center justify-center"
+                >
+                  <BadgeCheckIcon className="inline h-4 w-4 mr-1" />
+                  <TranslatedText
+                    ns="home"
+                    translationKey="Hero.OdooBadge"
+                    fallbackText="Odoo Partner"
+                  />
+                </Badge>
+              </div>
+            </a>
+          )}
         </div>
         <div className="flex-1 relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
           <Image

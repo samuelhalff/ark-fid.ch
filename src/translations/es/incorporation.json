@@ -1,41 +1,39 @@
 {
-    "incorporation": {
-        "Presentation": {
-            "Title": "Constitución de empresa",
-            "Subtitle": "Creación rápida y conforme para su negocio",
-            "Intro": [
-                "Le ayudamos a constituir su empresa de forma rápida y correcta. Elija el tipo de sociedad, entregue los documentos requeridos y nosotros gestionamos el registro, los trámites y la conformidad."
-            ],
-            "StrengthsTitle": "Por qué elegir nuestro servicio de constitución",
-            "Strengths": [
-                {
-                    "Title": "Experiencia en constitución",
-                    "Desc": "Asesoramiento experto en la elección de la forma jurídica, los pasos de registro y la documentación."
-                },
-                {
-                    "Title": "Conformidad legal",
-                    "Desc": "Su nueva empresa cumple con todos los requisitos legales y fiscales desde el primer día."
-                },
-                {
-                    "Title": "Soporte postconstitución",
-                    "Desc": "Dirección registrada, servicios de representante y asistencia continua en declaraciones."
-                }
-            ],
-            "ServicesTitle": "Servicios de constitución",
-            "Services": [
-                "Registro y constitución de empresa",
-                "Preparación y presentación de documentos de constitución",
-                "Dirección registrada y servicios de representante",
-                "Registro fiscal y cumplimiento"
-            ]
-        },
-        "Hero": {
-            "Badge": "Excelencia suiza",
-            "BadgeTwo": "Expertos empresariales",
-            "Title": "Constitución de empresa",
-            "Description": "Asesoramiento experto para una constitución y registro empresarial sin complicaciones en Suiza.",
-            "CTA": "Contactar",
-            "SecondaryCTA": "Saber más"
-        }
+    "Presentation": {
+        "Title": "Constitución de empresa",
+        "Subtitle": "Creación rápida y conforme para su negocio",
+        "Intro": [
+            "Le ayudamos a constituir su empresa de forma rápida y correcta. Elija el tipo de sociedad, entregue los documentos requeridos y nosotros gestionamos el registro, los trámites y la conformidad."
+        ],
+        "StrengthsTitle": "Por qué elegir nuestro servicio de constitución",
+        "Strengths": [
+            {
+                "Title": "Experiencia en constitución",
+                "Desc": "Asesoramiento experto en la elección de la forma jurídica, los pasos de registro y la documentación."
+            },
+            {
+                "Title": "Conformidad legal",
+                "Desc": "Su nueva empresa cumple con todos los requisitos legales y fiscales desde el primer día."
+            },
+            {
+                "Title": "Soporte postconstitución",
+                "Desc": "Dirección registrada, servicios de representante y asistencia continua en declaraciones."
+            }
+        ],
+        "ServicesTitle": "Servicios de constitución",
+        "Services": [
+            "Registro y constitución de empresa",
+            "Preparación y presentación de documentos de constitución",
+            "Dirección registrada y servicios de representante",
+            "Registro fiscal y cumplimiento"
+        ]
+    },
+    "Hero": {
+        "Badge": "Excelencia suiza",
+        "BadgeTwo": "Expertos empresariales",
+        "Title": "Constitución de empresa",
+        "Description": "Asesoramiento experto para una constitución y registro empresarial sin complicaciones en Suiza.",
+        "CTA": "Contactar",
+        "SecondaryCTA": "Saber más"
     }
 }

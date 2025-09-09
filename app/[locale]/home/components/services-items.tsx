@@ -30,9 +30,9 @@ const services = [
   },
   {
     icon: <Building2 />,
-    titleKey: "Incorporation.Title",
+    titleKey: "IncorporationServices.Title",
     href: "/incorporation",
-    descriptionKey: "Incorporation.Description",
+    descriptionKey: "IncorporationServices.Description",
     image: "/assets/services/tax-desk.png",
   },
   {

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import ServicesElements from "@/app/[locale]/navigation";
 import { NavigationMenuProps } from "@radix-ui/react-navigation-menu";
@@ -107,23 +107,7 @@ function NavMenu({
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink
-            asChild
-            className={
-              navigationMenuTriggerStyle() +
-              (isActive("/about") ? " bg-accent" : "")
-            }
-          >
-            <Link href={`${localePrefix}/about`} locale={locale}>
-              <TranslatedText
-                ns="navbar"
-                translationKey="About"
-                fallbackText="About"
-              />
-            </Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
+
         <NavigationMenuItem>
           <NavigationMenuTrigger>
             <TranslatedText
@@ -180,6 +164,23 @@ function NavMenu({
             asChild
             className={
               navigationMenuTriggerStyle() +
+              (isActive("/about") ? " bg-accent" : "")
+            }
+          >
+            <Link href={`${localePrefix}/about`} locale={locale}>
+              <TranslatedText
+                ns="navbar"
+                translationKey="About"
+                fallbackText="About"
+              />
+            </Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            asChild
+            className={
+              navigationMenuTriggerStyle() +
               (isActive("/contact") ? " bg-accent" : "")
             }
           >
@@ -192,7 +193,9 @@ function NavMenu({
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
-        <LangSwitch />
+        <Suspense fallback={null}>
+          <LangSwitch />
+        </Suspense>
         <ThemeToggle />
       </NavigationMenuList>
     </NavigationMenu>

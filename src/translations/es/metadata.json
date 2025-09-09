@@ -77,6 +77,11 @@
       "description": "Servicios fiscales y consultoría expertos en Suiza. Planificación fiscal corporativa, cumplimiento de IVA y estrategias de optimización fiscal personal.",
       "keywords": "servicios fiscales suiza, consultoría fiscal, cumplimiento iva, planificación fiscal corporativa"
     },
+    "/services/incorporation": {
+      "title": "Constitución de Empresa - Ark Fiduciaire",
+      "description": "Asesoramiento experto para una constitución y registro empresarial sin complicaciones en Suiza.",
+      "keywords": "constitución empresa suiza, formación de empresa, registro empresarial, conformidad legal"
+    },
     "/legal/privacy": {
       "title": "Política de Privacidad - Ark Fiduciaire",
       "description": "Política de privacidad de Ark Fiduciaire. Aprenda cómo protegemos y manejamos sus datos personales en cumplimiento con las regulaciones suizas y de la UE.",

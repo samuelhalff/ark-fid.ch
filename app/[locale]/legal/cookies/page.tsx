@@ -2,19 +2,15 @@ import { type Metadata } from "next";
 import TranslatedText from "@/src/components/ui/translated-text";
 import TranslatedDate from "@/src/components/ui/translated-date";
 import { Separator } from "@/src/components/ui/separator";
+import { generateMetadataForPage } from "@/src/lib/metadata";
+import { type Locale } from "@/src/lib/i18n";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "Cookies Policy | Ark Fiduciaire",
-    description:
-      "Cookies Policy for Ark Fiduciaire - Information about our use of cookies and tracking technologies on our website.",
-    openGraph: {
-      title: "Cookies Policy | Ark Fiduciaire",
-      description:
-        "Cookies Policy for Ark Fiduciaire - Information about our use of cookies and tracking technologies on our website.",
-      type: "website",
-    },
-  };
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return await generateMetadataForPage(locale as Locale, "/legal/cookies");
 }
 
 export default function CookiesPage() {

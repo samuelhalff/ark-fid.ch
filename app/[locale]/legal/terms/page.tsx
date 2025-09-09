@@ -3,19 +3,15 @@ import TranslatedText from "@/src/components/ui/translated-text";
 import { Separator } from "@/src/components/ui/separator";
 import TranslatedDate from "@/src/components/ui/translated-date";
 import ContactInfo from "@/src/components/ui/contact-info";
+import { generateMetadataForPage } from "@/src/lib/metadata";
+import { type Locale } from "@/src/lib/i18n";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "Terms of Service | Ark Fiduciaire",
-    description:
-      "Terms of Service for Ark Fiduciaire professional accounting and advisory services in Switzerland.",
-    openGraph: {
-      title: "Terms of Service | Ark Fiduciaire",
-      description:
-        "Terms of Service for Ark Fiduciaire professional accounting and advisory services in Switzerland.",
-      type: "website",
-    },
-  };
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return await generateMetadataForPage(locale as Locale, "/legal/terms");
 }
 
 export default function TermsPage() {

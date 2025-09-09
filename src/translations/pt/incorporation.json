@@ -1,41 +1,39 @@
 {
-    "incorporation": {
-        "Presentation": {
-            "Title": "Constituição de empresa",
-            "Subtitle": "Abertura rápida e conforme para seu negócio",
-            "Intro": [
-                "Ajudamos você a abrir sua empresa de forma rápida e correta. Escolha o tipo de empresa, envie os documentos necessários e cuidamos do registro, dos trâmites e da conformidade."
-            ],
-            "StrengthsTitle": "Por que escolher nosso serviço de constituição",
-            "Strengths": [
-                {
-                    "Title": "Especialização em abertura",
-                    "Desc": "Orientação experiente sobre escolha do tipo societário, etapas de registro e documentação."
-                },
-                {
-                    "Title": "Conformidade legal",
-                    "Desc": "Sua nova empresa atende a todos os requisitos legais e fiscais desde o primeiro dia."
-                },
-                {
-                    "Title": "Suporte pós-abertura",
-                    "Desc": "Endereço registrado, serviços de representante e assistência contínua em declarações."
-                }
-            ],
-            "ServicesTitle": "Serviços de constituição",
-            "Services": [
-                "Registro e abertura de empresa",
-                "Preparação e envio de documentos de constituição",
-                "Endereço registrado e serviços de representante",
-                "Registro fiscal e conformidade"
-            ]
-        },
-        "Hero": {
-            "Badge": "Excelência suíça",
-            "BadgeTwo": "Especialistas empresariais",
-            "Title": "Constituição de empresa",
-            "Description": "Orientação especializada para abertura e registro empresarial sem complicações na Suíça.",
-            "CTA": "Contatar",
-            "SecondaryCTA": "Saiba mais"
-        }
+    "Presentation": {
+        "Title": "Constituição de empresa",
+        "Subtitle": "Abertura rápida e conforme para seu negócio",
+        "Intro": [
+            "Ajudamos você a abrir sua empresa de forma rápida e correta. Escolha o tipo de empresa, envie os documentos necessários e cuidamos do registro, dos trâmites e da conformidade."
+        ],
+        "StrengthsTitle": "Por que escolher nosso serviço de constituição",
+        "Strengths": [
+            {
+                "Title": "Especialização em abertura",
+                "Desc": "Orientação experiente sobre escolha do tipo societário, etapas de registro e documentação."
+            },
+            {
+                "Title": "Conformidade legal",
+                "Desc": "Sua nova empresa atende a todos os requisitos legais e fiscais desde o primeiro dia."
+            },
+            {
+                "Title": "Suporte pós-abertura",
+                "Desc": "Endereço registrado, serviços de representante e assistência contínua em declarações."
+            }
+        ],
+        "ServicesTitle": "Serviços de constituição",
+        "Services": [
+            "Registro e abertura de empresa",
+            "Preparação e envio de documentos de constituição",
+            "Endereço registrado e serviços de representante",
+            "Registro fiscal e conformidade"
+        ]
+    },
+    "Hero": {
+        "Badge": "Excelência suíça",
+        "BadgeTwo": "Especialistas empresariais",
+        "Title": "Constituição de empresa",
+        "Description": "Orientação especializada para abertura e registro empresarial sem complicações na Suíça.",
+        "CTA": "Contatar",
+        "SecondaryCTA": "Saiba mais"
     }
 }

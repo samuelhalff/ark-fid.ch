@@ -19,6 +19,10 @@
         "Title": "Corporate services",
         "Description": "We offer a range of corporate services, including company formation, compliance management, and corporate governance support to ensure your business operates smoothly."
     },
+    "IncorporationServices": {
+        "Title": "Incorporation services",
+        "Description": "We assist you in the incorporation of your company, including selecting the legal form, drafting incorporation documents, and filing with the relevant authorities."
+    },
     "DomiciliationServices": {
         "Title": "Domiciliation services",
         "Description": "Domiciliation services provide businesses with a registered address. These services allow companies to establish their official headquarters without needing a physical office at the location."

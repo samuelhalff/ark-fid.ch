@@ -8,6 +8,7 @@ const LANGS = [
   { code: "fr", label: "FR" },
   { code: "de", label: "DE" },
   { code: "es", label: "ES" },
+  { code: "pt", label: "PT" },
 ];
 
 interface LangSwitchMobileProps {
@@ -18,7 +19,8 @@ export default function LangSwitchMobile({
   onLocaleChange,
 }: LangSwitchMobileProps) {
   const { i18n } = useTranslation();
-  const current = i18n.language;
+  // normalize current language to 2-letter code in case of regional tags
+  const current = (i18n.language || "fr").slice(0, 2);
   const router = useRouter();
   const pathname = usePathname() || "/";
   const searchParams = useSearchParams();
@@ -44,7 +46,7 @@ export default function LangSwitchMobile({
         />
       </span>
       <div className="flex gap-3 text-md p-1 ml-auto">
-        {LANGS.map((lang) => (
+        {LANGS.filter((l) => l.code !== current).map((lang) => (
           <button
             key={lang.code}
             aria-label={lang.label}

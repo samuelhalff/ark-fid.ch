@@ -47,25 +47,10 @@ const Presentation = () => {
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
                 <TranslatedText
                   ns="taxes"
-                  translationKey="Presentation.ReinventedTitle"
-                  fallbackText="Reinvented Process"
-                />
-              </h3>
-              <div className="space-y-6 mb-12">
-                <TranslatedTextArray
-                  ns="taxes"
-                  translationKey="Presentation.Reinvented"
-                  fallbackText={["Our reinvented process description"]}
-                />
-              </div>
-
-              <h4 className="text-lg xs:text-xl font-semibold mb-6 tracking-tight">
-                <TranslatedText
-                  ns="taxes"
                   translationKey="Presentation.StrengthsTitle"
                   fallbackText="Our Strengths"
                 />
-              </h4>
+              </h3>
               <div className="space-y-4 mb-12">
                 <TranslatedObjectArray
                   ns="taxes"

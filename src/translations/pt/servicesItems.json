@@ -19,6 +19,10 @@
         "Title": "Serviços corporativos",
         "Description": "Oferecemos uma gama de serviços corporativos, incluindo formação de empresas, gestão de conformidade e suporte de governança corporativa para garantir que seu negócio opere sem problemas."
     },
+    "IncorporationServices": {
+        "Title": "Serviços de constituição",
+        "Description": "Ajudamos você na constituição de sua empresa, incluindo a seleção da forma jurídica, a redação dos documentos de constituição e o registro junto às autoridades competentes."
+    },
     "DomiciliationServices": {
         "Title": "Serviços de domiciliação",
         "Description": "Os serviços de domiciliação fornecem às empresas um endereço registrado. Esses serviços permitem que as empresas estabeleçam sua sede oficial sem precisar de um escritório físico no local."

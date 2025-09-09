@@ -4,7 +4,7 @@
         "Description": "Services comptables complets, y compris tenue de livres et rapports financiers. Nous nous appuyons sur des outils d'IA personnalisés pour gagner en efficacité et vous faciliter la vie."
     },
     "TaxesCompanyPersonal": {
-        "Title": "Impôts - Entreprise et Personnel",
+        "Title": "Fiscalité - Entreprise et Personnel",
         "Description": "Nous gérons tous les aspects de la conformité fiscale, y compris l'enregistrement TVA, les déclarations d'impôts sur les sociétés et les déclarations d'impôt sur le revenu personnel."
     },
     "PayrollHR": {
@@ -18,6 +18,10 @@
     "CorporateServices": {
         "Title": "Services d'entreprise",
         "Description": "Nous offrons une gamme de services d'entreprise, y compris la formation d'entreprise, la gestion de la conformité et le soutien à la gouvernance d'entreprise pour assurer le bon fonctionnement de votre entreprise."
+    },
+    "IncorporationServices": {
+        "Title": "Services de constitution",
+        "Description": "Nous vous assistons dans la constitution de votre entreprise, y compris le choix de la forme juridique, la rédaction des documents de constitution et le dépôt auprès des autorités compétentes."
     },
     "DomiciliationServices": {
         "Title": "Services de domiciliation",

@@ -2,19 +2,15 @@ import { type Metadata } from "next";
 import TranslatedText from "@/src/components/ui/translated-text";
 import { Separator } from "@/src/components/ui/separator";
 import TranslatedDate from "@/src/components/ui/translated-date";
+import { generateMetadataForPage } from "@/src/lib/metadata";
+import { type Locale } from "@/src/lib/i18n";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "Privacy Policy | Ark Fiduciaire",
-    description:
-      "Privacy Policy for Ark Fiduciaire - Data protection and privacy notice for our professional services in Switzerland.",
-    openGraph: {
-      title: "Privacy Policy | Ark Fiduciaire",
-      description:
-        "Privacy Policy for Ark Fiduciaire - Data protection and privacy notice for our professional services in Switzerland.",
-      type: "website",
-    },
-  };
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return await generateMetadataForPage(locale as Locale, "/legal/privacy");
 }
 
 export default function PrivacyPage() {

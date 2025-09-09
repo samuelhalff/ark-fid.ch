@@ -77,6 +77,11 @@
       "description": "Services fiscaux et conseil experts en Suisse. Planification fiscale d'entreprise, conformité TVA et stratégies d'optimisation fiscale personnelle.",
       "keywords": "services fiscaux suisse, conseil fiscal, conformité tva, planification fiscale entreprise"
     },
+    "/services/incorporation": {
+      "title": "Constitution d'entreprise - Ark Fiduciaire",
+      "description": "Conseils experts pour une création et un enregistrement d'entreprise sans souci en Suisse.",
+      "keywords": "constitution d'entreprise suisse, création société, enregistrement entreprise, conformité légale"
+    },
     "/legal/privacy": {
       "title": "Politique de confidentialité - Ark Fiduciaire",
       "description": "Politique de confidentialité d'Ark Fiduciaire. Découvrez comment nous protégeons et traitons vos données personnelles en conformité avec les réglementations suisses et européennes.",

@@ -8,6 +8,7 @@ import {
 } from "@/src/components/ui/sheet";
 import { ListEnd, Menu, X } from "lucide-react";
 import LangSwitchMobile from "@/src/components/navigation/LangSwitchMobile";
+import { Suspense } from "react";
 import ThemeToggleMobile from "@/src/components/navigation/ThemeToggleMobile";
 import ServicesMobile from "@/src/components/navigation/ServicesMobile";
 import TranslatedText from "@/src/components/ui/translated-text";
@@ -77,7 +78,9 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
         >
           <nav className="flex flex-col gap-3 px-4 mt-3 pb-10 pt-2">
             <ThemeToggleMobile />
-            <LangSwitchMobile onLocaleChange={handleLinkClick} />
+            <Suspense fallback={null}>
+              <LangSwitchMobile onLocaleChange={handleLinkClick} />
+            </Suspense>
             <div className="mt-3 mb-3">
               <Link
                 href={`${localePrefix}/contact`}
