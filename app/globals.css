@@ -78,7 +78,8 @@
         oklch(var(--background) / 0.9),
         oklch(var(--background) / 1)
       ),
-      url("/assets/abstract-background-light.png");
+      url("/assets/abstract-background-light.avif"),
+      url("/assets/abstract-background-light.webp");
     background-position: left top;
     background-repeat: no-repeat;
     background-size: contain;
@@ -94,7 +95,8 @@
         oklch(var(--background) / 0.9),
         oklch(var(--background) / 1)
       ),
-      url("/assets/abstract-background-dark.png");
+      url("/assets/abstract-background-dark.avif"),
+      url("/assets/abstract-background-dark.webp");
     background-position: left top;
     background-repeat: no-repeat;
     background-size: contain;

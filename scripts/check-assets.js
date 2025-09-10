@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ASSETS_DIR = path.resolve(process.cwd(), 'public/assets');
+const IGNORE_DIRS = new Set(['downloads']);
 const CODE_DIRS = [path.resolve(process.cwd(), 'app'), path.resolve(process.cwd(), 'src')];
 const MAX_BYTES = Number(process.env.ASSET_MAX_BYTES || 600 * 1024); // 600kB default cap per file
 
@@ -40,6 +41,10 @@ async function collectFiles(dir, re) {
   const assets = await collectFiles(ASSETS_DIR, /.*/);
   const oversize = [];
   for (const a of assets) {
+    const rel = path.relative(ASSETS_DIR, a);
+    const top = rel.split(path.sep)[0];
+    if (IGNORE_DIRS.has(top)) continue;
+    if (a.toLowerCase().endsWith('.pdf')) continue;
     const stat = await fs.promises.stat(a);
     if (stat.size > MAX_BYTES) oversize.push({ file: a, size: stat.size });
   }

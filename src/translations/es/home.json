@@ -4,20 +4,20 @@
         "Description": "Apoyo experto para su negocio, desde el inicio hasta el éxito. Servicios de contabilidad, fiscales, nómina y corporativos en Suiza."
     },
     "Hero": {
-        "Title": "Servicios de Contabilidad, Fiscales y Corporativos",
+        "Title": "Servicios de contabilidad, fiscales y corporativos",
         "Description": "Apoyo experto para su negocio, desde el inicio hasta el éxito.",
         "CTA": "Ponerse en contacto",
         "SecondaryCTA": "Conocer al equipo",
-        "Badge": "Swiss Made",
+        "Badge": "Swiss made",
         "BadgeTwo": "Impulsado por IA",
-        "OdooBadge": "Socio Oficial de Odoo"
+        "OdooBadge": "Socio oficial de Odoo"
     },
     "Services": {
-        "Title": "Nuestros Servicios",
+        "Title": "Nuestros servicios",
         "Subtitle": "Servicios fiduciarios, contables y fiscales integrales adaptados a las necesidades de su empresa. Soluciones expertas para empresas suizas de todos los tamaños."
     },
     "FAQ": {
-        "Title": "Preguntas Frecuentes",
+        "Title": "Preguntas frecuentes",
         "Subtitle": "Respuestas rápidas a preguntas comunes sobre nuestros productos y servicios."
     },
     "Testimonials": {

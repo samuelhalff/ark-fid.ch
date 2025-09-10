@@ -4,7 +4,7 @@
         "Description": "Services comptables complets, incluant la tenue de livres et les rapports financiers. Nous nous appuyons sur des outils IA personnalisés pour gagner en efficacité et vous simplifier la vie."
     },
     "TaxesCompanyPersonal": {
-        "Title": "Fiscalité - Entreprise et Personnel",
+        "Title": "Fiscalité - entreprise et personnel",
         "Description": "Nous gérons tous les aspects de la conformité fiscale, incluant l'inscription TVA, les déclarations d'impôts corporatifs et les déclarations d'impôts sur le revenu personnel."
     },
     "PayrollHR": {
@@ -12,7 +12,7 @@
         "Description": "Nous gérons le traitement de la paie, incluant les calculs de salaire, la génération de bulletins de paie et la conformité avec les réglementations suisses de sécurité sociale."
     },
     "OutsourcingServices": {
-        "Title": "Services d'Externalisation",
+        "Title": "Services d'externalisation",
         "Description": "Nous fournissons des services d'externalisation pour les tâches juridiques, administratives et comptables, vous permettant de vous concentrer sur vos activités commerciales principales pendant que nous gérons les fonctions back-office nécessaires."
     },
     "CorporateServices": {

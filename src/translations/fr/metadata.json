@@ -1,81 +1,81 @@
 {
   "default": {
-    "title": "Ark Fiduciaire - Services fiduciaires professionnels en Suisse",
-    "description": "Services fiduciaires, comptables et fiscaux experts en Suisse. Services d'entreprise, gestion de paie, domiciliation et solutions commerciales complètes.",
-    "keywords": "services fiduciaires, comptabilité, services fiscaux, Suisse, services d'entreprise, paie, domiciliation",
+    "title": "Ark Fiduciaire - Fiduciaire à Genève & Lausanne (Suisse romande)",
+    "description": "Fiduciaire en Suisse romande (Genève, Lausanne) avec une portée internationale. Comptabilité, fiscalité, paie, corporate et domiciliation pour PME et groupes.",
+    "keywords": "fiduciaire genève, fiduciaire lausanne, suisse romande, fiduciaire, comptabilité, fiscalité, services d'entreprise, paie, domiciliation, suisse",
     "author": "Ark Fiduciaire",
     "siteName": "Ark Fiduciaire"
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire - Services fiduciaires professionnels en Suisse",
-      "description": "Services fiduciaires, comptables et fiscaux experts en Suisse. Services d'entreprise, gestion de paie, domiciliation et solutions commerciales complètes.",
-      "keywords": "services fiduciaires, comptabilité, services fiscaux, Suisse, services d'entreprise, paie, domiciliation"
+      "title": "Ark Fiduciaire - Fiduciaire à Genève & Lausanne (Suisse romande)",
+      "description": "Cabinet fiduciaire basé à Genève et Lausanne, au service des entreprises en Suisse romande et à l'international. Comptabilité, fiscalité, paie, corporate, domiciliation.",
+      "keywords": "fiduciaire genève, fiduciaire lausanne, suisse romande, services fiduciaires, comptabilité, fiscalité"
     },
     "/about": {
       "title": "À propos - Ark Fiduciaire",
-      "description": "Découvrez l'expertise d'Ark Fiduciaire en services fiduciaires suisses, notre équipe de professionnels et notre engagement envers l'excellence en comptabilité et services fiscaux.",
-      "keywords": "à propos ark fiduciaire, experts fiduciaires suisses, professionnels comptables, spécialistes fiscaux"
+      "description": "Découvrez l'expertise d'Ark Fiduciaire en Suisse romande et à l'international. Notre équipe accompagne les entreprises à Genève, Lausanne et au-delà.",
+      "keywords": "à propos ark fiduciaire, suisse romande, genève, lausanne, experts fiduciaires"
     },
     "/contact": {
-      "title": "Contactez-nous - Ark Fiduciaire",
-      "description": "Contactez Ark Fiduciaire pour des services fiduciaires, comptables et fiscaux professionnels en Suisse. Contactez nos experts dès aujourd'hui.",
-      "keywords": "contact ark fiduciaire, contact services fiduciaires, services comptables suisse"
+      "title": "Contact - Ark Fiduciaire (Genève • Lausanne)",
+      "description": "Contactez notre équipe à Genève ou Lausanne. Nous accompagnons les entreprises en Suisse romande et à l'international.",
+      "keywords": "contact fiduciaire genève, contact fiduciaire lausanne, suisse romande"
     },
     "/team": {
-      "title": "Notre équipe - Ark Fiduciaire",
-      "description": "Rencontrez les professionnels expérimentés d'Ark Fiduciaire. Notre équipe de comptables certifiés et spécialistes fiscaux fournit des services fiduciaires experts.",
-      "keywords": "équipe ark fiduciaire, comptables certifiés, spécialistes fiscaux, professionnels fiduciaires"
+      "title": "Notre équipe - Ark Fiduciaire (Suisse romande)",
+      "description": "Une équipe expérimentée basée en Suisse romande (Genève, Lausanne) avec une ouverture internationale.",
+      "keywords": "équipe fiduciaire genève, équipe fiduciaire lausanne, suisse romande"
     },
     "/partners": {
       "title": "Partenaires - Ark Fiduciaire",
-      "description": "Découvrez nos opportunités de partenariat et notre réseau de collaborateurs de confiance. Rejoignez l'écosystème de partenaires d'Ark Fiduciaire pour une croissance mutuelle.",
-      "keywords": "partenaires ark fiduciaire, opportunités partenariat, collaboration commerciale, réseau confiance"
+      "description": "Découvrez nos opportunités de partenariat et notre réseau de confiance en Suisse romande et à l'international.",
+      "keywords": "partenaires ark fiduciaire, suisse romande, genève, lausanne"
     },
     "/ressources": {
       "title": "Ressources - Ark Fiduciaire",
-      "description": "Accédez à des ressources précieuses, guides et articles sur les réglementations fiscales suisses, normes comptables et meilleures pratiques fiduciaires.",
-      "keywords": "ressources fiduciaires, guides fiscaux, articles comptables, réglementations suisses, ressources commerciales"
+      "description": "Guides et articles sur la comptabilité et la fiscalité en Suisse romande, avec perspectives internationales.",
+      "keywords": "ressources fiduciaires, suisse romande, guides fiscaux, genève, lausanne"
     },
     "/services": {
-      "title": "Services - Ark Fiduciaire",
-      "description": "Services fiduciaires complets incluant comptabilité, planification fiscale, services d'entreprise, gestion de paie et domiciliation commerciale.",
-      "keywords": "services fiduciaires, services comptables, services fiscaux, services d'entreprise, gestion paie"
+      "title": "Services - Ark Fiduciaire (Genève & Lausanne)",
+      "description": "Services fiduciaires pour la Suisse romande: comptabilité, fiscalité, paie, corporate et domiciliation. Nous accompagnons aussi des clients internationaux.",
+      "keywords": "services fiduciaires genève, services fiduciaires lausanne, suisse romande"
     },
     "/services/accounting": {
-      "title": "Services comptables - Ark Fiduciaire",
-      "description": "Services comptables professionnels en Suisse. Tenue de livres experte, rapports financiers et conformité comptable pour entreprises de toutes tailles.",
-      "keywords": "services comptables suisse, tenue livres, rapports financiers, conformité comptable"
+      "title": "Comptabilité - Ark Fiduciaire (Genève & Lausanne)",
+      "description": "Comptabilité et reporting pour PME et groupes, basés à Genève et Lausanne, actifs en Suisse romande et au-delà.",
+      "keywords": "comptabilité genève, comptabilité lausanne, tenue de livres, reporting"
     },
     "/services/corporate": {
-      "title": "Services d'entreprise - Ark Fiduciaire",
-      "description": "Services d'entreprise complets incluant formation de société, gouvernance d'entreprise, conformité et support administratif en Suisse.",
-      "keywords": "services entreprise, formation société, gouvernance entreprise, conformité commerciale suisse"
+      "title": "Corporate - Ark Fiduciaire (Suisse romande)",
+      "description": "Gouvernance, conformité et administration pour sociétés actives en Suisse romande (Genève, Lausanne).",
+      "keywords": "corporate genève, corporate lausanne, conformité, gouvernance"
     },
     "/services/domiciliation": {
-      "title": "Services de domiciliation - Ark Fiduciaire",
-      "description": "Services de domiciliation commerciale professionnels en Suisse. Adresses de siège social et support administratif pour votre entreprise.",
-      "keywords": "services domiciliation, siège social, adresse commerciale suisse, support administratif"
+      "title": "Domiciliation - Ark Fiduciaire (Genève & Lausanne)",
+      "description": "Domiciliation commerciale avec adresses à Genève ou Lausanne, pour une présence en Suisse romande avec rayonnement international.",
+      "keywords": "domiciliation genève, domiciliation lausanne, siège social, suisse romande"
     },
     "/services/odoo": {
-      "title": "Implémentation Odoo - Ark Fiduciaire",
-      "description": "Services d'implémentation et personnalisation Odoo ERP experts. Rationalisez vos processus commerciaux avec des solutions Odoo professionnelles.",
-      "keywords": "implémentation odoo, solutions erp, automatisation processus commerciaux, personnalisation odoo"
+      "title": "Odoo - Ark Fiduciaire (Genève & Lausanne)",
+      "description": "Implémentation Odoo alignée sur les normes suisses, par une équipe basée à Genève et Lausanne.",
+      "keywords": "odoo genève, odoo lausanne, erp suisse"
     },
     "/services/outsourcing": {
-      "title": "Services d'externalisation - Ark Fiduciaire",
-      "description": "Services professionnels d'externalisation de processus commerciaux. Concentrez-vous sur votre cœur de métier pendant que nous gérons vos opérations administratives et financières.",
-      "keywords": "externalisation commerciale, externalisation processus, services administratifs, externalisation financière"
+      "title": "Externalisation - Ark Fiduciaire (Suisse romande)",
+      "description": "Back-office juridique, administratif et comptable externalisé pour acteurs de Suisse romande, avec couverture internationale.",
+      "keywords": "externalisation genève, externalisation lausanne, back-office"
     },
     "/services/payroll": {
-      "title": "Services de paie - Ark Fiduciaire",
-      "description": "Services complets de gestion de paie en Suisse. Traitement expert des salaires, conformité sécurité sociale et administration RH.",
-      "keywords": "services paie suisse, traitement salaires, conformité sécurité sociale, administration rh"
+      "title": "Paie - Ark Fiduciaire (Suisse romande)",
+      "description": "Gestion de paie et RH pour la Suisse romande, conforme aux spécificités cantonales, avec outils digitaux.",
+      "keywords": "paie genève, paie lausanne, rh, sécurité sociale"
     },
     "/services/taxes": {
-      "title": "Services fiscaux - Ark Fiduciaire",
-      "description": "Services fiscaux et conseil experts en Suisse. Planification fiscale d'entreprise, conformité TVA et stratégies d'optimisation fiscale personnelle.",
-      "keywords": "services fiscaux suisse, conseil fiscal, conformité tva, planification fiscale entreprise"
+      "title": "Fiscalité - Ark Fiduciaire (Genève & Lausanne)",
+      "description": "Conseil fiscal et conformité TVA pour entreprises et particuliers en Suisse romande, avec une expertise internationale.",
+      "keywords": "fiscalité genève, fiscalité lausanne, tva, conseil fiscal"
     },
     "/services/incorporation": {
       "title": "Constitution d'entreprise - Ark Fiduciaire",
@@ -100,9 +100,9 @@
   },
   "dynamic": {
     "articles": {
-      "titleTemplate": "{articleTitle} - Ark Fiduciaire",
-      "descriptionTemplate": "{articleDescription} | Analyses expertes des professionnels d'Ark Fiduciaire.",
-      "keywords": "réglementations fiscales, analyses comptables, expertise fiduciaire, commerce suisse"
+      "titleTemplate": "{articleTitle} - Ark Fiduciaire (Suisse romande)",
+      "descriptionTemplate": "{articleDescription} | Analyses ancrées en Suisse romande avec portée internationale.",
+      "keywords": "suisse romande, genève, lausanne, réglementations fiscales, analyses comptables, expertise fiduciaire"
     }
   }
 }

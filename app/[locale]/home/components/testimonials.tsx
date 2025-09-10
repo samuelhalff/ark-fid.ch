@@ -82,7 +82,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: any }) => (
   <div className="mb-8 bg-accent rounded-xl py-8 px-6 sm:py-6">
     <div className="flex items-center justify-between gap-20">
       <div className="hidden lg:block relative shrink-0 aspect-3/4 max-w-[18rem] w-full bg-muted-foreground/20 rounded-xl">
-        {/* <Image src="/assets/testimonial.jpg" alt="Testimonial" className="object-cover rounded-xl" width={288} height={384} /> */}
+        {/* Testimonial image removed to keep bundle lean; add a .webp if needed */}
         <div className="absolute top-1/4 right-0 translate-x-1/2 h-12 w-12 bg-primary rounded-full flex items-center justify-center">
           <svg
             width="102"

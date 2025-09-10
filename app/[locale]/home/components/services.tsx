@@ -83,6 +83,7 @@ const Services = ({ showSubtitle = false, locale }: ServicesProps) => {
                       width={800}
                       height={450}
                       sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
+                      quality={72}
                       className="w-full h-full object-cover"
                     />
                   </div>

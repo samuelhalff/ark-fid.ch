@@ -35,6 +35,21 @@ async function loadMetadataConfig(locale: Locale): Promise<MetadataConfig> {
   }
 }
 
+const hreflangFor = (loc: Locale): string => {
+  switch (loc) {
+    case 'fr':
+      return 'fr-CH';
+    case 'de':
+      return 'de-CH';
+    case 'es':
+      return 'es-ES';
+    case 'pt':
+      return 'pt-PT';
+    default:
+      return 'en';
+  }
+};
+
 export async function getPageMetadata(
   locale: Locale,
   path: string,
@@ -61,10 +76,17 @@ export async function getPageMetadata(
   const canonicalPath = `/${locale}${path}`;
   const alternateUrls = locales.reduce((acc, loc) => {
     const locPath = `/${loc}${path}`;
-    // hreflang keys should be locale codes like 'en', 'fr' etc.
-    acc[loc] = `https://ark-fid.ch${locPath}`;
+    const key = hreflangFor(loc);
+    acc[key] = `https://ark-fid.ch${locPath}`;
     return acc;
   }, {} as Record<string, string>);
+
+  const ogLocale =
+    locale === 'fr' ? 'fr_CH' :
+    locale === 'de' ? 'de_CH' :
+    locale === 'es' ? 'es_ES' :
+    locale === 'pt' ? 'pt_PT' :
+    'en_US';
 
   const metadata: Metadata = {
     metadataBase: new URL('https://ark-fid.ch'),
@@ -87,11 +109,7 @@ export async function getPageMetadata(
     },
     openGraph: {
       type: "website",
-      locale: locale === 'en' ? 'en_US' : 
-              locale === 'fr' ? 'fr_FR' : 
-              locale === 'de' ? 'de_DE' : 
-              locale === 'es' ? 'es_ES' : 
-              locale === 'pt' ? 'pt_PT' : 'en_US',
+      locale: ogLocale,
       url: `https://ark-fid.ch${canonicalPath}`,
       title,
       description,
@@ -197,5 +215,33 @@ export function generateOrganizationStructuredData() {
       "addressCountry": "CH"
     },
     "sameAs": []
+  };
+}
+
+// Local SEO: specify presence in Romandy with offices in Geneva and Lausanne
+export function generateLocalBusinessStructuredData() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Ark Fiduciaire",
+    "image": "https://ark-fid.ch/assets/arkfid--color.svg",
+    "url": "https://ark-fid.ch",
+    "address": [
+      {
+        "@type": "PostalAddress",
+        "addressCountry": "CH",
+        "addressRegion": "GE",
+        "addressLocality": "Genève"
+      },
+      {
+        "@type": "PostalAddress",
+        "addressCountry": "CH",
+        "addressRegion": "VD",
+        "addressLocality": "Lausanne"
+      }
+    ],
+    "areaServed": ["Geneva", "Lausanne", "Romandy", "Switzerland", "International"],
+    "priceRange": "CHF",
+    "telephone": "+41"
   };
 }

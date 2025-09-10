@@ -6,6 +6,7 @@ interface FileResource {
   title: string;
   description: string;
   date?: string;
+  source_url?: string;
 }
 
 interface ArticleResource {
@@ -49,6 +50,7 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
             extension={ext}
             date={file.date}
             labels={labels}
+            source={file.source_url}
           />
         );
       })}

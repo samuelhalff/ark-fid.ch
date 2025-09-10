@@ -4,15 +4,15 @@
         "Description": "Serviços contábeis abrangentes, incluindo escrituração e relatórios financeiros. Utilizamos ferramentas de IA personalizadas para ganhar eficiência e facilitar sua vida."
     },
     "TaxesCompanyPersonal": {
-        "Title": "Impostos - Empresa e Pessoal",
+        "Title": "Impostos - empresa e pessoal",
         "Description": "Cuidamos de todos os aspectos da conformidade fiscal, incluindo registro de IVA, declarações de impostos corporativos e declarações de imposto de renda pessoal."
     },
     "PayrollHR": {
-        "Title": "Folha de Pagamento e RH",
+        "Title": "Folha de pagamento e RH",
         "Description": "Gerenciamos o processamento da folha de pagamento, incluindo cálculos salariais, geração de holerites e conformidade com as regulamentações suíças de seguridade social."
     },
     "OutsourcingServices": {
-        "Title": "Serviços de Terceirização",
+        "Title": "Serviços de terceirização",
         "Description": "Fornecemos serviços de terceirização para tarefas legais, administrativas e contábeis, permitindo que você se concentre em suas atividades comerciais principais enquanto cuidamos das funções de back-office necessárias."
     },
     "CorporateServices": {
@@ -28,7 +28,7 @@
         "Description": "Os serviços de domiciliação fornecem às empresas um endereço registrado. Esses serviços permitem que as empresas estabeleçam sua sede oficial sem precisar de um escritório físico no local."
     },
     "OdooImplementation": {
-        "Title": "Implementação Odoo",
+        "Title": "Implementação de Odoo",
         "Description": "Somos parceiros oficiais da Odoo, fornecendo serviços completos de implementação e configuração para garantir que sua configuração Odoo atenda aos padrões contábeis suíços."
     }
 }

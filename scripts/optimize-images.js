@@ -14,11 +14,13 @@ const CODE_DIRS = [
   path.resolve(process.cwd(), "app"),
   path.resolve(process.cwd(), "src"),
 ];
-const ALLOWED_EXT = new Set([".jpg", ".jpeg", ".png", ".webp"]);
+const ALLOWED_EXT = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
 const EXCLUDE_DIRS = new Set(["downloads"]); // keep PDFs etc.
 
 // Default cap: heroes use ~520-600px; cards ~800px. Use 800px as a safe upper-bound.
 const MAX_WIDTH = Number(process.env.MAX_IMG_WIDTH || 800);
+const HERO_MAX_WIDTH = Number(process.env.HERO_MAX_IMG_WIDTH || 1200);
+const CARD_MAX_WIDTH = Number(process.env.CARD_MAX_IMG_WIDTH || 800);
 
 // Map known assets to a specific cap (override default)
 const WIDTH_OVERRIDES = new Map([
@@ -71,20 +73,26 @@ async function optimizeFile(filePath) {
   let pipeline = img.clone();
   const relFromPublic = filePath.split("public")[1] || ""; // e.g., /assets/...
   const override = usageCaps.get(relFromPublic) || WIDTH_OVERRIDES.get(relFromPublic);
-  const targetWidth = override || (width && width > MAX_WIDTH ? MAX_WIDTH : width);
+  // Heuristic: hero-like images (main-bg, hero) can use a higher cap
+  const isHero = /main-bg|hero/i.test(relFromPublic);
+  const cap = isHero ? HERO_MAX_WIDTH : CARD_MAX_WIDTH;
+  const targetWidth = override || (width && width > cap ? cap : width);
   if (targetWidth && width && width > targetWidth) {
     pipeline = pipeline.resize({ width: targetWidth });
   }
 
-  // 1) Always produce a WebP variant for jpg/png/webp
+  // 1) Always produce AVIF and WebP variants for jpg/png/webp/avif
   const webpTarget = filePath.replace(ext, ".webp");
-  const webpPipeline = pipeline.clone().webp({ quality: 75, effort: 5 });
+  const webpPipeline = pipeline.clone().webp({ quality: 72, effort: 5 });
   await webpPipeline.toFile(webpTarget);
+  const avifTarget = filePath.replace(ext, ".avif");
+  const avifPipeline = pipeline.clone().avif({ quality: 60, effort: 5 });
+  await avifPipeline.toFile(avifTarget);
 
   // 2) Also keep optimized original format in-place (only replace if meaningfully smaller)
   //    For tiny files (<40kB), skip original recompress to avoid churn but still produce .webp.
   if (inputSize < 40 * 1024) {
-    return { optimized: false, before: inputSize, after: inputSize, webp: webpTarget };
+    return { optimized: false, before: inputSize, after: inputSize, webp: webpTarget, avif: avifTarget };
   }
   let originalEncodedPath = null;
   if (ext === ".jpg" || ext === ".jpeg") {
@@ -113,14 +121,14 @@ async function optimizeFile(filePath) {
     const smaller = outputSize + outputSize * 0.01 < inputSize;
     if (smaller) {
       await fs.promises.rename(originalEncodedPath, filePath);
-      return { optimized: true, before: inputSize, after: outputSize, webp: webpTarget };
+    return { optimized: true, before: inputSize, after: outputSize, webp: webpTarget, avif: avifTarget };
     } else {
       await fs.promises.unlink(originalEncodedPath).catch(() => {});
-      return { optimized: false, before: inputSize, after: inputSize, webp: webpTarget };
+    return { optimized: false, before: inputSize, after: inputSize, webp: webpTarget, avif: avifTarget };
     }
   }
 
-  return { optimized: false, before: inputSize, after: inputSize, webp: webpTarget };
+  return { optimized: false, before: inputSize, after: inputSize, webp: webpTarget, avif: avifTarget };
 }
 
 async function walk(dir) {
@@ -176,7 +184,7 @@ async function dirSize(dir) {
 }
 
 // --- Reference replacement ---
-const replacements = new Map(); // key: original (as used in code), value: webp
+const replacements = new Map(); // key: original (as used in code), value: preferred asset
 
 function queueReplacement(originalFsPath, webpFsPath) {
   // Convert to web root path strings used in code, e.g., /assets/...

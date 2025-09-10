@@ -4,11 +4,11 @@
     "Services": "Serviços",
     "Contact": "Contacto",
     "Team": "Equipa",
-    "Our partners": "Os Nossos Parceiros",
+    "Our partners": "Os nossos parceiros",
     "Language": "Idioma",
     "Theme": "Tema",
     "Ressources": "Recursos",
-    "MobileNavigation": "Navegação Móvel",
+    "MobileNavigation": "Navegação móvel",
     "CloseMenu": "Fechar menu",
     "CompanyFooter": "Ark Fiduciaire",
     "Lang": {
@@ -28,15 +28,15 @@
         "Description": "Serviços contabilísticos abrangentes, incluindo escrituração, relatórios financeiros. Contamos com ferramentas de IA personalizadas para ganhar eficiência e simplificar a sua vida."
     },
     "TaxesCompanyPersonal": {
-        "Title": "Impostos - Empresas e Particulares",
+        "Title": "Impostos - empresas e particulares",
         "Description": "Tratamos de todos os aspetos da conformidade fiscal, incluindo registo de IVA, declarações de impostos corporativos e declarações de rendimentos pessoais."
     },
     "PayrollHR": {
-        "Title": "Folha de Pagamento e RH",
+        "Title": "Folha de pagamento e RH",
         "Description": "Gerimos o processamento de folha de pagamento, incluindo cálculos salariais, geração de recibos de vencimento e conformidade com as regulamentações de segurança social suíças."
     },
     "OutsourcingServices": {
-        "Title": "Serviços de Outsourcing",
+        "Title": "Serviços de outsourcing",
         "Description": "Fornecemos serviços de outsourcing para tarefas legais, administrativas e contabilísticas, permitindo que se concentre nas suas atividades empresariais principais enquanto tratamos das funções de back-office necessárias."
     },
     "Incorporation": {

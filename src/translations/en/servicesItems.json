@@ -4,7 +4,7 @@
         "Description": "Comprehensive accounting services, including bookkeeping, financial reporting. We rely on custom AI tools to gain efficiency and make your life easier."
     },
     "TaxesCompanyPersonal": {
-        "Title": "Taxes - Company and Personal",
+        "Title": "Taxes - company and personal",
         "Description": "We handle all aspects of tax compliance, including VAT registration, corporate tax filings, and personal income tax declarations."
     },
     "PayrollHR": {
@@ -12,7 +12,7 @@
         "Description": "We manage payroll processing, including salary calculations, payslip generation, and compliance with Swiss social security regulations."
     },
     "OutsourcingServices": {
-        "Title": "Outsourcing Services",
+        "Title": "Outsourcing services",
         "Description": "We provide outsourcing services for legal, administrative, and accounting tasks, allowing you to focus on your core business activities while we handle the necessary back-office functions."
     },
     "CorporateServices": {

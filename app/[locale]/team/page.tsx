@@ -66,7 +66,7 @@ const teamMembers = [
   {
     name: "Sébastien Gallié",
     role: "SeniorAccountant",
-  profilePic: "/assets/missing-profile.svg",
+    profilePic: "/assets/missing-profile.svg",
     social: {
       linkedin: "https://ch.linkedin.com/in/s%C3%A9bastien-galli%C3%A9",
     },
@@ -74,7 +74,7 @@ const teamMembers = [
   {
     name: "Maulk Hamdi",
     role: "Associate",
-  profilePic: "/assets/missing-profile.svg",
+    profilePic: "/assets/missing-profile.svg",
     social: {
       linkedin: "https://www.linkedin.com/in/maulk-hamdi-b47b68361",
     },
@@ -89,14 +89,14 @@ export default function TeamPage() {
           <TranslatedText
             ns="team"
             translationKey={"Title"}
-            fallbackText="Our Team"
+            fallbackText="Our team"
           />
         </h1>
         <p className="mt-2">
           <TranslatedText
             ns="team"
             translationKey={"Subtitle"}
-            fallbackText={"Subtitle"}
+            fallbackText={"A team of complementary talents"}
           />
         </p>
       </div>

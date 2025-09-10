@@ -1,95 +1,95 @@
 {
   "default": {
-    "title": "Ark Fiduciaire - Professionelle Treuhanddienste in der Schweiz",
-    "description": "Experte Treuhand-, Buchhaltungs- und Steuerdienstleistungen in der Schweiz. Unternehmensdienstleistungen, Lohnbuchhaltung, Domizilierung und umfassende Geschäftslösungen.",
-    "keywords": "Treuhanddienste, Buchhaltung, Steuerdienstleistungen, Schweiz, Unternehmensdienstleistungen, Lohnbuchhaltung, Domizilierung",
+    "title": "Ark Fiduciaire - Treuhand in Genf & Lausanne (Westschweiz)",
+    "description": "Treuhandkanzlei in der Westschweiz (Genf, Lausanne) mit internationaler Reichweite. Buchhaltung, Steuern, Lohn, Corporate und Domizilierung für KMU und Gruppen.",
+    "keywords": "treuhand genf, treuhand lausanne, westschweiz, romandie, buchhaltung, steuern, lohn, corporate, domizilierung",
     "author": "Ark Fiduciaire",
     "siteName": "Ark Fiduciaire"
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire - Professionelle Treuhanddienste in der Schweiz",
-      "description": "Experte Treuhand-, Buchhaltungs- und Steuerdienstleistungen in der Schweiz. Unternehmensdienstleistungen, Lohnbuchhaltung, Domizilierung und umfassende Geschäftslösungen.",
-      "keywords": "Treuhanddienste, Buchhaltung, Steuerdienstleistungen, Schweiz, Unternehmensdienstleistungen, Lohnbuchhaltung, Domizilierung"
+      "title": "Ark Fiduciaire - Treuhand in Genf & Lausanne (Westschweiz)",
+      "description": "Treuhand mit Sitz in Genf und Lausanne für die Westschweiz und internationale Kunden. Buchhaltung, Steuern, Lohn, Corporate, Domizilierung.",
+      "keywords": "treuhand genf, treuhand lausanne, westschweiz, buchhaltung, steuern"
     },
     "/about": {
-      "title": "Über Uns - Ark Fiduciaire",
-      "description": "Erfahren Sie mehr über Ark Fiduciaires Expertise in schweizerischen Treuhanddiensten, unser Team von Fachleuten und unser Engagement für Exzellenz in Buchhaltung und Steuerdienstleistungen.",
-      "keywords": "über ark fiduciaire, schweizer treuhandexperten, buchhaltungsfachleute, steuerspezialisten"
+      "title": "Über uns - Ark Fiduciaire",
+      "description": "Erfahren Sie mehr über Ark Fiduciaires Expertise in der Westschweiz und international. Unser Team unterstützt Unternehmen in Genf, Lausanne und darüber hinaus.",
+      "keywords": "über ark fiduciaire, westschweiz, genf, lausanne, treuhandexperten"
     },
     "/contact": {
-      "title": "Kontakt - Ark Fiduciaire",
-      "description": "Kontaktieren Sie Ark Fiduciaire für professionelle Treuhand-, Buchhaltungs- und Steuerdienstleistungen in der Schweiz. Kontaktieren Sie unsere Experten noch heute.",
-      "keywords": "kontakt ark fiduciaire, treuhanddienste kontakt, buchhaltungsdienstleistungen schweiz"
+      "title": "Kontakt - Ark Fiduciaire (Genf • Lausanne)",
+      "description": "Kontaktieren Sie unser Team in Genf oder Lausanne. Wir unterstützen Unternehmen in der Westschweiz und international.",
+      "keywords": "kontakt treuhand genf, kontakt treuhand lausanne, westschweiz"
     },
     "/team": {
-      "title": "Unser Team - Ark Fiduciaire",
-      "description": "Lernen Sie die erfahrenen Fachleute von Ark Fiduciaire kennen. Unser Team aus zertifizierten Buchhaltern und Steuerspezialisten bietet experte Treuhanddienste.",
-      "keywords": "ark fiduciaire team, zertifizierte buchhalter, steuerspezialisten, treuhandfachleute"
+      "title": "Unser Team - Ark Fiduciaire (Westschweiz)",
+      "description": "Ein erfahrenes Team mit Sitz in der Westschweiz (Genf, Lausanne) mit internationaler Ausrichtung.",
+      "keywords": "treuhand team genf, treuhand team lausanne, westschweiz"
     },
     "/partners": {
       "title": "Partner - Ark Fiduciaire",
-      "description": "Entdecken Sie unsere Partnerschaftsmöglichkeiten und unser Netzwerk vertrauensvoller Mitarbeiter. Treten Sie Ark Fiduciaires Partnerökosystem für gegenseitiges Wachstum bei.",
-      "keywords": "ark fiduciaire partner, partnerschaftsmöglichkeiten, geschäftliche zusammenarbeit, vertrauensnetzwerk"
+      "description": "Entdecken Sie unsere Partnerschaften und unser Netzwerk in der Westschweiz und international.",
+      "keywords": "ark fiduciaire partner, westschweiz, genf, lausanne"
     },
     "/ressources": {
       "title": "Ressourcen - Ark Fiduciaire",
-      "description": "Zugang zu wertvollen Ressourcen, Leitfäden und Artikeln über schweizerische Steuervorschriften, Buchhaltungsstandards und bewährte Treuhandpraktiken.",
-      "keywords": "treuhandressourcen, steuerleitfäden, buchhaltungsartikel, schweizer vorschriften, geschäftsressourcen"
+      "description": "Leitfäden und Artikel zu Buchhaltung und Steuern in der Westschweiz mit internationaler Perspektive.",
+      "keywords": "treuhand ressourcen, westschweiz, steuerleitfäden, genf, lausanne"
     },
     "/services": {
-      "title": "Dienstleistungen - Ark Fiduciaire",
-      "description": "Umfassende Treuhanddienste einschließlich Buchhaltung, Steuerplanung, Unternehmensdienstleistungen, Lohnbuchhaltung und Geschäftsdomizilierung.",
-      "keywords": "treuhanddienste, buchhaltungsdienstleistungen, steuerdienstleistungen, unternehmensdienstleistungen, lohnbuchhaltung"
+      "title": "Dienstleistungen - Ark Fiduciaire (Genf & Lausanne)",
+      "description": "Treuhand-Dienstleistungen für die Westschweiz: Buchhaltung, Steuern, Lohn, Corporate und Domizilierung. Wir betreuen auch internationale Kunden.",
+      "keywords": "treuhand dienstleistungen genf, treuhand dienstleistungen lausanne, westschweiz"
     },
     "/services/accounting": {
-      "title": "Buchhaltungsdienstleistungen - Ark Fiduciaire",
-      "description": "Professionelle Buchhaltungsdienstleistungen in der Schweiz. Experte Buchführung, Finanzberichterstattung und Buchhaltungskonformität für Unternehmen aller Größen.",
-      "keywords": "buchhaltungsdienstleistungen schweiz, buchführung, finanzberichterstattung, buchhaltungskonformität"
+      "title": "Buchhaltung - Ark Fiduciaire (Genf & Lausanne)",
+      "description": "Buchhaltung und Reporting für KMU und Gruppen mit Sitz in Genf und Lausanne, aktiv in der Westschweiz und darüber hinaus.",
+      "keywords": "buchhaltung genf, buchhaltung lausanne, buchführung, reporting"
     },
     "/services/corporate": {
-      "title": "Unternehmensdienstleistungen - Ark Fiduciaire",
-      "description": "Vollständige Unternehmensdienstleistungen einschließlich Firmengründung, Unternehmensführung, Compliance und administrative Unterstützung in der Schweiz.",
-      "keywords": "unternehmensdienstleistungen, firmengründung, unternehmensführung, geschäftscompliance schweiz"
+      "title": "Corporate - Ark Fiduciaire (Westschweiz)",
+      "description": "Governance, Compliance und Administration für Unternehmen in der Westschweiz (Genf, Lausanne).",
+      "keywords": "corporate genf, corporate lausanne, compliance, governance"
     },
     "/services/domiciliation": {
-      "title": "Domizilierungsdienstleistungen - Ark Fiduciaire",
-      "description": "Professionelle Geschäftsdomizilierungsdienstleistungen in der Schweiz. Registrierte Büroadressen und administrative Unterstützung für Ihr Unternehmen.",
-      "keywords": "domizilierungsdienstleistungen, registrierte büros, geschäftsadresse schweiz, administrative unterstützung"
+      "title": "Domizilierung - Ark Fiduciaire (Genf & Lausanne)",
+      "description": "Geschäftsdomizilierung mit Adressen in Genf oder Lausanne – Präsenz in der Westschweiz mit internationaler Ausstrahlung.",
+      "keywords": "domizilierung genf, domizilierung lausanne, geschäftsadresse, westschweiz"
     },
     "/services/odoo": {
-      "title": "Odoo-Implementierung - Ark Fiduciaire",
-      "description": "Experte Odoo ERP-Implementierung und Anpassungsdienstleistungen. Optimieren Sie Ihre Geschäftsprozesse mit professionellen Odoo-Lösungen.",
-      "keywords": "odoo implementierung, erp lösungen, geschäftsprozessautomatisierung, odoo anpassung"
+      "title": "Odoo - Ark Fiduciaire (Genf & Lausanne)",
+      "description": "Odoo-Implementierung nach Schweizer Standards durch ein Team in Genf und Lausanne.",
+      "keywords": "odoo genf, odoo lausanne, schweizer erp"
     },
     "/services/outsourcing": {
-      "title": "Outsourcing-Dienstleistungen - Ark Fiduciaire",
-      "description": "Professionelle Geschäftsprozess-Outsourcing-Dienstleistungen. Konzentrieren Sie sich auf Ihr Kerngeschäft, während wir Ihre administrativen und finanziellen Abläufe handhaben.",
-      "keywords": "geschäfts outsourcing, prozess outsourcing, administrative dienstleistungen, finanz outsourcing"
+      "title": "Outsourcing - Ark Fiduciaire (Westschweiz)",
+      "description": "Rechts-, Verwaltungs- und Buchhaltungs-Backoffice-Outsourcing für Akteure der Westschweiz mit internationaler Abdeckung.",
+      "keywords": "outsourcing genf, outsourcing lausanne, back-office"
     },
     "/services/payroll": {
-      "title": "Lohnbuchhaltungsdienstleistungen - Ark Fiduciaire",
-      "description": "Umfassende Lohnbuchhaltungsdienstleistungen in der Schweiz. Experte Gehaltsabrechnung, Sozialversicherungskonformität und HR-Administration.",
-      "keywords": "lohnbuchhaltungsdienstleistungen schweiz, gehaltsabrechnung, sozialversicherungskonformität, hr administration"
+      "title": "Lohn - Ark Fiduciaire (Westschweiz)",
+      "description": "Lohn- und HR-Administration für die Westschweiz, abgestimmt auf kantonale Besonderheiten, mit digitalen Tools.",
+      "keywords": "lohn genf, lohn lausanne, hr, sozialversicherung"
     },
     "/services/taxes": {
-      "title": "Steuerdienstleistungen - Ark Fiduciaire",
-      "description": "Experte Steuerdienstleistungen und Beratung in der Schweiz. Unternehmenssteuerplanung, MWST-Konformität und persönliche Steueroptimierungsstrategien.",
-      "keywords": "steuerdienstleistungen schweiz, steuerberatung, mwst konformität, unternehmenssteuerplanung"
+      "title": "Steuern - Ark Fiduciaire (Genf & Lausanne)",
+      "description": "Steuerberatung und MWST-Compliance für Unternehmen und Privatpersonen in der Westschweiz mit internationaler Expertise.",
+      "keywords": "steuern genf, steuern lausanne, mwst, steuerberatung"
     },
     "/services/incorporation": {
       "title": "Firmengründung - Ark Fiduciaire",
       "description": "Fachkundige Begleitung für eine reibungslose Unternehmensgründung und Anmeldung in der Schweiz.",
-      "keywords": "firmengründung schweiz, unternehmensgründung, geschäftsregistrierung, rechtliche konformität"
+      "keywords": "firmengründung schweiz, unternehmensgründung, registrierung, rechtliche konformität"
     },
     "/legal/privacy": {
       "title": "Datenschutzrichtlinie - Ark Fiduciaire",
-      "description": "Ark Fiduciaires Datenschutzrichtlinie. Erfahren Sie, wie wir Ihre persönlichen Daten in Übereinstimmung mit schweizerischen und EU-Vorschriften schützen und behandeln.",
-      "keywords": "datenschutzrichtlinie, datenschutz, dsgvo konformität, persönliche daten"
+      "description": "Datenschutzrichtlinie von Ark Fiduciaire. Erfahren Sie, wie wir Ihre personenbezogenen Daten in Übereinstimmung mit Schweizer und EU-Vorschriften schützen und verarbeiten.",
+      "keywords": "datenschutzrichtlinie, datenschutz, dsgvo konformität, personenbezogene daten"
     },
     "/legal/terms": {
       "title": "Nutzungsbedingungen - Ark Fiduciaire",
-      "description": "Nutzungsbedingungen für die Nutzung von Ark Fiduciaires Website und Dienstleistungen. Rechtliche Bedingungen und Nutzungsvereinbarungen.",
+      "description": "Nutzungsbedingungen für die Nutzung der Website und Dienstleistungen von Ark Fiduciaire. Rechtliche Bedingungen und Nutzungsvereinbarungen.",
       "keywords": "nutzungsbedingungen, rechtliche bedingungen, nutzungsvereinbarung, dienstleistungsvertrag"
     },
     "/legal/cookies": {
@@ -100,9 +100,9 @@
   },
   "dynamic": {
     "articles": {
-      "titleTemplate": "{articleTitle} - Ark Fiduciaire",
-      "descriptionTemplate": "{articleDescription} | Experteneinblicke von Ark Fiduciaires Fachleuten.",
-      "keywords": "steuervorschriften, buchhaltungseinblicke, treuhandexpertise, schweizer geschäft"
+      "titleTemplate": "{articleTitle} - Ark Fiduciaire (Westschweiz)",
+      "descriptionTemplate": "{articleDescription} | Einblicke aus der Westschweiz mit internationaler Perspektive.",
+      "keywords": "westschweiz, genf, lausanne, steuervorschriften, buchhaltungseinblicke, treuhandexpertise"
     }
   }
 }

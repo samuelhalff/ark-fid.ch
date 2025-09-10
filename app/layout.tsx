@@ -5,7 +5,10 @@ import "./globals.css";
 
 import { Providers } from "@/src/components/providers"; // Import your new client provider
 import { Metadata, Viewport } from "next";
-import { generateOrganizationStructuredData } from "@/src/lib/metadata";
+import {
+  generateOrganizationStructuredData,
+  generateLocalBusinessStructuredData,
+} from "@/src/lib/metadata";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 
@@ -77,6 +80,7 @@ export default function RootLayout({
 }) {
   const nonce = headers().get("x-nonce") || undefined;
   const orgJsonLd = generateOrganizationStructuredData();
+  const localBizJsonLd = generateLocalBusinessStructuredData();
   const webSiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -110,6 +114,11 @@ export default function RootLayout({
           type="application/ld+json"
           nonce={nonce}
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          nonce={nonce}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBizJsonLd) }}
         />
         <script
           type="application/ld+json"

@@ -92,7 +92,8 @@ const Hero = async ({ locale }: HeroProps) => {
             src="/assets/main-bg.webp"
             alt="main background"
             className="object-cover rounded-xl"
-            sizes="(min-width:1280px) 600px, (min-width:1024px) 520px, 90vw"
+            sizes="(min-width:1280px) 640px, (min-width:1024px) 520px, 90vw"
+            quality={70}
             priority
             fill
           />

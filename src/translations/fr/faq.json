@@ -1,5 +1,5 @@
 {
-    "Title": "Questions Fréquemment Posées",
+    "Title": "Questions fréquemment posées",
     "Subtitle": "Réponses rapides aux questions courantes sur nos produits et services.",
     "Question1": "Qui a besoin de services comptables en Suisse ?",
     "Answer1": "Toute entreprise opérant en Suisse, des startups aux grandes entreprises, a besoin de services comptables pour assurer la conformité avec les lois fiscales et financières locales.",
@@ -19,12 +19,12 @@
     "Answer8": "Oui, en tant que partenaires officiels d'Odoo, nous fournissons des services complets d'implémentation et de configuration. Nous nous assurons que votre configuration Odoo répond aux normes comptables suisses et que le module de paie est entièrement conforme à swissdec, fournissant un système fluide et efficace.",
     "Question9": "Comment gérez-vous la paie et les assurances conformes à swissdec ?",
     "Answer9": "Nous gérons tous les aspects de la gestion de la paie grâce à notre plateforme Odoo certifiée swissdec. Cela inclut le traitement des salaires mensuels, la génération de bulletins de paie, et la gestion de toutes les transmissions électroniques de données pour la sécurité sociale (AHV/AVS), les caisses de pension (BVG/LPP), et l'impôt à la source. Nous gérons également toutes les communications avec les fournisseurs d'assurance, y compris les inscriptions d'employés, les mutations, et les déclarations annuelles, pour assurer que vous restez entièrement conforme.",
-    "Question10": "Combien coûte la création d'une Entreprise Individuelle ?",
-    "Answer10": "Notre tarif fixe pour établir une Entreprise Individuelle est de CHF 690. Ce forfait inclut la préparation de tous les documents légaux requis, les frais de notaire, et notre coordination pour assurer un processus d'enregistrement fluide. Veuillez noter que cela ne couvre pas les frais du Registre du Commerce.",
-    "Question11": "Quels sont les frais pour constituer une Société à Responsabilité Limitée (GmbH/Sàrl) ?",
-    "Answer11": "Notre tarif fixe pour une Société à Responsabilité Limitée (GmbH/Sàrl) est de CHF 990. Cela inclut la rédaction des documents nécessaires, tous les frais de notaire, et notre service de coordination complet. Les frais du Registre du Commerce ne sont pas inclus dans ce prix.",
-    "Question12": "Quel est le coût pour former une Société Anonyme (AG/SA) ?",
-    "Answer12": "Le tarif tout inclus pour former une Société Anonyme (AG/SA) est de CHF 1'090. Cela couvre la création de documents corporatifs (modèles standards, travail spécifique en dehors des modèles standards sera facturé), les frais de notaire public, et notre service de coordination complet du début à la fin. Ce tarif exclut les frais obligatoires du Registre du Commerce.",
+    "Question10": "Combien coûte la création d'une entreprise individuelle ?",
+    "Answer10": "Notre tarif fixe pour établir une entreprise individuelle est de CHF 690. Ce forfait inclut la préparation de tous les documents légaux requis, les frais de notaire, et notre coordination pour assurer un processus d'enregistrement fluide. Veuillez noter que cela ne couvre pas les frais du registre du commerce.",
+    "Question11": "Quels sont les frais pour constituer une société à responsabilité limitée (GmbH/Sàrl) ?",
+    "Answer11": "Notre tarif fixe pour une société à responsabilité limitée (GmbH/Sàrl) est de CHF 990. Cela inclut la rédaction des documents nécessaires, tous les frais de notaire, et notre service de coordination complet. Les frais du registre du commerce ne sont pas inclus dans ce prix.",
+    "Question12": "Quel est le coût pour former une société anonyme (AG/SA) ?",
+    "Answer12": "Le tarif tout inclus pour former une société anonyme (AG/SA) est de CHF 1'090. Cela couvre la création de documents corporatifs (modèles standards, travail spécifique en dehors des modèles standards sera facturé), les frais de notaire public, et notre service de coordination complet du début à la fin. Ce tarif exclut les frais obligatoires du registre du commerce.",
     "Question13": "Offrez-vous d'autres services pour la formation d'entreprise ?",
     "Answer13": "Oui, nous fournissons également une assistance personnalisée pour l'ouverture de comptes bancaires corporatifs suisses, la rédaction d'articles d'association sur mesure, et la préparation d'autres documents corporatifs spécifiques. Ces services sont facturés sur une base horaire, avec des tarifs allant de CHF 175 à CHF 350 par heure selon la complexité du service."
 }

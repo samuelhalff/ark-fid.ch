@@ -9,20 +9,38 @@ export function middleware(request: NextRequest) {
     .slice(0, 32)
   const isProd = process.env.NODE_ENV === 'production'
 
-  const csp = [
-    `default-src 'self'`,
-    // Nonce-based inline scripts with strict-dynamic
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https: http:`,
-    // Allow inline styles for Tailwind and Next styles
-    `style-src 'self' 'unsafe-inline'`,
-    `img-src 'self' data: blob: https:`,
-    `font-src 'self' data:`,
-    `connect-src 'self' https:`,
-    `frame-ancestors 'self'`,
-    `base-uri 'self'`,
-    `form-action 'self'`,
-    `object-src 'none'`,
-  ].join('; ')
+  // CSP: strict in production, relaxed in development for Next.js dev client
+  const csp = (
+    isProd
+      ? [
+          `default-src 'self'`,
+          // Nonce-based inline scripts with strict-dynamic
+          `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https: http:`,
+          // Allow inline styles for Tailwind and Next styles
+          `style-src 'self' 'unsafe-inline'`,
+          `img-src 'self' data: blob: https:`,
+          `font-src 'self' data:`,
+          `connect-src 'self' https:`,
+          `frame-ancestors 'self'`,
+          `base-uri 'self'`,
+          `form-action 'self'`,
+          `object-src 'none'`,
+        ]
+      : [
+          `default-src 'self'`,
+          // Relax for dev: allow eval for source maps and dev client scripts
+          `script-src 'self' 'unsafe-inline' 'unsafe-eval' http: https:`,
+          `style-src 'self' 'unsafe-inline'`,
+          `img-src 'self' data: blob: https:`,
+          `font-src 'self' data:`,
+          // Allow HMR/WebSocket in dev
+          `connect-src 'self' http: https: ws: wss:`,
+          `frame-ancestors 'self'`,
+          `base-uri 'self'`,
+          `form-action 'self'`,
+          `object-src 'none'`,
+        ]
+  ).join('; ')
   
   // Check if the path already has a locale
   const pathnameHasLocale = locales.some(
