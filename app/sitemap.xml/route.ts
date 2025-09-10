@@ -10,46 +10,58 @@ const staticPaths = ['/', '/about', '/services', '/ressources', '/contact', '/te
 // dynamic routes
 const servicePaths = ['/services/accounting', '/services/taxes', '/services/payroll', '/services/incorporation', '/services/outsourcing', '/services/corporate', '/services/domiciliation'];
 
+// Enumerate articles from the canonical English translations JSON
+// Shape: { Articles: [{ slug, date, ... }] }
 const ressourcesArticles = (() => {
-  const dir = path.join(process.cwd(), 'app', 'ressources', 'articles');
-  const slugs: string[] = [];
+  const file = path.join(process.cwd(), 'src', 'translations', 'en', 'ressources.json');
   try {
-    if (fs.existsSync(dir)) {
-      const entries = fs.readdirSync(dir, { withFileTypes: true });
-      for (const e of entries) {
-        if (e.isDirectory()) {
-          // if the subdirectory contains any .json file, treat the directory name as the slug
-          const subFiles = fs.readdirSync(path.join(dir, e.name));
-          if (subFiles.some((f) => f.endsWith('.json'))) {
-            slugs.push(`/ressources/articles/${e.name}`);
-          }
-        } else if (e.isFile() && e.name.endsWith('.json')) {
-          // json files directly under articles/ -> use filename (without ext) as slug
-          slugs.push(`/ressources/articles/${e.name.replace(/\.json$/, '')}`);
-        }
-      }
+    if (fs.existsSync(file)) {
+      const json = JSON.parse(fs.readFileSync(file, 'utf8')) as {
+        Articles?: Array<{ slug: string; date?: string }>
+      };
+      return (json.Articles || []).map((a) => ({
+        path: `/ressources/articles/${a.slug}`,
+        date: a.date,
+      }));
     }
-  } catch (err) {
-    // ignore errors and return what we found (useful in dev or if folder missing)
+  } catch (_) {
+    // fall through
   }
-  return slugs;
+  return [] as Array<{ path: string; date?: string }>;
 })();
 
-const paths = [...staticPaths, ...servicePaths, ...ressourcesArticles];
+type PathEntry = { path: string; date?: string } | string;
+const toPathEntry = (p: PathEntry) => (typeof p === 'string' ? { path: p } : p);
+
+const paths = [
+  ...staticPaths.map(toPathEntry),
+  ...servicePaths.map(toPathEntry),
+  ...ressourcesArticles,
+] as Array<{ path: string; date?: string }>;
 
 function escapeXml(s: string) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 }
 
 export async function GET() {
-  // Example lastmod — replace with real content timestamps when available
-  const now = new Date().toISOString().slice(0, 10);
+  const defaultLastmod = new Date().toISOString().slice(0, 10);
 
-  const urlEntries = paths.flatMap((p) => {
+  const urlEntries = paths.flatMap((pObj) => {
+    const p = pObj.path;
     // build per-locale entries and optionally a non-prefixed default locale entry
     return locales.map((locale) => {
       const path = p === '/' ? '' : p;
       const loc = `${BASE}/${locale}${path}`;
+      const lastmod = pObj.date || defaultLastmod;
+      // derive changefreq/priority
+      const isHome = p === '/';
+      const isArticle = p.startsWith('/ressources/articles/');
+      const isResources = p.startsWith('/ressources') && !isArticle;
+      const isService = p.startsWith('/services');
+      const isLegal = p.startsWith('/legal/');
+      const changefreq = isHome || isArticle ? 'weekly' : isService || isResources ? 'monthly' : isLegal ? 'yearly' : 'monthly';
+      const priority = isHome ? '1.0' : isArticle ? '0.8' : isService ? '0.7' : isResources ? '0.6' : isLegal ? '0.3' : '0.5';
+
       // build alternates block
       const alternates = locales
         .map((alt) => {
@@ -60,9 +72,9 @@ export async function GET() {
         .join('\n');
       return `  <url>
     <loc>${escapeXml(loc)}</loc>
-    <lastmod>${now}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
 ${alternates}
   </url>`;
     });

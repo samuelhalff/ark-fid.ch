@@ -35,7 +35,6 @@ const Navbar = ({ locale }: { locale?: string }) => {
                 width={100}
                 height={32}
                 alt="Ark Fiduciaire"
-                priority
               />
               <Image
                 className="dark:hidden"
@@ -43,7 +42,6 @@ const Navbar = ({ locale }: { locale?: string }) => {
                 width={100}
                 height={32}
                 alt="Ark Fiduciaire"
-                priority
               />
             </span>
           </Link>

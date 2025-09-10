@@ -100,7 +100,6 @@ const Hero = ({ locale }: HeroProps) => {
                 alt="Odoo Logo"
                 width={96}
                 height={64}
-                priority
               />
               <Badge
                 variant="outline"
@@ -121,11 +120,9 @@ const Hero = ({ locale }: HeroProps) => {
             src="/assets/main-bg.jpg"
             alt="main background"
             className="object-cover rounded-xl"
-            sizes="100vw"
-            style={{ height: "100%", width: "auto" }}
+            sizes="(min-width:1280px) 600px, (min-width:1024px) 520px, 90vw"
             priority
-            width={0}
-            height={0}
+            fill
           />
         </div>
       </div>

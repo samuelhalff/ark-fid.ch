@@ -43,7 +43,7 @@ export default function AboutUsPage() {
             <TranslatedText
               ns="aboutUs"
               translationKey="Hero.Subtitle"
-              fallbackText="Born from Excellence, United for Innovation"
+              fallbackText="Born from excellence, united for innovation"
             />
           </h2>
         </div>

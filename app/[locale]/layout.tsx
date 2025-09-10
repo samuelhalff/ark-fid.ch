@@ -8,27 +8,7 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { locale: string };
-}) {
-  const locale = params.locale as Locale;
-  if (!locales.includes(locale)) return {};
-
-  const base = new URL("https://ark-fid.ch");
-  const languages = locales.reduce((acc, loc) => {
-    acc[loc] = `${base.origin}/${loc}`;
-    return acc;
-  }, {} as Record<string, string>);
-
-  return {
-    alternates: {
-      canonical: `${base.origin}/${locale}`,
-      languages: Object.assign({ "x-default": `${base.origin}` }, languages),
-    },
-  };
-}
+// Remove generateMetadata here to avoid alternates duplication; use per-page metadata utilities instead.
 
 export default async function LocaleLayout({
   children,
@@ -52,7 +32,9 @@ export default async function LocaleLayout({
       {/* Render client NavBar with server-provided locale */}
       {/* @ts-ignore-next-line */}
       <Navbar locale={locale} />
-      {children}
+      <main id="main-content" role="main">
+        {children}
+      </main>
       {/* @ts-ignore-next-line */}
       <Footer locale={locale} />
     </div>

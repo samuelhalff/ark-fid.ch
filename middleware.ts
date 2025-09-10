@@ -3,6 +3,26 @@ import { locales } from './src/lib/i18n'
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
+  // Generate a per-request nonce for CSP
+  const nonce = (globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`)
+    .replace(/[^a-zA-Z0-9]/g, '')
+    .slice(0, 32)
+  const isProd = process.env.NODE_ENV === 'production'
+
+  const csp = [
+    `default-src 'self'`,
+    // Nonce-based inline scripts with strict-dynamic
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https: http:`,
+    // Allow inline styles for Tailwind and Next styles
+    `style-src 'self' 'unsafe-inline'`,
+    `img-src 'self' data: blob: https:`,
+    `font-src 'self' data:`,
+    `connect-src 'self' https:`,
+    `frame-ancestors 'self'`,
+    `base-uri 'self'`,
+    `form-action 'self'`,
+    `object-src 'none'`,
+  ].join('; ')
   
   // Check if the path already has a locale
   const pathnameHasLocale = locales.some(
@@ -14,13 +34,35 @@ export function middleware(request: NextRequest) {
     const locale = pathname.split('/')[1]
     const response = NextResponse.next()
     response.headers.set('x-locale', locale)
+    // Security headers
+    response.headers.set('x-nonce', nonce)
+    response.headers.set('Content-Security-Policy', csp)
+    response.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
+    response.headers.set('X-Content-Type-Options', 'nosniff')
+    response.headers.set('X-Frame-Options', 'SAMEORIGIN')
+    response.headers.set('X-DNS-Prefetch-Control', 'on')
+    response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()')
+    if (isProd) {
+      response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
+    }
     return response
   }
 
   // If no locale in the path, redirect to the path with detected locale
   const locale = getLocale(request)
   const redirectUrl = new URL(`/${locale}${pathname}`, request.url)
-  return NextResponse.redirect(redirectUrl)
+  const response = NextResponse.redirect(redirectUrl)
+  response.headers.set('x-nonce', nonce)
+  response.headers.set('Content-Security-Policy', csp)
+  response.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
+  response.headers.set('X-Content-Type-Options', 'nosniff')
+  response.headers.set('X-Frame-Options', 'SAMEORIGIN')
+  response.headers.set('X-DNS-Prefetch-Control', 'on')
+  response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()')
+  if (isProd) {
+    response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
+  }
+  return response
 }
 
 function getLocale(request: NextRequest): string {

@@ -12,6 +12,18 @@
                 "Desc": "Asesoramiento experto en la elección de la forma jurídica, los pasos de registro y la documentación."
             },
             {
+                "Title": "Conocimiento local",
+                "Desc": "Profundo entendimiento de los requisitos legales, fiscales y regulatorios suizos."
+            },
+            {
+                "Title": "Eficiencia y rapidez",
+                "Desc": "Procesos optimizados para minimizar demoras y poner en marcha su negocio rápidamente."
+            },
+            {
+                "Title": "Acompañamiento integral",
+                "Desc": "Desde la consulta inicial hasta los servicios posteriores a la constitución, le acompañamos en cada paso."
+            },
+            {
                 "Title": "Conformidad legal",
                 "Desc": "Su nueva empresa cumple con todos los requisitos legales y fiscales desde el primer día."
             },
@@ -24,6 +36,11 @@
         "Services": [
             "Registro y constitución de empresa",
             "Preparación y presentación de documentos de constitución",
+            "Asesoría en selección de entidad legal y estructuración",
+            "Consultoría de cumplimiento regulatorio",
+            "Asistencia para apertura de cuentas bancarias corporativas",
+            "Soporte continuo en cumplimiento y reporting",
+            "Servicios de dirección y accionistas",
             "Dirección registrada y servicios de representante",
             "Registro fiscal y cumplimiento"
         ]

@@ -2,10 +2,12 @@ import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import ContactSection from "../components/ContactSection";
 import { generateMetadataForArticle } from "@/src/lib/metadata";
+import { headers } from "next/headers";
 
 type Params = { params: { slug: string; locale: string } };
 
 export default async function ArticlePage({ params }: Params) {
+  const nonce = headers().get("x-nonce") || undefined;
   // Load the locale-specific translations on the server
   const ressourcesModule = await import(
     `@/src/translations/${params.locale}/ressources.json`
@@ -15,8 +17,58 @@ export default async function ArticlePage({ params }: Params) {
   const article = ressources.Articles.find((a: any) => a.slug === params.slug);
   if (!article) return notFound();
 
+  const baseUrl = "https://ark-fid.ch";
+  const articleUrl = `${baseUrl}/${params.locale}/ressources/articles/${params.slug}`;
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Resources",
+        item: `${baseUrl}/${params.locale}/ressources`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: article.title,
+        item: articleUrl,
+      },
+    ],
+  } as const;
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.description,
+    author: { "@type": "Person", name: article.author },
+    datePublished: article.date,
+    url: articleUrl,
+    mainEntityOfPage: articleUrl,
+    inLanguage: params.locale,
+    publisher: {
+      "@type": "Organization",
+      name: "Ark Fiduciaire",
+      logo: {
+        "@type": "ImageObject",
+        url: `${baseUrl}/assets/arkfid--color.svg`,
+      },
+    },
+  } as const;
+
   return (
     <main className="max-w-3xl mx-auto px-4 py-12 mt-8">
+      <script
+        type="application/ld+json"
+        nonce={nonce}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        nonce={nonce}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
         {article.title}
       </h1>

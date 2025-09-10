@@ -12,6 +12,18 @@
                 "Desc": "Conseils expérimentés sur le choix de la forme juridique, les étapes d'enregistrement et la documentation."
             },
             {
+                "Title": "Connaissance locale",
+                "Desc": "Compréhension approfondie des exigences légales, fiscales et réglementaires suisses."
+            },
+            {
+                "Title": "Efficacité et rapidité",
+                "Desc": "Processus rationalisés pour réduire les délais et lancer votre activité rapidement."
+            },
+            {
+                "Title": "Accompagnement complet",
+                "Desc": "De la première consultation aux services post-constitution, nous vous accompagnons à chaque étape."
+            },
+            {
                 "Title": "Conformité réglementaire",
                 "Desc": "Votre nouvelle société respecte toutes les exigences légales et fiscales dès le premier jour."
             },
@@ -24,6 +36,11 @@
         "Services": [
             "Enregistrement et création d'entreprise",
             "Préparation et dépôt des documents de constitution",
+            "Conseils sur le choix de la forme juridique et la structuration",
+            "Conseil en conformité réglementaire",
+            "Assistance à l'ouverture de comptes bancaires professionnels",
+            "Support continu en conformité et reporting",
+            "Services d'administration et d'actionnariat",
             "Adresse enregistrée et services de mandataire",
             "Enregistrement fiscal et mise en conformité"
         ]

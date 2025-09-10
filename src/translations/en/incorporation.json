@@ -20,6 +20,18 @@
                 "Desc": "Experienced guidance on entity selection, registration steps and documentation."
             },
             {
+                "Title": "Local knowledge",
+                "Desc": "In-depth understanding of Swiss legal, tax and regulatory requirements."
+            },
+            {
+                "Title": "Efficiency & speed",
+                "Desc": "Streamlined processes to minimize delays and get your business up and running fast."
+            },
+            {
+                "Title": "Comprehensive support",
+                "Desc": "From initial consultation to post-incorporation services, we’re with you every step."
+            },
+            {
                 "Title": "Regulatory compliance",
                 "Desc": "Ensure your new company meets all local legal and tax requirements from day one."
             },
@@ -32,6 +44,11 @@
         "Services": [
             "Company registration and formation",
             "Preparation and filing of incorporation documents",
+            "Legal entity selection and structuring advice",
+            "Regulatory compliance consulting",
+            "Assistance with opening corporate bank accounts",
+            "Ongoing compliance and reporting support",
+            "Directorship and shareholder services",
             "Registered office and nominee services",
             "Tax registration and compliance onboarding"
         ]

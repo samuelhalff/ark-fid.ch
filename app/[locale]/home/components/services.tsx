@@ -76,14 +76,13 @@ const Services = ({ showSubtitle = false, locale }: ServicesProps) => {
                 {/* fixed-height image area; use Next/Image fill + object-cover to ensure consistent cropping and centering */}
                 <div className="w-[100%] w-full p-0 box-border flex items-center justify-center">
                   {/* Add a light rounded container so images that don't reach the card edge keep a subtle rounded appearance */}
-                  <div className="relative h-full w-full max-w-[90%] overflow-hidden rounded-lg bg-muted/30 p-2 mt-5">
+                  <div className="relative h-56 w-full overflow-hidden rounded-lg bg-muted/30 mt-5">
                     <Image
                       src={service.image}
                       alt={service.titleKey}
-                      width={0}
-                      height={0}
+                      fill
                       sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
-                      className="object-cover w-full h-full rounded-md"
+                      className="object-cover"
                     />
                   </div>
                 </div>

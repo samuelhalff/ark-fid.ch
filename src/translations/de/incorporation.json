@@ -12,6 +12,18 @@
                 "Desc": "Erfahrene Beratung zur Wahl der Rechtsform, zu Registrierungsschritten und Dokumentation."
             },
             {
+                "Title": "Lokales Know-how",
+                "Desc": "Fundiertes Verständnis der schweizerischen gesetzlichen, steuerlichen und regulatorischen Anforderungen."
+            },
+            {
+                "Title": "Effizienz und Geschwindigkeit",
+                "Desc": "Optimierte Abläufe, um Verzögerungen zu minimieren und Ihr Unternehmen schnell startklar zu machen."
+            },
+            {
+                "Title": "Umfassende Begleitung",
+                "Desc": "Von der Erstberatung bis zu Leistungen nach der Gründung sind wir an Ihrer Seite."
+            },
+            {
                 "Title": "Rechtliche Konformität",
                 "Desc": "Ihr neues Unternehmen erfüllt von Anfang an alle gesetzlichen und steuerlichen Anforderungen."
             },
@@ -24,6 +36,11 @@
         "Services": [
             "Unternehmensregistrierung und Gründung",
             "Vorbereitung und Einreichung der Gründungsunterlagen",
+            "Beratung zur Wahl der Rechtsform und Strukturierung",
+            "Beratung zur regulatorischen Compliance",
+            "Unterstützung bei der Eröffnung von Geschäftskonten",
+            "Laufende Unterstützung bei Compliance und Reporting",
+            "Geschäftsführer- und Aktionärsdienste",
             "Registrierte Adresse und Treuhanddienste",
             "Steuerregistrierung und Compliance"
         ]

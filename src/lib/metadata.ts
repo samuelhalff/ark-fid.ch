@@ -98,10 +98,10 @@ export async function getPageMetadata(
       siteName: config.default.siteName,
       images: [
         {
-          url: "/assets/arkfid--color.svg",
-          width: 800,
-          height: 600,
-          alt: "Ark Fiduciaire Logo",
+          url: "/assets/main-bg.jpg",
+          width: 1200,
+          height: 630,
+          alt: "Ark Fiduciaire",
         },
       ],
     },
@@ -109,7 +109,7 @@ export async function getPageMetadata(
       card: "summary_large_image",
       title,
       description,
-      images: ["/assets/arkfid--color.svg"],
+      images: ["/assets/main-bg.jpg"],
     },
     icons: {
       icon: [

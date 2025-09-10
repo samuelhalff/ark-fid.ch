@@ -89,7 +89,6 @@ const Footer = ({ locale }: { locale?: string }) => {
               width={100}
               height={40}
               alt="Ark Fiduciaire Logo Light"
-              priority
             />
             <Image
               className="dark:hidden"
@@ -97,7 +96,6 @@ const Footer = ({ locale }: { locale?: string }) => {
               width={100}
               height={40}
               alt="Ark Fiduciaire Logo"
-              priority
             />
           </span>
         </Link>

@@ -5,11 +5,11 @@
     },
     "Hero": {
         "Title": "About Ark Fiduciaire",
-        "Subtitle": "Born from Excellence, United for Innovation",
+        "Subtitle": "Born from excellence, united for innovation",
         "Badge": "Established 2025"
     },
     "Foundation": {
-        "Title": "Our Foundation",
+        "Title": "Our foundation",
         "Content": [
             "Ark Fiduciaire SA was founded in 2025 through the strategic union of two established Swiss fiduciary firms, each bringing their unique expertise and client relationships to create a stronger, more comprehensive service offering.",
             "This merger represents the culmination of years of parallel growth in the Swiss market, combining complementary specializations to better serve our clients' evolving needs in an increasingly complex business environment."
@@ -20,7 +20,7 @@
         "Subtitle": "The Values That Define Us",
         "Values": [
             {
-                "Title": "Swiss Precision",
+                "Title": "Swiss precision",
                 "Desc": "We embody the traditional Swiss values of accuracy, reliability, and attention to detail in every aspect of our work."
             },
             {
@@ -45,22 +45,22 @@
         ]
     },
     "Vision": {
-        "Title": "Our Vision",
+        "Title": "Our vision",
         "Content": [
             "We envision Ark Fiduciaire as the trusted partner for businesses navigating the complexities of the Swiss market while expanding internationally. Our goal is to simplify financial management and regulatory compliance, allowing our clients to focus on what they do best—growing their businesses.",
             "Through continuous innovation and the integration of technologies like Odoo ERP systems, we aim to transform traditional fiduciary services into dynamic, forward-thinking business partnerships."
         ]
     },
     "Partnership": {
-        "Title": "The Power of Partnership",
+        "Title": "The power of partnership",
         "Content": [
             "The 2025 merger that created Ark Fiduciaire represents more than just combining resources—it's about creating synergies that benefit our clients. By bringing together complementary expertise and client portfolios, we've expanded our capabilities while maintaining the personal touch that defines Swiss service.",
             "This partnership approach extends to our client relationships, where we act not just as service providers, but as strategic advisors invested in your long-term success."
         ]
     },
-    "Future": {
-        "Title": "Looking Forward",
-        "Content": [
+    "future": {
+        "title": "Looking forward",
+        "content": [
             "As we establish ourselves in the Swiss market, we remain committed to the principles that made our founding firms successful: excellence in execution, innovation in approach, and unwavering dedication to client success.",
             "The future of Ark Fiduciaire is built on the solid foundation of our merged expertise, enhanced by our shared vision of what modern fiduciary services can achieve."
         ]

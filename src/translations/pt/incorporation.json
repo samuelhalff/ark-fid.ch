@@ -12,6 +12,18 @@
                 "Desc": "Orientação experiente sobre escolha do tipo societário, etapas de registro e documentação."
             },
             {
+                "Title": "Conhecimento local",
+                "Desc": "Entendimento profundo dos requisitos legais, fiscais e regulatórios suíços."
+            },
+            {
+                "Title": "Eficiência e rapidez",
+                "Desc": "Processos otimizados para reduzir atrasos e colocar seu negócio em funcionamento rapidamente."
+            },
+            {
+                "Title": "Acompanhamento completo",
+                "Desc": "Da consulta inicial aos serviços pós-constituição, acompanhamos você em cada etapa."
+            },
+            {
                 "Title": "Conformidade legal",
                 "Desc": "Sua nova empresa atende a todos os requisitos legais e fiscais desde o primeiro dia."
             },
@@ -24,6 +36,11 @@
         "Services": [
             "Registro e abertura de empresa",
             "Preparação e envio de documentos de constituição",
+            "Assessoria na escolha do tipo societário e estruturação",
+            "Consultoria em conformidade regulatória",
+            "Assistência para abertura de contas bancárias corporativas",
+            "Suporte contínuo em conformidade e relatórios",
+            "Serviços de diretoria e acionistas",
             "Endereço registrado e serviços de representante",
             "Registro fiscal e conformidade"
         ]

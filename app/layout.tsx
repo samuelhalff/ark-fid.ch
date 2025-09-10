@@ -5,6 +5,11 @@ import "./globals.css";
 
 import { Providers } from "@/src/components/providers"; // Import your new client provider
 import { Metadata, Viewport } from "next";
+import { generateOrganizationStructuredData } from "@/src/lib/metadata";
+import { Inter } from "next/font/google";
+import { headers } from "next/headers";
+
+const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 // import { Inter } from "next/font/google";
 
@@ -70,19 +75,51 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const nonce = headers().get("x-nonce") || undefined;
+  const orgJsonLd = generateOrganizationStructuredData();
+  const webSiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    url: "https://ark-fid.ch/",
+    name: "Ark Fiduciaire",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://ark-fid.ch/?q={search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
+  } as const;
   return (
     <html suppressHydrationWarning>
-      <body>
+      <body className={inter.className}>
+        {/* Accessibility: Skip link */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 bg-primary text-primary-foreground px-3 py-2 rounded"
+        >
+          Skip to content
+        </a>
         {/* Inline script to set theme class before React hydrates to avoid flicker */}
         <script
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var theme=localStorage.getItem('theme');if(theme==='dark'||(!theme&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){} })()`,
           }}
         />
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          nonce={nonce}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          nonce={nonce}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
+        />
         <Providers>
-          <main className="pt-3 abstract-background text-foreground pt-15 mt-10">
+          <div className="pt-3 abstract-background text-foreground pt-15 mt-10">
             {children}
-          </main>
+          </div>
         </Providers>
       </body>
     </html>

@@ -154,11 +154,9 @@ const ServiceHero = ({
             src={imageSrc}
             alt={imageAlt}
             className="object-cover rounded-xl"
-            sizes="100vw"
-            style={{ height: "100%", width: "auto" }}
+            sizes="(min-width:1280px) 600px, (min-width:1024px) 520px, 90vw"
             priority
-            width={0}
-            height={0}
+            fill
           />
         </div>
       </div>

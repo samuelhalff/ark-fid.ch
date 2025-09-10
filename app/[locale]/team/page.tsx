@@ -145,7 +145,6 @@ export default function TeamPage() {
                         className="opacity-80"
                         src="/assets/li.png"
                         alt="LinkedIn logo"
-                        priority
                       />
                     </div>
                   </h3>
