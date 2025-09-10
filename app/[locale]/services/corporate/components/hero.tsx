@@ -1,11 +1,11 @@
 import ServiceHero from "@/src/components/ui/service-hero";
 
-const CorporateHero = ({ locale }: { locale?: string }) => {
+const CorporateHero = ({ params }: { params: { locale: string } }) => {
   return (
     <ServiceHero
-      locale={locale}
+      locale={params.locale}
       namespace="corporate"
-      imageSrc="/assets/services/corporate-services.png"
+      imageSrc="/assets/services/corporate-services.webp"
       imageAlt="Corporate Services"
       badge1Key="Hero.Badge"
       badge1Fallback="Swiss Excellence"

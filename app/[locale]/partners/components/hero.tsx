@@ -83,7 +83,7 @@ const PartnersHero = ({ locale }: PartnersHeroProps) => {
         </div>
         <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
           <Image
-            src="/assets/main-bg.jpg"
+            src="/assets/main-bg.webp"
             alt="Partnership collaboration"
             className="object-cover rounded-xl"
             sizes="(min-width:1280px) 600px, (min-width:1024px) 520px, 90vw"

@@ -18,7 +18,7 @@ const teamMembers = [
   {
     name: "Hassan Barbir",
     role: "Partner",
-    profilePic: "/assets/hb.jpg",
+    profilePic: "/assets/hb.webp",
     social: {
       linkedin: "https://www.linkedin.com/in/hassanbarbir",
     },
@@ -26,7 +26,7 @@ const teamMembers = [
   {
     name: "Samuel Halff",
     role: "ManagingPartner",
-    profilePic: "/assets/sh.jpg",
+    profilePic: "/assets/sh.webp",
     social: {
       linkedin: "https://www.linkedin.com/in/samuelhalff",
     },
@@ -34,7 +34,7 @@ const teamMembers = [
   {
     name: "Rodrigue Sperisen",
     role: "Partner",
-    profilePic: "/assets/rs.jpg",
+    profilePic: "/assets/rs.webp",
     social: {
       linkedin: "https://www.linkedin.com/in/rodrigue-sperisen-74543a185",
     },
@@ -42,7 +42,7 @@ const teamMembers = [
   {
     name: "Lassana Dioum",
     role: "Partner",
-    profilePic: "/assets/ld.png",
+    profilePic: "/assets/ld.webp",
     social: {
       linkedin: "https://www.linkedin.com/in/lassana-dioum-b429622b",
     },
@@ -50,7 +50,7 @@ const teamMembers = [
   {
     name: "Anthony Touboul",
     role: "Tax",
-    profilePic: "/assets/at.jpg",
+    profilePic: "/assets/at.webp",
     social: {
       linkedin: "https://ch.linkedin.com/in/touboulanthony",
     },
@@ -58,7 +58,7 @@ const teamMembers = [
   {
     name: "Celeste Leal",
     role: "OfficeProjectManager",
-    profilePic: "/assets/cl.png",
+    profilePic: "/assets/cl.webp",
     social: {
       linkedin: "https://www.linkedin.com/in/c%C3%A9lesteleal",
     },
@@ -66,7 +66,7 @@ const teamMembers = [
   {
     name: "Sébastien Gallié",
     role: "SeniorAccountant",
-    profilePic: "/assets/sg.jpg",
+  profilePic: "/assets/missing-profile.svg",
     social: {
       linkedin: "https://ch.linkedin.com/in/s%C3%A9bastien-galli%C3%A9",
     },
@@ -74,7 +74,7 @@ const teamMembers = [
   {
     name: "Maulk Hamdi",
     role: "Associate",
-    profilePic: "/assets/maulk-hamdi.jpg",
+  profilePic: "/assets/missing-profile.svg",
     social: {
       linkedin: "https://www.linkedin.com/in/maulk-hamdi-b47b68361",
     },
@@ -143,7 +143,7 @@ export default function TeamPage() {
                         width={25}
                         height={25}
                         className="opacity-80"
-                        src="/assets/li.png"
+                        src="/assets/li.webp"
                         alt="LinkedIn logo"
                       />
                     </div>

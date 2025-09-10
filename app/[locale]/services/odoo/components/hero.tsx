@@ -1,12 +1,12 @@
-"use client";
 import ServiceHero from "@/src/components/ui/service-hero";
 
-const OdooHero = () => {
+const OdooHero = ({ params }: { params: { locale: string } }) => {
   return (
     <ServiceHero
       namespace="odoo"
-      imageSrc="/assets/services/odoo-services.png"
+      imageSrc="/assets/services/odoo-services.webp"
       imageAlt="Odoo Implementation Services"
+      locale={params.locale}
       badge1Key="Hero.Badge"
       badge1Fallback="Official Partner"
       badge2Key="Hero.BadgeTwo"

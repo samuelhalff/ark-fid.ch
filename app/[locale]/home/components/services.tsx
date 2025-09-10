@@ -80,9 +80,10 @@ const Services = ({ showSubtitle = false, locale }: ServicesProps) => {
                     <Image
                       src={service.image}
                       alt={service.titleKey}
-                      fill
+                      width={800}
+                      height={450}
                       sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 </div>

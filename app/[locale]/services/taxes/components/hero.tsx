@@ -1,12 +1,12 @@
-"use client";
 import ServiceHero from "@/src/components/ui/service-hero";
 
-const TaxesHero = () => {
+const TaxesHero = ({ params }: { params: { locale: string } }) => {
   return (
     <ServiceHero
       namespace="taxes"
-      imageSrc="/assets/services/tax-desk.png"
+      imageSrc="/assets/services/tax-desk.webp"
       imageAlt="Tax Services"
+      locale={params.locale}
       badge1Key="Hero.Badge"
       badge1Fallback="Swiss Expertise"
       badge2Key="Hero.BadgeTwo"

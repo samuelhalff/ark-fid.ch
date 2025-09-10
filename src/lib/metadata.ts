@@ -98,7 +98,7 @@ export async function getPageMetadata(
       siteName: config.default.siteName,
       images: [
         {
-          url: "/assets/main-bg.jpg",
+          url: "/assets/main-bg.webp",
           width: 1200,
           height: 630,
           alt: "Ark Fiduciaire",
@@ -109,7 +109,7 @@ export async function getPageMetadata(
       card: "summary_large_image",
       title,
       description,
-      images: ["/assets/main-bg.jpg"],
+      images: ["/assets/main-bg.webp"],
     },
     icons: {
       icon: [

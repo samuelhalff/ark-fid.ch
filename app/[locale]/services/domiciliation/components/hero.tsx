@@ -1,12 +1,12 @@
-"use client";
 import ServiceHero from "@/src/components/ui/service-hero";
 
-const DomiciliationHero = () => {
+const DomiciliationHero = ({ params }: { params: { locale: string } }) => {
   return (
     <ServiceHero
       namespace="domiciliation"
-      imageSrc="/assets/services/domiciliation.png"
+      imageSrc="/assets/services/domiciliation.webp"
       imageAlt="Domiciliation Services"
+      locale={params.locale}
       badge1Key="Hero.Badge"
       badge1Fallback="Swiss Address"
       badge2Key="Hero.BadgeTwo"

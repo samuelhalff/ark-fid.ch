@@ -1,15 +1,17 @@
 import { ArrowUpRight, BadgeCheckIcon, Users } from "lucide-react";
 import { Button } from "@/src/components/ui//button";
 import { Badge } from "@/src/components/ui/badge";
-import TranslatedText from "@/src/components/ui/translated-text";
 import Image from "next/image";
 import Link from "next/link";
+import { getTranslations, type Locale } from "@/src/lib/i18n";
 
 interface HeroProps {
   locale?: string;
 }
 
-const Hero = ({ locale }: HeroProps) => {
+const Hero = async ({ locale }: HeroProps) => {
+  const currentLocale = (locale as Locale) || ("fr" as Locale);
+  const t = await getTranslations(currentLocale, "home");
   const localePrefix = locale ? `/${locale}` : "/fr";
 
   return (
@@ -18,36 +20,20 @@ const Hero = ({ locale }: HeroProps) => {
         <div className="max-w-2xl text-center animate-in fade-in duration-800">
           <div className="gap-2 flex justify-center items-center">
             <Badge className="rounded-full py-1 border-none">
-              <TranslatedText
-                ns="home"
-                translationKey="Hero.Badge"
-                fallbackText="Swiss Made"
-              />
+              {t("Hero.Badge")}
             </Badge>
             <Badge
               variant="destructive"
               className="rounded-full py-1 border-none"
             >
-              <TranslatedText
-                ns="home"
-                translationKey="Hero.OdooBadge"
-                fallbackText="Official Odoo Partner"
-              />
+              {t("Hero.OdooBadge")}
             </Badge>
           </div>
           <h1 className="mt-6 max-w-full w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight mx-auto">
-            <TranslatedText
-              ns="home"
-              translationKey="Hero.Title"
-              fallbackText="Title"
-            />
+            {t("Hero.Title")}
           </h1>
           <p className="mt-6 max-w-full w-full xs:text-lg mx-auto">
-            <TranslatedText
-              ns="home"
-              translationKey="Hero.Description"
-              fallbackText="Description"
-            />
+            {t("Hero.Description")}
           </p>
           <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center max-w-md mx-auto">
             <Link
@@ -60,12 +46,7 @@ const Hero = ({ locale }: HeroProps) => {
                 className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
                 style={{ cursor: "pointer" }}
               >
-                <TranslatedText
-                  ns="home"
-                  translationKey="Hero.CTA"
-                  fallbackText="Contact"
-                />
-                <ArrowUpRight className="h-5! w-5!" />
+                {t("Hero.CTA")} <ArrowUpRight className="h-5! w-5!" />
               </Button>
             </Link>
             <Link
@@ -79,12 +60,7 @@ const Hero = ({ locale }: HeroProps) => {
                 className="w-full sm:w-auto rounded-full text-base shadow-none transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
                 style={{ cursor: "pointer" }}
               >
-                <Users className="h-5! w-5!" />{" "}
-                <TranslatedText
-                  ns="home"
-                  translationKey="Hero.SecondaryCTA"
-                  fallbackText="Team"
-                />
+                <Users className="h-5! w-5!" /> {t("Hero.SecondaryCTA")}
               </Button>
             </Link>
           </div>
@@ -106,18 +82,14 @@ const Hero = ({ locale }: HeroProps) => {
                 className="rounded-full h-5 py-3 px-4 border-black bg-transparent mt-0 flex items-center justify-center"
               >
                 <BadgeCheckIcon className="inline h-4 w-4 mr-1" />
-                <TranslatedText
-                  ns="home"
-                  translationKey="Hero.OdooBadge"
-                  fallbackText="Odoo Partner"
-                />
+                {t("Hero.OdooBadge")}
               </Badge>
             </div>
           </a>
         </div>
         <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
           <Image
-            src="/assets/main-bg.jpg"
+            src="/assets/main-bg.webp"
             alt="main background"
             className="object-cover rounded-xl"
             sizes="(min-width:1280px) 600px, (min-width:1024px) 520px, 90vw"

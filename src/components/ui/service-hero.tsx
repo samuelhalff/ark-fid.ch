@@ -1,9 +1,8 @@
 import { ArrowUpRight, BadgeCheckIcon, Users } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
-import { Badge } from "@/src/components/ui/badge";
-import TranslatedText from "@/src/components/ui/translated-text";
 import Image from "next/image";
 import Link from "next/link";
+import { getTranslations, type Locale } from "@/src/lib/i18n";
 
 interface ServiceHeroProps {
   namespace: string;
@@ -23,7 +22,7 @@ interface ServiceHeroProps {
   secondaryCtaFallback: string;
   locale?: string;
 }
-const ServiceHero = ({
+const ServiceHero = async ({
   namespace,
   imageSrc,
   imageAlt,
@@ -41,6 +40,8 @@ const ServiceHero = ({
   secondaryCtaFallback,
   locale,
 }: ServiceHeroProps) => {
+  const currentLocale = (locale as Locale) || ("fr" as Locale);
+  const t = await getTranslations(currentLocale, namespace);
   const localePrefix = locale ? `/${locale}` : "/fr";
 
   return (
@@ -48,37 +49,18 @@ const ServiceHero = ({
       <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
         <div className="flex-1 max-w-3xl text-center animate-in fade-in duration-800">
           <div className="gap-2 flex justify-center items-center">
-            <Badge className="rounded-full py-1 border-none">
-              <TranslatedText
-                ns={namespace}
-                translationKey={badge1Key}
-                fallbackText={badge1Fallback}
-              />
-            </Badge>
-            <Badge
-              variant="destructive"
-              className="rounded-full py-1 border-none"
-            >
-              <TranslatedText
-                ns={namespace}
-                translationKey={badge2Key}
-                fallbackText={badge2Fallback}
-              />
-            </Badge>
+            <span className="rounded-full py-1 border-none inline-flex items-center justify-center">
+              {t(badge1Key) || badge1Fallback}
+            </span>
+            <span className="rounded-full py-1 border-none inline-flex items-center justify-center">
+              {t(badge2Key) || badge2Fallback}
+            </span>
           </div>
           <h1 className="mt-6 max-w-full w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight mx-auto break-anywhere hyphenate">
-            <TranslatedText
-              ns={namespace}
-              translationKey={titleKey}
-              fallbackText={titleFallback}
-            />
+            {t(titleKey) || titleFallback}
           </h1>
           <p className="mt-6 max-w-full w-full xs:text-lg mx-auto break-anywhere hyphenate">
-            <TranslatedText
-              ns={namespace}
-              translationKey={descriptionKey}
-              fallbackText={descriptionFallback}
-            />
+            {t(descriptionKey) || descriptionFallback}
           </p>
           <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center max-w-md mx-auto">
             <Link
@@ -91,11 +73,7 @@ const ServiceHero = ({
                 className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
                 style={{ cursor: "pointer" }}
               >
-                <TranslatedText
-                  ns={namespace}
-                  translationKey={ctaKey}
-                  fallbackText={ctaFallback}
-                />
+                {t(ctaKey) || ctaFallback}
                 <ArrowUpRight className="h-5! w-5!" />
               </Button>
             </Link>
@@ -111,11 +89,7 @@ const ServiceHero = ({
                 style={{ cursor: "pointer" }}
               >
                 <Users className="h-5! w-5!" />{" "}
-                <TranslatedText
-                  ns={namespace}
-                  translationKey={secondaryCtaKey}
-                  fallbackText={secondaryCtaFallback}
-                />
+                {t(secondaryCtaKey) || secondaryCtaFallback}
               </Button>
             </Link>
           </div>
@@ -132,19 +106,7 @@ const ServiceHero = ({
                   alt="Odoo Logo"
                   width={96}
                   height={64}
-                  priority
                 />
-                <Badge
-                  variant="outline"
-                  className="rounded-full h-5 py-3 px-4 border-black bg-transparent mt-0 flex items-center justify-center"
-                >
-                  <BadgeCheckIcon className="inline h-4 w-4 mr-1" />
-                  <TranslatedText
-                    ns="home"
-                    translationKey="Hero.OdooBadge"
-                    fallbackText="Odoo Partner"
-                  />
-                </Badge>
               </div>
             </a>
           )}

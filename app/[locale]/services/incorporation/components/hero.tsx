@@ -5,7 +5,7 @@ const CorporateHero = ({ locale }: { locale?: string }) => {
     <ServiceHero
       locale={locale}
       namespace="incorporation"
-      imageSrc="/assets/services/modern-office.png"
+      imageSrc="/assets/services/modern-office.webp"
       imageAlt="Company incorporation services in Switzerland"
       badge1Key="Hero.Badge"
       badge1Fallback="Swiss Excellence"
