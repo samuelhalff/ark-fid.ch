@@ -8,6 +8,8 @@
     "start": "next start -p 5000",
     "lint": "next lint",
     "optimize:images": "node scripts/optimize-images.js",
+    "assets:pdfs": "node scripts/download-missing-pdfs.js --locale fr",
+    "assets:pdfs:dry": "node scripts/download-missing-pdfs.js --locale fr --dry-run",
     "assets:audit": "node scripts/audit-image-usage.js > image-usage.csv",
     "assets:cleanup": "node scripts/cleanup-unused-originals.js",
     "assets:lint": "node scripts/check-assets.js"
