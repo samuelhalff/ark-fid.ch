@@ -1,6 +1,4 @@
 import React from "react";
-import fs from "fs";
-import path from "path";
 import { FileText, FileSpreadsheet, File } from "lucide-react";
 import Link from "next/link";
 
@@ -46,18 +44,6 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   locale,
   source,
 }) => {
-  // Helper: check if a local download file exists under /public
-  const fileExistsForHref = (h: string) => {
-    try {
-      if (!h || !h.startsWith("/assets/downloads/")) return false;
-      const rel = h.replace(/^\//, "");
-      const full = path.join(process.cwd(), "public", rel);
-      return fs.existsSync(full);
-    } catch {
-      return false;
-    }
-  };
-
   const icon =
     type === "file" && extension ? (
       iconMap[extension] || <File className="text-gray-400" size={28} />
@@ -118,12 +104,13 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
     </div>
   );
   if (type === "file") {
-    const hasLocal = fileExistsForHref(href);
-    const effectiveHref = hasLocal ? href : source || href;
+    // On the client, we can't check the filesystem; link to the local file path.
+    // The CI job downloads PDFs into public/assets/downloads, so this should work in prod.
+    const effectiveHref = href;
     return (
       <a
         href={effectiveHref}
-        download={hasLocal}
+        download
         className="block h-full group transition-transform hover:scale-105"
       >
         {cardContent}

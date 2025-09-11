@@ -18,7 +18,9 @@
     "links:check": "NEXT_BASE_URL=http://localhost:5000 node scripts/check-links.js --http",
     "ping:sitemaps": "node scripts/ping-sitemaps.js",
     "ressources:sync": "node scripts/sync-ressources.js --apply",
-    "ressources:check": "node scripts/sync-ressources.js --check"
+    "ressources:check": "node scripts/sync-ressources.js --check",
+    "ai:ressources:dry": "node scripts/ai-ressources-update.js --dry-run",
+    "ai:ressources:apply": "node scripts/ai-ressources-update.js --apply"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

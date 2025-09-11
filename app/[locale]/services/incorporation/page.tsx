@@ -4,6 +4,9 @@ import Hero from "./components/hero";
 import Presentation from "./components/presentation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { type Locale } from "@/src/lib/i18n";
+import StructuredData from "@/src/components/seo/StructuredData";
+import { buildHowTo } from "@/src/lib/structuredData";
+import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 
 export async function generateMetadata({
   params: { locale },
@@ -18,54 +21,97 @@ export async function generateMetadata({
 
 const Incorporation = ({ params }: { params: { locale: string } }) => {
   const nonce = headers().get("x-nonce") || undefined;
-  const howToJsonLd = {
+  const baseUrl = "https://ark-fid.ch";
+  const localePrefix = params.locale ? `/${params.locale}` : "";
+  const breadcrumbJsonLd = {
     "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: "Créer une société à Genève - Étapes",
-    description:
-      "Processus simplifié des principales étapes pour constituer une entreprise à Genève.",
-    step: [
+    "@type": "BreadcrumbList",
+    itemListElement: [
       {
-        "@type": "HowToStep",
+        "@type": "ListItem",
         position: 1,
-        name: "Analyse de la forme juridique",
-        text: "Choisir la forme (SA, Sàrl, entreprise individuelle) adaptée à l'activité et aux obligations fiscales.",
+        name: "Services",
+        item: `${baseUrl}${localePrefix}/services/`,
       },
       {
-        "@type": "HowToStep",
+        "@type": "ListItem",
         position: 2,
-        name: "Capital et statuts",
-        text: "Rédiger les statuts et déposer le capital requis auprès d'une banque ou d'un notaire.",
-      },
-      {
-        "@type": "HowToStep",
-        position: 3,
-        name: "Dépôt notarial",
-        text: "Signer l'acte constitutif et authentifier les statuts devant notaire.",
-      },
-      {
-        "@type": "HowToStep",
-        position: 4,
-        name: "Registre du commerce",
-        text: "Déposer le dossier complet (statuts, identification, attestations) au registre du commerce cantonal.",
-      },
-      {
-        "@type": "HowToStep",
-        position: 5,
-        name: "Affiliations fiscales et sociales",
-        text: "S'inscrire à la TVA si nécessaire et aux assurances sociales (AVS, LPP, LAA).",
+        name: "Incorporation",
+        item: `${baseUrl}${localePrefix}/services/incorporation/`,
       },
     ],
   } as const;
+  const howToJsonLd = buildHowTo({
+    name: "Créer une société à Genève - Étapes",
+    description:
+      "Processus détaillé des principales étapes pour constituer une entreprise à Genève, de l'analyse initiale aux affiliations sociales.",
+    totalTime: "P1M", // Durée globale indicative (1 mois)
+    estimatedCost: {
+      currency: "CHF",
+      value: "1200",
+      name: "Frais indicatifs initiaux, variables selon le type d'entreprise et les services choisis",
+    },
+    tools: [
+      "Modèle de statuts",
+      "Outil de planification financière",
+      "Accès eGov / Registre du commerce",
+    ],
+    supplies: [
+      "Capital libéré (numéraire)",
+      "Pièces d'identité des fondateurs",
+      "Attestation bancaire de blocage du capital",
+      "Adresse de siège social",
+    ],
+    steps: [
+      {
+        name: "Analyse de la forme juridique",
+        text: "Comparer SA, Sàrl ou entreprise individuelle selon responsabilité, fiscalité, capital et gouvernance.",
+        estimatedTime: "PT2H",
+      },
+      {
+        name: "Planification du capital & statuts",
+        text: "Rédiger les statuts (objet, capital, actions/parts, gouvernance) et définir la répartition du capital.",
+        estimatedTime: "P2D",
+      },
+      {
+        name: "Dépôt du capital et authentification",
+        text: "Déposer le capital auprès d'une banque ou notaire, obtenir l'attestation et signer l'acte constitutif.",
+        estimatedTime: "P3D",
+      },
+      {
+        name: "Dossier Registre du commerce",
+        text: "Compiler statuts signés, attestations, formulaires RC et pièces d'identité puis déposer électroniquement ou physiquement.",
+        estimatedTime: "P5D",
+      },
+      {
+        name: "Affiliations TVA & assurances sociales",
+        text: "Évaluer l'assujettissement TVA, s'enregistrer si seuil atteint, puis affilier employés (AVS, LPP, LAA).",
+        estimatedTime: "P10D",
+      },
+      {
+        name: "Mise en place comptable & outils",
+        text: "Configurer le plan comptable, l'outil de facturation et les contrôles internes de base.",
+        estimatedTime: "P7D",
+      },
+    ],
+  });
 
   return (
     <main>
       <script
         type="application/ld+json"
         nonce={nonce}
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      <StructuredData nonce={nonce} data={howToJsonLd} />
       <Hero locale={params.locale} />
+      <div className="max-w-[1200px] mx-auto px-4 md:px-0 mt-4">
+        <Breadcrumbs
+          rootLabel="Home"
+          baseLabel="Services"
+          segments={[{ segment: "incorporation", label: "Incorporation" }]}
+        />
+      </div>
       <Presentation />
     </main>
   );

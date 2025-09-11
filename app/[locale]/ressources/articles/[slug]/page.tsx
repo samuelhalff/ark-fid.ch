@@ -6,6 +6,9 @@ import { headers } from "next/headers";
 import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 import RelatedArticles from "@/src/components/ressources/RelatedArticles";
 import { estimateReadingTime } from "@/src/lib/readingTime";
+import ShareButtons from "@/src/components/ui/ShareButtons";
+import ReadingProgress from "@/src/components/ui/reading-progress";
+import BackToTop from "@/src/components/ui/back-to-top";
 
 type Params = { params: { slug: string; locale: string } };
 
@@ -85,6 +88,8 @@ export default async function ArticlePage({ params }: Params) {
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-12 mt-8">
+      <ReadingProgress targetSelector="#article-content" />
+      <BackToTop />
       <script
         type="application/ld+json"
         nonce={nonce}
@@ -122,7 +127,7 @@ export default async function ArticlePage({ params }: Params) {
       )}
       <p className="text-lg mb-8 text-center">{article.description}</p>
 
-      <div className="text-center text-sm mb-8 space-y-1">
+      <div className="text-center text-sm mb-6 space-y-1">
         <p>
           {ressources.By} {article.author}
         </p>
@@ -144,7 +149,14 @@ export default async function ArticlePage({ params }: Params) {
         )}
       </div>
 
-      <article className="prose prose-lg dark:prose-invert max-w-none">
+      <div className="flex justify-center mb-10">
+        <ShareButtons url={articleUrl} title={article.title} />
+      </div>
+
+      <article
+        id="article-content"
+        className="prose prose-lg dark:prose-invert max-w-none"
+      >
         <ReactMarkdown>{article.content}</ReactMarkdown>
       </article>
 

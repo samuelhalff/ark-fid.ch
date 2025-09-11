@@ -27,46 +27,46 @@ const Services = async ({ showSubtitle = false, locale }: ServicesProps) => {
           {tHome("Services.Subtitle")}
         </p>
       )}
-      <div className="mt-8 xs:mt-14 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <div className="mt-10 xs:mt-16 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
         {services.map((service) => (
           <Link
             key={service.titleKey}
             href={`${localePrefix}/services${service.href}`}
             locale={locale}
-            className="block h-full transition-transform hover:scale-105"
+            className="block h-full"
           >
             <Card
               // Add `overflow-hidden` as a safety net to ensure nothing can visually escape the card.
-              className="flex flex-col justify-between items-center text-center border rounded-xl overflow-hidden shadow-none h-full cursor-pointer hover:shadow-lg transition-shadow"
+              className="group flex flex-col justify-between items-center text-center border rounded-2xl overflow-hidden shadow-none h-full cursor-pointer ring-1 ring-border/50 hover:ring-primary/60 hover:shadow-xl transition-all duration-200"
             >
-              <CardHeader className="p-4 pt-4 h-[250px]">
-                <div className="flex flex-col items-center gap-4 mt-3">
-                  <div className="flex-shrink-0 mt-1">{service.icon}</div>
-                  <div className="flex-1">
-                    <h4 className="text-xl font-bold tracking-tight break-anywhere hyphenate">
+              <CardHeader className="px-6 pt-6 pb-4 w-full">
+                <div className="flex flex-col items-center gap-5">
+                  <div className="text-gray-200 flex-shrink-0 flex items-center justify-center h-12 w-12 my-1 bg-gray-800/70 rounded-full">
+                    {service.icon}
+                  </div>
+                  {/* Text block with a min-height so all cards align their image area */}
+                  <div className="flex-1 w-full min-h-[240px] md:min-h-[260px] flex flex-col items-center justify-start">
+                    <h4 className="text-2xl font-bold tracking-tight break-words text-balance">
                       {tItems(service.titleKey)}
                     </h4>
-                    <p className="mt-2 text-gray-700 dark:text-gray-300 text-md xs:text-[17px] break-anywhere hyphenate">
+                    <p className="mt-3 text-muted-foreground text-base xs:text-[17px] leading-7 break-words text-pretty">
                       {tItems(service.descriptionKey)}
                     </p>
                   </div>
                 </div>
               </CardHeader>
 
-              {/* 5. FUNDAMENTAL CHANGE: The Layout Logic */}
-              <CardContent className="grow p-0">
-                {/* fixed-height image area; use Next/Image fill + object-cover to ensure consistent cropping and centering */}
-                <div className="w-[100%] w-full p-0 box-border flex items-center justify-center">
-                  {/* Add a light rounded container so images that don't reach the card edge keep a subtle rounded appearance */}
-                  <div className="relative h-56 w-full overflow-hidden rounded-lg bg-muted/30 mt-5">
+              <CardContent className="p-0 w-full mt-auto">
+                {/* Fixed aspect-ratio image area so all cards align visually */}
+                <div className="w-full p-0 box-border">
+                  <div className="relative w-full aspect-[4/3] overflow-hidden bg-muted/30">
                     <Image
                       src={service.image}
                       alt={tItems(service.titleKey)}
-                      width={800}
-                      height={450}
+                      fill
                       sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
                       quality={72}
-                      className="w-full h-full object-cover"
+                      className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
                     />
                   </div>
                 </div>

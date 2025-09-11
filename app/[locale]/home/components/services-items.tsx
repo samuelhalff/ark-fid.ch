@@ -2,7 +2,9 @@ import {
   Calculator,
   Building2,
   MessageSquareReply,
-  GitFork,
+  Users,
+  Briefcase,
+  Layers,
   FolderCode,
 } from "lucide-react";
 
@@ -22,7 +24,7 @@ const services = [
     image: "/assets/services/tax-admin.webp",
   },
   {
-    icon: <GitFork />,
+    icon: <Users />,
     titleKey: "PayrollHR.Title",
     href: "/payroll",
     descriptionKey: "PayrollHR.Description",
@@ -36,14 +38,14 @@ const services = [
     image: "/assets/services/tax-desk.webp",
   },
   {
-    icon: <GitFork />,
+    icon: <Layers />,
     titleKey: "OutsourcingServices.Title",
     href: "/outsourcing",
     descriptionKey: "OutsourcingServices.Description",
     image: "/assets/services/outsourcing.webp",
   },
   {
-    icon: <GitFork />,
+    icon: <Briefcase />,
     titleKey: "CorporateServices.Title",
     href: "/corporate",
     descriptionKey: "CorporateServices.Description",

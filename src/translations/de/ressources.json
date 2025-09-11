@@ -59,6 +59,168 @@
   ],
   "Articles": [
     {
+      "slug": "annulation-article-gallie",
+      "title": "Sébastien Gallié – Steuern und Unternehmensführung (2025)",
+      "description": "Ein ausführlicher Beitrag von Sébastien Gallié zu Steuerthemen, Unternehmensführung und Strategien zur Optimierung von Compliance und Wettbewerbsfähigkeit in der Schweiz 2025.",
+      "content": "Die Steuer- und Unternehmenslandschaft in der Schweiz wandelt sich 2025 grundlegend. KMU, Selbstständige und Grossunternehmen bewegen sich in einem dynamischen Regulierungsumfeld, in dem Compliance, Steueroptimierung und Digitalisierung zentral sind.\n\nJüngste Reformen – insbesondere die OECD-Mindestbesteuerung, die stärkere Digitalisierung der Steuererklärungen sowie die Modernisierung des Gesellschaftsrechts – schaffen Chancen, bringen jedoch auch neue Herausforderungen.\n\nUm diese zu meistern, sind eine ganzheitliche steuerliche Standortbestimmung, die Qualifizierung der Teams und die Zusammenarbeit mit Steuer- und Buchhaltungsexperten entscheidend. Transparenz, Nachvollziehbarkeit und Compliance sind nicht nur Pflichten, sondern Hebel für nachhaltiges Wachstum.\n\nZugleich erfordern sich wandelnde Rechnungslegungsnormen und die digitalisierte Lohnbuchhaltung eine zügige Anpassung von Tools und internen Prozessen. Vorausschauendes Risikomanagement (Steuern und Sozialversicherungen), effizientes Cash Management und strategische Planung sind wichtiger denn je.\n\nKurzum: 2025 hängt die Wettbewerbsfähigkeit von Schweizer Unternehmen wesentlich davon ab, neue Anforderungen agil zu integrieren. Mit den richtigen Partnern wird Wandel zum Vorteil.",
+      "author": "Sébastien Gallié",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "suisse-impots-2025",
+          "url": "https://www.efd.admin.ch/dam/efd/fr/dokumente/themen/steuerpolitik/steuerreform-2025.pdf"
+        },
+        {
+          "labelKey": "fiscalite-suisse-2025",
+          "url": "https://www.estv.admin.ch/estv/fr/home/impots.html"
+        }
+      ]
+    },
+    {
+      "slug": "tva-methodes-decompte-2025",
+      "title": "MWST 2025: Effektivmethode oder Saldosteuersatz?",
+      "description": "Wie Sie 2025 zwischen Effektivmethode und Saldosteuersatz wählen: Kriterien, Schwellenwerte und Auswirkungen auf die Liquidität.",
+      "content": "Die Wahl der richtigen MWST‑Abrechnungsmethode beeinflusst direkt Ihre Liquidität und den administrativen Aufwand.\n\nWichtig:\n\n- Effektivmethode: effektive Vorsteuer auf Einkäufen abziehen und vereinnahmte MWST auf Verkäufen abrechnen.\n- Saldosteuersatz (SSS): branchenspezifischen Pauschalsatz auf den Umsatz anwenden, keine Vorsteuerabzüge.\n- Voraussetzungen: Umsatzschwellen, Tätigkeit, Kostenstruktur.\n- Wirkung: Einfachheit vs. Genauigkeit, Margeneffekt je nach Einkaufs‑/Verkaufs‑Mix.\n\nEntscheidungs‑Checkliste:\n\n1. Beide Methoden über 12 repräsentative Monate simulieren.\n2. Tarif‑ und Satzänderungen 2025 berücksichtigen.\n3. Administrativen Aufwand (Buchungen, Kontrollen, Belege) bewerten.\n4. Entscheid dokumentieren (Memo) und allfälligen Wechsel planen.\n\nBrauchen Sie belastbare Zahlen? Wir modellieren Ihren Fall und empfehlen die beste Option.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "estvTVAGeneral",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        }
+      ]
+    },
+    {
+      "slug": "checklist-fin-annee-paie-geneve-2025",
+      "title": "Genfer Lohnwesen – Jahresend‑Checkliste 2025",
+      "description": "Wesentliche Kontrollen vor dem Abschluss 2025: Lohnausweise, Naturalleistungen, swissdec‑Felder und kantonale Fristen.",
+      "content": "Der Jahresabschluss in der Lohnbuchhaltung erfordert Sorgfalt und Nachvollziehbarkeit.\n\nKurz‑Checkliste:\n\n- Lohnausweise (Form. 11): Naturalleistungen, Spesen, Korrekturen.\n- Grenzgänger: Codes und Tarife prüfen, nötigenfalls berichtigen.\n- BVG/UV/ALV: Beitragsaldi und Nachträge.\n- Krankheit/Unfall: Taggelder und Bescheinigungen verbuchen.\n- Quellensteuer: Kumulation, kantonale Codes, Auffälligkeiten.\n- Lohnjournal: FIBU‑Abstimmungen und Abschlussbuchungen.\n- Archivierung: Belege und swissdec‑Export.\n\nUnsicher? Wir bieten einen Flash‑Audit, um Pflichten vor Einreichung abzusichern.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "swissdec",
+          "url": "https://www.swissdec.ch/"
+        },
+        {
+          "labelKey": "guideCertificatSalaire",
+          "url": "https://www.estv.admin.ch/estv/fr/home/direkte-bundessteuer/lohnbescheinigung.html"
+        }
+      ]
+    },
+    {
+      "slug": "domiciliation-vs-siege-social",
+      "title": "Domizilierung vs. statutarischer Sitz: die Unterschiede",
+      "description": "Rechtliche und steuerliche Aspekte der kaufmännischen Domizilierung gegenüber dem statutarischen Sitz: Nutzungsnachweise, Kontrolle und Best Practices.",
+      "content": "Die Domizilierung bietet Flexibilität und kontrollierte Kosten, ersetzt aber nicht die Pflichten des statutarischen Sitzes.\n\nMerken:\n\n- Statutarischer Sitz: Statutenangabe, HR‑Publikation, Empfang amtlicher Akte.\n- Domizilierung: Bereitstellung von Adresse/Räumlichkeiten; auf Nutzungsklauseln und wirtschaftliche Substanz achten.\n- Steuern: Anfechtungsrisiko bei fehlender Substanz (Personal, Räumlichkeiten, Tätigkeit).\n- Banken/Versicherer: Nachweise erforderlich (Vertrag, Fotos, Mietverträge).\n\nPraxis‑Tipp: effektive Nutzung dokumentieren (Logs, Zutritte, Belege) und Verträge (Domizilierung, Miete, Services) abstimmen.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "registreCommerceCH",
+          "url": "https://www.zefix.ch"
+        }
+      ]
+    },
+    {
+      "slug": "choisir-sarl-ou-sa-2025",
+      "title": "GmbH oder AG gründen 2025? Der nützliche Vergleich",
+      "description": "Kapital, Haftung, Steuern, Governance: Entscheidungshilfe zur passenden Rechtsform für Ihr Vorhaben.",
+      "content": "GmbH oder AG: Die passende Form dient Ihrer Strategie.\n\nKurzvergleich:\n\n- Kapital: GmbH ab CHF 20'000 (teilweise Liberierung möglich); AG ab CHF 100'000 (CHF 50'000 einbezahlt).\n- Haftung: beschränkt auf das Grundkapital (ausser bei Pflichtverletzung).\n- Governance: GmbH enger geführt, AG investorenfreundlicher.\n- Steuern: Dividenden, Geschäftsleitersaläre und VSt modellieren.\n- Nachfolge: AG oft geeigneter für Finanzierungsrunden und Exit.\n\nVorgehen: Ziele klären (Wachstum, Finanzierung, Risiken), Mischvergütung simulieren (Lohn/Dividende), Einrichtungs‑ und Betriebskosten abschätzen.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "chchCreerEntreprise",
+          "url": "https://www.ch.ch/fr/creer-une-entreprise"
+        }
+      ]
+    },
+    {
+      "slug": "odoo-comptabilite-plan-comptable-suisse",
+      "title": "Odoo Buchhaltung: Schweizer Kontenplan (FER) konfigurieren",
+      "description": "Best Practices, um Odoo mit Schweizer KMU‑Kontenplan, MWST und Berichten gemäss Swiss GAAP FER einzurichten.",
+      "content": "Odoo ermöglicht robuste Buchhaltung bei korrekter Konfiguration.\n\nSchritte:\n\n1. Geeigneten KMU‑Kontenplan importieren (Klassen 1–9 + Unterkonten).\n2. MWST (Sätze 2025, Befreiungen, Exporte) konfigurieren.\n3. Journalen (Verkauf, Einkauf, Bank, Lohn) und Nummernkreise definieren.\n4. Abstimmung, Bankabgleich und Automationen einrichten.\n5. Berichte (Bilanz, ER, MWST) auf Testdaten prüfen.\n\nWir liefern ein Odoo‑Paket ready‑to‑use für Schweizer KMU.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "odooAccountingDocs",
+          "url": "https://www.odoo.com/documentation/17.0/applications/finance/accounting.html"
+        }
+      ]
+    },
+    {
+      "slug": "rectification-impot-source-2025",
+      "title": "Quellensteuer‑Berichtigung 2025: So geht’s",
+      "description": "Wer kann eine Berichtigung beantragen, welche Fristen gelten, welche Unterlagen sind nötig – Kurzleitfaden für Mitarbeitende und Arbeitgeber.",
+      "content": "Die Berichtigung der Quellensteuer unterliegt 2025 strengen Fristen.\n\nKurzfassung:\n\n- Voraussetzungen: Statusänderungen, falsche Codes, zulässige Abzüge.\n- Fristen: je nach Kanton, häufig bis 31. März des Folgejahres.\n- Dossier: kantonale Formulare, Lohnabrechnungen, Belege (Versicherungen, Spesen, Ausbildung).\n- Arbeitgeber: rückwirkende Korrekturen und Bescheinigungen.\n\nTipp: Jährliche Checkliste führen und Belege ab Januar zentral sammeln.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "chchImpotSourceRectification",
+          "url": "https://www.ch.ch/fr/impots-et-finances/impot-a-la-source/"
+        }
+      ]
+    },
+    {
+      "slug": "politique-notes-de-frais-tva",
+      "title": "Spesenreglement: klare Regeln und MWST ohne Überraschungen",
+      "description": "Vorlagen, Limiten, Belege und MWST‑Regeln, um Nachbelastungen und verlorene Vorsteuern zu vermeiden.",
+      "content": "Ein klares Spesenreglement verhindert Konflikte und MWST‑Risiken.\n\nBest Practices:\n\n- Limiten und Kategorien (Mahlzeiten, Reisen, Unterkunft, Geschenke).\n- Belege: personalisierte Rechnung, MWST ausgewiesen, Zahlungsnachweis.\n- MWST: häufige Ausschlüsse (Repräsentation), Vorsteuerkürzung bei gemischter Verwendung.\n- Tools: Mobile‑App, Freigabe‑Workflow, Buchhaltungsexport.\n- Kontrollen: monatliche Stichproben, Anomalien‑Tracking.\n\nWir stellen eine Vorlage bereit, die Sie auf Ihren Kontext anpassen können.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "estvTVAFrais",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        }
+      ]
+    },
+    {
+      "slug": "troisieme-pilier-independants-2025",
+      "title": "Selbständigerwerbende: 3a optimieren (2025)",
+      "description": "Abzugsfähige Beträge, Bedingungen und Zahlungsstrategie, um als Selbständiger die Steuerwirkung zu maximieren.",
+      "content": "Die Säule 3a bleibt für Selbständige ein wichtiger Steuerhebel.\n\nTo‑do:\n\n- Einzahlungen gemäss AHV‑Einkommen kalibrieren.\n- Zahlungen staffeln, um Liquidität zu glätten.\n- Gefässe wählen (Konto vs. Wertschriften) nach Horizont und Risiko.\n- Belege für die Steuererklärung bündeln.\n\nWir erarbeiten einen persönlichen Plan und simulieren Steuer‑ und Vermögenseffekte.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "chchPilier3a",
+          "url": "https://www.ch.ch/fr/prevoir-sa-retraite/pilier-3a"
+        }
+      ]
+    },
+    {
+      "slug": "certification-swissdec-paie",
+      "title": "Swissdec‑Zertifizierung: Nutzen für Ihre Lohnbuchhaltung",
+      "description": "Standardisierte Übermittlungen, Datenqualität und Kontrollen: weshalb eine swissdec‑kompatible Payroll‑Kette anstreben.",
+      "content": "Die swissdec‑Zertifizierung sichert Ihre Lohnprozesse (Meldungen, Ausweise, Abrechnungen).\n\nVorteile:\n\n- Datenqualität und automatische Validierungen.\n- Schnellere kantonale/bundesweite Integrationen.\n- Weniger Fehler und Mehrfacheingaben.\n- Bessere Nachvollziehbarkeit und Compliance.\n\nWir prüfen Prozesse und Tools für ein pragmatisches swissdec‑Alignment.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "swissdec",
+          "url": "https://www.swissdec.ch/"
+        }
+      ]
+    },
+    {
+      "slug": "pv-ag-obligations-2025",
+      "title": "Generalversammlungs‑Protokoll: zentrale Pflichten (OR 2025)",
+      "description": "Welche Angaben müssen ins Protokoll, welche Genehmigungen und Fristen sind gemäss Obligationenrecht einzuhalten.",
+      "content": "Das GV‑Protokoll schützt Aktionäre und Organe.\n\nMindestinhalt:\n\n- Datum/Ort, Quorum, Traktanden.\n- Genehmigung der Jahresrechnung und Ergebnisverwendung.\n- Entlastung des Verwaltungsrats.\n- Wahlen (falls zutreffend) und Vergütungen.\n- Unterschriften und Aufbewahrung.\n\nTipp: Wiederverwendbare Vorlage vorbereiten und das Protokoll mit dem FIBU‑Abschluss verknüpfen.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "fedlexCO",
+          "url": "https://www.fedlex.admin.ch/"
+        }
+      ]
+    },
+    {
       "slug": "declaration-revenus-locatifs-2025",
       "title": "Déclaration des revenus locatifs 2025 : obligations et optimisation",
       "description": "Guide complet sur la déclaration des revenus tirés de la location en Suisse : taux d’imposition, déductions autorisées et conseils pratiques pour optimiser votre fiscalité.",
@@ -314,6 +476,8 @@
       ]
     }
   ],
+  "suisse-impots-2025": "Schweizer Steuern 2025 – Überblick (EFD)",
+  "fiscalite-suisse-2025": "Eidg. Steuerverwaltung – Steuern",
   "References": "Références",
   "By": "Par",
   "Published": "Publié le",
@@ -329,6 +493,16 @@
   },
   "ReadingTime": "Temps de lecture",
   "Minutes": "min",
+  "estvTVAGeneral": "MWST – Offizielle Informationen (ESTV)",
+  "guideCertificatSalaire": "Lohnausweis – Offizielle Informationen",
+  "swissdec": "swissdec – Schweizer Lohnstandard",
+  "registreCommerceCH": "Handelsregister (Zefix)",
+  "chchCreerEntreprise": "ch.ch – Unternehmen gründen",
+  "odooAccountingDocs": "Odoo – Buchhaltungsdokumentation",
+  "chchImpotSourceRectification": "ch.ch – Quellensteuer",
+  "estvTVAFrais": "MWST – Belege & Abzüge (ESTV)",
+  "chchPilier3a": "ch.ch – Säule 3a",
+  "fedlexCO": "Fedlex – Obligationenrecht",
   "FAQ": {
     "Title": "Questions fréquentes – fiscalité & comptabilité à Genève et en Suisse romande",
     "Items": [

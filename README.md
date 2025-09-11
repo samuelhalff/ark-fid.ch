@@ -32,11 +32,11 @@ The job retries up to 3 times on non-200 responses.
 
 Place per-locale images in `public/assets/og/` named:
 
-- `og-fr.webp|png`
-- `og-de.webp|png`
-- `og-en.webp|png`
-- `og-es.webp|png`
-- `og-pt.webp|png`
+- `og-fr.webp`
+- `og-de.webp`
+- `og-en.webp`
+- `og-es.webp`
+- `og-pt.webp`
 
 Guidelines:
 

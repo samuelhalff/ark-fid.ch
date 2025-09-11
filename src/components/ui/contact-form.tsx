@@ -84,21 +84,27 @@ const ContactForm: FC<ContactFormProps> = ({
       form.reset(defaultValues);
       router.push("/");
     };
-    await fetch(FORMSPARK_ACTION_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    // The `t` function is safe to use here as it's a client-side event handler
-    toast.success(t("Form.Success"), {
-      action: { label: "Close", onClick: () => toast.dismiss },
-      duration: 5000,
-      onAutoClose: goHome,
-      onDismiss: goHome,
-    });
+    try {
+      const res = await fetch(FORMSPARK_ACTION_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error("Network response was not ok");
+      toast.success(t("Form.Success"), {
+        action: { label: "Close", onClick: () => toast.dismiss },
+        duration: 5000,
+        onAutoClose: goHome,
+        onDismiss: goHome,
+      });
+    } catch (e) {
+      toast.error(t("Form.Error") || "Something went wrong.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -131,6 +137,7 @@ const ContactForm: FC<ContactFormProps> = ({
                 className="flex flex-col gap-6"
                 id="contact-form"
                 onSubmit={form.handleSubmit(onSubmit)}
+                aria-busy={sending}
               >
                 {/* 5. All hardcoded labels are replaced with the TranslatedText component */}
                 <div className="flex flex-col md:flex-row justify-between gap-4">
@@ -151,6 +158,7 @@ const ContactForm: FC<ContactFormProps> = ({
                           <Input
                             {...field}
                             placeholder={t("Form.Placeholders.Name")}
+                            disabled={sending}
                           />
                         </FormControl>
                         <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -174,6 +182,7 @@ const ContactForm: FC<ContactFormProps> = ({
                         <Input
                           {...field}
                           placeholder={t("Form.Placeholders.CompanyName")}
+                          disabled={sending}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -196,6 +205,7 @@ const ContactForm: FC<ContactFormProps> = ({
                         <Input
                           {...field}
                           placeholder={t("Form.Placeholders.Phone")}
+                          disabled={sending}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -219,6 +229,7 @@ const ContactForm: FC<ContactFormProps> = ({
                         <Input
                           {...field}
                           placeholder={t("Form.Placeholders.Email")}
+                          disabled={sending}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -243,6 +254,7 @@ const ContactForm: FC<ContactFormProps> = ({
                           {...field}
                           rows={8}
                           placeholder={t("Form.Placeholders.Message")}
+                          disabled={sending}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -259,6 +271,7 @@ const ContactForm: FC<ContactFormProps> = ({
                           <Checkbox
                             checked={field.value}
                             onCheckedChange={field.onChange}
+                            disabled={sending}
                           />
                         </FormControl>
                         <FormLabel className="mt-0! hover:cursor-pointer">
@@ -280,11 +293,37 @@ const ContactForm: FC<ContactFormProps> = ({
                   disabled={sending}
                   style={{ cursor: "pointer" }}
                 >
-                  <TranslatedText
-                    ns="contact"
-                    translationKey="Form.Submit"
-                    fallbackText="Submit"
-                  />
+                  {sending ? (
+                    <span className="inline-flex items-center gap-2">
+                      <svg
+                        className="animate-spin size-4"
+                        viewBox="0 0 24 24"
+                        aria-hidden
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                        />
+                      </svg>
+                      {t("Form.Sending") || "Sending..."}
+                    </span>
+                  ) : (
+                    <TranslatedText
+                      ns="contact"
+                      translationKey="Form.Submit"
+                      fallbackText="Submit"
+                    />
+                  )}
                 </Button>
               </form>
             </Form>

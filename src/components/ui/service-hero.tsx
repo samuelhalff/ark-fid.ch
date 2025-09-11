@@ -1,5 +1,6 @@
 import { ArrowUpRight, BadgeCheckIcon, Users } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
+import { Badge } from "@/src/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
@@ -45,16 +46,19 @@ const ServiceHero = async ({
   const localePrefix = locale ? `/${locale}` : "/fr";
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent">
+    <div className="min-h-[calc(100vh-4rem)] max-w-[var(--breakpoint-xl)] w-full flex items-center justify-center overflow-hidden border-b border-accent mx-auto px-6">
       <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
         <div className="flex-1 max-w-3xl text-center animate-in fade-in duration-800">
           <div className="gap-2 flex justify-center items-center">
-            <span className="rounded-full py-1 border-none inline-flex items-center justify-center">
+            <Badge className="rounded-full py-1 border-none">
               {t(badge1Key) || badge1Fallback}
-            </span>
-            <span className="rounded-full py-1 border-none inline-flex items-center justify-center">
+            </Badge>
+            <Badge
+              variant="destructive"
+              className="rounded-full py-1 border-none"
+            >
               {t(badge2Key) || badge2Fallback}
-            </span>
+            </Badge>
           </div>
           <h1 className="mt-6 max-w-full w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight mx-auto break-anywhere hyphenate">
             {t(titleKey) || titleFallback}

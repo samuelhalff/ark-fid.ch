@@ -16,6 +16,11 @@ const Testimonials = dynamic(() => import("@/src/components/ui/testimonials"), {
   loading: () => null,
 });
 import { generateMetadataForPage } from "@/src/lib/metadata";
+import StructuredData from "@/src/components/seo/StructuredData";
+import {
+  buildFAQPage,
+  buildOrganizationAggregateRating,
+} from "@/src/lib/structuredData";
 import { type Locale } from "@/src/lib/i18n";
 
 export async function generateMetadata({
@@ -38,49 +43,24 @@ export default async function Home({ params }: { params: { locale: string } }) {
   }
   const faq = faqModule.default;
 
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: Array.from({ length: 12 })
-      .map((_, i) => i + 1)
-      .filter((i) => faq[`Question${i}`] && faq[`Answer${i}`])
-      .map((i) => ({
-        "@type": "Question",
-        name: faq[`Question${i}`],
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: faq[`Answer${i}`],
-        },
-      }))
-      .slice(0, 5),
-  } as const;
+  const faqEntries = Array.from({ length: 12 })
+    .map((_, i) => i + 1)
+    .filter((i) => faq[`Question${i}`] && faq[`Answer${i}`])
+    .map((i) => ({ question: faq[`Question${i}`], answer: faq[`Answer${i}`] }));
+  const faqJsonLd = buildFAQPage(faqEntries, 8);
 
   // Reviews JSON-LD (derive from testimonials translations if available client side)
   // We'll inject a lightweight placeholder AggregateRating server-side; client can enhance if needed.
-  const reviewsJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
+  const reviewsJsonLd = buildOrganizationAggregateRating({
     name: "Ark Fiduciaire",
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://ark-fid.ch",
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "5.0",
-      reviewCount: 6,
-    },
-  } as const;
+    ratingValue: "5.0",
+    reviewCount: 6,
+  });
 
   return (
     <div className="max-w-[var(--breakpoint-xl)] mx-auto w-full pb-4 xs:py-20 md:px-6">
-      <script
-        type="application/ld+json"
-        nonce={nonce}
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        nonce={nonce}
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewsJsonLd) }}
-      />
+      <StructuredData nonce={nonce} data={[faqJsonLd, reviewsJsonLd]} />
       <section id="hero">
         <Hero locale={locale} />
       </section>
@@ -90,9 +70,9 @@ export default async function Home({ params }: { params: { locale: string } }) {
       <section id="faq">
         <FAQ />
       </section>
-      <section id="testimonials">
+      {/* <section id="testimonials">
         <Testimonials locale={locale} />
-      </section>
+      </section> */}
       <section id="contact">
         <Contact />
       </section>

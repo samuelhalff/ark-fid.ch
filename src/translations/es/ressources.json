@@ -59,6 +59,168 @@
   ],
   "Articles": [
     {
+      "slug": "annulation-article-gallie",
+      "title": "Sébastien Gallié – Fiscalidad y gestión empresarial (2025)",
+      "description": "Artículo en profundidad de Sébastien Gallié sobre fiscalidad, gestión corporativa y estrategias para optimizar el cumplimiento y la competitividad en Suiza en 2025.",
+      "content": "La fiscalidad y la gestión empresarial en Suiza están viviendo un cambio profundo en 2025. PYMES, autónomos y grandes empresas deben navegar un marco regulatorio en evolución constante, donde el cumplimiento, la optimización fiscal y la digitalización son esenciales.\n\nLas reformas recientes, como el impuesto mínimo de la OCDE, la mayor digitalización de las declaraciones y la modernización del derecho societario, abren oportunidades pero también plantean retos.\n\nPara afrontarlos, es clave realizar una revisión fiscal integral, formar a los equipos y colaborar con expertos en fiscalidad y contabilidad. La transparencia, la trazabilidad y el cumplimiento no son trabas, sino palancas de crecimiento.\n\nA la vez, la evolución de las normas contables y la digitalización de la nómina exigen adaptar rápidamente herramientas y procesos internos. La prevención proactiva de riesgos (fiscales y sociales), una tesorería eficiente y la planificación estratégica son hoy más decisivas que nunca.\n\nEn síntesis, en 2025 la competitividad de las empresas suizas dependerá de su capacidad para integrar los nuevos requisitos manteniendo la agilidad operativa. Con los socios adecuados, el cambio se convierte en ventaja.",
+      "author": "Sébastien Gallié",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "suisse-impots-2025",
+          "url": "https://www.efd.admin.ch/dam/efd/fr/dokumente/themen/steuerpolitik/steuerreform-2025.pdf"
+        },
+        {
+          "labelKey": "fiscalite-suisse-2025",
+          "url": "https://www.estv.admin.ch/estv/fr/home/impots.html"
+        }
+      ]
+    },
+    {
+      "slug": "tva-methodes-decompte-2025",
+      "title": "IVA 2025: ¿método efectivo o tasa neta?",
+      "description": "Cómo elegir entre el método efectivo y la tasa neta (TNR) en 2025: criterios, umbrales e impacto en la liquidez.",
+      "content": "Elegir el método de IVA adecuado afecta directamente a su tesorería y a la carga administrativa.\n\nPuntos clave:\n\n- Método efectivo: deducir el IVA soportado real en compras y liquidar el IVA repercutido en ventas.\n- Tasa neta (TNR): aplicar una tasa plana por sector sobre la facturación y no deducir el IVA soportado.\n- Elegibilidad: umbrales de facturación, actividad, estructura de costes.\n- Impacto: simplicidad vs precisión, efecto en el margen según el mix de compras/ventas.\n\nChecklist de decisión:\n\n1. Simular ambos métodos en 12 meses representativos.\n2. Incluir cambios de tipos y tarifas para 2025.\n3. Evaluar el esfuerzo administrativo (asientos, controles, justificantes).\n4. Documentar la decisión (nota interna) y planificar el cambio si procede.\n\n¿Necesita un arbitraje cuantificado? Modelizamos su caso y recomendamos la mejor opción.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "estvTVAGeneral",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        }
+      ]
+    },
+    {
+      "slug": "checklist-fin-annee-paie-geneve-2025",
+      "title": "Nómina en Ginebra – Checklist de cierre 2025",
+      "description": "Controles esenciales antes del cierre 2025: certificados salariales, retribuciones en especie, campos swissdec y plazos cantonales.",
+      "content": "Cerrar el año de nómina exige rigor y trazabilidad.\n\nChecklist rápida:\n\n- Certificados salariales (Form. 11): retribuciones en especie, gastos, correcciones.\n- Transfronterizos: comprobar códigos y escalas, rectificar si procede.\n- LPP/LAA/AC: saldos y regularizaciones de cotizaciones.\n- Enfermedad/accidentes: tratamiento de subsidios y certificados.\n- Impuesto en origen: acumulación, códigos cantonales, anomalías.\n- Diario de nómina: conciliaciones contables y asientos de cierre.\n- Archivo: justificantes y exportación swissdec.\n\n¿Dudas? Ofrecemos una auditoría exprés para asegurar obligaciones antes del envío.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "swissdec",
+          "url": "https://www.swissdec.ch/"
+        },
+        {
+          "labelKey": "guideCertificatSalaire",
+          "url": "https://www.estv.admin.ch/estv/fr/home/direkte-bundessteuer/lohnbescheinigung.html"
+        }
+      ]
+    },
+    {
+      "slug": "domiciliation-vs-siege-social",
+      "title": "Domiciliación comercial vs sede social: diferencias",
+      "description": "Aspectos jurídicos y fiscales de la domiciliación comercial frente a la sede social estatutaria: prueba de uso, control y buenas prácticas.",
+      "content": "La domiciliación aporta flexibilidad y costes controlados, pero no sustituye a las obligaciones de la sede social.\n\nA recordar:\n\n- Sede social: mención estatutaria, publicación en el RC, recepción de actos.\n- Domiciliación: provisión de dirección/locales; atención a cláusulas de uso y sustancia económica.\n- Fiscalidad: riesgo de impugnación si falta sustancia (personal, locales, actividad).\n- Bancos/aseguradoras: exigencia de prueba (contrato, fotos, alquileres).\n\nConsejo práctico: registrar el uso efectivo (registros, accesos, pruebas) y alinear contratos (domiciliación, alquiler, servicios).",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "registreCommerceCH",
+          "url": "https://www.zefix.ch"
+        }
+      ]
+    },
+    {
+      "slug": "choisir-sarl-ou-sa-2025",
+      "title": "¿Constituir una Sàrl o una SA en 2025? Comparativa útil",
+      "description": "Capital, responsabilidad, fiscalidad, gobernanza: tabla de decisión para elegir la forma jurídica adecuada según su proyecto.",
+      "content": "Sàrl o SA: la forma adecuada debe servir a su estrategia.\n\nComparativa rápida:\n\n- Capital: Sàrl desde 20.000 CHF (liberación parcial posible); SA desde 100.000 CHF (50.000 liberados).\n- Responsabilidad: limitada al capital social (salvo culpa).\n- Gobernanza: Sàrl más cerrada, SA más abierta a inversores.\n- Fiscalidad: modelizar dividendos, salarios directivos, impuesto anticipado.\n- Transmisión: SA a menudo más adecuada para rondas y cesiones.\n\nMétodo: clarificar objetivos (crecimiento, financiación, riesgos), simular remuneración mixta (salario/dividendo), evaluar costes de implantación y explotación.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "chchCreerEntreprise",
+          "url": "https://www.ch.ch/fr/creer-une-entreprise"
+        }
+      ]
+    },
+    {
+      "slug": "odoo-comptabilite-plan-comptable-suisse",
+      "title": "Odoo Contabilidad: configurar un plan contable suizo (FER)",
+      "description": "Buenas prácticas para configurar Odoo con un plan contable suizo para pymes, IVA y reportes conformes a Swiss GAAP FER.",
+      "content": "Odoo permite una contabilidad robusta si se configura correctamente.\n\nPasos clave:\n\n1. Importar un plan de cuentas suizo para pymes (clases 1–9 + subcuentas).\n2. Configurar el IVA (tipos 2025, exenciones, exportaciones).\n3. Definir diarios (ventas, compras, banco, nómina) y secuencias.\n4. Configurar conciliación, conciliación bancaria y reglas de automatización.\n5. Probar reportes (balance, PyG, IVA) con datos de prueba.\n\nNuestro equipo prepara un paquete Odoo listo para pymes suizas.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "odooAccountingDocs",
+          "url": "https://www.odoo.com/documentation/17.0/applications/finance/accounting.html"
+        }
+      ]
+    },
+    {
+      "slug": "rectification-impot-source-2025",
+      "title": "Rectificación del impuesto en origen 2025: guía práctica",
+      "description": "Quién puede solicitar rectificación, plazos y documentos a aportar: guía breve para empleados y empleadores.",
+      "content": "En 2025, la rectificación del impuesto en origen sigue sujeta a plazos estrictos.\n\nEn resumen:\n\n- Condiciones: cambios de situación, códigos erróneos, deducciones admisibles.\n- Plazos: según cantón, a menudo hasta el 31 de marzo del año siguiente.\n- Expediente: formularios cantonales, nóminas, justificantes (seguros, gastos, formación).\n- Empleadores: correcciones retroactivas y certificados a emitir.\n\nConsejo: mantener una checklist anual y centralizar justificantes desde enero.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "chchImpotSourceRectification",
+          "url": "https://www.ch.ch/fr/impots-et-finances/impot-a-la-source/"
+        }
+      ]
+    },
+    {
+      "slug": "politique-notes-de-frais-tva",
+      "title": "Política de gastos: reglas claras y IVA sin sorpresas",
+      "description": "Modelo de política de gastos, umbrales, justificantes y reglas de IVA para evitar regularizaciones y pérdida de deducciones.",
+      "content": "Una política de gastos clara evita conflictos y riesgos de IVA.\n\nBuenas prácticas:\n\n- Límites y categorías (comidas, desplazamientos, alojamiento, regalos).\n- Justificantes: factura nominativa, IVA indicado, prueba de pago.\n- IVA: exclusiones frecuentes (representación), prorrata en uso mixto.\n- Herramientas: app móvil, flujo de aprobación, exportación contable.\n- Controles: muestreo mensual, seguimiento de anomalías.\n\nProporcionamos un modelo listo para adaptar a su contexto.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "estvTVAFrais",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        }
+      ]
+    },
+    {
+      "slug": "troisieme-pilier-independants-2025",
+      "title": "Independientes: optimizar el 3er pilar (2025)",
+      "description": "Importes deducibles, condiciones y estrategia de aportaciones para maximizar las ventajas fiscales como autónomo.",
+      "content": "El pilar 3a sigue siendo una palanca fiscal clave para los autónomos.\n\nA hacer:\n\n- Calibrar aportaciones según renta AVS.\n- Escalonar pagos para suavizar tesorería.\n- Elegir vehículos (cuenta vs valores) según horizonte y riesgo.\n- Consolidar justificantes para la declaración.\n\n¿Un plan personalizado? Simulamos el impacto fiscal y patrimonial.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "chchPilier3a",
+          "url": "https://www.ch.ch/fr/prevoir-sa-retraite/pilier-3a"
+        }
+      ]
+    },
+    {
+      "slug": "certification-swissdec-paie",
+      "title": "Certificación swissdec: ¿qué beneficios para su nómina?",
+      "description": "Transmisiones estandarizadas, fiabilidad de datos y controles: por qué buscar una cadena de nómina compatible con swissdec.",
+      "content": "La certificación swissdec asegura sus intercambios salariales (declaraciones, certificados, liquidaciones).\n\nBeneficios:\n\n- Calidad de datos y validaciones automáticas.\n- Integraciones cantonales/federales más rápidas.\n- Menos errores y reintroducciones.\n- Trazabilidad y cumplimiento reforzados.\n\nAuditamos sus procesos y herramientas para un alineamiento swissdec pragmático.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "swissdec",
+          "url": "https://www.swissdec.ch/"
+        }
+      ]
+    },
+    {
+      "slug": "pv-ag-obligations-2025",
+      "title": "Acta de junta general: obligaciones esenciales (CO 2025)",
+      "description": "Contenido obligatorio del acta, aprobaciones y plazos a respetar según el Código de Obligaciones suizo.",
+      "content": "El acta de la junta protege a accionistas y órganos.\n\nContenido mínimo:\n\n- Fecha/lugar, quórum, orden del día.\n- Aprobación de cuentas y aplicación del resultado.\n- Descarga del consejo de administración.\n- Elecciones (si aplica) y retribuciones.\n- Firmas y conservación.\n\nConsejo: preparar un modelo reutilizable y vincular el acta al cierre contable.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "fedlexCO",
+          "url": "https://www.fedlex.admin.ch/"
+        }
+      ]
+    },
+    {
       "slug": "declaration-revenus-locatifs-2025",
       "title": "Déclaration des revenus locatifs 2025 : obligations et optimisation",
       "description": "Guide complet sur la déclaration des revenus tirés de la location en Suisse : taux d’imposition, déductions autorisées et conseils pratiques pour optimiser votre fiscalité.",
@@ -314,6 +476,8 @@
       ]
     }
   ],
+  "suisse-impots-2025": "Impuestos suizos 2025 – Resumen (DFF)",
+  "fiscalite-suisse-2025": "Administración Federal de Contribuciones – Impuestos",
   "References": "Références",
   "By": "Par",
   "Published": "Publié le",
@@ -329,6 +493,16 @@
   },
   "ReadingTime": "Temps de lecture",
   "Minutes": "min",
+  "estvTVAGeneral": "IVA – Información oficial (AFC)",
+  "guideCertificatSalaire": "Certificado salarial – Información oficial",
+  "swissdec": "swissdec – Norma suiza de nómina",
+  "registreCommerceCH": "Registro mercantil (Zefix)",
+  "chchCreerEntreprise": "ch.ch – Crear una empresa",
+  "odooAccountingDocs": "Odoo – Documentación de contabilidad",
+  "chchImpotSourceRectification": "ch.ch – Impuesto en origen",
+  "estvTVAFrais": "IVA – Justificantes y deducciones (AFC)",
+  "chchPilier3a": "ch.ch – Pilar 3a",
+  "fedlexCO": "Fedlex – Código de Obligaciones",
   "FAQ": {
     "Title": "Questions fréquentes – fiscalité & comptabilité à Genève et en Suisse romande",
     "Items": [

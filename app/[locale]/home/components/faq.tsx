@@ -9,23 +9,28 @@ import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { PlusIcon } from "lucide-react";
 
 import TranslatedText from "@/src/components/ui/translated-text";
+import { useTranslation } from "react-i18next";
 
-const faq = [
-  { questionKey: "Question1", answerKey: "Answer1" },
-  { questionKey: "Question2", answerKey: "Answer2" },
-  { questionKey: "Question3", answerKey: "Answer3" },
-  { questionKey: "Question4", answerKey: "Answer4" },
-  { questionKey: "Question5", answerKey: "Answer5" },
-  { questionKey: "Question6", answerKey: "Answer6" },
-  { questionKey: "Question7", answerKey: "Answer7" },
-  { questionKey: "Question8", answerKey: "Answer8" },
-  { questionKey: "Question9", answerKey: "Answer9" },
-  { questionKey: "Question10", answerKey: "Answer10" },
-  { questionKey: "Question11", answerKey: "Answer11" },
-  { questionKey: "Question12", answerKey: "Answer12" },
-];
+const faq = Array.from({ length: 16 }).map((_, i) => ({
+  questionKey: `Question${i + 1}`,
+  answerKey: `Answer${i + 1}`,
+}));
 
 const FAQ = () => {
+  const { t } = useTranslation("faq");
+  // Resolve and filter out empty or placeholder entries
+  const items = faq
+    .map(({ questionKey, answerKey }) => {
+      const q = t(questionKey);
+      const a = t(answerKey);
+      return { questionKey, answerKey, q, a };
+    })
+    .filter(({ questionKey, answerKey, q, a }) => {
+      const isMissingQ = !q || q === questionKey;
+      const isMissingA = !a || a === answerKey;
+      return !(isMissingQ || isMissingA);
+    });
+
   return (
     <div
       id="faq"
@@ -41,6 +46,22 @@ const FAQ = () => {
           fallbackText="Subtitle"
         />
       </p>
+      <p className="mt-1 text-center text-sm text-muted-foreground">
+        <span>
+          <TranslatedText
+            ns="faq"
+            translationKey="LastUpdated"
+            fallbackText="dernière mise à jour"
+          />
+        </span>{" "}
+        <span suppressHydrationWarning>
+          {new Intl.DateTimeFormat(undefined, {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          }).format(new Date())}
+        </span>
+      </p>
 
       <div className="min-h-[550px] md:min-h-[320px] xl:min-h-[300px]">
         <Accordion
@@ -48,7 +69,7 @@ const FAQ = () => {
           collapsible
           className="mt-8 space-y-4 md:columns-2 gap-4"
         >
-          {faq.map(({ questionKey, answerKey }, index) => (
+          {items.map(({ questionKey, answerKey }, index) => (
             <AccordionItem
               key={questionKey}
               value={`question-${index}`}

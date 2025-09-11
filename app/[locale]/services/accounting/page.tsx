@@ -49,7 +49,7 @@ const Accounting = ({ params }: { params: { locale: string } }) => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <Hero params={params} />
-      <div className="max-w-[1200px] mx-auto px-4 md:px-6 mt-4">
+      <div className="max-w-[1200px] mx-auto px-4 md:px-0 mt-4">
         <Breadcrumbs
           rootLabel="Home"
           baseLabel="Services"

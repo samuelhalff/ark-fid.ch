@@ -16,6 +16,7 @@
         },
         "Consent": "Ich stimme zu, bezüglich meiner Anfrage kontaktiert zu werden",
         "Submit": "Nachricht senden",
+        "Sending": "Senden",
         "Success": "Nachricht erfolgreich gesendet!",
         "Error": "Fehler beim Senden der Nachricht. Bitte versuchen Sie es erneut."
     },

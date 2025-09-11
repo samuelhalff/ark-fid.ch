@@ -92,8 +92,7 @@ export async function getPageMetadata(
 
   // Prefer locale-specific OG image if available under public/assets/og/og-<locale>.webp|png
   const ogCandidates = [
-    `/assets/og/og-${locale}.webp`,
-    `/assets/og/og-${locale}.png`,
+    `/assets/og/og-${locale}.webp`
   ];
   // Dynamic article OG image route (Next.js /opengraph-image) if this is an article detail page
   const isArticle = path.startsWith('/ressources/articles/');

@@ -42,7 +42,7 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-full max-w-[100vw] p-0"
+        className="w-full max-w-[100vw] p-0 data-[state=open]:animate-in data-[state=open]:slide-in-from-right data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right"
         hideClose
         id="mobile-menu-panel"
         aria-label="Mobile navigation"
@@ -100,7 +100,7 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
                 href={`${localePrefix}/contact`}
                 onClick={handleLinkClick}
                 locale={locale}
-                className="block w-full text-center font-semibold text-lg py-3 rounded-xl border border-accent bg-transparent hover:bg-accent/30 transition-colors"
+                className="block w-full text-center font-semibold text-lg py-3 rounded-xl border border-accent bg-transparent hover:bg-accent/30 active:scale-[0.99] transition-all"
                 style={{ letterSpacing: 0.5 }}
               >
                 <TranslatedText
@@ -115,7 +115,7 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
                 href={`${localePrefix}/`}
                 onClick={handleLinkClick}
                 locale={locale}
-                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent active:scale-[0.99] transition-all font-bold"
               >
                 <span>
                   <TranslatedText
@@ -131,7 +131,7 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
                 href={`${localePrefix}/team`}
                 onClick={handleLinkClick}
                 locale={locale}
-                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent active:scale-[0.99] transition-all font-bold"
               >
                 <span>
                   <TranslatedText
@@ -147,7 +147,7 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
                 href={`${localePrefix}/about`}
                 onClick={handleLinkClick}
                 locale={locale}
-                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent active:scale-[0.99] transition-all font-bold"
               >
                 <span>
                   <TranslatedText
@@ -164,7 +164,7 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
                 href={`${localePrefix}/ressources`}
                 onClick={handleLinkClick}
                 locale={locale}
-                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent active:scale-[0.99] transition-all font-bold"
               >
                 <span>
                   <TranslatedText

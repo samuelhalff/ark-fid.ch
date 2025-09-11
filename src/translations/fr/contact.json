@@ -16,6 +16,7 @@
         },
         "Consent": "J'accepte d'être contacté concernant ma demande",
         "Submit": "Envoyer le message",
+        "Sending": "Envoi en cours",
         "Success": "Message envoyé avec succès !",
         "Error": "Échec de l'envoi du message. Veuillez réessayer."
     },
