@@ -11,6 +11,7 @@ import {
 } from "@/src/lib/metadata";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -79,6 +80,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const nonce = headers().get("x-nonce") || undefined;
+  const currentLocale = headers().get("x-locale") || "fr";
   const orgJsonLd = generateOrganizationStructuredData();
   const localBizJsonLd = generateLocalBusinessStructuredData();
   const webSiteJsonLd = {
@@ -93,7 +95,7 @@ export default function RootLayout({
     },
   } as const;
   return (
-    <html suppressHydrationWarning>
+    <html suppressHydrationWarning lang={currentLocale}>
       <body className={inter.className}>
         {/* Accessibility: Skip link */}
         <a
@@ -128,6 +130,8 @@ export default function RootLayout({
         <Providers>
           <div className="pt-3 abstract-background text-foreground pt-15 mt-10">
             {children}
+            {/* Vercel Analytics - auto-captures path-based data; locale is in path */}
+            <Analytics />
           </div>
         </Providers>
       </body>

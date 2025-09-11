@@ -9,13 +9,19 @@ const Navbar = ({ locale }: { locale?: string }) => {
   const localePrefix = locale ? `/${locale}` : "/fr";
   const [scrollTop, setScrollTop] = useState(0);
   useEffect(() => {
-    const onScroll = (e: any) => {
-      setScrollTop(e.target.documentElement.scrollTop);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollTop(document.documentElement.scrollTop);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener("scroll", onScroll);
-
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [scrollTop]);
+  }, []);
 
   return (
     <div className="fixed top-0 w-full max-w-[100vw] z-50">
@@ -27,7 +33,11 @@ const Navbar = ({ locale }: { locale?: string }) => {
       >
         <div className="h-full flex items-center max-w-[1200px] mx-auto justify-between px-4 sm:px-6">
           {/* preserve current locale in the logo link */}
-          <Link href={`${localePrefix}/`} locale={locale}>
+          <Link
+            href={`${localePrefix}/`}
+            locale={locale}
+            aria-label="Ark Fiduciaire homepage"
+          >
             <span>
               <Image
                 className="hidden dark:block"

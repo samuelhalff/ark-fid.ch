@@ -29,11 +29,25 @@ const MobileMenu = ({ locale }: { locale?: string }) => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" className="w-auto px-2 py-1 rounded-md">
+        <Button
+          variant="ghost"
+          className="w-auto px-2 py-1 rounded-md"
+          aria-haspopup="dialog"
+          aria-expanded={open}
+          aria-controls="mobile-menu-panel"
+          aria-label="Open menu"
+        >
           <Menu className="size-5" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-full max-w-[100vw] p-0" hideClose>
+      <SheetContent
+        side="right"
+        className="w-full max-w-[100vw] p-0"
+        hideClose
+        id="mobile-menu-panel"
+        aria-label="Mobile navigation"
+        role="dialog"
+      >
         <SheetTitle className="hidden">
           <TranslatedText
             ns="navbar"

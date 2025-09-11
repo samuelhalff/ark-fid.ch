@@ -112,14 +112,22 @@ const ServiceHero = async ({
           )}
         </div>
         <div className="flex-1 relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
-          <Image
-            src={imageSrc}
-            alt={imageAlt}
-            className="object-cover rounded-xl"
-            sizes="(min-width:1280px) 600px, (min-width:1024px) 520px, 90vw"
-            priority
-            fill
-          />
+          {(() => {
+            // Prefer translated alt if available; otherwise use provided fallback
+            const key = "ImageAlt";
+            const translated = t(key) as string;
+            const altText = translated === key ? imageAlt : translated;
+            return (
+              <Image
+                src={imageSrc}
+                alt={altText}
+                className="object-cover rounded-xl"
+                sizes="(min-width:1280px) 600px, (min-width:1024px) 520px, 90vw"
+                priority
+                fill
+              />
+            );
+          })()}
         </div>
       </div>
     </div>

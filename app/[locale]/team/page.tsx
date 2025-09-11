@@ -10,9 +10,14 @@ import Image from "next/image";
 import Link from "next/link";
 import ImageWithFallback from "@/src/components/ui/image-with-fallback";
 import { generateMetadataForPage } from "@/src/lib/metadata";
+import { type Locale } from "@/src/lib/i18n";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return await generateMetadataForPage("/team");
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return await generateMetadataForPage(locale as Locale, "/team");
 }
 const teamMembers = [
   {

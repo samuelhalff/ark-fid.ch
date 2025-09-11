@@ -1,5 +1,7 @@
 import { Metadata } from "next";
 import { Locale, locales, getCurrentLocale } from "./i18n";
+import fs from 'fs';
+import { join as pathJoin } from 'path';
 
 interface MetadataConfig {
   default: {
@@ -88,6 +90,21 @@ export async function getPageMetadata(
     locale === 'pt' ? 'pt_PT' :
     'en_US';
 
+  // Prefer locale-specific OG image if available under public/assets/og/og-<locale>.webp|png
+  const ogCandidates = [
+    `/assets/og/og-${locale}.webp`,
+    `/assets/og/og-${locale}.png`,
+  ];
+  const ogImage = (() => {
+    for (const rel of ogCandidates) {
+      const abs = pathJoin(process.cwd(), 'public', rel.replace(/^\//, ''));
+      try {
+        if (fs.existsSync(abs)) return rel;
+      } catch {}
+    }
+    return "/assets/main-bg.webp";
+  })();
+
   const metadata: Metadata = {
     metadataBase: new URL('https://ark-fid.ch'),
     title,
@@ -116,7 +133,7 @@ export async function getPageMetadata(
       siteName: config.default.siteName,
       images: [
         {
-          url: "/assets/main-bg.webp",
+          url: ogImage,
           width: 1200,
           height: 630,
           alt: "Ark Fiduciaire",
@@ -127,7 +144,7 @@ export async function getPageMetadata(
       card: "summary_large_image",
       title,
       description,
-      images: ["/assets/main-bg.webp"],
+      images: [ogImage],
     },
     icons: {
       icon: [

@@ -1,40 +1,30 @@
-// 1. ADD: This component uses hooks, so it must be a Client Component.
-"use client";
-
 import { Card, CardContent, CardHeader } from "@/src/components/ui/card";
-import services from "@/app/[locale]/home/components/services-items"; // Corrected import path
-import TranslatedText from "@/src/components/ui/translated-text"; // 2. ADD: Import our hydration-safe component
-import Image from "next/image"; // 3. CHANGE: We are now using the Next.js Image component
-import Link from "next/link"; // ADD: Import Link for navigation
+import services from "@/app/[locale]/home/components/services-items";
+import Image from "next/image";
+import Link from "next/link";
+import { getTranslations, type Locale } from "@/src/lib/i18n";
 
 interface ServicesProps {
   showSubtitle?: boolean;
   locale?: string;
 }
 
-const Services = ({ showSubtitle = false, locale }: ServicesProps) => {
+const Services = async ({ showSubtitle = false, locale }: ServicesProps) => {
+  const currentLocale = (locale as Locale) || ("fr" as Locale);
   const localePrefix = locale ? `/${locale}` : "/fr";
-  // We no longer need `useTranslation()` here, as TranslatedText handles it.
+  const tHome = await getTranslations(currentLocale, "home");
+  const tItems = await getTranslations(currentLocale, "servicesItems");
   return (
     <div
       id="services"
       className="max-w-[var(--breakpoint-xl)] mx-auto w-full py-12 xs:py-20 px-6"
     >
       <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight max-w-4xl mx-auto text-center mb-10">
-        {/* 4. CHANGE: Replaced t() with our hydration-safe component */}
-        <TranslatedText
-          translationKey="Services.Title"
-          fallbackText="Services"
-          ns="home"
-        />
+        {tHome("Services.Title")}
       </h2>
       {showSubtitle && (
         <p className="text-lg text-center mb-8 max-w-3xl mx-auto">
-          <TranslatedText
-            translationKey="Services.Subtitle"
-            fallbackText="Comprehensive fiduciary, accounting, and tax services tailored to your business needs."
-            ns="home"
-          />
+          {tHome("Services.Subtitle")}
         </p>
       )}
       <div className="mt-8 xs:mt-14 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -54,18 +44,10 @@ const Services = ({ showSubtitle = false, locale }: ServicesProps) => {
                   <div className="flex-shrink-0 mt-1">{service.icon}</div>
                   <div className="flex-1">
                     <h4 className="text-xl font-bold tracking-tight break-anywhere hyphenate">
-                      <TranslatedText
-                        translationKey={service.titleKey}
-                        fallbackText={service.titleKey}
-                        ns="servicesItems"
-                      />
+                      {tItems(service.titleKey)}
                     </h4>
                     <p className="mt-2 text-gray-700 dark:text-gray-300 text-md xs:text-[17px] break-anywhere hyphenate">
-                      <TranslatedText
-                        translationKey={service.descriptionKey}
-                        fallbackText={service.descriptionKey}
-                        ns="servicesItems"
-                      />
+                      {tItems(service.descriptionKey)}
                     </p>
                   </div>
                 </div>
@@ -79,7 +61,7 @@ const Services = ({ showSubtitle = false, locale }: ServicesProps) => {
                   <div className="relative h-56 w-full overflow-hidden rounded-lg bg-muted/30 mt-5">
                     <Image
                       src={service.image}
-                      alt={service.titleKey}
+                      alt={tItems(service.titleKey)}
                       width={800}
                       height={450}
                       sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"

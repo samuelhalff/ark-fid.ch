@@ -8,20 +8,13 @@ import {
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import TranslatedText from "@/src/components/ui/translated-text";
 
-function ListItem({
-  children,
-  onClick,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-}) {
+function ListItem({ children }: { children: React.ReactNode }) {
   return (
-    <NavigationMenuLink asChild className="text-md" onClick={onClick}>
-      <button className="cursor-pointer py-3 px-4 text-left w-full">
-        {children}
-      </button>
+    <NavigationMenuLink asChild className="text-md">
+      {children}
     </NavigationMenuLink>
   );
 }
@@ -54,7 +47,7 @@ export default function LangSwitch(): React.ReactElement {
     [activeLang]
   );
 
-  function navigateToLocale(targetLocale: string) {
+  function buildHref(targetLocale: string) {
     const segments = pathname.replace(/^\/+|\/+$/g, "").split("/");
     let newSegments: string[];
     if (validLocalesArray.includes(segments[0])) {
@@ -64,8 +57,7 @@ export default function LangSwitch(): React.ReactElement {
       newSegments = [targetLocale, ...segments.filter(Boolean)];
     }
     const qs = searchParams?.toString();
-    const newPath = `/${newSegments.join("/")}${qs ? `?${qs}` : ""}`;
-    router.push(newPath);
+    return `/${newSegments.join("/")}${qs ? `?${qs}` : ""}`;
   }
 
   return (
@@ -75,15 +67,27 @@ export default function LangSwitch(): React.ReactElement {
         <span style={{ minWidth: 17 }}> {activeLang.toUpperCase()}</span>
       </NavigationMenuTrigger>
       <NavigationMenuContent>
-        {options.map((opt) => (
-          <ListItem key={opt.code} onClick={() => navigateToLocale(opt.code)}>
-            <TranslatedText
-              ns="navbar"
-              translationKey={opt.key}
-              fallbackText={opt.label}
-            />
-          </ListItem>
-        ))}
+        {options.map((opt) => {
+          const href = buildHref(opt.code);
+          return (
+            <ListItem key={opt.code}>
+              <Link
+                href={href}
+                prefetch={false}
+                hrefLang={opt.code}
+                rel="alternate"
+                aria-label={`Switch language to ${opt.label}`}
+                className="cursor-pointer block py-3 px-4 text-left w-full"
+              >
+                <TranslatedText
+                  ns="navbar"
+                  translationKey={opt.key}
+                  fallbackText={opt.label}
+                />
+              </Link>
+            </ListItem>
+          );
+        })}
       </NavigationMenuContent>
     </NavigationMenuItem>
   );

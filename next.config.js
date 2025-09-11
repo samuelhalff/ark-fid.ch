@@ -20,6 +20,8 @@ const nextConfig = {
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'X-DNS-Prefetch-Control', value: 'on' },
           { key: 'Permissions-Policy', value: 'geolocation=(), microphone=(), camera=()' },
+          // Expect-CT is deprecated by Chrome; retained for legacy clients/infrastructure
+          { key: 'Expect-CT', value: 'max-age=0, enforce' },
           // HSTS only in prod and over HTTPS
           ...(isProd
             ? [{ key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' }]

@@ -12,7 +12,9 @@
     "assets:pdfs:dry": "node scripts/download-missing-pdfs.js --locale fr --dry-run",
     "assets:audit": "node scripts/audit-image-usage.js > image-usage.csv",
     "assets:cleanup": "node scripts/cleanup-unused-originals.js",
-    "assets:lint": "node scripts/check-assets.js"
+    "assets:lint": "node scripts/check-assets.js",
+    "links:list": "node scripts/check-links.js",
+    "links:check": "NEXT_BASE_URL=http://localhost:5000 node scripts/check-links.js --http"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -27,6 +29,7 @@
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@tailwindcss/typography": "^0.5.16",
+    "@vercel/analytics": "^1.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.1.7",

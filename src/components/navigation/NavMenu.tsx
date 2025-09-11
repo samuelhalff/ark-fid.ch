@@ -81,7 +81,11 @@ function NavMenu({
               navigationMenuTriggerStyle() + (isActive("/") ? " bg-accent" : "")
             }
           >
-            <Link href={`${localePrefix}/`} locale={locale}>
+            <Link
+              href={`${localePrefix}/`}
+              locale={locale}
+              aria-current={isActive(`${localePrefix}/`) ? "page" : undefined}
+            >
               <TranslatedText
                 ns="navbar"
                 translationKey="Home"
@@ -98,7 +102,13 @@ function NavMenu({
               (isActive("/team") ? " bg-accent" : "")
             }
           >
-            <Link href={`${localePrefix}/team`} locale={locale}>
+            <Link
+              href={`${localePrefix}/team`}
+              locale={locale}
+              aria-current={
+                isActive(`${localePrefix}/team`) ? "page" : undefined
+              }
+            >
               <TranslatedText
                 ns="navbar"
                 translationKey="Team"
@@ -109,7 +119,7 @@ function NavMenu({
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <NavigationMenuTrigger>
+          <NavigationMenuTrigger aria-haspopup="menu">
             <TranslatedText
               ns="navbar"
               translationKey="Services"
@@ -150,7 +160,13 @@ function NavMenu({
               (isActive("/ressources") ? " bg-accent" : "")
             }
           >
-            <Link href={`${localePrefix}/ressources`} locale={locale}>
+            <Link
+              href={`${localePrefix}/ressources`}
+              locale={locale}
+              aria-current={
+                isActive(`${localePrefix}/ressources`) ? "page" : undefined
+              }
+            >
               <TranslatedText
                 ns="navbar"
                 translationKey="Ressources"
@@ -167,7 +183,13 @@ function NavMenu({
               (isActive("/about") ? " bg-accent" : "")
             }
           >
-            <Link href={`${localePrefix}/about`} locale={locale}>
+            <Link
+              href={`${localePrefix}/about`}
+              locale={locale}
+              aria-current={
+                isActive(`${localePrefix}/about`) ? "page" : undefined
+              }
+            >
               <TranslatedText
                 ns="navbar"
                 translationKey="About"
@@ -184,7 +206,13 @@ function NavMenu({
               (isActive("/contact") ? " bg-accent" : "")
             }
           >
-            <Link href={`${localePrefix}/contact`} locale={locale}>
+            <Link
+              href={`${localePrefix}/contact`}
+              locale={locale}
+              aria-current={
+                isActive(`${localePrefix}/contact`) ? "page" : undefined
+              }
+            >
               <TranslatedText
                 ns="navbar"
                 translationKey="Contact"

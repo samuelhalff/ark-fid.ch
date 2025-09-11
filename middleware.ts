@@ -20,7 +20,7 @@ export function middleware(request: NextRequest) {
           `style-src 'self' 'unsafe-inline'`,
           `img-src 'self' data: blob: https:`,
           `font-src 'self' data:`,
-          `connect-src 'self' https:`,
+          `connect-src 'self' https: https://vitals.vercel-analytics.com`,
           `frame-ancestors 'self'`,
           `base-uri 'self'`,
           `form-action 'self'`,
@@ -34,7 +34,7 @@ export function middleware(request: NextRequest) {
           `img-src 'self' data: blob: https:`,
           `font-src 'self' data:`,
           // Allow HMR/WebSocket in dev
-          `connect-src 'self' http: https: ws: wss:`,
+          `connect-src 'self' http: https: ws: wss: https://vitals.vercel-analytics.com`,
           `frame-ancestors 'self'`,
           `base-uri 'self'`,
           `form-action 'self'`,
@@ -60,6 +60,8 @@ export function middleware(request: NextRequest) {
     response.headers.set('X-Frame-Options', 'SAMEORIGIN')
     response.headers.set('X-DNS-Prefetch-Control', 'on')
     response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()')
+  // Expect-CT was deprecated by Chrome in 2021; kept for legacy intermediaries
+  response.headers.set('Expect-CT', 'max-age=0, enforce, report-uri="https://example.com/report"')
     if (isProd) {
       response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
     }
@@ -77,6 +79,7 @@ export function middleware(request: NextRequest) {
   response.headers.set('X-Frame-Options', 'SAMEORIGIN')
   response.headers.set('X-DNS-Prefetch-Control', 'on')
   response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()')
+  response.headers.set('Expect-CT', 'max-age=0, enforce, report-uri="https://example.com/report"')
   if (isProd) {
     response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
   }

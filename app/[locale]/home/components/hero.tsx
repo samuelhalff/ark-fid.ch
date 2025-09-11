@@ -95,6 +95,7 @@ const Hero = async ({ locale }: HeroProps) => {
             sizes="(min-width:1280px) 640px, (min-width:1024px) 520px, 90vw"
             quality={70}
             priority
+            fetchPriority="high"
             fill
           />
         </div>

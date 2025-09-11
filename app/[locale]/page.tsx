@@ -2,8 +2,19 @@ import { type Metadata } from "next";
 import { headers } from "next/headers";
 import Hero from "@/app/[locale]/home/components/hero";
 import Services from "@/app/[locale]/home/components/services";
-import FAQ from "@/app/[locale]/home/components/faq";
-import Contact from "@/src/components/ui/contact-form";
+import dynamic from "next/dynamic";
+const FAQ = dynamic(() => import("@/app/[locale]/home/components/faq"), {
+  ssr: false,
+  loading: () => null,
+});
+const Contact = dynamic(() => import("@/src/components/ui/contact-form"), {
+  ssr: false,
+  loading: () => null,
+});
+const Testimonials = dynamic(() => import("@/src/components/ui/testimonials"), {
+  ssr: false,
+  loading: () => null,
+});
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { type Locale } from "@/src/lib/i18n";
 
@@ -59,9 +70,9 @@ export default async function Home({ params }: { params: { locale: string } }) {
       <section id="faq">
         <FAQ />
       </section>
-      {/* <section id="testimonials">
-        <Testimonials />
-      </section> */}
+      <section id="testimonials">
+        <Testimonials locale={locale} />
+      </section>
       <section id="contact">
         <Contact />
       </section>

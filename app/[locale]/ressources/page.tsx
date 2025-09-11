@@ -1,11 +1,16 @@
 import React from "react";
+import { type Metadata } from "next";
+import { headers } from "next/headers";
 import TranslatedText from "@/src/components/ui/translated-text";
 import ResourceGrid from "./components/ResourceGrid";
 import { notFound } from "next/navigation";
+import { generateMetadataForPage } from "@/src/lib/metadata";
+import { type Locale } from "@/src/lib/i18n";
 
 type LocaleParams = { params: { locale: string } };
 
 export default async function RessourcesPage({ params }: LocaleParams) {
+  const nonce = headers().get("x-nonce") || undefined;
   const locale = params?.locale || "fr";
 
   // Load translation JSON directly on the server to avoid importing client libraries
@@ -34,6 +39,19 @@ export default async function RessourcesPage({ params }: LocaleParams) {
 
   return (
     <main className="max-w-[1200px] mx-auto px-4 py-10 mt-10">
+      <script
+        type="application/ld+json"
+        nonce={nonce}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Resources" },
+            ],
+          }),
+        }}
+      />
       <section className="mb-12">
         <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-4">
           <TranslatedText
@@ -82,4 +100,12 @@ export default async function RessourcesPage({ params }: LocaleParams) {
       </section>
     </main>
   );
+}
+
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return await generateMetadataForPage(locale as Locale, "/ressources");
 }

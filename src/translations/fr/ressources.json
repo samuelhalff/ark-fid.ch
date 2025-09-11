@@ -65,88 +65,257 @@
   ],
   "Articles": [
     {
-      "slug": "annual-vat-settlement-2025",
-      "title": "Décompte TVA annuel en Suisse : points clés pour 2025",
-      "description": "Un résumé des principales règles et points d'attention pour le décompte TVA annuel en 2025.",
-      "content": "Pour l'année fiscale 2025, les entreprises suisses doivent continuer à utiliser soit la **méthode effective** (basée sur 4 déclarations TVA) soit la **méthode du taux de l'impôt net (TIN)** (2 déclarations TVA), comme appliqué précédemment.\n\n## Caractéristiques clés du décompte TVA annuel\n\n- Changer votre méthode de décompte TVA nécessite de notifier l'Administration fédérale des contributions (AFC) au début de chaque période fiscale, dans les 60 jours (pour 2026 : entre le 01.01.2026 et le 28.02.2026 pour un premier changement). La nouvelle méthode doit être conservée pendant au moins une période fiscale complète pour les entreprises avec un chiffre d'affaires inférieur à CHF 5'005'000.\n- Autres conditions : toutes les dettes fiscales doivent être entièrement payées et toutes les déclarations soumises à temps pour les trois périodes fiscales précédentes.\n- L'AFC détermine le montant des acomptes, facturés en trois versements. Ceux-ci peuvent être ajustés jusqu'à 10 jours avant la date d'échéance pertinente.\n- Les extensions de délai restent possibles.\n- L'AFC peut révoquer l'autorisation si :\n  - elle a dû initier une procédure de recouvrement contre le contribuable,\n  - le contribuable a dépassé la limite de CHF 5'005'000 de chiffre d'affaires pendant trois périodes consécutives,\n  - l'AFC a dû estimer les impôts dus à des déclarations manquantes.\n\n## Points d'attention\n\n- Si les acomptes sont trop bas, des intérêts de retard (4,5 %) seront facturés.\n- Pas de possibilité de réclamer des remboursements d'impôt préalable basés sur les acomptes.\n- L'autorisation peut être révoquée si les acomptes dévient trop des montants réellement dus.\n- S'il y a un crédit d'impôt, il ne peut être remboursé que l'année suivante (en mars).\n",
-      "author": "Sébastien Gallié",
-      "date": "2025-08-25",
-      "references": [
-        {
-          "labelKey": "SwissVATOffice",
-          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
-        }
-      ]
-    },
-    {
-      "slug": "transformation-digitale-fiduciaires-suisses-2025",
-      "title": "Transformation digitale des fiduciaires suisses : révolution en 2025",
-      "description": "Comment les fiduciaires suisses révolutionnent leurs services grâce à l'IA, l'automatisation et les nouvelles technologies pour optimiser l'expérience client.",
-      "content": "L'année 2025 marque un tournant décisif pour les **fiduciaires suisses** qui embrassent pleinement la transformation digitale. Cette évolution transforme radicalement la relation client et redéfinit la valeur ajoutée des services fiduciaires traditionnels.\n\n## Intelligence artificielle au service de la comptabilité\n\nL'**intelligence artificielle comptable** révolutionne les pratiques quotidiennes des fiduciaires. Les cabinets leaders du marché intègrent désormais des solutions d'IA pour automatiser la saisie comptable, détecter les anomalies et optimiser les processus de contrôle.\n\n### Automatisation des tâches répétitives\n\nLes **logiciels fiduciaires modernes** permettent :\n- **reconnaissance automatique** des factures via OCR avancée\n- **catégorisation intelligente** des écritures comptables\n- **rapprochements bancaires automatisés** en temps réel\n- **génération automatique** des déclarations TVA et fiscales\n\nCette automatisation libère les experts-comptables des tâches administratives pour se concentrer sur le conseil stratégique à haute valeur ajoutée.\n\n## Facturation électronique : nouvelle norme\n\nLa **facturation électronique** devient incontournable en 2025. Les fiduciaires accompagnent leurs clients dans cette transition obligatoire qui simplifie les échanges commerciaux et améliore la traçabilité financière.\n\n### Avantages de la e-facturation\n\n- **réduction des coûts** de traitement administratif\n- **amélioration de la trésorerie** par des paiements plus rapides\n- **conformité automatique** aux normes fiscales\n- **archivage sécurisé** et recherche facilitée\n\n## Plateformes collaboratives cloud\n\nLes **solutions cloud comptables** transforment la collaboration client-fiduciaire. L'accès temps réel aux données financières permet un pilotage dynamique de l'entreprise.\n\n### Fonctionnalités avancées\n\n- **tableaux de bord interactifs** avec KPI personnalisés\n- **messagerie intégrée** pour communication instantanée\n- **gestion documentaire** centralisée et sécurisée\n- **suivi budgétaire** en temps réel avec alertes automatiques\n\n## Cybersécurité renforcée\n\nLa **sécurité des données comptables** reste prioritaire. Les fiduciaires investissent massivement dans des infrastructures de cybersécurité de niveau bancaire.\n\n### Mesures de protection\n\n- **chiffrement end-to-end** de toutes les communications\n- **authentification multi-facteurs** pour tous les accès\n- **sauvegardes automatiques** avec géo-redondance\n- **audit trails complets** pour traçabilité maximale\n\n## Services conseil personnalisés\n\nLa digitalisation permet aux fiduciaires de proposer des **services conseil sur mesure** basés sur l'analyse prédictive des données financières.\n\n### Nouvelles prestations\n\n- **analyse prédictive de trésorerie** avec scénarios multiples\n- **optimisation fiscale personnalisée** selon le profil d'entreprise\n- **conseil en financement** basé sur les données historiques\n- **planification stratégique** avec modélisation financière\n\n## Mobile-first : comptabilité nomade\n\nLes **applications mobiles fiduciaires** permettent une gestion comptable nomade adaptée aux entrepreneurs modernes.\n\n### Applications mobiles avancées\n\n- **scan automatique** de tickets et factures\n- **validation** des écritures en mobilité\n- **notifications push** pour échéances importantes\n- **consultation** des rapports financiers anywhere, anytime\n\n## Formation continue et accompagnement\n\nLa réussite de cette transformation digitale repose sur l'**accompagnement client personnalisé**. Les fiduciaires investissent dans la formation de leurs équipes et de leurs clients.\n\n### Programmes de formation\n\n- **webinaires réguliers** sur les nouveautés technologiques\n- **tutoriels interactifs** pour maîtriser les nouveaux outils\n- **support technique dédié** avec hotline spécialisée\n- **sessions one-to-one** pour accompagnement personnalisé\n\n## Impact sur la relation client\n\nCette transformation digitale redéfinit fondamentalement la **relation fiduciaire-client**, passant d'un service transactionnel à un véritable partenariat stratégique.\n\n### Nouveaux standards de service\n\n- **réactivité accrue** grâce aux notifications temps réel\n- **transparence totale** sur l'évolution financière\n- **proactivité renforcée** avec alertes préventives\n- **personnalisation poussée** selon les besoins spécifiques\n\nLes fiduciaires qui embrassent cette transformation digitale se positionnent comme de véritables **partenaires de croissance** pour leurs clients, offrant bien plus qu'une simple tenue de comptes.",
+      "slug": "declaration-revenus-locatifs-2025",
+      "title": "Déclaration des Revenus Locatifs 2025 : Obligations et Optimisation",
+      "description": "Guide complet sur la déclaration des revenus tirés de la location en Suisse : taux d’imposition, déductions autorisées et conseils pratiques pour optimiser votre fiscalité.",
       "author": "Ark Fiduciaire",
-      "date": "2025-09-05",
+      "date": "2025-09-11",
       "references": [
         {
-          "labelKey": "WekaFiduciairesInnovation",
-          "url": "https://www.weka.ch/themes/finances-tva/comptabilite-financiere/comptabilite/article/au-dela-de-la-comptabilite-les-fiduciaires-suisses-et-linnovation-au-service-du-client/"
+          "labelKey": "chchRevenusLocatifs",
+          "url": "https://www.ch.ch/fr/impots-et-finances/revenus-locatifs/"
         },
         {
-          "labelKey": "DRMKComptabilite2025",
-          "url": "https://drmk.ch/fiduciaire-geneve-les-tendances-incontournables-de-la-comptabilite-en-2025/"
+          "labelKey": "klaraPME2025",
+          "url": "https://www.klara.ch/fr-ch/blog/gesetzes%C3%A4nderungen-2025-das-m%C3%BCssen-schweizer-kmu-jetzt-wissen"
         }
       ]
     },
     {
-      "slug": "optimisation-fiscale-pme-suisse-strategies-2025",
-      "title": "Optimisation fiscale PME suisse : stratégies gagnantes 2025",
-      "description": "Découvrez les meilleures stratégies d'optimisation fiscale pour PME suisses en 2025 : déductions, choix cantonal, planification et conformité légale.",
-      "content": "L'**optimisation fiscale PME** représente un enjeu crucial pour la compétitivité des petites et moyennes entreprises en Suisse. Face à la complexité du système fiscal helvétique, une stratégie bien pensée peut générer des économies substantielles.\n\n## Avantages du Système Fiscal Suisse\n\nLa **fiscalité des entreprises suisses** offre de nombreux avantages concurrentiels par rapport aux autres pays européens.\n\n### Taux d'Imposition Compétitifs\n\nLe système fiscal suisse combine trois niveaux d'imposition :\n- **Impôt fédéral direct (IFD)** : 8,5% sur les bénéfices\n- **Impôts cantonaux** : variables selon les cantons (3% à 12%)\n- **Impôts communaux** : calculés en fonction du multiplicateur local\n\nAu total, les **taux effectifs d'imposition** varient entre 11% et 21% selon la localisation, plaçant la Suisse parmi les juridictions les plus attractives d'Europe.\n\n## Choix Stratégique du Canton d'Implantation\n\nLe **choix du canton** constitue la première décision stratégique pour optimiser la charge fiscale d'une PME.\n\n### Cantons à Fiscalité Avantageuse\n\n**Top 5 des cantons fiscalement attractifs** pour les PME :\n\n1. **Zoug** : Taux effectif global de 11,9%\n2. **Lucerne** : Environ 12,3% de taux combiné\n3. **Nidwald** : Particulièrement avantageux pour les holding\n4. **Schwyz** : Excellent pour les sociétés commerciales\n5. **Appenzell Rodrigues-Intérieures** : Fiscalité très compétitive\n\n### Facteurs de Décision\n\nAu-delà de la fiscalité, considérer :\n- **Accès aux talents** et bassin d'emploi\n- **Infrastructure logistique** et connectivité\n- **Écosystème économique** sectoriel\n- **Qualité des services publics** et administration\n\n## Déductions Fiscales Stratégiques\n\nLes **déductions fiscales entreprises** permettent de réduire significativement la base imposable.\n\n### Déductions Opérationnelles\n\n- **Frais de personnel** : salaires, charges sociales, formations\n- **Frais de locaux** : loyers, charges, amortissements immobiliers\n- **Frais administratifs** : fournitures, télécommunications, assurances\n- **Frais de marketing** : publicité, événements, relations clients\n\n### Investissements Déductibles\n\n- **Recherche et développement** : déduction intégrale des coûts R&D\n- **Formation professionnelle** : investissements dans les compétences\n- **Équipements informatiques** : amortissement accéléré possible\n- **Véhicules professionnels** : selon barème d'usage privé\n\n## Optimisation de la Forme Juridique\n\nLa **forme juridique** impacte directement la fiscalité de l'entreprise.\n\n### Comparaison des Structures\n\n**Société Anonyme (SA)** :\n- Impôt sur les bénéfices : selon barème cantonal\n- Impôt sur le capital : généralement 0,1% à 0,5%\n- Dividendes : imposition partielle (participation de 10%+)\n\n**Société à Responsabilité Limitée (Sàrl)** :\n- Fiscalité similaire à la SA\n- Plus de flexibilité dans la répartition des bénéfices\n- Coûts de constitution réduits\n\n**Raison Individuelle** :\n- Imposition au barème progressif des personnes physiques\n- Pas d'impôt sur le capital\n- Simplicité administrative accrue\n\n## Planification Fiscale Avancée\n\nLa **planification fiscale** permet d'optimiser la charge fiscale sur plusieurs exercices.\n\n### Stratégies de Lissage\n\n- **Provisions pour risques** : anticiper les charges futures\n- **Report de créances** : décaler la reconnaissance de revenus\n- **Amortissements dégressifs** : optimiser la répartition temporelle\n- **Investissements timing** : coordonner avec l'exercice fiscal\n\n### Optimisation de la Trésorerie\n\n- **Acomptes fiscaux** : calculer au plus juste pour optimiser le cash-flow\n- **Paiements anticipés** : profiter des escomptes sur taxes\n- **Répartition des bénéfices** : équilibrer dividendes et réserves\n\n## TVA et Optimisation\n\nLa **gestion TVA optimisée** peut générer des avantages de trésorerie significatifs.\n\n### Méthodes de Décompte\n\n**Décompte effectif** :\n- Déclarations trimestrielles\n- Déduction intégrale de l'impôt préalable\n- Adapté aux entreprises avec marge importante\n\n**Taux de l'impôt net (TIN)** :\n- Déclarations semestrielles\n- Calcul forfaitaire selon le chiffre d'affaires\n- Idéal pour entreprises à marge faible\n\n## Structuration Internationale\n\nPour les PME avec activité internationale, la **structuration fiscale** devient cruciale.\n\n### Conventions de Double Imposition\n\nLa Suisse dispose d'un réseau étendu de conventions fiscales permettant :\n- **Évitement de la double imposition** sur revenus internationaux\n- **Réduction des retenues à la source** sur dividendes et redevances\n- **Procédures amiables** en cas de différends fiscaux\n\n### Régimes Spéciaux\n\n- **Société de domicile** : pour revenus de participations\n- **Société auxiliaire** : pour prestations de services intragroupe\n- **Centre de coordination** : pour activités de gestion centralisée\n\n## Conformité et Risques\n\nL'**optimisation fiscale légale** exige le respect strict des règles anti-évasion.\n\n### Substance Économique\n\nLes autorités fiscales vérifient :\n- **Personnel qualifié** sur place\n- **Locaux appropriés** à l'activité\n- **Prise de décision effective** en Suisse\n- **Activité économique réelle** et documentée\n\n### Documentation Obligatoire\n\n- **Prix de transfert** : justification des opérations intragroupe\n- **Conventions d'actionnaires** : transparence sur la gouvernance\n- **Procès-verbaux détaillés** : traçabilité des décisions\n\nL'optimisation fiscale des PME suisses nécessite une approche globale combinant choix stratégiques, planification rigoureuse et respect de la conformité légale. L'accompagnement par des experts fiscaux spécialisés s'avère indispensable pour maximiser les bénéfices tout en minimisant les risques.",
+      "slug": "impot-source-frontaliers-2025",
+      "title": "Impôt à la Source pour Frontaliers : Nouveautés 2025",
+      "description": "Tout savoir sur les règles actualisées de l’impôt à la source pour les travailleurs frontaliers en Suisse : barèmes, procédures et points de vigilance.",
       "author": "Ark Fiduciaire",
-      "date": "2025-09-03",
+      "date": "2025-09-11",
       "references": [
         {
-          "labelKey": "SimelfiFiscalitePME",
-          "url": "https://simelfi.ch/fiscalite-des-pme-en-suisse-tout-ce-quil-faut-savoir-pour-optimiser-vos-finances/"
+          "labelKey": "pwcfiscaliteFrontaliers",
+          "url": "https://www.pwc.ch/fr/insights/mybusiness/mise-a-jour-rh-changements-2024-2025.html"
         },
         {
-          "labelKey": "ActuPMEClassement",
-          "url": "https://www.actu-pme.ch/entreprises/143879/guide-de-la-fiscalite-suisse-pour-les-entreprise/"
+          "labelKey": "geneveImpotsFrontaliers",
+          "url": "https://www.ge.ch/dossier/vos-impots"
         }
       ]
     },
     {
-      "slug": "gestion-paie-suisse-automatisation-2025",
-      "title": "Gestion de paie suisse 2025 : automatisation et conformité optimale",
-      "description": "Guide complet sur la gestion de paie en Suisse en 2025 : automatisation, obligations légales, logiciels et meilleures pratiques pour PME.",
-      "content": "La **gestion de paie en Suisse** devient de plus en plus complexe avec l'évolution constante des réglementations sociales et fiscales. L'automatisation représente désormais la clé d'une gestion efficace et conforme.\n\n## Défis de la Gestion de Paie Suisse\n\nLa **complexité paie suisse** découle de plusieurs facteurs spécifiques au système helvétique.\n\n### Spécificités Cantonales\n\nChaque canton applique ses propres règles :\n- **Taux d'imposition** variables selon la commune\n- **Barèmes impôt à la source** différenciés\n- **Allocations familiales** avec montants cantonaux\n- **Caisses de compensation** régionales spécialisées\n\n### Assurances Sociales Complexes\n\nLe système suisse intègre de nombreuses assurances :\n- **AVS/AI/APG** : 10,6% partagés employeur/employé\n- **Assurance chômage (AC)** : 2,2% jusqu'à CHF 148'200\n- **LAA accidents** : taux variables selon les risques\n- **LPP prévoyance** : taux échelonnés par âge\n- **Assurance maladie IJM** : selon convention collective\n\n## Automatisation de la Paie\n\nL'**automatisation paie** révolutionne la gestion des salaires en réduisant les erreurs et optimisant les processus.\n\n### Logiciels de Paie Modernes\n\nLes **logiciels paie suisse** leaders du marché offrent :\n\n**Fonctionnalités Core** :\n- Calcul automatique des cotisations sociales\n- Gestion des impôts à la source\n- Génération des bulletins de salaire\n- Déclarations aux autorités automatisées\n\n**Modules Avancés** :\n- Intégration temps de travail\n- Gestion des notes de frais\n- Planification des congés\n- Reporting RH personnalisé\n\n### Intégrations Système\n\nL'interopérabilité des systèmes permet :\n- **Connexion bancaire** : virements automatiques\n- **Interface comptable** : écritures automatiques\n- **Portail employé** : consultation dématérialisée\n- **APIs ouvertes** : intégration applications tierces\n\n## Compliance et Obligations Légales\n\nLa **conformité paie suisse** exige le respect rigoureux de multiples obligations.\n\n### Déclarations Obligatoires\n\n**Mensuelles** :\n- Déclarations aux caisses de compensation\n- Relevés des contributions LPP\n- Impôts à la source cantonaux\n\n**Annuelles** :\n- Certificats de salaire (avant 31 janvier)\n- Statistiques des salaires (OFS)\n- Déclarations fiscales consolidées\n\n### Contrôles Qualité\n\nProcessus de validation multi-niveaux :\n- **Contrôles automatiques** : cohérence des données\n- **Validation croisée** : comparaison historique\n- **Audit trails** : traçabilité complète\n- **Rapprochements** : vérifications comptables\n\n## Optimisation des Processus RH\n\nLa **gestion RH optimisée** dépasse la simple administration salariale.\n\n### Dématérialisation Complète\n\n- **Bulletins électroniques** : envoi sécurisé par email\n- **Coffre-fort numérique** : archivage légal automatisé\n- **Signature électronique** : contrats dématérialisés\n- **Workflow digital** : validation hiérarchique automatisée\n\n### Self-Service Employés\n\nPortails employés avec accès à :\n- Historique des bulletins de paie\n- Demandes de congés en ligne\n- Mise à jour des données personnelles\n- Téléchargement des attestations\n\n## Gestion des Cas Complexes\n\nLa **paie complexe suisse** nécessite une expertise spécialisée pour certaines situations.\n\n### Expatriés et Frontaliers\n\n**Travailleurs frontaliers** :\n- Accords fiscaux spécifiques (France, Allemagne, Italie)\n- Répartition des impositions selon résidence\n- Gestion des conventions sociales bilatérales\n\n**Expatriés en Suisse** :\n- Forfait d'imposition négocié\n- Couverture sociale internationale\n- Avantages en nature spécifiques\n\n### Secteurs Spécialisés\n\n**Construction** :\n- Caisses paritaires obligatoires\n- Indemnités intempéries\n- 13ème salaire sectoriel\n\n**Hôtellerie-Restauration** :\n- Pourboires et service compris\n- Logement et nourriture\n- Horaires atypiques\n\n## Technologies Émergentes\n\nL'**innovation paie** s'appuie sur les dernières technologies.\n\n### Intelligence Artificielle\n\n- **Prédiction d'erreurs** : détection proactive d'anomalies\n- **Optimisation fiscale** : suggestions automatiques\n- **Analytics RH** : indicateurs prédictifs\n- **Chatbots** : support automatisé employés\n\n### Blockchain et Sécurité\n\n- **Horodatage** : certification des opérations\n- **Smart contracts** : automatisation conditionnelle\n- **Audit immutable** : traçabilité renforcée\n- **Chiffrement avancé** : protection données personnelles\n\n## Externalisation vs Internalisation\n\nLe choix entre **externalisation paie** et gestion interne dépend de multiples facteurs.\n\n### Avantages de l'Externalisation\n\n**Bénéfices opérationnels** :\n- Expertise spécialisée garantie\n- Mise à jour réglementaire automatique\n- Réduction des coûts fixes RH\n- Focus sur le cœur de métier\n\n**Sécurité juridique** :\n- Responsabilité professionnelle transférée\n- Veille légale permanente\n- Processus certifiés\n- Support audit et contrôles\n\n### Critères de Décision\n\n**Seuil de rentabilité** : généralement à partir de 20 employés\n**Complexité** : secteurs réglementés ou internationaux\n**Ressources internes** : disponibilité d'expertise RH\n**Confidentialité** : sensibilité des informations salariales\n\n## Formation et Accompagnement\n\nLa **formation paie suisse** reste essentielle pour maîtriser les évolutions réglementaires.\n\n### Programme de Formation\n\n- **Formations certifiantes** : diplômes RH reconnus\n- **Webinaires spécialisés** : actualités législatives\n- **Workshops pratiques** : cas concrets sectoriels\n- **E-learning** : formation continue flexible\n\n### Support Technique\n\n- **Hotline spécialisée** : support en temps réel\n- **Base de connaissances** : FAQ et procédures\n- **Community** : partage d'expériences\n- **Mises à jour** : alertes réglementaires automatiques\n\nLa gestion de paie suisse en 2025 exige une approche moderne combinant automatisation, expertise réglementaire et accompagnement personnalisé. Les entreprises qui investissent dans ces solutions s'assurent conformité, efficacité et satisfaction de leurs collaborateurs.",
+      "slug": "plan-epargne-individuel-fiscalite",
+      "title": "Plan Épargne Individuel (PEI) : Avantages Fiscaux et Stratégies 2025",
+      "description": "Comment tirer parti du PEI pour réduire votre charge fiscale et préparer votre retraite : plafonds de déduction, conditions d’éligibilité et meilleures pratiques.",
       "author": "Ark Fiduciaire",
-      "date": "2025-09-01",
+      "date": "2025-09-11",
       "references": [
         {
-          "labelKey": "MaiteaGestionPaie",
-          "url": "https://www.maitea.ch/les-strategies-de-gestion-de-la-paie-pour-les-entreprises-en-suisse/"
+          "labelKey": "efdPEI",
+          "url": "https://www.efd.admin.ch/efd/fr/home/paie-et-impots/impots-des-personnes-physiques/plan-epargne-individuel.html"
         },
         {
-          "labelKey": "GlobalizationPartnersPayroll",
-          "url": "https://www.globalization-partners.com/fr/globalpedia/switzerland/payroll/"
+          "labelKey": "ferGEPEI",
+          "url": "https://www.fer-ge.ch/fiscalite"
         }
       ]
     },
     {
-      "slug": "comptabilite-pme-suisse-normes-2025",
-      "title": "Comptabilité PME suisse 2025 : nouvelles normes et obligations",
-      "description": "Guide des obligations comptables pour PME suisses en 2025 : normes légales, tenue des livres, états financiers et conseils pratiques de conformité.",
-      "content": "La **comptabilité PME suisse** évolue constamment avec de nouvelles exigences réglementaires et des standards plus stricts. Les petites et moyennes entreprises doivent adapter leurs pratiques comptables pour rester conformes.\n\n## Obligations comptables légales\n\nLe **Code des obligations suisse** définit des obligations comptables différenciées selon la taille de l'entreprise.\n\n### Classification des entreprises\n\n**Petites entreprises** (exemptées de révision) :\n- chiffre d'affaires < CHF 500'000\n- total du bilan < CHF 200'000\n- effectif < 10 équivalents temps plein\n\n**Moyennes entreprises** (révision restreinte) :\n- dépassement de 2 des 3 critères précédents\n- révision par expert-comptable agréé obligatoire\n\n**Grandes entreprises** (révision ordinaire) :\n- chiffre d'affaires > CHF 40 millions\n- total du bilan > CHF 20 millions\n- effectif > 250 équivalents temps plein\n\n### Tenue des livres obligatoire\n\nToutes les PME doivent tenir :\n- **journal des recettes et dépenses** chronologique\n- **inventaire des actifs et passifs** annuel\n- **comptes annuels** : bilan et compte de résultats\n- **pièces justificatives** : conservation 10 ans minimum\n\n## Normes comptables applicables\n\nLes **normes comptables suisses** varient selon la taille et le statut de l'entreprise.\n\n### Swiss GAAP RPC\n\nRecommandations pour la présentation des comptes :\n- **Swiss GAAP RPC 21** : comptabilisation des provisions\n- **Swiss GAAP RPC 16** : immobilisations corporelles\n- **Swiss GAAP RPC 5** : contrats de location-financement\n- **Swiss GAAP RPC 30** : consolidation des comptes\n\n### Adaptations sectorielles\n\n**Commerce de détail** :\n- évaluation des stocks FIFO ou prix moyen\n- dépréciation des créances clients\n- gestion des programmes de fidélité\n\n**Services professionnels** :\n- comptabilisation du travail en cours\n- reconnaissance du chiffre d'affaires\n- provision pour garanties\n\n**Industrie manufacturière** :\n- coûts de production complets\n- amortissements techniques\n- provisions pour démantèlement\n\n## États financiers et présentation\n\nLa **présentation des comptes** doit respecter des standards de clarté et de comparabilité.\n\n### Structure du bilan\n\n**Actifs** :\n- actifs circulants : liquidités, créances, stocks\n- immobilisations financières : participations, prêts\n- immobilisations corporelles : terrains, constructions, équipements\n- immobilisations incorporelles : brevets, licences, goodwill\n\n**Passifs** :\n- capitaux étrangers à court terme : dettes fournisseurs, provisions\n- capitaux étrangers à long terme : emprunts, hypothèques\n- capitaux propres : capital-actions, réserves, bénéfice reporté\n\n### Compte de résultats\n\n**Méthode par nature** (recommandée) :\n- produits d'exploitation\n- charges de matières et marchandises\n- charges de personnel\n- autres charges d'exploitation\n- résultat d'exploitation\n- résultat financier\n- résultat extraordinaire\n- bénéfice net\n\n## Évaluations et méthodes comptables\n\nLes **principes d'évaluation** garantissent la régularité et la sincérité des comptes.\n\n### Principe de continuité\n\nÉvaluation basée sur la poursuite de l'activité :\n- **valeurs de rendement** pour actifs productifs\n- **coût historique** pour immobilisations stables\n- **prudence** dans l'évaluation des créances douteuses\n\n### Méthodes d'amortissement\n\n**Amortissement linéaire** :\n- bâtiments : 2 à 5 % par an\n- machines : 10 à 20 % par an\n- véhicules : 20 à 40 % par an\n- informatique : 33 % par an\n\n**Amortissement dégressif** :\n- autorisé pour immobilisations à usage intensif\n- maximum : double du taux linéaire\n- passage au linéaire en fin de période\n\n## Comptabilité analytique\n\nLa **comptabilité de gestion** complète la comptabilité générale pour le pilotage.\n\n### Calcul des coûts\n\n**Coûts directs** :\n- matières premières consommées\n- main-d'œuvre directe\n- charges spécifiques au produit/service\n\n**Coûts indirects** :\n- charges de structure réparties\n- amortissements des équipements communs\n- frais généraux administratifs\n\n### Centres de coûts\n\nOrganisation par centres de responsabilité :\n- **production** : ateliers, chaînes de fabrication\n- **distribution** : force de vente, logistique\n- **administration** : direction, comptabilité, RH\n- **recherche** : développement produits, innovation\n\n## Digitalisation comptable\n\nLa **comptabilité digitale** transforme les pratiques traditionnelles des PME.\n\n### Logiciels comptables\n\nSolutions adaptées aux PME suisses :\n- **Banana Comptabilité** : simple, gratuit jusqu'à 70 écritures\n- **Bexio** : intégré avec facturation et CRM\n- **Crésus** : spécialisé marché romand\n- **Sage** : modulaire selon besoins\n\n### Dématérialisation\n\n**Processus digitalisés** :\n- scan et OCR des factures\n- validation workflow électronique\n- archives numériques sécurisées\n- sauvegarde cloud automatique\n\n## Contrôles et révision\n\nLa **révision comptable** assure la fiabilité des états financiers.\n\n### Révision restreinte\n\nProcédures de contrôle limitées :\n- **entretiens** avec direction\n- **procédures analytiques** sur comptes\n- **contrôles de vraisemblance** ponctuels\n- **rapport** avec réserves éventuelles\n\n### Points de contrôle clés\n\n- **exhaustivité** des enregistrements\n- **réalité** des actifs inventoriés\n- **évaluation** conforme aux principes\n- **présentation** selon normes légales\n\n## Fiscalité et comptabilité\n\nL'**interface fiscal-comptable** nécessite une coordination étroite.\n\n### Différences temporaires\n\n**Comptabilité commerciale vs fiscale** :\n- amortissements : rythmes différents autorisés\n- provisions : reconnaissance variable\n- plus-values : étalement fiscal possible\n- réserves : affectation obligatoire\n\n### Optimisation fiscale\n\n- **timing** des charges et produits\n- **méthodes d'évaluation** optimales\n- **provisions** pour risques futurs\n- **amortissements** anticipés\n\n## Conseils pratiques\n\nLa **gestion comptable efficace** repose sur l'organisation et la régularité.\n\n### Bonnes pratiques\n\n**Organisation mensuelle** :\n- rapprochement bancaire systématique\n- contrôle des créances clients\n- suivi de trésorerie prévisionnel\n- analyse des écarts budgétaires\n\n**Préparation annuelle** :\n- inventaire physique rigoureux\n- révision des provisions\n- optimisation des amortissements\n- planification fiscale\n\n### Accompagnement professionnel\n\nLes **experts-comptables** apportent :\n- expertise réglementaire actualisée\n- conseils d'optimisation personnalisés\n- sécurité juridique et conformité\n- gain de temps sur tâches techniques\n\nLa comptabilité des PME suisses en 2025 nécessite une approche moderne combinant conformité légale, efficacité opérationnelle et vision stratégique. L'investissement dans des outils adaptés et un accompagnement professionnel s'avère rentable à moyen terme.",
+      "slug": "credit-tva-exportations-2025",
+      "title": "Crédit de TVA sur Exportations : Procédures et Cas Pratiques",
+      "description": "Explication du mécanisme de crédit de TVA pour les exportateurs suisses : démarches administratives, calcul et optimisation du cash-flow.",
       "author": "Ark Fiduciaire",
-      "date": "2025-08-30",
+      "date": "2025-09-11",
       "references": [
         {
-          "labelKey": "ODMFiduciaireComptabilite",
+          "labelKey": "estvTVAExport",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/exportations.html"
+        },
+        {
+          "labelKey": "dilyticsTVA",
+          "url": "https://dilytics.ch/reforme-tva-2025-en-suisse-preparez-votre-entreprise/"
+        }
+      ]
+    },
+    {
+      "slug": "delais-facturation-electronique",
+      "title": "Délais et Obligations de la Facturation Électronique en Suisse",
+      "description": "Zoom sur les règles de facturation électronique : délais légaux, formats requis et intégration avec les systèmes ERP pour PME et indépendants.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "estaFacturation",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/mehrwertsteuer/elektronische-rechnung.html"
+        },
+        {
+          "labelKey": "entreprendreFacturation",
+          "url": "https://entreprendre.ch/fiches-pratiques/fiscalite/facturation-electronique/"
+        }
+      ]
+    },
+    {
+      "slug": "declaration-impot-individus-participations",
+      "title": "Déclaration d’Impôt pour Revenus de Participations : Conseils Pratiques",
+      "description": "Guide pour déclarer vos dividendes et autres revenus de participations en 2025 : calcul de l’impôt, déductions et conventions fiscales.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "estvDividendes",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-federal-direct/revenus-de-participation.html"
+        },
+        {
+          "labelKey": "taxadviceParticipations",
+          "url": "https://www.taxadvice.ch/wp-content/uploads/2022-General_logo_taxadvice.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "comptes-annuels-pme-2025",
+      "title": "États Financiers 2025 : Élaboration des Comptes Annuels pour PME",
+      "description": "Les étapes clés de la préparation des comptes annuels : bilan, compte de résultat, annexes et présentation selon Swiss GAAP RPC.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "odmComptabiliteGuidePME",
           "url": "https://www.odmfiduciaire.ch/2025/03/04/comptabilite-en-suisse-le-guide-2025-pour-les-pme-et-independants/"
         },
         {
-          "labelKey": "EntreprdreFiscaliteSocietes",
-          "url": "https://entreprendre.ch/fiches-pratiques/fiscalite/fiscalite-entreprise-suisse-impot/"
+          "labelKey": "weshopSwissGAAPRPC",
+          "url": "https://bananacompta.ch"
+        }
+      ]
+    },
+    {
+      "slug": "taux-impot-revenu-commune",
+      "title": "Taux d’Imposition 2025 : Comparatif des Communes Genevoises",
+      "description": "Analyse des taux d’imposition sur le revenu pour différentes communes de Genève, afin d’aider particuliers et entrepreneurs à optimiser leur lieu de résidence.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "geneveTauxImpots",
+          "url": "https://www.ge.ch/dossier/vos-impots"
+        },
+        {
+          "labelKey": "goldblumTauxCantonaux",
+          "url": "https://goldblum.ch/fr/base-de-connaissances/fiscalite-des-societes-en-suisse-taux-par-canton"
+        }
+      ]
+    },
+    {
+      "slug": "declaration-ligne-individus",
+      "title": "Déclaration d’Impôt en Ligne pour Particuliers : Astuces et Erreurs à Éviter",
+      "description": "Conseils pour remplir efficacement votre déclaration en ligne : navigation sur eTax, pièges fréquents et optimisations fiscales.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "zuerichETaxGuide",
+          "url": "https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/steuern-finanzen/steuern/natuerlichepersonen/jahrunabhaengig/how_to_fill_in_your_tax_return.pdf"
+        },
+        {
+          "labelKey": "firstSoftwareSkypeTax",
+          "url": "https://www.vd.ch/etat-droit-finances/impots/impots-pour-les-individus/remplir-ma-declaration-dimpot"
+        }
+      ]
+    },
+    {
+      "slug": "gestion-flux-tresorerie-pme",
+      "title": "Gestion des Flux de Trésorerie pour PME : Outils et Bonnes Pratiques",
+      "description": "Techniques de pilotage de trésorerie pour PME : prévisions, plan de trésorerie, lignes de crédit et gestion des retards de paiement.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "bexioTresorerie",
+          "url": "https://www.bexio.com/en-CH/salary-certificate"
+        },
+        {
+          "labelKey": "hostingerSpeedTest",
+          "url": "https://www.hostinger.com/tutorials/website-speed-test"
+        }
+      ]
+    },
+    {
+      "slug": "optimisation-cotisations-sociales",
+      "title": "Optimisation des Cotisations Sociales : Stratégies pour Indépendants et PME",
+      "description": "Comment optimiser légalement vos cotisations AVS, LAA, AC et LPP : choix de régime, calcul des acomptes et recours aux exonérations.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "wtwLPP2025",
+          "url": "https://www.wtwco.com/fr-ch/insights/2025/02/apercu-de-l-evolution-de-la-legislation-et-des-revisions-du-2e-pilier-a-partir-de-2025"
+        },
+        {
+          "labelKey": "ewmAssurancesSociales",
+          "url": "https://ewm.swiss/en/blog/top-10-seo-agencies-in-geneva-in-2025"
+        }
+      ]
+    },
+    {
+      "slug": "immobilier-entreprise-depreciation-fiscalite",
+      "title": "Fiscalité de l’Immobilier d’Entreprise : Amortissements et Déductions",
+      "description": "Guide sur l’amortissement fiscal des bâtiments et équipements : méthodes, taux et calculs pour maximiser les déductions.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "actuPMEimmobilier",
+          "url": "https://www.actu-pme.ch/actualite/86454/la-gestion-des-salaires-en-suisse/"
+        },
+        {
+          "labelKey": "hostingerSpeedTest",
+          "url": "https://www.hostinger.com/tutorials/website-speed-test"
+        }
+      ]
+    },
+    {
+      "slug": "nomadisme-numerique-teletravail-fiscalite",
+      "title": "Nomadisme Numérique et Télétravail : Impacts Fiscaux pour 2025",
+      "description": "Éclairages sur les conséquences fiscales du télétravail : déductions, domicile fiscal, ETIAS pour frontaliers et travailleurs mobiles.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "pwcRH2025",
+          "url": "https://www.pwc.ch/fr/insights/mybusiness/mise-a-jour-rh-changements-2024-2025.html"
+        },
+        {
+          "labelKey": "ewmNomadisme",
+          "url": "https://ewm.swiss/en/blog/top-10-seo-agencies-in-geneva-in-2025"
+        }
+      ]
+    },
+    {
+      "slug": "protection-donnees-comptabilite",
+      "title": "Protection des Données en Comptabilité : Conformité RGPD et LPD Suisse",
+      "description": "Enjeux et obligations en matière de protection des données sensibles en comptabilité, y compris les mesures techniques et organisationnelles.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "gdprSwissLPD",
+          "url": "https://www.admin.ch/gov/fr/accueil/droit-federal/lois/federales/2019-341.html"
+        },
+        {
+          "labelKey": "bananacomptaOCR",
+          "url": "https://bananacompta.ch"
+        }
+      ]
+    },
+    {
+      "slug": "controle-fiscal-pme-preparation",
+      "title": "Contrôle Fiscal PME : Préparation et Recommandations 2025",
+      "description": "Mieux se préparer à un contrôle fiscal : documents à fournir, environnement de vérification et bonnes pratiques pour limiter les risques.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "klaraAudit2025",
+          "url": "https://www.klara.ch/fr-ch/blog/gesetzes%C3%A4nderungen-2025-das-m%C3%BCssen-schweizer-kmu-jetzt-wissen"
+        },
+        {
+          "labelKey": "andydrinkwaterAudit",
+          "url": "https://andydrinkwater.co.uk/seo-audit-checklist/"
         }
       ]
     }
