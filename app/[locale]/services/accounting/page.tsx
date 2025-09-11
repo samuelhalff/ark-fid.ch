@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import Presentation from "./components/presentation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { type Locale } from "@/src/lib/i18n";
+import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 
 export const runtime = "nodejs";
 
@@ -48,6 +49,13 @@ const Accounting = ({ params }: { params: { locale: string } }) => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <Hero params={params} />
+      <div className="max-w-[1200px] mx-auto px-4 md:px-6 mt-4">
+        <Breadcrumbs
+          rootLabel="Home"
+          baseLabel="Services"
+          segments={[{ segment: "accounting", label: "Accounting" }]}
+        />
+      </div>
       <Presentation />
     </main>
   );

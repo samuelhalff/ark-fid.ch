@@ -1,5 +1,6 @@
 "use client";
 import { notFound } from "next/navigation";
+import { estimateReadingTime } from "@/src/lib/readingTime";
 import { useTranslation } from "react-i18next";
 import ReactMarkdown from "react-markdown";
 import TranslatedText from "@/src/components/ui/translated-text";
@@ -25,6 +26,8 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
   const article = articles.find((a) => a.slug === slug);
   if (!article) return notFound();
 
+  const readingStats = estimateReadingTime(article.content || "");
+
   return (
     <main className="max-w-3xl mx-auto px-4 py-12">
       <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
@@ -33,7 +36,7 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
       <p className="text-lg mb-8 text-center">{article.description}</p>
 
       {/* Author and Date */}
-      <div className="text-center text-sm mb-8">
+      <div className="text-center text-sm mb-8 space-y-1">
         <p>
           <TranslatedText
             ns="ressources"
@@ -50,6 +53,22 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
           />{" "}
           {formatDateDeterministic(article.date)}
         </p>
+        {readingStats && (
+          <p>
+            <TranslatedText
+              ns="ressources"
+              translationKey="ReadingTime"
+              fallbackText="Reading time"
+            />
+            : {readingStats.minutes}
+            <TranslatedText
+              ns="ressources"
+              translationKey="Minutes"
+              fallbackText="min"
+            />{" "}
+            ({readingStats.words} words)
+          </p>
+        )}
       </div>
 
       <article className="prose prose-lg dark:prose-invert max-w-none">
@@ -104,3 +123,6 @@ function formatDateDeterministic(date?: string) {
     return new Date(date).toISOString().split("T")[0];
   }
 }
+
+// Backward compatibility: named export if other modules previously imported it
+export const computeReadingTime = estimateReadingTime;

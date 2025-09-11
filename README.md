@@ -85,3 +85,53 @@ Verification:
 - Global `:focus-visible` outline.
 - `aria-current="page"` on active primary nav links.
 - Alt text verified on key images.
+
+## Ressources Synchronization
+
+Canonical content lives in `src/translations/fr/ressources.json`.
+
+Scripts:
+
+- `npm run ressources:check` – dry-run parity check (exit code 1 if divergence)
+- `npm run ressources:sync` – overwrite `en,de,es,pt` with canonical FR JSON
+
+Direct usage:
+
+```
+node scripts/sync-ressources.js --check
+node scripts/sync-ressources.js --apply
+node scripts/sync-ressources.js --locales=en,pt --apply
+```
+
+Notes:
+
+- Filenames, slugs, URLs are copied verbatim; translate only textual fields after sync.
+- Run a check before committing to ensure parity.
+- Add new files/articles only in FR, then sync and translate other locales as needed.
+
+## Ressources Link Integrity
+
+To detect broken (404) document links or missing locally cached PDFs for the ressources section:
+
+Scripts:
+
+- `node scripts/check-ressources-links.js --locale fr` – check only French locale for missing local files.
+- `node scripts/check-ressources-links.js --all-locales` – scan every locale folder.
+- `node scripts/check-ressources-links.js --all-locales --remote` – also perform remote HTTP HEAD/GET to validate `source_url` (slower).
+- `node scripts/check-ressources-links.js --all-locales --json` – output machine-readable JSON summary.
+
+Exit codes:
+
+- `0` all links OK
+- `1` at least one missing local file (not present in `public/assets/downloads/`)
+- `2` remote check enabled and at least one remote resource failed (non 2xx or network error)
+
+Workflow recommendation:
+
+1. Add/update entries in canonical `fr`.
+2. Run `node scripts/download-missing-pdfs.js --locale fr` to fetch available PDFs.
+3. Run link integrity check across all locales: `node scripts/check-ressources-links.js --all-locales`.
+4. Fix or remove any persistent 404 sources (sometimes official sources rename or retract documents).
+5. Sync other locales if structure changed: `npm run ressources:sync`.
+
+If an official PDF returns 404, prefer temporarily removing its entry across locales (preserving commit history) rather than leaving a broken download link in production.

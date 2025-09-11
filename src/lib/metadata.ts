@@ -95,7 +95,13 @@ export async function getPageMetadata(
     `/assets/og/og-${locale}.webp`,
     `/assets/og/og-${locale}.png`,
   ];
+  // Dynamic article OG image route (Next.js /opengraph-image) if this is an article detail page
+  const isArticle = path.startsWith('/ressources/articles/');
+  const slug = isArticle ? path.split('/').pop() : undefined;
+  const dynamicArticleOg = isArticle && slug ? `https://ark-fid.ch/${locale}/ressources/articles/${slug}/opengraph-image` : undefined;
+
   const ogImage = (() => {
+    if (dynamicArticleOg) return dynamicArticleOg;
     for (const rel of ogCandidates) {
       const abs = pathJoin(process.cwd(), 'public', rel.replace(/^\//, ''));
       try {
@@ -144,7 +150,7 @@ export async function getPageMetadata(
       card: "summary_large_image",
       title,
       description,
-      images: [ogImage],
+  images: [ogImage],
     },
     icons: {
       icon: [
@@ -219,7 +225,7 @@ export function generateOrganizationStructuredData() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Ark Fiduciaire",
-    "description": "Expert fiduciary, accounting, and tax services in Switzerland",
+    "description": "Fiduciary, accounting, payroll and tax compliance services based in Geneva and active across French-speaking Switzerland (Romandy) and Switzerland",
     "url": "https://ark-fid.ch",
     "logo": "https://ark-fid.ch/assets/arkfid--color.svg",
     "contactPoint": {
@@ -231,7 +237,26 @@ export function generateOrganizationStructuredData() {
       "@type": "PostalAddress",
       "addressCountry": "CH"
     },
-    "sameAs": []
+    "sameAs": [
+      // Populate with real profiles when available
+      "https://www.linkedin.com/company/ark-fiduciaire/",
+      "https://maps.google.com/?cid=11595836239142935457"
+    ],
+    "areaServed": ["Geneva", "Romandy", "Switzerland", "International"],
+    "knowsAbout": [
+      "Swiss accounting",
+      "payroll Geneva",
+      "tax compliance Switzerland",
+      "domiciliation Geneva",
+      "outsourced CFO Switzerland",
+      "accounting services Geneva",
+      "fiduciary services Romandy",
+      "tax advisory Switzerland",
+      "corporate services Geneva",
+      "financial reporting Switzerland",
+      "tax declarations Geneva",
+      "company creation Switzerland"
+    ]
   };
 }
 
@@ -257,7 +282,25 @@ export function generateLocalBusinessStructuredData() {
         "addressLocality": "Lausanne"
       }
     ],
-    "areaServed": ["Geneva", "Lausanne", "Romandy", "Switzerland", "International"],
+    "areaServed": ["Geneva", "Lausanne", "Romandy", "Suisse romande", "French-speaking Switzerland", "Switzerland", "International"],
+    "serviceArea": [
+      {
+        "@type": "Place",
+        "name": "Geneva"
+      },
+      {
+        "@type": "Place",
+        "name": "Romandy"
+      },
+      {
+        "@type": "Country",
+        "name": "Switzerland"
+      }
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/company/ark-fiduciaire",
+      "https://maps.google.com/?cid=11595836239142935457"
+    ],
     "priceRange": "CHF",
     "telephone": "+41"
   };

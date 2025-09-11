@@ -30,5 +30,10 @@
         "Email": "Email: info@ark-fid.ch",
         "Address": "Address: 26 Boulevard Georges Favon, 1204 Geneva",
         "Commitment": "Estamos comprometidos a mantener los más altos estándares de servicio profesional y satisfacción del cliente."
-    }
+    },
+    "MapTitle": "Nuestra ubicación en Ginebra",
+    "MapDisclaimer": "El mapa es proporcionado por Google Maps. Cárguelo solo si acepta la posible transferencia de datos (consulte nuestra política de privacidad).",
+    "MapLoadButton": "Mostrar mapa interactivo",
+    "MapOpenExternal": "Abrir en Google Maps",
+    "MapPrivacyPlaceholder": "Por razones de privacidad, el mapa no se carga automáticamente."
 }

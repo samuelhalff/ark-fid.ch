@@ -33,5 +33,10 @@
         "InvalidEmail": "Please enter a valid email address",
         "MaxLength": "Message cannot exceed 500 characters",
         "Consent": "You must agree to be contacted"
-    }
+    },
+    "MapTitle": "Our location in Geneva",
+    "MapDisclaimer": "The map is provided by Google Maps. Load it only if you agree to possible data transfer (see our privacy policy).",
+    "MapLoadButton": "Display interactive map",
+    "MapOpenExternal": "Open in Google Maps",
+    "MapPrivacyPlaceholder": "For privacy reasons, the map is not loaded automatically."
 }

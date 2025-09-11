@@ -1,72 +1,66 @@
 {
-  "IntroTitle": "Ressources pour votre entreprise",
-  "IntroText": "Ci-dessous, vous trouverez une sélection de documents et d'articles fournis par Ark Fiduciaire. Ces ressources sont offertes pour votre commodité et doivent être utilisées sous votre seule responsabilité. Pour des conseils personnalisés, veuillez contacter notre équipe.",
+  "IntroTitle": "Ressources fiscales et comptables – Genève & Suisse romande",
+  "IntroText": "Basées à Genève et actives dans toute la Suisse romande, nos équipes accompagnent aussi des clients en Suisse et à l'international. Vous trouverez ci-dessous une sélection de documents et d'articles pratiques adaptés au contexte réglementaire genevois, romand et fédéral. Ces ressources sont fournies pour votre convenance et n'ont pas valeur de conseil personnalisé. Pour une analyse ciblée de votre situation, contactez notre équipe.",
   "FilesTitle": "Documents disponibles au téléchargement",
   "ArticlesTitle": "Articles d'experts",
   "ReadArticle": "Lire l'article",
   "Source": "Source",
+  "ImageAltPrefix": "Illustration de l'article",
   "Files": [
     {
-      "filename": "guide-salaire.pdf",
-      "title": "Guide d'établissement du certificat de salaire",
-      "description": "Tout employeur est tenu de délivrer un certificat de salaire récapitulant toutes les prestations et tous les avantages appréciables en argent qu'il fournit à l'employé ou au retraité dans le cadre ou en lien avec un contrat de travail présent ou passé. Ce principe ainsi que les dispositions énoncées ci-dessous s'appliquent par analogie aux institutions de prévoyance qui versent une rente. A ce titre, elles sont tenues de délivrer une attestation de rentes sur le formulaire 11 ou un formulaire particulier analogue",
-      "date": "2024-12-01",
-      "source_url": "https://www.estv.admin.ch/estv/fr/accueil/impot-federal-direct/certificat-de-salaire-attestation-de-rentes.html"
-    },
-    {
-      "filename": "instructions-vaudtax-2022.pdf",
-      "title": "Instructions générales pour remplir la déclaration d'impôt - Canton de Vaud",
-      "description": "Guide officiel complet du Canton de Vaud expliquant étape par étape comment remplir sa déclaration d'impôt 2022. Inclut les nouveautés VaudTax en ligne, l'importation des eRelevés fiscaux bancaires, les déductions familiales, les frais professionnels, et tous les formulaires annexes nécessaires. Compatible smartphone, tablette et ordinateur.",
-      "date": "2022-03-15",
-      "source_url": "https://www.vd.ch/etat-droit-finances/impots/impots-pour-les-individus/remplir-ma-declaration-dimpot"
-    },
-    {
-      "filename": "guide-declaration-geneve-2021.pdf",
-      "title": "Guide de la déclaration fiscale des personnes physiques - Canton de Genève",
-      "description": "Guide pratique officiel de l'Administration fiscale cantonale de Genève pour remplir la déclaration d'impôt 2021. Couvre les e-démarches, le logiciel GeTax, les déductions pour familles, les frais professionnels, les immeubles, les titres et placements. Inclut les barèmes d'imposition ICC et IFD avec exemples de calculs détaillés.",
-      "date": "2021-12-31",
-      "source_url": "https://www.ge.ch/dossier/vos-impots"
-    },
-    {
-      "filename": "guide-fiscal-valais-2023.pdf",
-      "title": "Guide fiscal pour propriétaires - Canton du Valais",
-      "description": "Instructions officielles du Canton du Valais pour les personnes domiciliées et non-résidentes. Explique l'assujettissement fiscal, les taxes cantonales et communales, les déductions pour frais d'entretien, les documents nécessaires et les obligations déclaratives spécifiques aux résidents valaisans.",
-      "date": "2023-09-01",
-      "source_url": "https://www.vs.ch/en/web/scc/formulaires-declaration-d-impots-personnes-physiques"
+      "filename": "guide-certificat-salaire-2025.pdf",
+      "title": "Guide d'établissement du certificat de salaire 2025",
+      "description": "Guide officiel de l'Administration fédérale des contributions pour l’établissement du certificat de salaire (formulaire 11). Indique les obligations de l’employeur, les prestations à déclarer et les procédures de remise.",
+      "date": "2024-12-31",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-wegleitung-2025-fr.pdf.download.pdf/dbst-form-lohna-wegleitung-2025-fr.pdf"
     },
     {
       "filename": "instructions-neuchatel-2024.pdf",
-      "title": "Instructions générales pour remplir la déclaration d'impôt - Canton de Neuchâtel",
-      "description": "Guide complet pour les contribuables neuchâtelois expliquant les taux d'imposition, les délais de dépôt (26 février), le logiciel Clic & Tax, les possibilités de prolongation de délai, et les conséquences du non-respect des échéances. Inclut les adresses de contact de l'administration fiscale cantonale.",
+      "title": "Instructions générales pour remplir la déclaration d'impôt - canton de Neuchâtel",
+      "description": "Guide pratique du Service des contributions neuchâtelois sur l’utilisation de Clic&Tax, les déductions et les délais pour la déclaration 2024 des personnes physiques.",
       "date": "2024-02-01",
-      "source_url": "https://www.ne.ch/autorites/DFS/SCCO/impot-pm/Pages/telechargements-formulaires.aspx"
+      "source_url": "https://www.ne.ch/autorites/DFS/SCCO/Documents/PP/INSTRUCTIONS_GENERALES.pdf"
     },
     {
-      "filename": "instructions-fribourg-2023.pdf",
-      "title": "Instructions générales concernant la déclaration des personnes physiques - Canton de Fribourg",
-      "description": "Document officiel fribourgeois expliquant l'utilisation du logiciel FriTax, les procédures de dépôt électronique ou papier, les documents nécessaires, les déductions autorisées, et les obligations fiscales spécifiques au canton bilingue de Fribourg.",
-      "date": "2023-01-01",
-      "source_url": "https://www.fr.ch/sites/default/files/2024-01/instructions-generales-concernant-la-declaration-d-impot.pdf"
-    },
-    {
-      "filename": "guide-federal-declaration-2025.pdf",
-      "title": "Guide fédéral - Remplir la déclaration d'impôt",
-      "description": "Guide officiel de l'Administration fédérale des contributions expliquant les principes généraux de l'imposition en Suisse, les documents nécessaires, les obligations des contribuables, les délais de paiement, et les droits des contribuables. Applicable à tous les cantons suisses.",
-      "date": "2023-01-01",
-      "source_url": "https://www.estv.admin.ch/estv/fr/accueil/impot-federal-direct/formulaires-instructions-ifd.html"
+      "filename": "instructions-fribourg-2024.pdf",
+      "title": "Instructions générales pour la déclaration d'impôt - canton de Fribourg",
+      "description": "Guide complet du canton de Fribourg 2024 pour remplir votre déclaration d’impôt : FriTax, déductions professionnelles, délais et procédures.",
+      "date": "2024-01-01",
+      "source_url": "https://www.fr.ch/document/57721"
     },
     {
       "filename": "guide-personnes-morales-geneve-2020.pdf",
-      "title": "Guide de la déclaration des personnes morales - Canton de Genève",
-      "description": "Guide spécialisé pour les associations, fondations et autres personnes morales genevoises. Explique l'établissement et l'envoi de la déclaration, le calcul de l'impôt cantonal et communal (ICC) et de l'impôt fédéral direct (IFD), les annexes obligatoires, et les exonérations possibles.",
+      "title": "Guide de la déclaration des personnes morales - canton de Genève",
+      "description": "Guide GeTaxPM pour déclarer l’impôt des personnes morales à Genève : calcul ICC/IFD, annexes, dépôt en ligne et exonérations RFFA.",
       "date": "2020-03-01",
       "source_url": "https://www.getax.ch/getaxpm/guides/guide2020af.pdf"
+    },
+    {
+      "filename": "baremes-impot-source-fribourg-2025.pdf",
+      "title": "Barèmes et instructions pour l’imposition à la source - Fribourg 2025",
+      "description": "Barèmes 2025 de l’imposition à la source pour frontaliers et vacataires, procédures de déclaration et obligations des employeurs dans le canton de Fribourg.",
+      "date": "2024-11-27",
+      "source_url": "https://www.fr.ch/document/542571"
+    },
+    {
+      "filename": "deductions-vaudoises-2025.pdf",
+      "title": "Tableau des principales déductions vaudoises 2025",
+      "description": "Récapitulatif des déductions fiscales autorisées en 2025 dans le canton de Vaud : frais professionnels, intérêts hypothécaires, déductions familiales.",
+      "date": "2025-01-01",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/Tableau_des_d%C3%A9ductions_2025.pdf"
+    },
+    {
+      "filename": "domiciliation-geneve-2025.pdf",
+      "title": "Domiciliation d'entreprise à Genève : guide 2025",
+      "description": "Guide CH Reloc pour choisir et mettre en place la domiciliation d’entreprise à Genève : options, coûts et obligations légales.",
+      "date": "2025-05-08",
+      "source_url": "https://chreloc.com/assets/pdf/domiciliation-geneve-guide-2025.pdf"
     }
   ],
   "Articles": [
     {
       "slug": "declaration-revenus-locatifs-2025",
-      "title": "Déclaration des Revenus Locatifs 2025 : Obligations et Optimisation",
+      "title": "Déclaration des revenus locatifs 2025 : obligations et optimisation",
       "description": "Guide complet sur la déclaration des revenus tirés de la location en Suisse : taux d’imposition, déductions autorisées et conseils pratiques pour optimiser votre fiscalité.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -83,7 +77,7 @@
     },
     {
       "slug": "impot-source-frontaliers-2025",
-      "title": "Impôt à la Source pour Frontaliers : Nouveautés 2025",
+      "title": "Impôt à la source pour frontaliers : nouveautés 2025",
       "description": "Tout savoir sur les règles actualisées de l’impôt à la source pour les travailleurs frontaliers en Suisse : barèmes, procédures et points de vigilance.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -100,7 +94,7 @@
     },
     {
       "slug": "plan-epargne-individuel-fiscalite",
-      "title": "Plan Épargne Individuel (PEI) : Avantages Fiscaux et Stratégies 2025",
+      "title": "Plan épargne individuel (PEI) : avantages fiscaux et stratégies 2025",
       "description": "Comment tirer parti du PEI pour réduire votre charge fiscale et préparer votre retraite : plafonds de déduction, conditions d’éligibilité et meilleures pratiques.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -117,7 +111,7 @@
     },
     {
       "slug": "credit-tva-exportations-2025",
-      "title": "Crédit de TVA sur Exportations : Procédures et Cas Pratiques",
+      "title": "Crédit de TVA sur exportations : procédures et cas pratiques",
       "description": "Explication du mécanisme de crédit de TVA pour les exportateurs suisses : démarches administratives, calcul et optimisation du cash-flow.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -134,7 +128,7 @@
     },
     {
       "slug": "delais-facturation-electronique",
-      "title": "Délais et Obligations de la Facturation Électronique en Suisse",
+      "title": "Délais et obligations de la facturation électronique en Suisse",
       "description": "Zoom sur les règles de facturation électronique : délais légaux, formats requis et intégration avec les systèmes ERP pour PME et indépendants.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -151,7 +145,7 @@
     },
     {
       "slug": "declaration-impot-individus-participations",
-      "title": "Déclaration d’Impôt pour Revenus de Participations : Conseils Pratiques",
+      "title": "Déclaration d’impôt pour revenus de participations : conseils pratiques",
       "description": "Guide pour déclarer vos dividendes et autres revenus de participations en 2025 : calcul de l’impôt, déductions et conventions fiscales.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -168,7 +162,7 @@
     },
     {
       "slug": "comptes-annuels-pme-2025",
-      "title": "États Financiers 2025 : Élaboration des Comptes Annuels pour PME",
+      "title": "États financiers 2025 : élaboration des comptes annuels pour PME",
       "description": "Les étapes clés de la préparation des comptes annuels : bilan, compte de résultat, annexes et présentation selon Swiss GAAP RPC.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -185,7 +179,7 @@
     },
     {
       "slug": "taux-impot-revenu-commune",
-      "title": "Taux d’Imposition 2025 : Comparatif des Communes Genevoises",
+      "title": "Taux d’imposition 2025 : comparatif des communes genevoises",
       "description": "Analyse des taux d’imposition sur le revenu pour différentes communes de Genève, afin d’aider particuliers et entrepreneurs à optimiser leur lieu de résidence.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -202,7 +196,7 @@
     },
     {
       "slug": "declaration-ligne-individus",
-      "title": "Déclaration d’Impôt en Ligne pour Particuliers : Astuces et Erreurs à Éviter",
+      "title": "Déclaration d’impôt en ligne pour particuliers : astuces et erreurs à éviter",
       "description": "Conseils pour remplir efficacement votre déclaration en ligne : navigation sur eTax, pièges fréquents et optimisations fiscales.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -219,7 +213,7 @@
     },
     {
       "slug": "gestion-flux-tresorerie-pme",
-      "title": "Gestion des Flux de Trésorerie pour PME : Outils et Bonnes Pratiques",
+      "title": "Gestion des flux de trésorerie pour PME : outils et bonnes pratiques",
       "description": "Techniques de pilotage de trésorerie pour PME : prévisions, plan de trésorerie, lignes de crédit et gestion des retards de paiement.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -236,7 +230,7 @@
     },
     {
       "slug": "optimisation-cotisations-sociales",
-      "title": "Optimisation des Cotisations Sociales : Stratégies pour Indépendants et PME",
+      "title": "Optimisation des cotisations sociales : stratégies pour indépendants et PME",
       "description": "Comment optimiser légalement vos cotisations AVS, LAA, AC et LPP : choix de régime, calcul des acomptes et recours aux exonérations.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -253,7 +247,7 @@
     },
     {
       "slug": "immobilier-entreprise-depreciation-fiscalite",
-      "title": "Fiscalité de l’Immobilier d’Entreprise : Amortissements et Déductions",
+      "title": "Fiscalité de l’immobilier d’entreprise : amortissements et déductions",
       "description": "Guide sur l’amortissement fiscal des bâtiments et équipements : méthodes, taux et calculs pour maximiser les déductions.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -270,7 +264,7 @@
     },
     {
       "slug": "nomadisme-numerique-teletravail-fiscalite",
-      "title": "Nomadisme Numérique et Télétravail : Impacts Fiscaux pour 2025",
+      "title": "Nomadisme numérique et télétravail : impacts fiscaux pour 2025",
       "description": "Éclairages sur les conséquences fiscales du télétravail : déductions, domicile fiscal, ETIAS pour frontaliers et travailleurs mobiles.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -287,7 +281,7 @@
     },
     {
       "slug": "protection-donnees-comptabilite",
-      "title": "Protection des Données en Comptabilité : Conformité RGPD et LPD Suisse",
+      "title": "Protection des données en comptabilité : conformité RGPD et LPD Suisse",
       "description": "Enjeux et obligations en matière de protection des données sensibles en comptabilité, y compris les mesures techniques et organisationnelles.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -304,7 +298,7 @@
     },
     {
       "slug": "controle-fiscal-pme-preparation",
-      "title": "Contrôle Fiscal PME : Préparation et Recommandations 2025",
+      "title": "Contrôle fiscal PME : préparation et recommandations 2025",
       "description": "Mieux se préparer à un contrôle fiscal : documents à fournir, environnement de vérification et bonnes pratiques pour limiter les risques.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
@@ -323,11 +317,38 @@
   "References": "Références",
   "By": "Par",
   "Published": "Publié le",
+  "LastUpdated": "Mis à jour le",
+  "RelatedArticles": "Articles connexes",
+  "ReadMore": "Lire plus →",
   "Download": "Télécharger",
   "SwissVATOffice": "Office fédéral de la TVA (AFC)",
   "Contact": {
     "Title": "Questions sur cet article ?",
     "Description": "Nos experts sont là pour vous aider à comprendre les détails et implications pour votre entreprise. Obtenez des conseils personnalisés adaptés à votre situation.",
     "ButtonText": "Contacter notre équipe"
+  },
+  "ReadingTime": "Temps de lecture",
+  "Minutes": "min",
+  "FAQ": {
+    "Title": "Questions fréquentes – fiscalité & comptabilité à Genève et en Suisse romande",
+    "Items": [
+      {
+        "q": "Pourquoi adapter sa comptabilité au contexte genevois et romand ?",
+        "a": "Les spécificités cantonales (taux d'imposition, obligations déclaratives, délais) influencent la structure des comptes, la planification fiscale et les échéances. Une approche alignée sur Genève et la Suisse romande réduit les risques et améliore l'optimisation légale."
+      },
+      {
+        "q": "Quelle différence entre obligations fédérales et cantonales ?",
+        "a": "Le cadre fédéral fixe les principes (CO, TVA, AVS) tandis que les cantons déterminent barèmes, procédures et certaines déductions. Une veille multi-niveaux est nécessaire pour rester conforme et anticiper les changements."
+      },
+      {
+        "q": "Quand externaliser la paie à Genève ?",
+        "a": "Dès que la gestion interne consomme un temps disproportionné, que les contrôles deviennent complexes (pluriactivité, frontaliers) ou que des erreurs de conformité sociales apparaissent. L'externalisation améliore fiabilité, sécurité et traçabilité."
+      }
+    ]
+  },
+  "Links": {
+    "Accounting": "comptabilité",
+    "Tax": "fiscalité",
+    "Payroll": "paie"
   }
 }

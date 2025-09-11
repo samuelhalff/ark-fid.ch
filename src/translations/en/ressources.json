@@ -1,152 +1,315 @@
 {
-  "IntroTitle": "Resources for your business",
-  "IntroText": "Below you will find a selection of documents and articles provided by Ark Fiduciaire. These resources are offered for your convenience and should be used at your sole responsibility. For personalized advice, please contact our team.",
-  "FilesTitle": "Documents available to download",
+  "IntroTitle": "Tax & Accounting Resources – Geneva & French-speaking Switzerland",
+  "IntroText": "Based in Geneva and active throughout French-speaking Switzerland, our teams also support clients across Switzerland and internationally. Below is a curated selection of practical documents and expert articles adapted to Geneva, Romandy and federal regulatory contexts. These resources are provided for your convenience and do not constitute personalised advice. For an assessment of your situation, contact our team.",
+  "FilesTitle": "Downloadable documents",
   "ArticlesTitle": "Expert articles",
   "ReadArticle": "Read the article",
   "Source": "Source",
+  "ImageAltPrefix": "Article illustration",
   "Files": [
     {
-      "filename": "guide-salaire.pdf",
-      "title": "Guide to issuing the salary certificate",
-      "description": "Every employer is required to issue a salary certificate summarizing all benefits and any advantages in cash or kind provided to the employee or retiree in connection with a current or past employment contract. This principle, as well as the provisions set out below, apply by analogy to pension institutions that pay a pension. As such, they are required to issue a pension certificate on form 11 or a similar specific form.",
-      "date": "2024-12-01",
-      "source_url": "https://www.estv.admin.ch/estv/en/home/direkte-bundessteuer/lohnausweis-rentenbescheinigung.html"
-    },
-    {
-      "filename": "instructions-vaudtax-2022.pdf",
-      "title": "General instructions for completing the tax return - Canton of Vaud",
-      "description": "Official comprehensive guide from the Canton of Vaud explaining step by step how to complete the 2022 tax return. Includes the latest online VaudTax features, import of bank e-statements, family deductions, professional expenses, and all required annex forms. Compatible with smartphone, tablet and computer.",
-      "date": "2022-03-15",
-      "source_url": "https://www.vd.ch/en/state-law-finances/taxes/taxes-for-individuals/fill-in-my-tax-return"
-    },
-    {
-      "filename": "guide-declaration-geneve-2021.pdf",
-      "title": "Tax return guide for individuals - Canton of Geneva",
-      "description": "Official practical guide from the Geneva Cantonal Tax Administration for completing the 2021 tax return. Covers e-procedures, the GeTax software, deductions for families, professional expenses, real estate, securities and investments. Includes ICC and IFD tax scales with detailed calculation examples.",
-      "date": "2021-12-31",
-      "source_url": "https://www.ge.ch/en/taxes"
-    },
-    {
-      "filename": "guide-fiscal-valais-2023.pdf",
-      "title": "Tax guide for property owners - Canton of Valais",
-      "description": "Official instructions from the Canton of Valais for residents and non-residents. Explains tax liability, cantonal and communal taxes, deductions for maintenance costs, required documents and specific reporting obligations for Valais residents.",
-      "date": "2023-09-01",
-      "source_url": "https://www.vs.ch/en/web/scc/tax-returns-forms-natural-persons"
+      "filename": "guide-certificat-salaire-2025.pdf",
+      "title": "2025 Salary Certificate Preparation Guide",
+      "description": "Official guide from the Federal Tax Administration for preparing the Swiss salary certificate (Form 11): employer obligations, benefits to declare and submission procedures.",
+      "date": "2024-12-31",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-wegleitung-2025-fr.pdf.download.pdf/dbst-form-lohna-wegleitung-2025-fr.pdf"
     },
     {
       "filename": "instructions-neuchatel-2024.pdf",
-      "title": "General instructions for completing the tax return - Canton of Neuchâtel",
-      "description": "Comprehensive guide for Neuchâtel taxpayers explaining tax rates, filing deadlines (26 February), the Clic & Tax software, possibilities for deadline extensions, and the consequences of missing deadlines. Includes contact addresses for the cantonal tax administration.",
+      "title": "General Tax Return Instructions 2024 – Canton Neuchâtel",
+      "description": "Practical guide from the Neuchâtel tax authority on using Clic&Tax, deductions and deadlines for the 2024 individual tax return.",
       "date": "2024-02-01",
-      "source_url": "https://www.ne.ch/autorites/DFS/SCCO/impot-pm/Pages/telechargements-formulaires.aspx"
+      "source_url": "https://www.ne.ch/autorites/DFS/SCCO/Documents/PP/INSTRUCTIONS_GENERALES.pdf"
     },
     {
-      "filename": "instructions-fribourg-2023.pdf",
-      "title": "General instructions for individual tax returns - Canton of Fribourg",
-      "description": "Official document from Fribourg explaining the use of the FriTax software, electronic or paper filing procedures, required documents, allowable deductions, and tax obligations specific to the bilingual canton of Fribourg.",
-      "date": "2023-01-01",
-      "source_url": "https://www.fr.ch/sites/default/files/2024-01/instructions-generales-concernant-la-declaration-d-impot.pdf"
-    },
-    {
-      "filename": "guide-federal-declaration-2025.pdf",
-      "title": "Federal guide - completing the tax return",
-      "description": "Official guide from the Federal Tax Administration explaining the general principles of taxation in Switzerland, required documents, taxpayer obligations, payment deadlines, and taxpayer rights. Applicable to all Swiss cantons.",
-      "date": "2023-01-01",
-      "source_url": "https://www.estv.admin.ch/estv/en/home/direkte-bundessteuer/formulare-wegleitungen-dbst.html"
+      "filename": "instructions-fribourg-2024.pdf",
+      "title": "General Tax Return Instructions 2024 – Canton Fribourg",
+      "description": "Comprehensive 2024 Fribourg guide for completing your tax return: FriTax, professional deductions, deadlines and procedures.",
+      "date": "2024-01-01",
+      "source_url": "https://www.fr.ch/document/57721"
     },
     {
       "filename": "guide-personnes-morales-geneve-2020.pdf",
-      "title": "Tax return guide for legal entities - Canton of Geneva",
-      "description": "Specialized guide for associations, foundations and other legal entities in Geneva. Explains the preparation and submission of the return, the calculation of cantonal and communal tax (ICC) and direct federal tax (IFD), mandatory appendices, and possible exemptions.",
+      "title": "Corporate Tax Return Guide – Canton Geneva",
+      "description": "GeTaxPM guide for declaring corporate taxes in Geneva: ICC/IFD calculation, annexes, online filing and RFFA exemptions.",
       "date": "2020-03-01",
       "source_url": "https://www.getax.ch/getaxpm/guides/guide2020af.pdf"
+    },
+    {
+      "filename": "baremes-impot-source-fribourg-2025.pdf",
+      "title": "Withholding Tax Scales & Instructions 2025 – Fribourg",
+      "description": "2025 withholding tax scales for cross-border workers and temporary staff, declaration procedures and employer obligations in the canton of Fribourg.",
+      "date": "2024-11-27",
+      "source_url": "https://www.fr.ch/document/542571"
+    },
+    {
+      "filename": "deductions-vaudoises-2025.pdf",
+      "title": "Main Vaud Deductions 2025 – Summary Table",
+      "description": "Summary of tax deductions allowed in 2025 in the canton of Vaud: professional expenses, mortgage interest, family deductions.",
+      "date": "2025-01-01",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/Tableau_des_d%C3%A9ductions_2025.pdf"
+    },
+    {
+      "filename": "domiciliation-geneve-2025.pdf",
+      "title": "Company Domiciliation in Geneva – 2025 Guide",
+      "description": "CH Reloc guide for choosing and setting up company domiciliation in Geneva: options, costs and legal obligations.",
+      "date": "2025-05-08",
+      "source_url": "https://chreloc.com/assets/pdf/domiciliation-geneve-guide-2025.pdf"
     }
   ],
   "Articles": [
     {
-      "slug": "annual-vat-settlement-2025",
-      "title": "Annual VAT settlement in Switzerland: key points for 2025",
-      "description": "A summary of the main rules and key points for the annual VAT settlement in 2025.",
-      "content": "For the 2025 tax year, Swiss businesses must continue to use either the **effective method** (based on 4 VAT returns) or the **net tax rate (NTR) method** (2 VAT returns), as previously applied.\n\n## Key features of the annual VAT settlement\n\n- Changing your VAT settlement method requires notifying the Swiss Federal Tax Administration (FTA) at the start of each fiscal period, within 60 days (for 2026: between 01.01.2026 and 28.02.2026 for a first change). The new method must be kept for at least one full fiscal period for businesses with turnover below CHF 5,005,000.\n- Other conditions: all tax debts must be fully paid and all returns submitted on time for the previous three fiscal periods.\n- The FTA determines the amount of advance payments, invoiced in three installments. These can be adjusted up to 10 days before the relevant due date.\n- Deadline extensions remain possible.\n- The FTA may revoke the authorization if:\n  - it had to initiate debt collection against the taxpayer,\n  - the taxpayer exceeded the CHF 5,005,000 turnover limit for three consecutive periods,\n  - the FTA had to estimate taxes due to missing returns.\n\n## Points to watch\n\n- If advance payments are too low, late interest (4.5%) will be charged.\n- No possibility to claim input tax refunds based on advance payments.\n- Authorization may be revoked if advance payments deviate too much from actual amounts due.\n- If there is a tax credit, it can only be refunded the following year (in March).\n",
-      "author": "Sébastien Gallié",
-      "date": "2025-08-25",
-      "references": [
-        {
-          "labelKey": "SwissVATOffice",
-          "url": "https://www.estv.admin.ch/estv/en/home/mehrwertsteuer.html"
-        }
-      ]
-    },
-    {
-      "slug": "transformation-digitale-fiduciaires-suisses-2025",
-      "title": "Digital transformation of Swiss fiduciaries: a 2025 revolution",
-      "description": "How Swiss fiduciaries are reinventing their services with AI, automation and new technologies to optimize the client experience.",
-      "content": "The year 2025 marks a decisive turning point for **Swiss fiduciaries** who are fully embracing digital transformation. This evolution is radically changing client relationships and redefining the added value of traditional fiduciary services.\n\n## Artificial intelligence in accounting\n\n**AI accounting** is revolutionizing the day-to-day practices of fiduciaries. Leading firms are now integrating AI solutions to automate data entry, detect anomalies and optimize control processes.\n\n### Automating repetitive tasks\n\nModern **fiduciary software** enables:\n- **automatic recognition** of invoices via advanced OCR\n- **intelligent categorization** of accounting entries\n- **automated bank reconciliations** in real time\n- **automatic generation** of VAT and tax returns\n\nThis automation frees accountants from administrative tasks so they can focus on high-value strategic advice.\n\n## E-invoicing as the new norm\n\n**Electronic invoicing** is becoming essential in 2025. Fiduciaries support their clients through this mandatory transition that simplifies commercial exchanges and improves financial traceability.\n\n### Benefits of e-invoicing\n\n- **reduced administrative costs**\n- **improved cash flow** through faster payments\n- **automatic compliance** with tax standards\n- **secure archiving** and easier search\n\n## Collaborative cloud platforms\n\n**Cloud accounting solutions** are transforming client–fiduciary collaboration. Real-time access to financial data enables dynamic business steering.\n\n### Advanced features\n\n- **interactive dashboards** with custom KPIs\n- **integrated messaging** for instant communication\n- **centralized and secure** document management\n- **real-time budget tracking** with automatic alerts\n\n## Enhanced cybersecurity\n\n**Accounting data security** remains a priority. Fiduciaries are investing heavily in bank-grade cybersecurity infrastructures.\n\n### Protection measures\n\n- **end-to-end encryption** of all communications\n- **multi-factor authentication** for all access\n- **automatic backups** with geo-redundancy\n- **complete audit trails** for maximum traceability\n\n## Personalized advisory services\n\nDigitalization allows fiduciaries to offer **tailor-made advisory services** based on predictive analysis of financial data.\n\n### New offerings\n\n- **predictive cash flow analysis** with multiple scenarios\n- **personalized tax optimization** based on the company's profile\n- **financing advice** based on historical data\n- **strategic planning** with financial modeling\n\n## Mobile-first and nomad accounting\n\n**Fiduciary mobile apps** enable nomadic accounting tailored to modern entrepreneurs.\n\n### Advanced mobile apps\n\n- **automatic scanning** of receipts and invoices\n- **on-the-go validation** of entries\n- **push notifications** for important deadlines\n- **anywhere, anytime** access to financial reports\n\n## Continuous training and support\n\nThe success of this digital transformation relies on **personalized client support**. Fiduciaries are investing in training for their teams and clients.\n\n### Training programs\n\n- **regular webinars** on new technologies\n- **interactive tutorials** to master new tools\n- **dedicated technical support** with a specialized hotline\n- **one-to-one sessions** for personalized support\n\n## Impact on the client relationship\n\nThis digital transformation fundamentally redefines the **fiduciary–client relationship**, moving from a transactional service to a true strategic partnership.\n\n### New service standards\n\n- **increased responsiveness** thanks to real-time notifications\n- **total transparency** on financial performance\n- **enhanced proactivity** with preventive alerts\n- **deep personalization** based on specific needs\n\nFiduciaries who embrace this digital transformation position themselves as true **growth partners** for their clients, offering far more than simple bookkeeping.",
+      "slug": "declaration-revenus-locatifs-2025",
+      "title": "Declaring Rental Income 2025: Obligations & Optimisation",
+      "description": "Comprehensive guide to declaring rental income in Switzerland: tax rates, allowable deductions and practical tips to optimise your taxation.",
       "author": "Ark Fiduciaire",
-      "date": "2025-09-05",
+      "date": "2025-09-11",
       "references": [
         {
-          "labelKey": "WekaFiduciairesInnovation",
-          "url": "https://www.weka.ch/themes/finances-tva/comptabilite-financiere/comptabilite/article/au-dela-de-la-comptabilite-les-fiduciaires-suisses-et-linnovation-au-service-du-client/"
+          "labelKey": "chchRevenusLocatifs",
+          "url": "https://www.ch.ch/fr/impots-et-finances/revenus-locatifs/"
         },
         {
-          "labelKey": "DRMKComptabilite2025",
-          "url": "https://drmk.ch/fiduciaire-geneve-les-tendances-incontournables-de-la-comptabilite-en-2025/"
+          "labelKey": "klaraPME2025",
+          "url": "https://www.klara.ch/fr-ch/blog/gesetzes%C3%A4nderungen-2025-das-m%C3%BCssen-schweizer-kmu-jetzt-wissen"
         }
       ]
     },
     {
-      "slug": "optimisation-fiscale-pme-suisse-strategies-2025",
-      "title": "Tax optimization for Swiss SMEs: winning strategies for 2025",
-      "description": "Discover the best tax optimization strategies for Swiss SMEs in 2025: deductions, cantonal choice, planning and legal compliance.",
-      "content": "**Tax optimization for SMEs** is a crucial challenge for the competitiveness of small and medium-sized enterprises in Switzerland. Given the complexity of the Swiss tax system, a well-designed strategy can generate substantial savings.\n\n## Advantages of the Swiss tax system\n\n**Corporate taxation in Switzerland** offers many competitive advantages compared to other European countries.\n\n### Competitive tax rates\n\nThe Swiss tax system combines three levels of taxation:\n- **direct federal tax (DFT)**: 8.5% on profits\n- **cantonal taxes**: vary by canton (3% to 12%)\n- **communal taxes**: calculated according to the local multiplier\n\nIn total, **effective tax rates** range from 11% to 21% depending on location, placing Switzerland among the most attractive jurisdictions in Europe.\n\n## Strategic choice of canton\n\nChoosing the **canton** is the first strategic decision to optimize the tax burden of an SME.\n\n### Cantons with advantageous tax regimes\n\n**Top 5 most tax-attractive cantons** for SMEs:\n\n1. **Zug**: overall effective rate of 11.9%\n2. **Lucerne**: around 12.3% combined rate\n3. **Nidwalden**: particularly advantageous for holdings\n4. **Schwyz**: excellent for trading companies\n5. **Appenzell Innerrhoden**: very competitive taxation\n\n### Decision factors\n\nBeyond taxation, consider:\n- **access to talent** and labor pool\n- **logistics infrastructure** and connectivity\n- **economic ecosystem** for your sector\n- **quality of public services** and administration\n\n## Strategic tax deductions\n\n**Business tax deductions** can significantly reduce the taxable base.\n\n### Operational deductions\n\n- **staff costs**: salaries, social charges, training\n- **premises costs**: rent, charges, property amortization\n- **administrative costs**: supplies, telecommunications, insurance\n- **marketing costs**: advertising, events, client relations\n\n### Deductible investments\n\n- **research and development**: full deduction of R&D costs\n- **vocational training**: investments in skills\n- **IT equipment**: accelerated depreciation possible\n- **company vehicles**: according to private use schedule\n\n## Optimizing the legal form\n\nThe **legal form** directly impacts a company's taxation.\n\n### Comparison of structures\n\n**Public limited company (SA/AG)**:\n- profit tax: according to cantonal schedule\n- capital tax: generally 0.1% to 0.5%\n- dividends: partial taxation (10%+ participation)\n\n**Limited liability company (Sàrl/GmbH)**:\n- taxation similar to a public limited company\n- more flexibility in profit distribution\n- reduced incorporation costs\n\n**Sole proprietorship**:\n- taxation under the progressive personal income scale\n- no capital tax\n- increased administrative simplicity\n\n## Advanced tax planning\n\n**Tax planning** optimizes the tax burden over multiple years.\n\n### Smoothing strategies\n\n- **provisions for risks**: anticipate future charges\n- **deferral of receivables**: shift revenue recognition\n- **declining-balance depreciation**: optimize timing\n- **investment timing**: coordinate with the fiscal year\n\n### Cash flow optimization\n\n- **tax advances**: calculate accurately to optimize cash flow\n- **early payments**: benefit from tax discounts\n- **profit distribution**: balance dividends and reserves\n\n## VAT and optimization\n\nOptimized **VAT management** can generate significant cash flow advantages.\n\n### Settlement methods\n\n**Effective method**:\n- quarterly returns\n- full deduction of input tax\n- suitable for high-margin businesses\n\n**Net tax rate (NTR)**:\n- semi-annual returns\n- flat-rate calculation based on turnover\n- ideal for low-margin businesses\n\n## International structuring\n\nFor SMEs with international activity, **tax structuring** becomes critical.\n\n### Double tax treaties\n\nSwitzerland has an extensive network of tax treaties enabling:\n- **avoidance of double taxation** on international income\n- **reduced withholding taxes** on dividends and royalties\n- **amicable procedures** in case of tax disputes\n\n### Special regimes\n\n- **domiciliary company**: for participation income\n- **auxiliary company**: for intra-group services\n- **coordination center**: for centralized management activities\n\n## Compliance and risks\n\n**Legal tax optimization** requires strict adherence to anti-avoidance rules.\n\n### Economic substance\n\nTax authorities verify:\n- **qualified staff** on site\n- **suitable premises** for the activity\n- **effective decision-making** in Switzerland\n- **real, documented business activity**\n\n### Mandatory documentation\n\n- **transfer pricing**: justification of intra-group operations\n- **shareholder agreements**: transparent governance\n- **detailed minutes**: traceability of decisions\n\nTax optimization for Swiss SMEs requires a holistic approach combining strategic choices, rigorous planning and legal compliance. Support from specialized tax experts is essential to maximize benefits while minimizing risks.",
+      "slug": "impot-source-frontaliers-2025",
+      "title": "Withholding Tax for Cross-Border Workers: 2025 Updates",
+      "description": "All you need to know about updated withholding tax rules for cross-border workers in Switzerland: scales, procedures and key watchpoints.",
       "author": "Ark Fiduciaire",
-      "date": "2025-09-03",
+      "date": "2025-09-11",
       "references": [
         {
-          "labelKey": "SimelfiFiscalitePME",
-          "url": "https://simelfi.ch/fiscalite-des-pme-en-suisse-tout-ce-quil-faut-savoir-pour-optimiser-vos-finances/"
+          "labelKey": "pwcfiscaliteFrontaliers",
+          "url": "https://www.pwc.ch/fr/insights/mybusiness/mise-a-jour-rh-changements-2024-2025.html"
         },
         {
-          "labelKey": "ActuPMEClassement",
-          "url": "https://www.actu-pme.ch/entreprises/143879/guide-de-la-fiscalite-suisse-pour-les-entreprise/"
+          "labelKey": "geneveImpotsFrontaliers",
+          "url": "https://www.ge.ch/dossier/vos-impots"
         }
       ]
     },
     {
-      "slug": "gestion-paie-suisse-automatisation-2025",
-      "title": "Swiss payroll management 2025: automation and optimal compliance",
-      "description": "Comprehensive guide to payroll management in Switzerland in 2025: automation, legal obligations, software and best practices for SMEs.",
-      "content": "**Payroll management in Switzerland** is becoming increasingly complex with constantly evolving social and tax regulations. Automation is now the key to efficient and compliant management.\n\n## Payroll management challenges in Switzerland\n\nThe **complexity of Swiss payroll** arises from several factors specific to the Swiss system.\n\n### Cantonal specificities\n\nEach canton applies its own rules:\n- **tax rates** vary by commune\n- **withholding tax scales** differ\n- **family allowances** with cantonal amounts\n- **compensation funds** specialized by region\n\n### Complex social insurances\n\nThe Swiss system includes numerous insurances:\n- **AHV/IV/APG**: 10.6% shared employer/employee\n- **unemployment insurance (ALV)**: 2.2% up to CHF 148,200\n- **accident insurance (LAA)**: rates vary by risk\n- **occupational pension (LPP/BVG)**: tiered rates by age\n- **sickness allowance insurance**: according to CBA\n\n## Payroll automation\n\n**Payroll automation** is revolutionizing salary management by reducing errors and optimizing processes.\n\n### Modern payroll software\n\nLeading **Swiss payroll software** offers:\n\n**Core features**:\n- automatic calculation of social contributions\n- management of withholding tax\n- generation of payslips\n- automated declarations to authorities\n\n**Advanced modules**:\n- time tracking integration\n- expense management\n- leave planning\n- custom HR reporting\n\n### System integrations\n\nSystem interoperability enables:\n- **banking connection**: automatic transfers\n- **accounting interface**: automatic journal entries\n- **employee portal**: dematerialized access\n- **open APIs**: integration with third-party apps\n\n## Compliance and legal obligations\n\n**Swiss payroll compliance** requires strict adherence to multiple obligations.\n\n### Mandatory declarations\n\n**Monthly**:\n- declarations to compensation funds\n- statements of LPP/BVG contributions\n- cantonal withholding taxes\n\n**Annual**:\n- salary certificates (before 31 January)\n- salary statistics (FSO)\n- consolidated tax declarations\n\n### Quality controls\n\nMulti-level validation processes:\n- **automatic controls**: data consistency\n- **cross-validation**: historical comparison\n- **audit trails**: full traceability\n- **reconciliations**: accounting checks\n\n## HR process optimization\n\n**Optimized HR management** goes beyond simple payroll administration.\n\n### Full dematerialization\n\n- **electronic payslips**: secure email delivery\n- **digital safe**: automated legal archiving\n- **electronic signatures**: dematerialized contracts\n- **digital workflows**: automated hierarchical validation\n\n### Employee self-service\n\nEmployee portals with access to:\n- payslip history\n- online leave requests\n- personal data updates\n- download of certificates\n\n## Managing complex cases\n\n**Complex payroll** requires specialized expertise for certain situations.\n\n### Expatriates and cross-border workers\n\n**Cross-border workers**:\n- specific tax agreements (France, Germany, Italy)\n- apportionment of taxation by residence\n- management of bilateral social conventions\n\n**Expatriates in Switzerland**:\n- negotiated lump-sum taxation\n- international social coverage\n- specific benefits in kind\n\n### Specialized sectors\n\n**Construction**:\n- mandatory parity funds\n- bad-weather compensation\n- sectoral 13th month salary\n\n**Hospitality**:\n- tips and service included\n- lodging and meals\n- atypical schedules\n\n## Emerging technologies\n\n**Payroll innovation** relies on the latest technologies.\n\n### Artificial intelligence\n\n- **error prediction**: proactive anomaly detection\n- **tax optimization**: automatic suggestions\n- **HR analytics**: predictive indicators\n- **chatbots**: automated employee support\n\n### Blockchain and security\n\n- **timestamping**: certification of operations\n- **smart contracts**: conditional automation\n- **immutable audit**: enhanced traceability\n- **advanced encryption**: protection of personal data\n\n## Outsourcing vs in-house\n\nThe choice between **payroll outsourcing** and in-house management depends on multiple factors.\n\n### Advantages of outsourcing\n\n**Operational benefits**:\n- guaranteed specialized expertise\n- automatic regulatory updates\n- reduced fixed HR costs\n- focus on core business\n\n**Legal security**:\n- transferred professional liability\n- ongoing legal monitoring\n- certified processes\n- support for audits and controls\n\n### Decision criteria\n\n**Break-even point**: generally from 20 employees\n**Complexity**: regulated or international sectors\n**Internal resources**: availability of HR expertise\n**Confidentiality**: sensitivity of salary information\n\n## Training and support\n\n**Swiss payroll training** remains essential to keep up with regulatory changes.\n\n### Training program\n\n- **certifying courses**: recognized HR diplomas\n- **specialized webinars**: legislative updates\n- **hands-on workshops**: sector-specific cases\n- **e-learning**: flexible continuous training\n\n### Technical support\n\n- **specialized hotline**: real-time support\n- **knowledge base**: FAQs and procedures\n- **community**: experience sharing\n- **updates**: automatic regulatory alerts\n\nPayroll management in Switzerland in 2025 requires a modern approach combining automation, regulatory expertise and personalized support. Companies that invest in these solutions ensure compliance, efficiency and employee satisfaction.",
+      "slug": "plan-epargne-individuel-fiscalite",
+      "title": "Individual Savings Plan (PEI): Tax Advantages & Strategies 2025",
+      "description": "How to leverage the PEI to reduce your tax burden and prepare retirement: deduction ceilings, eligibility conditions and best practices.",
       "author": "Ark Fiduciaire",
-      "date": "2025-09-01",
+      "date": "2025-09-11",
       "references": [
         {
-          "labelKey": "MaiteaGestionPaie",
-          "url": "https://www.maitea.ch/les-strategies-de-gestion-de-la-paie-pour-les-entreprises-en-suisse/"
+          "labelKey": "efdPEI",
+          "url": "https://www.efd.admin.ch/efd/fr/home/paie-et-impots/impots-des-personnes-physiques/plan-epargne-individuel.html"
         },
         {
-          "labelKey": "GlobalizationPartnersPayroll",
-          "url": "https://www.globalization-partners.com/globalpedia/switzerland/payroll/"
+          "labelKey": "ferGEPEI",
+          "url": "https://www.fer-ge.ch/fiscalite"
         }
       ]
     },
     {
-      "slug": "comptabilite-pme-suisse-normes-2025",
-      "title": "Accounting for Swiss SMEs 2025: new standards and obligations",
-      "description": "Guide to accounting obligations for Swiss SMEs in 2025: legal standards, bookkeeping, financial statements and practical compliance tips.",
-      "content": "**SME accounting in Switzerland** is constantly evolving with new regulatory requirements and stricter standards. Small and medium-sized enterprises must adapt their accounting practices to remain compliant.\n\n## Legal accounting obligations\n\nThe **Swiss Code of Obligations** defines accounting obligations according to company size.\n\n### Company classification\n\n**Small companies** (exempt from audit):\n- turnover < CHF 500,000\n- total assets < CHF 200,000\n- staff < 10 FTEs\n\n**Medium-sized companies** (limited audit):\n- exceeding 2 of the 3 previous criteria\n- mandatory review by a licensed auditor\n\n**Large companies** (ordinary audit):\n- turnover > CHF 40 million\n- total assets > CHF 20 million\n- staff > 250 FTEs\n\n### Mandatory bookkeeping\n\nAll SMEs must keep:\n- **chronological journal** of income and expenses\n- **annual inventory** of assets and liabilities\n- **annual accounts**: balance sheet and income statement\n- **supporting documents**: keep for at least 10 years\n\n## Applicable accounting standards\n\n**Swiss accounting standards** vary by company size and status.\n\n### Swiss GAAP FER\n\nRecommendations for financial reporting:\n- **Swiss GAAP FER 21**: provisions\n- **Swiss GAAP FER 16**: property, plant and equipment\n- **Swiss GAAP FER 5**: lease accounting\n- **Swiss GAAP FER 30**: consolidation\n\n### Sector adjustments\n\n**Retail**:\n- FIFO or weighted average stock valuation\n- impairment of trade receivables\n- management of loyalty programs\n\n**Professional services**:\n- accounting for work in progress\n- revenue recognition\n- warranty provisions\n\n**Manufacturing**:\n- full production costing\n- technical depreciation\n- dismantling provisions\n\n## Financial statements and presentation\n\n**Financial reporting** must meet clarity and comparability standards.\n\n### Balance sheet structure\n\n**Assets**:\n- current assets: cash, receivables, inventories\n- financial fixed assets: investments, loans\n- tangible fixed assets: land, buildings, equipment\n- intangible assets: patents, licenses, goodwill\n\n**Liabilities**:\n- current liabilities: trade payables, provisions\n- non-current liabilities: loans, mortgages\n- equity: share capital, reserves, retained earnings\n\n### Income statement\n\n**By nature method** (recommended):\n- operating income\n- cost of materials and goods\n- staff costs\n- other operating expenses\n- operating result\n- financial result\n- extraordinary result\n- net profit\n\n## Valuation and accounting methods\n\n**Valuation principles** ensure regularity and reliability.\n\n### Going concern principle\n\nValuation based on continued activity:\n- **income values** for productive assets\n- **historical cost** for stable fixed assets\n- **prudence** in assessing doubtful receivables\n\n### Depreciation methods\n\n**Straight-line depreciation**:\n- buildings: 2–5% per year\n- machinery: 10–20% per year\n- vehicles: 20–40% per year\n- IT: 33% per year\n\n**Declining-balance depreciation**:\n- allowed for intensive-use assets\n- maximum: double the straight-line rate\n- switch to straight-line at end of period\n\n## Management accounting\n\n**Cost accounting** complements general accounting for steering.\n\n### Cost calculation\n\n**Direct costs**:\n- raw materials consumed\n- direct labor\n- product/service-specific charges\n\n**Indirect costs**:\n- allocated overheads\n- depreciation of common equipment\n- administrative overheads\n\n### Cost centers\n\nOrganization by responsibility centers:\n- **production**: workshops, production lines\n- **distribution**: sales force, logistics\n- **administration**: management, accounting, HR\n- **research**: product development, innovation\n\n## Accounting digitalization\n\n**Digital accounting** is transforming SME practices.\n\n### Accounting software\n\nSolutions suited to Swiss SMEs:\n- **Banana Accounting**: simple, free up to 70 entries\n- **Bexio**: integrated with invoicing and CRM\n- **Crésus**: popular in Romandy\n- **Sage**: modular to needs\n\n### Dematerialization\n\n**Digitalized processes**:\n- scanning and OCR of invoices\n- electronic workflow validation\n- secure digital archives\n- automatic cloud backup\n\n## Controls and audit\n\n**Audit** ensures the reliability of financial statements.\n\n### Limited audit\n\nLimited control procedures:\n- **interviews** with management\n- **analytical procedures** on accounts\n- **plausibility checks**\n- **report** with any reservations\n\n### Key control points\n\n- **completeness** of records\n- **existence** of inventoried assets\n- **valuation** in line with principles\n- **presentation** according to legal standards\n\n## Taxation and accounting\n\nThe **tax–accounting interface** requires close coordination.\n\n### Temporary differences\n\n**Commercial vs tax accounting**:\n- depreciation: different allowed rates\n- provisions: variable recognition\n- capital gains: possible deferral\n- reserves: mandatory allocation\n\n### Tax optimization\n\n- **timing** of charges and income\n- **valuation methods** optimized\n- **provisions** for future risks\n\n## Practical tips\n\n**Efficient accounting management** relies on organization and regularity.\n\n### Best practices\n\n**Monthly organization**:\n- systematic bank reconciliation\n- control of trade receivables\n- cash flow forecasting\n- analysis of budget variances\n\n**Annual preparation**:\n- rigorous physical inventory\n- review of provisions\n- optimization of depreciation\n- tax planning\n\n### Professional support\n\n**Accountants** provide:\n- up-to-date regulatory expertise\n- personalized optimization advice\n- legal security and compliance\n- time savings on technical tasks\n\nSME accounting in Switzerland in 2025 requires a modern approach combining legal compliance, operational efficiency and strategic vision. Investment in suitable tools and professional support proves profitable in the medium term.",
+      "slug": "credit-tva-exportations-2025",
+      "title": "VAT Credit on Exports: Procedures & Practical Cases",
+      "description": "Explanation of the VAT credit mechanism for Swiss exporters: administrative steps, calculation and cash-flow optimisation.",
       "author": "Ark Fiduciaire",
-      "date": "2025-08-30",
+      "date": "2025-09-11",
       "references": [
         {
-          "labelKey": "ODMFiduciaireComptabilite",
+          "labelKey": "estvTVAExport",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/exportations.html"
+        },
+        {
+          "labelKey": "dilyticsTVA",
+          "url": "https://dilytics.ch/reforme-tva-2025-en-suisse-preparez-votre-entreprise/"
+        }
+      ]
+    },
+    {
+      "slug": "delais-facturation-electronique",
+      "title": "Electronic Invoicing Deadlines & Obligations in Switzerland",
+      "description": "Overview of e-invoicing rules: legal deadlines, required formats and ERP integration for SMEs and independents.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "estaFacturation",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/mehrwertsteuer/elektronische-rechnung.html"
+        },
+        {
+          "labelKey": "entreprendreFacturation",
+          "url": "https://entreprendre.ch/fiches-pratiques/fiscalite/facturation-electronique/"
+        }
+      ]
+    },
+    {
+      "slug": "declaration-impot-individus-participations",
+      "title": "Declaring Participation Income: Practical Tax Guide",
+      "description": "Guide to declaring dividends and other participation income in 2025: tax calculation, deductions and treaty considerations.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "estvDividendes",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-federal-direct/revenus-de-participation.html"
+        },
+        {
+          "labelKey": "taxadviceParticipations",
+          "url": "https://www.taxadvice.ch/wp-content/uploads/2022-General_logo_taxadvice.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "comptes-annuels-pme-2025",
+      "title": "Financial Statements 2025: Preparing Annual Accounts for SMEs",
+      "description": "Key steps in preparing annual financial statements: balance sheet, income statement, notes and presentation under Swiss GAAP FER.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "odmComptabiliteGuidePME",
           "url": "https://www.odmfiduciaire.ch/2025/03/04/comptabilite-en-suisse-le-guide-2025-pour-les-pme-et-independants/"
         },
         {
-          "labelKey": "EntreprdreFiscaliteSocietes",
-          "url": "https://entreprendre.ch/fiches-pratiques/fiscalite/fiscalite-entreprise-suisse-impot/"
+          "labelKey": "weshopSwissGAAPRPC",
+          "url": "https://bananacompta.ch"
+        }
+      ]
+    },
+    {
+      "slug": "taux-impot-revenu-commune",
+      "title": "Income Tax Rates 2025: Geneva Communes Comparison",
+      "description": "Analysis of income tax rates across Geneva communes to help individuals and entrepreneurs optimise their place of residence.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "geneveTauxImpots",
+          "url": "https://www.ge.ch/dossier/vos-impots"
+        },
+        {
+          "labelKey": "goldblumTauxCantonaux",
+          "url": "https://goldblum.ch/fr/base-de-connaissances/fiscalite-des-societes-en-suisse-taux-par-canton"
+        }
+      ]
+    },
+    {
+      "slug": "declaration-ligne-individus",
+      "title": "Online Tax Filing for Individuals: Tips & Common Pitfalls",
+      "description": "Advice for efficiently completing your online Swiss tax return: eTax navigation, common mistakes and optimisation ideas.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "zuerichETaxGuide",
+          "url": "https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/steuern-finanzen/steuern/natuerlichepersonen/jahrunabhaengig/how_to_fill_in_your_tax_return.pdf"
+        },
+        {
+          "labelKey": "firstSoftwareSkypeTax",
+          "url": "https://www.vd.ch/etat-droit-finances/impots/impots-pour-les-individus/remplir-ma-declaration-dimpot"
+        }
+      ]
+    },
+    {
+      "slug": "gestion-flux-tresorerie-pme",
+      "title": "Cash Flow Management for SMEs: Tools & Best Practices",
+      "description": "Cash management techniques for SMEs: forecasting, cash plan, credit lines and handling late payments.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "bexioTresorerie",
+          "url": "https://www.bexio.com/en-CH/salary-certificate"
+        },
+        {
+          "labelKey": "hostingerSpeedTest",
+          "url": "https://www.hostinger.com/tutorials/website-speed-test"
+        }
+      ]
+    },
+    {
+      "slug": "optimisation-cotisations-sociales",
+      "title": "Optimising Social Security Contributions: Strategies for Sole Traders & SMEs",
+      "description": "How to legally optimise AVS, accident, unemployment and pension (LPP) contributions: regime choices, advance payment calculations and use of exemptions.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "wtwLPP2025",
+          "url": "https://www.wtwco.com/fr-ch/insights/2025/02/apercu-de-l-evolution-de-la-legislation-et-des-revisions-du-2e-pilier-a-partir-de-2025"
+        },
+        {
+          "labelKey": "ewmAssurancesSociales",
+          "url": "https://ewm.swiss/en/blog/top-10-seo-agencies-in-geneva-in-2025"
+        }
+      ]
+    },
+    {
+      "slug": "immobilier-entreprise-depreciation-fiscalite",
+      "title": "Corporate Real Estate Taxation: Depreciation & Deductions",
+      "description": "Guide to tax depreciation of buildings and equipment: methods, rates and calculations to maximise deductions.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "actuPMEimmobilier",
+          "url": "https://www.actu-pme.ch/actualite/86454/la-gestion-des-salaires-en-suisse/"
+        },
+        {
+          "labelKey": "hostingerSpeedTest",
+          "url": "https://www.hostinger.com/tutorials/website-speed-test"
+        }
+      ]
+    },
+    {
+      "slug": "nomadisme-numerique-teletravail-fiscalite",
+      "title": "Digital Nomadism & Remote Work: 2025 Tax Impacts",
+      "description": "Insights on the tax consequences of remote work: deductions, tax domicile, ETIAS for cross-border and mobile workers.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "pwcRH2025",
+          "url": "https://www.pwc.ch/fr/insights/mybusiness/mise-a-jour-rh-changements-2024-2025.html"
+        },
+        {
+          "labelKey": "ewmNomadisme",
+          "url": "https://ewm.swiss/en/blog/top-10-seo-agencies-in-geneva-in-2025"
+        }
+      ]
+    },
+    {
+      "slug": "protection-donnees-comptabilite",
+      "title": "Data Protection in Accounting: GDPR & Swiss DPA Compliance",
+      "description": "Key issues and obligations regarding protection of sensitive accounting data, including technical and organisational measures.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "gdprSwissLPD",
+          "url": "https://www.admin.ch/gov/fr/accueil/droit-federal/lois/federales/2019-341.html"
+        },
+        {
+          "labelKey": "bananacomptaOCR",
+          "url": "https://bananacompta.ch"
+        }
+      ]
+    },
+    {
+      "slug": "controle-fiscal-pme-preparation",
+      "title": "SME Tax Audit: Preparation & 2025 Recommendations",
+      "description": "Better preparing for a tax audit: documents to provide, verification environment and best practices to reduce risk.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "references": [
+        {
+          "labelKey": "klaraAudit2025",
+          "url": "https://www.klara.ch/fr-ch/blog/gesetzes%C3%A4nderungen-2025-das-m%C3%BCssen-schweizer-kmu-jetzt-wissen"
+        },
+        {
+          "labelKey": "andydrinkwaterAudit",
+          "url": "https://andydrinkwater.co.uk/seo-audit-checklist/"
         }
       ]
     }
@@ -154,11 +317,38 @@
   "References": "References",
   "By": "By",
   "Published": "Published on",
+  "LastUpdated": "Last updated",
+  "RelatedArticles": "Related articles",
+  "ReadMore": "Read more →",
   "Download": "Download",
   "SwissVATOffice": "Swiss VAT Office (FTA)",
   "Contact": {
     "Title": "Questions about this article?",
-    "Description": "Our experts are here to help you understand the details and implications for your business. Get personalized advice tailored to your situation.\n",
+    "Description": "Our experts can help you understand the details and implications for your business. Get personalised advice tailored to your situation.",
     "ButtonText": "Contact our team"
+  },
+  "ReadingTime": "Reading time",
+  "Minutes": "min",
+  "FAQ": {
+    "Title": "Frequently asked questions – tax & accounting in Geneva and Romandy",
+    "Items": [
+      {
+        "q": "Why adapt bookkeeping to Geneva and Romandy specifics?",
+        "a": "Cantonal specifics (tax rates, filing obligations, deadlines) influence chart structure, tax planning and compliance scheduling. Aligning with Geneva and Romandy reduces risk and improves lawful optimisation."
+      },
+      {
+        "q": "What differs between federal and cantonal obligations?",
+        "a": "Federal law sets core principles (Code of Obligations, VAT, social security) while cantons define scales, processes and certain deductions. Multi‑level monitoring is required to stay compliant and anticipate changes."
+      },
+      {
+        "q": "When should payroll be outsourced in Geneva?",
+        "a": "When internal processing time becomes disproportionate, complexity increases (multi‑activity, cross‑border staff) or recurring compliance errors appear. Outsourcing improves reliability, security and traceability."
+      }
+    ]
+  },
+  "Links": {
+    "Accounting": "accounting",
+    "Tax": "tax",
+    "Payroll": "payroll"
   }
 }

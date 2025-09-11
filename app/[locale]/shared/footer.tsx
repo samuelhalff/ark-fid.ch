@@ -100,6 +100,32 @@ const Footer = ({ locale }: { locale?: string }) => {
           </span>
         </Link>
 
+        {/* Address / Location Block */}
+        <div
+          className="text-sm space-y-3"
+          itemScope
+          itemType="https://schema.org/PostalAddress"
+        >
+          <p className="font-semibold">Ark Fiduciaire SA</p>
+          <p>
+            <span itemProp="streetAddress">26 Boulevard Georges Favon</span>
+            <br />
+            <span itemProp="postalCode">1204</span>{" "}
+            <span itemProp="addressLocality">Genève</span>,{" "}
+            <span itemProp="addressCountry">CH</span>
+          </p>
+          <p>
+            <a
+              href="https://maps.google.com/?cid=11595836239142935457"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              Google Maps
+            </a>
+          </p>
+        </div>
+
         {footerSections.map(({ titleKey, links }) => (
           <nav
             key={titleKey}
@@ -151,7 +177,7 @@ const Footer = ({ locale }: { locale?: string }) => {
       <Separator />
       <div className="max-w-[var(--breakpoint-xl)] mx-auto py-8 flex flex-col-reverse sm:flex-row items-center justify-between gap-x-2 gap-y-5 px-6">
         {/* Copyright */}
-        <span className="w-full text-center xs:text-start">
+        <span className="w-full text-center xs:text-start text-sm text-muted-foreground">
           <TranslatedText
             ns="footer"
             translationKey={"Ark Fiduciaire SA"}

@@ -3,6 +3,9 @@ import ReactMarkdown from "react-markdown";
 import ContactSection from "../components/ContactSection";
 import { generateMetadataForArticle } from "@/src/lib/metadata";
 import { headers } from "next/headers";
+import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
+import RelatedArticles from "@/src/components/ressources/RelatedArticles";
+import { estimateReadingTime } from "@/src/lib/readingTime";
 
 type Params = { params: { slug: string; locale: string } };
 
@@ -32,17 +35,32 @@ export default async function ArticlePage({ params }: Params) {
       {
         "@type": "ListItem",
         position: 2,
+        name: "Articles",
+        item: `${baseUrl}/${params.locale}/ressources/articles/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
         name: article.title,
         item: articleUrl,
       },
     ],
   } as const;
+  const imageUrl = article.image
+    ? `${baseUrl}/assets/${article.image}`
+    : undefined;
+  const reading = estimateReadingTime(article.content || "");
+
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: article.title,
     description: article.description,
-    author: { "@type": "Person", name: article.author },
+    author: {
+      "@type": "Person",
+      name: article.author,
+      ...(article.authorUrl ? { url: article.authorUrl } : {}),
+    },
     datePublished: article.date,
     url: articleUrl,
     mainEntityOfPage: articleUrl,
@@ -54,7 +72,15 @@ export default async function ArticlePage({ params }: Params) {
         "@type": "ImageObject",
         url: `${baseUrl}/assets/arkfid--color.svg`,
       },
+      url: baseUrl,
+      sameAs: [
+        "https://www.linkedin.com/company/ark-fiduciaire/",
+        "https://maps.google.com/?cid=11595836239142935457",
+      ],
     },
+    ...(article.updated ? { dateModified: article.updated } : {}),
+    ...(reading ? { timeRequired: reading.timeRequiredISO } : {}),
+    ...(imageUrl ? { image: imageUrl } : {}),
   } as const;
 
   return (
@@ -69,18 +95,53 @@ export default async function ArticlePage({ params }: Params) {
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
+      <div className="mb-6">
+        <Breadcrumbs
+          baseLabel="Resources"
+          segments={[
+            { segment: "ressources", label: "Resources" },
+            { segment: "articles", label: "Articles" },
+            { segment: params.slug, label: article.title },
+          ]}
+        />
+      </div>
       <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
         {article.title}
       </h1>
+      {imageUrl && (
+        <div className="mb-6">
+          <img
+            src={imageUrl}
+            alt={`${ressources.ImageAltPrefix || "Article illustration"}: ${
+              article.title
+            }`}
+            loading="lazy"
+            className="rounded-md mx-auto max-h-80 w-full object-cover"
+          />
+        </div>
+      )}
       <p className="text-lg mb-8 text-center">{article.description}</p>
 
-      <div className="text-center text-sm mb-8">
+      <div className="text-center text-sm mb-8 space-y-1">
         <p>
           {ressources.By} {article.author}
         </p>
         <p>
-          {ressources.Published} {formatDateDeterministic(article.date)}
+          {ressources.Published}{" "}
+          {formatDateDeterministic(article.date, params.locale)}
         </p>
+        {article.updated && (
+          <p>
+            {ressources.LastUpdated}:{" "}
+            {formatDateDeterministic(article.updated, params.locale)}
+          </p>
+        )}
+        {reading && (
+          <p>
+            {ressources.ReadingTime}: {reading.minutes}
+            {ressources.Minutes} ({reading.words} words)
+          </p>
+        )}
       </div>
 
       <article className="prose prose-lg dark:prose-invert max-w-none">
@@ -111,6 +172,8 @@ export default async function ArticlePage({ params }: Params) {
         </section>
       )}
 
+      <RelatedArticles currentSlug={params.slug} locale={params.locale} />
+
       <ContactSection locale={params.locale} />
     </main>
   );
@@ -130,24 +193,43 @@ export async function generateMetadata({ params }: Params) {
   const ressources = module.default;
   const article = ressources.Articles.find((a: any) => a.slug === params.slug);
   if (!article) return {};
-
-  return await generateMetadataForArticle(
+  const reading = article.content
+    ? require("@/src/lib/readingTime").estimateReadingTime(article.content)
+    : null;
+  const meta = await generateMetadataForArticle(
     params.locale || "fr",
     article.slug,
     article.title,
     article.description
   );
+  return {
+    ...meta,
+    other: {
+      ...(meta.other || {}),
+      estimatedReadingTime: reading ? reading.timeRequiredISO : undefined,
+    },
+  };
 }
 
-function formatDateDeterministic(date?: string) {
+function formatDateDeterministic(date?: string, locale: string = "en") {
   if (!date) return "";
   try {
-    return new Intl.DateTimeFormat("en-GB", {
+    // Normalize locale (fallback chain)
+    const loc = locale || "en";
+    return new Intl.DateTimeFormat(loc, {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
     }).format(new Date(date));
   } catch (e) {
-    return new Date(date).toISOString().split("T")[0];
+    try {
+      return new Intl.DateTimeFormat("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      }).format(new Date(date));
+    } catch {
+      return new Date(date).toISOString().split("T")[0];
+    }
   }
 }

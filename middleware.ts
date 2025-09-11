@@ -21,6 +21,12 @@ export function middleware(request: NextRequest) {
           `img-src 'self' data: blob: https:`,
           `font-src 'self' data:`,
           `connect-src 'self' https: https://vitals.vercel-analytics.com`,
+          // Allow embedding Google Maps iframe & required map tiles/images
+          `frame-src 'self' https://www.google.com https://maps.google.com https://maps.gstatic.com`,
+          `child-src 'self' https://www.google.com https://maps.google.com`,
+          // Some map assets & JS served from these
+          `img-src 'self' data: blob: https: https://maps.gstatic.com https://maps.googleapis.com`,
+          `script-src-elem 'self' 'nonce-${nonce}' https://maps.googleapis.com https://maps.gstatic.com`,
           `frame-ancestors 'self'`,
           `base-uri 'self'`,
           `form-action 'self'`,
@@ -31,10 +37,11 @@ export function middleware(request: NextRequest) {
           // Relax for dev: allow eval for source maps and dev client scripts
           `script-src 'self' 'unsafe-inline' 'unsafe-eval' http: https:`,
           `style-src 'self' 'unsafe-inline'`,
-          `img-src 'self' data: blob: https:`,
+          `img-src 'self' data: blob: https: https://maps.gstatic.com https://maps.googleapis.com`,
           `font-src 'self' data:`,
           // Allow HMR/WebSocket in dev
           `connect-src 'self' http: https: ws: wss: https://vitals.vercel-analytics.com`,
+          `frame-src 'self' https://www.google.com https://maps.google.com https://maps.gstatic.com`,
           `frame-ancestors 'self'`,
           `base-uri 'self'`,
           `form-action 'self'`,

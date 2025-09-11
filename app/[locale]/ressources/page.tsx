@@ -1,8 +1,10 @@
 import React from "react";
+import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 import { type Metadata } from "next";
 import { headers } from "next/headers";
 import TranslatedText from "@/src/components/ui/translated-text";
 import ResourceGrid from "./components/ResourceGrid";
+import FAQSection from "./components/FAQSection";
 import { notFound } from "next/navigation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { type Locale } from "@/src/lib/i18n";
@@ -52,6 +54,13 @@ export default async function RessourcesPage({ params }: LocaleParams) {
           }),
         }}
       />
+      <div className="max-w-[1200px] mx-auto px-0 md:px-0 mb-6 -mt-4">
+        <Breadcrumbs
+          rootLabel="Home"
+          baseLabel="Resources"
+          segments={[{ segment: "ressources", label: "Resources" }]}
+        />
+      </div>
       <section className="mb-12">
         <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-4">
           <TranslatedText
@@ -66,6 +75,36 @@ export default async function RessourcesPage({ params }: LocaleParams) {
             translationKey="IntroText"
             fallbackText="Helpful resources and documents"
           />
+        </p>
+        <p className="text-sm mt-4 max-w-[720px] text-muted-foreground leading-relaxed">
+          {[
+            {
+              key: "Links.Accounting",
+              href: `/${locale}/services/accounting`,
+              fallback: "accounting",
+            },
+            {
+              key: "Links.Tax",
+              href: `/${locale}/services/taxes`,
+              fallback: "tax",
+            },
+            {
+              key: "Links.Payroll",
+              href: `/${locale}/services/payroll`,
+              fallback: "payroll",
+            },
+          ].map((item, i) => (
+            <span key={item.key}>
+              {i > 0 && <span className="mx-1">·</span>}
+              <a href={item.href} className="underline hover:no-underline">
+                <TranslatedText
+                  ns="ressources"
+                  translationKey={item.key}
+                  fallbackText={item.fallback}
+                />
+              </a>
+            </span>
+          ))}
         </p>
       </section>
       <section className="mb-16">
@@ -98,6 +137,7 @@ export default async function RessourcesPage({ params }: LocaleParams) {
           labels={labels}
         />
       </section>
+      <FAQSection faq={ressources.FAQ} locale={locale} nonce={nonce} />
     </main>
   );
 }

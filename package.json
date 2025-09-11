@@ -8,13 +8,17 @@
     "start": "next start -p 5000",
     "lint": "next lint",
     "optimize:images": "node scripts/optimize-images.js",
+    "compress:images": "node scripts/compress-images.js --dir public/assets --threshold 100 --quality 82",
     "assets:pdfs": "node scripts/download-missing-pdfs.js --locale fr",
     "assets:pdfs:dry": "node scripts/download-missing-pdfs.js --locale fr --dry-run",
     "assets:audit": "node scripts/audit-image-usage.js > image-usage.csv",
     "assets:cleanup": "node scripts/cleanup-unused-originals.js",
     "assets:lint": "node scripts/check-assets.js",
     "links:list": "node scripts/check-links.js",
-    "links:check": "NEXT_BASE_URL=http://localhost:5000 node scripts/check-links.js --http"
+    "links:check": "NEXT_BASE_URL=http://localhost:5000 node scripts/check-links.js --http",
+    "ping:sitemaps": "node scripts/ping-sitemaps.js",
+    "ressources:sync": "node scripts/sync-ressources.js --apply",
+    "ressources:check": "node scripts/sync-ressources.js --check"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

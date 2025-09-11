@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import Presentation from "./components/presentation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { type Locale } from "@/src/lib/i18n";
+import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 
 export const runtime = "nodejs";
 
@@ -45,6 +46,13 @@ const Payroll = ({ params }: { params: { locale: string } }) => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <Hero params={params} />
+      <div className="max-w-[var(--breakpoint-xl)] mx-auto px-0 mt-4">
+        <Breadcrumbs
+          rootLabel="Home"
+          baseLabel="Services"
+          segments={[{ segment: "payroll", label: "Payroll" }]}
+        />
+      </div>
       <Presentation />
     </main>
   );
