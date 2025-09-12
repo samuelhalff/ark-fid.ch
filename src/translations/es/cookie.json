@@ -1,7 +1,8 @@
 {
-  "Title": "Usamos cookies",
-  "Text": "Usamos cookies para analizar el tráfico y mejorar su experiencia. Las cookies de analítica solo se cargarán después de su aceptación.",
-  "Accept": "Aceptar",
-  "Decline": "Rechazar",
-  "LearnMore": "Más información"
+    "Title": "Usamos cookies",
+    "Text": "Usamos cookies para analizar el tráfico y mejorar su experiencia. Las cookies de analítica solo se cargarán después de su aceptación.",
+    "Accept": "Aceptar",
+    "Decline": "Rechazar",
+    "LearnMore": "Más información",
+    "Manage": "Gestionar cookies"
 }

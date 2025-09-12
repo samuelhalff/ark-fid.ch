@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Script from "next/script";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
@@ -35,29 +35,94 @@ export default function CookieConsent({ nonce, locale = "fr" }: Props) {
   const [consent, setConsentState] = useState<"accepted" | "declined" | null>(
     null
   );
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const manageBtnRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     setConsentState(getStoredConsent());
+    const handler = () => setConsentState(null);
+    window.addEventListener("open-cookie-settings", handler);
+    return () => window.removeEventListener("open-cookie-settings", handler);
   }, []);
 
+  // Minimal focus trap when the dialog is open
+  useEffect(() => {
+    if (consent !== null) return; // only when banner is visible
+    const root = dialogRef.current;
+    if (!root) return;
+    const focusable = root.querySelectorAll<HTMLElement>(
+      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    );
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    first?.focus();
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      if (focusable.length === 0) return;
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          last?.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === last) {
+          first?.focus();
+          e.preventDefault();
+        }
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [consent]);
+
   const measurementId = useMemo(
-    () => process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || process.env.NEXT_PUBLIC_GA_ID,
+    () =>
+      process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ||
+      process.env.NEXT_PUBLIC_GA_ID,
     []
   );
 
   const accept = () => {
     setConsent("accepted");
     setConsentState("accepted");
+    // Return focus to manage button for a11y
+    setTimeout(() => manageBtnRef.current?.focus(), 0);
   };
   const decline = () => {
     setConsent("declined");
     setConsentState("declined");
+    // Return focus to manage button for a11y
+    setTimeout(() => manageBtnRef.current?.focus(), 0);
+  };
+  const reset = () => {
+    try {
+      localStorage.removeItem(CONSENT_KEY);
+      document.cookie = `${CONSENT_KEY}=; Path=/; Max-Age=0; SameSite=Lax`;
+      setConsentState(null);
+    } catch {}
   };
 
   const legalCookiesHref = `/${locale}/legal/cookies`;
 
   return (
     <>
+      {/* Floating manage button: available after initial decision, and also before decision if user wants to open banner proactively. Hidden while banner is visible. */}
+      {consent !== null && (
+        <button
+          type="button"
+          ref={manageBtnRef}
+          onClick={() => {
+            try {
+              window.dispatchEvent(new CustomEvent("open-cookie-settings"));
+            } catch {}
+          }}
+          className="fixed right-4 bottom-4 z-40 rounded-full border border-input bg-background/95 px-4 py-2 text-xs shadow-sm hover:bg-muted"
+          aria-label={t("Manage")}
+        >
+          {t("Manage")}
+        </button>
+      )}
+
       {/* Load GA only when consent is accepted and measurement ID is configured */}
       {consent === "accepted" && measurementId ? (
         <>
@@ -82,11 +147,21 @@ export default function CookieConsent({ nonce, locale = "fr" }: Props) {
 
       {/* Banner */}
       {consent === null && (
-        <div className="fixed inset-x-0 bottom-0 z-50">
-          <div className="mx-auto mb-4 max-w-4xl rounded-lg border border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 p-4 shadow-lg">
+        <div
+          className="fixed inset-x-0 bottom-0 z-50"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="cookie-consent-title"
+        >
+          <div
+            ref={dialogRef}
+            className="mx-auto mb-4 max-w-4xl rounded-lg border border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 p-4 shadow-lg"
+          >
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="text-sm leading-relaxed">
-                <p className="font-medium mb-1">{t("Title")}</p>
+                <p id="cookie-consent-title" className="font-medium mb-1">
+                  {t("Title")}
+                </p>
                 <p>
                   {t("Text")}{" "}
                   <Link href={legalCookiesHref} className="underline">

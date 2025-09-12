@@ -1,6 +1,5 @@
 import React from "react";
 import { FileText, FileSpreadsheet, File } from "lucide-react";
-import Link from "next/link";
 
 // Map file extensions to Lucide icons (fallback to FileText for Word/PDF)
 const iconMap: Record<string, React.ReactNode> = {
@@ -29,7 +28,6 @@ interface ResourceCardProps {
   date?: string;
   author?: string;
   labels?: Labels;
-  locale?: string;
   source?: string;
 }
 const ResourceCard: React.FC<ResourceCardProps> = ({
@@ -41,7 +39,6 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   date,
   author,
   labels,
-  locale,
   source,
 }) => {
   const icon =
@@ -118,14 +115,13 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
     );
   } else {
     return (
-      <Link
+      <a
         href={href}
-        locale={locale}
         target="_blank"
         className="block h-full group transition-transform hover:scale-105"
       >
         {cardContent}
-      </Link>
+      </a>
     );
   }
 };

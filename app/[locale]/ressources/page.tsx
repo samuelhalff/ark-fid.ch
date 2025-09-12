@@ -1,8 +1,6 @@
 import React from "react";
-import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 import { type Metadata } from "next";
 import { headers } from "next/headers";
-import TranslatedText from "@/src/components/ui/translated-text";
 import ResourceGrid from "./components/ResourceGrid";
 import FAQSection from "./components/FAQSection";
 import { notFound } from "next/navigation";
@@ -55,65 +53,52 @@ export default async function RessourcesPage({ params }: LocaleParams) {
         }}
       />
       <div className="max-w-[1200px] mx-auto px-0 md:px-0 mb-6 -mt-4">
-        <Breadcrumbs
-          rootLabel="Home"
-          baseLabel="Resources"
-          segments={[{ segment: "ressources", label: "Resources" }]}
-        />
+        <nav aria-label="Breadcrumb">
+          <ol className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
+            <li>
+              <a href={`/${locale}/`} className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded-sm">
+                Home
+              </a>
+            </li>
+            <li className="flex items-center gap-1">
+              <span className="text-muted-foreground/60">/</span>
+              <span aria-current="page" className="font-medium text-foreground">
+                Resources
+              </span>
+            </li>
+          </ol>
+        </nav>
       </div>
       <section className="mb-12">
         <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-4">
-          <TranslatedText
-            ns="ressources"
-            translationKey="IntroTitle"
-            fallbackText="Resources"
-          />
+          {ressources.IntroTitle || "Resources"}
         </h1>
         <p className="text-lg max-w-[700px]">
-          <TranslatedText
-            ns="ressources"
-            translationKey="IntroText"
-            fallbackText="Helpful resources and documents"
-          />
+          {ressources.IntroText || "Helpful resources and documents"}
         </p>
         <p className="text-sm mt-4 max-w-[720px] text-muted-foreground leading-relaxed">
-          {[
-            {
-              key: "Links.Accounting",
-              href: `/${locale}/services/accounting`,
-              fallback: "accounting",
-            },
-            {
-              key: "Links.Tax",
-              href: `/${locale}/services/taxes`,
-              fallback: "tax",
-            },
-            {
-              key: "Links.Payroll",
-              href: `/${locale}/services/payroll`,
-              fallback: "payroll",
-            },
-          ].map((item, i) => (
-            <span key={item.key}>
+          {[{
+            label: ressources?.Links?.Accounting || "accounting",
+            href: `/${locale}/services/accounting`,
+          },
+          {
+            label: ressources?.Links?.Tax || "tax",
+            href: `/${locale}/services/taxes`,
+          },
+          {
+            label: ressources?.Links?.Payroll || "payroll",
+            href: `/${locale}/services/payroll`,
+          }].map((item, i) => (
+            <span key={item.href}>
               {i > 0 && <span className="mx-1">·</span>}
-              <a href={item.href} className="underline hover:no-underline">
-                <TranslatedText
-                  ns="ressources"
-                  translationKey={item.key}
-                  fallbackText={item.fallback}
-                />
-              </a>
+              <a href={item.href} className="underline hover:no-underline">{item.label}</a>
             </span>
           ))}
         </p>
       </section>
       <section className="mb-16">
         <h2 className="text-2xl font-semibold mb-6">
-          <TranslatedText
-            ns="ressources"
-            translationKey="FilesTitle"
-            fallbackText="Files"
-          />
+          {ressources.FilesTitle || "Files"}
         </h2>
         <ResourceGrid
           files={files}
@@ -124,11 +109,7 @@ export default async function RessourcesPage({ params }: LocaleParams) {
       </section>
       <section>
         <h2 className="text-2xl font-semibold mb-6">
-          <TranslatedText
-            ns="ressources"
-            translationKey="ArticlesTitle"
-            fallbackText="Articles"
-          />
+          {ressources.ArticlesTitle || "Articles"}
         </h2>
         <ResourceGrid
           files={[]}

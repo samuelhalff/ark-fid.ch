@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import ResourceCard from "./ResourceCard";
 
@@ -37,17 +36,11 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
   labels,
 }) => {
   const prefix = locale ? `/${locale}` : "";
-  const [visibleFiles, setVisibleFiles] = React.useState(6);
-  const [visibleArticles, setVisibleArticles] = React.useState(6);
-  const inc = 6;
-
-  const showFiles = files.slice(0, visibleFiles);
-  const showArticles = articles.slice(0, visibleArticles);
 
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
-        {showFiles.map((file) => {
+        {files.map((file) => {
           const ext = file.filename.split(".").pop()?.toLowerCase();
           return (
             <ResourceCard
@@ -63,7 +56,7 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
             />
           );
         })}
-        {showArticles.map((article) => (
+        {articles.map((article) => (
           <ResourceCard
             key={article.slug}
             type="article"
@@ -73,36 +66,9 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
             author={article.author}
             date={article.date}
             labels={labels}
-            locale={locale}
           />
         ))}
       </div>
-      {visibleFiles < files.length && (
-        <div className="flex justify-center mt-6">
-          <button
-            type="button"
-            className="px-4 py-2 border rounded-md text-sm hover:bg-muted"
-            onClick={() =>
-              setVisibleFiles((v) => Math.min(v + inc, files.length))
-            }
-          >
-            Load more files
-          </button>
-        </div>
-      )}
-      {visibleArticles < articles.length && (
-        <div className="flex justify-center mt-4">
-          <button
-            type="button"
-            className="px-4 py-2 border rounded-md text-sm hover:bg-muted"
-            onClick={() =>
-              setVisibleArticles((v) => Math.min(v + inc, articles.length))
-            }
-          >
-            Load more articles
-          </button>
-        </div>
-      )}
     </div>
   );
 };

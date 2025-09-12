@@ -11,8 +11,9 @@ import {
 } from "@/src/lib/metadata";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
-import { Analytics } from "@vercel/analytics/react";
+// Vercel Analytics is rendered conditionally via ConsentAnalytics
 import CookieConsent from "@/src/components/CookieConsent";
+import ConsentAnalytics from "@/src/components/ConsentAnalytics";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -133,8 +134,8 @@ export default function RootLayout({
             {children}
             {/* Cookie Consent banner and GA4 loader (loads GA only after acceptance) */}
             <CookieConsent nonce={nonce} locale={currentLocale} />
-            {/* Optional: Vercel Analytics is lightweight and privacy-friendly; keep it enabled */}
-            <Analytics />
+            {/* Render Vercel Analytics only when user accepted cookies */}
+            <ConsentAnalytics />
           </div>
         </Providers>
       </body>

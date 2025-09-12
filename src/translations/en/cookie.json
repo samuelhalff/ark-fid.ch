@@ -1,7 +1,8 @@
 {
-  "Title": "We use cookies",
-  "Text": "We use cookies to analyze traffic and improve your experience. Analytics cookies will only load after you accept.",
-  "Accept": "Accept",
-  "Decline": "Decline",
-  "LearnMore": "Learn more"
+    "Title": "We use cookies",
+    "Text": "We use cookies to analyze traffic and improve your experience. Analytics cookies will only load after you accept.",
+    "Accept": "Accept",
+    "Decline": "Decline",
+    "LearnMore": "Learn more",
+    "Manage": "Manage cookies"
 }

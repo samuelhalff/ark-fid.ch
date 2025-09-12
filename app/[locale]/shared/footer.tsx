@@ -2,6 +2,7 @@ import { Separator } from "@/src/components/ui/separator";
 import Link from "next/link";
 import Image from "next/image";
 import TranslatedText from "@/src/components/ui/translated-text";
+import CookieSettingsLink from "@/src/components/CookieSettingsLink";
 
 // Replace '#' with real or placeholder URLs for SEO. Update as needed.
 const footerSections = [
@@ -65,6 +66,7 @@ const footerSections = [
       { titleKey: "Legal.Terms", href: "/legal/terms", ns: "footer" },
       { titleKey: "Legal.Privacy", href: "/legal/privacy", ns: "footer" },
       { titleKey: "Legal.Cookies", href: "/legal/cookies", ns: "footer" },
+      { titleKey: "Legal.Settings", href: "#cookie-settings", ns: "footer" },
     ],
   },
 ];
@@ -155,6 +157,14 @@ const Footer = ({ locale }: { locale?: string }) => {
                         fallbackText={titleKey}
                       />
                     </a>
+                  ) : href === "#cookie-settings" ? (
+                    <CookieSettingsLink className="hover:text-foreground underline">
+                      <TranslatedText
+                        ns={ns || "footer"}
+                        translationKey={titleKey}
+                        fallbackText={titleKey}
+                      />
+                    </CookieSettingsLink>
                   ) : (
                     <Link
                       href={`${localePrefix}${href}`}
