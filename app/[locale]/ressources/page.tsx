@@ -7,9 +7,15 @@ import { notFound } from "next/navigation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { type Locale } from "@/src/lib/i18n";
 
-type LocaleParams = { params: { locale: string } };
+type LocaleParams = {
+  params: { locale: string };
+  searchParams?: Record<string, string | string[] | undefined>;
+};
 
-export default async function RessourcesPage({ params }: LocaleParams) {
+export default async function RessourcesPage({
+  params,
+  searchParams,
+}: LocaleParams) {
   const nonce = headers().get("x-nonce") || undefined;
   const locale = params?.locale || "fr";
 
@@ -30,6 +36,46 @@ export default async function RessourcesPage({ params }: LocaleParams) {
 
   const files = ressources.Files || [];
   const articles = ressources.Articles || [];
+
+  // Server-only slicing based on query params for SEO-friendly "Show more" without client JS
+  const step = 6;
+  const parseLimit = (value: string | string[] | undefined, total: number) => {
+    if (!value) return step;
+    const v = Array.isArray(value) ? value[0] : value;
+    if (v === "all") return total;
+    const n = parseInt(v, 10);
+    if (Number.isNaN(n) || n <= 0) return step;
+    return Math.min(n, total);
+  };
+  const filesLimit = parseLimit(searchParams?.files, files.length);
+  const articlesLimit = parseLimit(searchParams?.articles, articles.length);
+  const visibleFiles = files.slice(0, filesLimit);
+  const visibleArticles = articles.slice(0, articlesLimit);
+  const showMoreFiles = filesLimit < files.length;
+  const showMoreArticles = articlesLimit < articles.length;
+  const nextFiles = Math.min(filesLimit + step, files.length);
+  const nextArticles = Math.min(articlesLimit + step, articles.length);
+  const buildHref = (
+    next: { files?: number | "all"; articles?: number | "all" },
+    hash?: string
+  ) => {
+    const sp = new URLSearchParams();
+    const current = searchParams || {};
+    const fv =
+      next.files ??
+      (Array.isArray(current.files) ? current.files[0] : current.files);
+    const av =
+      next.articles ??
+      (Array.isArray(current.articles)
+        ? current.articles[0]
+        : current.articles);
+    if (fv) sp.set("files", String(fv));
+    if (av) sp.set("articles", String(av));
+    const qs = sp.toString();
+    return `/${locale}/ressources${qs ? `?${qs}` : ""}${
+      hash ? `#${hash}` : ""
+    }`;
+  };
   const labels = {
     ReadArticle: ressources.ReadArticle || "Read Article",
     Download: ressources.Download || "Download",
@@ -103,27 +149,59 @@ export default async function RessourcesPage({ params }: LocaleParams) {
           ))}
         </p>
       </section>
-      <section className="mb-16">
+      <section id="files" className="mb-16">
         <h2 className="text-2xl font-semibold mb-6">
           {ressources.FilesTitle || "Files"}
         </h2>
         <ResourceGrid
-          files={files}
+          files={visibleFiles}
           articles={[]}
           locale={locale}
           labels={labels}
         />
+        {showMoreFiles && (
+          <div className="flex items-center gap-3 justify-center mt-6">
+            <a
+              className="px-4 py-2 border rounded-md text-sm hover:bg-muted"
+              href={buildHref({ files: nextFiles }, "files")}
+            >
+              {ressources.LoadMoreFiles || "Load more files"}
+            </a>
+            <a
+              className="px-3 py-2 text-xs text-muted-foreground hover:underline"
+              href={buildHref({ files: "all" }, "files")}
+            >
+              {ressources.ShowAllFiles || "Show all"}
+            </a>
+          </div>
+        )}
       </section>
-      <section>
+      <section id="articles">
         <h2 className="text-2xl font-semibold mb-6">
           {ressources.ArticlesTitle || "Articles"}
         </h2>
         <ResourceGrid
           files={[]}
-          articles={articles}
+          articles={visibleArticles}
           locale={locale}
           labels={labels}
         />
+        {showMoreArticles && (
+          <div className="flex items-center gap-3 justify-center mt-6">
+            <a
+              className="px-4 py-2 border rounded-md text-sm hover:bg-muted"
+              href={buildHref({ articles: nextArticles }, "articles")}
+            >
+              {ressources.LoadMoreArticles || "Load more articles"}
+            </a>
+            <a
+              className="px-3 py-2 text-xs text-muted-foreground hover:underline"
+              href={buildHref({ articles: "all" }, "articles")}
+            >
+              {ressources.ShowAllArticles || "Show all"}
+            </a>
+          </div>
+        )}
       </section>
       <FAQSection faq={ressources.FAQ} locale={locale} nonce={nonce} />
     </main>

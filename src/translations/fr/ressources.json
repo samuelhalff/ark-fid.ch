@@ -6,6 +6,8 @@
   "ReadArticle": "Lire l'article",
   "LoadMoreFiles": "Afficher plus de documents",
   "LoadMoreArticles": "Afficher plus d'articles",
+  "ShowAllFiles": "Tout afficher",
+  "ShowAllArticles": "Tout afficher",
   "Source": "Source",
   "ImageAltPrefix": "Illustration de l'article",
   "Files": [
