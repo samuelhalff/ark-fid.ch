@@ -12,6 +12,7 @@ import {
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/react";
+import CookieConsent from "@/src/components/CookieConsent";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -130,7 +131,9 @@ export default function RootLayout({
         <Providers>
           <div className="pt-3 abstract-background text-foreground pt-15 mt-10">
             {children}
-            {/* Vercel Analytics - auto-captures path-based data; locale is in path */}
+            {/* Cookie Consent banner and GA4 loader (loads GA only after acceptance) */}
+            <CookieConsent nonce={nonce} locale={currentLocale} />
+            {/* Optional: Vercel Analytics is lightweight and privacy-friendly; keep it enabled */}
             <Analytics />
           </div>
         </Providers>

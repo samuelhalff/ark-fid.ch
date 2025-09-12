@@ -20,6 +20,7 @@ import outsourcing from "@/src/translations/en/outsourcing.json";
 import partners from "@/src/translations/en/partners.json";
 import payroll from "@/src/translations/en/payroll.json";
 import ressources from "@/src/translations/en/ressources.json";
+import cookie from "@/src/translations/en/cookie.json";
 import services from "@/src/translations/en/services.json";
 import servicesItems from "@/src/translations/en/servicesItems.json";
 import taxes from "@/src/translations/en/taxes.json";
@@ -40,6 +41,7 @@ import outsourcingFr from "@/src/translations/fr/outsourcing.json";
 import partnersFr from "@/src/translations/fr/partners.json";
 import payrollFr from "@/src/translations/fr/payroll.json";
 import ressourcesFr from "@/src/translations/fr/ressources.json";
+import cookieFr from "@/src/translations/fr/cookie.json";
 import servicesFr from "@/src/translations/fr/services.json";
 import servicesItemsFr from "@/src/translations/fr/servicesItems.json";
 import taxesFr from "@/src/translations/fr/taxes.json";
@@ -61,6 +63,7 @@ import outsourcingDe from "@/src/translations/de/outsourcing.json";
 import partnersDe from "@/src/translations/de/partners.json";
 import payrollDe from "@/src/translations/de/payroll.json";
 import ressourcesDe from "@/src/translations/de/ressources.json";
+import cookieDe from "@/src/translations/de/cookie.json";
 import servicesDe from "@/src/translations/de/services.json";
 import servicesItemsDe from "@/src/translations/de/servicesItems.json";
 import taxesDe from "@/src/translations/de/taxes.json";
@@ -82,6 +85,7 @@ import outsourcingEs from "@/src/translations/es/outsourcing.json";
 import partnersEs from "@/src/translations/es/partners.json";
 import payrollEs from "@/src/translations/es/payroll.json";
 import ressourcesEs from "@/src/translations/es/ressources.json";
+import cookieEs from "@/src/translations/es/cookie.json";
 import servicesEs from "@/src/translations/es/services.json";
 import servicesItemsEs from "@/src/translations/es/servicesItems.json";
 import taxesEs from "@/src/translations/es/taxes.json";
@@ -103,6 +107,7 @@ import outsourcingPt from "@/src/translations/pt/outsourcing.json";
 import partnersPt from "@/src/translations/pt/partners.json";
 import payrollPt from "@/src/translations/pt/payroll.json";
 import ressourcesPt from "@/src/translations/pt/ressources.json";
+import cookiePt from "@/src/translations/pt/cookie.json";
 import servicesPt from "@/src/translations/pt/services.json";
 import servicesItemsPt from "@/src/translations/pt/servicesItems.json";
 import taxesPt from "@/src/translations/pt/taxes.json";
@@ -148,6 +153,7 @@ const translations = {
     team,
     testimonials,
     incorporation,
+    cookie,
   },
   fr: {
     aboutUs: aboutUsFr,
@@ -171,6 +177,7 @@ const translations = {
     team: teamFr,
     testimonials: testimonialsFr,
     incorporation: incorporationFr,
+    cookie: cookieFr,
   },
   de: {
     aboutUs: aboutUsDe,
@@ -194,6 +201,7 @@ const translations = {
     team: teamDe,
     testimonials: testimonialsDe,
     incorporation: incorporationDe,
+    cookie: cookieDe,
   },
   es: {
     aboutUs: aboutUsEs,
@@ -217,6 +225,7 @@ const translations = {
     team: teamEs,
     testimonials: testimonialsEs,
     incorporation: incorporationEs,
+    cookie: cookieEs,
   },
   pt: {
     aboutUs: aboutUsPt,
@@ -240,6 +249,7 @@ const translations = {
     team: teamPt,
     testimonials: testimonialsPt,
     incorporation: incorporationPt,
+    cookie: cookiePt,
   },
 };
 

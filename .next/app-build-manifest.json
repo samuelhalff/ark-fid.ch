@@ -26,6 +26,11 @@
       "static/chunks/main-app.js",
       "static/chunks/app/[locale]/services/taxes/page.js"
     ],
+    "/[locale]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/page.js"
+    ],
     "/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",

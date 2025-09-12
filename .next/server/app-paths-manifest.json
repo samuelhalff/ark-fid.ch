@@ -2,5 +2,5 @@
   "/not-found": "app/not-found.js",
   "/[locale]/ressources/page": "app/[locale]/ressources/page.js",
   "/[locale]/team/page": "app/[locale]/team/page.js",
-  "/[locale]/services/taxes/page": "app/[locale]/services/taxes/page.js"
+  "/[locale]/page": "app/[locale]/page.js"
 }
