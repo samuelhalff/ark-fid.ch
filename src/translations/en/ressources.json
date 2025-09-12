@@ -1,6 +1,6 @@
 {
-  "IntroTitle": "Tax & Accounting Resources – Geneva & French-speaking Switzerland",
-  "IntroText": "Based in Geneva and active throughout French-speaking Switzerland, our teams also support clients across Switzerland and internationally. Below is a curated selection of practical documents and expert articles adapted to Geneva, Romandy and federal regulatory contexts. These resources are provided for your convenience and do not constitute personalised advice. For an assessment of your situation, contact our team.",
+  "IntroTitle": "Tax and accounting resources – Geneva & French-speaking Switzerland",
+  "IntroText": "Based in Geneva and active throughout French-speaking Switzerland, our teams also support clients in Switzerland and internationally. Below you will find a selection of practical documents and articles adapted to the Geneva, Romandy and federal regulatory context. These resources are provided for your convenience and do not constitute personalized advice. For a targeted analysis of your situation, contact our team.",
   "FilesTitle": "Downloadable documents",
   "ArticlesTitle": "Expert articles",
   "ReadArticle": "Read the article",
@@ -9,52 +9,87 @@
   "Files": [
     {
       "filename": "guide-certificat-salaire-2025.pdf",
-      "title": "2025 Salary Certificate Preparation Guide",
-      "description": "Official guide from the Federal Tax Administration for preparing the Swiss salary certificate (Form 11): employer obligations, benefits to declare and submission procedures.",
+      "title": "2025 Salary Certificate Preparation Guide – FTA",
+      "description": "Official 2025 guide from the Federal Tax Administration for preparing salary certificates. Essential for payroll management and tax compliance for Swiss companies.",
       "date": "2024-12-31",
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-wegleitung-2025-fr.pdf.download.pdf/dbst-form-lohna-wegleitung-2025-fr.pdf"
     },
     {
-      "filename": "instructions-neuchatel-2024.pdf",
-      "title": "General Tax Return Instructions 2024 – Canton Neuchâtel",
-      "description": "Practical guide from the Neuchâtel tax authority on using Clic&Tax, deductions and deadlines for the 2024 individual tax return.",
-      "date": "2024-02-01",
-      "source_url": "https://www.ne.ch/autorites/DFS/SCCO/Documents/PP/INSTRUCTIONS_GENERALES.pdf"
+      "filename": "instructions-vaud-2024.pdf",
+      "title": "General instructions for the 2024 tax return – Canton of Vaud",
+      "description": "Official Vaud guide with VaudTax instructions, eTax statement, authorized deductions and electronic filing procedures for 2024.",
+      "date": "2024-12-30",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21001_2024.pdf"
     },
     {
-      "filename": "instructions-fribourg-2024.pdf",
-      "title": "General Tax Return Instructions 2024 – Canton Fribourg",
-      "description": "Comprehensive 2024 Fribourg guide for completing your tax return: FriTax, professional deductions, deadlines and procedures.",
+      "filename": "deductions-vaudoises-2024.pdf",
+      "title": "Summary of main Vaud deductions 2024",
+      "description": "Official summary of Vaud tax deductions: professional expenses, mortgage interest, family deductions and 2024 coefficients.",
       "date": "2024-01-01",
-      "source_url": "https://www.fr.ch/document/57721"
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/Tableau_des_d%C3%A9ductions_2024.pdf"
     },
     {
-      "filename": "guide-personnes-morales-geneve-2020.pdf",
-      "title": "Corporate Tax Return Guide – Canton Geneva",
-      "description": "GeTaxPM guide for declaring corporate taxes in Geneva: ICC/IFD calculation, annexes, online filing and RFFA exemptions.",
-      "date": "2020-03-01",
-      "source_url": "https://www.getax.ch/getaxpm/guides/guide2020af.pdf"
+      "filename": "modifications-tva-2025.pdf",
+      "title": "VAT Ordinance changes 2025 – FTA",
+      "description": "Official FTA document detailing VAT changes 2025: new rates, electronic filing obligations and administrative simplifications.",
+      "date": "2024-12-31",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/publikationen/mwst-publ-mwstv-aenderungen-2025-fr.pdf.download.pdf/mwst-publ-mwstv-aenderungen-2025-fr.pdf"
     },
     {
-      "filename": "baremes-impot-source-fribourg-2025.pdf",
-      "title": "Withholding Tax Scales & Instructions 2025 – Fribourg",
-      "description": "2025 withholding tax scales for cross-border workers and temporary staff, declaration procedures and employer obligations in the canton of Fribourg.",
-      "date": "2024-11-27",
-      "source_url": "https://www.fr.ch/document/542571"
+      "filename": "instructions-ifd-2025.pdf",
+      "title": "2025 Instructions for federal direct tax – FTA",
+      "description": "Official FTA instructions for the 2025 federal direct tax return: income, deductions, scales and calculation procedures.",
+      "date": "2024-12-31",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/wegleitungen/dbst-wgl-02a-2025-fr.pdf.download.pdf/dbst-wgl-02a-2025-fr.pdf"
     },
     {
-      "filename": "deductions-vaudoises-2025.pdf",
-      "title": "Main Vaud Deductions 2025 – Summary Table",
-      "description": "Summary of tax deductions allowed in 2025 in the canton of Vaud: professional expenses, mortgage interest, family deductions.",
-      "date": "2025-01-01",
-      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/Tableau_des_d%C3%A9ductions_2025.pdf"
+      "filename": "guide-nouveau-contribuable-2024.pdf",
+      "title": "New taxpayer guide – FTA",
+      "description": "FTA guide for new taxpayers: newcomers, federal tax obligations, assessment procedures and taxpayer rights in Switzerland.",
+      "date": "2024-06-14",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/estv/steuersystem/leifaden-neue-steuerpflichtige/estv-leitfaden-neue-steuerpflichtige-fr.pdf.download.pdf/estv-leitfaden-neue-steuerpflichtige-fr.pdf"
     },
     {
-      "filename": "domiciliation-geneve-2025.pdf",
-      "title": "Company Domiciliation in Geneva – 2025 Guide",
-      "description": "CH Reloc guide for choosing and setting up company domiciliation in Geneva: options, costs and legal obligations.",
-      "date": "2025-05-08",
-      "source_url": "https://chreloc.com/assets/pdf/domiciliation-geneve-guide-2025.pdf"
+      "filename": "modele-reglement-frais-2024.pdf",
+      "title": "Expense reimbursement policy template – FTA",
+      "description": "FTA reference document establishing official scales for travel, meals and representation expenses. Essential tool for tax compliance.",
+      "date": "2024-01-01",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-spesenreglement-2024-fr.pdf.download.pdf/dbst-form-lohna-spesenreglement-2024-fr.pdf"
+    },
+    {
+      "filename": "impot-anticipe-cryptomonnaies-2025.pdf",
+      "title": "Cryptocurrencies and withholding tax – FTA",
+      "description": "FTA guide on the tax treatment of cryptocurrencies: token classification, taxation of individuals and companies, reporting obligations.",
+      "date": "2025-04-06",
+      "source_url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
+    },
+    {
+      "filename": "vaudtax-guide-linux-2024.pdf",
+      "title": "VaudTax 2024 installation help on Linux Ubuntu",
+      "description": "Official Vaud technical guide for installing and using VaudTax on Ubuntu Linux: installation, troubleshooting and integrity check.",
+      "date": "2024-03-01",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/VaudTax_2024_Guide_Linux_v1.pdf"
+    },
+    {
+      "filename": "instructions-propriete-immobiliere-vaud-2024.pdf",
+      "title": "Additional instructions for real estate – Canton of Vaud",
+      "description": "Vaud instructions for 2024 real estate taxation: rental value (127% rate), property tax and reporting obligations for owners.",
+      "date": "2024-01-01",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21004_2024.pdf"
+    },
+    {
+      "filename": "guide-vaudtax-2022.pdf",
+      "title": "Tax return guide – Canton of Vaud",
+      "description": "Basic Vaud guide for the tax return: using VaudTax, eTax statement, main deductions and available e-services.",
+      "date": "2022-03-01",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21000_2022.pdf"
+    },
+    {
+      "filename": "projet-adaptation-pratique-tva.pdf",
+      "title": "Draft adaptation of VAT practice – FTA",
+      "description": "FTA draft adaptation of VAT practice: input tax deduction, new rules and impacts for companies from 2025.",
+      "date": "2025-02-09",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/konsultativgremium/entwurf1-nein/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf.download.pdf/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf"
     }
   ],
   "Articles": [

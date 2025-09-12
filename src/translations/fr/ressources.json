@@ -8,417 +8,174 @@
   "ImageAltPrefix": "Illustration de l'article",
   "Files": [
     {
-      "filename": "guide-declaration-impot-geneve-2024.pdf",
-      "title": "Guide de la déclaration d'impôt 2024 pour les particuliers – Canton de Genève",
-      "description": "Le guide officiel et complet de l'Administration fiscale cantonale genevoise pour remplir votre déclaration d'impôt 2024 (revenus 2024). [24]",
-      "date": "2025-01-13",
-      "source_url": "https://www.ge.ch/document/guide-fiscal-2024-particuliers"
+      "filename": "guide-certificat-salaire-2025.pdf",
+      "title": "Guide d'établissement du certificat de salaire 2025 – AFC",
+      "description": "Guide officiel 2025 de l'Administration fédérale des contributions pour établir les certificats de salaire. Indispensable pour la gestion de paie et la conformité fiscale des entreprises suisses.",
+      "date": "2024-12-31",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-wegleitung-2025-fr.pdf.download.pdf/dbst-form-lohna-wegleitung-2025-fr.pdf"
     },
     {
-      "filename": "instructions-fribourg-2024.pdf",
-      "title": "Instructions générales pour la déclaration d'impôt - Canton de Fribourg",
-      "description": "Guide complet du canton de Fribourg 2024 pour remplir votre déclaration d’impôt : FriTax, déductions professionnelles, délais et procédures.",
+      "filename": "instructions-vaud-2024.pdf",
+      "title": "Instructions générales pour la déclaration d'impôt 2024 – Canton de Vaud",
+      "description": "Guide officiel vaudois avec instructions VaudTax, eRelevé fiscal, déductions autorisées et procédures de dépôt électronique pour 2024.",
+      "date": "2024-12-30",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21001_2024.pdf"
+    },
+    {
+      "filename": "deductions-vaudoises-2024.pdf",
+      "title": "Tableau des principales déductions vaudoises 2024",
+      "description": "Récapitulatif officiel des déductions fiscales vaudoises : frais professionnels, intérêts hypothécaires, déductions familiales et coefficients 2024.",
       "date": "2024-01-01",
-      "source_url": "https://www.fr.ch/document/57721"
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/Tableau_des_d%C3%A9ductions_2024.pdf"
     },
     {
-      "filename": "memento-tva-suisse-2025.pdf",
-      "title": "Mémento TVA pour les entreprises – Suisse",
-      "description": "Un document de référence de l'AFC sur les principes de la TVA en Suisse, incluant les taux applicables dès le 1er janvier 2024.",
-      "date": "2025-01-01",
-      "source_url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer/fachinfos/steuersaetze/anpassung-der-steuersaetze-per-01-01-2024.html"
+      "filename": "modifications-tva-2025.pdf",
+      "title": "Modifications de l'ordonnance TVA 2025 – AFC",
+      "description": "Document officiel de l'AFC détaillant les changements TVA 2025 : nouveaux taux, obligations de décompte électronique et simplifications administratives.",
+      "date": "2024-12-31",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/publikationen/mwst-publ-mwstv-aenderungen-2025-fr.pdf.download.pdf/mwst-publ-mwstv-aenderungen-2025-fr.pdf"
     },
     {
-      "filename": "guide-certificat-de-salaire-suisse.pdf",
-      "title": "Guide d'établissement du certificat de salaire – Administration fédérale des contributions",
-      "description": "Instructions officielles de l'AFC pour remplir correctement le certificat de salaire, un document essentiel pour la paie et la fiscalité.",
-      "date": "2025-01-01",
-      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-wegleitung-2025-fr.pdf"
+      "filename": "instructions-ifd-2025.pdf",
+      "title": "Instructions 2025 pour l'impôt fédéral direct – AFC",
+      "description": "Instructions officielles de l'AFC pour la déclaration d'impôt fédéral direct 2025 : revenus, déductions, barèmes et procédures de calcul.",
+      "date": "2024-12-31",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/wegleitungen/dbst-wgl-02a-2025-fr.pdf.download.pdf/dbst-wgl-02a-2025-fr.pdf"
     },
     {
-      "filename": "aide-memoire-avs-ai-apg-2025.pdf",
-      "title": "Aide-mémoire sur les cotisations AVS, AI et APG – OFAS",
-      "description": "Document officiel de l'Office fédéral des assurances sociales résumant les taux de cotisation pour les assurances sociales en 2025.",
-      "date": "2025-01-01",
-      "source_url": "https://www.ahv-iv.ch/p/2.01.f"
+      "filename": "guide-nouveau-contribuable-2024.pdf",
+      "title": "Guide du futur contribuable – AFC",
+      "description": "Guide AFC pour nouveaux contribuables : primo-arrivants, obligations fiscales fédérales, procédures d'imposition et droits des contribuables en Suisse.",
+      "date": "2024-06-14",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/estv/steuersystem/leifaden-neue-steuerpflichtige/estv-leitfaden-neue-steuerpflichtige-fr.pdf.download.pdf/estv-leitfaden-neue-steuerpflichtige-fr.pdf"
     },
     {
-      "filename": "baremes-impot-source-geneve-2025.pdf",
-      "title": "Barèmes de l'impôt à la source 2025 – Canton de Genève",
-      "description": "Les barèmes officiels pour le prélèvement de l'impôt à la source sur les salaires des travailleurs étrangers à Genève pour l'année 2025.",
-      "date": "2025-01-15",
-      "source_url": "https://www.ge.ch/document/31238/telecharger"
-    },
-    {
-      "filename": "guide-fiscal-vaud-2024.pdf",
-      "title": "Guide fiscal pour la déclaration d'impôt 2024 – Canton de Vaud",
-      "description": "Le guide de l'Administration cantonale des impôts vaudoise pour les personnes physiques, incluant toutes les déductions possibles.",
-      "date": "2025-01-10",
-      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/2024-Guide_fiscal.pdf"
-    },
-    {
-      "filename": "instructions-impot-valais-2024.pdf",
-      "title": "Instructions pour la déclaration d'impôt 2024 – Canton du Valais",
-      "description": "Instructions et annexes du Service cantonal des contributions du Valais pour les contribuables personnes physiques.",
-      "date": "2025-01-12",
-      "source_url": "https://www.vs.ch/documents/16123/503460/Instructions_PP_2024_FR.pdf/808b49cd-09b9-4467-b50a-e2752156828b"
-    },
-    {
-      "filename": "memento-impot-anticipe-suisse.pdf",
-      "title": "Mémento concernant l'impôt anticipé – AFC",
-      "description": "Le guide de l'Administration fédérale des contributions sur l'impôt anticipé, sa perception et les conditions de remboursement.",
+      "filename": "modele-reglement-frais-2024.pdf",
+      "title": "Modèle de règlement des remboursements de frais – AFC",
+      "description": "Document de référence AFC établissant les barèmes officiels pour frais de déplacement, repas et représentation. Outil essentiel pour la conformité fiscale.",
       "date": "2024-01-01",
-      "source_url": "https://www.estv.admin.ch/estv/fr/home/verrechnungssteuer/fachinfos/merkblaetter.html"
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-spesenreglement-2024-fr.pdf.download.pdf/dbst-form-lohna-spesenreglement-2024-fr.pdf"
     },
     {
-      "filename": "brochure-lpp-ofas-suisse.pdf",
-      "title": "La prévoyance professionnelle LPP expliquée simplement – OFAS",
-      "description": "Brochure de l'Office fédéral des assurances sociales qui vulgarise le fonctionnement du 2ème pilier en Suisse.",
-      "date": "2024-06-01",
-      "source_url": "https://www.bsv.admin.ch/bsv/fr/home/assurances-sociales/bv.html"
+      "filename": "impot-anticipe-cryptomonnaies-2025.pdf",
+      "title": "Cryptomonnaies et impôt anticipé – AFC",
+      "description": "Guide AFC sur le traitement fiscal des cryptomonnaies : classification des tokens, imposition des particuliers et entreprises, obligations déclaratives.",
+      "date": "2025-04-06",
+      "source_url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
     },
     {
-      "filename": "guide-creation-entreprise-seco.pdf",
-      "title": "Créer une PME : guide pratique – SECO",
-      "description": "Le guide du Secrétariat d'État à l'économie pour les créateurs d'entreprise en Suisse, de l'idée au lancement.",
+      "filename": "vaudtax-guide-linux-2024.pdf",
+      "title": "Aide à l'installation VaudTax 2024 sur Linux Ubuntu",
+      "description": "Guide technique officiel vaudois pour installer et utiliser VaudTax sur Ubuntu Linux : installation, dépannage et vérification de l'intégrité.",
+      "date": "2024-03-01",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/VaudTax_2024_Guide_Linux_v1.pdf"
+    },
+    {
+      "filename": "instructions-propriete-immobiliere-vaud-2024.pdf",
+      "title": "Instructions complémentaires propriété immobilière – Canton de Vaud",
+      "description": "Instructions vaudoises pour l'imposition immobilière 2024 : valeur locative (taux 127%), impôt foncier et obligations déclaratives des propriétaires.",
       "date": "2024-01-01",
-      "source_url": "https://www.pme.admin.ch/pme/fr/home/savoir-pratique/creation-d-une-pme/guide-pme-pour-la-creation-d-entreprise.html"
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21004_2024.pdf"
     },
     {
-      "filename": "convention-double-imposition-france-suisse.pdf",
-      "title": "Convention entre la Suisse et la France en vue d'éviter les doubles impositions",
-      "description": "Texte officiel de la convention fiscale bilatérale, essentiel pour les frontaliers et les entreprises actives dans les deux pays.",
-      "date": "1966-09-09",
-      "source_url": "https://www.fedlex.admin.ch/eli/cc/1967/989_1025_1015/fr.pdf"
+      "filename": "guide-vaudtax-2022.pdf",
+      "title": "Guide concernant la déclaration d'impôt – Canton de Vaud",
+      "description": "Guide de base vaudois pour la déclaration d'impôt : utilisation VaudTax, eRelevé fiscal, principales déductions et e-prestations disponibles.",
+      "date": "2022-03-01",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21000_2022.pdf"
     },
     {
-      "filename": "guide-bouclement-comptes-annuels-pme.pdf",
-      "title": "Guide pour le bouclement des comptes annuels – Expertsuisse",
-      "description": "Recommandations pratiques d'Expertsuisse pour préparer et réaliser la clôture des comptes annuels d'une PME selon le droit suisse.",
-      "date": "2024-11-01",
-      "source_url": "https://expertsuisse.ch/fr/themes/recommandations"
-    },
-    {
-      "filename": "instructions-swissdec-releve-salaires.pdf",
-      "title": "Directives concernant le relevé des données salariales (swissdec)",
-      "description": "Guide technique de swissdec pour la transmission électronique uniforme des données salariales aux différentes assurances sociales.",
-      "date": "2025-01-01",
-      "source_url": "https://www.swissdec.ch/fr/downloads/lohnstandard-clu/"
-    },
-    {
-      "filename": "circulaire-afc-cryptomonnaies.pdf",
-      "title": "Communication de l'AFC sur les cryptomonnaies",
-      "description": "Prise de position officielle de l'Administration fédérale des contributions sur le traitement fiscal des monnaies virtuelles.",
-      "date": "2021-12-14",
-      "source_url": "https://www.estv.admin.ch/estv/fr/home/international-fiscal/laender/sif/kryptowaehrungen.html"
-    },
-    {
-      "filename": "taux-dette-fiscale-nette-2025.pdf",
-      "title": "Brochure sur les taux de la dette fiscale nette – AFC",
-      "description": "Document de l'AFC présentant les taux forfaitaires applicables pour la méthode de décompte TVA selon les taux de la dette fiscale nette.",
-      "date": "2025-01-01",
-      "source_url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer/fachinfos/saetze-und-methoden/abrechnungsmethoden/saldo-und-pauschalsteuersaetze.html"
-    },
-    {
-      "filename": "guide-deductions-frais-professionnels-geneve.pdf",
-      "title": "Notice sur les déductions des frais professionnels – Canton de Genève",
-      "description": "Notice de l'administration fiscale genevoise détaillant les frais professionnels déductibles pour les salariés.",
-      "date": "2024-01-15",
-      "source_url": "https://www.ge.ch/document/31245/telecharger"
-    },
-    {
-      "filename": "instructions-impot-neuchatel-2024.pdf",
-      "title": "Instructions pour la déclaration d'impôt 2024 – Canton de Neuchâtel",
-      "description": "Directives officielles du service des contributions du canton de Neuchâtel pour les personnes physiques.",
-      "date": "2025-01-15",
-      "source_url": "https://www.ne.ch/autorites/DFFE/SCCO/impot-sur-le-revenu-et-la-fortune/Pages/2024.aspx"
-    },
-    {
-      "filename": "memento-prestations-complementaires-geneve.pdf",
-      "title": "Mémento sur les prestations complémentaires AVS/AI – Canton de Genève",
-      "description": "Un guide du service des prestations complémentaires (SPC) de Genève expliquant le droit et le calcul de ces aides.",
-      "date": "2025-01-01",
-      "source_url": "https://www.ge.ch/document/memento-prestations-complementaires-avs-ai-personnes-domicile"
-    },
-    {
-      "filename": "guide-tva-associations-sportives-culturelles.pdf",
-      "title": "Info TVA 22 : Associations sportives et culturelles sans but lucratif",
-      "description": "Brochure de l'AFC spécifiquement dédiée à l'assujettissement à la TVA pour les associations sportives et culturelles.",
-      "date": "2018-01-01",
-      "source_url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer/fachinfos/branchen/info-22-gemeinnuetzige-organisationen--sport--und-kulturvereine.html"
-    },
-    {
-      "filename": "directives-frais-representation-geneve.pdf",
-      "title": "Notice sur les frais de représentation et de publicité – Canton de Genève",
-      "description": "Notice de l'administration fiscale genevoise sur la déductibilité des frais de représentation et de publicité pour les indépendants et entreprises.",
-      "date": "2013-11-20",
-      "source_url": "https://www.ge.ch/document/31278/telecharger"
+      "filename": "projet-adaptation-pratique-tva.pdf",
+      "title": "Projet d'adaptation de la pratique LTVA – AFC",
+      "description": "Projet AFC d'adaptation de la pratique TVA : déduction impôt préalable, nouvelles règles et impacts pour les entreprises dès 2025.",
+      "date": "2025-02-09",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/konsultativgremium/entwurf1-nein/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf.download.pdf/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf"
     }
   ],
   "Articles": [
     {
-      "slug": "annual-vat-settlement-2025",
-      "title": "Décompte TVA annuel en Suisse : points clés pour 2025",
-      "description": "Un résumé des principales règles et points d'attention pour le décompte TVA annuel en 2025.",
-      "content": "Pour l'année fiscale 2025, les entreprises suisses doivent continuer à utiliser soit la **méthode effective** (basée sur 4 déclarations TVA) soit la **méthode du taux de l'impôt net (TIN)** (2 déclarations TVA), comme appliqué précédemment.\n\n## Caractéristiques clés du décompte TVA annuel\n\n- Changer votre méthode de décompte TVA nécessite de notifier l'Administration fédérale des contributions (AFC) au début de chaque période fiscale, dans les 60 jours (pour 2026 : entre le 01.01.2026 et le 28.02.2026 pour un premier changement). La nouvelle méthode doit être conservée pendant au moins une période fiscale complète pour les entreprises avec un chiffre d'affaires inférieur à CHF 5'005'000.\n- Autres conditions : toutes les dettes fiscales doivent être entièrement payées et toutes les déclarations soumises à temps pour les trois périodes fiscales précédentes.\n- L'AFC détermine le montant des acomptes, facturés en trois versements. Ceux-ci peuvent être ajustés jusqu'à 10 jours avant la date d'échéance pertinente.\n- Les extensions de délai restent possibles.\n- L'AFC peut révoquer l'autorisation si :\n  - elle a dû initier une procédure de recouvrement contre le contribuable,\n  - le contribuable a dépassé la limite de CHF 5'005'000 de chiffre d'affaires pendant trois périodes consécutives,\n  - l'AFC a dû estimer les impôts dus à des déclarations manquantes.\n\n## Points d'attention\n\n- Si les acomptes sont trop bas, des intérêts de retard (4,5 %) seront facturés.\n- Pas de possibilité de réclamer des remboursements d'impôt préalable basés sur les acomptes.\n- L'autorisation peut être révoquée si les acomptes dévient trop des montants réellement dus.\n- S'il y a un crédit d'impôt, il ne peut être remboursé que l'année suivante (en mars).\n",
-      "author": "Sébastien Gallié",
-      "date": "2025-08-25",
-      "references": [
-        {
-          "labelKey": "SwissVATOffice",
-          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
-        }
-      ]
-    },
-    {
-      "slug": "choisir-sarl-ou-sa-2025",
-      "title": "Créer une Sàrl ou une SA en 2025 ? Le comparatif utile",
-      "description": "Capital, responsabilité, fiscalité, gouvernance : un tableau de décision pour choisir la bonne forme juridique selon votre projet.",
-      "content": "Sàrl ou SA : la bonne forme sert votre stratégie.\n\nComparatif express :\n\n- Capital : Sàrl dès 20'000 CHF (libération entière) ; SA dès 100'000 CHF (50'000 libérés).\n- Responsabilité : limitée au capital social (hors faute de gestion).\n- Gouvernance : Sàrl plus resserrée, SA plus ouverte aux investisseurs.\n- Fiscalité : dividendes, salaires dirigeants, impôt anticipé à modéliser.\n- Transmission : SA souvent mieux adaptée aux levées de fonds et cessions.\n\nMéthode : clarifier objectifs (croissance, financement, risques), simuler rémunération mixte (salaire/dividende), évaluer coûts de mise en place et d'exploitation.",
+      "slug": "baisse-impots-geneve-2025",
+      "title": "Baisse historique des impôts à Genève en 2025 : ce que vous devez savoir",
+      "description": "Analyse détaillée de la réduction d'impôts de 8,7% en moyenne votée à Genève, ses impacts sur les contribuables et les nouvelles modalités de paiement mensuel.",
+      "content": "En novembre 2024, les Genevois ont massivement approuvé une baisse historique des impôts cantonaux et communaux, la première depuis 1999. Cette réforme majeure, approuvée à plus de 61%, apporte des changements significatifs pour tous les contribuables genevois dès l'année fiscale 2025.\n\n## Une baisse différenciée selon les revenus\n\nLa réforme genevoise ne profite pas uniformément à tous les contribuables. Les baisses varient selon les tranches de revenus :\n\n**Classe moyenne (revenus entre 75'000 et 150'000 CHF) :** Les plus favorisés avec des réductions pouvant atteindre **11,4%**. Cette catégorie représente l'objectif principal de la réforme, visant à améliorer le pouvoir d'achat des familles genevoises.\n\n**Revenus modestes (jusqu'à 75'000 CHF) :** Bénéficient d'une réduction moyenne de **8,8%**, soit environ 870 francs d'économie annuelle pour un revenu de 50'000 francs.\n\n**Hauts revenus (plus de 200'000 CHF) :** Voient leur impôt diminuer de **5,3%**, une baisse plus modeste mais significative en valeur absolue.\n\nCette progressivité vise à corriger les inégalités fiscales qui plaçaient Genève parmi les cantons les plus imposés de Suisse pour les revenus moyens et élevés.\n\n## Nouvelles modalités de paiement : passage à 12 mensualités\n\nL'une des modifications pratiques importantes concerne le paiement des acomptes d'impôts. Dès 2025, les contribuables genevois devront régler leurs impôts en **12 tranches mensuelles** au lieu des 10 précédentes.\n\nCette mesure présente plusieurs avantages :\n- **Meilleure répartition** de la charge fiscale sur l'année\n- **Amélioration de la trésorerie** pour les ménages\n- **Synchronisation** avec les revenus mensuels\n\nUn **calculateur en ligne** sera mis à disposition des contribuables pour ajuster leurs acomptes en fonction de leurs revenus réels et éviter les mauvaises surprises lors de la taxation définitive.\n\n## Impact sur la compétitivité fiscale de Genève\n\nCette réforme s'inscrit dans une stratégie plus large d'amélioration de l'attractivité fiscale genevoise. Selon les simulations de l'Administration fiscale cantonale, plus de **54% des contribuables** verront leur impôt diminuer d'au moins 10%.\n\nL'objectif est double :\n1. **Retenir les talents** et éviter l'exode fiscal vers d'autres cantons\n2. **Attirer de nouveaux contribuables** dans un contexte de concurrence intercantonale\n\n## Considérations pour les entreprises et indépendants\n\nBien que centrée sur les personnes physiques, cette réforme aura des répercussions indirectes sur l'économie genevoise :\n\n**Augmentation du pouvoir d'achat :** Stimulation de la consommation locale et bénéfices pour les commerces\n\n**Attractivité pour les cadres :** Facilite le recrutement et la rétention des talents pour les entreprises genevoises\n\n**Pression sur les finances publiques :** Nécessité d'optimiser les dépenses cantonales et communales\n\n## Conseils pratiques pour 2025\n\nPour tirer parti de cette réforme :\n\n**Réajustez vos acomptes :** Utilisez le calculateur en ligne pour éviter de payer trop d'acomptes\n\n**Planifiez votre trésorerie :** Adaptez-vous au nouveau système de 12 mensualités\n\n**Optimisez vos déductions :** La baisse d'impôts rend encore plus attractives les déductions pour prévoyance et frais professionnels\n\n**Anticipez 2026 :** Cette réforme s'applique aux revenus 2025, déclarés en 2026\n\nCette réforme marque un tournant dans la politique fiscale genevoise et positionne le canton comme plus attractif pour les classes moyennes, segment crucial pour l'économie locale.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
         {
-          "labelKey": "chchCreerEntreprise",
-          "url": "https://www.ch.ch/fr/creer-une-entreprise"
+          "labelKey": "baisseImpotsGeneve2025",
+          "url": "https://www.agencemendes.ch/baisse-des-impots-a-geneve-en-2025-comment-optimiser-votre-fiscalite/"
         }
       ]
     },
     {
-      "slug": "teletravail-frontalier-france-suisse-2025",
-      "title": "Télétravail frontalier France-Suisse : ce qui vous attend en 2025 et 2026",
-      "description": "L'accord fiscal sur le télétravail des frontaliers est prolongé. Découvrez les règles pour 2025 et les changements administratifs pour les employeurs dès 2026. [2, 8, 11, 14, 17]",
-      "content": "L'accord amiable transitoire entre la Suisse et la France concernant le télétravail des frontaliers est prolongé jusqu'au 31 décembre 2025. [8] Pour les employeurs à Genève et en Suisse romande, cela signifie une continuité, mais il faut déjà préparer les changements à venir.\n\n### Règle des 40% maintenue en 2025\n\nJusqu'à fin 2025, un travailleur frontalier résidant en France peut télétravailler jusqu'à **40% de son temps de travail annuel** sans que son régime d'imposition ne soit modifié. [14] L'intégralité de son salaire reste donc imposable en Suisse. Cette règle offre une flexibilité appréciable tant pour les salariés que pour les entreprises.\n\n### Ce qui change au 1er janvier 2026\n\nL'avenant permanent à la convention contre la double imposition entrera en vigueur en 2026. [2] Si la règle des 40% est pérennisée, de nouvelles obligations administratives apparaîtront pour les employeurs suisses. Ils devront notamment **certifier et transmettre automatiquement aux autorités fiscales le pourcentage de télétravail** de chaque salarié frontalier. [2, 11] La première transmission de ces données interviendra début 2027 pour l'année 2026. [11]\n\n### Points de vigilance pour les employeurs\n\n- **Suivi précis :** Mettez en place un système fiable pour décompter les jours de télétravail de vos collaborateurs frontaliers.\n- **Risque d'établissement stable :** Une activité de télétravail très importante en France peut, dans certains cas, créer un risque d'établissement stable pour l'entreprise suisse, avec des conséquences fiscales en France. Une analyse au cas par cas est recommandée. [2]\n- **Attestations :** Soyez prêts à fournir des attestations précises sur le taux de télétravail en cas de contrôle. [17]",
+      "slug": "fiscalite-cryptomonnaies-suisse-2025",
+      "title": "Fiscalité des cryptomonnaies en Suisse : guide complet 2025",
+      "description": "Tout savoir sur l'imposition des cryptomonnaies pour particuliers et entreprises : classification FINMA, comptabilisation, déclaration d'impôts et obligations TVA.",
+      "content": "La Suisse s'est imposée comme une référence mondiale en matière de réglementation des cryptomonnaies. Avec un cadre juridique clair et une approche pragmatique, les autorités helvétiques ont créé un environnement favorable tout en maintenant des exigences de conformité strictes.\n\n## Classification des tokens selon la FINMA\n\nLa FINMA (Autorité fédérale de surveillance des marchés financiers) distingue trois catégories principales de tokens, chacune ayant des implications fiscales spécifiques :\n\n### Payment Tokens (Bitcoin, Litecoin, Monero)\nCes cryptomonnaies servent principalement de **moyens de paiement**. Pour les particuliers investisseurs, elles sont considérées comme des éléments de fortune privée, soumis à l'impôt sur la fortune mais **exonérés de l'impôt sur le revenu** lors de la vente (sauf activité commerciale).\n\n### Utility Tokens (Ethereum, tokens d'accès)\nDonnent accès à un service ou une application décentralisée. Leur traitement fiscal dépend de leur utilisation : investissement privé ou activité commerciale.\n\n### Security Tokens\nConfèrent des droits patrimoniaux comparables aux valeurs mobilières traditionnelles. Soumis aux mêmes règles que les actions ou obligations.\n\n### Stablecoins (USDT, USDC)\nLiés à une devise ou un actif sous-jacent. Depuis 2024, ils sont soumis à une **réglementation renforcée** de la FINMA concernant la gouvernance et les garanties.\n\n## Fiscalité pour les particuliers\n\n### Impôt sur la fortune\n**Obligation déclarative absolue :** Toutes les cryptomonnaies détenues au 31 décembre doivent être déclarées dans la rubrique \"Autres créances\" de la déclaration d'impôt.\n\n**Évaluation :** L'Administration fédérale des contributions publie une liste officielle (ICTax) avec les cours de référence. Pour les tokens non listés, utiliser la valeur de marché au 31 décembre.\n\n**Exemple pratique :** Un contribuable genevois possédant 2 BTC valorisés à 50'000 CHF chacun au 31 décembre doit déclarer 100'000 CHF dans sa fortune, générant un impôt sur la fortune d'environ 200-500 CHF selon sa situation.\n\n### Plus-values : exonération ou imposition ?\n\nLa distinction entre **investisseur privé** et **négociant professionnel** est cruciale :\n\n**Investisseur privé (exonération) :**\n- Détention à long terme (généralement plus de 6 mois)\n- Nombre limité de transactions annuelles\n- Montant des gains inférieur à 50% des revenus totaux\n- Financement sur fonds propres (pas d'effet de levier important)\n\n**Négociant professionnel (imposition) :**\n- Trading fréquent et spéculatif\n- Utilisation de produits dérivés\n- Financement externe important\n- Plus-values représentant une part significative des revenus\n\n### Acceptation de cryptomonnaies par les entreprises\n\nLes entreprises suisses qui acceptent des paiements en cryptomonnaies doivent :\n\n**Comptabilisation :** Enregistrer les transactions à la valeur CHF au moment de la réception\n\n**TVA :** Les paiements en cryptomonnaies sont assimilés à du troc. La TVA s'applique sur la valeur CHF des biens/services fournis\n\n**Bilan :** Les cryptomonnaies détenues sont inscrites comme actifs circulants, évaluées au coût d'acquisition ou à la valeur de marché (avec réserve de fluctuation)\n\n## Obligations déclaratives spécifiques\n\n### Mining et Staking\n**Mining :** Les récompenses sont imposables comme revenus d'activité lucrative dès réception\n\n**Staking :** Les rewards sont généralement imposables comme revenus de fortune\n\n**DeFi :** Les rendements de la finance décentralisée (lending, liquidity mining) sont imposables\n\n### NFTs et tokens non fongibles\nTraités comme des œuvres d'art ou objets de collection. Plus-values généralement exonérées pour les particuliers, sauf activité commerciale.\n\n## Stratégies d'optimisation fiscale légale\n\n**Timing des cessions :** Reporter les ventes au-delà de 12 mois pour éviter toute requalification en activité commerciale\n\n**Structuration familiale :** Répartition des portefeuilles crypto au sein du ménage pour optimiser la progression de l'impôt sur la fortune\n\n**Domicilation strategique :** Certains cantons pratiquent des taux d'impôt sur la fortune plus favorables\n\n**Documentation :** Tenir un registre précis de toutes les transactions (dates, montants, contreparties) pour démontrer le caractère d'investissement privé\n\n## Évolutions réglementaires 2025-2026\n\nPlusicurs développements sont attendus :\n\n**Loi sur les services financiers numériques :** Renforcement du cadre pour les prestataires de services crypto\n\n**Harmonisation européenne :** Adaptation aux standards MiCA (Markets in Crypto-Assets)\n\n**Reporting automatique :** Extension possible du CRS (Common Reporting Standard) aux cryptomonnaies\n\nLa Suisse maintient sa position de leader en matière de réglementation crypto, offrant un cadre prévisible et favorable aux entreprises tout en assurant une taxation équitable des particuliers.",
       "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
+      "date": "2025-09-10",
       "references": [
         {
-          "labelKey": "gechTeletravailFrontalier",
-          "url": "https://www.ge.ch/actualite/teletravail-personnes-frontalieres-entree-vigueur-avenant-convention-franco-suisse-29-07-2025"
+          "labelKey": "finmaCrypto2025",
+          "url": "https://www.rister.ch/post/cryptomonnaies-en-suisse/"
+        },
+        {
+          "labelKey": "afcCrypto",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
         }
       ]
     },
     {
-      "slug": "reforme-avs-21-impact-pme-2025",
-      "title": "Réforme AVS 21 : l'impact concret pour votre PME en 2025",
-      "description": "Harmonisation de l'âge de référence, retraite flexible, hausse de la TVA : décryptage des conséquences de la réforme AVS 21 pour les entreprises. [5, 30, 42, 45, 48]",
-      "content": "Entrée en vigueur en 2024, la réforme AVS 21 continue de déployer ses effets en 2025. Pour les PME, plusieurs adaptations sont nécessaires en matière de gestion de la paie, de planification des retraites et de fiscalité.\n\n### Harmonisation de l'âge de référence\n\nL'âge de la retraite, désormais appelé \"âge de référence\", est progressivement relevé pour les femmes pour atteindre 65 ans, comme pour les hommes. En 2025, l'âge de référence pour les femmes nées en 1961 passe à 64 ans et 3 mois. [5] Cette hausse se poursuivra par paliers de 3 mois chaque année. [5]\n\n**Mesures de compensation :** Les femmes de la \"génération transitoire\" (nées entre 1961 et 1969) bénéficient d'un supplément de rente à vie, à condition de ne pas anticiper leur retraite. [5, 48]\n\n### Flexibilisation de la retraite\n\nLa réforme introduit plus de souplesse dans le départ à la retraite :\n\n- **Retraite anticipée :** Possible dès 63 ans pour les deux sexes (62 ans pour la génération transitoire).\n- **Retraite ajournée :** Il est possible de reporter sa retraite jusqu'à 70 ans.\n- **Retraite partielle :** Il est désormais possible de percevoir une partie de sa rente AVS (entre 20% et 80%) tout en continuant à travailler à temps partiel.\n\n### Incitation à travailler après 65 ans\n\nNouveauté importante : les cotisations AVS versées après l'âge de référence de 65 ans sont désormais prises en compte pour le calcul de la rente. [5] Cela peut combler d'éventuelles lacunes de cotisations et augmenter le montant de la rente finale, ce qui rend la poursuite d'une activité lucrative plus attractive.\n\n### Hausse de la TVA\n\nPour co-financer la réforme, les taux de TVA ont été augmentés dès le 1er janvier 2024. Le taux normal est passé à 8.1%. Les entreprises doivent s'assurer que leurs systèmes de facturation et de comptabilité sont à jour.",
+      "slug": "reforme-tva-2025-suisse",
+      "title": "Réforme TVA 2025 : décompte annuel et obligations électroniques",
+      "description": "Guide complet des nouveautés TVA 2025 : décompte annuel pour les PME, obligation de déclaration électronique et nouvelles règles de faillite.",
+      "content": "L'année 2025 marque une étape importante dans la modernisation du système TVA suisse. Plusieurs réformes majeures entrent en vigueur, visant à simplifier les procédures pour les PME tout en renforçant les mécanismes de lutte contre la fraude.\n\n## Décompte TVA annuel : nouvelle option pour les PME\n\nDepuis le 1er janvier 2025, les entreprises dont le chiffre d'affaires annuel n'excède pas **CHF 5'005'000** peuvent opter pour un décompte TVA annuel au lieu des déclarations trimestrielles habituelles.\n\n### Conditions d'éligibilité\n\n**Critères financiers :**\n- Chiffre d'affaires annuel ≤ CHF 5'005'000\n- Toutes les dettes TVA des 3 dernières années réglées\n- Aucune procédure de recouvrement en cours\n\n**Procédure de demande :**\n- Demande à déposer sur le portail électronique de l'AFC\n- Délai : **avant le 28 février 2025** pour l'année fiscale 2025\n- Engagement pour minimum une année fiscale complète\n\n**Modalités pratiques :**\n- **Acomptes trimestriels ou semestriels** basés sur l'année précédente\n- **Décompte final** à remettre avant fin février de l'année suivante\n- Possibilité d'ajuster les acomptes jusqu'à 10 jours avant l'échéance\n\n### Avantages et inconvénients\n\n**Avantages :**\n- Réduction de la charge administrative (1 déclaration au lieu de 4)\n- Meilleure prévisibilité des flux de trésorerie\n- Délais de remise plus flexibles\n\n**Inconvénients :**\n- Acomptes obligatoires sans possibilité de remboursement intermédiaire\n- Intérêts moratoires à **4,5%** si les acomptes sont insuffisants\n- Révocation possible par l'AFC en cas de non-respect des conditions\n\n## Obligation de déclaration électronique\n\nFinis les formulaires papier : dès 2025, **toutes les entreprises assujetties** doivent décompter la TVA exclusivement par voie électronique via le portail eTVA de l'AFC.\n\n### Transition vers le numérique\n\n**Nouveautés techniques :**\n- Interface utilisateur modernisée\n- Import/export de données facilité\n- Contrôles de cohérence automatiques\n- Archivage électronique sécurisé\n\n**Formation et accompagnement :**\n- Sessions de formation gratuites proposées par l'AFC\n- Guides vidéo et tutoriels en ligne\n- Support technique renforcé pendant la période de transition\n\n## Renforcement des procédures de recouvrement\n\nUne mesure significative entre en vigueur : l'**AVS, les impôts cantonaux et la TVA** peuvent désormais directement mettre une entreprise en faillite pour dettes non payées, sans passer par une procédure de poursuites classique.\n\n### Impact pour les entreprises\n\n**Nouvelles responsabilités :**\n- Vigilance accrue sur le paiement des échéances sociales et fiscales\n- Nécessité d'anticiper les difficultés de trésorerie\n- Communication proactive avec les autorités en cas de problèmes\n\n**Mesures préventives :**\n- Mise en place d'alertes automatiques pour les échéances\n- Provisionnement systématique des charges TVA et sociales\n- Dialogue anticipé avec l'AFC en cas de difficultés temporaires\n\n## Évolutions des taux et assujettissements\n\n### Maintien des taux 2024\nLes taux TVA restent inchangés en 2025 :\n- **Taux normal :** 8,1%\n- **Taux réduit :** 2,6%\n- **Taux spécial hébergement :** 3,8%\n\n### Clarifications sectorielles\n\n**Économie numérique :**\n- Confirmation des règles pour les plateformes digitales\n- Précisions sur le lieu de prestation pour les services électroniques\n\n**Secteur immobilier :**\n- Nouvelles directives pour les opérations de construction\n- Clarifications sur l'option pour l'imposition des locations\n\n## Conseils pratiques pour 2025\n\n### Pour les PME éligibles au décompte annuel\n\n**Évaluation coût-bénéfice :**\n- Calculer l'impact sur la trésorerie des acomptes\n- Évaluer la charge administrative économisée\n- Considérer la stabilité de l'activité\n\n**Gestion des acomptes :**\n- Provisionner mensuellement les montants\n- Surveiller l'évolution du chiffre d'affaires\n- Ajuster si nécessaire dans les délais\n\n### Pour toutes les entreprises\n\n**Transition numérique :**\n- Tester la nouvelle interface dès janvier\n- Former les collaborateurs aux nouveaux outils\n- Vérifier la compatibilité avec les systèmes comptables\n\n**Gestion des risques :**\n- Renforcer le suivi des échéances fiscales\n- Mettre en place des procédures d'alerte\n- Maintenir une communication transparente avec les autorités\n\nCette réforme TVA 2025 s'inscrit dans une démarche de modernisation et de simplification, tout en renforçant les mécanismes de contrôle. Les entreprises qui s'y préparent correctement pourront tirer parti des nouvelles possibilités offertes.",
       "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
+      "date": "2025-09-09",
       "references": [
         {
-          "labelKey": "bsvAVS21",
-          "url": "https://www.bsv.admin.ch/bsv/fr/home/assurances-sociales/avs/reformes-et-revisions/stabilisierung-ahv-21.html"
+          "labelKey": "reforme TVA2025",
+          "url": "https://dilytics.ch/reforme-tva-2025-en-suisse-preparez-votre-entreprise/"
+        },
+        {
+          "labelKey": "modificationsKlara2025",
+          "url": "https://www.klara.ch/fr-ch/blog/gesetzes%C3%A4nderungen-2025-das-m%C3%BCssen-schweizer-kmu-jetzt-wissen"
         }
       ]
     },
     {
-      "slug": "liquidation-societe-suisse-etapes",
-      "title": "Dissolution et liquidation d'une Sàrl ou SA en Suisse : le guide pratique",
-      "description": "De la décision de dissolution à la radiation du Registre du commerce, découvrez les étapes clés, les délais et les obligations pour fermer une société en Suisse. [3, 7, 12, 13, 19]",
-      "content": "La fermeture d'une société (SA ou Sàrl) en Suisse est un processus formel appelé liquidation. Elle doit suivre des étapes précises définies par le Code des obligations pour garantir la protection des créanciers et une clôture ordonnée.\n\n### 1. Décision de dissolution\n\nLa première étape est la décision de dissoudre la société, prise par l'Assemblée générale et constatée par un acte authentique (notaire). [19] La raison sociale est alors modifiée pour y ajouter la mention \"en liquidation\".\n\n### 2. Nomination et inscription du liquidateur\n\nUn ou plusieurs liquidateurs sont nommés. Il peut s'agir d'un membre du conseil d'administration, d'un gérant ou d'un tiers expert (comme une fiduciaire). Le liquidateur et la dissolution sont inscrits au Registre du commerce. [3]\n\n### 3. Appel aux créanciers et bilan de liquidation\n\nLe liquidateur publie un appel aux créanciers dans la Feuille officielle suisse du commerce (FOSC) à trois reprises. [7] Il établit ensuite un bilan d'entrée en liquidation pour faire l'inventaire des actifs et des passifs de la société. [3]\n\n### 4. Réalisation des actifs et paiement des dettes\n\nLe rôle du liquidateur est de réaliser les actifs (vendre les stocks, encaisser les créances) afin de payer toutes les dettes de la société, y compris les impôts. [7]\n\n### 5. Année de blocage et répartition de l'excédent\n\nUne période d'attente légale d'un an (\"année de blocage\") après le troisième appel aux créanciers doit être respectée avant de pouvoir distribuer un éventuel solde positif (boni de liquidation) aux actionnaires ou associés. [13] Ce délai peut être réduit à 3 mois avec l'attestation d'un expert-réviseur agréé confirmant que toutes les dettes sont éteintes. [7]\n\n### 6. Radiation du Registre du commerce\n\nUne fois la liquidation terminée, et après avoir obtenu les autorisations des administrations fiscales cantonale et fédérale, le liquidateur peut requérir la radiation de la société du Registre du commerce. [13] Les livres comptables doivent être conservés pendant 10 ans. [7]",
+      "slug": "impot-minimum-ocde-suisse-2025",
+      "title": "Impôt minimum OCDE en Suisse : impacts et mise en œuvre 2025",
+      "description": "Analyse détaillée de l'impôt minimum OCDE de 15% pour les multinationales : règles IIR, impacts sur les entreprises suisses et perspectives d'évolution.",
+      "content": "L'introduction de l'impôt minimum OCDE marque une révolution dans la fiscalité internationale. Depuis janvier 2024 en Suisse, cette réforme affecte les grandes multinationales et redéfinit les stratégies fiscales globales. En 2025, de nouvelles règles s'ajoutent avec l'Income Inclusion Rule (IIR).\n\n## Principe et fonctionnement de l'impôt minimum\n\nL'initiative OCDE/G20 vise à instaurer un **taux d'imposition minimum de 15%** sur les bénéfices des grandes multinationales, quels que soient les pays où elles opèrent.\n\n### Entreprises concernées\n\n**Critère de chiffre d'affaires :**\n- Groupes avec un chiffre d'affaires consolidé ≥ **EUR 750 millions**\n- Périmètre : toutes les entités du groupe multinational\n- Exclusions : secteurs financiers réglementés partiellement exemptés\n\n**Calcul du taux effectif :**\n- Taux calculé pays par pays\n- Prise en compte des impôts locaux, cantonaux et fédéraux\n- Ajustements pour certaines déductions spécifiques\n\n## Mise en œuvre en Suisse : un modèle en deux temps\n\n### Phase 1 (2024) : Impôt complémentaire national (QDMTT)\n\nDès janvier 2024, la Suisse a introduit un **impôt complémentaire national** pour garantir que les entreprises atteignent le seuil de 15% d'imposition effective.\n\n**Mécanisme :**\n- Calcul du taux effectif par canton\n- Impôt complémentaire si le taux < 15%\n- Perçu directement par les autorités suisses\n\n**Impact concret :** Dans les cantons à fiscalité attractive (Zoug, Schwytz), certaines multinationales voient leur charge fiscale augmenter de 3-7 points de pourcentage.\n\n### Phase 2 (2025) : Règle d'inclusion du revenu (IIR)\n\nDepuis janvier 2025, la Suisse applique également l'**Income Inclusion Rule**, qui permet d'imposer les bénéfices des filiales étrangères sous-imposées.\n\n**Principes de l'IIR :**\n- La société mère impose les profits de ses filiales étrangères si celles-ci sont imposées à moins de 15%\n- Mécanisme descendant : de la société mère vers les filiales\n- Calcul complexe nécessitant une expertise technique pointue\n\n## Défis technologiques : le système OMTax\n\nLa complexité des règles OCDE a nécessité le développement d'une solution informatique spécialisée : **OMTax**, créée par emineo et la Conférence suisse des impôts (CSI).\n\n### Fonctionnalités clés\n\n**Calculs automatisés :**\n- Détermination du taux effectif d'imposition par juridiction\n- Application des règles de substance économique\n- Gestion des ajustements et exceptions\n\n**Interface multicantonale :**\n- Système unifié pour les 26 cantons\n- Échange sécurisé de données fiscales\n- Reporting standardisé aux autorités fédérales\n\n**Sécurité et confidentialité :**\n- Chiffrement des données sensibles\n- Accès restreint et traçabilité complète\n- Conformité aux standards de protection des données\n\n## Impacts économiques et stratégiques\n\n### Pour l'économie suisse\n\n**Recettes fiscales supplémentaires :**\n- Estimation : CHF 1-1.5 milliard par an pour l'ensemble des collectivités\n- Répartition : 75% aux cantons, 25% à la Confédération\n- Utilisation prévue : maintien de l'attractivité économique\n\n**Compétitivité des cantons :**\n- Nivellement partiel des avantages fiscaux\n- Nécessité de développer d'autres facteurs d'attractivité\n- Focus renforcé sur l'infrastructure, la formation et l'innovation\n\n### Pour les entreprises multinationales\n\n**Réorganisations structurelles :**\n- Révision des structures de holding\n- Consolidation de certaines activités\n- Optimisation des flux financiers intragroupe\n\n**Nouveaux coûts de conformité :**\n- Mise en place de systèmes de reporting sophistiqués\n- Formation des équipes fiscales\n- Conseils spécialisés en fiscalité internationale\n\n## Incertitudes et évolutions futures\n\n### Contexte géopolitique\n\nL'élection de Donald Trump introduit une **incertitude majeure**. L'administration américaine s'est déclarée opposée au pilier 2 de l'OCDE, ce qui pourrait :\n\n- Réduire l'adoption mondiale de l'impôt minimum\n- Créer des distorsions de concurrence\n- Alimenter les débats sur une suspension temporaire en Suisse\n\n### Pressions politiques internes\n\n**Arguments pour la suspension :**\n- Compétitivité face aux droits de douane américains\n- Faible adoption internationale effective\n- Pression sur l'industrie d'exportation suisse\n\n**Arguments pour le maintien :**\n- Engagement international de la Suisse\n- Stabilité juridique et prévisibilité\n- Risque de taxation par d'autres pays en cas de suspension\n\n## Recommandations pour les entreprises\n\n### Audit de la situation fiscale actuelle\n\n**Évaluation du taux effectif :**\n- Calcul précis par juridiction d'implantation\n- Identification des impacts potentiels\n- Quantification des coûts supplémentaires\n\n**Analyse des structures :**\n- Révision de l'efficacité des holdings\n- Optimisation des centres de profits\n- Évaluation des accords de transfert pricing\n\n### Stratégies d'adaptation\n\n**Compliance renforcée :**\n- Mise en place de procédures de reporting\n- Formation des équipes internes\n- Collaboration avec des conseillers spécialisés\n\n**Optimisation résiduelle :**\n- Focus sur les incitations à la R&D\n- Valorisation des actifs intellectuels\n- Développement de la substance économique\n\nL'impôt minimum OCDE représente un changement de paradigme durable. Les entreprises qui s'adaptent proactivement à ce nouveau cadre conserveront leur compétitivité dans un environnement fiscal international en mutation.",
       "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
+      "date": "2025-09-08",
       "references": [
         {
-          "labelKey": "fedlexCO",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+          "labelKey": "emineoOMTax",
+          "url": "https://emineo.ch/fr/omtax-la-reponse-numerique-a-limpot-minimum/"
+        },
+        {
+          "labelKey": "swissBankingOCDE",
+          "url": "https://www.swissbanking.ch/fr/themes/impots/imposition-minimale-de-locde"
         }
       ]
     },
     {
-      "slug": "optimisation-fiscale-independants-geneve",
-      "title": "Optimisation fiscale pour indépendants à Genève : les déductions clés",
-      "description": "En tant qu'indépendant à Genève, maximisez vos déductions fiscales. Un aperçu des frais professionnels, cotisations sociales et prévoyance à ne pas oublier. [4, 32, 39, 41, 44]",
-      "content": "Pour les travailleurs indépendants à Genève, une gestion rigoureuse des déductions fiscales est essentielle pour optimiser sa charge d'impôt. Contrairement aux salariés, les indépendants peuvent déduire tous les frais qui sont justifiés par l'usage commercial.\n\n### Frais professionnels\n\nLa règle de base est simple : toute dépense nécessaire à l'exercice de votre activité est en principe déductible. Cela inclut :\n\n- **Loyer et charges :** Si vous disposez d'un bureau ou d'un atelier séparé de votre habitation.\n- **Frais de véhicule :** Les frais effectifs liés à l'usage professionnel de votre véhicule (amortissement, assurance, service, etc.) ou une part de ces frais si l'usage est mixte.\n- **Matériel et mobilier :** Amortissement du matériel informatique, des outils, du mobilier de bureau.\n- **Frais de représentation :** Dans des limites raisonnables, les frais engagés pour inviter des clients.\n- **Frais de formation :** Les perfectionnements professionnels directement liés à votre activité sont déductibles.\n\n### Cotisations sociales et prévoyance\n\nCes déductions sont particulièrement importantes pour les indépendants :\n\n- **Cotisations AVS/AI/APG :** Toutes les cotisations versées à votre caisse de compensation sont entièrement déductibles.\n- **Prévoyance professionnelle (2e pilier) :** Les cotisations versées à votre institution de prévoyance sont également déductibles.\n- **Prévoyance individuelle (Pilier 3a) :** En tant qu'indépendant affilié à une caisse de pension, vous pouvez déduire le même montant qu'un salarié. Si vous n'êtes pas affilié à un 2e pilier, vous pouvez déduire jusqu'à 20% de votre revenu d'activité, avec un plafond élevé (CHF 35'280 pour 2024). [4]\n\n### Importance de la comptabilité\n\nUne comptabilité claire et bien tenue est indispensable. Elle sert non seulement à piloter votre activité mais aussi à justifier chaque déduction demandée auprès de l'administration fiscale. Conservez tous les justificatifs et séparez clairement les dépenses privées des dépenses professionnelles.",
+      "slug": "suppression-valeur-locative-votation-septembre-2025",
+      "title": "Votation du 28 septembre 2025 : suppression de la valeur locative et ses enjeux",
+      "description": "Analyse de la votation sur la suppression de la valeur locative : impacts fiscaux, conséquences pour les propriétaires et les rénovations énergétiques.",
+      "content": "Le 28 septembre 2025, les citoyens suisses se prononceront sur l'une des réformes fiscales les plus importantes de ces dernières décennies : la suppression de la valeur locative et l'introduction d'un impôt immobilier sur les résidences secondaires. Cette réforme divise profondément le pays.\n\n## Mécanisme actuel de la valeur locative\n\nAujourd'hui, tous les propriétaires-occupants doivent déclarer une **valeur locative** comme revenu fictif, correspondant au loyer qu'ils auraient pu percevoir en louant leur bien. En contrepartie, ils peuvent déduire :\n\n### Déductions actuelles\n\n**Intérêts hypothécaires :**\n- Déductibilité intégrale\n- Pas de plafond de montant\n- Applicable sur résidences principales et secondaires\n\n**Frais d'entretien et de rénovation :**\n- Déduction des coûts effectifs avec justificatifs\n- Ou déduction forfaitaire (10% pour les bâtiments de moins de 10 ans, 20% au-delà)\n- Inclut les travaux d'amélioration énergétique\n\n**Exemple concret :**\nUn propriétaire genevois avec une villa évaluée à valeur locative de CHF 25'000 :\n- Déclare CHF 25'000 de revenu supplémentaire (+6'000 CHF d'impôts)\n- Déduit CHF 18'000 d'intérêts hypothécaires (-4'300 CHF d'impôts) \n- Déduit CHF 15'000 de rénovations (-3'600 CHF d'impôts)\n- **Économie nette : CHF 1'900**\n\n## Le projet de réforme : une révolution fiscale\n\n### Suppression de la valeur locative\n\n**Pour les résidences principales :**\n- Plus d'imposition sur valeur locative fictive\n- **Suppression de toutes les déductions** : ni intérêts hypothécaires, ni frais d'entretien\n- Impact neutre à positif pour les propriétaires peu endettés\n\n**Pour les résidences secondaires :**\n- Suppression également de la valeur locative\n- Introduction d'un **impôt immobilier cantonal**\n- Taux fixé par chaque canton (estimation : 0,5% à 1,5% de la valeur vénale)\n\n### Mécanisme de l'impôt sur les résidences secondaires\n\n**Base de calcul :**\n- Valeur vénale estimée par les autorités fiscales\n- Réévaluation périodique selon les marchés locaux\n- Pas de déductions pour travaux ou intérêts\n\n**Gestion cantonale :**\n- Chaque canton fixe son propre taux\n- Recettes destinées à compenser les pertes fiscales\n- Possible différenciation selon les zones touristiques\n\n## Impacts économiques et sociétaux\n\n### Conséquences pour les différents profils de propriétaires\n\n**Jeunes propriétaires fortement endettés :**\n- **Perdants significatifs** : plus de déduction des intérêts hypothécaires\n- Impact estimé : +CHF 2'000 à 8'000 d'impôts annuels\n- Risque de difficultés financières pour certains ménages\n\n**Retraités peu endettés :**\n- **Grands gagnants** : suppression de la valeur locative sans contrepartie\n- Économie potentielle : CHF 1'500 à 5'000 par an\n- Amélioration significative du pouvoir d'achat\n\n**Propriétaires de résidences secondaires :**\n- Remplacement d'un système de déductions par un impôt fixe\n- Impact très variable selon les cantons et leur politique fiscale\n- Risque d'alourdissement dans les zones touristiques\n\n### Impact sur le secteur de la construction\n\n**Rénovations énergétiques menacées :**\n- Suppression de l'incitation fiscale principale\n- Risque de ralentissement des travaux d'efficacité énergétique\n- Contradiction avec les objectifs climatiques suisses\n\n**Secteur du bâtiment :**\n- Inquiétudes sur la baisse de la demande\n- Emplois menacés dans l'artisanat local\n- Nécessité de nouveaux mécanismes d'incitation\n\n## Positions des différents acteurs\n\n### Partisans de la réforme\n\n**Arguments principaux :**\n- **Simplification administrative** majeure\n- **Justice fiscale** : fin du \"privilège\" des propriétaires\n- **Modernisation** d'un système obsolète\n- **Neutralité budgétaire** globale affichée\n\n**Soutiens :**\n- Certains économistes libéraux\n- Associations de locataires\n- Défenseurs de la simplification fiscale\n\n### Opposants à la réforme\n\n**Arguments principaux :**\n- **Danger pour les rénovations énergétiques**\n- **Alourdissement fiscal** pour les jeunes familles\n- **Perte de recettes** importantes pour les collectivités\n- **Contradiction avec les objectifs climatiques**\n\n**Front du refus :**\n- Swissolar et associations environnementales\n- Constructionsuisse et secteur du bâtiment\n- Associations de propriétaires\n- Plusieurs partis de gauche et du centre\n\n## Conséquences financières pour les collectivités\n\n### Pertes estimées\n\n**Niveau fédéral :**\n- Perte estimée : CHF 700 millions par an\n- Compensation partielle par l'impôt sur les résidences secondaires\n\n**Niveau cantonal et communal :**\n- Perte totale estimée : CHF 1 milliard par an\n- Impact très variable selon les cantons\n- Nécessité de hausses d'impôts ou réductions de prestations\n\n### Mécanismes de compensation\n\n**Impôt sur les résidences secondaires :**\n- Recettes estimées : CHF 200-400 millions\n- Compensation partielle seulement\n- Répartition inégale selon les cantons touristiques\n\n## Calendrier et perspectives\n\n### Processus de mise en œuvre\n\n**En cas d'acceptation :**\n- Modification constitutionnelle approuvée\n- Élaboration de la loi d'application par le Parlement\n- Entrée en vigueur probable : 2028-2029\n- Phase transitoire de plusieurs années\n\n**En cas de refus :**\n- Maintien du système actuel\n- Possible retour du dossier avec modifications\n- Pression internationale pour la simplification fiscale\n\n### Enjeux stratégiques\n\n**Pour la politique énergétique :**\n- Nécessité de nouveaux instruments d'incitation\n- Possible renforcement des subventions directes\n- Adaptation des stratégies cantonales de rénovation\n\n**Pour la politique du logement :**\n- Impact sur l'accession à la propriété\n- Questions de justice intergénérationnelle\n- Évolution des prix de l'immobilier\n\nCette votation constitue un tournant majeur pour la fiscalité immobilière suisse. Quelle que soit l'issue, elle aura des répercussions durables sur les stratégies patrimoniales des particuliers et les politiques publiques environnementales.",
       "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
+      "date": "2025-09-07",
       "references": [
         {
-          "labelKey": "geTaxDeductions",
-          "url": "https://www.getax.ch/pages/static/getax/documentations/guides.html"
-        }
-      ]
-    },
-    {
-      "slug": "plan-comptable-pme-suisse",
-      "title": "Le plan comptable PME en Suisse : structure et utilité",
-      "description": "Le plan comptable est l'ossature de votre comptabilité. Découvrez sa structure, son importance et comment l'adapter à votre PME en Suisse romande. [10, 15, 16, 18, 20]",
-      "content": "Bien qu'il n'existe pas de plan comptable unique et obligatoire imposé par la loi en Suisse, le **plan comptable suisse pour PME** (créé par Sterchi, Mattle et Helbing) est la référence la plus utilisée. Il offre une structure logique et standardisée pour organiser la comptabilité d'une entreprise.\n\n### Structure du plan comptable\n\nLe plan comptable est organisé en classes de comptes, qui suivent la logique des états financiers (bilan et compte de résultat) :\n\n- **Classe 1 : Actifs** (liquidités, créances, stocks, immobilisations)\n- **Classe 2 : Passifs** (dettes fournisseurs, emprunts, capital propre) [15]\n- **Classe 3 : Produits** (chiffre d'affaires, produits financiers)\n- **Classe 4 : Charges de matières et de marchandises**\n- **Classe 5 : Charges de personnel** (salaires, charges sociales) [15]\n- **Classe 6 : Autres charges d'exploitation** (loyers, frais administratifs, amortissements)\n- **Classe 7 : Résultat des activités annexes** [18]\n- **Classe 8 : Résultat hors exploitation, impôts et résultat final**\n\n### Pourquoi utiliser un plan comptable structuré ?\n\nL'utilisation d'un plan comptable standardisé et adapté présente plusieurs avantages :\n\n- **Conformité :** Il assure le respect des principes comptables et du Code des obligations.\n- **Clarté :** Il offre une vision claire et structurée de la santé financière de l'entreprise.\n- **Analyse :** Il facilite l'analyse des performances, la création de budgets et la prise de décisions.\n- **Comparaison :** Il permet de comparer les résultats de l'entreprise d'une année à l'autre ou avec d'autres entreprises du même secteur.\n- **Collaboration :** Il simplifie la collaboration avec votre fiduciaire, les auditeurs et l'administration fiscale.\n\nEn pratique, le plan comptable de référence est souvent simplifié et personnalisé pour correspondre parfaitement aux activités spécifiques de la PME. L'important est de conserver une structure cohérente et de documenter les choix effectués.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
+          "labelKey": "strengValeurLocative",
+          "url": "https://streng.ch/news/modifications-legislatives-a-venir-vers-deux-reformes-importantes-pour-les-contribuables/"
+        },
         {
-          "labelKey": "planComptablePME",
-          "url": "https://www.pme.admin.ch/pme/fr/home/savoir-pratique/gestion-d-une-pme/comptabilite/le-plan-comptable-pour-les-pme.html"
-        }
-      ]
-    },
-    {
-      "slug": "fiscalite-crowdfunding-suisse",
-      "title": "Fiscalité du crowdfunding en Suisse : ce que vous devez déclarer",
-      "description": "Don, prêt, investissement... Le traitement fiscal des revenus issus du crowdfunding varie. Un guide pour comprendre vos obligations en tant que porteur de projet ou investisseur. [6, 9, 27, 38, 46]",
-      "content": "Le crowdfunding, ou financement participatif, est de plus en plus populaire, mais ses implications fiscales sont souvent méconnues. En Suisse, les fonds reçus ou les gains générés doivent être déclarés et sont soumis à l'impôt, selon leur nature.\n\n### Traitement fiscal selon le type de crowdfunding\n\n1.  **Crowdfunding par don (Crowddonating) :**\n    - **Pour le porteur de projet :** Les dons reçus sans contrepartie sont généralement considérés comme un revenu imposable. S'ils financent un projet privé, ils peuvent être traités comme une donation. [6]\n    - **Pour le donateur :** Les dons à des organismes reconnus d'utilité publique peuvent être déductibles du revenu.\n\n2.  **Crowdfunding avec récompense (Crowdsupporting) :**\n    - **Pour le porteur de projet :** Les fonds reçus en échange d'un produit ou service futur (prévente) constituent un chiffre d'affaires. Ils sont donc imposables et potentiellement soumis à la TVA si le seuil de CHF 100'000 de chiffre d'affaires annuel est atteint. [6]\n\n3.  **Crowdfunding par prêt (Crowdlending) :**\n    - **Pour l'investisseur (prêteur) :** Les intérêts perçus sont un revenu de fortune mobilière et doivent être déclarés comme tels. [27]\n    - **Pour le porteur de projet (emprunteur) :** Le capital reçu est un emprunt (une dette), pas un revenu. Les intérêts versés sont une charge déductible.\n\n4.  **Crowdfunding par investissement (Crowdinvesting) :**\n    - **Pour l'investisseur :** La prise de participation dans une société (actions, parts sociales) doit être déclarée comme un élément de fortune. Les dividendes perçus sont un revenu imposable. Les plus-values réalisées lors de la revente de titres détenus en fortune privée sont généralement exonérées d'impôt. [27]\n\nIl est crucial de bien documenter toutes les transactions pour les justifier auprès de l'administration fiscale. En cas de doute, une consultation avec un expert fiscal est recommandée. [38]",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "AFCeconomiePartage",
-          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer/fachinfos/sharing-economy.html"
-        }
-      ]
-    },
-    {
-      "slug": "raison-individuelle-ou-sarl-independant",
-      "title": "Indépendant en Suisse : choisir entre raison individuelle et Sàrl",
-      "description": "Flexibilité contre protection du patrimoine. Une analyse comparative pour aider les indépendants et créateurs d'entreprise à choisir la structure juridique la plus adaptée. [22, 28, 29, 33, 35]",
-      "content": "Le choix de la forme juridique est une étape fondatrice pour tout entrepreneur en Suisse. Pour les indépendants, le dilemme se pose souvent entre la simplicité de la raison individuelle (RI) et la sécurité de la société à responsabilité limitée (Sàrl).\n\n### La Raison Individuelle (RI)\n\nC'est la forme la plus simple et la moins coûteuse pour démarrer. [22]\n\n- **Avantages :**\n  - Pas de capital minimum requis.\n  - Frais de création quasi nuls (inscription au Registre du commerce obligatoire seulement dès CHF 100'000 de chiffre d'affaires). [35]\n  - Grande liberté d'action et processus décisionnel simple.\n  - Pas de double imposition : le bénéfice de l'entreprise est directement imposé comme revenu de l'indépendant.\n- **Inconvénients :**\n  - **Responsabilité illimitée :** L'entrepreneur est responsable des dettes de l'entreprise sur l'ensemble de son patrimoine personnel et commercial. [22]\n  - Moins de crédibilité perçue par certains partenaires (banques, grands clients).\n  - Pas d'assurance-chômage pour le propriétaire. [29]\n\n### La Société à Responsabilité Limitée (Sàrl)\n\nLa Sàrl est une personne morale distincte de ses fondateurs.\n\n- **Avantages :**\n  - **Responsabilité limitée :** La responsabilité est limitée au capital social de l'entreprise (minimum CHF 20'000). [35] Le patrimoine privé des associés est protégé.\n  - Crédibilité accrue.\n  - Transmission des parts sociales facilitée.\n  - Le gérant peut avoir le statut d'employé et cotiser à l'assurance-chômage.\n- **Inconvénients :**\n  - Processus de création plus formel et coûteux (acte notarié, inscription au RC obligatoire). [28]\n  - Capital social de CHF 20'000 minimum à libérer.\n  - **Double imposition économique :** La Sàrl paie un impôt sur son bénéfice, et les associés paient un impôt sur les dividendes qu'ils reçoivent.\n\nLe choix dépend de la nature de l'activité, du niveau de risque, des besoins en financement et des objectifs de croissance. [22]",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "pmeAdminFormesJuridiques",
-          "url": "https://www.pme.admin.ch/pme/fr/home/savoir-pratique/creation-d-une-pme/choisir-une-forme-juridique.html"
-        }
-      ]
-    },
-    {
-      "slug": "guide-remplir-declaration-impot-geneve",
-      "title": "Comment remplir sa déclaration d'impôt à Genève : guide pratique",
-      "description": "Délais, outils (GeTax), documents nécessaires et astuces. Un guide étape par étape pour préparer et soumettre votre déclaration fiscale à Genève sans stress. [23, 26, 31, 37, 43]",
-      "content": "Chaque année, les contribuables genevois doivent remplir leur déclaration d'impôt. Le délai est généralement fixé au **31 mars**. [23] Voici les étapes clés pour vous y préparer.\n\n### 1. Rassembler les documents nécessaires\n\nAvant de commencer, réunissez tous les justificatifs. Les plus courants sont :\n\n- **Revenus :** Certificat(s) de salaire, attestations de rentes AVS/LPP, relevés de revenus pour les indépendants. [26]\n- **Fortune :** Relevés bancaires au 31 décembre, attestations fiscales de vos titres.\n- **Dettes :** Attestations de soldes de vos crédits et hypothèques au 31 décembre.\n- **Déductions :**\n  - Cotisations au 3ème pilier A.\n  - Frais de garde d'enfants.\n  - Frais médicaux non remboursés (si supérieurs à un certain seuil).\n  - Dons à des organisations d'utilité publique.\n  - Primes d'assurance maladie et accidents (déduction forfaitaire).\n\n### 2. Choisir la méthode de déclaration\n\nÀ Genève, vous avez plusieurs options : [43]\n\n- **GeTax (logiciel) :** La méthode la plus courante. Téléchargez le logiciel sur le site de l'Administration fiscale cantonale (AFC). Il vous guide pas à pas, calcule automatiquement les montants et intègre les barèmes à jour. [26]\n- **Déclaration en ligne (e-démarches) :** Pour ceux qui ont un compte e-démarches, il est possible de tout faire en ligne sans télécharger de logiciel. [26]\n- **Formulaire papier :** De moins en moins utilisé, il reste une option. [43]\n\n### 3. Saisir les informations et vérifier\n\nRemplissez soigneusement chaque rubrique en vous basant sur vos justificatifs. Le logiciel GeTax et les guides en ligne vous aident à identifier les déductions possibles. [37] Une fois la saisie terminée, prenez le temps de tout relire pour éviter les erreurs.\n\n### 4. Soumettre la déclaration\n\nSi vous utilisez GeTax, vous devrez téléverser le fichier de votre déclaration sur le site de l'AFC, puis imprimer, signer et envoyer la page de synthèse par courrier. [26] Pour les e-démarches, tout est soumis électroniquement. N'oubliez pas de conserver une copie PDF de votre déclaration et tous vos justificatifs.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "gechRemplirDeclaration",
-          "url": "https://www.ge.ch/remplir-declaration-impot-particulier"
-        }
-      ]
-    },
-    {
-      "slug": "comptabilite-fiscalite-associations-suisse",
-      "title": "Comptabilité et fiscalité des associations en Suisse : l'essentiel à savoir",
-      "description": "Une association doit-elle tenir une comptabilité et payer des impôts ? Découvrez les obligations, les seuils d'imposition et les conditions d'exonération fiscale. [21, 25, 34, 36, 40]",
-      "content": "En Suisse, même une association à but non lucratif a des obligations comptables et peut être soumise à l'impôt. La transparence financière est une exigence légale.\n\n### L'obligation de tenir une comptabilité\n\nToute association inscrite au Registre du commerce doit tenir une comptabilité et présenter des comptes annuels. Pour les autres, une comptabilité simplifiée (recettes, dépenses, patrimoine) est une obligation minimale découlant du Code civil suisse. [36] Une comptabilité claire est essentielle pour la gestion interne et pour rendre des comptes aux membres.\n\n### Imposition des associations\n\nEn principe, les associations sont des personnes morales et sont donc soumises à l'impôt sur le bénéfice et le capital.\n\n- **Impôt sur le bénéfice :** Les associations bénéficient de franchises d'impôt. Au niveau fédéral, le bénéfice est exonéré jusqu'à CHF 5'000. [21] Les cantons prévoient également des seuils, souvent plus élevés, en particulier pour les associations d'utilité publique (par ex. CHF 20'000).\n- **Impôt sur le capital :** Il n'y a pas d'impôt sur le capital au niveau fédéral pour les associations. Les cantons peuvent appliquer un impôt, mais là aussi avec des seuils d'exonération importants. [21]\n\n### Assujettissement à la TVA\n\nUne association est soumise à la TVA si elle réalise un chiffre d'affaires provenant de prestations imposables (par ex. sponsoring, vente de produits, organisation d'événements payants) supérieur à **CHF 100'000 par an**. [25] \nPour les associations sportives ou culturelles sans but lucratif et gérées de façon bénévole, ce seuil est relevé à CHF 250'000. [25]\n\n### Exonération fiscale\n\nLes associations qui poursuivent un but d'utilité publique, idéal ou cultuel peuvent demander une exonération totale des impôts (sauf de la TVA). [25] Pour cela, il faut déposer une demande auprès de l'administration fiscale cantonale et prouver que l'activité est désintéressée et s'adresse à un cercle large de bénéficiaires. [40]",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "chchAssociations",
-          "url": "https://www.ch.ch/fr/creer-une-association"
-        }
-      ]
-    },
-    {
-      "slug": "controle-avs-pme-preparation",
-      "title": "Le contrôle AVS en Suisse : comment bien préparer votre PME",
-      "description": "Un contrôle AVS peut être une source de stress. Découvrez le déroulement, les points vérifiés et les bonnes pratiques pour que cet audit se déroule sereinement.",
-      "content": "Périodiquement, chaque employeur en Suisse fait l'objet d'un contrôle de la part de sa caisse de compensation AVS. L'objectif est de vérifier l'exactitude des salaires déclarés et le bon paiement des cotisations sociales. Une bonne préparation est la clé d'un contrôle sans encombre.\n\n### Que vérifie le contrôleur AVS ?\n\nLe contrôleur examine tous les éléments de la rémunération pour s'assurer qu'ils ont été correctement soumis à cotisations. Les points d'attention typiques sont :\n\n- **La masse salariale déclarée :** Concordance entre la comptabilité salariale et la déclaration annuelle faite à la caisse.\n- **Les éléments de salaire non déclarés :** Avantages en nature (véhicule privé, repas), frais non justifiés, rémunérations d'administrateurs, etc.\n- **Statuts des collaborateurs :** Distinction entre salariés et indépendants (attention aux faux indépendants).\n- **Justificatifs :** Présence de tous les documents nécessaires (contrats, fiches de paie, décomptes de frais).\n\n### Comment se déroule le contrôle ?\n\n1.  **Annonce :** La caisse de compensation vous annonce le contrôle par écrit, en précisant la période examinée et les documents à préparer.\n2.  **Préparation :** C'est le moment de rassembler tous les documents demandés : comptabilité, décomptes de salaires annuels, journaux de salaires, certificats de salaire, décomptes de frais, etc.\n3.  **Le jour du contrôle :** Le réviseur vient dans vos locaux (ou le contrôle se fait à distance) pour examiner les pièces. Soyez disponible pour répondre à ses questions.\n4.  **Rapport de contrôle :** À l'issue de l'audit, vous recevez un rapport. S'il n'y a pas d'anomalie, le contrôle est clos. En cas de corrections, une décision de taxation complémentaire (avec intérêts moratoires) vous sera notifiée.\n\n### Bonnes pratiques\n\n- **Tenir une comptabilité salariale rigoureuse** tout au long de l'année.\n- **Documenter toutes les décisions** concernant les salaires et les frais.\n- **Établir un règlement de frais** clair et le faire valider par l'administration fiscale.\n- **En cas de doute** sur le traitement d'un élément de salaire, demandez à votre fiduciaire ou directement à votre caisse AVS.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "AVScontroleEmployeurs",
-          "url": "https://www.ahv-iv.ch/fr/Assurances-sociales/Contr%C3%B4le-des-employeurs"
-        }
-      ]
-    },
-    {
-      "slug": "audit-restreint-ordinaire-suisse",
-      "title": "Audit en Suisse : contrôle ordinaire ou contrôle restreint (opting-out) ?",
-      "description": "Toutes les sociétés ne sont pas soumises aux mêmes obligations de révision. Comprenez les critères qui définissent le type de contrôle et les possibilités d'y renoncer (opting-out).",
-      "content": "En Suisse, la loi impose aux sociétés de capitaux (SA, Sàrl) de faire réviser leurs comptes annuels par un organe de révision externe et indépendant. Cependant, l'étendue de ce contrôle dépend de la taille de l'entreprise.\n\n### Le contrôle ordinaire\n\nLe contrôle ordinaire est le plus approfondi. Il est obligatoire pour les sociétés d'intérêt public et les entreprises qui dépassent, durant deux exercices successifs, deux des trois seuils suivants :\n\n- **Total du bilan :** 20 millions de CHF\n- **Chiffre d'affaires :** 40 millions de CHF\n- **Effectif :** 250 emplois à plein temps en moyenne annuelle\n\nCe type d'audit donne une assurance élevée que les comptes sont exempts d'anomalies significatives. Il est mené par un expert-réviseur agréé.\n\n### Le contrôle restreint\n\nSi la société ne remplit pas les critères pour le contrôle ordinaire, elle est soumise par défaut au contrôle restreint. Cet audit est moins étendu qu'un contrôle ordinaire. Le réviseur (un réviseur agréé) fournit une assurance négative, attestant ne pas avoir relevé d'éléments indiquant que les comptes ne sont pas conformes à la loi.\n\n### La renonciation au contrôle (Opting-out)\n\nLa majorité des PME en Suisse ont la possibilité de renoncer complètement au contrôle restreint. Cette option, appelée \"opting-out\", est possible si deux conditions sont remplies :\n\n1.  La société compte **moins de 10 emplois à plein temps** en moyenne annuelle.\n2.  **Tous les actionnaires ou associés y consentent** à l'unanimité.\n\n**Avantages de l'opting-out :**\n- Réduction des coûts administratifs et des honoraires de révision.\n- Processus de clôture des comptes plus rapide.\n\n**Inconvénients et risques :**\n- Moins de crédibilité auprès des banques, des investisseurs ou des partenaires commerciaux.\n- Risque accru d'erreurs non détectées dans la comptabilité, pouvant avoir des conséquences fiscales.\n\nLa décision de renoncer au contrôle doit donc être mûrement réfléchie en pesant les économies et la perte de confiance que cela peut engendrer.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "fedlexCOrevision",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_727"
-        }
-      ]
-    },
-    {
-      "slug": "statut-quasi-resident-geneve-2025",
-      "title": "Le statut de quasi-résident à Genève : conditions et avantages pour 2025",
-      "description": "Pour les travailleurs imposés à la source, le statut de quasi-résident permet de déduire des frais réels via une Taxation Ordinaire Ultérieure (TOU). Explications des conditions.",
-      "content": "Les travailleurs qui ne sont pas domiciliés en Suisse (frontaliers, permis B sans résidence fiscale) sont généralement imposés à la source. Cependant, sous certaines conditions, ils peuvent demander le statut de quasi-résident pour être traités fiscalement comme un résident suisse. Cela leur ouvre le droit de déduire des frais supplémentaires.\n\n### Qu'est-ce que la Taxation Ordinaire Ultérieure (TOU) ?\n\nObtenir le statut de quasi-résident implique de déposer une déclaration d'impôt complète, comme un résident. C'est ce qu'on appelle la Taxation Ordinaire Ultérieure (TOU). Ce n'est plus un forfait qui est prélevé, mais l'impôt est calculé sur la base des revenus et des déductions réelles.\n\n### Conditions pour obtenir le statut de quasi-résident\n\nPour l'année fiscale 2025, la principale condition pour demander le statut de quasi-résident est que **90% au moins des revenus mondiaux du ménage** (incluant ceux du conjoint) soient imposables en Suisse.\n\nPar exemple, un frontalier marié dont l'épouse travaille en France ne pourra probablement pas obtenir ce statut si le salaire de son épouse représente plus de 10% des revenus totaux du couple.\n\n### Quels sont les avantages ?\n\nLa TOU permet de faire valoir des déductions qui ne sont pas prises en compte dans le barème de l'impôt à la source. Les plus importantes sont :\n\n- **Cotisations au 3ème pilier A**\n- **Rachats d'années de prévoyance (2ème pilier)**\n- **Frais de garde d'enfants**\n- **Pensions alimentaires versées**\n- **Intérêts passifs** (par exemple, les intérêts d'un crédit immobilier pour la résidence principale à l'étranger)\n\n### La demande est-elle toujours avantageuse ?\n\nPas nécessairement. Demander la TOU peut parfois aboutir à un impôt plus élevé que le prélèvement à la source, notamment si le contribuable a peu de déductions à faire valoir et dispose d'autres revenus (immobiliers, mobiliers) qui seront alors pris en compte. Une simulation est indispensable avant de faire la demande, qui doit être déposée avant le 31 mars de l'année suivante.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "chchImpotSourceRectification",
-          "url": "https://www.ch.ch/fr/fiscalite/impot-a-la-source/rectification-de-l-impot-a-la-source/"
-        }
-      ]
-    },
-    {
-      "slug": "facturation-electronique-suisse-2026",
-      "title": "Facturation électronique en Suisse : vers une obligation ?",
-      "description": "La QR-facture a marqué une étape, mais la prochaine évolution est la facturation 100% électronique. Ce qui attend les PME suisses à l'horizon 2026 et au-delà.",
-      "content": "Depuis l'introduction de la QR-facture, la digitalisation des processus de paiement en Suisse s'est accélérée. La prochaine étape logique est la généralisation de la **e-facture**, une facture entièrement dématérialisée qui transite de système comptable à système comptable sans rupture de média (pas de papier, pas de PDF).\n\n### Situation actuelle\n\nActuellement, la facturation électronique est principalement utilisée dans deux contextes :\n\n1.  **B2G (Business to Government) :** Les fournisseurs de la Confédération ont déjà l'obligation d'envoyer leurs factures par voie électronique pour les contrats de plus de CHF 5'000.\n2.  **B2B (Business to Business) :** Son usage est volontaire et repose sur l'accord entre le fournisseur et le client. Des plateformes comme PostFinance ou SIX facilitent ces échanges.\n\n### Avantages de la e-facture\n\nLe passage à la facturation électronique structurée offre de nombreux avantages pour les PME :\n\n- **Gain de temps :** Automatisation de la création, de l'envoi et de la réception des factures.\n- **Réduction des coûts :** Économies sur le papier, l'impression, l'affranchissement et l'archivage.\n- **Diminution des erreurs :** La saisie manuelle est éliminée, ce qui réduit les risques d'erreurs de paiement.\n- **Paiements plus rapides :** Le processus de validation et de paiement est accéléré chez le client.\n- **Traçabilité :** Meilleur suivi du statut des factures.\n\n### Vers une obligation généralisée ?\n\nÀ l'instar de plusieurs pays européens (comme l'Italie ou la France qui prévoient de la rendre obligatoire), la Suisse pourrait également s'orienter vers une obligation de la facturation électronique en B2B dans les années à venir. Bien qu'aucun calendrier précis ne soit fixé pour une obligation généralisée, la tendance est claire. Les entreprises qui anticipent cette transition et équipent leur système comptable (ERP) pour gérer les e-factures prendront une avance compétitive et seront prêtes pour les futures exigences légales.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "e-factureCH",
-          "url": "https://www.e-facture.ch/"
-        }
-      ]
-    },
-    {
-      "slug": "amortissement-comptable-fiscal-suisse",
-      "title": "Amortissement comptable et fiscal en Suisse : comprendre les différences",
-      "description": "L'amortissement est une charge qui reflète l'usure d'un bien. Mais les règles admises en comptabilité et par le fisc ne sont pas toujours les mêmes. Explications.",
-      "content": "L'amortissement consiste à répartir le coût d'un bien d'équipement (une machine, un véhicule, un ordinateur) sur sa durée d'utilisation probable. C'est une charge qui ne génère pas de sortie de liquidités, mais qui a un impact direct sur le bénéfice imposable de l'entreprise.\n\nEn Suisse, il faut distinguer l'amortissement comptable de l'amortissement fiscal.\n\n### L'amortissement comptable\n\nSon but est de donner une **image fidèle** du patrimoine et des résultats de l'entreprise. L'amortissement doit refléter la dépréciation **économique réelle** de l'actif.\n\n- **Méthode :** Le plus souvent linéaire (montant constant chaque année) ou dégressif (montant plus élevé les premières années).\n- **Durée :** Basée sur la durée d'utilisation estimée du bien.\n\nLe principe de prudence du Code des obligations permet aux entreprises de procéder à des amortissements plus élevés si nécessaire (par exemple, en cas d'obsolescence technologique rapide).\n\n### L'amortissement fiscal\n\nSon objectif est de déterminer le bénéfice imposable. L'Administration fédérale des contributions (AFC) et les administrations cantonales publient des notices avec les **taux d'amortissement maximums autorisés** pour différentes catégories de biens. \n\nExemples de taux d'amortissement dégressifs généralement admis par le fisc :\n\n- Véhicules : 40%\n- Machines et outillage : 30%\n- Mobilier de bureau et matériel informatique : 25%\n- Brevets, logiciels : 40%\n\nL'entreprise a le droit d'appliquer des taux plus bas, mais pas plus élevés que ceux admis fiscalement. Si l'entreprise pratique des amortissements comptables supérieurs aux taux admis, la différence devra être réintégrée dans le calcul du bénéfice imposable.\n\n### La pratique des réserves latentes\n\nLa possibilité de pratiquer des amortissements fiscalement admis même s'ils sont économiquement non justifiés permet de créer des **réserves latentes**. En sur-amortissant un actif, on diminue le bénéfice imposable de l'exercice en cours, reportant ainsi une partie de l'impôt à plus tard. Ces réserves devront être dissoutes (et donc imposées) lorsque l'actif sera vendu ou entièrement amorti.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "estvAmortissements",
-          "url": "https://www.estv.admin.ch/estv/fr/home/direkte-bundessteuer/fachinformationen/merkblaetter.html"
-        }
-      ]
-    },
-    {
-      "slug": "gestion-paie-pme-suisse-romande",
-      "title": "Gestion de la paie en PME : les défis en Suisse romande",
-      "description": "Salaires, assurances sociales, impôt à la source, certificats de salaire... La gestion de la paie est complexe et source d'erreurs potentielles. Tour d'horizon.",
-      "content": "Pour une PME, la gestion de la paie est une fonction critique qui va bien au-delà du simple versement d'un salaire. Elle est au carrefour du droit du travail, des assurances sociales et de la fiscalité, avec des spécificités cantonales importantes en Suisse romande.\n\n### Les piliers de la gestion de la paie\n\n1.  **Calcul du salaire brut et net :** Détermination du salaire de base, des bonus, des heures supplémentaires, puis déduction des cotisations sociales (AVS/AI/APG, AC, LPP, LAA).\n2.  **Assurances sociales :** Affiliation et déclaration des employés auprès des caisses de compensation, des caisses de pension et des assurances accidents et maladie (perte de gain).\n3.  **Impôt à la source :** Pour les travailleurs étrangers (permis B, G, etc.), l'employeur a l'obligation de calculer, prélever et reverser l'impôt à la source à l'administration fiscale cantonale. Les barèmes varient d'un canton à l'autre (Genève, Vaud, Valais...).\n4.  **Décomptes périodiques :** Établissement des fiches de paie mensuelles, claires et conformes.\n5.  **Déclarations annuelles :** Préparation et envoi des déclarations de salaires aux différentes assurances sociales (AVS, LPP, LAA) et établissement du certificat de salaire pour chaque employé.\n\n### Pourquoi externaliser la gestion de la paie ?\n\nFace à la complexité et à l'évolution constante de la législation, de nombreuses PME choisissent d'externaliser cette fonction à une fiduciaire.\n\n- **Conformité assurée :** L'expert garantit le respect des obligations légales et la bonne application des taux de cotisation.\n- **Confidentialité :** La gestion des salaires est traitée en externe, assurant une discrétion totale.\n- **Gain de temps :** Le dirigeant et le personnel administratif peuvent se concentrer sur le cœur de métier de l'entreprise.\n- **Expertise :** La fiduciaire apporte son conseil sur des cas complexes (frontaliers, expatriés, multiples contrats) et sur l'optimisation des charges sociales.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "pmeAdminPaie",
-          "url": "https://www.pme.admin.ch/pme/fr/home/savoir-pratique/personnel/gestion-du-personnel/comptabilite-salariale-et-charges-sociales.html"
-        }
-      ]
-    },
-    {
-      "slug": "reprendre-entreprise-suisse",
-      "title": "Reprise d'entreprise en Suisse : les étapes clés du succès",
-      "description": "Reprendre une PME existante est une alternative à la création. De l'évaluation (due diligence) au financement, en passant par la négociation, découvrez le processus.",
-      "content": "La reprise d'une entreprise est un projet complexe mais qui offre l'avantage de s'appuyer sur une structure existante (clients, personnel, notoriété). Un processus de reprise réussi se déroule en plusieurs étapes structurées.\n\n### 1. La phase de préparation\n\n- **Définition du projet :** Quel type d'entreprise rechercher (secteur, taille, région) ? Quelles sont mes compétences et mes moyens financiers ?\n- **Recherche de cibles :** Activation du réseau, consultation de plateformes spécialisées, prise de contact avec des fiduciaires et des courtiers en transmission d'entreprise.\n\n### 2. L'analyse et l'évaluation (Due Diligence)\n\nUne fois une cible identifiée, une analyse approfondie est indispensable.\n\n- **Due Diligence Financière et Comptable :** Analyse des bilans et comptes de résultat des dernières années, de la rentabilité, de la structure des coûts, de l'endettement. L'aide d'une fiduciaire est cruciale ici.\n- **Due Diligence Opérationnelle :** Analyse du marché, des clients, des fournisseurs, des processus internes, de l'état des équipements.\n- **Due Diligence Juridique et Fiscale :** Examen des contrats, des statuts, des litiges potentiels et de la situation fiscale.\n- **Évaluation :** Sur la base de ces analyses, plusieurs méthodes (DCF, multiples, valeur substantielle) sont utilisées pour déterminer une fourchette de prix pour l'entreprise.\n\n### 3. La négociation et le financement\n\n- **Lettre d'intention :** Formalisation de l'intérêt et des bases de la négociation.\n- **Négociation du prix et des conditions :** Discussion sur le prix final, les garanties, les modalités de paiement et la date de la transaction.\n- **Montage du financement :** Recherche des fonds nécessaires (fonds propres, crédit bancaire, investisseurs).\n\n### 4. La clôture (Closing) et la transition\n\n- **Signature des contrats :** Signature de l'acte de vente et des autres documents juridiques.\n- **Paiement et transfert de propriété.**\n- **Phase de transition :** Période durant laquelle le cédant accompagne le repreneur pour assurer une passation en douceur auprès des employés, des clients et des fournisseurs.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "pmeAdminSuccession",
-          "url": "https://www.pme.admin.ch/pme/fr/home/savoir-pratique/succession-d-entreprise.html"
-        }
-      ]
-    },
-    {
-      "slug": "tva-prestations-electroniques-suisse",
-      "title": "TVA sur les services électroniques en Suisse (Netflix, Spotify, etc.)",
-      "description": "Les entreprises étrangères fournissant des services électroniques en Suisse sont aussi soumises à la TVA. Comprenez la règle et son impact pour les consommateurs.",
-      "content": "Depuis le 1er janvier 2018, les règles en matière de TVA en Suisse ont été adaptées pour tenir compte de la croissance de l'économie numérique. Les entreprises étrangères qui fournissent des services électroniques à des clients suisses ne sont plus exemptées de TVA.\n\n### Le principe : imposition au lieu du destinataire\n\nPour les services de télécommunication et les services fournis par voie électronique (streaming de musique ou de vidéo, téléchargement de logiciels, livres électroniques, etc.), le lieu de la prestation est considéré comme étant le lieu où le destinataire du service est établi. \n\nConcrètement, si un client est en Suisse, la prestation est imposable en Suisse, même si le fournisseur est basé à l'étranger (par exemple en Irlande, au Luxembourg ou aux États-Unis).\n\n### Seuil d'assujettissement pour les entreprises étrangères\n\nUne entreprise étrangère est obligée de s'inscrire au registre des assujettis à la TVA suisse et de facturer la TVA suisse si elle remplit deux conditions :\n\n1.  Elle réalise un **chiffre d'affaires mondial d'au moins CHF 100'000** par an.\n2.  Elle fournit des services à des destinataires en Suisse.\n\nDès que ces conditions sont remplies, l'entreprise doit désigner un représentant fiscal en Suisse, s'immatriculer à la TVA et collecter la TVA suisse sur toutes ses ventes à des clients suisses.\n\n### Quel impact pour le consommateur final ?\n\nPour le consommateur en Suisse, cela signifie que le prix des abonnements à des services comme Netflix, Spotify, LinkedIn Premium, ou l'achat de logiciels en ligne inclut la TVA suisse au taux normal (actuellement 8.1%). Les entreprises étrangères répercutent ce coût dans leurs prix de vente. Le consommateur paie la TVA directement au fournisseur, qui se charge ensuite de la reverser à l'Administration fédérale des contributions (AFC). Cette règle assure une égalité de traitement fiscal entre les fournisseurs suisses et étrangers.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "AFCventeParCorrespondance",
-          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer/fachinfos/steuerpflicht/regelung-fuer-den-versandhandel.html"
+          "labelKey": "swissolarNon",
+          "url": "https://www.swissolar.ch/fr/news/detail/non-au-projet-de-suppression-de-la-valeur-locative-le-28-septembre-75266"
         }
       ]
     }
@@ -440,31 +197,15 @@
   },
   "ReadingTime": "Temps de lecture",
   "Minutes": "min",
-  "estvTVAGeneral": "TVA – Informations officielles (AFC)",
-  "guideCertificatSalaire": "Certificat de salaire – Informations officielles",
-  "swissdec": "swissdec – Normes salaires suisses",
-  "registreCommerceCH": "Registre du commerce (Zefix)",
-  "chchCreerEntreprise": "ch.ch – Créer une entreprise",
-  "odooAccountingDocs": "Odoo – Documentation Comptabilité",
-  "chchImpotSourceRectification": "ch.ch – Impôt à la source",
-  "estvTVAFrais": "TVA – Justificatifs & déductions (AFC)",
-  "chchPilier3a": "ch.ch – Prévoyance liée (pilier 3a)",
-  "fedlexCO": "Fedlex – Code des obligations",
-  "gechTeletravailFrontalier": "ge.ch – Télétravail des frontaliers",
-  "bsvAVS21": "OFAS – Réforme AVS 21",
-  "geTaxDeductions": "GeTax – Guides des déductions",
-  "planComptablePME": "pme.admin.ch - Plan comptable",
-  "AFCeconomiePartage": "AFC – Économie de partage",
-  "pmeAdminFormesJuridiques": "pme.admin.ch - Formes juridiques",
-  "gechRemplirDeclaration": "ge.ch – Remplir sa déclaration d'impôt",
-  "chchAssociations": "ch.ch – Créer une association",
-  "AVScontroleEmployeurs": "AVS/AI – Contrôle des employeurs",
-  "fedlexCOrevision": "Fedlex – Droit de la révision (CO)",
-  "e-factureCH": "e-facture.ch – La facture électronique en Suisse",
-  "estvAmortissements": "AFC – Mémentos (amortissements)",
-  "pmeAdminPaie": "pme.admin.ch – Comptabilité salariale",
-  "pmeAdminSuccession": "pme.admin.ch – Succession d'entreprise",
-  "AFCventeParCorrespondance": "AFC – Vente par correspondance et services électroniques",
+  "baisseImpotsGeneve2025": "Baisse historique des impôts à Genève 2025",
+  "finmaCrypto2025": "Fiscalité cryptomonnaies Suisse 2025",
+  "afcCrypto": "AFC – Cryptomonnaies et impôt anticipé",
+  "reforme TVA2025": "Réforme TVA 2025 en Suisse",
+  "modificationsKlara2025": "Modifications législatives 2025 – Klara",
+  "emineoOMTax": "OMTax : solution impôt minimum OCDE",
+  "swissBankingOCDE": "Swiss Banking – Imposition minimale OCDE",
+  "strengValeurLocative": "Modifications fiscales – valeur locative",
+  "swissolarNon": "Swissolar – Non à la suppression valeur locative",
   "FAQ": {
     "Title": "Questions fréquentes – fiscalité & comptabilité à Genève et en Suisse romande",
     "Items": [

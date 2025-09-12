@@ -1,60 +1,95 @@
 {
-  "IntroTitle": "Ressources fiscales et comptables – Genève & Suisse romande",
-  "IntroText": "Basées à Genève et actives dans toute la Suisse romande, nos équipes accompagnent aussi des clients en Suisse et à l'international. Vous trouverez ci-dessous une sélection de documents et d'articles pratiques adaptés au contexte réglementaire genevois, romand et fédéral. Ces ressources sont fournies pour votre convenance et n'ont pas valeur de conseil personnalisé. Pour une analyse ciblée de votre situation, contactez notre équipe.",
-  "FilesTitle": "Documents disponibles au téléchargement",
-  "ArticlesTitle": "Articles d'experts",
-  "ReadArticle": "Lire l'article",
-  "Source": "Source",
-  "ImageAltPrefix": "Illustration de l'article",
+  "IntroTitle": "Recursos fiscales y contables – Ginebra y Suiza francófona",
+  "IntroText": "Con sede en Ginebra y activos en toda Suiza francófona, nuestros equipos también acompañan a clientes en Suiza y a nivel internacional. A continuación encontrará una selección de documentos y artículos prácticos adaptados al contexto normativo de Ginebra, la Suiza francófona y la Confederación. Estos recursos se proporcionan para su conveniencia y no constituyen asesoramiento personalizado. Para un análisis adaptado a su situación, contacte con nuestro equipo.",
+  "FilesTitle": "Documentos disponibles para descargar",
+  "ArticlesTitle": "Artículos de expertos",
+  "ReadArticle": "Leer el artículo",
+  "Source": "Fuente",
+  "ImageAltPrefix": "Ilustración del artículo",
   "Files": [
     {
       "filename": "guide-certificat-salaire-2025.pdf",
-      "title": "Guide d'établissement du certificat de salaire 2025",
-      "description": "Guide officiel de l'Administration fédérale des contributions pour l’établissement du certificat de salaire (formulaire 11). Indique les obligations de l’employeur, les prestations à déclarer et les procédures de remise.",
+      "title": "Guía para la elaboración del certificado salarial 2025 – AFC",
+      "description": "Guía oficial 2025 de la Administración Federal de Contribuciones para la elaboración de certificados salariales. Imprescindible para la gestión de nóminas y el cumplimiento fiscal de las empresas suizas.",
       "date": "2024-12-31",
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-wegleitung-2025-fr.pdf.download.pdf/dbst-form-lohna-wegleitung-2025-fr.pdf"
     },
     {
-      "filename": "instructions-neuchatel-2024.pdf",
-      "title": "Instructions générales pour remplir la déclaration d'impôt - canton de Neuchâtel",
-      "description": "Guide pratique du Service des contributions neuchâtelois sur l’utilisation de Clic&Tax, les déductions et les délais pour la déclaration 2024 des personnes physiques.",
-      "date": "2024-02-01",
-      "source_url": "https://www.ne.ch/autorites/DFS/SCCO/Documents/PP/INSTRUCTIONS_GENERALES.pdf"
+      "filename": "instructions-vaud-2024.pdf",
+      "title": "Instrucciones generales para la declaración de impuestos 2024 – Cantón de Vaud",
+      "description": "Guía oficial de Vaud con instrucciones de VaudTax, eRelevé fiscal, deducciones autorizadas y procedimientos de presentación electrónica para 2024.",
+      "date": "2024-12-30",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21001_2024.pdf"
     },
     {
-      "filename": "instructions-fribourg-2024.pdf",
-      "title": "Instructions générales pour la déclaration d'impôt - canton de Fribourg",
-      "description": "Guide complet du canton de Fribourg 2024 pour remplir votre déclaration d’impôt : FriTax, déductions professionnelles, délais et procédures.",
+      "filename": "deductions-vaudoises-2024.pdf",
+      "title": "Resumen de las principales deducciones de Vaud 2024",
+      "description": "Resumen oficial de las deducciones fiscales de Vaud: gastos profesionales, intereses hipotecarios, deducciones familiares y coeficientes 2024.",
       "date": "2024-01-01",
-      "source_url": "https://www.fr.ch/document/57721"
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/Tableau_des_d%C3%A9ductions_2024.pdf"
     },
     {
-      "filename": "guide-personnes-morales-geneve-2020.pdf",
-      "title": "Guide de la déclaration des personnes morales - canton de Genève",
-      "description": "Guide GeTaxPM pour déclarer l’impôt des personnes morales à Genève : calcul ICC/IFD, annexes, dépôt en ligne et exonérations RFFA.",
-      "date": "2020-03-01",
-      "source_url": "https://www.getax.ch/getaxpm/guides/guide2020af.pdf"
+      "filename": "modifications-tva-2025.pdf",
+      "title": "Modificaciones de la ordenanza del IVA 2025 – AFC",
+      "description": "Documento oficial de la AFC que detalla los cambios del IVA 2025: nuevas tasas, obligaciones de declaración electrónica y simplificaciones administrativas.",
+      "date": "2024-12-31",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/publikationen/mwst-publ-mwstv-aenderungen-2025-fr.pdf.download.pdf/mwst-publ-mwstv-aenderungen-2025-fr.pdf"
     },
     {
-      "filename": "baremes-impot-source-fribourg-2025.pdf",
-      "title": "Barèmes et instructions pour l’imposition à la source - Fribourg 2025",
-      "description": "Barèmes 2025 de l’imposition à la source pour frontaliers et vacataires, procédures de déclaration et obligations des employeurs dans le canton de Fribourg.",
-      "date": "2024-11-27",
-      "source_url": "https://www.fr.ch/document/542571"
+      "filename": "instructions-ifd-2025.pdf",
+      "title": "Instrucciones 2025 para el impuesto federal directo – AFC",
+      "description": "Instrucciones oficiales de la AFC para la declaración del impuesto federal directo 2025: ingresos, deducciones, escalas y procedimientos de cálculo.",
+      "date": "2024-12-31",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/wegleitungen/dbst-wgl-02a-2025-fr.pdf.download.pdf/dbst-wgl-02a-2025-fr.pdf"
     },
     {
-      "filename": "deductions-vaudoises-2025.pdf",
-      "title": "Tableau des principales déductions vaudoises 2025",
-      "description": "Récapitulatif des déductions fiscales autorisées en 2025 dans le canton de Vaud : frais professionnels, intérêts hypothécaires, déductions familiales.",
-      "date": "2025-01-01",
-      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/Tableau_des_d%C3%A9ductions_2025.pdf"
+      "filename": "guide-nouveau-contribuable-2024.pdf",
+      "title": "Guía para nuevos contribuyentes – AFC",
+      "description": "Guía de la AFC para nuevos contribuyentes: recién llegados, obligaciones fiscales federales, procedimientos de imposición y derechos de los contribuyentes en Suiza.",
+      "date": "2024-06-14",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/estv/steuersystem/leifaden-neue-steuerpflichtige/estv-leitfaden-neue-steuerpflichtige-fr.pdf.download.pdf/estv-leitfaden-neue-steuerpflichtige-fr.pdf"
     },
     {
-      "filename": "domiciliation-geneve-2025.pdf",
-      "title": "Domiciliation d'entreprise à Genève : guide 2025",
-      "description": "Guide CH Reloc pour choisir et mettre en place la domiciliation d’entreprise à Genève : options, coûts et obligations légales.",
-      "date": "2025-05-08",
-      "source_url": "https://chreloc.com/assets/pdf/domiciliation-geneve-guide-2025.pdf"
+      "filename": "modele-reglement-frais-2024.pdf",
+      "title": "Modelo de reglamento de reembolso de gastos – AFC",
+      "description": "Documento de referencia de la AFC que establece los baremos oficiales para gastos de desplazamiento, comidas y representación. Herramienta esencial para el cumplimiento fiscal.",
+      "date": "2024-01-01",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-spesenreglement-2024-fr.pdf.download.pdf/dbst-form-lohna-spesenreglement-2024-fr.pdf"
+    },
+    {
+      "filename": "impot-anticipe-cryptomonnaies-2025.pdf",
+      "title": "Criptomonedas e impuesto anticipado – AFC",
+      "description": "Guía de la AFC sobre el tratamiento fiscal de las criptomonedas: clasificación de tokens, imposición de particulares y empresas, obligaciones declarativas.",
+      "date": "2025-04-06",
+      "source_url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
+    },
+    {
+      "filename": "vaudtax-guide-linux-2024.pdf",
+      "title": "Ayuda para la instalación de VaudTax 2024 en Linux Ubuntu",
+      "description": "Guía técnica oficial de Vaud para instalar y utilizar VaudTax en Ubuntu Linux: instalación, resolución de problemas y verificación de integridad.",
+      "date": "2024-03-01",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/VaudTax_2024_Guide_Linux_v1.pdf"
+    },
+    {
+      "filename": "instructions-propriete-immobiliere-vaud-2024.pdf",
+      "title": "Instrucciones complementarias para bienes inmuebles – Cantón de Vaud",
+      "description": "Instrucciones de Vaud para la imposición inmobiliaria 2024: valor locativo (tasa 127%), impuesto sobre bienes inmuebles y obligaciones declarativas de los propietarios.",
+      "date": "2024-01-01",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21004_2024.pdf"
+    },
+    {
+      "filename": "guide-vaudtax-2022.pdf",
+      "title": "Guía para la declaración de impuestos – Cantón de Vaud",
+      "description": "Guía básica de Vaud para la declaración de impuestos: uso de VaudTax, eRelevé fiscal, principales deducciones y servicios electrónicos disponibles.",
+      "date": "2022-03-01",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21000_2022.pdf"
+    },
+    {
+      "filename": "projet-adaptation-pratique-tva.pdf",
+      "title": "Proyecto de adaptación de la práctica del IVA – AFC",
+      "description": "Proyecto de la AFC de adaptación de la práctica del IVA: deducción del impuesto soportado, nuevas normas e impactos para las empresas a partir de 2025.",
+      "date": "2025-02-09",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/konsultativgremium/entwurf1-nein/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf.download.pdf/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf"
     }
   ],
   "Articles": [

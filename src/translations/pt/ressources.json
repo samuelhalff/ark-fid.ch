@@ -1,60 +1,95 @@
 {
-  "IntroTitle": "Ressources fiscales et comptables – Genève & Suisse romande",
-  "IntroText": "Basées à Genève et actives dans toute la Suisse romande, nos équipes accompagnent aussi des clients en Suisse et à l'international. Vous trouverez ci-dessous une sélection de documents et d'articles pratiques adaptés au contexte réglementaire genevois, romand et fédéral. Ces ressources sont fournies pour votre convenance et n'ont pas valeur de conseil personnalisé. Pour une analyse ciblée de votre situation, contactez notre équipe.",
-  "FilesTitle": "Documents disponibles au téléchargement",
-  "ArticlesTitle": "Articles d'experts",
-  "ReadArticle": "Lire l'article",
-  "Source": "Source",
-  "ImageAltPrefix": "Illustration de l'article",
+  "IntroTitle": "Recursos fiscais e contabilísticos – Genebra e Suíça francófona",
+  "IntroText": "Com sede em Genebra e ativos em toda a Suíça francófona, as nossas equipas também acompanham clientes na Suíça e internacionalmente. Abaixo encontra uma seleção de documentos e artigos práticos adaptados ao contexto regulamentar de Genebra, da Romandia e federal. Estes recursos são fornecidos para sua conveniência e não constituem aconselhamento personalizado. Para uma análise adaptada à sua situação, contacte a nossa equipa.",
+  "FilesTitle": "Documentos disponíveis para download",
+  "ArticlesTitle": "Artigos de especialistas",
+  "ReadArticle": "Ler o artigo",
+  "Source": "Fonte",
+  "ImageAltPrefix": "Ilustração do artigo",
   "Files": [
     {
       "filename": "guide-certificat-salaire-2025.pdf",
-      "title": "Guide d'établissement du certificat de salaire 2025",
-      "description": "Guide officiel de l'Administration fédérale des contributions pour l’établissement du certificat de salaire (formulaire 11). Indique les obligations de l’employeur, les prestations à déclarer et les procédures de remise.",
+      "title": "Guia de elaboração do certificado salarial 2025 – AFC",
+      "description": "Guia oficial 2025 da Administração Fiscal Federal para elaboração de certificados salariais. Essencial para a gestão de salários e conformidade fiscal das empresas suíças.",
       "date": "2024-12-31",
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-wegleitung-2025-fr.pdf.download.pdf/dbst-form-lohna-wegleitung-2025-fr.pdf"
     },
     {
-      "filename": "instructions-neuchatel-2024.pdf",
-      "title": "Instructions générales pour remplir la déclaration d'impôt - canton de Neuchâtel",
-      "description": "Guide pratique du Service des contributions neuchâtelois sur l’utilisation de Clic&Tax, les déductions et les délais pour la déclaration 2024 des personnes physiques.",
-      "date": "2024-02-01",
-      "source_url": "https://www.ne.ch/autorites/DFS/SCCO/Documents/PP/INSTRUCTIONS_GENERALES.pdf"
+      "filename": "instructions-vaud-2024.pdf",
+      "title": "Instruções gerais para a declaração de impostos 2024 – Cantão de Vaud",
+      "description": "Guia oficial de Vaud com instruções VaudTax, eRelevé fiscal, deduções autorizadas e procedimentos de entrega eletrónica para 2024.",
+      "date": "2024-12-30",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21001_2024.pdf"
     },
     {
-      "filename": "instructions-fribourg-2024.pdf",
-      "title": "Instructions générales pour la déclaration d'impôt - canton de Fribourg",
-      "description": "Guide complet du canton de Fribourg 2024 pour remplir votre déclaration d’impôt : FriTax, déductions professionnelles, délais et procédures.",
+      "filename": "deductions-vaudoises-2024.pdf",
+      "title": "Resumo das principais deduções de Vaud 2024",
+      "description": "Resumo oficial das deduções fiscais de Vaud: despesas profissionais, juros hipotecários, deduções familiares e coeficientes 2024.",
       "date": "2024-01-01",
-      "source_url": "https://www.fr.ch/document/57721"
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/Tableau_des_d%C3%A9ductions_2024.pdf"
     },
     {
-      "filename": "guide-personnes-morales-geneve-2020.pdf",
-      "title": "Guide de la déclaration des personnes morales - canton de Genève",
-      "description": "Guide GeTaxPM pour déclarer l’impôt des personnes morales à Genève : calcul ICC/IFD, annexes, dépôt en ligne et exonérations RFFA.",
-      "date": "2020-03-01",
-      "source_url": "https://www.getax.ch/getaxpm/guides/guide2020af.pdf"
+      "filename": "modifications-tva-2025.pdf",
+      "title": "Alterações ao regulamento do IVA 2025 – AFC",
+      "description": "Documento oficial da AFC detalhando as alterações do IVA 2025: novas taxas, obrigações de entrega eletrónica e simplificações administrativas.",
+      "date": "2024-12-31",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/publikationen/mwst-publ-mwstv-aenderungen-2025-fr.pdf.download.pdf/mwst-publ-mwstv-aenderungen-2025-fr.pdf"
     },
     {
-      "filename": "baremes-impot-source-fribourg-2025.pdf",
-      "title": "Barèmes et instructions pour l’imposition à la source - Fribourg 2025",
-      "description": "Barèmes 2025 de l’imposition à la source pour frontaliers et vacataires, procédures de déclaration et obligations des employeurs dans le canton de Fribourg.",
-      "date": "2024-11-27",
-      "source_url": "https://www.fr.ch/document/542571"
+      "filename": "instructions-ifd-2025.pdf",
+      "title": "Instruções 2025 para o imposto federal direto – AFC",
+      "description": "Instruções oficiais da AFC para a declaração do imposto federal direto 2025: rendimentos, deduções, escalas e procedimentos de cálculo.",
+      "date": "2024-12-31",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/wegleitungen/dbst-wgl-02a-2025-fr.pdf.download.pdf/dbst-wgl-02a-2025-fr.pdf"
     },
     {
-      "filename": "deductions-vaudoises-2025.pdf",
-      "title": "Tableau des principales déductions vaudoises 2025",
-      "description": "Récapitulatif des déductions fiscales autorisées en 2025 dans le canton de Vaud : frais professionnels, intérêts hypothécaires, déductions familiales.",
-      "date": "2025-01-01",
-      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/Tableau_des_d%C3%A9ductions_2025.pdf"
+      "filename": "guide-nouveau-contribuable-2024.pdf",
+      "title": "Guia do novo contribuinte – AFC",
+      "description": "Guia da AFC para novos contribuintes: recém-chegados, obrigações fiscais federais, procedimentos de tributação e direitos dos contribuintes na Suíça.",
+      "date": "2024-06-14",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/estv/steuersystem/leifaden-neue-steuerpflichtige/estv-leitfaden-neue-steuerpflichtige-fr.pdf.download.pdf/estv-leitfaden-neue-steuerpflichtige-fr.pdf"
     },
     {
-      "filename": "domiciliation-geneve-2025.pdf",
-      "title": "Domiciliation d'entreprise à Genève : guide 2025",
-      "description": "Guide CH Reloc pour choisir et mettre en place la domiciliation d’entreprise à Genève : options, coûts et obligations légales.",
-      "date": "2025-05-08",
-      "source_url": "https://chreloc.com/assets/pdf/domiciliation-geneve-guide-2025.pdf"
+      "filename": "modele-reglement-frais-2024.pdf",
+      "title": "Modelo de regulamento de reembolso de despesas – AFC",
+      "description": "Documento de referência da AFC que estabelece as tabelas oficiais para despesas de deslocação, refeições e representação. Ferramenta essencial para a conformidade fiscal.",
+      "date": "2024-01-01",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-spesenreglement-2024-fr.pdf.download.pdf/dbst-form-lohna-spesenreglement-2024-fr.pdf"
+    },
+    {
+      "filename": "impot-anticipe-cryptomonnaies-2025.pdf",
+      "title": "Criptomoedas e imposto retido na fonte – AFC",
+      "description": "Guia da AFC sobre o tratamento fiscal das criptomoedas: classificação de tokens, tributação de pessoas físicas e jurídicas, obrigações declarativas.",
+      "date": "2025-04-06",
+      "source_url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
+    },
+    {
+      "filename": "vaudtax-guide-linux-2024.pdf",
+      "title": "Ajuda para instalação do VaudTax 2024 no Linux Ubuntu",
+      "description": "Guia técnico oficial de Vaud para instalar e utilizar o VaudTax no Ubuntu Linux: instalação, resolução de problemas e verificação de integridade.",
+      "date": "2024-03-01",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/VaudTax_2024_Guide_Linux_v1.pdf"
+    },
+    {
+      "filename": "instructions-propriete-immobiliere-vaud-2024.pdf",
+      "title": "Instruções complementares para imóveis – Cantão de Vaud",
+      "description": "Instruções de Vaud para a tributação imobiliária 2024: valor locativo (taxa de 127%), imposto predial e obrigações declarativas dos proprietários.",
+      "date": "2024-01-01",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21004_2024.pdf"
+    },
+    {
+      "filename": "guide-vaudtax-2022.pdf",
+      "title": "Guia para declaração de impostos – Cantão de Vaud",
+      "description": "Guia básico de Vaud para a declaração de impostos: uso do VaudTax, eRelevé fiscal, principais deduções e serviços eletrónicos disponíveis.",
+      "date": "2022-03-01",
+      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21000_2022.pdf"
+    },
+    {
+      "filename": "projet-adaptation-pratique-tva.pdf",
+      "title": "Projeto de adaptação da prática do IVA – AFC",
+      "description": "Projeto da AFC de adaptação da prática do IVA: dedução do imposto suportado, novas regras e impactos para empresas a partir de 2025.",
+      "date": "2025-02-09",
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/konsultativgremium/entwurf1-nein/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf.download.pdf/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf"
     }
   ],
   "Articles": [
@@ -223,7 +258,7 @@
     {
       "slug": "declaration-revenus-locatifs-2025",
       "title": "Déclaration des revenus locatifs 2025 : obligations et optimisation",
-      "description": "Guide complet sur la déclaration des revenus tirés de la location en Suisse : taux d’imposition, déductions autorisées et conseils pratiques pour optimiser votre fiscalité.",
+      "description": "Guide complet sobre a declaração des revenus tirés de la location em Suíça : taxas d’imposição, deduções autorizadas e conselhos práticos para otimizar sua fiscalidade.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -240,7 +275,7 @@
     {
       "slug": "impot-source-frontaliers-2025",
       "title": "Impôt à la source pour frontaliers : nouveautés 2025",
-      "description": "Tout savoir sur les règles actualisées de l’impôt à la source pour les travailleurs frontaliers en Suisse : barèmes, procédures et points de vigilance.",
+      "description": "Tout saber sobre as regras atualizadas do imposto à fonte para os trabalhadores frontais na Suíça : tabelas, procedimentos e pontos de vigilância.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -256,8 +291,8 @@
     },
     {
       "slug": "plan-epargne-individuel-fiscalite",
-      "title": "Plan épargne individuel (PEI) : avantages fiscaux et stratégies 2025",
-      "description": "Comment tirer parti du PEI pour réduire votre charge fiscale et préparer votre retraite : plafonds de déduction, conditions d’éligibilité et meilleures pratiques.",
+      "title": "Plan épargne individuel (PEI) : avantages fiscais e estratégias 2025",
+      "description": "Como tirar partido do PEI para reduzir sua carga fiscal e preparar sua aposentadoria : tetos de dedução, condições de elegibilidade e melhores práticas.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -273,8 +308,8 @@
     },
     {
       "slug": "credit-tva-exportations-2025",
-      "title": "Crédit de TVA sur exportations : procédures et cas pratiques",
-      "description": "Explication du mécanisme de crédit de TVA pour les exportateurs suisses : démarches administratives, calcul et optimisation du cash-flow.",
+      "title": "Crédito de TVA sobre exportações : procedimentos e casos práticos",
+      "description": "Explicação do mecanismo de crédito de TVA para os exportadores suíços : démarches administrativas, cálculo e otimização do cash-flow.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -291,7 +326,7 @@
     {
       "slug": "delais-facturation-electronique",
       "title": "Délais et obligations de la facturation électronique en Suisse",
-      "description": "Zoom sur les règles de facturation électronique : délais légaux, formats requis et intégration avec les systèmes ERP pour PME et indépendants.",
+      "description": "Zoom sur les règles de facturation électronique : délais légaux, formats requis et intégration com os sistemas ERP para PME e independentes.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -308,7 +343,7 @@
     {
       "slug": "declaration-impot-individus-participations",
       "title": "Déclaration d’impôt pour revenus de participations : conseils pratiques",
-      "description": "Guide pour déclarer vos dividendes et autres revenus de participations en 2025 : calcul de l’impôt, déductions et conventions fiscales.",
+      "description": "Guide para declarar seus dividendos e outros rendimentos de participações em 2025 : cálculo do imposto, deduções e convenções fiscais.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -324,8 +359,8 @@
     },
     {
       "slug": "comptes-annuels-pme-2025",
-      "title": "États financiers 2025 : élaboration des comptes annuels pour PME",
-      "description": "Les étapes clés de la préparation des comptes annuels : bilan, compte de résultat, annexes et présentation selon Swiss GAAP RPC.",
+      "title": "États financeiros 2025 : élaboration des comptes annuels para PME",
+      "description": "Les étapes clés de la préparation des comptes annuels : bilan, compte de résultat, annexes et apresentação selon Swiss GAAP RPC.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -358,8 +393,8 @@
     },
     {
       "slug": "declaration-ligne-individus",
-      "title": "Déclaration d’impôt en ligne pour particuliers : astuces et erreurs à éviter",
-      "description": "Conseils pour remplir efficacement votre déclaration en ligne : navigation sur eTax, pièges fréquents et optimisations fiscales.",
+      "title": "Déclaration d’impôt en ligne pour particuliers : astuces e erros à éviter",
+      "description": "Conselhos para preencher eficientemente sua declaração online : navegação no eTax, armadilhas frequentes e otimizações fiscais.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -375,8 +410,8 @@
     },
     {
       "slug": "gestion-flux-tresorerie-pme",
-      "title": "Gestion des flux de trésorerie pour PME : outils et bonnes pratiques",
-      "description": "Techniques de pilotage de trésorerie pour PME : prévisions, plan de trésorerie, lignes de crédit et gestion des retards de paiement.",
+      "title": "Gestion des flux de trésorerie para PME : outils e boas práticas",
+      "description": "Técnicas de pilotagem de tesouraria para PME : previsões, plano de tesouraria, linhas de crédito e gestão dos atrasos de pagamento.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -392,8 +427,8 @@
     },
     {
       "slug": "optimisation-cotisations-sociales",
-      "title": "Optimisation des cotisations sociales : stratégies pour indépendants et PME",
-      "description": "Comment optimiser légalement vos cotisations AVS, LAA, AC et LPP : choix de régime, calcul des acomptes et recours aux exonérations.",
+      "title": "Optimisation des cotisations sociais : estratégias para independentes e PME",
+      "description": "Como otimizar legalmente suas contribuições AVS, LAA, AC e LPP : escolha de regime, cálculo dos adiantamentos e recurso às exonerações.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -409,8 +444,8 @@
     },
     {
       "slug": "immobilier-entreprise-depreciation-fiscalite",
-      "title": "Fiscalité de l’immobilier d’entreprise : amortissements et déductions",
-      "description": "Guide sur l’amortissement fiscal des bâtiments et équipements : méthodes, taux et calculs pour maximiser les déductions.",
+      "title": "Fiscalité de l’immobilier d’entreprise : amortissements e deduções",
+      "description": "Guide sur l’amortissement fiscal des bâtiments e equipamentos : méthodes, taux e calculs para maximizar les déductions.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -426,8 +461,8 @@
     },
     {
       "slug": "nomadisme-numerique-teletravail-fiscalite",
-      "title": "Nomadisme numérique et télétravail : impacts fiscaux pour 2025",
-      "description": "Éclairages sur les conséquences fiscales du télétravail : déductions, domicile fiscal, ETIAS pour frontaliers et travailleurs mobiles.",
+      "title": "Nomadisme numérique et télétravail : impacts fiscais para 2025",
+      "description": "Éclairages sur les conséquences fiscais do teletrabalho : deduções, domicílio fiscal, ETIAS para frontaliers e trabalhadores móveis.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -443,8 +478,8 @@
     },
     {
       "slug": "protection-donnees-comptabilite",
-      "title": "Protection des données en comptabilité : conformité RGPD et LPD Suisse",
-      "description": "Enjeux et obligations en matière de protection des données sensibles en comptabilité, y compris les mesures techniques et organisationnelles.",
+      "title": "Protection des données en comptabilité : conformité RGPD e LPD Suíça",
+      "description": "Enjeux et obligations em matéria de proteção des données sensíveis em comptabilidade, y compris les mesures techniques e organisationnelles.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -460,8 +495,8 @@
     },
     {
       "slug": "controle-fiscal-pme-preparation",
-      "title": "Contrôle fiscal PME : préparation et recommandations 2025",
-      "description": "Mieux se préparer à un contrôle fiscal : documents à fournir, environnement de vérification et bonnes pratiques pour limiter les risques.",
+      "title": "Contrôle fiscal PME : préparation e recomendações 2025",
+      "description": "Mieux se préparer à un contrôle fiscal : documents à fournir, environnement de vérification e boas práticas para limitar os riscos.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
       "references": [
@@ -488,8 +523,8 @@
   "SwissVATOffice": "Office fédéral de la TVA (AFC)",
   "Contact": {
     "Title": "Questions sur cet article ?",
-    "Description": "Nos experts sont là pour vous aider à comprendre les détails et implications pour votre entreprise. Obtenez des conseils personnalisés adaptés à votre situation.",
-    "ButtonText": "Contacter notre équipe"
+    "Description": "Nos experts sont là pour vous aider à comprendre les détails et implications pour votre entreprise. Obtenha conselhos personalizados adaptados à sua situação.",
+    "ButtonText": "Contatar nossa equipe"
   },
   "ReadingTime": "Temps de lecture",
   "Minutes": "min",
@@ -516,7 +551,7 @@
       },
       {
         "q": "Quand externaliser la paie à Genève ?",
-        "a": "Dès que la gestion interne consomme un temps disproportionné, que les contrôles deviennent complexes (pluriactivité, frontaliers) ou que des erreurs de conformité sociales apparaissent. L'externalisation améliore fiabilité, sécurité et traçabilité."
+        "a": "Dès que la gestion interne consomme un temps disproportionné, que les contrôles deviennent complexes (pluriactivité, frontaliers) ou que des erreurs de conformité sociales apparaissent. L'externalisation améliore fiabilidade, segurança e traçabilidade."
       }
     ]
   },
