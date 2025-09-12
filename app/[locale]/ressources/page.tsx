@@ -56,7 +56,10 @@ export default async function RessourcesPage({ params }: LocaleParams) {
         <nav aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
             <li>
-              <a href={`/${locale}/`} className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded-sm">
+              <a
+                href={`/${locale}/`}
+                className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded-sm"
+              >
                 Home
               </a>
             </li>
@@ -77,21 +80,25 @@ export default async function RessourcesPage({ params }: LocaleParams) {
           {ressources.IntroText || "Helpful resources and documents"}
         </p>
         <p className="text-sm mt-4 max-w-[720px] text-muted-foreground leading-relaxed">
-          {[{
-            label: ressources?.Links?.Accounting || "accounting",
-            href: `/${locale}/services/accounting`,
-          },
-          {
-            label: ressources?.Links?.Tax || "tax",
-            href: `/${locale}/services/taxes`,
-          },
-          {
-            label: ressources?.Links?.Payroll || "payroll",
-            href: `/${locale}/services/payroll`,
-          }].map((item, i) => (
+          {[
+            {
+              label: ressources?.Links?.Accounting || "accounting",
+              href: `/${locale}/services/accounting`,
+            },
+            {
+              label: ressources?.Links?.Tax || "tax",
+              href: `/${locale}/services/taxes`,
+            },
+            {
+              label: ressources?.Links?.Payroll || "payroll",
+              href: `/${locale}/services/payroll`,
+            },
+          ].map((item, i) => (
             <span key={item.href}>
               {i > 0 && <span className="mx-1">·</span>}
-              <a href={item.href} className="underline hover:no-underline">{item.label}</a>
+              <a href={item.href} className="underline hover:no-underline">
+                {item.label}
+              </a>
             </span>
           ))}
         </p>
