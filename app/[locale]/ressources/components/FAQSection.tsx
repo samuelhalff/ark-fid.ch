@@ -1,5 +1,4 @@
 import React from "react";
-import TranslatedText from "@/src/components/ui/translated-text";
 
 interface FAQItem {
   q: string;
@@ -38,13 +37,7 @@ export default function FAQSection({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <h2 id="faq-heading" className="text-2xl font-semibold mb-8">
-        {faq.Title || (
-          <TranslatedText
-            ns="ressources"
-            translationKey="FAQ.Title"
-            fallbackText="Frequently asked questions"
-          />
-        )}
+        {faq.Title || "Frequently asked questions"}
       </h2>
       <div className="space-y-6">
         {faq.Items.map((item, idx) => (
