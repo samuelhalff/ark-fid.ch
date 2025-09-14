@@ -71,6 +71,7 @@ const ServiceHero = async ({
               href={`${localePrefix}/contact`}
               className="w-full sm:w-auto"
               locale={locale}
+              prefetch={false}
             >
               <Button
                 size="lg"
@@ -85,6 +86,7 @@ const ServiceHero = async ({
               href={`${localePrefix}/team`}
               className="w-full sm:w-auto"
               locale={locale}
+              prefetch={false}
             >
               <Button
                 variant="outline"

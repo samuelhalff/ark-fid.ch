@@ -3,11 +3,18 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Script from "next/script";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
 
 type Props = {
   nonce?: string;
   locale?: string;
+  labels: {
+    Title: string;
+    Text: string;
+    LearnMore: string;
+    Accept: string;
+    Decline: string;
+    Manage: string;
+  };
 };
 
 const CONSENT_KEY = "cookieConsent"; // values: "accepted" | "declined"
@@ -30,8 +37,7 @@ function setConsent(value: "accepted" | "declined") {
   } catch {}
 }
 
-export default function CookieConsent({ nonce, locale = "fr" }: Props) {
-  const { t } = useTranslation("cookie");
+export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
   const [consent, setConsentState] = useState<"accepted" | "declined" | null>(
     null
   );
@@ -85,12 +91,22 @@ export default function CookieConsent({ nonce, locale = "fr" }: Props) {
   const accept = () => {
     setConsent("accepted");
     setConsentState("accepted");
+    try {
+      window.dispatchEvent(
+        new CustomEvent("cookie-consent-changed", { detail: "accepted" })
+      );
+    } catch {}
     // Return focus to manage button for a11y
     setTimeout(() => manageBtnRef.current?.focus(), 0);
   };
   const decline = () => {
     setConsent("declined");
     setConsentState("declined");
+    try {
+      window.dispatchEvent(
+        new CustomEvent("cookie-consent-changed", { detail: "declined" })
+      );
+    } catch {}
     // Return focus to manage button for a11y
     setTimeout(() => manageBtnRef.current?.focus(), 0);
   };
@@ -99,6 +115,11 @@ export default function CookieConsent({ nonce, locale = "fr" }: Props) {
       localStorage.removeItem(CONSENT_KEY);
       document.cookie = `${CONSENT_KEY}=; Path=/; Max-Age=0; SameSite=Lax`;
       setConsentState(null);
+      try {
+        window.dispatchEvent(
+          new CustomEvent("cookie-consent-changed", { detail: null })
+        );
+      } catch {}
     } catch {}
   };
 
@@ -117,9 +138,9 @@ export default function CookieConsent({ nonce, locale = "fr" }: Props) {
             } catch {}
           }}
           className="fixed right-4 bottom-4 z-40 rounded-full border border-input bg-background/95 px-4 py-2 text-xs shadow-sm hover:bg-muted"
-          aria-label={t("Manage")}
+          aria-label={labels.Manage}
         >
-          {t("Manage")}
+          {labels.Manage}
         </button>
       )}
 
@@ -160,12 +181,16 @@ export default function CookieConsent({ nonce, locale = "fr" }: Props) {
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="text-sm leading-relaxed">
                 <p id="cookie-consent-title" className="font-medium mb-1">
-                  {t("Title")}
+                  {labels.Title}
                 </p>
                 <p>
-                  {t("Text")}{" "}
-                  <Link href={legalCookiesHref} className="underline">
-                    {t("LearnMore")}
+                  {labels.Text}{" "}
+                  <Link
+                    href={legalCookiesHref}
+                    className="underline"
+                    prefetch={false}
+                  >
+                    {labels.LearnMore}
                   </Link>
                   .
                 </p>
@@ -176,14 +201,14 @@ export default function CookieConsent({ nonce, locale = "fr" }: Props) {
                   onClick={decline}
                   className="inline-flex items-center justify-center rounded-md border border-input bg-transparent px-3 py-2 text-sm hover:bg-muted"
                 >
-                  {t("Decline")}
+                  {labels.Decline}
                 </button>
                 <button
                   type="button"
                   onClick={accept}
                   className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-sm text-primary-foreground hover:opacity-90"
                 >
-                  {t("Accept")}
+                  {labels.Accept}
                 </button>
               </div>
             </div>

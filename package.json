@@ -4,7 +4,11 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev -p 5000",
+    "predev": "node scripts/lint-translations.js || true",
+    "prebuild": "node scripts/lint-translations.js && node scripts/lint-articles-parity.js && node scripts/lint-metadata.js",
     "build": "next build",
+    "analyze": "ANALYZE=true next build",
+    "analyze:open": "ANALYZE=true BROWSER=true next build",
     "start": "next start -p 5000",
     "lint": "next lint",
     "optimize:images": "node scripts/optimize-images.js",
@@ -20,7 +24,14 @@
     "ressources:sync": "node scripts/sync-ressources.js --apply",
     "ressources:check": "node scripts/sync-ressources.js --check",
     "ai:ressources:dry": "node scripts/ai-ressources-update.js --dry-run",
-    "ai:ressources:apply": "node scripts/ai-ressources-update.js --apply"
+    "ai:ressources:apply": "node scripts/ai-ressources-update.js --apply",
+  "articles:translate:dry": "node scripts/translate-articles.js --dry-run",
+  "articles:translate": "node scripts/translate-articles.js --apply",
+    "lint:translations": "node scripts/lint-translations.js",
+    "lint:articles": "node scripts/lint-articles-parity.js",
+    "lint:metadata": "node scripts/lint-metadata.js",
+    "lint:capitalization": "node scripts/lint-capitalization.js",
+    "lint:capitalization:fix": "node scripts/lint-capitalization.js --fix"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -56,6 +67,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^15.5.3",
     "@types/node": "^20.14.12",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",

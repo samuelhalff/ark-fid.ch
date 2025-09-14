@@ -5,7 +5,7 @@ import ResourceGrid from "./components/ResourceGrid";
 import FAQSection from "./components/FAQSection";
 import { notFound } from "next/navigation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
-import { type Locale } from "@/src/lib/i18n";
+import { getTranslations, type Locale } from "@/src/lib/i18n";
 
 type LocaleParams = {
   params: { locale: string };
@@ -18,6 +18,7 @@ export default async function RessourcesPage({
 }: LocaleParams) {
   const nonce = headers().get("x-nonce") || undefined;
   const locale = params?.locale || "fr";
+  const tNav = await getTranslations(locale as Locale, "navbar");
 
   // Load translation JSON directly on the server to avoid importing client libraries
   let ressourcesModule;
@@ -33,9 +34,20 @@ export default async function RessourcesPage({
     }
   }
   const ressources = ressourcesModule.default;
+  // Load canonical (French) for parity and fallback
+  const ressourcesFr = (await import(`@/src/translations/fr/ressources.json`))
+    .default;
 
   const files = ressources.Files || [];
-  const articles = ressources.Articles || [];
+  const articlesLocale: any[] = ressources.Articles || [];
+  const articlesFr: any[] = ressourcesFr.Articles || [];
+  const mapLocale = new Map(articlesLocale.map((a) => [a.slug, a]));
+
+  const canonical = [...articlesFr]
+    .sort((a, b) => {
+      return (b.date || "").localeCompare(a.date || "");
+    })
+    .map((a) => mapLocale.get(a.slug) || a);
 
   // Server-only slicing based on query params for SEO-friendly "Show more" without client JS
   const step = 6;
@@ -48,13 +60,13 @@ export default async function RessourcesPage({
     return Math.min(n, total);
   };
   const filesLimit = parseLimit(searchParams?.files, files.length);
-  const articlesLimit = parseLimit(searchParams?.articles, articles.length);
+  const articlesLimit = parseLimit(searchParams?.articles, canonical.length);
   const visibleFiles = files.slice(0, filesLimit);
-  const visibleArticles = articles.slice(0, articlesLimit);
+  const visibleArticles = canonical.slice(0, articlesLimit);
   const showMoreFiles = filesLimit < files.length;
-  const showMoreArticles = articlesLimit < articles.length;
+  const showMoreArticles = articlesLimit < canonical.length;
   const nextFiles = Math.min(filesLimit + step, files.length);
-  const nextArticles = Math.min(articlesLimit + step, articles.length);
+  const nextArticles = Math.min(articlesLimit + step, canonical.length);
   const buildHref = (
     next: { files?: number | "all"; articles?: number | "all" },
     hash?: string
@@ -93,7 +105,18 @@ export default async function RessourcesPage({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Resources" },
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: (tNav("Home") as string) || "Home",
+                item: `https://ark-fid.ch/${locale}/`,
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: ressources.IntroTitle || "Resources",
+                item: `https://ark-fid.ch/${locale}/ressources/`,
+              },
             ],
           }),
         }}
@@ -106,13 +129,13 @@ export default async function RessourcesPage({
                 href={`/${locale}/`}
                 className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded-sm"
               >
-                Home
+                {(tNav("Home") as string) || "Home"}
               </a>
             </li>
             <li className="flex items-center gap-1">
               <span className="text-muted-foreground/60">/</span>
               <span aria-current="page" className="font-medium text-foreground">
-                Resources
+                {ressources.IntroTitle || "Resources"}
               </span>
             </li>
           </ol>

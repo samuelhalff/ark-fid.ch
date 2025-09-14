@@ -6,10 +6,8 @@ import {
   NavigationMenuLink,
 } from "@/src/components/navigation/NavigationComponents";
 import React, { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import TranslatedText from "@/src/components/ui/translated-text";
 
 function ListItem({ children }: { children: React.ReactNode }) {
   return (
@@ -20,10 +18,6 @@ function ListItem({ children }: { children: React.ReactNode }) {
 }
 
 export default function LangSwitch(): React.ReactElement {
-  const {
-    i18n: { language },
-  } = useTranslation();
-
   const router = useRouter();
   const pathname = usePathname() || "/";
   const searchParams = useSearchParams();
@@ -38,11 +32,11 @@ export default function LangSwitch(): React.ReactElement {
   const options = useMemo(
     () =>
       [
-        { code: "en", key: "Lang.en", label: "English" },
-        { code: "fr", key: "Lang.fr", label: "Français" },
-        { code: "de", key: "Lang.de", label: "Deutsch" },
-        { code: "es", key: "Lang.es", label: "Español" },
-        { code: "pt", key: "Lang.pt", label: "Português" },
+        { code: "en", label: "English" },
+        { code: "fr", label: "Français" },
+        { code: "de", label: "Deutsch" },
+        { code: "es", label: "Español" },
+        { code: "pt", label: "Português" },
       ].filter((opt) => opt.code !== activeLang),
     [activeLang]
   );
@@ -79,11 +73,7 @@ export default function LangSwitch(): React.ReactElement {
                 aria-label={`Switch language to ${opt.label}`}
                 className="cursor-pointer block py-3 px-4 text-left w-full"
               >
-                <TranslatedText
-                  ns="navbar"
-                  translationKey={opt.key}
-                  fallbackText={opt.label}
-                />
+                {opt.label}
               </Link>
             </ListItem>
           );

@@ -1,6 +1,4 @@
 "use client";
-import { useTranslation } from "react-i18next";
-import TranslatedText from "@/src/components/ui/translated-text";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -19,11 +17,12 @@ interface LangSwitchMobileProps {
 export default function LangSwitchMobile({
   onLocaleChange,
 }: LangSwitchMobileProps) {
-  const { i18n } = useTranslation();
-  // normalize current language to 2-letter code in case of regional tags
-  const current = (i18n.language || "fr").slice(0, 2);
-  const router = useRouter();
+  // determine current language from URL path to avoid hydration mismatch
   const pathname = usePathname() || "/";
+  const current = (
+    pathname.replace(/^\/+|\/+$/g, "").split("/")[0] || "fr"
+  ).slice(0, 2);
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   function buildHref(targetLocale: string) {
@@ -37,13 +36,7 @@ export default function LangSwitchMobile({
 
   return (
     <div className="flex items-center">
-      <span className="flex items-center gap-3 p-2">
-        <TranslatedText
-          ns="navbar"
-          translationKey="Language"
-          fallbackText="Language"
-        />
-      </span>
+      <span className="flex items-center gap-3 p-2">Language</span>
       <div className="flex gap-3 text-md p-1 ml-auto">
         {LANGS.filter((l) => l.code !== current).map((lang) => {
           const href = buildHref(lang.code);

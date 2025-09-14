@@ -1,8 +1,8 @@
 import { Separator } from "@/src/components/ui/separator";
 import Link from "next/link";
 import Image from "next/image";
-import TranslatedText from "@/src/components/ui/translated-text";
 import CookieSettingsLink from "@/src/components/CookieSettingsLink";
+import { getTranslations, type Locale } from "@/src/lib/i18n";
 
 // Replace '#' with real or placeholder URLs for SEO. Update as needed.
 const footerSections = [
@@ -71,8 +71,12 @@ const footerSections = [
   },
 ];
 
-const Footer = ({ locale }: { locale?: string }) => {
-  const localePrefix = `/${locale || "fr"}`;
+const Footer = async ({ locale }: { locale?: string }) => {
+  const currentLocale = (locale as Locale) || ("fr" as Locale);
+  const localePrefix = `/${currentLocale}`;
+  const tFooter = await getTranslations(currentLocale, "footer");
+  const tNavbar = await getTranslations(currentLocale, "navbar");
+  const tItems = await getTranslations(currentLocale, "servicesItems");
   return (
     <footer
       className="mt-12 xs:mt-20 bg-background border-t"
@@ -83,6 +87,7 @@ const Footer = ({ locale }: { locale?: string }) => {
           href={`${localePrefix}/`}
           aria-label="Ark Fiduciaire homepage"
           locale={locale}
+          prefetch={false}
         >
           <span>
             <Image
@@ -131,15 +136,11 @@ const Footer = ({ locale }: { locale?: string }) => {
         {footerSections.map(({ titleKey, links }) => (
           <nav
             key={titleKey}
-            aria-label={titleKey}
+            aria-label={tFooter(titleKey)}
             className="xl:justify-self-end"
           >
             <h6 className="font-semibold text-foreground">
-              <TranslatedText
-                ns="footer"
-                translationKey={titleKey}
-                fallbackText={titleKey}
-              />
+              {tFooter(titleKey)}
             </h6>
             <ul className="mt-6 space-y-4">
               {links.map(({ titleKey, href, ns }) => (
@@ -151,31 +152,28 @@ const Footer = ({ locale }: { locale?: string }) => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <TranslatedText
-                        ns={ns || "footer"}
-                        translationKey={titleKey}
-                        fallbackText={titleKey}
-                      />
+                      {ns === "servicesItems"
+                        ? tItems(titleKey)
+                        : ns === "navbar"
+                        ? tNavbar(titleKey)
+                        : tFooter(titleKey)}
                     </a>
                   ) : href === "#cookie-settings" ? (
                     <CookieSettingsLink className="hover:text-foreground underline">
-                      <TranslatedText
-                        ns={ns || "footer"}
-                        translationKey={titleKey}
-                        fallbackText={titleKey}
-                      />
+                      {tFooter(titleKey)}
                     </CookieSettingsLink>
                   ) : (
                     <Link
                       href={`${localePrefix}${href}`}
                       className="hover:text-foreground"
                       locale={locale}
+                      prefetch={false}
                     >
-                      <TranslatedText
-                        ns={ns || "footer"}
-                        translationKey={titleKey}
-                        fallbackText={titleKey}
-                      />
+                      {ns === "servicesItems"
+                        ? tItems(titleKey)
+                        : ns === "navbar"
+                        ? tNavbar(titleKey)
+                        : tFooter(titleKey)}
                     </Link>
                   )}
                 </li>
@@ -188,18 +186,8 @@ const Footer = ({ locale }: { locale?: string }) => {
       <div className="max-w-[var(--breakpoint-xl)] mx-auto py-8 flex flex-col-reverse sm:flex-row items-center justify-between gap-x-2 gap-y-5 px-6">
         {/* Copyright */}
         <span className="w-full text-center xs:text-start text-sm text-muted-foreground">
-          <TranslatedText
-            ns="footer"
-            translationKey={"Ark Fiduciaire SA"}
-            fallbackText={"Ark Fiduciaire SA"}
-          />{" "}
-          -{" "}
-          <TranslatedText
-            ns="footer"
-            translationKey={"Copyright"}
-            fallbackText={"All rights reserved"}
-          />{" "}
-          - {new Date().getFullYear()} <br />
+          {tFooter("Ark Fiduciaire SA")} - {tFooter("Copyright")} -{" "}
+          {new Date().getFullYear()} <br />
         </span>
       </div>
     </footer>

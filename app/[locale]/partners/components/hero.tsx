@@ -2,15 +2,16 @@ import React from "react";
 import { Users, Handshake } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
-import TranslatedText from "@/src/components/ui/translated-text";
 import Image from "next/image";
-import Link from "next/link";
+import { getTranslations, type Locale } from "@/src/lib/i18n";
 
 interface PartnersHeroProps {
   locale?: string;
 }
 
-const PartnersHero = ({ locale }: PartnersHeroProps) => {
+const PartnersHero = async ({ locale }: PartnersHeroProps) => {
+  const currentLocale = (locale as Locale) || ("fr" as Locale);
+  const t = await getTranslations(currentLocale, "partners");
   const localePrefix = locale ? `/${locale}` : "/fr";
 
   return (
@@ -20,65 +21,35 @@ const PartnersHero = ({ locale }: PartnersHeroProps) => {
           <div className="gap-2 flex justify-center items-center mb-6">
             <Badge className="rounded-full py-1 border-none bg-blue-100 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
               <Handshake className="w-4 h-4 mr-1" />
-              <TranslatedText
-                ns="partners"
-                translationKey="Hero.Badge"
-                fallbackText="Strategic Partnerships"
-              />
+              {t("Hero.Badge")}
             </Badge>
           </div>
           <h1 className="text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-            <TranslatedText
-              ns="partners"
-              translationKey="IntroTitle"
-              fallbackText="Our Partners"
-            />
+            {t("IntroTitle")}
           </h1>
           <p className="text-lg xs:text-xl leading-relaxed mb-8">
-            <TranslatedText
-              ns="partners"
-              translationKey="IntroText"
-              fallbackText="We collaborate with trusted partners to provide comprehensive professional services to our clients."
-            />
+            {t("IntroText")}
           </p>
           <div className="w-full flex flex-col sm:flex-row items-center gap-4 justify-center">
-            <Link
-              href={`${localePrefix}/contact`}
-              className="w-full sm:w-auto"
-              locale={locale}
-            >
+            <a href={`${localePrefix}/contact`} className="w-full sm:w-auto">
               <Button
                 size="lg"
                 className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
                 style={{ cursor: "pointer" }}
               >
-                <TranslatedText
-                  ns="partners"
-                  translationKey="Hero.CTA"
-                  fallbackText="Partner With Us"
-                />
-                <Handshake className="h-5 w-5 ml-2" />
+                {t("Hero.CTA")} <Handshake className="h-5 w-5 ml-2" />
               </Button>
-            </Link>
-            <Link
-              href={`${localePrefix}/team`}
-              className="w-full sm:w-auto"
-              locale={locale}
-            >
+            </a>
+            <a href={`${localePrefix}/team`} className="w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="lg"
                 className="w-full sm:w-auto rounded-full text-base shadow-none transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
                 style={{ cursor: "pointer" }}
               >
-                <Users className="h-5 w-5 mr-2" />
-                <TranslatedText
-                  ns="partners"
-                  translationKey="Hero.SecondaryCTA"
-                  fallbackText="Meet our team"
-                />
+                <Users className="h-5 w-5 mr-2" /> {t("Hero.SecondaryCTA")}
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
         <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">

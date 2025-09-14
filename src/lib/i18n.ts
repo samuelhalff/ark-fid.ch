@@ -1,10 +1,11 @@
-import { notFound } from 'next/navigation';
 import fs from 'fs';
 import path from 'path';
 import { headers } from 'next/headers';
+import { locales } from './i18n-locales';
+import type { Locale } from './i18n-locales';
 
-export const locales = ['en', 'fr', 'de', 'es', 'pt'] as const;
-export type Locale = (typeof locales)[number];
+export { locales };
+export type { Locale };
 
 export function isValidLocale(locale: string): locale is Locale {
   return locales.includes(locale as Locale);
@@ -17,53 +18,53 @@ export function getCurrentLocale(): Locale {
 }
 
 export async function getTranslations(locale: Locale, namespace: string) {
-  try {
-    // Use fs to read the translation file
-    const filePath = path.join(process.cwd(), 'src', 'translations', locale, `${namespace}.json`);
-    const fileContent = fs.readFileSync(filePath, 'utf8');
-    const data = JSON.parse(fileContent);
-    
-    // Return a function that can access nested properties
-    return (key: string) => {
-      const keys = key.split('.');
-      let value = data;
-      
-      for (const k of keys) {
-        if (value && typeof value === 'object' && k in value) {
-          value = value[k];
-        } else {
-          return key; // Return key if not found
-        }
-      }
-      
-      return value || key;
-    };
-  } catch (error) {
-    // Fallback to English if translation not found
-    try {
-      const fallbackPath = path.join(process.cwd(), 'src', 'translations', 'en', `${namespace}.json`);
-      const fallbackContent = fs.readFileSync(fallbackPath, 'utf8');
-      const data = JSON.parse(fallbackContent);
-      
-      return (key: string) => {
-        const keys = key.split('.');
-        let value = data;
-        
-        for (const k of keys) {
-          if (value && typeof value === 'object' && k in value) {
-            value = value[k];
-          } else {
-            return key;
-          }
-        }
-        
-        return value || key;
-      };
-    } catch (fallbackError) {
-      console.error(`Could not load translations for ${namespace}:`, error);
-      return (key: string) => key; // Return key as fallback
+  // Simple in-memory cache to avoid repeated disk reads and logs
+  const cache = getTranslationsCache();
+  const makeKey = (loc: string) => `${loc}:${namespace}`;
+
+  const readDict = (loc: string): any | null => {
+    const cacheKey = makeKey(loc);
+    if (cache.has(cacheKey)) return cache.get(cacheKey);
+
+    const filePath = path.join(process.cwd(), 'src', 'translations', loc, `${namespace}.json`);
+    if (!fs.existsSync(filePath)) {
+      cache.set(cacheKey, null);
+      return null;
     }
-  }
+    try {
+      const fileContent = fs.readFileSync(filePath, 'utf8');
+      const data = JSON.parse(fileContent);
+      cache.set(cacheKey, data);
+      return data;
+    } catch {
+      // If read/parse fails, cache null to avoid repeated attempts
+      cache.set(cacheKey, null);
+      return null;
+    }
+  };
+
+  const primary = readDict(locale);
+  const fallback = primary ? null : readDict('en');
+
+  if (!primary && !fallback) maybeWarnMissing(namespace, locale);
+
+  const data = primary ?? fallback ?? {};
+
+  // Return a function that can access nested properties
+  return (key: string) => {
+    const keys = key.split('.');
+    let value: any = data;
+
+    for (const k of keys) {
+      if (value && typeof value === 'object' && k in value) {
+        value = value[k];
+      } else {
+        return key; // Return key if not found
+      }
+    }
+
+    return value ?? key;
+  };
 }
 
 export function generateStaticParams() {
@@ -72,3 +73,78 @@ export function generateStaticParams() {
 
 // Alias for getTranslations for better naming in pages
 export const loadTranslations = getTranslations;
+
+// ---- internals ----
+const _cache: Map<string, any> = new Map();
+function getTranslationsCache() {
+  return _cache;
+}
+
+const _warned = new Set<string>();
+function maybeWarnMissing(namespace: string, locale: string) {
+  if (process.env.NODE_ENV === 'production') return; // stay quiet in prod
+  const key = `${locale}:${namespace}`;
+  if (_warned.has(key)) return;
+  _warned.add(key);
+
+  // Dev-only single warning to avoid noisy logs, with suggestions
+  const toKebab = (s: string) =>
+    s
+      .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+      .replace(/_/g, '-')
+      .toLowerCase();
+
+  const listNamespaces = (loc: string): string[] => {
+    try {
+      const dir = path.join(process.cwd(), 'src', 'translations', loc);
+      if (!fs.existsSync(dir)) return [];
+      return fs
+        .readdirSync(dir)
+        .filter((f) => f.endsWith('.json'))
+        .map((f) => f.replace(/\.json$/, ''));
+    } catch {
+      return [];
+    }
+  };
+
+  const levenshtein = (a: string, b: string) => {
+    const m = a.length;
+    const n = b.length;
+    const dp: number[][] = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+    for (let i = 0; i <= m; i++) dp[i][0] = i;
+    for (let j = 0; j <= n; j++) dp[0][j] = j;
+    for (let i = 1; i <= m; i++) {
+      for (let j = 1; j <= n; j++) {
+        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        dp[i][j] = Math.min(
+          dp[i - 1][j] + 1,
+          dp[i][j - 1] + 1,
+          dp[i - 1][j - 1] + cost
+        );
+      }
+    }
+    return dp[m][n];
+  };
+
+  const local = listNamespaces(locale);
+  const en = listNamespaces('en');
+  const all = Array.from(new Set([...local, ...en])).filter(Boolean);
+  const target = namespace.toLowerCase();
+  const scored = all
+    .map((name) => ({ name, d: levenshtein(target, name.toLowerCase()) }))
+    .sort((a, b) => a.d - b.d)
+    .slice(0, 3)
+    .map((x) => x.name)
+    .filter((x) => x.length > 0);
+
+  const kebabHint = toKebab(namespace);
+
+  let message = `[i18n] Missing translations for "${namespace}" (locale: ${locale}) and fallback "en". Using keys as labels.`;
+  if (scored.length) {
+    message += `\n[i18n] Did you mean one of: ${scored.join(', ')}?`;
+  }
+  if (kebabHint !== namespace) {
+    message += `\n[i18n] Hint: namespaces use kebab-case file names. Try: "${kebabHint}"`;
+  }
+  console.warn(message);
+}

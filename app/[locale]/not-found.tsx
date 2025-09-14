@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { headers } from "next/headers";
+import ServicesElements from "@/app/[locale]/navigation";
+import { getTranslations } from "@/src/lib/i18n";
 
 // We import ressources per-locale dynamically using a small map because Next.js cannot import using a runtime variable path at build time.
 import frJSON from "@/src/translations/fr/ressources.json";
@@ -32,22 +34,69 @@ function pickInteresting(articles: Article[], limit = 3): Article[] {
     .slice(0, limit);
 }
 
-export default function NotFoundPage() {
+export default async function NotFoundPage() {
   const locale = headers().get("x-locale") || "fr";
+  const nonce = headers().get("x-nonce") || undefined;
   const res = byLocale[locale] || (frJSON as unknown as LocaleRes);
-  const suggestions = pickInteresting(res.Articles || [], 3);
+  const suggestions = [...(res.Articles || [])]
+    .sort((a, b) => {
+      return (b.date || "").localeCompare(a.date || "");
+    })
+    .slice(0, 4);
+
+  // Services list with SSR translations
+  const tItems = await getTranslations(locale as any, "servicesItems");
+  const services = ServicesElements.slice(0, 6).map((s) => ({
+    href: `/${locale}${s.href}`,
+    title: tItems(s.titleKey),
+    description: tItems(s.descriptionKey),
+    icon: s.icon,
+  }));
+
+  const localePrefix = `/${locale}`;
 
   return (
     <main
       id="main-content"
       className="max-w-[var(--breakpoint-xl)] mx-auto px-6 py-16"
     >
+      <nav aria-label="Breadcrumb" className="mb-6">
+        <ol className="flex items-center gap-2 text-sm text-muted-foreground">
+          <li>
+            <Link
+              href={`${localePrefix}/`}
+              prefetch={false}
+              className="hover:underline"
+            >
+              {locale === "fr"
+                ? "Accueil"
+                : locale === "de"
+                ? "Startseite"
+                : locale === "es"
+                ? "Inicio"
+                : locale === "pt"
+                ? "Início"
+                : "Home"}
+            </Link>
+          </li>
+          <li aria-hidden>›</li>
+          <li aria-current="page">404</li>
+        </ol>
+      </nav>
       <div className="text-center mb-10">
         <p className="text-8xl font-black tracking-tight text-muted-foreground">
           404
         </p>
         <h1 className="mt-4 text-2xl sm:text-3xl font-semibold">
-          Page introuvable
+          {locale === "fr"
+            ? "Page introuvable"
+            : locale === "de"
+            ? "Seite nicht gefunden"
+            : locale === "es"
+            ? "Página no encontrada"
+            : locale === "pt"
+            ? "Página não encontrada"
+            : "Page not found"}
         </h1>
         <p className="mt-2 text-muted-foreground">
           {locale === "fr"
@@ -67,8 +116,9 @@ export default function NotFoundPage() {
           {suggestions.map((a) => (
             <Link
               key={a.slug}
-              href={`/${locale}/ressources/articles/${a.slug}`}
+              href={`${localePrefix}/ressources/articles/${a.slug}`}
               className="group rounded-lg border p-4 hover:shadow-md transition-shadow bg-card"
+              prefetch={false}
             >
               <h3 className="font-semibold group-hover:underline">{a.title}</h3>
               <p className="text-sm text-muted-foreground mt-2 line-clamp-3">
@@ -91,10 +141,112 @@ export default function NotFoundPage() {
         </div>
       )}
 
+      {/* Popular services */}
+      <section aria-labelledby="services-heading" className="mt-12">
+        <h2 id="services-heading" className="text-xl font-semibold mb-4">
+          {locale === "fr"
+            ? "Nos services"
+            : locale === "de"
+            ? "Unsere Dienstleistungen"
+            : locale === "es"
+            ? "Nuestros servicios"
+            : locale === "pt"
+            ? "Nossos serviços"
+            : "Our services"}
+        </h2>
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((s) => (
+            <li key={s.href} className="">
+              <Link
+                href={s.href}
+                prefetch={false}
+                className="flex items-start gap-3 rounded-md border p-3 hover:bg-accent"
+              >
+                <span aria-hidden>{s.icon}</span>
+                <span>
+                  <span className="block font-medium">{s.title}</span>
+                  <span className="block text-sm text-muted-foreground line-clamp-2">
+                    {s.description}
+                  </span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Search box */}
+      <section aria-labelledby="search-heading" className="mt-12">
+        <h2 id="search-heading" className="text-xl font-semibold mb-3">
+          {locale === "fr"
+            ? "Rechercher"
+            : locale === "de"
+            ? "Suchen"
+            : locale === "es"
+            ? "Buscar"
+            : locale === "pt"
+            ? "Pesquisar"
+            : "Search"}
+        </h2>
+        <form
+          action={`${localePrefix}/ressources`}
+          method="get"
+          role="search"
+          className="flex gap-2"
+        >
+          <label htmlFor="q" className="sr-only">
+            {locale === "fr"
+              ? "Rechercher"
+              : locale === "de"
+              ? "Suchen"
+              : locale === "es"
+              ? "Buscar"
+              : locale === "pt"
+              ? "Pesquisar"
+              : "Search"}
+          </label>
+          <input
+            id="q"
+            name="q"
+            type="search"
+            className="w-full max-w-md rounded-md border px-3 py-2"
+            placeholder={
+              locale === "fr"
+                ? "Rechercher un article ou un service"
+                : locale === "de"
+                ? "Artikel oder Dienst suchen"
+                : locale === "es"
+                ? "Buscar un artículo o servicio"
+                : locale === "pt"
+                ? "Pesquisar um artigo ou serviço"
+                : "Search an article or service"
+            }
+            autoCapitalize="none"
+            autoCorrect="off"
+            autoFocus
+          />
+          <button
+            type="submit"
+            className="rounded-md bg-primary px-4 py-2 text-primary-foreground"
+          >
+            {locale === "fr"
+              ? "Rechercher"
+              : locale === "de"
+              ? "Suchen"
+              : locale === "es"
+              ? "Buscar"
+              : locale === "pt"
+              ? "Pesquisar"
+              : "Search"}
+          </button>
+        </form>
+      </section>
+
       <div className="mt-10 text-center">
         <Link
           className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground hover:opacity-90"
-          href={`/${locale}`}
+          href={`${localePrefix}`}
+          prefetch={false}
         >
           {locale === "fr"
             ? "Retour à l'accueil"
@@ -110,7 +262,8 @@ export default function NotFoundPage() {
         <div className="mt-4">
           <Link
             className="text-sm text-muted-foreground hover:underline"
-            href={`/${locale}/ressources/articles`}
+            href={`${localePrefix}/ressources/articles`}
+            prefetch={false}
           >
             {locale === "fr"
               ? "Voir tous les articles"
@@ -124,6 +277,41 @@ export default function NotFoundPage() {
           </Link>
         </div>
       </div>
+
+      {/* BreadcrumbList JSON-LD */}
+      <script
+        type="application/ld+json"
+        nonce={nonce}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name:
+                  locale === "fr"
+                    ? "Accueil"
+                    : locale === "de"
+                    ? "Startseite"
+                    : locale === "es"
+                    ? "Inicio"
+                    : locale === "pt"
+                    ? "Início"
+                    : "Home",
+                item: `https://ark-fid.ch/${locale}/`,
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "404",
+                item: `https://ark-fid.ch/${locale}/404`,
+              },
+            ],
+          }),
+        }}
+      />
     </main>
   );
 }

@@ -1,39 +1,31 @@
 import React from "react";
 import { Award } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
-import Link from "next/link";
-import TranslatedText from "@/src/components/ui/translated-text";
 
-const ContactSection = ({ locale }: { locale?: string }) => {
+const ContactSection = ({
+  locale,
+  title,
+  description,
+  cta,
+}: {
+  locale?: string;
+  title: string;
+  description: string;
+  cta: string;
+}) => {
   const localePrefix = locale ? `/${locale}` : "/fr";
 
   return (
     <section className="bg-muted/50 rounded-xl p-8 text-center">
       <div className="max-w-2xl mx-auto">
         <Award className="w-12 h-12 text-primary mx-auto mb-4" />
-        <h3 className="text-xl font-semibold mb-4">
-          <TranslatedText
-            ns="partners"
-            translationKey="Contact.Title"
-            fallbackText="Interested in Partnership?"
-          />
-        </h3>
-        <p className="mb-6">
-          <TranslatedText
-            ns="partners"
-            translationKey="Contact.Description"
-            fallbackText="We're always looking for new partnership opportunities. Get in touch to explore how we can collaborate."
-          />
-        </p>
-        <Link href={`${localePrefix}/contact`} locale={locale}>
+        <h3 className="text-xl font-semibold mb-4">{title}</h3>
+        <p className="mb-6">{description}</p>
+        <a href={`${localePrefix}/contact`}>
           <Button size="lg" className="rounded-full">
-            <TranslatedText
-              ns="partners"
-              translationKey="Contact.ButtonText"
-              fallbackText="Contact Us"
-            />
+            {cta}
           </Button>
-        </Link>
+        </a>
       </div>
     </section>
   );

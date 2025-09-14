@@ -1,9 +1,8 @@
 import { Metadata } from "next";
 import ContactForm from "@/src/components/ui/contact-form";
-import TranslatedText from "@/src/components/ui/translated-text";
 import { generateMetadataForPage } from "@/src/lib/metadata";
-import GoogleMap, { ARK_GOOGLE_CID } from "@/src/components/ui/GoogleMap";
-import { type Locale } from "@/src/lib/i18n";
+import GoogleMap from "@/src/components/ui/GoogleMap";
+import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
 
 export async function generateMetadata({
@@ -14,8 +13,17 @@ export async function generateMetadata({
   return await generateMetadataForPage(locale as Locale, "/contact");
 }
 
-export default function ContactPage() {
+export default async function ContactPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const locale = (params?.locale as Locale) || ("fr" as Locale);
+  const t = await getTranslations(locale, "contact");
+  const tNav = await getTranslations(locale, "navbar");
   const nonce = headers().get("x-nonce") || undefined;
+  const baseUrl = "https://ark-fid.ch";
+  const localePrefix = params?.locale ? `/${params.locale}` : "/fr";
   const placeJsonLd = {
     "@context": "https://schema.org",
     "@type": "Place",
@@ -36,6 +44,63 @@ export default function ContactPage() {
       addressCountry: "CH",
     },
   } as const;
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: (tNav("Home") as string) || "Home",
+        item: `${baseUrl}${localePrefix}/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("Title"),
+        item: `${baseUrl}${localePrefix}/contact/`,
+      },
+    ],
+  } as const;
+
+  const strings = {
+    title:
+      typeof t("Title") === "string" ? (t("Title") as string) : "Get in Touch",
+    subtitle:
+      typeof t("Subtitle") === "string" ? (t("Subtitle") as string) : "",
+    labels: {
+      name: (t("Form.Name") as string) || "Name",
+      companyName:
+        (t("Form.CompanyName") as string) || "Company Name (Optional)",
+      phone: (t("Form.Phone") as string) || "Phone Number (Optional)",
+      email: (t("Form.Email") as string) || "Email",
+      message: (t("Form.Message") as string) || "Message",
+      consent: (t("Form.Consent") as string) || "I consent to being contacted",
+      submit: (t("Form.Submit") as string) || "Submit",
+      sending: (t("Form.Sending") as string) || "Sending...",
+    },
+    placeholders: {
+      name: (t("Form.Placeholders.Name") as string) || "Your name",
+      companyName:
+        (t("Form.Placeholders.CompanyName") as string) || "Company name",
+      phone: (t("Form.Placeholders.Phone") as string) || "Phone number",
+      email: (t("Form.Placeholders.Email") as string) || "email@example.com",
+      message: (t("Form.Placeholders.Message") as string) || "How can we help?",
+    },
+    errors: {
+      required: (t("Errors.Required") as string) || "This field is required",
+      invalidEmail:
+        (t("Errors.InvalidEmail") as string) || "Invalid email address",
+      maxLength: (t("Errors.MaxLength") as string) || "Message is too long",
+      consent: (t("Errors.Consent") as string) || "Please provide consent",
+    },
+    toasts: {
+      success:
+        (t("Form.Success") as string) || "Thanks! We'll get back to you soon.",
+      error: (t("Form.Error") as string) || "Something went wrong.",
+    },
+  } as const;
+
   return (
     <div className="mx-auto w-full max-w-[var(--breakpoint-xl)] px-6 py-12 space-y-14">
       <script
@@ -43,26 +108,41 @@ export default function ContactPage() {
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(placeJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        nonce={nonce}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.2]! tracking-tight text-center">
-        <TranslatedText
-          ns="contact"
-          translationKey={"Title"}
-          fallbackText="Get in Touch"
-        />
+        {strings.title}
       </h1>
+      <nav aria-label="Breadcrumb" className="px-0 mt-2 mb-6">
+        <ol className="flex items-center gap-1 text-sm text-muted-foreground justify-center">
+          <li>
+            <a href={`${localePrefix}/`} className="hover:underline">
+              {(tNav("Home") as string) || "Home"}
+            </a>
+          </li>
+          <li className="flex items-center gap-1">
+            <span className="text-muted-foreground/60">/</span>
+            <span aria-current="page" className="font-medium text-foreground">
+              {strings.title}
+            </span>
+          </li>
+        </ol>
+      </nav>
       <section className="mt-8 space-y-6">
         <GoogleMap className="w-full" privacyMode={false} />
       </section>
       <div className="mt-4 text-center">
-        <p>
-          <TranslatedText
-            ns="contact"
-            translationKey={"Subtitle"}
-            fallbackText={"Subtitle"}
-          />
-        </p>
+        <p>{strings.subtitle}</p>
       </div>
-      <ContactForm showTitle={false} showSubtitle={false} />
+      <ContactForm
+        showTitle={false}
+        showSubtitle={false}
+        strings={strings}
+        redirectPath={`${localePrefix}/`}
+      />
     </div>
   );
 }

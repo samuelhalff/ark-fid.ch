@@ -5,8 +5,7 @@ import Presentation from "./components/presentation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import StructuredData from "@/src/components/seo/StructuredData";
 import { buildBreadcrumbList, buildHowTo } from "@/src/lib/structuredData";
-import { type Locale } from "@/src/lib/i18n";
-import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
+import { getTranslations, type Locale } from "@/src/lib/i18n";
 
 export const runtime = "nodejs";
 
@@ -21,14 +20,18 @@ export async function generateMetadata({
   );
 }
 
-const Domiciliation = ({ params }: { params: { locale: string } }) => {
+const Domiciliation = async ({ params }: { params: { locale: string } }) => {
   const nonce = headers().get("x-nonce") || undefined;
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params.locale ? `/${params.locale}` : "";
+  const tNav = await getTranslations(params.locale as Locale, "navbar");
   const breadcrumbJsonLd = buildBreadcrumbList([
-    { name: "Services", item: `${baseUrl}${localePrefix}/services/` },
     {
-      name: "Domiciliation",
+      name: tNav("Services") as string,
+      item: `${baseUrl}${localePrefix}/services/`,
+    },
+    {
+      name: (tNav("DomiciliationServices.Title") as string) || "Domiciliation",
       item: `${baseUrl}${localePrefix}/services/domiciliation/`,
     },
   ]);
@@ -86,13 +89,31 @@ const Domiciliation = ({ params }: { params: { locale: string } }) => {
     <main>
       <StructuredData nonce={nonce} data={[breadcrumbJsonLd, howToJsonLd]} />
       <Hero params={params} />
-      <div className="max-w-[var(--breakpoint-xl)] mx-auto px-0 mt-4">
-        <Breadcrumbs
-          rootLabel="Home"
-          baseLabel="Services"
-          segments={[{ segment: "domiciliation", label: "Domiciliation" }]}
-        />
-      </div>
+      <nav
+        aria-label="Breadcrumb"
+        className="max-w-[var(--breakpoint-xl)] mx-auto px-0 mt-4"
+      >
+        <ol className="flex items-center gap-1 text-sm text-muted-foreground">
+          <li>
+            <a href={`${localePrefix}/`} className="hover:underline">
+              {tNav("Home") as string}
+            </a>
+          </li>
+          <li className="flex items-center gap-1">
+            <span className="text-muted-foreground/60">/</span>
+            <a href={`${localePrefix}/services/`} className="hover:underline">
+              {tNav("Services") as string}
+            </a>
+          </li>
+          <li className="flex items-center gap-1">
+            <span className="text-muted-foreground/60">/</span>
+            <span aria-current="page" className="font-medium text-foreground">
+              {(tNav("DomiciliationServices.Title") as string) ||
+                "Domiciliation"}
+            </span>
+          </li>
+        </ol>
+      </nav>
       <Presentation />
     </main>
   );

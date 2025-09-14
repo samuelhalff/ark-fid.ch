@@ -1,9 +1,7 @@
 import { type Metadata } from "next";
-import TranslatedText from "@/src/components/ui/translated-text";
-import TranslatedDate from "@/src/components/ui/translated-date";
 import { Separator } from "@/src/components/ui/separator";
 import { generateMetadataForPage } from "@/src/lib/metadata";
-import { type Locale } from "@/src/lib/i18n";
+import { getTranslations, type Locale } from "@/src/lib/i18n";
 
 export async function generateMetadata({
   params: { locale },
@@ -13,35 +11,42 @@ export async function generateMetadata({
   return await generateMetadataForPage(locale as Locale, "/legal/cookies");
 }
 
-export default function CookiesPage() {
+function formatDate(date: string, locale: string) {
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(new Date(date));
+  } catch {
+    return date;
+  }
+}
+
+export default async function CookiesPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const locale = params.locale as Locale;
+  const t = await getTranslations(locale, "legal");
+  const r = (key: string, fallback: string) => (t(key) as string) || fallback;
+
   return (
     <div className="container mx-auto px-4 py-16 max-w-[var(--breakpoint-xl)]">
       <div className="mb-12">
         <h1 className="text-4xl font-bold mb-4">
-          <TranslatedText
-            ns="legal"
-            translationKey="Cookies.Title"
-            fallbackText="Cookies Policy"
-          />
+          {r("Cookies.Title", "Cookies Policy")}
         </h1>
         <p className="text-lg dark:text-white mb-2">
-          <TranslatedText
-            ns="legal"
-            translationKey="Cookies.Subtitle"
-            fallbackText="Information about our use of cookies and tracking technologies"
-          />
+          {r(
+            "Cookies.Subtitle",
+            "Information about our use of cookies and tracking technologies"
+          )}
         </p>
         <p className="text-xs dark:text-white">
-          <TranslatedText
-            ns="legal"
-            translationKey="Cookies.LastUpdated"
-            fallbackText="Last updated"
-          />
-          :{" "}
-          <TranslatedDate
-            date="2025-08-25"
-            options={{ year: "numeric", month: "long", day: "numeric" }}
-          />
+          {r("Cookies.LastUpdated", "Last updated")}:{" "}
+          {formatDate("2025-08-25", locale)}
         </p>
         <Separator className="mt-6" />
       </div>
@@ -50,26 +55,20 @@ export default function CookiesPage() {
         {/* Introduction */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">
-            <TranslatedText
-              ns="legal"
-              translationKey="Cookies.Introduction.Title"
-              fallbackText="Introduction"
-            />
+            {r("Cookies.Introduction.Title", "Introduction")}
           </h2>
           <div className="space-y-4">
             <p>
-              <TranslatedText
-                ns="legal"
-                translationKey="Cookies.Introduction.Content.0"
-                fallbackText="This Cookies Policy explains how Ark Fiduciaire uses cookies and similar tracking technologies on our website. It provides information about what cookies are, how we use them, and your choices regarding their use."
-              />
+              {r(
+                "Cookies.Introduction.Content.0",
+                "This Cookies Policy explains how Ark Fiduciaire uses cookies and similar tracking technologies on our website. It provides information about what cookies are, how we use them, and your choices regarding their use."
+              )}
             </p>
             <p>
-              <TranslatedText
-                ns="legal"
-                translationKey="Cookies.Introduction.Content.1"
-                fallbackText="By using our website, you consent to the use of cookies in accordance with this policy and our Privacy Policy."
-              />
+              {r(
+                "Cookies.Introduction.Content.1",
+                "By using our website, you consent to the use of cookies in accordance with this policy and our Privacy Policy."
+              )}
             </p>
           </div>
         </section>
@@ -77,48 +76,39 @@ export default function CookiesPage() {
         {/* What Are Cookies */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">
-            <TranslatedText
-              ns="legal"
-              translationKey="Cookies.WhatAreCookies.Title"
-              fallbackText="What Are Cookies?"
-            />
+            {r("Cookies.WhatAreCookies.Title", "What Are Cookies?")}
           </h2>
           <div className="space-y-4">
             <p>
-              <TranslatedText
-                ns="legal"
-                translationKey="Cookies.WhatAreCookies.Description"
-                fallbackText="Cookies are small text files that are stored on your device (computer, tablet, or mobile) when you visit a website. They allow the website to recognize your device and store information about your preferences or past actions."
-              />
+              {r(
+                "Cookies.WhatAreCookies.Description",
+                "Cookies are small text files that are stored on your device (computer, tablet, or mobile) when you visit a website. They allow the website to recognize your device and store information about your preferences or past actions."
+              )}
             </p>
             <p>
-              <TranslatedText
-                ns="legal"
-                translationKey="Cookies.WhatAreCookies.CookiesContain"
-                fallbackText="Cookies typically contain:"
-              />
+              {r(
+                "Cookies.WhatAreCookies.CookiesContain",
+                "Cookies typically contain:"
+              )}
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.WhatAreCookies.Contents.0"
-                  fallbackText="The name of the server that placed the cookie"
-                />
+                {r(
+                  "Cookies.WhatAreCookies.Contents.0",
+                  "The name of the server that placed the cookie"
+                )}
               </li>
               <li>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.WhatAreCookies.Contents.1"
-                  fallbackText="An identifier in the form of a unique number"
-                />
+                {r(
+                  "Cookies.WhatAreCookies.Contents.1",
+                  "An identifier in the form of a unique number"
+                )}
               </li>
               <li>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.WhatAreCookies.Contents.2"
-                  fallbackText="An expiration date (some cookies only last for the duration of your session)"
-                />
+                {r(
+                  "Cookies.WhatAreCookies.Contents.2",
+                  "An expiration date (some cookies only last for the duration of your session)"
+                )}
               </li>
             </ul>
           </div>
@@ -127,74 +117,56 @@ export default function CookiesPage() {
         {/* Types of Cookies */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">
-            <TranslatedText
-              ns="legal"
-              translationKey="Cookies.Types.Title"
-              fallbackText="Types of Cookies We Use"
-            />
+            {r("Cookies.Types.Title", "Types of Cookies We Use")}
           </h2>
           <div className="space-y-8">
             {/* Essential Cookies */}
             <div>
               <h3 className="text-lg font-semibold mb-3">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Types.Essential.Title"
-                  fallbackText="1. Essential Cookies"
-                />
+                {r("Cookies.Types.Essential.Title", "1. Essential Cookies")}
               </h3>
               <p className="mb-3">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Types.Essential.Description"
-                  fallbackText="These cookies are necessary for the website to function properly and cannot be disabled."
-                />
+                {r(
+                  "Cookies.Types.Essential.Description",
+                  "These cookies are necessary for the website to function properly and cannot be disabled."
+                )}
               </p>
               <div className="bg-muted/50 p-6 rounded-lg">
                 <p className="font-semibold mb-2">
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Types.Essential.Purpose"
-                    fallbackText="Purpose:"
-                  />
+                  {r("Cookies.Types.Essential.Purpose", "Purpose:")}
                 </p>
                 <ul className="list-disc pl-6 space-y-1">
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Essential.Items.0"
-                      fallbackText="Website navigation and basic functionality"
-                    />
+                    {r(
+                      "Cookies.Types.Essential.Items.0",
+                      "Website navigation and basic functionality"
+                    )}
                   </li>
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Essential.Items.1"
-                      fallbackText="Security and authentication"
-                    />
+                    {r(
+                      "Cookies.Types.Essential.Items.1",
+                      "Security and authentication"
+                    )}
                   </li>
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Essential.Items.2"
-                      fallbackText="Language and accessibility preferences"
-                    />
+                    {r(
+                      "Cookies.Types.Essential.Items.2",
+                      "Language and accessibility preferences"
+                    )}
                   </li>
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Essential.Items.3"
-                      fallbackText="Form submission and session management"
-                    />
+                    {r(
+                      "Cookies.Types.Essential.Items.3",
+                      "Form submission and session management"
+                    )}
                   </li>
                 </ul>
                 <p className="mt-3 text-sm">
                   <strong>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Essential.LegalBasis"
-                      fallbackText="Legal basis: Necessary for service provision"
-                    />
+                    {r(
+                      "Cookies.Types.Essential.LegalBasis",
+                      "Legal basis: Necessary for service provision"
+                    )}
                   </strong>
                 </p>
               </div>
@@ -203,73 +175,58 @@ export default function CookiesPage() {
             {/* Analytics Cookies */}
             <div>
               <h3 className="text-lg font-semibold mb-3">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Types.Analytics.Title"
-                  fallbackText="2. Analytics Cookies"
-                />
+                {r("Cookies.Types.Analytics.Title", "2. Analytics Cookies")}
               </h3>
               <p className="mb-3">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Types.Analytics.Description"
-                  fallbackText="These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously."
-                />
+                {r(
+                  "Cookies.Types.Analytics.Description",
+                  "These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously."
+                )}
               </p>
               <div className="bg-muted/50 p-6 rounded-lg">
                 <p className="font-semibold mb-2">
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Types.Analytics.Purpose"
-                    fallbackText="Purpose:"
-                  />
+                  {r("Cookies.Types.Analytics.Purpose", "Purpose:")}
                 </p>
                 <ul className="list-disc pl-6 space-y-1">
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Analytics.Items.0"
-                      fallbackText="Website traffic analysis"
-                    />
+                    {r(
+                      "Cookies.Types.Analytics.Items.0",
+                      "Website traffic analysis"
+                    )}
                   </li>
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Analytics.Items.1"
-                      fallbackText="Page performance monitoring"
-                    />
+                    {r(
+                      "Cookies.Types.Analytics.Items.1",
+                      "Page performance monitoring"
+                    )}
                   </li>
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Analytics.Items.2"
-                      fallbackText="User behavior patterns"
-                    />
+                    {r(
+                      "Cookies.Types.Analytics.Items.2",
+                      "User behavior patterns"
+                    )}
                   </li>
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Analytics.Items.3"
-                      fallbackText="Website optimization and improvement"
-                    />
+                    {r(
+                      "Cookies.Types.Analytics.Items.3",
+                      "Website optimization and improvement"
+                    )}
                   </li>
                 </ul>
                 <p className="mt-3 text-sm">
                   <strong>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Analytics.LegalBasis"
-                      fallbackText="Legal basis: Legitimate interests / Consent (where required)"
-                    />
+                    {r(
+                      "Cookies.Types.Analytics.LegalBasis",
+                      "Legal basis: Legitimate interests / Consent (where required)"
+                    )}
                   </strong>
                 </p>
                 <p className="mt-2 text-sm">
                   <strong>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Analytics.Providers"
-                      fallbackText="Providers: Google Analytics, internal analytics tools"
-                    />
+                    {r(
+                      "Cookies.Types.Analytics.Providers",
+                      "Providers: Google Analytics, internal analytics tools"
+                    )}
                   </strong>
                 </p>
               </div>
@@ -278,64 +235,50 @@ export default function CookiesPage() {
             {/* Functional Cookies */}
             <div>
               <h3 className="text-lg font-semibold mb-3">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Types.Functional.Title"
-                  fallbackText="3. Functional Cookies"
-                />
+                {r("Cookies.Types.Functional.Title", "3. Functional Cookies")}
               </h3>
               <p className="mb-3">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Types.Functional.Description"
-                  fallbackText="These cookies enable enhanced functionality and personalization features."
-                />
+                {r(
+                  "Cookies.Types.Functional.Description",
+                  "These cookies enable enhanced functionality and personalization features."
+                )}
               </p>
               <div className="bg-muted/50 p-6 rounded-lg">
                 <p className="font-semibold mb-2">
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Types.Functional.Purpose"
-                    fallbackText="Purpose:"
-                  />
+                  {r("Cookies.Types.Functional.Purpose", "Purpose:")}
                 </p>
                 <ul className="list-disc pl-6 space-y-1">
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Functional.Items.0"
-                      fallbackText="Remembering language and theme preferences"
-                    />
+                    {r(
+                      "Cookies.Types.Functional.Items.0",
+                      "Remembering language and theme preferences"
+                    )}
                   </li>
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Functional.Items.1"
-                      fallbackText="Saving form data and progress"
-                    />
+                    {r(
+                      "Cookies.Types.Functional.Items.1",
+                      "Saving form data and progress"
+                    )}
                   </li>
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Functional.Items.2"
-                      fallbackText="Customizing content and layout"
-                    />
+                    {r(
+                      "Cookies.Types.Functional.Items.2",
+                      "Customizing content and layout"
+                    )}
                   </li>
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Functional.Items.3"
-                      fallbackText="Providing live chat functionality"
-                    />
+                    {r(
+                      "Cookies.Types.Functional.Items.3",
+                      "Providing live chat functionality"
+                    )}
                   </li>
                 </ul>
                 <p className="mt-3 text-sm">
                   <strong>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Functional.LegalBasis"
-                      fallbackText="Legal basis: Legitimate interests / Consent"
-                    />
+                    {r(
+                      "Cookies.Types.Functional.LegalBasis",
+                      "Legal basis: Legitimate interests / Consent"
+                    )}
                   </strong>
                 </p>
               </div>
@@ -344,73 +287,58 @@ export default function CookiesPage() {
             {/* Marketing Cookies */}
             <div>
               <h3 className="text-lg font-semibold mb-3">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Types.Marketing.Title"
-                  fallbackText="4. Marketing Cookies"
-                />
+                {r("Cookies.Types.Marketing.Title", "4. Marketing Cookies")}
               </h3>
               <p className="mb-3">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Types.Marketing.Description"
-                  fallbackText="These cookies track visitors across websites to display relevant and engaging advertisements."
-                />
+                {r(
+                  "Cookies.Types.Marketing.Description",
+                  "These cookies track visitors across websites to display relevant and engaging advertisements."
+                )}
               </p>
               <div className="bg-muted/50 p-6 rounded-lg">
                 <p className="font-semibold mb-2">
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Types.Marketing.Purpose"
-                    fallbackText="Purpose:"
-                  />
+                  {r("Cookies.Types.Marketing.Purpose", "Purpose:")}
                 </p>
                 <ul className="list-disc pl-6 space-y-1">
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Marketing.Items.0"
-                      fallbackText="Targeted advertising"
-                    />
+                    {r(
+                      "Cookies.Types.Marketing.Items.0",
+                      "Targeted advertising"
+                    )}
                   </li>
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Marketing.Items.1"
-                      fallbackText="Measuring ad effectiveness"
-                    />
+                    {r(
+                      "Cookies.Types.Marketing.Items.1",
+                      "Measuring ad effectiveness"
+                    )}
                   </li>
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Marketing.Items.2"
-                      fallbackText="Retargeting campaigns"
-                    />
+                    {r(
+                      "Cookies.Types.Marketing.Items.2",
+                      "Retargeting campaigns"
+                    )}
                   </li>
                   <li>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Marketing.Items.3"
-                      fallbackText="Social media integration"
-                    />
+                    {r(
+                      "Cookies.Types.Marketing.Items.3",
+                      "Social media integration"
+                    )}
                   </li>
                 </ul>
                 <p className="mt-3 text-sm">
                   <strong>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Marketing.LegalBasis"
-                      fallbackText="Legal basis: Consent"
-                    />
+                    {r(
+                      "Cookies.Types.Marketing.LegalBasis",
+                      "Legal basis: Consent"
+                    )}
                   </strong>
                 </p>
                 <p className="mt-2 text-sm">
                   <strong>
-                    <TranslatedText
-                      ns="legal"
-                      translationKey="Cookies.Types.Marketing.Providers"
-                      fallbackText="Providers: Google Ads, LinkedIn, Facebook"
-                    />
+                    {r(
+                      "Cookies.Types.Marketing.Providers",
+                      "Providers: Google Ads, LinkedIn, Facebook"
+                    )}
                   </strong>
                 </p>
               </div>
@@ -421,19 +349,14 @@ export default function CookiesPage() {
         {/* Third-Party Cookies */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">
-            <TranslatedText
-              ns="legal"
-              translationKey="Cookies.ThirdParty.Title"
-              fallbackText="Third-Party Cookies"
-            />
+            {r("Cookies.ThirdParty.Title", "Third-Party Cookies")}
           </h2>
           <div className="space-y-4">
             <p>
-              <TranslatedText
-                ns="legal"
-                translationKey="Cookies.ThirdParty.Description"
-                fallbackText="Our website may include content or services from third parties that set their own cookies. These include:"
-              />
+              {r(
+                "Cookies.ThirdParty.Description",
+                "Our website may include content or services from third parties that set their own cookies. These include:"
+              )}
             </p>
 
             <div className="overflow-x-auto">
@@ -441,69 +364,35 @@ export default function CookiesPage() {
                 <thead>
                   <tr className="bg-muted/50">
                     <th className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left">
-                      <TranslatedText
-                        ns="legal"
-                        translationKey="Cookies.ThirdParty.TableHeaders.Provider"
-                        fallbackText="Provider"
-                      />
+                      {r(
+                        "Cookies.ThirdParty.TableHeaders.Provider",
+                        "Provider"
+                      )}
                     </th>
                     <th className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left">
-                      <TranslatedText
-                        ns="legal"
-                        translationKey="Cookies.ThirdParty.TableHeaders.Purpose"
-                        fallbackText="Purpose"
-                      />
+                      {r("Cookies.ThirdParty.TableHeaders.Purpose", "Purpose")}
                     </th>
                     <th className="border border-gray-300 dark:border-gray-600 px-4 py-2 text-left">
-                      <TranslatedText
-                        ns="legal"
-                        translationKey="Cookies.ThirdParty.TableHeaders.PrivacyPolicy"
-                        fallbackText="Privacy Policy"
-                      />
+                      {r(
+                        "Cookies.ThirdParty.TableHeaders.PrivacyPolicy",
+                        "Privacy Policy"
+                      )}
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
-                      <TranslatedText
-                        ns="legal"
-                        translationKey="Cookies.ThirdParty.Providers.GoogleAnalytics"
-                        fallbackText="Google Analytics"
-                      />
+                      {r(
+                        "Cookies.ThirdParty.Providers.GoogleAnalytics",
+                        "Google Analytics"
+                      )}
                     </td>
                     <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
-                      <TranslatedText
-                        ns="legal"
-                        translationKey="Cookies.ThirdParty.Purposes.Analytics"
-                        fallbackText="Website analytics and performance"
-                      />
-                    </td>
-                    <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
-                      <a
-                        href="https://policies.google.com/privacy"
-                        className="text-blue-600 hover:underline"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Google Privacy Policy
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
-                      <TranslatedText
-                        ns="legal"
-                        translationKey="Cookies.ThirdParty.Providers.GoogleMaps"
-                        fallbackText="Google Maps"
-                      />
-                    </td>
-                    <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
-                      <TranslatedText
-                        ns="legal"
-                        translationKey="Cookies.ThirdParty.Purposes.Maps"
-                        fallbackText="Location services and maps"
-                      />
+                      {r(
+                        "Cookies.ThirdParty.Purposes.Analytics",
+                        "Website analytics and performance"
+                      )}
                     </td>
                     <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
                       <a
@@ -518,18 +407,37 @@ export default function CookiesPage() {
                   </tr>
                   <tr>
                     <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
-                      <TranslatedText
-                        ns="legal"
-                        translationKey="Cookies.ThirdParty.Providers.LinkedIn"
-                        fallbackText="LinkedIn"
-                      />
+                      {r(
+                        "Cookies.ThirdParty.Providers.GoogleMaps",
+                        "Google Maps"
+                      )}
                     </td>
                     <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
-                      <TranslatedText
-                        ns="legal"
-                        translationKey="Cookies.ThirdParty.Purposes.Professional"
-                        fallbackText="Professional networking and advertising"
-                      />
+                      {r(
+                        "Cookies.ThirdParty.Purposes.Maps",
+                        "Location services and maps"
+                      )}
+                    </td>
+                    <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
+                      <a
+                        href="https://policies.google.com/privacy"
+                        className="text-blue-600 hover:underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Google Privacy Policy
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
+                      {r("Cookies.ThirdParty.Providers.LinkedIn", "LinkedIn")}
+                    </td>
+                    <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
+                      {r(
+                        "Cookies.ThirdParty.Purposes.Professional",
+                        "Professional networking and advertising"
+                      )}
                     </td>
                     <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
                       <a
@@ -551,73 +459,61 @@ export default function CookiesPage() {
         {/* Cookie Duration */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">
-            <TranslatedText
-              ns="legal"
-              translationKey="Cookies.Duration.Title"
-              fallbackText="Cookie Duration"
-            />
+            {r("Cookies.Duration.Title", "Cookie Duration")}
           </h2>
           <div className="space-y-4">
             <p>
-              <TranslatedText
-                ns="legal"
-                translationKey="Cookies.Duration.Description"
-                fallbackText="Cookies are classified by duration as follows:"
-              />
+              {r(
+                "Cookies.Duration.Description",
+                "Cookies are classified by duration as follows:"
+              )}
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Duration.Types.0"
-                  fallbackText="Session Cookies: Temporary cookies that are deleted when you close your browser"
-                />
+                {r(
+                  "Cookies.Duration.Types.0",
+                  "Session Cookies: Temporary cookies that are deleted when you close your browser"
+                )}
               </li>
               <li>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Duration.Types.1"
-                  fallbackText="Persistent Cookies: Remain on your device for a set period or until manually deleted"
-                />
+                {r(
+                  "Cookies.Duration.Types.1",
+                  "Persistent Cookies: Remain on your device for a set period or until manually deleted"
+                )}
               </li>
             </ul>
 
             <div className="mt-6">
               <h3 className="text-lg font-semibold mb-3">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Duration.Lifespans.Title"
-                  fallbackText="Typical Cookie Lifespans:"
-                />
+                {r(
+                  "Cookies.Duration.Lifespans.Title",
+                  "Typical Cookie Lifespans:"
+                )}
               </h3>
               <ul className="list-disc pl-6 space-y-2">
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Duration.Lifespans.Items.0"
-                    fallbackText="Essential cookies: Session duration or up to 1 year"
-                  />
+                  {r(
+                    "Cookies.Duration.Lifespans.Items.0",
+                    "Essential cookies: Session duration or up to 1 year"
+                  )}
                 </li>
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Duration.Lifespans.Items.1"
-                    fallbackText="Analytics cookies: 2 years maximum"
-                  />
+                  {r(
+                    "Cookies.Duration.Lifespans.Items.1",
+                    "Analytics cookies: 2 years maximum"
+                  )}
                 </li>
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Duration.Lifespans.Items.2"
-                    fallbackText="Functional cookies: 1 year maximum"
-                  />
+                  {r(
+                    "Cookies.Duration.Lifespans.Items.2",
+                    "Functional cookies: 1 year maximum"
+                  )}
                 </li>
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Duration.Lifespans.Items.3"
-                    fallbackText="Marketing cookies: 30 days to 2 years"
-                  />
+                  {r(
+                    "Cookies.Duration.Lifespans.Items.3",
+                    "Marketing cookies: 30 days to 2 years"
+                  )}
                 </li>
               </ul>
             </div>
@@ -627,106 +523,96 @@ export default function CookiesPage() {
         {/* Managing Cookies */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">
-            <TranslatedText
-              ns="legal"
-              translationKey="Cookies.Management.Title"
-              fallbackText="Managing Your Cookie Preferences"
-            />
+            {r("Cookies.Managing.Title", "Managing Cookies")}
           </h2>
           <div className="space-y-6">
             <div>
+              <p>
+                {r(
+                  "Cookies.Managing.Browser",
+                  "You can manage cookie preferences through your browser settings."
+                )}
+              </p>
+            </div>
+
+            <div>
               <h3 className="text-lg font-semibold mb-3">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Management.ConsentBanner.Title"
-                  fallbackText="Cookie Consent Banner"
-                />
+                {r("Cookies.Management.ConsentBanner.Title", "Consent Banner")}
               </h3>
               <p>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Management.ConsentBanner.Description"
-                  fallbackText="When you first visit our website, you'll see a cookie consent banner allowing you to:"
-                />
+                {r(
+                  "Cookies.Management.ConsentBanner.Description",
+                  "When you first visit our website, you'll see a cookie consent banner allowing you to:"
+                )}
               </p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Management.ConsentBanner.Options.0"
-                    fallbackText="Accept all cookies"
-                  />
+                  {r(
+                    "Cookies.Management.ConsentBanner.Options.0",
+                    "Accept all cookies"
+                  )}
                 </li>
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Management.ConsentBanner.Options.1"
-                    fallbackText="Reject non-essential cookies"
-                  />
+                  {r(
+                    "Cookies.Management.ConsentBanner.Options.1",
+                    "Reject non-essential cookies"
+                  )}
                 </li>
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Management.ConsentBanner.Options.2"
-                    fallbackText="Customize your preferences by cookie category"
-                  />
+                  {r(
+                    "Cookies.Management.ConsentBanner.Options.2",
+                    "Customize your preferences by cookie category"
+                  )}
                 </li>
               </ul>
             </div>
 
             <div>
               <h3 className="text-lg font-semibold mb-3">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Management.BrowserSettings.Title"
-                  fallbackText="Browser Settings"
-                />
+                {r(
+                  "Cookies.Management.BrowserSettings.Title",
+                  "Browser Settings"
+                )}
               </h3>
               <p>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Management.BrowserSettings.Description"
-                  fallbackText="You can also control cookies through your browser settings. Most browsers allow you to:"
-                />
+                {r(
+                  "Cookies.Management.BrowserSettings.Description",
+                  "You can also control cookies through your browser settings. Most browsers allow you to:"
+                )}
               </p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Management.BrowserSettings.Options.0"
-                    fallbackText="View and delete cookies"
-                  />
+                  {r(
+                    "Cookies.Management.BrowserSettings.Options.0",
+                    "View and delete cookies"
+                  )}
                 </li>
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Management.BrowserSettings.Options.1"
-                    fallbackText="Block cookies from specific websites"
-                  />
+                  {r(
+                    "Cookies.Management.BrowserSettings.Options.1",
+                    "Block cookies from specific websites"
+                  )}
                 </li>
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Management.BrowserSettings.Options.2"
-                    fallbackText="Block third-party cookies"
-                  />
+                  {r(
+                    "Cookies.Management.BrowserSettings.Options.2",
+                    "Block third-party cookies"
+                  )}
                 </li>
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Management.BrowserSettings.Options.3"
-                    fallbackText="Clear all cookies when you close the browser"
-                  />
+                  {r(
+                    "Cookies.Management.BrowserSettings.Options.3",
+                    "Clear all cookies when you close the browser"
+                  )}
                 </li>
               </ul>
 
               <div className="mt-4">
                 <p className="font-semibold mb-2">
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Management.BrowserSettings.Instructions"
-                    fallbackText="Browser-specific instructions:"
-                  />
+                  {r(
+                    "Cookies.Management.BrowserSettings.Instructions",
+                    "Browser-specific instructions:"
+                  )}
                 </p>
                 <ul className="list-disc pl-6 space-y-1">
                   <li>
@@ -775,76 +661,58 @@ export default function CookiesPage() {
 
             <div>
               <h3 className="text-lg font-semibold mb-3">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Management.DisablingImpact.Title"
-                  fallbackText="Impact of Disabling Cookies"
-                />
+                {r(
+                  "Cookies.Management.DisablingImpact.Title",
+                  "Impact of Disabling Cookies"
+                )}
               </h3>
               <p>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Management.DisablingImpact.Description"
-                  fallbackText="Please note that disabling certain cookies may affect your experience on our website:"
-                />
+                {r(
+                  "Cookies.Management.DisablingImpact.Description",
+                  "Please note that disabling certain cookies may affect your experience on our website:"
+                )}
               </p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Management.DisablingImpact.Effects.0"
-                    fallbackText="Essential cookies: Website may not function properly"
-                  />
+                  {r(
+                    "Cookies.Management.DisablingImpact.Effects.0",
+                    "Essential cookies: Website may not function properly"
+                  )}
                 </li>
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Management.DisablingImpact.Effects.1"
-                    fallbackText="Analytics cookies: We cannot improve our website based on usage data"
-                  />
+                  {r(
+                    "Cookies.Management.DisablingImpact.Effects.1",
+                    "Analytics cookies: We cannot improve our website based on usage data"
+                  )}
                 </li>
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Management.DisablingImpact.Effects.2"
-                    fallbackText="Functional cookies: Personalization features will be disabled"
-                  />
+                  {r(
+                    "Cookies.Management.DisablingImpact.Effects.2",
+                    "Functional cookies: Personalization features will be disabled"
+                  )}
                 </li>
                 <li>
-                  <TranslatedText
-                    ns="legal"
-                    translationKey="Cookies.Management.DisablingImpact.Effects.3"
-                    fallbackText="Marketing cookies: You may see less relevant advertisements"
-                  />
+                  {r(
+                    "Cookies.Management.DisablingImpact.Effects.3",
+                    "Marketing cookies: You may see less relevant advertisements"
+                  )}
                 </li>
               </ul>
             </div>
           </div>
         </section>
 
-        {/* Do Not Track */}
+        {/* Data Retention */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">
-            <TranslatedText
-              ns="legal"
-              translationKey="Cookies.DoNotTrack.Title"
-              fallbackText="Do Not Track Signals"
-            />
+            {r("Cookies.Retention.Title", "Data Retention")}
           </h2>
           <div className="space-y-4">
             <p>
-              <TranslatedText
-                ns="legal"
-                translationKey="Cookies.DoNotTrack.Description"
-                fallbackText="Some browsers include a 'Do Not Track' feature that lets you tell websites you do not want to be tracked. Currently, there is no accepted standard for how websites should respond to Do Not Track signals."
-              />
-            </p>
-            <p>
-              <TranslatedText
-                ns="legal"
-                translationKey="Cookies.DoNotTrack.Response"
-                fallbackText="We respect your privacy choices and are monitoring developments in this area to implement appropriate responses to Do Not Track signals when industry standards are established."
-              />
+              {r(
+                "Cookies.Retention.Description",
+                "We retain cookie data for a limited period necessary for the purposes described in this policy."
+              )}
             </p>
           </div>
         </section>
@@ -852,92 +720,54 @@ export default function CookiesPage() {
         {/* Updates to Policy */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">
-            <TranslatedText
-              ns="legal"
-              translationKey="Cookies.Updates.Title"
-              fallbackText="Updates to This Policy"
-            />
+            {r("Cookies.Updates.Title", "Updates to this Policy")}
           </h2>
           <div className="space-y-4">
             <p>
-              <TranslatedText
-                ns="legal"
-                translationKey="Cookies.Updates.Description"
-                fallbackText="We may update this Cookies Policy from time to time to reflect changes in technology, law, or our practices. When we make significant changes, we will:"
-              />
+              {r(
+                "Cookies.Updates.Description",
+                "We may update this policy from time to time to reflect changes in technology, regulation, or our practices."
+              )}
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Updates.Actions.0"
-                  fallbackText="Update the 'Last Updated' date at the top of this page"
-                />
+                {r(
+                  "Cookies.Updates.Actions.0",
+                  "Update this page with the latest effective date"
+                )}
               </li>
               <li>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Updates.Actions.1"
-                  fallbackText="Notify users through our website banner or email (for significant changes)"
-                />
-              </li>
-              <li>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Updates.Actions.2"
-                  fallbackText="Request renewed consent where required by law"
-                />
+                {r(
+                  "Cookies.Updates.Actions.1",
+                  "Notify users through our website banner or email (for significant changes)"
+                )}
               </li>
             </ul>
           </div>
         </section>
 
-        {/* Contact Information */}
+        {/* Contact */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">
-            <TranslatedText
-              ns="legal"
-              translationKey="Cookies.Contact.Title"
-              fallbackText="Contact Us"
-            />
+            {r("Cookies.Contact.Title", "Contact")}
           </h2>
           <div className="space-y-4">
             <p>
-              <TranslatedText
-                ns="legal"
-                translationKey="Cookies.Contact.Description"
-                fallbackText="If you have any questions about this Cookies Policy or our use of cookies, please contact us:"
-              />
+              {r(
+                "Cookies.Contact.Description",
+                "If you have any questions about this policy, please contact us at privacy@ark-fid.ch"
+              )}
             </p>
             <div className="bg-muted/50 p-6 rounded-lg">
               <p className="font-semibold">
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Contact.CompanyName"
-                  fallbackText="Ark Fiduciaire"
-                />
+                {r("Cookies.Contact.Email", "Email: info@ark-fid.ch")}
               </p>
               <p>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Contact.Email"
-                  fallbackText="Email: info@ark-fid.ch"
-                />
+                {r(
+                  "Cookies.Contact.Address",
+                  "Address: 26 Boulevard Georges Favon, 1204 Geneva"
+                )}
               </p>
-              <p>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Contact.Address"
-                  fallbackText="Address: 26 Boulevard Georges Favon, 1204 Geneva"
-                />
-              </p>
-              {/* <p>
-                <TranslatedText
-                  ns="legal"
-                  translationKey="Cookies.Contact.Phone"
-                  fallbackText="Phone: +41 XX XXX XX XX"
-                />
-              </p> */}
             </div>
           </div>
         </section>

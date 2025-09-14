@@ -19,6 +19,10 @@
         "Title": "Servicios corporativos",
         "Description": "Ofrecemos una gama de servicios corporativos, incluyendo formación de empresas, gestión de cumplimiento y soporte de gobernanza corporativa para asegurar que su negocio opere sin problemas."
     },
+    "Incorporation": {
+        "Title": "Constitución de empresa",
+        "Description": "Le asistimos en todo el proceso de constitución de empresa, asegurando el cumplimiento de la normativa suiza y brindando soporte continuo."
+    },
     "IncorporationServices": {
         "Title": "Servicios de constitución",
         "Description": "Le asistimos en la constitución de su empresa, incluyendo la selección de la forma jurídica, la redacción de documentos de constitución y el registro ante las autoridades competentes."

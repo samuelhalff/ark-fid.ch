@@ -1,14 +1,102 @@
 import React from "react";
-import { FileText, FileSpreadsheet, File } from "lucide-react";
 
-// Map file extensions to Lucide icons (fallback to FileText for Word/PDF)
+function FileIcon({
+  className = "",
+  size = 28,
+}: {
+  className?: string;
+  size?: number;
+}) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+      focusable="false"
+    >
+      <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z" />
+      <polyline points="14 2 14 8 20 8" />
+    </svg>
+  );
+}
+
+function FileTextIcon({
+  className = "",
+  size = 28,
+}: {
+  className?: string;
+  size?: number;
+}) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+      focusable="false"
+    >
+      <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="8" y1="13" x2="16" y2="13" />
+      <line x1="8" y1="17" x2="16" y2="17" />
+    </svg>
+  );
+}
+
+function FileSpreadsheetIcon({
+  className = "",
+  size = 28,
+}: {
+  className?: string;
+  size?: number;
+}) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+      focusable="false"
+    >
+      <path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z" />
+      <polyline points="14 2 14 8 20 8" />
+      <rect x="8" y="12" width="8" height="6" rx="1" />
+      <line x1="12" y1="12" x2="12" y2="18" />
+      <line x1="8" y1="15" x2="16" y2="15" />
+    </svg>
+  );
+}
+
+// Map file extensions to lightweight inline SVG icons (fallback to generic file)
 const iconMap: Record<string, React.ReactNode> = {
-  pdf: <FileText className="text-red-500" size={28} />,
-  doc: <FileText className="text-blue-500" size={28} />,
-  docx: <FileText className="text-blue-500" size={28} />,
-  xls: <FileSpreadsheet className="text-green-500" size={28} />,
-  xlsx: <FileSpreadsheet className="text-green-500" size={28} />,
-  txt: <FileText className="text-gray-500" size={28} />,
+  pdf: <FileTextIcon className="text-red-500" size={28} />,
+  doc: <FileTextIcon className="text-blue-500" size={28} />,
+  docx: <FileTextIcon className="text-blue-500" size={28} />,
+  xls: <FileSpreadsheetIcon className="text-green-500" size={28} />,
+  xlsx: <FileSpreadsheetIcon className="text-green-500" size={28} />,
+  txt: <FileTextIcon className="text-gray-500" size={28} />,
 };
 
 interface Labels {
@@ -43,9 +131,9 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
 }) => {
   const icon =
     type === "file" && extension ? (
-      iconMap[extension] || <File className="text-gray-400" size={28} />
+      iconMap[extension] || <FileIcon className="text-gray-400" size={28} />
     ) : (
-      <FileText className="text-primary" size={28} />
+      <FileTextIcon className="text-primary" size={28} />
     );
   const cardContent = (
     <div className="flex flex-col border rounded-xl overflow-hidden shadow-sm h-full cursor-pointer hover:shadow-md transition-shadow bg-white dark:bg-muted p-5">

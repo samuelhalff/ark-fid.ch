@@ -6,10 +6,15 @@ import { getTranslations, type Locale } from "@/src/lib/i18n";
 
 interface ServicesProps {
   showSubtitle?: boolean;
+  showHeading?: boolean; // controls rendering of the internal heading block
   locale?: string;
 }
 
-const Services = async ({ showSubtitle = false, locale }: ServicesProps) => {
+const Services = async ({
+  showSubtitle = false,
+  showHeading = true,
+  locale,
+}: ServicesProps) => {
   const currentLocale = (locale as Locale) || ("fr" as Locale);
   const localePrefix = locale ? `/${locale}` : "/fr";
   const tHome = await getTranslations(currentLocale, "home");
@@ -19,19 +24,24 @@ const Services = async ({ showSubtitle = false, locale }: ServicesProps) => {
       id="services"
       className="max-w-[var(--breakpoint-xl)] mx-auto w-full py-12 xs:py-20 px-6"
     >
-      <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight max-w-4xl mx-auto text-center mb-10">
-        {tHome("Services.Title")}
-      </h2>
-      {showSubtitle && (
-        <p className="text-lg text-center mb-8 max-w-3xl mx-auto">
-          {tHome("Services.Subtitle")}
-        </p>
+      {showHeading && (
+        <>
+          <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight max-w-4xl mx-auto text-center mb-10">
+            {tHome("Services.Title")}
+          </h2>
+          {showSubtitle && (
+            <p className="text-lg text-center mb-8 max-w-3xl mx-auto">
+              {tHome("Services.Subtitle")}
+            </p>
+          )}
+        </>
       )}
       <div className="mt-10 xs:mt-16 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
         {services.map((service) => (
           <Link
             key={service.titleKey}
             href={`${localePrefix}/services${service.href}`}
+            prefetch={false}
             locale={locale}
             className="block h-full"
           >

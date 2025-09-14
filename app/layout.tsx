@@ -14,6 +14,7 @@ import { headers } from "next/headers";
 // Vercel Analytics is rendered conditionally via ConsentAnalytics
 import CookieConsent from "@/src/components/CookieConsent";
 import ConsentAnalytics from "@/src/components/ConsentAnalytics";
+import { getTranslations } from "@/src/lib/i18n";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -76,13 +77,23 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const nonce = headers().get("x-nonce") || undefined;
   const currentLocale = headers().get("x-locale") || "fr";
+  // Load cookie consent labels server-side to avoid client i18n
+  const tCookie = await getTranslations(currentLocale as any, "cookie");
+  const cookieLabels = {
+    Title: tCookie("Title"),
+    Text: tCookie("Text"),
+    LearnMore: tCookie("LearnMore"),
+    Accept: tCookie("Accept"),
+    Decline: tCookie("Decline"),
+    Manage: tCookie("Manage"),
+  } as const;
   const orgJsonLd = generateOrganizationStructuredData();
   const localBizJsonLd = generateLocalBusinessStructuredData();
   const webSiteJsonLd = {
@@ -133,7 +144,11 @@ export default function RootLayout({
           <div className="pt-3 abstract-background text-foreground pt-15 mt-10">
             {children}
             {/* Cookie Consent banner and GA4 loader (loads GA only after acceptance) */}
-            <CookieConsent nonce={nonce} locale={currentLocale} />
+            <CookieConsent
+              nonce={nonce}
+              locale={currentLocale}
+              labels={cookieLabels}
+            />
             {/* Render Vercel Analytics only when user accepted cookies */}
             <ConsentAnalytics />
           </div>

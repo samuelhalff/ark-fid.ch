@@ -3,10 +3,9 @@ import { headers } from "next/headers";
 import Hero from "./components/hero";
 import Presentation from "./components/presentation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
-import { type Locale } from "@/src/lib/i18n";
+import { getTranslations, type Locale } from "@/src/lib/i18n";
 import StructuredData from "@/src/components/seo/StructuredData";
 import { buildHowTo } from "@/src/lib/structuredData";
-import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 
 export async function generateMetadata({
   params: { locale },
@@ -19,10 +18,11 @@ export async function generateMetadata({
   );
 }
 
-const Incorporation = ({ params }: { params: { locale: string } }) => {
+const Incorporation = async ({ params }: { params: { locale: string } }) => {
   const nonce = headers().get("x-nonce") || undefined;
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params.locale ? `/${params.locale}` : "";
+  const tNav = await getTranslations(params.locale as Locale, "navbar");
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -30,13 +30,13 @@ const Incorporation = ({ params }: { params: { locale: string } }) => {
       {
         "@type": "ListItem",
         position: 1,
-        name: "Services",
+        name: tNav("Services") as string,
         item: `${baseUrl}${localePrefix}/services/`,
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "Incorporation",
+        name: (tNav("Incorporation.Title") as string) || "Incorporation",
         item: `${baseUrl}${localePrefix}/services/incorporation/`,
       },
     ],
@@ -105,13 +105,30 @@ const Incorporation = ({ params }: { params: { locale: string } }) => {
       />
       <StructuredData nonce={nonce} data={howToJsonLd} />
       <Hero locale={params.locale} />
-      <div className="max-w-[1200px] mx-auto px-4 md:px-0 mt-4">
-        <Breadcrumbs
-          rootLabel="Home"
-          baseLabel="Services"
-          segments={[{ segment: "incorporation", label: "Incorporation" }]}
-        />
-      </div>
+      <nav
+        aria-label="Breadcrumb"
+        className="max-w-[1200px] mx-auto px-4 md:px-0 mt-4"
+      >
+        <ol className="flex items-center gap-1 text-sm text-muted-foreground">
+          <li>
+            <a href={`${localePrefix}/`} className="hover:underline">
+              {tNav("Home") as string}
+            </a>
+          </li>
+          <li className="flex items-center gap-1">
+            <span className="text-muted-foreground/60">/</span>
+            <a href={`${localePrefix}/services/`} className="hover:underline">
+              {tNav("Services") as string}
+            </a>
+          </li>
+          <li className="flex items-center gap-1">
+            <span className="text-muted-foreground/60">/</span>
+            <span aria-current="page" className="font-medium text-foreground">
+              {(tNav("Incorporation.Title") as string) || "Incorporation"}
+            </span>
+          </li>
+        </ol>
+      </nav>
       <Presentation />
     </main>
   );

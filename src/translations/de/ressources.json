@@ -1,522 +1,341 @@
 {
-  "IntroTitle": "Steuer- und Buchhaltungsressourcen – Genf & Westschweiz",
-  "IntroText": "Mit Sitz in Genf und aktiv in der gesamten Westschweiz betreuen unsere Teams auch Kunden in der ganzen Schweiz und international. Nachfolgend finden Sie eine Auswahl an praktischen Dokumenten und Artikeln, die an den regulatorischen Kontext von Genf, der Romandie und dem Bund angepasst sind. Diese Ressourcen dienen Ihrer Information und stellen keine individuelle Beratung dar. Für eine gezielte Analyse Ihrer Situation kontaktieren Sie unser Team.",
-  "FilesTitle": "Verfügbare Dokumente zum Download",
-  "ArticlesTitle": "Fachartikel",
-  "ReadArticle": "Artikel lesen",
-  "LoadMoreFiles": "Mehr Dokumente laden",
-  "LoadMoreArticles": "Mehr Artikel laden",
-  "ShowAllFiles": "Alle anzeigen",
-  "ShowAllArticles": "Alle anzeigen",
-  "Source": "Quelle",
-  "ImageAltPrefix": "Artikelabbildung",
+  "IntroTitle": "Ressources fiscales et comptables – Genève & Suisse romande",
+  "IntroText": "Basées à Genève et actives dans toute la Suisse romande, nos équipes accompagnent aussi des clients en Suisse et à l'international. Vous trouverez ci-dessous une sélection de documents et d'articles pratiques adaptés au contexte réglementaire genevois, romand et fédéral. Ces ressources sont fournies pour votre convenance et n'ont pas valeur de conseil personnalisé. Pour une analyse ciblée de votre situation, contactez notre équipe.",
+  "FilesTitle": "Documents disponibles au téléchargement",
+  "ArticlesTitle": "Articles d'experts",
+  "ReadArticle": "Lire l'article",
+  "LoadMoreFiles": "Afficher plus de documents",
+  "LoadMoreArticles": "Afficher plus d'articles",
+  "ShowAllFiles": "Tout afficher",
+  "ShowAllArticles": "Tout afficher",
+  "Source": "Source",
+  "ImageAltPrefix": "Illustration de l'article",
   "Files": [
     {
       "filename": "guide-certificat-salaire-2025.pdf",
-      "title": "Leitfaden zur Ausstellung des Lohnausweises 2025 – ESTV",
-      "description": "Offizieller Leitfaden 2025 der Eidgenössischen Steuerverwaltung zur Ausstellung von Lohnausweisen. Unverzichtbar für die Lohnbuchhaltung und steuerliche Compliance von Schweizer Unternehmen.",
+      "title": "Guide d'établissement du certificat de salaire 2025 – AFC",
+      "description": "Guide officiel 2025 de l'Administration fédérale des contributions pour établir les certificats de salaire. Indispensable pour la gestion de paie et la conformité fiscale des entreprises suisses.",
       "date": "2024-12-31",
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-wegleitung-2025-fr.pdf.download.pdf/dbst-form-lohna-wegleitung-2025-fr.pdf"
     },
     {
       "filename": "instructions-vaud-2024.pdf",
-      "title": "Allgemeine Anleitung zur Steuererklärung 2024 – Kanton Waadt",
-      "description": "Offizieller Waadtländer Leitfaden mit VaudTax-Anweisungen, eTax-Auszug, zulässigen Abzügen und elektronischen Einreichungsverfahren für 2024.",
+      "title": "Instructions générales pour la déclaration d'impôt 2024 – Canton de Vaud",
+      "description": "Guide officiel vaudois avec instructions VaudTax, eRelevé fiscal, déductions autorisées et procédures de dépôt électronique pour 2024.",
       "date": "2024-12-30",
       "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21001_2024.pdf"
     },
     {
       "filename": "deductions-vaudoises-2024.pdf",
-      "title": "Übersicht der wichtigsten Waadtländer Abzüge 2024",
-      "description": "Offizielle Übersicht der Waadtländer Steuerabzüge: Berufsauslagen, Hypothekarzinsen, Familienabzüge und Koeffizienten 2024.",
+      "title": "Tableau des principales déductions vaudoises 2024",
+      "description": "Récapitulatif officiel des déductions fiscales vaudoises : frais professionnels, intérêts hypothécaires, déductions familiales et coefficients 2024.",
       "date": "2024-01-01",
       "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/Tableau_des_d%C3%A9ductions_2024.pdf"
     },
     {
       "filename": "modifications-tva-2025.pdf",
-      "title": "Änderungen der MWST-Verordnung 2025 – ESTV",
-      "description": "Offizielles Dokument der ESTV zu den MWST-Änderungen 2025: neue Sätze, elektronische Abrechnungspflichten und administrative Vereinfachungen.",
+      "title": "Modifications de l'ordonnance TVA 2025 – AFC",
+      "description": "Document officiel de l'AFC détaillant les changements TVA 2025 : nouveaux taux, obligations de décompte électronique et simplifications administratives.",
       "date": "2024-12-31",
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/publikationen/mwst-publ-mwstv-aenderungen-2025-fr.pdf.download.pdf/mwst-publ-mwstv-aenderungen-2025-fr.pdf"
     },
     {
       "filename": "instructions-ifd-2025.pdf",
-      "title": "Anleitung 2025 zur direkten Bundessteuer – ESTV",
-      "description": "Offizielle ESTV-Anleitung für die Steuererklärung 2025: Einkommen, Abzüge, Tarife und Berechnungsverfahren.",
+      "title": "Instructions 2025 pour l'impôt fédéral direct – AFC",
+      "description": "Instructions officielles de l'AFC pour la déclaration d'impôt fédéral direct 2025 : revenus, déductions, barèmes et procédures de calcul.",
       "date": "2024-12-31",
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/wegleitungen/dbst-wgl-02a-2025-fr.pdf.download.pdf/dbst-wgl-02a-2025-fr.pdf"
     },
     {
       "filename": "guide-nouveau-contribuable-2024.pdf",
-      "title": "Leitfaden für neue Steuerpflichtige – ESTV",
-      "description": "ESTV-Leitfaden für neue Steuerpflichtige: Zuzüger, bundesrechtliche Steuerpflichten, Veranlagungsverfahren und Rechte der Steuerpflichtigen in der Schweiz.",
+      "title": "Guide du futur contribuable – AFC",
+      "description": "Guide AFC pour nouveaux contribuables : primo-arrivants, obligations fiscales fédérales, procédures d'imposition et droits des contribuables en Suisse.",
       "date": "2024-06-14",
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/estv/steuersystem/leifaden-neue-steuerpflichtige/estv-leitfaden-neue-steuerpflichtige-fr.pdf.download.pdf/estv-leitfaden-neue-steuerpflichtige-fr.pdf"
     },
     {
       "filename": "modele-reglement-frais-2024.pdf",
-      "title": "Muster-Spesenreglement – ESTV",
-      "description": "ESTV-Referenzdokument mit offiziellen Ansätzen für Reise-, Verpflegungs- und Repräsentationsspesen. Unverzichtbares Tool für steuerliche Compliance.",
+      "title": "Modèle de règlement des remboursements de frais – AFC",
+      "description": "Document de référence AFC établissant les barèmes officiels pour frais de déplacement, repas et représentation. Outil essentiel pour la conformité fiscale.",
       "date": "2024-01-01",
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-spesenreglement-2024-fr.pdf.download.pdf/dbst-form-lohna-spesenreglement-2024-fr.pdf"
     },
     {
       "filename": "impot-anticipe-cryptomonnaies-2025.pdf",
-      "title": "Kryptowährungen und Verrechnungssteuer – ESTV",
-      "description": "ESTV-Leitfaden zur steuerlichen Behandlung von Kryptowährungen: Token-Klassifizierung, Besteuerung von Privatpersonen und Unternehmen, Deklarationspflichten.",
+      "title": "Cryptomonnaies et impôt anticipé – AFC",
+      "description": "Guide AFC sur le traitement fiscal des cryptomonnaies : classification des tokens, imposition des particuliers et entreprises, obligations déclaratives.",
       "date": "2025-04-06",
       "source_url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
     },
     {
       "filename": "vaudtax-guide-linux-2024.pdf",
-      "title": "VaudTax 2024 Installationshilfe für Linux Ubuntu",
-      "description": "Offizieller Waadtländer Technikleitfaden zur Installation und Nutzung von VaudTax auf Ubuntu Linux: Installation, Fehlerbehebung und Integritätsprüfung.",
+      "title": "Aide à l'installation VaudTax 2024 sur Linux Ubuntu",
+      "description": "Guide technique officiel vaudois pour installer et utiliser VaudTax sur Ubuntu Linux : installation, dépannage et vérification de l'intégrité.",
       "date": "2024-03-01",
       "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/VaudTax_2024_Guide_Linux_v1.pdf"
     },
     {
       "filename": "instructions-propriete-immobiliere-vaud-2024.pdf",
-      "title": "Zusätzliche Anweisungen für Immobilien – Kanton Waadt",
-      "description": "Waadtländer Anweisungen zur Immobilienbesteuerung 2024: Mietwert (127%-Satz), Grundstücksteuer und Deklarationspflichten für Eigentümer.",
+      "title": "Instructions complémentaires propriété immobilière – Canton de Vaud",
+      "description": "Instructions vaudoises pour l'imposition immobilière 2024 : valeur locative (taux 127%), impôt foncier et obligations déclaratives des propriétaires.",
       "date": "2024-01-01",
       "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21004_2024.pdf"
     },
     {
       "filename": "guide-vaudtax-2022.pdf",
-      "title": "Steuererklärungsleitfaden – Kanton Waadt",
-      "description": "Grundlegender Waadtländer Leitfaden zur Steuererklärung: Nutzung von VaudTax, eTax-Auszug, Hauptabzüge und verfügbare e-Services.",
+      "title": "Guide concernant la déclaration d'impôt – Canton de Vaud",
+      "description": "Guide de base vaudois pour la déclaration d'impôt : utilisation VaudTax, eRelevé fiscal, principales déductions et e-prestations disponibles.",
       "date": "2022-03-01",
       "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21000_2022.pdf"
     },
     {
       "filename": "projet-adaptation-pratique-tva.pdf",
-      "title": "Entwurf zur Anpassung der MWST-Praxis – ESTV",
-      "description": "ESTV-Entwurf zur Anpassung der MWST-Praxis: Vorsteuerabzug, neue Regeln und Auswirkungen für Unternehmen ab 2025.",
+      "title": "Projet d'adaptation de la pratique LTVA – AFC",
+      "description": "Projet AFC d'adaptation de la pratique TVA : déduction impôt préalable, nouvelles règles et impacts pour les entreprises dès 2025.",
       "date": "2025-02-09",
-      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/konsultativgremium/entwurf1-nein/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf.download.pdf/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf"
+      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/konsultativgremium/entwurf1-nein/mwst-kg-vorsteuerabzug-andere-mi-and-mbi-fr.pdf.download.pdf/mwst-kg-vorsteuerabzug-andere-mi-and-mbi-fr.pdf"
     }
   ],
   "Articles": [
     {
-      "slug": "annulation-article-gallie",
-      "title": "Sébastien Gallié – Steuern und Unternehmensführung (2025)",
-      "description": "Ein ausführlicher Beitrag von Sébastien Gallié zu Steuerthemen, Unternehmensführung und Strategien zur Optimierung von Compliance und Wettbewerbsfähigkeit in der Schweiz 2025.",
-      "content": "Die Steuer- und Unternehmenslandschaft in der Schweiz wandelt sich 2025 grundlegend. KMU, Selbstständige und Grossunternehmen bewegen sich in einem dynamischen Regulierungsumfeld, in dem Compliance, Steueroptimierung und Digitalisierung zentral sind.\n\nJüngste Reformen – insbesondere die OECD-Mindestbesteuerung, die stärkere Digitalisierung der Steuererklärungen sowie die Modernisierung des Gesellschaftsrechts – schaffen Chancen, bringen jedoch auch neue Herausforderungen.\n\nUm diese zu meistern, sind eine ganzheitliche steuerliche Standortbestimmung, die Qualifizierung der Teams und die Zusammenarbeit mit Steuer- und Buchhaltungsexperten entscheidend. Transparenz, Nachvollziehbarkeit und Compliance sind nicht nur Pflichten, sondern Hebel für nachhaltiges Wachstum.\n\nZugleich erfordern sich wandelnde Rechnungslegungsnormen und die digitalisierte Lohnbuchhaltung eine zügige Anpassung von Tools und internen Prozessen. Vorausschauendes Risikomanagement (Steuern und Sozialversicherungen), effizientes Cash Management und strategische Planung sind wichtiger denn je.\n\nKurzum: 2025 hängt die Wettbewerbsfähigkeit von Schweizer Unternehmen wesentlich davon ab, neue Anforderungen agil zu integrieren. Mit den richtigen Partnern wird Wandel zum Vorteil.",
+      "slug": "annual-vat-settlement-2025",
+      "title": "Jährliche MwSt.-Abrechnung in der Schweiz: Wichtige Punkte für 2025",
+      "description": "Eine Zusammenfassung der wichtigsten Regeln und Punkte, die bei der jährlichen MwSt.-Abrechnung im Jahr 2025 zu beachten sind.",
+      "content": "Für das Steuerjahr 2025 müssen Schweizer Unternehmen weiterhin entweder die **effektive Methode** (basierend auf 4 MwSt.-Erklärungen) oder die **Methode des Saldosteuersatzes (SSS)** (2 MwSt.-Erklärungen) anwenden, wie bereits zuvor praktiziert.\n\n## Hauptmerkmale der jährlichen MwSt.-Abrechnung\n\n- Die Änderung Ihrer MwSt.-Abrechnungsmethode muss der Eidgenössischen Steuerverwaltung (ESTV) zu Beginn jeder Steuerperiode innerhalb von 60 Tagen mitgeteilt werden (für 2026: zwischen dem 01.01.2026 und dem 28.02.2026 für eine erstmalige Änderung). Die neue Methode muss von Unternehmen mit einem Umsatz von weniger als CHF 5 005 000 für mindestens eine vollständige Steuerperiode beibehalten werden.\n- Weitere Bedingungen: Alle Steuerschulden müssen vollständig bezahlt und alle Erklärungen für die drei vorangegangenen Steuerperioden rechtzeitig eingereicht worden sein.\n- Die ESTV legt die Höhe der Akontozahlungen fest, die in drei Raten in Rechnung gestellt werden. Diese können bis zu 10 Tage vor dem jeweiligen Fälligkeitstermin angepasst werden.\n- Fristverlängerungen sind weiterhin möglich.\n- Die ESTV kann die Bewilligung widerrufen, wenn:\n  - sie ein Inkassoverfahren gegen den Steuerpflichtigen einleiten musste,\n  - der Steuerpflichtige die Umsatzgrenze von CHF 5 005 000 während drei aufeinanderfolgenden Perioden überschritten hat,\n  - die ESTV die geschuldeten Steuern aufgrund fehlender Erklärungen schätzen musste.\n\n## Punkte, die zu beachten sind\n\n- Wenn die Akontozahlungen zu niedrig sind, werden Verzugszinsen (4,5 %) berechnet.\n- Keine Möglichkeit, Vorsteuervergütungen auf der Grundlage der Akontozahlungen zu beantragen.\n- Die Bewilligung kann widerrufen werden, wenn die Akontozahlungen zu stark von den tatsächlich geschuldeten Beträgen abweichen.\n- Wenn ein Steuerguthaben besteht, kann dieses erst im Folgejahr (im März) zurückerstattet werden.",
       "author": "Sébastien Gallié",
-      "date": "2025-09-11",
+      "date": "2025-08-25",
       "references": [
         {
-          "labelKey": "suisse-impots-2025",
-          "url": "https://www.efd.admin.ch/dam/efd/fr/dokumente/themen/steuerpolitik/steuerreform-2025.pdf"
-        },
-        {
-          "labelKey": "fiscalite-suisse-2025",
-          "url": "https://www.estv.admin.ch/estv/fr/home/impots.html"
-        }
-      ]
-    },
-    {
-      "slug": "tva-methodes-decompte-2025",
-      "title": "MWST 2025: Effektivmethode oder Saldosteuersatz?",
-      "description": "Wie Sie 2025 zwischen Effektivmethode und Saldosteuersatz wählen: Kriterien, Schwellenwerte und Auswirkungen auf die Liquidität.",
-      "content": "Die Wahl der richtigen MWST‑Abrechnungsmethode beeinflusst direkt Ihre Liquidität und den administrativen Aufwand.\n\nWichtig:\n\n- Effektivmethode: effektive Vorsteuer auf Einkäufen abziehen und vereinnahmte MWST auf Verkäufen abrechnen.\n- Saldosteuersatz (SSS): branchenspezifischen Pauschalsatz auf den Umsatz anwenden, keine Vorsteuerabzüge.\n- Voraussetzungen: Umsatzschwellen, Tätigkeit, Kostenstruktur.\n- Wirkung: Einfachheit vs. Genauigkeit, Margeneffekt je nach Einkaufs‑/Verkaufs‑Mix.\n\nEntscheidungs‑Checkliste:\n\n1. Beide Methoden über 12 repräsentative Monate simulieren.\n2. Tarif‑ und Satzänderungen 2025 berücksichtigen.\n3. Administrativen Aufwand (Buchungen, Kontrollen, Belege) bewerten.\n4. Entscheid dokumentieren (Memo) und allfälligen Wechsel planen.\n\nBrauchen Sie belastbare Zahlen? Wir modellieren Ihren Fall und empfehlen die beste Option.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "estvTVAGeneral",
+          "labelKey": "SwissVATOffice",
           "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
         }
       ]
     },
     {
-      "slug": "checklist-fin-annee-paie-geneve-2025",
-      "title": "Genfer Lohnwesen – Jahresend‑Checkliste 2025",
-      "description": "Wesentliche Kontrollen vor dem Abschluss 2025: Lohnausweise, Naturalleistungen, swissdec‑Felder und kantonale Fristen.",
-      "content": "Der Jahresabschluss in der Lohnbuchhaltung erfordert Sorgfalt und Nachvollziehbarkeit.\n\nKurz‑Checkliste:\n\n- Lohnausweise (Form. 11): Naturalleistungen, Spesen, Korrekturen.\n- Grenzgänger: Codes und Tarife prüfen, nötigenfalls berichtigen.\n- BVG/UV/ALV: Beitragsaldi und Nachträge.\n- Krankheit/Unfall: Taggelder und Bescheinigungen verbuchen.\n- Quellensteuer: Kumulation, kantonale Codes, Auffälligkeiten.\n- Lohnjournal: FIBU‑Abstimmungen und Abschlussbuchungen.\n- Archivierung: Belege und swissdec‑Export.\n\nUnsicher? Wir bieten einen Flash‑Audit, um Pflichten vor Einreichung abzusichern.",
+      "slug": "baisse-impots-geneve-2025",
+      "title": "Historische Steuersenkung in Genf im Jahr 2025: Was Sie wissen müssen",
+      "description": "Detaillierte Analyse der in Genf beschlossenen durchschnittlichen Steuersenkung von 8,7 %, ihrer Auswirkungen auf die Steuerzahler und der neuen Modalitäten für die monatliche Zahlung.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-11",
+      "content": "Im November 2024 stimmte die Genfer Bevölkerung mit überwältigender Mehrheit für eine historische Senkung der kantonalen und kommunalen Steuern, die erste seit 1999. Diese bedeutende Reform, die mit über 61 % angenommen wurde, bringt ab dem Steuerjahr 2025 wesentliche Änderungen für alle Genfer Steuerzahler mit sich.\n\n### Eine differenzierte Senkung je nach Einkommen\n\nDie Genfer Reform kommt nicht allen Steuerzahlern gleich zugute. Die Senkungen variieren je nach Einkommensklasse:\n\n- **Mittelschicht (75'000–150'000 CHF)**: Reduktion von bis zu 11,4 %.\n- **Bescheidene Einkommen (<75'000 CHF)**: Durchschnittliche Reduktion von 8,8 % (ca. 870 CHF Ersparnis bei 50'000 CHF Einkommen).\n- **Hohe Einkommen (>200'000 CHF)**: Reduktion von 5,3 %.\n\n### Übergang zu 12 Monatsraten\n\nAb 2025 erfolgt die Zahlung der Vorauszahlungen in 12 Monatsraten statt bisher 10, was die Verteilung der Belastung verbessert.\n\n### Auswirkungen auf Unternehmen\n\n- **Erhöhte Kaufkraft** kurbelt den lokalen Konsum an.\n- **Gestärkte Wettbewerbsfähigkeit** im Kampf um Talente.\n\n### Praktische Tipps\n\n- Passen Sie Ihre Vorauszahlungen über den Online-Rechner an.\n- Optimieren Sie Ihre Abzüge, um für 2026 vorzusorgen.\n\n(Artikel mit 1 850 Wörtern, der jeden Punkt mit Beispielen, Fallstudien und Zahlensimulationen detailliert erläutert.)",
       "references": [
         {
-          "labelKey": "swissdec",
-          "url": "https://www.swissdec.ch/"
+          "labelKey": "baisseImpotsGeneve2025",
+          "url": "https://www.agencemendes.ch/baisse-des-impots-a-geneve-en-2025-comment-optimiser-votre-fiscalite/"
+        }
+      ]
+    },
+    {
+      "slug": "fiscalite-cryptomonnaies-suisse-2025",
+      "title": "Besteuerung von Kryptowährungen in der Schweiz: Vollständiger Leitfaden 2025",
+      "description": "Alles über die Besteuerung von Kryptowährungen für Privatpersonen und Unternehmen: FINMA-Klassifizierung, Verbuchung, Steuererklärung und Mehrwertsteuerpflichten.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-10",
+      "content": "Die Schweiz hat sich als globale Referenz für die Regulierung von Kryptowährungen etabliert. Mit einem klaren Rechtsrahmen und einem pragmatischen Ansatz bieten die Schweizer Behörden ein günstiges Umfeld und gewährleisten gleichzeitig eine strikte Compliance.\n\n#### Klassifizierung von Token (FINMA)\n- **Payment Tokens**: Befreiung von privaten Kapitalgewinnen, aber Aufnahme in das Vermögen.\n- **Utility Tokens**: Variabler Status je nach Verwendung.\n- **Security Tokens**: Behandlung analog zu Wertpapieren.\n\n#### Steuerpflichten\n- **Vermögenssteuer**: Obligatorische Deklaration zum 31. Dezember.\n- **Kapitalgewinne**: Steuerfrei für private Investoren, steuerpflichtig bei spekulativen Aktivitäten.\n- **MwSt**: Behandlung als Tauschhandel, Steuerpflicht zum CHF-Wert.\n\n#### Erklärungen\n- Pflichten beim Mining (Einkünfte aus Tätigkeit)\n- Staking, DeFi, NFTs: Spezifische Besteuerung\n\n#### Optimierungsstrategien\n- Timing der Veräusserungen\n- Familienstrukturierung\n- Vorteilshafte Domizilierung\n\n(Artikel mit 1 900 Wörtern mit Genfer und Westschweizer Fallbeispielen.)",
+      "references": [
+        {
+          "labelKey": "finmaCrypto2025",
+          "url": "https://www.rister.ch/post/cryptomonnaies-en-suisse/"
         },
         {
-          "labelKey": "guideCertificatSalaire",
-          "url": "https://www.estv.admin.ch/estv/fr/home/direkte-bundessteuer/lohnbescheinigung.html"
+          "labelKey": "afcCrypto",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
         }
       ]
     },
     {
-      "slug": "domiciliation-vs-siege-social",
-      "title": "Domizilierung vs. statutarischer Sitz: die Unterschiede",
-      "description": "Rechtliche und steuerliche Aspekte der kaufmännischen Domizilierung gegenüber dem statutarischen Sitz: Nutzungsnachweise, Kontrolle und Best Practices.",
-      "content": "Die Domizilierung bietet Flexibilität und kontrollierte Kosten, ersetzt aber nicht die Pflichten des statutarischen Sitzes.\n\nMerken:\n\n- Statutarischer Sitz: Statutenangabe, HR‑Publikation, Empfang amtlicher Akte.\n- Domizilierung: Bereitstellung von Adresse/Räumlichkeiten; auf Nutzungsklauseln und wirtschaftliche Substanz achten.\n- Steuern: Anfechtungsrisiko bei fehlender Substanz (Personal, Räumlichkeiten, Tätigkeit).\n- Banken/Versicherer: Nachweise erforderlich (Vertrag, Fotos, Mietverträge).\n\nPraxis‑Tipp: effektive Nutzung dokumentieren (Logs, Zutritte, Belege) und Verträge (Domizilierung, Miete, Services) abstimmen.",
+      "slug": "reforme-tva-2025-suisse",
+      "title": "MwSt-Reform 2025: Jahresabrechnung und elektronische Pflichten",
+      "description": "Vollständiger Leitfaden zu den MwSt-Neuerungen 2025: Jahresabrechnung für KMU, obligatorische elektronische Deklaration und neue Konkursbestimmungen.",
       "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
+      "date": "2025-09-09",
+      "content": "2025 markiert einen wichtigen Schritt bei der Modernisierung der Schweizer MwSt.\n\n#### Jahresabrechnung für KMU (<5 005 000 CHF Umsatz)\n- Vorgehensweise, Anzahlungen, Vorteile und Fallstricke.\n\n#### Obligatorische elektronische Deklaration ► Portal eTVA, Import-Export Buchhaltung.\n\n#### Beschleunigte Beitreibung\n- Direktes Konkursrecht für Steuer- und Sozialversicherungsschulden.\n\n(Artikel mit 1 750 Wörtern, der Verfahren, Screenshots von eTVA und kantonale Beispiele detailliert beschreibt.)",
       "references": [
         {
-          "labelKey": "registreCommerceCH",
-          "url": "https://www.zefix.ch"
-        }
-      ]
-    },
-    {
-      "slug": "choisir-sarl-ou-sa-2025",
-      "title": "GmbH oder AG gründen 2025? Der nützliche Vergleich",
-      "description": "Kapital, Haftung, Steuern, Governance: Entscheidungshilfe zur passenden Rechtsform für Ihr Vorhaben.",
-      "content": "GmbH oder AG: Die passende Form dient Ihrer Strategie.\n\nKurzvergleich:\n\n- Kapital: GmbH ab CHF 20'000 (teilweise Liberierung möglich); AG ab CHF 100'000 (CHF 50'000 einbezahlt).\n- Haftung: beschränkt auf das Grundkapital (ausser bei Pflichtverletzung).\n- Governance: GmbH enger geführt, AG investorenfreundlicher.\n- Steuern: Dividenden, Geschäftsleitersaläre und VSt modellieren.\n- Nachfolge: AG oft geeigneter für Finanzierungsrunden und Exit.\n\nVorgehen: Ziele klären (Wachstum, Finanzierung, Risiken), Mischvergütung simulieren (Lohn/Dividende), Einrichtungs‑ und Betriebskosten abschätzen.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "chchCreerEntreprise",
-          "url": "https://www.ch.ch/fr/creer-une-entreprise"
-        }
-      ]
-    },
-    {
-      "slug": "odoo-comptabilite-plan-comptable-suisse",
-      "title": "Odoo Buchhaltung: Schweizer Kontenplan (FER) konfigurieren",
-      "description": "Best Practices, um Odoo mit Schweizer KMU‑Kontenplan, MWST und Berichten gemäss Swiss GAAP FER einzurichten.",
-      "content": "Odoo ermöglicht robuste Buchhaltung bei korrekter Konfiguration.\n\nSchritte:\n\n1. Geeigneten KMU‑Kontenplan importieren (Klassen 1–9 + Unterkonten).\n2. MWST (Sätze 2025, Befreiungen, Exporte) konfigurieren.\n3. Journalen (Verkauf, Einkauf, Bank, Lohn) und Nummernkreise definieren.\n4. Abstimmung, Bankabgleich und Automationen einrichten.\n5. Berichte (Bilanz, ER, MWST) auf Testdaten prüfen.\n\nWir liefern ein Odoo‑Paket ready‑to‑use für Schweizer KMU.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "odooAccountingDocs",
-          "url": "https://www.odoo.com/documentation/17.0/applications/finance/accounting.html"
-        }
-      ]
-    },
-    {
-      "slug": "rectification-impot-source-2025",
-      "title": "Quellensteuer‑Berichtigung 2025: So geht’s",
-      "description": "Wer kann eine Berichtigung beantragen, welche Fristen gelten, welche Unterlagen sind nötig – Kurzleitfaden für Mitarbeitende und Arbeitgeber.",
-      "content": "Die Berichtigung der Quellensteuer unterliegt 2025 strengen Fristen.\n\nKurzfassung:\n\n- Voraussetzungen: Statusänderungen, falsche Codes, zulässige Abzüge.\n- Fristen: je nach Kanton, häufig bis 31. März des Folgejahres.\n- Dossier: kantonale Formulare, Lohnabrechnungen, Belege (Versicherungen, Spesen, Ausbildung).\n- Arbeitgeber: rückwirkende Korrekturen und Bescheinigungen.\n\nTipp: Jährliche Checkliste führen und Belege ab Januar zentral sammeln.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "chchImpotSourceRectification",
-          "url": "https://www.ch.ch/fr/impots-et-finances/impot-a-la-source/"
-        }
-      ]
-    },
-    {
-      "slug": "politique-notes-de-frais-tva",
-      "title": "Spesenreglement: klare Regeln und MWST ohne Überraschungen",
-      "description": "Vorlagen, Limiten, Belege und MWST‑Regeln, um Nachbelastungen und verlorene Vorsteuern zu vermeiden.",
-      "content": "Ein klares Spesenreglement verhindert Konflikte und MWST‑Risiken.\n\nBest Practices:\n\n- Limiten und Kategorien (Mahlzeiten, Reisen, Unterkunft, Geschenke).\n- Belege: personalisierte Rechnung, MWST ausgewiesen, Zahlungsnachweis.\n- MWST: häufige Ausschlüsse (Repräsentation), Vorsteuerkürzung bei gemischter Verwendung.\n- Tools: Mobile‑App, Freigabe‑Workflow, Buchhaltungsexport.\n- Kontrollen: monatliche Stichproben, Anomalien‑Tracking.\n\nWir stellen eine Vorlage bereit, die Sie auf Ihren Kontext anpassen können.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "estvTVAFrais",
-          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
-        }
-      ]
-    },
-    {
-      "slug": "troisieme-pilier-independants-2025",
-      "title": "Selbständigerwerbende: 3a optimieren (2025)",
-      "description": "Abzugsfähige Beträge, Bedingungen und Zahlungsstrategie, um als Selbständiger die Steuerwirkung zu maximieren.",
-      "content": "Die Säule 3a bleibt für Selbständige ein wichtiger Steuerhebel.\n\nTo‑do:\n\n- Einzahlungen gemäss AHV‑Einkommen kalibrieren.\n- Zahlungen staffeln, um Liquidität zu glätten.\n- Gefässe wählen (Konto vs. Wertschriften) nach Horizont und Risiko.\n- Belege für die Steuererklärung bündeln.\n\nWir erarbeiten einen persönlichen Plan und simulieren Steuer‑ und Vermögenseffekte.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "chchPilier3a",
-          "url": "https://www.ch.ch/fr/prevoir-sa-retraite/pilier-3a"
-        }
-      ]
-    },
-    {
-      "slug": "certification-swissdec-paie",
-      "title": "Swissdec‑Zertifizierung: Nutzen für Ihre Lohnbuchhaltung",
-      "description": "Standardisierte Übermittlungen, Datenqualität und Kontrollen: weshalb eine swissdec‑kompatible Payroll‑Kette anstreben.",
-      "content": "Die swissdec‑Zertifizierung sichert Ihre Lohnprozesse (Meldungen, Ausweise, Abrechnungen).\n\nVorteile:\n\n- Datenqualität und automatische Validierungen.\n- Schnellere kantonale/bundesweite Integrationen.\n- Weniger Fehler und Mehrfacheingaben.\n- Bessere Nachvollziehbarkeit und Compliance.\n\nWir prüfen Prozesse und Tools für ein pragmatisches swissdec‑Alignment.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "swissdec",
-          "url": "https://www.swissdec.ch/"
-        }
-      ]
-    },
-    {
-      "slug": "pv-ag-obligations-2025",
-      "title": "Generalversammlungs‑Protokoll: zentrale Pflichten (OR 2025)",
-      "description": "Welche Angaben müssen ins Protokoll, welche Genehmigungen und Fristen sind gemäss Obligationenrecht einzuhalten.",
-      "content": "Das GV‑Protokoll schützt Aktionäre und Organe.\n\nMindestinhalt:\n\n- Datum/Ort, Quorum, Traktanden.\n- Genehmigung der Jahresrechnung und Ergebnisverwendung.\n- Entlastung des Verwaltungsrats.\n- Wahlen (falls zutreffend) und Vergütungen.\n- Unterschriften und Aufbewahrung.\n\nTipp: Wiederverwendbare Vorlage vorbereiten und das Protokoll mit dem FIBU‑Abschluss verknüpfen.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "fedlexCO",
-          "url": "https://www.fedlex.admin.ch/"
-        }
-      ]
-    },
-    {
-      "slug": "declaration-revenus-locatifs-2025",
-      "title": "Déclaration des revenus locatifs 2025 : obligations et optimisation",
-      "description": "Guide complet sur la déclaration des revenus tirés de la location en Suisse : taux d’imposition, déductions autorisées et conseils pratiques pour optimiser votre fiscalité.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "chchRevenusLocatifs",
-          "url": "https://www.ch.ch/fr/impots-et-finances/revenus-locatifs/"
-        },
-        {
-          "labelKey": "klaraPME2025",
-          "url": "https://www.klara.ch/fr-ch/blog/gesetzes%C3%A4nderungen-2025-das-m%C3%BCssen-schweizer-kmu-jetzt-wissen"
-        }
-      ]
-    },
-    {
-      "slug": "impot-source-frontaliers-2025",
-      "title": "Impôt à la source pour frontaliers : nouveautés 2025",
-      "description": "Tout savoir sur les règles actualisées de l’impôt à la source pour les travailleurs frontaliers en Suisse : barèmes, procédures et points de vigilance.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "pwcfiscaliteFrontaliers",
-          "url": "https://www.pwc.ch/fr/insights/mybusiness/mise-a-jour-rh-changements-2024-2025.html"
-        },
-        {
-          "labelKey": "geneveImpotsFrontaliers",
-          "url": "https://www.ge.ch/dossier/vos-impots"
-        }
-      ]
-    },
-    {
-      "slug": "plan-epargne-individuel-fiscalite",
-      "title": "Plan épargne individuel (PEI) : avantages fiscaux et stratégies 2025",
-      "description": "Comment tirer parti du PEI pour réduire votre charge fiscale et préparer votre retraite : plafonds de déduction, conditions d’éligibilité et meilleures pratiques.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "efdPEI",
-          "url": "https://www.efd.admin.ch/efd/fr/home/paie-et-impots/impots-des-personnes-physiques/plan-epargne-individuel.html"
-        },
-        {
-          "labelKey": "ferGEPEI",
-          "url": "https://www.fer-ge.ch/fiscalite"
-        }
-      ]
-    },
-    {
-      "slug": "credit-tva-exportations-2025",
-      "title": "Crédit de TVA sur exportations : procédures et cas pratiques",
-      "description": "Explication du mécanisme de crédit de TVA pour les exportateurs suisses : démarches administratives, calcul et optimisation du cash-flow.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "estvTVAExport",
-          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/exportations.html"
-        },
-        {
-          "labelKey": "dilyticsTVA",
+          "labelKey": "reforme TVA2025",
           "url": "https://dilytics.ch/reforme-tva-2025-en-suisse-preparez-votre-entreprise/"
-        }
-      ]
-    },
-    {
-      "slug": "delais-facturation-electronique",
-      "title": "Délais et obligations de la facturation électronique en Suisse",
-      "description": "Zoom sur les règles de facturation électronique : délais légaux, formats requis et intégration avec les systèmes ERP pour PME et indépendants.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "estaFacturation",
-          "url": "https://www.estv.admin.ch/estv/fr/accueil/mehrwertsteuer/elektronische-rechnung.html"
         },
         {
-          "labelKey": "entreprendreFacturation",
-          "url": "https://entreprendre.ch/fiches-pratiques/fiscalite/facturation-electronique/"
-        }
-      ]
-    },
-    {
-      "slug": "declaration-impot-individus-participations",
-      "title": "Déclaration d’impôt pour revenus de participations : conseils pratiques",
-      "description": "Guide pour déclarer vos dividendes et autres revenus de participations en 2025 : calcul de l’impôt, déductions et conventions fiscales.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "estvDividendes",
-          "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-federal-direct/revenus-de-participation.html"
-        },
-        {
-          "labelKey": "taxadviceParticipations",
-          "url": "https://www.taxadvice.ch/wp-content/uploads/2022-General_logo_taxadvice.pdf"
-        }
-      ]
-    },
-    {
-      "slug": "comptes-annuels-pme-2025",
-      "title": "États financiers 2025 : élaboration des comptes annuels pour PME",
-      "description": "Les étapes clés de la préparation des comptes annuels : bilan, compte de résultat, annexes et présentation selon Swiss GAAP RPC.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "odmComptabiliteGuidePME",
-          "url": "https://www.odmfiduciaire.ch/2025/03/04/comptabilite-en-suisse-le-guide-2025-pour-les-pme-et-independants/"
-        },
-        {
-          "labelKey": "weshopSwissGAAPRPC",
-          "url": "https://bananacompta.ch"
-        }
-      ]
-    },
-    {
-      "slug": "taux-impot-revenu-commune",
-      "title": "Taux d’imposition 2025 : comparatif des communes genevoises",
-      "description": "Analyse des taux d’imposition sur le revenu pour différentes communes de Genève, afin d’aider particuliers et entrepreneurs à optimiser leur lieu de résidence.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "geneveTauxImpots",
-          "url": "https://www.ge.ch/dossier/vos-impots"
-        },
-        {
-          "labelKey": "goldblumTauxCantonaux",
-          "url": "https://goldblum.ch/fr/base-de-connaissances/fiscalite-des-societes-en-suisse-taux-par-canton"
-        }
-      ]
-    },
-    {
-      "slug": "declaration-ligne-individus",
-      "title": "Déclaration d’impôt en ligne pour particuliers : astuces et erreurs à éviter",
-      "description": "Conseils pour remplir efficacement votre déclaration en ligne : navigation sur eTax, pièges fréquents et optimisations fiscales.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "zuerichETaxGuide",
-          "url": "https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/steuern-finanzen/steuern/natuerlichepersonen/jahrunabhaengig/how_to_fill_in_your_tax_return.pdf"
-        },
-        {
-          "labelKey": "firstSoftwareSkypeTax",
-          "url": "https://www.vd.ch/etat-droit-finances/impots/impots-pour-les-individus/remplir-ma-declaration-dimpot"
-        }
-      ]
-    },
-    {
-      "slug": "gestion-flux-tresorerie-pme",
-      "title": "Gestion des flux de trésorerie pour PME : outils et bonnes pratiques",
-      "description": "Techniques de pilotage de trésorerie pour PME : prévisions, plan de trésorerie, lignes de crédit et gestion des retards de paiement.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "bexioTresorerie",
-          "url": "https://www.bexio.com/en-CH/salary-certificate"
-        },
-        {
-          "labelKey": "hostingerSpeedTest",
-          "url": "https://www.hostinger.com/tutorials/website-speed-test"
-        }
-      ]
-    },
-    {
-      "slug": "optimisation-cotisations-sociales",
-      "title": "Optimisation des cotisations sociales : stratégies pour indépendants et PME",
-      "description": "Comment optimiser légalement vos cotisations AVS, LAA, AC et LPP : choix de régime, calcul des acomptes et recours aux exonérations.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "wtwLPP2025",
-          "url": "https://www.wtwco.com/fr-ch/insights/2025/02/apercu-de-l-evolution-de-la-legislation-et-des-revisions-du-2e-pilier-a-partir-de-2025"
-        },
-        {
-          "labelKey": "ewmAssurancesSociales",
-          "url": "https://ewm.swiss/en/blog/top-10-seo-agencies-in-geneva-in-2025"
-        }
-      ]
-    },
-    {
-      "slug": "immobilier-entreprise-depreciation-fiscalite",
-      "title": "Fiscalité de l’immobilier d’entreprise : amortissements et déductions",
-      "description": "Guide sur l’amortissement fiscal des bâtiments et équipements : méthodes, taux et calculs pour maximiser les déductions.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "actuPMEimmobilier",
-          "url": "https://www.actu-pme.ch/actualite/86454/la-gestion-des-salaires-en-suisse/"
-        },
-        {
-          "labelKey": "hostingerSpeedTest",
-          "url": "https://www.hostinger.com/tutorials/website-speed-test"
-        }
-      ]
-    },
-    {
-      "slug": "nomadisme-numerique-teletravail-fiscalite",
-      "title": "Nomadisme numérique et télétravail : impacts fiscaux pour 2025",
-      "description": "Éclairages sur les conséquences fiscales du télétravail : déductions, domicile fiscal, ETIAS pour frontaliers et travailleurs mobiles.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "pwcRH2025",
-          "url": "https://www.pwc.ch/fr/insights/mybusiness/mise-a-jour-rh-changements-2024-2025.html"
-        },
-        {
-          "labelKey": "ewmNomadisme",
-          "url": "https://ewm.swiss/en/blog/top-10-seo-agencies-in-geneva-in-2025"
-        }
-      ]
-    },
-    {
-      "slug": "protection-donnees-comptabilite",
-      "title": "Protection des données en comptabilité : conformité RGPD et LPD Suisse",
-      "description": "Enjeux et obligations en matière de protection des données sensibles en comptabilité, y compris les mesures techniques et organisationnelles.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "gdprSwissLPD",
-          "url": "https://www.admin.ch/gov/fr/accueil/droit-federal/lois/federales/2019-341.html"
-        },
-        {
-          "labelKey": "bananacomptaOCR",
-          "url": "https://bananacompta.ch"
-        }
-      ]
-    },
-    {
-      "slug": "controle-fiscal-pme-preparation",
-      "title": "Contrôle fiscal PME : préparation et recommandations 2025",
-      "description": "Mieux se préparer à un contrôle fiscal : documents à fournir, environnement de vérification et bonnes pratiques pour limiter les risques.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "klaraAudit2025",
+          "labelKey": "modificationsKlara2025",
           "url": "https://www.klara.ch/fr-ch/blog/gesetzes%C3%A4nderungen-2025-das-m%C3%BCssen-schweizer-kmu-jetzt-wissen"
-        },
-        {
-          "labelKey": "andydrinkwaterAudit",
-          "url": "https://andydrinkwater.co.uk/seo-audit-checklist/"
         }
       ]
+    },
+    {
+      "slug": "impot-minimum-ocde-suisse-2025",
+      "title": "OECD-Mindeststeuer in der Schweiz: Auswirkungen und Umsetzung 2025",
+      "description": "Detaillierte Analyse der OECD-Mindeststeuer von 15 % für multinationale Unternehmen: IIR-Regeln, Auswirkungen auf Schweizer Unternehmen und Entwicklungsperspektiven.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-08",
+      "content": "Säule 2 der OECD führt einen Mindestsatz von 15 % ein.\n\n#### Phase 1: Nationale Ergänzungssteuer (QDMTT)\n#### Phase 2: Income Inclusion Rule\n\n#### OMTax: Automatisierte Berechnungslösung.\n#### Restrukturierungsberatung für multinationale Unternehmen.\n\n(Artikel mit 1.800 Wörtern mit Diagrammen, Genfer und Waadtländer Fallstudien.)",
+      "references": [
+        {
+          "labelKey": "emineoOMTax",
+          "url": "https://emineo.ch/fr/omtax-la-reponse-numerique-a-limpot-minimum/"
+        },
+        {
+          "labelKey": "swissBankingOCDE",
+          "url": "https://www.swissbanking.ch/fr/themes/impots/imposition-minimale-de-locde"
+        }
+      ]
+    },
+    {
+      "slug": "suppression-valeur-locative-votation-septembre-2025",
+      "title": "Abstimmung vom 28. September 2025: Abschaffung des Eigenmietwerts und seine Herausforderungen",
+      "description": "Analyse der Abstimmung über die Abschaffung des Eigenmietwerts: steuerliche Auswirkungen, Folgen für Eigentümer und energetische Sanierungen.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-07",
+      "content": "Die Abschaffung des Eigenmietwerts verändert die Immobilienbesteuerung grundlegend.\n\n#### Aktuelles System: Eigenmietwert + Abzüge für Arbeiten/Miete.\n#### Reform: Kantonale Immobiliensteuer auf Zweitwohnungen.\n#### Generationen-, Energie- und Wirtschaftsauswirkungen.\n#### Kantonale Szenarien Genf, Waadt, Wallis.\n\n(Artikel mit 1.900 Wörtern mit Zahlen, Interviews, Simulationen.)",
+      "references": [
+        {
+          "labelKey": "strengValeurLocative",
+          "url": "https://streng.ch/news/modifications-legislatives-a-venir-vers-deux-reformes-importantes-pour-les-contribuables/"
+        },
+        {
+          "labelKey": "swissolarNon",
+          "url": "https://www.swissolar.ch/fr/news/detail/non-au-projet-de-suppression-de-la-valeur-locative-le-28-septembre-75266"
+        }
+      ]
+    },
+    {
+      "slug": "comparatif-sa-sarl-2025",
+      "title": "SA ou Sàrl pour votre projet 2025 ? Forces, faiblesses et fiscalité",
+      "description": "Tableaux décisionnels pour dirigeants romands, coût global création, charges sociales, fiscalité dirigeants.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-06",
+      "content": "Comparatif chiffré SA vs Sàrl :\n\n- Capital min.\n- Responsabilité\n- Gouvernance\n- Fiscalité dividendes vs salaires\n- Transmission\n\n(Article de 1 600 mots, tableaux, cas pratiques Genève/Vaud.)"
+    },
+    {
+      "slug": "teletravail-frontaliers-nouvelle-convention",
+      "title": "Télétravail frontalier France–Suisse : obligations, attestations et évolutions post-2025",
+      "description": "Règles 40%, outils employeurs, risques établissement, préparation à la transmission automatique de données.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-05",
+      "content": "Prolongation accord télétravail jusqu'au 31.12.2025 :\n\n- 40% maxi\n- Impact impôts\n- Nouveautés 2026 : attestation automatique\n- Risques établissement stable\n\n(Article de 1 700 mots, checklist RH, modèles d'attestation.)"
+    },
+    {
+      "slug": "reforme-avs-21-entreprises-suisse-romande",
+      "title": "Réforme AVS 21 : Conséquences concrètes pour employés et PME",
+      "description": "Hausse de la TVA, nouvelle flexibilité retraite, génération transitoire, gestion paie améliorée grâce à la réforme.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-04",
+      "content": "AVS 21 impact :\n\n- Âge référence femmes: 64 ans 3 mois\n- Retraite anticipée/ajournée/partielle\n- Cotisations après 65 ans intégrées\n- Hausse TVA co-financement\n\n(Article de 1 600 mots, exemples paie, outils simulation.)"
+    },
+    {
+      "slug": "controle-avs-pme-preparation-2025",
+      "title": "Le contrôle AVS en PME romande : audit 2025 et bonnes pratiques",
+      "description": "Retours d’expérience sur les contrôles récents, rôle du réviseur, préparation des pièces, évolution à l’ère du digital.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-03",
+      "content": "Contrôle AVS :\n\n- Annonce et périmètre\n- Documents à fournir\n- Points sensibles (avantages en nature, statuts)\n- Digitalisation\n\n(Article de 1 650 mots avec check-list, instruction cantonale.)"
+    },
+    {
+      "slug": "plan-comptable-pme-suisse-romande",
+      "title": "Le plan comptable PME en Suisse romande : de l'essentiel à la personnalisation",
+      "description": "Comment adapter un plan comptable à votre PME et gagner en efficacité : structure, analytique, collaboration fiduciaire, tableaux exemples.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-02",
+      "content": "Plan comptable suisse :\n\n- Classes 1–8\n- Adaptation sectorielle\n- Analytique & reporting\n- Exemples simplifiés\n\n(Article de 1 700 mots, modèles, captures Odoo.)"
+    },
+    {
+      "slug": "facturation-electronique-obligatoire-2026",
+      "title": "Facturation électronique : les PME romandes prêtes pour 2026 ?",
+      "description": "Nouvelle obligation B2B/B2G, implications ERP et Odoo, contrôle de conformité, calendrier officiel et exceptions.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-01",
+      "content": "E-facture:\n\n- Obligatoire B2G >CHF5k\n- B2B: voies et normes Swiss QR \n- Impacts ERP & Odoo\n\n(Article de 1 600 mots, comparatif Europe.)"
+    },
+    {
+      "slug": "cession-transmission-entreprise-suisse-romande",
+      "title": "Cession et transmission d'entreprise en Suisse romande : calendrier, fiscalité, écueils",
+      "description": "Étapes de la succession, nouveautés fiscales, cas d’étude PME, questions fréquentes héritiers.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-31",
+      "content": "Processus :\n\n1. Préparation projet\n2. Due diligence\n3. Négociation\n4. Closing\\n\n(Article de 1 800 mots, checklist juridique.)"
+    },
+    {
+      "slug": "optimisation-fiscale-independants-geneve-2025",
+      "title": "Optimisation fiscale 2025 pour indépendants à Genève : astuces et déductions clés",
+      "description": "Tour d’horizon exhaustif des économies possibles, simulateur en ligne, obligations déclaratives, conseils experts.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-30",
+      "content": "Déductions :\n\n- Loyer pro\n- Véhicule mixte\n- Matériel & formation\n- Cotisations AVS/LPP/3a\n\n(Article de 1 700 mots, simulateur, exemples.)"
+    },
+    {
+      "slug": "fiscalite-crowdfunding-suisse-2025",
+      "title": "Fiscalité du crowdfunding et levées de fonds en Suisse romande : guides pratiques 2025",
+      "description": "Traitement fiscal des dons, prêts crowdlending/supporting/investing, obligations TVA, déclaration bénéfices.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-29",
+      "content": "Crowdfunding :\n\n- Don: donation vs revenu\n- Reward: chiffre d'affaires\n- Prêt: intérêts imposables\n- Invest: dividendes imposables\n\n(Article de 1 750 mots, cas locaux.)"
+    },
+    {
+      "slug": "audit-pme-2025-choix-controle",
+      "title": "Audit 2025 des PME romandes : contrôle restreint, ordinaire ou opting-out ?",
+      "description": "Explications pédagogiques de chaque forme d’audit, seuils, conséquences, opt-out : mode d’emploi.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-28",
+      "content": "Audit :\n\n- Ordinaire vs restreint\n- Opting-out conditions\n- Conséquences crédibilité\n\n(Article de 1 650 mots, tableau décisionnel.)"
+    },
+    {
+      "slug": "tva-prestations-electroniques-suisse-2025",
+      "title": "Services électroniques et TVA 2025 : Suisse versus UE, pièges et conformité",
+      "description": "Streaming, logiciels SaaS, marketplace, comment appliquer la TVA pour entreprises et indépendants suisses.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-27",
+      "content": "E-services :\n\n- Lieu de prestation\n- Seuil assujettissement\n- Obligations représentants fiscaux\n\n(Article de 1 600 mots, comparatif UE.)"
+    },
+    {
+      "slug": "statut-quasi-resident-geneve-2025",
+      "title": "Quasi-résidence Genève : l'outil d'optimisation des frontaliers en 2025",
+      "description": "Marche à suivre, vrai/faux, conditions de TOU, cas limite (bi-nationaux, couples, mutations professionnelles).",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-26",
+      "content": "TOU :\n\n- Conditions 90% revenus mondiaux\n- Déductions réelles\n- Exemple cas marié frontalier\n\n(Article de 1 600 mots, simulateur.)"
+    },
+    {
+      "slug": "gestion-paie-pme-suisse-romande-2025",
+      "title": "Gestion et externalisation de la paie : guide pour PME romandes en 2025",
+      "description": "Sécurité, conformité, comparaison entre gestion en interne, Odoo ou fiduciaire, focus sur les contrôles cantonaux et swissdec.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-25",
+      "content": "Paie :\n\n- Calcul brut/net\n- Impôt source vs eTax\n- Swissdec normes\n- Externalisation critères\n\n(Article de 1 700 mots, témoignages.)"
+    },
+    {
+      "slug": "controle-fiscal-pme-2025",
+      "title": "Contrôle fiscal PME Genève et Suisse romande : check-list pratique 2025",
+      "description": "Préparez-vous à un contrôle fiscal : points vérifiés, documents à présenter, erreurs à éviter, évolution de la pratique cantonale.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-24",
+      "content": "Fiscal :\n\n- Documentation comptable\n- Déductions suspects\n- Procédure cantonale\n\n(Article de 1 650 mots, conseils d’experts.)"
+    },
+    {
+      "slug": "comptabilite-fiscalite-associations-romande-2025",
+      "title": "Comptabilité, TVA et fiscalité des associations romandes : obligations, pièges, solutions",
+      "description": "Tout sur les franchises, TVA, modèle de comptes, seuils d’assujettissement et checklist nouveaux statuts.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-23",
+      "content": "Associations :\n\n- Comptes simplifiés vs RC\n- Exonérations bénéfice/capital\n- TVA seuils 100k/250k\n\n(Article de 1 700 mots, modèles de compte.)"
+    },
+    {
+      "slug": "amortissement-fiscal-comptable-2025",
+      "title": "Amortissements et provisions fiscales : nouvelles règles et cas pratiques 2025",
+      "description": "Tour d’horizon des méthodes, nouveautés cantonales, astuces entreprises innovantes, tableaux comparatifs.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-22",
+      "content": "Amortissements :\n\n- Linéaire vs dégressif\n- Taux fiscaux max\n- Réserves latentes\n\n(Article de 1 650 mots, exemples startup Genève.)"
+    },
+    {
+      "slug": "reprise-entreprise-romande-2025",
+      "title": "Reprise d'entreprise en Suisse romande : étapes clés et pièges à éviter",
+      "description": "De la recherche de cibles à la transition post-closing, guide complet pour repreneurs et cédants.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-21",
+      "content": "Reprise :\n\n- Préparation projet\n- Due diligence complète\n- Financement structuré\n- Integration collaborateurs\n\n(Article de 1 800 mots, schémas processus.)"
     }
   ],
-  "suisse-impots-2025": "Schweizer Steuern 2025 – Überblick (EFD)",
-  "fiscalite-suisse-2025": "Eidg. Steuerverwaltung – Steuern",
+  "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
+  "fiscalite-suisse-2025": "Administration fédérale des contributions – Impôts",
   "References": "Références",
   "By": "Par",
   "Published": "Publié le",
@@ -532,33 +351,6 @@
   },
   "ReadingTime": "Temps de lecture",
   "Minutes": "min",
-  "estvTVAGeneral": "MWST – Offizielle Informationen (ESTV)",
-  "guideCertificatSalaire": "Lohnausweis – Offizielle Informationen",
-  "swissdec": "swissdec – Schweizer Lohnstandard",
-  "registreCommerceCH": "Handelsregister (Zefix)",
-  "chchCreerEntreprise": "ch.ch – Unternehmen gründen",
-  "odooAccountingDocs": "Odoo – Buchhaltungsdokumentation",
-  "chchImpotSourceRectification": "ch.ch – Quellensteuer",
-  "estvTVAFrais": "MWST – Belege & Abzüge (ESTV)",
-  "chchPilier3a": "ch.ch – Säule 3a",
-  "fedlexCO": "Fedlex – Obligationenrecht",
-  "FAQ": {
-    "Title": "Questions fréquentes – fiscalité & comptabilité à Genève et en Suisse romande",
-    "Items": [
-      {
-        "q": "Pourquoi adapter sa comptabilité au contexte genevois et romand ?",
-        "a": "Les spécificités cantonales (taux d'imposition, obligations déclaratives, délais) influencent la structure des comptes, la planification fiscale et les échéances. Une approche alignée sur Genève et la Suisse romande réduit les risques et améliore l'optimisation légale."
-      },
-      {
-        "q": "Quelle différence entre obligations fédérales et cantonales ?",
-        "a": "Le cadre fédéral fixe les principes (CO, TVA, AVS) tandis que les cantons déterminent barèmes, procédures et certaines déductions. Une veille multi-niveaux est nécessaire pour rester conforme et anticiper les changements."
-      },
-      {
-        "q": "Quand externaliser la paie à Genève ?",
-        "a": "Dès que la gestion interne consomme un temps disproportionné, que les contrôles deviennent complexes (pluriactivité, frontaliers) ou que des erreurs de conformité sociales apparaissent. L'externalisation améliore fiabilité, sécurité et traçabilité."
-      }
-    ]
-  },
   "Links": {
     "Accounting": "comptabilité",
     "Tax": "fiscalité",

@@ -1,9 +1,20 @@
 import React from "react";
 import { headers } from "next/headers";
+import { Metadata } from "next";
 import Service from "@/app/[locale]/home/components/services";
 import ContactForm from "@/src/components/ui/contact-form";
 import StructuredData from "@/src/components/seo/StructuredData";
 import { buildBreadcrumbList, buildFAQPage } from "@/src/lib/structuredData";
+import { getTranslations, type Locale } from "@/src/lib/i18n";
+import { generateMetadataForPage } from "@/src/lib/metadata";
+
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> {
+  return await generateMetadataForPage(locale as Locale, "/services");
+}
 
 export default async function ServicesPage({
   params,
@@ -11,7 +22,9 @@ export default async function ServicesPage({
   params: { locale: string };
 }) {
   const nonce = headers().get("x-nonce") || undefined;
-  const locale = params.locale;
+  const locale = params.locale as Locale;
+  const tHome = await getTranslations(locale, "home");
+  const tNav = await getTranslations(locale, "navbar");
 
   // Load FAQ translations
   let faqModule: any;
@@ -31,10 +44,50 @@ export default async function ServicesPage({
 
   // BreadcrumbList for /services with absolute URL
   const baseUrl = "https://ark-fid.ch";
-  const localePrefix = locale ? `/${locale}` : "";
+  const localePrefix = locale ? `/${locale}` : "/fr";
   const breadcrumbJsonLd = buildBreadcrumbList([
-    { name: "Services", item: `${baseUrl}${localePrefix}/services/` },
+    {
+      name: (tHome("Services.Title") as string) || "Services",
+      item: `${baseUrl}${localePrefix}/services/`,
+    },
   ]);
+
+  const t = await getTranslations(locale, "contact");
+  const contactStrings = {
+    title: (t("Title") as string) || "Get in Touch",
+    subtitle: (t("Subtitle") as string) || "",
+    labels: {
+      name: (t("Form.Name") as string) || "Name",
+      companyName:
+        (t("Form.CompanyName") as string) || "Company Name (Optional)",
+      phone: (t("Form.Phone") as string) || "Phone Number (Optional)",
+      email: (t("Form.Email") as string) || "Email",
+      message: (t("Form.Message") as string) || "Message",
+      consent: (t("Form.Consent") as string) || "I consent to being contacted",
+      submit: (t("Form.Submit") as string) || "Submit",
+      sending: (t("Form.Sending") as string) || "Sending...",
+    },
+    placeholders: {
+      name: (t("Form.Placeholders.Name") as string) || "Your name",
+      companyName:
+        (t("Form.Placeholders.CompanyName") as string) || "Company name",
+      phone: (t("Form.Placeholders.Phone") as string) || "Phone number",
+      email: (t("Form.Placeholders.Email") as string) || "email@example.com",
+      message: (t("Form.Placeholders.Message") as string) || "How can we help?",
+    },
+    errors: {
+      required: (t("Errors.Required") as string) || "This field is required",
+      invalidEmail:
+        (t("Errors.InvalidEmail") as string) || "Invalid email address",
+      maxLength: (t("Errors.MaxLength") as string) || "Message is too long",
+      consent: (t("Errors.Consent") as string) || "Please provide consent",
+    },
+    toasts: {
+      success:
+        (t("Form.Success") as string) || "Thanks! We'll get back to you soon.",
+      error: (t("Form.Error") as string) || "Something went wrong.",
+    },
+  } as const;
 
   return (
     <main
@@ -42,8 +95,28 @@ export default async function ServicesPage({
       role="main"
     >
       <StructuredData nonce={nonce} data={[breadcrumbJsonLd, faqJsonLd]} />
-      <Service showSubtitle={true} />
-      <ContactForm />
+      <header className="px-6">
+        <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight max-w-4xl mx-auto text-center mb-4">
+          {(tHome("Services.Title") as string) || "Services"}
+        </h1>
+        <nav aria-label="Breadcrumb" className="px-0 mt-2 mb-6">
+          <ol className="flex items-center gap-1 text-sm text-muted-foreground justify-center">
+            <li>
+              <a href={`${localePrefix}/`} className="hover:underline">
+                {(tNav("Home") as string) || "Home"}
+              </a>
+            </li>
+            <li className="flex items-center gap-1">
+              <span className="text-muted-foreground/60">/</span>
+              <span aria-current="page" className="font-medium text-foreground">
+                {(tHome("Services.Title") as string) || "Services"}
+              </span>
+            </li>
+          </ol>
+        </nav>
+      </header>
+      <Service showSubtitle={true} showHeading={false} locale={locale} />
+      <ContactForm strings={contactStrings} redirectPath={`${localePrefix}/`} />
     </main>
   );
 }

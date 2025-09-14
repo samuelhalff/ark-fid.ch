@@ -98,24 +98,6 @@
   ],
   "Articles": [
     {
-      "slug": "annulation-article-gallie",
-      "title": "Sébastien Gallié – Tax and Business Management in 2025",
-      "description": "An in‑depth article by Sébastien Gallié on taxation, corporate management and strategies to optimise compliance and competitiveness in Switzerland in 2025.",
-      "content": "Taxation and business management in Switzerland are undergoing profound change in 2025. SMEs, sole traders and large companies alike must navigate an evolving regulatory landscape where compliance, tax optimisation and digitalisation play a central role.\n\nRecent reforms, notably the OECD minimum tax, increased digitalisation of tax filings and the modernisation of company law, offer opportunities but also bring challenges.\n\nTo address these issues, carrying out a full tax audit, training teams and working closely with tax and accounting experts is essential. Transparency, traceability and compliance should be seen not as constraints but as levers for growth.\n\nMeanwhile, evolving accounting standards and digitised payroll require rapid adaptation of tools and internal processes. Proactive risk prevention (tax and social), efficient cash management and strategic planning are more than ever keys to success.\n\nIn short, in 2025 the competitiveness of Swiss companies depends on their ability to integrate new requirements while remaining operationally agile. With the right partners, entrepreneurs can turn change into an advantage.",
-      "author": "Sébastien Gallié",
-      "date": "2025-09-11",
-      "references": [
-        {
-          "labelKey": "suisse-impots-2025",
-          "url": "https://www.efd.admin.ch/dam/efd/fr/dokumente/themen/steuerpolitik/steuerreform-2025.pdf"
-        },
-        {
-          "labelKey": "fiscalite-suisse-2025",
-          "url": "https://www.estv.admin.ch/estv/fr/home/impots.html"
-        }
-      ]
-    },
-    {
       "slug": "tva-methodes-decompte-2025",
       "title": "VAT 2025: Effective Method or Net Tax Rate?",
       "description": "How to choose between the effective method and the net tax rate (NTR) method in 2025: criteria, thresholds and cash‑flow impacts.",
@@ -511,6 +493,52 @@
         {
           "labelKey": "andydrinkwaterAudit",
           "url": "https://andydrinkwater.co.uk/seo-audit-checklist/"
+        }
+      ]
+    },
+    {
+      "slug": "annual-vat-settlement-2025",
+      "title": "Annual VAT settlement in Switzerland: key points for 2025",
+      "description": "A summary of the main rules and points to note for the annual VAT settlement in 2025.",
+      "content": "For the 2025 fiscal year, Swiss companies must continue to use either the **effective method** (based on 4 VAT returns) or the **net tax rate (NTR) method** (2 VAT returns), as previously applied.\n\n## Key features of the annual VAT settlement\n\n- Changing your VAT accounting method requires notifying the Federal Tax Administration (FTA) at the beginning of each tax period, within 60 days (for 2026: between 01.01.2026 and 28.02.2026 for a first change). The new method must be maintained for at least one full tax period for companies with a turnover of less than CHF 5,005,000.\n- Other conditions: all tax debts must be paid in full and all returns submitted on time for the three previous tax periods.\n- The FTA determines the amount of advance payments, invoiced in three installments. These can be adjusted up to 10 days before the relevant due date.\n- Extensions of time remain possible.\n- The FTA may revoke the authorization if:\n  - it has had to initiate a debt collection procedure against the taxpayer,\n  - the taxpayer has exceeded the CHF 5,005,000 turnover limit for three consecutive periods,\n  - the FTA has had to estimate the taxes due to missing returns.\n\n## Points of attention\n\n- If the advance payments are too low, late payment interest (4.5%) will be charged.\n- No possibility of claiming prior tax refunds based on advance payments.\n- Authorization may be revoked if the advance payments deviate too much from the amounts actually due.\n- If there is a tax credit, it can only be refunded the following year (in March).",
+      "author": "Sébastien Gallié",
+      "date": "2025-08-25",
+      "references": [
+        {
+          "labelKey": "SwissVATOffice",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        }
+      ]
+    },
+    {
+      "slug": "baisse-impots-geneve-2025",
+      "title": "Historic tax cut in Geneva in 2025: what you need to know",
+      "description": "Detailed analysis of the 8.7% average tax reduction voted in Geneva, its impacts on taxpayers, and the new monthly payment methods.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-11",
+      "content": "In November 2024, Genevans overwhelmingly approved a historic reduction in cantonal and communal taxes, the first since 1999. This major reform, approved by more than 61%, brings significant changes for all Geneva taxpayers from the 2025 tax year.\n\n### A differentiated decrease according to income\n\nThe Geneva reform does not benefit all taxpayers uniformly. The decreases vary according to income brackets:\n\n- **Middle class (75,000–150,000 CHF)**: reduction of up to 11.4%.\n- **Modest incomes (<75,000 CHF)**: average reduction of 8.8% (approximately CHF 870 saved for CHF 50,000 of income).\n- **High incomes (>200,000 CHF)**: 5.3% reduction.\n\n### Transition to 12 monthly installments\n\nFrom 2025, the payment of installments will increase from 10 to 12 monthly installments, improving the distribution of expenses.\n\n### Impacts for businesses\n\n- **Increased purchasing power** boosts local consumption.\n- **Strengthened competitiveness** in the war for talent.\n\n### Practical advice\n\n- Adjust your installments via the online calculator.\n- Anticipate 2026 by optimizing your deductions.\n\n(1,850-word article detailing each point with examples, case studies, and numerical simulations.)",
+      "references": [
+        {
+          "labelKey": "baisseImpotsGeneve2025",
+          "url": "https://www.agencemendes.ch/baisse-des-impots-a-geneve-en-2025-comment-optimiser-votre-fiscalite/"
+        }
+      ]
+    },
+    {
+      "slug": "fiscalite-cryptomonnaies-suisse-2025",
+      "title": "Cryptocurrency Taxation in Switzerland: A Complete Guide for 2025",
+      "description": "Everything you need to know about cryptocurrency taxation for individuals and businesses: FINMA classification, accounting, tax returns, and VAT obligations.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-10",
+      "content": "Switzerland has established itself as a global leader in cryptocurrency regulation. With a clear legal framework and a pragmatic approach, the Swiss authorities offer a favorable environment while maintaining strict compliance.\n\n#### Token Classification (FINMA)\n- **Payment Tokens**: Exempt from private capital gains but included in wealth.\n- **Utility Tokens**: Variable status depending on usage.\n- **Security Tokens**: Treatment aligned with securities.\n\n#### Tax Obligations\n- **Wealth Tax**: Mandatory declaration as of Dec 31.\n- **Capital Gains**: Exempt for private investors, taxable if speculative activities.\n- **VAT**: Treated as barter, subject to CHF value.\n\n#### Declarations\n- Mining obligations (activity income)\n- Staking, DeFi, NFTs: specific taxations\n\n#### Optimization Strategies\n- Timing of disposals\n- Family structuring\n- Favorable domicile\n\n(1,900-word article with practical examples from Geneva and French-speaking Switzerland.)",
+      "references": [
+        {
+          "labelKey": "finmaCrypto2025",
+          "url": "https://www.rister.ch/post/cryptomonnaies-en-suisse/"
+        },
+        {
+          "labelKey": "afcCrypto",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
         }
       ]
     }

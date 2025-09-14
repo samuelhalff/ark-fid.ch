@@ -1,0 +1,76 @@
+"use client";
+import ServicesElements from "@/app/[locale]/navigation";
+import React from "react";
+import Link from "next/link";
+import {
+  NavigationMenuContent,
+  NavigationMenuLink,
+} from "@/src/components/navigation/NavigationComponents";
+
+type NavData = {
+  services: Array<{
+    href: string;
+    title: string;
+    description: string;
+  }>;
+};
+
+function ListItem({
+  title,
+  children,
+  href,
+  icon,
+  locale,
+}: {
+  title: React.ReactNode;
+  children: React.ReactNode;
+  href: string;
+  icon: React.ReactNode;
+  locale?: string;
+}) {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <Link
+          href={href}
+          prefetch={false}
+          locale={locale}
+          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+        >
+          <div className="flex gap-2 items-center text-sm font-medium leading-none">
+            {icon && icon}
+            {title}
+          </div>
+          <p className="line-clamp-2 text-sm leading-snug">{children}</p>
+        </Link>
+      </NavigationMenuLink>
+    </li>
+  );
+}
+
+export default function ServicesDropdownContent({
+  locale,
+  navData,
+}: {
+  locale?: string;
+  navData: NavData;
+}) {
+  const localePrefix = locale ? `/${locale}` : "";
+  return (
+    <NavigationMenuContent className="left-auto right-0">
+      <ul className="grid w-[400px] gap-2 md:w-[350px] md:grid-cols-2 lg:w-[600px]">
+        {ServicesElements.map((component, idx) => (
+          <ListItem
+            key={component.titleKey}
+            title={navData.services[idx]?.title || component.titleKey}
+            href={localePrefix + component.href}
+            icon={component.icon}
+            locale={locale}
+          >
+            {navData.services[idx]?.description || component.descriptionKey}
+          </ListItem>
+        ))}
+      </ul>
+    </NavigationMenuContent>
+  );
+}

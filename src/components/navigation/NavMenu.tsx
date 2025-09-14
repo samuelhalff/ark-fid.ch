@@ -2,7 +2,7 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
 import ServicesElements from "@/app/[locale]/navigation";
-import { NavigationMenuProps } from "@radix-ui/react-navigation-menu";
+import type { NavigationMenuProps } from "@radix-ui/react-navigation-menu";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,9 +12,16 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/src/components/navigation/NavigationComponents";
-import ThemeToggle from "./ThemeToggle";
-import LangSwitch from "./LangSwitch";
-import TranslatedText from "../ui/translated-text";
+import dynamic from "next/dynamic";
+const ThemeToggleLazy = dynamic(() => import("./ThemeToggle"), {
+  ssr: false,
+  loading: () => null,
+});
+const LangSwitchLazy = dynamic(() => import("./LangSwitch"), {
+  ssr: false,
+  loading: () => null,
+});
+// No client-side translation here; labels are provided by server
 
 function ListItem({
   title,
@@ -24,7 +31,7 @@ function ListItem({
   onClick,
   locale,
 }: {
-  title: React.JSX.Element;
+  title: React.ReactNode;
   children: React.ReactNode;
   href: string;
   icon: React.ReactNode;
@@ -36,6 +43,7 @@ function ListItem({
       <NavigationMenuLink asChild>
         <Link
           href={href}
+          prefetch={false}
           onClick={onClick}
           locale={locale}
           className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
@@ -51,11 +59,71 @@ function ListItem({
   );
 }
 
+type NavData = {
+  labels: {
+    home: string;
+    team: string;
+    services: string;
+    ressources: string;
+    about: string;
+    contact: string;
+    mobileNavigation: string;
+  };
+  services: Array<{
+    href: string;
+    title: string;
+    description: string;
+  }>;
+};
+
 function NavMenu({
   orientation,
   locale,
+  navData,
   ...props
-}: NavigationMenuProps & { locale?: string }) {
+}: NavigationMenuProps & { locale?: string; navData: NavData }) {
+  const ServicesContent = React.useMemo(
+    () =>
+      dynamic(
+        () => import("@/src/components/navigation/ServicesDropdownContent"),
+        { ssr: false }
+      ),
+    []
+  );
+  const [openServices, setOpenServices] = React.useState(false);
+  const preloaded = React.useRef(false);
+
+  const prewarmServices = React.useCallback(() => {
+    if (preloaded.current) return;
+    preloaded.current = true;
+    // Fire and forget import to warm the chunk
+    import("@/src/components/navigation/ServicesDropdownContent").catch(() => {
+      // ignore
+    });
+  }, []);
+
+  // Idle prefetch on desktop pointer devices
+  React.useEffect(() => {
+    try {
+      const isDesktop =
+        typeof window !== "undefined" &&
+        window.matchMedia &&
+        window.matchMedia("(min-width: 768px)").matches;
+      const finePointer =
+        typeof window !== "undefined" &&
+        window.matchMedia &&
+        window.matchMedia("(pointer: fine)").matches;
+      if (isDesktop && finePointer) {
+        const idle = (cb: () => void) =>
+          (window as any).requestIdleCallback
+            ? (window as any).requestIdleCallback(cb)
+            : setTimeout(cb, 200);
+        idle(() => prewarmServices());
+      }
+    } catch {
+      // no-op
+    }
+  }, [prewarmServices]);
   const isActive = React.useCallback((path: string) => {
     // active state is best-effort in client; keep simple equality check against window.pathname
     try {
@@ -83,14 +151,11 @@ function NavMenu({
           >
             <Link
               href={`${localePrefix}/`}
+              prefetch={false}
               locale={locale}
               aria-current={isActive(`${localePrefix}/`) ? "page" : undefined}
             >
-              <TranslatedText
-                ns="navbar"
-                translationKey="Home"
-                fallbackText="Home"
-              />
+              {navData.labels.home}
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -104,53 +169,33 @@ function NavMenu({
           >
             <Link
               href={`${localePrefix}/team`}
+              prefetch={false}
               locale={locale}
               aria-current={
                 isActive(`${localePrefix}/team`) ? "page" : undefined
               }
             >
-              <TranslatedText
-                ns="navbar"
-                translationKey="Team"
-                fallbackText="Team"
-              />
+              {navData.labels.team}
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
-        <NavigationMenuItem>
-          <NavigationMenuTrigger aria-haspopup="menu">
-            <TranslatedText
-              ns="navbar"
-              translationKey="Services"
-              fallbackText="Services"
-            />
+        <NavigationMenuItem
+          onPointerEnter={() => {
+            prewarmServices();
+            setOpenServices(true);
+          }}
+        >
+          <NavigationMenuTrigger
+            aria-haspopup="menu"
+            onClick={() => setOpenServices((v) => !v)}
+            onFocus={prewarmServices}
+          >
+            {navData.labels.services}
           </NavigationMenuTrigger>
-          <NavigationMenuContent className="left-auto right-0">
-            <ul className="grid w-[400px] gap-2 md:w-[350px] md:grid-cols-2 lg:w-[600px]">
-              {ServicesElements.map((component) => (
-                <ListItem
-                  key={component.titleKey}
-                  title={
-                    <TranslatedText
-                      ns="navbar"
-                      translationKey={component.titleKey}
-                      fallbackText={component.titleKey}
-                    />
-                  }
-                  href={localePrefix + component.href}
-                  icon={component.icon}
-                  locale={locale}
-                >
-                  <TranslatedText
-                    ns="navbar"
-                    translationKey={component.descriptionKey}
-                    fallbackText={component.descriptionKey}
-                  />
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
+          {openServices && (
+            <ServicesContent locale={locale} navData={navData} />
+          )}
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink
@@ -162,16 +207,13 @@ function NavMenu({
           >
             <Link
               href={`${localePrefix}/ressources`}
+              prefetch={false}
               locale={locale}
               aria-current={
                 isActive(`${localePrefix}/ressources`) ? "page" : undefined
               }
             >
-              <TranslatedText
-                ns="navbar"
-                translationKey="Ressources"
-                fallbackText="Ressources"
-              />
+              {navData.labels.ressources}
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -185,16 +227,13 @@ function NavMenu({
           >
             <Link
               href={`${localePrefix}/about`}
+              prefetch={false}
               locale={locale}
               aria-current={
                 isActive(`${localePrefix}/about`) ? "page" : undefined
               }
             >
-              <TranslatedText
-                ns="navbar"
-                translationKey="About"
-                fallbackText="About"
-              />
+              {navData.labels.about}
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -208,23 +247,20 @@ function NavMenu({
           >
             <Link
               href={`${localePrefix}/contact`}
+              prefetch={false}
               locale={locale}
               aria-current={
                 isActive(`${localePrefix}/contact`) ? "page" : undefined
               }
             >
-              <TranslatedText
-                ns="navbar"
-                translationKey="Contact"
-                fallbackText="Contact"
-              />
+              {navData.labels.contact}
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <Suspense fallback={null}>
-          <LangSwitch />
+          <LangSwitchLazy />
         </Suspense>
-        <ThemeToggle />
+        <ThemeToggleLazy />
       </NavigationMenuList>
     </NavigationMenu>
   );

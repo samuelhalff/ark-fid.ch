@@ -87,7 +87,7 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
             {(article.references as { labelKey: string; url: string }[]).map(
               (ref, i) => (
                 <li key={i}>
-                  <Link
+                  <a
                     href={ref.url}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -98,7 +98,7 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
                       translationKey={ref.labelKey}
                       fallbackText={ref.labelKey}
                     />
-                  </Link>
+                  </a>
                 </li>
               )
             )}

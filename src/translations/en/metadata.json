@@ -3,6 +3,13 @@
     "title": "Ark Fiduciaire - Fiduciary in Geneva & Lausanne (Romandy, Switzerland)",
     "description": "Fiduciary firm in Romandy (Geneva, Lausanne) with an international reach. Accounting, tax, payroll, corporate and domiciliation for SMBs and groups.",
     "keywords": "fiduciary geneva, fiduciary lausanne, romandy, switzerland, accounting, tax, payroll, corporate, domiciliation",
+    "topics": [
+      "fiduciary geneva",
+      "fiduciary lausanne",
+      "swiss accounting",
+      "swiss payroll",
+      "swiss vat"
+    ],
     "author": "Ark Fiduciaire",
     "siteName": "Ark Fiduciaire"
   },
@@ -55,7 +62,12 @@
     "/services/domiciliation": {
       "title": "Domiciliation - Ark Fiduciaire (Geneva & Lausanne)",
       "description": "Business domiciliation with addresses in Geneva or Lausanne for a presence in Romandy with international reach.",
-      "keywords": "domiciliation geneva, domiciliation lausanne, registered office, romandy"
+      "keywords": "domiciliation geneva, domiciliation lausanne, registered office, romandy",
+      "topics": [
+        "domiciliation geneva",
+        "registered office address",
+        "domiciliation lausanne"
+      ]
     },
     "/services/odoo": {
       "title": "Odoo - Ark Fiduciaire (Geneva & Lausanne)",
@@ -80,7 +92,12 @@
     "/services/incorporation": {
       "title": "Company incorporation services - Ark Fiduciaire",
       "description": "Expert guidance for seamless company formation and registration in Switzerland.",
-      "keywords": "company incorporation switzerland, company formation, business registration, legal compliance"
+      "keywords": "company incorporation switzerland, company formation, business registration, legal compliance",
+      "topics": [
+        "start a company switzerland",
+        "incorporate gmbh sàrl",
+        "incorporate sa ag switzerland"
+      ]
     },
     "/legal/privacy": {
       "title": "Privacy policy - Ark Fiduciaire",

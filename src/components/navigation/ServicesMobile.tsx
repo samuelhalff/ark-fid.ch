@@ -1,6 +1,5 @@
 "use client";
-import services from "@/app/[locale]/navigation";
-import TranslatedText from "@/src/components/ui/translated-text";
+import ServicesElements from "@/app/[locale]/navigation";
 import Link from "next/link";
 
 interface ServicesMobileProps {
@@ -10,30 +9,39 @@ interface ServicesMobileProps {
 export default function ServicesMobile({
   onLinkClick,
   locale,
-}: ServicesMobileProps & { locale?: string }) {
+  services,
+  label,
+}: ServicesMobileProps & {
+  locale?: string;
+  services?: Array<{ href: string; title: string }>;
+  label?: string;
+}) {
   const localePrefix = locale ? `/${locale}` : "/fr";
+  const items = (
+    services && services.length
+      ? services
+      : ServicesElements.map((s) => ({ href: s.href, title: s.titleKey }))
+  ) as Array<{
+    href: string;
+    title: string;
+  }>;
 
   return (
     <div>
       <div className="flex items-center gap-3 text-md px-2 py-2 rounded font-medium border-b rounded-none border-muted">
-        <span>Services</span>
+        <span>{label || "Services"}</span>
       </div>
       <div className="flex flex-col mt-1">
-        {services.map((service) => (
+        {items.map((service) => (
           <Link
             key={service.href}
             href={`${localePrefix}${service.href}`}
+            prefetch={false}
             onClick={onLinkClick}
             locale={locale}
             className="flex items-center gap-4 text-md py-3 rounded hover:bg-accent transition-colors pl-6"
           >
-            <span>
-              <TranslatedText
-                ns="servicesItems"
-                translationKey={service.titleKey}
-                fallbackText={service.titleKey}
-              />
-            </span>
+            <span>{service.title}</span>
           </Link>
         ))}
       </div>

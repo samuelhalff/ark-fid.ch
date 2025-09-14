@@ -1,53 +1,28 @@
-"use client";
-
 import React from "react";
 import { Award, Users, Lightbulb, Handshake } from "lucide-react";
-import TranslatedText from "@/src/components/ui/translated-text";
-import { useTranslation } from "react-i18next";
 
 const iconMap = [Award, Users, Lightbulb, Handshake];
 
-export default function DNAValuesSection() {
-  const { t } = useTranslation("aboutUs");
+export interface DNAValueItem {
+  Title: string;
+  Desc: string;
+}
 
-  // Get the translated values or use fallback
-  const values = (t("DNA.Values", {
-    returnObjects: true,
-  }) as Array<{ Title: string; Desc: string }>) || [
-    {
-      Title: "Swiss Precision",
-      Desc: "We embody traditional Swiss values of accuracy and reliability.",
-    },
-    {
-      Title: "Innovation Forward",
-      Desc: "We embrace cutting-edge technology and modern methodologies.",
-    },
-    {
-      Title: "Client-Centric Approach",
-      Desc: "Our diverse team provides tailored solutions for each client.",
-    },
-    {
-      Title: "Collaborative Excellence",
-      Desc: "Our culture of collaboration drives superior results.",
-    },
-  ];
-
+export default function DNAValuesSection({
+  title,
+  subtitle,
+  values,
+}: {
+  title: string;
+  subtitle: string;
+  values: DNAValueItem[];
+}) {
   return (
     <section>
       <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-4 md:leading-[2rem] tracking-tight">
-        <TranslatedText
-          ns="aboutUs"
-          translationKey="DNA.Title"
-          fallbackText="Our DNA"
-        />
+        {title}
       </h3>
-      <h4 className="text-lg font-semibold mb-8">
-        <TranslatedText
-          ns="aboutUs"
-          translationKey="DNA.Subtitle"
-          fallbackText="The Values That Define Us"
-        />
-      </h4>
+      <h4 className="text-lg font-semibold mb-8">{subtitle}</h4>
       <div className="space-y-6">
         {values.map((item, index) => (
           <div

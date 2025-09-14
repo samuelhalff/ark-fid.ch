@@ -20,10 +20,6 @@ import { Textarea } from "@/src/components/ui/textarea";
 import { toast, Toaster } from "sonner";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useTranslation } from "react-i18next";
-
-// 1. Import our hydration-safe component
-import TranslatedText from "@/src/components/ui/translated-text";
 
 // We keep the types and defaults outside the component
 type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
@@ -37,19 +33,24 @@ const defaultValues = {
   phone: "",
 };
 
-// 2. Create a function that builds the schema, accepting the `t` function
-const createFormSchema = (t: (key: string) => string) =>
+// Build the schema from provided error messages (server-supplied)
+const createFormSchema = (errors: {
+  required: string;
+  invalidEmail: string;
+  maxLength: string;
+  consent: string;
+}) =>
   z.object({
-    firstName: z.string().min(1, { message: t("Errors.Required") }),
-    email: z.string().email({ message: t("Errors.InvalidEmail") }),
+    firstName: z.string().min(1, { message: errors.required }),
+    email: z.string().email({ message: errors.invalidEmail }),
     companyName: z.string().optional(),
     phone: z.string().optional(),
     message: z
       .string()
-      .min(1, { message: t("Errors.Required") })
-      .max(500, { message: t("Errors.MaxLength") }),
+      .min(1, { message: errors.required })
+      .max(500, { message: errors.maxLength }),
     consent: z.boolean().refine((val) => val === true, {
-      message: t("Errors.Consent"),
+      message: errors.consent,
     }),
   });
 
@@ -59,18 +60,54 @@ const FORMSPARK_ACTION_URL = "https://submit-form.com/1e26cwX66";
 interface ContactFormProps {
   showTitle?: boolean;
   showSubtitle?: boolean;
+  strings: {
+    title: string;
+    subtitle: string;
+    labels: {
+      name: string;
+      companyName: string;
+      phone: string;
+      email: string;
+      message: string;
+      consent: string;
+      submit: string;
+      sending: string;
+    };
+    placeholders: {
+      name: string;
+      companyName: string;
+      phone: string;
+      email: string;
+      message: string;
+    };
+    errors: {
+      required: string;
+      invalidEmail: string;
+      maxLength: string;
+      consent: string;
+    };
+    toasts: {
+      success: string;
+      error: string;
+    };
+  };
+  redirectPath?: string; // locale-aware redirect after success
 }
 
 const ContactForm: FC<ContactFormProps> = ({
   showTitle = true,
   showSubtitle = true,
+  strings,
+  redirectPath = "/",
 }) => {
-  const { t } = useTranslation("contact");
   const router = useRouter();
   const [sending, setSending] = React.useState(false);
 
-  // 3. Memoize the schema creation so it only runs when the language changes
-  const formSchema = useMemo(() => createFormSchema(t), [t]);
+  // Memoize schema based on provided error strings
+  const formSchema = useMemo(
+    () => createFormSchema(strings.errors),
+    [strings.errors]
+  );
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -82,7 +119,7 @@ const ContactForm: FC<ContactFormProps> = ({
     setSending(true);
     const goHome = () => {
       form.reset(defaultValues);
-      router.push("/");
+      router.push(redirectPath);
     };
     try {
       const res = await fetch(FORMSPARK_ACTION_URL, {
@@ -94,14 +131,14 @@ const ContactForm: FC<ContactFormProps> = ({
         body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error("Network response was not ok");
-      toast.success(t("Form.Success"), {
+      toast.success(strings.toasts.success, {
         action: { label: "Close", onClick: () => toast.dismiss },
         duration: 5000,
         onAutoClose: goHome,
         onDismiss: goHome,
       });
     } catch (e) {
-      toast.error(t("Form.Error") || "Something went wrong.");
+      toast.error(strings.toasts.error || "Something went wrong.");
     } finally {
       setSending(false);
     }
@@ -112,22 +149,10 @@ const ContactForm: FC<ContactFormProps> = ({
       {/* 4. REMOVED: The <title> tag. This must be handled by the page's metadata export. */}
       {showTitle && (
         <h1 className="mb-3 text-center xs:mb-14 text-2xl/7 font-bold sm:text-3xl sm:tracking-tight mt-0 animate-in fade-in duration-700">
-          <TranslatedText
-            ns="contact"
-            translationKey="Title"
-            fallbackText="Get in Touch"
-          />
+          {strings.title}
         </h1>
       )}
-      {showSubtitle && (
-        <p className="w-full text-center">
-          <TranslatedText
-            ns="contact"
-            translationKey="Subtitle"
-            fallbackText="Subtitle"
-          />
-        </p>
-      )}
+      {showSubtitle && <p className="w-full text-center">{strings.subtitle}</p>}
       <div className="flex items-center justify-center">
         <Card className="my-8 max-w-[1200px] min-w-[350px] w-full mb-15 animate-in slide-in-from-bottom-7 duration-500">
           <CardContent>
@@ -147,17 +172,13 @@ const ContactForm: FC<ContactFormProps> = ({
                     render={({ field }) => (
                       <FormItem className="flex-auto">
                         <FormLabel className="form-label">
-                          <TranslatedText
-                            ns="contact"
-                            translationKey="Form.Name"
-                            fallbackText="Name"
-                          />
+                          {strings.labels.name}
                           <span className="text-green-600">*</span>
                         </FormLabel>
                         <FormControl>
                           <Input
                             {...field}
-                            placeholder={t("Form.Placeholders.Name")}
+                            placeholder={strings.placeholders.name}
                             disabled={sending}
                           />
                         </FormControl>
@@ -172,16 +193,12 @@ const ContactForm: FC<ContactFormProps> = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="form-label">
-                        <TranslatedText
-                          ns="contact"
-                          translationKey="Form.CompanyName"
-                          fallbackText="Company Name (Optional)"
-                        />
+                        {strings.labels.companyName}
                       </FormLabel>
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder={t("Form.Placeholders.CompanyName")}
+                          placeholder={strings.placeholders.companyName}
                           disabled={sending}
                         />
                       </FormControl>
@@ -195,16 +212,12 @@ const ContactForm: FC<ContactFormProps> = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="form-label">
-                        <TranslatedText
-                          ns="contact"
-                          translationKey="Form.Phone"
-                          fallbackText="Phone Number (Optional)"
-                        />
+                        {strings.labels.phone}
                       </FormLabel>
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder={t("Form.Placeholders.Phone")}
+                          placeholder={strings.placeholders.phone}
                           disabled={sending}
                         />
                       </FormControl>
@@ -218,17 +231,13 @@ const ContactForm: FC<ContactFormProps> = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="form-label">
-                        <TranslatedText
-                          ns="contact"
-                          translationKey="Form.Email"
-                          fallbackText="Email"
-                        />
+                        {strings.labels.email}
                         <span className="text-green-600">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder={t("Form.Placeholders.Email")}
+                          placeholder={strings.placeholders.email}
                           disabled={sending}
                         />
                       </FormControl>
@@ -242,18 +251,14 @@ const ContactForm: FC<ContactFormProps> = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="form-label">
-                        <TranslatedText
-                          ns="contact"
-                          translationKey="Form.Message"
-                          fallbackText="Message"
-                        />
+                        {strings.labels.message}
                         <span className="text-green-600">*</span>
                       </FormLabel>
                       <FormControl>
                         <Textarea
                           {...field}
                           rows={8}
-                          placeholder={t("Form.Placeholders.Message")}
+                          placeholder={strings.placeholders.message}
                           disabled={sending}
                         />
                       </FormControl>
@@ -275,11 +280,7 @@ const ContactForm: FC<ContactFormProps> = ({
                           />
                         </FormControl>
                         <FormLabel className="mt-0! hover:cursor-pointer">
-                          <TranslatedText
-                            ns="contact"
-                            translationKey="Form.Consent"
-                            fallbackText="I consent to being contacted"
-                          />
+                          {strings.labels.consent}
                           <span className="text-green-600">*</span>
                         </FormLabel>
                       </div>
@@ -315,14 +316,10 @@ const ContactForm: FC<ContactFormProps> = ({
                           d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
                         />
                       </svg>
-                      {t("Form.Sending") || "Sending..."}
+                      {strings.labels.sending || "Sending..."}
                     </span>
                   ) : (
-                    <TranslatedText
-                      ns="contact"
-                      translationKey="Form.Submit"
-                      fallbackText="Submit"
-                    />
+                    <>{strings.labels.submit}</>
                   )}
                 </Button>
               </form>

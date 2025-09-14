@@ -22,8 +22,28 @@ export default function ConsentAnalytics() {
     const onStorage = (e: StorageEvent) => {
       if (e.key === CONSENT_KEY) setConsent(getConsent());
     };
+    const onCustom = (e: Event) => {
+      // custom event dispatched by CookieConsent after user action
+      // @ts-ignore detail may be string|null
+      const val = (e as CustomEvent).detail;
+      if (val === "accepted" || val === "declined" || val === null) {
+        setConsent(val);
+      } else {
+        setConsent(getConsent());
+      }
+    };
     window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
+    window.addEventListener(
+      "cookie-consent-changed",
+      onCustom as EventListener
+    );
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener(
+        "cookie-consent-changed",
+        onCustom as EventListener
+      );
+    };
   }, []);
 
   if (consent !== "accepted") return null;

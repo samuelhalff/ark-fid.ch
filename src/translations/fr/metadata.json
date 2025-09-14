@@ -3,13 +3,20 @@
     "title": "Ark Fiduciaire - Fiduciaire à Genève & Lausanne (Suisse romande)",
     "description": "Fiduciaire en Suisse romande (Genève, Lausanne) avec une portée internationale. Comptabilité, fiscalité, paie, corporate et domiciliation pour PME et groupes.",
     "keywords": "fiduciaire genève, fiduciaire lausanne, suisse romande, fiduciaire, comptabilité, fiscalité, services d'entreprise, paie, domiciliation, suisse",
+    "topics": [
+      "fiduciaire genève",
+      "fiduciaire lausanne",
+      "comptabilité suisse",
+      "paie suisse",
+      "tva suisse"
+    ],
     "author": "Ark Fiduciaire",
     "siteName": "Ark Fiduciaire"
   },
   "pages": {
     "/": {
       "title": "Ark Fiduciaire - Fiduciaire à Genève & Lausanne (Suisse romande)",
-      "description": "Cabinet fiduciaire basé à Genève et Lausanne, au service des entreprises en Suisse romande et à l'international. Comptabilité, fiscalité, paie, corporate, domiciliation.",
+      "description": "Cabinet fiduciaire à Genève et Lausanne, au service des entreprises en Suisse romande. Comptabilité, fiscalité, paie, corporate et domiciliation.",
       "keywords": "fiduciaire genève, fiduciaire lausanne, suisse romande, services fiduciaires, comptabilité, fiscalité"
     },
     "/about": {
@@ -55,7 +62,12 @@
     "/services/domiciliation": {
       "title": "Domiciliation - Ark Fiduciaire (Genève & Lausanne)",
       "description": "Domiciliation commerciale avec adresses à Genève ou Lausanne, pour une présence en Suisse romande avec rayonnement international.",
-      "keywords": "domiciliation genève, domiciliation lausanne, siège social, suisse romande"
+      "keywords": "domiciliation genève, domiciliation lausanne, siège social, suisse romande",
+      "topics": [
+        "domiciliation genève",
+        "adresse siège social",
+        "domiciliation lausanne"
+      ]
     },
     "/services/odoo": {
       "title": "Odoo - Ark Fiduciaire (Genève & Lausanne)",
@@ -80,11 +92,16 @@
     "/services/incorporation": {
       "title": "Constitution d'entreprise - Ark Fiduciaire",
       "description": "Conseils experts pour une création et un enregistrement d'entreprise sans souci en Suisse.",
-      "keywords": "constitution d'entreprise suisse, création société, enregistrement entreprise, conformité légale"
+      "keywords": "constitution d'entreprise suisse, création société, enregistrement entreprise, conformité légale",
+      "topics": [
+        "créer une société suisse",
+        "constituer sàrl",
+        "créer sa sa suisse"
+      ]
     },
     "/legal/privacy": {
       "title": "Politique de confidentialité - Ark Fiduciaire",
-      "description": "Politique de confidentialité d'Ark Fiduciaire. Découvrez comment nous protégeons et traitons vos données personnelles en conformité avec les réglementations suisses et européennes.",
+      "description": "Politique de confidentialité d'Ark Fiduciaire. Comment nous protégeons et traitons vos données personnelles selon les exigences suisses et européennes.",
       "keywords": "politique confidentialité, protection données, conformité rgpd, données personnelles"
     },
     "/legal/terms": {

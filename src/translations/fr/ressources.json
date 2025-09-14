@@ -98,6 +98,20 @@
   ],
   "Articles": [
     {
+      "slug": "annual-vat-settlement-2025",
+      "title": "Décompte TVA annuel en Suisse : points clés pour 2025",
+      "description": "Un résumé des principales règles et points d'attention pour le décompte TVA annuel en 2025.",
+      "content": "Pour l'année fiscale 2025, les entreprises suisses doivent continuer à utiliser soit la **méthode effective** (basée sur 4 déclarations TVA) soit la **méthode du taux de l'impôt net (TIN)** (2 déclarations TVA), comme appliqué précédemment.\n\n## Caractéristiques clés du décompte TVA annuel\n\n- Changer votre méthode de décompte TVA nécessite de notifier l'Administration fédérale des contributions (AFC) au début de chaque période fiscale, dans les 60 jours (pour 2026 : entre le 01.01.2026 et le 28.02.2026 pour un premier changement). La nouvelle méthode doit être conservée pendant au moins une période fiscale complète pour les entreprises avec un chiffre d'affaires inférieur à CHF 5 005 000.\n- Autres conditions : toutes les dettes fiscales doivent être entièrement payées et toutes les déclarations soumises à temps pour les trois périodes fiscales précédentes.\n- L'AFC détermine le montant des acomptes, facturés en trois versements. Ceux-ci peuvent être ajustés jusqu'à 10 jours avant la date d'échéance pertinente.\n- Les extensions de délai restent possibles.\n- L'AFC peut révoquer l'autorisation si :\n  - elle a dû initier une procédure de recouvrement contre le contribuable,\n  - le contribuable a dépassé la limite de CHF 5 005 000 de chiffre d'affaires pendant trois périodes consécutives,\n  - l'AFC a dû estimer les impôts dus à des déclarations manquantes.\n\n## Points d'attention\n\n- Si les acomptes sont trop bas, des intérêts de retard (4,5 %) seront facturés.\n- Pas de possibilité de réclamer des remboursements d'impôt préalable basés sur les acomptes.\n- L'autorisation peut être révoquée si les acomptes dévient trop des montants réellement dus.\n- S'il y a un crédit d'impôt, il ne peut être remboursé que l'année suivante (en mars).",
+      "author": "Sébastien Gallié",
+      "date": "2025-08-25",
+      "references": [
+        {
+          "labelKey": "SwissVATOffice",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        }
+      ]
+    },
+    {
       "slug": "baisse-impots-geneve-2025",
       "title": "Baisse historique des impôts à Genève en 2025 : ce que vous devez savoir",
       "description": "Analyse détaillée de la réduction d'impôts de 8,7% en moyenne votée à Genève, ses impacts sur les contribuables et les nouvelles modalités de paiement mensuel.",
