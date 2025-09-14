@@ -28,7 +28,9 @@ export default async function ArticlePage({ params }: Params) {
   const frModule = await import(`@/src/translations/fr/ressources.json`);
   const fr = frModule.default;
 
-  const localArticle = ressources.Articles.find((a: any) => a.slug === params.slug);
+  const localArticle = ressources.Articles.find(
+    (a: any) => a.slug === params.slug
+  );
   const frArticle = fr.Articles.find((a: any) => a.slug === params.slug);
   let article = localArticle ?? frArticle;
   if (!article) return notFound();
@@ -41,8 +43,10 @@ export default async function ArticlePage({ params }: Params) {
       isFallback = true;
     } else if (frArticle) {
       const sameTitle = (localArticle.title || "") === (frArticle.title || "");
-      const sameDesc = (localArticle.description || "") === (frArticle.description || "");
-      const sameContent = (localArticle.content || "") === (frArticle.content || "");
+      const sameDesc =
+        (localArticle.description || "") === (frArticle.description || "");
+      const sameContent =
+        (localArticle.content || "") === (frArticle.content || "");
       if (sameTitle && sameDesc && sameContent) isFallback = true;
     }
   }
@@ -266,12 +270,16 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Params) {
-  const module = await import(`@/src/translations/${params.locale}/ressources.json`);
+  const module = await import(
+    `@/src/translations/${params.locale}/ressources.json`
+  );
   const ressources = module.default;
   const frModule = await import(`@/src/translations/fr/ressources.json`);
   const fr = frModule.default;
 
-  const localArticle = ressources.Articles.find((a: any) => a.slug === params.slug);
+  const localArticle = ressources.Articles.find(
+    (a: any) => a.slug === params.slug
+  );
   const frArticle = fr.Articles.find((a: any) => a.slug === params.slug);
   let article = localArticle ?? frArticle;
   if (!article) return {};
@@ -282,8 +290,10 @@ export async function generateMetadata({ params }: Params) {
       isFallback = true;
     } else if (frArticle) {
       const sameTitle = (localArticle.title || "") === (frArticle.title || "");
-      const sameDesc = (localArticle.description || "") === (frArticle.description || "");
-      const sameContent = (localArticle.content || "") === (frArticle.content || "");
+      const sameDesc =
+        (localArticle.description || "") === (frArticle.description || "");
+      const sameContent =
+        (localArticle.content || "") === (frArticle.content || "");
       if (sameTitle && sameDesc && sameContent) isFallback = true;
     }
   }

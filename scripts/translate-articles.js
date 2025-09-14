@@ -31,6 +31,7 @@ const DRY = args.has('--dry-run') || !APPLY;
 const FORCE = args.has('--force');
 const LOCALES = (getArg('--locales', 'en,de,es,pt').split(',').map(s => s.trim()).filter(Boolean));
 const MODEL_OVERRIDE = getArg('--model', '');
+const PROVIDER = getArg('--provider', '').toLowerCase() || process.env.TRANSLATE_PROVIDER || 'gemini';
 const ONLY_SLUGS = new Set((getArg('--only-slugs', '') || '').split(',').map(s => s.trim()).filter(Boolean));
 const MAX = parseInt(getArg('--max', '0'), 10) || 0;
 
@@ -45,6 +46,12 @@ if (!fs.existsSync(FR_PATH)) {
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 const MODEL = MODEL_OVERRIDE || process.env.GEMINI_MODEL_TRANSLATE || process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+const AZURE = {
+  endpoint: process.env.AZURE_OPENAI_ENDPOINT,
+  apiKey: process.env.AZURE_OPENAI_API_KEY,
+  deployment: process.env.AZURE_OPENAI_DEPLOYMENT || 'gpt-4.1',
+  apiVersion: process.env.AZURE_OPENAI_API_VERSION || '2025-01-01-preview',
+};
 
 function loadJSON(p) {
   try { return JSON.parse(fs.readFileSync(p, 'utf8')); }
@@ -103,6 +110,42 @@ async function geminiJson(model, prompt) {
   }
 }
 
+async function azureChatJson(prompt) {
+  if (!AZURE.endpoint || !AZURE.apiKey) throw new Error('Missing Azure OpenAI endpoint or API key');
+  // Build URL (allow endpoint to already include deployments path and query)
+  let url = AZURE.endpoint;
+  if (!/api-version=/.test(url)) {
+    const sep = url.includes('?') ? '&' : '?';
+    url = `${url}${sep}api-version=${encodeURIComponent(AZURE.apiVersion)}`;
+  }
+  const body = {
+    messages: [
+      { role: 'system', content: 'You are a professional translator. Output strictly JSON.' },
+      { role: 'user', content: prompt },
+    ],
+    temperature: 0.2,
+    top_p: 0.9,
+    response_format: { type: 'json_object' }
+  };
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'api-key': AZURE.apiKey,
+    },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`Azure OpenAI HTTP ${res.status}: ${text}`);
+  }
+  const data = await res.json();
+  // Azure response: choices[0].message.content contains JSON string
+  const content = data?.choices?.[0]?.message?.content;
+  if (!content) throw new Error('Azure OpenAI returned no content.');
+  try { return JSON.parse(content); } catch (e) { throw new Error('Azure did not return valid JSON: ' + e.message); }
+}
+
 function buildTranslatePrompt(locale, frArticle) {
   return [
     'Tu es un traducteur professionnel. Traduis ce contenu français vers la langue cible précisée.',
@@ -157,7 +200,7 @@ async function main() {
         console.log(`[dry-run] Would translate slug="${frA.slug}" to ${locale}`);
         continue;
       }
-      const tr = await geminiJson(MODEL, prompt);
+  const tr = PROVIDER === 'azure' ? await azureChatJson(prompt) : await geminiJson(MODEL, prompt);
       const title = (tr && tr.title) ? String(tr.title) : frA.title;
       const description = (tr && tr.description) ? String(tr.description) : frA.description;
       const content = (tr && tr.content) ? String(tr.content) : frA.content;

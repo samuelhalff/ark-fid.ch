@@ -541,6 +541,196 @@
           "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
         }
       ]
+    },
+    {
+      "slug": "reforme-tva-2025-suisse",
+      "title": "VAT Reform 2025: Annual Settlement and Electronic Obligations",
+      "description": "Comprehensive guide to the new VAT 2025: annual settlement for SMEs, mandatory electronic declaration, and new bankruptcy rules.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-09",
+      "content": "2025 marks a key step in the modernization of Swiss VAT.\n\n#### Annual Settlement for SMEs (<CHF 5,005,000 Turnover)\n- Procedures, advance payments, advantages, and pitfalls.\n\n#### Mandatory Electronic Declaration ► eVAT Portal, accounting import-export.\n\n#### Accelerated Recovery\n- Direct right of bankruptcy for tax and social security debts.\n\n(1,750-word article detailing procedures, eVAT screenshots, cantonal examples.)",
+      "references": [
+        {
+          "labelKey": "reforme TVA2025",
+          "url": "https://dilytics.ch/reforme-tva-2025-en-suisse-preparez-votre-entreprise/"
+        },
+        {
+          "labelKey": "modificationsKlara2025",
+          "url": "https://www.klara.ch/fr-ch/blog/gesetzes%C3%A4nderungen-2025-das-m%C3%BCssen-schweizer-kmu-jetzt-wissen"
+        }
+      ]
+    },
+    {
+      "slug": "impot-minimum-ocde-suisse-2025",
+      "title": "OECD minimum tax in Switzerland: impacts and implementation 2025",
+      "description": "Detailed analysis of the OECD's 15% minimum tax for multinationals: IIR rules, impacts on Swiss companies and prospects for evolution.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-08",
+      "content": "OECD Pillar 2 establishes a minimum rate of 15%.\n\n#### Phase 1: Qualified Domestic Minimum Top-up Tax (QDMTT)\n#### Phase 2: Income Inclusion Rule\n\n#### OMTax: automated calculation solution.\n#### Restructuring advice for multinationals.\n\n(1,800-word article with diagrams, Geneva and Vaud case studies.)",
+      "references": [
+        {
+          "labelKey": "emineoOMTax",
+          "url": "https://emineo.ch/fr/omtax-la-reponse-numerique-a-limpot-minimum/"
+        },
+        {
+          "labelKey": "swissBankingOCDE",
+          "url": "https://www.swissbanking.ch/fr/themes/impots/imposition-minimale-de-locde"
+        }
+      ]
+    },
+    {
+      "slug": "suppression-valeur-locative-votation-septembre-2025",
+      "title": "Vote of September 28, 2025: Abolition of imputed rental value and its implications",
+      "description": "Analysis of the vote on the abolition of imputed rental value: fiscal impacts, consequences for homeowners and energy renovations.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-07",
+      "content": "The abolition of imputed rental value is disrupting property taxation.\n\n#### Current system: imputed rental value + deductions for work/rent.\n#### Reform: cantonal property tax on secondary residences.\n#### Generational, energy, and economic impacts.\n#### Cantonal scenarios Geneva, Vaud, Valais.\n\n(1,900-word article with figures, interviews, simulations.)",
+      "references": [
+        {
+          "labelKey": "strengValeurLocative",
+          "url": "https://streng.ch/news/modifications-legislatives-a-venir-vers-deux-reformes-importantes-pour-les-contribuables/"
+        },
+        {
+          "labelKey": "swissolarNon",
+          "url": "https://www.swissolar.ch/fr/news/detail/non-au-projet-de-suppression-de-la-valeur-locative-le-28-septembre-75266"
+        }
+      ]
+    },
+    {
+      "slug": "comparatif-sa-sarl-2025",
+      "title": "SA or Sàrl for your 2025 project? Strengths, weaknesses and taxation",
+      "description": "Decision-making tables for Swiss-Romande managers, overall creation cost, social security contributions, manager taxation.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-06",
+      "content": "Quantified comparison SA vs Sàrl:\n\n- Min. capital\n- Responsibility\n- Governance\n- Taxation of dividends vs. salaries\n- Transmission\n\n(1,600-word article, tables, practical cases Geneva/Vaud.)"
+    },
+    {
+      "slug": "teletravail-frontaliers-nouvelle-convention",
+      "title": "Cross-border telework France–Switzerland: obligations, attestations and developments post-2025",
+      "description": "40% rules, employer tools, establishment risks, preparation for automatic data transmission.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-05",
+      "content": "Extension of telework agreement until 31.12.2025:\n\n- 40% max\n- Tax impact\n- 2026 News: automatic certification\n- Permanent establishment risks\n\n(1,700-word article, HR checklist, attestation templates.)"
+    },
+    {
+      "slug": "reforme-avs-21-entreprises-suisse-romande",
+      "title": "AHV 21 Reform: Concrete Consequences for Employees and SMEs",
+      "description": "VAT increase, new retirement flexibility, transitional generation, improved payroll management thanks to the reform.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-04",
+      "content": "AHV 21 impact:\n\n- Reference age for women: 64 years 3 months\n- Early/deferred/partial retirement\n- Contributions after 65 integrated\n- VAT increase for co-financing\n\n(1,600-word article, payroll examples, simulation tools.)"
+    },
+    {
+      "slug": "controle-avs-pme-preparation-2025",
+      "title": "AHV audit in Swiss SMEs: 2025 audit and best practices",
+      "description": "Feedback on recent audits, the role of the auditor, preparation of documents, evolution in the digital age.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-03",
+      "content": "AHV audit:\n\n- Announcement and scope\n- Documents to provide\n- Sensitive points (benefits in kind, statutes)\n- Digitalization\n\n(1,650-word article with checklist, cantonal instruction.)"
+    },
+    {
+      "slug": "plan-comptable-pme-suisse-romande",
+      "title": "The SME chart of accounts in French-speaking Switzerland: from the essentials to personalization",
+      "description": "How to adapt a chart of accounts to your SME and gain efficiency: structure, analytics, fiduciary collaboration, example tables.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-02",
+      "content": "Swiss chart of accounts:\n\n- Classes 1–8\n- Sectoral adaptation\n- Analytics & reporting\n- Simplified examples\n\n(1,700-word article, models, Odoo captures.)"
+    },
+    {
+      "slug": "facturation-electronique-obligatoire-2026",
+      "title": "E-invoicing: Are SMEs in French-speaking Switzerland ready for 2026?",
+      "description": "New B2B/B2G obligation, ERP and Odoo implications, compliance control, official schedule and exceptions.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-01",
+      "content": "E-invoice:\n\n- Mandatory B2G >CHF5k\n- B2B: Swiss QR routes and standards\n- ERP & Odoo impacts\n\n(1,600-word article, Europe comparison.)"
+    },
+    {
+      "slug": "cession-transmission-entreprise-suisse-romande",
+      "title": "Business transfer and succession in French-speaking Switzerland: timeline, taxation, pitfalls",
+      "description": "Succession steps, tax updates, SME case study, frequently asked questions for heirs.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-31",
+      "content": "Process:\n\n1. Project preparation\n2. Due diligence\n3. Negotiation\n4. Closing\n\n(1,800-word article, legal checklist.)"
+    },
+    {
+      "slug": "optimisation-fiscale-independants-geneve-2025",
+      "title": "2025 tax optimization for self-employed in Geneva: key tips and deductions",
+      "description": "Comprehensive overview of possible savings, online simulator, filing obligations, expert advice.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-30",
+      "content": "Deductions:\n\n- Professional rent\n- Mixed-use vehicle\n- Equipment & training\n- AVS/LPP/3a contributions\n\n(1,700-word article, simulator, examples.)"
+    },
+    {
+      "slug": "fiscalite-crowdfunding-suisse-2025",
+      "title": "Taxation of crowdfunding and fundraising in French-speaking Switzerland: practical guides 2025",
+      "description": "Tax treatment of donations, crowdlending/supporting/investing loans, VAT obligations, profit declaration.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-29",
+      "content": "Crowdfunding:\n\n- Donation: gift vs income\n- Reward: turnover\n- Loan: taxable interest\n- Invest: taxable dividends\n\n(1,750-word article, local cases.)"
+    },
+    {
+      "slug": "audit-pme-2025-choix-controle",
+      "title": "2025 audit of French-speaking Swiss SMEs: limited audit, ordinary audit or opting-out?",
+      "description": "Educational explanations of each audit type, thresholds, consequences, opt-out: user guide.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-28",
+      "content": "Audit:\n\n- Ordinary vs limited\n- Opting-out conditions\n- Credibility consequences\n\n(1,650-word article, decision table.)"
+    },
+    {
+      "slug": "tva-prestations-electroniques-suisse-2025",
+      "title": "Electronic Services and VAT 2025: Switzerland versus EU, Pitfalls and Compliance",
+      "description": "Streaming, SaaS software, marketplace, how to apply VAT for Swiss companies and freelancers.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-27",
+      "content": "E-services:\n\n- Place of supply\n- Registration threshold\n- Obligations of tax representatives\n\n(1,600-word article, EU comparison.)"
+    },
+    {
+      "slug": "statut-quasi-resident-geneve-2025",
+      "title": "Quasi-resident status Geneva: The optimization tool for cross-border workers in 2025",
+      "description": "Steps to follow, true/false, conditions of TOU, edge cases (bi-nationals, couples, professional transfers).",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-26",
+      "content": "TOU:\n\n- 90% worldwide income conditions\n- Real deductions\n- Example of a married cross-border worker case\n\n(1,600-word article, simulator.)"
+    },
+    {
+      "slug": "gestion-paie-pme-suisse-romande-2025",
+      "title": "Payroll Management and Outsourcing: A Guide for SMEs in French-speaking Switzerland in 2025",
+      "description": "Security, compliance, comparison between in-house management, Odoo or fiduciary, focus on cantonal controls and swissdec.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-25",
+      "content": "Payroll:\n\n- Gross/net calculation\n- Withholding tax vs eTax\n- Swissdec standards\n- Outsourcing criteria\n\n(1,700-word article, testimonials.)"
+    },
+    {
+      "slug": "controle-fiscal-pme-2025",
+      "title": "Tax audit for SMEs in Geneva and French-speaking Switzerland: practical checklist 2025",
+      "description": "Prepare for a tax audit: items checked, documents to present, mistakes to avoid, changes in cantonal practice.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-24",
+      "content": "Tax:\n\n- Accounting documentation\n- Suspicious deductions\n- Cantonal procedure\n\n(1,650-word article, expert advice.)"
+    },
+    {
+      "slug": "comptabilite-fiscalite-associations-romande-2025",
+      "title": "Accounting, VAT and taxation for French-speaking Swiss associations: obligations, pitfalls, solutions",
+      "description": "Everything about exemptions, VAT, account templates, liability thresholds and new statutes checklist.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-23",
+      "content": "Associations:\n\n- Simplified accounts vs commercial register\n- Profit/capital exemptions\n- VAT thresholds 100k/250k\n\n(1,700-word article, account templates.)"
+    },
+    {
+      "slug": "amortissement-fiscal-comptable-2025",
+      "title": "Tax and accounting depreciation: new rules and practical cases 2025",
+      "description": "Overview of methods, cantonal updates, tips for innovative companies, comparative tables.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-22",
+      "content": "Depreciation:\n\n- Straight-line vs declining balance\n- Maximum tax rates\n- Hidden reserves\n\n(1,650-word article, Geneva startup examples.)"
+    },
+    {
+      "slug": "reprise-entreprise-romande-2025",
+      "title": "Business takeover in French-speaking Switzerland: key steps and pitfalls to avoid",
+      "description": "From target search to post-closing transition, a complete guide for buyers and sellers.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-08-21",
+      "content": "Takeover:\n\n- Project preparation\n- Comprehensive due diligence\n- Structured financing\n- Employee integration\n\n(1,800-word article, process diagrams.)"
     }
   ],
   "suisse-impots-2025": "Swiss taxes 2025 – Overview (FDF)",

@@ -199,139 +199,139 @@
     },
     {
       "slug": "comparatif-sa-sarl-2025",
-      "title": "SA ou Sàrl pour votre projet 2025 ? Forces, faiblesses et fiscalité",
-      "description": "Tableaux décisionnels pour dirigeants romands, coût global création, charges sociales, fiscalité dirigeants.",
+      "title": "SA ou Sàrl para o seu projeto 2025? Pontos fortes, fracos e fiscalidade",
+      "description": "Tabelas de decisão para gestores da Suíça romanda, custo total de criação, encargos sociais, fiscalidade dos gestores.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-06",
-      "content": "Comparatif chiffré SA vs Sàrl :\n\n- Capital min.\n- Responsabilité\n- Gouvernance\n- Fiscalité dividendes vs salaires\n- Transmission\n\n(Article de 1 600 mots, tableaux, cas pratiques Genève/Vaud.)"
+      "content": "Comparativo numérico SA vs Sàrl:\n\n- Capital mínimo\n- Responsabilidade\n- Governança\n- Fiscalidade de dividendos vs salários\n- Transmissão\n\n(Artigo de 1.600 palavras, tabelas, casos práticos Genebra/Vaud.)"
     },
     {
       "slug": "teletravail-frontaliers-nouvelle-convention",
-      "title": "Télétravail frontalier France–Suisse : obligations, attestations et évolutions post-2025",
-      "description": "Règles 40%, outils employeurs, risques établissement, préparation à la transmission automatique de données.",
+      "title": "Teletrabalho transfronteiriço França–Suíça: obrigações, atestados e mudanças após 2025",
+      "description": "Regra dos 40%, ferramentas para empregadores, riscos de estabelecimento, preparação para a transmissão automática de dados.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-05",
-      "content": "Prolongation accord télétravail jusqu'au 31.12.2025 :\n\n- 40% maxi\n- Impact impôts\n- Nouveautés 2026 : attestation automatique\n- Risques établissement stable\n\n(Article de 1 700 mots, checklist RH, modèles d'attestation.)"
+      "content": "Prorrogação do acordo de teletrabalho até 31.12.2025:\n\n- Máximo de 40%\n- Impacto nos impostos\n- Novidades para 2026: atestado automático\n- Riscos de estabelecimento permanente\n\n(Artigo de 1.700 palavras, checklist de RH, modelos de atestado.)"
     },
     {
       "slug": "reforme-avs-21-entreprises-suisse-romande",
-      "title": "Réforme AVS 21 : Conséquences concrètes pour employés et PME",
-      "description": "Hausse de la TVA, nouvelle flexibilité retraite, génération transitoire, gestion paie améliorée grâce à la réforme.",
+      "title": "Reforma AVS 21: Consequências concretas para empregados e PME",
+      "description": "Aumento do IVA, nova flexibilidade na aposentadoria, geração de transição, gestão de folha de pagamento aprimorada graças à reforma.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-04",
-      "content": "AVS 21 impact :\n\n- Âge référence femmes: 64 ans 3 mois\n- Retraite anticipée/ajournée/partielle\n- Cotisations après 65 ans intégrées\n- Hausse TVA co-financement\n\n(Article de 1 600 mots, exemples paie, outils simulation.)"
+      "content": "Impacto da AVS 21:\n\n- Idade de referência para mulheres: 64 anos e 3 meses\n- Aposentadoria antecipada/postergada/parcial\n- Contribuições após 65 anos integradas\n- Aumento do IVA para cofinanciamento\n\n(Artigo de 1.600 palavras, exemplos de folha de pagamento, ferramentas de simulação.)"
     },
     {
       "slug": "controle-avs-pme-preparation-2025",
-      "title": "Le contrôle AVS en PME romande : audit 2025 et bonnes pratiques",
-      "description": "Retours d’expérience sur les contrôles récents, rôle du réviseur, préparation des pièces, évolution à l’ère du digital.",
+      "title": "O controle AVS nas PME da Romandia: auditoria 2025 e boas práticas",
+      "description": "Relatos de experiências sobre controles recentes, papel do auditor, preparação dos documentos, evolução na era digital.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-03",
-      "content": "Contrôle AVS :\n\n- Annonce et périmètre\n- Documents à fournir\n- Points sensibles (avantages en nature, statuts)\n- Digitalisation\n\n(Article de 1 650 mots avec check-list, instruction cantonale.)"
+      "content": "Controle AVS:\n\n- Anúncio e escopo\n- Documentos a fornecer\n- Pontos sensíveis (vantagens em espécie, estatutos)\n- Digitalização\n\n(Artigo de 1.650 palavras com checklist, instrução cantonal.)"
     },
     {
       "slug": "plan-comptable-pme-suisse-romande",
-      "title": "Le plan comptable PME en Suisse romande : de l'essentiel à la personnalisation",
-      "description": "Comment adapter un plan comptable à votre PME et gagner en efficacité : structure, analytique, collaboration fiduciaire, tableaux exemples.",
+      "title": "O plano de contas PME na Suíça romanda: do essencial à personalização",
+      "description": "Como adaptar um plano de contas à sua PME e ganhar em eficiência: estrutura, analítica, colaboração com fiduciária, exemplos de tabelas.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-02",
-      "content": "Plan comptable suisse :\n\n- Classes 1–8\n- Adaptation sectorielle\n- Analytique & reporting\n- Exemples simplifiés\n\n(Article de 1 700 mots, modèles, captures Odoo.)"
+      "content": "Plano de contas suíço:\n\n- Classes 1–8\n- Adaptação setorial\n- Analítica & reporting\n- Exemplos simplificados\n\n(Artigo de 1.700 palavras, modelos, capturas Odoo.)"
     },
     {
       "slug": "facturation-electronique-obligatoire-2026",
-      "title": "Facturation électronique : les PME romandes prêtes pour 2026 ?",
-      "description": "Nouvelle obligation B2B/B2G, implications ERP et Odoo, contrôle de conformité, calendrier officiel et exceptions.",
+      "title": "Faturação eletrónica: as PME da Suíça romanda estão preparadas para 2026?",
+      "description": "Nova obrigação B2B/B2G, implicações para ERP e Odoo, controlo de conformidade, calendário oficial e exceções.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-01",
-      "content": "E-facture:\n\n- Obligatoire B2G >CHF5k\n- B2B: voies et normes Swiss QR \n- Impacts ERP & Odoo\n\n(Article de 1 600 mots, comparatif Europe.)"
+      "content": "E-fatura:\n\n- Obrigatória B2G >CHF5k\n- B2B: vias e normas Swiss QR\n- Impactos em ERP & Odoo\n\n(Artigo de 1 600 palavras, comparativo com a Europa.)"
     },
     {
       "slug": "cession-transmission-entreprise-suisse-romande",
-      "title": "Cession et transmission d'entreprise en Suisse romande : calendrier, fiscalité, écueils",
-      "description": "Étapes de la succession, nouveautés fiscales, cas d’étude PME, questions fréquentes héritiers.",
+      "title": "Cessão e transmissão de empresa na Suíça romanda: calendário, fiscalidade, armadilhas",
+      "description": "Etapas da sucessão, novidades fiscais, estudo de caso PME, perguntas frequentes dos herdeiros.",
       "author": "Ark Fiduciaire",
       "date": "2025-08-31",
-      "content": "Processus :\n\n1. Préparation projet\n2. Due diligence\n3. Négociation\n4. Closing\\n\n(Article de 1 800 mots, checklist juridique.)"
+      "content": "Processo:\n\n1. Preparação do projeto\n2. Due diligence\n3. Negociação\n4. Closing\n\n(Artigo de 1.800 palavras, checklist jurídica.)"
     },
     {
       "slug": "optimisation-fiscale-independants-geneve-2025",
-      "title": "Optimisation fiscale 2025 pour indépendants à Genève : astuces et déductions clés",
-      "description": "Tour d’horizon exhaustif des économies possibles, simulateur en ligne, obligations déclaratives, conseils experts.",
+      "title": "Otimização fiscal 2025 para independentes em Genebra: dicas e deduções essenciais",
+      "description": "Visão geral completa das economias possíveis, simulador online, obrigações declarativas, conselhos de especialistas.",
       "author": "Ark Fiduciaire",
       "date": "2025-08-30",
-      "content": "Déductions :\n\n- Loyer pro\n- Véhicule mixte\n- Matériel & formation\n- Cotisations AVS/LPP/3a\n\n(Article de 1 700 mots, simulateur, exemples.)"
+      "content": "Deduções:\n\n- Aluguel profissional\n- Veículo de uso misto\n- Material & formação\n- Contribuições AVS/LPP/3a\n\n(Artigo de 1.700 palavras, simulador, exemplos.)"
     },
     {
       "slug": "fiscalite-crowdfunding-suisse-2025",
-      "title": "Fiscalité du crowdfunding et levées de fonds en Suisse romande : guides pratiques 2025",
-      "description": "Traitement fiscal des dons, prêts crowdlending/supporting/investing, obligations TVA, déclaration bénéfices.",
+      "title": "Fiscalidade do crowdfunding e captação de fundos na Suíça romanda: guias práticos 2025",
+      "description": "Tratamento fiscal de doações, empréstimos crowdlending/supporting/investing, obrigações de IVA, declaração de lucros.",
       "author": "Ark Fiduciaire",
       "date": "2025-08-29",
-      "content": "Crowdfunding :\n\n- Don: donation vs revenu\n- Reward: chiffre d'affaires\n- Prêt: intérêts imposables\n- Invest: dividendes imposables\n\n(Article de 1 750 mots, cas locaux.)"
+      "content": "Crowdfunding:\n\n- Doação: doação vs rendimento\n- Recompensa: faturamento\n- Empréstimo: juros tributáveis\n- Investimento: dividendos tributáveis\n\n(Artigo de 1.750 palavras, casos locais.)"
     },
     {
       "slug": "audit-pme-2025-choix-controle",
-      "title": "Audit 2025 des PME romandes : contrôle restreint, ordinaire ou opting-out ?",
-      "description": "Explications pédagogiques de chaque forme d’audit, seuils, conséquences, opt-out : mode d’emploi.",
+      "title": "Auditoria 2025 das PME romandas: auditoria restrita, ordinária ou opting-out?",
+      "description": "Explicações pedagógicas de cada forma de auditoria, limites, consequências, opting-out: manual de instruções.",
       "author": "Ark Fiduciaire",
       "date": "2025-08-28",
-      "content": "Audit :\n\n- Ordinaire vs restreint\n- Opting-out conditions\n- Conséquences crédibilité\n\n(Article de 1 650 mots, tableau décisionnel.)"
+      "content": "Auditoria:\n\n- Ordinária vs restrita\n- Condições para opting-out\n- Consequências para a credibilidade\n\n(Artigo de 1.650 palavras, tabela de decisão.)"
     },
     {
       "slug": "tva-prestations-electroniques-suisse-2025",
-      "title": "Services électroniques et TVA 2025 : Suisse versus UE, pièges et conformité",
-      "description": "Streaming, logiciels SaaS, marketplace, comment appliquer la TVA pour entreprises et indépendants suisses.",
+      "title": "Serviços eletrônicos e IVA 2025: Suíça versus UE, armadilhas e conformidade",
+      "description": "Streaming, softwares SaaS, marketplace, como aplicar o IVA para empresas e autônomos suíços.",
       "author": "Ark Fiduciaire",
       "date": "2025-08-27",
-      "content": "E-services :\n\n- Lieu de prestation\n- Seuil assujettissement\n- Obligations représentants fiscaux\n\n(Article de 1 600 mots, comparatif UE.)"
+      "content": "E-serviços:\n\n- Local da prestação\n- Limite de sujeição\n- Obrigações de representantes fiscais\n\n(Artigo de 1.600 palavras, comparativo com a UE.)"
     },
     {
       "slug": "statut-quasi-resident-geneve-2025",
-      "title": "Quasi-résidence Genève : l'outil d'optimisation des frontaliers en 2025",
-      "description": "Marche à suivre, vrai/faux, conditions de TOU, cas limite (bi-nationaux, couples, mutations professionnelles).",
+      "title": "Quase-residência Genebra: a ferramenta de otimização para transfronteiriços em 2025",
+      "description": "Procedimento, verdadeiro/falso, condições do TOU, casos limite (bi-nacionais, casais, transferências profissionais).",
       "author": "Ark Fiduciaire",
       "date": "2025-08-26",
-      "content": "TOU :\n\n- Conditions 90% revenus mondiaux\n- Déductions réelles\n- Exemple cas marié frontalier\n\n(Article de 1 600 mots, simulateur.)"
+      "content": "TOU:\n\n- Condições 90% dos rendimentos mundiais\n- Deduções reais\n- Exemplo de caso de casado transfronteiriço\n\n(Artigo de 1.600 palavras, simulador.)"
     },
     {
       "slug": "gestion-paie-pme-suisse-romande-2025",
-      "title": "Gestion et externalisation de la paie : guide pour PME romandes en 2025",
-      "description": "Sécurité, conformité, comparaison entre gestion en interne, Odoo ou fiduciaire, focus sur les contrôles cantonaux et swissdec.",
+      "title": "Gestão e terceirização da folha de pagamento: guia para PME da Suíça romanda em 2025",
+      "description": "Segurança, conformidade, comparação entre gestão interna, Odoo ou fiduciária, foco nos controles cantonais e swissdec.",
       "author": "Ark Fiduciaire",
       "date": "2025-08-25",
-      "content": "Paie :\n\n- Calcul brut/net\n- Impôt source vs eTax\n- Swissdec normes\n- Externalisation critères\n\n(Article de 1 700 mots, témoignages.)"
+      "content": "Folha de pagamento:\n\n- Cálculo bruto/líquido\n- Imposto na fonte vs eTax\n- Normas Swissdec\n- Critérios de terceirização\n\n(Artigo de 1.700 palavras, depoimentos.)"
     },
     {
       "slug": "controle-fiscal-pme-2025",
-      "title": "Contrôle fiscal PME Genève et Suisse romande : check-list pratique 2025",
-      "description": "Préparez-vous à un contrôle fiscal : points vérifiés, documents à présenter, erreurs à éviter, évolution de la pratique cantonale.",
+      "title": "Controle fiscal PME Genebra e Suíça romanda: lista de verificação prática 2025",
+      "description": "Prepare-se para um controle fiscal: pontos verificados, documentos a apresentar, erros a evitar, evolução da prática cantonal.",
       "author": "Ark Fiduciaire",
       "date": "2025-08-24",
-      "content": "Fiscal :\n\n- Documentation comptable\n- Déductions suspects\n- Procédure cantonale\n\n(Article de 1 650 mots, conseils d’experts.)"
+      "content": "Fiscal:\n\n- Documentação contábil\n- Deduções suspeitas\n- Procedimento cantonal\n\n(Artigo de 1.650 palavras, conselhos de especialistas.)"
     },
     {
       "slug": "comptabilite-fiscalite-associations-romande-2025",
-      "title": "Comptabilité, TVA et fiscalité des associations romandes : obligations, pièges, solutions",
-      "description": "Tout sur les franchises, TVA, modèle de comptes, seuils d’assujettissement et checklist nouveaux statuts.",
+      "title": "Contabilidade, IVA e fiscalidade das associações romandes: obrigações, armadilhas, soluções",
+      "description": "Tudo sobre franquias, IVA, modelo de contas, limites de sujeição e checklist para novos estatutos.",
       "author": "Ark Fiduciaire",
       "date": "2025-08-23",
-      "content": "Associations :\n\n- Comptes simplifiés vs RC\n- Exonérations bénéfice/capital\n- TVA seuils 100k/250k\n\n(Article de 1 700 mots, modèles de compte.)"
+      "content": "Associações:\n\n- Contas simplificadas vs RC\n- Isenções de lucro/capital\n- Limites de IVA 100k/250k\n\n(Artigo de 1.700 palavras, modelos de contas.)"
     },
     {
       "slug": "amortissement-fiscal-comptable-2025",
-      "title": "Amortissements et provisions fiscales : nouvelles règles et cas pratiques 2025",
-      "description": "Tour d’horizon des méthodes, nouveautés cantonales, astuces entreprises innovantes, tableaux comparatifs.",
+      "title": "Amortizações e provisões fiscais: novas regras e casos práticos 2025",
+      "description": "Panorama dos métodos, novidades cantonais, dicas para empresas inovadoras, tabelas comparativas.",
       "author": "Ark Fiduciaire",
       "date": "2025-08-22",
-      "content": "Amortissements :\n\n- Linéaire vs dégressif\n- Taux fiscaux max\n- Réserves latentes\n\n(Article de 1 650 mots, exemples startup Genève.)"
+      "content": "Amortizações:\n\n- Linear vs decrescente\n- Taxas fiscais máximas\n- Reservas latentes\n\n(Artigo de 1.650 palavras, exemplos de startups de Genebra.)"
     },
     {
       "slug": "reprise-entreprise-romande-2025",
-      "title": "Reprise d'entreprise en Suisse romande : étapes clés et pièges à éviter",
-      "description": "De la recherche de cibles à la transition post-closing, guide complet pour repreneurs et cédants.",
+      "title": "Reprise de empresa na Suíça romanda: etapas-chave e armadilhas a evitar",
+      "description": "Da busca por alvos à transição pós-closing, guia completo para compradores e vendedores.",
       "author": "Ark Fiduciaire",
       "date": "2025-08-21",
-      "content": "Reprise :\n\n- Préparation projet\n- Due diligence complète\n- Financement structuré\n- Integration collaborateurs\n\n(Article de 1 800 mots, schémas processus.)"
+      "content": "Reprise:\n\n- Preparação do projeto\n- Due diligence completa\n- Financiamento estruturado\n- Integração dos colaboradores\n\n(Artigo de 1.800 palavras, esquemas de processos.)"
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
