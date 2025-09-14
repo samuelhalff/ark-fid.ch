@@ -778,8 +778,8 @@
     ]
   },
   "Links": {
-    "Accounting": "accounting",
-    "Tax": "tax",
-    "Payroll": "payroll"
+    "Accounting": "Accounting",
+    "Tax": "Tax",
+    "Payroll": "Payroll"
   }
 }
