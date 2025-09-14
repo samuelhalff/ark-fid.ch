@@ -21,8 +21,24 @@ const APPLY = args.has('--apply');
 const DRY = args.has('--dry-run');
 const SKIP_DL = args.has('--skip-download');
 
+// Provider selection
+const PROVIDER = (process.env.AI_PROVIDER || '') || ([...args].find(a => a.startsWith('--provider='))?.split('=')[1] || 'gemini');
+
+// Gemini configuration (default provider)
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
-if (!GEMINI_API_KEY) {
+
+// Azure Agent configuration (alternative provider)
+// Expected env:
+//  - AZURE_AGENT_ENDPOINT: e.g. https://<your>.services.ai.azure.com/api/projects/classify-document-project
+//  - AZURE_AGENT_API_KEY: the Azure AI Services key for the Agent endpoint
+//  - AZURE_AGENT_ID: agent/assistant id (e.g. asst_xxx)
+//  - AZURE_AGENT_CHAT_URL (optional): explicit chat endpoint if different (will be POSTed)
+const AZURE_AGENT_ENDPOINT = process.env.AZURE_AGENT_ENDPOINT;
+const AZURE_AGENT_API_KEY = process.env.AZURE_AGENT_API_KEY;
+const AZURE_AGENT_ID = process.env.AZURE_AGENT_ID;
+const AZURE_AGENT_CHAT_URL = process.env.AZURE_AGENT_CHAT_URL;
+
+if (PROVIDER === 'gemini' && !GEMINI_API_KEY) {
   console.error('Missing GEMINI_API_KEY environment variable.');
   process.exit(2);
 }
@@ -215,6 +231,72 @@ async function geminiJson(model, prompt) {
   return json;
 }
 
+/**
+ * Azure Agent JSON invocation (best-effort generic wire-up)
+ * Tries a couple of common body shapes used by Azure AI Agent Service.
+ * Returns parsed JSON on success, otherwise throws.
+ */
+async function azureAgentJson(prompt) {
+  if (!AZURE_AGENT_ENDPOINT) throw new Error('Missing AZURE_AGENT_ENDPOINT');
+  if (!AZURE_AGENT_API_KEY) throw new Error('Missing AZURE_AGENT_API_KEY');
+  if (!AZURE_AGENT_ID && !AZURE_AGENT_CHAT_URL) throw new Error('Missing AZURE_AGENT_ID (or set AZURE_AGENT_CHAT_URL)');
+
+  const urlCandidates = [];
+  if (AZURE_AGENT_CHAT_URL) {
+    urlCandidates.push(AZURE_AGENT_CHAT_URL);
+  } else {
+    // Try a few likely chat endpoints relative to project URL
+    // Note: These are informed guesses; you can set AZURE_AGENT_CHAT_URL to the exact path if known.
+    urlCandidates.push(
+      AZURE_AGENT_ENDPOINT.replace(/\/?$/, '/') + `agents/${AZURE_AGENT_ID}:chat`,
+      AZURE_AGENT_ENDPOINT.replace(/\/?$/, '/') + `assistants/${AZURE_AGENT_ID}:chat`,
+      AZURE_AGENT_ENDPOINT.replace(/\/?$/, '/') + `agents/${AZURE_AGENT_ID}/chat`,
+    );
+  }
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'api-key': AZURE_AGENT_API_KEY,
+  };
+
+  // Candidate request bodies (varying shapes used by different deployments)
+  const bodies = [
+    // Messages-like shape
+    { messages: [{ role: 'user', content: prompt }], agentId: AZURE_AGENT_ID },
+    // Simple input shape
+    { input: prompt, agentId: AZURE_AGENT_ID },
+    // Input text shape
+    { input_text: prompt, agent_id: AZURE_AGENT_ID },
+  ];
+
+  let lastErr;
+  for (const u of urlCandidates) {
+    for (const body of bodies) {
+      try {
+        const res = await fetch(u, { method: 'POST', headers, body: JSON.stringify(body) });
+        const text = await res.text();
+        if (!res.ok) {
+          lastErr = new Error(`Azure Agent HTTP ${res.status} at ${u}: ${text.slice(0, 300)}`);
+          continue;
+        }
+        // Try to parse JSON directly
+        let parsed;
+        try { parsed = JSON.parse(text); } catch { parsed = null; }
+        if (parsed) return parsed;
+        // Some agents return JSON in a "content" field
+        try {
+          const maybe = JSON.parse((parsed?.content) || text);
+          if (maybe) return maybe;
+        } catch {}
+        throw new Error('Azure Agent returned non-JSON response');
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+  }
+  throw lastErr || new Error('Azure Agent invocation failed');
+}
+
 function validateNewFileArticle(fr, nf, na) {
   if (!nf || !na) throw new Error('Missing newFile or newArticle');
   const files = Array.isArray(fr.Files) ? fr.Files : [];
@@ -249,8 +331,15 @@ async function main() {
   const systemPrompt = buildSystemPrompt(fr);
   const MODEL_DRAFT = process.env.GEMINI_MODEL_DRAFT || process.env.GEMINI_MODEL || 'gemini-1.5-pro';
   const MODEL_TRANSLATE = process.env.GEMINI_MODEL_TRANSLATE || process.env.GEMINI_MODEL || MODEL_DRAFT;
-  console.log(`Requesting Gemini (${MODEL_DRAFT}) for new FR entries...`);
-  const draft = await geminiJson(MODEL_DRAFT, systemPrompt);
+
+  let draft;
+  if (PROVIDER === 'azure-agent') {
+    console.log('Requesting Azure Agent for new FR entries...');
+    draft = await azureAgentJson(systemPrompt);
+  } else {
+    console.log(`Requesting Gemini (${MODEL_DRAFT}) for new FR entries...`);
+    draft = await geminiJson(MODEL_DRAFT, systemPrompt);
+  }
   const newFile = draft.newFile;
   const newArticle = draft.newArticle;
   const newLabels = draft.newLabels || {};
@@ -289,9 +378,15 @@ async function main() {
   }
 
   // Ask Gemini to translate the new entries
-  console.log(`Requesting Gemini (${MODEL_TRANSLATE}) for translations (EN/DE/ES/PT)...`);
+  console.log(`Requesting ${PROVIDER === 'azure-agent' ? 'Azure Agent' : 'Gemini'} for translations (EN/DE/ES/PT)...`);
   const trPrompt = buildTranslatePrompt(newFile, newArticle);
-  const translations = await geminiJson(MODEL_TRANSLATE, trPrompt);
+  let translations;
+  if (PROVIDER === 'azure-agent') {
+    // Prefer using the Agent for translation as well to keep provider consistent
+    translations = await azureAgentJson(trPrompt);
+  } else {
+    translations = await geminiJson(MODEL_TRANSLATE, trPrompt);
+  }
 
   // Write to each locale
   for (const loc of LOCALES) {
