@@ -3,14 +3,15 @@
         "collect": {
             "numberOfRuns": 1,
             "settings": {
-                "preset": "mobile"
-            },
-            "url": [
-                "https://ark-fid.ddns.net/",
-                "https://ark-fid.ddns.net/fr/",
-                "https://ark-fid.ddns.net/fr/services/odoo",
-                "https://ark-fid.ddns.net/fr/partners"
-            ]
+                "formFactor": "mobile",
+                "screenEmulation": {
+                    "mobile": true,
+                    "width": 360,
+                    "height": 640,
+                    "deviceScaleFactor": 2,
+                    "disabled": false
+                }
+            }
         },
         "upload": {
             "target": "temporary-public-storage"

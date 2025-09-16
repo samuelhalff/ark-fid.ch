@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import LangSwitch from "@/src/components/navigation/LangSwitch";
-import ThemeToggle from "@/src/components/navigation/ThemeToggle";
+import HeaderControls from "@/src/components/navigation/HeaderControls";
 import MobileMenu from "@/src/components/navigation/MobileMenu";
 
 type NavData = {
@@ -126,12 +125,9 @@ export default function NavbarServer({
                     {navData.labels.contact}
                   </Link>
                 </li>
-                {/* Client islands for Lang + Theme */}
+                {/* Client controls (Lang + Theme) wrapped in NavigationMenu context */}
                 <li className="ml-1">
-                  <LangSwitch />
-                </li>
-                <li>
-                  <ThemeToggle />
+                  <HeaderControls />
                 </li>
               </ul>
             </nav>

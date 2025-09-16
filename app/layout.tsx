@@ -110,11 +110,7 @@ export default async function RootLayout({
   return (
     <html suppressHydrationWarning lang={currentLocale}>
       <head>
-        <link
-          rel="preconnect"
-          href="https://vitals.vercel-analytics.com"
-          crossOrigin="anonymous"
-        />
+        {/* Remove early preconnect to analytics to avoid competing with LCP; analytics loads only after consent */}
         {/** Defer Google Maps connections to pages that actually use Maps (e.g., contact). Removing global preconnect helps mobile Speed Index. */}
         {/* Next/Image with priority handles preloading of LCP image. Avoid duplicate preload to keep mobile SI low. */}
         {/* Ensure font swap to avoid layout shifts */}
