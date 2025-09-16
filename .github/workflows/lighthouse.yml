@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        preset: [mobile, desktop]
+        profile: [mobile, desktop]
     steps:
       - name: Checkout (shallow)
         uses: actions/checkout@v4
@@ -29,7 +29,7 @@ jobs:
         with:
           node-version: 20
 
-      - name: Run Lighthouse (${{ matrix.preset }})
+      - name: Run Lighthouse (${{ matrix.profile }})
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
@@ -42,9 +42,9 @@ jobs:
           runs: 1
           uploadArtifacts: true
           temporaryPublicStorage: true
-          configPath: ${{ matrix.preset == 'mobile' && './lighthouserc.mobile.json' || './lighthouserc.desktop.json' }}
+          configPath: ${{ matrix.profile == 'mobile' && './lighthouserc.mobile.json' || './lighthouserc.desktop.json' }}
 
       - name: Summary
         if: always()
         run: |
-          echo "Lighthouse (${{ matrix.preset }}) finished. Download HTML/JSON reports from artifacts." >> $GITHUB_STEP_SUMMARY
+          echo "Lighthouse (${{ matrix.profile }}) finished. Download HTML/JSON reports from artifacts." >> $GITHUB_STEP_SUMMARY

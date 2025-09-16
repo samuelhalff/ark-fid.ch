@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import HeaderControls from "@/src/components/navigation/HeaderControls";
-import MobileMenu from "@/src/components/navigation/MobileMenu";
+import MobileMenuIsland from "@/src/components/navigation/MobileMenuIsland";
 
 type NavData = {
   labels: {
@@ -135,7 +135,7 @@ export default function NavbarServer({
 
           {/* Mobile menu (client) */}
           <div className="md:hidden pb-30">
-            <MobileMenu locale={locale} navData={navData} />
+            <MobileMenuIsland locale={locale} navData={navData} />
           </div>
         </div>
       </nav>
