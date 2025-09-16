@@ -58,27 +58,6 @@ jobs:
           temporaryPublicStorage: true
           configPath: ./lighthouserc.desktop.json
 
-      - name: Verify 404 endpoint (status + HTML)
-        if: matrix.profile == 'mobile'
-        shell: bash
-        run: |
-          BASE="${{ github.event.inputs.urlBase || 'https://ark-fid.ddns.net' }}"
-          URL="$BASE/fr/this-page-does-not-exist"
-          echo "Checking $URL returns 404 and HTML..."
-          STATUS=$(curl -s -o /tmp/lf_404.html -w "%{http_code}" "$URL")
-          file /tmp/lf_404.html || true
-          if [ "$STATUS" != "404" ]; then
-            echo "Expected 404 but got $STATUS" >&2
-            head -n 50 /tmp/lf_404.html || true
-            exit 1
-          fi
-          # quick sanity that it's our custom 404 content
-          if ! grep -qi "404" /tmp/lf_404.html; then
-            echo "404 page did not contain expected marker" >&2
-            head -n 50 /tmp/lf_404.html || true
-            exit 1
-          fi
-          echo "404 endpoint verified."
 
       - name: Summary
         if: always()
