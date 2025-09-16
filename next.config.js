@@ -6,6 +6,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 /** @type {import('next').NextConfig} */
 const baseConfig = {
   trailingSlash: true,
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'react-hook-form', 'sonner']
+  },
   images: {
     unoptimized: false,
     formats: ['image/avif', 'image/webp'],
@@ -24,6 +27,7 @@ const baseConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           { key: 'X-DNS-Prefetch-Control', value: 'on' },
+          { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
           { key: 'Permissions-Policy', value: 'geolocation=(), microphone=(), camera=()' },
           // Expect-CT is deprecated by Chrome; retained for legacy clients/infrastructure
           { key: 'Expect-CT', value: 'max-age=0, enforce' },

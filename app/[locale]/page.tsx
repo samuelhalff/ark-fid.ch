@@ -16,6 +16,7 @@ const Testimonials = dynamic(() => import("@/src/components/ui/testimonials"), {
   loading: () => null,
 });
 import { generateMetadataForPage } from "@/src/lib/metadata";
+import Defer from "@/src/components/Defer";
 import StructuredData from "@/src/components/seo/StructuredData";
 import {
   buildFAQPage,
@@ -106,13 +107,25 @@ export default async function Home({ params }: { params: { locale: string } }) {
         <Services locale={locale} />
       </section>
       <section id="faq">
-        <FAQ />
+        <Defer
+          rootMargin="300px"
+          idle={200}
+          placeholder={<div className="h-40 w-full rounded-lg bg-muted/40" />}
+        >
+          <FAQ />
+        </Defer>
       </section>
       {/* <section id="testimonials">
         <Testimonials locale={locale} />
       </section> */}
       <section id="contact">
-        <Contact strings={contactStrings} redirectPath={`${localePrefix}/`} />
+        <Defer
+          rootMargin="300px"
+          idle={200}
+          placeholder={<div className="h-64 w-full rounded-lg bg-muted/40" />}
+        >
+          <Contact strings={contactStrings} redirectPath={`${localePrefix}/`} />
+        </Defer>
       </section>
     </div>
   );

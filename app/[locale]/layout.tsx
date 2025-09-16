@@ -27,7 +27,8 @@ export default async function LocaleLayout({
   // NOTE: Root layout (`app/layout.tsx`) is responsible for <html> and <body>.
   // Nested layouts must NOT render html/body. Keep this layout minimal so
   // providers (ThemeProvider) and NavBar remain singletons in the root.
-  const Navbar = (await import("@/src/components/navigation/Navbar")).default;
+  const Navbar = (await import("@/src/components/navigation/NavbarServer"))
+    .default;
   const Footer = (await import("@/app/[locale]/shared/footer")).default;
 
   // Prepare server-side translated navigation labels and services list to avoid SSR key leakage

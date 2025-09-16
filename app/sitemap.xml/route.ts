@@ -63,13 +63,19 @@ export async function GET() {
       const priority = isHome ? '1.0' : isArticle ? '0.8' : isService ? '0.7' : isResources ? '0.6' : isLegal ? '0.3' : '0.5';
 
       // build alternates block
-      const alternates = locales
-        .map((alt) => {
+      const alternates = [
+        ...locales.map((alt) => {
           const altPath = p === '/' ? '' : p;
           const href = `${BASE}/${alt}${altPath}`;
           return `    <xhtml:link rel="alternate" hreflang="${escapeXml(alt)}" href="${escapeXml(href)}"/>`;
-        })
-        .join('\n');
+        }),
+        // x-default points to FR per canonical policy
+        (() => {
+          const altPath = p === '/' ? '' : p;
+          const href = `${BASE}/fr${altPath}`;
+          return `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(href)}"/>`;
+        })(),
+      ].join('\n');
       return `  <url>
     <loc>${escapeXml(loc)}</loc>
     <lastmod>${lastmod}</lastmod>

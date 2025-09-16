@@ -56,9 +56,9 @@ const Services = async ({
                   </div>
                   {/* Text block with a min-height so all cards align their image area */}
                   <div className="flex-1 w-full min-h-[240px] md:min-h-[260px] flex flex-col items-center justify-start">
-                    <h4 className="text-2xl font-bold tracking-tight break-words text-balance">
+                    <h3 className="text-2xl font-bold tracking-tight break-words text-balance">
                       {tItems(service.titleKey)}
-                    </h4>
+                    </h3>
                     <p className="mt-3 text-muted-foreground text-base xs:text-[17px] leading-7 break-words text-pretty">
                       {tItems(service.descriptionKey)}
                     </p>

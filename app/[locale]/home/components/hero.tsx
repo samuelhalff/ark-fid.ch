@@ -1,5 +1,5 @@
 import { ArrowUpRight, BadgeCheckIcon, Users } from "lucide-react";
-import { Button } from "@/src/components/ui//button";
+import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,7 +17,7 @@ const Hero = async ({ locale }: HeroProps) => {
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent">
       <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
-        <div className="max-w-2xl text-center animate-in fade-in duration-800">
+        <div className="max-w-2xl text-center motion-safe:animate-in motion-safe:fade-in md:duration-700">
           <div className="gap-2 flex justify-center items-center">
             <Badge className="rounded-full py-1 border-none">
               {t("Hero.Badge")}
@@ -46,7 +46,7 @@ const Hero = async ({ locale }: HeroProps) => {
                 className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
                 style={{ cursor: "pointer" }}
               >
-                {t("Hero.CTA")} <ArrowUpRight className="h-5! w-5!" />
+                {t("Hero.CTA")} <ArrowUpRight className="h-5 w-5" />
               </Button>
             </Link>
             <Link
@@ -60,7 +60,7 @@ const Hero = async ({ locale }: HeroProps) => {
                 className="w-full sm:w-auto rounded-full text-base shadow-none transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
                 style={{ cursor: "pointer" }}
               >
-                <Users className="h-5! w-5!" /> {t("Hero.SecondaryCTA")}
+                <Users className="h-5 w-5" /> {t("Hero.SecondaryCTA")}
               </Button>
             </Link>
           </div>
@@ -76,6 +76,10 @@ const Hero = async ({ locale }: HeroProps) => {
                 alt="Odoo Logo"
                 width={96}
                 height={64}
+                loading="lazy"
+                fetchPriority="low"
+                sizes="96px"
+                decoding="async"
               />
               <Badge
                 variant="outline"
@@ -87,13 +91,13 @@ const Hero = async ({ locale }: HeroProps) => {
             </div>
           </a>
         </div>
-        <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
+        <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square motion-safe:lg:animate-in motion-safe:lg:slide-in-from-right-10 lg:duration-500">
           <Image
             src="/assets/main-bg.webp"
             alt="main background"
             className="object-cover rounded-xl"
-            sizes="(min-width:1280px) 640px, (min-width:1024px) 520px, 90vw"
-            quality={70}
+            sizes="(min-width:1280px) 560px, (min-width:1024px) 480px, 92vw"
+            quality={58}
             priority
             fetchPriority="high"
             fill

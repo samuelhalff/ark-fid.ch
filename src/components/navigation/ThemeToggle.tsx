@@ -1,3 +1,4 @@
+"use client";
 import {
   NavigationMenuItem,
   NavigationMenuContent,
@@ -33,7 +34,7 @@ export default function ThemeToggle() {
 
   return (
     <NavigationMenuItem>
-      <NavigationMenuTrigger className="flex items-center gap-1 px-2">
+      <NavigationMenuTrigger className="flex items-center gap-1 px-2 min-w-[44px] justify-center">
         {/* Sun icon (light) */}
         <svg
           className="h-4 w-4 dark:hidden"

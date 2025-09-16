@@ -180,7 +180,7 @@ export default async function TeamPage({
                       className="w-full h-full object-cover"
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      priority
+                      // allow browser to lazy-load team images
                     />
                   </div>
                 </CardHeader>
@@ -194,6 +194,8 @@ export default async function TeamPage({
                         className="opacity-80"
                         src="/assets/li.webp"
                         alt="LinkedIn logo"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   </h3>

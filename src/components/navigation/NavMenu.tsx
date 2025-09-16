@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense } from "react";
+import React from "react";
 import Link from "next/link";
 import ServicesElements from "@/app/[locale]/navigation";
 import type { NavigationMenuProps } from "@radix-ui/react-navigation-menu";
@@ -13,14 +13,8 @@ import {
   navigationMenuTriggerStyle,
 } from "@/src/components/navigation/NavigationComponents";
 import dynamic from "next/dynamic";
-const ThemeToggleLazy = dynamic(() => import("./ThemeToggle"), {
-  ssr: false,
-  loading: () => null,
-});
-const LangSwitchLazy = dynamic(() => import("./LangSwitch"), {
-  ssr: false,
-  loading: () => null,
-});
+import ThemeToggle from "./ThemeToggle";
+import LangSwitch from "./LangSwitch";
 // No client-side translation here; labels are provided by server
 
 function ListItem({
@@ -102,28 +96,7 @@ function NavMenu({
     });
   }, []);
 
-  // Idle prefetch on desktop pointer devices
-  React.useEffect(() => {
-    try {
-      const isDesktop =
-        typeof window !== "undefined" &&
-        window.matchMedia &&
-        window.matchMedia("(min-width: 768px)").matches;
-      const finePointer =
-        typeof window !== "undefined" &&
-        window.matchMedia &&
-        window.matchMedia("(pointer: fine)").matches;
-      if (isDesktop && finePointer) {
-        const idle = (cb: () => void) =>
-          (window as any).requestIdleCallback
-            ? (window as any).requestIdleCallback(cb)
-            : setTimeout(cb, 200);
-        idle(() => prewarmServices());
-      }
-    } catch {
-      // no-op
-    }
-  }, [prewarmServices]);
+  // Removed idle prefetch on desktop to reduce TBT spikes; load on interaction only
   const isActive = React.useCallback((path: string) => {
     // active state is best-effort in client; keep simple equality check against window.pathname
     try {
@@ -257,10 +230,8 @@ function NavMenu({
             </Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
-        <Suspense fallback={null}>
-          <LangSwitchLazy />
-        </Suspense>
-        <ThemeToggleLazy />
+        <LangSwitch />
+        <ThemeToggle />
       </NavigationMenuList>
     </NavigationMenu>
   );

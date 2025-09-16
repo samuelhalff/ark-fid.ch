@@ -77,35 +77,80 @@
 
   .light .abstract-background {
     background-image: linear-gradient(
-        to bottom,
-        oklch(var(--background) / 0.5),
-        oklch(var(--background) / 0.75),
-        oklch(var(--background) / 0.8),
-        oklch(var(--background) / 0.9),
-        oklch(var(--background) / 1)
-      ),
-      url("/assets/abstract-background-light.avif"),
-      url("/assets/abstract-background-light.webp");
+      to bottom,
+      oklch(var(--background) / 0.5),
+      oklch(var(--background) / 0.75),
+      oklch(var(--background) / 0.8),
+      oklch(var(--background) / 0.9),
+      oklch(var(--background) / 1)
+    );
     background-position: left top;
     background-repeat: no-repeat;
     background-size: contain;
   }
 
+  /* Prefer AVIF with WebP fallback using image-set; avoid double download */
+  @media (min-width: 768px) {
+    @supports (
+      background-image:
+        image-set(
+          url("/assets/abstract-background-light.avif") type("image/avif") 1x
+        )
+    ) {
+      .light .abstract-background {
+        background-image: linear-gradient(
+            to bottom,
+            oklch(var(--background) / 0.5),
+            oklch(var(--background) / 0.75),
+            oklch(var(--background) / 0.8),
+            oklch(var(--background) / 0.9),
+            oklch(var(--background) / 1)
+          ),
+          image-set(
+            url("/assets/abstract-background-light.avif") type("image/avif") 1x,
+            url("/assets/abstract-background-light.webp") type("image/webp") 1x
+          );
+      }
+    }
+  }
+
   .dark .abstract-background {
     background-color: black;
     background-image: linear-gradient(
-        to bottom,
-        oklch(var(--background) / 0.5),
-        oklch(var(--background) / 0.75),
-        oklch(var(--background) / 0.8),
-        oklch(var(--background) / 0.9),
-        oklch(var(--background) / 1)
-      ),
-      url("/assets/abstract-background-dark.avif"),
-      url("/assets/abstract-background-dark.webp");
+      to bottom,
+      oklch(var(--background) / 0.5),
+      oklch(var(--background) / 0.75),
+      oklch(var(--background) / 0.8),
+      oklch(var(--background) / 0.9),
+      oklch(var(--background) / 1)
+    );
     background-position: left top;
     background-repeat: no-repeat;
     background-size: contain;
+  }
+
+  @media (min-width: 768px) {
+    @supports (
+      background-image:
+        image-set(
+          url("/assets/abstract-background-dark.avif") type("image/avif") 1x
+        )
+    ) {
+      .dark .abstract-background {
+        background-image: linear-gradient(
+            to bottom,
+            oklch(var(--background) / 0.5),
+            oklch(var(--background) / 0.75),
+            oklch(var(--background) / 0.8),
+            oklch(var(--background) / 0.9),
+            oklch(var(--background) / 1)
+          ),
+          image-set(
+            url("/assets/abstract-background-dark.avif") type("image/avif") 1x,
+            url("/assets/abstract-background-dark.webp") type("image/webp") 1x
+          );
+      }
+    }
   }
 
   /* Utility: allow long words to break without overflowing */

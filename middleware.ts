@@ -66,9 +66,13 @@ export function middleware(request: NextRequest) {
     response.headers.set('X-Content-Type-Options', 'nosniff')
     response.headers.set('X-Frame-Options', 'SAMEORIGIN')
     response.headers.set('X-DNS-Prefetch-Control', 'on')
+    response.headers.set('Cross-Origin-Opener-Policy', 'same-origin')
     response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()')
   // Expect-CT was deprecated by Chrome in 2021; kept for legacy intermediaries
   response.headers.set('Expect-CT', 'max-age=0, enforce, report-uri="https://example.com/report"')
+  // Trusted Types report-only to gather signals; avoid breaking existing inline nonces
+  // Declare Next.js bundler policy name so Chrome doesn't warn
+  response.headers.set('Content-Security-Policy-Report-Only', `require-trusted-types-for 'script'; trusted-types nextjs#bundler`)
     if (isProd) {
       response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
     }
@@ -85,8 +89,10 @@ export function middleware(request: NextRequest) {
   response.headers.set('X-Content-Type-Options', 'nosniff')
   response.headers.set('X-Frame-Options', 'SAMEORIGIN')
   response.headers.set('X-DNS-Prefetch-Control', 'on')
+  response.headers.set('Cross-Origin-Opener-Policy', 'same-origin')
   response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()')
   response.headers.set('Expect-CT', 'max-age=0, enforce, report-uri="https://example.com/report"')
+  response.headers.set('Content-Security-Policy-Report-Only', `require-trusted-types-for 'script'; trusted-types nextjs#bundler`)
   if (isProd) {
     response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
   }

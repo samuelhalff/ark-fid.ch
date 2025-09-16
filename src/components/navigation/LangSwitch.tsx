@@ -56,9 +56,11 @@ export default function LangSwitch(): React.ReactElement {
 
   return (
     <NavigationMenuItem className="md:ml-30">
-      <NavigationMenuTrigger className="flex items-center gap-1 px-2">
+      <NavigationMenuTrigger className="flex items-center gap-1 px-2 min-w-[56px] justify-center">
         <GlobeIcon className="h-4 w-4 mx-1" />
-        <span style={{ minWidth: 17 }}> {activeLang.toUpperCase()}</span>
+        <span className="inline-block w-8 text-center">
+          {activeLang.toUpperCase()}
+        </span>
       </NavigationMenuTrigger>
       <NavigationMenuContent>
         {options.map((opt) => {

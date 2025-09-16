@@ -59,6 +59,8 @@ const PartnersHero = async ({ locale }: PartnersHeroProps) => {
             className="object-cover rounded-xl"
             sizes="(min-width:1280px) 600px, (min-width:1024px) 520px, 90vw"
             priority
+            fetchPriority="high"
+            quality={58}
             fill
           />
         </div>

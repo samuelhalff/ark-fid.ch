@@ -1,0 +1,19 @@
+{
+    "ci": {
+        "collect": {
+            "numberOfRuns": 1,
+            "settings": {
+                "preset": "desktop"
+            },
+            "url": [
+                "https://ark-fid.ddns.net/",
+                "https://ark-fid.ddns.net/fr/",
+                "https://ark-fid.ddns.net/fr/services/odoo",
+                "https://ark-fid.ddns.net/fr/partners"
+            ]
+        },
+        "upload": {
+            "target": "temporary-public-storage"
+        }
+    }
+}

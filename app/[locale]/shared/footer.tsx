@@ -85,7 +85,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
       <div className="max-w-[var(--breakpoint-xl)] mx-auto py-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-x-8 gap-y-10 px-6">
         <Link
           href={`${localePrefix}/`}
-          aria-label="Ark Fiduciaire homepage"
+          aria-label={tNavbar("Home")}
           locale={locale}
           prefetch={false}
         >
@@ -95,14 +95,20 @@ const Footer = async ({ locale }: { locale?: string }) => {
               src="/assets/arkfid--light.svg"
               width={100}
               height={40}
-              alt="Ark Fiduciaire Logo Light"
+              alt=""
+              sizes="(max-width: 768px) 88px, 100px"
+              loading="lazy"
+              decoding="async"
             />
             <Image
               className="dark:hidden"
               src="/assets/arkfid--color.svg"
               width={100}
               height={40}
-              alt="Ark Fiduciaire Logo"
+              alt=""
+              sizes="(max-width: 768px) 88px, 100px"
+              loading="lazy"
+              decoding="async"
             />
           </span>
         </Link>

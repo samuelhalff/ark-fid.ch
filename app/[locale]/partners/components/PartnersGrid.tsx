@@ -36,6 +36,8 @@ const PartnersGrid = () => {
                       width={40}
                       height={40}
                       className="object-contain"
+                      loading="lazy"
+                      decoding="async"
                       onError={(e) => {
                         // Fallback to icon if logo fails to load
                         e.currentTarget.style.display = "none";

@@ -172,7 +172,7 @@ export async function getPageMetadata(
     },
     alternates: {
       canonical: `https://ark-fid.ch${canonicalPath}`,
-      languages: Object.assign({ 'x-default': `https://ark-fid.ch${path}` }, alternateUrls),
+      languages: Object.assign({ 'x-default': `https://ark-fid.ch/fr${path}` }, alternateUrls),
     },
   };
 

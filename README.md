@@ -109,6 +109,46 @@ Notes:
 - Run a check before committing to ensure parity.
 - Add new files/articles only in FR, then sync and translate other locales as needed.
 
+## AI-driven Ressources Update (daily)
+
+Script: `scripts/ai-ressources-update.js`
+
+Providers:
+
+- Default: Gemini (requires `GEMINI_API_KEY`)
+- Optional: Azure Agent with Bing grounding (requires `AZURE_AGENT_*` envs)
+
+Environment:
+
+```
+# Gemini
+GEMINI_API_KEY=...
+
+# Azure Agent
+AZURE_AGENT_ENDPOINT=...
+AZURE_AGENT_API_KEY=...
+AZURE_AGENT_ID=...
+# AZURE_AGENT_CHAT_URL=...  # optional explicit chat path
+```
+
+Usage examples:
+
+```
+# Dry-run with Gemini (default)
+node scripts/ai-ressources-update.js --dry-run
+
+# Apply with Azure Agent
+AI_PROVIDER=azure-agent node scripts/ai-ressources-update.js --apply
+
+# Probe your Azure Agent endpoint
+node scripts/probe-azure-agent.js
+```
+
+Notes:
+
+- The Azure Agent endpoint path may vary by deployment. If the default patterns do not work, set `AZURE_AGENT_CHAT_URL` to the exact chat URL provided by your service.
+- The script expects JSON responses matching the specified schema. If the agent returns non-JSON content, adjust the agent instructions to produce `application/json` payloads.
+
 ## Ressources Link Integrity
 
 To detect broken (404) document links or missing locally cached PDFs for the ressources section:

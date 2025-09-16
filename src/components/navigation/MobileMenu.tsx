@@ -57,51 +57,63 @@ const MobileMenu = ({
           aria-controls="mobile-menu-panel"
           aria-label="Open menu"
         >
-          {/* Hamburger icon */}
-          <svg
-            className="size-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="18" x2="21" y2="18" />
-          </svg>
+          {/* Animated hamburger to X */}
+          <span className="relative block w-6 h-5">
+            <span
+              className={
+                "absolute left-0 top-0 block h-0.5 w-6 bg-current transition-transform duration-200 " +
+                (open ? "translate-y-2.5 rotate-45" : "translate-y-0 rotate-0")
+              }
+            />
+            <span
+              className={
+                "absolute left-0 top-2.5 block h-0.5 w-6 bg-current transition-opacity duration-200 " +
+                (open ? "opacity-0" : "opacity-100")
+              }
+            />
+            <span
+              className={
+                "absolute left-0 bottom-0 block h-0.5 w-6 bg-current transition-transform duration-200 " +
+                (open
+                  ? "-translate-y-2.5 -rotate-45"
+                  : "translate-y-0 rotate-0")
+              }
+            />
+          </span>
         </Button>
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-full max-w-[100vw] p-0 data-[state=open]:animate-in data-[state=open]:slide-in-from-right data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right"
+        className="w-full max-w-[100vw] h-[100svh] sm:h-full overflow-hidden p-0 data-[state=open]:animate-in data-[state=open]:slide-in-from-right data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right"
         hideClose
         id="mobile-menu-panel"
         aria-label="Mobile navigation"
         role="dialog"
       >
-        <SheetTitle className="hidden">
+        <SheetTitle className="sr-only">
           {navData.labels.mobileNavigation}
         </SheetTitle>
-        <div className="flex items-center px-4 pt-4 border-b pb-4">
+        <div className="flex items-center h-16 px-4 border-b">
           <div className="flex-1 flex justify-start">
             <Image
               className="hidden dark:block"
               src="/assets/arkfid--light.svg"
               width={100}
               height={32}
-              alt="Logo Light"
-              priority
+              alt=""
+              loading="lazy"
+              decoding="async"
+              sizes="100px"
             />
             <Image
               className="dark:hidden"
               src="/assets/arkfid--color.svg"
               width={100}
               height={32}
-              alt="Logo Dark"
-              priority
+              alt=""
+              loading="lazy"
+              decoding="async"
+              sizes="100px"
             />
           </div>
           <SheetTrigger asChild>
@@ -109,29 +121,22 @@ const MobileMenu = ({
               className="ml-2 p-2 rounded border hover:bg-accent transition-colors"
               aria-label="Close menu"
             >
-              {/* Close (X) icon */}
-              <svg
-                className="w-6 h-6"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
+              {/* Same animated icon reflects open state */}
+              <span className="relative block w-6 h-5">
+                <span className="absolute left-0 top-0 block h-0.5 w-6 bg-current translate-y-2.5 rotate-45" />
+                <span className="absolute left-0 top-2.5 block h-0.5 w-6 bg-current opacity-0" />
+                <span className="absolute left-0 bottom-0 block h-0.5 w-6 bg-current -translate-y-2.5 -rotate-45" />
+              </span>
             </button>
           </SheetTrigger>
         </div>
         <div
-          className=" max-h-[calc(100vh-70px)] overflow-y-auto [&::-webkit-scrollbar]:w-2
+          className="h-[calc(100svh-64px)] md:h-[calc(100vh-64px)] overflow-y-auto pb-24 [&::-webkit-scrollbar]:w-2
   [&::-webkit-scrollbar-track]:bg-gray-100
   [&::-webkit-scrollbar-thumb]:bg-gray-300
   dark:[&::-webkit-scrollbar-track]:bg-neutral-700
   dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+          style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}
         >
           <nav className="flex flex-col gap-3 px-4 mt-3 pb-10 pt-2">
             <ThemeToggleMobile />
