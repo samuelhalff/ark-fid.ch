@@ -91,7 +91,7 @@ export default async function ServicesPage({
 
   return (
     <main
-      className="max-w-[var(--breakpoint-xl)] mx-auto w-full pb-4 xs:py-20 md:px-6"
+      className="max-w-[var(--breakpoint-xl)] mx-auto w-full pt-10 md:pt-14 pb-12 md:px-6"
       role="main"
     >
       <StructuredData nonce={nonce} data={[breadcrumbJsonLd, faqJsonLd]} />

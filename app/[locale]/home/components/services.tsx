@@ -22,7 +22,7 @@ const Services = async ({
   return (
     <div
       id="services"
-      className="max-w-[var(--breakpoint-xl)] mx-auto w-full py-12 xs:py-20 px-6"
+      className="max-w-[var(--breakpoint-xl)] mx-auto w-full py-8 xs:py-12 px-6"
     >
       {showHeading && (
         <>
@@ -36,7 +36,7 @@ const Services = async ({
           )}
         </>
       )}
-      <div className="mt-10 xs:mt-16 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
+      <div className="mt-8 xs:mt-12 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
         {services.map((service) => (
           <Link
             key={service.titleKey}
