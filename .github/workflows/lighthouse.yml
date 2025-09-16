@@ -42,6 +42,7 @@ jobs:
           runs: 1
           uploadArtifacts: true
           temporaryPublicStorage: true
+          artifactName: lighthouse-${{ matrix.profile }}
 
       - name: Run Lighthouse (desktop)
         if: matrix.profile == 'desktop'
@@ -57,7 +58,7 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
           configPath: ./lighthouserc.desktop.json
-
+          artifactName: lighthouse-${{ matrix.profile }}
 
       - name: Summary
         if: always()
