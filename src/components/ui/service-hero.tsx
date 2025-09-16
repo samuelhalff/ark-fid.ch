@@ -131,7 +131,7 @@ const ServiceHero = async ({
                 src={imageSrc}
                 alt={altText}
                 className="object-cover rounded-xl"
-                sizes="(min-width:1280px) 600px, (min-width:1024px) 520px, 90vw"
+                sizes="(min-width:1024px) 520px, 90vw"
                 priority
                 fetchPriority="high"
                 quality={58}

@@ -31,7 +31,7 @@ export default function ServicesMobile({
       <div className="flex items-center gap-3 text-md px-2 py-2 rounded font-medium border-b rounded-none border-muted">
         <span>{label || "Services"}</span>
       </div>
-      <div className="flex flex-col mt-1">
+      <div className="flex flex-col mt-1 divide-y divide-muted/50 rounded-md overflow-hidden">
         {items.map((service) => (
           <Link
             key={service.href}
@@ -39,9 +39,14 @@ export default function ServicesMobile({
             prefetch={false}
             onClick={onLinkClick}
             locale={locale}
-            className="flex items-center gap-4 text-md py-3 rounded hover:bg-accent transition-colors pl-6"
+            className="flex items-center justify-between gap-3 text-md px-4 py-3 hover:bg-accent focus:bg-accent focus:outline-none focus:ring-2 focus:ring-primary transition-colors"
           >
-            <span>{service.title}</span>
+            <span className="block truncate" title={service.title}>
+              {service.title}
+            </span>
+            <span aria-hidden className="text-muted-foreground">
+              ›
+            </span>
           </Link>
         ))}
       </div>

@@ -85,15 +85,52 @@ export default function NavbarServer({
                     {navData.labels.team}
                   </Link>
                 </li>
-                <li>
+                <li className="relative group">
                   <Link
                     href={`${localePrefix}/services`}
                     prefetch={false}
                     locale={locale}
-                    className="px-3 py-2 rounded-md hover:bg-accent min-w-[100px] text-center"
+                    className="px-3 py-2 rounded-md hover:bg-accent min-w-[100px] text-center inline-flex items-center gap-1"
                   >
                     {navData.labels.services}
+                    <span className="transition-transform duration-200 group-hover:rotate-180">
+                      ▾
+                    </span>
                   </Link>
+                  {/* CSS-only dropdown: opens on hover and keyboard focus */}
+                  <div className="invisible opacity-0 pointer-events-none group-hover:visible group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:visible group-focus-within:opacity-100 group-focus-within:pointer-events-auto transition-all duration-150 absolute left-0 top-full mt-2 w-[min(92vw,720px)] bg-background border rounded-md shadow-xl z-50">
+                    <div className="p-3">
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {navData.services.map((item) => (
+                          <li key={item.href} className="min-w-0">
+                            <Link
+                              href={`${localePrefix}/services${item.href}`}
+                              prefetch={false}
+                              locale={locale}
+                              className="block rounded-md p-3 hover:bg-accent focus:bg-accent focus:outline-none focus:ring-2 focus:ring-primary"
+                            >
+                              <div className="text-left text-sm font-medium leading-none truncate">
+                                {item.title}
+                              </div>
+                              <p className="mt-1 text-left text-sm text-muted-foreground leading-snug line-clamp-2">
+                                {item.description}
+                              </p>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="mt-2 text-right">
+                        <Link
+                          href={`${localePrefix}/services`}
+                          prefetch={false}
+                          locale={locale}
+                          className="text-sm text-primary underline hover:no-underline"
+                        >
+                          {navData.labels.services} →
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
                 </li>
                 <li>
                   <Link

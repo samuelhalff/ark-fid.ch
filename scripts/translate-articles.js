@@ -1,23 +1,33 @@
-'use strict';
+"use strict";
 // Load environment variables from .env if available (non-fatal if missing)
-try { require('dotenv').config(); } catch {}
+try { require("dotenv").config(); } catch {}
 
 /**
- * Translate FR articles to other locales (EN/DE/ES/PT) while preserving slugs and links.
+ * Translate FR articles to other locales (EN/DE/ES/PT) using Azure OpenAI (GPT-4.1) while preserving slugs and links.
+ * - Azure ONLY (Gemini removed). Provider forced to 'azure'.
  * - Does NOT change filenames, slugs, or reference URLs.
  * - Only updates title/description/content fields for Articles.
- * - Skips items already translated (i.e., when locale differs from FR), unless --force.
- * - Applies a light post-check to avoid unnecessary capitals (acronyms allowed).
+ * - Skips items already translated (i.e., content already diverges from FR), unless --force.
+ * - Applies a light heuristic to warn about unnecessary capitals (acronyms allowed).
+ *
+ * Required env (in .env or CI secrets):
+ *   AZURE_OPENAI_ENDPOINT   Full chat completions endpoint OR base endpoint + deployment path.
+ *     Examples:
+ *       https://<res>.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2025-01-01-preview
+ *       (or) base: https://<res>.openai.azure.com/openai/deployments/gpt-4.1/chat/completions  + api-version appended automatically
+ *   AZURE_OPENAI_API_KEY    Key for the Azure OpenAI resource (omit if using DefaultAzureCredential adaptation later)
+ * Optional:
+ *   AZURE_OPENAI_DEPLOYMENT (defaults gpt-4.1 if constructing endpoint externally)
+ *   AZURE_OPENAI_API_VERSION (defaults 2025-01-01-preview)
  *
  * Usage:
  *   node scripts/translate-articles.js --dry-run
- *   GEMINI_API_KEY=... node scripts/translate-articles.js --apply
- *   GEMINI_API_KEY=... node scripts/translate-articles.js --apply --locales=en,de --max=3
- *   GEMINI_API_KEY=... node scripts/translate-articles.js --apply --only-slugs=slug1,slug2
+ *   node scripts/translate-articles.js --apply --force --locales=en,de
+ *   node scripts/translate-articles.js --apply --only-slugs=mon-slug-1,mon-slug-2
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 const args = new Set(process.argv.slice(2).filter(a => !a.includes('=')));
 const getArg = (k, d) => {
@@ -26,31 +36,38 @@ const getArg = (k, d) => {
   return found ? found.slice(prefix.length) : d;
 };
 
-const APPLY = args.has('--apply');
-const DRY = args.has('--dry-run') || !APPLY;
-const FORCE = args.has('--force');
-const LOCALES = (getArg('--locales', 'en,de,es,pt').split(',').map(s => s.trim()).filter(Boolean));
-const MODEL_OVERRIDE = getArg('--model', '');
-const PROVIDER = getArg('--provider', '').toLowerCase() || process.env.TRANSLATE_PROVIDER || 'gemini';
-const ONLY_SLUGS = new Set((getArg('--only-slugs', '') || '').split(',').map(s => s.trim()).filter(Boolean));
-const MAX = parseInt(getArg('--max', '0'), 10) || 0;
+const APPLY = args.has("--apply");
+const DRY = args.has("--dry-run") || !APPLY;
+const FORCE = args.has("--force");
+const LOCALES = getArg("--locales", "en,de,es,pt")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+const ONLY_SLUGS = new Set(
+  (getArg("--only-slugs", "") || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean)
+);
+const MAX = parseInt(getArg("--max", "0"), 10) || 0;
+
+// Provider forced to Azure
+const PROVIDER = "azure";
 
 const ROOT = process.cwd();
-const TRANSLATIONS = path.join(ROOT, 'src', 'translations');
-const FR_PATH = path.join(TRANSLATIONS, 'fr', 'ressources.json');
+const TRANSLATIONS = path.join(ROOT, "src", "translations");
+const FR_PATH = path.join(TRANSLATIONS, "fr", "ressources.json");
 
 if (!fs.existsSync(FR_PATH)) {
   console.error(`Canonical FR file not found: ${FR_PATH}`);
   process.exit(2);
 }
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
-const MODEL = MODEL_OVERRIDE || process.env.GEMINI_MODEL_TRANSLATE || process.env.GEMINI_MODEL || 'gemini-2.0-flash';
 const AZURE = {
-  endpoint: process.env.AZURE_OPENAI_ENDPOINT,
+  endpoint: process.env.AZURE_OPENAI_ENDPOINT, // may already include api-version
   apiKey: process.env.AZURE_OPENAI_API_KEY,
-  deployment: process.env.AZURE_OPENAI_DEPLOYMENT || 'gpt-4.1',
-  apiVersion: process.env.AZURE_OPENAI_API_VERSION || '2025-01-01-preview',
+  deployment: process.env.AZURE_OPENAI_DEPLOYMENT || "gpt-4.1",
+  apiVersion: process.env.AZURE_OPENAI_API_VERSION || "2025-01-01-preview",
 };
 
 function loadJSON(p) {
@@ -60,108 +77,103 @@ function loadJSON(p) {
 function saveJSON(p, data) { fs.writeFileSync(p, JSON.stringify(data, null, 2) + '\n', 'utf8'); }
 
 function hasUnnecessaryCaps(str) {
-  if (!str || typeof str !== 'string') return false;
-  const allowed = new Set(['TVA','AFC','AVS','LAA','AC','LPP','SA','Sàrl','Odoo','CO','RPC','FER','PDF','ETIAS','UE','UEFA']);
-  return str.split(/\s+/).some(w => /[A-Z]{3,}/.test(w) && !allowed.has(w));
+  if (!str || typeof str !== "string") return false;
+  const allowed = new Set([
+    "TVA","AFC","AVS","LAA","AC","LPP","SA","Sàrl","Odoo","CO","RPC","FER","PDF","ETIAS","UE","UEFA"
+  ]);
+  return str.split(/\s+/).some((w) => /[A-Z]{3,}/.test(w) && !allowed.has(w));
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-async function geminiJson(model, prompt) {
-  if (!GEMINI_API_KEY) throw new Error('Missing GEMINI_API_KEY or GOOGLE_API_KEY');
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`;
-  const body = {
-    contents: [{ role: 'user', parts: [{ text: prompt }] }],
-    generationConfig: {
-      temperature: 0.2,
-      topP: 0.9,
-      topK: 40,
-      maxOutputTokens: 4096,
-      responseMimeType: 'application/json'
-    }
-  };
-  // up to 3 attempts with backoff on 429
-  let attempt = 0;
-  while (true) {
-    attempt++;
-    const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    if (res.ok) {
-      const data = await res.json();
-      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!text) throw new Error('Gemini returned no content.');
-      try { return JSON.parse(text); } catch (e) { throw new Error('Gemini did not return valid JSON: ' + e.message); }
-    }
-    const text = await res.text().catch(() => '');
-    if (res.status === 429 && attempt < 3) {
-      // try to parse retry delay
-      let delayMs = 35000;
-      try {
-        const j = JSON.parse(text);
-        const retry = j?.error?.details?.find?.(d => d['@type']?.includes('RetryInfo'));
-        const s = retry?.retryDelay || '35s';
-        const m = /([0-9]+)s/.exec(s);
-        if (m) delayMs = parseInt(m[1], 10) * 1000;
-      } catch {}
-      console.warn(`[WARN] 429 from Gemini (attempt ${attempt}). Retrying in ${Math.round(delayMs/1000)}s...`);
-      await sleep(delayMs);
-      continue;
-    }
-    throw new Error(`Gemini HTTP ${res.status}: ${text}`);
+// Extract JSON robustly (handles accidental markdown fences)
+function extractJson(raw) {
+  if (!raw) throw new Error("Empty response content");
+  if (typeof raw !== "string") return raw; // assume already parsed
+  try { return JSON.parse(raw); } catch {}
+  const fence = raw.match(/```(?:json)?\n([\s\S]*?)```/i);
+  if (fence) {
+    const inner = fence[1].trim();
+    try { return JSON.parse(inner); } catch {}
   }
+  const first = raw.indexOf("{");
+  if (first !== -1) {
+    let depth = 0;
+    for (let i = first; i < raw.length; i++) {
+      const ch = raw[i];
+      if (ch === '{') depth++;
+      else if (ch === '}') {
+        depth--;
+        if (depth === 0) {
+          const cand = raw.slice(first, i + 1);
+          try { return JSON.parse(cand); } catch {}
+        }
+      }
+    }
+  }
+  throw new Error("Failed to extract JSON from model output");
 }
 
 async function azureChatJson(prompt) {
-  if (!AZURE.endpoint || !AZURE.apiKey) throw new Error('Missing Azure OpenAI endpoint or API key');
-  // Build URL (allow endpoint to already include deployments path and query)
+  if (!AZURE.endpoint || !AZURE.apiKey) {
+    throw new Error("Missing Azure OpenAI endpoint or API key");
+  }
   let url = AZURE.endpoint;
   if (!/api-version=/.test(url)) {
-    const sep = url.includes('?') ? '&' : '?';
+    const sep = url.includes("?") ? "&" : "?";
     url = `${url}${sep}api-version=${encodeURIComponent(AZURE.apiVersion)}`;
   }
   const body = {
     messages: [
-      { role: 'system', content: 'You are a professional translator. Output strictly JSON.' },
-      { role: 'user', content: prompt },
+      { role: "system", content: "You are a professional translator. Output ONLY a JSON object with keys title, description, content." },
+      { role: "user", content: prompt },
     ],
     temperature: 0.2,
     top_p: 0.9,
-    response_format: { type: 'json_object' }
+    response_format: { type: "json_object" },
   };
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'api-key': AZURE.apiKey,
-    },
-    body: JSON.stringify(body)
-  });
-  if (!res.ok) {
-    const text = await res.text().catch(() => '');
-    throw new Error(`Azure OpenAI HTTP ${res.status}: ${text}`);
+  let attempt = 0;
+  while (true) {
+    attempt++;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "api-key": AZURE.apiKey },
+      body: JSON.stringify(body),
+    });
+    const text = await res.text().catch(() => "");
+    if (res.ok) {
+      try {
+        const parsed = JSON.parse(text);
+        const content = parsed?.choices?.[0]?.message?.content;
+        if (!content) throw new Error("Azure OpenAI returned no content.");
+        return extractJson(content);
+      } catch (e) {
+        throw new Error("Azure JSON parse error: " + e.message);
+      }
+    }
+    if (res.status === 429 && attempt < 4) {
+      const delay = 2000 * attempt; // simple linear backoff
+      console.warn(`[WARN] 429 Azure (attempt ${attempt}) retrying in ${delay}ms`);
+      await sleep(delay);
+      continue;
+    }
+    throw new Error(`Azure OpenAI HTTP ${res.status}: ${text.slice(0,400)}`);
   }
-  const data = await res.json();
-  // Azure response: choices[0].message.content contains JSON string
-  const content = data?.choices?.[0]?.message?.content;
-  if (!content) throw new Error('Azure OpenAI returned no content.');
-  try { return JSON.parse(content); } catch (e) { throw new Error('Azure did not return valid JSON: ' + e.message); }
 }
 
 function buildTranslatePrompt(locale, frArticle) {
   return [
-    'Tu es un traducteur professionnel. Traduis ce contenu français vers la langue cible précisée.',
-    'Contraintes impératives:',
-    '- Ne modifie PAS le slug, ni les liens, ni les URLs de référence.',
-    '- Ne change PAS la casse inutilement (pas de capitales superflues : initiale de phrase, acronymes et noms propres seulement).',
-    '- Préserve la structure markdown du contenu, en l’adaptant à la langue cible si nécessaire.',
-    '- Réponds en JSON strict.',
-    '',
-    'Langue cible (code): ' + locale,
-    'Entrée FR:',
+    "Tu es un traducteur professionnel. Traduis le contenu français vers la langue cible.",
+    "Contraintes:",
+    "- Ne modifie PAS le slug ni les URLs.",
+    "- Pas de capitales superflues (initiale, acronymes, noms propres).",
+    "- Préserve la structure markdown.",
+    "- Réponds UNIQUEMENT avec un objet JSON (aucun texte additionnel).",
+    "Langue cible: " + locale,
+    "Entrée FR:",
     JSON.stringify({ slug: frArticle.slug, title: frArticle.title, description: frArticle.description, content: frArticle.content }, null, 2),
-    '',
-    'Format de sortie STRICT (application/json):',
-    '{ "title": "...", "description": "...", "content": "..." }'
-  ].join('\n');
+    "Format sortie: { \"title\": \"...\", \"description\": \"...\", \"content\": \"...\" }"
+  ].join("\n");
 }
 
 function needsTranslation(frA, locA) {
@@ -200,7 +212,7 @@ async function main() {
         console.log(`[dry-run] Would translate slug="${frA.slug}" to ${locale}`);
         continue;
       }
-  const tr = PROVIDER === 'azure' ? await azureChatJson(prompt) : await geminiJson(MODEL, prompt);
+    const tr = await azureChatJson(prompt);
       const title = (tr && tr.title) ? String(tr.title) : frA.title;
       const description = (tr && tr.description) ? String(tr.description) : frA.description;
       const content = (tr && tr.content) ? String(tr.content) : frA.content;

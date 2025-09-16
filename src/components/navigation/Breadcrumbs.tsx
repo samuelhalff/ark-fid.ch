@@ -74,30 +74,42 @@ export default function Breadcrumbs({
 
   return (
     <nav aria-label="Breadcrumb" className={className}>
-      <ol className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
+      <ol
+        className="flex items-center gap-1 text-sm text-muted-foreground overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-muted-foreground/30 scrollbar-track-transparent px-1 sm:flex-wrap sm:overflow-visible sm:whitespace-normal"
+        style={{ WebkitOverflowScrolling: "touch" }}
+      >
         {showRoot && (
-          <li>
+          <li className="min-w-0 max-w-[10rem]">
             <Link
               href={rootHref}
-              className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded-sm"
+              className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded-sm block truncate"
+              title={rootLabel}
             >
               {rootLabel}
             </Link>
           </li>
         )}
         {crumbs.map((c, i) => (
-          <li key={c.href} className="flex items-center gap-1">
+          <li
+            key={c.href}
+            className="flex items-center gap-1 min-w-0 max-w-[12rem]"
+          >
             {(showRoot || i > 0) && (
-              <span className="text-muted-foreground/60">/</span>
+              <span className="select-none text-muted-foreground/60">/</span>
             )}
             {i === crumbs.length - 1 ? (
-              <span aria-current="page" className="font-medium text-foreground">
+              <span
+                aria-current="page"
+                className="font-medium text-foreground block truncate"
+                title={c.label}
+              >
                 {c.label}
               </span>
             ) : (
               <Link
                 href={c.href}
-                className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded-sm"
+                className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded-sm block truncate"
+                title={c.label}
               >
                 {c.label}
               </Link>

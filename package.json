@@ -34,6 +34,9 @@
     "lint:capitalization:fix": "node scripts/lint-capitalization.js --fix"
   },
   "dependencies": {
+    "@azure/ai-projects": "^1.0.0-beta.2",
+    "@azure/identity": "^4.4.1",
+    "@azure/core-auth": "^1.8.0",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-avatar": "^1.1.0",
