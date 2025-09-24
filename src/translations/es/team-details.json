@@ -1,0 +1,92 @@
+{
+    "Details": {
+        "hassan-barbir": {
+            "education": [
+                "LL.M. en fiscalidad, Universidad de Ginebra",
+                "Máster en derecho, Universidad de Ginebra",
+                "Licenciatura en derecho, Universidad de Ginebra"
+            ],
+            "languages": [
+                "Francés",
+                "Inglés",
+                "Italiano"
+            ],
+            "memberships": [
+                "ODAGE",
+                "FSA"
+            ],
+            "credentials": [
+                "Abogado colegiado de Ginebra (2013)"
+            ]
+        },
+        "samuel-halff": {
+            "education": [
+                "LL.M., UCLA (University of California, Los Angeles)",
+                "Máster en derecho, Universidad de Ginebra"
+            ],
+            "languages": [
+                "Francés",
+                "Inglés",
+                "Alemán"
+            ],
+            "credentials": [
+                "Abogado colegiado de Ginebra (2013)"
+            ]
+        },
+        "anthony-touboul": {
+            "education": [
+                "LL.M., Derecho fiscal, Universidad de Ginebra (2011–2013)",
+                "Máster, Derecho de los negocios y fiscal (DJCE), Université Jean Moulin Lyon III (2004–2006)"
+            ]
+        },
+        "rodrigue-sperisen": {
+            "education": [
+                "Máster en derecho, Universidad de Neuchâtel"
+            ],
+            "languages": [
+                "Francés",
+                "Inglés"
+            ],
+            "memberships": [
+                "ODAGE",
+                "FSA",
+                "OAR SFA-FSN",
+                "STEP",
+                "ASDS",
+                "Fondation pour le droit de l'art"
+            ],
+            "credentials": [
+                "Abogado colegiado (2005)",
+                "Diploma STEP (2009)"
+            ]
+        },
+        "sebastien-gallie": {
+            "education": [
+                "Diploma federal de experto fiduciario (Romandie Formation, 2022–2025)",
+                "Título federal de agente fiduciario (Cursus Formation, 2018–2021)"
+            ]
+        },
+        "lassana-dioum": {
+            "education": [
+                "Máster en derecho económico, Universidad de Ginebra",
+                "Licenciatura en derecho, Universidad de Ginebra",
+                "HEC, Universidad de Ginebra"
+            ],
+            "languages": [
+                "Francés",
+                "Inglés",
+                "Español"
+            ],
+            "memberships": [
+                "ODAGE",
+                "FSA",
+                "IBA",
+                "IFA",
+                "AIJA"
+            ],
+            "credentials": [
+                "Abogado colegiado de Ginebra (2012)"
+            ]
+        }
+    }
+}

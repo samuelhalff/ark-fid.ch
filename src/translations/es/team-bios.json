@@ -1,0 +1,32 @@
+{
+    "Bios": {
+        "hassan-barbir": {
+            "short": "Socio. Asesora a empresas y particulares, incluidas fundaciones y trusts. Director en compañías internacionales.",
+            "long": "Asesora en contabilidad, impuestos, nóminas y societario (constitución, estructura accionarial y acuerdos). Trabaja con fundaciones y trusts. Atiende consultas fiscales y reorganizaciones. Actúa como director en empresas internacionales."
+        },
+        "samuel-halff": {
+            "short": "Socio gerente. Asesora a empresas y particulares. Director en grupos internacionales.",
+            "long": "Dirige la firma. Asesora en contabilidad, impuestos, nóminas y societario (constitución, estructura accionarial y acuerdos). Director en grupos internacionales. Desarrolla soluciones de IA para agilizar procesos y reporting."
+        },
+        "rodrigue-sperisen": {
+            "short": "Socio. Asesora a empresas y particulares. Fiscalidad internacional y sucesiones.",
+            "long": "Asesora en contabilidad, impuestos y societario. Enfoque en fiscalidad internacional. Especialista en trusts y herencias. Diseña marcos claros de gobierno y propiedad."
+        },
+        "lassana-dioum": {
+            "short": "Socio y especialista fiscal. Asesora a empresas y particulares en materia fiscal y contable. Director en compañías internacionales.",
+            "long": "Especialista en impuestos directos e indirectos. Apoya contabilidad, nóminas y compliance. Coordina declaraciones y rulings entre jurisdicciones. Director en compañías internacionales."
+        },
+        "anthony-touboul": {
+            "short": "Experto fiscal. Fiscalidad de personal y compensación. Forfait fiscal suizo. Apoya la conformidad de empresas y particulares. Actúa como director en compañías locales e internacionales."
+        },
+        "celeste-leal": {
+            "short": "Gestiona la oficina y los proyectos. Apoya a clientes y equipo. Aclara prioridades y asegura una ejecución fluida."
+        },
+        "sebastien-gallie": {
+            "short": "Contable senior y responsable de nóminas. Gestiona contabilidad, cierres mensuales y reporting. Asegura cifras fiables y entregas puntuales."
+        },
+        "maulk-hamdi": {
+            "short": "Asistente de contabilidad y nóminas. Apoya administración, pagos y la operativa diaria."
+        }
+    }
+}

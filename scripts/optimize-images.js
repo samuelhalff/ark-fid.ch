@@ -19,7 +19,8 @@ const EXCLUDE_DIRS = new Set(["downloads"]); // keep PDFs etc.
 
 // Default cap: heroes use ~520-600px; cards ~800px. Use 800px as a safe upper-bound.
 const MAX_WIDTH = Number(process.env.MAX_IMG_WIDTH || 800);
-const HERO_MAX_WIDTH = Number(process.env.HERO_MAX_IMG_WIDTH || 1200);
+// Allow larger hero images (new hero bird illustrations) for crispness on high-DPR displays
+const HERO_MAX_WIDTH = Number(process.env.HERO_MAX_IMG_WIDTH || 1600);
 const CARD_MAX_WIDTH = Number(process.env.CARD_MAX_IMG_WIDTH || 800);
 
 // Map known assets to a specific cap (override default)
@@ -82,11 +83,20 @@ async function optimizeFile(filePath) {
   }
 
   // 1) Always produce AVIF and WebP variants for jpg/png/webp/avif
-  const webpTarget = filePath.replace(ext, ".webp");
-  const webpPipeline = pipeline.clone().webp({ quality: 72, effort: 5 });
-  await webpPipeline.toFile(webpTarget);
+  const isServiceHeroPath = /\/assets\/hero\/services\//.test(relFromPublic);
+  // Only emit a .webp variant when the source is not already a .webp to avoid same input/output
+  const isWebpSource = ext === ".webp";
+  let webpTarget = null;
+  if (!isWebpSource) {
+    webpTarget = filePath.replace(ext, ".webp");
+    // Increase quality for hero/service images to avoid blurriness
+    const webpQuality = isServiceHeroPath ? 82 : 72;
+    const webpPipeline = pipeline.clone().webp({ quality: webpQuality, effort: 5 });
+    await webpPipeline.toFile(webpTarget);
+  }
   const avifTarget = filePath.replace(ext, ".avif");
-  const avifPipeline = pipeline.clone().avif({ quality: 60, effort: 5 });
+  const avifQuality = isServiceHeroPath ? 70 : 60;
+  const avifPipeline = pipeline.clone().avif({ quality: avifQuality, effort: 5 });
   await avifPipeline.toFile(avifTarget);
 
   // 2) Also keep optimized original format in-place (only replace if meaningfully smaller)

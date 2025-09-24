@@ -4,8 +4,8 @@ const OutsourcingHero = ({ params }: { params: { locale: string } }) => {
   return (
     <ServiceHero
       namespace="outsourcing"
-      imageSrc="/assets/services/outsourcing.webp"
-      imageAlt="Outsourcing Services"
+      imageSrc="/assets/hero/services/outsourcing-hero.webp"
+      imageAlt="Aerial view of lush forest meeting turquoise Swiss lake"
       locale={params.locale}
       badge1Key="Hero.Badge"
       badge1Fallback="Swiss Quality"
@@ -17,8 +17,6 @@ const OutsourcingHero = ({ params }: { params: { locale: string } }) => {
       descriptionFallback="Focus on your core business while we handle your back office operations with Swiss precision and reliability."
       ctaKey="Hero.CTA"
       ctaFallback="Contact us"
-      secondaryCtaKey="Hero.SecondaryCTA"
-      secondaryCtaFallback="Meet the Team"
     />
   );
 };

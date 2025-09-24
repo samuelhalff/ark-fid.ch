@@ -1,10 +1,11 @@
 {
+    "ImageAlt": "Matterhorn peak at sunrise with alpine skyline, Switzerland",
     "Hero": {
         "Badge": "Swiss made",
         "BadgeTwo": "Trusted partner",
         "Title": "Corporate Services",
         "Description": "Ark Fiduciaire provides comprehensive corporate administration services, ensuring your company is compliant, well-structured, and ready for growth. We handle all administrative, legal, and regulatory aspects so you can focus on your business.",
-        "CTA": "Contact us",
+        "CTA": "Simplify corporate admin",
         "SecondaryCTA": "Meet the team"
     },
     "Presentation": {

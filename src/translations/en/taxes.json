@@ -1,10 +1,11 @@
 {
+    "ImageAlt": "Aerial view of winding mountain pass road in Switzerland",
     "Hero": {
-        "Badge": "Tax Services",
-        "BadgeTwo": "AI Assisted",
+        "Badge": "Tax services",
+        "BadgeTwo": "AI assisted",
         "Title": "Taxation",
         "Description": "Ark Fiduciaire offers expert tax services for individuals and companies. We optimize your tax situation, ensure compliance, and provide strategic advice for all your tax obligations in Switzerland.",
-        "CTA": "Contact us",
+        "CTA": "Optimize my taxes",
         "SecondaryCTA": "Meet the team"
     },
     "Presentation": {
@@ -33,7 +34,7 @@
                 "Desc": "We represent you with tax authorities and negotiate on your behalf when necessary."
             }
         ],
-        "ServicesTitle": "Our Tax Services",
+        "ServicesTitle": "Our Tax services",
         "Services": [
             "Tax Returns: Complete preparation and filing of individual and corporate tax returns",
             "Tax Planning: Strategic planning to optimize your tax burden and ensure compliance",

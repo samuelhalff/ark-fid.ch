@@ -13,42 +13,42 @@ export function middleware(request: NextRequest) {
   const csp = (
     isProd
       ? [
-          `default-src 'self'`,
-          // Nonce-based inline scripts with strict-dynamic
-          `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https: http:`,
-          // Allow inline styles for Tailwind and Next styles
-          `style-src 'self' 'unsafe-inline'`,
-          `img-src 'self' data: blob: https:`,
-          `font-src 'self' data:`,
-          `connect-src 'self' https: https://vitals.vercel-analytics.com`,
-          // Allow embedding Google Maps iframe & required map tiles/images
-          `frame-src 'self' https://www.google.com https://maps.google.com https://maps.gstatic.com`,
-          `child-src 'self' https://www.google.com https://maps.google.com`,
-          // Some map assets & JS served from these
-          `img-src 'self' data: blob: https: https://maps.gstatic.com https://maps.googleapis.com`,
-          `script-src-elem 'self' 'nonce-${nonce}' https://maps.googleapis.com https://maps.gstatic.com`,
-          `frame-ancestors 'self'`,
-          `base-uri 'self'`,
-          `form-action 'self'`,
-          `object-src 'none'`,
-        ]
+        `default-src 'self'`,
+        // Nonce-based inline scripts with strict-dynamic
+        `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https: http:`,
+        // Allow inline styles for Tailwind and Next styles
+        `style-src 'self' 'unsafe-inline'`,
+        `img-src 'self' data: blob: https:`,
+        `font-src 'self' data:`,
+        `connect-src 'self' https: https://vitals.vercel-analytics.com`,
+        // Allow embedding Google Maps iframe & required map tiles/images
+        `frame-src 'self' https://www.google.com https://maps.google.com https://maps.gstatic.com`,
+        `child-src 'self' https://www.google.com https://maps.google.com`,
+        // Some map assets & JS served from these
+        `img-src 'self' data: blob: https: https://maps.gstatic.com https://maps.googleapis.com`,
+        `script-src-elem 'self' 'nonce-${nonce}' https://maps.googleapis.com https://maps.gstatic.com`,
+        `frame-ancestors 'self'`,
+        `base-uri 'self'`,
+        `form-action 'self'`,
+        `object-src 'none'`,
+      ]
       : [
-          `default-src 'self'`,
-          // Relax for dev: allow eval for source maps and dev client scripts
-          `script-src 'self' 'unsafe-inline' 'unsafe-eval' http: https:`,
-          `style-src 'self' 'unsafe-inline'`,
-          `img-src 'self' data: blob: https: https://maps.gstatic.com https://maps.googleapis.com`,
-          `font-src 'self' data:`,
-          // Allow HMR/WebSocket in dev
-          `connect-src 'self' http: https: ws: wss: https://vitals.vercel-analytics.com`,
-          `frame-src 'self' https://www.google.com https://maps.google.com https://maps.gstatic.com`,
-          `frame-ancestors 'self'`,
-          `base-uri 'self'`,
-          `form-action 'self'`,
-          `object-src 'none'`,
-        ]
+        `default-src 'self'`,
+        // Relax for dev: allow eval for source maps and dev client scripts
+        `script-src 'self' 'unsafe-inline' 'unsafe-eval' http: https:`,
+        `style-src 'self' 'unsafe-inline'`,
+        `img-src 'self' data: blob: https: https://maps.gstatic.com https://maps.googleapis.com`,
+        `font-src 'self' data:`,
+        // Allow HMR/WebSocket in dev
+        `connect-src 'self' http: https: ws: wss: https://vitals.vercel-analytics.com`,
+        `frame-src 'self' https://www.google.com https://maps.google.com https://maps.gstatic.com`,
+        `frame-ancestors 'self'`,
+        `base-uri 'self'`,
+        `form-action 'self'`,
+        `object-src 'none'`,
+      ]
   ).join('; ')
-  
+
   // Check if the path already has a locale
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
@@ -68,11 +68,8 @@ export function middleware(request: NextRequest) {
     response.headers.set('X-DNS-Prefetch-Control', 'on')
     response.headers.set('Cross-Origin-Opener-Policy', 'same-origin')
     response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()')
-  // Expect-CT was deprecated by Chrome in 2021; kept for legacy intermediaries
-  response.headers.set('Expect-CT', 'max-age=0, enforce, report-uri="https://example.com/report"')
-  // Trusted Types report-only to gather signals; avoid breaking existing inline nonces
-  // Declare Next.js bundler policy name so Chrome doesn't warn
-  response.headers.set('Content-Security-Policy-Report-Only', `require-trusted-types-for 'script'; trusted-types nextjs#bundler`)
+    // Append Trusted Types enforcement
+    response.headers.set('Content-Security-Policy', `${csp}; require-trusted-types-for 'script'; trusted-types nextjs#bundler`)
     if (isProd) {
       response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
     }
@@ -84,15 +81,14 @@ export function middleware(request: NextRequest) {
   const redirectUrl = new URL(`/${locale}${pathname}`, request.url)
   const response = NextResponse.redirect(redirectUrl)
   response.headers.set('x-nonce', nonce)
-  response.headers.set('Content-Security-Policy', csp)
+  response.headers.set('Content-Security-Policy', `${csp}; require-trusted-types-for 'script'; trusted-types nextjs#bundler`)
   response.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
   response.headers.set('X-Content-Type-Options', 'nosniff')
   response.headers.set('X-Frame-Options', 'SAMEORIGIN')
   response.headers.set('X-DNS-Prefetch-Control', 'on')
   response.headers.set('Cross-Origin-Opener-Policy', 'same-origin')
   response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()')
-  response.headers.set('Expect-CT', 'max-age=0, enforce, report-uri="https://example.com/report"')
-  response.headers.set('Content-Security-Policy-Report-Only', `require-trusted-types-for 'script'; trusted-types nextjs#bundler`)
+  // Removed report-only header
   if (isProd) {
     response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
   }
@@ -102,21 +98,21 @@ export function middleware(request: NextRequest) {
 function getLocale(request: NextRequest): string {
   // Check the accept-language header
   const acceptLanguage = request.headers.get('accept-language')
-  
+
   if (acceptLanguage) {
     // Parse the accept-language header to find the best match
     const languages = acceptLanguage
       .split(',')
       .map(lang => lang.split(';')[0].trim())
       .map(lang => lang.split('-')[0]) // Get main language code
-    
+
     for (const lang of languages) {
       if (locales.includes(lang as any)) {
         return lang
       }
     }
   }
-  
+
   // Default to French
   return 'fr'
 }

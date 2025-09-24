@@ -5,10 +5,23 @@ import { generateMetadataForArticle } from "@/src/lib/metadata";
 import { headers } from "next/headers";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import RelatedArticles from "@/src/components/ressources/RelatedArticles";
+import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 import { estimateReadingTime } from "@/src/lib/readingTime";
-import ShareButtons from "@/src/components/ui/ShareButtons";
-import ReadingProgress from "@/src/components/ui/reading-progress";
-import BackToTop from "@/src/components/ui/back-to-top";
+import dynamic from "next/dynamic";
+import Defer from "@/src/components/Defer";
+
+const ShareButtons = dynamic(() => import("@/src/components/ui/ShareButtons"), {
+  ssr: false,
+  loading: () => null,
+});
+const ReadingProgress = dynamic(
+  () => import("@/src/components/ui/reading-progress"),
+  { ssr: false, loading: () => null }
+);
+const BackToTop = dynamic(() => import("@/src/components/ui/back-to-top"), {
+  ssr: false,
+  loading: () => null,
+});
 
 type Params = { params: { slug: string; locale: string } };
 
@@ -122,8 +135,12 @@ export default async function ArticlePage({ params }: Params) {
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-12 mt-8">
-      <ReadingProgress targetSelector="#article-content" />
-      <BackToTop />
+      <Defer rootMargin="300px" idle={200}>
+        <ReadingProgress targetSelector="#article-content" />
+      </Defer>
+      <Defer rootMargin="300px" idle={200}>
+        <BackToTop />
+      </Defer>
       <script
         type="application/ld+json"
         nonce={nonce}
@@ -148,39 +165,26 @@ export default async function ArticlePage({ params }: Params) {
             : "Content temporarily shown in English until the translation is ready."}
         </div>
       )}
-      <nav aria-label="Breadcrumb" className="mb-6">
-        <ol className="flex items-center gap-1 text-sm text-muted-foreground">
-          <li>
-            <a href={`/${params.locale}/`} className="hover:underline">
-              {(tNav("Home") as string) || "Home"}
-            </a>
-          </li>
-          <li className="flex items-center gap-1">
-            <span className="text-muted-foreground/60">/</span>
-            <a
-              href={`/${params.locale}/ressources/`}
-              className="hover:underline"
-            >
-              {ressources.IntroTitle || "Resources"}
-            </a>
-          </li>
-          <li className="flex items-center gap-1">
-            <span className="text-muted-foreground/60">/</span>
-            <a
-              href={`/${params.locale}/ressources/articles/`}
-              className="hover:underline"
-            >
-              {ressources.ArticlesTitle || "Articles"}
-            </a>
-          </li>
-          <li className="flex items-center gap-1">
-            <span className="text-muted-foreground/60">/</span>
-            <span aria-current="page" className="font-medium text-foreground">
-              {article.title}
-            </span>
-          </li>
-        </ol>
-      </nav>
+      <Defer rootMargin="200px" idle={150}>
+        <Breadcrumbs
+          className="mb-6"
+          baseLabel={ressources.IntroShort || "Resources"}
+          rootLabel={(tNav("Home") as string) || "Home"}
+          segments={[
+            {
+              segment: "ressources",
+              label: ressources.IntroShort || "Resources",
+            },
+            {
+              segment: "articles",
+              label: ressources.ArticlesShort || "Articles",
+            },
+            { segment: params.slug, label: article.title },
+          ]}
+          maxLabelChars={56}
+          hideRootWhenDuplicate={false}
+        />
+      </Defer>
       <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
         {article.title}
       </h1>
@@ -220,8 +224,14 @@ export default async function ArticlePage({ params }: Params) {
         )}
       </div>
 
-      <div className="flex justify-center mb-10">
-        <ShareButtons url={articleUrl} title={article.title} />
+      <div className="flex justify-center mb-10 min-h-[40px]">
+        <Defer
+          rootMargin="200px"
+          idle={250}
+          placeholder={<div className="h-[36px] w-64 rounded-md bg-muted/40" />}
+        >
+          <ShareButtons url={articleUrl} title={article.title} />
+        </Defer>
       </div>
 
       <article

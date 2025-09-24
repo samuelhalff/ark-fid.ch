@@ -8,5 +8,15 @@
         "OfficeProjectManager": "Office & Project Manager",
         "SeniorAccountant": "Senior Buchhalter",
         "Associate": "Associate"
+    },
+    "Labels": {
+        "Education": "Ausbildung",
+        "Languages": "Sprachen",
+        "Memberships": "Mitgliedschaften",
+        "Credentials": "Zertifizierungen"
+    },
+    "PBM": {
+        "Note": "Senior‑Partner bei der Kanzlei PBM.",
+        "LearnMore": "Mehr erfahren"
     }
 }

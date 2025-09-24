@@ -145,7 +145,7 @@ const ContactForm: FC<ContactFormProps> = ({
   };
 
   return (
-    <div className="p-1 xs:p-10 md:p-10 w-full max-w-[var(--breakpoint-xl)] mx-auto">
+    <div className="p-1 xs:p-3 md:p-3 w-full max-w-[var(--breakpoint-xl)] mx-auto">
       {/* 4. REMOVED: The <title> tag. This must be handled by the page's metadata export. */}
       {showTitle && (
         <h1 className="mb-3 text-center xs:mb-14 text-2xl/7 font-bold sm:text-3xl sm:tracking-tight mt-0 animate-in fade-in duration-700">
@@ -154,7 +154,7 @@ const ContactForm: FC<ContactFormProps> = ({
       )}
       {showSubtitle && <p className="w-full text-center">{strings.subtitle}</p>}
       <div className="flex items-center justify-center">
-        <Card className="my-8 max-w-[1200px] min-w-[350px] w-full mb-15 animate-in slide-in-from-bottom-7 duration-500">
+        <Card className="my-3 max-w-[1200px] min-w-[350px] w-full mb-15 animate-in slide-in-from-bottom-7 duration-500">
           <CardContent>
             <Toaster position="top-center" />
             <Form {...form}>
@@ -180,6 +180,7 @@ const ContactForm: FC<ContactFormProps> = ({
                             {...field}
                             placeholder={strings.placeholders.name}
                             disabled={sending}
+                            className={"border-color-primary"}
                           />
                         </FormControl>
                         <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -200,6 +201,7 @@ const ContactForm: FC<ContactFormProps> = ({
                           {...field}
                           placeholder={strings.placeholders.companyName}
                           disabled={sending}
+                          className={"border-color-primary"}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -219,6 +221,7 @@ const ContactForm: FC<ContactFormProps> = ({
                           {...field}
                           placeholder={strings.placeholders.phone}
                           disabled={sending}
+                          className={"border-color-primary"}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -239,6 +242,7 @@ const ContactForm: FC<ContactFormProps> = ({
                           {...field}
                           placeholder={strings.placeholders.email}
                           disabled={sending}
+                          className={"border-color-primary"}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -260,6 +264,7 @@ const ContactForm: FC<ContactFormProps> = ({
                           rows={8}
                           placeholder={strings.placeholders.message}
                           disabled={sending}
+                          className={"border-color-primary"}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -277,6 +282,7 @@ const ContactForm: FC<ContactFormProps> = ({
                             checked={field.value}
                             onCheckedChange={field.onChange}
                             disabled={sending}
+                            className="w-4 h-4 text-blue-600 bg-gray-200 border-gray-700 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-700 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-800 dark:border-gray-400"
                           />
                         </FormControl>
                         <FormLabel className="mt-0! hover:cursor-pointer">

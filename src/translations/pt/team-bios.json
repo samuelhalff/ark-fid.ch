@@ -1,0 +1,32 @@
+{
+    "Bios": {
+        "hassan-barbir": {
+            "short": "Sócio. Assesora empresas e clientes privados, inclusive fundações e trusts. Diretor em companhias internacionais.",
+            "long": "Assesora em contabilidade, impostos, folha e societário (constituição, estrutura acionária e acordos). Atende fundações e trusts. Trata questões fiscais e reorganizações. Atua como diretor em companhias internacionais."
+        },
+        "samuel-halff": {
+            "short": "Sócio gerente. Assesora empresas e clientes privados. Diretor em grupos internacionais.",
+            "long": "Lidera o escritório. Assesora em contabilidade, impostos, folha e societário (constituição, estrutura acionária e acordos). Diretor em grupos internacionais. Desenvolve soluções de IA para agilizar processos e reporting."
+        },
+        "rodrigue-sperisen": {
+            "short": "Sócio. Assesora empresas e clientes privados. Tributação internacional e sucessões.",
+            "long": "Assesora em contabilidade, impostos e societário. Foco em tributação internacional. Especialista em trusts e heranças. Define estruturas claras de governança e propriedade."
+        },
+        "lassana-dioum": {
+            "short": "Sócio e especialista tributário. Assesora empresas e clientes privados em temas fiscais e contábeis. Diretor em companhias internacionais.",
+            "long": "Especialista em impostos diretos e indiretos. Apoia contabilidade, folha e compliance. Coordena declarações e rulings entre jurisdições. Diretor em companhias internacionais."
+        },
+        "anthony-touboul": {
+            "short": "Especialista tributário. Tributação de pessoal e remuneração. Forfait fiscal suíço. Apoia a conformidade de empresas e pessoas físicas. Atua como diretor em empresas locais e internacionais."
+        },
+        "celeste-leal": {
+            "short": "Gerencia o escritório e projetos. Apoia clientes e equipe. Mantém prioridades claras e execução fluida."
+        },
+        "sebastien-gallie": {
+            "short": "Contador sênior e gestor de folha. Cuida da escrituração, fechamentos mensais e reporting. Garante números precisos e entregas no prazo."
+        },
+        "maulk-hamdi": {
+            "short": "Assistente de contabilidade e folha. Apoia administração, pagamentos e a operação diária."
+        }
+    }
+}

@@ -8,5 +8,15 @@
         "OfficeProjectManager": "Office & Project Manager",
         "SeniorAccountant": "Senior Accountant",
         "Associate": "Associate"
+    },
+    "Labels": {
+        "Education": "Education",
+        "Languages": "Languages",
+        "Memberships": "Memberships",
+        "Credentials": "Credentials"
+    },
+    "PBM": {
+        "Note": "Senior partner at PBM law firm.",
+        "LearnMore": "Learn more"
     }
 }

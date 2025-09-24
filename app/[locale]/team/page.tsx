@@ -5,12 +5,12 @@ import {
   CardFooter,
   CardHeader,
 } from "@/src/components/ui/card";
-import Image from "next/image";
 import Link from "next/link";
 import ImageWithFallback from "@/src/components/ui/image-with-fallback";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
+import { teamMembers, getMemberSlug } from "@/src/lib/team";
 
 export async function generateMetadata({
   params: { locale },
@@ -19,72 +19,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   return await generateMetadataForPage(locale as Locale, "/team");
 }
-const teamMembers = [
-  {
-    name: "Hassan Barbir",
-    role: "Partner",
-    profilePic: "/assets/hb.webp",
-    social: {
-      linkedin: "https://www.linkedin.com/in/hassanbarbir",
-    },
-  },
-  {
-    name: "Samuel Halff",
-    role: "ManagingPartner",
-    profilePic: "/assets/sh.webp",
-    social: {
-      linkedin: "https://www.linkedin.com/in/samuelhalff",
-    },
-  },
-  {
-    name: "Rodrigue Sperisen",
-    role: "Partner",
-    profilePic: "/assets/rs.webp",
-    social: {
-      linkedin: "https://www.linkedin.com/in/rodrigue-sperisen-74543a185",
-    },
-  },
-  {
-    name: "Lassana Dioum",
-    role: "Partner",
-    profilePic: "/assets/ld.webp",
-    social: {
-      linkedin: "https://www.linkedin.com/in/lassana-dioum-b429622b",
-    },
-  },
-  {
-    name: "Anthony Touboul",
-    role: "Tax",
-    profilePic: "/assets/at.webp",
-    social: {
-      linkedin: "https://ch.linkedin.com/in/touboulanthony",
-    },
-  },
-  {
-    name: "Celeste Leal",
-    role: "OfficeProjectManager",
-    profilePic: "/assets/cl.webp",
-    social: {
-      linkedin: "https://www.linkedin.com/in/c%C3%A9lesteleal",
-    },
-  },
-  {
-    name: "Sébastien Gallié",
-    role: "SeniorAccountant",
-    profilePic: "/assets/missing-profile.svg",
-    social: {
-      linkedin: "https://ch.linkedin.com/in/s%C3%A9bastien-galli%C3%A9",
-    },
-  },
-  {
-    name: "Maulk Hamdi",
-    role: "Associate",
-    profilePic: "/assets/missing-profile.svg",
-    social: {
-      linkedin: "https://www.linkedin.com/in/maulk-hamdi-b47b68361",
-    },
-  },
-];
+// teamMembers now imported from shared module
 
 export default async function TeamPage({
   params,
@@ -159,52 +94,43 @@ export default async function TeamPage({
                 sensitivity: "base",
               })
           )
-          .map((member) => (
-            <Link
-              href={member.social.linkedin}
-              key={member.name}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block"
-            >
-              <Card
-                className={
-                  "animate-in fade-in duration-250 text-center shadow-none hover:shadow-lg transition-shadow gap-2 py-5 border-0 hover:brightness-115"
-                }
+          .map((member) => {
+            const slug = getMemberSlug(member);
+            return (
+              <Link
+                href={`${localePrefix}/team/${slug}`}
+                key={member.name}
+                className="block"
               >
-                <CardHeader>
-                  <div className="aspect-4/5 w-full rounded-md overflow-hidden mb-4 relative h-96">
-                    <ImageWithFallback
-                      src={member.profilePic}
-                      alt={`Portrait of ${member.name}`}
-                      className="w-full h-full object-cover"
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      // allow browser to lazy-load team images
-                    />
-                  </div>
-                </CardHeader>
-                <CardContent className="text-left h-12">
-                  <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-                    {member.name}
-                    <div className="float-right">
-                      <Image
-                        width={25}
-                        height={25}
-                        className="opacity-80"
-                        src="/assets/li.webp"
-                        alt="LinkedIn logo"
-                        loading="lazy"
-                        decoding="async"
+                <Card
+                  className={
+                    "animate-in fade-in duration-250 text-center shadow-none hover:shadow-lg transition-shadow gap-2 py-5 border-0 hover:brightness-115"
+                  }
+                >
+                  <CardHeader>
+                    <div className="aspect-4/5 w-full rounded-md overflow-hidden mb-4 relative h-96">
+                      <ImageWithFallback
+                        src={member.profilePic}
+                        alt={`Portrait of ${member.name}`}
+                        className="w-full h-full object-cover"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
                       />
                     </div>
-                  </h3>
-                  <h2>{(t(`Role.${member.role}`) as string) || member.role}</h2>
-                </CardContent>
-                <CardFooter className="flex justify-center"></CardFooter>
-              </Card>
-            </Link>
-          ))}
+                  </CardHeader>
+                  <CardContent className="text-left h-12">
+                    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+                      {member.name}
+                    </h3>
+                    <h2>
+                      {(t(`Role.${member.role}`) as string) || member.role}
+                    </h2>
+                  </CardContent>
+                  <CardFooter className="flex justify-center"></CardFooter>
+                </Card>
+              </Link>
+            );
+          })}
       </div>
     </div>
   );

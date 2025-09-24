@@ -1,10 +1,11 @@
 {
+    "ImageAlt": "El Cervino al amanecer con el panorama alpino, Suiza",
     "Hero": {
         "Badge": "Swiss made",
         "BadgeTwo": "Socio de confianza",
         "Title": "Servicios Corporativos",
         "Description": "Ark Fiduciaire proporciona servicios integrales de administración corporativa, asegurando que su empresa sea conforme, esté bien estructurada y lista para el crecimiento. Manejamos todos los aspectos administrativos, legales y regulatorios para que pueda enfocarse en su negocio.",
-        "CTA": "Contáctanos",
+        "CTA": "Simplificar la gestión",
         "SecondaryCTA": "Conocer al equipo"
     },
     "Presentation": {

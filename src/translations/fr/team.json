@@ -7,6 +7,16 @@
         "Tax": "Fiscalité",
         "OfficeProjectManager": "Office & Project Manager",
         "SeniorAccountant": "Comptable Senior",
-        "Associate": "Associé"
+        "Associate": "Collaboratrice"
+    },
+    "Labels": {
+        "Formation": "Formation",
+        "Langues": "Langues",
+        "Adhésions": "Adhésions",
+        "Certifications": "Certifications"
+    },
+    "PBM": {
+        "Note": "Associé senior chez le cabinet PBM.",
+        "LearnMore": "En savoir plus"
     }
 }

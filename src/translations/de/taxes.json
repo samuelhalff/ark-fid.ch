@@ -1,10 +1,11 @@
 {
+    "ImageAlt": "Luftaufnahme einer kurvenreichen Passstraße in den Schweizer Bergen",
     "Hero": {
         "Badge": "Steuerdienstleistungen",
-        "BadgeTwo": "KI-Unterstützt",
+        "BadgeTwo": "KI-unterstützt",
         "Title": "Besteuerung",
         "Description": "Ark Fiduciaire bietet Experten-Steuerdienstleistungen für Privatpersonen und Unternehmen. Wir optimieren Ihre Steuersituation, gewährleisten Compliance und bieten strategische Beratung für alle Ihre Steuerverpflichtungen in der Schweiz.",
-        "CTA": "Kontakt aufnehmen",
+        "CTA": "Meine Steuern optimieren",
         "SecondaryCTA": "Team kennenlernen"
     },
     "Presentation": {

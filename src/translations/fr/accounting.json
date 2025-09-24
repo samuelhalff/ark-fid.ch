@@ -1,12 +1,14 @@
 {
+    "ImageAlt": "Vieille ville de Zurich et lac au lever du soleil, Suisse",
     "Hero": {
         "Badge": "Swiss made",
-        "BadgeTwo": "Alimenté par l'IA",
+        "BadgeTwo": "Assisté par l'IA",
         "ReadMore": "Lire plus",
         "Title": "Comptabilité",
         "Description": "Nous offrons des services de comptabilité avec une technologie de pointe pour vous aider à gérer vos finances efficacement. Notre équipe assure la conformité avec les réglementations suisses tout en vous fournissant les outils pour prendre des décisions éclairées.",
-        "CTA": "Nous contacter",
-        "SecondaryCTA": "Rencontrer l'équipe"
+        "CTA": "Demander un devis comptable",
+        "SecondaryCTA": "Rencontrer l'équipe",
+        "OdooPartnerBadge": "Partenaire Odoo officiel"
     },
     "Presentation": {
         "Title": "Vision holistique de votre comptabilité",

@@ -1,10 +1,11 @@
 {
+    "ImageAlt": "Tramway bleu historique sur des rails enneigés sous ciel d'hiver clair, Suisse",
     "Hero": {
-        "Badge": "Services de Paie",
-        "BadgeTwo": "Alimenté par l'IA",
+        "Badge": "Services de paie",
+        "BadgeTwo": "Assisté par l'IA",
         "Title": "Paie et RH",
         "Description": "Ark Fiduciaire gère votre paie et administration RH avec précision et confidentialité. Nous assurons la conformité avec le droit du travail suisse et fournissons un soutien pour tous vos besoins RH.",
-        "CTA": "Nous contacter",
+        "CTA": "Obtenir un soutien paie",
         "SecondaryCTA": "Rencontrer l'équipe"
     },
     "Presentation": {

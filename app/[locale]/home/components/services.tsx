@@ -3,6 +3,7 @@ import services from "@/app/[locale]/home/components/services-items";
 import Image from "next/image";
 import Link from "next/link";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
+import heroBlurData from "@/src/lib/heroBlurData.json";
 
 interface ServicesProps {
   showSubtitle?: boolean;
@@ -76,6 +77,13 @@ const Services = async ({
                       fill
                       sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
                       quality={72}
+                      placeholder="blur"
+                      blurDataURL={
+                        (heroBlurData as Record<string, string>)[
+                          service.image
+                        ] ||
+                        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mO0dOjYfwAIGQMCq9zJ3wAAAABJRU5ErkJggg=="
+                      }
                       className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
                     />
                   </div>

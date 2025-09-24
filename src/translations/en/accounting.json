@@ -1,12 +1,14 @@
 {
+    "ImageAlt": "Zurich old town and Lake Zurich at sunrise, Switzerland",
     "Hero": {
-        "Badge": "Swiss Made",
-        "BadgeTwo": "AI Powered",
+        "Badge": "Swiss made",
+        "BadgeTwo": "AI powered",
         "ReadMore": "Read more",
         "Title": "Accounting",
         "Description": "We offer accounting services along with state-of-the art technology to help you manage your finances efficiently. Our team ensures compliance with Swiss regulations while providing you with the tools to make informed decisions.",
-        "CTA": "Get in touch",
-        "SecondaryCTA": "Meet the Team"
+        "CTA": "Request accounting quote",
+        "SecondaryCTA": "Meet the Team",
+        "OdooPartnerBadge": "Official Odoo partner"
     },
     "Presentation": {
         "Title": "Holistic vision of your accounting",

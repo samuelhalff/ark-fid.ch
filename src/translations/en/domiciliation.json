@@ -1,9 +1,11 @@
 {
+    "ImageAlt": "Mountain ridge emerging above clouds in the Swiss Alps",
     "Hero": {
         "Badge": "Domiciliation",
+        "BadgeTwo": "Swiss address",
         "Title": "Domiciliation",
         "Description": "Ark Fiduciaire offers domiciliation services for your company in Switzerland. Benefit from a prestigious address and comprehensive administrative support for your business.",
-        "CTA": "Contact us",
+        "CTA": "Secure a Swiss address",
         "SecondaryCTA": "Meet the team"
     },
     "Presentation": {

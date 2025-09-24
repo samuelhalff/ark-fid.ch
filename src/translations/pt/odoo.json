@@ -1,11 +1,13 @@
 {
+    "ImageAlt": "Trem vermelho cruzando um alto viaduto alpino no inverno, Suíça",
     "Hero": {
         "Badge": "Implementação Odoo",
         "BadgeTwo": "Digitalização & ERP",
         "Title": "Odoo: digitalize sua gestão",
         "Description": "A Ark Fiduciaire apoia você na integração, personalização e evolução de sua solução Odoo. Otimize seus processos, automatize tarefas e gerencie seu negócio com um ERP completo e escalável.",
-        "CTA": "Entre em contato",
-        "SecondaryCTA": "Conhecer a Equipe"
+        "CTA": "Acelerar meu projeto Odoo",
+        "SecondaryCTA": "Conhecer a Equipe",
+        "OdooPartnerBadge": "Parceiro Odoo oficial"
     },
     "Presentation": {
         "Title": "Odoo: digitalize seu negócio",

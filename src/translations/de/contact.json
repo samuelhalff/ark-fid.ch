@@ -1,6 +1,8 @@
 {
     "Title": "Kontakt aufnehmen",
     "Subtitle": "Wir antworten normalerweise innerhalb von 24 Stunden.",
+    "BookingButton": "Einen Termin buchen",
+    "OrContactUs": "Oder kontaktieren Sie uns.",
     "Form": {
         "Name": "Name",
         "Email": "E-Mail",

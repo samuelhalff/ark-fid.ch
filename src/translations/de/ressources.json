@@ -1,5 +1,7 @@
 {
   "IntroTitle": "Ressources fiscales et comptables – Genève & Suisse romande",
+  "IntroShort": "Ressourcen",
+  "ArticlesShort": "Artikel",
   "IntroText": "Basées à Genève et actives dans toute la Suisse romande, nos équipes accompagnent aussi des clients en Suisse et à l'international. Vous trouverez ci-dessous une sélection de documents et d'articles pratiques adaptés au contexte réglementaire genevois, romand et fédéral. Ces ressources sont fournies pour votre convenance et n'ont pas valeur de conseil personnalisé. Pour une analyse ciblée de votre situation, contactez notre équipe.",
   "FilesTitle": "Documents disponibles au téléchargement",
   "ArticlesTitle": "Articles d'experts",
@@ -94,6 +96,76 @@
       "description": "Projet AFC d'adaptation de la pratique TVA : déduction impôt préalable, nouvelles règles et impacts pour les entreprises dès 2025.",
       "date": "2025-02-09",
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/konsultativgremium/entwurf1-nein/mwst-kg-vorsteuerabzug-andere-mi-and-mbi-fr.pdf.download.pdf/mwst-kg-vorsteuerabzug-andere-mi-and-mbi-fr.pdf"
+    },
+    {
+      "filename": "guide-fiscal-2024-independants-geneve.pdf",
+      "title": "Steuerleitfaden 2024 für Selbständige in Genf",
+      "description": "Offizieller, umfassender und aktueller Leitfaden zur Besteuerung von Unternehmern und Selbständigen in Genf: Buchführungspflichten, Methoden zur Berechnung von Einkommen und Vermögen, Abzüge, Steuerbelege und Einreichung der Steuererklärung.",
+      "date": "2025-09-16",
+      "source_url": "https://www.ge.ch/document/guide-fiscal-2024-independants"
+    },
+    {
+      "filename": "presentations-du-panorama-fiscal-2025.pdf",
+      "title": "Steuerüberblick 2025 – Reformen und Neuigkeiten in Genf",
+      "description": "Offizielle Präsentation der wichtigsten Steuerreformen, Rechtsprechung und Neuigkeiten, die ab 2025 in Genf gelten, inklusive Mindestbesteuerung von juristischen Personen, grenzüberschreitendem Homeoffice und Immobilienbesteuerung. Ein unverzichtbares Dokument, um Veränderungen zu antizipieren und die Steuererklärung 2026 vorzubereiten.",
+      "date": "2025-09-17",
+      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+    },
+    {
+      "filename": "presentations-panorama-fiscal-2025-ge.pdf",
+      "title": "Präsentationen Steuerpanorama 2025 Genf",
+      "description": "Offizielle Zusammenfassung der wichtigsten steuerlichen Neuerungen und Entwicklungen in Genf für 2025 (Einkommensteuer, Vermögensteuer, Unternehmen, grenzüberschreitendes Homeoffice, spezifische Steuerbehandlungen). Aktuelles Dokument zur Entscheidungsunterstützung für Q3-Q4 2025 und Vorbereitung der Steuererklärung 2026.",
+      "date": "2025-09-17",
+      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+    },
+    {
+      "filename": "Changements-TVA-2025.pdf",
+      "title": "Mehrwertsteuer-Änderungen 2025: Was Genfer Unternehmen wissen müssen",
+      "description": "Dieses Dokument beschreibt die wichtigsten Änderungen des Mehrwertsteuergesetzes, die im Januar 2025 in Kraft getreten sind, darunter Auswirkungen auf die Rechnungsstellung, Abrechnung und Behandlung digitaler Plattformen. Es richtet sich an KMU, Selbständige und Finanzverantwortliche in Genf und der Westschweiz, die notwendige administrative Anpassungen für das zweite Halbjahr 2025 sowie die Vorbereitung auf 2026 antizipieren möchten.",
+      "date": "2025-09-17",
+      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+    },
+    {
+      "filename": "presentations-panorama-fiscal-geneve-2025.pdf",
+      "title": "Steuerüberblick Genf 2025 – Reformen, Rechtsprechung und Neuigkeiten",
+      "description": "Offizielles Dokument der Plenarsitzung des Steuerüberblicks 2025, organisiert von der kantonalen Steuerverwaltung Genf. Stellt die Reformen, Neuheiten der Steuererklärung, Steuerfragen für Unternehmen und juristische Personen, Mindestbesteuerung, grenzüberschreitendes Homeoffice, Praxis der Steuervereinbarungen und die steuerliche Behandlung von Immobiliengesellschaften (SCI) vor. Unverzichtbar für Geschäftsführer, CFOs, Treuhänder und Verwaltungsverantwortliche, die sich auf die Steuern 2025–2026 in Genf vorbereiten.",
+      "date": "2025-09-17",
+      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+    },
+    {
+      "filename": "Changements_TVA_2025_Suisse.pdf",
+      "title": "Wichtige Mehrwertsteuer-Änderungen ab 2025 in der Schweiz",
+      "description": "Offizielle Zusammenfassung der Mehrwertsteuer-Revisionen in der Schweiz, gültig ab dem 1. Januar 2025 und veröffentlicht vom Bund. Dieses Dokument erläutert die wichtigsten gesetzlichen Neuerungen (obligatorische Online-Abrechnung, neue reduzierte Sätze, Anpassungen für digitale Plattformen usw.), die sich direkt auf KMU und Selbstständige in der Romandie auswirken, sowie die Übergangsregelungen bis 2026.",
+      "date": "2025-09-17",
+      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+    },
+    {
+      "filename": "Argumentarium_Systemwechsel_Liegenschatssteuern_FR-1.pdf",
+      "title": "Mehr Steuern für die Mittelschicht? Steuerreformen 2025: Die Initiative zum Eigenmietwert und deren Auswirkungen in Genf",
+      "description": "Offizielles Argumentarium zur Reform des Systems der Besteuerung von Wohneigentum, einschließlich der Abschaffung des Eigenmietwerts und der möglichen Einführung einer Steuer auf Zweitwohnungen. Aktualisierte Ausgabe August 2025, nützlich für Eigentümer, Immobilienunternehmen und Steuerberater in der französischsprachigen Schweiz.",
+      "date": "2025-09-17",
+      "source_url": "https://www.sp-ps.ch/wp-content/uploads/2025/08/Argumentarium_Systemwechsel_Liegenschatssteuern_FR-1.pdf"
+    },
+    {
+      "filename": "directives-impot-source-geneve-2025.pdf",
+      "title": "Richtlinien Quellensteuer Genf 2025",
+      "description": "Offizielles PDF mit den Regeln und Neuerungen 2025 zur Quellenbesteuerung von Arbeitnehmern und selbständigen Nichtansässigen mit Tätigkeit in Genf. Dieses Dokument fasst die von Arbeitgebern und Treuhändern für Lohnabrechnung und Quellenabzug verwendeten Anweisungen zusammen, aktuell für das laufende Steuerjahr.",
+      "date": "2025-09-17",
+      "source_url": "https://www.efficore.ch/wp-content/uploads/2025/01/directives-impot-source-geneve-2025.pdf"
+    },
+    {
+      "filename": "Modification_loi_TVA_2025_amsuisse.pdf",
+      "title": "Endgültige Änderung des Mehrwertsteuergesetzes für 2025",
+      "description": "Offizielle zugängliche Zusammenfassung der Mehrwertsteuerrevision 2025 in der Schweiz: neue Sätze, Pflichten für Unternehmen und unmittelbare praktische Auswirkungen auf die Verwaltungsführung, Rechnungsstellung und Compliance. Zentrales Dokument zur Weitergabe an Ihre Finanz-, Personal- und KMU-Leitung in Genf.",
+      "date": "2025-09-17",
+      "source_url": "https://www.amsuisse.ch/fileadmin/forum_archiv/pdf/2024/06/2024_06_F_120_Modification_TVA.pdf"
+    },
+    {
+      "filename": "etudec_ecarts_salaraiux_suisse_2025.pdf",
+      "title": "Studie zu Lohnunterschieden in der Schweiz 2025",
+      "description": "Analyse der Lohnunterschiede zwischen Führungskräften und Mitarbeitenden in der Schweiz für das Jahr 2025, mit Daten, Trends und offiziellen Empfehlungen der Gewerkschaft Unia.",
+      "date": "2025-09-17",
+      "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
     }
   ],
   "Articles": [
@@ -332,6 +404,214 @@
       "author": "Ark Fiduciaire",
       "date": "2025-08-21",
       "content": "Übernahme:\n\n- Projektvorbereitung\n- Umfassende Due Diligence\n- Strukturierte Finanzierung\n- Integration der Mitarbeitenden\n\n(Artikel mit 1.800 Wörtern, Prozessdiagramme.)"
+    },
+    {
+      "slug": "nouveaux-taux-tva-suisse-transition-2024-entreprises-geneve",
+      "title": "Wie bereiten Sie Ihr Unternehmen in Genf auf die Mehrwertsteuererhöhung 2024 vor?",
+      "description": "Mehrwertsteuererhöhung 2024: praktische Tipps und Checkliste für KMU, Selbständige und Finanzabteilungen in Genf. Dieser Leitfaden hilft Ihrem Unternehmen, vorzusorgen, Tools anzupassen (ERP, Odoo), Teams zu schulen und häufige Fehler zu vermeiden.",
+      "content": "Seit dem 1. Januar 2024 wurden die Schweizer Mehrwertsteuersätze zur Sicherung der AHV-Finanzierung angehoben. Für jedes Unternehmen mit Sitz in Genf und der ganzen Westschweiz ist es notwendig, das Rechnungswesen, ERP-Systeme (z. B. Odoo), die Kundenkommunikation und die interne Weiterbildung anzupassen. Prüfen Sie diese Punkte:\n\n## <b>1. Ermittlung der neuen anwendbaren Sätze</b>\n- Normalsatz: 8,1 % (vorher 7,7 %)\n- Reduzierter Satz: 2,6 %\n- Sondersatz Beherbergung: 3,8 %\n<br>Achtung: Für Waren oder Dienstleistungen zählt das Leistungsdatum zur Bestimmung des anwendbaren Satzes.\n\n## <b>2. Aktualisierung der Buchhaltungs- und ERP-Software</b>\n- Stellen Sie sicher, dass Ihre Tools (besonders Odoo, Winbiz, Crésus usw.), wiederkehrende Rechnungen und Angebotsvorlagen die neuen Sätze berücksichtigen.\n- Für Odoo nutzen Sie die offizielle Dokumentation zur Implementierung der neuen Steuersätze in Ihren Einstellungen.\n- Planen Sie zusätzliche MwSt.-Codes für Übergangssituationen (Leistungen über zwei Perioden)\n\n## <b>3. Überprüfung von Fakturierungs- und Reportingprozessen</b>\n- Segmentieren Sie Rechnungen richtig nach Leistungsdatum.\n- Prüfen Sie Gutschriften und Anzahlungsbelege.\n- Kontrollieren Sie Ihre Swissdec-MwSt.-Deklarationstools\n\n## <b>4. Interne Schulung und Kommunikation</b>\n- Schulen Sie Ihr administratives, vertriebliches und finanzielles Team zu den neuen Sätzen und Übergangsregeln.\n- Informieren Sie Geschäftskunden per E-Mail, Rundschreiben oder Hinweis auf der Rechnung.\n\n## <b>5. Zentrale Tipps zur Fehlervermeidung</b>\n- Wenden Sie den neuen Satz nicht auf Leistungen aus 2023 an, auch wenn diese 2024 fakturiert werden.\n- Lassen Sie die Konfiguration von ERP oder Buchhaltungssoftware von einem Treuhandexperten prüfen.\n- Lesen Sie die Leitfäden von der ESTV und den kantonalen Verbänden für Spezialfälle (Splits, Mehrfachsätze, Wechsel der Abrechnungsmethode).\n\n## <b>Für mehr Informationen</b>\n- Ziehen Sie Fachbegleitung hinzu: MwSt.-Prozesse prüfen, Outsourcing von Administration & Finanzen, erweiterte Einstellungen (Odoo, Winbiz usw.) und Begleitung beim Übergang 2023-2024 (Quartals- und Halbjahresabrechnungen).\n- Nutzen Sie offizielle Quellen: PDF-Leitfäden, ESTV-Hotline und Updates zu steuerlichen Strukturen für Genfer KMU.\n\nDieser Artikel fasst das Wichtigste zusammen und bietet eine echte Checkliste für den erfolgreichen Übergang. Im Zweifelsfall lassen Sie Ihre Entscheidungsfindung von einem Steuerexperten oder Geschäftsführer mit MwSt.-Kompetenz in der Westschweiz prüfen.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-16",
+      "references": [
+        {
+          "labelKey": "admin.ch_liste_des_taux_actuels_de_la_TVA_en_Suisse",
+          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-97258.html"
+        },
+        {
+          "labelKey": "fedlex_admin_ch_reforme_TVA_2024_message_officiel",
+          "url": "https://www.fedlex.admin.ch/eli/fga/2023/1970/fr"
+        }
+      ]
+    },
+    {
+      "slug": "reforme-fiscale-geneve-2025-impact-contribuables-pme",
+      "title": "Steuerreform Genf 2025: welche Auswirkungen für Steuerpflichtige und KMU?",
+      "description": "Konkrete Analyse der Steuerreform 2025 in Genf: Senkung der Steuersätze, Neues zu Akontozahlungen, Immobilienbesteuerung und erste praktische Tipps zur Optimierung der Situation 2025–2026.",
+      "content": "Die 2025 in Genf beschlossene Steuerreform bringt tiefgreifende Veränderungen für Steuerpflichtige, Immobilienbesitzer und Unternehmen im Kanton. Hier die wichtigsten Punkte, die Sie für die Steuererklärung 2026 beachten sollten, Optimierungsstrategien zur sofortigen Umsetzung und Antworten auf die häufigsten Fragen.\n\n# 1. Einzigartige Senkung der Einkommenssteuer\nGenf entlastet ab 2025 steuerlich: die Steuersätze sinken zwischen 5,3 % und 11,4 %, insbesondere für die Mittelschicht, aber auch für bescheidenere Steuerzahler und – in geringerem Umfang – wohlhabende Haushalte. KMU und Selbständige profitieren hierbei vor allem bei der Geschäftsführervergütung und Dividendenplanung.\n\n# 2. Neue Tarifskalen ab 2026\nAlle Steuerpflichtigen füllen ihre nächste Steuererklärung mit den neuen Tarifskalen aus. Wichtig ist deshalb, die Akontozahlungen schon jetzt anzupassen. Wichtigste Neuerung: Die jährlichen Akontozahlungen können künftig in 12 Monatsraten (statt 10) geleistet werden; das verbessert die Liquidität für kleine Unternehmen und Familien.\n\n# 3. Immobilienbesteuerung und Vermögenssteuer\nIm Zusammenhang mit dem LEFI-Gesetz steigt der Steuerwert von vor Ende 2014 gekauften Immobilien um 12 %. Die Vermögenssteuer dagegen sinkt um 15 %, was den höheren Besteuerungswert teilweise ausgleicht. Für Eigentümer ist es ratsam, die Notwendigkeit von Renovationen zu prüfen, Nachfolge- oder Immobilienentscheidungen zu antizipieren und die Steuererklärung ab 2025 zu optimieren.\n\n# 4. Unternehmensbesteuerung: Chancen und Vorsicht\nFür Unternehmen können Mindestbesteuerung, Homeoffice-Regeln für Grenzgänger oder die Verwaltung von Immobiliengesellschaften zu neuen Dokumentations- und Meldepflichten (insbesondere via e-Steuerverfahren) führen. Die genaue Analyse der eigenen Situation sollte beim Treuhänder angefragt werden.\n\n# 5. Praktische Tipps für Q4 2025–2026\n• Akontozahlungen anpassen (berufliche Einnahmen, Immobilien, Dividenden: Simulation mit den neuen Sätzen);\n• Überprüfung der Immobilienwerte und des deklarierten Vermögens;\n• Vorsorgeeinkäufe oder strukturelle Änderungen vor dem 31.12.2025 planen;\n• Familiäre Regelungen (Schenkung, Erbfolge, Wohnsitzwechsel) steuerlich vorausdenken.\n\n# Trend-Schlagwörter:\n- Steuerreform Genf 2025\n- steuern 2025 KMU Genf\n- Immobilienbesteuerung Genf\n- Steuersatz Genf 2025\n- Steuererklärung 2026\n\nFür individuelle Anfragen oder strategische Optimierungen steht unser Team bereit: Steuerberatung, Unterstützung bei der Erklärung, Lohnanalyse, MWST-Beratung, Swiss GAAP FER und Odoo-Implementierung.\n",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Réforme fiscale Genève officielle",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        },
+        {
+          "labelKey": "Changements fiscaux Genève 2025",
+          "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
+        },
+        {
+          "labelKey": "Analyse Econostrum 2025",
+          "url": "https://econostrum.info/suisse/geneve-reforme-fiscale-historique-2025/"
+        },
+        {
+          "labelKey": "Finances publiques Genève juin 2025",
+          "url": "https://geneve-attractive.ch/sites/default/files/source/docs/crea_financespubliques_juin2025.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "optimiser-fiscalite-geneve-2025-preparer-2026",
+      "title": "Steueroptimierung in Genf 2025: maßnahmen und tipps für KMU und selbstständige",
+      "description": "Welche wichtigen Steueränderungen gibt es in Genf 2025? Wie die eigene Situation optimieren und die Steuererklärung 2026 vorausschauend vorbereiten? Präziser Überblick für KMU, Selbstständige und Unternehmer mit praktischen Tipps und wichtigsten Trends.",
+      "content": "Das Jahr 2025 bringt zahlreiche steuerliche Neuerungen in Genf. KMU, Selbstständige und Unternehmer müssen sich auf erhebliche Veränderungen einstellen, um ihre Steuerlast zu senken, konform zu bleiben und die Steuererklärung 2026 effizient vorzubereiten.\n\nWesentliche Steueränderungen in Genf 2025\n\n1. Senkung der Einkommenssteuer für Privatpersonen\nSeit dem 1. Januar 2025 ist der kantonale und kommunale Tarif um 11,4% bis 5,3% gesunken. Das bringt vielen Steuerzahlern spürbare Ersparnisse. Die Akontozahlungen bleiben jedoch an den Vorjahreserklärungen orientiert – daher Vorsicht bei der Vorausplanung.\n\n2. Zahlung der Akonti: vereinfachte Monatsraten\nNeue Flexibilität: Die Akontozahlungen können nun in 12 statt in 10 Monatsraten erfolgen, was Selbstständigen und Unternehmen die Liquiditätsplanung erleichtert.\n\n3. Immobilienbesteuerung: Auswirkungen des LEFI-Gesetzes\nAlle Immobilien, die vor Ende 2014 erworben wurden, erfahren eine steuerliche Wertsteigerung von 12%. Gleichzeitig sinkt die Vermögenssteuer um 15%. Eigentümer sollten den individuellen Einfluss prüfen.\n\n4. Homeoffice & Grenzgänger: vorsicht bei gemischter Besteuerung\nDie Klärung der steuerlichen Behandlung von Grenzgängern im Homeoffice kann zu Nachjustierungen führen (Arbeitgeber: Updates der Praktiken empfohlen).\n\n5. Neue Regelungen für Unternehmen (Rulings, Mindestbesteuerung, SCI)\nKMU und Unternehmen, die der Mindestbesteuerung unterliegen oder mit Immobiliengesellschaften (SCI) agieren, sollten die letzten Anpassungen prüfen (siehe Steuerpanorama AFC 2025).\n\nWichtige Tipps zur Steueroptimierung 2025–2026\n- Die persönliche und die Unternehmenssteuerplanung aktualisieren\n- Möglichen Wertzuwachs bei Alt-Immobilien voraussehen\n- Akontozahlungen rechtzeitig anpassen, um unnötige Zinsen zu vermeiden\n- Gesellschaftsstatuten/Fusion/SCI mit einem Steuerberater prüfen\n- Grenzgänger-Mitarbeiter über neue Homeoffice-Regeln informieren\n- Steuer-Check 2025 in Anspruch nehmen, um Optimierungsmöglichkeiten abzusichern\n\nBeobachtete Google Trends\n- \"Steuersenkung Genf 2025\"\n- \"Monatliche Akontozahlungen steuern\"\n- \"Steuern KMU Genf 2025\"\n- \"Homeoffice Steuern Grenzgänger\"\nDiese Suchanfragen spiegeln das steigende Interesse an Optimierung, proaktivem Management und dem Verständnis der neuen Steuerregeln – insbesondere für KMU, Selbstständige und freie Berufe – wider.\n\nFazit:\nSich an die steuerlichen Änderungen in Genf 2025 anzupassen, erfordert Proaktivität und Fachkompetenz. Unsere Experten unterstützen KMU und Selbständige in allen Bereichen: Steuern, MwSt, Odoo-Implementierung, Outsourcing, Lohnbuchhaltung und Integrationen. Kontaktieren Sie uns für eine individuelle Analyse.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Changements fiscaux Genève",
+          "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
+        },
+        {
+          "labelKey": "Panorama fiscal 2025 AFC",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        }
+      ]
+    },
+    {
+      "slug": "optimisation-fiscale-geneve-fin-2025",
+      "title": "Unternehmensbesteuerung in Genf: Strategische Optimierungen angesichts sinkender Einnahmen und Neuerungen 2026",
+      "description": "Konkreter Überblick über Steueroptimierungsstrategien für Firmen und Selbständige in Genf angesichts der nach unten korrigierten Prognosen, der Mehrwertsteuer-Neuerungen 2025 und der Herausforderungen zum Jahresende. Speziell für die Q4-Vorbereitung und Vorausschau auf 2026.",
+      "content": "Das Unternehmenssteuerrecht in Genf erfährt zum Herbst 2025 wichtige Veränderungen – sowohl durch die Mehrwertsteuerreform als auch durch die unsichere Wirtschaftslage, die den Kanton gezwungen hat, seine Steuereinnahmenerwartungen zu senken. Für KMU, Gruppen und Selbständige ist der Herbst ein strategischer Zeitpunkt, um Jahresend-Anpassungen vorzudenken und sich auf das kommende Geschäftsjahr vorzubereiten – zahlreiche Chancen und Risiken sind zu beachten...\n\n**I. Überblick über die lokale Steuergesetzgebung und konjunkturelle Belastungen**\n- Die Teilrevision des Mehrwertsteuergesetzes, die im Januar 2025 in Kraft getreten ist, verlangt eine Anpassung der Fakturierungstools, eine verstärkte Online-Abrechnungspflicht und eine engere Kontrolle grenzüberschreitender Flüsse, besonders bei digitalen Plattformen und B2B/B2C-Leistungen.\n- Zudem erhöht der angekündigte Rückgang der kantonalen Steuereinnahmen – hauptsächlich von Unternehmen getragen – den Druck auf die steuerliche Ergebnissteuerung und die Planung von Rückstellungen, Verlustvorträgen oder Vorsorgeeinkäufen (3. Säule, Einkauf LPP für Führungskräfte).\n\n**II. Konkrete Maßnahmen für das 4. Quartal 2025**\n- Optimierung der MwSt.-Behandlung dank neuer Saldosteuersatz- oder Pauschalkategorien (Gelegenheit zur Analyse bis 31.12).\n- Steuerliche Vorteile von Fristen (beschleunigte Abschreibungen, Bildung/Auflösung von Rückstellungen, Analyse von Verlustvorträgen etc.) nutzen, um das Ergebnis 2025 optimal abzustimmen.\n- Für Gruppen und internationale Gesellschaften: Planung grenzüberschreitender Zahlungsströme und Antizipation neuer Meldepflichten im Rahmen des AIA (automatischer Informationsaustausch über Konten).\n\n**III. Weichenstellung zum Erfolg für 2026**\n- Administrative Digitalisierung integrieren (E-Rechnung, MwSt.-Abrechnung via ePortal, Odoo-Integration zur Automatisierung von Lohn, Buchungen und Steuerüberwachung).\n- Sicherstellung der LPP-, UVG- und ALV-Konformität für alle Mitarbeitenden (inkl. Selbständige, insbesondere bei Homeoffice).\n- Domizil und Governance: Statuten und Protokolle anpassen zur Maximierung der rechtlichen und steuerlichen Sicherheit bei Intra-Gruppen-Strömen oder erweiterten Geschäftstätigkeiten.\n\n**IV. Tipps von Ark Fiduciaire**\nLassen Sie Buchhaltungsprozesse, Odoo-/ERP-Integrationen (insbesondere MwSt. und Lohn) prüfen und reichen Sie etwaige Fristverlängerungen oder Klärungsanfragen früh bei den Steuerbehörden ein. Nutzen Sie ab 2025 die neuen eGov-Tools des Kantons Genf, um den Kontakt zur ESTV zu optimieren.\n\nFür persönliche Beratung, Situationsbewertung und optimale Vorbereitung auf 2026 kontaktieren Sie Ark Fiduciaire, Ihren Spezialisten für KMU, internationale Familien und Unternehmer in der Schweiz.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Modifications TVA 2025",
+          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+        },
+        {
+          "labelKey": "Panorama fiscal Genève 2025",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        },
+        {
+          "labelKey": "Prolongation du délai de décompte TVA",
+          "url": "https://fr.taxlawblog.ch/"
+        },
+        {
+          "labelKey": "Révision des recettes fiscales Genève",
+          "url": "https://www.radiolac.ch/actualite/geneve/les-previsions-de-recettes-fiscales-en-2025-revues-a-la-baisse/"
+        }
+      ]
+    },
+    {
+      "slug": "devancer-reformes-fiscales-entreprise-geneve-2026",
+      "title": "Wie Sie die Steuerreformen 2026 für Ihr Unternehmen in Genf vorausplanen",
+      "description": "Praktisches und aktuelles Memo für Geschäftsführer und Finanzverantwortliche: kritische Punkte, Fallstricke und Möglichkeiten für eine optimierte Besteuerung in Genf 2025–2026.",
+      "content": "Genf steht vor wichtigen steuerlichen Veränderungen, die Unternehmen und Selbstständige direkt betreffen. Wie können Sie diese kommenden Reformen effektiv antizipieren, Ihre Besteuerung optimieren und die Konformität Ihres KMU oder Unternehmens in Genf für 2026 sicherstellen? Dieser Leitfaden für Geschäftsführer und Verwaltungsverantwortliche stützt sich auf aktuelle amtliche Veröffentlichungen und Google-Trends und berücksichtigt lokale Besonderheiten wie die Kommunalsteuer, die RFFA, die Mindestbesteuerung nach OECD/G20 sowie das Management von grenzüberschreitendem Homeoffice.\n\n1. Überblick und Trends 2025–2026\nIm April 2025 präsentierte die kantonale Steuerverwaltung die neuen Regeln und Herausforderungen beim Steuerüberblick (siehe PDF im Anhang). Heisse Themen: Stärkung des Prinzips der Mindestbesteuerung für juristische Personen, Homeoffice und internationale Mobilität der Mitarbeitenden, Digitalisierung der Steuerabläufe und Innovationen wie e-tax oder die Integration von Odoo für die Verwaltung.\n\n2. Welche konkreten steuerlichen Neuerungen betreffen Unternehmen in Genf?\n- Mindestbesteuerung (OECD/G20): Ab 2026 unterliegen alle betroffenen Multis und KMU einem effektiven Mindestsatz von 15 % auf den steuerbaren Gewinn. Eine dringende Überprüfung der Rechtsstruktur und der Finanzströme ist angezeigt.\n- Homeoffice und Grenzgänger: Die Regeln für Besteuerung und Beiträge ändern sich (bilaterale Abkommen werden angepasst). Eine sorgfältige Vorbereitung von Lohnabrechnung und Buchhaltung ist nur mit dauerhaftem Monitoring möglich.\n- Digitalisierung und Automatisierung: Neue zertifizierte Software, e-tax und Lösungen wie Odoo werden zur Norm, um Reporting zu erleichtern und Fehler zu minimieren. Übertragen Sie Lohn- und Verwaltungsaufgaben an einen lokalen Experten für Konformität und Effizienz.\n\n3. Wichtige Punkte und Fallstricke\n- Planen Sie Unterschiede zwischen kantonaler und eidgenössischer Steuer vorweg: gewisse Sätze, Tarife und Prozesse entwickeln sich unterschiedlich schnell.\n- Beachten Sie besonders die Kommunalsteuer, die es nur in Genf gibt, und beziehen Sie sie in Ihre Simulationen ein.\n- Denken Sie an den Abzug von F&E-Ausgaben (Patent Box), der immer noch zu wenig genutzt wird.\n\n4. Praktische Tipps für die Vorbereitung auf 2026\n- Führen Sie ab Herbst 2025 ein Steuer-Audit mit Ihrem Treuhänder durch, um Ihre Prozesse zu überprüfen.\n- Erneuern Sie Ihre Lohn- und Verwaltungssoftware und prüfen Sie die Swissdec- und Odoo-Kompatibilität.\n- Schulen Sie Ihr Finanzteam: Digitale und regulatorische Weiterbildung ist unerlässlich.\n- Lagern Sie aus, was Sie können (Lohn, Steuern, Verwaltung) – am besten an zertifizierte Genfer Partner.\n\n5. Fazit\n2025–2026 erfordert Voraussicht, Präzision und Partner, die den Genfer Kontext verstehen. Für eine individuelle Analyse und passgenaue Lösungen zu Buchhaltung, Steuern und Lohn wenden Sie sich an Ark Fiduciaire.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Réformes fiscales Genève",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        },
+        {
+          "labelKey": "Obligations fiscales entreprises",
+          "url": "https://www.geneve.ch/public/entreprises/informations-utiles-entreprises-prestations-demarches/impots"
+        },
+        {
+          "labelKey": "Fiscalité RFFA Genève",
+          "url": "https://fidulex.ch/la-reforme-de-la-fiscalite-des-entreprises-guide-geneve/"
+        }
+      ]
+    },
+    {
+      "slug": "nouveautes-paie-geneve-2025-regles-frontaliers-teletravail",
+      "title": "Lohnabrechnung und Arbeitgeber in Genf: Neues 2025 (Grenzgänger, Homeoffice, Steuern, neue Schwellenwerte und praktische Regeln)",
+      "description": "Zusammenfassung der Änderungen 2025 für die Lohnabrechnung in Genf und der Westschweiz: neue AHV/BVG-Schwellen, Familienzulagen, Updates zur Übernahme von E-Fahrzeugen, grenzüberschreitendes Homeoffice, aktuelle Steuer- und Sozialversicherungspflichten gemäß den letzten Empfehlungen. Dieser praktische Leitfaden unterstützt Arbeitgeber und Selbstständige bei der Einhaltung der Vorschriften und der Vorbereitung auf administrative und finanzielle Auswirkungen für Q4 2025 und 2026.",
+      "content": "Das Jahr 2025 markiert einen Wendepunkt für das Lohnmanagement in Genf und der gesamten Romandie, mit wichtigen Reformen für Arbeitgeber und Selbstständige, die Wert auf Compliance und steuerliche Optimierung legen.\n\n1. Neue AHV/BVG/Familienzulagen-Grenzwerte und Sätze\nAb Januar 2025 erfordern die Anhebung der AHV-Grenze, die Aufwertung der Familienzulagen (215 CHF pro Kind, mindestens 268 CHF für Ausbildung) und die geänderte BVG-Anschlussschwelle eine sofortige Aktualisierung der Lohnbasen und Software. Beschäftigte, die das Referenzalter erreichen (Frauen: 64 Jahre und 3 Monate, wenn geboren 1961), müssen ihre Wahl der AHV-Freigrenze vor der ersten Lohnzahlung 2025 treffen.\n\n2. E-Fahrzeuge und Spesenregelung\nArbeitgeber müssen nun die Kosten für private Ladestationen im steuer- und sozialversicherungspflichtigen Lohn ausweisen und diesen Betrag bei der Pauschalreduktion von 0,9% ausnehmen. Pauschale Kilometerentschädigungen für dienstliche Fahrten sind weiterhin möglich, mit Nachweis oder genehmigter interner Regelung – mit direkten Auswirkungen auf Steuererklärung und Lohnausweis.\n\n3. Grenzüberschreitendes Homeoffice: Übergangsregelung 2025\nDas Übergangsabkommen Schweiz-Frankreich zum Homeoffice wird bis zum 31. Dezember 2025 verlängert. Für Genf können bis zu 40% der Jahresarbeitszeit im Homeoffice in Frankreich gearbeitet werden, ohne steuerliche Auswirkungen für Arbeitgeber oder Arbeitnehmer: Der gesamte Lohn wird in Genf versteuert. Das Unternehmen muss jedoch eine Jahresbescheinigung ausstellen und die Mitarbeitenden zu Regeln und Rechten (DSG, Steuern, Sozialversicherung, A1) informieren. Ab Überschreitung der Schwelle gilt das französische System für den betreffenden Lohnanteil: Bei der Einsatzplanung ist erhöhte Aufmerksamkeit erforderlich.\n\n4. Rentabilität, Lohnverhandlungen und Trends Q4 2025\nDie nominalen Löhne steigen (+1,4% im Schnitt, in den Mangelbranchen mehr), gleichen die Inflation jedoch oft nicht aus (Krankenkassenprämien +6% im Schnitt in Genf). Besonders aufmerksam beobachtet werden Anpassungen in den Bereichen Gesundheit, Handel und Gastgewerbe. Arbeitgeber sollten dies in der Lohnpolitik und bei der Aktualisierung des Sozialbudgets 2026 berücksichtigen.\n\n5. Compliance-Checkliste 2025 und Best Practices\n- Alle Lohnparameter ab Januar prüfen und anpassen (Sätze, Grenzwerte, Pauschalen)\n- Entscheidungen zur AHV-Freigrenze, BVG, Spesen, Cross-Border-Bescheinigungen dokumentieren und kommunizieren\n- Homeoffice-Grenzgänger überwachen (Grenzüberwachung, Ausstellung A1-Bescheinigung, steuerliche Transparenz)\n- Über kantonale Entwicklungen (Zulagen, Steuern) informiert bleiben\n- Outsourcing oder Digitalisierung (Swissdec, Odoo Lohn, etc.) erwägen, um Fehlerrisiko zu minimieren und Compliance zu optimieren\n\nFür aktuelle Informationen und eine sichere Sozialverwaltung wird die Unterstützung durch einen Genfer Spezialisten oder das Outsourcing über zugelassene Tools weiterhin empfohlen.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "TVA Changements 2025",
+          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+        },
+        {
+          "labelKey": "Paie 2025 Genève",
+          "url": "https://www.hr-campus.ch/fr/univers-rh/connaissances-rh/articles-specialises/paie-en-suisse-ce-qui-change-en-2025/"
+        },
+        {
+          "labelKey": "Guide employeur salarié 2025",
+          "url": "https://www.odmfiduciaire.ch/2025/03/04/salaires-et-impots-en-suisse-le-guide-employeur-employe-2025/"
+        },
+        {
+          "labelKey": "Frontaliers télétravail",
+          "url": "https://www.hrtoday.ch/fr/article/les-changements-venir-pour-lemployeur-au-1er-janvier-2025"
+        }
+      ]
+    },
+    {
+      "slug": "optimisation-fiscale-entreprises-geneve-reformes-2025",
+      "title": "Steueroptimierung für Unternehmen in Genf: 2025er Reformen antizipieren und Vorbereitung für 2026",
+      "description": "Konkrete Analyse von Steueroptimierungsstrategien für KMU in Genf im Kontext der Steuerreformen 2025: aktualisierte Steuersätze, Mehrwertsteuerplanung, Dividenden- und Abschreibungsmanagement, Vermögensbewertung. Praktische Hinweise für Geschäftsführer, CFOs, Selbständige und Buchhalter für Q4 2025 und Anfang 2026.",
+      "content": "2025 profitiert die Unternehmensbesteuerung in Genf und der Westschweiz von mehreren Reformen: Senkung der Gewinnsteuersätze in einigen Kantonen, Anpassung steuerlicher Abzüge und erwartete Vereinfachung der Erbschaftssteuer. Für Unternehmen ergeben sich dadurch unmittelbare Optimierungsmöglichkeiten für das Q4 2025 und die Vorbereitung auf 2026.\n\n<strong>1. Neue Sätze und Tarife:</strong> \nIn Genf machen die gesenkten Gewinnsteuersätze Investitionen und Dividendenausschüttungen vor Jahresabschluss attraktiv. Es ist ratsam, frühzeitig mit der Planung von Rückstellungen und der Steuerung der Geschäftsführervergütung zu beginnen.\n\n<strong>2. Mehrwertsteuer: neueste Praxis und Sätze 2025</strong> \nDas 2025 in Kraft tretende Teilrevisionsgesetz zur MWST verlangt eine Prüfung der anzuwendenden Sätze (insbesondere für Immobilien- und grenzüberschreitende Dienstleistungsbranchen). Administrative Auslagerung für die MWST-Verwaltung, Nutzung von Odoo zur Rechnungsautomatisierung und das korrekte Fristenmanagement verhindern teure Korrekturen bei einer Steuerprüfung .\n\n<strong>3. Abzüge und steuerliche Vehikel</strong> \nBesondere Aufmerksamkeit sollte auf den Abzug von Fremdkapitalzinsen und Abschreibungen gelegt werden, um von den neuen Regelungen zu profitieren. Familienunternehmen in Genf können durch frühzeitige Nachfolgeplanung im aktuellen Steuerregime einer möglichen bundesweiten Verschärfung zuvorkommen.\n\n<strong>4. Lohnadministration, BVG, UVG und Payroll-Outsourcing</strong> \nAngesichts steigender Löhne (2,3 % im Jahr 2025)  sorgt das Outsourcing der Lohnbuchhaltung und der Einsatz von swissdec für Konformität und Sicherheit, insbesondere mit digitalen Tools.\n\n<strong>5. Governance, Compliance und digitale Sicherheit</strong> \nGV und Protokolle müssen steuerrelevante Entscheidungen transparent abbilden. Cyber-Risiken sind auch steuerliche Risiken: die digitale Governance ist Teil der Compliance, insbesondere für den Schutz der steuerlichen Daten von Kunden und Partnern .\n\n<strong>Wichtige Schlüsselbegriffe:</strong> steuerrecht genf 2025, steuersätze KMU genf, steuerreform genf, mwst 2025 schweiz, steueroptimierung KMU, firmenübergabe genf, administrative auslagerung genf, odoo verwaltung schweiz, lohnbuchhaltung auslagern genf, swiss gaap fer.\n\nMehr erfahren: Lassen Sie die steuerliche Exposition und interne Organisation Ihres KMU kostenlos beurteilen. Kontaktieren Sie unsere Kanzlei in Genf für ein optimiertes Audit und maßgeschneiderte Begleitung vor dem Abschluss 2025.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Fiscalité entreprises GE",
+          "url": "https://fbk-conseils.ch/fiscalite-dune-pme-en-suisse-tout-comprendre-sur-les-impots/"
+        },
+        {
+          "labelKey": "Réformes fiscales 2025",
+          "url": "https://www.lombardodier.com/fr/insights/2025/july/tax-in-switzerland.html"
+        },
+        {
+          "labelKey": "Cybersécurité & compliance GE",
+          "url": "https://www.lombardodier.com/fr/insights/2025/june/business-owners-face-new-risks-around-tax.html"
+        }
+      ]
+    },
+    {
+      "slug": "anticiper-tva-geneve-fin-2025-preparer-2026",
+      "title": "Mehrwertsteuer in Genf Ende 2025 antizipieren: Wie bereitet man sich auf 2026 vor?",
+      "description": "Praktischer Leitfaden für KMU und Selbständige in Genf: Anpassungen bei Deklaration, Buchhaltung und Mehrwertsteuerkontrollen frühzeitig mit den regulatorischen und digitalen Entwicklungen Ende 2025 und Anfang 2026 antizipieren.",
+      "content": "Der Jahreswechsel ist für Mehrwertsteuerpflichtige Unternehmen in Genf stets strategisch. 2025 steigt der Druck durch die beschleunigte Digitalisierung der Abläufe (AFC-e-Verfahren, elektronische QR-MwST-Rechnungen), die Verallgemeinerung der e-Kontrolle und verschärfte Sanktionen bei Versäumnissen oder Fehlern. Die Neuerungen – inklusive erweiterter Pflichten zur digitalen Archivierung, Nachvollziehbarkeit der Buchungen über Swiss GAAP FER oder Odoo und der Vorbereitung der vierteljährlichen oder jährlichen MwSt.-Salden – zu verstehen, ist unerlässlich, um teure Steuerprüfungen 2026 zu vermeiden. Dieser Leitfaden behandelt:\n\n- Jüngste Änderungen auf dem AFC-Portal und deren direkte Auswirkungen auf die Deklarationserfassung (neue Felder, automatische Validierung, obligatorische elektronische Signatur für bestimmte Einreichungen).\n- Optimierung der Mehrwertsteuerbuchhaltung und Abstimmungen mit Odoo für KMU (automatisiertes Journaling, Nachverfolgung der MWST-Korrekturen zu Subventionen und Fehlerkorrekturen).\n- Wichtige Punkte zur gemischten MwSt. (mehrere Geschäftsbereiche, reduzierte vs. normale Sätze) und effiziente Aufteilung der Geschäftsvorgänge.\n- Vorbereitung einer Vorab-Kontrolle nach neuen Standards: Verbindungen zwischen Lohnwesen (swissdec), Rechnungsstellung und Zusammenfassung mit Deklarationsbeilagen.\n- FAQ zu vorzeitigen Kontrollen durch das AFC in Genf: Fristen, Art der geforderten Unterlagen, häufige Fehler, Rekurs...\n\nKurz: Unternehmen und Selbständige sollten ihre administrativen und finanziellen Abläufe ab Q4-2025 sichern, um 2026 für jede Kontrolle gewappnet zu sein. Die teilweise oder vollständige Auslagerung der MwSt.-Verwaltung, kombiniert mit einem integrierten System wie Odoo, reduziert das Fehlerrisiko und optimiert die Konformität. Für individuelle Unterstützung und Implementierung von Best Practices beraten unsere zertifizierten Experten gerne.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "fedlex_loi_tva",
+          "url": "https://www.fedlex.admin.ch/eli/cc/2009/72/fr"
+        }
+      ]
+    },
+    {
+      "slug": "impacts-tva-2025-geneve-pme",
+      "title": "Praktische Auswirkungen der Mehrwertsteuerreform 2025 für KMU in Genf: Compliance, Fallstricke und Chancen",
+      "description": "Konkrete Analyse der neuen Mehrwertsteuerpflichten 2025 für KMU in Genf (Tool-Anpassung, Lohn-/Buchhaltungsschulung), Compliance-Checkliste, spezifische Warnpunkte für den Genfer Wirtschaftsraum und steuerliche Optimierungsmöglichkeiten für das zweite Halbjahr 2025. Handlungsorientierter Artikel für Geschäftsleiter und Verwaltungsmitarbeiter.",
+      "content": "Die zum 2025 in Kraft getretene Mehrwertsteuerreform betrifft zahlreiche Unternehmen in Genf und der Romandie, die sich unverzüglich anpassen müssen, um ihre Compliance zu gewährleisten. Dieser Artikel bietet eine klare Aufgliederung der Herausforderungen, die praktischen Schritte für eine erfolgreiche Umsetzung, eine Checkliste für Geschäftsführung/Verwaltung und Antworten auf häufig gestellte Fragen seit Herbst 2025.\n\n**1. Was sind die wichtigsten Änderungen?**\nSeit dem 1.1.2025 gelten neue Mehrwertsteuersätze (normal: 8,1 %, reduziert: 2,6 %, Sondersatz Beherbergung: 3,8 %) und elektronische Meldepflichten (Dateien, Formulare, Entlastungsbeilage, obligatorische Online-Meldung je nach Profil). Pauschalregimes und die Methode des Saldosteuersatzes sind ebenfalls betroffen.\n\n**2. Für wen sind diese Änderungen in Genf besonders wichtig?**\n- KMU im Dienstleistungs-, Handwerks- und Handelssektor (B2B und B2C)\n- Selbständige, die die Schwelle von 100.000 CHF jährlich überschreiten\n- Holdinggesellschaften und Immobilienverwalter\n- Vereine und Stiftungen mit Mitarbeitenden\n- Unternehmen mit Subventionen oder Plattformgeschäft\n\n**3. Warnpunkte speziell für Genf**\n- Ab Q4 2025 Berücksichtigung in allen Systemen (Odoo, Abacus, Winbiz)\n- Abstimmung zwischen Fakturierung, Lohnwesen (Steuervorteile, interne Schulung zu LPP/AVS/LAA) und Swiss GAAP FER-Buchhaltung\n- Obligatorische elektronische Meldung (e-MwSt): praktische Leitfäden im SFTA-Portal\n- Verschärfte Kontrollen für Genf angekündigt (Fristen, Verwaltungssanktionen, Fokus auf Immobilien und Beratung)\n\n**4. Express-Checkliste für die KMU-Leitung:**\n- Aktualisierung der Einstellungen Ihrer Buchhaltungs- und Lohnsoftware (Odoo, Winbiz, Abacus)\n- Prüfung der Rechnungs-Templates für Kunden/Lieferanten und automatische Anzeige des richtigen Satzes\n- Schulung von Lohn-/Buchhaltungsverantwortlichen zu neuen Schwellen und Ausnahmen\n- Abstimmung der Fakturierungs- und Archivierungspolitik mit der externen Treuhand\n- Überwachung von grenzüberschreitenden Transaktionen: Befreiungen, Schwellen, Pflichtangaben\n\n**5. Optimierungschancen und Beratungsaufträge:**\n- Überprüfung der Vertragsmuster und AGB außerhalb MwSt (Korrekturen vermeiden, neue Regelung integrieren)\n- Auslagerung oder Übertragung an eine Treuhand für MwSt-Abrechnungen und SFTA-Prüfungen\n- Digitalisierung von Verwaltungsprozessen und Synergien mit anderen HR-/verwaltungspflichten (insbesondere LPP/AVS/LAA)\n\n**SEO-Schlüsselwörter (Romandie-Trends 2025):** MwSt 2025, Steuerreform Genf, KMU-Compliance, Administratives Outsourcing, Lohnbuchhaltung, Swiss GAAP FER, elektronische MwSt, Odoo Genf, Steueroptimierung, MwSt-Prüfung, Unternehmensbesteuerung 2025 Schweiz, Online-MwSt-Abrechnung, Steuer-News Genf.\n\nWeitere Informationen, offizielle Dokumentation und Support der Eidgenössischen Steuerverwaltung sowie empfohlene Tools finden Sie unten.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "TVA AFC 2025",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
+        },
+        {
+          "labelKey": "Checklist AFC e-TVA",
+          "url": "https://www.amsuisse.ch/fileadmin/forum_archiv/pdf/2024/06/2024_06_F_120_Modification_TVA.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "tva-2025-geneve-impact-pme-revision-fiscale",
+      "title": "Mehrwertsteuerreform 2025: Was sich für KMU in Genf ändert und wie Sie sich anpassen",
+      "description": "Ein praktischer Leitfaden zur Mehrwertsteuerreform 2025 für KMU-Leitende in Genf: neue Verpflichtungen, praktische Maßnahmen ab Herbst 2025, Stolpersteine und Tipps zur Optimierung der Steuerprozesse für 2026.",
+      "content": "Die Teilreform der Mehrwertsteuer, die am 1. Januar 2025 in Kraft tritt, hat konkrete Auswirkungen auf Genfer KMU. Sie erfolgt im Rahmen einer verstärkten Digitalisierung mit neuen Verpflichtungen, aber auch Chancen, regulatorische Anforderungen bis 2026 vorwegzunehmen.\n\nWichtige Punkte der Reform:\n- Verpflichtung für ALLE Steuerpflichtigen, die MWST über das offizielle Online-Portal abzurechnen (keine Papierformulare mehr, Wahl zwischen „pro“ oder „easy“).\n- Neue Regeln für Online-Verkaufsplattformen: Jede Plattform, die Verkäufe in der Schweiz tätigt, auch über ausländische Partner, muss die MWST einziehen und abführen.\n- Die Steuersätze werden angepasst: Bestimmte Produkte fallen jetzt unter den reduzierten Satz (mit Ihrer Nomenklatur vergleichen).\n- Klarstellungen zu Subventionen, vereinfachten Methoden (Pauschalsatz oder Netto-Steuerschuld) und branchenspezifischen Ausnahmen.\n\nEmpfohlene Schritte für KMU:\n1. Prüfen (und ggf. aktualisieren) Sie Ihre MWST-Abrechnungsmethode;\n2. Schulung für das neue Online-Portal absolvieren, falls noch nicht erfolgt;\n3. Steuerpflicht voraussehen, wenn Sie über Plattformen verkaufen oder Ihre Kunden dies tun (insbesondere E-Commerce);\n4. Buchhaltungs-/ERP-Einstellungen anpassen, insbesondere MWST-Sätze und Codes (Odoo etc.);\n5. Kommunikation an Kunden und Partner vorbereiten, um gemeinsame Compliance sicherzustellen.\n\nFokus Genf: In der Westschweiz bestätigt Genf die spezifische Unterstützung der KMU beim digitalen MWST-Übergang. Infoveranstaltungen finden zusammen mit der Handelskammer und der ESTV statt.\n\nGoogle-Trends 2025: MWST 2025 Schweiz, Online-MWST-Portal, MWST-Sätze Genf, E-Commerce MWST, KMU Steuer-Compliance Genf, Swiss GAAP FER und MWST, administrative Digitalisierung, Odoo MWST-Konformität.\n\nVorausschau, Weiterbildung und externe Unterstützung sind sofortige Investitionen, die 2026 Streitigkeiten, Sanktionen und Mehrkosten vermeiden.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "TVA Réforme 2025 AFC",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
+        },
+        {
+          "labelKey": "TVA Mémo pratique Genève",
+          "url": "https://fidulex.ch/revision-de-la-tva-changements-cles-en-2025/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -355,5 +635,32 @@
     "Accounting": "Comptabilité",
     "Tax": "Fiscalité",
     "Payroll": "Paie"
-  }
+  },
+  "admin.ch_liste_des_taux_actuels_de_la_TVA_en_Suisse": "admin.ch – Liste der aktuellen MwSt.-Sätze in der Schweiz",
+  "fedlex_admin_ch_reforme_TVA_2024_message_officiel": "fedlex.admin.ch – offizielle Botschaft zur MwSt.-Reform 2024",
+  "Réforme fiscale Genève officielle": "Offizielle Steuerreform Genf",
+  "Changements fiscaux Genève 2025": "Steueränderungen Genf 2025",
+  "Analyse Econostrum 2025": "Econostrum Analyse 2025",
+  "Finances publiques Genève juin 2025": "Öffentliche Finanzen Genf Juni 2025",
+  "Changements fiscaux Genève": "Steueränderungen Genf",
+  "Panorama fiscal 2025 AFC": "Steuerpanorama AFC 2025",
+  "Modifications TVA 2025": "Mehrwertsteueränderungen 2025",
+  "Panorama fiscal Genève 2025": "Steuerüberblick Genf 2025",
+  "Prolongation du délai de décompte TVA": "Verlängerung der MwSt.-Abgabefrist",
+  "Révision des recettes fiscales Genève": "Revision der Genfer Steuereinnahmen",
+  "Réformes fiscales Genève": "Steuerreformen Genf",
+  "Obligations fiscales entreprises": "Steuerpflichten Unternehmen",
+  "Fiscalité RFFA Genève": "RFFA-Besteuerung Genf",
+  "TVA Changements 2025": "MwSt-Änderungen 2025",
+  "Paie 2025 Genève": "Genfer Lohn 2025",
+  "Guide employeur salarié 2025": "Arbeitgeber-Arbeitnehmer-Leitfaden 2025",
+  "Frontaliers télétravail": "Grenzgänger Homeoffice",
+  "Fiscalité entreprises GE": "Unternehmensbesteuerung GE",
+  "Réformes fiscales 2025": "Steuerreformen 2025",
+  "Cybersécurité & compliance GE": "Cybersicherheit & Compliance GE",
+  "fedlex_loi_tva": "Mehrwertsteuergesetz (Fedlex)",
+  "TVA AFC 2025": "ESTV MwSt 2025",
+  "Checklist AFC e-TVA": "ESTV e-MwSt Checkliste",
+  "TVA Réforme 2025 AFC": "Mehrwertsteuerreform 2025 ESTV",
+  "TVA Mémo pratique Genève": "MWST-Praxisleitfaden Genf"
 }

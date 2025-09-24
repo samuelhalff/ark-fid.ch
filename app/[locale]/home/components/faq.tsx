@@ -10,6 +10,7 @@ import { PlusIcon } from "lucide-react";
 
 import TranslatedText from "@/src/components/ui/translated-text";
 import { useTranslation } from "react-i18next";
+import "@/src/i18n";
 
 const faq = Array.from({ length: 16 }).map((_, i) => ({
   questionKey: `Question${i + 1}`,

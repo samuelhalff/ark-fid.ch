@@ -2,6 +2,7 @@
 import React from "react";
 import { Shield, Scale, TrendingUp, FileCheck } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import "@/src/i18n";
 
 interface ServiceArea {
   title: string;

@@ -78,28 +78,42 @@ function isoDateToday() {
   return new Date().toISOString().slice(0, 10);
 }
 
-function hasUnnecessaryCaps(str) {
-  if (!str || typeof str !== "string") return false;
-  // Allow acronyms (2+ upper), sentence starts, proper nouns are hard; basic heuristic:
-  // Flag words with all caps of length >= 3 (excluding known acronyms)
-  const allowed = new Set([
-    "TVA",
-    "AFC",
-    "AVS",
-    "LAA",
-    "AC",
-    "LPP",
-    "SA",
-    "Sàrl",
-    "SA",
-    "Odoo",
-    "CO",
-    "RPC",
-    "FER",
-    "PDF",
-    "ETIAS",
-  ]);
-  return str.split(/\s+/).some((w) => /[A-Z]{3,}/.test(w) && !allowed.has(w));
+// Basic PDF heuristics (duplicated lightweight subset of download-missing-pdfs.js)
+function isPdfLikeResponse(res) {
+  const ct = res.headers.get("content-type") || "";
+  const cd = res.headers.get("content-disposition") || "";
+  const url = res.url || "";
+  const ctPdf = /application\/(pdf|octet-stream)/i.test(ct) && !/html/i.test(ct);
+  const urlPdf = /\.pdf(\?|#|$)/i.test(url);
+  const cdPdf = /filename\*=?.*\.pdf/i.test(cd) || /filename=.*\.pdf/i.test(cd);
+  return ctPdf || urlPdf || cdPdf;
+}
+
+async function downloadPdf(url, destPath) {
+  const res = await fetch(url, {
+    redirect: "follow",
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36",
+      Accept: "application/pdf,application/octet-stream;q=0.9,*/*;q=0.8",
+    },
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+  if (!isPdfLikeResponse(res)) throw new Error("Response not recognized as PDF");
+  await fs.promises.mkdir(path.dirname(destPath), { recursive: true });
+  const fileStream = fs.createWriteStream(destPath);
+  // Node 18 fetch body is a web stream
+  await new Promise((resolve, reject) => {
+    require("stream").Readable.fromWeb(res.body).pipe(fileStream);
+    fileStream.on("finish", resolve);
+    fileStream.on("error", reject);
+  });
+}
+
+// NOTE: Previous capitalization enforcement (blocking or auto-fixing ALL CAPS words)
+// has been removed to allow arbitrary acronyms without maintenance overhead.
+function hasUnnecessaryCaps() {
+  return false;
 }
 
 async function httpOk(
@@ -172,16 +186,31 @@ function buildSystemPrompt(frJson) {
     "outsourcing administratif et financier",
   ];
 
+  // Dynamic date + freshness window (6 months) to enforce recency in generated suggestions.
+  const today = new Date();
+  const isoToday = today.toISOString().slice(0, 10);
+  const sixMonthsAgo = new Date(today);
+  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+  const isoSixMonthsAgo = sixMonthsAgo.toISOString().slice(0, 10);
+
+  // Small helper sentence reused in instructions.
+  const recencyInstruction = `Ne proposer que des contenus (PDF ou thèmes d'article) publiés ou mis à jour dans les 6 derniers mois (>= ${isoSixMonthsAgo}) et <= ${isoToday}. Si aucune ressource PDF réellement pertinente ET dans cette fenêtre n'est trouvée, mets newFile.source_url: null.`;
+
   return [
     "Tu es un assistant éditorial spécialisé en SEO pour la Suisse (Genève, Suisse romande).",
     "Objectif: proposer EXACTEMENT 1 nouveau fichier téléchargeable (Files) et 1 nouvel article (Articles) en français, pertinents pour des prospects de nos services.",
+    "Un outil de recherche web est disponible, UTILISE-LE pour vérifier l'existence réelle des PDFs et des références avant de décider des URLs. Ne renvoie JAMAIS d'URL inventée ou spéculative.",
+    `Date actuelle: ${isoToday}.`,
+    recencyInstruction,
+    "Privilégier les sujets fiscalité/TVA/paie/entreprise ayant une utilité immédiate ou impact Q3–Q4 2025 et préparation 2026, tant qu'ils respectent la contrainte de fraîcheur.",
+    "Si aucune ressource PDF existante pertinente n'est trouvée, mets newFile.source_url à null et indique un filename plausible (nous l'ajouterons plus tard).",
     "Contraintes de qualité et SEO (IMPÉRATIVES):",
     "- Ne pas modifier, renommer ni supprimer les entrées existantes. Ajouter seulement 2 nouvelles entrées (1 File, 1 Article).",
     "- Éviter les répétitions de sujets déjà couverts. Vérifier les titrages et slugs pour éviter les doublons.",
     "- Les articles doivent être concis, utiles et concrets, attirer des prospects grace aux mots clés du texte, et faire entre 1500 et 3000 mots.",
     "- Style: pas de capitales superflues (seulement initiale, acronymes, noms propres).",
-    "- Focus géographique: Genève d’abord, Suisse romande ensuite, Suisse générale enfin.",
-    "- Inclure des mots‑clés Google Trends et/ou actualités pertinentes en rapport direct avec nos services.",
+    "- Focus géographique: Genève d’abord, Suisse romande ensuite mais de manière accessoire, Suisse générale enfin, puis sujets internationaux (fiscalité en particulier) exceptionnellement.",
+    "- Inclure des mots‑clés Google Trends récents et/ou actualités pertinentes en rapport direct avec nos services.",
     "- Tous les liens DOIVENT être pertinents et répondre HTTP 200 (pas de 404). Vérifie deux fois.",
     "- Les dates des contenus existants doivent rester inchangées. Pour les nouvelles entrées, utilise la date du jour ISO (YYYY-MM-DD).",
     "Services à promouvoir (intègres ces informations dans les choix des sujets): " +
@@ -212,9 +241,11 @@ function buildSystemPrompt(frJson) {
     "",
     "Rappels importants:",
     "- filename doit finir par .pdf et pointer vers une ressource PDF réelle.",
+    "- Si tu n'es PAS certain à 100% qu'un PDF est réellement accessible, mets source_url: null.",
     "- slug doit être unique (pas déjà présent).",
     "- references[].url doivent être officiels/sérieux (AFC, ch.ch, cantons, fedlex, odoo doc, etc.).",
     "- Vérifie deux fois qu’aucun lien n’est 404 et qu’il est pertinent.",
+    "- Les labels keys doivent contenir 2-3 mots, sans répétition, majuscule en début de phrase et en texte normal avec espaces, non en camelCase.",
   ].join("\n");
 }
 
@@ -280,10 +311,17 @@ async function azureAgentJson(prompt, { agentId = AZURE_AGENT_ID } = {}) {
   const { DefaultAzureCredential } = require("@azure/identity");
   const credential = new DefaultAzureCredential();
   const client = new AIProjectClient(AZURE_AGENT_ENDPOINT, credential);
-  await client.agents.getAgent(agentId); // existence check
+  const dbg = !!process.env.DEBUG_AGENT;
+  const agentMeta = await client.agents.getAgent(agentId); // existence check
+  if (dbg) {
+    console.log(`[agent] Using agentId=${agentId} name=${agentMeta.name || ''}`);
+  }
   const thread = await client.agents.threads.create();
+  if (dbg) console.log(`[agent] Created thread ${thread.id}`);
   await client.agents.messages.create(thread.id, "user", prompt);
+  if (dbg) console.log(`[agent] Posted user message (${prompt.length} chars)`);
   let run = await client.agents.runs.create(thread.id, agentId);
+  if (dbg) console.log(`[agent] Run created id=${run.id} status=${run.status}`);
   const started = Date.now();
   const timeoutMs = parseInt(process.env.AZURE_AGENT_RUN_TIMEOUT_MS || "120000", 10);
   while (["queued", "in_progress", "cancelling"].includes(run.status)) {
@@ -292,10 +330,12 @@ async function azureAgentJson(prompt, { agentId = AZURE_AGENT_ID } = {}) {
     }
     await new Promise(r => setTimeout(r, 1500));
     run = await client.agents.runs.get(thread.id, run.id);
+    if (dbg) console.log(`[agent] Run poll status=${run.status}`);
   }
   if (run.status === "failed") {
     throw new Error("Azure Agent run failed: " + (run.lastError?.message || JSON.stringify(run.lastError)));
   }
+  if (dbg) console.log(`[agent] Run completed status=${run.status} elapsedMs=${Date.now()-started}`);
   const messages = await client.agents.messages.list(thread.id, { order: "asc" });
   let lastAssistantText = "";
   for await (const m of messages) {
@@ -307,6 +347,7 @@ async function azureAgentJson(prompt, { agentId = AZURE_AGENT_ID } = {}) {
     }
   }
   if (!lastAssistantText) throw new Error("Azure Agent returned no assistant text content");
+  // Optional: attempt to log step count (if future SDK exposes). Placeholder for future enhancement.
   return extractJsonFromText(lastAssistantText);
 }
 
@@ -335,13 +376,7 @@ function validateNewFileArticle(fr, nf, na) {
   ]) {
     if (!na[k]) throw new Error(`newArticle missing ${k}`);
   }
-  // Caps check (basic heuristic)
-  if (hasUnnecessaryCaps(nf.title) || hasUnnecessaryCaps(nf.description)) {
-    throw new Error("newFile has unnecessary caps");
-  }
-  if (hasUnnecessaryCaps(na.title) || hasUnnecessaryCaps(na.description)) {
-    throw new Error("newArticle has unnecessary caps");
-  }
+  // No capitalization restriction anymore.
   // References shape
   if (!Array.isArray(na.references) || na.references.length === 0) {
     throw new Error("newArticle requires at least one reference");
@@ -362,38 +397,175 @@ function ensureAzureEnv() {
 async function main() {
   ensureAzureEnv();
   const fr = loadJSON(FR_PATH);
-  const systemPrompt = buildSystemPrompt(fr);
+  const basePrompt = buildSystemPrompt(fr);
 
-  console.log("Requesting Azure Agent for new FR entries...");
-  const draft = await azureAgentJson(systemPrompt, { agentId: AZURE_AGENT_ID });
-  const newFile = draft.newFile;
+  async function generateDraftWithRetries(frData, attempts = 3) {
+    const existingFileNames = new Set((frData.Files || []).map(f => f.filename));
+    const existingSlugs = new Set((frData.Articles || []).map(a => a.slug));
+    let prompt = basePrompt;
+    for (let attempt = 1; attempt <= attempts; attempt++) {
+      console.log(`Requesting Azure Agent for new FR entries... (attempt ${attempt}/${attempts})`);
+      const draft = await azureAgentJson(prompt, { agentId: AZURE_AGENT_ID });
+      try {
+        validateNewFileArticle(frData, draft.newFile, draft.newArticle);
+        return draft;
+      } catch (e) {
+        const msg = String(e.message || e);
+        if (/filename already exists|slug already exists/i.test(msg) && attempt < attempts) {
+          console.warn(`Duplicate detected (${msg}). Regenerating with explicit exclusion list...`);
+          // Augment prompt with explicit exclusions and a requirement to pick something else.
+            prompt = basePrompt + "\nIMPORTANT: N'utilise aucun des filenames suivants: " + Array.from(existingFileNames).join(", ") +
+            "\nIMPORTANT: N'utilise aucun des slugs suivants: " + Array.from(existingSlugs).join(", ") +
+            "\nSi le PDF le plus pertinent est déjà présent, cherche un AUTRE PDF réel distinct (ou mets source_url:null).";
+          continue;
+        }
+        throw e;
+      }
+    }
+    throw new Error(`Failed to generate unique draft after ${attempts} attempts.`);
+  }
+
+  const draft = await generateDraftWithRetries(fr, 4);
+  let newFile = draft.newFile;
   const newArticle = draft.newArticle;
   const newLabels = draft.newLabels || {};
-  validateNewFileArticle(fr, newFile, newArticle);
 
-  // Validate links twice
-  console.log("Validating URLs (check twice)...");
-  const fileOk = await httpOk(newFile.source_url);
-  if (!fileOk)
-    throw new Error(`newFile.source_url not reachable: ${newFile.source_url}`);
-  for (const ref of newArticle.references) {
-    if (!ref || !ref.url) continue;
-    const ok = await httpOk(ref.url);
-    if (!ok) throw new Error(`reference URL not reachable: ${ref.url}`);
+  // Validate article references (file reachability handled separately with retries)
+  console.log("Validating reference URLs...");
+  async function unreachableReferences(refs) {
+    const bad = [];
+    for (const ref of refs) {
+      if (!ref || !ref.url) continue;
+      const ok = await httpOk(ref.url);
+      if (!ok) bad.push(ref);
+    }
+    return bad;
+  }
+  let badRefs = await unreachableReferences(newArticle.references);
+  const refMax = parseInt(process.env.AI_REF_RETRIES || '2', 10);
+  let refAttempt = 0;
+  while (badRefs.length && refAttempt < refMax) {
+    refAttempt++;
+    console.warn(`Detected ${badRefs.length} unreachable reference(s). Regenerating references (attempt ${refAttempt}/${refMax})...`);
+    const regenRefPrompt = [
+      `Les références suivantes sont inaccessibles:`,
+      ...badRefs.map(r => `- ${r.url}`),
+      `Ne propose plus ces URLs ou variantes proches.`,
+      `Fournis UNIQUEMENT un JSON {"references": [ { "labelKey": "...", "url": "https://..." } ]} avec des sources officielles vivantes (AFC, ch.ch, fedlex.admin.ch, admin.ch, ge.ch, odoo.com/docs).`,
+      `N'inclus pas d'autre clé. Conserve le thème de l'article (slug: ${newArticle.slug}).`
+    ].join('\n');
+    try {
+      const regen = await azureAgentJson(regenRefPrompt, { agentId: AZURE_AGENT_ID });
+      if (regen && Array.isArray(regen.references) && regen.references.length) {
+        newArticle.references = regen.references;
+        badRefs = await unreachableReferences(newArticle.references);
+      } else {
+        console.warn('Réponse de régénération des références invalide.');
+        break;
+      }
+    } catch (e) {
+      console.warn(`Erreur régénération références: ${e.message}`);
+      break;
+    }
+  }
+  if (badRefs.length) {
+    if (process.env.FAIL_ON_BAD_REFERENCE) {
+      throw new Error(`Références encore inaccessibles après retries: ${badRefs.map(r=>r.url).join(', ')}`);
+    }
+    console.warn(`Suppression des références inaccessibles (${badRefs.length}).`);
+    const badSet = new Set(badRefs.map(r => r.url));
+    newArticle.references = newArticle.references.filter(r => !badSet.has(r.url));
+    if (!newArticle.references.length) {
+      console.warn('Toutes les références ont été supprimées => article sera conservé sans références (ajoutera peut-être moins de valeur SEO).');
+    }
+  }
+
+  async function urlReachableTwice(u) {
+    if (!u) return false;
+    const once = await httpOk(u);
+    if (!once) return false;
+    await new Promise(r => setTimeout(r, 500));
+    return await httpOk(u);
+  }
+
+  let fileReachable = await urlReachableTwice(newFile.source_url);
+  const maxRetries = parseInt(process.env.AI_FILE_RETRIES || '2', 10);
+  for (let attempt = 1; attempt <= maxRetries && !fileReachable; attempt++) {
+    console.warn(`newFile.source_url not reachable. Regenerating file only (attempt ${attempt}/${maxRetries})...`);
+    const regenPrompt = [
+      `Le fichier proposé a une URL introuvable (${newFile.source_url}).`,
+      `Propose UNIQUEMENT un JSON {"newFile": {...}} avec une source_url qui existe réellement (PDF accessible).`,
+      `Conserve un thème cohérent avec l'article (slug: ${newArticle.slug}).`,
+      `Ne modifie pas l'article existant.`,
+      `Respecte le format exact.`
+    ].join('\n');
+    try {
+      const regen = await azureAgentJson(regenPrompt, { agentId: AZURE_AGENT_ID });
+      if (regen && regen.newFile) {
+        newFile = regen.newFile;
+        try {
+          validateNewFileArticle(fr, newFile, newArticle);
+          fileReachable = await urlReachableTwice(newFile.source_url);
+        } catch (ve) {
+          console.warn(`Validation échec pour le fichier régénéré: ${ve.message}`);
+        }
+      } else {
+        console.warn("Regeneration did not return newFile");
+      }
+    } catch (e) {
+      console.warn(`Erreur pendant la régénération du fichier: ${e.message}`);
+    }
+  }
+
+  if (!fileReachable) {
+    console.warn("Fichier toujours introuvable après les tentatives. Il sera ignoré (article seulement). Set FAIL_ON_MISSING_FILE=1 pour forcer l'échec.");
+    if (process.env.FAIL_ON_MISSING_FILE) {
+      throw new Error("Abandon: fichier introuvable après retries");
+    }
+    newFile = null;
+  }
+
+  // Attempt immediate PDF download for valid newFile before modifying FR (unless dry-run or skipped)
+  let downloadedPdfPath = null;
+  if (newFile) {
+    const downloadsDir = path.join(process.cwd(), "public", "assets", "downloads");
+    const dest = path.join(downloadsDir, newFile.filename);
+    try {
+      if (DRY || !APPLY) {
+        console.log(`[dry-run] Would download PDF to ${path.relative(process.cwd(), dest)} from ${newFile.source_url}`);
+      } else {
+        if (fs.existsSync(dest)) {
+          console.log(`PDF already exists locally: ${path.relative(process.cwd(), dest)}`);
+        } else {
+          console.log(`Downloading PDF ${newFile.filename} ...`);
+          await downloadPdf(newFile.source_url, dest);
+          console.log(`Saved PDF -> ${path.relative(process.cwd(), dest)}`);
+        }
+      }
+      downloadedPdfPath = dest;
+    } catch (e) {
+      console.warn(`PDF download failed (${e.message}).`);
+      if (process.env.REQUIRE_PDF_DOWNLOAD) {
+        throw new Error("Required PDF download failed; aborting.");
+      }
+    }
   }
 
   // Enforce today date if missing or invalid
   const today = isoDateToday();
   newFile.date = /^\d{4}-\d{2}-\d{2}$/.test(newFile.date)
-    ? newFile.date
-    : today;
+  if (newFile) {
+    newFile.date = /^\d{4}-\d{2}-\d{2}$/.test(newFile.date)
+      ? newFile.date
+      : today;
+  }
   newArticle.date = /^\d{4}-\d{2}-\d{2}$/.test(newArticle.date)
     ? newArticle.date
     : today;
 
   if (DRY || !APPLY) {
     console.log("[dry-run] Would append to FR:", {
-      newFile,
+      newFile: newFile || '(skipped)',
       newArticle,
       newLabels,
     });
@@ -404,19 +576,24 @@ async function main() {
     updated.Articles = Array.isArray(updated.Articles)
       ? updated.Articles.slice()
       : [];
-    updated.Files.push(newFile);
+  if (newFile) updated.Files.push(newFile);
     updated.Articles.push({ ...newArticle, content: newArticle.content });
     // Merge new label keys, if any
     for (const [k, v] of Object.entries(newLabels)) {
       if (!(k in updated)) updated[k] = v;
     }
     saveJSON(FR_PATH, updated);
-    console.log("FR updated with 1 File + 1 Article.");
+    console.log(
+      `FR updated with ${newFile ? '1 File + ' : ''}1 Article.`
+    );
   }
 
   // Translation via Azure Agent (second call)
   console.log("Requesting Azure Agent for translations (EN/DE/ES/PT)...");
-  const trPrompt = buildTranslatePrompt(newFile, newArticle);
+  const trPrompt = buildTranslatePrompt(
+    newFile || { filename: '', title: '', description: '', date: newArticle.date, source_url: '' },
+    newArticle
+  );
   const translations = await azureAgentJson(trPrompt, {
     agentId: AZURE_TRANSLATE_AGENT_ID,
   });
@@ -440,13 +617,15 @@ async function main() {
     const aTr = payload.Article || {};
     const labelsTr = payload.labels || {};
 
-    const fileToAdd = {
-      filename: newFile.filename,
-      title: fTr.title || newFile.title,
-      description: fTr.description || newFile.description,
-      date: newFile.date,
-      source_url: newFile.source_url,
-    };
+    const fileToAdd = newFile
+      ? {
+          filename: newFile.filename,
+          title: fTr.title || newFile.title,
+          description: fTr.description || newFile.description,
+          date: newFile.date,
+          source_url: newFile.source_url,
+        }
+      : null;
     const articleToAdd = {
       slug: newArticle.slug,
       title: aTr.title || newArticle.title,
@@ -458,11 +637,13 @@ async function main() {
     };
 
     // Capitalization heuristic
-    if (
-      hasUnnecessaryCaps(fileToAdd.title) ||
-      hasUnnecessaryCaps(fileToAdd.description)
-    ) {
-      console.warn(`[WARN] Caps heuristic flagged in ${loc} file text.`);
+    if (fileToAdd) {
+      if (
+        hasUnnecessaryCaps(fileToAdd.title) ||
+        hasUnnecessaryCaps(fileToAdd.description)
+      ) {
+        console.warn(`[WARN] Caps heuristic flagged in ${loc} file text.`);
+      }
     }
     if (
       hasUnnecessaryCaps(articleToAdd.title) ||
@@ -473,7 +654,7 @@ async function main() {
 
     if (DRY || !APPLY) {
       console.log(`[dry-run] Would append to ${loc}:`, {
-        fileToAdd,
+        fileToAdd: fileToAdd || '(no file this run)',
         articleToAdd,
         labelsTr,
       });
@@ -481,7 +662,7 @@ async function main() {
     }
     data.Files = Array.isArray(data.Files) ? data.Files : [];
     data.Articles = Array.isArray(data.Articles) ? data.Articles : [];
-    if (!seenFiles.has(fileToAdd.filename)) data.Files.push(fileToAdd);
+    if (fileToAdd && !seenFiles.has(fileToAdd.filename)) data.Files.push(fileToAdd);
     if (!seenSlugs.has(articleToAdd.slug)) data.Articles.push(articleToAdd);
     for (const [k, v] of Object.entries(labelsTr)) {
       if (!(k in data)) data[k] = v;

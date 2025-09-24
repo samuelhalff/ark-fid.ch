@@ -1,0 +1,32 @@
+{
+    "Bios": {
+        "hassan-barbir": {
+            "short": "Associé. Conseil aux entreprises et aux particuliers, y compris fondations et trusts. Administrateur de sociétés internationales.",
+            "long": "Conseille en comptabilité, fiscalité, salaires et droit des sociétés (création, actionnariat et conventions). Accompagne fondations et trusts. Traite les questions fiscales et les réorganisations. Siège comme administrateur au sein de groupes internationaux."
+        },
+        "samuel-halff": {
+            "short": "Associé gérant. Conseil aux entreprises et aux particuliers. Administrateur de groupes internationaux.",
+            "long": "Dirige le cabinet. Conseille en comptabilité, fiscalité, salaires et droit des sociétés (création, actionnariat et conventions). Siège comme administrateur de groupes internationaux. Met en place des solutions d’IA pour fluidifier les processus et le reporting."
+        },
+        "rodrigue-sperisen": {
+            "short": "Associé. Conseil aux entreprises et aux particuliers. Fiscalité internationale et successions.",
+            "long": "Intervient en comptabilité, fiscalité et droit des sociétés. Accent sur la fiscalité internationale. Spécialiste des trusts et des questions d’héritage. Met en place des cadres de gouvernance et de propriété clairs."
+        },
+        "lassana-dioum": {
+            "short": "Associé et fiscaliste. Conseil fiscal et comptable aux entreprises et aux particuliers. Administrateur de sociétés internationales.",
+            "long": "Fiscaliste pour entreprises et particuliers (impôts directs et indirects). Appuie la comptabilité, la paie et la conformité. Coordonne déclarations et rulings entre juridictions. Siège comme administrateur de sociétés internationales."
+        },
+        "anthony-touboul": {
+            "short": "Expert fiscal. Fiscalité du personnel et de la rémunération. Forfait fiscal suisse. Appuie la conformité des sociétés et des particuliers. Siège comme administrateur pour des sociétés locales et internationales."
+        },
+        "celeste-leal": {
+            "short": "Gère le bureau et les projets. Soutient les clients et l’équipe. Clarifie les priorités et fluidifie l’exécution."
+        },
+        "sebastien-gallie": {
+            "short": "Comptable senior et responsable paie. Gère la tenue, les clôtures mensuelles et le reporting. Garantit des chiffres fiables et des livrables dans les délais."
+        },
+        "maulk-hamdi": {
+            "short": "Assistant comptabilité et paie. Gère l’administratif, les paiements et le suivi quotidien."
+        }
+    }
+}

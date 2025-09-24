@@ -1,5 +1,7 @@
 {
   "IntroTitle": "Tax and accounting resources – Geneva & French-speaking Switzerland",
+  "IntroShort": "Resources",
+  "ArticlesShort": "Articles",
   "IntroText": "Based in Geneva and active throughout French-speaking Switzerland, our teams also support clients in Switzerland and internationally. Below you will find a selection of practical documents and articles adapted to the Geneva, Romandy and federal regulatory context. These resources are provided for your convenience and do not constitute personalized advice. For a targeted analysis of your situation, contact our team.",
   "FilesTitle": "Downloadable documents",
   "ArticlesTitle": "Expert articles",
@@ -94,6 +96,76 @@
       "description": "FTA draft adaptation of VAT practice: input tax deduction, new rules and impacts for companies from 2025.",
       "date": "2025-02-09",
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/konsultativgremium/entwurf1-nein/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf.download.pdf/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf"
+    },
+    {
+      "filename": "guide-fiscal-2024-independants-geneve.pdf",
+      "title": "2024 tax guide for self-employed in Geneva",
+      "description": "Official, comprehensive and up-to-date guide on tax regulations applicable to entrepreneurs and self-employed in Geneva: accounting obligations, income and wealth calculation methods, deductions, tax statements and filing of the return.",
+      "date": "2025-09-16",
+      "source_url": "https://www.ge.ch/document/guide-fiscal-2024-independants"
+    },
+    {
+      "filename": "presentations-du-panorama-fiscal-2025.pdf",
+      "title": "Tax overview 2025 – Reforms and news in Geneva",
+      "description": "Official presentation of the major tax reforms, case law and updates applicable in Geneva from 2025, including minimum corporate taxation, cross-border teleworking, and real estate taxation. An essential document to anticipate changes and prepare the 2026 tax return.",
+      "date": "2025-09-17",
+      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+    },
+    {
+      "filename": "presentations-panorama-fiscal-2025-ge.pdf",
+      "title": "2025 Geneva tax outlook presentations",
+      "description": "Official summary of the main tax news and changes in Geneva for 2025 (income tax, wealth tax, companies, cross-border telework, specific tax treatments). Up-to-date document for decision support in Q3-Q4 2025 and preparation for the 2026 tax return.",
+      "date": "2025-09-17",
+      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+    },
+    {
+      "filename": "Changements-TVA-2025.pdf",
+      "title": "VAT changes 2025: What Geneva businesses need to know",
+      "description": "This document details the main changes to the VAT Act that came into force in January 2025, including impacts on invoicing, accounting, and the treatment of digital platforms. It is intended for SMEs, freelancers, and financial managers in Geneva and French-speaking Switzerland wishing to anticipate administrative adjustments required for the second half of 2025 as well as for 2026 preparation.",
+      "date": "2025-09-17",
+      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+    },
+    {
+      "filename": "presentations-panorama-fiscal-geneve-2025.pdf",
+      "title": "Geneva tax overview 2025 – Reforms, case law and updates",
+      "description": "Official document from the plenary session of the 2025 Tax Overview, organized by the Geneva Cantonal Tax Administration. Presents reforms, new elements of the tax return, tax issues for companies and legal entities, minimum taxation, cross-border telework, tax ruling practices and the tax treatment of real estate investment companies (SCI). Essential reading for executives, CFOs, fiduciaries and administrative managers preparing 2025–2026 taxation in Geneva.",
+      "date": "2025-09-17",
+      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+    },
+    {
+      "filename": "Changements_TVA_2025_Suisse.pdf",
+      "title": "Major VAT changes applicable from 2025 in Switzerland",
+      "description": "Official summary of VAT revisions in Switzerland applicable from January 1, 2025, published by the Confederation. This document details the main legal developments (mandatory online filing, new reduced rates, adaptations for digital platforms, etc.) directly impacting SMEs and self-employed persons in French-speaking Switzerland, as well as the transitional arrangements until 2026.",
+      "date": "2025-09-17",
+      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+    },
+    {
+      "filename": "Argumentarium_Systemwechsel_Liegenschatssteuern_FR-1.pdf",
+      "title": "More tax for the middle class? 2025 tax reforms: The imputed rental value initiative and its impact in Geneva",
+      "description": "Official briefing on the reform of the housing property tax system, including the abolition of the imputed rental value and the potential introduction of a new tax on second homes. Updated as of August 2025, useful for owners, real estate businesses, and tax advisors in French-speaking Switzerland.",
+      "date": "2025-09-17",
+      "source_url": "https://www.sp-ps.ch/wp-content/uploads/2025/08/Argumentarium_Systemwechsel_Liegenschatssteuern_FR-1.pdf"
+    },
+    {
+      "filename": "directives-impot-source-geneve-2025.pdf",
+      "title": "Guidelines on source tax Geneva 2025",
+      "description": "Official PDF containing the 2025 rules and updates for source taxation of employees and self-employed non-residents working in Geneva. This document gathers the instructions used by employers and fiduciaries for payroll and source withholding, updated for the current tax year.",
+      "date": "2025-09-17",
+      "source_url": "https://www.efficore.ch/wp-content/uploads/2025/01/directives-impot-source-geneve-2025.pdf"
+    },
+    {
+      "filename": "Modification_loi_TVA_2025_amsuisse.pdf",
+      "title": "Definitive amendment to the VAT law for 2025",
+      "description": "Official accessible summary of the 2025 VAT revision in Switzerland: new rates, obligations for businesses, and immediate practical implications for administrative management, invoicing, and compliance. Key document to share with your finance, HR, and SME management in Geneva.",
+      "date": "2025-09-17",
+      "source_url": "https://www.amsuisse.ch/fileadmin/forum_archiv/pdf/2024/06/2024_06_F_120_Modification_TVA.pdf"
+    },
+    {
+      "filename": "etudec_ecarts_salaraiux_suisse_2025.pdf",
+      "title": "Study on wage gaps in Switzerland 2025",
+      "description": "Analysis of wage gaps between executives and employees in Switzerland for the year 2025, including data, trends, and official recommendations from the Unia union.",
+      "date": "2025-09-17",
+      "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
     }
   ],
   "Articles": [
@@ -731,6 +803,214 @@
       "author": "Ark Fiduciaire",
       "date": "2025-08-21",
       "content": "Takeover:\n\n- Project preparation\n- Comprehensive due diligence\n- Structured financing\n- Employee integration\n\n(1,800-word article, process diagrams.)"
+    },
+    {
+      "slug": "nouveaux-taux-tva-suisse-transition-2024-entreprises-geneve",
+      "title": "How to prepare your business in Geneva for the VAT rate increase in 2024?",
+      "description": "2024 VAT increase: practical tips and checklist for SMEs, freelancers and finance departments in Geneva. This guide helps your business anticipate, adapt its tools (ERP, Odoo), train its teams and avoid common mistakes.",
+      "content": "Since 1 January 2024, Swiss VAT rates have been increased to secure funding for AVS. For any business based in Geneva and more broadly in French-speaking Switzerland, it is essential to adapt its accounting management, ERP systems (for example Odoo), client communication and internal training. Here are the key points to check:\n\n## <b>1. Identification of the new applicable rates</b>\n- Standard rate: 8.1% (previously 7.7%)\n- Reduced rate: 2.6%\n- Special accommodation rate: 3.8%\n<br>Note: for any goods or services, the supply/delivery date determines the applicable rate.\n\n## <b>2. Update of accounting and ERP software</b>\n- Ensure your tools (especially Odoo, Winbiz, Crésus, etc.), recurring invoices, and quote templates integrate the new rates.\n- For Odoo, use their official documentation for implementing the new rates in your tax settings.\n- Plan extra VAT codes for transitional situations (services spanning two periods)\n\n## <b>3. Verification of invoicing and reporting processes</b>\n- Segment invoices correctly by supply date.\n- Check credit and down payment notes.\n- Review your Swissdec VAT declaration tools\n\n## <b>4. Internal training and communication</b>\n- Train your administrative, sales and finance teams on these new rates and transition rules.\n- Notify your professional clients by email, bulletin or invoice note.\n\n## <b>5. Key tips to avoid frequent mistakes</b>\n- Do not apply the new rate to services performed in 2023, even if invoiced in 2024.\n- Have your ERP or accounting software configuration validated by a fiduciaire expert.\n- Review practical guides provided by the AFC and cantonal associations to master special cases (splits, multi-rate, changes of accounting method).\n\n## <b>To go further</b>\n- Seek specialized support: VAT process review, admin & finance outsourcing, advanced settings (Odoo, Winbiz, etc.) and support for the 2023-2024 transition (quarterly and semi-annual returns).\n- Use official resources: PDF guides, AFC hotline, and updates on tax arrangements adapted to Geneva SMEs.\n\nThis article summarizes the essentials and provides a practical checklist for a successful transition. In case of doubt, have your choices validated by a certified accountant or a company administrator specialized in taxation and VAT in western Switzerland.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-16",
+      "references": [
+        {
+          "labelKey": "admin.ch_liste_des_taux_actuels_de_la_TVA_en_Suisse",
+          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-97258.html"
+        },
+        {
+          "labelKey": "fedlex_admin_ch_reforme_TVA_2024_message_officiel",
+          "url": "https://www.fedlex.admin.ch/eli/fga/2023/1970/fr"
+        }
+      ]
+    },
+    {
+      "slug": "reforme-fiscale-geneve-2025-impact-contribuables-pme",
+      "title": "Geneva tax reform 2025: what are the impacts for taxpayers and SMEs?",
+      "description": "Concrete analysis of the 2025 tax reform in Geneva: lower rates, new rules for instalments, real estate taxation, and first practical tips to optimise your position in 2025–2026.",
+      "content": "The tax reform adopted in Geneva in 2025 brings profound changes for taxpayers, property owners, and businesses in the canton. Let's review the key points to anticipate for the 2026 tax return, optimisation strategies to implement now, and answers to the most frequently asked questions.\n\n# 1. Unprecedented reduction in income tax\nGeneva is easing its taxation from 2025: rates drop between 5.3% and 11.4%, mainly targeting the middle class but also low-income taxpayers and, to a lesser extent, affluent households. SMEs and the self-employed benefit indirectly, especially regarding entrepreneur pay and dividend withdrawal planning.\n\n# 2. New scales applicable in 2026\nAll taxpayers will complete their next tax return using the new scales. It is crucial to adjust instalments as of today. Main operational change: a possibility to pay annual instalments in 12 monthly payments (versus 10 previously), improving cash flow for small businesses and family management.\n\n# 3. Real estate and wealth taxation\nIn connection with the LEFI law, the tax value of properties purchased before the end of 2014 increases by 12%. However, wealth tax drops by 15%. This partially offsets the increased assessment base. For owners, it becomes essential to assess the relevance of renovation work, anticipate possible succession or property transfers, and optimise declarations starting in 2025.\n\n# 4. SME taxation: opportunities and vigilance\nFor companies, minimum corporate tax, cross-border teleworking rules or the management of civil real estate companies may bring new documentation, reporting, and compliance obligations (in particular via the e-tax procedure). It is advisable to consult your fiduciary to map your situation precisely.\n\n# 5. Practical tips for Q4 2025–2026\n• Readjust your instalments (professional income, real estate, dividends: simulate with new rates);\n• Review property values and declared wealth;\n• Plan any pension buybacks or structural changes before 31.12.2025;\n• Anticipate family settlements (gifts, successions, change of domicile) integrating Geneva's new tax context.\n\n# Trending keywords:\n- Geneva tax reform 2025\n- tax 2025 SME Geneva\n- Geneva real estate taxation\n- Geneva tax rate 2025\n- tax return 2026\n\nFor any personalised question or strategic optimisation, our team is here to help: tax advice, tax return support, payroll analysis, VAT and Swiss GAAP FER consulting, and even Odoo implementation.\n",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Réforme fiscale Genève officielle",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        },
+        {
+          "labelKey": "Changements fiscaux Genève 2025",
+          "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
+        },
+        {
+          "labelKey": "Analyse Econostrum 2025",
+          "url": "https://econostrum.info/suisse/geneve-reforme-fiscale-historique-2025/"
+        },
+        {
+          "labelKey": "Finances publiques Genève juin 2025",
+          "url": "https://geneve-attractive.ch/sites/default/files/source/docs/crea_financespubliques_juin2025.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "optimiser-fiscalite-geneve-2025-preparer-2026",
+      "title": "Optimizing your taxes in Geneva in 2025: measures and advice for SMEs and self-employed",
+      "description": "What are the major tax changes in Geneva for 2025? How to optimize your situation and anticipate the 2026 tax return? A detailed overview for SMEs, self-employed and entrepreneurs, with practical advice and key trends.",
+      "content": "The year 2025 promises to be rich in tax innovations in Geneva. SMEs, self-employed and entrepreneurs must adapt to major changes in order to reduce their tax burden, remain compliant, and effectively anticipate the 2026 tax return.\n\nKey tax changes in Geneva in 2025\n\n1. Decrease in income tax for individuals\nSince January 1, 2025, the cantonal and municipal scale has dropped between 11.4% and 5.3%. This means significant savings for many taxpayers. However, tax installments remain based on previous returns, so caution is advised regarding anticipated amounts.\n\n2. Payment of installments: easier monthly payments\nNew flexibility: installments can now be paid over 12 months instead of 10, allowing better cash flow management for companies and self-employed.\n\n3. Real estate taxation: effects of the LEFI law\nAll real estate acquired before the end of 2014 sees its tax value increase by 12%. At the same time, the wealth tax burden drops by 15%. Owners must check the exact impact based on their situation.\n\n4. Telework and cross-border: attention to mixed taxation\nClarification of the tax treatment for cross-border workers doing telework may generate adjustments (employers: updating practices recommended).\n\n5. New modalities for companies (rulings, minimum taxation, SCI)\nSMEs and companies subject to minimum taxation or involved in real estate civil companies (SCI) must review the latest adjustments (see AFC Fiscal Outlook 2025).\n\nKey tips to optimize your taxes in 2025–2026\n- Update your personal and business tax planning\n- Anticipate any increase in value on older real estate\n- Adjust installment payments to avoid unnecessary interest\n- Review company/corporate/SCI status with a chartered accountant\n- Support cross-border employees on new telework rules\n- Get a 2025 tax audit to secure optimization choices\n\nGoogle Trends observed\n- \"Geneva tax reduction 2025\"\n- \"Monthly payment of tax installments\"\n- \"SME taxation Geneva 2025\"\n- \"Telework cross-border taxes\"\nThese queries show growing interest in optimization, proactive management, and understanding of the new tax rules, especially for SMEs, self-employed and liberal professions.\n\nIn conclusion:\nAdapting to tax changes in Geneva in 2025 requires proactivity and expertise. Our experts support SMEs and self-employed on all these subjects: taxation, VAT, Odoo implementation, outsourcing, payroll and integrations. Contact us for a personalized analysis.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Changements fiscaux Genève",
+          "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
+        },
+        {
+          "labelKey": "Panorama fiscal 2025 AFC",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        }
+      ]
+    },
+    {
+      "slug": "optimisation-fiscale-geneve-fin-2025",
+      "title": "Corporate tax in Geneva: Strategic optimizations in the face of declining revenues and 2026 updates",
+      "description": "A practical overview of tax optimization strategies for companies and freelancers in Geneva in light of downwardly revised tax forecasts, the 2025 VAT changes, and year-end challenges. Special Q4 preparation and 2026 anticipation.",
+      "content": "Corporate taxation in Geneva is undergoing major changes this autumn 2025, both with VAT revisions and economic uncertainties that have led the canton to revise its tax revenue forecasts downwards. For SMEs, groups, and freelancers, autumn is a strategic time to anticipate year-end adjustments and prepare for the next financial year, with several opportunities and risks to consider...\n\n**I. Overview of local tax legislation and cyclical pressures**\n- The partial revision of the VAT Act that came into force in January 2025 requires the adaptation of invoicing tools, increased requirement for online returns, and strengthened monitoring of cross-border flows, especially for digital platforms and B2B/B2C services.\n- The announced decrease in state tax revenue, mainly from businesses, increases pressure on the management of taxable profits and planning for provisions, carryforward losses, or pension buy-backs (third pillar, LPP buy-backs for executives).\n\n**II. Concrete short-term actions (Q4 2025)**\n- Optimize VAT treatment with the new net tax rate or flat-rate methods (opportunity analysis to be done before 31.12).\n- Take advantage of deadlines (accelerated depreciation, creation or release of provisions, review of carryforward losses, etc.) to adjust the 2025 results and better control the taxable base.\n- For groups and international companies: plan for cross-border flows and anticipate new reporting obligations under AIA (automatic exchange of account information).\n\n**III. Preparing for success in 2026**\n- Integrate administrative digitalization (electronic invoicing, VAT filing via ePortal, Odoo integration to automate payroll, bookings and tax monitoring).\n- Ensure LPP, LAA and AC compliance for all employees (including freelancers, especially in remote work situations).\n- Domiciliation and governance: adapt articles of association and minutes to maximize legal and tax security of intra-group flows or extended commercial activities.\n\n**IV. Ark Fiduciaire advice**\nHave your accounting processes, Odoo/ERP integrations (especially VAT and payroll), and extension or clarification requests with tax authorities audited without delay. From 2025, use the new Geneva Canton e-application tools to streamline your dealings with the AFC.\n\nFor personalized support, assessment of your situation and optimal preparation for 2026, contact Ark Fiduciaire, specialist for SMEs, international families and entrepreneurs in Switzerland.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Modifications TVA 2025",
+          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+        },
+        {
+          "labelKey": "Panorama fiscal Genève 2025",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        },
+        {
+          "labelKey": "Prolongation du délai de décompte TVA",
+          "url": "https://fr.taxlawblog.ch/"
+        },
+        {
+          "labelKey": "Révision des recettes fiscales Genève",
+          "url": "https://www.radiolac.ch/actualite/geneve/les-previsions-de-recettes-fiscales-en-2025-revues-a-la-baisse/"
+        }
+      ]
+    },
+    {
+      "slug": "devancer-reformes-fiscales-entreprise-geneve-2026",
+      "title": "How to anticipate the 2026 tax reforms for your company in Geneva?",
+      "description": "Practical and up-to-date memo for executives and financial managers: critical points, pitfalls to avoid, and levers for optimized taxation in Geneva for 2025–2026.",
+      "content": "Geneva is about to undergo major tax changes directly impacting businesses and self-employed individuals. In this context, how can you effectively anticipate the upcoming reforms, optimize your taxes, and ensure your Geneva-based SME or company is compliant for 2026? This guide, designed for executives and administrative managers, is based on the latest official publications and Google trends, and incorporates local specifics such as the municipal professional tax, RFFA, OECD/G20 minimum taxation, and the management of cross-border telework.\n\n1. Overview and trends 2025–2026\nIn April 2025, the Cantonal Tax Administration presented the new rules and issues at the Tax Overview (see PDF reference document). Hot topics include: strengthening of the minimum tax principle for legal entities, telework and international staff mobility, digitization of tax procedures and innovations such as e-tax or Odoo integration for administrative management.\n\n2. What specific tax changes for companies in Geneva?\n- Minimum taxation (OECD/G20): In 2026, any multinational and affected SME will be subject to a minimum effective tax rate of 15% on taxable profits. This requires an urgent review of legal structure and financial flows.\n- Telework and cross-border workers: Tax and contribution rules are evolving (bilateral agreements being adapted). Proper payroll and accounting setup requires ongoing monitoring.\n- Digital tools and automation: New certified software, e-tax, and solutions such as Odoo are becoming the norm to facilitate reporting and reduce errors. Outsourcing payroll and administration to a local expert partner ensures compliance and efficiency.\n\n3. Key watchpoints and pitfalls to avoid\n- Anticipate discrepancies between cantonal and federal taxation: certain rates, scales, and processes evolve at different paces.\n- Pay particular attention to the municipal professional tax, specific to Geneva, and include it in your simulations.\n- Consider R&D (Patent Box) deductions, which are still underused.\n\n4. Practical tips to prepare for 2026\n- Carry out a tax audit as early as autumn 2025 with your fiduciary to check your processes.\n- Update your payroll and management software, ensuring compatibility with Swissdec and Odoo standards.\n- Train your financial teams: digital and regulatory monitoring is more essential than ever.\n- Outsource what can be outsourced (payroll, tax, administrative) to certified Geneva partners.\n\n5. Conclusion\n2025–2026 requires anticipation, rigour, and reliance on partners who understand Geneva's reality. Contact Ark Fiduciaire for personalized analysis and tailor-made solutions in accounting, taxation, and payroll.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Réformes fiscales Genève",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        },
+        {
+          "labelKey": "Obligations fiscales entreprises",
+          "url": "https://www.geneve.ch/public/entreprises/informations-utiles-entreprises-prestations-demarches/impots"
+        },
+        {
+          "labelKey": "Fiscalité RFFA Genève",
+          "url": "https://fidulex.ch/la-reforme-de-la-fiscalite-des-entreprises-guide-geneve/"
+        }
+      ]
+    },
+    {
+      "slug": "nouveautes-paie-geneve-2025-regles-frontaliers-teletravail",
+      "title": "Payroll and employers in Geneva: what's new for 2025 (cross-border workers, remote work, taxation, new thresholds and practical rules)",
+      "description": "Summary of 2025 changes for payroll management in Geneva and French-speaking Switzerland: new AVS-LPP thresholds, family allowances, updates on electric vehicle reimbursement, cross-border remote work, up-to-date tax and social security obligations per the latest recommendations. This practical guide helps employers and the self-employed ensure compliance and anticipate administrative and financial impacts for Q4 2025 and 2026.",
+      "content": "The year 2025 marks a turning point for payroll management in Geneva and throughout French-speaking Switzerland, with significant reforms for employers and self-employed individuals concerned with compliance and tax optimization.\n\n1. New AVS/LPP/family allowance ceilings and rates\nFrom January 2025, the increase in the AVS ceiling, revaluation of family allowances (215 CHF per child, 268 CHF minimum for education), and the adjusted LPP affiliation threshold require immediate update of payroll bases and software. Employees reaching retirement age (women: 64 years and 3 months if born in 1961) must choose their contribution exemption before receiving their first 2025 salary.\n\n2. Electric vehicles and expense regulations\nEmployers must now include the cost of home charging stations in the taxable and social security salary, excluding this amount from the 0.9% lump-sum reduction calculation. Mileage allowances for business expenses are still possible, with supporting documentation or approved internal policy, directly impacting tax returns and salary certificates.\n\n3. Cross-border remote work: transitional scheme 2025\nThe Switzerland-France transitional agreement on remote work is extended until December 31, 2025. For Geneva, up to 40% of annual activity can be performed remotely from France without tax impact for employer or employee: the salary is fully taxed in Geneva. The company must, however, provide an annual certificate and inform employees of the rules and rights (LPD, taxation, social security, A1). Above this threshold, the French system applies for the salary portion concerned: close attention is needed when planning activity.\n\n4. Profitability, salary negotiations, and trends for Q4 2025\nNominal salaries are rising (+1.4% on average, higher in high-demand sectors) but often do not offset inflation (health premiums +6% on average in Geneva). Adjustments are closely watched in healthcare, retail, and hospitality. Employers need to anticipate these constraints in their pay policy and update their 2026 social budget accordingly.\n\n5. 2025 compliance checklist and best practices\n- Check and update all payroll parameters from January (rates, ceilings, allowances)\n- Inform and document AVS franchise choices, LPP, expense rules, cross-border certificates\n- Monitor cross-border remote work (threshold monitoring, issuance of A1 certificates, tax transparency)\n- Keep informed on cantonal developments (allowances, taxation)\n- Consider outsourcing or digitization (Swissdec, Odoo payroll, etc.) to reduce risk of error and optimize compliance\n\nFor real-time updates and secure social management, support from a Geneva specialist or outsourcing via approved tools remains recommended.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "TVA Changements 2025",
+          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+        },
+        {
+          "labelKey": "Paie 2025 Genève",
+          "url": "https://www.hr-campus.ch/fr/univers-rh/connaissances-rh/articles-specialises/paie-en-suisse-ce-qui-change-en-2025/"
+        },
+        {
+          "labelKey": "Guide employeur salarié 2025",
+          "url": "https://www.odmfiduciaire.ch/2025/03/04/salaires-et-impots-en-suisse-le-guide-employeur-employe-2025/"
+        },
+        {
+          "labelKey": "Frontaliers télétravail",
+          "url": "https://www.hrtoday.ch/fr/article/les-changements-venir-pour-lemployeur-au-1er-janvier-2025"
+        }
+      ]
+    },
+    {
+      "slug": "optimisation-fiscale-entreprises-geneve-reformes-2025",
+      "title": "Corporate tax optimisation in Geneva: anticipating the 2025 reforms and preparing for 2026",
+      "description": "Concrete analysis of tax optimisation strategies for SMEs in Geneva in the context of the 2025 tax reforms: updated rates, VAT planning, managing dividends and deductions, asset valuation. Practical advice for directors, CFOs, self-employed, and accountants for Q4 2025 and early 2026.",
+      "content": "In 2025, corporate taxation in Geneva and French-speaking Switzerland will benefit from several reforms: lower profit tax rates in some cantons, adjustment of tax deductions, and an expected simplification of inheritance tax. For companies, this presents an immediate opportunity for optimisation for Q4 2025 and preparation for 2026.\n\n<strong>1. New rates and scales:</strong> \nIn Geneva, reductions in profit tax rates make investments and dividend distributions attractive before the end of the fiscal year. It is wise to anticipate year-end closing by planning provisions and managing executive compensation.\n\n<strong>2. VAT: latest practices and 2025 rates</strong> \nThe partial revision of VAT taking effect in 2025 requires a check of the rates applied (notably in real estate and cross-border services sectors). Administrative outsourcing for VAT management, using Odoo for invoice automation, and proper deadline management help avoid costly corrections during a tax audit .\n\n<strong>3. Deductions and tax vehicles</strong> \nAttention should be paid to the deduction of interest expenses and depreciations, to benefit as much as possible from the new rules. Family businesses in Geneva are advised to anticipate transfers under the current tax framework before any potential tightening at the federal level.\n\n<strong>4. Payroll management, pension funds, accident insurance, and payroll outsourcing</strong> \nWith overall salary increases (2.3% in 2025) , outsourcing payroll and using swissdec ensure compliance and security, particularly with digital tools.\n\n<strong>5. Governance, compliance and digital security</strong> \nGeneral meetings and minutes must transparently reflect tax reform-related decisions. Cyber risks are fiscal risks: digital governance is part of compliance, particularly for the protection of clients’ and partners’ tax data .\n\n<strong>Key terms to highlight:</strong> geneva taxation 2025, SME tax rate geneva, geneva tax reform, vat 2025 switzerland, SME tax optimisation, business transfer geneva, administrative outsourcing geneva, odoo management switzerland, payroll outsourcing geneva, swiss gaap fer.\n\nTo go further: get a free assessment of your SME’s tax exposure and internal organisation. Contact our Geneva firm for an optimised audit and tailored support before the 2025 year-end.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Fiscalité entreprises GE",
+          "url": "https://fbk-conseils.ch/fiscalite-dune-pme-en-suisse-tout-comprendre-sur-les-impots/"
+        },
+        {
+          "labelKey": "Réformes fiscales 2025",
+          "url": "https://www.lombardodier.com/fr/insights/2025/july/tax-in-switzerland.html"
+        },
+        {
+          "labelKey": "Cybersécurité & compliance GE",
+          "url": "https://www.lombardodier.com/fr/insights/2025/june/business-owners-face-new-risks-around-tax.html"
+        }
+      ]
+    },
+    {
+      "slug": "anticiper-tva-geneve-fin-2025-preparer-2026",
+      "title": "Anticipating VAT in Geneva at the End of 2025: How to Prepare for 2026?",
+      "description": "Practical guide for SMEs and freelancers in Geneva: anticipate adjustments to declarations, accounting, and VAT audits with regulatory and digital developments at the end of 2025 and the start of 2026.",
+      "content": "The transition to year-end is always strategic for Geneva-based companies subject to VAT. In 2025, the pressure increases with accelerated digitalization of procedures (AFC e-procedures, QR-MwST electronic invoicing), the generalization of e-controls, and tougher penalties in case of omissions or errors. Understanding the changes—including increased requirements for digital archiving, traceability of entries via Swiss GAAP FER or Odoo, and preparation of quarterly/annual VAT balances— is essential to avoid costly tax audits in 2026. This guide covers:\n\n- Recent changes on the AFC portal and their direct impact on declaration entry (new fields, automatic validation, mandatory electronic signature for certain submissions).\n- Optimizing VAT account reconciliations and management with Odoo for SMEs (automated journaling, tracking VAT adjustments on subsidies and corrections of previous mistakes).\n- Key points for mixed VAT (multiple business sectors, reduced vs. normal rates) and efficiently allocating operations.\n- Preparing a pre-audit according to new standards: linking payroll (swissdec), invoicing, and concatenation with declaration appendices.\n- FAQ on AFC’s early audits in Geneva: deadlines, types of required documents, frequent errors to avoid, appeals…\n\nIn summary, businesses and freelancers must secure their administrative and financial processes from Q4-2025 to be ready for any audit in 2026. Partial or full outsourcing of VAT management, combined with an interfaced business software like Odoo, reduces risk of errors and optimizes compliance. For tailored support and best practice implementation, do not hesitate to consult our certified experts.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "fedlex_loi_tva",
+          "url": "https://www.fedlex.admin.ch/eli/cc/2009/72/fr"
+        }
+      ]
+    },
+    {
+      "slug": "impacts-tva-2025-geneve-pme",
+      "title": "Practical impacts of the 2025 VAT reform for SMEs in Geneva: compliance, pitfalls, and opportunities",
+      "description": "Concrete analysis of the new 2025 VAT obligations for SMEs in Geneva (tools update, payroll/accounting training), compliance checklist, Geneva-specific points of caution, and tax optimization opportunities to seize as of the second half of 2025. Action-oriented article accessible to managers and administrative officers.",
+      "content": "The 2025 VAT reform in force in Switzerland affects very many businesses in Geneva and French-speaking Switzerland, requiring immediate adjustment to ensure compliance. This article provides a clear breakdown of the issues, practical steps for successful transition, a checklist for your administrative management or executives, and answers to frequently asked questions since the start of the 2025 school year.\n\n**1. What are the key changes?**\nSince 1.1.2025, VAT rates have changed (standard: 8.1%, reduced: 2.6%, special accommodation: 3.8%) and new electronic declaration requirements have come into force (files, forms, relief appendix, mandatory online declaration by profile). Flat-rate regimes and the net tax rate method are also affected.\n\n**2. For whom are these changes critical in Geneva?**\n- SMEs in services, crafts and retail/distribution (B2B and B2C)\n- Sole traders exceeding the CHF 100,000 annual threshold\n- Holding companies and property managers\n- Associations and foundations with employees\n- Businesses receiving grants or active on digital platforms\n\n**3. Geneva-specific points of caution**\n- Take account from Q4 2025 in all Odoo, Abacus or Winbiz systems\n- Alignment between invoicing, payroll (tax advantages, internal training on new LPP/AVS/LAA rules), and Swiss GAAP FER accounting\n- Mandatory electronic declaration (e-VAT): practical guides on the SFTA portal\n- Increased controls announced for Geneva (deadlines, administrative sanctions, focus on real estate and consulting)\n\n**4. Express checklist for SME management:**\n- Update the configuration of your accounting and payroll software (Odoo, Winbiz, Abacus)\n- Check customer/supplier invoicing templates and automate correct rate display\n- Train payroll/accounting staff on new thresholds and exemptions\n- Synchronize invoicing and archiving policy with your fiduciary\n- Monitor cross-border flows: exemptions, thresholds, required mentions\n\n**5. Optimization opportunities and advisory assignments:**\n- Review your contract templates and GTCs outside VAT (avoid corrections, integrate new logic)\n- Outsource or delegate to a trustee for SFTA returns and controls\n- Digitize administrative processes and create synergies with other HR/administrative obligations (notably for LPP/AVS/LAA)\n\n**SEO keywords (French-speaking Switzerland 2025 trends)**: VAT 2025, Geneva tax reform, SME compliance, administrative outsourcing, payroll management, Swiss GAAP FER, e-VAT, Odoo Geneva, tax optimization, VAT audit, company tax 2025 Switzerland, online VAT return, Geneva tax news.\n\nFor further information, the official documentation and support from the Federal Tax Administration, as well as recommended tools, are listed below.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "TVA AFC 2025",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
+        },
+        {
+          "labelKey": "Checklist AFC e-TVA",
+          "url": "https://www.amsuisse.ch/fileadmin/forum_archiv/pdf/2024/06/2024_06_F_120_Modification_TVA.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "tva-2025-geneve-impact-pme-revision-fiscale",
+      "title": "VAT reform 2025: what changes for SMEs in Geneva and how to adapt",
+      "description": "A practical guide on the 2025 VAT reform for SME managers in Geneva: new obligations, practical measures to implement from autumn 2025, pitfalls to avoid, and tips to optimize tax processes in anticipation of 2026.",
+      "content": "The partial VAT reform, effective from January 1, 2025, has a concrete impact on Geneva-based SMEs. It is part of a context of increasing digitalization, with new obligations but also opportunities to anticipate regulatory requirements through 2026.\n\nKey points of the reform:\n- Obligation for ALL taxpayers to submit VAT returns via the official online portal (no more paper, choice between “pro” or “easy”).\n- New rules for online sales platforms: any platform making sales in Switzerland, even via foreign partners, must collect and remit VAT.\n- The rates are adjusted: certain products now fall under the reduced rate (compare with your nomenclature).\n- Clarifications for subsidies, simplified methods (flat rate or net tax liability) and sectoral exceptions.\n\nRecommended steps for SMEs:\n1. Check (and update if necessary) your VAT reporting method;\n2. Train on the new online VAT portal if not already done;\n3. Anticipate tax liability if you sell via a platform or your clients do (especially e-commerce);\n4. Adjust your accounting/ERP settings, especially VAT rates and codes (Odoo, etc.);\n5. Prepare communication to clients and partners, to ensure shared compliance.\n\nGeneva focus: In French-speaking Switzerland, Geneva has confirmed specific support for SMEs in the VAT digital transition. Information sessions are organized with the Chamber of Commerce and the FTA.\n\nTrending Google keywords 2025: VAT 2025 Switzerland, online VAT portal, VAT rates Geneva, e-commerce VAT, SME tax compliance Geneva, Swiss GAAP FER and VAT, administrative digitalization, Odoo VAT compliance.\n\nAnticipation, training, and external support are immediate investments that will prevent litigation, penalties, and extra costs in 2026.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "TVA Réforme 2025 AFC",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
+        },
+        {
+          "labelKey": "TVA Mémo pratique Genève",
+          "url": "https://fidulex.ch/revision-de-la-tva-changements-cles-en-2025/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Swiss taxes 2025 – Overview (FDF)",
@@ -781,5 +1061,32 @@
     "Accounting": "Accounting",
     "Tax": "Tax",
     "Payroll": "Payroll"
-  }
+  },
+  "admin.ch_liste_des_taux_actuels_de_la_TVA_en_Suisse": "admin.ch - list of current VAT rates in Switzerland",
+  "fedlex_admin_ch_reforme_TVA_2024_message_officiel": "fedlex.admin.ch - official message on the 2024 VAT reform",
+  "Réforme fiscale Genève officielle": "Official Geneva tax reform",
+  "Changements fiscaux Genève 2025": "Geneva tax changes 2025",
+  "Analyse Econostrum 2025": "Econostrum analysis 2025",
+  "Finances publiques Genève juin 2025": "Geneva public finances June 2025",
+  "Changements fiscaux Genève": "Tax changes Geneva",
+  "Panorama fiscal 2025 AFC": "AFC Fiscal Outlook 2025",
+  "Modifications TVA 2025": "2025 VAT changes",
+  "Panorama fiscal Genève 2025": "Fiscal overview Geneva 2025",
+  "Prolongation du délai de décompte TVA": "VAT filing extension",
+  "Révision des recettes fiscales Genève": "Revision of Geneva tax revenues",
+  "Réformes fiscales Genève": "Geneva tax reforms",
+  "Obligations fiscales entreprises": "Business tax obligations",
+  "Fiscalité RFFA Genève": "RFFA taxation Geneva",
+  "TVA Changements 2025": "VAT changes 2025",
+  "Paie 2025 Genève": "Geneva payroll 2025",
+  "Guide employeur salarié 2025": "Employer-employee guide 2025",
+  "Frontaliers télétravail": "Cross-border remote work",
+  "Fiscalité entreprises GE": "Corporate taxation GE",
+  "Réformes fiscales 2025": "2025 tax reforms",
+  "Cybersécurité & compliance GE": "Cybersecurity & compliance GE",
+  "fedlex_loi_tva": "VAT Act (Fedlex)",
+  "TVA AFC 2025": "SFTA VAT 2025",
+  "Checklist AFC e-TVA": "SFTA e-VAT checklist",
+  "TVA Réforme 2025 AFC": "VAT Reform 2025 FTA",
+  "TVA Mémo pratique Genève": "VAT practical memo Geneva"
 }

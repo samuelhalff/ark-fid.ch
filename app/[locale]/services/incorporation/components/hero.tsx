@@ -5,10 +5,10 @@ const CorporateHero = ({ locale }: { locale?: string }) => {
     <ServiceHero
       locale={locale}
       namespace="incorporation"
-      imageSrc="/assets/services/modern-office.webp"
-      imageAlt="Company incorporation services in Switzerland"
+      imageSrc="/assets/hero/services/incorporation-hero.webp"
+      imageAlt="Spiez Castle on Lake Thun with mountains, Switzerland"
       badge1Key="Hero.Badge"
-      badge1Fallback="Swiss Excellence"
+      badge1Fallback="Swiss excellence"
       badge2Key="Hero.BadgeTwo"
       badge2Fallback="Business Experts"
       titleKey="Hero.Title"
@@ -17,8 +17,6 @@ const CorporateHero = ({ locale }: { locale?: string }) => {
       descriptionFallback="Expert guidance for seamless company formation and registration in Switzerland."
       ctaKey="Hero.CTA"
       ctaFallback="Contact us"
-      secondaryCtaKey="Hero.SecondaryCTA"
-      secondaryCtaFallback="Learn more"
     />
   );
 };

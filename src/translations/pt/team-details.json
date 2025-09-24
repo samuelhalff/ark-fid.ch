@@ -1,0 +1,92 @@
+{
+    "Details": {
+        "hassan-barbir": {
+            "education": [
+                "LL.M. em tributação, Universidade de Genebra",
+                "Mestrado em direito, Universidade de Genebra",
+                "Bacharelado em direito, Universidade de Genebra"
+            ],
+            "languages": [
+                "Francês",
+                "Inglês",
+                "Italiano"
+            ],
+            "memberships": [
+                "ODAGE",
+                "FSA"
+            ],
+            "credentials": [
+                "Inscrito na Ordem dos Advogados de Genebra (2013)"
+            ]
+        },
+        "samuel-halff": {
+            "education": [
+                "LL.M., UCLA (University of California, Los Angeles)",
+                "Mestrado em direito, Universidade de Genebra"
+            ],
+            "languages": [
+                "Francês",
+                "Inglês",
+                "Alemão"
+            ],
+            "credentials": [
+                "Inscrito na Ordem dos Advogados de Genebra (2013)"
+            ]
+        },
+        "anthony-touboul": {
+            "education": [
+                "LL.M., Direito tributário, Universidade de Genebra (2011–2013)",
+                "Mestrado, Direito empresarial e tributário (DJCE), Université Jean Moulin Lyon III (2004–2006)"
+            ]
+        },
+        "rodrigue-sperisen": {
+            "education": [
+                "Mestrado em direito, Universidade de Neuchâtel"
+            ],
+            "languages": [
+                "Francês",
+                "Inglês"
+            ],
+            "memberships": [
+                "ODAGE",
+                "FSA",
+                "OAR SFA-FSN",
+                "STEP",
+                "ASDS",
+                "Fondation pour le droit de l'art"
+            ],
+            "credentials": [
+                "Inscrito na Ordem dos Advogados de Genebra (2013)",
+                "Diploma STEP (2009)"
+            ]
+        },
+        "sebastien-gallie": {
+            "education": [
+                "Diploma federal de perito fiduciário (Romandie Formation, 2022–2025)",
+                "Certificado federal de agente fiduciário (Cursus Formation, 2018–2021)"
+            ]
+        },
+        "lassana-dioum": {
+            "education": [
+                "Mestrado em direito econômico, Universidade de Genebra",
+                "Bacharelado em direito, Universidade de Genebra",
+                "HEC, Universidade de Genebra"
+            ],
+            "languages": [
+                "Francês",
+                "Inglês",
+                "Espanhol"
+            ],
+            "memberships": [
+                "ODAGE",
+                "FSA",
+                "IBA",
+                "IFA",
+                "AIJA"
+            ],
+            "credentials": [
+                "Inscrito na Ordem dos Advogados de Genebra (2012)"
+            ]
+        }
+    }
+}

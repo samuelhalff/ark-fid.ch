@@ -153,22 +153,10 @@ function NavMenu({
           </NavigationMenuLink>
         </NavigationMenuItem>
 
-        <NavigationMenuItem
-          onPointerEnter={() => {
-            prewarmServices();
-            setOpenServices(true);
-          }}
-        >
-          <NavigationMenuTrigger
-            aria-haspopup="menu"
-            onClick={() => setOpenServices((v) => !v)}
-            onFocus={prewarmServices}
-          >
+        <NavigationMenuItem>
+          <NavigationMenuTrigger aria-haspopup="menu">
             {navData.labels.services}
           </NavigationMenuTrigger>
-          {openServices && (
-            <ServicesContent locale={locale} navData={navData} />
-          )}
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink

@@ -5,3 +5,7 @@ dist
 *.txt
 .env*
 !.env.example
+litellm_config.yaml
+.DS_Store
+.vscode
+.idea

@@ -6,6 +6,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 /** @type {import('next').NextConfig} */
 const baseConfig = {
   trailingSlash: true,
+  productionBrowserSourceMaps: true,
   experimental: {
     optimizePackageImports: ['lucide-react', 'react-hook-form', 'sonner']
   },
@@ -16,29 +17,6 @@ const baseConfig = {
     imageSizes: [16, 24, 32, 48, 64, 96, 128, 256, 384],
   },
   swcMinify: true,
-  async headers() {
-    const isProd = process.env.NODE_ENV === 'production';
-
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          { key: 'Referrer-Policy', value: 'no-referrer-when-downgrade' },
-          { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
-          { key: 'X-DNS-Prefetch-Control', value: 'on' },
-          { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
-          { key: 'Permissions-Policy', value: 'geolocation=(), microphone=(), camera=()' },
-          // Expect-CT is deprecated by Chrome; retained for legacy clients/infrastructure
-          { key: 'Expect-CT', value: 'max-age=0, enforce' },
-          // HSTS only in prod and over HTTPS
-          ...(isProd
-            ? [{ key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' }]
-            : []),
-        ],
-      },
-    ];
-  },
 };
 
 module.exports = withBundleAnalyzer(baseConfig);

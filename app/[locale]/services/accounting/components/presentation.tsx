@@ -1,26 +1,20 @@
 "use client";
 
-import {
-  Users,
-  Clock,
-  ShieldCheck,
-  Rocket,
-  MessageSquare,
-  CheckCircle,
-} from "lucide-react";
 import TranslatedText from "@/src/components/ui/translated-text";
 import TranslatedTextArray from "@/src/components/ui/translated-text-array";
 import TranslatedObjectArray from "@/src/components/ui/translated-object-array";
-import ServicesList from "@/src/components/ui/services-list";
 import IconList from "@/src/components/ui/icon-list";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/src/components/ui/accordion";
+import dynamic from "next/dynamic";
+import Defer from "@/src/components/Defer";
 
-const iconMap = [Users, Clock, ShieldCheck, Rocket, MessageSquare];
+const AccountingAccordion = dynamic(
+  () => import("./sections/AccountingAccordion"),
+  { ssr: false, loading: () => null }
+);
+const ServicesListSection = dynamic(
+  () => import("./sections/ServicesListSection"),
+  { ssr: false, loading: () => null }
+);
 
 const AccountingPresentation = () => {
   return (
@@ -55,13 +49,34 @@ const AccountingPresentation = () => {
           </div>
           {/* Top-level key points list */}
           <div className="mb-12">
+            {/* Keep top-level key points lightweight; icon rendered inline to avoid large icon libs here */}
             <IconList
               namespace="accounting"
               className="grid gap-3"
-              icon={<CheckCircle className="w-4 h-4 text-primary" />}
+              icon={
+                <svg
+                  className="w-4 h-4 text-primary"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M9 12l2 2 4-4" />
+                  <circle cx="12" cy="12" r="9" />
+                </svg>
+              }
               items={[
-                { key: "Presentation.List.0", fallbackText: "General accounting" },
-                { key: "Presentation.List.1", fallbackText: "Analytical accounting" },
+                {
+                  key: "Presentation.List.0",
+                  fallbackText: "General accounting",
+                },
+                {
+                  key: "Presentation.List.1",
+                  fallbackText: "Analytical accounting",
+                },
                 { key: "Presentation.List.2", fallbackText: "Periodic tasks" },
                 { key: "Presentation.List.3", fallbackText: "Dashboards" },
                 { key: "Presentation.List.4", fallbackText: "Custom services" },
@@ -70,114 +85,17 @@ const AccountingPresentation = () => {
           </div>
 
           <div className="space-y-16">
-            {/* Detailed sections using Accordion */}
+            {/* Detailed sections using Accordion (deferred island) */}
             <section>
-              <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="general">
-                  <AccordionTrigger className="text-left text-lg">
-                    <TranslatedText
-                      ns="accounting"
-                      translationKey="Presentation.General.Title"
-                      fallbackText="General accounting"
-                    />
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <p className="mb-4 text-muted-foreground">
-                      <TranslatedText
-                        ns="accounting"
-                        translationKey="Presentation.General.Desc"
-                        fallbackText="We master all aspects of general accounting, from ledger to financial statements, ensuring accuracy and compliance."
-                      />
-                    </p>
-                    <IconList
-                      namespace="accounting"
-                      icon={<CheckCircle className="w-4 h-4 text-primary" />}
-                      items={[
-                        { key: "Presentation.General.List.0", fallbackText: "Tailored chart of accounts" },
-                        { key: "Presentation.General.List.1", fallbackText: "Accounts payable and receivable" },
-                        { key: "Presentation.General.List.2", fallbackText: "Payment management" },
-                        { key: "Presentation.General.List.3", fallbackText: "Treasury management" },
-                      ]}
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem value="analytic">
-                  <AccordionTrigger className="text-left text-lg">
-                    <TranslatedText
-                      ns="accounting"
-                      translationKey="Presentation.Analytic.Title"
-                      fallbackText="Analytical accounting"
-                    />
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <p className="text-muted-foreground">
-                      <TranslatedText
-                        ns="accounting"
-                        translationKey="Presentation.Analytic.Desc"
-                        fallbackText="We help you set up and analyze an effective analytical accounting system to support better decisions."
-                      />
-                    </p>
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem value="periodic">
-                  <AccordionTrigger className="text-left text-lg">
-                    <TranslatedText
-                      ns="accounting"
-                      translationKey="Presentation.Periodic.Title"
-                      fallbackText="Periodic tasks"
-                    />
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <p className="mb-4 text-muted-foreground">
-                      <TranslatedText
-                        ns="accounting"
-                        translationKey="Presentation.Periodic.Desc"
-                        fallbackText="We prepare your periodic returns and obligations with rigor and timeliness."
-                      />
-                    </p>
-                    <IconList
-                      namespace="accounting"
-                      icon={<CheckCircle className="w-4 h-4 text-primary" />}
-                      items={[
-                        { key: "Presentation.Periodic.List.0", fallbackText: "Interim and/or annual closing" },
-                        { key: "Presentation.Periodic.List.1", fallbackText: "VAT semi-annual or quarterly" },
-                        { key: "Presentation.Periodic.List.2", fallbackText: "Social insurances" },
-                        { key: "Presentation.Periodic.List.3", fallbackText: "Tax return" },
-                        { key: "Presentation.Periodic.List.4", fallbackText: "Ordinary and extraordinary general meetings" },
-                        { key: "Presentation.Periodic.List.5", fallbackText: "Board of directors" },
-                      ]}
-                    />
-                    <p className="mt-4 text-muted-foreground">
-                      <TranslatedText
-                        ns="accounting"
-                        translationKey="Presentation.Periodic.Followup"
-                        fallbackText="Our dedicated team supports you at every step, ensuring transparent and optimized management."
-                      />
-                    </p>
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem value="dashboards">
-                  <AccordionTrigger className="text-left text-lg">
-                    <TranslatedText
-                      ns="accounting"
-                      translationKey="Presentation.Dashboards.Title"
-                      fallbackText="Dashboards"
-                    />
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <p className="text-muted-foreground">
-                      <TranslatedText
-                        ns="accounting"
-                        translationKey="Presentation.Dashboards.Desc"
-                        fallbackText="Optimize visibility and control with intuitive accounting dashboards tailored to your needs."
-                      />
-                    </p>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
+              <Defer
+                rootMargin="200px"
+                idle={150}
+                placeholder={
+                  <div className="h-40 w-full rounded-lg bg-muted/40" />
+                }
+              >
+                <AccountingAccordion />
+              </Defer>
             </section>
 
             {/* Custom services as highlighted cards */}
@@ -194,19 +112,46 @@ const AccountingPresentation = () => {
                   ns="accounting"
                   translationKey="Presentation.CustomServicesList"
                   fallbackItems={[
-                    { Title: "Expertise and experience", Desc: "Our team brings years of experience in Swiss accounting standards." },
-                    { Title: "Personalized approach", Desc: "We analyze your situation to offer tailored solutions." },
-                    { Title: "Compliance and security", Desc: "We guarantee compliance with all legal obligations." },
+                    {
+                      Title: "Expertise and experience",
+                      Desc: "Our team brings years of experience in Swiss accounting standards.",
+                    },
+                    {
+                      Title: "Personalized approach",
+                      Desc: "We analyze your situation to offer tailored solutions.",
+                    },
+                    {
+                      Title: "Compliance and security",
+                      Desc: "We guarantee compliance with all legal obligations.",
+                    },
                   ]}
                   renderItem={(item, index) => (
                     <div
                       key={index}
                       className="flex items-start gap-4 px-6 py-4 rounded-lg bg-primary/5 mb-4"
                     >
-                      <CheckCircle className="text-blue-400 mt-1 min-w-[20px]" size={20} />
+                      <svg
+                        className="text-blue-400 mt-1 min-w-[20px]"
+                        width={20}
+                        height={20}
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M9 12l2 2 4-4" />
+                        <circle cx="12" cy="12" r="9" />
+                      </svg>
                       <div>
-                        <span className="font-semibold block text-lg mb-2">{item.Title}</span>
-                        <span className="text-base leading-relaxed">{item.Desc}</span>
+                        <span className="font-semibold block text-lg mb-2">
+                          {item.Title}
+                        </span>
+                        <span className="text-base leading-relaxed">
+                          {item.Desc}
+                        </span>
                       </div>
                     </div>
                   )}
@@ -214,22 +159,17 @@ const AccountingPresentation = () => {
               </div>
             </section>
 
-            {/* Services list */}
+            {/* Services list (deferred island) */}
             <section>
-              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
-                <TranslatedText
-                  ns="accounting"
-                  translationKey="Presentation.ServicesTitle"
-                  fallbackText="Services"
-                />
-              </h3>
-              <ServicesList
-                ns="accounting"
-                translationKey="Presentation.Services"
-                fallbackText={["Service 1: Description", "Service 2: Description", "Service 3: Description", "Service 4: Description"]}
-                iconMap={iconMap}
-                className="space-y-6"
-              />
+              <Defer
+                rootMargin="200px"
+                idle={150}
+                placeholder={
+                  <div className="h-48 w-full rounded-lg bg-muted/40" />
+                }
+              >
+                <ServicesListSection />
+              </Defer>
             </section>
           </div>
         </div>

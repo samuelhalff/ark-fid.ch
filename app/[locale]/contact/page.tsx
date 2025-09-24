@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import ContactForm from "@/src/components/ui/contact-form";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import GoogleMap from "@/src/components/ui/GoogleMap";
+import Defer from "@/src/components/Defer";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
 
@@ -68,6 +69,8 @@ export default async function ContactPage({
       typeof t("Title") === "string" ? (t("Title") as string) : "Get in Touch",
     subtitle:
       typeof t("Subtitle") === "string" ? (t("Subtitle") as string) : "",
+    orContactUs: (t("OrContactUs") as string) || "or contact us",
+    bookingButton: (t("BookingButton") as string) || "Book a call",
     labels: {
       name: (t("Form.Name") as string) || "Name",
       companyName:
@@ -131,18 +134,41 @@ export default async function ContactPage({
           </li>
         </ol>
       </nav>
-      <section className="mt-8 space-y-6">
-        <GoogleMap className="w-full" privacyMode={false} />
-      </section>
-      <div className="mt-4 text-center">
-        <p>{strings.subtitle}</p>
+      <div className="mt-6 flex justify-center">
+        <a
+          href="https://outlook.office.com/bookwithme/user/a21b46e2d9a540cca4c290a48c40119e@ark-fid.ch/meetingtype/GHNs6ESvEUWN2gUat7rePg2?anonymous&ismsaljsauthenabled&ep=mlink"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center rounded-full bg-blue-700 text-white px-6 py-3 text-base font-medium shadow hover:shadow-lg transition-all hover:scale-[1.03] focus-visible:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+        >
+          {strings.bookingButton}
+        </a>
       </div>
+      <div className="mt-4 text-center">
+        <p>
+          {strings.orContactUs}
+          {strings.subtitle && <br />}
+          {strings.subtitle}
+        </p>
+      </div>
+
       <ContactForm
         showTitle={false}
         showSubtitle={false}
         strings={strings}
         redirectPath={`${localePrefix}/`}
       />
+      <section className="mt-8 space-y-6">
+        <Defer
+          rootMargin="200px"
+          idle={200}
+          placeholder={
+            <div className="h-[300px] w-full rounded-lg bg-muted/40" />
+          }
+        >
+          <GoogleMap className="w-full" privacyMode={false} />
+        </Defer>
+      </section>
     </div>
   );
 }

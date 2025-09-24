@@ -108,8 +108,9 @@ export default async function RelatedArticles({
               <Link
                 href={`/${locale}/ressources/articles/${r.slug}`}
                 className="text-primary text-sm font-medium hover:underline"
+                aria-label={`${translations.ReadMore || 'Read more'}: ${r.title}`}
               >
-                {translations.ReadMore || "Read more →"}
+                {(translations.ReadMore || 'Read more') + `: ${r.title}`}
               </Link>
             </div>
           </article>

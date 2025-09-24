@@ -1,5 +1,7 @@
 {
   "IntroTitle": "Ressources fiscales et comptables – Genève & Suisse romande",
+  "IntroShort": "Ressources",
+  "ArticlesShort": "Articles",
   "IntroText": "Basées à Genève et actives dans toute la Suisse romande, nos équipes accompagnent aussi des clients en Suisse et à l'international. Vous trouverez ci-dessous une sélection de documents et d'articles pratiques adaptés au contexte réglementaire genevois, romand et fédéral. Ces ressources sont fournies pour votre convenance et n'ont pas valeur de conseil personnalisé. Pour une analyse ciblée de votre situation, contactez notre équipe.",
   "FilesTitle": "Documents disponibles au téléchargement",
   "ArticlesTitle": "Articles d'experts",
@@ -94,6 +96,76 @@
       "description": "Projet AFC d'adaptation de la pratique TVA : déduction impôt préalable, nouvelles règles et impacts pour les entreprises dès 2025.",
       "date": "2025-02-09",
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/konsultativgremium/entwurf1-nein/mwst-kg-vorsteuerabzug-andere-mi-and-mbi-fr.pdf.download.pdf/mwst-kg-vorsteuerabzug-andere-mi-and-mbi-fr.pdf"
+    },
+    {
+      "filename": "guide-fiscal-2024-independants-geneve.pdf",
+      "title": "Guide fiscal 2024 pour les indépendants à Genève",
+      "description": "Guide officiel, exhaustif et à jour sur la fiscalité applicable aux entrepreneurs et indépendants à Genève : obligations comptables, modes de calcul de revenu et fortune, déductions, relevés fiscaux et dépôt de la déclaration.",
+      "date": "2025-09-16",
+      "source_url": "https://www.ge.ch/document/38723/annexe/file/472602"
+    },
+    {
+      "filename": "presentations-du-panorama-fiscal-2025.pdf",
+      "title": "Panorama fiscal 2025 – Réformes et actualités à Genève",
+      "description": "Présentation officielle des réformes fiscales, jurisprudences et actualités majeures applicables à Genève dès 2025, incluant l’imposition minimale des personnes morales, le télétravail des frontaliers, et la fiscalité immobilière. Document indispensable pour anticiper les évolutions et préparer la déclaration 2026.",
+      "date": "2025-09-17",
+      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+    },
+    {
+      "filename": "presentations-panorama-fiscal-2025-ge.pdf",
+      "title": "Présentations du Panorama fiscal 2025 Genève",
+      "description": "Synthèse officielle des principales actualités et évolutions fiscales Genève pour 2025 (impôt sur le revenu, fortune, sociétés, télétravail des frontaliers, traitements fiscaux spécifiques). Document à jour pour appui décisionnel Q3-Q4 2025 et préparation de la déclaration 2026.",
+      "date": "2025-09-17",
+      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+    },
+    {
+      "filename": "Changements-TVA-2025.pdf",
+      "title": "Changements TVA 2025 : Ce que les entreprises genevoises doivent savoir",
+      "description": "Ce document détaille les principales modifications de la loi sur la TVA entrées en vigueur en janvier 2025, dont les impacts sur la facturation, le décompte et le traitement des plateformes numériques. Il est destiné aux PME, indépendants et responsables financiers à Genève et en Suisse romande souhaitant anticiper les ajustements administratifs nécessaires pour le second semestre 2025 ainsi que la préparation de 2026.",
+      "date": "2025-09-17",
+      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+    },
+    {
+      "filename": "presentations-panorama-fiscal-geneve-2025.pdf",
+      "title": "Panorama fiscal Genève 2025 – Réformes, jurisprudences et actualités",
+      "description": "Document officiel de la séance plénière du Panorama fiscal 2025, organisée par l'Administration fiscale cantonale de Genève. Présente les réformes, nouveautés de la déclaration d'impôt, enjeux fiscaux pour les entreprises et personnes morales, imposition minimale, télétravail des frontaliers, pratiques de ruling fiscal et traitement fiscal des SCI. Incontournable pour dirigeants, CFO, fiduciaires et responsables administratifs préparant la fiscalité 2025–2026 à Genève.",
+      "date": "2025-09-17",
+      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+    },
+    {
+      "filename": "Changements_TVA_2025_Suisse.pdf",
+      "title": "Modifications majeures de la TVA applicables dès 2025 en Suisse",
+      "description": "Synthèse officielle des révisions sur la TVA en Suisse applicables dès le 1er janvier 2025, publiée par la Confédération. Ce document détaille les principales évolutions légales (décompte obligatoire en ligne, nouveaux taux réduits, adaptations pour plateformes numériques, etc.) ayant un impact direct sur les PME et indépendants romands, ainsi que les modalités transitoires jusqu’en 2026.",
+      "date": "2025-09-17",
+      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+    },
+    {
+      "filename": "Argumentarium_Systemwechsel_Liegenschatssteuern_FR-1.pdf",
+      "title": "Plus d’impôts pour la classe moyenne ? Réformes fiscales 2025 : L’initiative sur la valeur locative et son impact à Genève",
+      "description": "Argumentaire officiel sur la réforme du système d’imposition de la propriété du logement, y compris la suppression de la valeur locative et l'introduction éventuelle d'un nouvel impôt sur les résidences secondaires. Publication à jour d’août 2025, utile pour les propriétaires, entreprises immobilières et conseillers fiscaux en Suisse romande.",
+      "date": "2025-09-17",
+      "source_url": "https://www.sp-ps.ch/wp-content/uploads/2025/08/Argumentarium_Systemwechsel_Liegenschatssteuern_FR-1.pdf"
+    },
+    {
+      "filename": "directives-impot-source-geneve-2025.pdf",
+      "title": "Directives concernant l'impôt à la source Genève 2025",
+      "description": "PDF officiel contenant les règles et nouveautés 2025 pour l'imposition à la source des salariés et indépendants non-résidents exerçant une activité à Genève. Ce document regroupe les instructions utilisées par les employeurs et fiduciaires pour la paie et la retenue à la source, à jour pour l'année fiscale en cours.",
+      "date": "2025-09-17",
+      "source_url": "https://www.efficore.ch/wp-content/uploads/2025/01/directives-impot-source-geneve-2025.pdf"
+    },
+    {
+      "filename": "Modification_loi_TVA_2025_amsuisse.pdf",
+      "title": "Modification définitive de la loi sur la TVA pour 2025",
+      "description": "Synthèse officielle accessible de la révision 2025 de la TVA en Suisse : nouveaux taux, obligations pour entreprises, et implications pratiques immédiates pour la gestion administrative, la facturation et la conformité. Document clé à partager avec vos responsables finances, RH et direction PME à Genève.",
+      "date": "2025-09-17",
+      "source_url": "https://www.amsuisse.ch/fileadmin/forum_archiv/pdf/2024/06/2024_06_F_120_Modification_TVA.pdf"
+    },
+    {
+      "filename": "etudec_ecarts_salaraiux_suisse_2025.pdf",
+      "title": "Étude sur les écarts salariaux en Suisse 2025",
+      "description": "Analyse des écarts salariaux entre dirigeants et employés en Suisse pour l'année 2025, incluant données, tendances et recommandations officielles du syndicat Unia.",
+      "date": "2025-09-17",
+      "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
     }
   ],
   "Articles": [
@@ -142,6 +214,196 @@
           "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
         }
       ]
+    },
+    {
+      "slug": "reforme-fiscale-geneve-2025-impact-contribuables-pme",
+      "title": "Réforme fiscale Genève 2025 : quels impacts pour les contribuables et les PME ?",
+      "description": "Analyse concrète de la réforme fiscale 2025 à Genève : baisse des taux, nouveautés sur les acomptes, fiscalité immobilière, et premiers conseils pratiques pour optimiser sa situation en 2025–2026.",
+      "content": "La réforme fiscale adoptée à Genève en 2025 apporte des changements profonds pour les contribuables, propriétaires et entreprises du canton. Découvrons les points clés à anticiper pour la déclaration 2026, les stratégies d’optimisation à adopter dès maintenant, et les réponses aux questions les plus fréquentes. \n\n# 1. Baisse inédite de l’impôt sur le revenu \nGenève allège sa fiscalité dès 2025 : les taux baissent entre 5,3 % et 11,4 %, ciblant avant tout la classe moyenne mais aussi les contribuables modestes et, de façon moindre, les ménages aisés. Les PME et indépendants bénéficient indirectement de ce levier, notamment pour la rémunération des entrepreneurs et la planification des retraits en dividendes. \n\n# 2. Nouveaux barèmes applicables en 2026 \nTous les contribuables rempliront leurs prochaines déclarations avec les nouveaux barèmes. Il est donc crucial d’ajuster les acomptes dès aujourd’hui. Principale nouveauté opérationnelle : possibilité de régler les acomptes annuels en 12 mensualités (vs 10 précédemment), améliorant la trésorerie des petites entreprises et la gestion familiale. \n\n# 3. Fiscalité immobilière et impôt sur la fortune \nEn lien avec la loi LEFI, la valeur fiscale des biens immobiliers achetés avant fin 2014 augmente de 12 %. Cependant, l’impôt sur la fortune diminue de 15 %. Cela compense partiellement la hausse de l’assiette de calcul. Pour les propriétaires, il devient indispensable d’évaluer s’il est pertinent de procéder à des travaux, d’anticiper les éventuels arbitrages successoraux ou immobiliers, et d’optimiser sa déclaration dès 2025. \n\n# 4. Fiscalité des PME : opportunités et vigilance \nPour les entreprises, l’imposition minimale des personnes morales, les pratiques de télétravail pour les frontaliers ou la gestion des sociétés civiles immobilières peuvent induire de nouvelles obligations en matière de documentation, de reporting et de compliance (notamment via l’e-démarche fiscale). Il est conseillé de solliciter son fiduciaire pour cartographier précisément sa situation. \n\n# 5. Conseils pratiques pour Q4 2025–2026 \n• Réajuster vos acomptes (revenus professionnels, immobiliers, dividendes : simulez avec les nouveaux taux) ;\n• Revue des valeurs immobilières et de la fortune déclarée ;\n• Planifier tout rachat de prévoyance ou changements structurants avant le 31.12.2025 ;\n• Anticiper tout arbitrage familial (donation, succession, changement de domiciliation) en intégrant la nouvelle donne fiscale genevoise.\n\n# Mots-clés tendance :\n- réforme fiscale Genève 2025\n- impôt 2025 PME Genève\n- fiscalité immobilière Genève\n- taux impôt Genève 2025\n- déclaration d’impôt 2026\n\nPour toute question personnalisée ou optimisation stratégique, notre équipe vous accompagne : conseil fiscal, support à la déclaration, analyse de paie, consultation TVA et Swiss GAAP FER, jusqu’à l’implémentation Odoo.\n",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Réforme fiscale Genève officielle",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        },
+        {
+          "labelKey": "Changements fiscaux Genève 2025",
+          "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
+        },
+        {
+          "labelKey": "Analyse Econostrum 2025",
+          "url": "https://econostrum.info/suisse/geneve-reforme-fiscale-historique-2025/"
+        },
+        {
+          "labelKey": "Finances publiques Genève juin 2025",
+          "url": "https://geneve-attractive.ch/sites/default/files/source/docs/crea_financespubliques_juin2025.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "optimiser-fiscalite-geneve-2025-preparer-2026",
+      "title": "Optimiser sa fiscalité à Genève en 2025 : mesures et conseils pour PME et indépendants",
+      "description": "Quels sont les changements fiscaux majeurs à Genève pour 2025 ? Comment optimiser sa situation et anticiper la déclaration d’impôt 2026 ? Tour d’horizon précis pour PME, indépendants et entrepreneurs, avec conseils pratiques et tendances clés.",
+      "content": "L’année 2025 s’annonce riche en nouveautés fiscales à Genève. PME, indépendants et entrepreneurs doivent s’adapter à des évolutions majeures afin de réduire leur charge fiscale, rester conformes et anticiper efficacement la déclaration 2026.\n\nPrincipaux changements fiscaux à Genève en 2025\n\n1. Recul de l’impôt sur le revenu pour les particuliers\nDepuis le 1er janvier 2025, le barème cantonal et communal a baissé entre 11,4 % et 5,3 %. Cela implique des économies sensibles pour nombre de contribuables. En revanche, les acomptes restent calés sur les déclarations précédentes, prudence donc sur les montants à anticiper.\n\n2. Paiement des acomptes : mensualisation facilitée\nNouvelle flexibilité : les acomptes peuvent désormais être réglés sur 12 mois au lieu de 10, permettant une meilleure gestion de trésorerie pour entreprises et indépendants.\n\n3. Fiscalité immobilière : effets de la loi LEFI\nTous les biens immobiliers acquis avant fin 2014 voient leur valeur fiscale augmenter de 12%. Parallèlement, la charge d’impôt sur la fortune baisse de 15%. Les propriétaires doivent vérifier l’impact exact selon leur situation.\n\n4. Télétravail et transfrontalier : attention à la fiscalité mixte\nLa clarification du traitement fiscal des frontaliers en télétravail peut générer des régularisations (employeurs : mise à jour des pratiques conseillée).\n\n5. Nouvelles modalités pour sociétés (Rulings, imposition minimale, SCI)\nLes PME et entreprises soumises à l’imposition minimum ou impliquées dans des structures de type sociétés civiles immobilières (SCI) doivent faire le point sur les derniers ajustements (voir Panorama fiscal AFC 2025).\n\nConseils clés pour optimiser sa fiscalité en 2025–2026\n- Mettre à jour sa planification fiscale personnelle et d’entreprise\n- Anticiper l’éventuelle hausse de valeur sur anciens biens immobiliers\n- Ajuster le paiement des acomptes pour éviter intérêts inutiles\n- Revoir les statuts des sociétés/fusion/SCI avec un expert-comptable\n- Accompagner les collaborateurs transfrontaliers sur les nouvelles règles de télétravail\n- Bénéficier d’un audit fiscal 2025 pour sécuriser les choix d’optimisation\n\nTendances Google Trends constatées\n- \"Baisse impôt Genève 2025\"\n- \"Mensualisation acomptes impôts\"\n- \"Fiscalité PME Genève 2025\"\n- \"Télétravail impôts frontaliers\"\nCes requêtes montrent l’intérêt croissant pour l’optimisation, la gestion proactive, ainsi que la compréhension des nouvelles règles fiscales, surtout pour les PME, indépendants et professions libérales.\n\nEn conclusion :\nS’adapter aux changements fiscaux à Genève en 2025 exige proactivité et compétences. Nos experts accompagnent PME et indépendants sur tous ces sujets : fiscalité, TVA, implémentation Odoo, outsourcing, paie et intégrations. Contactez-nous pour une analyse personnalisée.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Changements fiscaux Genève",
+          "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
+        },
+        {
+          "labelKey": "Panorama fiscal 2025 AFC",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        }
+      ]
+    },
+    {
+      "slug": "optimisation-fiscale-geneve-fin-2025",
+      "title": "Fiscalité des entreprises à Genève : Optimisations stratégiques face aux baisses de recettes et aux nouveautés 2026",
+      "description": "Panorama concret des stratégies d’optimisation fiscale pour les sociétés et indépendants à Genève à la lumière des prévisions fiscales revues à la baisse, des nouveautés TVA 2025 et des enjeux de fin d’année. Spécial préparation Q4 et anticipation 2026.",
+      "content": "La fiscalité d’entreprise à Genève connaît en cette rentrée 2025 des évolutions majeures, tant par les révisions de la TVA que par les perspectives économiques incertaines ayant conduit le canton à revoir à la baisse ses prévisions de recettes fiscales. Pour les PME, groupes et indépendants, l’automne représente une période stratégique pour anticiper les ajustements de fin d’année et préparer le prochain exercice, avec plusieurs opportunités et risques à considérer...\n\n**I. Panorama de la législation fiscale locale et des pressions conjoncturelles**\n- La révision partielle de la loi sur la TVA entrée en vigueur en janvier 2025 impose une adaptation des outils de facturation, l’obligation accrue de décompte en ligne et un renforcement du contrôle des flux transfrontaliers, particulièrement pour les plateformes numériques et les prestations B2B/B2C.\n- Par ailleurs, la baisse annoncée des recettes fiscales de l’Etat, principalement issues des entreprises, accroît la pression sur la gestion du résultat imposable et la planification des provisions, pertes reportables ou rachats de prévoyance (3e pilier, rachats LPP pour dirigeants).\n\n**II. Actions concrètes à court terme (Q4 2025)**\n- Optimiser le traitement TVA grâce à la nouvelle méthode des taux de la dette fiscale nette ou forfaitaires (analyse d’opportunité à faire avant le 31.12).\n- Profiter des échéances (amortissements accélérés, constitution ou dissolution de provisions, analyse des pertes reportables, etc.) pour ajuster le résultat 2025 et ainsi mieux maîtriser l’effet de l’assiette imposable.\n- Pour les groupes et sociétés internationales : planification des flux transfrontaliers et anticipation des nouvelles obligations déclaratives liées à l’AIA (échange automatique d’informations sur les comptes).\n\n**III. Préparer le succès de 2026**\n- Intégrer la digitalisation administrative (facturation électronique, décompte TVA via ePortal, intégration Odoo pour automatiser la paie, les écritures et la veille fiscale).\n- S’assurer de la conformité LPP, LAA et AC pour tous les collaborateurs (indépendants inclus, en particulier en contexte de télétravail).\n- Domiciliation et gouvernance : adapter ses statuts et PV pour maximiser la sécurité juridique et fiscale des flux intragroupe ou des activités commerciales étendues.\n\n**IV. Conseils Ark Fiduciaire**\nFaites auditer vos processus comptables, intégrations Odoo/ERP (principalement la gestion TVA et salaires) et déposez sans attendre vos demandes de prolongation ou de clarification auprès des administrations fiscales. Utilisez, dès 2025, les nouveaux outils e-démarches du Canton de Genève pour fluidifier vos relations avec l’AFC.\n\nPour un accompagnement personnalisé, évaluation de votre situation et préparation optimale de 2026, contactez Ark Fiduciaire, spécialiste PME, familles internationales et entrepreneurs en Suisse.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Modifications TVA 2025",
+          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+        },
+        {
+          "labelKey": "Panorama fiscal Genève 2025",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        },
+        {
+          "labelKey": "Prolongation du délai de décompte TVA",
+          "url": "https://fr.taxlawblog.ch/"
+        },
+        {
+          "labelKey": "Révision des recettes fiscales Genève",
+          "url": "https://www.radiolac.ch/actualite/geneve/les-previsions-de-recettes-fiscales-en-2025-revues-a-la-baisse/"
+        }
+      ]
+    },
+    {
+      "slug": "devancer-reformes-fiscales-entreprise-geneve-2026",
+      "title": "Comment anticiper les réformes fiscales 2026 pour votre entreprise à Genève ?",
+      "description": "Mémo pratique et à jour pour dirigeants et responsables financiers : points critiques, pièges à éviter, et leviers pour une fiscalité optimisée à Genève en 2025–2026.",
+      "content": "Genève s’apprête à connaître d’importants changements fiscaux, impactant directement les entreprises et indépendants. Face à ces évolutions, comment anticiper efficacement les prochaines réformes, optimiser votre fiscalité, et garantir la conformité de votre PME ou société genevoise pour 2026 ? Ce guide, pensé pour les dirigeants et responsables administratifs, s’appuie sur les dernières publications officielles et tendances Google, et intègre les particularités locales comme la taxe professionnelle communale, la RFFA, l’imposition minimale OCDE/G20, et la gestion du télétravail des frontaliers.\n\n1. État des lieux et tendances 2025–2026\nEn avril 2025, l’Administration fiscale cantonale a présenté les nouvelles règles et enjeux lors du Panorama fiscal (cf. document PDF en référence). Les sujets chauds : renforcement du principe d’imposition minimale pour les personnes morales, télétravail et mobilité internationale des collaborateurs, digitalisation des démarches fiscales et innovations comme la e-tax ou l’intégration d’Odoo pour la gestion administrative.\n\n2. Quelles nouveautés fiscales concrètes pour les entreprises à Genève ?\n- Imposition minimale (OCDE/G20) : En 2026, toute multinationale et PME concernée sera soumise à un taux effectif minimum de 15% sur le bénéfice imposable. Cela nécessite une revue urgente de la structure juridique et des flux financiers.\n- Télétravail et frontaliers : Les règles d’imposition et de cotisations évoluent (accords bilatéraux en adaptation). Bien préparer la paie et la comptabilité exige une veille régulière.\n- Digitaux et automatisation : Nouveaux logiciels agréés, e-tax, et solutions comme Odoo deviennent la norme pour faciliter le reporting et limiter les erreurs. Externaliser paie et administration à un partenaire local expert vous garantit conformité et efficacité.\n\n3. Points d’attention et pièges à éviter\n- Anticiper les décalages entre fiscalité cantonale et fédérale : certains taux, barèmes et démarches évoluent à des rythmes différents.\n- Surveillez particulièrement la taxe professionnelle communale, spécifique à Genève, et intégrez-la dans vos simulations.\n- Pensez à la déduction des dépenses R&D (Patent Box), encore sous-utilisée.\n\n4. Conseils pratiques pour se préparer à 2026\n- Réalisez un audit fiscal dès l’automne 2025 avec votre fiduciaire pour vérifier vos processus.\n- Mettez à jour vos logiciels de paie et de gestion, assurez leur compatibilité avec les normes Swissdec et Odoo.\n- Formez vos équipes financières : la veille digitale et réglementaire est plus que jamais essentielle.\n- Externalisez ce qui peut l’être (paie, fiscalité, administratif) auprès de partenaires genevois certifiés.\n\n5. Conclusion\n2025–2026 exige anticipation, rigueur et recours à des partenaires qui comprennent la réalité genevoise. Contactez Ark Fiduciaire pour une analyse personnalisée et des solutions sur mesure en comptabilité, fiscalité et paie.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Réformes fiscales Genève",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        },
+        {
+          "labelKey": "Obligations fiscales entreprises",
+          "url": "https://www.geneve.ch/public/entreprises/informations-utiles-entreprises-prestations-demarches/impots"
+        },
+        {
+          "labelKey": "Fiscalité RFFA Genève",
+          "url": "https://fidulex.ch/la-reforme-de-la-fiscalite-des-entreprises-guide-geneve/"
+        }
+      ]
+    },
+    {
+      "slug": "nouveautes-paie-geneve-2025-regles-frontaliers-teletravail",
+      "title": "Paie et employeurs à Genève : les nouveautés 2025 (frontaliers, télétravail, fiscalité, nouveaux seuils et règles pratiques)",
+      "description": "Synthèse des changements 2025 pour la gestion de la paie à Genève et en Suisse romande : nouveaux seuils AVS-LPP, allocations familiales, évolutions sur la prise en charge des véhicules électriques, télétravail transfrontalier, obligations fiscales et sécurité sociale à jour des dernières recommandations. Ce guide concret permet aux employeurs et indépendants de sécuriser leur conformité et anticiper les impacts administratifs et financiers pour Q4 2025 et 2026.",
+      "content": "L’année 2025 marque un tournant pour la gestion de la paie à Genève et dans toute la Suisse romande, avec des réformes d’importance pour les employeurs et indépendants soucieux de conformité et d’optimisation fiscale.\n\n1. Nouveaux plafonds et taux AVS/LPP/allocations familiales\nDès janvier 2025, le relèvement du plafond AVS, la revalorisation des allocations familiales (215 CHF enfant, 268 CHF formation minimum) et le seuil d’affiliation LPP modifié imposent une mise à jour immédiate des bases de calcul et logiciels de paie. Les salariés atteignant l’âge de référence (femmes: 64 ans et 3 mois si nées en 1961) doivent opter pour leur régime de franchise avant tout premier salaire 2025.\n\n2. Véhicules électriques et règlement des frais\nLes employeurs doivent intégrer désormais le coût des bornes de recharge domestique dans le salaire déterminant fiscal et social, en excluant ce montant du calcul de la réduction forfaitaire de 0,9%. L’indemnisation par forfait kilométrique pour frais professionnels reste possible, sur justificatif ou règlement interne approuvé, avec impact direct sur la déclaration fiscale et le certificat de salaire.\n\n3. Télétravail frontalier : régime transitoire 2025\nL’accord transitoire Suisse-France sur le télétravail est reconduit jusqu’au 31 décembre 2025. Pour Genève, jusqu’à 40% de l’activité annuelle peut être effectuée en télétravail depuis la France sans incidence fiscale pour l’employeur ni le salarié : le salaire est imposé intégralement à Genève. L’entreprise doit toutefois fournir attestation annuelle et informer ses collaborateurs des règles et droits (LPD, fiscalité, sécurité sociale, A1). Au-delà du seuil, l’assujettissement français s’applique pour la part de salaire concernée : une vigilance s’impose dès la planification de l’activité.\n\n4. Rentabilité, négociation salariale et tendances Q4 2025\nLa hausse des salaires nominaux (+1,4% en moyenne, supérieure dans secteurs en tension) ne compensera pas toujours l’inflation (primes maladies +6% en moyenne à Genève). Des ajustements sont particulièrement surveillés dans les branches de la santé, du commerce et de l’hôtellerie. Les employeurs doivent anticiper ces contraintes dans leur politique salariale comme dans l’actualisation de leur budget social 2026.\n\n5. Checklist de mise en conformité 2025 et bonnes pratiques\n- Vérifier et adapter tous les paramètres de paie dès janvier (taux, plafonds, forfaits)\n- Informer et documenter les choix de franchise AVS, LPP, règlement des frais, attestations transfrontalières\n- Assurer le suivi du télétravail pour frontaliers (atteinte des seuils, délivrance des attestations A1, transparence fiscale)\n- Se tenir informé des évolutions cantonales (allocations, fiscalité)\n- Recourir à l’externalisation ou à la digitalisation (Swissdec, Odoo paie, etc.) pour réduire risques d’erreur et optimiser la conformité\n\nPour une mise à jour en temps réel et la sécurité de votre gestion sociale, l’appui d’un spécialiste genevois ou l’externalisation via des outils agréés reste recommandée.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "TVA Changements 2025",
+          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+        },
+        {
+          "labelKey": "Paie 2025 Genève",
+          "url": "https://www.hr-campus.ch/fr/univers-rh/connaissances-rh/articles-specialises/paie-en-suisse-ce-qui-change-en-2025/"
+        },
+        {
+          "labelKey": "Guide employeur salarié 2025",
+          "url": "https://www.odmfiduciaire.ch/2025/03/04/salaires-et-impots-en-suisse-le-guide-employeur-employe-2025/"
+        },
+        {
+          "labelKey": "Frontaliers télétravail",
+          "url": "https://www.hrtoday.ch/fr/article/les-changements-venir-pour-lemployeur-au-1er-janvier-2025"
+        }
+      ]
+    },
+    {
+      "slug": "optimisation-fiscale-entreprises-geneve-reformes-2025",
+      "title": "Optimisation fiscale des entreprises à Genève : anticiper les réformes 2025 et préparer 2026",
+      "description": "Analyse concrète des stratégies d’optimisation fiscale pour PME à Genève face aux réformes fiscales de 2025 : taux actualisés, planification TVA, gestion des dividendes et déductions, valorisation des actifs. Conseils pratiques pour dirigeants, CFO, indépendants, et responsables comptables en vue du Q4 2025 et début 2026.",
+      "content": "En 2025, la fiscalité des entreprises à Genève et en Suisse romande profite de plusieurs réformes : baisse du taux de l’impôt sur le bénéfice dans certains cantons, ajustement des déductions fiscales, et simplification attendue de la fiscalité successorale. Pour les entreprises, il s’agit d’une opportunité immédiate d’optimisation pour le Q4 2025 et de préparation à 2026.  \n\n<strong>1. Nouveaux taux et barèmes :</strong> \nÀ Genève, les réductions du taux d’imposition sur le bénéfice rendent attractifs les placements et la distribution de dividendes avant la clôture de l’exercice. Il est judicieux d’anticiper la clôture en planifiant les provisions et en pilotant la rémunération des dirigeants.  \n\n<strong>2. TVA : dernières pratiques et taux 2025</strong> \nL’entrée en vigueur en 2025 de la révision partielle de la TVA impose une vérification des taux appliqués (notamment secteurs immobiliers et prestations de services transfrontalières). L’outsourcing administratif pour la gestion de la TVA, l’usage de Odoo pour l’automatisation des factures, et la bonne gestion des échéances permettent d’éviter des corrections coûteuses lors d’un contrôle fiscal【5:4†source】.  \n\n<strong>3. Déductions et véhicules fiscaux</strong> \nL’attention doit être portée sur la déduction des intérêts passifs et des amortissements, pour bénéficier au mieux des nouvelles règles. Les entreprises familiales à Genève gagnent à anticiper la transmission dans le cadre fiscal actuel, avant d’éventuels durcissements fédéraux.  \n\n<strong>4. Gestion des salaires, LPP, LAA et outsourcing paie</strong> \nFace à la hausse générale des salaires (2,3 % en 2025)【7:4†source】, l’externalisation de la paie et le recours à swissdec garantissent conformité et sécurité, notamment avec des outils digitaux. \n\n<strong>5. Gouvernance, compliance et sécurité numérique</strong> \nLes AG et PV doivent refléter de manière transparente les décisions liées aux réformes fiscales. Les risques cyber sont aussi fiscaux : la gouvernance numérique entre dans le champ de la compliance, notamment pour la protection des données fiscales des clients et partenaires【9:2†source】.\n\n<strong>Mots-clés à valoriser :</strong> fiscalité Genève 2025, taux imposition PME Genève, réforme impôt Genève, TVA 2025 Suisse, optimisation fiscale PME, transmission entreprise Genève, outsourcing administratif Genève, gestion Odoo Suisse, externalisation paie Genève, Swiss GAAP FER.\n\nPour aller plus loin : faites évaluer gratuitement l’exposition fiscale et l’organisation interne de votre PME. Contactez notre cabinet à Genève pour un audit optimisé et un accompagnement sur mesure avant la clôture 2025.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Fiscalité entreprises GE",
+          "url": "https://fbk-conseils.ch/fiscalite-dune-pme-en-suisse-tout-comprendre-sur-les-impots/"
+        },
+        {
+          "labelKey": "Réformes fiscales 2025",
+          "url": "https://www.lombardodier.com/fr/insights/2025/july/tax-in-switzerland.html"
+        },
+        {
+          "labelKey": "Cybersécurité & compliance GE",
+          "url": "https://www.lombardodier.com/fr/insights/2025/june/business-owners-face-new-risks-around-tax.html"
+        }
+      ]
+    },
+    {
+      "slug": "anticiper-tva-geneve-fin-2025-preparer-2026",
+      "title": "Anticiper la TVA à Genève fin 2025 : comment préparer 2026 ?",
+      "description": "Guide concret pour les PME et indépendants à Genève : anticiper les adaptations de déclaration, comptabilisation et contrôles TVA avec l'évolution réglementaire et numérique fin 2025 et début 2026.",
+      "content": "La transition vers la fin d’année civile est toujours stratégique pour les entreprises genevoises assujetties à la TVA. En 2025, la pression s’accentue avec la digitalisation accélérée des démarches (e-démarches AFC, facturation électronique QR-MwST), la généralisation de l’e-contrôle, et le durcissement des pénalités en cas d’omissions ou d’erreurs. Comprendre les nouveautés – y compris les obligations accrues en matière d’archivage numérique, la traçabilité des écritures via Swiss GAAP FER ou Odoo, et la préparation des soldes TVA trimestriels/annuels – est indispensable pour éviter tout contrôle fiscal coûteux en 2026. Ce guide balaye :\n\n- Les changements récents sur le portail AFC et leur impact direct sur la saisie des déclarations (nouveaux champs, validation automatique, signature électronique obligatoire pour certains envois).\n- Optimiser la tenue et les rapprochements des comptes TVA avec Odoo pour PME (journalisation automatisée, suivi des régularisations TVA sur subventions et corrections d’erreurs antérieures).\n- Les points de vigilance sur la TVA mixte (secteurs d’activité multiples, taux réduits vs normaux) et la façon de ventiler efficacement ses opérations.\n- Préparer un pré-contrôle documentaire selon les nouveaux standards en vigueur : liens entre paie (swissdec), facturation, et concaténation avec les annexes de déclaration.\n- FAQ sur les contrôles anticipés par l’AFC à Genève : délais, nature des documents exigibles, erreurs fréquentes à éviter, recours…\n\nEn résumé, entreprises et indépendants doivent sécuriser leur processus administratif et financier dès Q4-2025 pour être prêts à toute vérification en 2026. L’externalisation partielle ou totale de la gestion TVA, associée à un progiciel interfacé type Odoo, réduit le risque d’erreur et optimise la conformité. Pour un accompagnement personnalisé et la mise en place de bonnes pratiques, n’hésitez pas à consulter nos experts certifiés.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "fedlex_loi_tva",
+          "url": "https://www.fedlex.admin.ch/eli/cc/2009/72/fr"
+        }
+      ]
+    },
+    {
+      "slug": "impacts-tva-2025-geneve-pme",
+      "title": "Impacts pratiques de la réforme TVA 2025 pour les PME à Genève : conformité, pièges et opportunités",
+      "description": "Analyse concrète des nouvelles obligations TVA 2025 pour PME à Genève (adaptation outils, formation paie/compta), checklist de conformité, points de vigilance spécifiques au tissu économique genevois, et opportunités d’optimisation fiscale à saisir dès le second semestre 2025. Article orienté action et accessible aux dirigeants et responsables administratifs.",
+      "content": "La réforme de la TVA 2025 entrée en vigueur en Suisse concerne de très nombreuses entreprises de Genève et de Suisse romande, qui doivent s’adapter sans délai pour garantir leur conformité. Cet article vous propose une décomposition claire des enjeux, les étapes pratiques pour réussir cette transition, une checklist à destination de vos responsables administration ou direction et des réponses aux questions fréquentes posées depuis la rentrée 2025.\n\n**1. Quelles sont les modifications clés ?**\nDepuis le 1.1.2025, les taux de TVA ont évolué (normal : 8,1 %, réduit : 2,6 %, spécial hébergement : 3,8 %) et de nouvelles obligations de déclaration électronique sont entrées en vigueur (fichiers, formulaires, annexe de dégrèvement, déclaration en ligne obligatoire selon profils). Les régimes forfaitaires et la méthode par taux de la dette fiscale nette sont aussi concernés.\n\n**2. Pour qui ces changements sont-ils critiques à Genève ?**\n- Les PME actives dans le service, l’artisanat et la distribution (commerce B2B et B2C)\n- Indépendants dépassant le seuil de 100'000 CHF par année\n- Sociétés holdings et gestionnaires immobiliers\n- Associations et fondations employant des collaborateurs\n- Entreprises bénéficiaires de subventions ou actives avec des plateformes digitales\n\n**3. Points de vigilance spécifiques Genève**\n- Prise en compte dès Q4 2025 dans tous systèmes Odoo, Abacus ou Winbiz\n- Alignement entre la facturation, la paie (avantages fiscaux, formation interne à la nouvelle LPP/AVS/LAA liée), et la comptabilité Swiss GAAP FER\n- Déclaration électronique obligatoire (e-TVA) : guides pratiques sur l’espace AFC\n- Des contrôles renforcés annoncés pour Genève (délai, sanctions administratives, focus sur secteur immobilier et consulting)\n\n**4. Checklist express pour direction PME :**\n- Mettre à jour le paramétrage de vos logiciels comptables et paie (Odoo, Winbiz, Abacus)\n- Vérifier les modèles de facturation client/fournisseur et automatiser l'affichage du bon taux\n- Former responsables paie/compta sur les nouveaux seuils et exemptions\n- Synchroniser la politique de facturation et d'archivage avec votre fiduciaire\n- Surveiller les flux transfrontaliers : exonérations, seuils, mentions obligatoires\n\n**5. Opportunités d’optimisation et missions conseil :**\n- Revue de vos modèles contractuels et CGV hors TVA (éviter les redressements, intégrer la nouvelle logique)\n- Externalisation ou délégation à une fiduciaire pour la gestion des décomptes et contrôles AFC\n- Digitalisation des process administratifs et synergies avec d’autres obligations RH/administrative (notamment pour LPP/AVS/LAA)\n\n**Mots clés SEO (tendances Suisse romande 2025)** : TVA 2025, réforme fiscale Genève, conformité PME, outsourcing administratif, gestion de la paie, Swiss GAAP FER, TVA électronique, Odoo Genève, optimisation fiscale, audit TVA, fiscalité entreprise 2025 Suisse, décompte TVA en ligne, actualités fiscales Genève.\n\nPour aller plus loin, la documentation officielle et le support de l’Administration fédérale des contributions ainsi que les outils recommandés sont listés ci-dessous.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "TVA AFC 2025",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
+        },
+        {
+          "labelKey": "Checklist AFC e-TVA",
+          "url": "https://www.amsuisse.ch/fileadmin/forum_archiv/pdf/2024/06/2024_06_F_120_Modification_TVA.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "tva-2025-geneve-impact-pme-revision-fiscale",
+      "title": "Réforme TVA 2025 : ce qui change pour les PME à Genève et comment s’adapter",
+      "description": "Un guide pratique sur la réforme TVA 2025 destiné aux dirigeants de PME à Genève : nouvelles obligations, mesures pratiques à mettre en place dès l’automne 2025, pièges à éviter, et conseils pour optimiser ses processus fiscaux en prévision de 2026.",
+      "content": "La réforme partielle de la TVA, entrée en vigueur au 1er janvier 2025, a un impact concret sur les PME genevoises. Elle s’inscrit dans un contexte de digitalisation accrue, avec de nouvelles obligations mais aussi des opportunités pour anticiper les exigences réglementaires jusqu’en 2026. \n\nPoints clés de la réforme : \n- Obligation pour TOUT assujetti de décompter la TVA via le portail officiel en ligne (fin du papier, choix : “pro” ou “easy”). \n- Nouvelles règles pour les plateformes de vente en ligne : toute plateforme réalisant des ventes en Suisse, même via des partenaires étrangers, doit collecter et reverser la TVA. \n- Les taux sont adaptés : certains produits passent au taux réduit (comparer avec votre nomenclature). \n- Clarifications pour les subventions, les méthodes simplifiées (taux forfaitaire ou dette fiscale nette) et les exceptions sectorielles. \n\nÉtapes recommandées pour les PME : \n1. Vérifier (et, le cas échéant, mettre à jour) votre méthode de décompte TVA ; \n2. Se former à l’utilisation du nouveau portail TVA si ce n’est déjà fait ; \n3. Anticiper l’assujettissement si vous vendez via une plateforme ou si vos clients le font (notamment e-commerce) ; \n4. Adapter votre paramétrage comptable/ERP, en particulier les taux et codes TVA (Odoo, etc.) ; \n5. Préparer une communication aux clients et partenaires, pour garantir une conformité partagée. \n\nFocus Genève : En Suisse romande, Genève a confirmé l’accompagnement spécifique des PME pour la transition digitale TVA. Des sessions d’information sont organisées avec la Chambre de commerce et l’AFC. \n\nMots-clés tendance Google 2025 : TVA 2025 Suisse, portail TVA en ligne, taux TVA Genève, e-commerce TVA, compliance fiscale PME Genève, Swiss GAAP FER et TVA, digitalisation administrative, conformité Odoo TVA. \n\nL’anticipation, la formation et l’appui externe sont des investissements immédiats qui éviteront litiges, pénalités, et surcoûts en 2026.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "TVA Réforme 2025 AFC",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
+        },
+        {
+          "labelKey": "TVA Mémo pratique Genève",
+          "url": "https://fidulex.ch/revision-de-la-tva-changements-cles-en-2025/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -165,5 +427,25 @@
     "Accounting": "Comptabilité",
     "Tax": "Fiscalité",
     "Payroll": "Paie"
-  }
+  },
+  "guideTVA2024AFC": "Instruction officielle AFC sur le relèvement des taux de TVA 2024 en Suisse",
+  "infoTVAentreprisesGeneve": "Conseils pratiques pour les entreprises genevoises sur la hausse de la TVA 2024",
+  "Changements fiscaux Genève": "Réformes récentes et impact sur impôts 2025",
+  "Panorama fiscal 2025 AFC": "Synthèse et actualités fiscales officielles Genève",
+  "Modifications TVA 2025": "Changements TVA Suisse 2025",
+  "Optimisation fiscale Genève": "Stratégies d’optimisation fiscale à Genève",
+  "Réformes fiscales Genève": "Réformes et nouveautés fiscales à Genève",
+  "Fiscalité entreprise 2026": "Préparation fiscale pour l’année 2026",
+  "TVA Changements 2025": "Modifications TVA respectives entrées en vigueur en 2025",
+  "Paie 2025 Genève": "Mises à jour paie et charges sociales Genève 2025",
+  "Guide employeur salarié 2025": "Guide pratique salaires et impôts en Suisse 2025",
+  "Frontaliers télétravail": "Fiscalité et télétravail pour frontaliers dès 2025",
+  "Fiscalité immobilière Genève": "Fiscalité directe des propriétaires et entreprises immobilières à Genève",
+  "Optimisation PME Genève": "Astuce fiscale et préparation des entreprises locales face aux nouvelles lois",
+  "Administration fiscale Genève TVA": "TVA Genève instructions et démarches",
+  "Déclaration TVA AFC": "Portail fédéral déclaration TVA",
+  "TVA AFC 2025": "Modifications TVA 2025 document officiel",
+  "Checklist AFC e-TVA": "Checklist mise en conformité e-TVA Suisse 2025",
+  "TVA Réforme 2025": "L'essentiel de la réforme TVA 2025 et conséquences pratiques",
+  "Écarts salariaux 2025": "Données récentes sur les variations salariales en Suisse romande"
 }

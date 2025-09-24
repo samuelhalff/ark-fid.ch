@@ -4,8 +4,8 @@ const PayrollHero = ({ params }: { params: { locale: string } }) => {
   return (
     <ServiceHero
       namespace="payroll"
-      imageSrc="/assets/services/hr-services.webp"
-      imageAlt="Payroll & HR Services"
+      imageSrc="/assets/hero/services/payroll-hero.webp"
+      imageAlt="Historic blue tram on snowy tracks under clear winter sky, Switzerland"
       locale={params.locale}
       badge1Key="Hero.Badge"
       badge1Fallback="Swiss Standards"
@@ -17,8 +17,6 @@ const PayrollHero = ({ params }: { params: { locale: string } }) => {
       descriptionFallback="We manage payroll processing, including salary calculations, payslip generation, and compliance with Swiss labor laws."
       ctaKey="Hero.CTA"
       ctaFallback="Contact us"
-      secondaryCtaKey="Hero.SecondaryCTA"
-      secondaryCtaFallback="Meet the Team"
     />
   );
 };

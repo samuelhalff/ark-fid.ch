@@ -1,10 +1,11 @@
 {
+    "ImageAlt": "Aerial view of lush forest meeting turquoise Swiss lake",
     "Hero": {
         "Badge": "Outsourcing",
-        "BadgeTwo": "BPO Experts",
+        "BadgeTwo": "BPO experts",
         "Title": "Outsourcing",
         "Description": "Ark Fiduciaire offers outsourcing solutions for your accounting, payroll, and administrative tasks. Focus on your core business while we handle the rest with expertise and confidentiality.",
-        "CTA": "Contact us",
+        "CTA": "Streamline my operations",
         "SecondaryCTA": "Meet the Team"
     },
     "Presentation": {

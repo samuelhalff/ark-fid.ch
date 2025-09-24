@@ -26,6 +26,13 @@ export default function ServicesMobile({
     title: string;
   }>;
 
+  function normalizeHref(href: string) {
+    if (!href) return href;
+    href = href.replace(/\/services\/services(\/|$)/, "/services/$1");
+    href = href.replace(/([^:])\/+/g, "$1/");
+    return href;
+  }
+
   return (
     <div>
       <div className="flex items-center gap-3 text-md px-2 py-2 rounded font-medium border-b rounded-none border-muted">
@@ -35,7 +42,7 @@ export default function ServicesMobile({
         {items.map((service) => (
           <Link
             key={service.href}
-            href={`${localePrefix}${service.href}`}
+            href={`${localePrefix}${normalizeHref(service.href)}`}
             prefetch={false}
             onClick={onLinkClick}
             locale={locale}

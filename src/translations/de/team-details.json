@@ -1,0 +1,92 @@
+{
+    "Details": {
+        "hassan-barbir": {
+            "education": [
+                "LL.M. Steuerrecht, Universität Genf",
+                "Master in Rechtswissenschaften, Universität Genf",
+                "Bachelor in Rechtswissenschaften, Universität Genf"
+            ],
+            "languages": [
+                "Französisch",
+                "Englisch",
+                "Italienisch"
+            ],
+            "memberships": [
+                "ODAGE",
+                "FSA"
+            ],
+            "credentials": [
+                "Anwaltspatent Genf (2013)"
+            ]
+        },
+        "samuel-halff": {
+            "education": [
+                "LL.M., UCLA (University of California, Los Angeles)",
+                "Master in Rechtswissenschaften, Universität Genf"
+            ],
+            "languages": [
+                "Französisch",
+                "Englisch",
+                "Deutsch"
+            ],
+            "credentials": [
+                "Anwaltspatent Genf (2013)"
+            ]
+        },
+        "anthony-touboul": {
+            "education": [
+                "LL.M., Steuerrecht, Universität Genf (2011–2013)",
+                "Master, Wirtschafts- und Steuerrecht (DJCE), Université Jean Moulin Lyon III (2004–2006)"
+            ]
+        },
+        "rodrigue-sperisen": {
+            "education": [
+                "Master in Rechtswissenschaften, Universität Neuenburg"
+            ],
+            "languages": [
+                "Französisch",
+                "Englisch"
+            ],
+            "memberships": [
+                "ODAGE",
+                "FSA",
+                "OAR SFA-FSN",
+                "STEP",
+                "ASDS",
+                "Fondation pour le droit de l'art"
+            ],
+            "credentials": [
+                "Anwaltspatent Genf (2005)",
+                "STEP Diplom (2009)"
+            ]
+        },
+        "sebastien-gallie": {
+            "education": [
+                "Eidg. dipl. Treuhandexperte (Romandie Formation, 2022–2025)",
+                "Eidg. Fachausweis Treuhänder (Cursus Formation, 2018–2021)"
+            ]
+        },
+        "lassana-dioum": {
+            "education": [
+                "Master in Wirtschaftsrecht, Universität Genf",
+                "Bachelor in Rechtswissenschaften, Universität Genf",
+                "HEC, Universität Genf"
+            ],
+            "languages": [
+                "Französisch",
+                "Englisch",
+                "Spanisch"
+            ],
+            "memberships": [
+                "ODAGE",
+                "FSA",
+                "IBA",
+                "IFA",
+                "AIJA"
+            ],
+            "credentials": [
+                "Anwaltspatent Genf (2012)"
+            ]
+        }
+    }
+}

@@ -1,10 +1,11 @@
 {
+    "ImageAlt": "Vista aérea de uma estrada de montanha sinuosa na Suíça",
     "Hero": {
-        "Badge": "Serviços Fiscais",
+        "Badge": "Serviços fiscais",
         "BadgeTwo": "Assistido por IA",
         "Title": "Tributação",
         "Description": "A Ark Fiduciaire oferece serviços fiscais especializados para indivíduos e empresas. Otimizamos sua situação fiscal, garantimos conformidade e fornecemos consultoria estratégica para todas suas obrigações fiscais na Suíça.",
-        "CTA": "Entre em contato",
+        "CTA": "Otimizar meus impostos",
         "SecondaryCTA": "Conhecer a equipe"
     },
     "Presentation": {

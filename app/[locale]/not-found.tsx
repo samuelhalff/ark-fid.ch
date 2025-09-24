@@ -188,58 +188,7 @@ export default async function NotFoundPage() {
             ? "Pesquisar"
             : "Search"}
         </h2>
-        <form
-          action={`${localePrefix}/ressources`}
-          method="get"
-          role="search"
-          className="flex gap-2"
-        >
-          <label htmlFor="q" className="sr-only">
-            {locale === "fr"
-              ? "Rechercher"
-              : locale === "de"
-              ? "Suchen"
-              : locale === "es"
-              ? "Buscar"
-              : locale === "pt"
-              ? "Pesquisar"
-              : "Search"}
-          </label>
-          <input
-            id="q"
-            name="q"
-            type="search"
-            className="w-full max-w-md rounded-md border px-3 py-2"
-            placeholder={
-              locale === "fr"
-                ? "Rechercher un article ou un service"
-                : locale === "de"
-                ? "Artikel oder Dienst suchen"
-                : locale === "es"
-                ? "Buscar un artículo o servicio"
-                : locale === "pt"
-                ? "Pesquisar um artigo ou serviço"
-                : "Search an article or service"
-            }
-            autoCapitalize="none"
-            autoCorrect="off"
-            autoFocus
-          />
-          <button
-            type="submit"
-            className="rounded-md bg-primary px-4 py-2 text-primary-foreground"
-          >
-            {locale === "fr"
-              ? "Rechercher"
-              : locale === "de"
-              ? "Suchen"
-              : locale === "es"
-              ? "Buscar"
-              : locale === "pt"
-              ? "Pesquisar"
-              : "Search"}
-          </button>
-        </form>
+        {/* Search form removed per UX simplification request */}
       </section>
 
       <div className="mt-10 text-center">

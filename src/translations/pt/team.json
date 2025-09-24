@@ -8,5 +8,15 @@
         "OfficeProjectManager": "Office & Project Manager",
         "SeniorAccountant": "Contador Sênior",
         "Associate": "Associado"
+    },
+    "Labels": {
+        "Education": "Formação",
+        "Languages": "Idiomas",
+        "Memberships": "Associações",
+        "Credentials": "Credenciais"
+    },
+    "PBM": {
+        "Note": "Sócio sênior no escritório PBM.",
+        "LearnMore": "Saiba mais"
     }
 }

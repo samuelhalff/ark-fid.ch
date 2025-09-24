@@ -18,6 +18,8 @@ interface BreadcrumbsProps {
   className?: string;
   /** When true, if first crumb label === rootLabel, the root link is hidden to avoid duplication. */
   hideRootWhenDuplicate?: boolean;
+  /** Max characters per crumb label before truncating with ellipsis. 0 or undefined disables truncation. */
+  maxLabelChars?: number;
 }
 
 // Basic label fallback: capitalize + replace hyphens
@@ -34,6 +36,7 @@ export default function Breadcrumbs({
   segments,
   className,
   hideRootWhenDuplicate = true,
+  maxLabelChars = 38,
 }: BreadcrumbsProps) {
   const pathname = usePathname();
 
@@ -89,33 +92,40 @@ export default function Breadcrumbs({
             </Link>
           </li>
         )}
-        {crumbs.map((c, i) => (
-          <li
-            key={c.href}
-            className="flex items-center gap-1 min-w-0 max-w-[12rem]"
-          >
-            {(showRoot || i > 0) && (
-              <span className="select-none text-muted-foreground/60">/</span>
-            )}
-            {i === crumbs.length - 1 ? (
-              <span
-                aria-current="page"
-                className="font-medium text-foreground block truncate"
-                title={c.label}
-              >
-                {c.label}
-              </span>
-            ) : (
-              <Link
-                href={c.href}
-                className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded-sm block truncate"
-                title={c.label}
-              >
-                {c.label}
-              </Link>
-            )}
-          </li>
-        ))}
+        {crumbs.map((c, i) => {
+          const full = c.label;
+          const truncated =
+            maxLabelChars && maxLabelChars > 0 && full.length > maxLabelChars
+              ? full.slice(0, maxLabelChars - 1) + "…"
+              : full;
+          return (
+            <li
+              key={c.href}
+              className="flex items-center gap-1 min-w-0 max-w-[12rem]"
+            >
+              {(showRoot || i > 0) && (
+                <span className="select-none text-muted-foreground/60">/</span>
+              )}
+              {i === crumbs.length - 1 ? (
+                <span
+                  aria-current="page"
+                  className="font-medium text-foreground block truncate"
+                  title={full}
+                >
+                  {truncated}
+                </span>
+              ) : (
+                <Link
+                  href={c.href}
+                  className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded-sm block truncate"
+                  title={full}
+                >
+                  {truncated}
+                </Link>
+              )}
+            </li>
+          );
+        })}
       </ol>
     </nav>
   );

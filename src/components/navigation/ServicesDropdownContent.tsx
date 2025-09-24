@@ -56,6 +56,14 @@ export default function ServicesDropdownContent({
   navData: NavData;
 }) {
   const localePrefix = locale ? `/${locale}` : "";
+  function normalizeHref(href: string) {
+    if (!href) return href;
+    // Remove accidental double /services/services occurrences
+    href = href.replace(/\/services\/services(\/|$)/, "/services/$1");
+    // Collapse any duplicate slashes (except after protocol if any)
+    href = href.replace(/([^:])\/+/g, "$1/");
+    return href;
+  }
   return (
     <NavigationMenuContent className="left-auto right-0">
       <ul className="grid w-[400px] gap-2 md:w-[350px] md:grid-cols-2 lg:w-[600px]">
@@ -63,7 +71,7 @@ export default function ServicesDropdownContent({
           <ListItem
             key={component.titleKey}
             title={navData.services[idx]?.title || component.titleKey}
-            href={localePrefix + component.href}
+            href={localePrefix + normalizeHref(component.href)}
             icon={component.icon}
             locale={locale}
           >

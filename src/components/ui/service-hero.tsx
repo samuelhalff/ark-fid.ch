@@ -1,9 +1,10 @@
-import { ArrowUpRight, BadgeCheckIcon, Users } from "lucide-react";
+// Inline minimal arrow icon to avoid pulling lucide-react into shared chunk
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
+import heroBlurData from "@/src/lib/heroBlurData.json";
 
 interface ServiceHeroProps {
   namespace: string;
@@ -19,10 +20,9 @@ interface ServiceHeroProps {
   descriptionFallback: string;
   ctaKey: string;
   ctaFallback: string;
-  secondaryCtaKey: string;
-  secondaryCtaFallback: string;
   locale?: string;
 }
+
 const ServiceHero = async ({
   namespace,
   imageSrc,
@@ -37,16 +37,26 @@ const ServiceHero = async ({
   descriptionFallback,
   ctaKey,
   ctaFallback,
-  secondaryCtaKey,
-  secondaryCtaFallback,
   locale,
 }: ServiceHeroProps) => {
   const currentLocale = (locale as Locale) || ("fr" as Locale);
   const t = await getTranslations(currentLocale, namespace);
   const localePrefix = locale ? `/${locale}` : "/fr";
 
+  const ArrowIcon = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      className="h-5! w-5!"
+    >
+      <path d="M7 17a1 1 0 0 0 1.707.707l7.586-7.586V16a1 1 0 1 0 2 0V6a1 1 0 0 0-1-1H9a1 1 0 1 0 0 2h5.879L7.293 15.586A1 1 0 0 0 7 16v1z" />
+    </svg>
+  );
+
   return (
-    <div className="min-h-[calc(100vh-4rem)] max-w-[var(--breakpoint-xl)] w-full flex items-center justify-center overflow-hidden border-b border-accent mx-auto px-6">
+    <div className="relative min-h-[calc(100vh-4rem)] max-w-[var(--breakpoint-xl)] w-full flex items-center justify-center overflow-hidden border-b border-accent mx-auto px-6">
       <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
         <div className="flex-1 max-w-3xl text-center animate-in fade-in duration-800">
           <div className="gap-2 flex justify-center items-center">
@@ -66,7 +76,7 @@ const ServiceHero = async ({
           <p className="mt-6 max-w-full w-full xs:text-lg mx-auto break-anywhere hyphenate">
             {t(descriptionKey) || descriptionFallback}
           </p>
-          <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center max-w-md mx-auto">
+          <div className="w-full mt-12 flex items-center justify-center max-w-md mx-auto">
             <Link
               href={`${localePrefix}/contact`}
               className="w-full sm:w-auto"
@@ -79,35 +89,21 @@ const ServiceHero = async ({
                 style={{ cursor: "pointer" }}
               >
                 {t(ctaKey) || ctaFallback}
-                <ArrowUpRight className="h-5! w-5!" />
-              </Button>
-            </Link>
-            <Link
-              href={`${localePrefix}/team`}
-              className="w-full sm:w-auto"
-              locale={locale}
-              prefetch={false}
-            >
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full sm:w-auto rounded-full text-base shadow-none transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
-                style={{ cursor: "pointer" }}
-              >
-                <Users className="h-5! w-5!" />{" "}
-                {t(secondaryCtaKey) || secondaryCtaFallback}
+                <ArrowIcon />
               </Button>
             </Link>
           </div>
+          {/* Inline Odoo partner branding for accounting only (reverted position) */}
           {namespace === "accounting" && (
-            <a
-              href="https://www.odoo.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="mt-10 flex flex-col items-center justify-center">
+            <div className="mt-10 flex flex-col items-center justify-center">
+              <a
+                href="https://www.odoo.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center"
+              >
                 <Image
-                  src="/assets/odoo-logo.svg"
+                  src="/assets/partners/odoo-logo.svg"
                   className="mt-0 w-24 h-16"
                   alt="Odoo Logo"
                   width={96}
@@ -116,31 +112,67 @@ const ServiceHero = async ({
                   loading="lazy"
                   decoding="async"
                 />
-              </div>
-            </a>
+                <Badge
+                  className="mt-2 rounded-full py-1 border-none"
+                  variant="secondary"
+                >
+                  {t("Hero.OdooPartnerBadge") || "Official Odoo Partner"}
+                </Badge>
+              </a>
+            </div>
           )}
         </div>
         <div className="flex-1 relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
           {(() => {
-            // Prefer translated alt if available; otherwise use provided fallback
             const key = "ImageAlt";
             const translated = t(key) as string;
             const altText = translated === key ? imageAlt : translated;
+            // If the target image is missing (assets being refreshed), fall back to a bundled abstract background
+            const fallback = "/assets/abstract-background-light.webp";
+            const src = imageSrc || fallback;
             return (
               <Image
-                src={imageSrc}
+                src={src}
                 alt={altText}
                 className="object-cover rounded-xl"
                 sizes="(min-width:1024px) 520px, 90vw"
                 priority
                 fetchPriority="high"
-                quality={58}
+                quality={82}
+                placeholder="blur"
+                blurDataURL={
+                  (heroBlurData as Record<string, string>)[src] ||
+                  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mO0dOjYfwAIGQMCq9zJ3wAAAABJRU5ErkJggg=="
+                }
                 fill
               />
             );
           })()}
         </div>
       </div>
+      {namespace === "odoo" && (
+        <div className="pointer-events-none absolute bottom-6 left-0 right-0 flex flex-col items-center gap-2">
+          <a
+            href="https://www.odoo.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pointer-events-auto"
+          >
+            <Image
+              src="/assets/partners/odoo-logo.svg"
+              alt="Odoo Logo"
+              width={120}
+              height={40}
+              className="opacity-90"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+          <Badge className="rounded-full py-1 border-none" variant="secondary">
+            {t("Hero.OdooPartnerBadge") || "Official Odoo Partner"}
+          </Badge>
+        </div>
+      )}
     </div>
   );
 };

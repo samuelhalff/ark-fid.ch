@@ -32,6 +32,10 @@ export async function generateMetadata({
   return await generateMetadataForPage(locale as Locale, "/");
 }
 
+// Ensure this page is dynamic so the hero image can rotate per request
+// Force this page to be dynamic (no static caching) to rotate the hero image
+export const revalidate = 0;
+
 export default async function Home({ params }: { params: { locale: string } }) {
   const nonce = headers().get("x-nonce") || undefined;
   const locale = params.locale;
@@ -115,9 +119,15 @@ export default async function Home({ params }: { params: { locale: string } }) {
           <FAQ />
         </Defer>
       </section>
-      {/* <section id="testimonials">
-        <Testimonials locale={locale} />
-      </section> */}
+      <section id="testimonials">
+        <Defer
+          rootMargin="400px"
+          idle={300}
+          placeholder={<div className="h-64 w-full rounded-lg bg-muted/40" />}
+        >
+          <Testimonials locale={locale} />
+        </Defer>
+      </section>
       <section id="contact">
         <Defer
           rootMargin="300px"

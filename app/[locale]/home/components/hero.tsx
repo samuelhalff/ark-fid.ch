@@ -1,9 +1,10 @@
-import { ArrowUpRight, BadgeCheckIcon, Users } from "lucide-react";
+// Inline a tiny arrow icon to avoid loading lucide-react in shared chunk
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
+import heroBlurData from "@/src/lib/heroBlurData.json";
 
 interface HeroProps {
   locale?: string;
@@ -14,19 +15,45 @@ const Hero = async ({ locale }: HeroProps) => {
   const t = await getTranslations(currentLocale, "home");
   const localePrefix = locale ? `/${locale}` : "/fr";
 
+  // Randomly pick a service hero image per request for the home hero visual
+  const serviceHeroes = [
+    "/assets/hero/services/accounting-hero.webp",
+    "/assets/hero/services/corporate-hero.webp",
+    "/assets/hero/services/domiciliation-hero.webp",
+    "/assets/hero/services/incorporation-hero.webp",
+    "/assets/hero/services/odoo-hero.webp",
+    "/assets/hero/services/outsourcing-hero.webp",
+    "/assets/hero/services/payroll-hero.webp",
+    "/assets/hero/services/taxes-hero.webp",
+  ];
+  const pick = Math.floor(Math.random() * serviceHeroes.length);
+  // If service hero images are not present yet, fall back to an abstract bg that exists
+  const fallbackHero = "/assets/abstract-background-light.webp";
+  const homeHeroSrc = serviceHeroes[pick] || fallbackHero;
+  const blur = (heroBlurData as Record<string, string>)[homeHeroSrc];
+
+  const ArrowIcon = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      className="h-5 w-5"
+    >
+      <path d="M7 17a1 1 0 0 0 1.707.707l7.586-7.586V16a1 1 0 1 0 2 0V6a1 1 0 0 0-1-1H9a1 1 0 1 0 0 2h5.879L7.293 15.586A1 1 0 0 0 7 16v1z" />
+    </svg>
+  );
+
   return (
-    <div className="min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent">
-      <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
-        <div className="max-w-2xl text-center motion-safe:animate-in motion-safe:fade-in md:duration-700">
-          <div className="gap-2 flex justify-center items-center">
-            <Badge className="rounded-full py-1 border-none">
-              {t("Hero.Badge")}
-            </Badge>
+    <div className="relative min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent critical-hero">
+      <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0 critical-hero__inner">
+        <div className="max-w-2xl text-center motion-safe:animate-in motion-safe:fade-in md:duration-700 critical-hero__content">
+          <div className="gap-2 flex items-center justify-center critical-hero__badges">
             <Badge
-              variant="destructive"
-              className="rounded-full py-1 border-none"
+              className="rounded-full py-1 border-none critical-badge critical-badge--destructive"
+              variant={"destructive"}
             >
-              {t("Hero.OdooBadge")}
+              {t("Hero.Badge")}
             </Badge>
           </div>
           <h1 className="mt-6 max-w-full w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight mx-auto">
@@ -35,7 +62,7 @@ const Hero = async ({ locale }: HeroProps) => {
           <p className="mt-6 max-w-full w-full xs:text-lg mx-auto">
             {t("Hero.Description")}
           </p>
-          <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center max-w-md mx-auto">
+          <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center max-w-md mx-auto critical-hero__cta">
             <Link
               href={`${localePrefix}/contact`}
               className="w-full sm:w-auto"
@@ -43,66 +70,49 @@ const Hero = async ({ locale }: HeroProps) => {
             >
               <Button
                 size="lg"
-                className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
+                className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg critical-button"
                 style={{ cursor: "pointer" }}
               >
-                {t("Hero.CTA")} <ArrowUpRight className="h-5 w-5" />
-              </Button>
-            </Link>
-            <Link
-              href={`${localePrefix}/team`}
-              className="w-full sm:w-auto"
-              locale={locale}
-            >
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full sm:w-auto rounded-full text-base shadow-none transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
-                style={{ cursor: "pointer" }}
-              >
-                <Users className="h-5 w-5" /> {t("Hero.SecondaryCTA")}
+                {t("Hero.CTA")} <ArrowIcon />
               </Button>
             </Link>
           </div>
-          <a
-            href="https://www.odoo.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <div className="mt-10 flex flex-col items-center justify-center">
-              <Image
-                src="/assets/odoo-logo.svg"
-                className="mt-0 w-24 h-16"
-                alt="Odoo Logo"
-                width={96}
-                height={64}
-                loading="lazy"
-                fetchPriority="low"
-                sizes="96px"
-                decoding="async"
-              />
-              <Badge
-                variant="outline"
-                className="rounded-full h-5 py-3 px-4 border-black bg-transparent mt-0 flex items-center justify-center"
-              >
-                <BadgeCheckIcon className="inline h-4 w-4 mr-1" />
-                {t("Hero.OdooBadge")}
-              </Badge>
-            </div>
-          </a>
+          {/* Removed external Odoo logo & duplicate badge per single-badge policy */}
         </div>
-        <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square motion-safe:lg:animate-in motion-safe:lg:slide-in-from-right-10 lg:duration-500">
+        <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square motion-safe:lg:animate-in motion-safe:lg:slide-in-from-right-10 lg:duration-500 critical-hero__media">
           <Image
-            src="/assets/main-bg.webp"
-            alt="main background"
+            src={homeHeroSrc}
+            alt="featured service"
             className="object-cover rounded-xl"
             sizes="(min-width:1280px) 560px, (min-width:1024px) 480px, 92vw"
-            quality={58}
+            quality={72}
             priority
             fetchPriority="high"
+            placeholder="blur"
+            blurDataURL={
+              blur ||
+              "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mO0dOjYfwAIGQMCq9zJ3wAAAABJRU5ErkJggg=="
+            }
             fill
           />
         </div>
+      </div>
+      <div className="pointer-events-none absolute bottom-6 left-0 right-0 flex flex-col items-center gap-2 critical-hero__partner">
+        <Image
+          src="/assets/partners/odoo-logo.svg"
+          alt="Odoo Logo"
+          width={120}
+          height={40}
+          className="opacity-90"
+          loading="lazy"
+          decoding="async"
+        />
+        <Badge
+          className="rounded-full py-1 border-none critical-badge critical-badge--secondary"
+          variant="secondary"
+        >
+          {t("Hero.OdooPartnerBadge") || t("Hero.OdooBadge")}
+        </Badge>
       </div>
     </div>
   );

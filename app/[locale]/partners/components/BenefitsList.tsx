@@ -2,6 +2,7 @@
 import React from "react";
 import { CheckCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import "@/src/i18n";
 
 const BenefitsList = () => {
   const { t } = useTranslation("partners");

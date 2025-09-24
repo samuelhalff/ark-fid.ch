@@ -5,10 +5,10 @@ const CorporateHero = ({ params }: { params: { locale: string } }) => {
     <ServiceHero
       locale={params.locale}
       namespace="corporate"
-      imageSrc="/assets/services/corporate-services.webp"
-      imageAlt="Corporate Services"
+      imageSrc="/assets/hero/services/corporate-hero.webp"
+      imageAlt="Matterhorn peak at sunrise with alpine skyline, Switzerland"
       badge1Key="Hero.Badge"
-      badge1Fallback="Swiss Excellence"
+      badge1Fallback="Swiss excellence"
       badge2Key="Hero.BadgeTwo"
       badge2Fallback="Business Experts"
       titleKey="Hero.Title"
@@ -17,8 +17,6 @@ const CorporateHero = ({ params }: { params: { locale: string } }) => {
       descriptionFallback="From company formation to business restructuring, we provide comprehensive corporate services to help your business thrive in Switzerland."
       ctaKey="Hero.CTA"
       ctaFallback="Contact us"
-      secondaryCtaKey="Hero.SecondaryCTA"
-      secondaryCtaFallback="Meet the Team"
     />
   );
 };

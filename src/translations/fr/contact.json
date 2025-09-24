@@ -1,6 +1,8 @@
 {
     "Title": "Contactez-nous",
     "Subtitle": "Nous répondons généralement dans les 24 heures.",
+    "BookingButton": "Réserver un appel",
+    "OrContactUs": "Ou contactez-nous.",
     "Form": {
         "Name": "Nom",
         "Email": "E-mail",

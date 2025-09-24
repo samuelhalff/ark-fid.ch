@@ -1,10 +1,11 @@
 {
+    "ImageAlt": "Spiez Castle on Lake Thun with mountains, Switzerland",
     "Hero": {
-        "Badge": "Swiss Excellence",
-        "BadgeTwo": "Business Experts",
+        "Badge": "Swiss excellence",
+        "BadgeTwo": "Business experts",
         "Title": "Company Incorporation Services",
         "Description": "Expert guidance for seamless company formation and registration in Switzerland.",
-        "CTA": "Contact us",
+        "CTA": "Start my incorporation",
         "SecondaryCTA": "Learn more"
     },
     "Presentation": {

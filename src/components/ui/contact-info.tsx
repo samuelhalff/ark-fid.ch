@@ -22,15 +22,8 @@ const ContactInfo: React.FC = () => {
       <p>
         <TranslatedText
           ns="contact"
-          translationKey="Contact.Phone"
-          fallbackText="Phone: +41 XX XXX XX XX"
-        />
-      </p>
-      <p>
-        <TranslatedText
-          ns="contact"
           translationKey="Contact.Address"
-          fallbackText="Address: 26 Boulevard Georges Favon, 1204 Geneva"
+          fallbackText="Address: Ark Fiduciaire SA, 26 Boulevard Georges Favon, 1204 Geneva"
         />
       </p>
     </div>

@@ -1,6 +1,8 @@
 {
     "Title": "Entre em contacto",
     "Subtitle": "Normalmente respondemos dentro de 24 horas.",
+    "BookingButton": "Marcar uma chamada",
+    "OrContactUs": "Ou entre em contacto.",
     "Form": {
         "Name": "Nome",
         "Email": "Email",

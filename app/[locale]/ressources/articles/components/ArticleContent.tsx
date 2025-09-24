@@ -2,6 +2,7 @@
 import { notFound } from "next/navigation";
 import { estimateReadingTime } from "@/src/lib/readingTime";
 import { useTranslation } from "react-i18next";
+import "@/src/i18n";
 import ReactMarkdown from "react-markdown";
 import TranslatedText from "@/src/components/ui/translated-text";
 import ContactSection from "./ContactSection";

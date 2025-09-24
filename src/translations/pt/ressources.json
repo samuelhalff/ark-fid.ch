@@ -1,5 +1,7 @@
 {
   "IntroTitle": "Ressources fiscales et comptables – Genève & Suisse romande",
+  "IntroShort": "Recursos",
+  "ArticlesShort": "Artigos",
   "IntroText": "Basées à Genève et actives dans toute la Suisse romande, nos équipes accompagnent aussi des clients en Suisse et à l'international. Vous trouverez ci-dessous une sélection de documents et d'articles pratiques adaptés au contexte réglementaire genevois, romand et fédéral. Ces ressources sont fournies pour votre convenance et n'ont pas valeur de conseil personnalisé. Pour une analyse ciblée de votre situation, contactez notre équipe.",
   "FilesTitle": "Documents disponibles au téléchargement",
   "ArticlesTitle": "Articles d'experts",
@@ -94,6 +96,76 @@
       "description": "Projet AFC d'adaptation de la pratique TVA : déduction impôt préalable, nouvelles règles et impacts pour les entreprises dès 2025.",
       "date": "2025-02-09",
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/konsultativgremium/entwurf1-nein/mwst-kg-vorsteuerabzug-andere-mi-and-mbi-fr.pdf.download.pdf/mwst-kg-vorsteuerabzug-andere-mi-and-mbi-fr.pdf"
+    },
+    {
+      "filename": "guide-fiscal-2024-independants-geneve.pdf",
+      "title": "Guia fiscal 2024 para independentes em Genebra",
+      "description": "Guia oficial, completo e atualizado sobre a fiscalidade aplicável a empresários e independentes em Genebra: obrigações contabilísticas, métodos de cálculo de rendimento e fortuna, deduções, demonstrações fiscais e entrega da declaração.",
+      "date": "2025-09-16",
+      "source_url": "https://www.ge.ch/document/guide-fiscal-2024-independants"
+    },
+    {
+      "filename": "presentations-du-panorama-fiscal-2025.pdf",
+      "title": "Panorama fiscal 2025 – Reformas e novidades em Genebra",
+      "description": "Apresentação oficial das reformas fiscais, jurisprudência e principais novidades aplicáveis em Genebra a partir de 2025, incluindo tributação mínima de pessoas jurídicas, teletrabalho transfronteiriço e fiscalidade imobiliária. Documento indispensável para antecipar mudanças e preparar a declaração de 2026.",
+      "date": "2025-09-17",
+      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+    },
+    {
+      "filename": "presentations-panorama-fiscal-2025-ge.pdf",
+      "title": "Apresentações panorama fiscal 2025 Genebra",
+      "description": "Síntese oficial das principais novidades e evoluções fiscais de Genebra para 2025 (imposto sobre renda, patrimônio, empresas, teletrabalho de fronteiriços, tratamentos fiscais específicos). Documento atualizado para suporte à decisão em Q3-Q4 2025 e preparação da declaração de 2026.",
+      "date": "2025-09-17",
+      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+    },
+    {
+      "filename": "Changements-TVA-2025.pdf",
+      "title": "Alterações do IVA 2025: O que as empresas de Genebra precisam saber",
+      "description": "Este documento detalha as principais alterações à lei do IVA que entraram em vigor em janeiro de 2025, incluindo os impactos na faturação, na apuração e no tratamento das plataformas digitais. É destinado a PMEs, autônomos e gestores financeiros em Genebra e na Suíça francófona que desejam antecipar os ajustes administrativos necessários para o segundo semestre de 2025, bem como a preparação para 2026.",
+      "date": "2025-09-17",
+      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+    },
+    {
+      "filename": "presentations-panorama-fiscal-geneve-2025.pdf",
+      "title": "Panorama fiscal Genebra 2025 – Reformas, jurisprudência e novidades",
+      "description": "Documento oficial da sessão plenária do Panorama Fiscal 2025, organizado pela Administração Fiscal Cantonal de Genebra. Apresenta reformas, novidades da declaração de imposto, questões fiscais para empresas e pessoas jurídicas, tributação mínima, teletrabalho de fronteiriços, práticas de rulings fiscais e o tratamento fiscal de sociedades imobiliárias (SCI). Essencial para gestores, CFOs, fiduciários e responsáveis administrativos que preparam a fiscalidade 2025–2026 em Genebra.",
+      "date": "2025-09-17",
+      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+    },
+    {
+      "filename": "Changements_TVA_2025_Suisse.pdf",
+      "title": "Principais alterações do IVA aplicáveis a partir de 2025 na Suíça",
+      "description": "Síntese oficial das revisões do IVA na Suíça aplicáveis a partir de 1º de janeiro de 2025, publicada pela Confederação. Este documento detalha as principais mudanças legais (declaração obrigatória online, novas taxas reduzidas, adaptações para plataformas digitais, etc.) que afetam diretamente PMEs e autônomos da Suíça francófona, bem como regras transitórias até 2026.",
+      "date": "2025-09-17",
+      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+    },
+    {
+      "filename": "Argumentarium_Systemwechsel_Liegenschatssteuern_FR-1.pdf",
+      "title": "Mais impostos para a classe média? Reformas fiscais 2025: A iniciativa sobre o valor locativo e seu impacto em Genebra",
+      "description": "Argumentário oficial sobre a reforma do sistema de tributação da propriedade de habitação, incluindo a eliminação do valor locativo e a possível introdução de um novo imposto sobre segundas residências. Publicação atualizada em agosto de 2025, útil para proprietários, empresas imobiliárias e consultores fiscais da Suíça francófona.",
+      "date": "2025-09-17",
+      "source_url": "https://www.sp-ps.ch/wp-content/uploads/2025/08/Argumentarium_Systemwechsel_Liegenschatssteuern_FR-1.pdf"
+    },
+    {
+      "filename": "directives-impot-source-geneve-2025.pdf",
+      "title": "Diretivas sobre o imposto na fonte Genebra 2025",
+      "description": "PDF oficial contendo as regras e novidades de 2025 para a tributação na fonte de trabalhadores e autônomos não residentes com atividade em Genebra. Este documento reúne as instruções utilizadas por empregadores e fiduciários para folha de pagamento e retenção na fonte, atualizado para o ano fiscal vigente.",
+      "date": "2025-09-17",
+      "source_url": "https://www.efficore.ch/wp-content/uploads/2025/01/directives-impot-source-geneve-2025.pdf"
+    },
+    {
+      "filename": "Modification_loi_TVA_2025_amsuisse.pdf",
+      "title": "Alteração definitiva da lei do IVA para 2025",
+      "description": "Síntese oficial acessível da revisão do IVA 2025 na Suíça: novas taxas, obrigações para empresas e implicações práticas imediatas para a gestão administrativa, faturação e conformidade. Documento-chave a ser compartilhado com os responsáveis financeiros, RH e gestão de PME em Genebra.",
+      "date": "2025-09-17",
+      "source_url": "https://www.amsuisse.ch/fileadmin/forum_archiv/pdf/2024/06/2024_06_F_120_Modification_TVA.pdf"
+    },
+    {
+      "filename": "etudec_ecarts_salaraiux_suisse_2025.pdf",
+      "title": "Estudo sobre as disparidades salariais na Suíça 2025",
+      "description": "Análise das disparidades salariais entre dirigentes e colaboradores na Suíça em 2025, incluindo dados, tendências e recomendações oficiais do sindicato Unia.",
+      "date": "2025-09-17",
+      "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
     }
   ],
   "Articles": [
@@ -332,6 +404,214 @@
       "author": "Ark Fiduciaire",
       "date": "2025-08-21",
       "content": "Reprise:\n\n- Preparação do projeto\n- Due diligence completa\n- Financiamento estruturado\n- Integração dos colaboradores\n\n(Artigo de 1.800 palavras, esquemas de processos.)"
+    },
+    {
+      "slug": "nouveaux-taux-tva-suisse-transition-2024-entreprises-geneve",
+      "title": "Como preparar sua empresa em Genebra para o aumento das taxas de IVA em 2024?",
+      "description": "Aumento do IVA 2024: dicas práticas e checklist para PME, autônomos e departamentos financeiros em Genebra. Este guia ajuda a antecipar, adaptar suas ferramentas (ERP, Odoo), treinar equipes e evitar erros comuns.",
+      "content": "Desde 1 de janeiro de 2024, as taxas de IVA suíças aumentaram para garantir o financiamento do AVS. Assim, toda empresa sediada em Genebra e, de forma mais ampla, na Suíça francófona, precisa adaptar sua gestão contábil, sistemas ERP (por exemplo, Odoo), comunicação com clientes e treinamento interno. Pontos-chave a verificar:\n\n## <b>1. Identificação das novas taxas aplicáveis</b>\n- Taxa normal: 8,1% (antes 7,7%)\n- Taxa reduzida: 2,6%\n- Taxa especial alojamento: 3,8%\n<br>Atenção: para qualquer bem ou serviço, conta a data da entrega/prestação para definir a taxa aplicável.\n\n## <b>2. Atualização dos softwares de contabilidade e ERPs</b>\n- Certifique-se que suas ferramentas (sobretudo Odoo, Winbiz, Crésus, etc.), faturas recorrentes e modelos de orçamentos integram as novas taxas.\n- Para Odoo, utilize a documentação oficial para implementação das novas taxas nas configurações fiscais.\n- Preveja códigos de IVA extra para situações de transição (serviços em dois períodos)\n\n## <b>3. Verificação dos processos de faturação e reporting</b>\n- Segmente corretamente as faturas conforme a data da prestação.\n- Revise notas de crédito e de adiantamento.\n- Analise suas ferramentas de declaração de IVA Swissdec\n\n## <b>4. Treinamento interno e comunicação</b>\n- Treine sua equipe administrativa, comercial e financeira sobre essas novas taxas e regras de transição.\n- Informe seus clientes empresariais por e-mail, comunicado ou nota de fatura.\n\n## <b>5. Dicas chave para evitar erros comuns</b>\n- Não aplique a nova taxa a serviços prestados em 2023, mesmo se a fatura for emitida em 2024.\n- Faça a configuração do ERP ou software contábil ser validada por um perito fiduciário.\n- Leia os guias práticos disponibilizados pela AFC e associações cantonais para dominar casos particulares (splits, multi-taxas, mudanças de método de cálculo).\n\n## <b>Para ir mais longe</b>\n- Solicite acompanhamento especializado: revisão do processo de IVA, terceirização administrativa e financeira, configurações avançadas (Odoo, Winbiz, etc.) e acompanhamento da transição 2023-2024 (declarações trimestrais e semestrais).\n- Utilize recursos oficiais: guias em PDF, hotline AFC e acompanhamento sobre planejamento fiscal para PMEs de Genebra.\n\nEste artigo resume o essencial e oferece um checklist operacional para uma transição bem sucedida. Em caso de dúvida, valide suas escolhas com um contabilista certificado ou administrador de empresa especializado em fiscalidade e IVA na Suíça francófona.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-16",
+      "references": [
+        {
+          "labelKey": "admin.ch_liste_des_taux_actuels_de_la_TVA_en_Suisse",
+          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-97258.html"
+        },
+        {
+          "labelKey": "fedlex_admin_ch_reforme_TVA_2024_message_officiel",
+          "url": "https://www.fedlex.admin.ch/eli/fga/2023/1970/fr"
+        }
+      ]
+    },
+    {
+      "slug": "reforme-fiscale-geneve-2025-impact-contribuables-pme",
+      "title": "Reforma fiscal Genebra 2025: quais impactos para contribuintes e PME?",
+      "description": "Análise concreta da reforma fiscal 2025 em Genebra: queda de taxas, novidades sobre adiantamentos, fiscalidade imobiliária e primeiros conselhos práticos para otimizar a situação em 2025–2026.",
+      "content": "A reforma fiscal aprovada em Genebra em 2025 traz mudanças profundas para contribuintes, proprietários e empresas do cantão. Veja os pontos-chave a antecipar para a declaração de 2026, estratégias de otimização a adotar já e respostas para as perguntas mais recorrentes.\n\n# 1. Redução inédita do imposto sobre o rendimento\nGenebra reduz sua carga fiscal a partir de 2025: as taxas caem entre 5,3% e 11,4%, mirando principalmente a classe média, mas também contribuintes de menor renda e, em menor grau, lares abastados. PME e autônomos se beneficiam indiretamente, principalmente na remuneração dos gestores e planejamento da retirada de dividendos.\n\n# 2. Novas tabelas aplicáveis em 2026\nTodos os contribuintes preencherão suas próximas declarações com as novas tabelas. Por isso, é fundamental ajustar os adiantamentos desde já. Principal novidade: possibilidade de pagar os adiantamentos anuais em 12 mensalidades (antes eram 10), melhorando o caixa das pequenas empresas e a gestão familiar.\n\n# 3. Fiscalidade imobiliária e imposto sobre o patrimônio\nCom a lei LEFI, o valor fiscal dos imóveis adquiridos antes do final de 2014 sobe 12%. Já o imposto sobre o patrimônio cai 15%, compensando parcialmente o aumento da base. Para proprietários, torna-se essencial avaliar se vale a pena realizar obras, antecipar decisões sucessórias ou imobiliárias, e otimizar a declaração já em 2025.\n\n# 4. Fiscalidade das PME: oportunidades e cuidado\nPara empresas, a tributação mínima para pessoas jurídicas, práticas de teletrabalho para fronteiriços ou gestão de sociedades imobiliárias podem gerar novas obrigações de documentação, relatórios e compliance (principalmente via procedimento fiscal eletrônico). Recomenda-se consultar seu contador para mapear detalhadamente a situação.\n\n# 5. Dicas práticas para Q4 2025–2026\n• Reajuste seus adiantamentos (renda profissional, imobiliária, dividendos: simule com as novas taxas);\n• Revise os valores imobiliários e o patrimônio declarado;\n• Planeje compras de previdência ou mudanças estruturais antes de 31.12.2025;\n• Antecipe quaisquer decisões familiares (doação, sucessão, mudança de domicílio) à luz do novo cenário fiscal de Genebra.\n\n# Palavras-chave em destaque:\n- reforma fiscal Genebra 2025\n- imposto 2025 PME Genebra\n- fiscalidade imobiliária Genebra\n- taxa imposto Genebra 2025\n- declaração de imposto 2026\n\nPara dúvidas personalizadas ou otimização estratégica, nossa equipe está à disposição: assessoria fiscal, apoio em declarações, análise de folha, consultoria de IVA e Swiss GAAP FER até implementação Odoo.\n",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Réforme fiscale Genève officielle",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        },
+        {
+          "labelKey": "Changements fiscaux Genève 2025",
+          "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
+        },
+        {
+          "labelKey": "Analyse Econostrum 2025",
+          "url": "https://econostrum.info/suisse/geneve-reforme-fiscale-historique-2025/"
+        },
+        {
+          "labelKey": "Finances publiques Genève juin 2025",
+          "url": "https://geneve-attractive.ch/sites/default/files/source/docs/crea_financespubliques_juin2025.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "optimiser-fiscalite-geneve-2025-preparer-2026",
+      "title": "Otimizar a fiscalidade em Genebra em 2025: medidas e conselhos para PME e autônomos",
+      "description": "Quais são as principais mudanças fiscais em Genebra para 2025? Como otimizar a situação e antecipar a declaração de imposto de 2026? Panorama preciso para PME, autônomos e empreendedores, com conselhos práticos e tendências-chave.",
+      "content": "O ano de 2025 traz muitas novidades fiscais em Genebra. PME, autônomos e empreendedores devem se adaptar a mudanças importantes para reduzir a carga fiscal, permanecer em conformidade e antecipar de forma eficaz a declaração de 2026.\n\nPrincipais mudanças fiscais em Genebra em 2025\n\n1. Redução do imposto sobre o rendimento para particulares\nDesde 1 de janeiro de 2025, a tabela cantonal e comunal foi reduzida entre 11,4% e 5,3%. Isso implica economias consideráveis para muitos contribuintes. Entretanto, os adiantamentos continuam baseados em declarações anteriores, sendo prudente na previsão dos valores.\n\n2. Pagamento dos adiantamentos: mensalidade facilitada\nNova flexibilidade: os adiantamentos agora podem ser pagos em 12 meses ao invés de 10, permitindo melhor gestão do fluxo de caixa para empresas e autônomos.\n\n3. Fiscalidade imobiliária: efeitos da lei LEFI\nTodos os imóveis adquiridos antes do final de 2014 terão o valor fiscal aumentado em 12%. Paralelamente, o imposto sobre o patrimônio reduz em 15%. Os proprietários devem verificar o impacto conforme sua situação.\n\n4. Teletrabalho e fronteiriços: atenção à fiscalidade mista\nA clarificação do tratamento fiscal de trabalhadores fronteiriços em teletrabalho pode gerar ajustes (empregadores: atualização das práticas recomendada).\n\n5. Novas regras para empresas (rulings, tributação mínima, SCI)\nAs PME e empresas sujeitas à tributação mínima ou envolvidas em sociedades civis imobiliárias (SCI) devem conferir os últimos ajustes (ver Panorama Fiscal AFC 2025).\n\nDicas essenciais para otimizar a fiscalidade em 2025–2026\n- Atualize o planejamento fiscal pessoal e empresarial\n- Antecipe possível aumento do valor de imóveis antigos\n- Ajuste o pagamento dos adiantamentos para evitar juros desnecessários\n- Revise o estatuto de sociedades/fusão/SCI com um contador\n- Oriente os colaboradores fronteiriços sobre as novas regras de teletrabalho\n- Faça uma auditoria fiscal 2025 para garantir as escolhas de otimização\n\nTendências Google Trends observadas\n- \"Redução imposto Genebra 2025\"\n- \"Mensalização adiantamentos impostos\"\n- \"Fiscalidade PME Genebra 2025\"\n- \"Teletrabalho impostos fronteiriços\"\nEssas pesquisas mostram o interesse crescente pela otimização, gestão proativa e compreensão das novas regras fiscais, principalmente para PME, autônomos e profissionais liberais.\n\nConclusão:\nAdaptar-se às mudanças fiscais em Genebra em 2025 exige proatividade e conhecimento. Nossos especialistas apoiam PME e autônomos em todos esses temas: fiscalidade, IVA, implementação Odoo, outsourcing, folha de pagamento e integrações. Contate-nos para uma análise personalizada.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Changements fiscaux Genève",
+          "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
+        },
+        {
+          "labelKey": "Panorama fiscal 2025 AFC",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        }
+      ]
+    },
+    {
+      "slug": "optimisation-fiscale-geneve-fin-2025",
+      "title": "Fiscalidade empresarial em Genebra: Otimizações estratégicas face à redução de receitas e novidades em 2026",
+      "description": "Panorama concreto de estratégias de otimização fiscal para sociedades e autônomos em Genebra perante previsões fiscais revistas em baixa, novidades do IVA 2025 e desafios de final de ano. Especial preparação Q4 e antecipação 2026.",
+      "content": "A fiscalidade empresarial em Genebra está a passar, neste outono de 2025, por grandes mudanças, tanto pelas revisões do IVA quanto pelas incertezas económicas que levaram o cantão a rever para baixo as suas previsões de receitas fiscais. Para PMEs, grupos e autônomos, o outono representa um período estratégico para antecipar os ajustes de final de ano e preparar o próximo exercício, com várias oportunidades e riscos a considerar...\n\n**I. Panorama da legislação fiscal local e pressões conjunturais**\n- A revisão parcial da lei do IVA, em vigor desde janeiro de 2025, impõe adaptação das ferramentas de faturação, maior obrigação de apuração online e um reforço no controlo dos fluxos transfronteiriços, especialmente para plataformas digitais e serviços B2B/B2C.\n- Além disso, a queda anunciada nas receitas fiscais do estado, provenientes principalmente das empresas, aumenta a pressão sobre a gestão do resultado tributável e o planeamento de provisões, prejuízos a reportar ou compras de previdência (3º pilar, compras LPP para gestores).\n\n**II. Ações concretas a curto prazo (Q4 2025)**\n- Otimizar o tratamento do IVA graças ao novo método das taxas de dívida fiscal líquida ou forfaitárias (análise de oportunidade a ser realizada até 31.12).\n- Aproveitar os prazos (amortizações aceleradas, constituição ou dissolução de provisões, análise de prejuízos reportáveis, etc.) para ajustar o resultado de 2025 e assim melhor controlar o efeito da base tributável.\n- Para grupos e sociedades internacionais: planeamento dos fluxos transfronteiriços e antecipação das novas obrigações declarativas relativas ao AIA (troca automática de informações sobre contas).\n\n**III. Preparar o sucesso de 2026**\n- Integrar a digitalização administrativa (faturação eletrónica, apuração do IVA via ePortal, integração Odoo para automatizar salários, lançamentos e trabalho fiscal).\n- Garantir conformidade LPP, LAA e AC para todos os colaboradores (incluindo autônomos, principalmente em contexto de teletrabalho).\n- Domiciliação e governança: adaptar estatutos e atas para maximizar a segurança jurídica e fiscal dos fluxos intra-grupo ou das atividades comerciais alargadas.\n\n**IV. Conselhos Ark Fiduciaire**\nAudite os seus processos contabilísticos, integrações Odoo/ERP (principalmente gestão de IVA e salários) e apresente sem demora os seus pedidos de prorrogação ou esclarecimento às administrações fiscais. Utilize, desde 2025, as novas ferramentas de e-démarches do Cantão de Genebra para facilitar as suas relações com a AFC.\n\nPara um acompanhamento personalizado, avaliação da sua situação e preparação ideal para 2026, contacte a Ark Fiduciaire, especialista em PMEs, famílias internacionais e empreendedores na Suíça.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Modifications TVA 2025",
+          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+        },
+        {
+          "labelKey": "Panorama fiscal Genève 2025",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        },
+        {
+          "labelKey": "Prolongation du délai de décompte TVA",
+          "url": "https://fr.taxlawblog.ch/"
+        },
+        {
+          "labelKey": "Révision des recettes fiscales Genève",
+          "url": "https://www.radiolac.ch/actualite/geneve/les-previsions-de-recettes-fiscales-en-2025-revues-a-la-baisse/"
+        }
+      ]
+    },
+    {
+      "slug": "devancer-reformes-fiscales-entreprise-geneve-2026",
+      "title": "Como antecipar as reformas fiscais de 2026 para a sua empresa em Genebra?",
+      "description": "Memo prático e atualizado para gestores e responsáveis financeiros: pontos críticos, armadilhas a evitar e alavancas para uma tributação otimizada em Genebra em 2025–2026.",
+      "content": "Genebra está prestes a passar por importantes mudanças fiscais, impactando diretamente empresas e trabalhadores independentes. Como antecipar eficazmente as próximas reformas, otimizar sua tributação e garantir a conformidade da sua PME ou empresa genebrina para 2026? Este guia, pensado para gestores e responsáveis administrativos, baseia-se nas últimas publicações oficiais e tendências do Google e integra particularidades locais, como o imposto profissional municipal, a RFFA, a tributação mínima OCDE/G20 e a gestão do teletrabalho de fronteiriços.\n\n1. Situação e tendências 2025–2026\nEm abril de 2025, a Administração Fiscal Cantonal apresentou as novas regras e desafios no Panorama Fiscal (ver documento PDF de referência). Temas em destaque: reforço do princípio da tributação mínima para pessoas jurídicas, teletrabalho e mobilidade internacional dos colaboradores, digitalização dos procedimentos fiscais e inovações como o e-tax ou integração do Odoo para a gestão administrativa.\n\n2. Quais as novidades fiscais concretas para empresas em Genebra?\n- Tributação mínima (OCDE/G20): Em 2026, todas as multinacionais e PMEs abrangidas estarão sujeitas a uma taxa efetiva mínima de 15% sobre o lucro tributável. Isso requer uma revisão urgente da estrutura jurídica e dos fluxos financeiros.\n- Teletrabalho e fronteiriços: As regras de tributação e contribuições evoluem (acordos bilaterais em adaptação). Preparar corretamente a folha de pagamento e a contabilidade exige monitoramento regular.\n- Digitalização e automação: Novos softwares certificados, e-tax e soluções como o Odoo tornam-se padrão para facilitar o reporte e limitar erros. Externalizar folha de pagamento e administração para um parceiro local especializado garante conformidade e eficiência.\n\n3. Pontos de atenção e armadilhas a evitar\n- Antecipar as defasagens entre a fiscalidade cantonal e federal: certas taxas, tabelas e procedimentos evoluem em ritmos diferentes.\n- Preste atenção especial ao imposto profissional municipal, específico de Genebra, e inclua-o nas suas simulações.\n- Aproveite a dedução de despesas de I&D (Patent Box), ainda pouco utilizada.\n\n4. Dicas práticas para se preparar para 2026\n- Realize uma auditoria fiscal já no outono de 2025 com seu fiduciário para verificar seus processos.\n- Atualize seus softwares de folha de pagamento e gestão, garantindo compatibilidade com as normas Swissdec e Odoo.\n- Forme as suas equipas financeiras: o acompanhamento digital e regulatório é mais essencial do que nunca.\n- Externalize o que for possível (folha de pagamento, fiscalidade, administrativo) com parceiros certificados de Genebra.\n\n5. Conclusão\n2025–2026 exige antecipação, rigor e recurso a parceiros que compreendem a realidade genebrina. Contacte a Ark Fiduciaire para uma análise personalizada e soluções sob medida em contabilidade, fiscalidade e folha de pagamento.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Réformes fiscales Genève",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        },
+        {
+          "labelKey": "Obligations fiscales entreprises",
+          "url": "https://www.geneve.ch/public/entreprises/informations-utiles-entreprises-prestations-demarches/impots"
+        },
+        {
+          "labelKey": "Fiscalité RFFA Genève",
+          "url": "https://fidulex.ch/la-reforme-de-la-fiscalite-des-entreprises-guide-geneve/"
+        }
+      ]
+    },
+    {
+      "slug": "nouveautes-paie-geneve-2025-regles-frontaliers-teletravail",
+      "title": "Novidades sobre folha de pagamento e empregadores em Genebra 2025 (fronteiriços, teletrabalho, fiscalidade, novos limites e regras práticas)",
+      "description": "Síntese das alterações para 2025 na gestão da folha de pagamento em Genebra e na Suíça francófona: novos limites AVS-LPP, benefícios familiares, atualização sobre a atribuição de veículos elétricos, teletrabalho transfronteiriço, obrigações fiscais e previdenciárias atualizadas conforme as últimas recomendações. Este guia prático ajuda empregadores e autônomos a garantir a conformidade e antecipar impactos administrativos e financeiros para o 4º trimestre de 2025 e 2026.",
+      "content": "O ano de 2025 marca uma virada na gestão da folha de pagamento em Genebra e em toda a Suíça francófona, com reformas importantes para empregadores e autônomos atentos à conformidade e à otimização fiscal.\n\n1. Novos tetos e taxas AVS/LPP/benefícios familiares\nA partir de janeiro de 2025, o aumento do teto do AVS, a revalorização dos benefícios familiares (215 CHF por filho, 268 CHF mínimo para formação) e o novo limite de afiliação ao LPP impõem atualização imediata das bases de cálculo e sistemas de folha de pagamento. Trabalhadoras que atingirem a idade de referência (mulheres: 64 anos e 3 meses se nascidas em 1961) devem optar pelo regime de franquia antes do primeiro salário de 2025.\n\n2. Veículos elétricos e regulamentação de despesas\nEmpregadores agora devem incluir o custo de carregadores domésticos no salário sujeito a imposto e previdência, excluindo esse valor do cálculo da dedução forfait de 0,9%. A indenização por quilômetro para despesas profissionais permanece possível, mediante comprovante ou regulamento interno aprovado, com impacto direto na declaração de imposto e certificado de salário.\n\n3. Teletrabalho transfronteiriço: regime transitório 2025\nO acordo transitório Suíça-França sobre teletrabalho foi prorrogado até 31 de dezembro de 2025. Para Genebra, até 40% da atividade anual pode ser realizado em teletrabalho na França sem impacto fiscal para o empregador ou empregado: o salário é integralmente tributado em Genebra. A empresa, no entanto, deve fornecer certificado anual e informar os colaboradores sobre regras e direitos (LPD, fiscalidade, previdência, A1). Acima do limite, aplica-se a legislação francesa à parte correspondente do salário: é necessário cuidado já no planejamento da atividade.\n\n4. Rentabilidade, negociação salarial e tendências para o 4º trimestre de 2025\nO aumento nominal dos salários (+1,4% em média, maior em setores críticos) nem sempre compensará a inflação (prêmios de saúde +6% em média em Genebra). Ajustes são especialmente monitorados nos setores de saúde, comércio e hotelaria. Os empregadores devem antecipar essas restrições em sua política salarial e na atualização do orçamento social para 2026.\n\n5. Checklist de conformidade 2025 e boas práticas\n- Revisar e adaptar todos os parâmetros de folha a partir de janeiro (taxas, tetos, forfaits)\n- Informar e documentar opções de franquia AVS, LPP, regulamento de despesas, certificados transfronteiriços\n- Garantir o acompanhamento do teletrabalho de fronteiriços (atingimento de limites, emissão de certificado A1, transparência fiscal)\n- Manter-se atualizado sobre mudanças cantonais (benefícios, fiscalidade)\n- Considerar terceirização ou digitalização (Swissdec, Odoo folha, etc.) para reduzir riscos de erro e otimizar a conformidade\n\nPara atualização em tempo real e segurança na gestão social, recomenda-se contar com o apoio de um especialista de Genebra ou terceirizar por meio de ferramentas homologadas.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "TVA Changements 2025",
+          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+        },
+        {
+          "labelKey": "Paie 2025 Genève",
+          "url": "https://www.hr-campus.ch/fr/univers-rh/connaissances-rh/articles-specialises/paie-en-suisse-ce-qui-change-en-2025/"
+        },
+        {
+          "labelKey": "Guide employeur salarié 2025",
+          "url": "https://www.odmfiduciaire.ch/2025/03/04/salaires-et-impots-en-suisse-le-guide-employeur-employe-2025/"
+        },
+        {
+          "labelKey": "Frontaliers télétravail",
+          "url": "https://www.hrtoday.ch/fr/article/les-changements-venir-pour-lemployeur-au-1er-janvier-2025"
+        }
+      ]
+    },
+    {
+      "slug": "optimisation-fiscale-entreprises-geneve-reformes-2025",
+      "title": "Otimização fiscal de empresas em Genebra: antecipar as reformas de 2025 e preparar 2026",
+      "description": "Análise concreta de estratégias de otimização fiscal para PMEs em Genebra perante as reformas fiscais de 2025: taxas atualizadas, planejamento do IVA, gestão de dividendos e deduções, valorização de ativos. Dicas práticas para dirigentes, CFO, independentes e responsáveis de contabilidade para o 4º trimestre de 2025 e início de 2026.",
+      "content": "Em 2025, a fiscalidade das empresas em Genebra e na Suíça francófona beneficia de várias reformas: redução da taxa de imposto sobre o lucro em certos cantões, ajuste de deduções fiscais e esperada simplificação da fiscalidade sucessória. Para as empresas, trata-se de uma oportunidade imediata de otimização para o Q4 2025 e preparação para 2026.\n\n<strong>1. Novas taxas e tabelas:</strong> \nEm Genebra, a redução das taxas de imposto sobre o lucro torna atrativos os investimentos e a distribuição de dividendos antes do encerramento do exercício. É prudente antecipar o encerramento planejando provisões e ajustando a remuneração dos dirigentes.\n\n<strong>2. IVA: práticas recentes e taxas 2025</strong> \nA entrada em vigor, em 2025, da revisão parcial do IVA obriga à verificação das taxas aplicadas (especialmente nos setores imobiliário e de serviços transfronteiriços). A terceirização administrativa para a gestão do IVA, o uso do Odoo para automação de faturas e uma boa gestão dos prazos ajudam a evitar correções onerosas numa fiscalização fiscal .\n\n<strong>3. Deduções e veículos fiscais</strong> \nA atenção deve estar centrada na dedução de juros passivos e amortizações, para beneficiar ao máximo das novas regras. As empresas familiares em Genebra ganham ao antecipar a transmissão no atual quadro fiscal, antes de eventuais endurecimentos a nível federal.\n\n<strong>4. Gestão salarial, segunda-pilar, seguro acidente e outsourcing de folha</strong> \nCom o aumento geral dos salários (2,3 % em 2025) , a externalização da folha e o uso do swissdec asseguram conformidade e segurança, especialmente com ferramentas digitais.\n\n<strong>5. Governação, compliance e segurança digital</strong> \nAs assembleias e atas devem refletir de forma transparente as decisões relativas às reformas fiscais. Os riscos cibernéticos também são fiscais: a governação digital entra no âmbito da compliance, sobretudo para a proteção dos dados fiscais de clientes e parceiros .\n\n<strong>Palavras-chave a valorizar:</strong> fiscalidade genebra 2025, taxa de imposto PME genebra, reforma fiscal genebra, iva 2025 suíça, otimização fiscal PME, transmissão empresa genebra, outsourcing administrativo genebra, gestão Odoo suíça, externalização folha genebra, swiss gaap fer.\n\nPara saber mais: avalie gratuitamente a exposição fiscal e a organização interna da sua PME. Contacte o nosso escritório em Genebra para uma auditoria otimizada e acompanhamento personalizado antes do encerramento 2025.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "Fiscalité entreprises GE",
+          "url": "https://fbk-conseils.ch/fiscalite-dune-pme-en-suisse-tout-comprendre-sur-les-impots/"
+        },
+        {
+          "labelKey": "Réformes fiscales 2025",
+          "url": "https://www.lombardodier.com/fr/insights/2025/july/tax-in-switzerland.html"
+        },
+        {
+          "labelKey": "Cybersécurité & compliance GE",
+          "url": "https://www.lombardodier.com/fr/insights/2025/june/business-owners-face-new-risks-around-tax.html"
+        }
+      ]
+    },
+    {
+      "slug": "anticiper-tva-geneve-fin-2025-preparer-2026",
+      "title": "Antecipando o IVA em Genebra no final de 2025: como preparar 2026?",
+      "description": "Guia prático para PME e autônomos em Genebra: antecipar adaptações de declaração, contabilidade e controles de IVA com a evolução regulatória e digital no final de 2025 e início de 2026.",
+      "content": "A transição para o fim do ano civil é sempre estratégica para as empresas de Genebra sujeitas ao IVA. Em 2025, a pressão aumenta com a digitalização acelerada dos processos (e-démarches AFC, faturação eletrônica QR-MwST), a generalização do e-controle e o endurecimento das penalidades em caso de omissões ou erros. Compreender as novidades – incluindo obrigações acrescidas de arquivamento digital, rastreabilidade das entradas via Swiss GAAP FER ou Odoo, e a preparação dos saldos de IVA trimestrais/anuais – é indispensável para evitar fiscalizações caras em 2026. Este guia abrange:\n\n- Alterações recentes no portal AFC e seu impacto direto na inserção das declarações (novos campos, validação automática, assinatura eletrônica obrigatória para certos envios).\n- Otimizar a contabilização e conciliação das contas de IVA com Odoo para PME (lançamento automático, acompanhamento das regularizações de IVA sobre subsídios e correções de erros anteriores).\n- Pontos de atenção sobre IVA misto (múltiplos setores de atividade, taxas reduzidas vs normais) e como segmentar eficazmente as operações.\n- Preparar um pré-controle documental de acordo com os novos padrões: ligação entre folha de pagamento (swissdec), faturação e concatenação com os anexos da declaração.\n- FAQ sobre controles antecipados pela AFC em Genebra: prazos, documentos exigidos, erros frequentes a evitar, recursos…\n\nEm resumo, empresas e autônomos devem proteger seus processos administrativos e financeiros já no 4º trimestre de 2025 para estarem prontos para qualquer fiscalização em 2026. A terceirização parcial ou total da gestão do IVA, associada a um software integrado como Odoo, reduz o risco de erro e otimiza a conformidade. Para um acompanhamento personalizado e implementação de boas práticas, consulte nossos especialistas certificados.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "fedlex_loi_tva",
+          "url": "https://www.fedlex.admin.ch/eli/cc/2009/72/fr"
+        }
+      ]
+    },
+    {
+      "slug": "impacts-tva-2025-geneve-pme",
+      "title": "Impactos práticos da reforma do IVA 2025 para PME em Genebra: conformidade, armadilhas e oportunidades",
+      "description": "Análise concreta das novas obrigações do IVA 2025 para PME em Genebra (adaptação de ferramentas, formação em folha/contabilidade), checklist de conformidade, pontos de atenção específicos do tecido econômico de Genebra e oportunidades de otimização fiscal a aproveitar já no segundo semestre de 2025. Artigo orientado para ação e acessível para gestores e responsáveis administrativos.",
+      "content": "A reforma do IVA 2025 em vigor na Suíça afeta muitas empresas de Genebra e da Suíça francófona, que devem se adaptar sem demora para garantir sua conformidade. Este artigo apresenta uma decomposição clara dos desafios, as etapas práticas para uma transição bem-sucedida, um checklist para os responsáveis administrativos ou direção e respostas às perguntas frequentes feitas desde o início do segundo semestre de 2025.\n\n**1. Quais são as principais alterações?**\nDesde 1.1.2025, as taxas de IVA foram alteradas (normal: 8,1 %, reduzida: 2,6 %, especial alojamento: 3,8 %) e novas obrigações de declaração eletrônica entraram em vigor (ficheiros, formulários, anexo de desoneração, declaração online obrigatória conforme perfis). Os regimes forfaitários e o método da taxa de dívida fiscal líquida também são afetados.\n\n**2. Para quem essas mudanças são críticas em Genebra?**\n- PME ativas em serviços, artesanato e distribuição (comércio B2B e B2C)\n- Independentes que ultrapassam o limite de 100.000 CHF por ano\n- Sociedades holdings e administradoras imobiliárias\n- Associações e fundações com colaboradores\n- Empresas beneficiárias de subsídios ou ativas em plataformas digitais\n\n**3. Pontos de atenção específicos de Genebra**\n- Implementação a partir do Q4 2025 em todos os sistemas Odoo, Abacus ou Winbiz\n- Alinhamento entre faturação, folha (benefícios fiscais, formação interna sobre a nova LPP/AVS/LAA), e contabilidade Swiss GAAP FER\n- Declaração eletrónica obrigatória (e-IVA): guias práticos no portal da AFC\n- Controles reforçados anunciados para Genebra (prazos, sanções administrativas, foco no setor imobiliário e consultoria)\n\n**4. Checklist expresso para direção de PME:**\n- Atualizar a configuração do seu software contábil e de folha (Odoo, Winbiz, Abacus)\n- Rever modelos de faturação cliente/fornecedor e automatizar a exibição da taxa correta\n- Formar responsáveis de folha/contabilidade sobre os novos limites e isenções\n- Sincronizar a política de faturação e arquivo com sua consultoria\n- Monitorar fluxos transfronteiriços: isenções, limites, menções obrigatórias\n\n**5. Oportunidades de otimização e missões de consultoria:**\n- Revisão dos modelos contratuais e CGV fora do IVA (evite correções, integre a nova lógica)\n- Externalização ou delegação para uma consultoria na gestão das declarações e controles AFC\n- Digitalização dos processos administrativos e sinergias com outras obrigações RH/administrativas (especialmente para LPP/AVS/LAA)\n\n**Palavras-chave SEO (tendências Suíça francófona 2025)**: IVA 2025, reforma fiscal Genebra, conformidade PME, outsourcing administrativo, gestão de folha, Swiss GAAP FER, IVA eletrónico, Odoo Genebra, otimização fiscal, auditoria IVA, fiscalidade empresas 2025 Suíça, declaração IVA online, atualidades fiscais Genebra.\n\nPara saber mais, a documentação oficial e o suporte da Administração Federal de Contribuições e as ferramentas recomendadas estão listados abaixo.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "TVA AFC 2025",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
+        },
+        {
+          "labelKey": "Checklist AFC e-TVA",
+          "url": "https://www.amsuisse.ch/fileadmin/forum_archiv/pdf/2024/06/2024_06_F_120_Modification_TVA.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "tva-2025-geneve-impact-pme-revision-fiscale",
+      "title": "Reforma do IVA 2025: o que muda para as PME em Genebra e como se adaptar",
+      "description": "Um guia prático sobre a reforma do IVA 2025 destinado a líderes de PME em Genebra: novas obrigações, medidas práticas a implementar a partir do outono de 2025, armadilhas a evitar e conselhos para otimizar processos fiscais para 2026.",
+      "content": "A reforma parcial do IVA, em vigor desde 1 de janeiro de 2025, tem um impacto concreto nas PME de Genebra. Surge num contexto de digitalização crescente, com novas obrigações mas também oportunidades para antecipar exigências regulamentares até 2026.\n\nPontos-chave da reforma:\n- Obrigação para TODOS os sujeitos passivos de declarar o IVA através do portal oficial online (fim do papel, opção: “pro” ou “easy”).\n- Novas regras para plataformas de vendas online: qualquer plataforma que realize vendas na Suíça, mesmo através de parceiros estrangeiros, deve cobrar e repassar o IVA.\n- As taxas foram ajustadas: alguns produtos passam à taxa reduzida (compare com sua nomenclatura).\n- Esclarecimentos para subsídios, métodos simplificados (taxa fixa ou dívida fiscal líquida) e exceções setoriais.\n\nEtapas recomendadas para as PME:\n1. Verifique (e, se necessário, atualize) o seu método de apuramento do IVA;\n2. Forme-se na utilização do novo portal de IVA, se ainda não o fez;\n3. Antecipe a sujeição se vender por uma plataforma ou se os seus clientes o fizerem (especialmente e-commerce);\n4. Adapte a parametrização da sua contabilidade/ERP, em particular as taxas e códigos de IVA (Odoo, etc.);\n5. Prepare uma comunicação para clientes e parceiros, garantindo a conformidade partilhada.\n\nFoco Genebra: Na Suíça francófona, Genebra confirmou apoio específico às PME na transição digital do IVA. Sessões de informação são organizadas com a Câmara de Comércio e a AFC.\n\nPalavras-chave em alta no Google para 2025: IVA 2025 Suíça, portal de IVA online, taxas de IVA Genebra, e-commerce IVA, compliance fiscal PME Genebra, Swiss GAAP FER e IVA, digitalização administrativa, conformidade Odoo IVA.\n\nAntecipação, formação e apoio externo são investimentos imediatos que evitarão litígios, penalidades e custos adicionais em 2026.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-17",
+      "references": [
+        {
+          "labelKey": "TVA Réforme 2025 AFC",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
+        },
+        {
+          "labelKey": "TVA Mémo pratique Genève",
+          "url": "https://fidulex.ch/revision-de-la-tva-changements-cles-en-2025/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -355,5 +635,32 @@
     "Accounting": "Comptabilité",
     "Tax": "Fiscalité",
     "Payroll": "Paie"
-  }
+  },
+  "admin.ch_liste_des_taux_actuels_de_la_TVA_en_Suisse": "admin.ch - lista das taxas atuais de IVA na Suíça",
+  "fedlex_admin_ch_reforme_TVA_2024_message_officiel": "fedlex.admin.ch - comunicado oficial sobre a reforma do IVA 2024",
+  "Réforme fiscale Genève officielle": "Reforma fiscal oficial de Genebra",
+  "Changements fiscaux Genève 2025": "Mudanças fiscais Genebra 2025",
+  "Analyse Econostrum 2025": "Análise Econostrum 2025",
+  "Finances publiques Genève juin 2025": "Finanças públicas Genebra junho 2025",
+  "Changements fiscaux Genève": "Mudanças fiscais Genebra",
+  "Panorama fiscal 2025 AFC": "Panorama Fiscal AFC 2025",
+  "Modifications TVA 2025": "Alterações do IVA 2025",
+  "Panorama fiscal Genève 2025": "Panorama fiscal Genebra 2025",
+  "Prolongation du délai de décompte TVA": "Prorrogação do prazo de apuração de IVA",
+  "Révision des recettes fiscales Genève": "Revisão das receitas fiscais de Genebra",
+  "Réformes fiscales Genève": "Reformas fiscais Genebra",
+  "Obligations fiscales entreprises": "Obrigações fiscais empresas",
+  "Fiscalité RFFA Genève": "Fiscalidade RFFA Genebra",
+  "TVA Changements 2025": "Alterações IVA 2025",
+  "Paie 2025 Genève": "Folha de Genebra 2025",
+  "Guide employeur salarié 2025": "Guia empregador-empregado 2025",
+  "Frontaliers télétravail": "Teletrabalho fronteiriço",
+  "Fiscalité entreprises GE": "Fiscalidade empresarial GE",
+  "Réformes fiscales 2025": "Reformas fiscais 2025",
+  "Cybersécurité & compliance GE": "Cibersegurança & compliance GE",
+  "fedlex_loi_tva": "Lei do IVA (Fedlex)",
+  "TVA AFC 2025": "AFC IVA 2025",
+  "Checklist AFC e-TVA": "Checklist AFC e-IVA",
+  "TVA Réforme 2025 AFC": "Reforma do IVA 2025 AFC",
+  "TVA Mémo pratique Genève": "Memorando prático IVA Genebra"
 }

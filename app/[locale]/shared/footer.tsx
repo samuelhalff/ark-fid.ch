@@ -165,7 +165,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
                         : tFooter(titleKey)}
                     </a>
                   ) : href === "#cookie-settings" ? (
-                    <CookieSettingsLink className="hover:text-foreground underline">
+                    <CookieSettingsLink className="hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
                       {tFooter(titleKey)}
                     </CookieSettingsLink>
                   ) : (

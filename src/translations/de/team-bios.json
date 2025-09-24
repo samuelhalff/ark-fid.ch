@@ -1,0 +1,32 @@
+{
+    "Bios": {
+        "hassan-barbir": {
+            "short": "Partner. Berät Unternehmen und Privatkunden, auch Stiftungen und Trusts. Verwaltungsrat internationaler Gesellschaften.",
+            "long": "Berät zu Rechnungswesen, Steuern, Lohn und Gesellschaftsrecht (Gründung, Aktionärsstruktur und Vereinbarungen). Begleitet Stiftungen und Trusts. Beantwortet Steuerfragen und Reorganisationen. Tritt als Verwaltungsrat in internationalen Unternehmen auf."
+        },
+        "samuel-halff": {
+            "short": "Managing Partner. Berät Unternehmen und Privatkunden. Verwaltungsrat internationaler Gruppen.",
+            "long": "Leitet die Kanzlei. Berät zu Rechnungswesen, Steuern, Lohn und Gesellschaftsrecht (Gründung, Aktionärsstruktur und Vereinbarungen). Ist Verwaltungsrat internationaler Gruppen. Entwickelt KI‑Lösungen für effizientere Prozesse und Reporting."
+        },
+        "rodrigue-sperisen": {
+            "short": "Partner. Berät Unternehmen und Privatkunden. Internationale Steuern und Nachfolge.",
+            "long": "Berät zu Rechnungswesen, Steuern und Gesellschaftsrecht. Schwerpunkt internationale Steuern. Spezialisiert auf Trusts und Erbschaftsrecht. Entwickelt klare Governance‑ und Eigentumsstrukturen."
+        },
+        "lassana-dioum": {
+            "short": "Partner und Steuerspezialist. Berät Unternehmen und Privatkunden zu Steuern und Rechnungswesen. Verwaltungsrat internationaler Unternehmen.",
+            "long": "Steuerspezialist für direkte und indirekte Steuern. Unterstützt Buchhaltung, Lohn und Compliance. Koordiniert Eingaben und Rulings über Jurisdiktionen. Tritt als Verwaltungsrat in internationalen Unternehmen auf."
+        },
+        "anthony-touboul": {
+            "short": "Steuerexperte. Personal‑ und Vergütungssteuern. Schweizer Pauschalbesteuerung. Unterstützt die Steuerkonformität von Unternehmen und Privatpersonen. Tritt als Verwaltungsrat für lokale und internationale Unternehmen auf."
+        },
+        "celeste-leal": {
+            "short": "Leitet Büro und Projekte. Unterstützt Kunden und Team. Sorgt für klare Prioritäten und reibungslose Umsetzung."
+        },
+        "sebastien-gallie": {
+            "short": "Senior‑Buchhalter und Payroll‑Manager. Verantwortlich für Buchhaltung, Monatsabschlüsse und Reporting. Sorgt für verlässliche Zahlen und pünktliche Ergebnisse."
+        },
+        "maulk-hamdi": {
+            "short": "Assistent für Buchhaltung und Lohn. Unterstützt Administration, Zahlungen und den täglichen Betrieb."
+        }
+    }
+}

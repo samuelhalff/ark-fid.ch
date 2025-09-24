@@ -31,7 +31,7 @@ const PayrollPresentation = () => {
           <TranslatedText
             ns="payroll"
             translationKey="Presentation.Subtitle"
-            fallbackText="Professional Payroll Services"
+            fallbackText="Professional Payroll services"
           />
         </h2>
 

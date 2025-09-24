@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Analytics } from "@vercel/analytics/react";
 
 const CONSENT_KEY = "cookieConsent";
 
@@ -16,6 +15,8 @@ function getConsent(): "accepted" | "declined" | null {
 
 export default function ConsentAnalytics() {
   const [consent, setConsent] = useState<"accepted" | "declined" | null>(null);
+  const [AnalyticsComp, setAnalyticsComp] =
+    useState<React.ComponentType | null>(null);
 
   useEffect(() => {
     setConsent(getConsent());
@@ -46,6 +47,23 @@ export default function ConsentAnalytics() {
     };
   }, []);
 
-  if (consent !== "accepted") return null;
-  return <Analytics />;
+  useEffect(() => {
+    let mounted = true;
+    if (consent === "accepted" && !AnalyticsComp) {
+      import("@vercel/analytics/react")
+        .then((mod) => {
+          if (mounted) setAnalyticsComp(() => mod.Analytics);
+        })
+        .catch(() => {
+          // ignore
+        });
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [consent, AnalyticsComp]);
+
+  if (consent !== "accepted" || !AnalyticsComp) return null;
+  const C = AnalyticsComp;
+  return <C />;
 }

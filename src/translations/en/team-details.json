@@ -1,0 +1,91 @@
+{
+    "Details": {
+        "hassan-barbir": {
+            "education": [
+                "LL.M. Tax, University of Geneva",
+                "Master in Law, University of Geneva",
+                "Bachelor in Law, University of Geneva"
+            ],
+            "languages": [
+                "French",
+                "English",
+                "Italian"
+            ],
+            "memberships": [
+                "ODAGE",
+                "FSA"
+            ],
+            "credentials": [
+                "Admitted to the Geneva bar (2013)"
+            ]
+        },
+        "samuel-halff": {
+            "education": [
+                "LL.M., UCLA (University of California, Los Angeles)",
+                "Master in Law, University of Geneva"
+            ],
+            "languages": [
+                "French",
+                "English"
+            ],
+            "credentials": [
+                "Admitted to the Geneva bar (2013)"
+            ]
+        },
+        "anthony-touboul": {
+            "education": [
+                "LL.M., Tax Law, University of Geneva (2011–2013)",
+                "Master's, Business and Tax Law (DJCE), Université Jean Moulin Lyon III (2004–2006)"
+            ]
+        },
+        "rodrigue-sperisen": {
+            "education": [
+                "Master in Law, University of Neuchâtel"
+            ],
+            "languages": [
+                "French",
+                "English"
+            ],
+            "memberships": [
+                "ODAGE",
+                "FSA",
+                "OAR SFA-FSN",
+                "STEP",
+                "ASDS",
+                "Fondation pour le droit de l'art"
+            ],
+            "credentials": [
+                "Admitted to the Geneva bar (2005)",
+                "STEP Diploma (2009)"
+            ]
+        },
+        "sebastien-gallie": {
+            "education": [
+                "Diplôme fédéral d'Expert fiduciaire (Romandie Formation, 2022–2025)",
+                "Brevet fédéral d'Agent fiduciaire (Cursus Formation, 2018–2021)"
+            ]
+        },
+        "lassana-dioum": {
+            "education": [
+                "Master in Economic Law, University of Geneva",
+                "Bachelor in Law, University of Geneva",
+                "HEC, University of Geneva"
+            ],
+            "languages": [
+                "French",
+                "English",
+                "Spanish"
+            ],
+            "memberships": [
+                "ODAGE",
+                "FSA",
+                "IBA",
+                "IFA",
+                "AIJA"
+            ],
+            "credentials": [
+                "Admitted to the Geneva bar (2012)"
+            ]
+        }
+    }
+}

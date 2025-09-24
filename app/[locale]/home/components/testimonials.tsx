@@ -1,17 +1,15 @@
 "use client";
 
 import { Avatar, AvatarFallback } from "@/src/components/ui/avatar";
-import {
-  Carousel,
-  CarouselApi,
-  CarouselContent,
-  CarouselItem,
-} from "@/src/components/ui/carousel";
 import { cn } from "@/src/lib/utils";
 import { StarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import TranslatedText from "@/src/components/ui/translated-text";
 import { useTranslation } from "react-i18next";
+import "@/src/i18n";
+import Defer from "@/src/components/Defer";
+
+type CarouselApi = any;
 
 const Testimonial = () => {
   const [api, setApi] = useState<CarouselApi>();
@@ -28,16 +26,10 @@ const Testimonial = () => {
   }>;
 
   useEffect(() => {
-    if (!api) {
-      return;
-    }
-
+    if (!api) return;
     setCount(api.scrollSnapList().length);
     setCurrent(api.selectedScrollSnap() + 1);
-
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
+    api.on("select", () => setCurrent(api.selectedScrollSnap() + 1));
   }, [api]);
 
   return (
@@ -52,16 +44,15 @@ const Testimonial = () => {
           fallbackText="Testimonials"
         />
       </h2>
-      <div className="container w-full mx-auto">
-        <Carousel setApi={setApi}>
-          <CarouselContent>
-            {testimonials.map((testimonial, index) => (
-              <CarouselItem key={index}>
-                <TestimonialCard testimonial={testimonial} />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+      <Defer
+        rootMargin="400px"
+        idle={300}
+        placeholder={<div className="h-64 w-full rounded-lg bg-muted/40" />}
+      >
+        <CarouselClient
+          items={testimonials}
+          onApi={(api: CarouselApi) => setApi(api)}
+        />
         <div className="flex items-center justify-center gap-2">
           {Array.from({ length: count }).map((_, index) => (
             <button
@@ -73,10 +64,53 @@ const Testimonial = () => {
             />
           ))}
         </div>
-      </div>
+      </Defer>
     </div>
   );
 };
+
+function CarouselClient({
+  items,
+  onApi,
+}: {
+  items: Array<{
+    name: string;
+    designation: string;
+    company: string;
+    testimonial: string;
+  }>;
+  onApi: (api: CarouselApi) => void;
+}) {
+  const [mod, setMod] = useState<any>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    import("@/src/components/ui/carousel").then((m) => {
+      if (!mounted) return;
+      setMod(m);
+      // count will be set after api attaches; kept in outer effect
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  if (!mod) return null;
+  const { Carousel, CarouselContent, CarouselItem } = mod;
+  return (
+    <div className="container w-full mx-auto">
+      <Carousel setApi={onApi}>
+        <CarouselContent>
+          {items.map((testimonial, index) => (
+            <CarouselItem key={index}>
+              <TestimonialCard testimonial={testimonial} />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+    </div>
+  );
+}
 
 const TestimonialCard = ({ testimonial }: { testimonial: any }) => (
   <div className="mb-8 bg-accent rounded-xl py-8 px-6 sm:py-6">

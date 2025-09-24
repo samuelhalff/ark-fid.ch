@@ -1,6 +1,8 @@
 {
     "Title": "Get in touch",
     "Subtitle": "We usually reply within 24 hours.",
+    "BookingButton": "Book a call",
+    "OrContactUs": "Or contact us.",
     "Form": {
         "Name": "Name",
         "Email": "Email",

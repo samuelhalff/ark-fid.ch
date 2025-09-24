@@ -1,12 +1,14 @@
 {
+    "ImageAlt": "Altstadt von Zürich und Zürichsee im Sonnenaufgang, Schweiz",
     "Hero": {
-        "Badge": "Swiss Made",
+        "Badge": "Swiss made",
         "BadgeTwo": "KI-gestützt",
         "ReadMore": "Mehr erfahren",
         "Title": "Buchhaltung",
         "Description": "Wir bieten Buchhaltungsdienstleistungen zusammen mit modernster Technologie, um Ihnen bei der effizienten Verwaltung Ihrer Finanzen zu helfen. Unser Team gewährleistet die Einhaltung schweizerischer Vorschriften und stellt Ihnen die Werkzeuge zur Verfügung, um fundierte Entscheidungen zu treffen.",
-        "CTA": "Kontakt aufnehmen",
-        "SecondaryCTA": "Team kennenlernen"
+        "CTA": "Buchhaltungsangebot anfordern",
+        "SecondaryCTA": "Team kennenlernen",
+        "OdooPartnerBadge": "Offizieller Odoo-Partner"
     },
     "Presentation": {
         "Title": "Ganzheitliche Sicht auf Ihre Buchhaltung",

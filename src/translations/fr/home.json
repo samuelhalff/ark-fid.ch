@@ -9,8 +9,9 @@
         "CTA": "Contactez-nous",
         "SecondaryCTA": "Rencontrer l'équipe",
         "Badge": "Swiss made",
-        "BadgeTwo": "Alimenté par l'IA",
-        "OdooBadge": "Partenaire officiel Odoo"
+        "BadgeTwo": "Assisté par l'IA",
+        "OdooBadge": "Solutions digitales & ERP",
+        "OdooPartnerBadge": "Partenaire Odoo officiel"
     },
     "Services": {
         "Title": "Nos services",

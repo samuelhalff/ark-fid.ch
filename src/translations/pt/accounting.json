@@ -1,12 +1,14 @@
 {
+    "ImageAlt": "Cidade antiga de Zurique e lago ao amanhecer, Suíça",
     "Hero": {
         "Badge": "Swiss Made",
-        "BadgeTwo": "Alimentado por IA",
+        "BadgeTwo": "Assistido por IA",
         "ReadMore": "Ler mais",
         "Title": "Contabilidade",
         "Description": "Oferecemos serviços de contabilidade junto com tecnologia de ponta para ajudá-lo a gerenciar suas finanças de forma eficiente. Nossa equipe garante conformidade com as regulamentações suíças, fornecendo as ferramentas para tomar decisões informadas.",
-        "CTA": "Entrar em contato",
-        "SecondaryCTA": "Conhecer a equipe"
+        "CTA": "Solicitar orçamento contábil",
+        "SecondaryCTA": "Conhecer a equipe",
+        "OdooPartnerBadge": "Parceiro Odoo oficial"
     },
     "Presentation": {
         "Title": "Visão holística da sua contabilidade",

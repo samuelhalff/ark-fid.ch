@@ -1,10 +1,11 @@
 {
+    "ImageAlt": "Matterhorn bei Sonnenaufgang mit Alpenpanorama, Schweiz",
     "Hero": {
         "Badge": "Swiss made",
         "BadgeTwo": "Vertrauenspartner",
         "Title": "Unternehmensdienstleistungen",
         "Description": "Ark Fiduciaire bietet umfassende Unternehmensverwaltungsdienstleistungen und stellt sicher, dass Ihr Unternehmen konform, gut strukturiert und wachstumsbereit ist. Wir kümmern uns um alle administrativen, rechtlichen und regulatorischen Aspekte, damit Sie sich auf Ihr Geschäft konzentrieren können.",
-        "CTA": "Kontakt aufnehmen",
+        "CTA": "Verwaltung vereinfachen",
         "SecondaryCTA": "Team kennenlernen"
     },
     "Presentation": {

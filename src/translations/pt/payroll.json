@@ -1,10 +1,11 @@
 {
+    "ImageAlt": "Histórico bonde azul sobre trilhos nevados sob céu de inverno claro, Suíça",
     "Hero": {
-        "Badge": "Serviços de Folha",
-        "BadgeTwo": "Alimentado por IA",
+        "Badge": "Serviços de folha",
+        "BadgeTwo": "Assistido por IA",
         "Title": "Folha de Pagamento e RH",
         "Description": "A Ark Fiduciaire gerencia sua folha de pagamento e administração de RH com precisão e confidencialidade. Garantimos conformidade com a lei trabalhista suíça e fornecemos suporte para todas suas necessidades de RH.",
-        "CTA": "Entre em contato",
+        "CTA": "Obter suporte de folha",
         "SecondaryCTA": "Conhecer a equipe"
     },
     "Presentation": {

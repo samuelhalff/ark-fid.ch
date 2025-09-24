@@ -765,7 +765,7 @@ export default async function CookiesPage({
               <p>
                 {r(
                   "Cookies.Contact.Address",
-                  "Address: 26 Boulevard Georges Favon, 1204 Geneva"
+                  "Address: Ark Fiduciaire SA, 26 Boulevard Georges Favon, 1204 Geneva"
                 )}
               </p>
             </div>

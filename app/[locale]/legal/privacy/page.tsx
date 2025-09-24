@@ -653,7 +653,7 @@ export default async function PrivacyPage({
               <p>
                 {r(
                   "Privacy.Contact.Address",
-                  "Address: 26 Boulevard Georges Favon, 1204 Geneva"
+                  "Address: Ark Fiduciaire SA, 26 Boulevard Georges Favon, 1204 Geneva"
                 )}
               </p>
               {/* <p>{r("Privacy.Contact.Phone", "Phone: +41 XX XXX XX XX")}</p> */}

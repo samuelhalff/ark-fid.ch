@@ -1,0 +1,32 @@
+{
+    "Bios": {
+        "hassan-barbir": {
+            "short": "Partner. Advises corporate and private clients, including foundations and trusts. Acts as director for international companies.",
+            "long": "Advises corporate and private clients on accounting, tax, payroll and corporate matters (incorporation, shareholder structure and agreements). Works with entities such as foundations and trusts. Advises on tax questions and reorganizations. Acts as director on boards of international companies."
+        },
+        "samuel-halff": {
+            "short": "Managing partner. Advises corporate and private clients. Acts as director for international groups.",
+            "long": "Leads the firm. Advises corporate and private clients on accounting, tax, payroll and corporate matters (incorporation, shareholder structure and agreements). Acts as director for international groups. Engineers AI solutions to streamline firm processes and reporting."
+        },
+        "rodrigue-sperisen": {
+            "short": "Partner. Advises corporate and private clients. International tax and succession.",
+            "long": "Advises corporate and private clients on accounting, tax and corporate matters. Focus on international tax. Specialises in trusts and inheritance matters. Designs clear governance and ownership frameworks."
+        },
+        "lassana-dioum": {
+            "short": "Partner and tax specialist. Advises corporate and private clients on tax and accounting. Acts as director for international companies.",
+            "long": "Tax specialist advising corporate and private clients on direct and indirect tax. Supports accounting, payroll and compliance. Coordinates filings and rulings across jurisdictions. Acts as director for international companies."
+        },
+        "anthony-touboul": {
+            "short": "Tax expert. Human capital and employment taxation. Swiss lump‑sum taxation (forfait). Supports corporate and individual tax compliance. Acts as director for local and international companies."
+        },
+        "celeste-leal": {
+            "short": "Manages the office and projects. Supports clients and the team. Keeps priorities clear and execution smooth."
+        },
+        "sebastien-gallie": {
+            "short": "Senior accountant and payroll manager. Handles bookkeeping, monthly closes and reporting. Ensures accurate numbers and timely deliverables."
+        },
+        "maulk-hamdi": {
+            "short": "Accounting and payroll assistant. Supports admin, payments and day‑to‑day client operations."
+        }
+    }
+}

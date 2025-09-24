@@ -1,9 +1,11 @@
 {
+    "ImageAlt": "Cresta montañosa emergiendo sobre nubes en los Alpes suizos",
     "Hero": {
         "Badge": "Domiciliación",
+        "BadgeTwo": "Dirección suiza",
         "Title": "Domiciliación",
         "Description": "Ark Fiduciaire ofrece servicios de domiciliación para su empresa en Suiza. Benefíciese de una dirección prestigiosa y soporte administrativo integral para su negocio.",
-        "CTA": "Contáctanos",
+        "CTA": "Obtener dirección en Suiza",
         "SecondaryCTA": "Conocer al equipo"
     },
     "Presentation": {

@@ -1,10 +1,11 @@
 {
+    "ImageAlt": "Historic blue tram on snowy tracks under clear winter sky, Switzerland",
     "Hero": {
-        "Badge": "Payroll Services",
+        "Badge": "Payroll services",
         "BadgeTwo": "AI powered",
         "Title": "Payroll & HR",
         "Description": "Ark Fiduciaire manages your payroll and HR administration with precision and confidentiality. We ensure compliance with Swiss labor law and provide support for all your HR needs.",
-        "CTA": "Contact us",
+        "CTA": "Get payroll guidance",
         "SecondaryCTA": "Meet the team"
     },
     "Presentation": {
