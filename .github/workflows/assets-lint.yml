@@ -13,7 +13,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm ci
+          cache: npm
+      - run: npm i
       - name: Audit image usage
         run: node scripts/audit-image-usage.js > image-usage.csv
       - name: Check assets
