@@ -10,6 +10,7 @@ const baseConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react', 'react-hook-form', 'sonner']
   },
+  output: 'standalone',
   images: {
     unoptimized: false,
     formats: ['image/avif', 'image/webp'],

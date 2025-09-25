@@ -4,7 +4,7 @@ import {
   generateOrganizationStructuredData,
   generateLocalBusinessStructuredData,
 } from "@/src/lib/metadata";
-import { Inter } from "next/font/google";
+import { inter } from "./fonts";
 import { headers } from "next/headers";
 // Vercel Analytics is rendered conditionally via ConsentAnalytics
 import dynamic from "next/dynamic";
@@ -20,7 +20,7 @@ const ConsentAnalytics = dynamic(
 );
 import { getTranslations } from "@/src/lib/i18n";
 
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+// Using self-hosted Inter via next/font/local (see app/fonts.ts)
 
 if (process.env.NODE_ENV !== "production") {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -31,7 +31,7 @@ const criticalCss = `:root {color-scheme: light;--background: 1 0 0;--foreground
 .dark {--background: 0.145 0 0;--foreground: 0.985 0 0;--card: 0.205 0 0;--card-foreground: 0.985 0 0;--popover: 0.205 0 0;--popover-foreground: 0.985 0 0;--primary: 0.922 0 0;--primary-foreground: 0.205 0 0;--secondary: 0.269 0 0;--secondary-foreground: 0.985 0 0;--muted: 0.269 0 0;--muted-foreground: 0.708 0 0;--accent: 0.269 0 0;--accent-foreground: 0.985 0 0;--destructive: 0.704 0.191 22.216;--border: 1 0 0 / 0.1;--input: 1 0 0 / 0.15;--ring: 0.556 0 0;color-scheme: dark;}
 *,*::before,*::after{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{margin:0;min-height:100vh;background-color:oklch(var(--background));color:oklch(var(--foreground));font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6;}
+body{margin:0;min-height:100vh;background-color:oklch(var(--background));color:oklch(var(--foreground));font-family:var(--font-inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);line-height:1.6;}
 img{display:block;max-width:100%;}
 a{color:inherit;text-decoration:none;}
 button,input,select,textarea{font:inherit;}
@@ -171,7 +171,7 @@ export default async function RootLayout({
     },
   } as const;
   return (
-    <html suppressHydrationWarning lang={currentLocale}>
+    <html suppressHydrationWarning lang={currentLocale} className={inter.variable}>
       <head>
         {/* Remove early preconnect to analytics to avoid competing with LCP; analytics loads only after consent */}
         {/** Defer Google Maps connections to pages that actually use Maps (e.g., contact). Removing global preconnect helps mobile Speed Index. */}

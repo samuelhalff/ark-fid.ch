@@ -18,9 +18,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: npm
 
-      - name: Install dependencies
-        run: npm ci --omit=dev --ignore-scripts
+      - name: Install dependencies (runtime only)
+        run: npm i --omit=dev --ignore-scripts
 
       - name: Run AI update (FR + translations via Azure Agent)
         env:
@@ -55,3 +56,29 @@ jobs:
       - name: Ping sitemaps
         run: |
           node scripts/ping-sitemaps.js
+
+      # Build a standalone bundle so it can be deployed to the server
+      - name: Install deps for build (with dev)
+        run: npm i
+
+      - name: Build CSS artifact (optional)
+        run: npm run css:build
+
+      - name: Build Next.js (standalone)
+        run: npm run build
+
+      - name: Package standalone bundle
+        run: |
+          mkdir -p .next/standalone/.next
+          cp -r .next/static .next/standalone/.next/static
+          cp -r public .next/standalone/public 2>/dev/null || true
+          # (optional) include .env.production in the bundle if present
+          if [ -f .env.production ]; then cp .env.production .next/standalone/.env.production; fi
+          tar -czf release.tgz .next/standalone
+
+      - name: Upload bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release.tgz
+          path: release.tgz
+          retention-days: 7

@@ -1,0 +1,87 @@
+name: Build Standalone Bundle
+
+on:
+  workflow_dispatch:
+    inputs:
+      upload_artifact:
+        description: "Upload release.tgz as artifact"
+        type: boolean
+        default: true
+      deploy:
+        description: "After build, SCP artifact to server"
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build CSS artifact (optional)
+        run: npm run css:build
+
+      - name: Build Next.js (standalone)
+        run: npm run build
+
+      - name: Package standalone bundle
+        run: |
+          mkdir -p .next/standalone/.next
+          cp -r .next/static .next/standalone/.next/static
+          cp -r public .next/standalone/public 2>/dev/null || true
+          tar -czf release.tgz .next/standalone
+
+      - name: Upload artifact
+        if: ${{ inputs.upload_artifact }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: release.tgz
+          path: release.tgz
+          retention-days: 7
+
+  # Optional: add a deploy job that scps release.tgz to your server
+  # To enable, define repository secrets: SSH_HOST, SSH_USER, SSH_PRIVATE_KEY
+  # and set workflow_dispatch input `deploy` to true.
+  deploy:
+    if: ${{ inputs.deploy == true }}
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      SSH_PORT: ${{ vars.SSH_PORT || 22 }}
+      REMOTE_PATH: ${{ vars.REMOTE_PATH || '/var/www/ark-fid' }}
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release.tgz
+
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ env.SSH_KEY }}
+
+      - name: Copy release to server
+        run: |
+          scp -P "$SSH_PORT" -o StrictHostKeyChecking=no release.tgz "$SSH_USER@$SSH_HOST:$REMOTE_PATH/release.tgz"
+
+      # Example manual steps to run on the server after copy:
+      # ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" << 'EOSSH'
+      #   set -e
+      #   cd "$REMOTE_PATH"
+      #   rm -rf .next/standalone || true
+      #   tar -xzf release.tgz
+      #   PORT=5000 nohup node .next/standalone/server.js > app.log 2>&1 &
+      # EOSSH
