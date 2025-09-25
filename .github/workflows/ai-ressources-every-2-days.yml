@@ -9,7 +9,6 @@ jobs:
   update:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write # required for OIDC federated auth with Azure
       contents: write # to commit changes
     steps:
       - name: Checkout
@@ -23,13 +22,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Azure OIDC login
+      - name: Azure CLI login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           allow-no-subscriptions: true
-        # Requires a Federated Credential configured in Azure AD for this repo / workflow
+        # Uses a stored client secret instead of OIDC federated auth
 
       - name: Run AI update (FR + translations via Azure Agent)
         env:
