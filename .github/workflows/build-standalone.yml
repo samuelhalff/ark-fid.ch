@@ -61,7 +61,7 @@ jobs:
       SSH_USER: ${{ secrets.SSH_USER }}
       SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       SSH_PORT: ${{ vars.SSH_PORT || 22 }}
-      REMOTE_PATH: ${{ vars.REMOTE_PATH || '/var/www/ark-fid' }}
+      REMOTE_PATH: ${{ vars.REMOTE_PATH || '/srv/customer/sites/ark-fid.ch' }}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -77,11 +77,35 @@ jobs:
         run: |
           scp -P "$SSH_PORT" -o StrictHostKeyChecking=no release.tgz "$SSH_USER@$SSH_HOST:$REMOTE_PATH/release.tgz"
 
-      # Example manual steps to run on the server after copy:
-      # ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" << 'EOSSH'
-      #   set -e
-      #   cd "$REMOTE_PATH"
-      #   rm -rf .next/standalone || true
-      #   tar -xzf release.tgz
-      #   PORT=5000 nohup node .next/standalone/server.js > app.log 2>&1 &
-      # EOSSH
+      - name: Deploy on server (extract + restart)
+        run: |
+          ssh -p "$SSH_PORT" -o StrictHostKeyChecking=no "$SSH_USER@$SSH_HOST" << 'EOSSH'
+            set -e
+            cd "$REMOTE_PATH"
+            # Extract new bundle
+            rm -rf .next/standalone || true
+            tar -xzf release.tgz
+            # Create/Update simple restart script and PID management
+            cat > start.sh << 'EOF'
+            #!/usr/bin/env bash
+            set -e
+            cd "$(dirname "$0")"
+            if [ -f app.pid ]; then
+              if kill -0 "$(cat app.pid)" 2>/dev/null; then
+                kill "$(cat app.pid)" || true
+                sleep 1
+              fi
+            fi
+            nohup node .next/standalone/server.js > app.log 2>&1 & echo $! > app.pid
+            echo "Started: PID $(cat app.pid)"
+            EOF
+            chmod +x start.sh
+            # Try systemd user service first, else use PM2 if available, else use start.sh
+            if command -v systemctl >/dev/null 2>&1 && systemctl --user status ark-fid >/dev/null 2>&1; then
+              systemctl --user restart ark-fid || true
+            elif command -v pm2 >/dev/null 2>&1; then
+              pm2 startOrReload ecosystem.config.js || pm2 start "node .next/standalone/server.js" --name ark-fid --update-env || true
+            else
+              ./start.sh
+            fi
+          EOSSH
