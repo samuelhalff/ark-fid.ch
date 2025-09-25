@@ -166,6 +166,13 @@
       "description": "Análisis de las diferencias salariales entre directivos y empleados en Suiza para el año 2025, con datos, tendencias y recomendaciones oficiales del sindicato Unia.",
       "date": "2025-09-17",
       "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
+    },
+    {
+      "filename": "checklist-teletravail-frontaliers-2025.pdf",
+      "title": "Checklist teletrabajo transfronterizo 2025 – OFAS",
+      "description": "Lista oficial de OFAS sobre las reglas de teletrabajo transfronterizo 2025 entre Suiza y Francia, con recordatorios sociales y fiscales.",
+      "date": "2025-09-19",
+      "source_url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
     }
   ],
   "Articles": [
@@ -212,214 +219,6 @@
         {
           "labelKey": "afcCrypto",
           "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
-        }
-      ]
-    },
-    {
-      "slug": "reforme-tva-2025-suisse",
-      "title": "Reforma IVA 2025: Liquidación anual y obligaciones electrónicas",
-      "description": "Guía completa de las novedades del IVA 2025: Liquidación anual para las pymes, obligación de declaración electrónica y nuevas normas de quiebra.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-09",
-      "content": "2025 marca una etapa clave en la modernización del IVA suizo.\n\n#### Liquidación anual para pymes (<5 005 000 CHF CA)\n- Trámites, anticipos, ventajas y trampas.\n\n#### Declaración electrónica obligatoria ► Portal eTVA, importación-exportación contable.\n\n#### Recuperación acelerada\n- Derecho directo de quiebra para deudas fiscales y sociales.\n\n(Artículo de 1 750 palabras que detalla procedimientos, capturas de pantalla de eTVA, ejemplos cantonales.)",
-      "references": [
-        {
-          "labelKey": "reforme TVA2025",
-          "url": "https://dilytics.ch/reforme-tva-2025-en-suisse-preparez-votre-entreprise/"
-        },
-        {
-          "labelKey": "modificationsKlara2025",
-          "url": "https://www.klara.ch/fr-ch/blog/gesetzes%C3%A4nderungen-2025-das-m%C3%BCssen-schweizer-kmu-jetzt-wissen"
-        }
-      ]
-    },
-    {
-      "slug": "impot-minimum-ocde-suisse-2025",
-      "title": "Impuesto mínimo OCDE en Suiza: impactos e implementación 2025",
-      "description": "Análisis detallado del impuesto mínimo OCDE del 15% para las multinacionales: reglas IIR, impactos en las empresas suizas y perspectivas de evolución.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-08",
-      "content": "El pilar 2 de la OCDE establece una tasa mínima del 15%.\n\n#### Fase 1: Impuesto nacional complementario (QDMTT)\n#### Fase 2: Regla de inclusión de ingresos\n\n#### OMTax: solución de cálculo automatizado.\n#### Consejos de reestructuración para multinacionales.\n\n(Artículo de 1.800 palabras con diagramas, caso de estudio ginebrino y vaudois.)",
-      "references": [
-        {
-          "labelKey": "emineoOMTax",
-          "url": "https://emineo.ch/fr/omtax-la-reponse-numerique-a-limpot-minimum/"
-        },
-        {
-          "labelKey": "swissBankingOCDE",
-          "url": "https://www.swissbanking.ch/fr/themes/impots/imposition-minimale-de-locde"
-        }
-      ]
-    },
-    {
-      "slug": "suppression-valeur-locative-votation-septembre-2025",
-      "title": "Votación del 28 de septiembre de 2025: supresión del valor locativo y sus implicaciones",
-      "description": "Análisis de la votación sobre la supresión del valor locativo: impactos fiscales, consecuencias para los propietarios y las renovaciones energéticas.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-07",
-      "content": "La supresión del valor locativo revoluciona la fiscalidad inmobiliaria.\n\n#### Sistema actual: valor locativo + deducciones por obras/alquiler.\n#### Reforma: impuesto inmobiliario cantonal sobre residencias secundarias.\n#### Impactos generacionales, energéticos, económicos.\n#### Escenarios cantonales Ginebra, Vaud, Valais.\n\n(Artículo de 1900 palabras con cifras, entrevistas, simulaciones).",
-      "references": [
-        {
-          "labelKey": "strengValeurLocative",
-          "url": "https://streng.ch/news/modifications-legislatives-a-venir-vers-deux-reformes-importantes-pour-les-contribuables/"
-        },
-        {
-          "labelKey": "swissolarNon",
-          "url": "https://www.swissolar.ch/fr/news/detail/non-au-projet-de-suppression-de-la-valeur-locative-le-28-septembre-75266"
-        }
-      ]
-    },
-    {
-      "slug": "comparatif-sa-sarl-2025",
-      "title": "¿SA o Sàrl para su proyecto 2025? Fortalezas, debilidades y fiscalidad",
-      "description": "Tablas de decisión para directivos romandos, coste global de creación, cargas sociales, fiscalidad de los directivos.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-06",
-      "content": "Comparativa numérica SA vs Sàrl:\n\n- Capital mínimo\n- Responsabilidad\n- Gobernanza\n- Fiscalidad de dividendos vs salarios\n- Transmisión\n\n(Artículo de 1 600 palabras, tablas, casos prácticos Ginebra/Vaud.)"
-    },
-    {
-      "slug": "teletravail-frontaliers-nouvelle-convention",
-      "title": "Teletrabajo transfronterizo Francia–Suiza: obligaciones, certificados y cambios después de 2025",
-      "description": "Regla del 40%, herramientas para empleadores, riesgos de establecimiento, preparación para la transmisión automática de datos.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-05",
-      "content": "Prórroga del acuerdo de teletrabajo hasta el 31.12.2025:\n\n- 40% máximo\n- Impacto fiscal\n- Novedades 2026: certificado automático\n- Riesgos de establecimiento permanente\n\n(Artículo de 1 700 palabras, checklist de RRHH, modelos de certificado.)"
-    },
-    {
-      "slug": "reforme-avs-21-entreprises-suisse-romande",
-      "title": "Reforma AVS 21: consecuencias concretas para empleados y pymes",
-      "description": "Aumento del IVA, nueva flexibilidad en la jubilación, generación transitoria, gestión de nóminas mejorada gracias a la reforma.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-04",
-      "content": "Impacto de AVS 21:\n\n- Edad de referencia mujeres: 64 años y 3 meses\n- Jubilación anticipada/diferida/parcial\n- Cotizaciones después de los 65 años integradas\n- Aumento del IVA para cofinanciación\n\n(Artículo de 1.600 palabras, ejemplos de nómina, herramientas de simulación.)"
-    },
-    {
-      "slug": "controle-avs-pme-preparation-2025",
-      "title": "El control AVS en las pymes de Suiza romanda: auditoría 2025 y buenas prácticas",
-      "description": "Experiencias recientes sobre controles, papel del auditor, preparación de documentos, evolución en la era digital.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-03",
-      "content": "Control AVS:\n\n- Aviso y alcance\n- Documentos a presentar\n- Puntos sensibles (ventajas en especie, estatutos)\n- Digitalización\n\n(Artículo de 1.650 palabras con lista de verificación, instrucción cantonal.)"
-    },
-    {
-      "slug": "plan-comptable-pme-suisse-romande",
-      "title": "El plan contable para pymes en Suiza francófona: de lo esencial a la personalización",
-      "description": "Cómo adaptar un plan contable a tu pyme y ganar en eficiencia: estructura, analítica, colaboración fiduciaria, tablas de ejemplo.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-02",
-      "content": "Plan contable suizo:\n\n- Clases 1–8\n- Adaptación sectorial\n- Analítica y reporting\n- Ejemplos simplificados\n\n(Artículo de 1 700 palabras, modelos, capturas de Odoo.)"
-    },
-    {
-      "slug": "facturation-electronique-obligatoire-2026",
-      "title": "Facturación electrónica: ¿las pymes suizas francófonas listas para 2026?",
-      "description": "Nueva obligación B2B/B2G, implicaciones para ERP y Odoo, control de conformidad, calendario oficial y excepciones.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-01",
-      "content": "E-factura:\n\n- Obligatoria B2G >CHF5k\n- B2B: vías y normas Swiss QR\n- Impactos en ERP y Odoo\n\n(Artículo de 1 600 palabras, comparativa Europa.)"
-    },
-    {
-      "slug": "cession-transmission-entreprise-suisse-romande",
-      "title": "Cesión y transmisión de empresas en Suiza romanda: calendario, fiscalidad, obstáculos",
-      "description": "Etapas de la sucesión, novedades fiscales, casos prácticos de pymes, preguntas frecuentes de herederos.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-31",
-      "content": "Proceso:\n\n1. Preparación del proyecto\n2. Due diligence\n3. Negociación\n4. Closing\n\n(Artículo de 1 800 palabras, checklist legal.)"
-    },
-    {
-      "slug": "optimisation-fiscale-independants-geneve-2025",
-      "title": "Optimización fiscal 2025 para autónomos en Ginebra: consejos y deducciones clave",
-      "description": "Resumen exhaustivo de los ahorros posibles, simulador en línea, obligaciones de declaración, consejos de expertos.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-30",
-      "content": "Deducciones:\n\n- Alquiler profesional\n- Vehículo de uso mixto\n- Material y formación\n- Cotizaciones AVS/LPP/3a\n\n(Artículo de 1 700 palabras, simulador, ejemplos.)"
-    },
-    {
-      "slug": "fiscalite-crowdfunding-suisse-2025",
-      "title": "Fiscalidad del crowdfunding y recaudación de fondos en Suiza francófona: guías prácticas 2025",
-      "description": "Tratamiento fiscal de donaciones, préstamos crowdlending/supporting/investing, obligaciones de IVA, declaración de beneficios.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-29",
-      "content": "Crowdfunding:\n\n- Donación: donación vs ingreso\n- Recompensa: facturación\n- Préstamo: intereses sujetos a impuestos\n- Inversión: dividendos sujetos a impuestos\n\n(Artículo de 1 750 palabras, casos locales.)"
-    },
-    {
-      "slug": "audit-pme-2025-choix-controle",
-      "title": "Auditoría 2025 de las pymes romandes: ¿control restringido, ordinario u opting-out?",
-      "description": "Explicaciones pedagógicas de cada tipo de auditoría, umbrales, consecuencias, opt-out: instrucciones de uso.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-28",
-      "content": "Auditoría:\n\n- Ordinaria vs restringida\n- Condiciones de opting-out\n- Consecuencias para la credibilidad\n\n(Artículo de 1 650 palabras, tabla de decisión.)"
-    },
-    {
-      "slug": "tva-prestations-electroniques-suisse-2025",
-      "title": "Servicios electrónicos y IVA 2025: Suiza versus UE, trampas y conformidad",
-      "description": "Streaming, software SaaS, marketplace, cómo aplicar el IVA para empresas y autónomos suizos.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-27",
-      "content": "Servicios electrónicos:\n\n- Lugar de prestación\n- Umbral de sujeción\n- Obligaciones de representantes fiscales\n\n(Artículo de 1 600 palabras, comparativa UE.)"
-    },
-    {
-      "slug": "statut-quasi-resident-geneve-2025",
-      "title": "Casi-residencia Ginebra: la herramienta de optimización para fronterizos en 2025",
-      "description": "Procedimiento a seguir, verdadero/falso, condiciones de TOU, casos límite (binacionales, parejas, traslados profesionales).",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-26",
-      "content": "TOU:\n\n- Condiciones 90% de ingresos mundiales\n- Deducciones reales\n- Ejemplo de caso de fronterizo casado\n\n(Artículo de 1 600 palabras, simulador.)"
-    },
-    {
-      "slug": "gestion-paie-pme-suisse-romande-2025",
-      "title": "Gestión y externalización de la nómina: guía para pymes de Suiza romanda en 2025",
-      "description": "Seguridad, cumplimiento, comparación entre gestión interna, Odoo o fiduciaria, enfoque en los controles cantonales y swissdec.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-25",
-      "content": "Nómina:\n\n- Cálculo bruto/neto\n- Impuesto en la fuente vs eTax\n- Normas swissdec\n- Criterios de externalización\n\n(Artículo de 1 700 palabras, testimonios.)"
-    },
-    {
-      "slug": "controle-fiscal-pme-2025",
-      "title": "Control fiscal pymes Ginebra y Suiza francófona: lista de verificación práctica 2025",
-      "description": "Prepárese para un control fiscal: puntos revisados, documentos a presentar, errores a evitar, evolución de la práctica cantonal.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-24",
-      "content": "Fiscal:\n\n- Documentación contable\n- Deducciones sospechosas\n- Procedimiento cantonal\n\n(Artículo de 1 650 palabras, consejos de expertos.)"
-    },
-    {
-      "slug": "comptabilite-fiscalite-associations-romande-2025",
-      "title": "Contabilidad, IVA y fiscalidad de las asociaciones romandas: obligaciones, trampas, soluciones",
-      "description": "Todo sobre franquicias, IVA, modelo de cuentas, umbrales de sujeción y checklist para nuevos estatutos.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-23",
-      "content": "Asociaciones:\n\n- Cuentas simplificadas vs RC\n- Exenciones de beneficio/capital\n- Umbrales de IVA 100k/250k\n\n(Artículo de 1.700 palabras, modelos de cuenta.)"
-    },
-    {
-      "slug": "amortissement-fiscal-comptable-2025",
-      "title": "Amortizaciones y provisiones fiscales: nuevas reglas y casos prácticos 2025",
-      "description": "Panorama de los métodos, novedades cantonales, consejos para empresas innovadoras, tablas comparativas.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-22",
-      "content": "Amortizaciones:\n\n- Lineal vs decreciente\n- Tasas fiscales máximas\n- Reservas latentes\n\n(Artículo de 1 650 palabras, ejemplos de startups de Ginebra.)"
-    },
-    {
-      "slug": "reprise-entreprise-romande-2025",
-      "title": "Relevo empresarial en Suiza romanda: etapas clave y trampas a evitar",
-      "description": "Desde la búsqueda de objetivos hasta la transición post-cierre, guía completa para compradores y vendedores.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-21",
-      "content": "Relevo:\n\n- Preparación del proyecto\n- Due diligence completa\n- Financiación estructurada\n- Integración de colaboradores\n\n(Artículo de 1.800 palabras, esquemas de procesos.)"
-    },
-    {
-      "slug": "nouveaux-taux-tva-suisse-transition-2024-entreprises-geneve",
-      "title": "¿Cómo preparar su empresa en Ginebra para la subida de los tipos de IVA en 2024?",
-      "description": "Subida del IVA en 2024: consejos prácticos y checklist para pymes, autónomos y departamentos financieros en Ginebra. Esta guía ayuda a anticipar, adaptar herramientas (ERP, Odoo), formar equipos y evitar errores comunes.",
-      "content": "Desde el 1 de enero de 2024, los tipos de IVA suizos han subido para garantizar la financiación del AVS. Por eso, toda empresa con sede en Ginebra y, en general, en Suiza francófona debe adaptar su gestión contable, sistemas ERP (por ejemplo Odoo), comunicación con los clientes y formación interna. Puntos clave a comprobar:\n\n## <b>1. Identificación de los nuevos tipos aplicables</b>\n- Tipo ordinario: 8,1% (antes 7,7%)\n- Tipo reducido: 2,6%\n- Tipo especial alojamiento: 3,8%\n<br>Atención: para cualquier bien o servicio, la fecha de entrega/prestación determina el tipo aplicable.\n\n## <b>2. Actualización de software contable y ERPs</b>\n- Compruebe que sus herramientas (sobre todo Odoo, Winbiz, Crésus, etc.), facturación recurrente y plantillas de presupuestos integren los nuevos tipos.\n- Para Odoo, use la documentación oficial para implementar los nuevos tipos en la configuración fiscal.\n- Prevea códigos de IVA adicionales para la transición (servicios que cruzan períodos)\n\n## <b>3. Verificación de procesos de facturación y reporting</b>\n- Segmente correctamente las facturas según la fecha de prestación.\n- Revise las notas de crédito y anticipos.\n- Revise sus herramientas para declaración de IVA Swissdec\n\n## <b>4. Formación interna y comunicación</b>\n- Forme a su equipo administrativo, comercial y financiero sobre los nuevos tipos y reglas de transición.\n- Informe a sus clientes profesionales por email, boletín o nota en factura.\n\n## <b>5. Consejos clave para evitar errores frecuentes</b>\n- No aplique el nuevo tipo a servicios realizados en 2023 aunque la factura salga en 2024.\n- Haga validar la configuración del ERP o software contable por un experto fiduciario.\n- Revise las guías prácticas suministradas por la AFC y asociaciones cantonales para dominar casos especiales (splits, multi-tasas, cambios de método de liquidación).\n\n## <b>Para más información</b>\n- Solicite acompañamiento personalizado: revisión de procesos de IVA, externalización admin & finanzas, configuración avanzada (Odoo, Winbiz, etc.) y apoyo en la transición 2023-2024 (declaraciones trimestrales y semestrales).\n- Utilice recursos oficiales: guías PDF, línea directa de la AFC y actualidad sobre planificación fiscal para pymes de Ginebra.\n\nEste artículo resume lo esencial y propone un checklist práctico para una transición exitosa. En caso de duda, valide sus opciones con un experto contable o administrador de sociedades especializado en fiscalidad e IVA en Suiza francófona.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-16",
-      "references": [
-        {
-          "labelKey": "admin.ch_liste_des_taux_actuels_de_la_TVA_en_Suisse",
-          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-97258.html"
-        },
-        {
-          "labelKey": "fedlex_admin_ch_reforme_TVA_2024_message_officiel",
-          "url": "https://www.fedlex.admin.ch/eli/fga/2023/1970/fr"
         }
       ]
     },
@@ -612,6 +411,24 @@
           "url": "https://fidulex.ch/revision-de-la-tva-changements-cles-en-2025/"
         }
       ]
+    },
+    {
+      "slug": "teletravail-frontaliers-2025-paie-geneve",
+      "title": "Teletrabajo fronterizo 2025: obligaciones de nómina en Ginebra",
+      "description": "Resumen de las nuevas obligaciones sociales y fiscales para teletrabajadores fronterizos en 2025 y acciones inmediatas para los equipos de nómina en Ginebra.",
+      "content": "Desde el 1 de julio de 2025 el acuerdo suizo-francés mantiene la afiliación suiza hasta el 49% de teletrabajo. Los responsables de nómina en Ginebra deben ajustar procesos antes de fin de año para evitar diferencias de cotización.\n\nEfectos directos en nómina:\n- confirmación mensual de los días de teletrabajo para cada fronterizo;\n- declaraciones firmadas archivadas durante seis años con validación del responsable;\n- documentar el contacto con cajas AVS y aseguradoras de accidentes al alcanzar el 49%;\n- actualizar la retención de impuestos según la guía cantonal de septiembre 2025.\n\nPlan de acción antes de diciembre 2025:\n1. actualizar acuerdos de teletrabajo y recordar las reglas de declaración;\n2. coordinar nómina, RRHH y fiscalidad para activar una auditoría automática a partir del 40%;\n3. comprobar que Odoo, Abacus y ProConcept generan el informe OFAS;\n4. informar a la dirección sobre sanciones y fijar revisiones trimestrales.\n\nLa administración fiscal de Ginebra organiza sesiones mensuales de apoyo. Mantenga una vigilancia normativa: Francia ya anuncia una revisión para 2026.\n\nPalabras clave en tendencia septiembre 2025: teletrabajo fronterizo suiza francia, nómina ginebra 2025, cumplimiento teletrabajo 49 por ciento, guía OFAS teletrabajo, auditoría nómina fronterizos.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-19",
+      "references": [
+        {
+          "labelKey": "Accord télétravail Suisse France 2025",
+          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-99538.html"
+        },
+        {
+          "labelKey": "Guide télétravail OFAS 2025",
+          "url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -662,5 +479,7 @@
   "TVA AFC 2025": "IVA AFC 2025",
   "Checklist AFC e-TVA": "Checklist e-IVA AFC",
   "TVA Réforme 2025 AFC": "Reforma del IVA 2025 AFC",
-  "TVA Mémo pratique Genève": "Memorando práctico IVA Ginebra"
+  "TVA Mémo pratique Genève": "Memorando práctico IVA Ginebra",
+  "Accord télétravail Suisse France 2025": "Acuerdo de teletrabajo Suiza–Francia 2025",
+  "Guide télétravail OFAS 2025": "Guía OFAS 2025 sobre teletrabajo transfronterizo"
 }

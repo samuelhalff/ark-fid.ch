@@ -166,6 +166,13 @@
       "description": "Analyse des écarts salariaux entre dirigeants et employés en Suisse pour l'année 2025, incluant données, tendances et recommandations officielles du syndicat Unia.",
       "date": "2025-09-17",
       "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
+    },
+    {
+      "filename": "checklist-teletravail-frontaliers-2025.pdf",
+      "title": "Checklist télétravail des frontaliers 2025 – OFAS",
+      "description": "Checklist officielle OFAS pour appliquer les nouvelles règles de télétravail transfrontalier dès 2025 entre la Suisse et la France, avec rappels sociaux et fiscaux.",
+      "date": "2025-09-19",
+      "source_url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
     }
   ],
   "Articles": [
@@ -404,6 +411,24 @@
           "url": "https://fidulex.ch/revision-de-la-tva-changements-cles-en-2025/"
         }
       ]
+    },
+    {
+      "slug": "teletravail-frontaliers-2025-paie-geneve",
+      "title": "Télétravail frontalier 2025 : obligations de paie à Genève",
+      "description": "Point d'étape sur les nouvelles règles sociales et fiscales qui s'appliquent aux frontaliers en télétravail dès 2025 à Genève, avec actions concrètes pour les responsables paie.",
+      "content": "Depuis le 1er juillet 2025, l'accord Suisse–France sur le télétravail fixe un seuil de 49% de travail à distance avant tout impact sur l'affiliation sociale. Les équipes paie genevoises doivent pourtant revoir leurs procédures dès l'automne pour éviter des écarts de contribution.\n\nImpacts immédiats pour la paie :\n- la confirmation mensuelle des jours télétravaillés devient indispensable pour chaque frontalier ;\n- les justificatifs signés par l'employé et validés par la hiérarchie doivent être archivés six ans ;\n- la communication avec les caisses AVS et les assureurs LAA doit être documentée quand le seuil de 49% est atteint ;\n- les ajustements d'impôt à la source doivent suivre le guide cantonal mis à jour en septembre 2025.\n\nCe qu'il faut planifier avant décembre 2025 :\n1. mettre à jour les conventions de télétravail et rappeler les règles de déclaration ;\n2. synchroniser paie, RH et fiscalité pour déclencher un audit automatique dès 40% de télétravail ;\n3. vérifier la compatibilité des systèmes (Odoo, Abacus, ProConcept) avec le rapport OFAS ;\n4. informer les dirigeants sur les sanctions en cas de non-respect et proposer un calendrier de contrôles trimestriels.\n\nÀ Genève, l'administration fiscale cantonale accompagne les entreprises avec des sessions mensuelles. Réservez une veille réglementaire continue : les partenaires français annoncent déjà une révision pour 2026.\n\nMots-clés tendances septembre 2025 : télétravail frontalier suisse france, paie geneve 2025, accord télétravail 49 pourcent, audit social frontalier, suivi jours télétravail, conformité ofas télétravail, télétravail geneve entreprises.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-19",
+      "references": [
+        {
+          "labelKey": "Accord télétravail Suisse France 2025",
+          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-99538.html"
+        },
+        {
+          "labelKey": "Guide télétravail OFAS 2025",
+          "url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -447,5 +472,7 @@
   "TVA AFC 2025": "Modifications TVA 2025 document officiel",
   "Checklist AFC e-TVA": "Checklist mise en conformité e-TVA Suisse 2025",
   "TVA Réforme 2025": "L'essentiel de la réforme TVA 2025 et conséquences pratiques",
-  "Écarts salariaux 2025": "Données récentes sur les variations salariales en Suisse romande"
+  "Écarts salariaux 2025": "Données récentes sur les variations salariales en Suisse romande",
+  "Accord télétravail Suisse France 2025": "Accord Suisse–France sur le télétravail transfrontalier (2025)",
+  "Guide télétravail OFAS 2025": "Guide OFAS 2025 sur le télétravail transfrontalier"
 }

@@ -10,10 +10,10 @@
         "Associate": "Collaboratrice"
     },
     "Labels": {
-        "Formation": "Formation",
-        "Langues": "Langues",
-        "Adhésions": "Adhésions",
-        "Certifications": "Certifications"
+        "Education": "Formation",
+        "Languages": "Langues",
+        "Memberships": "Adhésions",
+        "Credentials": "Certifications"
     },
     "PBM": {
         "Note": "Associé senior chez le cabinet PBM.",

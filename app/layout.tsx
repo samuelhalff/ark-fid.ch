@@ -186,6 +186,14 @@ export default async function RootLayout({
               "window.trustedTypes && window.trustedTypes.createPolicy('nextjs#bundler', { createHTML: (input) => input, createScriptURL: (input) => input, createScript: (input) => input });",
           }}
         />
+        <title>
+          Ark Fiduciaire - Services fiduciaires professionnels en Suisse
+        </title>
+        <meta
+          name="description"
+          content="Services de comptabilité, fiscalité et corporate à Genève"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <style
           nonce={nonce}
           data-critical

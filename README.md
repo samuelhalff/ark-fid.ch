@@ -117,36 +117,37 @@ Providers:
 
 - Azure Agent with Bing grounding (requires `AZURE_AGENT_*` envs)
 
-Environment:
-
-# Azure Agent
-
-AZURE_AGENT_ENDPOINT=...
-AZURE_AGENT_API_KEY=...
-AZURE_AGENT_ID=...
-
-# AZURE_AGENT_CHAT_URL=... # optional explicit chat path
+Environment (DefaultAzureCredential):
 
 ```
+# Required
+AZURE_AGENT_ENDPOINT=...
+AZURE_AGENT_ID=...
+
+# Optional
+AZURE_TRANSLATE_AGENT_ID=...
+AZURE_AGENT_RUN_TIMEOUT_MS=180000
+```
+
+Authentication is handled through the Azure Identity DefaultAzureCredential chain. Supported options:
+
+- Local dev: run `az login` first.
+- GitHub Actions / CI: configure a federated service principal and call `azure/login@v2` with `allow-no-subscriptions: true` plus `AZURE_CLIENT_ID` and `AZURE_TENANT_ID` secrets.
+- Service principal secrets: set `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET` in the environment.
+- Managed identity when running inside Azure hosting.
 
 Usage examples:
 
 ```
-
-# Apply with Azure Agent
-
-AI_PROVIDER=azure-agent node scripts/ai-ressources-update.js --apply
-
-# Probe your Azure Agent endpoint
-
-node scripts/probe-azure-agent.js
-
+# Dry run / apply
+node scripts/ai-ressources-update.js --dry-run
+node scripts/ai-ressources-update.js --apply
 ```
 
 Notes:
 
-- The Azure Agent endpoint path may vary by deployment. If the default patterns do not work, set `AZURE_AGENT_CHAT_URL` to the exact chat URL provided by your service.
 - The script expects JSON responses matching the specified schema. If the agent returns non-JSON content, adjust the agent instructions to produce `application/json` payloads.
+- GitHub workflow `.github/workflows/ai-ressources-every-2-days.yml` automates the run every two days using OIDC-based Azure login.
 
 ## Ressources Link Integrity
 

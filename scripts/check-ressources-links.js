@@ -15,6 +15,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { listLocales } = require('./lib/ressources');
 
 const args = process.argv.slice(2);
 const flag = (f) => args.includes(f);
@@ -40,13 +41,6 @@ function fetchWithTimeout(url, options, timeout) {
   const id = setTimeout(() => controller.abort(), timeout);
   return fetch(url, { ...options, signal: controller.signal })
     .finally(() => clearTimeout(id));
-}
-
-function listLocales() {
-  return fs.readdirSync(TRANSLATIONS_DIR).filter(d => {
-    const full = path.join(TRANSLATIONS_DIR, d);
-    return fs.statSync(full).isDirectory() && fs.existsSync(path.join(full, 'ressources.json'));
-  });
 }
 
 async function checkLocale(locale) {
@@ -120,7 +114,9 @@ async function checkLocale(locale) {
 }
 
 async function main() {
-  const locales = allLocales ? listLocales() : [oneLocale];
+  const locales = allLocales
+    ? listLocales(TRANSLATIONS_DIR, { requireRessources: true })
+    : [oneLocale];
   const out = [];
   for (const loc of locales) {
     out.push(await checkLocale(loc));

@@ -30,12 +30,32 @@
 const fs = require("fs");
 const path = require("path");
 
-const args = new Set(process.argv.slice(2));
+const rawArgs = process.argv.slice(2);
+const args = new Set(rawArgs);
 const APPLY = args.has("--apply");
 const DRY = args.has("--dry-run");
 const SKIP_DL = args.has("--skip-download");
+const SKIP_FILE = args.has("--skip-file");
+let MOCK_PATH = null;
+for (const arg of rawArgs) {
+  if (arg.startsWith("--mock=")) {
+    MOCK_PATH = arg.slice("--mock=".length);
+  }
+}
+
+function loadMockData(p) {
+  try {
+    const abs = path.isAbsolute(p) ? p : path.join(process.cwd(), p);
+    return JSON.parse(fs.readFileSync(abs, "utf8"));
+  } catch (error) {
+    throw new Error(`Failed to load mock data from ${p}: ${error.message}`);
+  }
+}
+
+const MOCK_DATA = MOCK_PATH ? loadMockData(MOCK_PATH) : null;
 
 const PROVIDER = "azure-agent";
+const OFFLINE_MODE = process.env.OFFLINE_MODE === "1";
 
 // Azure Agent configuration (alternative provider)
 // Using official @azure/ai-projects SDK flow:
@@ -110,16 +130,52 @@ async function downloadPdf(url, destPath) {
   });
 }
 
-// NOTE: Previous capitalization enforcement (blocking or auto-fixing ALL CAPS words)
-// has been removed to allow arbitrary acronyms without maintenance overhead.
-function hasUnnecessaryCaps() {
-  return false;
+const ACRONYM_ALLOWLIST = new Set([
+  "TVA",
+  "PME",
+  "LPP",
+  "LAA",
+  "AVS",
+  "AI",
+  "ERP",
+  "IFD",
+  "VAT",
+  "SME",
+  "CHF",
+  "ESG",
+  "HR",
+  "PDF",
+  "LPC",
+  "CFC",
+  "SAF",
+  "RSE",
+  "OFAS",
+  "SECO",
+]);
+
+function hasUnnecessaryCaps(input) {
+  if (!input || typeof input !== "string") {
+    return false;
+  }
+
+  return input.split(/\s+/).some((token) => {
+    if (!token) return false;
+    const letters = token.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ]/g, "");
+    if (letters.length <= 3) return false;
+    const upper = letters.toUpperCase();
+    if (upper !== letters) return false;
+    if (ACRONYM_ALLOWLIST.has(upper)) return false;
+    return true;
+  });
 }
 
 async function httpOk(
   url,
   timeoutMs = parseInt(process.env.LINK_CHECK_TIMEOUT_MS || "10000", 10)
 ) {
+  if (OFFLINE_MODE) {
+    return true;
+  }
   try {
     const controller = new AbortController();
     const t = setTimeout(() => controller.abort(), timeoutMs);
@@ -351,19 +407,26 @@ async function azureAgentJson(prompt, { agentId = AZURE_AGENT_ID } = {}) {
   return extractJsonFromText(lastAssistantText);
 }
 
-function validateNewFileArticle(fr, nf, na) {
-  if (!nf || !na) throw new Error("Missing newFile or newArticle");
+function validateNewFileArticle(fr, nf, na, { allowMissingFile = false } = {}) {
+  if (!na) throw new Error("Missing newArticle");
+  if (!allowMissingFile && !nf) {
+    throw new Error("Missing newFile or newArticle");
+  }
   const files = Array.isArray(fr.Files) ? fr.Files : [];
   const articles = Array.isArray(fr.Articles) ? fr.Articles : [];
   // Uniqueness
-  const fileNames = new Set(files.map((f) => f.filename));
-  if (fileNames.has(nf.filename))
-    throw new Error(`filename already exists: ${nf.filename}`);
+  if (nf) {
+    const fileNames = new Set(files.map((f) => f.filename));
+    if (fileNames.has(nf.filename))
+      throw new Error(`filename already exists: ${nf.filename}`);
+  }
   const slugs = new Set(articles.map((a) => a.slug));
   if (slugs.has(na.slug)) throw new Error(`slug already exists: ${na.slug}`);
   // Required fields
-  for (const k of ["filename", "title", "description", "date", "source_url"]) {
-    if (!nf[k]) throw new Error(`newFile missing ${k}`);
+  if (nf) {
+    for (const k of ["filename", "title", "description", "date", "source_url"]) {
+      if (!nf[k]) throw new Error(`newFile missing ${k}`);
+    }
   }
   for (const k of [
     "slug",
@@ -395,11 +458,14 @@ function ensureAzureEnv() {
 }
 
 async function main() {
-  ensureAzureEnv();
+  if (!MOCK_DATA) ensureAzureEnv();
   const fr = loadJSON(FR_PATH);
   const basePrompt = buildSystemPrompt(fr);
 
   async function generateDraftWithRetries(frData, attempts = 3) {
+    if (MOCK_DATA?.draft) {
+      return MOCK_DATA.draft;
+    }
     const existingFileNames = new Set((frData.Files || []).map(f => f.filename));
     const existingSlugs = new Set((frData.Articles || []).map(a => a.slug));
     let prompt = basePrompt;
@@ -414,7 +480,7 @@ async function main() {
         if (/filename already exists|slug already exists/i.test(msg) && attempt < attempts) {
           console.warn(`Duplicate detected (${msg}). Regenerating with explicit exclusion list...`);
           // Augment prompt with explicit exclusions and a requirement to pick something else.
-            prompt = basePrompt + "\nIMPORTANT: N'utilise aucun des filenames suivants: " + Array.from(existingFileNames).join(", ") +
+          prompt = basePrompt + "\nIMPORTANT: N'utilise aucun des filenames suivants: " + Array.from(existingFileNames).join(", ") +
             "\nIMPORTANT: N'utilise aucun des slugs suivants: " + Array.from(existingSlugs).join(", ") +
             "\nSi le PDF le plus pertinent est déjà présent, cherche un AUTRE PDF réel distinct (ou mets source_url:null).";
           continue;
@@ -526,8 +592,7 @@ async function main() {
   }
 
   // Attempt immediate PDF download for valid newFile before modifying FR (unless dry-run or skipped)
-  let downloadedPdfPath = null;
-  if (newFile) {
+  if (newFile && !SKIP_DL && !OFFLINE_MODE) {
     const downloadsDir = path.join(process.cwd(), "public", "assets", "downloads");
     const dest = path.join(downloadsDir, newFile.filename);
     try {
@@ -542,7 +607,6 @@ async function main() {
           console.log(`Saved PDF -> ${path.relative(process.cwd(), dest)}`);
         }
       }
-      downloadedPdfPath = dest;
     } catch (e) {
       console.warn(`PDF download failed (${e.message}).`);
       if (process.env.REQUIRE_PDF_DOWNLOAD) {
@@ -553,7 +617,6 @@ async function main() {
 
   // Enforce today date if missing or invalid
   const today = isoDateToday();
-  newFile.date = /^\d{4}-\d{2}-\d{2}$/.test(newFile.date)
   if (newFile) {
     newFile.date = /^\d{4}-\d{2}-\d{2}$/.test(newFile.date)
       ? newFile.date
@@ -576,7 +639,9 @@ async function main() {
     updated.Articles = Array.isArray(updated.Articles)
       ? updated.Articles.slice()
       : [];
-  if (newFile) updated.Files.push(newFile);
+    if (newFile) {
+      updated.Files.push(newFile);
+    }
     updated.Articles.push({ ...newArticle, content: newArticle.content });
     // Merge new label keys, if any
     for (const [k, v] of Object.entries(newLabels)) {
@@ -589,14 +654,19 @@ async function main() {
   }
 
   // Translation via Azure Agent (second call)
-  console.log("Requesting Azure Agent for translations (EN/DE/ES/PT)...");
-  const trPrompt = buildTranslatePrompt(
-    newFile || { filename: '', title: '', description: '', date: newArticle.date, source_url: '' },
-    newArticle
-  );
-  const translations = await azureAgentJson(trPrompt, {
-    agentId: AZURE_TRANSLATE_AGENT_ID,
-  });
+  let translations;
+  if (MOCK_DATA?.translations) {
+    translations = MOCK_DATA.translations;
+  } else {
+    console.log("Requesting Azure Agent for translations (EN/DE/ES/PT)...");
+    const trPrompt = buildTranslatePrompt(
+      newFile || { filename: '', title: '', description: '', date: newArticle.date, source_url: '' },
+      newArticle
+    );
+    translations = await azureAgentJson(trPrompt, {
+      agentId: AZURE_TRANSLATE_AGENT_ID,
+    });
+  }
 
   // Write to each locale
   for (const loc of LOCALES) {

@@ -166,6 +166,13 @@
       "description": "Analyse der Lohnunterschiede zwischen Führungskräften und Mitarbeitenden in der Schweiz für das Jahr 2025, mit Daten, Trends und offiziellen Empfehlungen der Gewerkschaft Unia.",
       "date": "2025-09-17",
       "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
+    },
+    {
+      "filename": "checklist-teletravail-frontaliers-2025.pdf",
+      "title": "Checkliste Grenzgänger Homeoffice 2025 – OFAS",
+      "description": "Offizielle OFAS-Checkliste zu den Homeoffice-Regeln 2025 zwischen der Schweiz und Frankreich mit Hinweisen zu Sozialversicherung und Steuern.",
+      "date": "2025-09-19",
+      "source_url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
     }
   ],
   "Articles": [
@@ -212,214 +219,6 @@
         {
           "labelKey": "afcCrypto",
           "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
-        }
-      ]
-    },
-    {
-      "slug": "reforme-tva-2025-suisse",
-      "title": "MwSt-Reform 2025: Jahresabrechnung und elektronische Pflichten",
-      "description": "Vollständiger Leitfaden zu den MwSt-Neuerungen 2025: Jahresabrechnung für KMU, obligatorische elektronische Deklaration und neue Konkursbestimmungen.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-09",
-      "content": "2025 markiert einen wichtigen Schritt bei der Modernisierung der Schweizer MwSt.\n\n#### Jahresabrechnung für KMU (<5 005 000 CHF Umsatz)\n- Vorgehensweise, Anzahlungen, Vorteile und Fallstricke.\n\n#### Obligatorische elektronische Deklaration ► Portal eTVA, Import-Export Buchhaltung.\n\n#### Beschleunigte Beitreibung\n- Direktes Konkursrecht für Steuer- und Sozialversicherungsschulden.\n\n(Artikel mit 1 750 Wörtern, der Verfahren, Screenshots von eTVA und kantonale Beispiele detailliert beschreibt.)",
-      "references": [
-        {
-          "labelKey": "reforme TVA2025",
-          "url": "https://dilytics.ch/reforme-tva-2025-en-suisse-preparez-votre-entreprise/"
-        },
-        {
-          "labelKey": "modificationsKlara2025",
-          "url": "https://www.klara.ch/fr-ch/blog/gesetzes%C3%A4nderungen-2025-das-m%C3%BCssen-schweizer-kmu-jetzt-wissen"
-        }
-      ]
-    },
-    {
-      "slug": "impot-minimum-ocde-suisse-2025",
-      "title": "OECD-Mindeststeuer in der Schweiz: Auswirkungen und Umsetzung 2025",
-      "description": "Detaillierte Analyse der OECD-Mindeststeuer von 15 % für multinationale Unternehmen: IIR-Regeln, Auswirkungen auf Schweizer Unternehmen und Entwicklungsperspektiven.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-08",
-      "content": "Säule 2 der OECD führt einen Mindestsatz von 15 % ein.\n\n#### Phase 1: Nationale Ergänzungssteuer (QDMTT)\n#### Phase 2: Income Inclusion Rule\n\n#### OMTax: Automatisierte Berechnungslösung.\n#### Restrukturierungsberatung für multinationale Unternehmen.\n\n(Artikel mit 1.800 Wörtern mit Diagrammen, Genfer und Waadtländer Fallstudien.)",
-      "references": [
-        {
-          "labelKey": "emineoOMTax",
-          "url": "https://emineo.ch/fr/omtax-la-reponse-numerique-a-limpot-minimum/"
-        },
-        {
-          "labelKey": "swissBankingOCDE",
-          "url": "https://www.swissbanking.ch/fr/themes/impots/imposition-minimale-de-locde"
-        }
-      ]
-    },
-    {
-      "slug": "suppression-valeur-locative-votation-septembre-2025",
-      "title": "Abstimmung vom 28. September 2025: Abschaffung des Eigenmietwerts und seine Herausforderungen",
-      "description": "Analyse der Abstimmung über die Abschaffung des Eigenmietwerts: steuerliche Auswirkungen, Folgen für Eigentümer und energetische Sanierungen.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-07",
-      "content": "Die Abschaffung des Eigenmietwerts verändert die Immobilienbesteuerung grundlegend.\n\n#### Aktuelles System: Eigenmietwert + Abzüge für Arbeiten/Miete.\n#### Reform: Kantonale Immobiliensteuer auf Zweitwohnungen.\n#### Generationen-, Energie- und Wirtschaftsauswirkungen.\n#### Kantonale Szenarien Genf, Waadt, Wallis.\n\n(Artikel mit 1.900 Wörtern mit Zahlen, Interviews, Simulationen.)",
-      "references": [
-        {
-          "labelKey": "strengValeurLocative",
-          "url": "https://streng.ch/news/modifications-legislatives-a-venir-vers-deux-reformes-importantes-pour-les-contribuables/"
-        },
-        {
-          "labelKey": "swissolarNon",
-          "url": "https://www.swissolar.ch/fr/news/detail/non-au-projet-de-suppression-de-la-valeur-locative-le-28-septembre-75266"
-        }
-      ]
-    },
-    {
-      "slug": "comparatif-sa-sarl-2025",
-      "title": "SA oder GmbH für Ihr Projekt 2025? Stärken, Schwächen und Steuern",
-      "description": "Entscheidungstabellen für Westschweizer Führungskräfte, Gesamtkosten der Gründung, Sozialabgaben, Besteuerung der Geschäftsleiter.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-06",
-      "content": "Zahlenbasierter Vergleich SA vs GmbH:\n\n- Mindestkapital\n- Haftung\n- Unternehmensführung\n- Besteuerung von Dividenden vs Löhnen\n- Unternehmensnachfolge\n\n(Artikel mit 1.600 Wörtern, Tabellen, Praxisfälle Genf/Waadt.)"
-    },
-    {
-      "slug": "teletravail-frontaliers-nouvelle-convention",
-      "title": "Grenzüberschreitendes Homeoffice Frankreich–Schweiz: Pflichten, Bescheinigungen und Entwicklungen nach 2025",
-      "description": "40%-Regelung, Arbeitgeber-Tools, Betriebsstättenrisiko, Vorbereitung auf den automatischen Datenaustausch.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-05",
-      "content": "Verlängerung der Homeoffice-Vereinbarung bis zum 31.12.2025:\n\n- Maximal 40%\n- Auswirkungen auf die Besteuerung\n- Neuerungen ab 2026: automatische Bescheinigung\n- Risiko einer festen Betriebsstätte\n\n(Artikel mit 1.700 Wörtern, HR-Checkliste, Bescheinigungsvorlagen.)"
-    },
-    {
-      "slug": "reforme-avs-21-entreprises-suisse-romande",
-      "title": "AVS 21 Reform: Konkrete Auswirkungen für Mitarbeitende und KMU",
-      "description": "Erhöhung der Mehrwertsteuer, neue Flexibilität beim Rentenalter, Übergangsgeneration, verbesserte Lohnverwaltung dank der Reform.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-04",
-      "content": "AVS 21 Auswirkungen:\n\n- Referenzalter Frauen: 64 Jahre 3 Monate\n- Vorzeitige, aufgeschobene oder teilweise Pensionierung\n- Beiträge nach 65 Jahren integriert\n- Mehrwertsteuererhöhung zur Kofinanzierung\n\n(Artikel mit 1.600 Wörtern, Lohnbeispiele, Simulations-Tools.)"
-    },
-    {
-      "slug": "controle-avs-pme-preparation-2025",
-      "title": "Die AVS-Prüfung in Westschweizer KMU: Audit 2025 und bewährte Praktiken",
-      "description": "Erfahrungsberichte zu aktuellen Prüfungen, Rolle des Revisors, Vorbereitung der Unterlagen, Entwicklungen im digitalen Zeitalter.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-03",
-      "content": "AVS-Prüfung:\n\n- Ankündigung und Umfang\n- Bereitzustellende Unterlagen\n- Sensible Punkte (Naturalleistungen, Status)\n- Digitalisierung\n\n(Artikel mit 1.650 Wörtern, Checkliste, kantonale Anleitung.)"
-    },
-    {
-      "slug": "plan-comptable-pme-suisse-romande",
-      "title": "Der KMU-Kontenplan in der Westschweiz: vom Wesentlichen zur Individualisierung",
-      "description": "Wie Sie einen Kontenplan an Ihr KMU anpassen und effizienter werden: Struktur, Kostenrechnung, Zusammenarbeit mit der Treuhand, Beispieltabellen.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-02",
-      "content": "Schweizer Kontenplan:\n\n- Klassen 1–8\n- Branchenspezifische Anpassung\n- Kostenrechnung & Reporting\n- Vereinfachte Beispiele\n\n(Artikel mit 1.700 Wörtern, Vorlagen, Odoo-Screenshots.)"
-    },
-    {
-      "slug": "facturation-electronique-obligatoire-2026",
-      "title": "Elektronische Rechnungsstellung: Sind Westschweizer KMU bereit für 2026?",
-      "description": "Neue B2B/B2G-Pflicht, Auswirkungen auf ERP und Odoo, Konformitätsprüfung, offizieller Zeitplan und Ausnahmen.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-01",
-      "content": "E-Rechnung:\n\n- B2G-Pflicht >CHF5k\n- B2B: Wege und Swiss QR-Normen\n- Auswirkungen auf ERP & Odoo\n\n(Artikel mit 1.600 Wörtern, Europavergleich.)"
-    },
-    {
-      "slug": "cession-transmission-entreprise-suisse-romande",
-      "title": "Unternehmensverkauf und -übertragung in der Westschweiz: Zeitplan, Steuern, Fallstricke",
-      "description": "Ablauf der Nachfolge, steuerliche Neuerungen, Fallbeispiel KMU, häufige Fragen von Erben.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-31",
-      "content": "Ablauf:\n\n1. Projektvorbereitung\n2. Due Diligence\n3. Verhandlung\n4. Abschluss\n\n(Artikel mit 1.800 Wörtern, juristische Checkliste.)"
-    },
-    {
-      "slug": "optimisation-fiscale-independants-geneve-2025",
-      "title": "Steueroptimierung 2025 für Selbständige in Genf: Tipps und wichtige Abzüge",
-      "description": "Umfassender Überblick über mögliche Einsparungen, Online-Simulator, Deklarationspflichten, Expertenrat.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-30",
-      "content": "Abzüge:\n\n- Geschäftsmiete\n- Gemischt genutztes Fahrzeug\n- Material & Weiterbildung\n- AHV/BVG/3a-Beiträge\n\n(Artikel mit 1.700 Wörtern, Simulator, Beispiele.)"
-    },
-    {
-      "slug": "fiscalite-crowdfunding-suisse-2025",
-      "title": "Steuerliche Behandlung von Crowdfunding und Kapitalbeschaffung in der Westschweiz: Praxisleitfäden 2025",
-      "description": "Steuerliche Behandlung von Spenden, Crowdlending/-supporting/-investing-Darlehen, Mehrwertsteuerpflicht, Deklaration von Gewinnen.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-29",
-      "content": "Crowdfunding:\n\n- Spende: Schenkung vs. Einkommen\n- Reward: Umsatz\n- Darlehen: steuerpflichtige Zinsen\n- Investition: steuerpflichtige Dividenden\n\n(Artikel mit 1.750 Wörtern, lokale Fallbeispiele.)"
-    },
-    {
-      "slug": "audit-pme-2025-choix-controle",
-      "title": "Audit 2025 für Westschweizer KMU: Eingeschränkte Revision, ordentliche Revision oder Opting-out?",
-      "description": "Didaktische Erklärungen zu jeder Form der Revision, Schwellenwerte, Konsequenzen, Opting-out: Anleitung.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-28",
-      "content": "Revision:\n\n- Ordentliche vs. eingeschränkte Revision\n- Opting-out-Bedingungen\n- Auswirkungen auf die Glaubwürdigkeit\n\n(Artikel mit 1.650 Wörtern, Entscheidungstabelle.)"
-    },
-    {
-      "slug": "tva-prestations-electroniques-suisse-2025",
-      "title": "Elektronische Dienstleistungen und Mehrwertsteuer 2025: Schweiz versus EU, Fallstricke und Compliance",
-      "description": "Streaming, SaaS-Software, Marktplätze – wie die Mehrwertsteuer für Schweizer Unternehmen und Selbstständige anzuwenden ist.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-27",
-      "content": "E-Services:\n\n- Ort der Leistungserbringung\n- Umsatzschwelle für Steuerpflicht\n- Pflichten von Fiskalvertretern\n\n(Artikel mit 1.600 Wörtern, Vergleich Schweiz/EU.)"
-    },
-    {
-      "slug": "statut-quasi-resident-geneve-2025",
-      "title": "Quasi-Ansässigkeit Genf: Das Optimierungsinstrument für Grenzgänger 2025",
-      "description": "Vorgehensweise, richtig/falsch, Bedingungen der TOU, Grenzfälle (Doppelstaatsbürger, Paare, berufliche Versetzungen).",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-26",
-      "content": "TOU:\n\n- Bedingungen: 90% des weltweiten Einkommens\n- Tatsächliche Abzüge\n- Beispiel: verheirateter Grenzgänger\n\n(Artikel mit 1.600 Wörtern, Simulator.)"
-    },
-    {
-      "slug": "gestion-paie-pme-suisse-romande-2025",
-      "title": "Lohnverwaltung und Outsourcing: Leitfaden für Westschweizer KMU im Jahr 2025",
-      "description": "Sicherheit, Compliance, Vergleich zwischen interner Verwaltung, Odoo oder Treuhänder, Fokus auf kantonale Kontrollen und Swissdec.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-25",
-      "content": "Lohnabrechnung:\n\n- Brutto-/Nettoberechnung\n- Quellensteuer vs. eTax\n- Swissdec-Standards\n- Kriterien für Outsourcing\n\n(Artikel mit 1.700 Wörtern, Erfahrungsberichte.)"
-    },
-    {
-      "slug": "controle-fiscal-pme-2025",
-      "title": "Steuerprüfung KMU Genf und Westschweiz: praktische Checkliste 2025",
-      "description": "Bereiten Sie sich auf eine Steuerprüfung vor: geprüfte Punkte, vorzulegende Unterlagen, Fehler, die es zu vermeiden gilt, Entwicklung der kantonalen Praxis.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-24",
-      "content": "Steuern:\n\n- Buchhaltungsunterlagen\n- Verdächtige Abzüge\n- Kantonales Verfahren\n\n(Artikel mit 1.650 Wörtern, Expertenrat.)"
-    },
-    {
-      "slug": "comptabilite-fiscalite-associations-romande-2025",
-      "title": "Buchhaltung, Mehrwertsteuer und Besteuerung von Westschweizer Vereinen: Pflichten, Fallstricke, Lösungen",
-      "description": "Alles über Freibeträge, Mehrwertsteuer, Kontenmodelle, Steuerpflichtgrenzen und Checkliste für neue Statuten.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-23",
-      "content": "Vereine:\n\n- Vereinfachte Buchführung vs. Handelsregister\n- Gewinn-/Kapitalbefreiungen\n- Mehrwertsteuergrenzen 100k/250k\n\n(Artikel mit 1.700 Wörtern, Kontenmodelle.)"
-    },
-    {
-      "slug": "amortissement-fiscal-comptable-2025",
-      "title": "Abschreibungen und steuerliche Rückstellungen: neue Regeln und Praxisfälle 2025",
-      "description": "Überblick über Methoden, kantonale Neuerungen, Tipps für innovative Unternehmen, Vergleichstabellen.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-22",
-      "content": "Abschreibungen:\n\n- Linear vs. degressiv\n- Maximal zulässige Steuersätze\n- Stille Reserven\n\n(Artikel mit 1.650 Wörtern, Beispiele für Startups in Genf.)"
-    },
-    {
-      "slug": "reprise-entreprise-romande-2025",
-      "title": "Unternehmensübernahme in der Westschweiz: Schlüsselschritte und Fallstricke",
-      "description": "Vom Finden geeigneter Zielunternehmen bis zur Post-Closing-Übergabe: umfassender Leitfaden für Übernehmende und Übergebende.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-08-21",
-      "content": "Übernahme:\n\n- Projektvorbereitung\n- Umfassende Due Diligence\n- Strukturierte Finanzierung\n- Integration der Mitarbeitenden\n\n(Artikel mit 1.800 Wörtern, Prozessdiagramme.)"
-    },
-    {
-      "slug": "nouveaux-taux-tva-suisse-transition-2024-entreprises-geneve",
-      "title": "Wie bereiten Sie Ihr Unternehmen in Genf auf die Mehrwertsteuererhöhung 2024 vor?",
-      "description": "Mehrwertsteuererhöhung 2024: praktische Tipps und Checkliste für KMU, Selbständige und Finanzabteilungen in Genf. Dieser Leitfaden hilft Ihrem Unternehmen, vorzusorgen, Tools anzupassen (ERP, Odoo), Teams zu schulen und häufige Fehler zu vermeiden.",
-      "content": "Seit dem 1. Januar 2024 wurden die Schweizer Mehrwertsteuersätze zur Sicherung der AHV-Finanzierung angehoben. Für jedes Unternehmen mit Sitz in Genf und der ganzen Westschweiz ist es notwendig, das Rechnungswesen, ERP-Systeme (z. B. Odoo), die Kundenkommunikation und die interne Weiterbildung anzupassen. Prüfen Sie diese Punkte:\n\n## <b>1. Ermittlung der neuen anwendbaren Sätze</b>\n- Normalsatz: 8,1 % (vorher 7,7 %)\n- Reduzierter Satz: 2,6 %\n- Sondersatz Beherbergung: 3,8 %\n<br>Achtung: Für Waren oder Dienstleistungen zählt das Leistungsdatum zur Bestimmung des anwendbaren Satzes.\n\n## <b>2. Aktualisierung der Buchhaltungs- und ERP-Software</b>\n- Stellen Sie sicher, dass Ihre Tools (besonders Odoo, Winbiz, Crésus usw.), wiederkehrende Rechnungen und Angebotsvorlagen die neuen Sätze berücksichtigen.\n- Für Odoo nutzen Sie die offizielle Dokumentation zur Implementierung der neuen Steuersätze in Ihren Einstellungen.\n- Planen Sie zusätzliche MwSt.-Codes für Übergangssituationen (Leistungen über zwei Perioden)\n\n## <b>3. Überprüfung von Fakturierungs- und Reportingprozessen</b>\n- Segmentieren Sie Rechnungen richtig nach Leistungsdatum.\n- Prüfen Sie Gutschriften und Anzahlungsbelege.\n- Kontrollieren Sie Ihre Swissdec-MwSt.-Deklarationstools\n\n## <b>4. Interne Schulung und Kommunikation</b>\n- Schulen Sie Ihr administratives, vertriebliches und finanzielles Team zu den neuen Sätzen und Übergangsregeln.\n- Informieren Sie Geschäftskunden per E-Mail, Rundschreiben oder Hinweis auf der Rechnung.\n\n## <b>5. Zentrale Tipps zur Fehlervermeidung</b>\n- Wenden Sie den neuen Satz nicht auf Leistungen aus 2023 an, auch wenn diese 2024 fakturiert werden.\n- Lassen Sie die Konfiguration von ERP oder Buchhaltungssoftware von einem Treuhandexperten prüfen.\n- Lesen Sie die Leitfäden von der ESTV und den kantonalen Verbänden für Spezialfälle (Splits, Mehrfachsätze, Wechsel der Abrechnungsmethode).\n\n## <b>Für mehr Informationen</b>\n- Ziehen Sie Fachbegleitung hinzu: MwSt.-Prozesse prüfen, Outsourcing von Administration & Finanzen, erweiterte Einstellungen (Odoo, Winbiz usw.) und Begleitung beim Übergang 2023-2024 (Quartals- und Halbjahresabrechnungen).\n- Nutzen Sie offizielle Quellen: PDF-Leitfäden, ESTV-Hotline und Updates zu steuerlichen Strukturen für Genfer KMU.\n\nDieser Artikel fasst das Wichtigste zusammen und bietet eine echte Checkliste für den erfolgreichen Übergang. Im Zweifelsfall lassen Sie Ihre Entscheidungsfindung von einem Steuerexperten oder Geschäftsführer mit MwSt.-Kompetenz in der Westschweiz prüfen.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-09-16",
-      "references": [
-        {
-          "labelKey": "admin.ch_liste_des_taux_actuels_de_la_TVA_en_Suisse",
-          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-97258.html"
-        },
-        {
-          "labelKey": "fedlex_admin_ch_reforme_TVA_2024_message_officiel",
-          "url": "https://www.fedlex.admin.ch/eli/fga/2023/1970/fr"
         }
       ]
     },
@@ -612,6 +411,24 @@
           "url": "https://fidulex.ch/revision-de-la-tva-changements-cles-en-2025/"
         }
       ]
+    },
+    {
+      "slug": "teletravail-frontaliers-2025-paie-geneve",
+      "title": "Grenzgänger Homeoffice 2025: Lohnpflichten in Genf",
+      "description": "Überblick über die neuen Lohn- und Steuerpflichten für Grenzgänger im Homeoffice 2025 sowie Sofortmassnahmen für Genfer Payroll-Teams.",
+      "content": "Seit dem 1. Juli 2025 gilt das Schweizerisch-Französische Homeoffice-Abkommen: Bis 49% Arbeit im Homeoffice bleibt die Sozialversicherung in der Schweiz. Genfer Payroll-Verantwortliche müssen Prozesse bis Ende Jahr anpassen, um Beitragslücken zu vermeiden.\n\nDirekte Auswirkungen auf die Lohnabrechnung:\n- monatliche Bestätigung der Homeoffice-Tage für jede Grenzgängerin und jeden Grenzgänger;\n- unterschriebene Erklärungen sind sechs Jahre archiviert und durch die Führung bestätigt;\n- Kommunikation mit AVS-Stellen und Unfallversicherern wird dokumentiert, sobald 49% erreicht sind;\n- Quellensteuer-Korrekturen folgen dem kantonalen Update von September 2025.\n\nMassnahmen bis Dezember 2025:\n1. Homeoffice-Vereinbarungen aktualisieren und Meldepflichten erläutern;\n2. Payroll, HR und Steuern koordinieren, damit ab 40% Homeoffice ein Audit ausgelöst wird;\n3. Prüfen, ob Odoo, Abacus oder ProConcept den OFAS-Report liefern;\n4. Geschäftsleitung über Sanktionen informieren und vierteljährliche Kontrollen planen.\n\nDie Steuerverwaltung Genf bietet dazu monatliche Sessions an. Behalten Sie regulatorische Updates im Blick: Frankreich plant bereits eine Revision für 2026.\n\nTrend-Keywords September 2025: Homeoffice Grenzgänger Schweiz Frankreich, Payroll Genf 2025, Compliance Homeoffice 49 Prozent, OFAS Homeoffice Leitfaden, Payroll Audit Grenzgänger.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-09-19",
+      "references": [
+        {
+          "labelKey": "Accord télétravail Suisse France 2025",
+          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-99538.html"
+        },
+        {
+          "labelKey": "Guide télétravail OFAS 2025",
+          "url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -662,5 +479,7 @@
   "TVA AFC 2025": "ESTV MwSt 2025",
   "Checklist AFC e-TVA": "ESTV e-MwSt Checkliste",
   "TVA Réforme 2025 AFC": "Mehrwertsteuerreform 2025 ESTV",
-  "TVA Mémo pratique Genève": "MWST-Praxisleitfaden Genf"
+  "TVA Mémo pratique Genève": "MWST-Praxisleitfaden Genf",
+  "Accord télétravail Suisse France 2025": "Homeoffice-Abkommen Schweiz–Frankreich 2025",
+  "Guide télétravail OFAS 2025": "OFAS-Leitfaden 2025 Homeoffice"
 }

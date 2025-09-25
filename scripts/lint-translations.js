@@ -11,6 +11,7 @@ const LOCALES = ['en', 'fr', 'de', 'es', 'pt'];
 const NAMESPACES = [
   'navbar',
   'servicesItems',
+  'team',
   // extend as needed (footer, legal, etc.)
 ];
 

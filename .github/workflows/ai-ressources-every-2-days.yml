@@ -28,7 +28,7 @@ jobs:
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          allow-no-subscriptions: true
         # Requires a Federated Credential configured in Azure AD for this repo / workflow
 
       - name: Run AI update (FR + translations via Azure Agent)
