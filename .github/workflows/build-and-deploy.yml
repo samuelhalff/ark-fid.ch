@@ -1,0 +1,132 @@
+name: Build and Deploy (SSH)
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'app/**'
+      - 'src/**'
+      - 'public/**'
+      - 'tailwind.config.*'
+      - 'postcss.config.*'
+      - 'next.config.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        env:
+          NODE_OPTIONS: --max_old_space_size=2048
+        run: npm run build
+
+      - name: Prepare artifact
+        run: bash scripts/prepare-artifact.sh
+
+      - name: Archive artifact
+        run: |
+          tar -czf next-standalone.tar.gz -C dist .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-standalone
+          path: next-standalone.tar.gz
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: next-standalone
+          path: ./artifact
+
+      - name: Ensure remote target directories
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DEPLOY_SSH_HOST }}
+          username: ${{ secrets.DEPLOY_SSH_USER }}
+          password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
+          script: |
+            mkdir -p "${{ secrets.DEPLOY_TARGET_DIR }}/artifact" "${{ secrets.DEPLOY_TARGET_DIR }}/releases" "${{ secrets.DEPLOY_TARGET_DIR }}/shared"
+
+      # Option A: Use password auth (supported by appleboy actions). Prefer SSH key if possible.
+      - name: Upload release to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_SSH_HOST }}
+          username: ${{ secrets.DEPLOY_SSH_USER }}
+          password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
+          source: 'artifact/next-standalone.tar.gz'
+          target: ${{ secrets.DEPLOY_TARGET_DIR }}/artifact
+
+      - name: Deploy on server (extract, switch symlink, restart via nohup)
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DEPLOY_SSH_HOST }}
+          username: ${{ secrets.DEPLOY_SSH_USER }}
+          password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            BASE_DIR="${{ secrets.DEPLOY_TARGET_DIR }}"
+            RELEASES_DIR="$BASE_DIR/releases"
+            CURRENT_LINK="$BASE_DIR/current"
+            PID_FILE="$BASE_DIR/ark-fid.pid"
+            TS=$(date +%Y%m%d%H%M%S)
+            REL_DIR="$RELEASES_DIR/$TS"
+
+            mkdir -p "$RELEASES_DIR"
+            mkdir -p "$REL_DIR"
+            tar -xzf "$BASE_DIR/artifact/next-standalone.tar.gz" -C "$REL_DIR"
+
+            # Link shared .env files if present
+            if [ -f "$BASE_DIR/shared/.env" ]; then ln -sfn "$BASE_DIR/shared/.env" "$REL_DIR/.env"; fi
+            if [ -f "$BASE_DIR/shared/.env.production" ]; then ln -sfn "$BASE_DIR/shared/.env.production" "$REL_DIR/.env.production"; fi
+
+            # Atomically switch current
+            ln -sfn "$REL_DIR" "$CURRENT_LINK"
+
+            # Restart via nohup using PID file (no pm2 available)
+            cd "$CURRENT_LINK"
+            if [ -f "$PID_FILE" ]; then
+              OLD_PID=$(cat "$PID_FILE" || true)
+              if [ -n "${OLD_PID:-}" ] && kill -0 "$OLD_PID" >/dev/null 2>&1; then
+                kill "$OLD_PID" || true
+                sleep 1
+              fi
+            fi
+            PORT_VAL="${{ secrets.DEPLOY_PORT }}"
+            if [ -z "${PORT_VAL}" ]; then PORT_VAL=3000; fi
+            nohup env PORT="$PORT_VAL" node server.js > "$BASE_DIR/server.out" 2>&1 & echo $! > "$PID_FILE"
+
+            # Keep only the 4 most recent releases
+            if command -v find >/dev/null 2>&1; then
+              mapfile -t rels < <(find "$RELEASES_DIR" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort)
+              KEEP=4
+              COUNT=${#rels[@]}
+              if [ "$COUNT" -gt "$KEEP" ]; then
+                for (( i=0; i<COUNT-KEEP; i++ )); do
+                  rm -rf "$RELEASES_DIR/${rels[$i]}" || true
+                done
+              fi
+            fi

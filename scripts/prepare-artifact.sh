@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Prepare a minimal deployable directory in ./dist for Next.js standalone output
+# Requires: next.config.js with `output: 'standalone'` and a successful `npm run build`
+
+ROOT_DIR=$(pwd)
+BUILD_DIR="$ROOT_DIR/.next"
+DIST_DIR="$ROOT_DIR/dist"
+
+rm -rf "$DIST_DIR"
+mkdir -p "$DIST_DIR/.next"
+
+# Copy the standalone server and minimal node_modules into dist/
+cp -R "$BUILD_DIR/standalone/"* "$DIST_DIR/"
+
+# Ensure .next/static resides alongside the server bundle
+mkdir -p "$DIST_DIR/.next"
+cp -R "$BUILD_DIR/static" "$DIST_DIR/.next/static"
+
+# Copy public assets if present (e.g., non-critical CSS, images)
+if [ -d "$ROOT_DIR/public" ]; then
+  cp -R "$ROOT_DIR/public" "$DIST_DIR/public"
+fi
+
+# Include environment files if present
+shopt -s nullglob
+for envfile in "$ROOT_DIR"/.env*; do
+  # Only copy regular files (skip directories)
+  if [ -f "$envfile" ]; then
+    cp "$envfile" "$DIST_DIR/" || true
+  fi
+done
+shopt -u nullglob
+
+echo "Prepared deployable artifact in $DIST_DIR"
