@@ -23,6 +23,22 @@ if [ -f "$BUILD_DIR/BUILD_ID" ]; then
   cp "$BUILD_DIR/BUILD_ID" "$DIST_DIR/.next/BUILD_ID"
 fi
 
+# Copy required Next.js manifests from the build output into runtime .next
+# This avoids runtime ENOENT for routes/build/prerender manifests when using standalone
+for f in \
+  "routes-manifest.json" \
+  "build-manifest.json" \
+  "prerender-manifest.json" \
+  "app-build-manifest.json" \
+  "images-manifest.json" \
+  "middleware-manifest.json" \
+  "app-path-routes-manifest.json"
+do
+  if [ -f "$BUILD_DIR/$f" ]; then
+    cp "$BUILD_DIR/$f" "$DIST_DIR/.next/$f"
+  fi
+done
+
 # Copy public assets if present (e.g., non-critical CSS, images)
 if [ -d "$ROOT_DIR/public" ]; then
   cp -R "$ROOT_DIR/public" "$DIST_DIR/public"
