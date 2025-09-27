@@ -18,6 +18,11 @@ cp -R "$BUILD_DIR/standalone/"* "$DIST_DIR/"
 mkdir -p "$DIST_DIR/.next"
 cp -R "$BUILD_DIR/static" "$DIST_DIR/.next/static"
 
+# Copy BUILD_ID so Next.js can verify a production build exists
+if [ -f "$BUILD_DIR/BUILD_ID" ]; then
+  cp "$BUILD_DIR/BUILD_ID" "$DIST_DIR/.next/BUILD_ID"
+fi
+
 # Copy public assets if present (e.g., non-critical CSS, images)
 if [ -d "$ROOT_DIR/public" ]; then
   cp -R "$ROOT_DIR/public" "$DIST_DIR/public"
