@@ -117,14 +117,8 @@ jobs:
             mkdir -p "$REL_DIR"
             echo "[deploy] Extract artifact"
             ls -lh "$BASE_DIR/artifact/next-standalone.tar.gz" || true
-            set +e
-            tar -xzf "$BASE_DIR/artifact/next-standalone.tar.gz" -C "$REL_DIR" >/dev/null 2>&1
-            TAR_STATUS=$?
-            set -e
-            if [ "$TAR_STATUS" -ne 0 ] && [ "$TAR_STATUS" -ne 141 ]; then
-              echo "[deploy] tar failed with code $TAR_STATUS" >&2
-              exit "$TAR_STATUS"
-            fi
+            # Allow SIGPIPE (141) from tar under appleboy/drone-ssh wrapper
+            tar -xzf "$BASE_DIR/artifact/next-standalone.tar.gz" --no-same-owner --no-same-permissions -C "$REL_DIR" >/dev/null 2>&1 || [ $? -eq 141 ]
 
             # Link shared .env files if present
             echo "[deploy] Link shared env files (if any)"
