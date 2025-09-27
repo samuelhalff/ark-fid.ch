@@ -67,8 +67,8 @@ export function middleware(request: NextRequest) {
     response.headers.set('X-DNS-Prefetch-Control', 'on')
     response.headers.set('Cross-Origin-Opener-Policy', 'same-origin')
     response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()')
-    // Append Trusted Types declaration (no hard requirement to allow React runtime)
-    response.headers.set('Content-Security-Policy', `${csp}; trusted-types nextjs#bundler`)
+    // Append Trusted Types enforcement
+    response.headers.set('Content-Security-Policy', csp)
     if (isProd) {
       response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
     }
@@ -80,7 +80,7 @@ export function middleware(request: NextRequest) {
   const redirectUrl = new URL(`/${locale}${pathname}`, request.url)
   const response = NextResponse.redirect(redirectUrl)
   response.headers.set('x-nonce', nonce)
-  response.headers.set('Content-Security-Policy', `${csp}; trusted-types nextjs#bundler`)
+  response.headers.set('Content-Security-Policy', csp)
   response.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
   response.headers.set('X-Content-Type-Options', 'nosniff')
   response.headers.set('X-Frame-Options', 'SAMEORIGIN')
