@@ -18,6 +18,7 @@ export default function DeferredNonCriticalStyles() {
     preload.rel = "preload";
     preload.as = "style";
     preload.href = NON_CRITICAL_HREF;
+    preload.crossOrigin = "anonymous";
     preload.setAttribute("data-arkfid-style", mark);
 
     preload.onload = () => {
@@ -25,6 +26,7 @@ export default function DeferredNonCriticalStyles() {
       sheet.rel = "stylesheet";
       sheet.href = NON_CRITICAL_HREF;
       sheet.media = "print";
+      sheet.crossOrigin = preload.crossOrigin;
       sheet.setAttribute("data-arkfid-style", mark);
       sheet.onload = () => {
         sheet.media = "all";
@@ -36,6 +38,7 @@ export default function DeferredNonCriticalStyles() {
       const fallback = document.createElement("link");
       fallback.rel = "stylesheet";
       fallback.href = NON_CRITICAL_HREF;
+      fallback.crossOrigin = preload.crossOrigin;
       fallback.setAttribute("data-arkfid-style", mark);
       document.head.appendChild(fallback);
     };
