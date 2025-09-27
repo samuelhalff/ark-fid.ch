@@ -46,14 +46,7 @@ fi
 
 # Also include required server-side manifests under .next/server to avoid ENOENT
 mkdir -p "$DIST_DIR/.next/server" "$DIST_DIR/.next/server/chunks"
-shopt -s nullglob
-for f in "$BUILD_DIR/server"/*.json; do
-  cp "$f" "$DIST_DIR/.next/server/" || true
-done
-for f in "$BUILD_DIR/server/chunks"/*.json; do
-  cp "$f" "$DIST_DIR/.next/server/chunks/" || true
-done
-shopt -u nullglob
+cp -R "$BUILD_DIR/standalone/.next/server/"* "$DIST_DIR/.next/server/" || true
 
 # Include compiled server code directories so Next can require them at runtime
 if [ -d "$BUILD_DIR/server/pages" ]; then
