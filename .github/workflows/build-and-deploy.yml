@@ -2,17 +2,17 @@ name: Build and Deploy (SSH)
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'app/**'
-      - 'src/**'
-      - 'public/**'
-      - 'tailwind.config.*'
-      - 'postcss.config.*'
-      - 'next.config.js'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'scripts/**'
+      - "app/**"
+      - "src/**"
+      - "public/**"
+      - "tailwind.config.*"
+      - "postcss.config.*"
+      - "next.config.js"
+      - "package.json"
+      - "package-lock.json"
+      - "scripts/**"
   workflow_dispatch:
 
 concurrency:
@@ -29,8 +29,8 @@ jobs:
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
-          cache: 'npm'
+          node-version: "20.x"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -85,7 +85,7 @@ jobs:
           username: ${{ secrets.DEPLOY_SSH_USER }}
           password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
           port: ${{ secrets.DEPLOY_SSH_PORT || 22 }}
-          local_path: 'artifact/next-standalone.tar.gz'
+          local_path: "artifact/next-standalone.tar.gz"
           remote_path: ${{ secrets.DEPLOY_TARGET_DIR }}/artifact/
           sftp_only: true
           delete: false
@@ -103,7 +103,8 @@ jobs:
           use_insecure_cipher: true
           script_stop: true
           script: |
-            set -eo pipefail
+            set -xeo pipefail
+            echo "[deploy] Start at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             BASE_DIR="${{ secrets.DEPLOY_TARGET_DIR }}"
             RELEASES_DIR="$BASE_DIR/releases"
             CURRENT_LINK="$BASE_DIR/current"
@@ -111,19 +112,24 @@ jobs:
             TS=$(date +%Y%m%d%H%M%S)
             REL_DIR="$RELEASES_DIR/$TS"
 
+            echo "[deploy] Prepare release dir: $REL_DIR"
             mkdir -p "$RELEASES_DIR"
             mkdir -p "$REL_DIR"
+            echo "[deploy] Extract artifact"
             tar -xzf "$BASE_DIR/artifact/next-standalone.tar.gz" -C "$REL_DIR"
 
             # Link shared .env files if present
+            echo "[deploy] Link shared env files (if any)"
             if [ -f "$BASE_DIR/shared/.env" ]; then ln -sfn "$BASE_DIR/shared/.env" "$REL_DIR/.env"; fi
             if [ -f "$BASE_DIR/shared/.env.production" ]; then ln -sfn "$BASE_DIR/shared/.env.production" "$REL_DIR/.env.production"; fi
 
             # Atomically switch current
+            echo "[deploy] Switch current symlink"
             ln -sfn "$REL_DIR" "$CURRENT_LINK"
 
             # Restart via nohup using PID file (no pm2 available)
             cd "$CURRENT_LINK"
+            echo "[deploy] Stop previous process if running"
             if [ -f "$PID_FILE" ]; then
               OLD_PID=$(cat "$PID_FILE" || true)
               if [ -n "${OLD_PID:-}" ] && kill -0 "$OLD_PID" >/dev/null 2>&1; then
@@ -133,7 +139,11 @@ jobs:
             fi
             PORT_VAL="${{ secrets.DEPLOY_PORT }}"
             if [ -z "${PORT_VAL}" ]; then PORT_VAL=3000; fi
+            echo "[deploy] Start server (PORT=$PORT_VAL)"
             nohup env PORT="$PORT_VAL" node server.js > "$BASE_DIR/server.out" 2>&1 & echo $! > "$PID_FILE"
+            echo "[deploy] Started with PID $(cat "$PID_FILE")"
+            tail -n +1 -F "$BASE_DIR/server.out" &
+            TAIL_PID=$!
 
             # Keep only the 4 most recent releases (POSIX-friendly)
             releases=$(ls -1 "$RELEASES_DIR" 2>/dev/null | sort)
@@ -151,12 +161,18 @@ jobs:
             SLEEP=3
             OK=0
             for i in $(seq 1 $ATTEMPTS); do
-              if curl -fsS http://127.0.0.1:"$PORT_VAL"/ >/dev/null 2>&1; then
+              echo "[health] Attempt $i/$ATTEMPTS at $(date -u +%H:%M:%S)"
+              if curl -fsS "http://127.0.0.1:$PORT_VAL/" >/dev/null 2>&1; then
+                echo "[health] OK"
                 OK=1; break
               fi
               sleep $SLEEP
             done
+            kill "$TAIL_PID" >/dev/null 2>&1 || true
             if [ "$OK" -ne 1 ]; then
-              echo "Service did not become healthy in time" >&2
+              echo "[health] Service did not become healthy in time" >&2
+              echo "[health] Last 200 log lines:" >&2
+              tail -n 200 "$BASE_DIR/server.out" >&2 || true
               exit 1
             fi
+            echo "[deploy] Done at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
