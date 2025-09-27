@@ -32,7 +32,8 @@ for f in \
   "app-build-manifest.json" \
   "images-manifest.json" \
   "middleware-manifest.json" \
-  "app-path-routes-manifest.json"
+  "app-path-routes-manifest.json" \
+  "react-loadable-manifest.json"
 do
   if [ -f "$BUILD_DIR/$f" ]; then
     cp "$BUILD_DIR/$f" "$DIST_DIR/.next/$f"
@@ -56,6 +57,30 @@ fi
 if [ -d "$BUILD_DIR/server/app" ]; then
   mkdir -p "$DIST_DIR/.next/server/app"
   cp -R "$BUILD_DIR/server/app" "$DIST_DIR/.next/server/"
+fi
+
+# Ensure any files required by Next's standalone runtime are present
+if [ -f "$BUILD_DIR/required-server-files.json" ]; then
+  BUILD_DIR="$BUILD_DIR" DIST_DIR="$DIST_DIR" ROOT_DIR="$ROOT_DIR" node <<'NODE'
+const fs = require('fs');
+const path = require('path');
+
+const buildDir = process.env.BUILD_DIR;
+const distDir = process.env.DIST_DIR;
+const rootDir = process.env.ROOT_DIR;
+const data = JSON.parse(fs.readFileSync(path.join(buildDir, 'required-server-files.json'), 'utf8'));
+
+for (const rel of data.files || []) {
+  const src = path.join(rootDir, rel);
+  const dest = path.join(distDir, rel);
+  if (!fs.existsSync(src)) {
+    console.warn(`[prepare-artifact] Required file missing in build output: ${src}`);
+    continue;
+  }
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.copyFileSync(src, dest);
+}
+NODE
 fi
 
 # Include environment files if present
