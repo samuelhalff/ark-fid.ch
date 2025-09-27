@@ -18,7 +18,6 @@ export default function DeferredNonCriticalStyles() {
     preload.rel = "preload";
     preload.as = "style";
     preload.href = NON_CRITICAL_HREF;
-    preload.crossOrigin = "anonymous";
     preload.setAttribute("data-arkfid-style", mark);
 
     preload.onload = () => {

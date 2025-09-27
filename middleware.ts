@@ -26,7 +26,7 @@ export function middleware(request: NextRequest) {
         `child-src 'self' https://www.google.com https://maps.google.com`,
         // Some map assets & JS served from these
         `img-src 'self' data: blob: https: https://maps.gstatic.com https://maps.googleapis.com`,
-        `script-src-elem 'self' 'nonce-${nonce}' https://maps.googleapis.com https://maps.gstatic.com`,
+        `script-src-elem 'self' 'unsafe-inline' 'nonce-${nonce}' https://maps.googleapis.com https://maps.gstatic.com`,
         `frame-ancestors 'self'`,
         `base-uri 'self'`,
         `form-action 'self'`,
@@ -69,7 +69,7 @@ export function middleware(request: NextRequest) {
     response.headers.set('Cross-Origin-Opener-Policy', 'same-origin')
     response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()')
     // Append Trusted Types enforcement
-    response.headers.set('Content-Security-Policy', `${csp}; require-trusted-types-for 'script'; trusted-types nextjs#bundler`)
+    response.headers.set('Content-Security-Policy', `${csp}; trusted-types nextjs#bundler`)
     if (isProd) {
       response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
     }
@@ -81,7 +81,7 @@ export function middleware(request: NextRequest) {
   const redirectUrl = new URL(`/${locale}${pathname}`, request.url)
   const response = NextResponse.redirect(redirectUrl)
   response.headers.set('x-nonce', nonce)
-  response.headers.set('Content-Security-Policy', `${csp}; require-trusted-types-for 'script'; trusted-types nextjs#bundler`)
+  response.headers.set('Content-Security-Policy', `${csp}; trusted-types nextjs#bundler`)
   response.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
   response.headers.set('X-Content-Type-Options', 'nosniff')
   response.headers.set('X-Frame-Options', 'SAMEORIGIN')
