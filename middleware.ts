@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
   const isProd = process.env.NODE_ENV === 'production'
 
   // CSP: strict in production, relaxed in development for Next.js dev client
-  const csp = (
+  const cspDirectives = (
     isProd
       ? [
         `default-src 'self'`,
@@ -48,6 +48,8 @@ export function middleware(request: NextRequest) {
         `object-src 'none'`,
       ]
   ).join('; ')
+  const trustedTypesDirective = `trusted-types nextjs#bundler 'allow-duplicates'`
+  const csp = `${cspDirectives}; ${trustedTypesDirective}`
 
   // Check if the path already has a locale
   const pathnameHasLocale = locales.some(
