@@ -44,6 +44,17 @@ if [ -d "$ROOT_DIR/public" ]; then
   cp -R "$ROOT_DIR/public" "$DIST_DIR/public"
 fi
 
+# Also include required server-side manifests under .next/server to avoid ENOENT
+mkdir -p "$DIST_DIR/.next/server" "$DIST_DIR/.next/server/chunks"
+shopt -s nullglob
+for f in "$BUILD_DIR/server"/*.json; do
+  cp "$f" "$DIST_DIR/.next/server/" || true
+done
+for f in "$BUILD_DIR/server/chunks"/*.json; do
+  cp "$f" "$DIST_DIR/.next/server/chunks/" || true
+done
+shopt -u nullglob
+
 # Include environment files if present
 shopt -s nullglob
 for envfile in "$ROOT_DIR"/.env*; do
