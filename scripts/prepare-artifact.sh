@@ -55,6 +55,16 @@ for f in "$BUILD_DIR/server/chunks"/*.json; do
 done
 shopt -u nullglob
 
+# Include compiled server code directories so Next can require them at runtime
+if [ -d "$BUILD_DIR/server/pages" ]; then
+  mkdir -p "$DIST_DIR/.next/server/pages"
+  cp -R "$BUILD_DIR/server/pages" "$DIST_DIR/.next/server/"
+fi
+if [ -d "$BUILD_DIR/server/app" ]; then
+  mkdir -p "$DIST_DIR/.next/server/app"
+  cp -R "$BUILD_DIR/server/app" "$DIST_DIR/.next/server/"
+fi
+
 # Include environment files if present
 shopt -s nullglob
 for envfile in "$ROOT_DIR"/.env*; do
