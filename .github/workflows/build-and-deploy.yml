@@ -75,7 +75,7 @@ jobs:
           command_timeout: 20m
           use_insecure_cipher: true
           script: |
-            mkdir -p "${{ secrets.DEPLOY_TARGET_DIR }}/artifact" "${{ secrets.DEPLOY_TARGET_DIR }}/releases" "${{ secrets.DEPLOY_TARGET_DIR }}/shared"
+            mkdir -p "${{ secrets.DEPLOY_TARGET_DIR || '/srv/sites/ark-fid.ch' }}/artifact" "${{ secrets.DEPLOY_TARGET_DIR || '/srv/sites/ark-fid.ch' }}/releases" "${{ secrets.DEPLOY_TARGET_DIR || '/srv/sites/ark-fid.ch' }}/shared"
 
       # Option A: Use password auth (supported by appleboy actions). Prefer SSH key if possible.
       - name: Upload release to server (SFTP)
@@ -86,7 +86,7 @@ jobs:
           password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
           port: ${{ secrets.DEPLOY_SSH_PORT || 22 }}
           local_path: "artifact/next-standalone.tar.gz"
-          remote_path: ${{ secrets.DEPLOY_TARGET_DIR }}/artifact/
+          remote_path: ${{ secrets.DEPLOY_TARGET_DIR || '/srv/sites/ark-fid.ch' }}/artifact/
           sftp_only: true
           delete: false
           dry-run: false
@@ -105,7 +105,7 @@ jobs:
           script: |
             set -xeo pipefail
             echo "[deploy] Start at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            BASE_DIR="${{ secrets.DEPLOY_TARGET_DIR }}"
+            BASE_DIR="${{ secrets.DEPLOY_TARGET_DIR || '/srv/sites/ark-fid.ch' }}"
             RELEASES_DIR="$BASE_DIR/releases"
             CURRENT_LINK="$BASE_DIR/current"
             PID_FILE="$BASE_DIR/ark-fid.pid"
