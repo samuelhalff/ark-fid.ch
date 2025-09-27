@@ -77,7 +77,9 @@ jobs:
           username: ${{ secrets.DEPLOY_SSH_USER }}
           password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
           source: 'artifact/next-standalone.tar.gz'
-          target: ${{ secrets.DEPLOY_TARGET_DIR }}/artifact
+          target: ${{ secrets.DEPLOY_TARGET_DIR }}/artifact/
+          overwrite: true
+          debug: true
 
       - name: Deploy on server (extract, switch symlink, restart via nohup)
         uses: appleboy/ssh-action@v1.2.0
