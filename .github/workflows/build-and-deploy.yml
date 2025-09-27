@@ -70,6 +70,10 @@ jobs:
           host: ${{ secrets.DEPLOY_SSH_HOST }}
           username: ${{ secrets.DEPLOY_SSH_USER }}
           password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
+          port: ${{ secrets.DEPLOY_SSH_PORT || 22 }}
+          timeout: 120s
+          command_timeout: 20m
+          use_insecure_cipher: true
           script: |
             mkdir -p "${{ secrets.DEPLOY_TARGET_DIR }}/artifact" "${{ secrets.DEPLOY_TARGET_DIR }}/releases" "${{ secrets.DEPLOY_TARGET_DIR }}/shared"
 
@@ -93,9 +97,13 @@ jobs:
           host: ${{ secrets.DEPLOY_SSH_HOST }}
           username: ${{ secrets.DEPLOY_SSH_USER }}
           password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
+          port: ${{ secrets.DEPLOY_SSH_PORT || 22 }}
+          timeout: 120s
+          command_timeout: 20m
+          use_insecure_cipher: true
           script_stop: true
           script: |
-            set -euo pipefail
+            set -eo pipefail
             BASE_DIR="${{ secrets.DEPLOY_TARGET_DIR }}"
             RELEASES_DIR="$BASE_DIR/releases"
             CURRENT_LINK="$BASE_DIR/current"
@@ -127,16 +135,15 @@ jobs:
             if [ -z "${PORT_VAL}" ]; then PORT_VAL=3000; fi
             nohup env PORT="$PORT_VAL" node server.js > "$BASE_DIR/server.out" 2>&1 & echo $! > "$PID_FILE"
 
-            # Keep only the 4 most recent releases
-            if command -v find >/dev/null 2>&1; then
-              mapfile -t rels < <(find "$RELEASES_DIR" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort)
-              KEEP=4
-              COUNT=${#rels[@]}
-              if [ "$COUNT" -gt "$KEEP" ]; then
-                for (( i=0; i<COUNT-KEEP; i++ )); do
-                  rm -rf "$RELEASES_DIR/${rels[$i]}" || true
-                done
-              fi
+            # Keep only the 4 most recent releases (POSIX-friendly)
+            releases=$(ls -1 "$RELEASES_DIR" 2>/dev/null | sort)
+            count=$(printf "%s\n" "$releases" | wc -l | tr -d ' ')
+            keep=4
+            if [ "$count" -gt "$keep" ]; then
+              to_delete=$((count - keep))
+              printf "%s\n" "$releases" | head -n "$to_delete" | while IFS= read -r d; do
+                [ -n "$d" ] && rm -rf "$RELEASES_DIR/$d" || true
+              done
             fi
 
             # Health check: wait for local port to respond
