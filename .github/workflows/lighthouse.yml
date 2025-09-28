@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       urlBase:
-        description: "Base URL to test (default: https://ark-fid.ddns.net)"
+        description: "Base URL to test (default: https://ark-fid.ch)"
         required: false
-        default: "https://ark-fid.ddns.net"
+        default: "https://ark-fid.ch"
   push:
     branches: [main]
   schedule:
@@ -34,11 +34,11 @@ jobs:
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
-            ${{ github.event.inputs.urlBase || 'https://ark-fid.ddns.net' }}/en/
-            ${{ github.event.inputs.urlBase || 'https://ark-fid.ddns.net' }}/fr/
-            ${{ github.event.inputs.urlBase || 'https://ark-fid.ddns.net' }}/fr/services/odoo/
-            ${{ github.event.inputs.urlBase || 'https://ark-fid.ddns.net' }}/fr/partners/
-            ${{ github.event.inputs.urlBase || 'https://ark-fid.ddns.net' }}/fr/ressources/
+            ${{ github.event.inputs.urlBase || 'https://ark-fid.ch' }}/en/
+            ${{ github.event.inputs.urlBase || 'https://ark-fid.ch' }}/fr/
+            ${{ github.event.inputs.urlBase || 'https://ark-fid.ch' }}/fr/services/odoo/
+            ${{ github.event.inputs.urlBase || 'https://ark-fid.ch' }}/fr/partners/
+            ${{ github.event.inputs.urlBase || 'https://ark-fid.ch' }}/fr/ressources/
           runs: 1
           uploadArtifacts: true
           temporaryPublicStorage: true
@@ -49,11 +49,11 @@ jobs:
         uses: treosh/lighthouse-ci-action@v12
         with:
           urls: |
-            ${{ github.event.inputs.urlBase || 'https://ark-fid.ddns.net' }}/en/
-            ${{ github.event.inputs.urlBase || 'https://ark-fid.ddns.net' }}/fr/
-            ${{ github.event.inputs.urlBase || 'https://ark-fid.ddns.net' }}/fr/services/odoo/
-            ${{ github.event.inputs.urlBase || 'https://ark-fid.ddns.net' }}/fr/partners/
-            ${{ github.event.inputs.urlBase || 'https://ark-fid.ddns.net' }}/fr/ressources/
+            ${{ github.event.inputs.urlBase || 'https://ark-fid.ch' }}/en/
+            ${{ github.event.inputs.urlBase || 'https://ark-fid.ch' }}/fr/
+            ${{ github.event.inputs.urlBase || 'https://ark-fid.ch' }}/fr/services/odoo/
+            ${{ github.event.inputs.urlBase || 'https://ark-fid.ch' }}/fr/partners/
+            ${{ github.event.inputs.urlBase || 'https://ark-fid.ch' }}/fr/ressources/
           runs: 1
           uploadArtifacts: true
           temporaryPublicStorage: true
