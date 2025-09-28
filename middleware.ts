@@ -9,6 +9,13 @@ export function middleware(request: NextRequest) {
     .slice(0, 32)
   const isProd = process.env.NODE_ENV === 'production'
 
+  // Normalize locale-prefixed requests for common root assets (e.g. /en/favicon.png -> /favicon.png)
+  const staticRootAsset = pathname.match(/^\/[a-z]{2}\/(favicon\.(?:png|ico|svg)|apple-touch-icon\.png|site\.webmanifest|manifest\.webmanifest)$/)
+  if (staticRootAsset) {
+    const target = '/' + staticRootAsset[1]
+    return NextResponse.rewrite(new URL(target, request.url))
+  }
+
   // CSP: strict in production, relaxed in development for Next.js dev client
   const cspDirectives = (
     isProd

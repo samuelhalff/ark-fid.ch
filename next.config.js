@@ -6,7 +6,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 /** @type {import('next').NextConfig} */
 const baseConfig = {
   trailingSlash: true,
-  productionBrowserSourceMaps: true,
+  // Disable source maps on CI by default. Enable explicitly with BUILD_SOURCEMAPS=true
+  productionBrowserSourceMaps: process.env.BUILD_SOURCEMAPS === 'true',
   experimental: {
     optimizePackageImports: ['lucide-react', 'react-hook-form', 'sonner']
   },
