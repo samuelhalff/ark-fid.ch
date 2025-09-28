@@ -95,7 +95,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
               src="/assets/arkfid--light.svg"
               width={100}
               height={40}
-              alt=""
+              alt="Logo Ark Fiduciaire"
               sizes="(max-width: 768px) 88px, 100px"
               loading="lazy"
               decoding="async"
@@ -105,7 +105,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
               src="/assets/arkfid--color.svg"
               width={100}
               height={40}
-              alt=""
+              alt="Logo Ark Fiduciaire"
               sizes="(max-width: 768px) 88px, 100px"
               loading="lazy"
               decoding="async"

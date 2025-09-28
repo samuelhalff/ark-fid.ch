@@ -100,7 +100,7 @@ const Hero = async ({ locale }: HeroProps) => {
       <div className="pointer-events-none absolute bottom-6 left-0 right-0 flex flex-col items-center gap-2 critical-hero__partner">
         <Image
           src="/assets/partners/odoo-logo.svg"
-          alt="Odoo Logo"
+          alt="Logo du partenaire technologique Odoo, solution ERP utilisée par Ark Fiduciaire"
           width={120}
           height={40}
           className="opacity-90"
