@@ -56,11 +56,11 @@ export default function ConsentAnalytics() {
   useEffect(() => {
     let mounted = true;
     if (consent === "accepted" && !AnalyticsComp) {
-      // Load Google Analytics
-      if (typeof window !== "undefined" && !window.gtag) {
+      // Load Google Analytics if ID is provided
+      const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
+      if (GA_ID && typeof window !== "undefined" && !window.gtag) {
         const script = document.createElement("script");
-        script.src =
-          "https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID";
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
         script.async = true;
         document.head.appendChild(script);
         window.dataLayer = window.dataLayer || [];
@@ -68,7 +68,7 @@ export default function ConsentAnalytics() {
           window.dataLayer.push(args);
         };
         window.gtag("js", new Date());
-        window.gtag("config", "GA_MEASUREMENT_ID");
+        window.gtag("config", GA_ID);
       }
       // Load Vercel Analytics
       import("@vercel/analytics/react")

@@ -19,6 +19,45 @@ const baseConfig = {
     imageSizes: [16, 24, 32, 48, 64, 96, 128, 256, 384],
   },
   swcMinify: true,
+  async headers() {
+    return [
+      // Cache Next.js static files aggressively
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      // Cache public assets (images, svgs, css, js) with long TTL
+      {
+        source: '/assets/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      // Favicons and icons
+      {
+        source: '/:icon(favicon\\.ico|favicon\\.png|favicon\\.svg|apple-touch-icon\\.png)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+      // Web manifests change rarely but validate on each request
+      {
+        source: '/:manifest(site\\.webmanifest|manifest\\.webmanifest)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
+        ],
+      },
+      // Robots and sitemaps (revalidate each request)
+      {
+        source: '/:file(robots\\.txt|sitemap\\.xml|sitemap_index\\.xml)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
+        ],
+      },
+    ];
+  },
 };
 
 module.exports = withBundleAnalyzer(baseConfig);
