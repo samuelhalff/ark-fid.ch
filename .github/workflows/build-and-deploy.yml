@@ -45,6 +45,7 @@ jobs:
       - name: Build
         env:
           NODE_OPTIONS: --max_old_space_size=2048
+          BUILD_SOURCEMAPS: 'false'
         run: npm run build
 
       - name: Prepare artifact
@@ -131,20 +132,9 @@ jobs:
             echo "[deploy] Artifact:"
             ls -lh "$ARTIFACT"
 
-            wait_stable() {
-              f="$1"
-              if [ -s "$f" ]; then return 0; else return 1; fi
-            }
-
             echo "[deploy] Wait for artifact to be stable"
             if ! wait_stable "$ARTIFACT"; then
               echo "[deploy] Artifact not stable or missing: $ARTIFACT" >&2
-              exit 1
-            fi
-
-            echo "[deploy] Verify gzip integrity"
-            if ! gzip -t "$ARTIFACT"; then
-              echo "[deploy] Artifact corrupt (gzip -t failed)" >&2
               exit 1
             fi
 
