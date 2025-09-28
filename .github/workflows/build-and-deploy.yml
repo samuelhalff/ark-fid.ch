@@ -77,6 +77,31 @@ jobs:
       - name: Prepare partial artifact name (.part)
         run: cp artifact/next-standalone.tar.gz artifact/next-standalone.tar.gz.part
 
+      # Upload with rsync (resumes, retries, keepalives) to mirror working local behavior
+      - name: Upload release to server (rsync, robust)
+        run: |
+          set -euo pipefail
+          sudo apt-get update -y
+          sudo apt-get install -y rsync sshpass
+          HOST="${{ secrets.DEPLOY_SSH_HOST }}"
+          USER="${{ secrets.DEPLOY_SSH_USER }}"
+          PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
+          PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
+          SSH_OPTS="-o StrictHostKeyChecking=no -o ServerAliveInterval=15 -o ServerAliveCountMax=8 -o IPQoS=throughput -p ${PORT}"
+          SRC="artifact/next-standalone.tar.gz.part"
+          DST_DIR="/srv/customer/sites/ark-fid.ch/artifact/"
+          n=0
+          until sshpass -p "${PASS}" rsync -av --inplace --partial --append-verify --timeout=60 -e "ssh ${SSH_OPTS}" "${SRC}" "${USER}@${HOST}:${DST_DIR}"; do
+            n=$((n+1))
+            if [ "$n" -ge 3 ]; then
+              echo "[upload] rsync failed after ${n} tries" >&2
+              exit 1
+            fi
+            echo "[upload] retry ${n}..."
+            sleep 3
+          done
+          echo "[upload] Remote listing:" && sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" "ls -lh ${DST_DIR} || true"
+
       - name: Ensure remote target directories
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -90,10 +115,7 @@ jobs:
           script: |
             mkdir -p "/srv/customer/sites/ark-fid.ch/artifact" "/srv/customer/sites/ark-fid.ch/releases" "/srv/customer/sites/ark-fid.ch/shared"
 
-      - name: Upload release to server (rsync)
-        run: |
-          sudo apt-get update && sudo apt-get install -y sshpass
-          sshpass -p "${{ secrets.DEPLOY_SSH_PASSWORD }}" rsync -av --partial -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.DEPLOY_SSH_PORT || 22 }}" artifact/next-standalone.tar.gz.part ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}:/srv/customer/sites/ark-fid.ch/artifact/
+      # (chunked upload removed – rsync above handles robustness without chunking)
 
       - name: Deploy on server (safe extract, atomic switch, restart)
         uses: appleboy/ssh-action@v1.2.0
@@ -124,9 +146,10 @@ jobs:
             echo "[deploy] Disk:"
             df -h "$BASE_DIR" || true
 
+            # Finalize partial upload to full artifact
             if [ -f "$PART_ARTIFACT" ]; then
-            echo "[deploy] Finalize uploaded artifact (.part -> .tar.gz)"
-            mv "$PART_ARTIFACT" "$ARTIFACT"
+              echo "[deploy] Finalize uploaded artifact (.part -> .tar.gz)"
+              mv "$PART_ARTIFACT" "$ARTIFACT"
             fi
 
             echo "[deploy] Artifact:"
