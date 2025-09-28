@@ -15,15 +15,14 @@ export function middleware(request: NextRequest) {
       ? [
         `default-src 'self'`,
         // Nonce-based inline scripts
-        `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' https: http: https://maps.googleapis.com https://maps.gstatic.com`,
+        `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://maps.googleapis.com https://maps.gstatic.com https:`,          `script-src-attr 'none'`,
         // Allow inline styles for Tailwind and Next styles
         `style-src 'self' 'unsafe-inline'`,
         `font-src 'self' data:`,
         `connect-src 'self' https: https://vitals.vercel-analytics.com`,
         // Allow embedding Google Maps iframe & required map tiles/images
         `frame-src 'self' https://www.google.com https://maps.google.com https://maps.gstatic.com`,
-        `child-src 'self' https://www.google.com https://maps.google.com`,
-        // Some map assets & JS served from these
+                // Some map assets & JS served from these
         `img-src 'self' data: blob: https: https://maps.gstatic.com https://maps.googleapis.com`,
         `frame-ancestors 'self'`,
         `base-uri 'self'`,
@@ -119,5 +118,5 @@ function getLocale(request: NextRequest): string {
 export const config = {
   // Skip only internal/static paths that should not be internationalized
   // Allow `ressources` and other content routes to be redirected to /<locale>/...
-  matcher: ['/((?!_next|api|favicon.ico|assets).*)']
+  matcher: ['/((?!_next|api|assets|favicon.ico|favicon.png|favicon.svg|apple-touch-icon.png|site.webmanifest|manifest.webmanifest|robots.txt|sitemap|sitemap.xml|sitemap_index.xml|browserconfig.xml).*)']
 }
