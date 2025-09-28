@@ -33,8 +33,15 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefer-offline --no-audit --no-fund
 
+      - name: Restore Next.js build cache
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-${{ github.sha }}
+          restore-keys: |
+            next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-
       - name: Build
         env:
           NODE_OPTIONS: --max_old_space_size=2048
@@ -52,6 +59,8 @@ jobs:
         with:
           name: next-standalone
           path: next-standalone.tar.gz
+          compression-level: 0
+          if-no-files-found: error
 
   deploy:
     runs-on: ubuntu-latest
@@ -80,10 +89,15 @@ jobs:
           script: |
             mkdir -p "/srv/customer/sites/ark-fid.ch/artifact" "/srv/customer/sites/ark-fid.ch/releases" "/srv/customer/sites/ark-fid.ch/shared"
 
-      - name: Upload release to server (rsync)
-        run: |
-          sudo apt-get update && sudo apt-get install -y sshpass
-          sshpass -p "${{ secrets.DEPLOY_SSH_PASSWORD }}" rsync -avz --partial -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.DEPLOY_SSH_PORT || 22 }}" artifact/next-standalone.tar.gz.part ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}:/srv/customer/sites/ark-fid.ch/artifact/
+      - name: Upload release to server (SCP)
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_SSH_HOST }}
+          username: ${{ secrets.DEPLOY_SSH_USER }}
+          password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
+          port: ${{ secrets.DEPLOY_SSH_PORT || 22 }}
+          source: "artifact/next-standalone.tar.gz.part"
+          target: "/srv/customer/sites/ark-fid.ch/artifact/"
 
       - name: Deploy on server (safe extract, atomic switch, restart)
         uses: appleboy/ssh-action@v1.2.0
@@ -126,7 +140,7 @@ jobs:
               f="$1"; attempts="${2:-30}"; pause="${3:-2}"
               prev=""
               while [ "$attempts" -gt 0 ]; do
-                sz="$(wc -c < "$f" 2>/dev/null || echo "")"
+                sz="$(stat -c %s "$f" 2>/dev/null || echo "")"
                 [ -n "$sz" ] || { sleep "$pause"; attempts=$((attempts-1)); continue; }
                 if [ "$sz" = "$prev" ] && [ "$sz" != "0" ]; then return 0; fi
                 prev="$sz"
