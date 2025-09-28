@@ -97,22 +97,17 @@ jobs:
 
       # (chunked upload removed – rsync above handles robustness without chunking)
 
-      - name: Deploy on server (safe extract, atomic switch, restart)
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.DEPLOY_SSH_HOST }}
-          username: ${{ secrets.DEPLOY_SSH_USER }}
-          password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
-          port: ${{ secrets.DEPLOY_SSH_PORT || 22 }}
-          timeout: 120s
-          command_timeout: 90s
-          use_insecure_cipher: true
-          script_stop: true
-          script: |
-            if command -v bash >/dev/null 2>&1; then SHELL_EXEC="bash -lc"; else SHELL_EXEC="sh -lc"; fi
-            $SHELL_EXEC '
+      - name: Remote extract (via ssh)
+        run: |
+          set -euo pipefail
+          sudo apt-get update -y && sudo apt-get install -y sshpass
+          HOST="${{ secrets.DEPLOY_SSH_HOST }}"
+          USER="${{ secrets.DEPLOY_SSH_USER }}"
+          PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
+          PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
+          SSH_OPTS="-o StrictHostKeyChecking=no -o ServerAliveInterval=15 -o ServerAliveCountMax=8 -o IPQoS=throughput -p ${PORT}"
+          sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" bash -lc '
             set -euo pipefail
-            echo "[deploy] Start $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
             RELEASES_DIR="$BASE_DIR/releases"
             CURRENT_LINK="$BASE_DIR/current"
@@ -122,107 +117,84 @@ jobs:
             TS=$(date +%Y%m%d%H%M%S)
             REL_DIR="$RELEASES_DIR/$TS"
             TMP_DIR="/tmp/ark-fid-release-$TS"
+            LOG="$BASE_DIR/deploy.extract.log"
 
-            echo "[deploy] Disk:"
-            df -h "$BASE_DIR" || true
+            mkdir -p "$RELEASES_DIR" "$TMP_DIR"
+            echo "[deploy] Disk:" > "$LOG"
+            df -h "$BASE_DIR" >> "$LOG" 2>&1 || true
 
-            # Finalize partial upload to full artifact
             if [ -f "$PART_ARTIFACT" ]; then
-              echo "[deploy] Finalize uploaded artifact (.part -> .tar.gz)"
+              echo "[deploy] Finalize .part -> .tar.gz" >> "$LOG"
               mv "$PART_ARTIFACT" "$ARTIFACT"
             fi
+            echo "[deploy] Artifact:" >> "$LOG"
+            ls -lh "$ARTIFACT" >> "$LOG" 2>&1
 
-            echo "[deploy] Artifact:"
-            ls -lh "$ARTIFACT"
+            echo "[deploy] Decompress artifact" >> "$LOG"
+            if ! gzip -cd "$ARTIFACT" > "$TMP_DIR/.payload.tar" 2>>"$LOG"; then
+              echo "[deploy] gzip failed" >> "$LOG"; exit 1; fi
 
-            echo "[deploy] Extract to temp: $TMP_DIR"
-            rm -rf "$TMP_DIR"
-            mkdir -p "$TMP_DIR"
+            echo "[deploy] Extract tar" >> "$LOG"
+            if ! tar -xf "$TMP_DIR/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP_DIR" >>"$LOG" 2>&1; then
+              echo "[deploy] tar extraction failed" >> "$LOG"; exit 1; fi
+            rm -f "$TMP_DIR/.payload.tar" || true
 
-            extract_once() {
-              # Avoid pipelines completely to sidestep SIGPIPE from ssh wrapper
-              # 1) Decompress to a temporary tar file
-              set +e
-              gzip -cd "$ARTIFACT" > "$TMP_DIR/.payload.tar"
-              status=$?
-              set -e
-              # Normalize benign SIGPIPE
-              if [ "$status" -eq 141 ]; then status=0; fi
-              if [ "$status" -ne 0 ]; then return "$status"; fi
-              # 2) Extract the tar contents
-              tar -xf "$TMP_DIR/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP_DIR" || return $?
-              rm -f "$TMP_DIR/.payload.tar" || true
-              return 0
-            }
-
-            n=0
-            until extract_once; do
-              n=$((n+1))
-              if [ "$n" -ge 2 ]; then
-                echo "[deploy] Extraction failed after $n tries" >&2
-                rm -rf "$TMP_DIR"
-                exit 1
-              fi
-              echo "[deploy] Retry extraction..."
-              rm -rf "$TMP_DIR"; mkdir -p "$TMP_DIR"; sleep 2
-            done
-
-            echo "[deploy] Validate extracted contents"
             for f in server.js .next/BUILD_ID .next/static; do
-              if [ ! -e "$TMP_DIR/$f" ]; then
-                echo "[deploy] Missing required: $f" >&2
-                rm -rf "$TMP_DIR"
-                exit 1
-              fi
+              if [ ! -e "$TMP_DIR/$f" ]; then echo "[deploy] Missing required: $f" >> "$LOG"; exit 1; fi
             done
+            touch "$TMP_DIR/.extract_ok"
+            echo "$TS" > "$BASE_DIR/last_release_ts"
+          '
 
-            echo "[deploy] Activate: $REL_DIR"
+      - name: Switch symlink and restart (via ssh)
+        run: |
+          set -euo pipefail
+          sudo apt-get update -y && sudo apt-get install -y sshpass curl
+          HOST="${{ secrets.DEPLOY_SSH_HOST }}"
+          USER="${{ secrets.DEPLOY_SSH_USER }}"
+          PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
+          PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
+          SSH_OPTS="-o StrictHostKeyChecking=no -o ServerAliveInterval=15 -o ServerAliveCountMax=8 -o IPQoS=throughput -p ${PORT}"
+          sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" bash -lc '
+            set -euo pipefail
+            BASE_DIR="/srv/customer/sites/ark-fid.ch"
+            RELEASES_DIR="$BASE_DIR/releases"
+            CURRENT_LINK="$BASE_DIR/current"
+            PID_FILE="$BASE_DIR/ark-fid.pid"
+            LOG="$BASE_DIR/deploy.extract.log"
+
+            TS="$(cat "$BASE_DIR/last_release_ts" 2>/dev/null || true)"
+            [ -n "$TS" ] || { echo "[deploy] No last_release_ts" >> "$LOG"; exit 1; }
+            REL_DIR="$RELEASES_DIR/$TS"
+            TMP_DIR="/tmp/ark-fid-release-$TS"
+            [ -f "$TMP_DIR/.extract_ok" ] || { echo "[deploy] Extract marker missing" >> "$LOG"; exit 1; }
+
             mv "$TMP_DIR" "$REL_DIR"
-
-            echo "[deploy] Link shared env (if any)"
             [ -f "$BASE_DIR/shared/.env" ] && ln -sfn "$BASE_DIR/shared/.env" "$REL_DIR/.env"
             [ -f "$BASE_DIR/shared/.env.production" ] && ln -sfn "$BASE_DIR/shared/.env.production" "$REL_DIR/.env.production"
-
-            echo "[deploy] Switch current"
             ln -sfn "$REL_DIR" "$CURRENT_LINK"
 
-            echo "[deploy] Restart"
             cd "$CURRENT_LINK"
             if [ -f "$PID_FILE" ]; then
               OLD_PID="$(cat "$PID_FILE" || true)"
-              if [ -n "${OLD_PID:-}" ] && kill -0 "$OLD_PID" >/dev/null 2>&1; then
-                kill "$OLD_PID" || true
-                sleep 1
-              fi
+              if [ -n "${OLD_PID:-}" ] && kill -0 "$OLD_PID" >/dev/null 2>&1; then kill "$OLD_PID" || true; sleep 1; fi
             fi
-            PORT_VAL="${PORT_VAL:-${{ secrets.DEPLOY_PORT }}}"
-            [ -z "${PORT_VAL:-}" ] && PORT_VAL=3000
+            PORT_VAL="${PORT_VAL:-${{ secrets.DEPLOY_PORT }}}"; [ -z "${PORT_VAL:-}" ] && PORT_VAL=3000
             nohup env PORT="$PORT_VAL" node server.js > "$BASE_DIR/server.out" 2>&1 & echo $! > "$PID_FILE"
-            echo "[deploy] PID $(cat "$PID_FILE")"
 
-            # Keep only the 4 most recent releases
             releases=$(ls -1 "$RELEASES_DIR" 2>/dev/null | sort)
             count=$(echo "$releases" | wc -l | tr -d " ")
             keep=4
             if [ "$count" -gt "$keep" ]; then
               to_delete=$((count - keep))
-              echo "$releases" | head -n "$to_delete" | while IFS= read -r d; do
-                [ -n "$d" ] && rm -rf "$RELEASES_DIR/$d" || true
-              done
+              echo "$releases" | head -n "$to_delete" | while IFS= read -r d; do [ -n "$d" ] && rm -rf "$RELEASES_DIR/$d" || true; done
             fi
 
-            # Health check
             ATTEMPTS=60; SLEEP=3; OK=0
             for i in $(seq 1 $ATTEMPTS); do
-              echo "[health] Attempt $i/$ATTEMPTS at $(date -u +%H:%M:%S)"
               if curl -fsS "http://127.0.0.1:$PORT_VAL/" >/dev/null 2>&1; then OK=1; break; fi
               sleep $SLEEP
             done
-            if [ "$OK" -ne 1 ]; then
-              echo "[health] Service did not become healthy in time" >&2
-              echo "[health] Last 200 log lines:" >&2
-              tail -n 200 "$BASE_DIR/server.out" >&2 || true
-              exit 1
-            fi
-            echo "[deploy] Done $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            '
+            if [ "$OK" -ne 1 ]; then tail -n 200 "$BASE_DIR/server.out" >&2 || true; exit 1; fi
+            echo "[deploy] Done $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$LOG"
+          '
