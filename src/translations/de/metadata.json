@@ -8,23 +8,23 @@
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire - Treuhand in Genf & Lausanne (Westschweiz)",
-      "description": "Treuhand mit Sitz in Genf und Lausanne für die Westschweiz und internationale Kunden. Buchhaltung, Steuern, Lohn, Corporate, Domizilierung.",
+      "title": "Ark Fiduciaire – Treuhand Genf & Lausanne (Romandie)",
+      "description": "Treuhand mit Sitz in Genf und Lausanne. Buchhaltung, Steuern, Lohn, Corporate und Domizilierung für KMU und Gruppen in der Romandie.",
       "keywords": "treuhand genf, treuhand lausanne, westschweiz, buchhaltung, steuern"
     },
     "/about": {
-      "title": "Über uns - Ark Fiduciaire",
-      "description": "Erfahren Sie mehr über Ark Fiduciaires Expertise in der Westschweiz und international. Unser Team unterstützt Unternehmen in Genf, Lausanne und darüber hinaus.",
+      "title": "Über uns – Ark Fiduciaire (Genf & Lausanne)",
+      "description": "Unabhängige Treuhandkanzlei in Genf und Lausanne. Lokale Expertise mit internationalem Blick für Unternehmen.",
       "keywords": "über ark fiduciaire, westschweiz, genf, lausanne, treuhandexperten"
     },
     "/contact": {
-      "title": "Kontakt - Ark Fiduciaire (Genf • Lausanne)",
-      "description": "Kontaktieren Sie unser Team in Genf oder Lausanne. Wir unterstützen Unternehmen in der Westschweiz und international.",
+      "title": "Kontakt – Ark Fiduciaire (Genf • Lausanne)",
+      "description": "Kontaktieren Sie unser Team in Genf und Lausanne. Wir antworten innerhalb von 24 Stunden und unterstützen Ihre Treuhand-Anliegen in der Westschweiz.",
       "keywords": "kontakt treuhand genf, kontakt treuhand lausanne, westschweiz"
     },
     "/team": {
-      "title": "Unser Team - Ark Fiduciaire (Westschweiz)",
-      "description": "Ein erfahrenes Team mit Sitz in der Westschweiz (Genf, Lausanne) mit internationaler Ausrichtung.",
+      "title": "Unser Team – Treuhand-Experten | Ark Fiduciaire",
+      "description": "Ein erfahrenes Team in Genf und Lausanne, das Unternehmen in der Romandie und international unterstützt.",
       "keywords": "treuhand team genf, treuhand team lausanne, westschweiz"
     },
     "/partners": {
@@ -33,8 +33,8 @@
       "keywords": "ark fiduciaire partner, westschweiz, genf, lausanne"
     },
     "/ressources": {
-      "title": "Ressourcen - Ark Fiduciaire",
-      "description": "Leitfäden und Artikel zu Buchhaltung und Steuern in der Westschweiz mit internationaler Perspektive.",
+      "title": "Treuhand-Ressourcen – Romandie | Ark Fiduciaire",
+      "description": "Leitfäden und Artikel zu Buchhaltung, Steuern und Lohn in der Romandie mit praxisnahen Einblicken.",
       "keywords": "treuhand ressourcen, westschweiz, steuerleitfäden, genf, lausanne"
     },
     "/services": {

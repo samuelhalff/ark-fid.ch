@@ -116,6 +116,26 @@ export default async function ServicesPage({
         </nav>
       </header>
       <Service showSubtitle={true} showHeading={false} locale={locale} />
+      <div className="max-w-[var(--breakpoint-xl)] mx-auto px-6 mt-8 text-sm text-muted-foreground">
+        <p>
+          {locale === "fr"
+            ? "Ressources utiles : "
+            : locale === "de"
+            ? "Nützliche Ressourcen: "
+            : locale === "es"
+            ? "Recursos útiles: "
+            : locale === "pt"
+            ? "Recursos úteis: "
+            : "Useful resources: "}
+          <a className="underline hover:no-underline" href={`${localePrefix}/ressources/`}>
+            {locale === "fr" ? "articles et guides" : locale === "de" ? "Artikel & Leitfäden" : locale === "es" ? "artículos y guías" : locale === "pt" ? "artigos e guias" : "articles & guides"}
+          </a>
+          {" · "}
+          <a className="underline hover:no-underline" href={`${localePrefix}/contact`}>
+            {locale === "fr" ? "nous contacter" : locale === "de" ? "Kontakt" : locale === "es" ? "contacto" : locale === "pt" ? "contacto" : "contact"}
+          </a>
+        </p>
+      </div>
       <ContactForm strings={contactStrings} redirectPath={`${localePrefix}/`} />
     </main>
   );

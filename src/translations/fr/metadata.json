@@ -15,23 +15,23 @@
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire - Services Fiduciaires Genève Lausanne",
-      "description": "Cabinet fiduciaire à Genève et Lausanne, au service des entreprises en Suisse romande. Comptabilité, fiscalité, paie, corporate et domiciliation pour PME et groupes internationaux.",
+      "title": "Ark Fiduciaire – Services fiduciaires Genève & Lausanne",
+      "description": "Cabinet fiduciaire à Genève et Lausanne. Comptabilité, fiscalité, paie, corporate et domiciliation pour PME et groupes en Suisse romande.",
       "keywords": "fiduciaire genève, fiduciaire lausanne, suisse romande, services fiduciaires, comptabilité, fiscalité"
     },
     "/about": {
-      "title": "À propos - Ark Fiduciaire",
-      "description": "Découvrez l'expertise d'Ark Fiduciaire en Suisse romande et à l'international. Notre équipe accompagne les entreprises à Genève, Lausanne et au-delà.",
+      "title": "À propos – Ark Fiduciaire (Genève & Lausanne)",
+      "description": "Fiduciaire indépendante basée à Genève et Lausanne. Expertise locale et ouverture internationale au service des entreprises.",
       "keywords": "à propos ark fiduciaire, suisse romande, genève, lausanne, experts fiduciaires"
     },
     "/contact": {
-      "title": "Contact - Ark Fiduciaire (Genève • Lausanne)",
-      "description": "Contactez notre équipe à Genève ou Lausanne. Nous accompagnons les entreprises en Suisse romande et à l'international.",
+      "title": "Contact – Ark Fiduciaire (Genève • Lausanne)",
+      "description": "Contactez notre équipe à Genève et Lausanne. Nous répondons sous 24 h et accompagnons vos besoins fiduciaires en Suisse romande.",
       "keywords": "contact fiduciaire genève, contact fiduciaire lausanne, suisse romande"
     },
     "/team": {
-      "title": "Notre équipe - Ark Fiduciaire (Suisse romande)",
-      "description": "Une équipe expérimentée basée en Suisse romande (Genève, Lausanne) avec une ouverture internationale.",
+      "title": "Notre équipe – Experts fiduciaires | Ark Fiduciaire",
+      "description": "Une équipe expérimentée à Genève et Lausanne au service des entreprises en Suisse romande et à l’international.",
       "keywords": "équipe fiduciaire genève, équipe fiduciaire lausanne, suisse romande"
     },
     "/partners": {
@@ -40,8 +40,8 @@
       "keywords": "partenaires ark fiduciaire, suisse romande, genève, lausanne"
     },
     "/ressources": {
-      "title": "Ressources - Ark Fiduciaire",
-      "description": "Guides et articles sur la comptabilité et la fiscalité en Suisse romande, avec perspectives internationales.",
+      "title": "Ressources fiscales & comptables – Suisse romande | Ark Fiduciaire",
+      "description": "Guides et articles sur la comptabilité, la fiscalité et la paie en Suisse romande, avec perspectives et bonnes pratiques locales.",
       "keywords": "ressources fiduciaires, suisse romande, guides fiscaux, genève, lausanne"
     },
     "/services": {

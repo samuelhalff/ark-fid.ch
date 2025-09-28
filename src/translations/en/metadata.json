@@ -15,23 +15,23 @@
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire - Fiduciary in Geneva & Lausanne (Romandy)",
-      "description": "Fiduciary based in Geneva and Lausanne serving Romandy and international clients. Accounting, tax, payroll, corporate, domiciliation.",
+      "title": "Ark Fiduciaire – Fiduciary Services Geneva & Lausanne",
+      "description": "Fiduciary based in Geneva and Lausanne. Accounting, tax, payroll, corporate and domiciliation services for Romandy SMEs and groups.",
       "keywords": "fiduciary geneva, fiduciary lausanne, romandy, accounting, tax"
     },
     "/about": {
-      "title": "About us - Ark Fiduciaire",
-      "description": "Discover Ark Fiduciaire's expertise in Romandy and internationally. Our team supports companies in Geneva, Lausanne and beyond.",
+      "title": "About – Ark Fiduciaire (Geneva & Lausanne)",
+      "description": "Independent fiduciary based in Geneva and Lausanne. Local expertise with an international outlook for businesses.",
       "keywords": "about ark fiduciaire, romandy, geneva, lausanne, fiduciary experts"
     },
     "/contact": {
-      "title": "Contact - Ark Fiduciaire (Geneva • Lausanne)",
-      "description": "Contact our team in Geneva or Lausanne. We support companies in Romandy and internationally.",
+      "title": "Contact – Ark Fiduciaire (Geneva • Lausanne)",
+      "description": "Contact our team in Geneva and Lausanne. We respond within 24 hours and support your fiduciary needs across Romandy.",
       "keywords": "contact fiduciary geneva, contact fiduciary lausanne, romandy"
     },
     "/team": {
-      "title": "Our team - Ark Fiduciaire (Romandy)",
-      "description": "An experienced team based in Romandy (Geneva, Lausanne) with an international outlook.",
+      "title": "Our Team – Fiduciary Experts | Ark Fiduciaire",
+      "description": "An experienced team in Geneva and Lausanne serving businesses in Romandy and internationally.",
       "keywords": "fiduciary team geneva, fiduciary team lausanne, romandy"
     },
     "/partners": {
@@ -40,8 +40,8 @@
       "keywords": "ark fiduciaire partners, romandy, geneva, lausanne"
     },
     "/ressources": {
-      "title": "Resources - Ark Fiduciaire",
-      "description": "Guides and articles on accounting and tax in Romandy, with international perspectives.",
+      "title": "Fiduciary Resources – Romandy | Ark Fiduciaire",
+      "description": "Guides and articles on accounting, tax and payroll in Romandy with actionable local insights.",
       "keywords": "fiduciary resources, romandy, tax guides, geneva, lausanne"
     },
     "/services": {

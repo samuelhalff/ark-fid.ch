@@ -8,23 +8,23 @@
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire - Fiduciaria en Suiza romanda (Ginebra & Lausana)",
-      "description": "Fiduciaria con sede en Ginebra y Lausana al servicio de Suiza romanda y clientes internacionales. Contabilidad, impuestos, nóminas, corporate, domiciliación.",
+      "title": "Ark Fiduciaire – Servicios fiduciarios Ginebra & Lausana",
+      "description": "Firma fiduciaria con sede en Ginebra y Lausana. Contabilidad, impuestos, nómina, corporate y domiciliación para pymes y grupos en Romandía.",
       "keywords": "fiduciaria ginebra, fiduciaria lausana, suiza romanda, contabilidad, impuestos"
     },
     "/about": {
-      "title": "Acerca de nosotros - Ark Fiduciaire",
-      "description": "Descubra la experiencia de Ark Fiduciaire en Suiza romanda e internacionalmente. Nuestro equipo apoya a empresas en Ginebra, Lausana y más allá.",
+      "title": "Acerca de – Ark Fiduciaire (Ginebra & Lausana)",
+      "description": "Firma fiduciaria independiente en Ginebra y Lausana. Experiencia local con visión internacional para empresas.",
       "keywords": "acerca de ark fiduciaire, suiza romanda, ginebra, lausana, expertos fiduciarios"
     },
     "/contact": {
-      "title": "Contacto - Ark Fiduciaire (Ginebra • Lausana)",
-      "description": "Contacte con nuestro equipo en Ginebra o Lausana. Apoyamos a empresas en Suiza romanda e internacionalmente.",
+      "title": "Contacto – Ark Fiduciaire (Ginebra • Lausana)",
+      "description": "Contacte con nuestro equipo en Ginebra y Lausana. Respondemos en 24 horas y apoyamos sus necesidades fiduciarias en Romandía.",
       "keywords": "contacto fiduciaria ginebra, contacto fiduciaria lausana, suiza romanda"
     },
     "/team": {
-      "title": "Nuestro equipo - Ark Fiduciaire (Suiza romanda)",
-      "description": "Un equipo experimentado con sede en Suiza romanda (Ginebra, Lausana) con una visión internacional.",
+      "title": "Nuestro equipo – Expertos fiduciarios | Ark Fiduciaire",
+      "description": "Un equipo experimentado en Ginebra y Lausana que acompaña a empresas en Romandía e internacionalmente.",
       "keywords": "equipo fiduciaria ginebra, equipo fiduciaria lausana, suiza romanda"
     },
     "/partners": {
@@ -33,8 +33,8 @@
       "keywords": "socios ark fiduciaire, suiza romanda, ginebra, lausana"
     },
     "/ressources": {
-      "title": "Recursos - Ark Fiduciaire",
-      "description": "Guías y artículos sobre contabilidad e impuestos en Suiza romanda, con perspectivas internacionales.",
+      "title": "Recursos fiduciarios – Romandía | Ark Fiduciaire",
+      "description": "Guías y artículos sobre contabilidad, impuestos y nómina en Romandía con información práctica local.",
       "keywords": "recursos fiduciarios, suiza romanda, guías fiscales, ginebra, lausana"
     },
     "/services": {
