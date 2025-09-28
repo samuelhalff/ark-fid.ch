@@ -1,5 +1,4 @@
 import { ImageResponse } from "next/og";
-import { headers } from "next/headers";
 
 // Route Segment Config
 export const runtime = "edge";
@@ -18,9 +17,17 @@ export default async function Image({
   params: { slug: string; locale: string };
 }) {
   const { slug, locale } = params;
-  const module = await import(`@/src/translations/${locale}/ressources.json`);
-  const ressources = module.default;
-  const article = ressources.Articles.find((a: any) => a.slug === slug);
+  const translationsModule = await import(
+    `@/src/translations/${locale}/ressources.json`
+  );
+  const ressources = translationsModule.default as {
+    Articles?: Array<{
+      slug: string;
+      title: string;
+      date?: string;
+    }>;
+  };
+  const article = ressources.Articles?.find((entry) => entry.slug === slug);
   if (!article) {
     return new ImageResponse(
       (

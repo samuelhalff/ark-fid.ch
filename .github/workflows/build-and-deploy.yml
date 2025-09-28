@@ -91,7 +91,7 @@ jobs:
           delete: false
           dry-run: false
 
-      - name: Deploy on server (extract, switch symlink, restart via nohup)
+      - name: Deploy on server (safe extract, atomic switch, restart)
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.DEPLOY_SSH_HOST }}
@@ -103,30 +103,55 @@ jobs:
           use_insecure_cipher: true
           script_stop: true
           script: |
-            set -xeo pipefail
+            set -euo pipefail
             echo "[deploy] Start at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
             RELEASES_DIR="$BASE_DIR/releases"
             CURRENT_LINK="$BASE_DIR/current"
             PID_FILE="$BASE_DIR/ark-fid.pid"
+            ARTIFACT="$BASE_DIR/artifact/next-standalone.tar.gz"
             TS=$(date +%Y%m%d%H%M%S)
             REL_DIR="$RELEASES_DIR/$TS"
+            TMP_DIR="${REL_DIR}.tmp"
 
-            echo "[deploy] Prepare release dir: $REL_DIR"
+            echo "[deploy] Prepare directories"
             mkdir -p "$RELEASES_DIR"
-            mkdir -p "$REL_DIR"
-            echo "[deploy] Extract artifact"
-            ls -lh "$BASE_DIR/artifact/next-standalone.tar.gz" || true
-            # Extract in a subshell and normalize exit 141 (SIGPIPE) to success for drone-ssh wrapper
-            (
-              set +e
-              tar -xzf "$BASE_DIR/artifact/next-standalone.tar.gz" --no-same-owner --no-same-permissions -C "$REL_DIR" >/dev/null 2>&1
-              TAR_STATUS=$?
-              if [ "$TAR_STATUS" -ne 0 ] && [ "$TAR_STATUS" -ne 141 ]; then
-                echo "[deploy] tar failed with code $TAR_STATUS" >&2
-                exit "$TAR_STATUS"
-              fi
-            )
+            echo "[deploy] Artifact info:" && ls -lh "$ARTIFACT" || true
+            echo "[deploy] Wait for artifact to be stable"
+            wait_for_stable() {
+              f="$1"; attempts="${2:-30}"; pause="${3:-2}"
+              prev=""
+              while [ "$attempts" -gt 0 ]; do
+                sz="$(stat -c %s "$f" 2>/dev/null || echo "")"
+                [ -n "$sz" ] || { sleep "$pause"; attempts=$((attempts-1)); continue; }
+                if [ "$sz" = "$prev"  ] && [ "$sz" != "0" ]; then
+                  return 0
+                fi
+                prev="$sz"
+                sleep "$pause"
+                attempts=$((attempts-1))
+              done
+              return 1
+            }
+            if ! wait_for_stable "$ARTIFACT"; then
+              echo "[deploy] Artifact not stable or missing: $ARTIFACT" >&2
+              exit 1
+            fi
+            echo "[deploy] Verify artifact integrity (gzip -t)"
+            if ! gzip -t "$ARTIFACT"; then
+              echo "[deploy] Artifact is corrupt (gzip test failed)" >&2
+              exit 1
+            fi
+            echo "[deploy] Extracting to temp dir: $TMP_DIR"
+            rm -rf "$TMP_DIR"
+            mkdir -p "$TMP_DIR"
+            if ! gzip -cd "$ARTIFACT" | tar -x --no-same-owner --no-same-permissions -C "$TMP_DIR"; then
+              echo "[deploy] Extraction failed" >&2
+              rm -rf "$TMP_DIR"
+              exit 1
+            fi
+            echo "[deploy] Activate release: $REL_DIR"
+            mv "$TMP_DIR" "$REL_DIR"
 
             # Link shared .env files if present
             echo "[deploy] Link shared env files (if any)"

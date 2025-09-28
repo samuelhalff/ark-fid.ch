@@ -7,7 +7,7 @@ interface FAQItem {
 
 export default function FAQSection({
   faq,
-  locale,
+  locale: _locale,
   nonce,
 }: {
   faq: { Title?: string; Items?: FAQItem[] };

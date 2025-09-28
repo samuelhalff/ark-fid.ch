@@ -1,7 +1,7 @@
 import React from "react";
 
 interface StructuredDataProps {
-  data: any | any[]; // Already shaped via builders
+  data: Record<string, unknown> | Record<string, unknown>[]; // Already shaped via builders
   nonce?: string;
 }
 

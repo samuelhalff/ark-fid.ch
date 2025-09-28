@@ -22,9 +22,9 @@ export async function getTranslations(locale: Locale, namespace: string) {
   const cache = getTranslationsCache();
   const makeKey = (loc: string) => `${loc}:${namespace}`;
 
-  const readDict = (loc: string): any | null => {
+  const readDict = (loc: string): Record<string, unknown> | null => {
     const cacheKey = makeKey(loc);
-    if (cache.has(cacheKey)) return cache.get(cacheKey);
+    if (cache.has(cacheKey)) return cache.get(cacheKey) ?? null;
 
     const filePath = path.join(process.cwd(), 'src', 'translations', loc, `${namespace}.json`);
     if (!fs.existsSync(filePath)) {
@@ -75,7 +75,7 @@ export function generateStaticParams() {
 export const loadTranslations = getTranslations;
 
 // ---- internals ----
-const _cache: Map<string, any> = new Map();
+const _cache: Map<string, Record<string, unknown> | null> = new Map();
 function getTranslationsCache() {
   return _cache;
 }

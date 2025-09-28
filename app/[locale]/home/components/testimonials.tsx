@@ -8,8 +8,16 @@ import TranslatedText from "@/src/components/ui/translated-text";
 import { useTranslation } from "react-i18next";
 import "@/src/i18n";
 import Defer from "@/src/components/Defer";
+import { type CarouselApi } from "@/src/components/ui/carousel";
 
-type CarouselApi = any;
+type CarouselModule = typeof import("@/src/components/ui/carousel");
+
+type TestimonialItem = {
+  name: string;
+  designation: string;
+  company: string;
+  testimonial: string;
+};
 
 const Testimonial = () => {
   const [api, setApi] = useState<CarouselApi>();
@@ -18,12 +26,7 @@ const Testimonial = () => {
   const { t } = useTranslation("testimonials");
 
   // Get testimonials from the translation
-  const testimonials = t("List", { returnObjects: true }) as Array<{
-    name: string;
-    designation: string;
-    company: string;
-    testimonial: string;
-  }>;
+  const testimonials = t("List", { returnObjects: true }) as TestimonialItem[];
 
   useEffect(() => {
     if (!api) return;
@@ -73,15 +76,10 @@ function CarouselClient({
   items,
   onApi,
 }: {
-  items: Array<{
-    name: string;
-    designation: string;
-    company: string;
-    testimonial: string;
-  }>;
+  items: TestimonialItem[];
   onApi: (api: CarouselApi) => void;
 }) {
-  const [mod, setMod] = useState<any>(null);
+  const [mod, setMod] = useState<CarouselModule | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -112,7 +110,7 @@ function CarouselClient({
   );
 }
 
-const TestimonialCard = ({ testimonial }: { testimonial: any }) => (
+const TestimonialCard = ({ testimonial }: { testimonial: TestimonialItem }) => (
   <div className="mb-8 bg-accent rounded-xl py-8 px-6 sm:py-6">
     <div className="flex items-center justify-between gap-20">
       <div className="hidden lg:block relative shrink-0 aspect-3/4 max-w-[18rem] w-full bg-muted-foreground/20 rounded-xl">

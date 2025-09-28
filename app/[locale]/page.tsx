@@ -22,14 +22,16 @@ import {
   buildFAQPage,
   buildOrganizationAggregateRating,
 } from "@/src/lib/structuredData";
-import { getTranslations, type Locale } from "@/src/lib/i18n";
+import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
+import type { FAQEntry } from "@/src/lib/structuredData";
 
 export async function generateMetadata({
   params: { locale },
 }: {
   params: { locale: string };
 }): Promise<Metadata> {
-  return await generateMetadataForPage(locale as Locale, "/");
+  const activeLocale = isValidLocale(locale) ? locale : "fr";
+  return await generateMetadataForPage(activeLocale, "/");
 }
 
 // Ensure this page is dynamic so the hero image can rotate per request
@@ -38,19 +40,27 @@ export const revalidate = 0;
 
 export default async function Home({ params }: { params: { locale: string } }) {
   const nonce = headers().get("x-nonce") || undefined;
-  const locale = params.locale;
-  const t = await getTranslations(locale as Locale, "contact");
-  const localePrefix = locale ? `/${locale}` : "/fr";
+  const requestedLocale = params.locale;
+  const activeLocale = isValidLocale(requestedLocale) ? requestedLocale : "fr";
+  const t = await getTranslations(activeLocale, "contact");
+  const localePrefix = `/${activeLocale}`;
   // Load FAQ texts for JSON-LD
-  let faqModule: any;
-  try {
-    faqModule = await import(`@/src/translations/${locale}/faq.json`);
-  } catch {
-    faqModule = await import("@/src/translations/en/faq.json");
-  }
-  const faq = faqModule.default;
+  const loadFaq = async (locale: Locale) => {
+    try {
+      const faqModule: { default: Record<string, string> } = await import(
+        `@/src/translations/${locale}/faq.json`
+      );
+      return faqModule.default;
+    } catch {
+      const fallbackModule: { default: Record<string, string> } = await import(
+        "@/src/translations/en/faq.json"
+      );
+      return fallbackModule.default;
+    }
+  };
+  const faq = await loadFaq(activeLocale);
 
-  const faqEntries = Array.from({ length: 12 })
+  const faqEntries: FAQEntry[] = Array.from({ length: 12 })
     .map((_, i) => i + 1)
     .filter((i) => faq[`Question${i}`] && faq[`Answer${i}`])
     .map((i) => ({ question: faq[`Question${i}`], answer: faq[`Answer${i}`] }));
@@ -105,10 +115,10 @@ export default async function Home({ params }: { params: { locale: string } }) {
     <div className="max-w-[var(--breakpoint-xl)] mx-auto w-full pb-4 xs:py-20 md:px-6">
       <StructuredData nonce={nonce} data={[faqJsonLd, reviewsJsonLd]} />
       <section id="hero">
-        <Hero locale={locale} />
+        <Hero locale={activeLocale} />
       </section>
       <section id="services">
-        <Services locale={locale} />
+        <Services locale={activeLocale} />
       </section>
       <section id="faq">
         <Defer
@@ -125,7 +135,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
           idle={300}
           placeholder={<div className="h-64 w-full rounded-lg bg-muted/40" />}
         >
-          <Testimonials locale={locale} />
+          <Testimonials locale={activeLocale} />
         </Defer>
       </section>
       <section id="contact">

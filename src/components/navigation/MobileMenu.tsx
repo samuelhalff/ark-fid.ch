@@ -13,7 +13,34 @@ import ServicesMobile from "@/src/components/navigation/ServicesMobile";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import { cn } from "@/src/lib/utils";
 // no usePathname needed; compute pathname from window when required
+
+const MobileMenuToggleIcon = ({ open }: { open: boolean }) => (
+  <span
+    aria-hidden
+    className="pointer-events-none relative flex h-4 w-6 items-center justify-center"
+  >
+    <span
+      className={cn(
+        "absolute block h-[2px] w-6 rounded-full bg-current transition-all duration-300 ease-in-out",
+        open ? "translate-y-0 rotate-45" : "-translate-y-[6px] rotate-0"
+      )}
+    />
+    <span
+      className={cn(
+        "absolute block h-[2px] w-6 rounded-full bg-current transition-all duration-200 ease-in-out",
+        open ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
+      )}
+    />
+    <span
+      className={cn(
+        "absolute block h-[2px] w-6 rounded-full bg-current transition-all duration-300 ease-in-out",
+        open ? "translate-y-0 -rotate-45" : "translate-y-[6px] rotate-0"
+      )}
+    />
+  </span>
+);
 
 type NavData = {
   labels: {
@@ -50,36 +77,20 @@ const MobileMenu = ({
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button
+          type="button"
           variant="ghost"
-          className="w-auto px-2 py-1 rounded-md"
+          size="icon"
+          className={cn(
+            "relative h-11 w-11 shrink-0 rounded-full border border-border/70 bg-background/80 text-foreground shadow-sm backdrop-blur-sm transition-all duration-300 ease-out",
+            "hover:border-primary/60 hover:bg-primary/10 hover:text-primary",
+            open && "border-primary/60 bg-primary/10 text-primary"
+          )}
           aria-haspopup="dialog"
           aria-expanded={open}
           aria-controls="mobile-menu-panel"
-          aria-label="Open menu"
+          aria-label={open ? "Close menu" : "Open menu"}
         >
-          {/* Animated hamburger to X */}
-          <span className="relative block w-6 h-5">
-            <span
-              className={
-                "absolute left-0 top-0 block h-0.5 w-6 bg-current transition-transform duration-200 " +
-                (open ? "translate-y-2.5 rotate-45" : "translate-y-0 rotate-0")
-              }
-            />
-            <span
-              className={
-                "absolute left-0 top-2.5 block h-0.5 w-6 bg-current transition-opacity duration-200 " +
-                (open ? "opacity-0" : "opacity-100")
-              }
-            />
-            <span
-              className={
-                "absolute left-0 bottom-0 block h-0.5 w-6 bg-current transition-transform duration-200 " +
-                (open
-                  ? "-translate-y-2.5 -rotate-45"
-                  : "translate-y-0 rotate-0")
-              }
-            />
-          </span>
+          <MobileMenuToggleIcon open={open} />
         </Button>
       </SheetTrigger>
       <SheetContent
@@ -117,17 +128,15 @@ const MobileMenu = ({
             />
           </div>
           <SheetTrigger asChild>
-            <button
-              className="ml-2 p-2 rounded border hover:bg-accent transition-colors"
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="ml-2 h-11 w-11 shrink-0 rounded-full border border-primary/50 bg-primary/10 text-primary shadow-sm backdrop-blur-sm transition-all duration-300 ease-out hover:bg-primary/15"
               aria-label="Close menu"
             >
-              {/* Same animated icon reflects open state */}
-              <span className="relative block w-6 h-5">
-                <span className="absolute left-0 top-0 block h-0.5 w-6 bg-current translate-y-2.5 rotate-45" />
-                <span className="absolute left-0 top-2.5 block h-0.5 w-6 bg-current opacity-0" />
-                <span className="absolute left-0 bottom-0 block h-0.5 w-6 bg-current -translate-y-2.5 -rotate-45" />
-              </span>
-            </button>
+              <MobileMenuToggleIcon open />
+            </Button>
           </SheetTrigger>
         </div>
         <div

@@ -3,7 +3,12 @@ import ReactMarkdown from "react-markdown";
 import ContactSection from "../components/ContactSection";
 import { generateMetadataForArticle } from "@/src/lib/metadata";
 import { headers } from "next/headers";
-import { getTranslations, type Locale } from "@/src/lib/i18n";
+import Image from "next/image";
+import {
+  getTranslations,
+  isValidLocale,
+  type Locale,
+} from "@/src/lib/i18n";
 import RelatedArticles from "@/src/components/ressources/RelatedArticles";
 import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 import { estimateReadingTime } from "@/src/lib/readingTime";
@@ -25,33 +30,77 @@ const BackToTop = dynamic(() => import("@/src/components/ui/back-to-top"), {
 
 type Params = { params: { slug: string; locale: string } };
 
+type ArticleReference = {
+  labelKey: string;
+  url: string;
+};
+
+type ResourceArticle = {
+  slug: string;
+  title: string;
+  description?: string;
+  content?: string;
+  date?: string;
+  updated?: string;
+  author?: string;
+  authorUrl?: string;
+  image?: string;
+  references?: ArticleReference[];
+};
+
+interface RessourcesDictionary {
+  Articles: ResourceArticle[];
+  IntroTitle?: string;
+  IntroShort?: string;
+  ArticlesTitle?: string;
+  ArticlesShort?: string;
+  ImageAltPrefix?: string;
+  By?: string;
+  Published?: string;
+  LastUpdated?: string;
+  ReadingTime?: string;
+  Minutes?: string;
+  References?: string;
+  [key: string]: unknown;
+}
+
+async function loadRessources(locale: Locale): Promise<RessourcesDictionary> {
+  const ressourcesModule = await import(
+    `@/src/translations/${locale}/ressources.json`
+  );
+  const data = ressourcesModule.default as Partial<RessourcesDictionary>;
+  const { Articles, ...rest } = data;
+  return {
+    Articles: Array.isArray(Articles) ? Articles : [],
+    ...rest,
+  };
+}
+
 export default async function ArticlePage({ params }: Params) {
   const nonce = headers().get("x-nonce") || undefined;
+  const locale: Locale = isValidLocale(params.locale) ? params.locale : "fr";
   // Load the locale-specific translations on the server
-  const ressourcesModule = await import(
-    `@/src/translations/${params.locale}/ressources.json`
-  );
-  const ressources = ressourcesModule.default;
-  const tNav = await getTranslations(
-    (params.locale as Locale) || "fr",
-    "navbar"
-  );
+  const ressources = await loadRessources(locale);
+  const tNav = await getTranslations(locale, "navbar");
 
   // Load canonical FR to compare and/or fallback
-  const frModule = await import(`@/src/translations/fr/ressources.json`);
-  const fr = frModule.default;
+  const fr = locale === "fr" ? ressources : await loadRessources("fr");
 
   const localArticle = ressources.Articles.find(
-    (a: any) => a.slug === params.slug
+    (article) => article.slug === params.slug
   );
-  const frArticle = fr.Articles.find((a: any) => a.slug === params.slug);
-  let article = localArticle ?? frArticle;
+  const frArticle = fr.Articles.find((article) => article.slug === params.slug);
+  const article = localArticle ?? frArticle;
   if (!article) return notFound();
+
+  const references: ArticleReference[] = Array.isArray(article.references)
+    ? article.references
+    : [];
 
   // Determine if we're effectively showing a fallback (either missing local
   // or local content is identical to FR canonical). Used to show notice and noindex.
   let isFallback = false;
-  if (params.locale !== "fr") {
+  if (locale !== "fr") {
     if (!localArticle) {
       isFallback = true;
     } else if (frArticle) {
@@ -65,7 +114,7 @@ export default async function ArticlePage({ params }: Params) {
   }
 
   const baseUrl = "https://ark-fid.ch";
-  const articleUrl = `${baseUrl}/${params.locale}/ressources/articles/${params.slug}`;
+  const articleUrl = `${baseUrl}/${locale}/ressources/articles/${params.slug}`;
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -74,19 +123,19 @@ export default async function ArticlePage({ params }: Params) {
         "@type": "ListItem",
         position: 1,
         name: (tNav("Home") as string) || "Home",
-        item: `${baseUrl}/${params.locale}/`,
+        item: `${baseUrl}/${locale}/`,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: ressources.IntroTitle || "Resources",
-        item: `${baseUrl}/${params.locale}/ressources/`,
+        item: `${baseUrl}/${locale}/ressources/`,
       },
       {
         "@type": "ListItem",
         position: 3,
         name: ressources.ArticlesTitle || "Articles",
-        item: `${baseUrl}/${params.locale}/ressources/articles/`,
+        item: `${baseUrl}/${locale}/ressources/articles/`,
       },
       {
         "@type": "ListItem",
@@ -114,7 +163,7 @@ export default async function ArticlePage({ params }: Params) {
     datePublished: article.date,
     url: articleUrl,
     mainEntityOfPage: articleUrl,
-    inLanguage: params.locale,
+    inLanguage: locale,
     publisher: {
       "@type": "Organization",
       name: "Ark Fiduciaire",
@@ -154,13 +203,13 @@ export default async function ArticlePage({ params }: Params) {
       {isFallback && (
         <div className="mb-4 rounded-md border bg-muted/40 text-muted-foreground px-3 py-2 text-sm">
           {/* Localized fallback notice */}
-          {params.locale === "fr"
+          {locale === "fr"
             ? "Contenu affiché en anglais temporairement en attendant la traduction."
-            : params.locale === "de"
+            : locale === "de"
             ? "Inhalt vorübergehend auf Englisch angezeigt, bis die Übersetzung verfügbar ist."
-            : params.locale === "es"
+            : locale === "es"
             ? "Contenido mostrado temporalmente en inglés mientras se prepara la traducción."
-            : params.locale === "pt"
+            : locale === "pt"
             ? "Conteúdo exibido temporariamente em inglês enquanto a tradução é preparada."
             : "Content temporarily shown in English until the translation is ready."}
         </div>
@@ -190,14 +239,17 @@ export default async function ArticlePage({ params }: Params) {
       </h1>
       {imageUrl && (
         <div className="mb-6">
-          <img
-            src={imageUrl}
-            alt={`${ressources.ImageAltPrefix || "Article illustration"}: ${
-              article.title
-            }`}
-            loading="lazy"
-            className="rounded-md mx-auto max-h-80 w-full object-cover"
-          />
+          <div className="relative mx-auto aspect-[4/3] w-full max-w-3xl overflow-hidden rounded-md">
+            <Image
+              src={imageUrl}
+              alt={`${ressources.ImageAltPrefix || "Article illustration"}: ${
+                article.title
+              }`}
+              fill
+              className="object-cover"
+              sizes="(min-width: 1024px) 768px, 100vw"
+            />
+          </div>
         </div>
       )}
       <p className="text-lg mb-8 text-center">{article.description}</p>
@@ -208,12 +260,12 @@ export default async function ArticlePage({ params }: Params) {
         </p>
         <p>
           {ressources.Published}{" "}
-          {formatDateDeterministic(article.date, params.locale)}
+          {formatDateDeterministic(article.date, locale)}
         </p>
         {article.updated && (
           <p>
             {ressources.LastUpdated}:{" "}
-            {formatDateDeterministic(article.updated, params.locale)}
+            {formatDateDeterministic(article.updated, locale)}
           </p>
         )}
         {reading && (
@@ -238,64 +290,63 @@ export default async function ArticlePage({ params }: Params) {
         id="article-content"
         className="prose prose-lg dark:prose-invert max-w-none"
       >
-        <ReactMarkdown>{article.content}</ReactMarkdown>
+        <ReactMarkdown>{article.content ?? ""}</ReactMarkdown>
       </article>
 
-      {Array.isArray(article.references) && article.references.length > 0 && (
+      {references.length > 0 && (
         <section className="mt-10">
           <h2 className="text-xl font-semibold mb-2">
             {ressources.References}
           </h2>
           <ul className="list-disc pl-6">
-            {article.references.map(
-              (ref: { labelKey: string; url: string }, i: number) => (
-                <li key={i}>
+            {references.map((ref) => {
+              const value = ressources[ref.labelKey];
+              const resolvedLabel =
+                typeof value === "string" ? value : ref.labelKey;
+              return (
+                <li key={ref.url}>
                   <a
                     href={ref.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 underline"
                   >
-                    {ressources[ref.labelKey] || ref.labelKey}
+                    {resolvedLabel}
                   </a>
                 </li>
-              )
-            )}
+              );
+            })}
           </ul>
         </section>
       )}
 
-      <RelatedArticles currentSlug={params.slug} locale={params.locale} />
+      <RelatedArticles currentSlug={params.slug} locale={locale} />
 
-      <ContactSection locale={params.locale} />
+      <ContactSection locale={locale} />
     </main>
   );
 }
 
 // Enumerate slugs from the canonical French source at build-time (FR is canonical across tooling).
 export async function generateStaticParams() {
-  const module = await import("@/src/translations/fr/ressources.json");
-  const ressources = module.default;
-  return ressources.Articles.map((article: any) => ({ slug: article.slug }));
+  const ressources = await loadRessources("fr");
+  return ressources.Articles.map((article) => ({ slug: article.slug }));
 }
 
 export async function generateMetadata({ params }: Params) {
-  const module = await import(
-    `@/src/translations/${params.locale}/ressources.json`
-  );
-  const ressources = module.default;
-  const frModule = await import(`@/src/translations/fr/ressources.json`);
-  const fr = frModule.default;
+  const locale: Locale = isValidLocale(params.locale) ? params.locale : "fr";
+  const ressources = await loadRessources(locale);
+  const fr = locale === "fr" ? ressources : await loadRessources("fr");
 
   const localArticle = ressources.Articles.find(
-    (a: any) => a.slug === params.slug
+    (article) => article.slug === params.slug
   );
-  const frArticle = fr.Articles.find((a: any) => a.slug === params.slug);
-  let article = localArticle ?? frArticle;
+  const frArticle = fr.Articles.find((article) => article.slug === params.slug);
+  const article = localArticle ?? frArticle;
   if (!article) return {};
 
   let isFallback = false;
-  if (params.locale !== "fr") {
+  if (locale !== "fr") {
     if (!localArticle) {
       isFallback = true;
     } else if (frArticle) {
@@ -307,21 +358,21 @@ export async function generateMetadata({ params }: Params) {
       if (sameTitle && sameDesc && sameContent) isFallback = true;
     }
   }
-  const reading = article.content
-    ? require("@/src/lib/readingTime").estimateReadingTime(article.content)
-    : null;
+  const reading = article.content ? estimateReadingTime(article.content) : null;
   const meta = await generateMetadataForArticle(
-    params.locale || "fr",
+    locale,
     article.slug,
     article.title,
     article.description
   );
-  const baseRobots: Record<string, any> =
-    (meta && typeof meta.robots === "object" ? (meta.robots as any) : {}) || {};
+  const robotsConfig: Record<string, unknown> =
+    meta && typeof meta.robots === "object" && meta.robots !== null
+      ? (meta.robots as Record<string, unknown>)
+      : {};
   return {
     ...meta,
     robots: {
-      ...baseRobots,
+      ...(robotsConfig as Record<string, unknown>),
       index: isFallback ? false : true,
       follow: true,
     },

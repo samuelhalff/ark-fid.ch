@@ -27,7 +27,7 @@ export default async function ServicesPage({
   const tNav = await getTranslations(locale, "navbar");
 
   // Load FAQ translations
-  let faqModule: any;
+  let faqModule: { default: Record<string, string> };
   try {
     faqModule = await import(`@/src/translations/${locale}/faq.json`);
   } catch {

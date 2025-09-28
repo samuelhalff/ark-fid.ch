@@ -18,7 +18,7 @@ const ConsentAnalytics = dynamic(
   () => import("@/src/components/ConsentAnalytics"),
   { ssr: false, loading: () => null }
 );
-import { getTranslations } from "@/src/lib/i18n";
+import { getTranslations, getCurrentLocale } from "@/src/lib/i18n";
 
 // Using self-hosted Inter via next/font/local (see app/fonts.ts)
 
@@ -146,9 +146,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const nonce = headers().get("x-nonce") || undefined;
-  const currentLocale = headers().get("x-locale") || "fr";
+  const currentLocale = getCurrentLocale();
   // Load cookie consent labels server-side to avoid client i18n
-  const tCookie = await getTranslations(currentLocale as any, "cookie");
+  const tCookie = await getTranslations(currentLocale, "cookie");
   const cookieLabels = {
     Title: tCookie("Title"),
     Text: tCookie("Text"),
@@ -171,21 +171,17 @@ export default async function RootLayout({
     },
   } as const;
   return (
-    <html suppressHydrationWarning lang={currentLocale} className={inter.variable}>
+    <html
+      suppressHydrationWarning
+      lang={currentLocale}
+      className={inter.variable}
+    >
       <head>
         {/* Remove early preconnect to analytics to avoid competing with LCP; analytics loads only after consent */}
         {/** Defer Google Maps connections to pages that actually use Maps (e.g., contact). Removing global preconnect helps mobile Speed Index. */}
         {/* Next/Image with priority handles preloading of LCP image. Avoid duplicate preload to keep mobile SI low. */}
         {/* Ensure font swap to avoid layout shifts */}
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
-        {/* Trusted Types default policy to satisfy CSP "require-trusted-types-for 'script'" */}
-        <script
-          nonce={nonce}
-          dangerouslySetInnerHTML={{
-            __html:
-              "window.trustedTypes && window.trustedTypes.createPolicy('nextjs#bundler', { createHTML: (input) => input, createScriptURL: (input) => input, createScript: (input) => input });",
-          }}
-        />
         <title>
           Ark Fiduciaire - Services fiduciaires professionnels en Suisse
         </title>

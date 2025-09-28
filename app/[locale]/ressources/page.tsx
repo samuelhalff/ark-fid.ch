@@ -5,95 +5,222 @@ import ResourceGrid from "./components/ResourceGrid";
 import FAQSection from "./components/FAQSection";
 import { notFound } from "next/navigation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
-import { getTranslations, type Locale } from "@/src/lib/i18n";
+import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 
-type LocaleParams = {
-  params: { locale: string };
-  searchParams?: Record<string, string | string[] | undefined>;
-};
+type ArticlesSearchParams = Record<string, string | string[] | undefined>;
+
+interface RessourceFile {
+  filename: string;
+  title: string;
+  description: string;
+  date?: string;
+  source_url?: string;
+}
+
+interface RessourceArticle {
+  slug: string;
+  title: string;
+  description: string;
+  author?: string;
+  date?: string;
+}
+
+interface FAQEntry {
+  q: string;
+  a: string;
+}
+
+interface FAQContent {
+  Title?: string;
+  Items?: FAQEntry[];
+}
+
+interface RessourcesLinks {
+  Accounting?: string;
+  Tax?: string;
+  Payroll?: string;
+}
+
+interface RessourcesData {
+  IntroTitle?: string;
+  IntroText?: string;
+  IntroShort?: string;
+  FilesTitle?: string;
+  ArticlesTitle?: string;
+  LoadMoreFiles?: string;
+  LoadMoreArticles?: string;
+  ShowAllFiles?: string;
+  ShowAllArticles?: string;
+  ReadArticle?: string;
+  Download?: string;
+  By?: string;
+  Published?: string;
+  Files: RessourceFile[];
+  Articles: RessourceArticle[];
+  FAQ?: FAQContent;
+  Links?: RessourcesLinks;
+}
+
+async function loadRessources(locale: Locale): Promise<RessourcesData> {
+  try {
+    const ressourcesModule: {
+      default: Partial<RessourcesData> & {
+        Files?: unknown;
+        Articles?: unknown;
+      };
+    } = await import(`@/src/translations/${locale}/ressources.json`);
+    const data = ressourcesModule.default;
+    const normalizeFiles = (input: unknown): RessourceFile[] => {
+      if (!Array.isArray(input)) return [];
+      return input.filter((file): file is RessourceFile => {
+        if (!file || typeof file !== "object") return false;
+        const candidate = file as Partial<RessourceFile>;
+        return Boolean(
+          candidate.filename && candidate.title && candidate.description
+        );
+      });
+    };
+    const normalizeArticles = (input: unknown): RessourceArticle[] => {
+      if (!Array.isArray(input)) return [];
+      return input.filter((article): article is RessourceArticle => {
+        if (!article || typeof article !== "object") return false;
+        const candidate = article as Partial<RessourceArticle>;
+        return Boolean(
+          candidate.slug && candidate.title && candidate.description
+        );
+      });
+    };
+    const normalizeFaq = (input: unknown): FAQContent | undefined => {
+      if (!input || typeof input !== "object") return undefined;
+      const faq = input as { Title?: unknown; Items?: unknown };
+      const items = Array.isArray(faq.Items)
+        ? faq.Items.filter((entry): entry is FAQEntry => {
+            if (!entry || typeof entry !== "object") return false;
+            const candidate = entry as Partial<FAQEntry>;
+            return Boolean(candidate.q && candidate.a);
+          })
+        : undefined;
+      return {
+        Title: typeof faq.Title === "string" ? faq.Title : undefined,
+        Items: items,
+      };
+    };
+
+    return {
+      IntroTitle: data.IntroTitle,
+      IntroText: data.IntroText,
+      IntroShort: data.IntroShort,
+      FilesTitle: data.FilesTitle,
+      ArticlesTitle: data.ArticlesTitle,
+      LoadMoreFiles: data.LoadMoreFiles,
+      LoadMoreArticles: data.LoadMoreArticles,
+      ShowAllFiles: data.ShowAllFiles,
+      ShowAllArticles: data.ShowAllArticles,
+      ReadArticle: data.ReadArticle,
+      Download: data.Download,
+      By: data.By,
+      Published: data.Published,
+      Files: normalizeFiles(data.Files),
+      Articles: normalizeArticles(data.Articles),
+      FAQ: normalizeFaq(data.FAQ),
+      Links: data.Links,
+    };
+  } catch (error) {
+    if (locale !== "fr") {
+      return loadRessources("fr");
+    }
+    notFound();
+  }
+}
+
+function parseLimit(
+  value: string | string[] | undefined,
+  total: number,
+  step: number
+) {
+  if (!value) return step;
+  const resolved = Array.isArray(value) ? value[0] : value;
+  if (resolved === "all") return total;
+  const numeric = Number.parseInt(resolved, 10);
+  if (Number.isNaN(numeric) || numeric <= 0) return step;
+  return Math.min(numeric, total);
+}
 
 export default async function RessourcesPage({
   params,
   searchParams,
-}: LocaleParams) {
+}: {
+  params: { locale: string };
+  searchParams?: ArticlesSearchParams;
+}) {
   const nonce = headers().get("x-nonce") || undefined;
-  const locale = params?.locale || "fr";
-  const tNav = await getTranslations(locale as Locale, "navbar");
+  const requestedLocale = params?.locale;
+  const locale: Locale = isValidLocale(requestedLocale)
+    ? requestedLocale
+    : "fr";
+  const tNav = await getTranslations(locale, "navbar");
 
-  // Load translation JSON directly on the server to avoid importing client libraries
-  let ressourcesModule;
-  try {
-    ressourcesModule = await import(
-      `@/src/translations/${locale}/ressources.json`
-    );
-  } catch (e) {
-    try {
-      ressourcesModule = await import(`@/src/translations/fr/ressources.json`);
-    } catch (err) {
-      return notFound();
-    }
-  }
-  const ressources = ressourcesModule.default;
-  // Load canonical (French) for parity and fallback
-  const ressourcesFr = (await import(`@/src/translations/fr/ressources.json`))
-    .default;
+  const ressources = await loadRessources(locale);
+  const ressourcesFr =
+    locale === "fr" ? ressources : await loadRessources("fr");
 
-  const files = ressources.Files || [];
-  const articlesLocale: any[] = ressources.Articles || [];
-  const articlesFr: any[] = ressourcesFr.Articles || [];
-  const mapLocale = new Map(articlesLocale.map((a) => [a.slug, a]));
+  const files = ressources.Files;
+  const articlesLocale = ressources.Articles;
+  const articlesFr = ressourcesFr.Articles;
+  const articlesMap = new Map(
+    articlesLocale.map((article) => [article.slug, article])
+  );
+  const articlesCanonical = [...articlesFr]
+    .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+    .map((article) => articlesMap.get(article.slug) ?? article);
 
-  const canonical = [...articlesFr]
-    .sort((a, b) => {
-      return (b.date || "").localeCompare(a.date || "");
-    })
-    .map((a) => mapLocale.get(a.slug) || a);
-
-  // Server-only slicing based on query params for SEO-friendly "Show more" without client JS
   const step = 6;
-  const parseLimit = (value: string | string[] | undefined, total: number) => {
-    if (!value) return step;
-    const v = Array.isArray(value) ? value[0] : value;
-    if (v === "all") return total;
-    const n = parseInt(v, 10);
-    if (Number.isNaN(n) || n <= 0) return step;
-    return Math.min(n, total);
-  };
-  const filesLimit = parseLimit(searchParams?.files, files.length);
-  const articlesLimit = parseLimit(searchParams?.articles, canonical.length);
+  const filesLimit = parseLimit(searchParams?.files, files.length, step);
+  const articlesLimit = parseLimit(
+    searchParams?.articles,
+    articlesCanonical.length,
+    step
+  );
   const visibleFiles = files.slice(0, filesLimit);
-  const visibleArticles = canonical.slice(0, articlesLimit);
+  const visibleArticles = articlesCanonical.slice(0, articlesLimit);
   const showMoreFiles = filesLimit < files.length;
-  const showMoreArticles = articlesLimit < canonical.length;
+  const showMoreArticles = articlesLimit < articlesCanonical.length;
   const nextFiles = Math.min(filesLimit + step, files.length);
-  const nextArticles = Math.min(articlesLimit + step, canonical.length);
+  const nextArticles = Math.min(articlesLimit + step, articlesCanonical.length);
+
   const buildHref = (
     next: { files?: number | "all"; articles?: number | "all" },
     hash?: string
   ) => {
-    const sp = new URLSearchParams();
-    const current = searchParams || {};
-    const fv =
-      next.files ??
-      (Array.isArray(current.files) ? current.files[0] : current.files);
-    const av =
-      next.articles ??
-      (Array.isArray(current.articles)
-        ? current.articles[0]
-        : current.articles);
-    if (fv) sp.set("files", String(fv));
-    if (av) sp.set("articles", String(av));
-    const qs = sp.toString();
-    return `/${locale}/ressources${qs ? `?${qs}` : ""}${
+    const params = new URLSearchParams();
+    const current = searchParams ?? {};
+    const resolveValue = (
+      key: keyof ArticlesSearchParams,
+      fallback?: number | "all"
+    ) => {
+      const candidate = fallback ?? current[key];
+      if (!candidate) return undefined;
+      const value = Array.isArray(candidate) ? candidate[0] : candidate;
+      return value;
+    };
+    const filesParam = resolveValue("files", next.files);
+    const articlesParam = resolveValue("articles", next.articles);
+    if (filesParam) params.set("files", String(filesParam));
+    if (articlesParam) params.set("articles", String(articlesParam));
+    const query = params.toString();
+    return `/${locale}/ressources${query ? `?${query}` : ""}${
       hash ? `#${hash}` : ""
     }`;
   };
+
   const labels = {
     ReadArticle: ressources.ReadArticle || "Read Article",
     Download: ressources.Download || "Download",
     By: ressources.By || "By",
     Published: ressources.Published || "Published on",
   };
+
+  const links = ressources.Links || {};
 
   return (
     <main className="max-w-[1200px] mx-auto px-4 py-10 mt-10">
@@ -151,20 +278,20 @@ export default async function RessourcesPage({
         <p className="text-sm mt-4 max-w-[720px] text-muted-foreground leading-relaxed">
           {[
             {
-              label: ressources?.Links?.Accounting || "accounting",
+              label: links.Accounting || "accounting",
               href: `/${locale}/services/accounting`,
             },
             {
-              label: ressources?.Links?.Tax || "tax",
+              label: links.Tax || "tax",
               href: `/${locale}/services/taxes`,
             },
             {
-              label: ressources?.Links?.Payroll || "payroll",
+              label: links.Payroll || "payroll",
               href: `/${locale}/services/payroll`,
             },
-          ].map((item, i) => (
+          ].map((item, index) => (
             <span key={item.href}>
-              {i > 0 && <span className="mx-1">·</span>}
+              {index > 0 && <span className="mx-1">·</span>}
               <a href={item.href} className="underline hover:no-underline">
                 {item.label}
               </a>
@@ -226,7 +353,7 @@ export default async function RessourcesPage({
           </div>
         )}
       </section>
-      <FAQSection faq={ressources.FAQ} locale={locale} nonce={nonce} />
+      <FAQSection faq={ressources.FAQ || {}} locale={locale} nonce={nonce} />
     </main>
   );
 }
@@ -236,5 +363,6 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }): Promise<Metadata> {
-  return await generateMetadataForPage(locale as Locale, "/ressources");
+  const targetLocale = isValidLocale(locale) ? locale : "fr";
+  return await generateMetadataForPage(targetLocale, "/ressources");
 }

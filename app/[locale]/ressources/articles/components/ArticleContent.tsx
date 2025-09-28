@@ -6,7 +6,6 @@ import "@/src/i18n";
 import ReactMarkdown from "react-markdown";
 import TranslatedText from "@/src/components/ui/translated-text";
 import ContactSection from "./ContactSection";
-import Link from "next/link";
 
 interface ArticleContentProps {
   slug: string;
@@ -73,7 +72,7 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
       </div>
 
       <article className="prose prose-lg dark:prose-invert max-w-none">
-        <ReactMarkdown>{article.content}</ReactMarkdown>
+        <ReactMarkdown>{article.content ?? ""}</ReactMarkdown>
       </article>
       {Array.isArray(article.references) && article.references.length > 0 && (
         <section className="mt-10">
@@ -85,9 +84,8 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
             />
           </h2>
           <ul className="list-disc pl-6">
-            {(article.references as { labelKey: string; url: string }[]).map(
-              (ref, i) => (
-                <li key={i}>
+            {article.references.map((ref) => (
+                <li key={ref.url}>
                   <a
                     href={ref.url}
                     target="_blank"
@@ -101,8 +99,7 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
                     />
                   </a>
                 </li>
-              )
-            )}
+              ))}
           </ul>
         </section>
       )}

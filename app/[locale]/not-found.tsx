@@ -1,8 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { headers } from "next/headers";
 import ServicesElements from "@/app/[locale]/navigation";
-import { getTranslations } from "@/src/lib/i18n";
+import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 
 // We import ressources per-locale dynamically using a small map because Next.js cannot import using a runtime variable path at build time.
 import frJSON from "@/src/translations/fr/ressources.json";
@@ -19,23 +18,16 @@ type Article = {
 };
 type LocaleRes = { Articles?: Article[] };
 
-const byLocale: Record<string, LocaleRes> = {
-  fr: frJSON as unknown as LocaleRes,
-  en: enJSON as unknown as LocaleRes,
-  de: deJSON as unknown as LocaleRes,
-  es: esJSON as unknown as LocaleRes,
-  pt: ptJSON as unknown as LocaleRes,
+const byLocale: Record<Locale, LocaleRes> = {
+  fr: frJSON as LocaleRes,
+  en: enJSON as LocaleRes,
+  de: deJSON as LocaleRes,
+  es: esJSON as LocaleRes,
+  pt: ptJSON as LocaleRes,
 };
 
-function pickInteresting(articles: Article[], limit = 3): Article[] {
-  // Heuristic: prefer newer by date if available, else first N
-  return [...articles]
-    .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
-    .slice(0, limit);
-}
-
 export default async function NotFoundPage() {
-  const locale = headers().get("x-locale") || "fr";
+  const locale = getCurrentLocale();
   const nonce = headers().get("x-nonce") || undefined;
   const res = byLocale[locale] || (frJSON as unknown as LocaleRes);
   const suggestions = [...(res.Articles || [])]
@@ -45,7 +37,7 @@ export default async function NotFoundPage() {
     .slice(0, 4);
 
   // Services list with SSR translations
-  const tItems = await getTranslations(locale as any, "servicesItems");
+  const tItems = await getTranslations(locale, "servicesItems");
   const services = ServicesElements.slice(0, 6).map((s) => ({
     href: `/${locale}${s.href}`,
     title: tItems(s.titleKey),

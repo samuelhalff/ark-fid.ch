@@ -25,8 +25,15 @@ export default function Defer({
           entries.forEach((e) => {
             if (e.isIntersecting) {
               const trigger = () => !cancelled && setVisible(true);
-              if ((window as any).requestIdleCallback) {
-                (window as any).requestIdleCallback(trigger, { timeout: idle });
+              if ("requestIdleCallback" in window) {
+                (
+                  window as Window & {
+                    requestIdleCallback: (
+                      cb: () => void,
+                      options: { timeout: number }
+                    ) => void;
+                  }
+                ).requestIdleCallback(trigger, { timeout: idle });
               } else {
                 setTimeout(trigger, idle);
               }

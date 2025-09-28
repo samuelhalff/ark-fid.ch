@@ -19,7 +19,7 @@ export default function ImageWithFallback({
     // `key` forces next/image to remount when src changes which helps error handling
     <Image
       key={src}
-      {...(props as any)}
+      {...(props as ImageProps)}
       src={src}
       onError={() => setSrc(fallbackSrc)}
     />

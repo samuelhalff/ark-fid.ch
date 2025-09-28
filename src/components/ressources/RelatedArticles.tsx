@@ -7,6 +7,12 @@ interface ArticleMeta {
   date?: string;
 }
 
+interface RessourcesJson {
+  Articles: ArticleMeta[];
+  RelatedArticles: string;
+  ReadMore: string;
+}
+
 interface RelatedArticlesProps {
   currentSlug: string;
   locale: string;
@@ -58,13 +64,15 @@ export default async function RelatedArticles({
   locale,
   limit = 3,
 }: RelatedArticlesProps) {
-  let module: any;
+  let ressourcesModule: { default: Record<string, unknown> };
   try {
-    module = await import(`@/src/translations/${locale}/ressources.json`);
+    ressourcesModule = await import(
+      `@/src/translations/${locale}/ressources.json`
+    );
   } catch {
-    module = await import(`@/src/translations/en/ressources.json`);
+    ressourcesModule = await import(`@/src/translations/en/ressources.json`);
   }
-  const translations = module.default;
+  const translations = ressourcesModule.default as unknown as RessourcesJson;
   const all: ArticleMeta[] = translations.Articles;
   const current = all.find((a) => a.slug === currentSlug);
   if (!current) return null;
@@ -108,9 +116,11 @@ export default async function RelatedArticles({
               <Link
                 href={`/${locale}/ressources/articles/${r.slug}`}
                 className="text-primary text-sm font-medium hover:underline"
-                aria-label={`${translations.ReadMore || 'Read more'}: ${r.title}`}
+                aria-label={`${translations.ReadMore || "Read more"}: ${
+                  r.title
+                }`}
               >
-                {(translations.ReadMore || 'Read more') + `: ${r.title}`}
+                {(translations.ReadMore || "Read more") + `: ${r.title}`}
               </Link>
             </div>
           </article>

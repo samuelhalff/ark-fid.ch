@@ -1,5 +1,4 @@
 import React from "react";
-// @ts-ignore - bundler resolution picks up .tsx file; type issue due to moduleResolution "bundler"
 import GoogleMapClient from "./GoogleMapClient";
 
 /**

@@ -15,10 +15,9 @@ export function middleware(request: NextRequest) {
       ? [
         `default-src 'self'`,
         // Nonce-based inline scripts with strict-dynamic
-        `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https: http:`,
+        `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' 'strict-dynamic' https: http: https://maps.googleapis.com https://maps.gstatic.com`,
         // Allow inline styles for Tailwind and Next styles
         `style-src 'self' 'unsafe-inline'`,
-        `img-src 'self' data: blob: https:`,
         `font-src 'self' data:`,
         `connect-src 'self' https: https://vitals.vercel-analytics.com`,
         // Allow embedding Google Maps iframe & required map tiles/images
@@ -26,7 +25,6 @@ export function middleware(request: NextRequest) {
         `child-src 'self' https://www.google.com https://maps.google.com`,
         // Some map assets & JS served from these
         `img-src 'self' data: blob: https: https://maps.gstatic.com https://maps.googleapis.com`,
-        `script-src-elem 'self' 'unsafe-inline' 'nonce-${nonce}' https://maps.googleapis.com https://maps.gstatic.com`,
         `frame-ancestors 'self'`,
         `base-uri 'self'`,
         `form-action 'self'`,

@@ -14,7 +14,7 @@ const AVERAGE_WPM = 200; // Could be locale-tuned in future
 export function estimateReadingTime(markdown: string): ReadingTime | null {
   if (!markdown) return null;
   // Remove code fences & inline code ticks (rough)
-  let text = markdown
+  const text = markdown
     .replace(/```[\s\S]*?```/g, ' ') // code blocks
     .replace(/`[^`]*`/g, ' ') // inline code
     .replace(/\!\[[^\]]*\]\([^)]*\)/g, ' ') // images

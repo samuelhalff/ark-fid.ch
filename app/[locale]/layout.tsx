@@ -1,10 +1,13 @@
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
 import "../globals.css";
 import ServicesElements from "@/app/[locale]/navigation";
 import { getTranslations } from "@/src/lib/i18n";
 
 const locales = ["en", "fr", "de", "es", "pt"] as const;
 type Locale = (typeof locales)[number];
+const isLocale = (value: string): value is Locale =>
+  locales.includes(value as Locale);
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -16,13 +19,15 @@ export default async function LocaleLayout({
   children,
   params: { locale },
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   params: { locale: string };
 }) {
   // Validate that the incoming `locale` parameter is valid
-  if (!locales.includes(locale as Locale)) {
+  if (!isLocale(locale)) {
     notFound();
   }
+
+  const activeLocale: Locale = locale;
 
   // NOTE: Root layout (`app/layout.tsx`) is responsible for <html> and <body>.
   // Nested layouts must NOT render html/body. Keep this layout minimal so
@@ -32,8 +37,8 @@ export default async function LocaleLayout({
   const Footer = (await import("@/app/[locale]/shared/footer")).default;
 
   // Prepare server-side translated navigation labels and services list to avoid SSR key leakage
-  const tNavbar = await getTranslations(locale as any, "navbar");
-  const tServices = await getTranslations(locale as any, "servicesItems");
+  const tNavbar = await getTranslations(activeLocale, "navbar");
+  const tServices = await getTranslations(activeLocale, "servicesItems");
   const navData = {
     labels: {
       home: tNavbar("Home"),
@@ -51,15 +56,13 @@ export default async function LocaleLayout({
     })),
   };
   return (
-    <div data-locale={locale} lang={locale}>
+    <div data-locale={activeLocale} lang={activeLocale}>
       {/* Render client NavBar with server-provided locale */}
-      {/* @ts-ignore-next-line */}
-      <Navbar locale={locale} navData={navData} />
+      <Navbar locale={activeLocale} navData={navData} />
       <main id="main-content" role="main">
         {children}
       </main>
-      {/* @ts-ignore-next-line */}
-      <Footer locale={locale} />
+      <Footer locale={activeLocale} />
     </div>
   );
 }
