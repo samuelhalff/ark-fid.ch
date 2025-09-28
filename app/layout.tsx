@@ -89,10 +89,10 @@ export const metadata: Metadata = {
   ),
   title: {
     template: "%s - Ark Fiduciaire",
-    default: "Ark Fiduciaire - Professional Fiduciary Services in Switzerland",
+    default: "Ark Fiduciaire - Swiss Fiduciary Services",
   },
   description:
-    "Expert fiduciary, accounting, and tax services in Switzerland. Corporate services, payroll management, domiciliation, and comprehensive business solutions.",
+    "Expert fiduciary, accounting, and tax services in Switzerland. Corporate services, payroll management, domiciliation, and comprehensive business solutions for SMEs and international companies in Geneva and Lausanne.",
   keywords:
     "fiduciary services, accounting, tax services, Switzerland, corporate services, payroll, domiciliation",
   authors: [{ name: "Ark Fiduciaire" }],
