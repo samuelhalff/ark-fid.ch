@@ -130,8 +130,11 @@ jobs:
             echo "[deploy] Artifact:" >> "$LOG"
             ls -lh "$ARTIFACT" >> "$LOG" 2>&1
 
+            echo "[deploy] Copy artifact to local temp" >> "$LOG"
+            cp "$ARTIFACT" "$TMP_DIR/artifact.tar.gz" >> "$LOG" 2>&1
+
             echo "[deploy] Decompress artifact" >> "$LOG"
-            if ! gzip -cd "$ARTIFACT" > "$TMP_DIR/.payload.tar" 2>>"$LOG"; then
+            if ! gzip -cd "$TMP_DIR/artifact.tar.gz" > "$TMP_DIR/.payload.tar" 2>>"$LOG"; then
               echo "[deploy] gzip failed" >> "$LOG"; exit 1; fi
 
             echo "[deploy] Extract tar" >> "$LOG"
