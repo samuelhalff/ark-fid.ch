@@ -21,7 +21,7 @@ jobs:
             STATUS=$(curl -s -o /tmp/resp.json -w "%{http_code}" -X POST "$URL" \
               -H "Content-Type: application/json" \
               -H "x-indexnow-secret: ${INDEXNOW_SECRET}" \
-              -d "{}") || STATUS=000
+              -d "{}" -L) || STATUS=000
             echo "Status: $STATUS"
             cat /tmp/resp.json || true
             if [ "$STATUS" = "200" ]; then
