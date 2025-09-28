@@ -178,12 +178,31 @@ jobs:
             ln -sfn "$REL_DIR" "$CURRENT_LINK"
 
             cd "$CURRENT_LINK"
+            # Stop existing process more reliably
             if [ -f "$PID_FILE" ]; then
-              OLD_PID="$(cat "$PID_FILE" || true)"
-              if [ -n "${OLD_PID:-}" ] && kill -0 "$OLD_PID" >/dev/null 2>&1; then kill "$OLD_PID" || true; sleep 1; fi
+              OLD_PID="$(cat "$PID_FILE" 2>/dev/null || true)"
+              if [ -n "${OLD_PID:-}" ] && kill -0 "$OLD_PID" 2>/dev/null; then
+                echo "[deploy] Stopping old process $OLD_PID" >> "$LOG"
+                kill "$OLD_PID" || true
+                sleep 2
+                # Force kill if still running
+                if kill -0 "$OLD_PID" 2>/dev/null; then
+                  echo "[deploy] Force killing $OLD_PID" >> "$LOG"
+                  kill -9 "$OLD_PID" || true
+                  sleep 1
+                fi
+              fi
+              rm -f "$PID_FILE"
             fi
-            PORT_VAL="${PORT_VAL:-${{ secrets.DEPLOY_PORT }}}"; [ -z "${PORT_VAL:-}" ] && PORT_VAL=3000
-            nohup env PORT="$PORT_VAL" node server.js > "$BASE_DIR/server.out" 2>&1 & echo $! > "$PID_FILE"
+
+            # Start new process
+            PORT_VAL="${PORT_VAL:-${{ secrets.DEPLOY_PORT }}}"
+            [ -z "${PORT_VAL:-}" ] && PORT_VAL=3000
+            echo "[deploy] Starting server on port $PORT_VAL" >> "$LOG"
+            nohup node server.js > "$BASE_DIR/server.out" 2>&1 &
+            NEW_PID=$!
+            echo $NEW_PID > "$PID_FILE"
+            echo "[deploy] Started process $NEW_PID" >> "$LOG"
 
             releases=$(ls -1 "$RELEASES_DIR" 2>/dev/null | sort)
             count=$(echo "$releases" | wc -l | tr -d " ")
