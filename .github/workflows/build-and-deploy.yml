@@ -64,6 +64,9 @@ jobs:
           name: next-standalone
           path: ./artifact
 
+      - name: Prepare partial artifact name (.part)
+        run: cp artifact/next-standalone.tar.gz artifact/next-standalone.tar.gz.part
+
       - name: Ensure remote target directories
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -84,11 +87,9 @@ jobs:
           username: ${{ secrets.DEPLOY_SSH_USER }}
           password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
           port: ${{ secrets.DEPLOY_SSH_PORT || 22 }}
-          local_path: "artifact/next-standalone.tar.gz"
+          local_path: "artifact/next-standalone.tar.gz.part"
           remote_path: /srv/customer/sites/ark-fid.ch/artifact/
           sftp_only: true
-          delete: false
-          dry-run: false
 
       - name: Deploy on server (safe extract, atomic switch, restart)
         uses: appleboy/ssh-action@v1.2.0
@@ -111,12 +112,18 @@ jobs:
             CURRENT_LINK="$BASE_DIR/current"
             PID_FILE="$BASE_DIR/ark-fid.pid"
             ARTIFACT="$BASE_DIR/artifact/next-standalone.tar.gz"
+            PART_ARTIFACT="$BASE_DIR/artifact/next-standalone.tar.gz.part"
             TS=$(date +%Y%m%d%H%M%S)
             REL_DIR="$RELEASES_DIR/$TS"
             TMP_DIR="${REL_DIR}.tmp"
 
             echo "[deploy] Disk:"
             df -h "$BASE_DIR" || true
+
+            if [ -f "$PART_ARTIFACT" ]; then
+            echo "[deploy] Finalize uploaded artifact (.part -> .tar.gz)"
+            mv "$PART_ARTIFACT" "$ARTIFACT"
+            fi
 
             echo "[deploy] Artifact:"
             ls -lh "$ARTIFACT"
@@ -226,4 +233,3 @@ jobs:
             fi
             echo "[deploy] Done $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             '
-
