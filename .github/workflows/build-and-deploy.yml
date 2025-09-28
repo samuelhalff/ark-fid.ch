@@ -72,12 +72,11 @@ jobs:
           password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
           port: ${{ secrets.DEPLOY_SSH_PORT || 22 }}
           timeout: 120s
-          command_timeout: 20m
+          command_timeout: 90s
           use_insecure_cipher: true
           script: |
             mkdir -p "/srv/customer/sites/ark-fid.ch/artifact" "/srv/customer/sites/ark-fid.ch/releases" "/srv/customer/sites/ark-fid.ch/shared"
 
-      # Option A: Use password auth (supported by appleboy actions). Prefer SSH key if possible.
       - name: Upload release to server (SFTP)
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
@@ -99,12 +98,14 @@ jobs:
           password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
           port: ${{ secrets.DEPLOY_SSH_PORT || 22 }}
           timeout: 120s
-          command_timeout: 20m
+          command_timeout: 90s
           use_insecure_cipher: true
           script_stop: true
           script: |
-            set -euo pipefail
-            echo "[deploy] Start at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            if command -v bash >/dev/null 2>&1; then SHELL_EXEC="bash -lc"; else SHELL_EXEC="sh -lc"; fi
+            $SHELL_EXEC '
+            set -Eeuo pipefail
+            echo "[deploy] Start $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
             RELEASES_DIR="$BASE_DIR/releases"
             CURRENT_LINK="$BASE_DIR/current"
@@ -114,100 +115,115 @@ jobs:
             REL_DIR="$RELEASES_DIR/$TS"
             TMP_DIR="${REL_DIR}.tmp"
 
-            echo "[deploy] Prepare directories"
-            mkdir -p "$RELEASES_DIR"
-            echo "[deploy] Artifact info:" && ls -lh "$ARTIFACT" || true
-            echo "[deploy] Wait for artifact to be stable"
-            wait_for_stable() {
+            echo "[deploy] Disk:"
+            df -h "$BASE_DIR" || true
+
+            echo "[deploy] Artifact:"
+            ls -lh "$ARTIFACT"
+
+            wait_stable() {
               f="$1"; attempts="${2:-30}"; pause="${3:-2}"
               prev=""
               while [ "$attempts" -gt 0 ]; do
-                sz="$(stat -c %s "$f" 2>/dev/null || echo "")"
+                sz="$(wc -c < "$f" 2>/dev/null || echo "")"
                 [ -n "$sz" ] || { sleep "$pause"; attempts=$((attempts-1)); continue; }
-                if [ "$sz" = "$prev"  ] && [ "$sz" != "0" ]; then
-                  return 0
-                fi
+                if [ "$sz" = "$prev" ] && [ "$sz" != "0" ]; then return 0; fi
                 prev="$sz"
                 sleep "$pause"
                 attempts=$((attempts-1))
               done
               return 1
             }
-            if ! wait_for_stable "$ARTIFACT"; then
+
+            echo "[deploy] Wait for artifact to be stable"
+            if ! wait_stable "$ARTIFACT"; then
               echo "[deploy] Artifact not stable or missing: $ARTIFACT" >&2
               exit 1
             fi
-            echo "[deploy] Verify artifact integrity (gzip -t)"
+
+            echo "[deploy] Verify gzip integrity"
             if ! gzip -t "$ARTIFACT"; then
-              echo "[deploy] Artifact is corrupt (gzip test failed)" >&2
+              echo "[deploy] Artifact corrupt (gzip -t failed)" >&2
               exit 1
             fi
-            echo "[deploy] Extracting to temp dir: $TMP_DIR"
+
+            echo "[deploy] Extract to temp: $TMP_DIR"
             rm -rf "$TMP_DIR"
             mkdir -p "$TMP_DIR"
-            if ! gzip -cd "$ARTIFACT" | tar -x --no-same-owner --no-same-permissions -C "$TMP_DIR"; then
-              echo "[deploy] Extraction failed" >&2
-              rm -rf "$TMP_DIR"
-              exit 1
-            fi
-            echo "[deploy] Activate release: $REL_DIR"
+
+            extract_once() {
+              gzip -cd "$ARTIFACT" | tar -x --no-same-owner --no-same-permissions -C "$TMP_DIR"
+            }
+
+            n=0
+            until extract_once; do
+              n=$((n+1))
+              if [ "$n" -ge 2 ]; then
+                echo "[deploy] Extraction failed after $n tries" >&2
+                rm -rf "$TMP_DIR"
+                exit 1
+              fi
+              echo "[deploy] Retry extraction..."
+              rm -rf "$TMP_DIR"; mkdir -p "$TMP_DIR"; sleep 2
+            done
+
+            echo "[deploy] Validate extracted contents"
+            for f in server.js .next/BUILD_ID .next/static; do
+              if [ ! -e "$TMP_DIR/$f" ]; then
+                echo "[deploy] Missing required: $f" >&2
+                rm -rf "$TMP_DIR"
+                exit 1
+              fi
+            done
+
+            echo "[deploy] Activate: $REL_DIR"
             mv "$TMP_DIR" "$REL_DIR"
 
-            # Link shared .env files if present
-            echo "[deploy] Link shared env files (if any)"
-            if [ -f "$BASE_DIR/shared/.env" ]; then ln -sfn "$BASE_DIR/shared/.env" "$REL_DIR/.env"; fi
-            if [ -f "$BASE_DIR/shared/.env.production" ]; then ln -sfn "$BASE_DIR/shared/.env.production" "$REL_DIR/.env.production"; fi
+            echo "[deploy] Link shared env (if any)"
+            [ -f "$BASE_DIR/shared/.env" ] && ln -sfn "$BASE_DIR/shared/.env" "$REL_DIR/.env"
+            [ -f "$BASE_DIR/shared/.env.production" ] && ln -sfn "$BASE_DIR/shared/.env.production" "$REL_DIR/.env.production"
 
-            # Atomically switch current
-            echo "[deploy] Switch current symlink"
+            echo "[deploy] Switch current"
             ln -sfn "$REL_DIR" "$CURRENT_LINK"
 
-            # Restart via nohup using PID file (no pm2 available)
+            echo "[deploy] Restart"
             cd "$CURRENT_LINK"
-            echo "[deploy] Stop previous process if running"
             if [ -f "$PID_FILE" ]; then
-              OLD_PID=$(cat "$PID_FILE" || true)
+              OLD_PID="$(cat "$PID_FILE" || true)"
               if [ -n "${OLD_PID:-}" ] && kill -0 "$OLD_PID" >/dev/null 2>&1; then
                 kill "$OLD_PID" || true
                 sleep 1
               fi
             fi
-            PORT_VAL="${{ secrets.DEPLOY_PORT }}"
-            if [ -z "${PORT_VAL}" ]; then PORT_VAL=3000; fi
-            echo "[deploy] Start server (PORT=$PORT_VAL)"
+            PORT_VAL="${PORT_VAL:-${{ secrets.DEPLOY_PORT }}}"
+            [ -z "${PORT_VAL:-}" ] && PORT_VAL=3000
             nohup env PORT="$PORT_VAL" node server.js > "$BASE_DIR/server.out" 2>&1 & echo $! > "$PID_FILE"
-            echo "[deploy] Started with PID $(cat "$PID_FILE")"
-            tail -n +1 -F "$BASE_DIR/server.out" &
-            TAIL_PID=$!
+            echo "[deploy] PID $(cat "$PID_FILE")"
 
-            # Keep only the 4 most recent releases (POSIX-friendly)
+            # Keep only the 4 most recent releases
             releases=$(ls -1 "$RELEASES_DIR" 2>/dev/null | sort)
-            count=$(printf "%s\n" "$releases" | wc -l | tr -d ' ')
+            count=$(echo "$releases" | wc -l | tr -d " ")
             keep=4
             if [ "$count" -gt "$keep" ]; then
               to_delete=$((count - keep))
-              printf "%s\n" "$releases" | head -n "$to_delete" | while IFS= read -r d; do
+              echo "$releases" | head -n "$to_delete" | while IFS= read -r d; do
                 [ -n "$d" ] && rm -rf "$RELEASES_DIR/$d" || true
               done
             fi
 
-            # Health check: wait for local port to respond
-            ATTEMPTS=60
-            SLEEP=3
-            OK=0
+            # Health check
+            ATTEMPTS=60; SLEEP=3; OK=0
             for i in $(seq 1 $ATTEMPTS); do
               echo "[health] Attempt $i/$ATTEMPTS at $(date -u +%H:%M:%S)"
-              if curl -fsS "http://127.0.0.1:$PORT_VAL/" >/dev/null 2>&1; then
-                echo "[health] OK"
-                OK=1; break
-              fi
+              if curl -fsS "http://127.0.0.1:$PORT_VAL/" >/dev/null 2>&1; then OK=1; break; fi
               sleep $SLEEP
             done
-            kill "$TAIL_PID" >/dev/null 2>&1 || true
             if [ "$OK" -ne 1 ]; then
               echo "[health] Service did not become healthy in time" >&2
               echo "[health] Last 200 log lines:" >&2
               tail -n 200 "$BASE_DIR/server.out" >&2 || true
               exit 1
             fi
-            echo "[deploy] Done at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "[deploy] Done $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            '
+

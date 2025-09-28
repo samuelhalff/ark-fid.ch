@@ -110,17 +110,26 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/favicon.ico",
+        url: new URL(
+          "/favicon.ico",
+          process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+        ).toString(),
         sizes: "any",
       },
       {
-        url: "/favicon.png",
+        url: new URL(
+          "/favicon.png",
+          process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+        ).toString(),
         type: "image/png",
       },
     ],
     apple: [
       {
-        url: "/favicon.png",
+        url: new URL(
+          "/favicon.png",
+          process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+        ).toString(),
         sizes: "180x180",
         type: "image/png",
       },

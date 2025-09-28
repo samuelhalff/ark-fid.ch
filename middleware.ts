@@ -14,8 +14,8 @@ export function middleware(request: NextRequest) {
     isProd
       ? [
         `default-src 'self'`,
-        // Nonce-based inline scripts with strict-dynamic
-        `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' 'strict-dynamic' https: http: https://maps.googleapis.com https://maps.gstatic.com`,
+        // Nonce-based inline scripts
+        `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' https: http: https://maps.googleapis.com https://maps.gstatic.com`,
         // Allow inline styles for Tailwind and Next styles
         `style-src 'self' 'unsafe-inline'`,
         `font-src 'self' data:`,
