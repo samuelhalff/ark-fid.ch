@@ -85,23 +85,24 @@ jobs:
 
       # Optional: Deploy to server via SSH (requires repo secrets)
       - name: Setup SSH agent
-        if: ${{ secrets.SSH_HOST && secrets.SSH_USER && secrets.SSH_PRIVATE_KEY }}
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Copy bundle to server
-        if: ${{ secrets.SSH_HOST && secrets.SSH_USER && secrets.SSH_PRIVATE_KEY }}
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PORT: ${{ vars.SSH_PORT || 22 }}
           REMOTE_PATH: ${{ vars.REMOTE_PATH || '/srv/customer/sites/ark-fid.ch' }}
         run: |
+          if [ -z "$SSH_HOST" ] || [ -z "$SSH_USER" ]; then
+            echo "SSH secrets not configured, skipping deployment"
+            exit 0
+          fi
           scp -P "$SSH_PORT" -o StrictHostKeyChecking=no release.tgz "$SSH_USER@$SSH_HOST:$REMOTE_PATH/release.tgz"
 
       - name: Deploy on server (extract + restart)
-        if: ${{ secrets.SSH_HOST && secrets.SSH_USER && secrets.SSH_PRIVATE_KEY }}
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
