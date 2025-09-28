@@ -64,8 +64,8 @@ export default function ConsentAnalytics() {
         script.async = true;
         document.head.appendChild(script);
         window.dataLayer = window.dataLayer || [];
-        window.gtag = function () {
-          window.dataLayer.push(arguments);
+        window.gtag = (...args: any[]) => {
+          window.dataLayer.push(args);
         };
         window.gtag("js", new Date());
         window.gtag("config", "GA_MEASUREMENT_ID");
