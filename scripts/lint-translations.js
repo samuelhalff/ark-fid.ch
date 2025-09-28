@@ -12,7 +12,7 @@ const NAMESPACES = [
   'navbar',
   'servicesItems',
   'team',
-  // extend as needed (footer, legal, etc.)
+  'contact',
 ];
 
 function flatten(obj, prefix = '') {
@@ -22,7 +22,7 @@ function flatten(obj, prefix = '') {
     if (val && typeof val === 'object' && !Array.isArray(val)) {
       Object.assign(acc, flatten(val, p));
     } else {
-      acc[p] = true;
+      acc[p] = val;
     }
     return acc;
   }, {});
@@ -39,6 +39,7 @@ function readNs(locale, ns) {
 }
 
 let missing = [];
+let emptyStrings = [];
 
 for (const ns of NAMESPACES) {
   // union of keys across all locales for this namespace
@@ -52,18 +53,32 @@ for (const ns of NAMESPACES) {
   }
   for (const loc of LOCALES) {
     for (const key of union) {
-      if (!perLocale[loc][key]) {
+      if (!(key in perLocale[loc])) {
         missing.push({ locale: loc, ns, key });
+      } else {
+        const v = perLocale[loc][key];
+        if (typeof v === 'string' && v.trim().length === 0) {
+          emptyStrings.push({ locale: loc, ns, key });
+        }
       }
     }
   }
 }
 
-if (missing.length) {
-  console.error(`\nTranslation keys missing (${missing.length}):`);
-  for (const m of missing) {
-    console.error(` - [${m.locale}] ${m.ns}: ${m.key}`);
+if (missing.length || emptyStrings.length) {
+  if (missing.length) {
+    console.error(`\nTranslation keys missing (${missing.length}):`);
+    for (const m of missing) {
+      console.error(` - [${m.locale}] ${m.ns}: ${m.key}`);
+    }
   }
+  if (emptyStrings.length) {
+    console.error(`\nTranslation keys with empty string values (${emptyStrings.length}):`);
+    for (const m of emptyStrings) {
+      console.error(` - [${m.locale}] ${m.ns}: ${m.key}`);
+    }
+  }
+  console.error(`\nTranslation keys missing (${missing.length}):`);
   process.exit(1);
 } else {
   console.log('All translation namespaces have full key parity across locales.');

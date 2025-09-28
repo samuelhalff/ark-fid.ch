@@ -6,8 +6,8 @@
     "Form": {
         "Name": "Nome",
         "Email": "Email",
-        "CompanyName": "Nome da Empresa (Opcional)",
-        "Phone": "Número de Telefone (Opcional)",
+        "CompanyName": "Nome da empresa (opcional)",
+        "Phone": "Número de telefone (opcional)",
         "Message": "Mensagem",
         "Placeholders": {
             "Name": "Seu nome",
@@ -17,7 +17,7 @@
             "Message": "Sua mensagem..."
         },
         "Consent": "Concordo em ser contactado sobre o meu pedido",
-        "Submit": "Enviar Mensagem",
+        "Submit": "Enviar mensagem",
         "Sending": "Enviando",
         "Success": "Mensagem enviada com sucesso!",
         "Error": "Falha ao enviar mensagem. Tente novamente."

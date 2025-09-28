@@ -109,7 +109,7 @@ const PartnersHero = async ({ locale }: PartnersHeroProps) => {
         <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
           <Image
             src={heroSrc}
-            alt="featured service"
+            alt="Illustration des services fiduciaires professionnels offerts par Ark Fiduciaire"
             className="object-cover rounded-xl"
             sizes="(min-width:1280px) 560px, (min-width:1024px) 480px, 92vw"
             quality={72}

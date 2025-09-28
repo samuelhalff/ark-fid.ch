@@ -160,16 +160,19 @@ jobs:
             mkdir -p "$TMP_DIR"
 
             extract_once() {
-              # Disable pipefail for this pipeline to avoid SIGPIPE (141) from bubbling up
-              set +o pipefail
-              gzip -cd "$ARTIFACT" | tar -x --no-same-owner --no-same-permissions -C "$TMP_DIR"
+              # Avoid pipelines completely to sidestep SIGPIPE from ssh wrapper
+              # 1) Decompress to a temporary tar file
+              set +e
+              gzip -cd "$ARTIFACT" > "$TMP_DIR/.payload.tar"
               status=$?
-              set -o pipefail
-              # Treat SIGPIPE (141) from gzip as success when tar finished
-              if [ "$status" -eq 141 ]; then
-                return 0
-              fi
-              return "$status"
+              set -e
+              # Normalize benign SIGPIPE
+              if [ "$status" -eq 141 ]; then status=0; fi
+              if [ "$status" -ne 0 ]; then return "$status"; fi
+              # 2) Extract the tar contents
+              tar -xf "$TMP_DIR/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP_DIR" || return $?
+              rm -f "$TMP_DIR/.payload.tar" || true
+              return 0
             }
 
             n=0

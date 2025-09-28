@@ -16,10 +16,19 @@ import Link from "next/link";
 import { cn } from "@/src/lib/utils";
 // no usePathname needed; compute pathname from window when required
 
-const MobileMenuToggleIcon = ({ open }: { open: boolean }) => (
+const MobileMenuToggleIcon = ({
+  open,
+  className,
+}: {
+  open: boolean;
+  className?: string;
+}) => (
   <span
     aria-hidden
-    className="pointer-events-none relative flex h-4 w-6 items-center justify-center"
+    className={cn(
+      "pointer-events-none relative flex h-4 w-6 items-center justify-center",
+      className
+    )}
   >
     <span
       className={cn(
@@ -79,11 +88,9 @@ const MobileMenu = ({
         <Button
           type="button"
           variant="ghost"
-          size="icon"
           className={cn(
-            "relative h-11 w-11 shrink-0 rounded-full border border-border/70 bg-background/80 text-foreground shadow-sm backdrop-blur-sm transition-all duration-300 ease-out",
-            "hover:border-primary/60 hover:bg-primary/10 hover:text-primary",
-            open && "border-primary/60 bg-primary/10 text-primary"
+            "p-2 text-foreground transition-colors",
+            open ? "text-primary" : "hover:text-primary"
           )}
           aria-haspopup="dialog"
           aria-expanded={open}
@@ -131,11 +138,10 @@ const MobileMenu = ({
             <Button
               type="button"
               variant="ghost"
-              size="icon"
-              className="ml-2 h-11 w-11 shrink-0 rounded-full border border-primary/50 bg-primary/10 text-primary shadow-sm backdrop-blur-sm transition-all duration-300 ease-out hover:bg-primary/15"
+              className="ml-2 p-2 text-primary transition-colors hover:text-primary/90"
               aria-label="Close menu"
             >
-              <MobileMenuToggleIcon open />
+              <MobileMenuToggleIcon open className="scale-90" />
             </Button>
           </SheetTrigger>
         </div>
