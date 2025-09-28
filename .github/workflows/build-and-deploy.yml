@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - "app/**"
-           sshpass -p "${{ secrets.DEPLOY_SSH_PASSWORD }}" rsync -av -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.DEPLOY_SSH_PORT || 22 }}" artifact/next-standalone.tar.gz.part ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}:/srv/customer/sites/ark-fid.ch/artifact/c/**"
+      - "src/**"
       - "public/**"
       - "tailwind.config.*"
       - "postcss.config.*"
