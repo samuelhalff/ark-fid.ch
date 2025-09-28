@@ -2,6 +2,13 @@
 
 import { useEffect, useState } from "react";
 
+declare global {
+  interface Window {
+    gtag: (...args: any[]) => void;
+    dataLayer: any[];
+  }
+}
+
 const CONSENT_KEY = "cookieConsent";
 
 function getConsent(): "accepted" | "declined" | null {
@@ -49,6 +56,18 @@ export default function ConsentAnalytics() {
   useEffect(() => {
     let mounted = true;
     if (consent === "accepted" && !AnalyticsComp) {
+      // Load Google Analytics
+      if (typeof window !== "undefined" && !window.gtag) {
+        const script = document.createElement("script");
+        script.src = "https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID";
+        script.async = true;
+        document.head.appendChild(script);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function() { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', 'GA_MEASUREMENT_ID');
+      }
+      // Load Vercel Analytics
       import("@vercel/analytics/react")
         .then((mod) => {
           if (mounted) setAnalyticsComp(() => mod.Analytics);
