@@ -10,7 +10,10 @@ interface PartnersHeroProps {
 }
 
 // Lightweight inline icons to avoid pulling lucide-react into the shared chunk
-const IconHandshake = ({ className = "w-4 h-4", ...props }: React.SVGProps<SVGSVGElement>) => (
+const IconHandshake = ({
+  className = "w-4 h-4",
+  ...props
+}: React.SVGProps<SVGSVGElement>) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
@@ -29,7 +32,10 @@ const IconHandshake = ({ className = "w-4 h-4", ...props }: React.SVGProps<SVGSV
   </svg>
 );
 
-const IconUsers = ({ className = "w-5 h-5", ...props }: React.SVGProps<SVGSVGElement>) => (
+const IconUsers = ({
+  className = "w-5 h-5",
+  ...props
+}: React.SVGProps<SVGSVGElement>) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
