@@ -132,17 +132,6 @@ jobs:
             echo "[deploy] Artifact:"
             ls -lh "$ARTIFACT"
 
-            wait_stable() {
-              f="$1"
-              if [ -s "$f" ]; then return 0; else return 1; fi
-            }
-
-            echo "[deploy] Wait for artifact to be stable"
-            if ! wait_stable "$ARTIFACT"; then
-              echo "[deploy] Artifact not stable or missing: $ARTIFACT" >&2
-              exit 1
-            fi
-
             echo "[deploy] Extract to temp: $TMP_DIR"
             rm -rf "$TMP_DIR"
             mkdir -p "$TMP_DIR"
