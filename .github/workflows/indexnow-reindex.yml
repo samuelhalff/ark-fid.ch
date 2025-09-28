@@ -17,6 +17,8 @@ jobs:
           set -euo pipefail
           URL="${SITE_URL:-https://ark-fid.ch}/api/indexnow/reindex"
           echo "POST $URL"
+          echo "INDEXNOW_SECRET length: ${#INDEXNOW_SECRET}"
+          echo "SITE_URL: $SITE_URL"
           for i in 1 2 3; do
             STATUS=$(curl -s -o /tmp/resp.json -w "%{http_code}" -X POST "$URL" \
               -H "Content-Type: application/json" \
