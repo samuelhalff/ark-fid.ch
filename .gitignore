@@ -10,3 +10,4 @@ litellm_config.yaml
 .DS_Store
 .vscode
 .idea
+dev.log
