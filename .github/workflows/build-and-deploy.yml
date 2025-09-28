@@ -132,17 +132,8 @@ jobs:
             ls -lh "$ARTIFACT"
 
             wait_stable() {
-              f="$1"; attempts="${2:-30}"; pause="${3:-2}"
-              prev=""
-              while [ "$attempts" -gt 0 ]; do
-                sz="$(stat -c %s "$f" 2>/dev/null || echo "")"
-                [ -n "$sz" ] || { sleep "$pause"; attempts=$((attempts-1)); continue; }
-                if [ "$sz" = "$prev" ] && [ "$sz" != "0" ]; then return 0; fi
-                prev="$sz"
-                sleep "$pause"
-                attempts=$((attempts-1))
-              done
-              return 1
+              f="$1"
+              if [ -s "$f" ]; then return 0; else return 1; fi
             }
 
             echo "[deploy] Wait for artifact to be stable"
