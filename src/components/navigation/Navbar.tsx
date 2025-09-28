@@ -90,7 +90,7 @@ const Navbar = ({ locale, navData }: { locale?: string; navData: NavData }) => {
                 src="/assets/arkfid--light.svg"
                 width={100}
                 height={32}
-                alt=""
+                alt="Ark Fiduciaire"
                 sizes="(max-width: 768px) 88px, 100px"
                 decoding="async"
               />
@@ -99,7 +99,7 @@ const Navbar = ({ locale, navData }: { locale?: string; navData: NavData }) => {
                 src="/assets/arkfid--color.svg"
                 width={100}
                 height={32}
-                alt=""
+                alt="Ark Fiduciaire"
                 sizes="(max-width: 768px) 88px, 100px"
                 decoding="async"
               />

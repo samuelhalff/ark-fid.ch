@@ -27,17 +27,7 @@ if (process.env.NODE_ENV !== "production") {
   require("./globals.css");
 }
 
-// Fallback metadata to ensure <title> and description always render,
-// even if a page forgets to export generateMetadata.
-export const metadata: Metadata = {
-  title: "Ark Fiduciaire – Fiduciaire à Genève & Lausanne",
-  description:
-    "Services fiduciaires en Suisse romande (Genève, Lausanne) : comptabilité, fiscalité, paie, corporate et domiciliation pour PME et groupes.",
-  icons: {
-    icon: [{ url: "/favicon.ico" }, { url: "/favicon.png", type: "image/png" }],
-    apple: [{ url: "/favicon.png", type: "image/png", sizes: "180x180" }],
-  },
-};
+// Page-level metadata is exported later in this file.
 
 const criticalCss = `:root {color-scheme: light;--background: 1 0 0;--foreground: 0.145 0 0;--card: 1 0 0;--card-foreground: 0.145 0 0;--popover: 1 0 0;--popover-foreground: 0.145 0 0;--primary: 0.205 0 0;--primary-foreground: 0.985 0 0;--secondary: 0.97 0 0;--secondary-foreground: 0.205 0 0;--muted: 0.97 0 0;--muted-foreground: 0.556 0 0;--accent: 0.97 0 0;--accent-foreground: 0.205 0 0;--destructive: 0.577 0.245 27.325;--border: 0.922 0 0;--input: 0.922 0 0;--ring: 0.708 0 0;--radius: 0.625rem;--breakpoint-xl: 1200px;}
 .dark {--background: 0.145 0 0;--foreground: 0.985 0 0;--card: 0.205 0 0;--card-foreground: 0.985 0 0;--popover: 0.205 0 0;--popover-foreground: 0.985 0 0;--primary: 0.922 0 0;--primary-foreground: 0.205 0 0;--secondary: 0.269 0 0;--secondary-foreground: 0.985 0 0;--muted: 0.269 0 0;--muted-foreground: 0.708 0 0;--accent: 0.269 0 0;--accent-foreground: 0.985 0 0;--destructive: 0.704 0.191 22.216;--border: 1 0 0 / 0.1;--input: 1 0 0 / 0.15;--ring: 0.556 0 0;color-scheme: dark;}
