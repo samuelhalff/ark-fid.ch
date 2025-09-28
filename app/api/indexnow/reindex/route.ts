@@ -5,8 +5,20 @@ import { submitToIndexNow } from '@/src/lib/indexnow';
 export async function POST(req: NextRequest) {
   const secret = process.env.INDEXNOW_SECRET;
   const provided = req.headers.get('x-indexnow-secret') || (await req.json().catch(() => ({})))?.secret;
+
+  // Temporary debug logging
+  console.log('INDEXNOW_SECRET env:', secret ? 'SET' : 'NOT SET');
+  console.log('Provided secret:', provided ? 'PROVIDED' : 'NOT PROVIDED');
+
   if (!secret || provided !== secret) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({
+      error: 'Unauthorized',
+      debug: {
+        hasEnvSecret: !!secret,
+        hasProvidedSecret: !!provided,
+        secretsMatch: secret === provided
+      }
+    }, { status: 401 });
   }
 
   const base = (process.env.NEXT_PUBLIC_SITE_URL || 'https://ark-fid.ch').replace(/\/$/, '');
