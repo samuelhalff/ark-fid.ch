@@ -12,6 +12,7 @@ interface TranslatedObjectArrayProps {
     item: { Title: string; Desc: string },
     index: number
   ) => React.ReactNode;
+  className?: string;
 }
 
 const TranslatedObjectArray = ({
@@ -19,6 +20,7 @@ const TranslatedObjectArray = ({
   translationKey,
   fallbackItems,
   renderItem,
+  className,
 }: TranslatedObjectArrayProps) => {
   const { t } = useTranslation(ns);
   const [isClient, setIsClient] = useState(false);
@@ -30,7 +32,9 @@ const TranslatedObjectArray = ({
   if (!isClient) {
     // Return fallback items during SSR
     return (
-      <div>{fallbackItems.map((item, index) => renderItem(item, index))}</div>
+      <div className={className}>
+        {fallbackItems.map((item, index) => renderItem(item, index))}
+      </div>
     );
   }
 
@@ -43,7 +47,11 @@ const TranslatedObjectArray = ({
   // Fallback to default items if translation fails or returns invalid data
   const validItems = Array.isArray(items) ? items : fallbackItems;
 
-  return <div>{validItems.map((item, index) => renderItem(item, index))}</div>;
+  return (
+    <div className={className}>
+      {validItems.map((item, index) => renderItem(item, index))}
+    </div>
+  );
 };
 
 export default TranslatedObjectArray;

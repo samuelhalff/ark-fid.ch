@@ -85,6 +85,7 @@ const FamilyOfficePresentation = () => {
                 Desc: "Design and administration of foundations and sustainable investment policies.",
               },
             ]}
+            className="space-y-4"
             renderItem={(item, index) => {
               const Icon = highlightIcons[index] ?? Building2;
               return (
