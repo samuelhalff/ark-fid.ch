@@ -148,7 +148,7 @@ const services = [
   {
     icon: <Crown />,
     titleKey: "FamilyOffice.Title",
-    href: "/family-office",
+    href: "/services/family-office",
     descriptionKey: "FamilyOffice.Description",
     image: "/assets/hero/services/family-office-hero.webp",
   },
