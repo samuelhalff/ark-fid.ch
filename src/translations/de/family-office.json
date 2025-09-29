@@ -4,43 +4,49 @@
         "Badge": "Schweizer Exzellenz",
         "BadgeTwo": "Familienerbe",
         "Title": "Family-Office-Dienstleistungen",
-        "Description": "Umfassende Family-Office-Dienstleistungen für vermögende Privatpersonen und Familien, einschließlich Vermögensverwaltung, Nachlassplanung, Steueroptimierung und Nachfolgeplanung.",
+        "Description": "Ganzheitliche Family-Office-Betreuung für Unternehmerfamilien: Vermögensstrukturierung, internationale Governance, Nachfolgeplanung und philanthropische Projekte aus einer Schweizer Hand.",
         "CTA": "Sichern Sie Ihr Erbe",
         "SecondaryCTA": "Mehr erfahren"
     },
+    "Breadcrumb": {
+        "Label": "Family office"
+    },
     "Presentation": {
-        "Title": "Family Office: Ihr Vermögen bewahren und vermehren",
-        "Subtitle": "Maßgeschneiderte Lösungen für die Verwaltung von Familienvermögen",
+        "Title": "Family Office: Schweizer Governance für Generationen",
+        "Subtitle": "Ihr Multi-Family-Office-Partner für Strukturierung, Nachfolge und internationale Koordination.",
         "Intro": [
-            "Unsere Family-Office-Dienstleistungen sind für vermögende Familien konzipiert, die umfassende Vermögensverwaltungslösungen suchen. Wir bieten personalisierte Strategien für die Erhaltung, das Wachstum und die Übertragung von Vermögen über Generationen hinweg.",
-            "Mit unserer Expertise in schweizerischen Treuhanddienstleistungen stellen wir sicher, dass die finanzielle Zukunft Ihrer Familie gesichert und optimiert ist."
+            "Ark Fiduciaire unterstützt Unternehmerfamilien und Family Offices, die einen Schweizer Hub für Governance, Steuern und Reporting benötigen. Wir bündeln Banken, Juristen und Steuerexperten zu einem konsolidierten Lagebild mit klaren Handlungsempfehlungen.",
+            "Von Genf und Lausanne aus steuern wir vertrauenswürdige Partner, digitale Reportings sowie Familiengremien, damit Charta, Beteiligungen und philanthropische Projekte jederzeit konform zur Schweizer Regulierung bleiben."
         ],
-        "ServicesTitle": "Unsere Family-Office-Dienstleistungen",
-        "Services": [
-            "Nachlassplanung: Strategische Planung für Vermögensübertragung und Nachfolge",
-            "Steueroptimierung: Internationale Steuerplanung und Compliance-Dienstleistungen",
-            "Nachfolgeplanung: Beratung für die intergenerationale Vermögensübertragung",
-            "Familiengovernance: Strukturierung von Familienräten und Governance-Rahmenwerken",
-            "Philanthropie-Koordination: Verwaltung von wohltätigen Spenden und Stiftungen"
-        ],
-        "StrengthsTitle": "Warum unsere Family-Office-Dienstleistungen wählen",
-        "Strengths": [
+        "HighlightsTitle": "Unsere Stärken im Family Office",
+        "Highlights": [
             {
-                "Title": "Schweizer Treuhandexpertise",
-                "Desc": "Profitieren Sie vom renommierten Schweizer Bankgeheimnis und den Treuhandtraditionen."
+                "Title": "Unabhängige Schweizer Aufsicht",
+                "Desc": "Produktneutrale Koordination von Banken, Vermögensverwaltern und Trustees nach strengen Treuhand-Standards."
             },
             {
-                "Title": "Personalisierter Ansatz",
-                "Desc": "Maßgeschneiderte Lösungen, die speziell auf die einzigartigen Bedürfnisse Ihrer Familie zugeschnitten sind."
+                "Title": "360°-Koordination",
+                "Desc": "Ein Lead-Berater steuert Administration, Steuern, Recht, Reporting und Lifestyle-Anliegen über sichere Workflows."
             },
             {
-                "Title": "Mehrgenerationaler Fokus",
-                "Desc": "Strategien, die Vermögen über Generationen hinweg erhalten und vermehren."
+                "Title": "Governance & Nachfolge",
+                "Desc": "Begleitung bei Familiencharta, Aktionärsverträgen, NextGen-Programmen und grenzüberschreitender Nachfolgeplanung."
             },
             {
-                "Title": "Internationale Perspektive",
-                "Desc": "Globale Vermögensverwaltung mit lokaler Schweizer Expertise."
+                "Title": "Impact & Philanthropie",
+                "Desc": "Konzeption und Administration von Stiftungen, Sustainable-Investment-Richtlinien und Impact-Reporting."
             }
-        ]
+        ],
+        "ServicesTitle": "Schlüsselservices unseres Family Office",
+        "Services": [
+            "Vermögensstrukturierung · Konsolidierung von Beteiligungen und Cashflow-Dashboards",
+            "Internationale Steuer- & Rechtskoordination · Schnittstelle zu Schweizer und ausländischen Beratern",
+            "Familien-Governance · Moderation von Familienräten, Charter-Workshops und Bildungsprogrammen",
+            "Transaktions- & Investment-Support · Due Diligence, Dokumentation und Deal-Nachbereitung",
+            "Philanthropie & Lifestyle-Administration · Stiftungen, Kunst, Immobilien und Concierge-Services"
+        ],
+        "CalloutTitle": "Gestalten Sie Ihre Familienstrategie aus der Schweiz",
+        "CalloutText": "Vereinbaren Sie ein vertrauliches Strategiegespräch in Genf oder Lausanne, um Prioritäten zu klären und eine Governance-Roadmap zu definieren.",
+        "CalloutCTA": "Gespräch mit Family-Office-Berater"
     }
 }

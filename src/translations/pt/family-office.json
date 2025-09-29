@@ -3,45 +3,50 @@
     "Hero": {
         "Badge": "Excelência suíça",
         "BadgeTwo": "Legado familiar",
-        "Title": "Serviços de Family Office",
-        "Description": "Serviços abrangentes de family office para indivíduos e famílias de alto patrimônio, incluindo gestão de patrimônio, planejamento sucessório, otimização fiscal e planejamento sucessório.",
+        "Title": "Serviços de family office",
+        "Description": "Family office completo para famílias de alto patrimônio: estruturação patrimonial, governança internacional, sucessão e projetos filantrópicos coordenados a partir da Suíça.",
         "CTA": "Garanta seu legado",
         "SecondaryCTA": "Saiba mais"
     },
+    "Breadcrumb": {
+        "Label": "Family office"
+    },
     "Presentation": {
-        "Title": "Family office: preservar e crescer seu patrimônio",
-        "Subtitle": "Soluções personalizadas para gestão de patrimônio familiar",
+        "Title": "Family office: governança patrimonial com selo suíço",
+        "Subtitle": "Parceiro multi-family office para estruturar, transmitir e coordenar patrimônios globais.",
         "Intro": [
-            "Nossos serviços de family office são projetados para famílias de alto patrimônio que buscam soluções abrangentes de gestão de patrimônio. Oferecemos estratégias personalizadas para preservação, crescimento e transferência de patrimônio através das gerações.",
-            "Com nossa expertise em serviços fiduciários suíços, garantimos que o futuro financeiro de sua família esteja seguro e otimizado."
+            "A Ark Fiduciaire apoia famílias empresárias e family offices que precisam de um hub suíço para coordenar governança, fiscalidade e reporting. Reunimos bancos, advogados e fiscalistas para entregar um panorama único com plano de ação concreto.",
+            "A partir de Genebra e Lausanne ativamos parceiros de confiança, relatórios digitais e fóruns familiares para manter cartas, holdings e iniciativas filantrópicas em conformidade com a regulação suíça."
         ],
-        "ServicesTitle": "Nossos Serviços de Family Office",
-        "Services": [
-            "Gestão de patrimônio: Gestão completa de portfólio e consultoria de investimento",
-            "Planejamento sucessório: Planejamento estratégico para transferência de patrimônio",
-            "Otimização fiscal: Planejamento fiscal internacional e serviços de conformidade",
-            "Planejamento sucessório: Orientação para transferência de patrimônio intergeracional",
-            "Governança familiar: Estruturação de conselhos familiares e estruturas de governança",
-            "Coordenação filantrópica: Gestão de doações caritativas e fundações"
-        ],
-        "StrengthsTitle": "Por que escolher nossos serviços de family office",
-        "Strengths": [
+        "HighlightsTitle": "Nossos diferenciais em family office",
+        "Highlights": [
             {
-                "Title": "Expertise fiduciária suíça",
-                "Desc": "Beneficie-se do renomado segredo bancário da Suíça e das tradições fiduciárias."
+                "Title": "Supervisão independente",
+                "Desc": "Coordenação neutra de bancos, gestores e trustees sob padrões fiduciários suíços."
             },
             {
-                "Title": "Abordagem personalizada",
-                "Desc": "Soluções sob medida projetadas especificamente para as necessidades únicas de sua família."
+                "Title": "Coordenação 360°",
+                "Desc": "Um advisor dedicado gerencia administração, tributos, jurídico, reporting e demandas lifestyle com fluxos seguros."
             },
             {
-                "Title": "Foco multigeracional",
-                "Desc": "Estratégias que preservam e crescem o patrimônio através das gerações."
+                "Title": "Governança e sucessão",
+                "Desc": "Suporte para cartas familiares, acordos societários, programas NextGen e sucessão transfronteiriça."
             },
             {
-                "Title": "Perspectiva internacional",
-                "Desc": "Gestão global de patrimônio com expertise local suíça."
+                "Title": "Impacto e filantropia",
+                "Desc": "Criação e administração de fundações, políticas de investimento sustentável e relatórios de impacto."
             }
-        ]
+        ],
+        "ServicesTitle": "Principais serviços de family office",
+        "Services": [
+            "Revisão da estrutura patrimonial · consolidação de participações e fluxos de caixa",
+            "Coordenação fiscal e jurídica internacional · interface com consultores suíços e globais",
+            "Facilitação de governança familiar · cartas, conselhos de família e programas educativos",
+            "Suporte a operações e investimentos · due diligence, documentação e acompanhamento de deals",
+            "Administração filantrópica e lifestyle · fundações, arte, imóveis e concierge"
+        ],
+        "CalloutTitle": "Proteja o legado da sua família a partir da Suíça",
+        "CalloutText": "Agende uma sessão confidencial com nossa equipe em Genebra ou Lausanne para alinhar prioridades e desenhar uma rota de governança.",
+        "CalloutCTA": "Falar com um advisor family office"
     }
 }

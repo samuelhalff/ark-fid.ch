@@ -22,7 +22,9 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
   const nonce = headers().get("x-nonce") || undefined;
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params.locale ? `/${params.locale}` : "";
-  const tNav = await getTranslations(params.locale as Locale, "navbar");
+  const locale = params.locale as Locale;
+  const tNav = await getTranslations(locale, "navbar");
+  const tFamily = await getTranslations(locale, "family-office");
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -36,7 +38,9 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
       {
         "@type": "ListItem",
         position: 2,
-        name: (tNav("FamilyOffice.Title") as string) || "Family office",
+        name: (tFamily("Breadcrumb.Label") as string) ||
+          (tFamily("Hero.Title") as string) ||
+          "Family office",
         item: `${baseUrl}${localePrefix}/services/family-office/`,
       },
     ],
@@ -68,7 +72,9 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
           <li className="flex items-center gap-1">
             <span className="text-muted-foreground/60">/</span>
             <span aria-current="page" className="font-medium text-foreground">
-              {(tNav("FamilyOffice.Title") as string) || "Family office"}
+              {(tFamily("Breadcrumb.Label") as string) ||
+                (tFamily("Hero.Title") as string) ||
+                "Family office"}
             </span>
           </li>
         </ol>

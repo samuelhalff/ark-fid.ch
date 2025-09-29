@@ -4,43 +4,49 @@
         "Badge": "Swiss excellence",
         "BadgeTwo": "Family legacy",
         "Title": "Family Office Services",
-        "Description": "Comprehensive family office services for high-net-worth individuals and families, including wealth management, estate planning, tax optimization, and succession planning.",
+        "Description": "Comprehensive family office services for high-net-worth individuals and families: wealth structuring, international governance, succession planning and impact reporting managed from Switzerland.",
         "CTA": "Secure your legacy",
         "SecondaryCTA": "Learn more"
     },
+    "Breadcrumb": {
+        "Label": "Family office"
+    },
     "Presentation": {
-        "Title": "Family office: preserving and growing your wealth",
-        "Subtitle": "Tailored solutions for family wealth management",
+        "Title": "Family office advisory rooted in Swiss governance",
+        "Subtitle": "Multi-family office partner for wealth structuring, succession and cross-border coordination.",
         "Intro": [
-            "Our family office services are designed for high-net-worth families seeking comprehensive wealth management solutions. We provide personalized strategies for wealth preservation, growth, and transfer across generations.",
-            "With our expertise in Swiss fiduciary services, we ensure your family's financial future is secure and optimized."
+            "Ark Fiduciaire supports entrepreneurs, family shareholders and single-family offices who need a Swiss desk to orchestrate wealth, governance and reporting. We consolidate banking, legal and tax stakeholders to deliver a unified view and actionable roadmap.",
+            "From Geneva and Lausanne we pilot trusted local providers, digital reporting and bespoke governance frameworks so that family charters, holdings and philanthropic projects remain aligned with Swiss regulation."
         ],
-        "ServicesTitle": "Our Family Office Services",
-        "Services": [
-            "Estate Planning: Strategic planning for wealth transfer and succession",
-            "Tax Optimization: International tax planning and compliance services",
-            "Succession Planning: Guidance for generational wealth transfer",
-            "Family Governance: Structuring family councils and governance frameworks",
-            "Philanthropy Coordination: Managing charitable giving and foundations"
-        ],
-        "StrengthsTitle": "Why choose our family office services",
-        "Strengths": [
+        "HighlightsTitle": "What sets our family office apart",
+        "Highlights": [
             {
-                "Title": "Swiss fiduciary expertise",
-                "Desc": "Benefit from Switzerland's renowned banking secrecy and fiduciary traditions."
+                "Title": "Independent Swiss oversight",
+                "Desc": "We operate free of product bias, coordinating banks, asset managers and trustees under strict Swiss fiduciary standards."
             },
             {
-                "Title": "Personalized approach",
-                "Desc": "Tailored solutions designed specifically for your family's unique needs and goals."
+                "Title": "360° coordination",
+                "Desc": "One lead advisor pilots administration, tax, legal, reporting and lifestyle requests with secure workflows."
             },
             {
-                "Title": "Multi-generational focus",
-                "Desc": "Strategies that preserve and grow wealth across generations."
+                "Title": "Governance & succession",
+                "Desc": "Support for family charters, shareholder agreements, education programmes and cross-border succession planning."
             },
             {
-                "Title": "International perspective",
-                "Desc": "Global wealth management with local Swiss expertise."
+                "Title": "Impact & philanthropy",
+                "Desc": "Design and administration of foundations, sustainable investment policies and impact reporting."
             }
-        ]
+        ],
+        "ServicesTitle": "Flagship family office services",
+        "Services": [
+            "Wealth structuring reviews · consolidation of holdings and cash-flow dashboards",
+            "Cross-border tax & legal coordination · liaison with Swiss and international advisers",
+            "Family governance facilitation · charters, councils and education workshops",
+            "Deal & investment support · due diligence, documentation and transaction follow-up",
+            "Philanthropy & lifestyle administration · foundations, art, property and concierge oversight"
+        ],
+        "CalloutTitle": "Secure your family legacy from Switzerland",
+        "CalloutText": "Schedule a confidential strategy session with our Geneva or Lausanne team to map your priorities and define a governance roadmap.",
+        "CalloutCTA": "Speak with a family office advisor"
     }
 }
