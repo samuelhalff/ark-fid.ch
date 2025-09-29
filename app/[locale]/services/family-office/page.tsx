@@ -38,7 +38,8 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
       {
         "@type": "ListItem",
         position: 2,
-        name: (tFamily("Breadcrumb.Label") as string) ||
+        name:
+          (tFamily("Breadcrumb.Label") as string) ||
           (tFamily("Hero.Title") as string) ||
           "Family office",
         item: `${baseUrl}${localePrefix}/services/family-office/`,
@@ -79,7 +80,7 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
           </li>
         </ol>
       </nav>
-      <Presentation />
+      <Presentation locale={locale} t={tFamily} />
     </main>
   );
 };

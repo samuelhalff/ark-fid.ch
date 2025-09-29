@@ -61,7 +61,7 @@ const ServicesElements = [
   {
     titleKey: "FamilyOffice.Title",
     descriptionKey: "FamilyOffice.Description",
-    href: "/family-office",
+    href: "/services/family-office",
     icon: <Crown className="text-primary" size={20} />,
   },
 ];

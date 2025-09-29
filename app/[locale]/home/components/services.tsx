@@ -41,7 +41,7 @@ const Services = async ({
         {services.map((service) => (
           <Link
             key={service.titleKey}
-            href={`${localePrefix}/services${service.href}`}
+            href={`${localePrefix}${service.href}`}
             prefetch={false}
             locale={locale}
             className="block h-full"

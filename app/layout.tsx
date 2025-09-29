@@ -6,6 +6,7 @@ import {
 } from "@/src/lib/metadata";
 import { inter } from "./fonts";
 import { headers } from "next/headers";
+import "./globals.css";
 // Vercel Analytics is rendered conditionally via ConsentAnalytics
 import dynamic from "next/dynamic";
 import Defer from "@/src/components/Defer";
@@ -21,11 +22,6 @@ const ConsentAnalytics = dynamic(
 import { getTranslations, getCurrentLocale } from "@/src/lib/i18n";
 
 // Using self-hosted Inter via next/font/local (see app/fonts.ts)
-
-if (process.env.NODE_ENV !== "production") {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  require("./globals.css");
-}
 
 // Page-level metadata is exported later in this file.
 
