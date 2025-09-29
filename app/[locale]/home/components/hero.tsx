@@ -46,7 +46,7 @@ const Hero = async ({ locale }: HeroProps) => {
 
   return (
     <div className="relative min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent critical-hero">
-      <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0 critical-hero__inner">
+      <div className="max-w-[var(--breakpoint-xl)] w-full grid grid-cols-1 lg:grid-cols-2 mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0 critical-hero__inner">
         <div className="max-w-2xl text-center motion-safe:animate-in motion-safe:fade-in md:duration-700 critical-hero__content">
           <div className="gap-2 flex items-center justify-center critical-hero__badges">
             <Badge
