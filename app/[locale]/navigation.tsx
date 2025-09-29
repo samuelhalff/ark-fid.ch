@@ -6,6 +6,7 @@ import {
   Building2,
   Settings,
   Landmark,
+  Crown,
 } from "lucide-react";
 
 const ServicesElements = [
@@ -56,6 +57,12 @@ const ServicesElements = [
     descriptionKey: "DomiciliationServices.Description",
     href: "/services/domiciliation",
     icon: <Building2 className="text-primary" size={20} />,
+  },
+  {
+    titleKey: "FamilyOffice.Title",
+    descriptionKey: "FamilyOffice.Description",
+    href: "/family-office",
+    icon: <Crown className="text-primary" size={20} />,
   },
 ];
 

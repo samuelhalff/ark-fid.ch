@@ -57,7 +57,10 @@ export default function ConsentAnalytics() {
     let mounted = true;
     if (consent === "accepted" && !AnalyticsComp) {
       // Load Google Analytics if ID is provided
-      const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
+      const GA_ID =
+        process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ||
+        process.env.NEXT_PUBLIC_GA_ID ||
+        "G-BXZ54E31FL";
       if (GA_ID && typeof window !== "undefined" && !window.gtag) {
         const script = document.createElement("script");
         script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;

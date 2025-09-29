@@ -6,8 +6,14 @@ import {
   NavigationMenuLink,
 } from "@/src/components/navigation/NavigationComponents";
 import React, { useMemo } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import type { Locale } from "@/src/lib/i18n";
+
+const VALID_LOCALES = ["en", "fr", "de", "es", "pt"] as const;
+
+const isValidLocale = (value: string): value is Locale =>
+  VALID_LOCALES.includes(value as Locale);
 
 function ListItem({ children }: { children: React.ReactNode }) {
   return (
@@ -18,16 +24,13 @@ function ListItem({ children }: { children: React.ReactNode }) {
 }
 
 export default function LangSwitch(): React.ReactElement {
-  const router = useRouter();
   const pathname = usePathname() || "/";
   const searchParams = useSearchParams();
 
-  const validLocales = ["en", "fr", "de", "es", "pt"] as const;
-  const validLocalesArray: string[] = Array.from(validLocales);
   // Determine active locale from the URL to avoid hydration flashes
-  const activeLang = useMemo(() => {
+  const activeLang = useMemo<Locale>(() => {
     const seg0 = pathname.replace(/^\/+|\/+$|/g, "").split("/")[0];
-    return validLocalesArray.includes(seg0) ? seg0 : "fr";
+    return seg0 && isValidLocale(seg0) ? seg0 : "fr";
   }, [pathname]);
   const options = useMemo(
     () =>
@@ -44,7 +47,8 @@ export default function LangSwitch(): React.ReactElement {
   function buildHref(targetLocale: string) {
     const segments = pathname.replace(/^\/+|\/+$/g, "").split("/");
     let newSegments: string[];
-    if (validLocalesArray.includes(segments[0])) {
+    const firstSegment = segments[0];
+    if (firstSegment && isValidLocale(firstSegment)) {
       segments[0] = targetLocale;
       newSegments = segments;
     } else {

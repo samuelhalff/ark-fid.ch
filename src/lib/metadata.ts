@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { Locale, locales, getCurrentLocale } from "./i18n";
+import { Locale, locales } from "./i18n";
 import fs from 'fs';
 import { join as pathJoin } from 'path';
 

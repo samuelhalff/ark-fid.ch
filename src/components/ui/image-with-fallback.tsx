@@ -21,6 +21,7 @@ export default function ImageWithFallback({
       key={src}
       {...(props as ImageProps)}
       src={src}
+      alt={props.alt || ""}
       onError={() => setSrc(fallbackSrc)}
     />
   );

@@ -1,5 +1,5 @@
 "use client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 const LANGS = [
@@ -22,7 +22,6 @@ export default function LangSwitchMobile({
   const current = (
     pathname.replace(/^\/+|\/+$/g, "").split("/")[0] || "fr"
   ).slice(0, 2);
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   function buildHref(targetLocale: string) {

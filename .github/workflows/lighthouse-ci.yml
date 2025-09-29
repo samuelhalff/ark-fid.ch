@@ -33,17 +33,6 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=2048
         run: npm run build
 
-      - name: Start local server
-        run: |
-          nohup env PORT=5000 node .next/standalone/server.js > lhci.server.log 2>&1 & echo $! > lhci.server.pid
-
-      - name: Wait for server to be ready
-        run: |
-          for i in $(seq 1 60); do
-            if curl -fsS "http://127.0.0.1:5000/fr/" >/dev/null 2>&1; then
-              echo "Server ready"; exit 0; fi; sleep 2; done
-          echo "Server did not start in time"; tail -n 200 lhci.server.log || true; exit 1
-
       - name: Run Lighthouse (mobile)
         run: npx --yes @lhci/cli collect --config=lighthouserc.mobile.json
 
@@ -62,11 +51,3 @@ jobs:
           name: lhci-results
           path: .lighthouseci
           if-no-files-found: ignore
-
-      - name: Stop server
-        if: always()
-        run: |
-          if [ -f lhci.server.pid ]; then kill $(cat lhci.server.pid) || true; fi
-          sleep 1
-          pgrep -f ".next/standalone/server.js" && pkill -f ".next/standalone/server.js" || true
-

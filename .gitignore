@@ -4,6 +4,7 @@ next-env.d.ts
 dist
 next-standalone.tar.gz
 *.txt
+!public/robots.txt
 .env*
 !.env.example
 litellm_config.yaml

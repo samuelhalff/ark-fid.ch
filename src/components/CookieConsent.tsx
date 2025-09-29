@@ -84,7 +84,8 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
   const measurementId = useMemo(
     () =>
       process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ||
-      process.env.NEXT_PUBLIC_GA_ID,
+      process.env.NEXT_PUBLIC_GA_ID ||
+      "G-BXZ54E31FL",
     []
   );
 
@@ -109,18 +110,6 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
     } catch {}
     // Return focus to manage button for a11y
     setTimeout(() => manageBtnRef.current?.focus(), 0);
-  };
-  const reset = () => {
-    try {
-      localStorage.removeItem(CONSENT_KEY);
-      document.cookie = `${CONSENT_KEY}=; Path=/; Max-Age=0; SameSite=Lax`;
-      setConsentState(null);
-      try {
-        window.dispatchEvent(
-          new CustomEvent("cookie-consent-changed", { detail: null })
-        );
-      } catch {}
-    } catch {}
   };
 
   const legalCookiesHref = `/${locale}/legal/cookies`;
