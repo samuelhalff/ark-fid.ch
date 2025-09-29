@@ -1,4 +1,4 @@
-name: Lighthouse CI (local server)
+name: Lighthouse CI (production)
 
 on:
   workflow_dispatch:
