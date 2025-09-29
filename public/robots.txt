@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ark-fid.ch/sitemap.xml
