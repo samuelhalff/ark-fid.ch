@@ -130,7 +130,7 @@ const FamilyOfficePresentation = () => {
           />
         </section>
 
-        <section className="rounded-xl border border-primary/20 bg-primary/5 p-12 text-left">
+        <section className="rounded-xl border border-primary/20 bg-primary/5 p-12 text-center">
           <h3 className="text-2xl font-semibold mb-10">
             <TranslatedText
               ns="family-office"
@@ -138,7 +138,7 @@ const FamilyOfficePresentation = () => {
               fallbackText="Secure your family legacy from Switzerland"
             />
           </h3>
-          <p className="text-lg leading-loose text-muted-foreground mb-12">
+          <p className="text-lg leading-loose text-muted-foreground mb-12 mx-auto max-w-2xl">
             <TranslatedText
               ns="family-office"
               translationKey="Presentation.CalloutText"
