@@ -1,8 +1,7 @@
 import { Metadata } from "next";
+import Hero from "./components/hero";
 import { headers } from "next/headers";
-
-import Hero from "../services/family-office/components/hero";
-import Presentation from "../services/family-office/components/presentation";
+import Presentation from "./components/presentation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 
@@ -13,17 +12,19 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }): Promise<Metadata> {
-  return generateMetadataForPage(locale as Locale, "/family-office");
+  return await generateMetadataForPage(
+    locale as Locale,
+    "/services/family-office"
+  );
 }
 
 const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
   const nonce = headers().get("x-nonce") || undefined;
   const baseUrl = "https://ark-fid.ch";
-  const localePrefix = params?.locale ? `/${params.locale}` : "";
-  const locale = (params?.locale as Locale) || ("fr" as Locale);
+  const localePrefix = params.locale ? `/${params.locale}` : "";
+  const locale = params.locale as Locale;
   const tNav = await getTranslations(locale, "navbar");
   const tFamily = await getTranslations(locale, "family-office");
-
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -31,8 +32,8 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
       {
         "@type": "ListItem",
         position: 1,
-        name: tNav("Home") as string,
-        item: `${baseUrl}${localePrefix}/`,
+        name: tNav("Services") as string,
+        item: `${baseUrl}${localePrefix}/services/`,
       },
       {
         "@type": "ListItem",
@@ -40,11 +41,10 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
         name: (tFamily("Breadcrumb.Label") as string) ||
           (tFamily("Hero.Title") as string) ||
           "Family office",
-        item: `${baseUrl}${localePrefix}/family-office/`,
+        item: `${baseUrl}${localePrefix}/services/family-office/`,
       },
     ],
   } as const;
-
   return (
     <main>
       <script
@@ -65,6 +65,12 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
           </li>
           <li className="flex items-center gap-1">
             <span className="text-muted-foreground/60">/</span>
+            <a href={`${localePrefix}/services/`} className="hover:underline">
+              {tNav("Services") as string}
+            </a>
+          </li>
+          <li className="flex items-center gap-1">
+            <span className="text-muted-foreground/60">/</span>
             <span aria-current="page" className="font-medium text-foreground">
               {(tFamily("Breadcrumb.Label") as string) ||
                 (tFamily("Hero.Title") as string) ||
@@ -79,4 +85,3 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
 };
 
 export default FamilyOffice;
-

@@ -25,6 +25,7 @@ const Hero = async ({ locale }: HeroProps) => {
     "/assets/hero/services/outsourcing-hero.webp",
     "/assets/hero/services/payroll-hero.webp",
     "/assets/hero/services/taxes-hero.webp",
+    "/assets/hero/services/family-office-hero.webp",
   ];
   const pick = Math.floor(Math.random() * serviceHeroes.length);
   // If service hero images are not present yet, fall back to an abstract bg that exists
@@ -46,23 +47,23 @@ const Hero = async ({ locale }: HeroProps) => {
 
   return (
     <div className="relative min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent critical-hero">
-      <div className="max-w-[var(--breakpoint-xl)] w-full grid grid-cols-1 lg:grid-cols-2 mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0 critical-hero__inner">
-        <div className="max-w-2xl text-center motion-safe:animate-in motion-safe:fade-in md:duration-700 critical-hero__content">
-          <div className="gap-2 flex items-center justify-center critical-hero__badges">
+      <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0 critical-hero__inner">
+        <div className="max-w-2xl w-full !text-center mx-auto motion-safe:animate-in motion-safe:fade-in md:duration-700 critical-hero__content">
+          <div className="gap-2 text-center critical-hero__badges">
             <Badge
-              className="rounded-full py-1 border-none critical-badge critical-badge--destructive"
+              className="rounded-full py-1 border-none !text-center critical-badge critical-badge--destructive"
               variant={"destructive"}
             >
               {t("Hero.Badge")}
             </Badge>
           </div>
-          <h1 className="mt-6 max-w-full w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight mx-auto">
+          <h1 className="mt-6 max-w-full w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[3.1rem] xl:text-[3.3rem] font-bold tracking-tight leading-normal lg:leading-[3.75rem] mx-0">
             {t("Hero.Title")}
           </h1>
-          <p className="mt-6 max-w-full w-full xs:text-lg mx-auto">
+          <p className="mt-6 max-w-full w-full xs:text-lg mx-0">
             {t("Hero.Description")}
           </p>
-          <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center max-w-md mx-auto critical-hero__cta">
+          <div className="w-full min-w-full mt-12 flex text-center flex-col sm:flex-row items-center lg:items-center gap-4 !justify-center max-w-md mx-0 critical-hero__cta">
             <Link
               href={`${localePrefix}/contact`}
               className="w-full sm:w-auto"
@@ -97,7 +98,7 @@ const Hero = async ({ locale }: HeroProps) => {
           />
         </div>
       </div>
-      <div className="pointer-events-none absolute bottom-6 left-0 right-0 flex flex-col items-center gap-2 critical-hero__partner">
+      <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 w-full min-w-full critical-hero__partner">
         <Image
           src="/assets/partners/odoo-logo.svg"
           alt="Logo du partenaire technologique Odoo, solution ERP utilisée par Ark Fiduciaire"
@@ -108,7 +109,7 @@ const Hero = async ({ locale }: HeroProps) => {
           decoding="async"
         />
         <Badge
-          className="rounded-full py-1 border-none critical-badge critical-badge--secondary"
+          className="rounded-full py-1 border-none !text-center critical-badge critical-badge--secondary"
           variant="secondary"
         >
           {t("Hero.OdooPartnerBadge") || t("Hero.OdooBadge")}

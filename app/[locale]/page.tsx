@@ -15,10 +15,6 @@ const Contact = dynamic(() => import("@/src/components/ui/contact-form"), {
   ssr: false,
   loading: () => null,
 });
-const Testimonials = dynamic(() => import("@/src/components/ui/testimonials"), {
-  ssr: false,
-  loading: () => null,
-});
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import Defer from "@/src/components/Defer";
 import StructuredData from "@/src/components/seo/StructuredData";
@@ -142,7 +138,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
           <FAQ />
         </Defer>
       </section>
-      <section id="testimonials">
+      {/* <section id="testimonials">
         <Defer
           rootMargin="400px"
           idle={300}
@@ -150,7 +146,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
         >
           <Testimonials locale={activeLocale} />
         </Defer>
-      </section>
+      </section> */}
       <section id="contact">
         <Defer
           rootMargin="300px"

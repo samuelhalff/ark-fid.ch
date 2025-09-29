@@ -63,8 +63,10 @@ main{position:relative;z-index:0;padding-top:4rem;}
 .critical-hero__content h1{font-size:clamp(2.4rem,5vw,3.4rem);font-weight:700;margin:1.5rem 0 0;color:oklch(var(--foreground));}
 .critical-hero__content p{margin-top:1.5rem;font-size:1.05rem;line-height:1.7;color:oklch(var(--muted-foreground));}
 .critical-hero__badges{display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;}
+@media(min-width:1024px){.critical-hero__badges{justify-content:center;}}
 .critical-hero__cta{margin-top:3rem;display:flex;flex-direction:column;gap:1rem;align-items:center;justify-content:center;}
 @media(min-width:640px){.critical-hero__cta{flex-direction:row;}}
+@media(min-width:1024px){.critical-hero__cta{align-items:center;justify-content:center;}}
 .critical-button{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;border-radius:999px;padding:0.85rem 1.75rem;font-weight:600;font-size:1rem;background:oklch(var(--primary));color:oklch(var(--primary-foreground));box-shadow:0 12px 30px rgba(32,54,98,0.18);transition:transform 180ms ease,box-shadow 180ms ease;border:none;cursor:pointer;text-decoration:none;}
 .critical-button:hover{transform:translateY(-1px);box-shadow:0 14px 36px rgba(32,54,98,0.22);}
 .critical-badge{display:inline-flex;align-items:center;justify-content:center;padding:0.4rem 0.9rem;border-radius:999px;font-weight:600;font-size:0.8rem;letter-spacing:0.01em;}
@@ -73,7 +75,7 @@ main{position:relative;z-index:0;padding-top:4rem;}
 .critical-hero__media{position:relative;max-width:480px;width:100%;aspect-ratio:1/1;border-radius:28px;overflow:hidden;background:oklch(var(--accent));box-shadow:0 25px 60px rgba(15,23,42,0.15);display:flex;align-items:center;justify-content:center;}
 .dark .critical-hero__media{background:rgba(255,255,255,0.08);box-shadow:0 25px 60px rgba(0,0,0,0.45);}
 .critical-hero__media img{width:100%;height:100%;object-fit:cover;border-radius:inherit;}
-.critical-hero__partner{position:absolute;left:0;right:0;bottom:1.75rem;display:flex;flex-direction:column;align-items:center;gap:0.5rem;pointer-events:none;}
+.critical-hero__partner{position:absolute;left:50%;right:auto;bottom:1.75rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;pointer-events:none;transform:translateX(-50%);width:max-content;}
 .critical-hero__partner img{height:40px;width:auto;opacity:0.9;}`;
 
 // import { Inter } from "next/font/google";

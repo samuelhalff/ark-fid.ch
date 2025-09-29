@@ -18,13 +18,7 @@ import TranslatedTextArray from "@/src/components/ui/translated-text-array";
 import TranslatedObjectArray from "@/src/components/ui/translated-object-array";
 import ServicesList from "@/src/components/ui/services-list";
 
-const serviceIcons = [
-  Briefcase,
-  HandCoins,
-  Users,
-  Library,
-  HeartHandshake,
-];
+const serviceIcons = [Briefcase, HandCoins, Users, Library, HeartHandshake];
 
 const highlightIcons = [ShieldCheck, HandCoins, Gavel, Globe];
 
@@ -136,15 +130,15 @@ const FamilyOfficePresentation = () => {
           />
         </section>
 
-        <section className="rounded-xl border border-primary/20 bg-primary/5 p-8 text-left">
-          <h3 className="text-xl font-semibold mb-3">
+        <section className="rounded-xl border border-primary/20 bg-primary/5 p-12 text-left">
+          <h3 className="text-2xl font-semibold mb-10">
             <TranslatedText
               ns="family-office"
               translationKey="Presentation.CalloutTitle"
               fallbackText="Secure your family legacy from Switzerland"
             />
           </h3>
-          <p className="text-base leading-relaxed text-muted-foreground mb-4">
+          <p className="text-lg leading-loose text-muted-foreground mb-12">
             <TranslatedText
               ns="family-office"
               translationKey="Presentation.CalloutText"
@@ -153,7 +147,7 @@ const FamilyOfficePresentation = () => {
           </p>
           <Link
             href={`${localePrefix}/contact`}
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-semibold text-primary-foreground transition hover:opacity-90"
           >
             <TranslatedText
               ns="family-office"

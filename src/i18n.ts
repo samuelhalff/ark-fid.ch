@@ -26,6 +26,7 @@ import servicesItems from "@/src/translations/en/servicesItems.json";
 import taxes from "@/src/translations/en/taxes.json";
 import team from "@/src/translations/en/team.json";
 import testimonials from "@/src/translations/en/testimonials.json";
+import familyOffice from "@/src/translations/en/family-office.json";
 import aboutUsFr from "@/src/translations/fr/about-us.json";
 import accountingFr from "@/src/translations/fr/accounting.json";
 import contactFr from "@/src/translations/fr/contact.json";
@@ -47,6 +48,7 @@ import servicesItemsFr from "@/src/translations/fr/servicesItems.json";
 import taxesFr from "@/src/translations/fr/taxes.json";
 import teamFr from "@/src/translations/fr/team.json";
 import testimonialsFr from "@/src/translations/fr/testimonials.json";
+import familyOfficeFr from "@/src/translations/fr/family-office.json";
 
 import aboutUsDe from "@/src/translations/de/about-us.json";
 import accountingDe from "@/src/translations/de/accounting.json";
@@ -69,6 +71,7 @@ import servicesItemsDe from "@/src/translations/de/servicesItems.json";
 import taxesDe from "@/src/translations/de/taxes.json";
 import teamDe from "@/src/translations/de/team.json";
 import testimonialsDe from "@/src/translations/de/testimonials.json";
+import familyOfficeDe from "@/src/translations/de/family-office.json";
 
 import aboutUsEs from "@/src/translations/es/about-us.json";
 import accountingEs from "@/src/translations/es/accounting.json";
@@ -91,6 +94,7 @@ import servicesItemsEs from "@/src/translations/es/servicesItems.json";
 import taxesEs from "@/src/translations/es/taxes.json";
 import teamEs from "@/src/translations/es/team.json";
 import testimonialsEs from "@/src/translations/es/testimonials.json";
+import familyOfficeEs from "@/src/translations/es/family-office.json";
 
 import aboutUsPt from "@/src/translations/pt/about-us.json";
 import accountingPt from "@/src/translations/pt/accounting.json";
@@ -113,6 +117,7 @@ import servicesItemsPt from "@/src/translations/pt/servicesItems.json";
 import taxesPt from "@/src/translations/pt/taxes.json";
 import teamPt from "@/src/translations/pt/team.json";
 import testimonialsPt from "@/src/translations/pt/testimonials.json";
+import familyOfficePt from "@/src/translations/pt/family-office.json";
 
 // Determine initial language from URL pathname in the browser to keep
 // the client language synced with our URL-based routing.
@@ -154,6 +159,7 @@ const translations = {
     testimonials,
     incorporation,
     cookie,
+    "family-office": familyOffice,
   },
   fr: {
     aboutUs: aboutUsFr,
@@ -178,6 +184,7 @@ const translations = {
     testimonials: testimonialsFr,
     incorporation: incorporationFr,
     cookie: cookieFr,
+    "family-office": familyOfficeFr,
   },
   de: {
     aboutUs: aboutUsDe,
@@ -202,6 +209,7 @@ const translations = {
     testimonials: testimonialsDe,
     incorporation: incorporationDe,
     cookie: cookieDe,
+    "family-office": familyOfficeDe,
   },
   es: {
     aboutUs: aboutUsEs,
@@ -226,6 +234,7 @@ const translations = {
     testimonials: testimonialsEs,
     incorporation: incorporationEs,
     cookie: cookieEs,
+    "family-office": familyOfficeEs,
   },
   pt: {
     aboutUs: aboutUsPt,
@@ -250,6 +259,7 @@ const translations = {
     testimonials: testimonialsPt,
     incorporation: incorporationPt,
     cookie: cookiePt,
+    "family-office": familyOfficePt,
   },
 };
 

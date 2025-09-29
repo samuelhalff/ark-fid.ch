@@ -49,6 +49,11 @@
       "description": "Services fiduciaires pour la Suisse romande: comptabilité, fiscalité, paie, corporate et domiciliation. Nous accompagnons aussi des clients internationaux.",
       "keywords": "services fiduciaires genève, services fiduciaires lausanne, suisse romande"
     },
+    "/family-office": {
+      "title": "Family office Suisse romande - Ark Fiduciaire",
+      "description": "Conseil family office en Suisse romande: gouvernance, structuration patrimoniale et coordination fiscale pour familles et entrepreneurs.",
+      "keywords": "family office suisse, gouvernance familiale, structuration patrimoniale, suisse romande"
+    },
     "/services/accounting": {
       "title": "Comptabilité - Ark Fiduciaire (Genève & Lausanne)",
       "description": "Comptabilité et reporting pour PME et groupes, basés à Genève et Lausanne, actifs en Suisse romande et au-delà.",
