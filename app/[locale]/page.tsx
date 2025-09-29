@@ -3,6 +3,10 @@ import { headers } from "next/headers";
 import Hero from "@/app/[locale]/home/components/hero";
 import Services from "@/app/[locale]/home/components/services";
 import dynamic from "next/dynamic";
+const About = dynamic(() => import("@/app/[locale]/home/components/about"), {
+  ssr: false,
+  loading: () => null,
+});
 const FAQ = dynamic(() => import("@/app/[locale]/home/components/faq"), {
   ssr: false,
   loading: () => null,
@@ -119,6 +123,15 @@ export default async function Home({ params }: { params: { locale: string } }) {
       </section>
       <section id="services">
         <Services locale={activeLocale} />
+      </section>
+      <section id="about">
+        <Defer
+          rootMargin="300px"
+          idle={200}
+          placeholder={<div className="h-40 w-full rounded-lg bg-muted/40" />}
+        >
+          <About />
+        </Defer>
       </section>
       <section id="faq">
         <Defer

@@ -1,21 +1,43 @@
 {
     "Meta": {
         "Title": "Startseite | Ark Fiduciaire",
-        "Description": "Expertenunterstützung für Ihr Unternehmen, von der Gründung bis zum Erfolg. Buchhaltungs-, Steuer-, Lohn- und Unternehmensdienstleistungen in der Schweiz."
+        "Description": "Fiduziarische Betreuung in Genf und Lausanne. Buchhaltung, Steuern, Lohnadministration, Domizilierung und ERP-Beratung für Schweizer und internationale Unternehmen."
     },
     "Hero": {
-        "Title": "Buchhaltungs-, Steuer- und Unternehmensdienstleistungen",
-        "Description": "Expertenunterstützung für Ihr Unternehmen, von der Gründung bis zum Erfolg.",
+        "Title": "Buchhaltungs-, Steuer- und Lohnservices",
+        "Description": "Fiduziarische Unterstützung mit schweizerischer Präzision und digitaler Effizienz für Buchhaltung, Steuern, Lohnwesen und Unternehmensführung von der Gründung bis zur Expansion.",
         "CTA": "Kontakt aufnehmen",
         "SecondaryCTA": "Team kennenlernen",
         "Badge": "Swiss made",
         "BadgeTwo": "KI-gestützt",
         "OdooBadge": "Digitale & ERP-Lösungen",
-        "OdooPartnerBadge": "Offizieller Odoo-Partner"
+        "OdooPartnerBadge": "Offizieller Odoo-Partner",
+        "ImageAlt": "Ark Fiduciaire Fachleute unterstützen Schweizer Unternehmen mit Treuhand-, Buchhaltungs- und Steuerleistungen"
     },
     "Services": {
         "Title": "Unsere Dienstleistungen",
-        "Subtitle": "Umfassende Treuhand-, Buchhaltungs- und Steuerdienstleistungen, die auf die Bedürfnisse Ihres Unternehmens zugeschnitten sind. Expertenlösungen für Schweizer Unternehmen aller Größen."
+        "Subtitle": "Umfassende Treuhand-, Buchhaltungs- und Steuerprogramme für jede Wachstumsphase. Wir kombinieren Expertise auf Abruf, bewährte Schweizer Prozesse und sichere digitale Werkzeuge für KMU, Scale-ups und internationale Gruppen."
+    },
+    "About": {
+        "Title": "Warum Ark Fiduciaire?",
+        "Content": [
+            "Seit mehr als einem Jahrzehnt begleitet Ark Fiduciaire Unternehmer, Familienunternehmen, NGOs und internationale Gruppen, um die Schweizer Buchhaltung und Regulierung zuverlässig zu meistern. Wir arbeiten als integriertes Treuhandteam, das die Realitäten des Geschäftsbetriebs in der Romandie versteht und gleichzeitig mit Ansprechpartnern im Ausland koordiniert.",
+            "Unser multidisziplinäres Team deckt Buchhaltung, Steuern, Lohnwesen, HR-Administration, Governance und Corporate-Secretary-Aufgaben ab. Zertifizierte Buchhalter, Steuerexperten und Berater übersetzen komplexe Vorschriften in pragmatische Fahrpläne für Ihre Organisation.",
+            "Jedes Mandat beginnt mit einer Analysephase, in der wir Ihre Ziele, internen Prozesse und Risikobereitschaft kartieren. Daraus entwickeln wir einen skalierbaren Serviceplan – von Gründung und Buchführung bis zu Konzernreporting, Mehrwertsteuerstrategie oder HR-Outsourcing je nach Bedarf.",
+            "Das Schweizer Regulierungsumfeld wandelt sich schnell. Wir beobachten Updates von FINMA, AHV/IV und den Kantonen, setzen notwendige Anpassungen um und dokumentieren alle Kontrollen, damit Sie jederzeit prüfungsbereit bleiben. Unsere Kunden vertrauen darauf, dass wir Fristen antizipieren, Sanktionen vermeiden und lückenlose Unterlagen sicherstellen.",
+            "Technologie ist integraler Bestandteil unseres Modells. Durch KI-gestützte Dokumentenverarbeitung und Odoo-ERP-Integrationen verkürzen wir Abschlusszyklen, automatisieren wiederkehrende Abstimmungen und liefern Dashboards, die Entscheidungen in Echtzeit unterstützen – ohne Kompromisse bei der Datensicherheit.",
+            "Unsere Wurzeln liegen in Genf und Lausanne, doch wir arbeiten regelmäßig mit Rechtsanwälten, Revisoren und Steuerberatern in der Schweiz, Europa und Amerika zusammen. Mehrsprachige Betreuung in Französisch, Englisch, Deutsch, Spanisch und Portugiesisch sorgt für reibungslose Kommunikation in verteilten Teams.",
+            "Kunden schätzen unsere transparente Preisgestaltung, dedizierte Ansprechpartner und klar definierte Lieferobjekte. Sie wissen jederzeit, wer für welche Aufgabe verantwortlich ist, wie der Status laufender Einreichungen ist und welche Compliance-Meilensteine als Nächstes anstehen.",
+            "Mit Ark Fiduciaire entscheiden Sie sich für eine Treuhandgesellschaft, die Schweizer Präzision, innovative Tools und persönlichen Austausch vereint. Wir übernehmen Buchhaltung, Steuern, Lohnwesen und Corporate Administration, damit Sie sich auf Strategie, Kunden und nachhaltiges Wachstum konzentrieren können."
+        ],
+        "Quality": {
+            "Title": "Schweizer Qualitätsstandards",
+            "Content": "Wir arbeiten nach den Rechnungslegungsgrundsätzen von Swiss GAAP FER, unterhalten robuste interne Kontrollen und dokumentieren jeden Prozess, damit Prüfer und Behörden vollständige und fristgerechte Informationen erhalten. Laufende Schulungen, Vier-Augen-Prinzip und ISO-inspirierte Checklisten sichern die erwartete Präzision und Zuverlässigkeit."
+        },
+        "Innovation": {
+            "Title": "Technologiegetriebene Lösungen",
+            "Content": "Unsere Integration von KI-Tools und modernen ERP-Systemen ermöglicht schnellere und präzisere Services, ohne den persönlichen Kontakt zu verlieren, den Treuhandbeziehungen brauchen. Sichere Portale, automatisierte Workflows und erweiterte Analysen schaffen sofortige Transparenz, ohne Ihre Governance zu stören."
+        }
     },
     "FAQ": {
         "Title": "Häufig gestellte Fragen",

@@ -1,21 +1,43 @@
 {
     "Meta": {
         "Title": "Accueil | Ark Fiduciaire",
-        "Description": "Soutien expert pour votre entreprise, du démarrage au succès. Services de comptabilité, fiscalité, paie et corporate en Suisse."
+        "Description": "Soutien fiduciaire expert à Genève et Lausanne. Comptabilité, fiscalité, salaires, domiciliation et accompagnement ERP pour aider les entreprises suisses et internationales à rester conformes et à croître sereinement."
     },
     "Hero": {
-        "Title": "Services de comptabilité, fiscalité et corporate",
-        "Description": "Soutien expert pour votre entreprise, du démarrage au succès.",
+        "Title": "Services de comptabilité, fiscalité et salaires",
+        "Description": "Un accompagnement fiduciaire expert qui associe précision suisse et efficacité numérique pour couvrir comptabilité, fiscalité, salaires et gouvernance d'entreprise de la création à l'expansion.",
         "CTA": "Contactez-nous",
         "SecondaryCTA": "Rencontrer l'équipe",
         "Badge": "Swiss made",
         "BadgeTwo": "Assisté par l'IA",
         "OdooBadge": "Solutions digitales & ERP",
-        "OdooPartnerBadge": "Partenaire Odoo officiel"
+        "OdooPartnerBadge": "Partenaire Odoo officiel",
+        "ImageAlt": "Experts d'Ark Fiduciaire en accompagnement comptable, fiscal et fiduciaire pour entreprises suisses"
     },
     "Services": {
         "Title": "Nos services",
-        "Subtitle": "Services fiduciaires, comptables et fiscaux complets adaptés aux besoins de votre entreprise. Solutions expertes pour les entreprises suisses de toutes tailles."
+        "Subtitle": "Programmes fiduciaires, comptables et fiscaux complets pour chaque étape de votre développement. Nous combinons expertise à la demande, méthodologies suisses éprouvées et outils numériques sécurisés pour accompagner PME, scale-ups et groupes internationaux."
+    },
+    "About": {
+        "Title": "Pourquoi choisir Ark Fiduciaire ?",
+        "Content": [
+            "Depuis plus d'une décennie, Ark Fiduciaire accompagne entrepreneurs, entreprises familiales, ONG et groupes internationaux pour sécuriser la comptabilité et la conformité suisse en toute confiance. Nous agissons comme une équipe fiduciaire intégrée qui comprend les réalités opérationnelles de la Romandie tout en coordonnant les parties prenantes à l'étranger.",
+            "Nos spécialistes pluridisciplinaires couvrent comptabilité, fiscalité, salaires, administration RH, gouvernance et secrétariat d'entreprise. Vous bénéficiez de comptables brevetés, fiscalistes et consultants qui transforment les règles complexes en plans d'action pragmatiques pour votre organisation.",
+            "Chaque mandat débute par une phase d'analyse durant laquelle nous cartographions vos objectifs, processus internes et appétence au risque. Nous concevons ensuite un plan de services évolutif, de la constitution et tenue comptable au reporting consolidé, à la stratégie TVA ou à l'externalisation RH.",
+            "Le cadre réglementaire suisse évolue rapidement. Nous suivons les mises à jour de la FINMA, de l'AVS et des cantons, mettons en œuvre les ajustements requis et documentons tous les contrôles afin que vous restiez prêt pour un audit. Nos clients comptent sur nous pour anticiper les échéances, éviter les pénalités et maintenir une documentation irréprochable.",
+            "La technologie est au cœur de notre modèle. En combinant traitement documentaire assisté par IA et intégrations ERP Odoo, nous raccourcissons les délais de clôture, automatisons les rapprochements répétitifs et produisons des tableaux de bord pour piloter vos décisions en temps réel, sans compromis sur la sécurité des données.",
+            "Ancrés à Genève et Lausanne, nous coordonnons régulièrement avec avocats, auditeurs et fiscalistes en Suisse, en Europe et sur le continent américain. Un accompagnement multilingue en français, anglais, allemand, espagnol et portugais assure une communication fluide pour les équipes distribuées.",
+            "Nos clients apprécient notre tarification transparente, nos interlocuteurs dédiés et la clarté de nos livrables. Vous connaissez toujours le responsable de chaque tâche, l'état des démarches en cours et les prochaines échéances de conformité au calendrier.",
+            "Choisir Ark Fiduciaire, c'est s'associer à une fiduciaire qui conjugue précision suisse, outils innovants et accompagnement humain. Nous prenons en charge comptabilité, fiscalité, salaires et administration d'entreprise pour que vous puissiez vous concentrer sur la stratégie, vos clients et une croissance durable."
+        ],
+        "Quality": {
+            "Title": "Normes de qualité suisse",
+            "Content": "Nous appliquons les principes comptables Swiss GAAP FER, maintenons des contrôles internes robustes et documentons chaque processus afin que auditeurs et autorités disposent d'informations complètes et ponctuelles. Formation continue, revues croisées et check-lists inspirées ISO garantissent la précision et la fiabilité attendues."
+        },
+        "Innovation": {
+            "Title": "Solutions technologiques",
+            "Content": "Notre intégration d'outils d'IA et de systèmes ERP modernes nous permet de fournir des services plus rapides et précis tout en préservant le lien humain indispensable. Portails sécurisés, workflows automatisés et analyses avancées offrent une visibilité instantanée sans perturber votre gouvernance."
+        }
     },
     "FAQ": {
         "Title": "Questions fréquemment posées",

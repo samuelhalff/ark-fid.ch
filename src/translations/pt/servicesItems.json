@@ -23,10 +23,6 @@
         "Title": "Constituição de empresa",
         "Description": "Ajudamos em todo o processo de constituição de empresa, garantindo conformidade com as normas suíças e suporte contínuo."
     },
-    "IncorporationServices": {
-        "Title": "Serviços de constituição",
-        "Description": "Ajudamos você na constituição de sua empresa, incluindo a seleção da forma jurídica, a redação dos documentos de constituição e o registro junto às autoridades competentes."
-    },
     "DomiciliationServices": {
         "Title": "Serviços de domiciliação",
         "Description": "Os serviços de domiciliação fornecem às empresas um endereço registrado. Esses serviços permitem que as empresas estabeleçam sua sede oficial sem precisar de um escritório físico no local."
@@ -34,5 +30,9 @@
     "OdooImplementation": {
         "Title": "Implementação de Odoo",
         "Description": "Somos parceiros oficiais da Odoo, fornecendo serviços completos de implementação e configuração para garantir que sua configuração Odoo atenda aos padrões contábeis suíços."
+    },
+    "FamilyOffice": {
+        "Title": "Family office",
+        "Description": "Serviços abrangentes de family office para indivíduos e famílias de alto patrimônio, incluindo gestão de patrimônio, planejamento sucessório, otimização fiscal e planejamento sucessório."
     }
 }

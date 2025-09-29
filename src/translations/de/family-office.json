@@ -1,0 +1,46 @@
+{
+    "ImageAlt": "Schweizer Alpenlandschaft mit Familienanwesen, Schweiz",
+    "Hero": {
+        "Badge": "Schweizer Exzellenz",
+        "BadgeTwo": "Familienerbe",
+        "Title": "Family-Office-Dienstleistungen",
+        "Description": "Umfassende Family-Office-Dienstleistungen für vermögende Privatpersonen und Familien, einschließlich Vermögensverwaltung, Nachlassplanung, Steueroptimierung und Nachfolgeplanung.",
+        "CTA": "Sichern Sie Ihr Erbe",
+        "SecondaryCTA": "Mehr erfahren"
+    },
+    "Presentation": {
+        "Title": "Family Office: Ihr Vermögen bewahren und vermehren",
+        "Subtitle": "Maßgeschneiderte Lösungen für die Verwaltung von Familienvermögen",
+        "Intro": [
+            "Unsere Family-Office-Dienstleistungen sind für vermögende Familien konzipiert, die umfassende Vermögensverwaltungslösungen suchen. Wir bieten personalisierte Strategien für die Erhaltung, das Wachstum und die Übertragung von Vermögen über Generationen hinweg.",
+            "Mit unserer Expertise in schweizerischen Treuhanddienstleistungen stellen wir sicher, dass die finanzielle Zukunft Ihrer Familie gesichert und optimiert ist."
+        ],
+        "ServicesTitle": "Unsere Family-Office-Dienstleistungen",
+        "Services": [
+            "Nachlassplanung: Strategische Planung für Vermögensübertragung und Nachfolge",
+            "Steueroptimierung: Internationale Steuerplanung und Compliance-Dienstleistungen",
+            "Nachfolgeplanung: Beratung für die intergenerationale Vermögensübertragung",
+            "Familiengovernance: Strukturierung von Familienräten und Governance-Rahmenwerken",
+            "Philanthropie-Koordination: Verwaltung von wohltätigen Spenden und Stiftungen"
+        ],
+        "StrengthsTitle": "Warum unsere Family-Office-Dienstleistungen wählen",
+        "Strengths": [
+            {
+                "Title": "Schweizer Treuhandexpertise",
+                "Desc": "Profitieren Sie vom renommierten Schweizer Bankgeheimnis und den Treuhandtraditionen."
+            },
+            {
+                "Title": "Personalisierter Ansatz",
+                "Desc": "Maßgeschneiderte Lösungen, die speziell auf die einzigartigen Bedürfnisse Ihrer Familie zugeschnitten sind."
+            },
+            {
+                "Title": "Mehrgenerationaler Fokus",
+                "Desc": "Strategien, die Vermögen über Generationen hinweg erhalten und vermehren."
+            },
+            {
+                "Title": "Internationale Perspektive",
+                "Desc": "Globale Vermögensverwaltung mit lokaler Schweizer Expertise."
+            }
+        ]
+    }
+}

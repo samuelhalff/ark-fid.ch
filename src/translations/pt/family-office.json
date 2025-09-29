@@ -1,0 +1,47 @@
+{
+    "ImageAlt": "Paisagem dos Alpes suíços com propriedade familiar, Suíça",
+    "Hero": {
+        "Badge": "Excelência suíça",
+        "BadgeTwo": "Legado familiar",
+        "Title": "Serviços de Family Office",
+        "Description": "Serviços abrangentes de family office para indivíduos e famílias de alto patrimônio, incluindo gestão de patrimônio, planejamento sucessório, otimização fiscal e planejamento sucessório.",
+        "CTA": "Garanta seu legado",
+        "SecondaryCTA": "Saiba mais"
+    },
+    "Presentation": {
+        "Title": "Family office: preservar e crescer seu patrimônio",
+        "Subtitle": "Soluções personalizadas para gestão de patrimônio familiar",
+        "Intro": [
+            "Nossos serviços de family office são projetados para famílias de alto patrimônio que buscam soluções abrangentes de gestão de patrimônio. Oferecemos estratégias personalizadas para preservação, crescimento e transferência de patrimônio através das gerações.",
+            "Com nossa expertise em serviços fiduciários suíços, garantimos que o futuro financeiro de sua família esteja seguro e otimizado."
+        ],
+        "ServicesTitle": "Nossos Serviços de Family Office",
+        "Services": [
+            "Gestão de patrimônio: Gestão completa de portfólio e consultoria de investimento",
+            "Planejamento sucessório: Planejamento estratégico para transferência de patrimônio",
+            "Otimização fiscal: Planejamento fiscal internacional e serviços de conformidade",
+            "Planejamento sucessório: Orientação para transferência de patrimônio intergeracional",
+            "Governança familiar: Estruturação de conselhos familiares e estruturas de governança",
+            "Coordenação filantrópica: Gestão de doações caritativas e fundações"
+        ],
+        "StrengthsTitle": "Por que escolher nossos serviços de family office",
+        "Strengths": [
+            {
+                "Title": "Expertise fiduciária suíça",
+                "Desc": "Beneficie-se do renomado segredo bancário da Suíça e das tradições fiduciárias."
+            },
+            {
+                "Title": "Abordagem personalizada",
+                "Desc": "Soluções sob medida projetadas especificamente para as necessidades únicas de sua família."
+            },
+            {
+                "Title": "Foco multigeracional",
+                "Desc": "Estratégias que preservam e crescem o patrimônio através das gerações."
+            },
+            {
+                "Title": "Perspectiva internacional",
+                "Desc": "Gestão global de patrimônio com expertise local suíça."
+            }
+        ]
+    }
+}

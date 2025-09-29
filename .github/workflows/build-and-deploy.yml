@@ -218,5 +218,12 @@ jobs:
               sleep $SLEEP
             done
             if [ "$OK" -ne 1 ]; then tail -n 200 "$BASE_DIR/server.out" >&2 || true; exit 1; fi
+
+            warm_paths=("/" "/en/" "/fr/" "/de/" "/es/" "/pt/")
+            for path in "${warm_paths[@]}"; do
+              echo "[deploy] Warmup ${path}" >> "$LOG"
+              curl -fsS "http://127.0.0.1:$PORT_VAL${path}" >/dev/null 2>&1 || true
+            done
+
             echo "[deploy] Done $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$LOG"
           '

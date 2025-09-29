@@ -1,7 +1,7 @@
 {
   "default": {
-    "title": "Ark Fiduciaire - Fiduciaire à Genève & Lausanne (Suisse romande)",
-    "description": "Fiduciaire en Suisse romande (Genève, Lausanne) avec une portée internationale. Comptabilité, fiscalité, paie, corporate et domiciliation pour PME et groupes.",
+    "title": "Ark Fiduciaire | Fiduciaire à Genève et Lausanne",
+    "description": "Fiduciaire à Genève et Lausanne délivrant comptabilité, fiscalité, paie, administration corporate et domiciliation pour PME suisses, scale-ups et groupes internationaux.",
     "keywords": "fiduciaire genève, fiduciaire lausanne, suisse romande, fiduciaire, comptabilité, fiscalité, services d'entreprise, paie, domiciliation, suisse",
     "topics": [
       "fiduciaire genève",
@@ -15,8 +15,8 @@
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire – Services fiduciaires Genève & Lausanne",
-      "description": "Cabinet fiduciaire à Genève et Lausanne. Comptabilité, fiscalité, paie, corporate et domiciliation pour PME et groupes en Suisse romande.",
+      "title": "Ark Fiduciaire | Services fiduciaires Genève Lausanne",
+      "description": "Cabinet fiduciaire à Genève et Lausanne qui délivre comptabilité, fiscalité, paie, gouvernance corporate, domiciliation et support ERP digital pour les PME romandes et équipes internationales.",
       "keywords": "fiduciaire genève, fiduciaire lausanne, suisse romande, services fiduciaires, comptabilité, fiscalité"
     },
     "/about": {

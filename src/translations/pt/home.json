@@ -1,21 +1,43 @@
 {
     "Meta": {
         "Title": "Início | Ark Fiduciaire",
-        "Description": "Suporte especializado para o seu negócio, desde o arranque até ao sucesso. Serviços de contabilidade, impostos, folha de pagamento e corporativos na Suíça."
+        "Description": "Aconselhamento fiduciário em Genebra e Lausana. Contabilidade, impostos, folha de pagamento, domiciliação e consultoria ERP para empresas suíças e internacionais."
     },
     "Hero": {
-        "Title": "Serviços de contabilidade, impostos e corporativos",
-        "Description": "Suporte especializado para o seu negócio, desde o arranque até ao sucesso.",
+        "Title": "Serviços de contabilidade, impostos e folha de pagamento",
+        "Description": "Acompanhamento fiduciário com precisão suíça e eficiência digital para gerir contabilidade, fiscalidade, folha de pagamento e governação corporativa desde a criação até à expansão.",
         "CTA": "Entre em contacto",
         "SecondaryCTA": "Conheça a equipa",
         "Badge": "Fabricado na Suíça",
         "BadgeTwo": "Potenciado por IA",
         "OdooBadge": "Soluções digitais e ERP",
-        "OdooPartnerBadge": "Parceiro Odoo oficial"
+        "OdooPartnerBadge": "Parceiro Odoo oficial",
+        "ImageAlt": "Profissionais da Ark Fiduciaire a prestar serviços fiduciários, contabilísticos e fiscais a empresas suíças"
     },
     "Services": {
         "Title": "Os nossos serviços",
-        "Subtitle": "Serviços fiduciários, contabilísticos e fiscais abrangentes, adaptados às necessidades do seu negócio. Soluções especializadas para empresas suíças de todos os tamanhos."
+        "Subtitle": "Programas fiduciários, contabilísticos e fiscais completos para cada etapa de crescimento. Combinamos experiência sob medida, processos suíços comprovados e ferramentas digitais seguras para PME, scale-ups e grupos internacionais."
+    },
+    "About": {
+        "Title": "Por que escolher a Ark Fiduciaire?",
+        "Content": [
+            "Há mais de uma década, a Ark Fiduciaire apoia empreendedores, empresas familiares, ONGs e grupos internacionais a cumprir a contabilidade e a regulamentação suíça com confiança. Atuamos como uma equipa fiduciária integrada que compreende a realidade operacional da Suíça romanda e coordena simultaneamente com interlocutores no exterior.",
+            "A nossa equipa multidisciplinar cobre contabilidade, impostos, folha de pagamento, administração de RH, governação e secretariado corporativo. Dispõe de contabilistas certificados, especialistas fiscais e consultores que traduzem regras complexas em planos de ação pragmáticos para a sua organização.",
+            "Cada mandato começa com uma fase de descoberta em que mapeamos os seus objetivos, processos internos e tolerância ao risco. Em seguida, desenhamos um plano de serviços escalável, desde constituição e escrituração até reporting consolidado, estratégia de IVA ou outsourcing de RH à medida que as suas necessidades evoluem.",
+            "O enquadramento regulatório suíço muda rapidamente. Monitorizamos as atualizações da FINMA, AVS e cantões, implementamos os ajustes necessários e documentamos todos os controlos para que esteja sempre preparado para auditorias. Os nossos clientes confiam em nós para antecipar prazos, evitar penalizações e manter registos impecáveis.",
+            "A tecnologia é essencial no nosso modelo. Ao combinar processamento documental assistido por IA com integrações ERP Odoo, encurtamos ciclos de fecho, automatizamos reconciliações repetitivas e fornecemos dashboards que suportam decisões em tempo real sem comprometer a segurança dos dados.",
+            "Estamos enraizados em Genebra e Lausana, mas trabalhamos regularmente com advogados, auditores e consultores fiscais na Suíça, Europa e Américas. O suporte multilingue em francês, inglês, alemão, espanhol e português garante uma comunicação fluida para equipas distribuídas.",
+            "Os clientes valorizam a nossa estrutura de preços transparente, gestores dedicados e entregáveis claros. Saberá sempre quem é responsável por cada tarefa, o estado dos processos em curso e os próximos marcos de conformidade no calendário.",
+            "Escolher a Ark Fiduciaire é optar por uma empresa fiduciária que une precisão suíça, ferramentas inovadoras e acompanhamento humano. Tratamos da contabilidade, fiscalidade, folha de pagamento e administração corporativa para que possa focar-se na estratégia, nos clientes e num crescimento sustentável."
+        ],
+        "Quality": {
+            "Title": "Padrões de qualidade suíços",
+            "Content": "Operamos segundo os princípios contabilísticos Swiss GAAP FER, mantemos controlos internos robustos e documentamos cada processo para que auditores e autoridades recebam informação completa e atempada. Formação contínua, revisões cruzadas e checklists inspiradas em ISO asseguram a precisão e fiabilidade esperadas."
+        },
+        "Innovation": {
+            "Title": "Soluções impulsionadas por tecnologia",
+            "Content": "A integração de ferramentas com IA e sistemas ERP modernos permite-nos prestar serviços mais rápidos e precisos sem perder o contacto humano essencial. Portais seguros, fluxos automatizados e análises avançadas oferecem visibilidade imediata sem perturbar a sua governação."
+        }
     },
     "FAQ": {
         "Title": "Perguntas frequentes",

@@ -77,6 +77,17 @@ const FolderCode = () => (
   </svg>
 );
 
+const Crown = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className="h-6 w-6"
+  >
+    <path d="M5 16L3 5l5.5 4L12 4l3.5 5L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z" />
+  </svg>
+);
+
 const services = [
   {
     icon: <Calculator />,
@@ -101,9 +112,9 @@ const services = [
   },
   {
     icon: <Building2 />,
-    titleKey: "IncorporationServices.Title",
+    titleKey: "Incorporation.Title",
     href: "/incorporation",
-    descriptionKey: "IncorporationServices.Description",
+    descriptionKey: "Incorporation.Description",
     image: "/assets/hero/services/incorporation-hero.webp",
   },
   {
@@ -133,6 +144,13 @@ const services = [
     href: "/odoo",
     descriptionKey: "OdooImplementation.Description",
     image: "/assets/hero/services/odoo-hero.webp",
+  },
+  {
+    icon: <Crown />,
+    titleKey: "FamilyOffice.Title",
+    href: "/family-office",
+    descriptionKey: "FamilyOffice.Description",
+    image: "/assets/hero/services/family-office-hero.webp",
   },
 ];
 

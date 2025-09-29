@@ -1,0 +1,46 @@
+{
+    "ImageAlt": "Swiss Alps landscape with family estate, Switzerland",
+    "Hero": {
+        "Badge": "Swiss excellence",
+        "BadgeTwo": "Family legacy",
+        "Title": "Family Office Services",
+        "Description": "Comprehensive family office services for high-net-worth individuals and families, including wealth management, estate planning, tax optimization, and succession planning.",
+        "CTA": "Secure your legacy",
+        "SecondaryCTA": "Learn more"
+    },
+    "Presentation": {
+        "Title": "Family office: preserving and growing your wealth",
+        "Subtitle": "Tailored solutions for family wealth management",
+        "Intro": [
+            "Our family office services are designed for high-net-worth families seeking comprehensive wealth management solutions. We provide personalized strategies for wealth preservation, growth, and transfer across generations.",
+            "With our expertise in Swiss fiduciary services, we ensure your family's financial future is secure and optimized."
+        ],
+        "ServicesTitle": "Our Family Office Services",
+        "Services": [
+            "Estate Planning: Strategic planning for wealth transfer and succession",
+            "Tax Optimization: International tax planning and compliance services",
+            "Succession Planning: Guidance for generational wealth transfer",
+            "Family Governance: Structuring family councils and governance frameworks",
+            "Philanthropy Coordination: Managing charitable giving and foundations"
+        ],
+        "StrengthsTitle": "Why choose our family office services",
+        "Strengths": [
+            {
+                "Title": "Swiss fiduciary expertise",
+                "Desc": "Benefit from Switzerland's renowned banking secrecy and fiduciary traditions."
+            },
+            {
+                "Title": "Personalized approach",
+                "Desc": "Tailored solutions designed specifically for your family's unique needs and goals."
+            },
+            {
+                "Title": "Multi-generational focus",
+                "Desc": "Strategies that preserve and grow wealth across generations."
+            },
+            {
+                "Title": "International perspective",
+                "Desc": "Global wealth management with local Swiss expertise."
+            }
+        ]
+    }
+}

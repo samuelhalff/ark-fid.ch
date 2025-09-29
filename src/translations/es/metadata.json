@@ -1,15 +1,15 @@
 {
   "default": {
-    "title": "Ark Fiduciaire - Fiduciaria en Suiza romanda (Ginebra & Lausana)",
-    "description": "Fiduciaria en Suiza romanda (Ginebra, Lausana) con alcance internacional. Contabilidad, fiscalidad, nóminas, corporate y domiciliación para pymes y grupos.",
+    "title": "Ark Fiduciaire | Fiduciaria en Ginebra y Lausana",
+    "description": "Fiduciaria en Ginebra y Lausana que ofrece contabilidad, impuestos, nóminas, administración corporativa y domiciliación para pymes suizas, scale-ups y grupos internacionales.",
     "keywords": "fiduciaria ginebra, fiduciaria lausana, suiza romanda, contabilidad, impuestos, nóminas, corporate, domiciliación",
     "author": "Ark Fiduciaire",
     "siteName": "Ark Fiduciaire"
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire – Servicios fiduciarios Ginebra & Lausana",
-      "description": "Firma fiduciaria con sede en Ginebra y Lausana. Contabilidad, impuestos, nómina, corporate y domiciliación para pymes y grupos en Romandía.",
+      "title": "Ark Fiduciaire | Servicios fiduciarios Ginebra & Lausana",
+      "description": "Firma fiduciaria en Ginebra y Lausana que entrega contabilidad, impuestos, nóminas, gobierno corporativo, domiciliación y apoyo ERP digital para pymes de Romandía y equipos internacionales.",
       "keywords": "fiduciaria ginebra, fiduciaria lausana, suiza romanda, contabilidad, impuestos"
     },
     "/about": {

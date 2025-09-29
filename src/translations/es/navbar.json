@@ -54,5 +54,9 @@
     "OdooImplementation": {
         "Title": "Implementación Odoo",
         "Description": "Somos socios oficiales de Odoo, proporcionando servicios completos de implementación y configuración para asegurar que su configuración de Odoo cumpla con los estándares contables suizos."
+    },
+    "FamilyOffice": {
+        "Title": "Family office",
+        "Description": "Servicios integrales de family office para individuos y familias de alto patrimonio, incluyendo gestión de patrimonio, planificación sucesoria, optimización fiscal y planificación sucesoria."
     }
 }

@@ -1,15 +1,15 @@
 {
   "default": {
-    "title": "Ark Fiduciaire - Treuhand in Genf & Lausanne (Westschweiz)",
-    "description": "Treuhandkanzlei in der Westschweiz (Genf, Lausanne) mit internationaler Reichweite. Buchhaltung, Steuern, Lohn, Corporate und Domizilierung für KMU und Gruppen.",
+    "title": "Ark Fiduciaire | Treuhand in Genf und Lausanne",
+    "description": "Treuhandkanzlei in Genf und Lausanne mit Accounting-, Steuer-, Lohn-, Corporate- und Domizilierungsservices für Schweizer KMU, Scale-ups und internationale Gruppen.",
     "keywords": "treuhand genf, treuhand lausanne, westschweiz, romandie, buchhaltung, steuern, lohn, corporate, domizilierung",
     "author": "Ark Fiduciaire",
     "siteName": "Ark Fiduciaire"
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire – Treuhand Genf & Lausanne (Romandie)",
-      "description": "Treuhand mit Sitz in Genf und Lausanne. Buchhaltung, Steuern, Lohn, Corporate und Domizilierung für KMU und Gruppen in der Romandie.",
+      "title": "Ark Fiduciaire | Treuhand Genf & Lausanne",
+      "description": "Treuhand in Genf und Lausanne, die Buchhaltung, Steuern, Lohn, Corporate Governance, Domizilierung und digitales ERP-Consulting für KMU in der Romandie sowie internationale Teams liefert.",
       "keywords": "treuhand genf, treuhand lausanne, westschweiz, buchhaltung, steuern"
     },
     "/about": {

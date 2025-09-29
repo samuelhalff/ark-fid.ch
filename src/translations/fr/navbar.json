@@ -39,13 +39,13 @@
         "Title": "Services d'externalisation",
         "Description": "Nous fournissons des services d'externalisation pour les tâches juridiques, administratives et comptables, vous permettant de vous concentrer sur vos activités commerciales principales pendant que nous gérons les fonctions de back-office nécessaires."
     },
-    "Incorporation": {
-        "Title": "Constitution d'entreprise",
-        "Description": "Nous vous accompagnons dans toutes les étapes de la constitution d'entreprise, en assurant la conformité avec la réglementation suisse et un support continu."
-    },
     "CorporateServices": {
         "Title": "Services d'entreprise",
         "Description": "Nous offrons une gamme de services d'entreprise, y compris la formation d'entreprise, la gestion de la conformité et le soutien à la gouvernance d'entreprise pour assurer le bon fonctionnement de votre entreprise."
+    },
+    "Incorporation": {
+        "Title": "Constitution d'entreprise",
+        "Description": "Nous vous accompagnons dans toutes les étapes de la constitution d'entreprise, en assurant la conformité avec la réglementation suisse et un support continu."
     },
     "DomiciliationServices": {
         "Title": "Services de domiciliation",
@@ -54,5 +54,9 @@
     "OdooImplementation": {
         "Title": "Implémentation Odoo",
         "Description": "Nous sommes des partenaires officiels d'Odoo, fournissant des services complets d'implémentation et de configuration pour garantir que votre configuration Odoo répond aux normes comptables suisses."
+    },
+    "FamilyOffice": {
+        "Title": "Family office",
+        "Description": "Services complets de family office pour les particuliers et familles à haut patrimoine, incluant la gestion de fortune, la planification successorale, l'optimisation fiscale et la planification successorale."
     }
 }

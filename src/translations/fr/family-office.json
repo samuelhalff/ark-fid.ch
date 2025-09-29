@@ -1,0 +1,46 @@
+{
+    "ImageAlt": "Paysage des Alpes suisses avec propriété familiale, Suisse",
+    "Hero": {
+        "Badge": "Excellence suisse",
+        "BadgeTwo": "Héritage familial",
+        "Title": "Services de Family Office",
+        "Description": "Services complets de family office pour les particuliers et familles à haut patrimoine, incluant la gestion de fortune, la planification successorale, l'optimisation fiscale et la planification successorale.",
+        "CTA": "Sécurisez votre héritage",
+        "SecondaryCTA": "En savoir plus"
+    },
+    "Presentation": {
+        "Title": "Family office : préserver et développer votre patrimoine",
+        "Subtitle": "Solutions sur mesure pour la gestion du patrimoine familial",
+        "Intro": [
+            "Nos services de family office sont conçus pour les familles à haut patrimoine recherchant des solutions complètes de gestion de fortune. Nous proposons des stratégies personnalisées pour la préservation, la croissance et la transmission du patrimoine à travers les générations.",
+            "Avec notre expertise en services fiduciaires suisses, nous assurons que l'avenir financier de votre famille est sécurisé et optimisé."
+        ],
+        "ServicesTitle": "Nos Services de Family Office",
+        "Services": [
+            "Planification successorale : Planification stratégique pour la transmission du patrimoine",
+            "Optimisation fiscale : Planification fiscale internationale et services de conformité",
+            "Planification successorale : Conseils pour la transmission du patrimoine intergénérationnel",
+            "Gouvernance familiale : Structuration des conseils familiaux et cadres de gouvernance",
+            "Coordination philanthropique : Gestion des dons caritatifs et fondations"
+        ],
+        "StrengthsTitle": "Pourquoi choisir nos services de family office",
+        "Strengths": [
+            {
+                "Title": "Expertise fiduciaire suisse",
+                "Desc": "Bénéficiez du secret bancaire renommé de la Suisse et des traditions fiduciaires."
+            },
+            {
+                "Title": "Approche personnalisée",
+                "Desc": "Solutions sur mesure conçues spécifiquement pour les besoins uniques de votre famille."
+            },
+            {
+                "Title": "Focus multi-générationnel",
+                "Desc": "Stratégies qui préservent et développent le patrimoine à travers les générations."
+            },
+            {
+                "Title": "Perspective internationale",
+                "Desc": "Gestion du patrimoine mondial avec expertise locale suisse."
+            }
+        ]
+    }
+}

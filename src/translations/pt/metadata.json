@@ -1,15 +1,15 @@
 {
   "default": {
-    "title": "Ark Fiduciaire - Fiduciária na Suíça Romanda (Genebra & Lausana)",
-    "description": "Fiduciária na Suíça Romanda (Genebra, Lausana) com alcance internacional. Contabilidade, fiscalidade, folha salarial, corporate e domiciliação para PMEs e grupos.",
+    "title": "Ark Fiduciaire | Fiduciária em Genebra e Lausana",
+    "description": "Fiduciária em Genebra e Lausana que presta contabilidade, fiscalidade, folha salarial, administração corporate e domiciliação para PME suíças, scale-ups e grupos internacionais.",
     "keywords": "fiduciária genebra, fiduciária lausana, suíça romanda, contabilidade, impostos, folha salarial, corporate, domiciliação",
     "author": "Ark Fiduciaire",
     "siteName": "Ark Fiduciaire"
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire – Serviços fiduciários Genebra & Lausana",
-      "description": "Fiduciária com sede em Genebra e Lausana. Contabilidade, impostos, folha salarial, corporate e domiciliação para PME e grupos na Suíça Romanda.",
+      "title": "Ark Fiduciaire | Serviços fiduciários Genebra & Lausana",
+      "description": "Fiduciária em Genebra e Lausana que entrega contabilidade, impostos, folha salarial, governação corporate, domiciliação e suporte ERP digital para PME da Suíça Romanda e equipas internacionais.",
       "keywords": "fiduciária genebra, fiduciária lausana, suíça romanda, contabilidade, impostos"
     },
     "/about": {
