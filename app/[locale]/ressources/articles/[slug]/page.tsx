@@ -12,18 +12,21 @@ import {
 import RelatedArticles from "@/src/components/ressources/RelatedArticles";
 import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 import { estimateReadingTime } from "@/src/lib/readingTime";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import Defer from "@/src/components/Defer";
 
-const ShareButtons = dynamic(() => import("@/src/components/ui/ShareButtons"), {
+// Force dynamic rendering to speed up build times
+export const dynamic = 'force-dynamic';
+
+const ShareButtons = dynamicImport(() => import("@/src/components/ui/ShareButtons"), {
   ssr: false,
   loading: () => null,
 });
-const ReadingProgress = dynamic(
+const ReadingProgress = dynamicImport(
   () => import("@/src/components/ui/reading-progress"),
   { ssr: false, loading: () => null }
 );
-const BackToTop = dynamic(() => import("@/src/components/ui/back-to-top"), {
+const BackToTop = dynamicImport(() => import("@/src/components/ui/back-to-top"), {
   ssr: false,
   loading: () => null,
 });

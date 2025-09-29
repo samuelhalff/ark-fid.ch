@@ -50,15 +50,16 @@ const FamilyOfficePresentation = () => {
               fallbackText="Swiss multi-family office support for wealth, governance and succession."
             />
           </h2>
-          <TranslatedTextArray
-            ns="family-office"
-            translationKey="Presentation.Intro"
-            fallbackText={[
-              "Ark Fiduciaire acts as your Swiss family office desk, coordinating wealth, governance and reporting for entrepreneurs and family shareholders.",
-              "We consolidate banking, legal and tax stakeholders to protect and grow multi-generational wealth from Geneva and Lausanne.",
-            ]}
-            className="space-y-4 text-base leading-relaxed"
-          />
+          <div className="space-y-4 text-base leading-relaxed">
+            <TranslatedTextArray
+              ns="family-office"
+              translationKey="Presentation.Intro"
+              fallbackText={[
+                "Ark Fiduciaire acts as your Swiss family office desk, coordinating wealth, governance and reporting for entrepreneurs and family shareholders.",
+                "We consolidate banking, legal and tax stakeholders to protect and grow multi-generational wealth from Geneva and Lausanne.",
+              ]}
+            />
+          </div>
         </header>
 
         <section className="space-y-6">

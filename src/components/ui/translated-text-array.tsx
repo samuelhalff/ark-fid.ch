@@ -9,14 +9,16 @@ interface TranslatedTextArrayProps {
   fallbackText?: string[];
   ns?: string;
   renderItem?: (text: string, index: number) => React.ReactNode;
+  className?: string;
 }
 
 const TranslatedTextArray = ({
   translationKey,
   fallbackText = [],
   ns,
+  className,
   renderItem = (text, index) => (
-    <p key={index} className="mb-8 text-lg text-justify">
+    <p key={index} className={`mb-8 text-lg text-justify ${className || ""}`}>
       {text}
     </p>
   ),
