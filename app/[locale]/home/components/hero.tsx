@@ -44,7 +44,7 @@ const Hero = async ({ locale }: HeroProps) => {
   );
 
   return (
-    <section className="relative min-h-[calc(100vh-4rem)] text-center max-w-[var(--breakpoint-xl)] w-full flex flex-col items-center justify-center border-b border-accent mx-auto px-6">
+    <section className="relative min-h-[calc(100vh-4rem)] text-center max-w-[var(--breakpoint-xl)] w-full flex flex-col items-center justify-center border-b border-accent mx-auto px-6 pb-10">
       <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-10 px-6 py-12 lg:py-0">
         {/* Left column */}
         <div className="flex-1 max-w-3xl text-center animate-in fade-in duration-800">

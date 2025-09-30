@@ -18,7 +18,7 @@ const TranslatedTextArray = ({
   ns,
   className,
   renderItem = (text, index) => (
-    <p key={index} className={`mb-8 text-lg text-justify ${className || ""}`}>
+    <p key={index} className={`mb-8 text-lg ${className || ""}`}>
       {text}
     </p>
   ),
