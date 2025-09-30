@@ -112,7 +112,7 @@ export default async function TeamPage({
                       <ImageWithFallback
                         src={member.profilePic}
                         alt={`Portrait of ${member.name}`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-top"
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
                         loading="lazy"

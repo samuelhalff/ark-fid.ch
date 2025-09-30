@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader } from "@/src/components/ui/card";
 import services from "@/app/[locale]/home/components/services-items";
-import Image from "next/image";
+import ImageWithFallback from "@/src/components/ui/image-with-fallback";
 import Link from "next/link";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import heroBlurData from "@/src/lib/heroBlurData.json";
@@ -71,7 +71,7 @@ const Services = async ({
                 {/* Fixed aspect-ratio image area so all cards align visually */}
                 <div className="w-full p-0 box-border">
                   <div className="relative w-full aspect-[4/3] overflow-hidden bg-muted/30">
-                    <Image
+                    <ImageWithFallback
                       src={service.image}
                       alt={tItems(service.titleKey)}
                       fill

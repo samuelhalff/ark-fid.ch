@@ -172,7 +172,13 @@ jobs:
             TMP_DIR="/tmp/ark-fid-release-$TS"
             [ -f "$TMP_DIR/.extract_ok" ] || { echo "[deploy] Extract marker missing" >> "$LOG"; exit 1; }
 
-            mv "$TMP_DIR" "$REL_DIR"
+            echo "[deploy] Moving extracted release to $REL_DIR" >> "$LOG"
+            if ! mv "$TMP_DIR" "$REL_DIR" 2>>"$LOG"; then
+              echo "[deploy] mv failed, trying cp -r" >> "$LOG"
+              mkdir -p "$REL_DIR" >> "$LOG" 2>&1
+              cp -r "$TMP_DIR"/* "$REL_DIR"/ >> "$LOG" 2>&1 && rm -rf "$TMP_DIR" >> "$LOG" 2>&1
+              [ $? -eq 0 ] || { echo "[deploy] cp also failed" >> "$LOG"; exit 1; }
+            fi
             [ -f "$BASE_DIR/shared/.env" ] && ln -sfn "$BASE_DIR/shared/.env" "$REL_DIR/.env"
             [ -f "$BASE_DIR/shared/.env.production" ] && ln -sfn "$BASE_DIR/shared/.env.production" "$REL_DIR/.env.production"
             ln -sfn "$REL_DIR" "$CURRENT_LINK"
