@@ -167,7 +167,7 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
               alt={`Portrait of ${member.name}`}
               fill
               sizes="(max-width: 768px) 100vw, 360px"
-              className="object-cover"
+              className="object-cover object-top"
             />
           </div>
         </div>
