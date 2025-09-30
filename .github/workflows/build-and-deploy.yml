@@ -182,6 +182,9 @@ jobs:
             [ -f "$BASE_DIR/shared/.env" ] && ln -sfn "$BASE_DIR/shared/.env" "$REL_DIR/.env"
             [ -f "$BASE_DIR/shared/.env.production" ] && ln -sfn "$BASE_DIR/shared/.env.production" "$REL_DIR/.env.production"
             ln -sfn "$REL_DIR" "$CURRENT_LINK"
+            echo "Release: $TS" > "$CURRENT_LINK/.release-info"
+            echo "Deployed: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$CURRENT_LINK/.release-info"
+            echo "Directory: $REL_DIR" >> "$CURRENT_LINK/.release-info"
 
             cd "$CURRENT_LINK"
             # Stop existing process more reliably
