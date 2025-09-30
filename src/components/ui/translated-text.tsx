@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 // Initialize client i18n only where needed
-import "@/src/i18n";
+// import "@/src/i18n";
 
 // This component wraps the logic, so you don't have to repeat it.
 const TranslatedText = ({
