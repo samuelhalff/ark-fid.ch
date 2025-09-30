@@ -162,14 +162,21 @@ jobs:
           sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" 'echo "SSH connection successful"' || { echo "SSH connection failed"; exit 1; }
           sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" bash -lc '
             set -euo pipefail
+            echo "[deploy] Starting deployment script at $(date)"
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
             RELEASES_DIR="$BASE_DIR/releases"
             CURRENT_LINK="$BASE_DIR/current"
             PID_FILE="$BASE_DIR/ark-fid.pid"
             LOG="$BASE_DIR/deploy.extract.log"
+            echo "[deploy] BASE_DIR: $BASE_DIR"
+            echo "[deploy] Checking directory structure..."
+            ls -la "$BASE_DIR" || { echo "[deploy] BASE_DIR does not exist or not accessible"; exit 1; }
+            echo "[deploy] Directory exists"
 
             TS="$(cat "$BASE_DIR/last_release_ts" 2>/dev/null || true)"
-            [ -n "$TS" ] || { echo "[deploy] No last_release_ts" >> "$LOG"; exit 1; }
+            echo "[deploy] TS from file: '\''$TS'\''"
+            [ -n "$TS" ] || { echo "[deploy] No last_release_ts found in $BASE_DIR/last_release_ts" >> "$LOG"; echo "[deploy] No last_release_ts"; exit 1; }
+            echo "[deploy] TS is valid: $TS"
             REL_DIR="$RELEASES_DIR/$TS"
             TMP_DIR="/tmp/ark-fid-release-$TS"
             [ -f "$TMP_DIR/.extract_ok" ] || { echo "[deploy] Extract marker missing" >> "$LOG"; exit 1; }
