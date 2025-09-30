@@ -42,7 +42,7 @@ const Outsourcing = async ({ params }: { params: { locale: string } }) => {
     ],
   } as const;
   return (
-    <main>
+    <div>
       <script
         type="application/ld+json"
         nonce={nonce}
@@ -74,7 +74,7 @@ const Outsourcing = async ({ params }: { params: { locale: string } }) => {
         </ol>
       </nav>
       <Presentation />
-    </main>
+    </div>
   );
 };
 

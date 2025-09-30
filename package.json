@@ -17,7 +17,7 @@
     "css:watch": "tailwindcss -i ./app/globals.css -o ./public/assets/css/non-critical.css --config tailwind.config.ts --watch",
     "css:report": "node scripts/report-unused-css.js",
     "optimize:images": "node scripts/optimize-images.js",
-    "compress:images": "node scripts/compress-images.js --dir public/assets --threshold 100 --quality 82",
+    "compress:images": "node scripts/compress-images.js --dir public/assets --threshold 100 --quality 70",
     "images:hero-blur": "node scripts/generate-hero-blur-data.js",
     "images:prepare": "npm run optimize:images && npm run images:hero-blur",
     "lint:hero-blur": "node scripts/check-hero-blur.js",

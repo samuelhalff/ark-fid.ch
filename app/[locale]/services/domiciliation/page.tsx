@@ -86,7 +86,7 @@ const Domiciliation = async ({ params }: { params: { locale: string } }) => {
     ],
   });
   return (
-    <main>
+    <div>
       <StructuredData nonce={nonce} data={[breadcrumbJsonLd, howToJsonLd]} />
       <Hero params={params} />
       <nav
@@ -115,7 +115,7 @@ const Domiciliation = async ({ params }: { params: { locale: string } }) => {
         </ol>
       </nav>
       <Presentation />
-    </main>
+    </div>
   );
 };
 

@@ -127,12 +127,34 @@ export default async function ServicesPage({
             : locale === "pt"
             ? "Recursos úteis: "
             : "Useful resources: "}
-          <a className="underline hover:no-underline" href={`${localePrefix}/ressources/`}>
-            {locale === "fr" ? "articles et guides" : locale === "de" ? "Artikel & Leitfäden" : locale === "es" ? "artículos y guías" : locale === "pt" ? "artigos e guias" : "articles & guides"}
+          <a
+            className="underline hover:no-underline"
+            href={`${localePrefix}/ressources/`}
+          >
+            {locale === "fr"
+              ? "articles et guides"
+              : locale === "de"
+              ? "Artikel & Leitfäden"
+              : locale === "es"
+              ? "artículos y guías"
+              : locale === "pt"
+              ? "artigos e guias"
+              : "articles & guides"}
           </a>
           {" · "}
-          <a className="underline hover:no-underline" href={`${localePrefix}/contact`}>
-            {locale === "fr" ? "nous contacter" : locale === "de" ? "Kontakt" : locale === "es" ? "contacto" : locale === "pt" ? "contacto" : "contact"}
+          <a
+            className="underline hover:no-underline"
+            href={`${localePrefix}/contact`}
+          >
+            {locale === "fr"
+              ? "nous contacter"
+              : locale === "de"
+              ? "Kontakt"
+              : locale === "es"
+              ? "contacto"
+              : locale === "pt"
+              ? "contacto"
+              : "contact"}
           </a>
         </p>
       </div>

@@ -97,7 +97,7 @@ const Incorporation = async ({ params }: { params: { locale: string } }) => {
   });
 
   return (
-    <main>
+    <div>
       <script
         type="application/ld+json"
         nonce={nonce}
@@ -130,7 +130,7 @@ const Incorporation = async ({ params }: { params: { locale: string } }) => {
         </ol>
       </nav>
       <Presentation />
-    </main>
+    </div>
   );
 };
 

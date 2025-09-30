@@ -118,7 +118,7 @@ const PartnersHero = async ({ locale }: PartnersHeroProps) => {
             alt="Illustration des services fiduciaires professionnels offerts par Ark Fiduciaire"
             className="object-cover rounded-xl"
             sizes="(min-width:1280px) 560px, (min-width:1024px) 480px, 92vw"
-            quality={72}
+            quality={50}
             priority
             fetchPriority="high"
             placeholder="blur"

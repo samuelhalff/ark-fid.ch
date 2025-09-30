@@ -47,7 +47,7 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
     ],
   } as const;
   return (
-    <main>
+    <div>
       <script
         type="application/ld+json"
         nonce={nonce}
@@ -81,7 +81,7 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
         </ol>
       </nav>
       <Presentation locale={locale} t={tFamily} />
-    </main>
+    </div>
   );
 };
 
