@@ -7,6 +7,9 @@ import {
 import { inter } from "./fonts";
 import { headers } from "next/headers";
 import "./globals.css";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 // Vercel Analytics is rendered conditionally via ConsentAnalytics
 import dynamic from "next/dynamic";
 import Defer from "@/src/components/Defer";
@@ -20,6 +23,32 @@ const ConsentAnalytics = dynamic(
   { ssr: false, loading: () => null }
 );
 import { getTranslations, getCurrentLocale } from "@/src/lib/i18n";
+
+const nonCriticalCssHref = (() => {
+  const baseHref = "/assets/css/non-critical.css" as const;
+  try {
+    const filePath = path.join(
+      process.cwd(),
+      "public",
+      "assets",
+      "css",
+      "non-critical.css"
+    );
+    const fileContents = readFileSync(filePath);
+    const digest = createHash("sha256").update(fileContents).digest("hex");
+    const version = digest.slice(0, 10);
+    return `${baseHref}?v=${version}`;
+  } catch (error) {
+    if (process.env.NODE_ENV !== "production") {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.warn(
+        "Unable to compute non-critical CSS hash; falling back to base href",
+        err
+      );
+    }
+  }
+  return baseHref;
+})();
 
 // Using self-hosted Inter via next/font/local (see app/fonts.ts)
 
@@ -209,7 +238,7 @@ export default async function RootLayout({
         >
           Skip to content
         </a>
-        <DeferredNonCriticalStyles />
+        <DeferredNonCriticalStyles href={nonCriticalCssHref} />
         {/* Inline script to set theme class before React hydrates to avoid flicker */}
         <script
           nonce={nonce}
