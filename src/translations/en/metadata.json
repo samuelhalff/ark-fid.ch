@@ -1,6 +1,9 @@
 {
-  "default": {
-    "title": "Ark Fiduciaire | Fiduciary in Geneva & Lausanne",
+  "default": {    "/": {
+      "title": "Fiduciary Geneva Lausanne | Accounting & Tax Services",
+      "description": "Professional fiduciary firm in Geneva and Lausanne. Accounting, tax, payroll and corporate services. Contact us for a free quote.",
+      "keywords": "fiduciary geneva, fiduciary lausanne, romandy, accounting, tax"
+    },"title": "Ark Fiduciaire | Fiduciary in Geneva & Lausanne",
     "description": "Fiduciary firm in Geneva and Lausanne delivering accounting, tax, payroll, corporate administration, and domiciliation for Swiss SMEs, scale-ups, and international groups.",
     "keywords": "fiduciary geneva, fiduciary lausanne, romandy, switzerland, accounting, tax, payroll, corporate, domiciliation",
     "topics": [

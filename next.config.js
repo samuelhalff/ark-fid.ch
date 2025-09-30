@@ -9,7 +9,23 @@ const baseConfig = {
   // Disable source maps on CI by default. Enable explicitly with BUILD_SOURCEMAPS=true
   productionBrowserSourceMaps: process.env.BUILD_SOURCEMAPS === 'true',
   experimental: {
-    optimizePackageImports: ['lucide-react', 'react-hook-form', 'sonner']
+    optimizePackageImports: [
+      'lucide-react', 
+      'react-hook-form', 
+      'sonner',
+      '@radix-ui/react-accordion',
+      '@radix-ui/react-avatar', 
+      '@radix-ui/react-checkbox',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-label',
+      '@radix-ui/react-navigation-menu',
+      '@radix-ui/react-radio-group',
+      '@radix-ui/react-separator',
+      '@radix-ui/react-slot',
+      'react-markdown',
+      'embla-carousel-react'
+    ]
   },
   output: 'standalone',
   images: {

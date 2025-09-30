@@ -165,6 +165,21 @@
     -ms-hyphens: auto;
     hyphens: auto;
   }
+
+  /* Prevent Cumulative Layout Shift (CLS) */
+  img {
+    aspect-ratio: attr(width) / attr(height);
+  }
+
+  /* Reserve space for dynamic content */
+  .dynamic-content {
+    min-height: 200px;
+  }
+
+  /* Ensure images maintain aspect ratio */
+  .aspect-auto {
+    aspect-ratio: auto;
+  }
 }
 
 /* Target German pages only: apply safe breaks and hyphenation to headings and paragraphs */
