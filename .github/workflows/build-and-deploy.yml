@@ -158,6 +158,8 @@ jobs:
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
           SSH_OPTS="-o StrictHostKeyChecking=no -o ServerAliveInterval=15 -o ServerAliveCountMax=8 -o IPQoS=throughput -p ${PORT}"
+          echo "Testing SSH connection..."
+          sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" 'echo "SSH connection successful"' || { echo "SSH connection failed"; exit 1; }
           sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" bash -lc '
             set -euo pipefail
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
