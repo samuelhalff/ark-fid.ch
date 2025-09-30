@@ -167,10 +167,6 @@
   }
 
   /* Prevent Cumulative Layout Shift (CLS) */
-  img {
-    aspect-ratio: attr(width) / attr(height);
-  }
-
   /* Reserve space for dynamic content */
   .dynamic-content {
     min-height: 200px;
