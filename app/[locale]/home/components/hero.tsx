@@ -1,4 +1,4 @@
-// Inline a tiny arrow icon to avoid loading lucide-react in shared chunk
+// Inline a tiny arrow icon to avoid loading lucide          // Inline a tiny arrow icon to avoid loading lucide-react in shared chunk
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import Image from "next/image";
@@ -46,12 +46,12 @@ const Hero = async ({ locale }: HeroProps) => {
   );
 
   return (
-    <div className="relative min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent critical-hero">
-      <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0 critical-hero__inner">
-        <div className="max-w-2xl w-full !text-center mx-auto motion-safe:animate-in motion-safe:fade-in md:duration-700 critical-hero__content">
-          <div className="gap-2 text-center critical-hero__badges">
+    <div className="relative min-h-[calc(100vh-4rem)] text-center max-w-[var(--breakpoint-xl)] w-full flex items-center justify-center overflow-hidden border-b border-accent mx-auto px-6">
+      <div className="max-w-[var(--breakpoint-xl)] text-center w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
+        <div className="flex-1 max-w-3xl text-center animate-in fade-in duration-800">
+          <div className="w-fill gap-2 text-center">
             <Badge
-              className="rounded-full py-1 border-none !text-center critical-badge critical-badge--destructive"
+              className="rounded-full py-1 border-none !text-center"
               variant={"destructive"}
             >
               {t("Hero.Badge")}
@@ -63,7 +63,7 @@ const Hero = async ({ locale }: HeroProps) => {
           <p className="mt-6 max-w-full w-full xs:text-lg mx-0">
             {t("Hero.Description")}
           </p>
-          <div className="w-full min-w-full mt-12 flex text-center flex-col sm:flex-row items-center lg:items-center gap-4 !justify-center max-w-md mx-0 critical-hero__cta">
+          <div className="w-full mt-12 flex text-center flex-col sm:flex-row items-center gap-4 justify-center mx-0 lg:mx-0 text-center">
             <Link
               href={`${localePrefix}/contact`}
               className="w-full sm:w-auto"
@@ -71,16 +71,15 @@ const Hero = async ({ locale }: HeroProps) => {
             >
               <Button
                 size="lg"
-                className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg critical-button"
+                className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
                 style={{ cursor: "pointer" }}
               >
                 {t("Hero.CTA")} <ArrowIcon />
               </Button>
             </Link>
           </div>
-          {/* Removed external Odoo logo & duplicate badge per single-badge policy */}
         </div>
-        <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square motion-safe:lg:animate-in motion-safe:lg:slide-in-from-right-10 lg:duration-500 critical-hero__media">
+        <div className="flex-1 relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
           <Image
             src={homeHeroSrc}
             alt={t("Hero.ImageAlt") || "Ark Fiduciaire fiduciary services"}
@@ -98,7 +97,7 @@ const Hero = async ({ locale }: HeroProps) => {
           />
         </div>
       </div>
-      <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 w-full min-w-full critical-hero__partner">
+      <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 w-full min-w-full lg:bottom-4 lg:left-auto lg:right-6 lg:translate-x-0">
         <Image
           src="/assets/partners/odoo-logo.svg"
           alt="Logo du partenaire technologique Odoo, solution ERP utilisée par Ark Fiduciaire"
@@ -109,7 +108,7 @@ const Hero = async ({ locale }: HeroProps) => {
           decoding="async"
         />
         <Badge
-          className="rounded-full py-1 border-none !text-center critical-badge critical-badge--secondary"
+          className="rounded-full py-1 border-none !text-center"
           variant="secondary"
         >
           {t("Hero.OdooPartnerBadge") || t("Hero.OdooBadge")}
@@ -118,5 +117,4 @@ const Hero = async ({ locale }: HeroProps) => {
     </div>
   );
 };
-
 export default Hero;

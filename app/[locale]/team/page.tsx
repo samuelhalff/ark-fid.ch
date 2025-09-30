@@ -108,13 +108,14 @@ export default async function TeamPage({
                   }
                 >
                   <CardHeader>
-                    <div className="aspect-4/5 w-full rounded-md overflow-hidden mb-4 relative h-96">
+                    <div className="aspect-4/5 w-full rounded-md overflow-hidden mb-4 relative h-80">
                       <ImageWithFallback
                         src={member.profilePic}
                         alt={`Portrait of ${member.name}`}
                         className="w-full h-full object-cover"
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
+                        loading="lazy"
                       />
                     </div>
                   </CardHeader>
