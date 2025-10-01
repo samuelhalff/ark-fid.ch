@@ -230,8 +230,9 @@ jobs:
             PORT_VAL="${PORT_VAL:-${{ secrets.DEPLOY_PORT }}}"
             [ -z "${PORT_VAL:-}" ] && PORT_VAL=3000
             echo "[deploy] Starting server on port $PORT_VAL" >> "$LOG"
-            nohup node server.js > "$BASE_DIR/server.out" 2>&1 &
+            nohup node server.js > "$BASE_DIR/server.out" 2>&1 </dev/null &
             NEW_PID=$!
+            disown $NEW_PID || true
             echo $NEW_PID > "$PID_FILE"
             echo "[deploy] Started process $NEW_PID" >> "$LOG"
 
