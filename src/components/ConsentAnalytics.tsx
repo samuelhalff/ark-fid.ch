@@ -20,7 +20,7 @@ function getConsent(): "accepted" | "declined" | null {
   return null;
 }
 
-export default function ConsentAnalytics() {
+export default function ConsentAnalytics({ gaId }: { gaId: string }) {
   const [consent, setConsent] = useState<"accepted" | "declined" | null>(null);
   const [AnalyticsComp, setAnalyticsComp] =
     useState<React.ComponentType | null>(null);
@@ -57,10 +57,7 @@ export default function ConsentAnalytics() {
     let mounted = true;
     if (consent === "accepted" && !AnalyticsComp) {
       // Load Google Analytics if ID is provided
-      const GA_ID =
-        process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ||
-        process.env.NEXT_PUBLIC_GA_ID ||
-        "G-BXZ54E31FL";
+      const GA_ID = gaId;
       if (GA_ID && typeof window !== "undefined" && !window.gtag) {
         const script = document.createElement("script");
         script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
@@ -85,7 +82,7 @@ export default function ConsentAnalytics() {
     return () => {
       mounted = false;
     };
-  }, [consent, AnalyticsComp]);
+  }, [consent, AnalyticsComp, gaId]);
 
   if (consent !== "accepted" || !AnalyticsComp) return null;
   const C = AnalyticsComp;

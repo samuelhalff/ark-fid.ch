@@ -1,12 +1,11 @@
 import { type Metadata } from "next";
 import { headers } from "next/headers";
 import Hero from "@/app/[locale]/home/components/hero";
-import Services from "@/app/[locale]/home/components/services";
 import dynamic from "next/dynamic";
-const About = dynamic(() => import("@/app/[locale]/home/components/about"), {
-  ssr: false,
-  loading: () => null,
-});
+const Services = dynamic(
+  () => import("@/app/[locale]/home/components/services")
+);
+const About = dynamic(() => import("@/app/[locale]/home/components/about"));
 const FAQ = dynamic(() => import("@/app/[locale]/home/components/faq"), {
   ssr: false,
   loading: () => null,
@@ -43,6 +42,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
   const requestedLocale = params.locale;
   const activeLocale = isValidLocale(requestedLocale) ? requestedLocale : "fr";
   const t = await getTranslations(activeLocale, "contact");
+  const homeT = await getTranslations(activeLocale, "home");
   const localePrefix = `/${activeLocale}`;
   // Load FAQ texts for JSON-LD
   const loadFaq = async (locale: Locale) => {
@@ -126,7 +126,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
           idle={200}
           placeholder={<div className="h-40 w-full rounded-lg bg-muted/40" />}
         >
-          <About />
+          <About translations={homeT} />
         </Defer>
       </section>
       <section id="faq">

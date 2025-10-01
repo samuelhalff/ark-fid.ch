@@ -13,6 +13,7 @@ import path from "node:path";
 // Vercel Analytics is rendered conditionally via ConsentAnalytics
 import dynamic from "next/dynamic";
 import Defer from "@/src/components/Defer";
+import ErrorBoundary from "@/src/components/ErrorBoundary";
 import DeferredNonCriticalStyles from "@/src/components/DeferredNonCriticalStyles";
 const CookieConsent = dynamic(() => import("@/src/components/CookieConsent"), {
   ssr: false,
@@ -190,6 +191,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const nonce = headers().get("x-nonce") || undefined;
+  const userAgent = headers().get("user-agent") || "";
+  const isIOS = /iPad|iPhone|iPod/.test(userAgent);
+  const isAndroid = /Android/.test(userAgent);
+  const gaId = isIOS
+    ? "G-6YG8R7QMN7"
+    : isAndroid
+    ? "G-PBFJ9TQ7NR"
+    : "G-BXZ54E31FL";
   const currentLocale = getCurrentLocale();
   // Load cookie consent labels server-side to avoid client i18n
   const tCookie = await getTranslations(currentLocale, "cookie");
@@ -266,20 +275,22 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
         />
         <Providers>
-          <div className="pt-3 abstract-background text-foreground pt-15 mt-10">
-            {children}
-            {/* Cookie Consent banner and GA4 loader (loads GA only after acceptance) */}
-            <Defer rootMargin="0px" idle={200} placeholder={null}>
-              {/* Client-only widgets mounted after first paint */}
-              <CookieConsent
-                nonce={nonce}
-                locale={currentLocale}
-                labels={cookieLabels}
-              />
-              {/* Render Vercel Analytics only when user accepted cookies */}
-              <ConsentAnalytics />
-            </Defer>
-          </div>
+          <ErrorBoundary>
+            <div className="pt-3 abstract-background text-foreground pt-15 mt-10">
+              {children}
+              {/* Cookie Consent banner and GA4 loader (loads GA only after acceptance) */}
+              <Defer rootMargin="0px" idle={200} placeholder={null}>
+                {/* Client-only widgets mounted after first paint */}
+                <CookieConsent
+                  nonce={nonce}
+                  locale={currentLocale}
+                  labels={cookieLabels}
+                />
+                {/* Render Vercel Analytics only when user accepted cookies */}
+                <ConsentAnalytics gaId={gaId} />
+              </Defer>
+            </div>
+          </ErrorBoundary>
         </Providers>
       </body>
     </html>
