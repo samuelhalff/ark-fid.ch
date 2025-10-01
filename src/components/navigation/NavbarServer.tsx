@@ -71,7 +71,7 @@ export default function NavbarServer({
           </Link>
 
           {/* Desktop primary navigation (server-rendered) */}
-          <div className="hidden md:block critical-nav__links">
+          <div className="critical-nav__links">
             <nav aria-label="Primary">
               <ul className="flex items-center gap-1">
                 <li>
@@ -188,7 +188,7 @@ export default function NavbarServer({
           </div>
 
           {/* Mobile menu (client-only, split into its own chunk and deferred) */}
-          <div className="md:hidden pb-30 critical-nav__mobile">
+          <div className="critical-nav__mobile">
             <Defer rootMargin="100px" idle={150} placeholder={null}>
               <MobileMenuIsland locale={locale} navData={navData} />
             </Defer>

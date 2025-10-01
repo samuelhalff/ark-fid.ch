@@ -20,7 +20,7 @@ export default function DeferredNonCriticalStyles({
         return;
       }
       const link = node;
-      if (link.href.endsWith(href)) {
+      if (link.href.includes(href)) {
         alreadyLoaded = true;
         return;
       }
