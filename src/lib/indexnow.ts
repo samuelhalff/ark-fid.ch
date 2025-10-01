@@ -9,6 +9,13 @@ export async function submitToIndexNow(urls: string[]) {
     keyLocation: `${host.replace(/\/$/, '')}/${key}.txt`,
     urlList: urls,
   };
+  
+  // Debug logging
+  console.log('[IndexNow] Payload:', JSON.stringify({
+    ...payload,
+    urlList: payload.urlList.slice(0, 3).concat(payload.urlList.length > 3 ? ['...'] : [])
+  }, null, 2));
+  
   const res = await fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
