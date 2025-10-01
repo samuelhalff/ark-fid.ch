@@ -63,13 +63,6 @@
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-spesenreglement-2024-fr.pdf.download.pdf/dbst-form-lohna-spesenreglement-2024-fr.pdf"
     },
     {
-      "filename": "impot-anticipe-cryptomonnaies-2025.pdf",
-      "title": "Cryptomonnaies et impôt anticipé – AFC",
-      "description": "Guide AFC sur le traitement fiscal des cryptomonnaies : classification des tokens, imposition des particuliers et entreprises, obligations déclaratives.",
-      "date": "2025-04-06",
-      "source_url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
-    },
-    {
       "filename": "vaudtax-guide-linux-2024.pdf",
       "title": "Aide à l'installation VaudTax 2024 sur Linux Ubuntu",
       "description": "Guide technique officiel vaudois pour installer et utiliser VaudTax sur Ubuntu Linux : installation, dépannage et vérification de l'intégrité.",
@@ -91,13 +84,6 @@
       "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21000_2022.pdf"
     },
     {
-      "filename": "projet-adaptation-pratique-tva.pdf",
-      "title": "Projet d'adaptation de la pratique LTVA – AFC",
-      "description": "Projet AFC d'adaptation de la pratique TVA : déduction impôt préalable, nouvelles règles et impacts pour les entreprises dès 2025.",
-      "date": "2025-02-09",
-      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/konsultativgremium/entwurf1-nein/mwst-kg-vorsteuerabzug-andere-mi-and-mbi-fr.pdf.download.pdf/mwst-kg-vorsteuerabzug-andere-mi-and-mbi-fr.pdf"
-    },
-    {
       "filename": "guide-fiscal-2024-independants-geneve.pdf",
       "title": "Guia fiscal 2024 para independentes em Genebra",
       "description": "Guia oficial, completo e atualizado sobre a fiscalidade aplicável a empresários e independentes em Genebra: obrigações contabilísticas, métodos de cálculo de rendimento e fortuna, deduções, demonstrações fiscais e entrega da declaração.",
@@ -105,32 +91,11 @@
       "source_url": "https://www.ge.ch/document/guide-fiscal-2024-independants"
     },
     {
-      "filename": "presentations-du-panorama-fiscal-2025.pdf",
-      "title": "Panorama fiscal 2025 – Reformas e novidades em Genebra",
-      "description": "Apresentação oficial das reformas fiscais, jurisprudência e principais novidades aplicáveis em Genebra a partir de 2025, incluindo tributação mínima de pessoas jurídicas, teletrabalho transfronteiriço e fiscalidade imobiliária. Documento indispensável para antecipar mudanças e preparar a declaração de 2026.",
-      "date": "2025-09-17",
-      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-    },
-    {
-      "filename": "presentations-panorama-fiscal-2025-ge.pdf",
-      "title": "Apresentações panorama fiscal 2025 Genebra",
-      "description": "Síntese oficial das principais novidades e evoluções fiscais de Genebra para 2025 (imposto sobre renda, patrimônio, empresas, teletrabalho de fronteiriços, tratamentos fiscais específicos). Documento atualizado para suporte à decisão em Q3-Q4 2025 e preparação da declaração de 2026.",
-      "date": "2025-09-17",
-      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-    },
-    {
       "filename": "Changements-TVA-2025.pdf",
       "title": "Alterações do IVA 2025: O que as empresas de Genebra precisam saber",
       "description": "Este documento detalha as principais alterações à lei do IVA que entraram em vigor em janeiro de 2025, incluindo os impactos na faturação, na apuração e no tratamento das plataformas digitais. É destinado a PMEs, autônomos e gestores financeiros em Genebra e na Suíça francófona que desejam antecipar os ajustes administrativos necessários para o segundo semestre de 2025, bem como a preparação para 2026.",
       "date": "2025-09-17",
       "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
-    },
-    {
-      "filename": "presentations-panorama-fiscal-geneve-2025.pdf",
-      "title": "Panorama fiscal Genebra 2025 – Reformas, jurisprudência e novidades",
-      "description": "Documento oficial da sessão plenária do Panorama Fiscal 2025, organizado pela Administração Fiscal Cantonal de Genebra. Apresenta reformas, novidades da declaração de imposto, questões fiscais para empresas e pessoas jurídicas, tributação mínima, teletrabalho de fronteiriços, práticas de rulings fiscais e o tratamento fiscal de sociedades imobiliárias (SCI). Essencial para gestores, CFOs, fiduciários e responsáveis administrativos que preparam a fiscalidade 2025–2026 em Genebra.",
-      "date": "2025-09-17",
-      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
     },
     {
       "filename": "Changements_TVA_2025_Suisse.pdf",
@@ -166,13 +131,6 @@
       "description": "Análise das disparidades salariais entre dirigentes e colaboradores na Suíça em 2025, incluindo dados, tendências e recomendações oficiais do sindicato Unia.",
       "date": "2025-09-17",
       "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
-    },
-    {
-      "filename": "checklist-teletravail-frontaliers-2025.pdf",
-      "title": "Checklist teletrabalho transfronteiriço 2025 – OFAS",
-      "description": "Lista oficial da OFAS com as regras de teletrabalho transfronteiriço 2025 entre a Suíça e a França, com lembretes sociais e fiscais.",
-      "date": "2025-09-19",
-      "source_url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
     }
   ],
   "Articles": [

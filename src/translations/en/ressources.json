@@ -63,13 +63,6 @@
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-spesenreglement-2024-fr.pdf.download.pdf/dbst-form-lohna-spesenreglement-2024-fr.pdf"
     },
     {
-      "filename": "impot-anticipe-cryptomonnaies-2025.pdf",
-      "title": "Cryptocurrencies and withholding tax – FTA",
-      "description": "FTA guide on the tax treatment of cryptocurrencies: token classification, taxation of individuals and companies, reporting obligations.",
-      "date": "2025-04-06",
-      "source_url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
-    },
-    {
       "filename": "vaudtax-guide-linux-2024.pdf",
       "title": "VaudTax 2024 installation help on Linux Ubuntu",
       "description": "Official Vaud technical guide for installing and using VaudTax on Ubuntu Linux: installation, troubleshooting and integrity check.",
@@ -91,13 +84,6 @@
       "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21000_2022.pdf"
     },
     {
-      "filename": "projet-adaptation-pratique-tva.pdf",
-      "title": "Draft adaptation of VAT practice – FTA",
-      "description": "FTA draft adaptation of VAT practice: input tax deduction, new rules and impacts for companies from 2025.",
-      "date": "2025-02-09",
-      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/konsultativgremium/entwurf1-nein/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf.download.pdf/mwst-kg-vorsteuerabzug-andere-mi-und-mbi-fr.pdf"
-    },
-    {
       "filename": "guide-fiscal-2024-independants-geneve.pdf",
       "title": "2024 tax guide for self-employed in Geneva",
       "description": "Official, comprehensive and up-to-date guide on tax regulations applicable to entrepreneurs and self-employed in Geneva: accounting obligations, income and wealth calculation methods, deductions, tax statements and filing of the return.",
@@ -105,32 +91,11 @@
       "source_url": "https://www.ge.ch/document/guide-fiscal-2024-independants"
     },
     {
-      "filename": "presentations-du-panorama-fiscal-2025.pdf",
-      "title": "Tax overview 2025 – Reforms and news in Geneva",
-      "description": "Official presentation of the major tax reforms, case law and updates applicable in Geneva from 2025, including minimum corporate taxation, cross-border teleworking, and real estate taxation. An essential document to anticipate changes and prepare the 2026 tax return.",
-      "date": "2025-09-17",
-      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-    },
-    {
-      "filename": "presentations-panorama-fiscal-2025-ge.pdf",
-      "title": "2025 Geneva tax outlook presentations",
-      "description": "Official summary of the main tax news and changes in Geneva for 2025 (income tax, wealth tax, companies, cross-border telework, specific tax treatments). Up-to-date document for decision support in Q3-Q4 2025 and preparation for the 2026 tax return.",
-      "date": "2025-09-17",
-      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-    },
-    {
       "filename": "Changements-TVA-2025.pdf",
       "title": "VAT changes 2025: What Geneva businesses need to know",
       "description": "This document details the main changes to the VAT Act that came into force in January 2025, including impacts on invoicing, accounting, and the treatment of digital platforms. It is intended for SMEs, freelancers, and financial managers in Geneva and French-speaking Switzerland wishing to anticipate administrative adjustments required for the second half of 2025 as well as for 2026 preparation.",
       "date": "2025-09-17",
       "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
-    },
-    {
-      "filename": "presentations-panorama-fiscal-geneve-2025.pdf",
-      "title": "Geneva tax overview 2025 – Reforms, case law and updates",
-      "description": "Official document from the plenary session of the 2025 Tax Overview, organized by the Geneva Cantonal Tax Administration. Presents reforms, new elements of the tax return, tax issues for companies and legal entities, minimum taxation, cross-border telework, tax ruling practices and the tax treatment of real estate investment companies (SCI). Essential reading for executives, CFOs, fiduciaries and administrative managers preparing 2025–2026 taxation in Geneva.",
-      "date": "2025-09-17",
-      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
     },
     {
       "filename": "Changements_TVA_2025_Suisse.pdf",
@@ -166,13 +131,6 @@
       "description": "Analysis of wage gaps between executives and employees in Switzerland for the year 2025, including data, trends, and official recommendations from the Unia union.",
       "date": "2025-09-17",
       "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
-    },
-    {
-      "filename": "checklist-teletravail-frontaliers-2025.pdf",
-      "title": "Cross-border telework checklist 2025 – OFAS",
-      "description": "Official OFAS checklist covering the 2025 cross-border telework rules between Switzerland and France, with social security and tax reminders.",
-      "date": "2025-09-19",
-      "source_url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
     }
   ],
   "Articles": [

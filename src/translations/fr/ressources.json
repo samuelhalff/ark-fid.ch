@@ -63,13 +63,6 @@
       "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-spesenreglement-2024-fr.pdf.download.pdf/dbst-form-lohna-spesenreglement-2024-fr.pdf"
     },
     {
-      "filename": "impot-anticipe-cryptomonnaies-2025.pdf",
-      "title": "Cryptomonnaies et impôt anticipé – AFC",
-      "description": "Guide AFC sur le traitement fiscal des cryptomonnaies : classification des tokens, imposition des particuliers et entreprises, obligations déclaratives.",
-      "date": "2025-04-06",
-      "source_url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
-    },
-    {
       "filename": "vaudtax-guide-linux-2024.pdf",
       "title": "Aide à l'installation VaudTax 2024 sur Linux Ubuntu",
       "description": "Guide technique officiel vaudois pour installer et utiliser VaudTax sur Ubuntu Linux : installation, dépannage et vérification de l'intégrité.",
@@ -91,13 +84,6 @@
       "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21000_2022.pdf"
     },
     {
-      "filename": "projet-adaptation-pratique-tva.pdf",
-      "title": "Projet d'adaptation de la pratique LTVA – AFC",
-      "description": "Projet AFC d'adaptation de la pratique TVA : déduction impôt préalable, nouvelles règles et impacts pour les entreprises dès 2025.",
-      "date": "2025-02-09",
-      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/konsultativgremium/entwurf1-nein/mwst-kg-vorsteuerabzug-andere-mi-and-mbi-fr.pdf.download.pdf/mwst-kg-vorsteuerabzug-andere-mi-and-mbi-fr.pdf"
-    },
-    {
       "filename": "guide-fiscal-2024-independants-geneve.pdf",
       "title": "Guide fiscal 2024 pour les indépendants à Genève",
       "description": "Guide officiel, exhaustif et à jour sur la fiscalité applicable aux entrepreneurs et indépendants à Genève : obligations comptables, modes de calcul de revenu et fortune, déductions, relevés fiscaux et dépôt de la déclaration.",
@@ -105,32 +91,11 @@
       "source_url": "https://www.ge.ch/document/38723/annexe/file/472602"
     },
     {
-      "filename": "presentations-du-panorama-fiscal-2025.pdf",
-      "title": "Panorama fiscal 2025 – Réformes et actualités à Genève",
-      "description": "Présentation officielle des réformes fiscales, jurisprudences et actualités majeures applicables à Genève dès 2025, incluant l’imposition minimale des personnes morales, le télétravail des frontaliers, et la fiscalité immobilière. Document indispensable pour anticiper les évolutions et préparer la déclaration 2026.",
-      "date": "2025-09-17",
-      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-    },
-    {
-      "filename": "presentations-panorama-fiscal-2025-ge.pdf",
-      "title": "Présentations du Panorama fiscal 2025 Genève",
-      "description": "Synthèse officielle des principales actualités et évolutions fiscales Genève pour 2025 (impôt sur le revenu, fortune, sociétés, télétravail des frontaliers, traitements fiscaux spécifiques). Document à jour pour appui décisionnel Q3-Q4 2025 et préparation de la déclaration 2026.",
-      "date": "2025-09-17",
-      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-    },
-    {
       "filename": "Changements-TVA-2025.pdf",
       "title": "Changements TVA 2025 : Ce que les entreprises genevoises doivent savoir",
       "description": "Ce document détaille les principales modifications de la loi sur la TVA entrées en vigueur en janvier 2025, dont les impacts sur la facturation, le décompte et le traitement des plateformes numériques. Il est destiné aux PME, indépendants et responsables financiers à Genève et en Suisse romande souhaitant anticiper les ajustements administratifs nécessaires pour le second semestre 2025 ainsi que la préparation de 2026.",
       "date": "2025-09-17",
       "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
-    },
-    {
-      "filename": "presentations-panorama-fiscal-geneve-2025.pdf",
-      "title": "Panorama fiscal Genève 2025 – Réformes, jurisprudences et actualités",
-      "description": "Document officiel de la séance plénière du Panorama fiscal 2025, organisée par l'Administration fiscale cantonale de Genève. Présente les réformes, nouveautés de la déclaration d'impôt, enjeux fiscaux pour les entreprises et personnes morales, imposition minimale, télétravail des frontaliers, pratiques de ruling fiscal et traitement fiscal des SCI. Incontournable pour dirigeants, CFO, fiduciaires et responsables administratifs préparant la fiscalité 2025–2026 à Genève.",
-      "date": "2025-09-17",
-      "source_url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
     },
     {
       "filename": "Changements_TVA_2025_Suisse.pdf",
@@ -166,13 +131,6 @@
       "description": "Analyse des écarts salariaux entre dirigeants et employés en Suisse pour l'année 2025, incluant données, tendances et recommandations officielles du syndicat Unia.",
       "date": "2025-09-17",
       "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
-    },
-    {
-      "filename": "checklist-teletravail-frontaliers-2025.pdf",
-      "title": "Checklist télétravail des frontaliers 2025 – OFAS",
-      "description": "Checklist officielle OFAS pour appliquer les nouvelles règles de télétravail transfrontalier dès 2025 entre la Suisse et la France, avec rappels sociaux et fiscaux.",
-      "date": "2025-09-19",
-      "source_url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
     }
   ],
   "Articles": [
