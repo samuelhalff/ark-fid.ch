@@ -66,22 +66,22 @@ async function removeBadFiles() {
     
     const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     
-    if (!data.Resources || !data.Resources.Files) {
+    if (!data.Files) {
       console.log(`⚠️  ${locale}: No Files array found`);
       continue;
     }
     
-    const originalCount = data.Resources.Files.length;
+    const originalCount = data.Files.length;
     const filesToKeep = [];
     const removedFiles = [];
     
-    for (const file of data.Resources.Files) {
+    for (const file of data.Files) {
       let shouldKeep = true;
       let reason = '';
       
       // Check 1: Local file exists (when not checking remote)
       if (!CHECK_REMOTE) {
-        if (!checkLocalFile(file.id)) {
+        if (!checkLocalFile(file.filename)) {
           shouldKeep = false;
           reason = 'missing local PDF file';
         }
@@ -103,18 +103,18 @@ async function removeBadFiles() {
       if (shouldKeep) {
         filesToKeep.push(file);
       } else {
-        removedFiles.push({ id: file.id, title: file.title, reason });
+        removedFiles.push({ filename: file.filename, title: file.title, reason });
       }
     }
     
     // Update the data if we removed any files
     if (removedFiles.length > 0) {
-      data.Resources.Files = filesToKeep;
+      data.Files = filesToKeep;
       fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + '\n', 'utf8');
       
       console.log(`\n❌ ${locale}: Removed ${removedFiles.length} bad file(s):`);
       removedFiles.forEach(f => {
-        console.log(`   - ${f.id}`);
+        console.log(`   - ${f.filename}`);
         console.log(`     Title: ${f.title}`);
         console.log(`     Reason: ${f.reason}`);
       });
