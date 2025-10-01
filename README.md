@@ -177,3 +177,4 @@ Workflow recommendation:
 If an official PDF returns 404, prefer temporarily removing its entry across locales (preserving commit history) rather than leaving a broken download link in production.
 ```
 # IndexNow setup complete
+# Deployment trigger - Wed Oct  1 13:31:16 UTC 2025
