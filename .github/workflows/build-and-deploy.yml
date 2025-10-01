@@ -30,7 +30,7 @@ jobs:
           echo "Event name: ${{ github.event_name }}"
           echo "Ref: ${{ github.ref }}"
           echo "Event type: ${{ github.event.action }}"
-          
+
       - name: Checkout
         uses: actions/checkout@v4
 
