@@ -297,48 +297,7 @@ export default async function RessourcesPage({
           ))}
         </p>
       </section>
-      <div className="max-w-[1200px] mx-auto px-4 mt-6 text-sm text-muted-foreground">
-        <p>
-          {locale === "fr"
-            ? "Vous cherchez un accompagnement ? "
-            : locale === "de"
-            ? "Benötigen Sie Unterstützung? "
-            : locale === "es"
-            ? "¿Necesita apoyo? "
-            : locale === "pt"
-            ? "Precisa de apoio? "
-            : "Need support? "}
-          <a
-            className="underline hover:no-underline"
-            href={`/${locale}/services`}
-          >
-            {locale === "fr"
-              ? "consultez nos services"
-              : locale === "de"
-              ? "sehen Sie sich unsere Dienstleistungen an"
-              : locale === "es"
-              ? "consulte nuestros servicios"
-              : locale === "pt"
-              ? "consulte os nossos serviços"
-              : "see our services"}
-          </a>
-          {" · "}
-          <a
-            className="underline hover:no-underline"
-            href={`/${locale}/contact`}
-          >
-            {locale === "fr"
-              ? "contactez-nous"
-              : locale === "de"
-              ? "kontaktieren Sie uns"
-              : locale === "es"
-              ? "contáctenos"
-              : locale === "pt"
-              ? "contacte-nos"
-              : "contact us"}
-          </a>
-        </p>
-      </div>
+
       <section id="files" className="mb-16">
         <h2 className="text-2xl font-semibold mb-6">
           {ressources.FilesTitle || "Files"}

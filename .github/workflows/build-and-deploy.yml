@@ -14,6 +14,8 @@ on:
       - "package-lock.json"
       - "scripts/**"
   workflow_dispatch:
+  repository_dispatch:
+    types: [ai-content-updated]
 
 concurrency:
   group: production-deploy
