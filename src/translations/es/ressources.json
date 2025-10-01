@@ -131,6 +131,13 @@
       "description": "Análisis de las diferencias salariales entre directivos y empleados en Suiza para el año 2025, con datos, tendencias y recomendaciones oficiales del sindicato Unia.",
       "date": "2025-09-17",
       "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
+    },
+    {
+      "filename": "Changements_TVA_2025.pdf",
+      "title": "Cambios del IVA en Suiza en 2025: guía práctica para pymes y autónomos",
+      "description": "Este dossier resume las principales novedades sobre el IVA en Suiza a partir del 1 de enero de 2025: obligación del portal en línea, nuevos tipos impositivos, implicaciones para plataformas, condiciones de declaración, especificidades para proveedores extranjeros, etc. Útil para anticipar tus obligaciones fiscales del cuarto trimestre de 2025 y organizar la transición a 2026.",
+      "date": "2025-10-01",
+      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
     }
   ],
   "Articles": [
@@ -387,6 +394,24 @@
           "url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
         }
       ]
+    },
+    {
+      "slug": "preparer-pme-independants-tva-2026",
+      "title": "IVA 2025-2026: cómo anticipar la reforma para pymes y autónomos en Ginebra",
+      "description": "Anticípate a la revisión del IVA 2025 en Suiza con esta guía práctica dirigida a empresas ginebrinas y sus obligaciones para 2026: puntos clave, herramientas, planificación y soluciones concretas.",
+      "content": "La revisión del IVA que entró en vigor el 1 de enero de 2025 transforma el panorama fiscal suizo. Nuevas obligaciones de declaración en línea, generalización del portal de la AFC, cambios de tipos (especialmente para ciertos bienes como productos de higiene), mayor sujeción de las plataformas en línea y clarificación del tratamiento de subvenciones son realidades a las que cualquier empresa ginebrina, pyme o autónomo, debe prepararse hoy para garantizar el cumplimiento en 2025 y 2026.\n\n## 1. Obligación de declaración en línea\nDesde el 1.1.2025, los sujetos pasivos ya no pueden presentar la declaración en papel. La AFC exige el uso del portal web (Swiss Tax Portal), con solo raras excepciones específicas (grupos de IVA, tipos especiales, etc.). Por tanto, es imprescindible anticipar la digitalización de tus procesos administrativos: auditoría de herramientas internas, formación del personal, elección de la interfaz «IVA pro» o «easy», controles de acceso, gestión por representantes externos, etc.\n\n## 2. Nuevos umbrales y modalidades de declaración\nLa declaración anual está disponible en determinados casos para empresas cuyo volumen de negocio no supere los CHF 5.005.000. En Ginebra, donde abunda el tejido de pymes/autónomos, este cambio implica una simplificación de la gestión… siempre que la organización y los sistemas estén adaptados. Las asesorías fiscales pueden acompañarte en esta decisión estratégica y en la configuración correspondiente (Odoo, Winbiz, etc.).\n\n## 3. Tipos específicos y sectores afectados\nDesde 2025, algunos bienes se benefician de tipos reducidos, como por ejemplo los productos de higiene menstrual (del 8,1% al 2,6%). Conocer la evolución sectorial del IVA es esencial para prevenir litigios durante inspecciones y anticipar la adaptación del software de gestión.\n\n## 4. Plataformas y comercio electrónico transfronterizo\nLa obligación de declaración para plataformas de venta online (también para vendedores extranjeros si la oferta está destinada a Suiza) exige revisar la estructura logística, comercial y contable para evitar omisiones declarativas. En Ginebra, centro del import-export digital, conviene prestar especial atención. Nuestros expertos pueden realizar un diagnóstico para garantizar la correcta referencia del IVA en tus plataformas de e-commerce, sea en Odoo u otros ERP.\n\n## 5. Subvenciones y contratos públicos\nLa modificación del tratamiento del IVA sobre las subvenciones alivia a muchas entidades ginebrinas del sector público, salud, social o movilidad. Los flujos deben reclasificarse con precisión; una auditoría experta es muy recomendable para optimizar la fiscalidad de la organización.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-01",
+      "references": [
+        {
+          "labelKey": "Administration fédérale TVA",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
+        },
+        {
+          "labelKey": "Changements TVA 2025",
+          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -439,5 +464,7 @@
   "TVA Réforme 2025 AFC": "Reforma del IVA 2025 AFC",
   "TVA Mémo pratique Genève": "Memorando práctico IVA Ginebra",
   "Accord télétravail Suisse France 2025": "Acuerdo de teletrabajo Suiza–Francia 2025",
-  "Guide télétravail OFAS 2025": "Guía OFAS 2025 sobre teletrabajo transfronterizo"
+  "Guide télétravail OFAS 2025": "Guía OFAS 2025 sobre teletrabajo transfronterizo",
+  "Administration fédérale TVA": "Administración Federal del IVA",
+  "Changements TVA 2025": "Cambios IVA 2025"
 }

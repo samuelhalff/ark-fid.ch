@@ -131,6 +131,13 @@
       "description": "Analyse der Lohnunterschiede zwischen Führungskräften und Mitarbeitenden in der Schweiz für das Jahr 2025, mit Daten, Trends und offiziellen Empfehlungen der Gewerkschaft Unia.",
       "date": "2025-09-17",
       "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
+    },
+    {
+      "filename": "Changements_TVA_2025.pdf",
+      "title": "Mehrwertsteueränderungen in der Schweiz 2025: praxisleitfaden für KMU und Selbständige",
+      "description": "Diese Datei fasst die wichtigsten Neuerungen zur Mehrwertsteuer in der Schweiz ab dem 1. Januar 2025 zusammen: Pflicht zum Online-Portal, neue Steuersätze, Auswirkungen auf Plattformen, Abrechnungsbedingungen, Besonderheiten für ausländische Dienstleister usw. Nützlich zur rechtzeitigen Vorbereitung auf Ihre Steuerpflichten für Q4 2025 und zur Organisation des Übergangs 2026.",
+      "date": "2025-10-01",
+      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
     }
   ],
   "Articles": [
@@ -387,6 +394,24 @@
           "url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
         }
       ]
+    },
+    {
+      "slug": "preparer-pme-independants-tva-2026",
+      "title": "Mehrwertsteuer 2025-2026: wie sich KMU und Selbständige in Genf auf die Reform vorbereiten",
+      "description": "Bereiten Sie sich mit diesem praxisleitfaden speziell für Genfer Unternehmen und deren Pflichten für 2026 gelassen auf die Mehrwertsteuerrevision 2025 in der Schweiz vor: schlüsselthemen, Werkzeuge, Zeitplan und konkrete Lösungen.",
+      "content": "Die zum 1. Januar 2025 in Kraft getretene Mehrwertsteuerrevision verändert die Schweizer Steuerlandschaft grundlegend. Neue Pflichten zur Online-Abrechnung, die Allgemeinverpflichtung zum Portal der ESTV, Änderungen der Steuersätze (insbesondere für bestimmte Waren wie Hygieneprodukte), verstärkte Steuerpflicht von Online-Plattformen und die Klärung der Subventionsbehandlung – all das sind Realitäten, auf die sich jedes Genfer Unternehmen, KMU oder Selbständige vorbereiten muss, um die Compliance 2025 und 2026 sicherzustellen.\n\n## 1. Pflicht zur Online-Abrechnung\nSeit dem 1.1.2025 ist die Papierabrechnung für Steuerpflichtige nicht mehr zulässig. Die ESTV verlangt die Nutzung des Webportals (Swiss Tax Portal), mit wenigen spezifischen Ausnahmen (MWST-Gruppen, Sondersätze etc.). Daher ist die frühzeitige Digitalisierung Ihrer Verwaltungsprozesse unerlässlich: Prüfung interner Tools, Schulung des Personals, Wahl der Oberfläche „MWST pro“ oder „easy“, Zugangskontrollen, ggf. Verwaltung durch externe Mandatsträger…\n\n## 2. Neue Schwellenwerte und Abrechnungsmethoden\nDie Jahresabrechnung steht in bestimmten Fällen Unternehmen mit einem Umsatz bis CHF 5'005'000 offen. Gerade Genf verfügt über ein dichtes Netz an KMU/Selbständigen, für die diese Änderung eine Verwaltungsvereinfachung bedeutet – vorausgesetzt, Organisation und Systeme passen. Treuhandbüros können Sie bei dieser strategischen Wahl und der technischen Umsetzung in Ihren Tools (Odoo, Winbiz etc.) unterstützen.\n\n## 3. Spezielle Sätze und betroffene Branchen\nFür einige Güter gelten seit 2025 reduzierte Sätze, z. B. Menstruationshygieneprodukte (von 8,1 % auf 2,6 %). Die Kenntnis der branchenspezifischen MwSt.-Entwicklungen ist entscheidend, um Streitigkeiten bei Kontrollen zu vermeiden und rechtzeitig Softwareanpassungen vorzunehmen.\n\n## 4. Plattformen und grenzüberschreitender Online-Handel\nDie Deklarationspflicht für Online-Verkaufsplattformen (auch für ausländische Verkäufer, wenn das Angebot auf die Schweiz zielt) zwingt dazu, logistische, kaufmännische und buchhalterische Abläufe neu zu strukturieren, um Meldeversäumnisse zu vermeiden. In Genf, einem Zentrum für digitalen Import/Export, ist besondere Wachsamkeit geboten. Unsere Experten führen gerne einen Check durch, um die MwSt.-Referenzierung Ihrer E-Commerce-Plattformen (Odoo oder andere ERP) abzusichern.\n\n## 5. Subventionen und öffentliche Aufträge\nDie Änderung der MwSt.-Behandlung bei Subventionen entlastet viele Genfer Akteure im öffentlichen, Gesundheits-, Sozial- oder Mobilitätsbereich. Diese finanzströme sind exakt neu zu klassifizieren – ein Expertenaudit wird dringend empfohlen, um die steuerliche Optimierung Ihrer Organisation sicherzustellen.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-01",
+      "references": [
+        {
+          "labelKey": "Administration fédérale TVA",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
+        },
+        {
+          "labelKey": "Changements TVA 2025",
+          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -439,5 +464,7 @@
   "TVA Réforme 2025 AFC": "Mehrwertsteuerreform 2025 ESTV",
   "TVA Mémo pratique Genève": "MWST-Praxisleitfaden Genf",
   "Accord télétravail Suisse France 2025": "Homeoffice-Abkommen Schweiz–Frankreich 2025",
-  "Guide télétravail OFAS 2025": "OFAS-Leitfaden 2025 Homeoffice"
+  "Guide télétravail OFAS 2025": "OFAS-Leitfaden 2025 Homeoffice",
+  "Administration fédérale TVA": "Eidgenössische Steuerverwaltung MwSt.",
+  "Changements TVA 2025": "Mehrwertsteueränderungen 2025"
 }

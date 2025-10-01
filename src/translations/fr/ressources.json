@@ -131,6 +131,13 @@
       "description": "Analyse des écarts salariaux entre dirigeants et employés en Suisse pour l'année 2025, incluant données, tendances et recommandations officielles du syndicat Unia.",
       "date": "2025-09-17",
       "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
+    },
+    {
+      "filename": "Changements_TVA_2025.pdf",
+      "title": "Modifications de la TVA en Suisse en 2025 : guide pratique pour PME et indépendants",
+      "description": "Ce dossier synthétise les principales nouveautés concernant la TVA en Suisse dès le 1er janvier 2025 : obligation du portail en ligne, nouveaux taux, implications pour les plateformes, conditions de décompte, spécificités pour prestataires étrangers, etc. Utile pour anticiper vos obligations fiscales Q4 2025 et organiser la transition 2026.",
+      "date": "2025-10-01",
+      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
     }
   ],
   "Articles": [
@@ -387,6 +394,24 @@
           "url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
         }
       ]
+    },
+    {
+      "slug": "preparer-pme-independants-tva-2026",
+      "title": "TVA 2025-2026 : comment anticiper la réforme pour les PME et les indépendants à Genève",
+      "description": "Anticipez sereinement la révision de la TVA 2025 en Suisse avec ce guide pratique dédié aux entreprises genevoises et à leurs obligations pour 2026 : points clés, outils, planning et solutions concrètes.",
+      "content": "La révision de la TVA entrée en vigueur au 1er janvier 2025 bouleverse le paysage fiscal suisse. De nouvelles obligations de décompte en ligne, la généralisation du portail de l’AFC, l’évolution des taux (notamment pour certains biens comme les produits d’hygiène), l’assujettissement accru des plateformes en ligne et la clarification du traitement des subventions sont des réalités auxquelles toute entreprise genevoise, PME ou indépendant doit se préparer aujourd’hui pour sécuriser sa conformité en 2025 et 2026.\n\n## 1. L’obligation du décompte en ligne\nDepuis le 1.1.2025, les assujettis n’ont plus droit au décompte papier. L’AFC impose l’utilisation du portail web (Swiss Tax Portal), sauf rares exceptions spécifiques (groupes de TVA, taux spéciaux, etc.). En conséquence, il est impératif d’anticiper la digitalisation de votre process administratif : audit des outils internes, formation du personnel, choix de l’interface « TVA pro » ou « easy », contrôles d’accès, gestion possible par des mandataires externes…\n\n## 2. Nouveaux seuils et modalités de décompte\nLes modalités de décompte annuel s’ouvrent dans certains cas aux entreprises dont le chiffre d’affaires ne dépasse pas CHF 5'005'000. Concrètement, Genève regroupe un tissu dense de PME/indépendants pour qui ce changement signifie une simplification de gestion… pour autant que leur organisation et leurs systèmes soient adaptés. Les cabinets fiduciaires peuvent vous accompagner dans ce choix stratégique et la configuration correspondante dans vos outils (Odoo, Winbiz, etc.).\n\n## 3. Taux spécifiques et secteurs concernés\nCertains biens font l’objet de taux réduits depuis 2025 : produits d’hygiène menstruelle par exemple (de 8.1% à 2.6%). Connaître l’évolution sectorielle de la TVA est indispensable pour prévenir les litiges lors des contrôles et anticiper l’adaptation des paramétrages logiciels.\n\n## 4. Plateformes et commerce transfrontalier en ligne\nL’obligation de déclaration pour les plateformes de vente en ligne (y compris pour les vendeurs étrangers si l’offre est destinée à la Suisse) oblige à revoir la structuration des circuits logistiques, commerciaux et comptables pour éviter toute carence déclarative. À Genève, pôle d’import-export numérique, la vigilance est de mise. Nos experts peuvent réaliser un diagnostic pour fiabiliser vos référencements de TVA sur vos plateformes e-commerce, que ce soit sous Odoo ou autres ERP.\n\n## 5. Subventions et marchés publics\nLa modification du traitement TVA des subventions soulage de nombreuses entités genevoises œuvrant dans le parapublic, la santé, le social ou la mobilité. Les flux doivent être précisément requalifiés – un audit expert est chaudement recommandé pour optimiser la fiscalité de votre structure.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-01",
+      "references": [
+        {
+          "labelKey": "Administration fédérale TVA",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
+        },
+        {
+          "labelKey": "Changements TVA 2025",
+          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -432,5 +457,6 @@
   "TVA Réforme 2025": "L'essentiel de la réforme TVA 2025 et conséquences pratiques",
   "Écarts salariaux 2025": "Données récentes sur les variations salariales en Suisse romande",
   "Accord télétravail Suisse France 2025": "Accord Suisse–France sur le télétravail transfrontalier (2025)",
-  "Guide télétravail OFAS 2025": "Guide OFAS 2025 sur le télétravail transfrontalier"
+  "Guide télétravail OFAS 2025": "Guide OFAS 2025 sur le télétravail transfrontalier",
+  "Fiscalité TVA": "Fiscalité, TVA et actualités fiscales récentes"
 }

@@ -131,6 +131,13 @@
       "description": "Analysis of wage gaps between executives and employees in Switzerland for the year 2025, including data, trends, and official recommendations from the Unia union.",
       "date": "2025-09-17",
       "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
+    },
+    {
+      "filename": "Changements_TVA_2025.pdf",
+      "title": "Swiss VAT changes in 2025: practical guide for SMEs and sole traders",
+      "description": "This file summarizes the main new features regarding VAT in Switzerland as of January 1, 2025: mandatory online portal, new rates, implications for platforms, accounting requirements, specifics for foreign service providers, etc. Useful for anticipating your Q4 2025 tax obligations and organizing the 2026 transition.",
+      "date": "2025-10-01",
+      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
     }
   ],
   "Articles": [
@@ -387,6 +394,24 @@
           "url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
         }
       ]
+    },
+    {
+      "slug": "preparer-pme-independants-tva-2026",
+      "title": "VAT 2025-2026: how SMEs and sole traders in Geneva can anticipate the reform",
+      "description": "Calmly prepare for the 2025 VAT revision in Switzerland with this practical guide for Geneva businesses and their 2026 obligations: key points, tools, timeline and concrete solutions.",
+      "content": "The VAT revision that came into effect on January 1, 2025, is shaking up the Swiss tax landscape. New online accounting obligations, the widespread use of the FTA portal, rate changes (notably for certain goods such as hygiene products), increased liability for online platforms, and clarifications regarding subsidies are realities every Geneva business, SME or sole trader must anticipate to secure compliance in 2025 and 2026.\n\n## 1. Mandatory online accounting\nSince 1.1.2025, paper VAT returns are no longer accepted. The FTA requires the use of the web portal (Swiss Tax Portal), with only rare specific exceptions (VAT groups, special rates, etc.). It is therefore essential to prepare for the digitization of your administrative processes: auditing internal tools, staff training, choosing between the “VAT pro” or “VAT easy” interface, access controls, possible management by external agents…\n\n## 2. New thresholds and accounting methods\nAnnual accounting is now available in some cases for companies whose turnover does not exceed CHF 5,005,000. In practice, Geneva is home to a dense network of SMEs/sole traders for whom this means simplified management… provided their organisation and systems are adapted. Fiduciary firms can support you with this strategic choice and the corresponding configuration of your tools (Odoo, Winbiz, etc.).\n\n## 3. Specific rates and affected sectors\nCertain goods have been subject to reduced rates since 2025: for example, menstrual hygiene products (from 8.1% to 2.6%). Knowing sector-specific VAT developments is essential to prevent disputes during audits and to anticipate software configuration updates.\n\n## 4. Platforms and cross-border online trade\nThe declaration requirement for online sales platforms (including for foreign sellers if the offer is aimed at Switzerland) requires a reassessment of logistics, commercial and accounting circuits to avoid any reporting failures. In Geneva, a digital import-export hub, vigilance is a must. Our experts can perform a diagnostic to ensure reliable VAT referencing on your e-commerce platforms, whether you use Odoo or other ERPs.\n\n## 5. Subsidies and public tenders\nThe change in VAT treatment for subsidies relieves many Geneva entities active in the public sector, health, social or mobility. Flows must be precisely requalified – an expert audit is strongly recommended to optimize your organization's tax position.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-01",
+      "references": [
+        {
+          "labelKey": "Administration fédérale TVA",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
+        },
+        {
+          "labelKey": "Changements TVA 2025",
+          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Swiss taxes 2025 – Overview (FDF)",
@@ -466,5 +491,7 @@
   "TVA Réforme 2025 AFC": "VAT Reform 2025 FTA",
   "TVA Mémo pratique Genève": "VAT practical memo Geneva",
   "Accord télétravail Suisse France 2025": "Swiss–French telework agreement 2025",
-  "Guide télétravail OFAS 2025": "OFAS 2025 cross-border telework guide"
+  "Guide télétravail OFAS 2025": "OFAS 2025 cross-border telework guide",
+  "Administration fédérale TVA": "Federal VAT Administration",
+  "Changements TVA 2025": "VAT Changes 2025"
 }
