@@ -165,14 +165,19 @@ export default async function ArticlePage({ params }: Params) {
     },
     datePublished: article.date,
     url: articleUrl,
-    mainEntityOfPage: articleUrl,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": articleUrl,
+    },
     inLanguage: locale,
     publisher: {
       "@type": "Organization",
-      name: "Ark Fiduciaire",
+      name: "Ark Fiduciaire SA",
       logo: {
         "@type": "ImageObject",
         url: `${baseUrl}/assets/arkfid--color.svg`,
+        width: 512,
+        height: 512,
       },
       url: baseUrl,
       sameAs: [
@@ -182,7 +187,23 @@ export default async function ArticlePage({ params }: Params) {
     },
     ...(article.updated ? { dateModified: article.updated } : {}),
     ...(reading ? { timeRequired: reading.timeRequiredISO } : {}),
-    ...(imageUrl ? { image: imageUrl } : {}),
+    ...(imageUrl ? { 
+      image: {
+        "@type": "ImageObject",
+        url: imageUrl,
+      }
+    } : {}),
+    about: [
+      {
+        "@type": "Thing",
+        name: locale === "fr" ? "Fiscalité Suisse" : locale === "de" ? "Schweizer Steuerwesen" : locale === "es" ? "Fiscalidad Suiza" : locale === "pt" ? "Fiscalidade Suíça" : "Swiss Taxation",
+      },
+      {
+        "@type": "Thing",
+        name: locale === "fr" ? "Comptabilité" : locale === "de" ? "Buchhaltung" : locale === "es" ? "Contabilidad" : locale === "pt" ? "Contabilidade" : "Accounting",
+      },
+    ],
+    articleSection: locale === "fr" ? "Ressources fiscales" : locale === "de" ? "Steuerliche Ressourcen" : locale === "es" ? "Recursos fiscales" : locale === "pt" ? "Recursos fiscais" : "Tax Resources",
   } as const;
 
   return (
