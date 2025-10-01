@@ -69,12 +69,16 @@ jobs:
           echo "✅ Verification complete. Proceeding with deployment..."
 
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore(ressources): every 2 days AI update (1 file + 1 article)"
-          file_pattern: |
-            src/translations/**/ressources.json
-            public/assets/downloads/**
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add src/translations/**/ressources.json public/assets/downloads/** || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore(ressources): every 2 days AI update (1 file + 1 article)" --author="samuelhalff <660062+samuelhalff@users.noreply.github.com>"
+            git push
+          fi
 
       - name: Ping sitemaps
         run: |
