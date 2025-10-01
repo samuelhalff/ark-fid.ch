@@ -14,6 +14,7 @@ import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/src/lib/utils";
+import { MessageIcon } from "@/src/components/icons/MessageIcon";
 // no usePathname needed; compute pathname from window when required
 
 const MobileMenuToggleIcon = ({
@@ -164,10 +165,11 @@ const MobileMenu = ({
                 onClick={handleLinkClick}
                 prefetch={false}
                 locale={locale}
-                className="block w-full text-center font-semibold text-lg py-3 rounded-xl border border-accent bg-transparent hover:bg-accent/30 active:scale-[0.99] transition-all"
+                className="flex items-center justify-center gap-2 w-full text-center font-semibold text-lg py-3 rounded-xl border border-accent bg-transparent hover:bg-accent/30 active:scale-[0.99] transition-all"
                 style={{ letterSpacing: 0.5 }}
               >
-                {navData.labels.contact}
+                <MessageIcon size={20} className="opacity-80" />
+                <span>{navData.labels.contact}</span>
               </Link>
             </div>
             <div>
