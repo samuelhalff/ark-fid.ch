@@ -148,8 +148,8 @@ jobs:
             echo "[deploy] Extract and symlink done" >> "$LOG"
           '
 
-      # --- Step 2: Restart via script ---
-      - name: Restart server (via ssh script)
+      # --- Step 2: Upload & run start-server.sh ---
+      - name: Upload and restart via start-server.sh
         run: |
           set -euo pipefail
           sudo apt-get install -y sshpass
@@ -157,9 +157,17 @@ jobs:
           USER="${{ secrets.DEPLOY_SSH_USER }}"
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
-          SSH_OPTS="-o StrictHostKeyChecking=no -p ${PORT}"
-          sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" \
-            "/srv/customer/sites/ark-fid.ch/shared/start-server.sh"
+          SSH_OPTS="-o StrictHostKeyChecking=no -P ${PORT}"
+
+          echo "[deploy] Uploading start-server.sh..."
+          sshpass -p "${PASS}" scp ${SSH_OPTS} \
+            scripts/start-server.sh \
+            "${USER}@${HOST}:/srv/customer/sites/ark-fid.ch/shared/start-server.sh"
+
+          sshpass -p "${PASS}" ssh -p "${PORT}" -o StrictHostKeyChecking=no \
+            "${USER}@${HOST}" \
+            "chmod +x /srv/customer/sites/ark-fid.ch/shared/start-server.sh && \
+             /srv/customer/sites/ark-fid.ch/shared/start-server.sh"
 
       # --- Step 3: Health Check & Warmup ---
       - name: Health check and warmup (via ssh)

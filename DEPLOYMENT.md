@@ -65,7 +65,22 @@ mkdir -p /srv/customer/sites/ark-fid.ch/{artifact,releases,shared}
 ```bash
 PORT=3000
 NODE_ENV=production
-# ... other secrets
+
+# IndexNow Configuration (required for /api/indexnow/reindex)
+INDEXNOW_KEY=ebd95385d7154f45ba37d076b4efd008
+INDEXNOW_SECRET=<match-github-actions-secret>
+NEXT_PUBLIC_SITE_URL=https://ark-fid.ch
+
+# Other secrets (GA, Azure, etc.)
+# ...
+```
+
+⚠️ **Critical:** `.env` files are **not deployed** by CI. Must be manually created on server and symlinked during deployment.
+
+**Permissions:**
+
+```bash
+chmod 600 /srv/customer/sites/ark-fid.ch/shared/.env
 ```
 
 ### 3. Start Script
@@ -205,3 +220,8 @@ shared/start-server.sh
 
 **"Build cache miss"**  
 → GitHub Actions cache key tied to `package-lock.json` hash
+
+**"IndexNow 403: User is unauthorized to access the site"**  
+→ `INDEXNOW_KEY` not set in `/shared/.env` on production server  
+→ See detailed guide: `docs/indexnow-troubleshooting.md`  
+→ Verify key file accessible: `curl https://ark-fid.ch/<INDEXNOW_KEY>.txt`

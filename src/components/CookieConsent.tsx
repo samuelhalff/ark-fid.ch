@@ -47,7 +47,7 @@ function setConsent(value: "accepted" | "declined") {
   try {
     document.cookie = `${CONSENT_KEY}=${value}; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
   } catch {}
-  
+
   // Try localStorage as primary storage
   try {
     localStorage.setItem(CONSENT_KEY, value);

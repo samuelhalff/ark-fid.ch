@@ -16,8 +16,20 @@ function getConsent(): "accepted" | "declined" | null {
   try {
     const v = localStorage.getItem(CONSENT_KEY);
     if (v === "accepted" || v === "declined") return v;
-  } catch {}
-  return null;
+    return null;
+  } catch (e) {
+    // localStorage unavailable - check cookie fallback
+    try {
+      const cookieMatch = document.cookie.match(
+        new RegExp(`(?:^|; )${CONSENT_KEY}=([^;]*)`)
+      );
+      if (cookieMatch) {
+        const val = cookieMatch[1];
+        if (val === "accepted" || val === "declined") return val;
+      }
+    } catch {}
+    return null;
+  }
 }
 
 export default function ConsentAnalytics({ gaId }: { gaId: string }) {

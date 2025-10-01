@@ -1,31 +1,35 @@
 export async function submitToIndexNow(urls: string[]) {
-  const key = process.env.INDEXNOW_KEY;
-  const host = process.env.NEXT_PUBLIC_SITE_URL || 'https://ark-fid.ch';
-  if (!key) throw new Error('INDEXNOW_KEY not configured');
+  // Hardcoded for simplicity - this is public info anyway
+  const key = 'ebd95385d7154f45ba37d076b4efd008';
+  const host = 'https://ark-fid.ch';
+  
   const endpoint = 'https://api.indexnow.org/indexnow';
+  const hostDomain = 'ark-fid.ch';
+  const keyLocation = `${host}/${key}.txt`;
+  
   const payload = {
-    host: new URL(host).host,
+    host: hostDomain,
     key,
-    keyLocation: `${host.replace(/\/$/, '')}/${key}.txt`,
+    keyLocation,
     urlList: urls,
   };
   
   // Debug logging
-  console.log('[IndexNow] Payload:', JSON.stringify({
-    ...payload,
-    urlList: payload.urlList.slice(0, 3).concat(payload.urlList.length > 3 ? ['...'] : [])
-  }, null, 2));
+  console.log('[IndexNow] Submitting', urls.length, 'URLs to IndexNow');
   
   const res = await fetch(endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
-    // avoid caching
     cache: 'no-store',
   });
+  
   if (!res.ok) {
     const text = await res.text().catch(() => '');
+    console.error('[IndexNow] Failed:', res.status, text);
     throw new Error(`IndexNow failed: ${res.status} ${text}`);
   }
+  
+  console.log('[IndexNow] ✓ Success:', urls.length, 'URLs submitted');
   return true;
 }
