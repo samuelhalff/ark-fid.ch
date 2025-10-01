@@ -45,14 +45,17 @@ jobs:
           done
 
       - name: Verify ressources links (local files only)
+        id: check-local
         run: |
           node scripts/check-ressources-links.js --all-locales
 
       - name: Verify ressources remote sources (HTTP)
+        id: check-remote
         run: |
           node scripts/check-ressources-links.js --all-locales --remote
 
       - name: Commit and push changes
+        if: success()
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(ressources): every 2 days AI update (1 file + 1 article)"
@@ -61,15 +64,26 @@ jobs:
             public/assets/downloads/**
 
       - name: Ping sitemaps
+        if: success()
         run: |
           node scripts/ping-sitemaps.js
 
       # Build a standalone bundle so it can be deployed to the server
       - name: Install deps for build (with dev)
+        if: success()
         run: npm i
 
       - name: Trigger deployment workflow
+        if: success()
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           event-type: ai-content-updated
+
+      - name: Notify on validation failure
+        if: failure()
+        run: |
+          echo "::error::AI-generated content validation failed! Check logs for details."
+          echo "::error::Possible causes: 404 URLs, missing PDFs, or unreachable references."
+          echo "::error::Content was NOT deployed to prevent 404s on the website."
+          exit 1
