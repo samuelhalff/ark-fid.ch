@@ -222,15 +222,14 @@ export default async function RootLayout({
           <ErrorBoundary>
             <div className="pt-3 abstract-background text-foreground pt-15 mt-10">
               {children}
-              {/* Cookie Consent banner and GA4 loader (loads GA only after acceptance) */}
+              {/* Cookie Consent banner - must render immediately for GDPR compliance */}
+              <CookieConsent
+                nonce={nonce}
+                locale={currentLocale}
+                labels={cookieLabels}
+              />
+              {/* Render Vercel Analytics only when user accepted cookies - can be deferred */}
               <Defer rootMargin="0px" idle={200} placeholder={null}>
-                {/* Client-only widgets mounted after first paint */}
-                <CookieConsent
-                  nonce={nonce}
-                  locale={currentLocale}
-                  labels={cookieLabels}
-                />
-                {/* Render Vercel Analytics only when user accepted cookies */}
                 <ConsentAnalytics gaId={gaId} />
               </Defer>
             </div>

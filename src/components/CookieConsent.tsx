@@ -24,17 +24,36 @@ function getStoredConsent(): "accepted" | "declined" | null {
   try {
     const v = localStorage.getItem(CONSENT_KEY);
     if (v === "accepted" || v === "declined") return v;
-  } catch {}
-  return null;
+    return null;
+  } catch (e) {
+    // localStorage unavailable (private browsing, etc.)
+    // Fallback: check cookie
+    try {
+      const cookieMatch = document.cookie.match(
+        new RegExp(`(?:^|; )${CONSENT_KEY}=([^;]*)`)
+      );
+      if (cookieMatch) {
+        const val = cookieMatch[1];
+        if (val === "accepted" || val === "declined") return val;
+      }
+    } catch {}
+    return null;
+  }
 }
 
 function setConsent(value: "accepted" | "declined") {
+  // Set cookie first (always works)
+  const maxAge = 60 * 60 * 24 * 365; // 365 days
   try {
-    localStorage.setItem(CONSENT_KEY, value);
-    // Also set a cookie for 365 days so SSR or edge can read it if needed later
-    const maxAge = 60 * 60 * 24 * 365;
     document.cookie = `${CONSENT_KEY}=${value}; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
   } catch {}
+  
+  // Try localStorage as primary storage
+  try {
+    localStorage.setItem(CONSENT_KEY, value);
+  } catch {
+    // localStorage blocked (private browsing mode) - cookie fallback is already set
+  }
 }
 
 export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
