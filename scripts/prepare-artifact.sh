@@ -94,3 +94,6 @@ done
 shopt -u nullglob
 
 echo "Prepared deployable artifact in $DIST_DIR"
+du -sh "$DIST_DIR"
+find "$DIST_DIR" -maxdepth 2 -type d -print
+
