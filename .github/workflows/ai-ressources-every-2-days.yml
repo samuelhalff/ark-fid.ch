@@ -37,6 +37,13 @@ jobs:
         run: |
           node scripts/ai-ressources-update.js --apply
 
+      - name: Download missing PDFs
+        run: |
+          for locale in fr en de es pt; do
+            echo "Downloading missing PDFs for $locale..."
+            node scripts/download-missing-pdfs.js --locale $locale
+          done
+
       - name: Verify ressources links (local files only)
         run: |
           node scripts/check-ressources-links.js --all-locales
