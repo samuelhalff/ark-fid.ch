@@ -252,13 +252,32 @@ function buildSystemPrompt(frJson) {
   // Small helper sentence reused in instructions.
   const recencyInstruction = `Ne proposer que des contenus (PDF ou thèmes d'article) publiés ou mis à jour dans les 6 derniers mois (>= ${isoSixMonthsAgo}) et <= ${isoToday}. Si aucune ressource PDF réellement pertinente ET dans cette fenêtre n'est trouvée, mets newFile.source_url: null.`;
 
+  // Domain diversity analysis
+  const recentFiles = (frJson.Files || []).slice(-20);
+  const domainCounts = new Map();
+  recentFiles.forEach(file => {
+    if (!file.source_url) return;
+    try {
+      const domain = new URL(file.source_url).hostname.replace('www.', '');
+      domainCounts.set(domain, (domainCounts.get(domain) || 0) + 1);
+    } catch {}
+  });
+  const overusedDomains = Array.from(domainCounts.entries())
+    .filter(([_, count]) => count >= 3)
+    .map(([domain]) => domain);
+
+  const diversityGuidance = overusedDomains.length > 0 
+    ? `\n🔄 DIVERSITÉ DES SOURCES: Ces domaines sont surreprésentés: ${overusedDomains.join(', ')}.\nPrivilégie d'autres sources officielles: ch.ch, ge.ch, vd.ch, vs.ch, fedlex.admin.ch, espace-emploi.ch, odoo.com, swiss-gaap-fer.ch, expertsuisse.ch, kmu.admin.ch.`
+    : '';
+
   return [
     "Tu es un assistant éditorial spécialisé en SEO pour la Suisse (Genève, Suisse romande).",
     "Objectif: proposer EXACTEMENT 1 nouveau fichier téléchargeable (Files) et 1 nouvel article (Articles) en français, pertinents pour des prospects de nos services.",
     "Un outil de recherche web est disponible, UTILISE-LE pour vérifier l'existence réelle des PDFs et des références avant de décider des URLs. Ne renvoie JAMAIS d'URL inventée ou spéculative.",
     `Date actuelle: ${isoToday}.`,
     recencyInstruction,
-    "Privilégier les sujets fiscalité/TVA/paie/entreprise ayant une utilité immédiate ou impact Q3–Q4 2025 et préparation 2026, tant qu'ils respectent la contrainte de fraîcheur.",
+    "Privilégier NOUVEAUTÉS 2025-2026 sur: salaires et paie (swissdec 5.0, cotisations LPP/LAA/AC 2025-2026, barèmes cantonaux Genève/Vaud), fiscalité (TVA, impôts 2025-2026), comptabilité (Swiss GAAP FER nouvelles normes), corporate (gouvernance, AG 2025), Odoo (versions 17/18, nouvelles fonctionnalités).",
+    diversityGuidance,
     "Si aucune ressource PDF existante pertinente n'est trouvée, mets newFile.source_url à null et indique un filename plausible (nous l'ajouterons plus tard).",
     "Contraintes de qualité et SEO (IMPÉRATIVES):",
     "- Ne pas modifier, renommer ni supprimer les entrées existantes. Ajouter seulement 2 nouvelles entrées (1 File, 1 Article).",
@@ -478,11 +497,33 @@ async function main() {
       } catch (e) {
         const msg = String(e.message || e);
         if (/filename already exists|slug already exists/i.test(msg) && attempt < attempts) {
-          console.warn(`Duplicate detected (${msg}). Regenerating with explicit exclusion list...`);
-          // Augment prompt with explicit exclusions and a requirement to pick something else.
-          prompt = basePrompt + "\nIMPORTANT: N'utilise aucun des filenames suivants: " + Array.from(existingFileNames).join(", ") +
-            "\nIMPORTANT: N'utilise aucun des slugs suivants: " + Array.from(existingSlugs).join(", ") +
-            "\nSi le PDF le plus pertinent est déjà présent, cherche un AUTRE PDF réel distinct (ou mets source_url:null).";
+          console.warn(`Duplicate detected (${msg}). Regenerating with targeted guidance...`);
+          
+          // Instead of listing ALL exclusions, provide positive guidance + recent exclusions only
+          const recentFilenames = Array.from(existingFileNames).slice(-8);
+          const recentSlugs = Array.from(existingSlugs).slice(-8);
+          const recentTopics = recentFilenames.map(fn => 
+            fn.replace(/\.pdf$/i, '').replace(/[-_]/g, ' ')
+          ).join(', ');
+          
+          prompt = basePrompt + 
+            `\n\n⚠️ TENTATIVE ${attempt + 1}/${attempts}: Le contenu précédent était un DOUBLON.\n` +
+            `Les 8 fichiers les plus récents sont: ${recentFilenames.join(', ')}\n` +
+            `Les 8 slugs les plus récents sont: ${recentSlugs.join(', ')}\n\n` +
+            `🎯 DIRECTIVE: Propose un sujet DIFFÉRENT de ces thèmes récents: ${recentTopics}.\n` +
+            `Axes prioritaires NON couverts récemment:\n` +
+            `- Nouveautés salaires 2025-2026 (cotisations, barèmes, swissdec 5.0)\n` +
+            `- Modifications LPP/LAA/AC pour 2025-2026\n` +
+            `- Fiscalité internationale (BEPS 2.0, échange automatique)\n` +
+            `- Outils digitaux PME (Odoo 17/18, e-government suisse)\n` +
+            `- Spécificités cantonales Vaud/Valais (si Genève surreprésenté)\n` +
+            `- Nouvelles normes Swiss GAAP FER ou comptabilité 2025\n\n` +
+            `💡 STRATÉGIE DE REPLI ACCEPTÉE:\n` +
+            `Si AUCUN PDF officiel récent et pertinent n'existe après recherche approfondie:\n` +
+            `- Mets newFile.source_url: null\n` +
+            `- Génère un filename plausible (ex: "cotisations-sociales-2026.pdf")\n` +
+            `- Compense avec un article EXCELLENT et détaillé (2000+ mots)\n` +
+            `Cette approche "article d'abord" est PRÉFÉRABLE à forcer un PDF déjà présent.`;
           continue;
         }
         throw e;
