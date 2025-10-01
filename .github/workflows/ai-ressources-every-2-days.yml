@@ -112,7 +112,7 @@ jobs:
               echo "::warning::❌ ${locale}: Failed (HTTP $STATUS)"
             fi
           done
-          
+
           echo "Checking /fr/ressources/"
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://ark-fid.ch/fr/ressources/")
           if [ "$STATUS" = "200" ]; then
