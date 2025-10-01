@@ -55,6 +55,7 @@ sshpass -p "$DEPLOY_SSH_PASSWORD" ssh -T -p "${DEPLOY_SSH_PORT:-22}" "$DEPLOY_SS
   fi
   # Kill any Node.js processes (more aggressive pattern)
   pkill -9 -f 'node.*server\.js' || true
+  killall -9 node 2>/dev/null || true
   sleep 2
   
   cd \$BASE/current

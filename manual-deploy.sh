@@ -63,6 +63,10 @@ ssh -p "${DEPLOY_SSH_PORT:-22}" \
       fi
       rm -f "$PID_FILE"
     fi
+    # Kill any orphaned Node.js processes as backup
+    pkill -9 -f 'node.*server\.js' || true
+    killall -9 node 2>/dev/null || true
+    sleep 2
     
     echo "🚀 Starting new process..."
     cd "$CURRENT_LINK"
