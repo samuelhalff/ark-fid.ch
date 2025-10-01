@@ -4,11 +4,7 @@ import ContactSection from "../components/ContactSection";
 import { generateMetadataForArticle } from "@/src/lib/metadata";
 import { headers } from "next/headers";
 import Image from "next/image";
-import {
-  getTranslations,
-  isValidLocale,
-  type Locale,
-} from "@/src/lib/i18n";
+import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 import RelatedArticles from "@/src/components/ressources/RelatedArticles";
 import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 import { estimateReadingTime } from "@/src/lib/readingTime";
@@ -16,20 +12,26 @@ import dynamicImport from "next/dynamic";
 import Defer from "@/src/components/Defer";
 
 // Force dynamic rendering to speed up build times
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
-const ShareButtons = dynamicImport(() => import("@/src/components/ui/ShareButtons"), {
-  ssr: false,
-  loading: () => null,
-});
+const ShareButtons = dynamicImport(
+  () => import("@/src/components/ui/ShareButtons"),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
 const ReadingProgress = dynamicImport(
   () => import("@/src/components/ui/reading-progress"),
   { ssr: false, loading: () => null }
 );
-const BackToTop = dynamicImport(() => import("@/src/components/ui/back-to-top"), {
-  ssr: false,
-  loading: () => null,
-});
+const BackToTop = dynamicImport(
+  () => import("@/src/components/ui/back-to-top"),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+);
 
 type Params = { params: { slug: string; locale: string } };
 
@@ -187,23 +189,52 @@ export default async function ArticlePage({ params }: Params) {
     },
     ...(article.updated ? { dateModified: article.updated } : {}),
     ...(reading ? { timeRequired: reading.timeRequiredISO } : {}),
-    ...(imageUrl ? { 
-      image: {
-        "@type": "ImageObject",
-        url: imageUrl,
-      }
-    } : {}),
+    ...(imageUrl
+      ? {
+          image: {
+            "@type": "ImageObject",
+            url: imageUrl,
+          },
+        }
+      : {}),
     about: [
       {
         "@type": "Thing",
-        name: locale === "fr" ? "Fiscalité Suisse" : locale === "de" ? "Schweizer Steuerwesen" : locale === "es" ? "Fiscalidad Suiza" : locale === "pt" ? "Fiscalidade Suíça" : "Swiss Taxation",
+        name:
+          locale === "fr"
+            ? "Fiscalité Suisse"
+            : locale === "de"
+            ? "Schweizer Steuerwesen"
+            : locale === "es"
+            ? "Fiscalidad Suiza"
+            : locale === "pt"
+            ? "Fiscalidade Suíça"
+            : "Swiss Taxation",
       },
       {
         "@type": "Thing",
-        name: locale === "fr" ? "Comptabilité" : locale === "de" ? "Buchhaltung" : locale === "es" ? "Contabilidad" : locale === "pt" ? "Contabilidade" : "Accounting",
+        name:
+          locale === "fr"
+            ? "Comptabilité"
+            : locale === "de"
+            ? "Buchhaltung"
+            : locale === "es"
+            ? "Contabilidad"
+            : locale === "pt"
+            ? "Contabilidade"
+            : "Accounting",
       },
     ],
-    articleSection: locale === "fr" ? "Ressources fiscales" : locale === "de" ? "Steuerliche Ressourcen" : locale === "es" ? "Recursos fiscales" : locale === "pt" ? "Recursos fiscais" : "Tax Resources",
+    articleSection:
+      locale === "fr"
+        ? "Ressources fiscales"
+        : locale === "de"
+        ? "Steuerliche Ressourcen"
+        : locale === "es"
+        ? "Recursos fiscales"
+        : locale === "pt"
+        ? "Recursos fiscais"
+        : "Tax Resources",
   } as const;
 
   return (
@@ -283,8 +314,7 @@ export default async function ArticlePage({ params }: Params) {
           {ressources.By} {article.author}
         </p>
         <p>
-          {ressources.Published}{" "}
-          {formatDateDeterministic(article.date, locale)}
+          {ressources.Published} {formatDateDeterministic(article.date, locale)}
         </p>
         {article.updated && (
           <p>

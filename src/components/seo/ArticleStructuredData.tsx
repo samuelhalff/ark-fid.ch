@@ -1,4 +1,4 @@
-import Script from 'next/script';
+import Script from "next/script";
 
 interface ArticleStructuredDataProps {
   title: string;
@@ -24,90 +24,88 @@ export default function ArticleStructuredData({
   locale,
 }: ArticleStructuredDataProps) {
   const organizationSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Ark Fiduciaire SA',
-    url: 'https://ark-fid.ch',
-    logo: 'https://ark-fid.ch/assets/arkfid--color.svg',
-    sameAs: [
-      'https://www.linkedin.com/company/ark-fiduciaire/',
-    ],
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Ark Fiduciaire SA",
+    url: "https://ark-fid.ch",
+    logo: "https://ark-fid.ch/assets/arkfid--color.svg",
+    sameAs: ["https://www.linkedin.com/company/ark-fiduciaire/"],
     address: {
-      '@type': 'PostalAddress',
-      streetAddress: '26 Boulevard Georges Favon',
-      addressLocality: 'Genève',
-      postalCode: '1204',
-      addressCountry: 'CH',
+      "@type": "PostalAddress",
+      streetAddress: "26 Boulevard Georges Favon",
+      addressLocality: "Genève",
+      postalCode: "1204",
+      addressCountry: "CH",
     },
     contactPoint: {
-      '@type': 'ContactPoint',
-      contactType: 'customer service',
-      email: 'info@ark-fid.ch',
-      availableLanguage: ['fr', 'en', 'de', 'es', 'pt'],
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      email: "info@ark-fid.ch",
+      availableLanguage: ["fr", "en", "de", "es", "pt"],
     },
   };
 
   const articleSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
+    "@context": "https://schema.org",
+    "@type": "Article",
     headline: title,
     description: description,
     author: {
-      '@type': authorUrl ? 'Person' : 'Organization',
+      "@type": authorUrl ? "Person" : "Organization",
       name: author,
       ...(authorUrl && { url: authorUrl }),
     },
     publisher: {
-      '@type': 'Organization',
-      name: 'Ark Fiduciaire SA',
+      "@type": "Organization",
+      name: "Ark Fiduciaire SA",
       logo: {
-        '@type': 'ImageObject',
-        url: 'https://ark-fid.ch/assets/arkfid--color.svg',
+        "@type": "ImageObject",
+        url: "https://ark-fid.ch/assets/arkfid--color.svg",
       },
     },
     datePublished: datePublished,
     dateModified: dateModified || datePublished,
     mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': url,
+      "@type": "WebPage",
+      "@id": url,
     },
     ...(image && {
       image: {
-        '@type': 'ImageObject',
+        "@type": "ImageObject",
         url: image,
       },
     }),
     inLanguage: locale,
     about: [
       {
-        '@type': 'Thing',
-        name: 'Fiscalité Suisse',
+        "@type": "Thing",
+        name: "Fiscalité Suisse",
       },
       {
-        '@type': 'Thing',
-        name: 'Comptabilité',
+        "@type": "Thing",
+        name: "Comptabilité",
       },
     ],
   };
 
   const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
     itemListElement: [
       {
-        '@type': 'ListItem',
+        "@type": "ListItem",
         position: 1,
-        name: 'Accueil',
+        name: "Accueil",
         item: `https://ark-fid.ch/${locale}/`,
       },
       {
-        '@type': 'ListItem',
+        "@type": "ListItem",
         position: 2,
-        name: 'Ressources',
+        name: "Ressources",
         item: `https://ark-fid.ch/${locale}/ressources/`,
       },
       {
-        '@type': 'ListItem',
+        "@type": "ListItem",
         position: 3,
         name: title,
         item: url,
