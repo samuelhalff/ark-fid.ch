@@ -55,8 +55,7 @@ jobs:
         run: bash scripts/prepare-artifact.sh
 
       - name: Archive artifact
-        run: |
-          tar -czf next-standalone.tar.gz -C dist .
+        run: tar -czf next-standalone.tar.gz -C dist .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -77,7 +76,7 @@ jobs:
           name: next-standalone
           path: ./artifact
 
-      - name: Prepare partial artifact name (.part)
+      - name: Prepare partial artifact
         run: cp artifact/next-standalone.tar.gz artifact/next-standalone.tar.gz.part
 
       - name: Upload release to server (rsync)
@@ -103,8 +102,8 @@ jobs:
                      "/srv/customer/sites/ark-fid.ch/releases" \
                      "/srv/customer/sites/ark-fid.ch/shared"
 
-      # --- Step 1: Extract & Symlink ---
-      - name: Remote extract and symlink (via ssh)
+      # --- Extract & Symlink ---
+      - name: Remote extract and symlink
         run: |
           set -euo pipefail
           sudo apt-get install -y sshpass
@@ -112,43 +111,38 @@ jobs:
           USER="${{ secrets.DEPLOY_SSH_USER }}"
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
-          SSH_OPTS="-o StrictHostKeyChecking=no -p ${PORT}"
-          sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" bash -lc '
+          sshpass -p "${PASS}" ssh -p "${PORT}" -o StrictHostKeyChecking=no "${USER}@${HOST}" bash -lc '
             set -euo pipefail
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
             RELEASES_DIR="$BASE_DIR/releases"
             CURRENT_LINK="$BASE_DIR/current"
             ARTIFACT="$BASE_DIR/artifact/next-standalone.tar.gz"
-            PART_ARTIFACT="$BASE_DIR/artifact/next-standalone.tar.gz.part"
+            PART="$BASE_DIR/artifact/next-standalone.tar.gz.part"
             TS=$(date +%Y%m%d%H%M%S)
             REL_DIR="$RELEASES_DIR/$TS"
-            TMP_DIR="/tmp/ark-fid-release-$TS"
+            TMP="/tmp/ark-fid-release-$TS"
             LOG="$BASE_DIR/deploy.extract.log"
 
-            mkdir -p "$RELEASES_DIR" "$TMP_DIR"
+            mkdir -p "$RELEASES_DIR" "$TMP"
 
-            if [ -f "$PART_ARTIFACT" ]; then
-              mv "$PART_ARTIFACT" "$ARTIFACT"
-            fi
+            [ -f "$PART" ] && mv "$PART" "$ARTIFACT"
+            cp "$ARTIFACT" "$TMP/artifact.tar.gz"
 
-            cp "$ARTIFACT" "$TMP_DIR/artifact.tar.gz"
-
-            gzip -cd "$TMP_DIR/artifact.tar.gz" > "$TMP_DIR/.payload.tar"
-            tar -xf "$TMP_DIR/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP_DIR"
-            rm -f "$TMP_DIR/.payload.tar"
+            gzip -cd "$TMP/artifact.tar.gz" > "$TMP/.payload.tar"
+            tar -xf "$TMP/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP"
+            rm -f "$TMP/.payload.tar"
 
             for f in server.js .next/BUILD_ID .next/static; do
-              [ -e "$TMP_DIR/$f" ] || { echo "[deploy] Missing required: $f" >> "$LOG"; exit 1; }
+              [ -e "$TMP/$f" ] || { echo "[deploy] Missing required: $f" >> "$LOG"; exit 1; }
             done
 
-            mv "$TMP_DIR" "$REL_DIR" || { cp -r "$TMP_DIR"/* "$REL_DIR"/ && rm -rf "$TMP_DIR"; }
+            mv "$TMP" "$REL_DIR" || { cp -r "$TMP"/* "$REL_DIR"/ && rm -rf "$TMP"; }
             ln -sfn "$REL_DIR" "$CURRENT_LINK"
 
             echo "$TS" > "$BASE_DIR/last_release_ts"
-            echo "[deploy] Extract and symlink done" >> "$LOG"
           '
 
-      # --- Step 2: Upload & run start-server.sh ---
+      # --- Upload and restart ---
       - name: Upload and restart via start-server.sh
         run: |
           set -euo pipefail
@@ -157,20 +151,19 @@ jobs:
           USER="${{ secrets.DEPLOY_SSH_USER }}"
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
-          SSH_OPTS="-o StrictHostKeyChecking=no -P ${PORT}"
 
           echo "[deploy] Uploading start-server.sh..."
-          sshpass -p "${PASS}" scp ${SSH_OPTS} \
+          sshpass -p "${PASS}" scp -P "${PORT}" -o StrictHostKeyChecking=no \
             scripts/start-server.sh \
             "${USER}@${HOST}:/srv/customer/sites/ark-fid.ch/shared/start-server.sh"
 
           sshpass -p "${PASS}" ssh -p "${PORT}" -o StrictHostKeyChecking=no \
             "${USER}@${HOST}" \
             "chmod +x /srv/customer/sites/ark-fid.ch/shared/start-server.sh && \
-             /srv/customer/sites/ark-fid.ch/shared/start-server.sh"
+             /srv/customer/sites/ark-fid.ch/shared/start-server.sh || true"
 
-      # --- Step 3: Health Check & Warmup ---
-      - name: Health check and warmup (via ssh)
+      # --- Health check ---
+      - name: Health check and warmup
         run: |
           set -euo pipefail
           sudo apt-get install -y sshpass curl
@@ -178,11 +171,9 @@ jobs:
           USER="${{ secrets.DEPLOY_SSH_USER }}"
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
-          SSH_OPTS="-o StrictHostKeyChecking=no -p ${PORT}"
-          sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" bash -lc '
+          sshpass -p "${PASS}" ssh -p "${PORT}" -o StrictHostKeyChecking=no "${USER}@${HOST}" bash -lc '
             set -euo pipefail
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
-            LOG="$BASE_DIR/deploy.health.log"
             PORT_VAL="${PORT_VAL:-${{ secrets.DEPLOY_PORT }}}"
             [ -z "$PORT_VAL" ] && PORT_VAL=3000
 
@@ -191,14 +182,9 @@ jobs:
               if curl -fsS "http://127.0.0.1:$PORT_VAL/" >/dev/null 2>&1; then OK=1; break; fi
               sleep $SLEEP
             done
-            if [ "$OK" -ne 1 ]; then
-              echo "[health] Failed" >> "$LOG"
-              tail -n 200 "$BASE_DIR/server.out" >&2 || true
-              exit 1
-            fi
+            [ "$OK" -eq 1 ] || { tail -n 200 "$BASE_DIR/server.out" >&2 || true; exit 1; }
 
             for path in "/" "/en/" "/fr/" "/de/" "/es/" "/pt/"; do
               curl -fsS "http://127.0.0.1:$PORT_VAL$path" >/dev/null 2>&1 || true
             done
-            echo "[health] Passed and warmed up" >> "$LOG"
           '
