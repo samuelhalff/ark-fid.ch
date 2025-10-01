@@ -84,13 +84,6 @@
       "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21000_2022.pdf"
     },
     {
-      "filename": "guide-fiscal-2024-independants-geneve.pdf",
-      "title": "Steuerleitfaden 2024 für Selbständige in Genf",
-      "description": "Offizieller, umfassender und aktueller Leitfaden zur Besteuerung von Unternehmern und Selbständigen in Genf: Buchführungspflichten, Methoden zur Berechnung von Einkommen und Vermögen, Abzüge, Steuerbelege und Einreichung der Steuererklärung.",
-      "date": "2025-09-16",
-      "source_url": "https://www.ge.ch/document/guide-fiscal-2024-independants"
-    },
-    {
       "filename": "Changements-TVA-2025.pdf",
       "title": "Mehrwertsteuer-Änderungen 2025: Was Genfer Unternehmen wissen müssen",
       "description": "Dieses Dokument beschreibt die wichtigsten Änderungen des Mehrwertsteuergesetzes, die im Januar 2025 in Kraft getreten sind, darunter Auswirkungen auf die Rechnungsstellung, Abrechnung und Behandlung digitaler Plattformen. Es richtet sich an KMU, Selbständige und Finanzverantwortliche in Genf und der Westschweiz, die notwendige administrative Anpassungen für das zweite Halbjahr 2025 sowie die Vorbereitung auf 2026 antizipieren möchten.",
@@ -131,6 +124,13 @@
       "description": "Analyse der Lohnunterschiede zwischen Führungskräften und Mitarbeitenden in der Schweiz für das Jahr 2025, mit Daten, Trends und offiziellen Empfehlungen der Gewerkschaft Unia.",
       "date": "2025-09-17",
       "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
+    },
+    {
+      "filename": "grille-des-salaires-minimums-genevois-2025.pdf",
+      "title": "Lohntabelle Mindestlöhne Genf 2025",
+      "description": "Dieses offizielle Dokument stellt die ab dem 1. Januar 2025 im Kanton Genf geltenden neuen Mindestlöhne vor, die aus den letzten Sozialverhandlungen hervorgegangen sind. Es richtet sich an Arbeitgeber und Personalverantwortliche, die die lokalen Lohnvorschriften einhalten möchten.",
+      "date": "2025-10-01",
+      "source_url": "https://gastrosuisse.ch/assets/fr/droit/notices/salaire-minimum/gastrosuisse-notice-salaires-minimaux-geneve-2025.pdf"
     }
   ],
   "Articles": [
@@ -405,6 +405,24 @@
           "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-comptabilite-suisse-2025",
+      "title": "Odoo 18: Neuerungen Buchhaltung und Verwaltung für Schweizer KMU 2025",
+      "description": "Konkreter und detaillierter Überblick über die Neuerungen von Odoo 18, Version 2025, für die Buchhaltungs- und Finanzverwaltung von KMU und Selbständigen in der Westschweiz: Konsolidierung, Budget-Controlling, Multi-Gesellschaften, Mobilität, Vorteile und Fallstricke.",
+      "content": "Odoo 18, verfügbar Anfang 2025, bringt eine Welle von Innovationen für Schweizer Unternehmen. Diese Version setzt auf Automatisierung, vertiefte Budgetanalysen und Multi-Gesellschafts-Management, das auf die Westschweizer Realität zugeschnitten ist, mit Fokus auf Mobilität und administrative Integration.\n\nZu den wichtigsten Neuerungen gehören die Erstellung komplexer Analysenbudgets, die Konsolidierung mehrerer Unternehmen auf einem einheitlichen Kontenplan und die Verwaltung mehrerer Währungen in Finanzberichten. Arbeitsabläufe werden durch interaktive Dashboards und eine überarbeitete Navigation vereinfacht. Das Bankmodul verbessert die individuelle Anpassung von Zahlungsmethoden sowie das Fristenmanagement, während die Mobilität (PWA, mobile Überarbeitung) einen reibungslosen Zugang zu allen Funktionen für unterwegs sicherstellt.\n\nRückmeldungen von Schweizer Integratoren zeigen einen unmittelbaren Mehrwert für die finanzielle Zentralisierung von Gruppen und Holdings, erfordern jedoch eine gezielte Betreuung der Teams, um Funktionalitätsänderungen zu bewältigen und eine steile Lernkurve zu vermeiden.\n\nDer Wechsel zu Odoo 18 bietet die Chance, die administrativen Tools zu modernisieren, die Buchhaltung zu sichern, Prozesse zu automatisieren und die Einhaltung von Swiss GAAP FER, BVG, MwSt und Steueranforderungen 2025 zu stärken, bei gleichzeitig hoher Agilität im Wachstum. Für ein erfolgreiches Odoo-Projekt empfiehlt sich die Begleitung durch eine lokale Treuhand, die die Westschweizer Steuerrealität kennt und Ihre zukünftigen Bedürfnisse antizipieren kann.\n\nStichworte: Odoo 18, Neuheiten 2025, KMU-Finanzen Genf, Analytisches Budget Odoo, Multi-Gesellschaften, Konsolidierung, Swiss GAAP FER, Buchhaltungsautomatisierung, SaaS ERP Schweiz, Westschweizer Verwaltung, ERP-Mobilität.\n\nMehr dazu: Siehe die ausführliche Modulpräsentation in der [offiziellen Odoo-Dokumentation](https://www.odoo.com/documentation/18.0/) und die Analyse der Neuerungen auf LPDE: [Die Neuerungen im Odoo 18 Buchhaltungs- & Fakturierungsmodul](https://www.lpde.pro/blog/odoo-compta-9/les-nouveautes-de-odoo-18-module-comptabilite-facturation-2537).",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-01",
+      "references": [
+        {
+          "labelKey": "Documentation Odoo 18",
+          "url": "https://www.odoo.com/documentation/18.0/"
+        },
+        {
+          "labelKey": "Nouveautés Odoo 18 Comptabilité",
+          "url": "https://www.lpde.pro/blog/odoo-compta-9/les-nouveautes-de-odoo-18-module-comptabilite-facturation-2537"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -459,5 +477,7 @@
   "Accord télétravail Suisse France 2025": "Homeoffice-Abkommen Schweiz–Frankreich 2025",
   "Guide télétravail OFAS 2025": "OFAS-Leitfaden 2025 Homeoffice",
   "Administration fédérale TVA": "Eidgenössische Steuerverwaltung MwSt.",
-  "Changements TVA 2025": "Mehrwertsteueränderungen 2025"
+  "Changements TVA 2025": "Mehrwertsteueränderungen 2025",
+  "Documentation Odoo 18": "Odoo 18 Dokumentation",
+  "Nouveautés Odoo 18 Comptabilité": "Neuerungen Odoo 18 Buchhaltung"
 }

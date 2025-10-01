@@ -84,13 +84,6 @@
       "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21000_2022.pdf"
     },
     {
-      "filename": "guide-fiscal-2024-independants-geneve.pdf",
-      "title": "Guía fiscal 2024 para autónomos en Ginebra",
-      "description": "Guía oficial, completa y actualizada sobre fiscalidad aplicable a empresarios y autónomos en Ginebra: obligaciones contables, métodos de cálculo de ingresos y patrimonio, deducciones, informes fiscales y declaración.",
-      "date": "2025-09-16",
-      "source_url": "https://www.ge.ch/document/guide-fiscal-2024-independants"
-    },
-    {
       "filename": "Changements-TVA-2025.pdf",
       "title": "Cambios de IVA 2025: Lo que las empresas de Ginebra deben saber",
       "description": "Este documento detalla los principales cambios en la ley del IVA que entraron en vigor en enero de 2025, incluyendo los impactos en la facturación, la contabilidad y el tratamiento de las plataformas digitales. Está dirigido a pymes, autónomos y responsables financieros en Ginebra y Suiza francófona que deseen anticipar los ajustes administrativos necesarios para el segundo semestre de 2025 y la preparación para 2026.",
@@ -131,6 +124,13 @@
       "description": "Análisis de las diferencias salariales entre directivos y empleados en Suiza para el año 2025, con datos, tendencias y recomendaciones oficiales del sindicato Unia.",
       "date": "2025-09-17",
       "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
+    },
+    {
+      "filename": "grille-des-salaires-minimums-genevois-2025.pdf",
+      "title": "Tabla de salarios mínimos en Ginebra 2025",
+      "description": "Este documento oficial presenta los nuevos salarios mínimos aplicables en el cantón de Ginebra a partir del 1 de enero de 2025, tras las últimas negociaciones sociales. Está dirigido a empleadores y responsables de RRHH que deseen cumplir con la legislación salarial local.",
+      "date": "2025-10-01",
+      "source_url": "https://gastrosuisse.ch/assets/fr/droit/notices/salaire-minimum/gastrosuisse-notice-salaires-minimaux-geneve-2025.pdf"
     }
   ],
   "Articles": [
@@ -405,6 +405,24 @@
           "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-comptabilite-suisse-2025",
+      "title": "Odoo 18: novedades en contabilidad y gestión para pymes suizas en 2025",
+      "description": "Repaso concreto y detallado de las novedades de Odoo 18, versión 2025, dedicadas a la gestión contable y financiera de pymes y autónomos en la Suiza francófona: consolidación, presupuesto analítico, multiempresas, movilidad, ventajas y trampas a evitar.",
+      "content": "Odoo 18, disponible a principios de 2025, inaugura una ola de innovaciones adaptadas a las empresas suizas. Esta edición se apoya en la automatización, el análisis presupuestario en profundidad y la gestión multiempresas adaptada a la realidad de la Suiza francófona, haciendo hincapié en la movilidad y la integración administrativa.\n\nEntre las novedades más destacadas: la creación de presupuestos analíticos sofisticados, la consolidación multiempresa en un único plan contable y la gestión multidivisa en los informes financieros. Los flujos de gestión se simplifican con paneles interactivos y navegación renovada. El módulo Banco refuerza la personalización de los métodos de pago y la gestión de vencimientos, mientras que la movilidad (PWA, rediseño móvil) garantiza un acceso fluido a todas las funciones para los equipos en movimiento.\n\nLos comentarios de integradores suizos señalan un beneficio inmediato para la centralización financiera de grupos y holdings suizos, pero exigen una atención particular al acompañamiento de los equipos para afrontar los cambios funcionales y evitar una curva de aprendizaje demasiado dura.\n\nEl paso a Odoo 18 representa una oportunidad para modernizar las herramientas administrativas, asegurar la cadena contable, automatizar procesos y reforzar el cumplimiento con Swiss GAAP FER, LPP, IVA y fiscalidad 2025, manteniendo agilidad frente al crecimiento. Para tener éxito en su proyecto Odoo, priorice el acompañamiento de una fiduciaria local que domine la realidad fiscal de la Suiza francófona y pueda anticipar sus necesidades futuras.\n\nPalabras clave: Odoo 18, novedades 2025, finanzas pymes Ginebra, presupuesto analítico Odoo, multiempresas, consolidación, Swiss GAAP FER, automatización contable, SaaS ERP Suiza, gestión administrativa romanda, movilidad ERP.\n\nPara profundizar: consulte la presentación detallada de los módulos en la [documentación oficial de Odoo](https://www.odoo.com/documentation/18.0/) y el análisis de novedades en el sitio LPDE: [Novedades de Odoo 18 módulo contabilidad & facturación](https://www.lpde.pro/blog/odoo-compta-9/les-nouveautes-de-odoo-18-module-comptabilite-facturation-2537).",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-01",
+      "references": [
+        {
+          "labelKey": "Documentation Odoo 18",
+          "url": "https://www.odoo.com/documentation/18.0/"
+        },
+        {
+          "labelKey": "Nouveautés Odoo 18 Comptabilité",
+          "url": "https://www.lpde.pro/blog/odoo-compta-9/les-nouveautes-de-odoo-18-module-comptabilite-facturation-2537"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -459,5 +477,7 @@
   "Accord télétravail Suisse France 2025": "Acuerdo de teletrabajo Suiza–Francia 2025",
   "Guide télétravail OFAS 2025": "Guía OFAS 2025 sobre teletrabajo transfronterizo",
   "Administration fédérale TVA": "Administración Federal del IVA",
-  "Changements TVA 2025": "Cambios IVA 2025"
+  "Changements TVA 2025": "Cambios IVA 2025",
+  "Documentation Odoo 18": "Documentación Odoo 18",
+  "Nouveautés Odoo 18 Comptabilité": "Novedades Odoo 18 Contabilidad"
 }

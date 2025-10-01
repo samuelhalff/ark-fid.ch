@@ -84,13 +84,6 @@
       "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21000_2022.pdf"
     },
     {
-      "filename": "guide-fiscal-2024-independants-geneve.pdf",
-      "title": "Guide fiscal 2024 pour les indépendants à Genève",
-      "description": "Guide officiel, exhaustif et à jour sur la fiscalité applicable aux entrepreneurs et indépendants à Genève : obligations comptables, modes de calcul de revenu et fortune, déductions, relevés fiscaux et dépôt de la déclaration.",
-      "date": "2025-09-16",
-      "source_url": "https://www.ge.ch/document/38723/annexe/file/472602"
-    },
-    {
       "filename": "Changements-TVA-2025.pdf",
       "title": "Changements TVA 2025 : Ce que les entreprises genevoises doivent savoir",
       "description": "Ce document détaille les principales modifications de la loi sur la TVA entrées en vigueur en janvier 2025, dont les impacts sur la facturation, le décompte et le traitement des plateformes numériques. Il est destiné aux PME, indépendants et responsables financiers à Genève et en Suisse romande souhaitant anticiper les ajustements administratifs nécessaires pour le second semestre 2025 ainsi que la préparation de 2026.",
@@ -131,6 +124,13 @@
       "description": "Analyse des écarts salariaux entre dirigeants et employés en Suisse pour l'année 2025, incluant données, tendances et recommandations officielles du syndicat Unia.",
       "date": "2025-09-17",
       "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
+    },
+    {
+      "filename": "grille-des-salaires-minimums-genevois-2025.pdf",
+      "title": "Grille des salaires minimaux à Genève 2025",
+      "description": "Ce document officiel présente les nouveaux salaires minimaux applicables dans le canton de Genève dès le 1er janvier 2025, suite aux dernières négociations sociales. Il s'adresse aux employeurs et responsables RH désirant se conformer à la législation locale sur la rémunération.",
+      "date": "2025-10-01",
+      "source_url": "https://gastrosuisse.ch/assets/fr/droit/notices/salaire-minimum/gastrosuisse-notice-salaires-minimaux-geneve-2025.pdf"
     }
   ],
   "Articles": [
@@ -403,6 +403,24 @@
         {
           "labelKey": "Changements TVA 2025",
           "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
+        }
+      ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-comptabilite-suisse-2025",
+      "title": "Odoo 18 : les nouveautés comptabilité et gestion pour PME suisses en 2025",
+      "description": "Tour d'horizon concret et détaillé des nouveautés Odoo 18, version 2025, dédiées à la gestion comptable et financière des PME et indépendants en Suisse romande : consolidation, budget analytique, multi-sociétés, mobilité, avantages et pièges à éviter.",
+      "content": "Odoo 18, disponible début 2025, inaugure une vague d’innovations taillées pour les entreprises suisses. Cette édition capitalise sur l’automatisation, l’analyse budgétaire approfondie et la gestion multi-sociétés adaptée aux réalités romandes, en mettant l’accent sur la mobilité et l’intégration administrative.\n\nParmi les nouveautés phares : la création de budgets analytiques sophistiqués, la consolidation multi-entreprises sur un plan comptable unifié, et la gestion multi-devises dans les rapports financiers. Les flux de gestion sont simplifiés grâce à des tableaux de bord interactifs et une navigation repensée. Le module Banque renforce la personnalisation des méthodes de paiements et la gestion des échéances, tandis que la mobilité (PWA, refonte mobile) assure un accès fluide à toutes les fonctions pour les équipes en déplacement.\n\nCes retours d’intégrateurs suisses pointent un bénéfice immédiat pour la centralisation financière des groupes et holdings suisses, mais exigent une attention particulière à l’accompagnement des équipes pour faire face aux changements fonctionnels et éviter une courbe d’apprentissage trop dure.\n\nLe passage à Odoo 18 représente une opportunité de moderniser l’outillage administratif, fiabiliser la chaîne comptable, automatiser les process et renforcer la conformité avec les exigences Swiss GAAP FER, LPP, TVA et fiscalité 2025 tout en restant agiles face à la croissance. Pour réussir votre projet Odoo, privilégiez l’accompagnement par une fiduciaire locale qui maîtrise la réalité fiscale romande et peut anticiper vos besoins évolutifs.\n\nMots-clés : Odoo 18, nouveautés 2025, finance PME Genève, budget analytique Odoo, multi-sociétés, consolidation, Swiss GAAP FER, automatisation comptable, SaaS ERP Suisse, gestion administrative romande, mobilité ERP.\n\nPour approfondir : voir la présentation détaillée des modules sur [Odoo documentation officielle](https://www.odoo.com/documentation/18.0/) et l’analyse des nouveautés sur le site LPDE : [Les nouveautés de Odoo 18 module comptabilité & facturation](https://www.lpde.pro/blog/odoo-compta-9/les-nouveautes-de-odoo-18-module-comptabilite-facturation-2537).",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-01",
+      "references": [
+        {
+          "labelKey": "Documentation Odoo 18",
+          "url": "https://www.odoo.com/documentation/18.0/"
+        },
+        {
+          "labelKey": "Nouveautés Odoo 18 Comptabilité",
+          "url": "https://www.lpde.pro/blog/odoo-compta-9/les-nouveautes-de-odoo-18-module-comptabilite-facturation-2537"
         }
       ]
     }
