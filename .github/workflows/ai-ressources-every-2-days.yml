@@ -13,6 +13,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Use PAT to allow commits to trigger other workflows
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -83,7 +86,8 @@ jobs:
       - name: Trigger deployment workflow
         uses: peter-evans/repository-dispatch@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Use PAT instead of GITHUB_TOKEN to trigger other workflows
+          token: ${{ secrets.PAT_TOKEN }}
           event-type: ai-content-updated
 
       - name: Summary
