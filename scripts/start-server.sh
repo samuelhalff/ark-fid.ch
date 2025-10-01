@@ -1,78 +1,74 @@
-#!/usr/bin/env bash
-# start-server.sh - manages Node.js server restart with .env loading
-# This file is deployed to: /srv/customer/sites/ark-fid.ch/shared/start-server.sh
+#!/bin/bash
+# start-server.sh – manages app restart and keeps only 4 releases
+# Place at: /srv/customer/sites/ark-fid.ch/shared/start-server.sh
 
 set -euo pipefail
 BASE="/srv/customer/sites/ark-fid.ch"
 PID_FILE="$BASE/ark-fid.pid"
 ENV_FILE="$BASE/shared/.env"
-LOG="$BASE/deploy.log"
 
-echo "[start-server] Starting at $(date)" >> "$LOG"
+echo "[start-server] Starting at $(date)"
 
 # 1. Kill old process
+echo "[start-server] Killing old process..."
 if [ -f "$PID_FILE" ]; then
-  OLD_PID=$(cat "$PID_FILE" 2>/dev/null || true)
+  OLD_PID=$(cat "$PID_FILE" || true)
   if [ -n "${OLD_PID:-}" ] && kill -0 "$OLD_PID" 2>/dev/null; then
-    echo "[start-server] Stopping old PID $OLD_PID" >> "$LOG"
     kill "$OLD_PID" || true
     sleep 2
     kill -9 "$OLD_PID" 2>/dev/null || true
+    echo "[start-server] Killed PID $OLD_PID"
   fi
   rm -f "$PID_FILE"
 fi
+
+# Clean up any stray node processes
 pkill -9 -f 'node.*server.js' 2>/dev/null || true
 pkill -9 -f 'next-server' 2>/dev/null || true
 sleep 2
 
 # 2. Load environment variables
 if [ -f "$ENV_FILE" ]; then
-  echo "[start-server] Loading env from $ENV_FILE" >> "$LOG"
+  echo "[start-server] Loading env from $ENV_FILE"
   set -a
+  # shellcheck disable=SC1090
   source "$ENV_FILE"
   set +a
-  # Explicitly export critical variables for Node.js
-  export PORT NODE_ENV INDEXNOW_KEY INDEXNOW_SECRET NEXT_PUBLIC_SITE_URL
-  echo "[start-server] Exported env vars: PORT=$PORT, NODE_ENV=$NODE_ENV" >> "$LOG"
-  echo "[start-server] INDEXNOW_KEY length: ${#INDEXNOW_KEY}, INDEXNOW_SECRET length: ${#INDEXNOW_SECRET}" >> "$LOG"
 else
-  echo "[start-server] WARNING: $ENV_FILE not found" >> "$LOG"
+  echo "[start-server] WARNING: No $ENV_FILE found"
 fi
 
-# 3. Ensure .env symlink inside current release
+# 3. Ensure symlink exists in current release
 if [ -f "$ENV_FILE" ] && [ -L "$BASE/current" ]; then
-  ln -sfn "$ENV_FILE" "$BASE/current/.env" || true
+  ln -sfn "$ENV_FILE" "$BASE/current/.env" 2>/dev/null || true
 fi
 
 # 4. Start new process
+echo "[start-server] Starting server in $BASE/current"
 cd "$BASE/current"
-PORT="${PORT:-3000}"
-echo "[start-server] Starting server.js on port $PORT" >> "$LOG"
 
-# Truncate server.out on each start
-# Pass environment variables explicitly to nohup/node to ensure they're inherited
-env PORT="$PORT" \
-    NODE_ENV="${NODE_ENV:-production}" \
-    INDEXNOW_KEY="${INDEXNOW_KEY:-}" \
-    INDEXNOW_SECRET="${INDEXNOW_SECRET:-}" \
-    NEXT_PUBLIC_SITE_URL="${NEXT_PUBLIC_SITE_URL:-https://ark-fid.ch}" \
-    NEXT_PUBLIC_GA_ID="${NEXT_PUBLIC_GA_ID:-}" \
-    nohup node server.js > "$BASE/server.out" 2>&1 &
+# Safe default for PORT
+PORT="${PORT-3000}"
+export PORT
+
+nohup node server.js > "$BASE/server.out" 2>&1 &
 NEW_PID=$!
 echo "$NEW_PID" > "$PID_FILE"
-echo "[start-server] Started PID $NEW_PID with env vars" >> "$LOG"
 
-# Optional: health check
-ATTEMPTS=30
-for i in $(seq 1 $ATTEMPTS); do
-  if curl -fs "http://127.0.0.1:$PORT/" >/dev/null 2>&1; then
-    echo "[start-server] Health check passed" >> "$LOG"
-    exit 0
-  fi
-  sleep 2
-done
+echo "[start-server] Started PID $NEW_PID on port $PORT"
 
-echo "[start-server] Health check FAILED after $ATTEMPTS tries" >> "$LOG"
-exit 1
-# Note: The server.out log file can be monitored for startup issues
-# Example: tail -f /srv/customer/sites/ark-fid.ch/server.out
+# 5. Cleanup old releases (keep last 4)
+RELEASES_DIR="$BASE/releases"
+keep=4
+releases=$(ls -1 "$RELEASES_DIR" 2>/dev/null | sort)
+count=$(echo "$releases" | wc -l | tr -d " ")
+if [ "$count" -gt "$keep" ]; then
+  to_delete=$((count - keep))
+  echo "[start-server] Cleaning up $to_delete old releases..."
+  echo "$releases" | head -n "$to_delete" | while read -r d; do
+    [ -n "$d" ] && rm -rf "$RELEASES_DIR/$d"
+  done
+fi
+
+echo "[start-server] Done at $(date)"
+exit 0
