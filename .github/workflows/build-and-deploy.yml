@@ -217,10 +217,10 @@ jobs:
               rm -f "$PID_FILE"
             fi
             
-            # Also kill any orphaned Node.js processes as backup
-            echo "[deploy] Cleaning up any orphaned node processes" >> "$LOG"
-            pkill -9 -f "node.*server\.js" >> "$LOG" 2>&1 || true
-            killall -9 node >> "$LOG" 2>&1 || true
+            # Also kill any orphaned next-server processes as backup
+            echo "[deploy] Cleaning up any orphaned next-server processes" >> "$LOG"
+            pkill -9 -f "next-server" >> "$LOG" 2>&1 || true
+            pkill -9 node >> "$LOG" 2>&1 || true
             sleep 2
 
             # Start new process

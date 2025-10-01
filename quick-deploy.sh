@@ -47,15 +47,16 @@ sshpass -p "$DEPLOY_SSH_PASSWORD" ssh -T -p "${DEPLOY_SSH_PORT:-22}" "$DEPLOY_SS
   ln -sfn \$REL \$BASE/current
   
   echo 'Restarting server...'
-  # Kill by PID file
+  # Kill by PID file first
   if [ -f \$BASE/.pid ]; then
     OLD_PID=\$(cat \$BASE/.pid)
     kill -9 \$OLD_PID 2>/dev/null || true
     rm -f \$BASE/.pid
   fi
-  # Kill any Node.js processes (more aggressive pattern)
-  pkill -9 -f 'node.*server\.js' || true
-  killall -9 node 2>/dev/null || true
+  # Kill any next-server processes
+  pkill -9 -f 'next-server' 2>/dev/null || true
+  # Fallback: kill all node processes
+  pkill -9 node 2>/dev/null || true
   sleep 2
   
   cd \$BASE/current

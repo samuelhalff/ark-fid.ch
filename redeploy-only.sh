@@ -68,9 +68,10 @@ sshpass -p "$DEPLOY_SSH_PASSWORD" ssh -p "$DEPLOY_SSH_PORT" -o StrictHostKeyChec
       kill -9 \$OLD_PID 2>/dev/null || true
       rm -f \$BASE/.pid
     fi
-    # Kill any Node.js processes (more aggressive pattern)
-    pkill -9 -f 'node.*server\.js' || true
-    killall -9 node 2>/dev/null || true
+    # Kill any next-server processes
+    pkill -9 -f 'next-server' 2>/dev/null || true
+    # Fallback: kill all node processes
+    pkill -9 node 2>/dev/null || true
     sleep 2
     
     cd \$BASE/current
