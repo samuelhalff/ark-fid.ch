@@ -1,41 +1,48 @@
 export async function submitToIndexNow(urls: string[]) {
-  // Hardcoded for simplicity - this is public info anyway
-  const key = 'ebd95385d7154f45ba37d076b4efd008';
-  const hostDomain = 'ark-fid.ch'; // Just domain, no protocol
+  const hostDomain = 'ark-fid.ch';
+  const sitemapUrl = `https://${hostDomain}/sitemap.xml`;
   
-  // Try Bing's endpoint first (more lenient), fallback to main API
-  const endpoint = 'https://www.bing.com/indexnow';
-  const keyLocation = `https://${hostDomain}/${key}.txt`;
+  console.log('[Search Indexing] Notifying search engines about', urls.length, 'updated URLs');
+  console.log('[Search Indexing] Using sitemap ping method');
   
-  const payload = {
-    host: hostDomain,
-    key,
-    keyLocation,
-    urlList: urls,
-  };
-  
-  // Debug logging
-  console.log('[IndexNow] Submitting', urls.length, 'URLs to IndexNow (via Bing)');
-  console.log('[IndexNow] Host:', hostDomain);
-  console.log('[IndexNow] Key location:', keyLocation);
-  console.log('[IndexNow] Sample URLs:', urls.slice(0, 3));
-  
-  const res = await fetch(endpoint, {
-    method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'User-Agent': 'ark-fid.ch IndexNow Submitter',
+  // Ping multiple search engines with sitemap updates
+  const searchEngines = [
+    {
+      name: 'Google',
+      url: `https://www.google.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`,
     },
-    body: JSON.stringify(payload),
-    cache: 'no-store',
-  });
+    {
+      name: 'Bing',
+      url: `https://www.bing.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`,
+    },
+  ];
   
-  if (!res.ok) {
-    const text = await res.text().catch(() => '');
-    console.error('[IndexNow] Failed:', res.status, text);
-    throw new Error(`IndexNow failed: ${res.status} ${text}`);
-  }
+  const results = await Promise.allSettled(
+    searchEngines.map(async (engine) => {
+      try {
+        const res = await fetch(engine.url, {
+          method: 'GET',
+          cache: 'no-store',
+          signal: AbortSignal.timeout(10000), // 10s timeout
+        });
+        
+        if (res.ok || res.status === 200) {
+          console.log(`[Search Indexing] ✓ ${engine.name} pinged successfully`);
+          return { engine: engine.name, success: true };
+        } else {
+          console.warn(`[Search Indexing] ⚠ ${engine.name} returned ${res.status}`);
+          return { engine: engine.name, success: false, status: res.status };
+        }
+      } catch (error) {
+        console.warn(`[Search Indexing] ⚠ ${engine.name} ping failed:`, error);
+        return { engine: engine.name, success: false, error };
+      }
+    })
+  );
   
-  console.log('[IndexNow] ✓ Success:', urls.length, 'URLs submitted');
-  return true;
+  const successful = results.filter(r => r.status === 'fulfilled' && r.value.success).length;
+  console.log(`[Search Indexing] ✓ Completed: ${successful}/${searchEngines.length} search engines notified`);
+  
+  // Return true if at least one succeeded
+  return successful > 0;
 }

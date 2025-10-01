@@ -21,6 +21,6 @@ export async function POST(req: NextRequest) {
     await submitToIndexNow(urls);
     return NextResponse.json({ ok: true, count: urls.length });
   } catch (e: any) {
-    return NextResponse.json({ error: e?.message || 'IndexNow error' }, { status: 500 });
+    return NextResponse.json({ error: e?.message || 'Search indexing error' }, { status: 500 });
   }
 }
