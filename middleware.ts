@@ -127,3 +127,4 @@ export const config = {
   // Allow `ressources` and other content routes to be redirected to /<locale>/...
   matcher: ['/((?!_next|api|assets|favicon.ico|favicon.png|favicon.svg|apple-touch-icon.png|site.webmanifest|manifest.webmanifest|robots.txt|sitemap|sitemap.xml|sitemap_index.xml|browserconfig.xml|BingSiteAuth.xml|.*\.txt).*)']
 }
+
