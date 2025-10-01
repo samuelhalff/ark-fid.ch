@@ -34,15 +34,6 @@ jobs:
           node-version: "20.x"
           cache: "npm"
 
-      # Extra npm cache for faster installs
-      - name: Cache npm
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: npm-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            npm-cache-${{ runner.os }}-
-
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --no-fund
 
@@ -50,9 +41,10 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .next/cache
-          key: next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-${{ github.sha }}
+          # ⚡ Key only on lockfile hash, not commit SHA (avoids cold cache every run)
+          key: next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-
+            next-cache-${{ runner.os }}-
 
       - name: Build
         env:
@@ -120,11 +112,13 @@ jobs:
           USER="${{ secrets.DEPLOY_SSH_USER }}"
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
-          SSH_OPTS="-o StrictHostKeyChecking=no -o ServerAliveInterval=15 -o ServerAliveCountMax=8 -p ${PORT}"
+          SSH_OPTS="-o StrictHostKeyChecking=no -o ServerAliveInterval=15 -o ServerAliveCountMax=8 -o IPQoS=throughput -p ${PORT}"
           sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" bash -lc '
             set -euo pipefail
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
             RELEASES_DIR="$BASE_DIR/releases"
+            CURRENT_LINK="$BASE_DIR/current"
+            PID_FILE="$BASE_DIR/ark-fid.pid"
             ARTIFACT="$BASE_DIR/artifact/next-standalone.tar.gz"
             PART_ARTIFACT="$BASE_DIR/artifact/next-standalone.tar.gz.part"
             TS=$(date +%Y%m%d%H%M%S)
@@ -149,32 +143,33 @@ jobs:
 
             echo "[deploy] Extract tar" >> "$LOG"
             tar -xf "$TMP_DIR/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP_DIR"
-            rm -f "$TMP_DIR/.payload.tar" || true
+            rm -f "$TMP_DIR/.payload.tar"
 
             for f in server.js .next/BUILD_ID .next/static; do
               [ -e "$TMP_DIR/$f" ] || { echo "[deploy] Missing required: $f" >> "$LOG"; exit 1; }
             done
 
+            # Extra validation: ensure CSS exists
             if [ ! -d "$TMP_DIR/.next/static/css" ]; then
               echo "[deploy] Missing CSS dir" >> "$LOG"; exit 1
             fi
             CSS_COUNT=$(find "$TMP_DIR/.next/static/css" -name "*.css" | wc -l)
             [ "$CSS_COUNT" -ge 1 ] || { echo "[deploy] No CSS files" >> "$LOG"; exit 1; }
-
             echo "[deploy] Validation passed: $CSS_COUNT CSS files" >> "$LOG"
+
             touch "$TMP_DIR/.extract_ok"
             echo "$TS" > "$BASE_DIR/last_release_ts"
           '
 
-      - name: Switch symlink and start process (via ssh)
+      - name: Switch symlink and restart (via ssh)
         run: |
           set -euo pipefail
-          sudo apt-get install -y sshpass
+          sudo apt-get install -y sshpass curl
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
           USER="${{ secrets.DEPLOY_SSH_USER }}"
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
-          SSH_OPTS="-o StrictHostKeyChecking=no -p ${PORT}"
+          SSH_OPTS="-o StrictHostKeyChecking=no -o ServerAliveInterval=15 -o ServerAliveCountMax=8 -o IPQoS=throughput -p ${PORT}"
           sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" bash -lc '
             set -euo pipefail
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
@@ -182,18 +177,32 @@ jobs:
             CURRENT_LINK="$BASE_DIR/current"
             PID_FILE="$BASE_DIR/ark-fid.pid"
             LOG="$BASE_DIR/deploy.extract.log"
+
             TS="$(cat "$BASE_DIR/last_release_ts")"
             REL_DIR="$RELEASES_DIR/$TS"
             TMP_DIR="/tmp/ark-fid-release-$TS"
+            [ -f "$TMP_DIR/.extract_ok" ] || { echo "[deploy] Extract marker missing" >> "$LOG"; exit 1; }
 
+            echo "[deploy] Moving extracted release to $REL_DIR" >> "$LOG"
             mv "$TMP_DIR" "$REL_DIR" || { cp -r "$TMP_DIR"/* "$REL_DIR"/ && rm -rf "$TMP_DIR"; }
+
+            [ -f "$BASE_DIR/shared/.env" ] && ln -sfn "$BASE_DIR/shared/.env" "$REL_DIR/.env"
+            [ -f "$BASE_DIR/shared/.env.production" ] && ln -sfn "$BASE_DIR/shared/.env.production" "$REL_DIR/.env.production"
+
             ln -sfn "$REL_DIR" "$CURRENT_LINK"
+            echo "Release: $TS" > "$CURRENT_LINK/.release-info"
+            echo "Deployed: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$CURRENT_LINK/.release-info"
+            echo "Directory: $REL_DIR" >> "$CURRENT_LINK/.release-info"
 
             cd "$CURRENT_LINK"
-
+            # Stop old process if running
             if [ -f "$PID_FILE" ]; then
               OLD_PID="$(cat "$PID_FILE" 2>/dev/null || true)"
-              [ -n "$OLD_PID" ] && kill -9 "$OLD_PID" 2>/dev/null || true
+              if [ -n "$OLD_PID" ] && kill -0 "$OLD_PID" 2>/dev/null; then
+                kill "$OLD_PID" || true
+                sleep 2
+                kill -9 "$OLD_PID" 2>/dev/null || true
+              fi
               rm -f "$PID_FILE"
             fi
             pkill -9 -f "next-server" 2>/dev/null || true
@@ -202,32 +211,24 @@ jobs:
             PORT_VAL="${PORT_VAL:-${{ secrets.DEPLOY_PORT }}}"
             [ -z "${PORT_VAL:-}" ] && PORT_VAL=3000
             echo "[deploy] Starting server on port $PORT_VAL" >> "$LOG"
-            nohup node server.js > "$BASE_DIR/server.out" 2>&1 </dev/null &
-            echo $! > "$PID_FILE"
-            echo "[deploy] Started process $(cat $PID_FILE)" >> "$LOG"
-          '
+            setsid nohup node server.js > "$BASE_DIR/server.out" 2>&1 < /dev/null &
+            NEW_PID=$!
+            echo $NEW_PID > "$PID_FILE"
+            echo "[deploy] Started detached process $NEW_PID" >> "$LOG"
 
-      - name: Health check and warmup (via ssh)
-        run: |
-          set -euo pipefail
-          sudo apt-get install -y sshpass curl
-          HOST="${{ secrets.DEPLOY_SSH_HOST }}"
-          USER="${{ secrets.DEPLOY_SSH_USER }}"
-          PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
-          PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
-          SSH_OPTS="-o StrictHostKeyChecking=no -p ${PORT}"
-          sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" bash -lc '
-            set -euo pipefail
-            BASE_DIR="/srv/customer/sites/ark-fid.ch"
-            LOG="$BASE_DIR/deploy.extract.log"
-            PID_FILE="$BASE_DIR/ark-fid.pid"
-            PORT_VAL="${PORT_VAL:-${{ secrets.DEPLOY_PORT }}}"
-            [ -z "${PORT_VAL:-}" ] && PORT_VAL=3000
+            # Keep only 4 releases
+            releases=$(ls -1 "$RELEASES_DIR" | sort)
+            count=$(echo "$releases" | wc -l | tr -d " ")
+            keep=4
+            if [ "$count" -gt "$keep" ]; then
+              to_delete=$((count - keep))
+              echo "$releases" | head -n "$to_delete" | while read -r d; do rm -rf "$RELEASES_DIR/$d"; done
+            fi
 
-            ATTEMPTS=40; SLEEP=2; OK=0
+            # Health check
+            ATTEMPTS=60; SLEEP=3; OK=0
             for i in $(seq 1 $ATTEMPTS); do
               if curl -fsS "http://127.0.0.1:$PORT_VAL/" >/dev/null 2>&1; then OK=1; break; fi
-              echo "[deploy] Health check attempt $i/$ATTEMPTS" >> "$LOG"
               sleep $SLEEP
             done
             if [ "$OK" -ne 1 ]; then
@@ -235,13 +236,12 @@ jobs:
               tail -n 200 "$BASE_DIR/server.out" >&2 || true
               exit 1
             fi
-            echo "[deploy] Health check passed" >> "$LOG"
 
+            # Warmup cache
             warm_paths=("/" "/en/" "/fr/" "/de/" "/es/" "/pt/")
             for path in "${warm_paths[@]}"; do
-              ( echo "[deploy] Warmup ${path}" >> "$LOG"
-                curl -fsS "http://127.0.0.1:$PORT_VAL${path}" >/dev/null 2>&1 || true ) &
+              curl -fsS "http://127.0.0.1:$PORT_VAL${path}" >/dev/null 2>&1 || true
             done
-            wait || true
+
             echo "[deploy] Done $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$LOG"
           '
