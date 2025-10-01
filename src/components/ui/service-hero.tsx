@@ -56,7 +56,7 @@ const ServiceHero = async ({
   );
 
   return (
-    <div className="relative min-h-[calc(100vh-4rem)] max-w-[var(--breakpoint-xl)] w-full flex items-center justify-center overflow-hidden border-b border-accent mx-auto px-6">
+    <div className="relative min-h-[calc(100vh-4rem)] max-w-[var(--breakpoint-xl)] w-full flex items-center justify-center overflow-hidden border-b border-accent mx-auto px-6 pb-24">
       <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
         <div className="flex-1 max-w-3xl text-center animate-in fade-in duration-800">
           <div className="gap-2 flex justify-center items-center">
@@ -151,12 +151,11 @@ const ServiceHero = async ({
         </div>
       </div>
       {namespace === "odoo" && (
-        <div className="pointer-events-none absolute bottom-6 left-0 right-0 flex flex-col items-center gap-2">
+        <div className="absolute bottom-6 left-0 right-0 flex flex-col items-center gap-2">
           <a
             href="https://www.odoo.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="pointer-events-auto"
           >
             <Image
               src="/assets/partners/odoo-logo.svg"

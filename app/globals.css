@@ -89,28 +89,26 @@
     background-size: contain;
   }
 
-  /* Prefer AVIF with WebP fallback using image-set; avoid double download */
-  @media (min-width: 768px) {
-    @supports (
-      background-image:
+  /* Apply background image on all devices with AVIF/WebP fallback */
+  @supports (
+    background-image:
+      image-set(
+        url("/assets/abstract-background-light.avif") type("image/avif") 1x
+      )
+  ) {
+    .light .abstract-background {
+      background-image: linear-gradient(
+          to bottom,
+          oklch(var(--background) / 0.5),
+          oklch(var(--background) / 0.75),
+          oklch(var(--background) / 0.8),
+          oklch(var(--background) / 0.9),
+          oklch(var(--background) / 1)
+        ),
         image-set(
-          url("/assets/abstract-background-light.avif") type("image/avif") 1x
-        )
-    ) {
-      .light .abstract-background {
-        background-image: linear-gradient(
-            to bottom,
-            oklch(var(--background) / 0.5),
-            oklch(var(--background) / 0.75),
-            oklch(var(--background) / 0.8),
-            oklch(var(--background) / 0.9),
-            oklch(var(--background) / 1)
-          ),
-          image-set(
-            url("/assets/abstract-background-light.avif") type("image/avif") 1x,
-            url("/assets/abstract-background-light.webp") type("image/webp") 1x
-          );
-      }
+          url("/assets/abstract-background-light.avif") type("image/avif") 1x,
+          url("/assets/abstract-background-light.webp") type("image/webp") 1x
+        );
     }
   }
 
@@ -129,27 +127,25 @@
     background-size: contain;
   }
 
-  @media (min-width: 768px) {
-    @supports (
-      background-image:
+  @supports (
+    background-image:
+      image-set(
+        url("/assets/abstract-background-dark.avif") type("image/avif") 1x
+      )
+  ) {
+    .dark .abstract-background {
+      background-image: linear-gradient(
+          to bottom,
+          oklch(var(--background) / 0.5),
+          oklch(var(--background) / 0.75),
+          oklch(var(--background) / 0.8),
+          oklch(var(--background) / 0.9),
+          oklch(var(--background) / 1)
+        ),
         image-set(
-          url("/assets/abstract-background-dark.avif") type("image/avif") 1x
-        )
-    ) {
-      .dark .abstract-background {
-        background-image: linear-gradient(
-            to bottom,
-            oklch(var(--background) / 0.5),
-            oklch(var(--background) / 0.75),
-            oklch(var(--background) / 0.8),
-            oklch(var(--background) / 0.9),
-            oklch(var(--background) / 1)
-          ),
-          image-set(
-            url("/assets/abstract-background-dark.avif") type("image/avif") 1x,
-            url("/assets/abstract-background-dark.webp") type("image/webp") 1x
-          );
-      }
+          url("/assets/abstract-background-dark.avif") type("image/avif") 1x,
+          url("/assets/abstract-background-dark.webp") type("image/webp") 1x
+        );
     }
   }
 

@@ -11,6 +11,30 @@
     "MobileNavigation": "Navegación móvil",
     "CloseMenu": "Cerrar menú",
     "CompanyFooter": "Ark Fiduciaire",
+    "Accounting": {
+        "Title": "Contabilidad"
+    },
+    "TaxesCompanyPersonal": {
+        "Title": "Impuestos"
+    },
+    "PayrollHR": {
+        "Title": "Nómina y RR.HH."
+    },
+    "OutsourcingServices": {
+        "Title": "Outsourcing"
+    },
+    "CorporateServices": {
+        "Title": "Servicios corporativos"
+    },
+    "Incorporation": {
+        "Title": "Constitución de empresas"
+    },
+    "DomiciliationServices": {
+        "Title": "Domiciliación"
+    },
+    "OdooImplementation": {
+        "Title": "Odoo"
+    },
     "Lang": {
         "en": "English",
         "fr": "Français",

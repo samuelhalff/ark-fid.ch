@@ -63,8 +63,11 @@ img{display:block;max-width:100%;}
 a{color:inherit;text-decoration:none;}
 button,input,select,textarea{font:inherit;}
 main{position:relative;z-index:0;padding-top:4rem;}
-.abstract-background{position:relative;background-repeat:no-repeat;background-position:top left;background-size:cover;background-image:linear-gradient(to bottom,transparent 0%,oklch(var(--background) / 0.9) 90%,oklch(var(--background) / 1) 100%);}
-.dark .abstract-background{background-image:linear-gradient(to bottom,transparent 0%,oklch(var(--background) / 0.9) 90%,oklch(var(--background) / 1) 100%);}
+.abstract-background{position:relative;}
+.light .abstract-background{background-image:linear-gradient(to bottom,oklch(var(--background)/.5),oklch(var(--background)/.75),oklch(var(--background)/.8),oklch(var(--background)/.9),oklch(var(--background)/1));background-position:left top;background-repeat:no-repeat;background-size:contain;}
+@supports (background-image:image-set(url("/assets/abstract-background-light.avif") type("image/avif") 1x)){.light .abstract-background{background-image:linear-gradient(to bottom,oklch(var(--background)/.5),oklch(var(--background)/.75),oklch(var(--background)/.8),oklch(var(--background)/.9),oklch(var(--background)/1)),image-set(url("/assets/abstract-background-light.avif") type("image/avif") 1x,url("/assets/abstract-background-light.webp") type("image/webp") 1x);}}
+.dark .abstract-background{background-color:#000;background-image:linear-gradient(to bottom,oklch(var(--background)/.5),oklch(var(--background)/.75),oklch(var(--background)/.8),oklch(var(--background)/.9),oklch(var(--background)/1));background-position:left top;background-repeat:no-repeat;background-size:contain;}
+@supports (background-image:image-set(url("/assets/abstract-background-dark.avif") type("image/avif") 1x)){.dark .abstract-background{background-image:linear-gradient(to bottom,oklch(var(--background)/.5),oklch(var(--background)/.75),oklch(var(--background)/.8),oklch(var(--background)/.9),oklch(var(--background)/1)),image-set(url("/assets/abstract-background-dark.avif") type("image/avif") 1x,url("/assets/abstract-background-dark.webp") type("image/webp") 1x);}}
 .critical-skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden;}
 .critical-skip-link:focus{left:1rem;top:1rem;width:auto;height:auto;padding:0.75rem 1.25rem;border-radius:0.75rem;z-index:999;background:oklch(var(--primary));color:oklch(var(--primary-foreground));box-shadow:0 12px 28px rgba(32,54,98,0.25);}
 .critical-nav__container{position:fixed;top:0;left:0;right:0;z-index:50;width:100%;max-width:100vw;}

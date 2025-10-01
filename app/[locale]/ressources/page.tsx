@@ -223,7 +223,7 @@ export default async function RessourcesPage({
   const links = ressources.Links || {};
 
   return (
-    <main className="max-w-[1200px] mx-auto px-4 py-10 mt-10">
+    <main className="max-w-[1200px] mx-auto px-4 md:px-6 py-10">
       <script
         type="application/ld+json"
         nonce={nonce}
@@ -241,33 +241,31 @@ export default async function RessourcesPage({
               {
                 "@type": "ListItem",
                 position: 2,
-                name: ressources.IntroTitle || "Resources",
+                name: "Ressources",
                 item: `https://ark-fid.ch/${locale}/ressources/`,
               },
             ],
           }),
         }}
       />
-      <div className="max-w-[1200px] mx-auto px-0 md:px-0 mb-6 -mt-4">
-        <nav aria-label="Breadcrumb">
-          <ol className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
-            <li>
-              <a
-                href={`/${locale}/`}
-                className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded-sm"
-              >
-                {(tNav("Home") as string) || "Home"}
-              </a>
-            </li>
-            <li className="flex items-center gap-1">
-              <span className="text-muted-foreground/60">/</span>
-              <span aria-current="page" className="font-medium text-foreground">
-                {ressources.IntroTitle || "Resources"}
-              </span>
-            </li>
-          </ol>
-        </nav>
-      </div>
+      <nav aria-label="Breadcrumb" className="mt-4 mb-6">
+        <ol className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
+          <li>
+            <a
+              href={`/${locale}/`}
+              className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded-sm"
+            >
+              {(tNav("Home") as string) || "Home"}
+            </a>
+          </li>
+          <li className="flex items-center gap-1">
+            <span className="text-muted-foreground/60">/</span>
+            <span aria-current="page" className="font-medium text-foreground">
+              Ressources
+            </span>
+          </li>
+        </ol>
+      </nav>
       <section className="mb-12">
         <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-4">
           {ressources.IntroTitle || "Resources"}
@@ -310,7 +308,10 @@ export default async function RessourcesPage({
             : locale === "pt"
             ? "Precisa de apoio? "
             : "Need support? "}
-          <a className="underline hover:no-underline" href={`/${locale}/services`}>
+          <a
+            className="underline hover:no-underline"
+            href={`/${locale}/services`}
+          >
             {locale === "fr"
               ? "consultez nos services"
               : locale === "de"
@@ -322,8 +323,19 @@ export default async function RessourcesPage({
               : "see our services"}
           </a>
           {" · "}
-          <a className="underline hover:no-underline" href={`/${locale}/contact`}>
-            {locale === "fr" ? "contactez-nous" : locale === "de" ? "kontaktieren Sie uns" : locale === "es" ? "contáctenos" : locale === "pt" ? "contacte-nos" : "contact us"}
+          <a
+            className="underline hover:no-underline"
+            href={`/${locale}/contact`}
+          >
+            {locale === "fr"
+              ? "contactez-nous"
+              : locale === "de"
+              ? "kontaktieren Sie uns"
+              : locale === "es"
+              ? "contáctenos"
+              : locale === "pt"
+              ? "contacte-nos"
+              : "contact us"}
           </a>
         </p>
       </div>
