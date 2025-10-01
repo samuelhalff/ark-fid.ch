@@ -147,6 +147,17 @@ jobs:
             for f in server.js .next/BUILD_ID .next/static; do
               if [ ! -e "$TMP_DIR/$f" ]; then echo "[deploy] Missing required: $f" >> "$LOG"; exit 1; fi
             done
+            
+            # Additional validation: check CSS files exist
+            if [ ! -d "$TMP_DIR/.next/static/css" ]; then
+              echo "[deploy] Missing CSS directory" >> "$LOG"; exit 1
+            fi
+            CSS_COUNT=$(find "$TMP_DIR/.next/static/css" -name "*.css" | wc -l)
+            if [ "$CSS_COUNT" -lt 1 ]; then
+              echo "[deploy] No CSS files found" >> "$LOG"; exit 1
+            fi
+            echo "[deploy] Validation passed: found $CSS_COUNT CSS files" >> "$LOG"
+            
             touch "$TMP_DIR/.extract_ok"
             echo "$TS" > "$BASE_DIR/last_release_ts"
           '
@@ -205,6 +216,12 @@ jobs:
               fi
               rm -f "$PID_FILE"
             fi
+            
+            # Also kill any orphaned Node.js processes as backup
+            echo "[deploy] Cleaning up any orphaned node processes" >> "$LOG"
+            pkill -9 -f "node.*server\.js" >> "$LOG" 2>&1 || true
+            killall -9 node >> "$LOG" 2>&1 || true
+            sleep 2
 
             # Start new process
             PORT_VAL="${PORT_VAL:-${{ secrets.DEPLOY_PORT }}}"
@@ -226,9 +243,15 @@ jobs:
             ATTEMPTS=60; SLEEP=3; OK=0
             for i in $(seq 1 $ATTEMPTS); do
               if curl -fsS "http://127.0.0.1:$PORT_VAL/" >/dev/null 2>&1; then OK=1; break; fi
+              echo "[deploy] Health check attempt $i/$ATTEMPTS" >> "$LOG"
               sleep $SLEEP
             done
-            if [ "$OK" -ne 1 ]; then tail -n 200 "$BASE_DIR/server.out" >&2 || true; exit 1; fi
+            if [ "$OK" -ne 1 ]; then 
+              echo "[deploy] Health check failed after $((ATTEMPTS * SLEEP)) seconds" >> "$LOG"
+              tail -n 200 "$BASE_DIR/server.out" >&2 || true
+              exit 1
+            fi
+            echo "[deploy] Health check passed" >> "$LOG"
 
             warm_paths=("/" "/en/" "/fr/" "/de/" "/es/" "/pt/")
             for path in "${warm_paths[@]}"; do
