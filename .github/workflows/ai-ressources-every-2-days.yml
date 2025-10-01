@@ -94,6 +94,33 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
           event-type: ai-content-updated
 
+      - name: Wait for deployment
+        run: |
+          echo "⏳ Waiting 5 minutes for deployment to complete..."
+          sleep 300
+
+      - name: Health check
+        continue-on-error: true
+        run: |
+          echo "🏥 Checking site health..."
+          for locale in fr en de es pt; do
+            echo "Checking /${locale}/"
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://ark-fid.ch/${locale}/")
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ ${locale}: OK"
+            else
+              echo "::warning::❌ ${locale}: Failed (HTTP $STATUS)"
+            fi
+          done
+          
+          echo "Checking /fr/ressources/"
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://ark-fid.ch/fr/ressources/")
+          if [ "$STATUS" = "200" ]; then
+            echo "✅ Resources page: OK"
+          else
+            echo "::warning::❌ Resources page: Failed (HTTP $STATUS)"
+          fi
+
       - name: Summary
         if: always()
         run: |
