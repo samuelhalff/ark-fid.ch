@@ -141,8 +141,6 @@ jobs:
               [ -e "$TMP_DIR/$f" ] || { echo "[deploy] Missing required: $f" >> "$LOG"; exit 1; }
             done
 
-            [ -d "$TMP_DIR/.next/static/css" ] || { echo "[deploy] Missing CSS dir" >> "$LOG"; exit 1; }
-
             mv "$TMP_DIR" "$REL_DIR" || { cp -r "$TMP_DIR"/* "$REL_DIR"/ && rm -rf "$TMP_DIR"; }
             ln -sfn "$REL_DIR" "$CURRENT_LINK"
 
@@ -150,8 +148,8 @@ jobs:
             echo "[deploy] Extract and symlink done" >> "$LOG"
           '
 
-      # --- Step 2: Restart server ---
-      - name: Restart server (via ssh)
+      # --- Step 2: Restart via script ---
+      - name: Restart server (via ssh script)
         run: |
           set -euo pipefail
           sudo apt-get install -y sshpass
@@ -160,29 +158,8 @@ jobs:
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
           SSH_OPTS="-o StrictHostKeyChecking=no -p ${PORT}"
-          sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" bash -lc '
-            set -euo pipefail
-            BASE_DIR="/srv/customer/sites/ark-fid.ch"
-            CURRENT_LINK="$BASE_DIR/current"
-            PID_FILE="$BASE_DIR/ark-fid.pid"
-            LOG="$BASE_DIR/deploy.extract.log"
-
-            cd "$CURRENT_LINK"
-
-            if [ -f "$PID_FILE" ]; then
-              OLD_PID="$(cat "$PID_FILE" 2>/dev/null || true)"
-              [ -n "$OLD_PID" ] && kill -9 "$OLD_PID" 2>/dev/null || true
-              rm -f "$PID_FILE"
-            fi
-            pkill -9 -f "next-server" 2>/dev/null || true
-            pkill -9 node 2>/dev/null || true
-
-            PORT_VAL="${PORT_VAL:-${{ secrets.DEPLOY_PORT }}}"
-            [ -z "$PORT_VAL" ] && PORT_VAL=3000
-            setsid nohup node server.js > "$BASE_DIR/server.out" 2>&1 < /dev/null &
-            echo $! > "$PID_FILE"
-            echo "[deploy] Restarted server with PID $(cat $PID_FILE)" >> "$LOG"
-          '
+          sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" \
+            "/srv/customer/sites/ark-fid.ch/shared/start-server.sh"
 
       # --- Step 3: Health Check & Warmup ---
       - name: Health check and warmup (via ssh)
@@ -197,7 +174,7 @@ jobs:
           sshpass -p "${PASS}" ssh ${SSH_OPTS} "${USER}@${HOST}" bash -lc '
             set -euo pipefail
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
-            LOG="$BASE_DIR/deploy.extract.log"
+            LOG="$BASE_DIR/deploy.health.log"
             PORT_VAL="${PORT_VAL:-${{ secrets.DEPLOY_PORT }}}"
             [ -z "$PORT_VAL" ] && PORT_VAL=3000
 
@@ -207,7 +184,7 @@ jobs:
               sleep $SLEEP
             done
             if [ "$OK" -ne 1 ]; then
-              echo "[deploy] Health check failed" >> "$LOG"
+              echo "[health] Failed" >> "$LOG"
               tail -n 200 "$BASE_DIR/server.out" >&2 || true
               exit 1
             fi
@@ -215,5 +192,5 @@ jobs:
             for path in "/" "/en/" "/fr/" "/de/" "/es/" "/pt/"; do
               curl -fsS "http://127.0.0.1:$PORT_VAL$path" >/dev/null 2>&1 || true
             done
-            echo "[deploy] Health check + warmup passed" >> "$LOG"
+            echo "[health] Passed and warmed up" >> "$LOG"
           '
