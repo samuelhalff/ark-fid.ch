@@ -7,3 +7,4 @@ export const inter = Inter({
   display: 'swap',
   fallback: ['system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
 });
+
