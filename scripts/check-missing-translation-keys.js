@@ -131,10 +131,22 @@ function analyzeFile(filePath, usageMap) {
       }
       const key = rawKey.trim();
       if (!key) continue;
-      if (!usageMap.has(namespace)) {
-        usageMap.set(namespace, new Set());
+      
+      // Handle cross-namespace references like "contact:Contact.Phone"
+      let targetNamespace = namespace;
+      let targetKey = key;
+      if (key.includes(":")) {
+        const [nsPrefix, ...keyParts] = key.split(":");
+        if (keyParts.length > 0) {
+          targetNamespace = nsPrefix;
+          targetKey = keyParts.join(":");
+        }
       }
-      usageMap.get(namespace).add(key);
+      
+      if (!usageMap.has(targetNamespace)) {
+        usageMap.set(targetNamespace, new Set());
+      }
+      usageMap.get(targetNamespace).add(targetKey);
     }
   }
 }
