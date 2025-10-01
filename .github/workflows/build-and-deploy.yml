@@ -76,7 +76,7 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/main' || github.event_name == 'repository_dispatch'
     steps:
-      - name: Checkout repo # <-- this was missing
+      - name: Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
@@ -113,8 +113,8 @@ jobs:
                      "/srv/customer/sites/ark-fid.ch/releases" \
                      "/srv/customer/sites/ark-fid.ch/shared"
 
-      # --- Extract & Symlink ---
-      - name: Remote extract and symlink
+      # --- Extract & Symlink (with cleanup) ---
+      - name: Remote extract, symlink and cleanup
         run: |
           set -euo pipefail
           sudo apt-get install -y sshpass
@@ -151,6 +151,15 @@ jobs:
             ln -sfn "$REL_DIR" "$CURRENT_LINK"
 
             echo "$TS" > "$BASE_DIR/last_release_ts"
+
+            # --- Cleanup old releases (keep 4) ---
+            KEEP=4
+            cd "$RELEASES_DIR" || exit 0
+            releases=$(ls -1t | tail -n +$((KEEP+1)) || true)
+            for rel in $releases; do
+              echo "[cleanup] Removing old release: $rel" >> "$LOG"
+              rm -rf "$RELEASES_DIR/$rel"
+            done
           '
 
       # --- Upload and restart ---
@@ -172,17 +181,6 @@ jobs:
             "${USER}@${HOST}" \
             "chmod +x /srv/customer/sites/ark-fid.ch/shared/start-server.sh && \
              /srv/customer/sites/ark-fid.ch/shared/start-server.sh || true"
-
-          echo "$TS" > "$BASE_DIR/last_release_ts"
-
-          # --- Cleanup old releases here ---
-          KEEP=4
-          cd "$RELEASES_DIR" || exit 0
-          releases=$(ls -1t | tail -n +$((KEEP+1)) || true)
-          for rel in $releases; do
-            echo "[cleanup] Removing old release: $rel" >> "$LOG"
-            rm -rf "$RELEASES_DIR/$rel"
-          done
 
       # --- Health check ---
       - name: Health check and warmup
