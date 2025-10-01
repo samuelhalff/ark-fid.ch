@@ -29,7 +29,6 @@
         "Address": "Address: 26 Boulevard Georges Favon, 1204 Geneva",
         "Commitment": "We are committed to maintaining the highest standards of professional service and client satisfaction."
     },
-    
     "Errors": {
         "Required": "This field is required",
         "InvalidEmail": "Please enter a valid email address",
