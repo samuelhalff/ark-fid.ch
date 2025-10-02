@@ -146,6 +146,9 @@ function parseLimit(
   return Math.min(numeric, total);
 }
 
+// Force dynamic rendering to ensure JSON imports are always fresh
+export const dynamic = 'force-dynamic';
+
 export default async function RessourcesPage({
   params,
   searchParams,
