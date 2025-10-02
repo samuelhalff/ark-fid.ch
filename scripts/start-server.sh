@@ -62,8 +62,9 @@ echo "[start-server] Port: $PORT"
 echo "[start-server] ========================================="
 
 echo "[start-server] Starting server in $PWD on port $PORT"
-nohup node server.js > "$BASE/server.out" 2>&1 &
+nohup node server.js > "$BASE/server.out" 2>&1 </dev/null &
 NEW_PID=$!
+disown
 echo "$NEW_PID" > "$PID_FILE"
 echo "[start-server] Started PID $NEW_PID"
 

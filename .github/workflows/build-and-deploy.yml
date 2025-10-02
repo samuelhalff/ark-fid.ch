@@ -177,10 +177,18 @@ jobs:
             scripts/start-server.sh \
             "${USER}@${HOST}:/srv/customer/sites/ark-fid.ch/shared/start-server.sh"
 
+          echo "[deploy] Making script executable..."
           sshpass -p "${PASS}" ssh -p "${PORT}" -o StrictHostKeyChecking=no \
             "${USER}@${HOST}" \
-            "chmod +x /srv/customer/sites/ark-fid.ch/shared/start-server.sh && \
-             /srv/customer/sites/ark-fid.ch/shared/start-server.sh || true"
+            "chmod +x /srv/customer/sites/ark-fid.ch/shared/start-server.sh"
+
+          echo "[deploy] Executing start-server.sh..."
+          sshpass -p "${PASS}" ssh -p "${PORT}" -o StrictHostKeyChecking=no \
+            "${USER}@${HOST}" \
+            "bash /srv/customer/sites/ark-fid.ch/shared/start-server.sh" || {
+              echo "[deploy] WARNING: start-server.sh returned non-zero exit code"
+              echo "[deploy] Checking if server started anyway..."
+            }
 
       # --- Health check ---
       - name: Health check and warmup
