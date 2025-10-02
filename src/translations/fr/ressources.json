@@ -423,6 +423,28 @@
           "url": "https://www.lpde.pro/blog/odoo-compta-9/les-nouveautes-de-odoo-18-module-comptabilite-facturation-2537"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-comptabilite-fiduciaire-geneve",
+      "title": "Odoo 18 : nouveautés pour la gestion comptable des PME à Genève et Suisse romande",
+      "description": "Un panorama complet (automatisation, Swissdec, synchronisation bancaire, mobilité) des nouveautés Odoo version 18, adapté aux besoins des entreprises suisses, avec un accent particulier sur les spécificités de Genève et la Romandie. Idéal pour dirigeants, services financiers, responsables RH, fiduciaires et DAF souhaitant optimiser leur environnement digital.",
+      "content": "Odoo 18, disponible depuis fin septembre 2025, marque un tournant majeur pour la digitalisation des PME et indépendants genevois. La plateforme renforce ses intégrations bancaires helvétiques, propose de nouvelles fonctionnalités Swissdec (ELM 5.0) et optimise la gestion des salaires suisses, tout en s’adaptant aux exigences LPP, LAA et AC. Les entreprises bénéficient d’une automatisation accrue de la saisie comptable (reconnaissance améliorée des pièces justificatives) et d’un dashboard personnalisable synchronisé avec les normes Swiss GAAP FER. La mobilité fait un bond : accès sécurisé aux modules comptabilité, paie et documents légaux en temps réel. Pour les fiduciaires actives à Genève, Odoo 18 améliore aussi le suivi des obligations TVA 2025, la préparation des PV d’assemblée générale et le suivi des tâches de gouvernance. Enfin, l’intégration Odoo Connect permet de lier ses outils RH (Swissdec, gestion des certificats de salaire, cotisations LPP/LAA) et la gestion multisociétés. Cette nouvelle version répond ainsi aux enjeux de conformité, de productivité et de pilotage en temps réel des entreprises suisses. Besoin de migrer ? Nos experts Odoo Genève vous accompagnent, du paramétrage à l’outsourcing partiel ou complet.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-02",
+      "references": [
+        {
+          "labelKey": "Nouveautés Odoo 18",
+          "url": "https://www.odoo.com/fr_FR/blog/odoo-nouveautes-1/odoo-18-une-revolution-pour-les-pme-et-le-pilotage-financier-2025-1550"
+        },
+        {
+          "labelKey": "Swissdec normes Genève",
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "TVA et fiscalité Genève",
+          "url": "https://www.ge.ch/document/baremes-rectification-impot-source-2025"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -469,5 +491,7 @@
   "Écarts salariaux 2025": "Données récentes sur les variations salariales en Suisse romande",
   "Accord télétravail Suisse France 2025": "Accord Suisse–France sur le télétravail transfrontalier (2025)",
   "Guide télétravail OFAS 2025": "Guide OFAS 2025 sur le télétravail transfrontalier",
-  "Fiscalité TVA": "Fiscalité, TVA et actualités fiscales récentes"
+  "Fiscalité TVA": "Fiscalité, TVA et actualités fiscales récentes",
+  "Nouveautés Odoo": "Actualités logicielles pour Odoo et gestion digitale PME Suisse",
+  "Fiscalité Genève": "Règles et barèmes actualisés impôt Genève et Suisse romande"
 }

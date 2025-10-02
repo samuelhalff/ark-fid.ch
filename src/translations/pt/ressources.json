@@ -423,6 +423,28 @@
           "url": "https://www.lpde.pro/blog/odoo-compta-9/les-nouveautes-de-odoo-18-module-comptabilite-facturation-2537"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-comptabilite-fiduciaire-geneve",
+      "title": "Odoo 18: novidades para a gestão contábil de PME em Genebra e Suíça romanda",
+      "description": "Uma visão completa (automação, Swissdec, sincronização bancária, mobilidade) das novidades do Odoo versão 18, adaptadas às necessidades das empresas suíças, com ênfase nas particularidades de Genebra e da Suíça francesa. Ideal para dirigentes, departamentos financeiros, responsáveis de RH, fiduciários e CFOs que procuram otimizar seu ambiente digital.",
+      "content": "Odoo 18, disponível desde o final de setembro de 2025, marca uma virada para a digitalização de PME e autônomos de Genebra. A plataforma reforça suas integrações bancárias suíças, traz novas funcionalidades Swissdec (ELM 5.0) e otimiza a gestão de salários suíços, adaptando-se aos requisitos LPP, LAA e AC. As empresas se beneficiam de maior automação dos lançamentos contábeis (reconhecimento de documentos aprimorado) e de um painel customizável sincronizado com normas Swiss GAAP FER. A mobilidade avança: acesso seguro, em tempo real, aos módulos de contabilidade, folha e documentos legais. Para fiduciários de Genebra, Odoo 18 também melhora o acompanhamento das obrigações de IVA 2025, preparação das atas de assembleia geral e o controle das tarefas de governança. Por fim, a integração Odoo Connect permite conectar ferramentas de RH (Swissdec, gestão de certificados salariais, contribuições LPP/LAA) e a administração de múltiplas empresas. Esta nova versão responde aos desafios de conformidade, produtividade e gestão em tempo real das empresas suíças. Precisa migrar? Nossos especialistas Odoo Genebra acompanham você, do ajuste à terceirização parcial ou total.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-02",
+      "references": [
+        {
+          "labelKey": "Nouveautés Odoo 18",
+          "url": "https://www.odoo.com/fr_FR/blog/odoo-nouveautes-1/odoo-18-une-revolution-pour-les-pme-et-le-pilotage-financier-2025-1550"
+        },
+        {
+          "labelKey": "Swissdec normes Genève",
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "TVA et fiscalité Genève",
+          "url": "https://www.ge.ch/document/baremes-rectification-impot-source-2025"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -479,5 +501,8 @@
   "Administration fédérale TVA": "Administração federal IVA",
   "Changements TVA 2025": "Alterações IVA 2025",
   "Documentation Odoo 18": "Documentação Odoo 18",
-  "Nouveautés Odoo 18 Comptabilité": "Novidades Odoo 18 Contabilidade"
+  "Nouveautés Odoo 18 Comptabilité": "Novidades Odoo 18 Contabilidade",
+  "Nouveautés Odoo 18": "Novidades Odoo 18",
+  "Swissdec normes Genève": "Normas Swissdec Genebra",
+  "TVA et fiscalité Genève": "IVA e fiscalidade Genebra"
 }
