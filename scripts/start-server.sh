@@ -44,6 +44,16 @@ cd "$BASE/current"
 PORT="${PORT:-3000}"
 export PORT
 
+# Log what we're actually running
+ACTUAL_RELEASE=$(basename "$(readlink -f "$BASE/current")")
+BUILD_ID=$(cat .next/BUILD_ID 2>/dev/null || echo "UNKNOWN")
+echo "[start-server] ========================================="
+echo "[start-server] Starting release: $ACTUAL_RELEASE"
+echo "[start-server] BUILD_ID: $BUILD_ID"
+echo "[start-server] Path: $PWD"
+echo "[start-server] Port: $PORT"
+echo "[start-server] ========================================="
+
 echo "[start-server] Starting server in $PWD on port $PORT"
 nohup node server.js > "$BASE/server.out" 2>&1 &
 NEW_PID=$!
