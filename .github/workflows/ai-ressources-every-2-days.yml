@@ -84,15 +84,8 @@ jobs:
         run: |
           node scripts/ping-sitemaps.js
 
-      - name: Install deps for build (with dev)
-        run: npm i
-
-      - name: Trigger deployment workflow
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          # Use PAT instead of GITHUB_TOKEN to trigger other workflows
-          token: ${{ secrets.PAT_TOKEN }}
-          event-type: ai-content-updated
+      # Note: No need to trigger deployment explicitly
+      # The push above will automatically trigger build-and-deploy.yml via push event
 
       - name: Wait for deployment
         run: |
