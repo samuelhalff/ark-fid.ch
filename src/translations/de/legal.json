@@ -80,12 +80,12 @@
                 "1": "Mediation durch einen anerkannten schweizerischen kommerziellen Mediationsdienst",
                 "2": "Falls erforderlich, Rechtsstreit vor den zuständigen schweizerischen Gerichten"
             },
-            "Jurisdiction": "Gerichtsstand ist der eingetragene Sitz von Ark Fiduciaire in der Schweiz."
+            "Jurisdiction": "Gerichtsstand ist der eingetragene Sitz von Ark Fiduciaire SA in der Schweiz."
         },
         "Contact": {
             "Title": "Kontaktinformationen",
             "Description": "Für Fragen zu diesen Allgemeinen Geschäftsbedingungen oder unseren professionellen Dienstleistungen kontaktieren Sie uns bitte:",
-            "CompanyName": "Ark Fiduciaire",
+            "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Genf",
             "Commitment": "Wir sind verpflichtet, die höchsten Standards professioneller Dienstleistung und Kundenzufriedenheit zu wahren."
@@ -104,9 +104,9 @@
         },
         "DataController": {
             "Title": "Datenverantwortlicher",
-            "Content": "Ark Fiduciaire fungiert als Datenverantwortlicher für persönliche Daten, die im Zusammenhang mit unseren professionellen Dienstleistungen erhoben und verarbeitet werden.",
+            "Content": "Ark Fiduciaire SA fungiert als Datenverantwortlicher für persönliche Daten, die im Zusammenhang mit unseren professionellen Dienstleistungen erhoben und verarbeitet werden.",
             "ContactDetails": "Kontaktdaten:",
-            "CompanyName": "Ark Fiduciaire",
+            "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Genf"
         },
@@ -252,7 +252,7 @@
         "Contact": {
             "Title": "Kontaktieren Sie uns",
             "Description": "Wenn Sie Fragen zu dieser Datenschutzerklärung haben oder Ihre Rechte ausüben möchten, kontaktieren Sie uns bitte:",
-            "CompanyName": "Ark Fiduciaire",
+            "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Genf"
         }

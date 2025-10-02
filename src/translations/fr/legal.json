@@ -80,12 +80,12 @@
                 "1": "Médiation par un service de médiation commerciale suisse reconnu",
                 "2": "Si nécessaire, litige devant les tribunaux suisses compétents"
             },
-            "Jurisdiction": "Le lieu de juridiction est le siège social d'Ark Fiduciaire en Suisse."
+            "Jurisdiction": "Le lieu de juridiction est le siège social d'Ark Fiduciaire SA en Suisse."
         },
         "Contact": {
             "Title": "Informations de Contact",
             "Description": "Pour toute question concernant ces Conditions d'Utilisation ou nos services professionnels, veuillez nous contacter :",
-            "CompanyName": "Ark Fiduciaire",
+            "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Genève",
             "Commitment": "Nous nous engageons à maintenir les plus hauts standards de service professionnel et de satisfaction client."
@@ -104,9 +104,9 @@
         },
         "DataController": {
             "Title": "Responsable du Traitement",
-            "Content": "Ark Fiduciaire agit en tant que responsable du traitement pour les données personnelles collectées et traitées en lien avec nos services professionnels.",
+            "Content": "Ark Fiduciaire SA agit en tant que responsable du traitement pour les données personnelles collectées et traitées en lien avec nos services professionnels.",
             "ContactDetails": "Coordonnées :",
-            "CompanyName": "Ark Fiduciaire",
+            "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Genève"
         },
@@ -252,7 +252,7 @@
         "Contact": {
             "Title": "Nous Contacter",
             "Description": "Si vous avez des questions sur cette Politique de Confidentialité ou souhaitez exercer vos droits, veuillez nous contacter :",
-            "CompanyName": "Ark Fiduciaire",
+            "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Genève"
         }
@@ -417,7 +417,7 @@
         "Contact": {
             "Title": "Nous Contacter",
             "Description": "Si vous avez des questions sur cette Politique des Cookies ou notre utilisation des cookies, veuillez nous contacter :",
-            "CompanyName": "Ark Fiduciaire",
+            "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Genève"
         }

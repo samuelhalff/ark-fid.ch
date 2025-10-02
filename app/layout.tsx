@@ -67,16 +67,16 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
   ),
   title: {
-    template: "%s - Ark Fiduciaire",
-    default: "Ark Fiduciaire - Swiss Fiduciary Services",
+    template: "%s - Ark Fiduciaire SA",
+    default: "Ark Fiduciaire SA - Swiss Fiduciary Services",
   },
   description:
     "Expert fiduciary, accounting, and tax services in Switzerland. Corporate services, payroll management, domiciliation, and comprehensive business solutions for SMEs and international companies in Geneva and Lausanne.",
   keywords:
     "fiduciary services, accounting, tax services, Switzerland, corporate services, payroll, domiciliation",
-  authors: [{ name: "Ark Fiduciaire" }],
-  creator: "Ark Fiduciaire",
-  publisher: "Ark Fiduciaire",
+  authors: [{ name: "Ark Fiduciaire SA" }],
+  creator: "Ark Fiduciaire SA",
+  publisher: "Ark Fiduciaire SA",
   robots: {
     index: true,
     follow: true,
@@ -164,7 +164,7 @@ export default async function RootLayout({
     "@context": "https://schema.org",
     "@type": "WebSite",
     url: "https://ark-fid.ch/",
-    name: "Ark Fiduciaire",
+    name: "Ark Fiduciaire SA",
     potentialAction: {
       "@type": "SearchAction",
       target: "https://ark-fid.ch/?q={search_term_string}",

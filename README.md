@@ -1,4 +1,4 @@
-Ark Fiduciaire Website 2025
+Ark Fiduciaire SA Website 2025
 
 ## IndexNow Automation
 
@@ -175,6 +175,8 @@ Workflow recommendation:
 5. Sync other locales if structure changed: `npm run ressources:sync`.
 
 If an official PDF returns 404, prefer temporarily removing its entry across locales (preserving commit history) rather than leaving a broken download link in production.
+
 ```
 # IndexNow setup complete
 # Deployment trigger - Wed Oct  1 13:31:16 UTC 2025
+```

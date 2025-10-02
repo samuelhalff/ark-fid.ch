@@ -22,7 +22,7 @@ export const teamMembers: TeamMember[] = [
     social: {
       linkedin: "https://www.linkedin.com/in/hassanbarbir",
     },
-    bioShort: "Partner at Ark Fiduciaire. Focus on corporate structuring, governance and cross‑border matters.",
+    bioShort: "Partner at Ark Fiduciaire SA. Focus on corporate structuring, governance and cross‑border matters.",
     bioLong:
       "Hassan advises on corporate structuring, tax‑efficient reorganizations and governance for growth‑stage and international groups. Admitted to the bar in 2013 and holding an LL.M. in Tax (University of Geneva), he combines pragmatic deal execution with cross‑border coordination. He works in French, English and Italian.",
     pbmUrl: "https://pbm.law/fr/team/hassan-barbir",
@@ -42,7 +42,7 @@ export const teamMembers: TeamMember[] = [
     social: {
       linkedin: "https://www.linkedin.com/in/samuelhalff",
     },
-    bioShort: "Managing partner at Ark Fiduciaire. Finance, M&A and operations oriented.",
+    bioShort: "Managing partner at Ark Fiduciaire SA. Finance, M&A and operations oriented.",
     bioLong:
       "Samuel focuses on finance operations, M&A readiness and leadership reporting. Admitted to the bar in 2013 and holder of an LL.M. from UCLA (2019–2020), he helps teams put in place reliable data, processes and governance that scale through transactions. He works in French, English and German.",
     pbmUrl: "https://pbm.law/fr/team/samuel-halff",
@@ -60,7 +60,7 @@ export const teamMembers: TeamMember[] = [
     social: {
       linkedin: "https://www.linkedin.com/in/rodrigue-sperisen-74543a185",
     },
-    bioShort: "Partner at Ark Fiduciaire. Accounting and finance operations specialist.",
+    bioShort: "Partner at Ark Fiduciaire SA. Accounting and finance operations specialist.",
     bioLong:
       "Rodrigue is a TEP‑qualified lawyer (STEP Diploma, 2009; bar 2005) who designs robust ownership, governance and succession frameworks for companies and founders. He brings trust and estate structuring experience and builds clear, decision‑ready reporting with sound processes and tooling. He works in French and English.",
     pbmUrl: "https://pbm.law/fr/team/rodrigue-sperisen",
@@ -83,7 +83,7 @@ export const teamMembers: TeamMember[] = [
     social: {
       linkedin: "https://www.linkedin.com/in/lassana-dioum-b429622b",
     },
-    bioShort: "Partner at Ark Fiduciaire. Tax, payroll and compliance for SMEs and international teams.",
+    bioShort: "Partner at Ark Fiduciaire SA. Tax, payroll and compliance for SMEs and international teams.",
     bioLong:
       "Lassana leads tax, payroll and compliance programs for SMEs and international teams. Admitted to the bar in 2012 and graduate in economic law (University of Geneva), he coordinates filings, rulings and process implementation across jurisdictions with a focus on practical, people‑friendly execution. He works in French, English and Spanish.",
     pbmUrl: "https://pbm.law/fr/team/lassana-dioum",
