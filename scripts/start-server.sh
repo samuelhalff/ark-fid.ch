@@ -39,13 +39,6 @@ if [ -f "$ENV_FILE" ] && [ -L "$BASE/current" ]; then
   ln -sfn "$ENV_FILE" "$BASE/current/.env"
 fi
 
-# --- Clear Next.js cache to ensure fresh deployment ---
-echo "[start-server] Clearing Next.js cache..."
-if [ -d "$BASE/current/.next/cache" ]; then
-  rm -rf "$BASE/current/.next/cache"
-  echo "[start-server] Cache cleared"
-fi
-
 # --- Start server ---
 cd "$BASE/current"
 PORT="${PORT:-3000}"
