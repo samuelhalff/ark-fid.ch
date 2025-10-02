@@ -15,10 +15,25 @@ if [ -z "$DEPLOY_SSH_USER" ] || [ -z "$DEPLOY_SSH_HOST" ] || [ -z "$DEPLOY_SSH_P
 fi
 
 echo "🔍 Checking deployed version on server..."
+echo "📡 Connecting to: $DEPLOY_SSH_USER@$DEPLOY_SSH_HOST:${DEPLOY_SSH_PORT:-22}"
 echo ""
 
+# Test SSH connection first
+if ! sshpass -p "$DEPLOY_SSH_PASSWORD" ssh -p "${DEPLOY_SSH_PORT:-22}" -o StrictHostKeyChecking=no -o ConnectTimeout=10 \
+  "$DEPLOY_SSH_USER@$DEPLOY_SSH_HOST" 'echo "Connection successful"' 2>/dev/null; then
+  echo "❌ SSH connection failed!"
+  echo "   Host: $DEPLOY_SSH_HOST"
+  echo "   Port: ${DEPLOY_SSH_PORT:-22}"
+  echo "   User: $DEPLOY_SSH_USER"
+  echo ""
+  echo "Debugging info:"
+  sshpass -p "$DEPLOY_SSH_PASSWORD" ssh -v -p "${DEPLOY_SSH_PORT:-22}" -o StrictHostKeyChecking=no -o ConnectTimeout=10 \
+    "$DEPLOY_SSH_USER@$DEPLOY_SSH_HOST" 'echo test' 2>&1 | grep -E 'Connecting|Connected|debug1:' | head -10
+  exit 1
+fi
+
 sshpass -p "$DEPLOY_SSH_PASSWORD" ssh -p "${DEPLOY_SSH_PORT:-22}" -o StrictHostKeyChecking=no \
-  "$DEPLOY_SSH_USER@$DEPLOY_SSH_HOST" 'bash -s' << 'ENDSSH'
+  "$DEPLOY_SSH_USER@$DEPLOY_SSH_HOST" bash -lc '
   BASE="/srv/customer/sites/ark-fid.ch"
   
   echo "📦 Current Release:"
@@ -39,17 +54,23 @@ sshpass -p "$DEPLOY_SSH_PASSWORD" ssh -p "${DEPLOY_SSH_PORT:-22}" -o StrictHostK
   
   echo ""
   echo "🚀 Process Status:"
-  if [ -f "$BASE/ark-fid.pid" ]; then
-    PID=$(cat "$BASE/ark-fid.pid")
-    if kill -0 "$PID" 2>/dev/null; then
-      echo "   ✅ Running (PID: $PID)"
-      PROC_DIR=$(pwdx "$PID" 2>/dev/null | awk '{print $2}')
-      echo "   Working dir: $PROC_DIR"
-    else
-      echo "   ❌ Not running (stale PID)"
+  PORT_VAL=${PORT:-3000}
+  if curl -fsS "http://127.0.0.1:$PORT_VAL/" >/dev/null 2>&1; then
+    echo "   ✅ Server is running and responding on port $PORT_VAL"
+    if [ -f "$BASE/ark-fid.pid" ]; then
+      PID=$(cat "$BASE/ark-fid.pid")
+      echo "   Last known PID: $PID"
     fi
   else
-    echo "   ⚠️  No PID file"
+    echo "   ❌ Server is NOT responding on port $PORT_VAL"
+    if [ -f "$BASE/ark-fid.pid" ]; then
+      PID=$(cat "$BASE/ark-fid.pid")
+      if kill -0 "$PID" 2>/dev/null; then
+        echo "   PID $PID exists but may not be serving"
+      else
+        echo "   PID $PID is stale"
+      fi
+    fi
   fi
   
   echo ""
@@ -64,8 +85,8 @@ sshpass -p "$DEPLOY_SSH_PASSWORD" ssh -p "${DEPLOY_SSH_PORT:-22}" -o StrictHostK
   
   echo ""
   echo "📝 Recent Server Logs (last 10 lines):"
-  tail -10 "$BASE/server.out" 2>/dev/null | sed 's/^/   /'
-ENDSSH
+  tail -10 "$BASE/server.out" 2>/dev/null | sed "s/^/   /"
+'
 
 echo ""
 echo "✅ Check complete!"
