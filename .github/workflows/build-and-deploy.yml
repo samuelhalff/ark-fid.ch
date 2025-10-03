@@ -160,33 +160,63 @@ jobs:
             done
           '
 
-      # --- Upload and restart ---
-      - name: Upload and restart via start-server.sh
+      # --- Trigger application restart via API endpoint ---
+      - name: Trigger restart via /api/restart endpoint
         run: |
           set -euo pipefail
-          sudo apt-get install -y sshpass
-          HOST="${{ secrets.DEPLOY_SSH_HOST }}"
-          USER="${{ secrets.DEPLOY_SSH_USER }}"
-          PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
-          PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
-
-          echo "[deploy] Uploading start-server.sh..."
-          sshpass -p "${PASS}" scp -P "${PORT}" -o StrictHostKeyChecking=no \
-            scripts/start-server.sh \
-            "${USER}@${HOST}:/srv/customer/sites/ark-fid.ch/shared/start-server.sh"
-
-          echo "[deploy] Making script executable..."
-          sshpass -p "${PASS}" ssh -p "${PORT}" -o StrictHostKeyChecking=no \
-            "${USER}@${HOST}" \
-            "chmod +x /srv/customer/sites/ark-fid.ch/shared/start-server.sh"
-
-          echo "[deploy] Executing start-server.sh..."
-          sshpass -p "${PASS}" ssh -p "${PORT}" -o StrictHostKeyChecking=no \
-            "${USER}@${HOST}" \
-            "bash /srv/customer/sites/ark-fid.ch/shared/start-server.sh" || {
-              echo "[deploy] WARNING: start-server.sh returned non-zero exit code"
-              echo "[deploy] Checking if server started anyway..."
-            }
+          
+          SITE_URL="https://ark-fid.ch"
+          MAX_RETRIES=3
+          RETRY_DELAY=5
+          
+          echo "[deploy] Triggering application restart via API endpoint..."
+          echo "   Site: $SITE_URL"
+          
+          # Function to trigger restart
+          trigger_restart() {
+            local attempt=$1
+            echo "   Attempt $attempt/$MAX_RETRIES..."
+            
+            http_code=$(curl -s -w "%{http_code}" -o /tmp/restart_response.json \
+              -X POST \
+              -H "Authorization: Bearer ${{ secrets.RESTART_SECRET_TOKEN }}" \
+              -H "Content-Type: application/json" \
+              --max-time 10 \
+              "$SITE_URL/api/restart")
+            
+            if [ "$http_code" = "200" ]; then
+              echo "✅ Restart triggered successfully (HTTP $http_code)"
+              cat /tmp/restart_response.json
+              return 0
+            else
+              echo "⚠️  Restart request returned HTTP $http_code"
+              cat /tmp/restart_response.json || echo "(no response body)"
+              return 1
+            fi
+          }
+          
+          # Try to trigger restart with retries
+          success=false
+          for attempt in $(seq 1 $MAX_RETRIES); do
+            if trigger_restart $attempt; then
+              success=true
+              break
+            fi
+            
+            if [ $attempt -lt $MAX_RETRIES ]; then
+              echo "   Waiting ${RETRY_DELAY}s before retry..."
+              sleep $RETRY_DELAY
+            fi
+          done
+          
+          if [ "$success" = false ]; then
+            echo "❌ Failed to trigger restart after $MAX_RETRIES attempts"
+            exit 1
+          fi
+          
+          echo ""
+          echo "⏳ Waiting for Infomaniak to restart application (30 seconds)..."
+          sleep 30
 
       # --- Health check ---
       - name: Health check and warmup
