@@ -301,7 +301,7 @@ export default async function RessourcesPage({
         </p>
       </section>
 
-      <section id="articles">
+      <section id="articles" className="mb-16">
         <h2 className="text-2xl font-semibold mb-6">
           {ressources.ArticlesTitle || "Articles"}
         </h2>
@@ -328,7 +328,7 @@ export default async function RessourcesPage({
           </div>
         )}
       </section>
-      <section id="files" className="mb-16">
+      <section id="files">
         <h2 className="text-2xl font-semibold mb-6">
           {ressources.FilesTitle || "Files"}
         </h2>
