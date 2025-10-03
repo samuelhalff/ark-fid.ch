@@ -180,3 +180,4 @@ If an official PDF returns 404, prefer temporarily removing its entry across loc
 # IndexNow setup complete
 # Deployment trigger - Wed Oct  1 13:31:16 UTC 2025
 ```
+# Test deployment
