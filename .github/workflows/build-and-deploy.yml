@@ -170,9 +170,9 @@ jobs:
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
           RESTART_TOKEN="${{ secrets.RESTART_SECRET_TOKEN }}"
-          
+
           echo "[deploy] Restarting application..."
-          
+
           # Pass RESTART_TOKEN as environment variable to SSH session
           sshpass -p "${PASS}" ssh -p "${PORT}" -o StrictHostKeyChecking=no "${USER}@${HOST}" \
             "RESTART_TOKEN='${RESTART_TOKEN}' bash -c '
