@@ -160,7 +160,7 @@ jobs:
             echo "Waiting for server... ($i/$ATTEMPTS)"
             sleep $SLEEP
           done
-          [ "$OK" -eq 1" ] || { echo "❌ Health check failed"; exit 1; }
+          [ "$OK" -eq 1 ] || { echo "❌ Health check failed"; exit 1; }
 
           echo "[deploy] Warming up main paths..."
           for path in "/" "/en/" "/fr/" "/de/" "/es/" "/pt/"; do
