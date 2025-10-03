@@ -147,7 +147,7 @@ function parseLimit(
 }
 
 // Force dynamic rendering to ensure JSON imports are always fresh
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function RessourcesPage({
   params,
@@ -301,7 +301,7 @@ export default async function RessourcesPage({
         </p>
       </section>
 
-      <section id="articles" className="mb-16">
+      <section id="articles">
         <h2 className="text-2xl font-semibold mb-6">
           {ressources.ArticlesTitle || "Articles"}
         </h2>
@@ -328,36 +328,7 @@ export default async function RessourcesPage({
           </div>
         )}
       </section>
-            </section>
-
-      <section id="articles" className="mb-16">
-        <h2 className="text-2xl font-semibold mb-6">
-          {ressources.ArticlesTitle || "Articles"}
-        </h2>
-        <ResourceGrid
-          files={[]}
-          articles={visibleArticles}
-          locale={locale}
-          labels={labels}
-        />
-        {showMoreArticles && (
-          <div className="flex items-center gap-3 justify-center mt-6">
-            <a
-              className="px-4 py-2 border rounded-md text-sm hover:bg-muted"
-              href={buildHref({ articles: nextArticles }, "articles")}
-            >
-              {ressources.LoadMoreArticles || "Load more articles"}
-            </a>
-            <a
-              className="px-3 py-2 text-xs text-muted-foreground hover:underline"
-              href={buildHref({ articles: "all" }, "articles")}
-            >
-              {ressources.ShowAllArticles || "Show all"}
-            </a>
-          </div>
-        )}
-      </section>
-      <section id="files">
+      <section id="files" className="mb-16">
         <h2 className="text-2xl font-semibold mb-6">
           {ressources.FilesTitle || "Files"}
         </h2>
@@ -384,6 +355,7 @@ export default async function RessourcesPage({
           </div>
         )}
       </section>
+
       <FAQSection faq={ressources.FAQ || {}} locale={locale} nonce={nonce} />
     </main>
   );
