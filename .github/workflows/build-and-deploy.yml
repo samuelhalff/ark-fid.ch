@@ -161,7 +161,7 @@ jobs:
             done
           '
 
-      # --- Restart server (via API or fallback kill) ---
+      # --- Restart application ---
       - name: Restart application
         run: |
           set -euo pipefail
@@ -173,31 +173,35 @@ jobs:
           RESTART_TOKEN="${{ secrets.RESTART_SECRET_TOKEN }}"
 
           echo "[deploy] Restarting application..."
-          sshpass -p "${PASS}" ssh -p "${PORT}" -o StrictHostKeyChecking=no "${USER}@${HOST}" bash -lc "
+          sshpass -p "${PASS}" ssh -p "${PORT}" -o StrictHostKeyChecking=no "${USER}@${HOST}" 'bash -s' <<'EOSSH'
             set -euo pipefail
-            BASE_DIR='/srv/customer/sites/ark-fid.ch'
-            PID_FILE='\$BASE_DIR/ark-fid.pid'
-            CURRENT_DIR='\$BASE_DIR/current'
-            LOG_FILE='\$BASE_DIR/server.out'
+            BASE_DIR="/srv/customer/sites/ark-fid.ch"
+            PID_FILE="$BASE_DIR/ark-fid.pid"
+            CURRENT_DIR="$BASE_DIR/current"
+            LOG_FILE="$BASE_DIR/server.out"
             PORT_VAL=3000
 
-            echo '[restart] Trying API endpoint...'
-            if curl -sL -X POST -H 'Authorization: Bearer ${RESTART_TOKEN}' -H 'Content-Type: application/json' --max-time 5 https://ark-fid.ch/api/restart >/dev/null 2>&1; then
-              echo '[restart] ✅ Restart triggered via API'
+            echo "[restart] Trying API endpoint..."
+            if curl -sL -X POST \
+              -H "Authorization: Bearer ${RESTART_TOKEN}" \
+              -H "Content-Type: application/json" \
+              --max-time 5 \
+              "https://ark-fid.ch/api/restart" >/dev/null 2>&1; then
+              echo "[restart] ✅ Restart triggered via API"
               sleep 5
             else
-              echo '[restart] ⚠️ API failed, fallback to PID kill'
-              if [ -f '\$PID_FILE' ]; then
-                OLD_PID=\$(cat '\$PID_FILE')
-                kill '\$OLD_PID' 2>/dev/null || true
+              echo "[restart] ⚠️ API failed, fallback to PID kill"
+              if [ -f "$PID_FILE" ]; then
+                OLD_PID=$(cat "$PID_FILE")
+                kill "$OLD_PID" 2>/dev/null || true
                 sleep 2
               fi
-              echo '[restart] Starting manually...'
-              cd '\$CURRENT_DIR'
-              PORT=\$PORT_VAL nohup node server.js > '\$LOG_FILE' 2>&1 &
-              echo \$! > '\$PID_FILE'
+              echo "[restart] Starting manually..."
+              cd "$CURRENT_DIR"
+              PORT=$PORT_VAL nohup node server.js > "$LOG_FILE" 2>&1 &
+              echo $! > "$PID_FILE"
             fi
-          "
+EOSSH
 
       # --- Health check ---
       - name: Health check and warmup
@@ -225,3 +229,14 @@ jobs:
               curl -fsS "http://127.0.0.1:$PORT_VAL$path" >/dev/null 2>&1 || true
             done
           '
+
+      # --- Upload logs for debugging ---
+      - name: Upload server logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deploy-logs
+          path: |
+            server.out
+            deploy.extract.log
+          if-no-files-found: ignore
