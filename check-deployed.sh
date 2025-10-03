@@ -53,6 +53,22 @@ sshpass -p "$DEPLOY_SSH_PASSWORD" ssh -p "${DEPLOY_SSH_PORT:-22}" -o StrictHostK
   fi
   
   echo ""
+  echo "📁 Static Folder:"
+  if [ -f "$BASE/current/.next/BUILD_ID" ]; then
+    BUILD_ID=$(cat "$BASE/current/.next/BUILD_ID")
+    if [ -d "$BASE/current/.next/static/$BUILD_ID" ]; then
+      echo "   ✅ Static folder $BUILD_ID exists"
+      echo "   Contents: $(ls -1 "$BASE/current/.next/static/$BUILD_ID" | wc -l) items"
+      echo "   Permissions: $(stat -c '%a' "$BASE/current/.next/static/$BUILD_ID" 2>/dev/null || echo 'unknown')"
+    else
+      echo "   ❌ Static folder $BUILD_ID NOT found"
+      echo "   Available folders: $(ls -1 "$BASE/current/.next/static" 2>/dev/null || echo 'none')"
+    fi
+  else
+    echo "   Cannot check without BUILD_ID"
+  fi
+  
+  echo ""
   echo "🚀 Process Status:"
   PORT_VAL=${PORT:-3000}
   if curl -fsS "http://127.0.0.1:$PORT_VAL/" >/dev/null 2>&1; then

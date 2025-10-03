@@ -16,11 +16,23 @@ cp -R "$BUILD_DIR/standalone/"* "$DIST_DIR/"
 
 # Ensure .next/static resides alongside the server bundle
 mkdir -p "$DIST_DIR/.next"
-cp -R "$BUILD_DIR/static" "$DIST_DIR/.next/"
+cp -R "$BUILD_DIR/standalone/.next/static" "$DIST_DIR/.next/"
 
 # Copy BUILD_ID so Next.js can verify a production build exists
 if [ -f "$BUILD_DIR/BUILD_ID" ]; then
   cp "$BUILD_DIR/BUILD_ID" "$DIST_DIR/.next/BUILD_ID"
+else
+  echo "Warning: BUILD_ID not found in $BUILD_DIR"
+fi
+
+# Verify BUILD_ID matches static folder
+if [ -f "$DIST_DIR/.next/BUILD_ID" ]; then
+  BUILD_ID=$(cat "$DIST_DIR/.next/BUILD_ID")
+  if [ ! -d "$DIST_DIR/.next/static/$BUILD_ID" ]; then
+    echo "Error: Static folder $BUILD_ID not found in $DIST_DIR/.next/static/"
+    ls -la "$DIST_DIR/.next/static/" || true
+    exit 1
+  fi
 fi
 
 # Copy required Next.js manifests from the build output into runtime .next

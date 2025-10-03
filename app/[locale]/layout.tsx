@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import "../globals.css";
 import ServicesElements from "@/app/[locale]/navigation";
 import { getTranslations } from "@/src/lib/i18n";
+import { localizePath } from "@/src/lib/paths";
 
 const locales = ["en", "fr", "de", "es", "pt"] as const;
 type Locale = (typeof locales)[number];
@@ -50,7 +51,7 @@ export default async function LocaleLayout({
       mobileNavigation: tNavbar("MobileNavigation"),
     },
     services: ServicesElements.map((s) => ({
-      href: s.href,
+      href: localizePath(s.href, activeLocale),
       title: tServices(s.titleKey),
       description: tServices(s.descriptionKey),
     })),

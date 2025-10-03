@@ -4,6 +4,7 @@ import ImageWithFallback from "@/src/components/ui/image-with-fallback";
 import Link from "next/link";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import heroBlurData from "@/src/lib/heroBlurData.json";
+import { localizePath } from "@/src/lib/paths";
 
 interface ServicesProps {
   showSubtitle?: boolean;
@@ -41,7 +42,7 @@ const Services = async ({
         {services.map((service) => (
           <Link
             key={service.titleKey}
-            href={`${localePrefix}${service.href}`}
+            href={`${localePrefix}${localizePath(service.href, currentLocale)}`}
             prefetch={false}
             locale={locale}
             className="block h-full"

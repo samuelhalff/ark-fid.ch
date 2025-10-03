@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import Presentation from "./components/presentation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
+import { localizePath } from "@/src/lib/paths";
 
 export const runtime = "nodejs";
 
@@ -34,7 +35,7 @@ const Odoo = async ({ params }: { params: { locale: string } }) => {
         "@type": "ListItem",
         position: 2,
         name: "Odoo",
-        item: `${baseUrl}${localePrefix}/services/odoo/`,
+        item: `${baseUrl}/${params.locale}${localizePath("/services/odoo", params.locale as Locale)}/`,
       },
     ],
   } as const;

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { Locale, locales } from "./i18n";
+import { localizePath } from "./paths";
 import fs from 'fs';
 import { join as pathJoin } from 'path';
 
@@ -52,6 +53,20 @@ const hreflangFor = (loc: Locale): string => {
   }
 };
 
+// Parse placeholder locales from env (e.g., PLACEHOLDER_LOCALES="es,pt").
+function getPlaceholderLocales(): Set<Locale> {
+  const raw = process.env.PLACEHOLDER_LOCALES || '';
+  const set = new Set<Locale>();
+  raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .forEach((s) => {
+      if ((locales as readonly string[]).includes(s)) set.add(s as Locale);
+    });
+  return set;
+}
+
 export async function getPageMetadata(
   locale: Locale,
   path: string,
@@ -61,6 +76,7 @@ export async function getPageMetadata(
   }
 ): Promise<Metadata> {
   const config = await loadMetadataConfig(locale);
+  const placeholderLocales = getPlaceholderLocales();
   
   // Get page-specific metadata or fall back to default
   const pageData = config.pages[path] || config.default;
@@ -74,10 +90,12 @@ export async function getPageMetadata(
     description = config.dynamic.articles.descriptionTemplate.replace("{articleDescription}", customData.articleDescription || "");
   }
   
-  // Generate proper URLs for each locale (all locales have prefix in our setup)
-  const canonicalPath = `/${locale}${path}`;
+  // Generate locale-aware URLs (all locales have prefix in our setup, but slugs may differ per locale)
+  const localizedCanonical = localizePath(path, locale);
+  const canonicalPath = `/${locale}${localizedCanonical}`;
   const alternateUrls = locales.reduce((acc, loc) => {
-    const locPath = `/${loc}${path}`;
+    const localized = localizePath(path, loc);
+    const locPath = `/${loc}${localized}`;
     const key = hreflangFor(loc);
     acc[key] = `https://ark-fid.ch${locPath}`;
     return acc;
@@ -119,11 +137,11 @@ export async function getPageMetadata(
     creator: config.default.author,
     publisher: config.default.siteName,
     robots: {
-      index: true,
-      follow: true,
+      index: !placeholderLocales.has(locale),
+      follow: !placeholderLocales.has(locale),
       googleBot: {
-        index: true,
-        follow: true,
+        index: !placeholderLocales.has(locale),
+        follow: !placeholderLocales.has(locale),
         "max-video-preview": -1,
         "max-image-preview": "large",
         "max-snippet": -1,
@@ -172,7 +190,10 @@ export async function getPageMetadata(
     },
     alternates: {
       canonical: `https://ark-fid.ch${canonicalPath}`,
-      languages: Object.assign({ 'x-default': `https://ark-fid.ch/fr${path}` }, alternateUrls),
+      languages: Object.assign(
+        { 'x-default': `https://ark-fid.ch/fr${localizePath(path, 'fr' as Locale)}` },
+        alternateUrls
+      ),
     },
   };
 

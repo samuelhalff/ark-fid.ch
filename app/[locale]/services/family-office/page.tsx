@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import Presentation from "./components/presentation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
+import { localizePath } from "@/src/lib/paths";
 
 export const runtime = "nodejs";
 
@@ -42,7 +43,7 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
           (tFamily("Breadcrumb.Label") as string) ||
           (tFamily("Hero.Title") as string) ||
           "Family office",
-        item: `${baseUrl}${localePrefix}/services/family-office/`,
+        item: `${baseUrl}/${params.locale}${localizePath("/services/family-office", params.locale as Locale)}/`,
       },
     ],
   } as const;

@@ -6,6 +6,7 @@ import { generateMetadataForPage } from "@/src/lib/metadata";
 import StructuredData from "@/src/components/seo/StructuredData";
 import { buildBreadcrumbList, buildHowTo } from "@/src/lib/structuredData";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
+import { localizePath } from "@/src/lib/paths";
 
 export const runtime = "nodejs";
 
@@ -32,7 +33,7 @@ const Domiciliation = async ({ params }: { params: { locale: string } }) => {
     },
     {
       name: (tNav("DomiciliationServices.Title") as string) || "Domiciliation",
-      item: `${baseUrl}${localePrefix}/services/domiciliation/`,
+      item: `${baseUrl}/${params.locale}${localizePath("/services/domiciliation", params.locale as Locale)}/`,
     },
   ]);
   const howToJsonLd = buildHowTo({

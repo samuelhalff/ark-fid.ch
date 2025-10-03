@@ -4,6 +4,7 @@ import Hero from "./components/hero";
 import Presentation from "./components/presentation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
+import { localizePath } from "@/src/lib/paths";
 import StructuredData from "@/src/components/seo/StructuredData";
 import { buildHowTo } from "@/src/lib/structuredData";
 
@@ -37,7 +38,7 @@ const Incorporation = async ({ params }: { params: { locale: string } }) => {
         "@type": "ListItem",
         position: 2,
         name: (tNav("Incorporation.Title") as string) || "Incorporation",
-        item: `${baseUrl}${localePrefix}/services/incorporation/`,
+        item: `${baseUrl}/${params.locale}${localizePath("/services/incorporation", params.locale as Locale)}/`,
       },
     ],
   } as const;

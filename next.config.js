@@ -19,6 +19,40 @@ const baseConfig = {
     imageSizes: [16, 24, 32, 48, 64, 96, 128, 256, 384],
   },
   swcMinify: true,
+  async redirects() {
+    // Redirect old FR English-slugged URLs to localized French slugs
+    return [
+      { source: '/fr/services/accounting', destination: '/fr/services/comptabilite', permanent: true },
+      { source: '/fr/services/accounting/', destination: '/fr/services/comptabilite/', permanent: true },
+      { source: '/fr/services/taxes', destination: '/fr/services/fiscalite', permanent: true },
+      { source: '/fr/services/taxes/', destination: '/fr/services/fiscalite/', permanent: true },
+      { source: '/fr/services/payroll', destination: '/fr/services/paie', permanent: true },
+      { source: '/fr/services/payroll/', destination: '/fr/services/paie/', permanent: true },
+      { source: '/fr/services/outsourcing', destination: '/fr/services/externalisation', permanent: true },
+      { source: '/fr/services/outsourcing/', destination: '/fr/services/externalisation/', permanent: true },
+      { source: '/fr/services/corporate', destination: '/fr/services/services-corporatifs', permanent: true },
+      { source: '/fr/services/corporate/', destination: '/fr/services/services-corporatifs/', permanent: true },
+      { source: '/fr/services/incorporation', destination: '/fr/services/constitution-entreprise', permanent: true },
+      { source: '/fr/services/incorporation/', destination: '/fr/services/constitution-entreprise/', permanent: true },
+    ];
+  },
+  async rewrites() {
+    // Map localized French slugs to existing English-slug routes for rendering
+    return [
+      { source: '/fr/services/comptabilite', destination: '/fr/services/accounting' },
+      { source: '/fr/services/comptabilite/', destination: '/fr/services/accounting/' },
+      { source: '/fr/services/fiscalite', destination: '/fr/services/taxes' },
+      { source: '/fr/services/fiscalite/', destination: '/fr/services/taxes/' },
+      { source: '/fr/services/paie', destination: '/fr/services/payroll' },
+      { source: '/fr/services/paie/', destination: '/fr/services/payroll/' },
+      { source: '/fr/services/externalisation', destination: '/fr/services/outsourcing' },
+      { source: '/fr/services/externalisation/', destination: '/fr/services/outsourcing/' },
+      { source: '/fr/services/services-corporatifs', destination: '/fr/services/corporate' },
+      { source: '/fr/services/services-corporatifs/', destination: '/fr/services/corporate/' },
+      { source: '/fr/services/constitution-entreprise', destination: '/fr/services/incorporation' },
+      { source: '/fr/services/constitution-entreprise/', destination: '/fr/services/incorporation/' },
+    ];
+  },
   async headers() {
     return [
       // Cache Next.js static files aggressively

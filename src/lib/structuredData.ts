@@ -136,3 +136,34 @@ export function buildWebSiteSearchAction(siteUrl: string) {
     },
   } as const;
 }
+
+export interface ServiceSchemaConfig {
+  name: string;
+  description: string;
+  serviceType?: string;
+  url: string; // absolute URL
+  areaServed?: string[];
+  provider?: { name: string; url?: string; logo?: string };
+}
+
+export function buildServiceSchema(cfg: ServiceSchemaConfig) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: cfg.name,
+    description: cfg.description,
+    ...(cfg.serviceType ? { serviceType: cfg.serviceType } : {}),
+    url: cfg.url,
+    ...(cfg.areaServed ? { areaServed: cfg.areaServed } : {}),
+    ...(cfg.provider
+      ? {
+          provider: {
+            '@type': 'Organization',
+            name: cfg.provider.name,
+            ...(cfg.provider.url ? { url: cfg.provider.url } : {}),
+            ...(cfg.provider.logo ? { logo: cfg.provider.logo } : {}),
+          },
+        }
+      : {}),
+  } as const;
+}

@@ -1,4 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
+
+// Ensure this route runs on Node.js runtime (process.exit is Node-only)
+export const runtime = 'nodejs';
+export const revalidate = 0;
 
 /**
  * Secure restart endpoint for Infomaniak hosting automation
@@ -15,7 +20,11 @@ export async function POST(request: NextRequest) {
   try {
     // Get the authorization header
     const authHeader = request.headers.get('authorization');
-    const token = authHeader?.replace('Bearer ', '');
+    const token = (() => {
+      if (!authHeader) return null;
+      const match = authHeader.match(/^Bearer\s+(.+)$/i);
+      return match ? match[1].trim() : null;
+    })();
 
     // Get the secret from environment
     const restartSecret = process.env.RESTART_SECRET_TOKEN;
@@ -29,7 +38,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!token || token !== restartSecret) {
+    // Optional safety: disable in non-production unless explicitly allowed
+    if (process.env.NODE_ENV !== 'production' && process.env.RESTART_ALLOW_IN_DEV !== 'true') {
+      console.warn('[RESTART] Restart blocked in non-production environment');
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    // Constant-time compare using SHA-256 digests
+    const valid = (() => {
+      if (!token) return false;
+      try {
+        const a = crypto.createHash('sha256').update(token).digest();
+        const b = crypto.createHash('sha256').update(restartSecret).digest();
+        return crypto.timingSafeEqual(a, b);
+      } catch {
+        return false;
+      }
+    })();
+
+    if (!valid) {
       console.warn('[RESTART] Unauthorized restart attempt');
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -68,6 +95,13 @@ export async function POST(request: NextRequest) {
 
 // Reject other HTTP methods
 export async function GET() {
+  return NextResponse.json(
+    { error: 'Method not allowed. Use POST.' },
+    { status: 405 }
+  );
+}
+
+export async function OPTIONS() {
   return NextResponse.json(
     { error: 'Method not allowed. Use POST.' },
     { status: 405 }

@@ -47,7 +47,9 @@ jobs:
         env:
           NODE_OPTIONS: --max_old_space_size=4096
           BUILD_SOURCEMAPS: "false"
-        run: npm run build
+        run: |
+          rm -rf .next
+          npm run build
 
       - name: Prepare artifact
         run: bash scripts/prepare-artifact.sh

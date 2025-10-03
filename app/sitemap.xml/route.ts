@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { locales } from '@/src/lib/i18n'; // adjust exports
+import { localizePath } from '@/src/lib/paths';
 import fs from 'fs';
 import path from 'path';
 
@@ -50,8 +51,9 @@ export async function GET() {
     const p = pObj.path;
     // build per-locale entries and optionally a non-prefixed default locale entry
     return locales.map((locale) => {
-      const path = p === '/' ? '' : p;
-      const loc = `${BASE}/${locale}${path}`;
+      const basePath = p === '/' ? '' : p;
+      const localized = basePath ? localizePath(basePath, locale as any) : '';
+      const loc = `${BASE}/${locale}${localized}`;
       const lastmod = pObj.date || defaultLastmod;
       // derive changefreq/priority
       const isHome = p === '/';
@@ -65,14 +67,16 @@ export async function GET() {
       // build alternates block
       const alternates = [
         ...locales.map((alt) => {
-          const altPath = p === '/' ? '' : p;
-          const href = `${BASE}/${alt}${altPath}`;
+          const altPathBase = p === '/' ? '' : p;
+          const altLocalized = altPathBase ? localizePath(altPathBase, alt as any) : '';
+          const href = `${BASE}/${alt}${altLocalized}`;
           return `    <xhtml:link rel="alternate" hreflang="${escapeXml(alt)}" href="${escapeXml(href)}"/>`;
         }),
         // x-default points to FR per canonical policy
         (() => {
-          const altPath = p === '/' ? '' : p;
-          const href = `${BASE}/fr${altPath}`;
+          const altPathBase = p === '/' ? '' : p;
+          const altLocalized = altPathBase ? localizePath(altPathBase, 'fr' as any) : '';
+          const href = `${BASE}/fr${altLocalized}`;
           return `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(href)}"/>`;
         })(),
       ].join('\n');
