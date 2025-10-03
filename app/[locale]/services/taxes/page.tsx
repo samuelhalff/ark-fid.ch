@@ -7,7 +7,6 @@ import { getTranslations, type Locale } from "@/src/lib/i18n";
 import StructuredData from "@/src/components/seo/StructuredData";
 import { buildServiceSchema } from "@/src/lib/structuredData";
 import { localizePath } from "@/src/lib/paths";
-import { localizePath } from "@/src/lib/paths";
 
 export const runtime = "nodejs";
 
@@ -39,19 +38,32 @@ const Taxes = async ({ params }: { params: { locale: string } }) => {
         "@type": "ListItem",
         position: 2,
         name: (tNav("TaxesCompanyPersonal.Title") as string) || "Taxes",
-        item: `${baseUrl}/${params.locale}${localizePath("/services/taxes", params.locale as Locale)}/`,
+        item: `${baseUrl}/${params.locale}${localizePath(
+          "/services/taxes",
+          params.locale as Locale
+        )}/`,
       },
     ],
   } as const;
   const serviceJsonLd = buildServiceSchema({
-    name: (tService("Hero.Title") as string) || (tNav("TaxesCompanyPersonal.Title") as string) || "Taxes",
+    name:
+      (tService("Hero.Title") as string) ||
+      (tNav("TaxesCompanyPersonal.Title") as string) ||
+      "Taxes",
     description:
       (tService("Hero.Description") as string) ||
       "Tax advisory and VAT compliance for companies and individuals.",
     serviceType: "Tax",
-    url: `${baseUrl}/${params.locale}${localizePath("/services/taxes", params.locale as Locale)}/`,
+    url: `${baseUrl}/${params.locale}${localizePath(
+      "/services/taxes",
+      params.locale as Locale
+    )}/`,
     areaServed: ["Geneva", "Lausanne", "Romandy", "Switzerland"],
-    provider: { name: "Ark Fiduciaire", url: baseUrl, logo: `${baseUrl}/assets/arkfid--color.svg` },
+    provider: {
+      name: "Ark Fiduciaire",
+      url: baseUrl,
+      logo: `${baseUrl}/assets/arkfid--color.svg`,
+    },
   });
 
   return (

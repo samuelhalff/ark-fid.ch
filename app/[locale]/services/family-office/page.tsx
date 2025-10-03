@@ -5,6 +5,8 @@ import Presentation from "./components/presentation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { localizePath } from "@/src/lib/paths";
+import StructuredData from "@/src/components/seo/StructuredData";
+import { buildServiceSchema } from "@/src/lib/structuredData";
 
 export const runtime = "nodejs";
 
@@ -47,13 +49,24 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
       },
     ],
   } as const;
+  const tService = await getTranslations(locale, "family-office");
+  const serviceJsonLd = buildServiceSchema({
+    name:
+      (tFamily("Breadcrumb.Label") as string) ||
+      (tFamily("Hero.Title") as string) ||
+      "Family office",
+    description:
+      (tService("Hero.Description") as string) ||
+      "Swiss family office advisory for governance and structuring.",
+    serviceType: "Family office",
+    url: `${baseUrl}/${params.locale}${localizePath("/services/family-office", params.locale as Locale)}/`,
+    areaServed: ["Geneva", "Lausanne", "Romandy", "Switzerland"],
+    provider: { name: "Ark Fiduciaire", url: baseUrl, logo: `${baseUrl}/assets/arkfid--color.svg` },
+  });
+
   return (
     <div>
-      <script
-        type="application/ld+json"
-        nonce={nonce}
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
+      <StructuredData nonce={nonce} data={[breadcrumbJsonLd, serviceJsonLd]} />
       <Hero params={params} />
       <nav
         aria-label="Breadcrumb"

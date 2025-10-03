@@ -6,7 +6,7 @@ import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { localizePath } from "@/src/lib/paths";
 import StructuredData from "@/src/components/seo/StructuredData";
-import { buildHowTo } from "@/src/lib/structuredData";
+import { buildHowTo, buildServiceSchema } from "@/src/lib/structuredData";
 
 export async function generateMetadata({
   params: { locale },
@@ -24,6 +24,7 @@ const Incorporation = async ({ params }: { params: { locale: string } }) => {
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params.locale ? `/${params.locale}` : "";
   const tNav = await getTranslations(params.locale as Locale, "navbar");
+  const tService = await getTranslations(params.locale as Locale, "incorporation");
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -97,6 +98,17 @@ const Incorporation = async ({ params }: { params: { locale: string } }) => {
     ],
   });
 
+  const serviceJsonLd = buildServiceSchema({
+    name: (tService("Hero.Title") as string) || (tNav("Incorporation.Title") as string) || "Incorporation",
+    description:
+      (tService("Hero.Description") as string) ||
+      "Company incorporation and registration assistance in Switzerland.",
+    serviceType: "Incorporation",
+    url: `${baseUrl}/${params.locale}${localizePath("/services/incorporation", params.locale as Locale)}/`,
+    areaServed: ["Geneva", "Lausanne", "Romandy", "Switzerland"],
+    provider: { name: "Ark Fiduciaire", url: baseUrl, logo: `${baseUrl}/assets/arkfid--color.svg` },
+  });
+
   return (
     <div>
       <script
@@ -104,7 +116,7 @@ const Incorporation = async ({ params }: { params: { locale: string } }) => {
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <StructuredData nonce={nonce} data={howToJsonLd} />
+      <StructuredData nonce={nonce} data={[howToJsonLd, serviceJsonLd]} />
       <Hero locale={params.locale} />
       <nav
         aria-label="Breadcrumb"

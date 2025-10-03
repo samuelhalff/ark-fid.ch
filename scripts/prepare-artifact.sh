@@ -16,7 +16,7 @@ cp -R "$BUILD_DIR/standalone/"* "$DIST_DIR/"
 
 # Ensure .next/static resides alongside the server bundle
 mkdir -p "$DIST_DIR/.next"
-cp -R "$BUILD_DIR/standalone/.next/static" "$DIST_DIR/.next/"
+cp -R "$BUILD_DIR/static" "$DIST_DIR/.next/"
 
 # Copy BUILD_ID so Next.js can verify a production build exists
 if [ -f "$BUILD_DIR/BUILD_ID" ]; then

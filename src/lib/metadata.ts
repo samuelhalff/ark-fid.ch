@@ -248,6 +248,11 @@ export function generateOrganizationStructuredData() {
     "description": "Fiduciary, accounting, payroll and tax compliance services based in Geneva and active across French-speaking Switzerland (Romandy) and Switzerland",
     "url": "https://ark-fid.ch",
     "logo": "https://ark-fid.ch/assets/arkfid--color.svg",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": 6
+    },
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer service",

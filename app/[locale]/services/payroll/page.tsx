@@ -7,7 +7,6 @@ import { getTranslations, type Locale } from "@/src/lib/i18n";
 import StructuredData from "@/src/components/seo/StructuredData";
 import { buildServiceSchema } from "@/src/lib/structuredData";
 import { localizePath } from "@/src/lib/paths";
-import { localizePath } from "@/src/lib/paths";
 
 export const runtime = "nodejs";
 
@@ -39,19 +38,32 @@ const Payroll = async ({ params }: { params: { locale: string } }) => {
         "@type": "ListItem",
         position: 2,
         name: (tNav("PayrollHR.Title") as string) || "Payroll",
-        item: `${baseUrl}/${params.locale}${localizePath("/services/payroll", params.locale as Locale)}/`,
+        item: `${baseUrl}/${params.locale}${localizePath(
+          "/services/payroll",
+          params.locale as Locale
+        )}/`,
       },
     ],
   } as const;
   const serviceJsonLd = buildServiceSchema({
-    name: (tService("Hero.Title") as string) || (tNav("PayrollHR.Title") as string) || "Payroll",
+    name:
+      (tService("Hero.Title") as string) ||
+      (tNav("PayrollHR.Title") as string) ||
+      "Payroll",
     description:
       (tService("Hero.Description") as string) ||
       "Payroll processing and HR administration compliant with Swiss law.",
     serviceType: "Payroll",
-    url: `${baseUrl}/${params.locale}${localizePath("/services/payroll", params.locale as Locale)}/`,
+    url: `${baseUrl}/${params.locale}${localizePath(
+      "/services/payroll",
+      params.locale as Locale
+    )}/`,
     areaServed: ["Geneva", "Lausanne", "Romandy", "Switzerland"],
-    provider: { name: "Ark Fiduciaire", url: baseUrl, logo: `${baseUrl}/assets/arkfid--color.svg` },
+    provider: {
+      name: "Ark Fiduciaire",
+      url: baseUrl,
+      logo: `${baseUrl}/assets/arkfid--color.svg`,
+    },
   });
 
   return (

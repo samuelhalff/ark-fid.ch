@@ -13,3 +13,4 @@ litellm_config.yaml
 .vscode
 .idea
 dev.log
+quick-deploy.tar.gz

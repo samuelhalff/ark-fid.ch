@@ -17,10 +17,7 @@ const Contact = dynamic(() => import("@/src/components/ui/contact-form"), {
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import Defer from "@/src/components/Defer";
 import StructuredData from "@/src/components/seo/StructuredData";
-import {
-  buildFAQPage,
-  buildOrganizationAggregateRating,
-} from "@/src/lib/structuredData";
+import { buildFAQPage } from "@/src/lib/structuredData";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 import type { FAQEntry } from "@/src/lib/structuredData";
 
@@ -66,15 +63,6 @@ export default async function Home({ params }: { params: { locale: string } }) {
     .map((i) => ({ question: faq[`Question${i}`], answer: faq[`Answer${i}`] }));
   const faqJsonLd = buildFAQPage(faqEntries, 8);
 
-  // Reviews JSON-LD (derive from testimonials translations if available client side)
-  // We'll inject a lightweight placeholder AggregateRating server-side; client can enhance if needed.
-  const reviewsJsonLd = buildOrganizationAggregateRating({
-    name: "Ark Fiduciaire",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://ark-fid.ch",
-    ratingValue: "5.0",
-    reviewCount: 6,
-  });
-
   const contactStrings = {
     title: (t("Title") as string) || "Get in Touch",
     subtitle: (t("Subtitle") as string) || "",
@@ -113,7 +101,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
 
   return (
     <div className="max-w-[var(--breakpoint-xl)] mx-auto w-full pb-4 xs:py-20 md:px-6">
-      <StructuredData nonce={nonce} data={[faqJsonLd, reviewsJsonLd]} />
+      <StructuredData nonce={nonce} data={[faqJsonLd]} />
       <section id="hero">
         <Hero locale={activeLocale} />
       </section>
