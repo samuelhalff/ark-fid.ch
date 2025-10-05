@@ -138,6 +138,13 @@
       "description": "Official bulletin presenting the legal changes to the limit amounts for occupational benefits (LPP) effective from January 1, 2025, including the increase in the coordination deduction and the entry threshold, as well as the applicable minimum interest rates. Official source: Swiss Confederation.",
       "date": "2025-10-03",
       "source_url": "https://sozialversicherungen.admin.ch/fr/d/20606/download"
+    },
+    {
+      "filename": "Directives_LPP_2025_CHS_PP.pdf",
+      "title": "2025 guidelines for occupational benefits LPP in Switzerland",
+      "description": "Official 2025 guidelines from CHS PP regarding occupational benefits (LPP) in Switzerland: regulation, key points for employers, pension funds and self-employed, application of new AVS/AI limits, minimum interest rate, and pension adjustment. Essential document for all HR and payroll (LPP) management in Geneva and French-speaking Switzerland as of 1 January 2025.",
+      "date": "2025-10-05",
+      "source_url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
     }
   ],
   "Articles": [
@@ -470,6 +477,28 @@
           "url": "https://cje.ch/nouveautes-2025-prevoyance-professionnelle-lpp/"
         }
       ]
+    },
+    {
+      "slug": "changement-lpp-geneve-2025-employeurs-independants",
+      "title": "LPP 2025 in Geneva: salary developments and obligations for employers and self-employed",
+      "description": "Summary of the LPP 2025 novelties applicable in Geneva and French-speaking Switzerland: coordination, thresholds, contributions, rates and practical implications for employers and self-employed, with perspective on Swissdec 5 payroll and social charges calculation.",
+      "content": "Since 1 January 2025, occupational benefits (LPP) has seen major regulatory adjustments, particularly in Geneva and French-speaking Switzerland. These changes concern both employers (SMEs, associations, startups) and the self-employed and aim to optimize coverage for employees in line with the changing job market.\n\n### 1. New thresholds and coordination deductions\nThe adaptation of AVS/AI pensions changes the LPP entry threshold, now set at 22,680 CHF (versus 22,050 CHF in 2024). The coordination deduction is now 26,460 CHF. These amounts determine liability to occupational benefits and the calculation of the insured salary. For part-time or multi-employer workers, this enables better contributions and reduces the risk of under-insurance.\n\n**SEO keywords: LPP 2025, Geneva occupational benefits, LPP contribution, coordination threshold 2025, part-time employee Geneva**\n\n### 2. Contributions and minimum interest rate\nThe minimum interest rate remains at 1.25% for 2025. For employers, this rate impacts the yield of mandatory LPP assets and must be checked annually when preparing salary sheets and financial closing. Personal contributions can be set in Odoo (v17, v18).\n\n### 3. Implications for payroll management (Swissdec 5)\nIntegrating new LPP parameters into your payroll software (notably Swissdec 5.0 or Odoo HR) is essential to avoid any errors in AVS/LPP statements and ensure regulatory compliance. Special attention should be paid to thresholds, calculation bases, and the supporting documentation required during cantonal audits in Geneva and Vaud.\n\n### 4. Obligations for self-employed\nSelf-employed affiliated on a voluntary basis now benefit from increased LPP 2025 tax deductions, allowing optimization of their benefits and tax position – an opportunity to seize during annual planning.\n\n### 5. Key points to monitor in 2025\n- Accurate reporting of LPP-subject salaries with documentation\n- Setting of updated thresholds and deductible amounts in payroll software\n- Potential revision of pension plans, especially for low salaries and part-time\n- Monitoring official communications via OAK BV and ch.ch\n\nGuidance by a specialized fiduciary ensures compliance with all procedures (payroll, salary slips, Swissdec reporting, LPP/Pension affiliation, up-to-date tax advice). Contact Ark Fiduciaire for a personalized LPP 2025 audit or implementation of new rules in Odoo.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-05",
+      "references": [
+        {
+          "labelKey": "Directives LPP 2025",
+          "url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
+        },
+        {
+          "labelKey": "Nouveautés LPP Genève",
+          "url": "https://cje.ch/nouveautes-2025-prevoyance-professionnelle-lpp/"
+        },
+        {
+          "labelKey": "Réforme LPP 2025 pour assurés",
+          "url": "https://mon-lpp.ch/reforme-lpp-2025-changements-assures/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Swiss taxes 2025 – Overview (FDF)",
@@ -558,5 +587,7 @@
   "Swissdec normes Genève": "Swissdec standards Geneva",
   "TVA et fiscalité Genève": "VAT and taxation Geneva",
   "Bulletin officiel LPP 2025": "Official LPP 2025 bulletin",
-  "Nouveautés LPP Genève": "LPP news Geneva"
+  "Nouveautés LPP Genève": "LPP news Geneva",
+  "Directives LPP 2025": "LPP 2025 guidelines",
+  "Réforme LPP 2025 pour assurés": "LPP 2025 reform for insured"
 }

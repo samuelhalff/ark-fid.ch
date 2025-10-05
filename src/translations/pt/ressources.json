@@ -138,6 +138,13 @@
       "description": "Boletim oficial que apresenta as alterações legais dos montantes-limite da previdência profissional (LPP) em vigor a partir de 1º de janeiro de 2025, incluindo o aumento da dedução de coordenação e do limite de entrada, bem como as taxas mínimas de juro aplicáveis. Fonte oficial: Confederação Suíça.",
       "date": "2025-10-03",
       "source_url": "https://sozialversicherungen.admin.ch/fr/d/20606/download"
+    },
+    {
+      "filename": "Directives_LPP_2025_CHS_PP.pdf",
+      "title": "Diretrizes 2025 para a previdência profissional LPP na Suíça",
+      "description": "Diretrizes oficiais 2025 da CHS PP quanto à previdência profissional (LPP) na Suíça: regulamentação, pontos-chave para empregadores, fundos de pensão e autônomos, aplicação dos novos limites AVS/AI, taxa de juros mínima e ajuste das pensões. Documento fundamental para toda gestão de RH e folha de pagamento (LPP) em Genebra e Suíça francófona a partir de 1º de janeiro de 2025.",
+      "date": "2025-10-05",
+      "source_url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
     }
   ],
   "Articles": [
@@ -470,6 +477,28 @@
           "url": "https://cje.ch/nouveautes-2025-prevoyance-professionnelle-lpp/"
         }
       ]
+    },
+    {
+      "slug": "changement-lpp-geneve-2025-employeurs-independants",
+      "title": "LPP 2025 em Genebra: novidades salariais e obrigações para empregadores e autônomos",
+      "description": "Síntese das novidades LPP 2025 aplicáveis em Genebra e Suíça francófona: coordenação, limites, contribuições, taxas e implicações práticas para empregadores e trabalhadores autônomos, com perspectiva na folha Swissdec 5 e cálculo de encargos sociais.",
+      "content": "Desde 1º de janeiro de 2025, a previdência profissional (LPP) sofre importantes ajustes regulatórios, principalmente em Genebra e na Suíça francófona. Essas mudanças dizem respeito tanto a empregadores (PMEs, associações, startups) quanto a autônomos e visam otimizar a cobertura dos empregados diante das evoluções do mercado de trabalho.\n\n### 1. Novos limites e deduções de coordenação\nA adaptação das pensões AVS/AI modifica o limite de entrada LPP, agora fixado em 22.680 CHF (antes 22.050 CHF em 2024). A dedução de coordenação passa para 26.460 CHF. Esses valores determinam a obrigatoriedade da previdência e o cálculo do salário segurado. Para trabalhadores em tempo parcial ou com vários empregadores, isso favorece melhor contribuição e reduz riscos de subseguro.\n\n**Palavras-chave SEO: LPP 2025, previdência Genebra, contribuição LPP, limite coordenação 2025, colaborador tempo parcial Genebra**\n\n### 2. Contribuições e taxa de juros mínima\nA taxa de juros mínima permanece fixada em 1,25% para 2025. Para o empregador, essa taxa impacta o rendimento dos ativos obrigatórios LPP e deve ser verificada anualmente ao preparar folhas de pagamento e no encerramento contábil. Contribuições pessoais podem ser ajustadas no Odoo (v17, v18).\n\n### 3. Implicações para gestão de folha (Swissdec 5)\nA integração dos novos parâmetros LPP nos seus softwares de folha (notadamente Swissdec 5.0 ou Odoo RH) é essencial para evitar erros nos cálculos AVS/LPP e garantir conformidade normativa. Atenção especial aos limites, bases de cálculo e comprovantes exigidos em auditorias cantonais em Genebra e Vaud.\n\n### 4. Obrigações para autônomos\nAutônomos afiliados voluntariamente agora se beneficiam de deduções fiscais LPP 2025 revistas para cima, podendo otimizar sua previdência e fiscalidade – oportunidade a ser aproveitada no planejamento anual.\n\n### 5. Pontos-chave a observar em 2025\n- Declaração exata dos salários sujeitos à LPP com comprovantes\n- Configuração dos limites e valores dedutíveis atualizados nos sistemas de folha\n- Eventual revisão dos planos de previdência, sobretudo para salários baixos e tempo parcial\n- Acompanhamento das comunicações oficiais via OAK BV e ch.ch\n\nO acompanhamento de uma consultoria fiduciária especializada garante conformidade dos processos (folha, holerites, reporte Swissdec, filiação LPP/Pensão, assessoramento fiscal atualizado). Contate a Ark Fiduciaire para uma auditoria LPP 2025 personalizada ou implementação das novas regras no Odoo.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-05",
+      "references": [
+        {
+          "labelKey": "Directives LPP 2025",
+          "url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
+        },
+        {
+          "labelKey": "Nouveautés LPP Genève",
+          "url": "https://cje.ch/nouveautes-2025-prevoyance-professionnelle-lpp/"
+        },
+        {
+          "labelKey": "Réforme LPP 2025 pour assurés",
+          "url": "https://mon-lpp.ch/reforme-lpp-2025-changements-assures/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -531,5 +560,7 @@
   "Swissdec normes Genève": "Normas Swissdec Genebra",
   "TVA et fiscalité Genève": "IVA e fiscalidade Genebra",
   "Bulletin officiel LPP 2025": "Boletim oficial LPP 2025",
-  "Nouveautés LPP Genève": "Novidades LPP Genebra"
+  "Nouveautés LPP Genève": "Novidades LPP Genebra",
+  "Directives LPP 2025": "Diretrizes LPP 2025",
+  "Réforme LPP 2025 pour assurés": "Reforma LPP 2025 para segurados"
 }

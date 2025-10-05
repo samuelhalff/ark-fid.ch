@@ -138,6 +138,13 @@
       "description": "Offizielles Bulletin mit den gesetzlichen Änderungen der Grenzbeträge in der beruflichen Vorsorge (LPP), gültig ab 1. Januar 2025, einschließlich der Erhöhung des Koordinationsabzugs sowie der Eintrittsschwelle und den anwendbaren Mindestzinssätzen. Offizielle Quelle: Schweizerische Eidgenossenschaft.",
       "date": "2025-10-03",
       "source_url": "https://sozialversicherungen.admin.ch/fr/d/20606/download"
+    },
+    {
+      "filename": "Directives_LPP_2025_CHS_PP.pdf",
+      "title": "Richtlinien 2025 für die berufliche Vorsorge BVG in der Schweiz",
+      "description": "Offizielle Richtlinien 2025 der CHS PP zur beruflichen Vorsorge (BVG) in der Schweiz: Regelung, Schlüsselpunkte für Arbeitgeber, Pensionskassen und Selbstständige, Anwendung der neuen AHV/IV-Grenzen, Mindestzinssatz und Rentenanpassung. Grundlagendokument für jede HR- und Lohnverwaltung (BVG) in Genf und der Westschweiz ab dem 1. Januar 2025.",
+      "date": "2025-10-05",
+      "source_url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
     }
   ],
   "Articles": [
@@ -470,6 +477,28 @@
           "url": "https://cje.ch/nouveautes-2025-prevoyance-professionnelle-lpp/"
         }
       ]
+    },
+    {
+      "slug": "changement-lpp-geneve-2025-employeurs-independants",
+      "title": "BVG 2025 in Genf: neue Lohnregelungen und Pflichten für Arbeitgeber und Selbstständige",
+      "description": "Zusammenfassung der ab 2025 in Genf und der Westschweiz geltenden BVG-Neuerungen: Koordination, Schwellenwerte, Beiträge, Zinssätze und praktische Auswirkungen für Arbeitgeber und Selbstständige, mit Blick auf Swissdec 5 Lohnabrechnung und Sozialabgabenberechnung.",
+      "content": "Seit dem 1. Januar 2025 erfährt die berufliche Vorsorge (BVG) tiefgreifende regulatorische Anpassungen, besonders in Genf und der Westschweiz. Diese Änderungen betreffen sowohl Arbeitgeber (KMUs, Vereine, Startups) als auch Selbstständige und zielen darauf ab, die Deckung der Arbeitnehmenden entsprechend dem sich wandelnden Arbeitsmarkt zu optimieren.\n\n### 1. Neue Schwellenwerte und Koordinationsabzüge\nDie Anpassung der AHV/IV-Renten verändert die BVG-Eintrittsschwelle, die nun bei 22’680 CHF liegt (gegenüber 22’050 CHF im Jahr 2024). Der Koordinationsabzug beträgt nun 26’460 CHF. Diese Beträge sind ausschlaggebend für die BVG-Pflicht und die Berechnung des versicherten Lohns. Für Teilzeit- oder Mehrfacharbeitnehmende verbessert dies die Beitragsmöglichkeiten und senkt das Risiko einer Unterversicherung.\n\n**SEO-Stichworte: BVG 2025, berufliche Vorsorge Genf, BVG-Beitrag, Koordinationsschwelle 2025, Teilzeitmitarbeitende Genf**\n\n### 2. Beiträge und Mindestzinssatz\nDer Mindestzinssatz bleibt für 2025 bei 1,25%. Für Arbeitgeber beeinflusst dieser Zinssatz die Rendite der obligatorischen BVG-Guthaben und ist jährlich bei der Lohnabrechnung und beim Jahresabschluss zu überprüfen. Persönliche Beiträge können in Odoo (v17, v18) angepasst werden.\n\n### 3. Auswirkungen auf die Lohnverwaltung (Swissdec 5)\nDie Umsetzung der neuen BVG-Parameter in die Lohnsoftware (insbesondere Swissdec 5.0 oder Odoo HR) ist essenziell, um Fehler bei AHV/BVG-Abrechnungen zu vermeiden und die Einhaltung der Vorschriften sicherzustellen. Besonders auf Schwellenwerte, Berechnungsgrundlagen und erforderliche Nachweise bei kantonalen Kontrollen in Genf und Waadt ist zu achten.\n\n### 4. Pflichten für Selbstständige\nFreiwillig angeschlossene Selbstständige profitieren ab 2025 von erhöhten steuerlichen BVG-Abzügen, was eine Optimierung ihrer Vorsorge und Steuerlast ermöglicht – eine Gelegenheit für die Jahresplanung.\n\n### 5. Wichtige Punkte für 2025\n- Exakte Deklaration der BVG-pflichtigen Löhne mit Nachweisen\n- Aktualisierung der Schwellenwerte und abzugsfähigen Beträge in der Lohnsoftware\n- Eventuelle Überarbeitung der Vorsorgepläne, besonders bei tiefen Löhnen und Teilzeit\n- Verfolgung offizieller Mitteilungen via OAK BV und ch.ch\n\nDie Beratung durch eine spezialisierte Treuhand garantiert die Einhaltung der Vorschriften (Lohn, Lohnabrechnung, Swissdec-Reporting, BVG/Pensionsanschluss, aktuelle Steuerberatung). Kontaktieren Sie Ark Fiduciaire für ein persönliches BVG 2025 Audit oder zur Umsetzung neuer Regeln in Odoo.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-05",
+      "references": [
+        {
+          "labelKey": "Directives LPP 2025",
+          "url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
+        },
+        {
+          "labelKey": "Nouveautés LPP Genève",
+          "url": "https://cje.ch/nouveautes-2025-prevoyance-professionnelle-lpp/"
+        },
+        {
+          "labelKey": "Réforme LPP 2025 pour assurés",
+          "url": "https://mon-lpp.ch/reforme-lpp-2025-changements-assures/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -531,5 +560,7 @@
   "Swissdec normes Genève": "Swissdec-Standards Genf",
   "TVA et fiscalité Genève": "MWST und Steuern Genf",
   "Bulletin officiel LPP 2025": "Offizielles LPP-2025-Bulletin",
-  "Nouveautés LPP Genève": "LPP-Neuheiten Genf"
+  "Nouveautés LPP Genève": "LPP-Neuheiten Genf",
+  "Directives LPP 2025": "BVG 2025 Richtlinien",
+  "Réforme LPP 2025 pour assurés": "BVG 2025 Reform für Versicherte"
 }
