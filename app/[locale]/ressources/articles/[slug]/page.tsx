@@ -10,7 +10,6 @@ import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 import { estimateReadingTime } from "@/src/lib/readingTime";
 import dynamicImport from "next/dynamic";
 import Defer from "@/src/components/Defer";
-import { Metadata } from "next";
 
 // Force dynamic rendering to speed up build times
 export const dynamic = "force-dynamic";

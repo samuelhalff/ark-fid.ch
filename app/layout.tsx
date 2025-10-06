@@ -184,6 +184,7 @@ export default async function RootLayout({
         {/* Ensure font swap to avoid layout shifts */}
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
         {/* Title, description and viewport are managed by Next metadata API */}
+        {/* eslint-disable-next-line @next/next/no-css-tags */}
         <link rel="stylesheet" href="/assets/css/critical.css" />
       </head>
       <body className={inter.className}>

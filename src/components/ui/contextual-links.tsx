@@ -91,7 +91,6 @@ export default function ContextualLinks({
   const linkifyText = (text: string): React.ReactNode[] => {
     const parts: React.ReactNode[] = [];
     let remainingText = text;
-    let linksAdded = 0;
     let currentIndex = 0;
 
     // Find all potential matches
