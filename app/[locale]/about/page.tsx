@@ -7,6 +7,7 @@ import { getTranslations, type Locale } from "@/src/lib/i18n";
 import DNAValuesSection, {
   type DNAValueItem,
 } from "@/src/components/ui/dna-values-section";
+import ContextualLinks from "@/src/components/ui/contextual-links";
 
 export async function generateMetadata({
   params: { locale },
@@ -152,9 +153,7 @@ export default async function AboutUsPage({
               {text("Foundation.Title", "Our Foundation")}
             </h3>
             <div className="space-y-6">
-              {foundation.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
+              <ContextualLinks>{foundation}</ContextualLinks>
             </div>
           </section>
 
@@ -171,9 +170,7 @@ export default async function AboutUsPage({
               {text("Expertise.Title", "Collective Expertise")}
             </h3>
             <div className="space-y-6">
-              {expertise.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
+              <ContextualLinks>{expertise}</ContextualLinks>
             </div>
           </section>
 
@@ -183,9 +180,7 @@ export default async function AboutUsPage({
               {text("Vision.Title", "Our Vision")}
             </h3>
             <div className="space-y-6">
-              {vision.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
+              <ContextualLinks>{vision}</ContextualLinks>
             </div>
           </section>
 
@@ -195,9 +190,7 @@ export default async function AboutUsPage({
               {text("Partnership.Title", "The Power of Partnership")}
             </h3>
             <div className="space-y-6">
-              {partnership.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
+              <ContextualLinks>{partnership}</ContextualLinks>
             </div>
           </section>
 
@@ -207,9 +200,7 @@ export default async function AboutUsPage({
               {text("Future.Title", "Looking Forward")}
             </h3>
             <div className="space-y-6">
-              {future.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
+              <ContextualLinks>{future}</ContextualLinks>
             </div>
           </section>
 
