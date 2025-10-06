@@ -167,3 +167,56 @@ export function buildServiceSchema(cfg: ServiceSchemaConfig) {
       : {}),
   } as const;
 }
+
+export interface LocalBusinessConfig {
+  name: string;
+  description: string;
+  url: string;
+  logo: string;
+  telephone?: string;
+  email: string;
+  address: {
+    streetAddress: string;
+    postalCode: string;
+    addressLocality: string;
+    addressCountry: string;
+  };
+  geo?: {
+    latitude: number;
+    longitude: number;
+  };
+  openingHours?: string[];
+  priceRange?: string;
+  areaServed?: string[];
+}
+
+export function buildLocalBusiness(cfg: LocalBusinessConfig) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': cfg.url,
+    name: cfg.name,
+    description: cfg.description,
+    url: cfg.url,
+    logo: cfg.logo,
+    ...(cfg.telephone ? { telephone: cfg.telephone } : {}),
+    email: cfg.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: cfg.address.streetAddress,
+      postalCode: cfg.address.postalCode,
+      addressLocality: cfg.address.addressLocality,
+      addressCountry: cfg.address.addressCountry,
+    },
+    ...(cfg.geo ? {
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: cfg.geo.latitude,
+        longitude: cfg.geo.longitude,
+      },
+    } : {}),
+    ...(cfg.openingHours ? { openingHours: cfg.openingHours } : {}),
+    ...(cfg.priceRange ? { priceRange: cfg.priceRange } : {}),
+    ...(cfg.areaServed ? { areaServed: cfg.areaServed } : {}),
+  } as const;
+}

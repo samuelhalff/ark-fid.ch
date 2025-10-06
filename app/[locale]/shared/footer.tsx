@@ -129,6 +129,15 @@ const Footer = async ({ locale }: { locale?: string }) => {
           </p>
           <p>
             <a
+              href="mailto:info@ark-fid.ch"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
+              itemProp="email"
+            >
+              info@ark-fid.ch
+            </a>
+          </p>
+          <p>
+            <a
               href="https://maps.google.com/?cid=11595836239142935457"
               target="_blank"
               rel="noopener noreferrer"

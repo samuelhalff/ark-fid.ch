@@ -17,7 +17,7 @@ const Contact = dynamic(() => import("@/src/components/ui/contact-form"), {
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import Defer from "@/src/components/Defer";
 import StructuredData from "@/src/components/seo/StructuredData";
-import { buildFAQPage } from "@/src/lib/structuredData";
+import { buildFAQPage, buildLocalBusiness } from "@/src/lib/structuredData";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 import type { FAQEntry } from "@/src/lib/structuredData";
 
@@ -63,6 +63,28 @@ export default async function Home({ params }: { params: { locale: string } }) {
     .map((i) => ({ question: faq[`Question${i}`], answer: faq[`Answer${i}`] }));
   const faqJsonLd = buildFAQPage(faqEntries, 8);
 
+  // LocalBusiness schema for home page
+  const localBusinessJsonLd = buildLocalBusiness({
+    name: "Ark Fiduciaire SA",
+    description: homeT("Hero.Description"),
+    url: "https://ark-fid.ch",
+    logo: "https://ark-fid.ch/assets/arkfid--color.svg",
+    // telephone: "+41227007020",
+    email: "info@ark-fid.ch",
+    address: {
+      streetAddress: "26 Boulevard Georges Favon",
+      postalCode: "1204",
+      addressLocality: "Genève",
+      addressCountry: "CH",
+    },
+    geo: {
+      latitude: 46.2021,
+      longitude: 6.1419,
+    },
+    openingHours: ["Mo-Fr 09:00-18:00"],
+    areaServed: ["Geneva", "Switzerland", "Genève", "Suisse"],
+  });
+
   const contactStrings = {
     title: (t("Title") as string) || "Get in Touch",
     subtitle: (t("Subtitle") as string) || "",
@@ -101,7 +123,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
 
   return (
     <div className="max-w-[var(--breakpoint-xl)] mx-auto w-full pb-4 xs:py-20 md:px-6">
-      <StructuredData nonce={nonce} data={[faqJsonLd]} />
+      <StructuredData nonce={nonce} data={[faqJsonLd, localBusinessJsonLd]} />
       <section id="hero">
         <Hero locale={activeLocale} />
       </section>
