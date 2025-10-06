@@ -8,19 +8,19 @@
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire | Treuhand Genf & Lausanne",
-      "description": "Treuhand in Genf und Lausanne. Buchhaltung, Steuern, Lohn, Corporate und Domizilierung für KMU in der Romandie und internationale Teams.",
-      "keywords": "treuhand genf, treuhand lausanne, westschweiz, buchhaltung, steuern"
+      "title": "Treuhand Genf – Buchhaltung & Steuerberatung | Ark Fiduciaire",
+      "description": "Ark Fiduciaire in Genf bietet Treuhand-, Buchhaltungs-, Steuer-, Lohn- und Firmengründungsdienste für KMU und Unternehmer.",
+      "keywords": "treuhand genf, buchhaltung genf, steuerberatung genf, firmengründung"
     },
     "/about": {
-      "title": "Über uns – Ark Fiduciaire (Genf & Lausanne)",
-      "description": "Unabhängige Treuhandkanzlei in Genf und Lausanne. Lokale Expertise mit internationalem Blick für Unternehmen.",
-      "keywords": "über ark fiduciaire, westschweiz, genf, lausanne, treuhandexperten"
+      "title": "Ark Fiduciaire Genf – ihr lokaler Treuhand-Partner",
+      "description": "Ark Fiduciaire ist eine vertrauenswürdige Treuhandkanzlei in Genf, die auf KMU und Einzelpersonen zugeschnittene Buchhaltungs-, Steuer- und Unternehmensdienstleistungen anbietet.",
+      "keywords": "über ark fiduciaire, treuhand genf, genfer buchhalter, treuhandexperten"
     },
     "/contact": {
-      "title": "Kontakt – Ark Fiduciaire (Genf • Lausanne)",
-      "description": "Kontaktieren Sie unser Team in Genf und Lausanne. Wir antworten innerhalb von 24 Stunden und unterstützen Ihre Treuhand-Anliegen in der Westschweiz.",
-      "keywords": "kontakt treuhand genf, kontakt treuhand lausanne, westschweiz"
+      "title": "Kontakt Ark Fiduciaire Genf | Treuhanddienste",
+      "description": "Nehmen Sie Kontakt mit Ark Fiduciaire in Genf auf für Buchhaltung, Steuern, Lohn und Firmengründung.",
+      "keywords": "kontakt treuhand genf, genfer buchhaltungsdienste, treuhand kontakt"
     },
     "/team": {
       "title": "Unser Team – Treuhand-Experten | Ark Fiduciaire",
@@ -38,9 +38,9 @@
       "keywords": "treuhand ressourcen, westschweiz, steuerleitfäden, genf, lausanne"
     },
     "/services": {
-      "title": "Dienstleistungen - Ark Fiduciaire (Genf & Lausanne)",
-      "description": "Treuhand-Dienstleistungen für die Westschweiz: Buchhaltung, Steuern, Lohn, Corporate und Domizilierung. Wir betreuen auch internationale Kunden.",
-      "keywords": "treuhand dienstleistungen genf, treuhand dienstleistungen lausanne, westschweiz"
+      "title": "Treuhanddienste in Genf – Ark Fiduciaire",
+      "description": "Entdecken Sie unsere Treuhanddienste in Genf: Buchhaltung, Steuern, Lohn, Domizilierung und Firmengründung.",
+      "keywords": "treuhanddienste genf, buchhaltungsdienste, steuerberatung genf"
     },
     "/services/family-office": {
       "title": "Family Office Schweiz - Ark Fiduciaire",
@@ -48,9 +48,9 @@
       "keywords": "family office schweiz, familiengovernance, vermögensstrukturierung, westschweiz"
     },
     "/services/accounting": {
-      "title": "Buchhaltung - Ark Fiduciaire (Genf & Lausanne)",
-      "description": "Buchhaltung und Reporting für KMU und Gruppen mit Sitz in Genf und Lausanne, aktiv in der Westschweiz und darüber hinaus.",
-      "keywords": "buchhaltung genf, buchhaltung lausanne, buchführung, reporting"
+      "title": "Buchhaltung & Buchführung Genf | Ark Fiduciaire",
+      "description": "Buchhaltung und Buchführung für KMU in Genf. Ark Fiduciaire kümmert sich um Jahresabschlüsse, Reporting und Beratung.",
+      "keywords": "buchhaltung genf, buchführung, finanzberichterstattung genf"
     },
     "/services/corporate": {
       "title": "Corporate - Ark Fiduciaire (Westschweiz)",
@@ -73,19 +73,19 @@
       "keywords": "outsourcing genf, outsourcing lausanne, back-office"
     },
     "/services/payroll": {
-      "title": "Lohn - Ark Fiduciaire (Westschweiz)",
-      "description": "Lohn- und HR-Administration für die Westschweiz, abgestimmt auf kantonale Besonderheiten, mit digitalen Tools.",
-      "keywords": "lohn genf, lohn lausanne, hr, sozialversicherung"
+      "title": "Lohnbuchhaltung & Personalverwaltung Genf | Ark Fiduciaire",
+      "description": "Lohn- und Personaldienste in Genf. Ark Fiduciaire gewährleistet Compliance und Effizienz für Ihr Unternehmen.",
+      "keywords": "lohnbuchhaltung genf, personaldienste, lohnabrechnung, sozialversicherung"
     },
     "/services/taxes": {
-      "title": "Steuern - Ark Fiduciaire (Genf & Lausanne)",
-      "description": "Steuerberatung und MWST-Compliance für Unternehmen und Privatpersonen in der Westschweiz mit internationaler Expertise.",
-      "keywords": "steuern genf, steuern lausanne, mwst, steuerberatung"
+      "title": "Steuerberatung & Steuererklärung Genf | Ark Fiduciaire",
+      "description": "Ark Fiduciaire hilft bei Steuererklärungen, Compliance und Steuerplanung für Einzelpersonen und Unternehmen in Genf.",
+      "keywords": "steuerberatung genf, steuererklärung, mwst, steuerplanung"
     },
     "/services/incorporation": {
-      "title": "Firmengründung - Ark Fiduciaire",
-      "description": "Fachkundige Begleitung für eine reibungslose Unternehmensgründung und Anmeldung in der Schweiz.",
-      "keywords": "firmengründung schweiz, unternehmensgründung, registrierung, rechtliche konformität"
+      "title": "Firmengründung & Domizilierung Genf | Ark Fiduciaire",
+      "description": "Gründen Sie Ihr Unternehmen in Genf mit Ark Fiduciaire. Wir übernehmen Domizilierung, rechtliche Einrichtung und Steueranmeldungen.",
+      "keywords": "firmengründung genf, unternehmensgründung schweiz, handelsregister"
     },
     "/legal/privacy": {
       "title": "Datenschutzrichtlinie - Ark Fiduciaire",

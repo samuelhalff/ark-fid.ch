@@ -20,39 +20,39 @@
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire | Fiduciary Services Geneva & Lausanne",
-      "description": "Fiduciary in Geneva and Lausanne. Accounting, tax, payroll, corporate and domiciliation for Romandy SMEs and global teams.",
-      "keywords": "fiduciary geneva, fiduciary lausanne, romandy, accounting, tax"
+      "title": "Fiduciary services Geneva – accounting & tax | Ark Fiduciaire",
+      "description": "Ark Fiduciaire in Geneva provides fiduciary, accounting, tax, payroll and company incorporation services for SMEs and entrepreneurs.",
+      "keywords": "fiduciary geneva, accounting geneva, tax services geneva, company incorporation"
     },
     "/about": {
-      "title": "About – Ark Fiduciaire (Geneva & Lausanne)",
-      "description": "Independent fiduciary based in Geneva and Lausanne. Local expertise with an international outlook for businesses.",
-      "keywords": "about ark fiduciaire, romandy, geneva, lausanne, fiduciary experts"
+      "title": "Ark Fiduciaire Geneva – your local fiduciary partner",
+      "description": "Ark Fiduciaire is a trusted fiduciary firm in Geneva, providing accounting, tax and business services tailored to SMEs and individuals.",
+      "keywords": "about ark fiduciaire, fiduciary geneva, geneva accountants, fiduciary experts"
     },
     "/contact": {
-      "title": "Contact – Ark Fiduciaire (Geneva • Lausanne)",
-      "description": "Contact our team in Geneva and Lausanne. We respond within 24 hours and support your fiduciary needs across Romandy.",
-      "keywords": "contact fiduciary geneva, contact fiduciary lausanne, romandy"
+      "title": "Contact Ark Fiduciaire Geneva | fiduciary services",
+      "description": "Get in touch with Ark Fiduciaire in Geneva for accounting, tax, payroll and company incorporation services.",
+      "keywords": "contact fiduciary geneva, geneva accounting services, fiduciary contact"
     },
     "/team": {
       "title": "Our Team – Fiduciary Experts | Ark Fiduciaire",
-      "description": "An experienced team in Geneva and Lausanne serving businesses in Romandy and internationally.",
-      "keywords": "fiduciary team geneva, fiduciary team lausanne, romandy"
+      "description": "An experienced team in Geneva serving businesses in Switzerland and internationally.",
+      "keywords": "fiduciary team geneva, accounting experts, fiduciary professionals"
     },
     "/partners": {
       "title": "Partners - Ark Fiduciaire",
-      "description": "Discover our partnership opportunities and trusted network in Romandy and internationally.",
-      "keywords": "ark fiduciaire partners, romandy, geneva, lausanne"
+      "description": "Discover our partnership opportunities and trusted network in Geneva and internationally.",
+      "keywords": "ark fiduciaire partners, fiduciary partners geneva"
     },
     "/ressources": {
-      "title": "Fiduciary Resources – Romandy | Ark Fiduciaire",
-      "description": "Guides and articles on accounting, tax and payroll in Romandy with actionable local insights.",
-      "keywords": "fiduciary resources, romandy, tax guides, geneva, lausanne"
+      "title": "Fiduciary resources – Geneva | Ark Fiduciaire",
+      "description": "Guides and articles on accounting, tax and payroll in Switzerland with actionable insights.",
+      "keywords": "fiduciary resources, tax guides geneva, accounting insights"
     },
     "/services": {
-      "title": "Services - Ark Fiduciaire (Geneva & Lausanne)",
-      "description": "Fiduciary services for Romandy: accounting, tax, payroll, corporate and domiciliation. We also serve international clients.",
-      "keywords": "fiduciary services geneva, fiduciary services lausanne, romandy"
+      "title": "Fiduciary services in Geneva – Ark Fiduciaire",
+      "description": "Explore our fiduciary services in Geneva: accounting, tax, payroll, domiciliation, and company incorporation.",
+      "keywords": "fiduciary services geneva, accounting services, tax advisory geneva"
     },
     "/services/family-office": {
       "title": "Family office Switzerland - Ark Fiduciaire",
@@ -60,53 +60,53 @@
       "keywords": "family office switzerland, family governance, wealth structuring, romandy"
     },
     "/services/accounting": {
-      "title": "Accounting - Ark Fiduciaire (Geneva & Lausanne)",
-      "description": "Accounting and reporting for SMEs and groups, based in Geneva and Lausanne, active in Romandy and beyond.",
-      "keywords": "accounting geneva, accounting lausanne, bookkeeping, reporting"
+      "title": "Accounting & bookkeeping services Geneva | Ark Fiduciaire",
+      "description": "Accounting and bookkeeping for SMEs in Geneva. Ark Fiduciaire handles financial statements, reporting, and advisory.",
+      "keywords": "accounting geneva, bookkeeping services, financial reporting geneva"
     },
     "/services/corporate": {
-      "title": "Corporate - Ark Fiduciaire (Romandy)",
-      "description": "Governance, compliance and administration for companies active in Romandy (Geneva, Lausanne).",
-      "keywords": "corporate geneva, corporate lausanne, compliance, governance"
+      "title": "Corporate services Geneva | Ark Fiduciaire",
+      "description": "Corporate governance, compliance and administration for companies in Geneva with international reach.",
+      "keywords": "corporate services geneva, corporate governance, business compliance"
     },
     "/services/domiciliation": {
-      "title": "Domiciliation - Ark Fiduciaire (Geneva & Lausanne)",
-      "description": "Business domiciliation with addresses in Geneva or Lausanne for a presence in Romandy with international reach.",
-      "keywords": "domiciliation geneva, domiciliation lausanne, registered office, romandy",
+      "title": "Company domiciliation Geneva | Ark Fiduciaire",
+      "description": "Business domiciliation with registered office address in Geneva for Swiss and international companies.",
+      "keywords": "domiciliation geneva, registered office geneva, business address",
       "topics": [
         "domiciliation geneva",
         "registered office address",
-        "domiciliation lausanne"
+        "company domiciliation switzerland"
       ]
     },
     "/services/odoo": {
-      "title": "Odoo - Ark Fiduciaire (Geneva & Lausanne)",
-      "description": "Odoo implementation aligned with Swiss standards by a team based in Geneva and Lausanne.",
-      "keywords": "odoo geneva, odoo lausanne, swiss erp"
+      "title": "Odoo implementation Geneva | Ark Fiduciaire",
+      "description": "Odoo ERP implementation aligned with Swiss standards. Expert Odoo partner based in Geneva.",
+      "keywords": "odoo geneva, odoo implementation, swiss erp, odoo partner"
     },
     "/services/outsourcing": {
-      "title": "Outsourcing - Ark Fiduciaire (Romandy)",
-      "description": "Legal, administrative and accounting back-office outsourcing for Romandy actors with international coverage.",
-      "keywords": "outsourcing geneva, outsourcing lausanne, back-office"
+      "title": "Business outsourcing services Geneva | Ark Fiduciaire",
+      "description": "Legal, administrative and accounting back-office outsourcing for businesses in Geneva with international coverage.",
+      "keywords": "outsourcing geneva, back-office services, administrative outsourcing"
     },
     "/services/payroll": {
-      "title": "Payroll - Ark Fiduciaire (Romandy)",
-      "description": "Payroll and HR administration for Romandy, aligned with Swiss and cantonal specifics, backed by digital tools.",
-      "keywords": "payroll geneva, payroll lausanne, hr, social security"
+      "title": "Payroll & HR management Geneva | Ark Fiduciaire",
+      "description": "Payroll and HR services in Geneva. Ark Fiduciaire ensures compliance and efficiency for your business.",
+      "keywords": "payroll geneva, hr services, payroll management, social security"
     },
     "/services/taxes": {
-      "title": "Tax - Ark Fiduciaire (Geneva & Lausanne)",
-      "description": "Tax advisory and VAT compliance for companies and individuals in Romandy, with international expertise.",
-      "keywords": "tax geneva, tax lausanne, vat, tax advisory"
+      "title": "Tax advisory & returns Geneva | Ark Fiduciaire",
+      "description": "Ark Fiduciaire helps with tax declarations, compliance and tax planning for individuals and companies in Geneva.",
+      "keywords": "tax advisory geneva, tax returns, vat services, tax planning"
     },
     "/services/incorporation": {
-      "title": "Company incorporation services - Ark Fiduciaire",
-      "description": "Expert guidance for seamless company formation and registration in Switzerland.",
-      "keywords": "company incorporation switzerland, company formation, business registration, legal compliance",
+      "title": "Company incorporation & domiciliation Geneva | Ark Fiduciaire",
+      "description": "Incorporate your company in Geneva with Ark Fiduciaire. We handle domiciliation, legal setup and tax registrations.",
+      "keywords": "company incorporation geneva, company formation switzerland, business registration",
       "topics": [
-        "start a company switzerland",
-        "incorporate gmbh sàrl",
-        "incorporate sa ag switzerland"
+        "start a company geneva",
+        "incorporate sarl switzerland",
+        "register company geneva"
       ]
     },
     "/legal/privacy": {

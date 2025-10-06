@@ -114,7 +114,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
           idle={200}
           placeholder={<div className="h-40 w-full rounded-lg bg-muted/40" />}
         >
-          <About translations={homeT} />
+          <About />
         </Defer>
       </section>
       <section id="faq">

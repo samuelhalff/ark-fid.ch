@@ -1,19 +1,23 @@
+"use client";
 // Inline a tiny arrow icon to avoid loading lucide-react in shared chunk
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
-import { getTranslations, type Locale } from "@/src/lib/i18n";
+import { useTranslation } from "react-i18next";
+import "@/src/i18n";
 import heroBlurData from "@/src/lib/heroBlurData.json";
+import { useParams } from "next/navigation";
 
 interface HeroProps {
   locale?: string;
 }
 
-const Hero = async ({ locale }: HeroProps) => {
-  const currentLocale = (locale as Locale) || ("fr" as Locale);
-  const t = await getTranslations(currentLocale, "home");
-  const localePrefix = locale ? `/${locale}` : "/fr";
+const Hero = ({ locale }: HeroProps) => {
+  const params = useParams();
+  const currentLocale = (locale || params?.locale || "fr") as string;
+  const { t } = useTranslation("home");
+  const localePrefix = currentLocale ? `/${currentLocale}` : "/fr";
 
   const serviceHeroes = [
     "/assets/hero/services/accounting-hero.webp",

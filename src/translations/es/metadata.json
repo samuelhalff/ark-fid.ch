@@ -8,19 +8,19 @@
   },
   "pages": {
     "/": {
-      "title": "Ark Fiduciaire | Servicios fiduciarios Ginebra & Lausana",
-      "description": "Firma fiduciaria en Ginebra y Lausana. Contabilidad, impuestos, nóminas, corporate y domiciliación para pymes de Romandía y equipos internacionales.",
-      "keywords": "fiduciaria ginebra, fiduciaria lausana, suiza romanda, contabilidad, impuestos"
+      "title": "Servicios fiduciarios Ginebra – contabilidad e impuestos | Ark Fiduciaire",
+      "description": "Ark Fiduciaire en Ginebra ofrece servicios fiduciarios, contabilidad, impuestos, nómina y constitución de empresas para pymes y emprendedores.",
+      "keywords": "fiduciario ginebra, contabilidad ginebra, servicios fiscales ginebra, constitución empresa"
     },
     "/about": {
-      "title": "Acerca de – Ark Fiduciaire (Ginebra & Lausana)",
-      "description": "Firma fiduciaria independiente en Ginebra y Lausana. Experiencia local con visión internacional para empresas.",
-      "keywords": "acerca de ark fiduciaire, suiza romanda, ginebra, lausana, expertos fiduciarios"
+      "title": "Ark Fiduciaire Ginebra – su socio fiduciario local",
+      "description": "Ark Fiduciaire es una firma fiduciaria de confianza en Ginebra, que ofrece servicios de contabilidad, impuestos y negocios adaptados a pymes e individuos.",
+      "keywords": "sobre ark fiduciaire, fiduciario ginebra, contadores ginebra, expertos fiduciarios"
     },
     "/contact": {
-      "title": "Contacto – Ark Fiduciaire (Ginebra • Lausana)",
-      "description": "Contacte con nuestro equipo en Ginebra y Lausana. Respondemos en 24 horas y apoyamos sus necesidades fiduciarias en Romandía.",
-      "keywords": "contacto fiduciaria ginebra, contacto fiduciaria lausana, suiza romanda"
+      "title": "Contacto Ark Fiduciaire Ginebra | servicios fiduciarios",
+      "description": "Póngase en contacto con Ark Fiduciaire en Ginebra para servicios de contabilidad, impuestos, nómina y constitución de empresas.",
+      "keywords": "contacto fiduciario ginebra, servicios contables ginebra, contacto fiduciario"
     },
     "/team": {
       "title": "Nuestro equipo – Expertos fiduciarios | Ark Fiduciaire",
@@ -38,9 +38,9 @@
       "keywords": "recursos fiduciarios, suiza romanda, guías fiscales, ginebra, lausana"
     },
     "/services": {
-      "title": "Servicios - Ark Fiduciaire (Ginebra & Lausana)",
-      "description": "Servicios fiduciarios para Suiza romanda: contabilidad, impuestos, nóminas, corporate y domiciliación. También atendemos clientes internacionales.",
-      "keywords": "servicios fiduciarios ginebra, servicios fiduciarios lausana, suiza romanda"
+      "title": "Servicios fiduciarios en Ginebra – Ark Fiduciaire",
+      "description": "Explore nuestros servicios fiduciarios en Ginebra: contabilidad, impuestos, nómina, domiciliación y constitución de empresas.",
+      "keywords": "servicios fiduciarios ginebra, servicios contables, asesoría fiscal ginebra"
     },
     "/services/family-office": {
       "title": "Family office Suiza - Ark Fiduciaire",
@@ -48,9 +48,9 @@
       "keywords": "family office suiza, gobernanza familiar, estructuración patrimonial, suiza romanda"
     },
     "/services/accounting": {
-      "title": "Contabilidad - Ark Fiduciaire (Ginebra & Lausana)",
-      "description": "Contabilidad e informes para pymes y grupos, con sede en Ginebra y Lausana, activos en Suiza romanda y más allá.",
-      "keywords": "contabilidad ginebra, contabilidad lausana, teneduría de libros, informes"
+      "title": "Servicios de contabilidad Ginebra | Ark Fiduciaire",
+      "description": "Contabilidad para pymes en Ginebra. Ark Fiduciaire se encarga de estados financieros, informes y asesoramiento.",
+      "keywords": "contabilidad ginebra, servicios de teneduría, informes financieros ginebra"
     },
     "/services/corporate": {
       "title": "Corporate - Ark Fiduciaire (Suiza romanda)",
@@ -73,19 +73,19 @@
       "keywords": "outsourcing ginebra, outsourcing lausana, back-office"
     },
     "/services/payroll": {
-      "title": "Nóminas - Ark Fiduciaire (Suiza romanda)",
-      "description": "Gestión de nóminas y RR. HH. para Suiza romanda, alineada con las especificidades cantonales, con herramientas digitales.",
-      "keywords": "nóminas ginebra, nóminas lausana, rrhh, seguridad social"
+      "title": "Gestión de nómina y RRHH Ginebra | Ark Fiduciaire",
+      "description": "Servicios de nómina y RRHH en Ginebra. Ark Fiduciaire garantiza cumplimiento y eficiencia para su negocio.",
+      "keywords": "gestión nómina ginebra, servicios rrhh, gestión salarial, seguridad social"
     },
     "/services/taxes": {
-      "title": "Impuestos - Ark Fiduciaire (Ginebra & Lausana)",
-      "description": "Asesoría fiscal y cumplimiento de IVA para empresas y particulares en Suiza romanda, con experiencia internacional.",
-      "keywords": "impuestos ginebra, impuestos lausana, iva, asesoría fiscal"
+      "title": "Asesoría fiscal y declaraciones Ginebra | Ark Fiduciaire",
+      "description": "Ark Fiduciaire ayuda con declaraciones fiscales, cumplimiento y planificación fiscal para individuos y empresas en Ginebra.",
+      "keywords": "asesoría fiscal ginebra, declaraciones impuestos, iva, planificación fiscal"
     },
     "/services/incorporation": {
-      "title": "Constitución de empresa - Ark Fiduciaire",
-      "description": "Asesoramiento experto para una constitución y registro empresarial sin complicaciones en Suiza.",
-      "keywords": "constitución empresa suiza, formación de empresa, registro empresarial, conformidad legal"
+      "title": "Constitución de empresa y domiciliación Ginebra | Ark Fiduciaire",
+      "description": "Constituya su empresa en Ginebra con Ark Fiduciaire. Gestionamos domiciliación, configuración legal y registros fiscales.",
+      "keywords": "constitución empresa ginebra, formación sociedad suiza, registro mercantil"
     },
     "/legal/privacy": {
       "title": "Política de privacidad - Ark Fiduciaire",
