@@ -94,7 +94,7 @@ jobs:
         run: |
           set -euo pipefail
           sudo apt-get install -y sshpass
-          sshpass -p "${{ secrets.DEPLOY_SSH_PASSWORD }}" ssh -p ${{ secrets.DEPLOY_SSH_PORT }} -o StrictHostKeyChecking=no \
+          sshpass -p "${{ secrets.DEPLOY_SSH_PASSWORD }}" ssh -p ${{ secrets.DEPLOY_SSH_PORT }} -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
             ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }} bash -lc '
               set -euo pipefail
               BASE_DIR="/srv/customer/sites/ark-fid.ch"
@@ -124,15 +124,23 @@ jobs:
               ln -sfn "$REL_DIR" "$CURRENT_LINK"
 
               echo "$TS" > "$BASE_DIR/last_release_ts"
+              
+              echo "[deploy] Release $TS deployed successfully" >> "$LOG"
 
-              # Cleanup old releases (keep 4)
+              # Cleanup old releases (keep 4) - don't fail deployment if this fails
               KEEP=4
-              cd "$RELEASES_DIR" || exit 0
-              releases=$(ls -1t | tail -n +$((KEEP+1)) || true)
-              for rel in $releases; do
-                echo "[cleanup] Removing old release: $rel" >> "$LOG"
-                rm -rf "$RELEASES_DIR/$rel"
-              done
+              (
+                cd "$RELEASES_DIR" 2>/dev/null || { echo "[cleanup] Warning: Could not access releases dir" >> "$LOG"; exit 0; }
+                releases=$(ls -1t 2>/dev/null | tail -n +$((KEEP+1)) 2>/dev/null || true)
+                for rel in $releases; do
+                  if [ -d "$rel" ] && [ "$rel" != "$TS" ]; then
+                    echo "[cleanup] Removing old release: $rel" >> "$LOG"
+                    rm -rf "$RELEASES_DIR/$rel" 2>/dev/null || echo "[cleanup] Warning: Failed to remove $rel" >> "$LOG"
+                  fi
+                done
+              ) || true
+              
+              echo "[deploy] Deployment complete" >> "$LOG"
             '
 
       # Restart via API (outside SSH so orchestrator kill doesn’t break CI)
