@@ -5,6 +5,7 @@
 ## ✅ Completed Implementations
 
 ### 1. **Meta Tags & Title Optimization**
+
 - ✅ **Natural sentence case titles** across all languages (EN, FR, DE, ES, PT)
 - ✅ **Service-location pattern**: "Fiduciary services Geneva" instead of "Professional Fiduciary Services"
 - ✅ **Avoided AI-sounding language**: Removed words like "Professional", "Expert", "Comprehensive"
@@ -15,12 +16,14 @@
 - ✅ **Resources page** included in SEO metadata with natural capitalization
 
 **Scripts Created:**
+
 - `scripts/update-seo-metadata.js` - Updates EN/FR metadata
 - `scripts/update-seo-metadata-multi.js` - Updates DE/ES/PT metadata
 - `scripts/fix-seo-capitalization.js` - Fixes capitalization in EN/FR
 - `scripts/fix-seo-capitalization-multi.js` - Fixes capitalization in DE/ES/PT
 
 ### 2. **Technical SEO**
+
 - ✅ **Clean URL structure**: `/fr/services/comptabilite`, `/en/services/accounting`
 - ✅ **Hreflang tags**: Fully implemented in `src/lib/metadata.ts`
   - Maps FR → fr-CH, DE → de-CH, ES → es-ES, PT → pt-PT, EN → en
@@ -37,6 +40,7 @@
   - ✅ Blur placeholders for smooth loading
 
 ### 3. **Local SEO**
+
 - ✅ **Footer NAP (Name, Address, Phone)**:
   - Full address: 26 Boulevard Georges Favon, 1204 Genève, CH
   - Phone: +41 22 700 70 20
@@ -54,6 +58,7 @@
 - ✅ **FAQ Schema**: Home page FAQ structured for rich snippets
 
 ### 4. **Language Switching Fix**
+
 - ✅ **Client-side reactive components**:
   - Converted Hero, Services, About components to "use client"
   - Use `useTranslation()` hook instead of server-side `getTranslations()`
@@ -61,6 +66,7 @@
   - Fixed issue where FAQ and "Why choose Ark" didn't update
 
 ### 5. **Content Structure**
+
 - ✅ **Service pages** use H1, H2, H3 hierarchy:
   - Hero H1 with primary keyword
   - Presentation sections with H2 subheadings
@@ -73,27 +79,32 @@
 ## 🔄 Recommended Next Steps
 
 ### 1. **Content Expansion (Priority: HIGH)**
+
 Each service page should have **500-700 words minimum** for better SEO:
 
 **Current status:**
+
 - ✅ Accounting: ~680 words (sufficient)
 - ⚠️ Taxes: ~240 words (needs expansion)
 - ⚠️ Payroll: ~254 words (needs expansion)
 - ⚠️ Incorporation: ~243 words (needs expansion)
 
 **Recommended additions:**
+
 - Add "Common Questions" section to each service page
 - Expand "How we help" sections with specific use cases
 - Add "Who is this for" section targeting specific client types
 - Include process/timeline sections
 
 **Long-tail keyword opportunities:**
+
 - "Déclaration d'impôt pour particuliers Genève"
 - "TVA compliance for small businesses Geneva"
 - "Payroll outsourcing for startups Switzerland"
 - "Company formation Geneva step by step"
 
 ### 2. **Service Page FAQs (Priority: MEDIUM)**
+
 Add dedicated FAQ components to each service page:
 
 ```tsx
@@ -105,6 +116,7 @@ Add dedicated FAQ components to each service page:
 ```
 
 **Benefits:**
+
 - Targets long-tail search queries
 - Increases page word count
 - Great for Google featured snippets
@@ -113,6 +125,7 @@ Add dedicated FAQ components to each service page:
 ### 3. **External Authority Building (Priority: MEDIUM)**
 
 **Directory listings:**
+
 - [ ] Register on local.ch (Swiss business directory)
 - [ ] Submit to CCIG (Geneva Chamber of Commerce)
 - [ ] Add to Swiss fiduciary associations
@@ -120,6 +133,7 @@ Add dedicated FAQ components to each service page:
 - [ ] Register on europages.com
 
 **Google Business Profile:**
+
 - [ ] Create/optimize listing for "Ark Fiduciaire Genève"
 - [ ] Add complete NAP information
 - [ ] Upload photos of office, team
@@ -127,6 +141,7 @@ Add dedicated FAQ components to each service page:
 - [ ] Post regular updates (services, articles)
 
 **Backlinks strategy:**
+
 - [ ] Publish LinkedIn articles about Geneva tax deadlines, business formation
 - [ ] Partner blog posts (e.g., Odoo implementation case studies)
 - [ ] Guest posts on Swiss business blogs
@@ -135,6 +150,7 @@ Add dedicated FAQ components to each service page:
 ### 4. **Tracking & Analytics (Priority: HIGH)**
 
 **Google Search Console:**
+
 - [ ] Verify property ownership
 - [ ] Submit sitemap: `https://ark-fid.ch/sitemap.xml`
 - [ ] Monitor indexing status
@@ -143,6 +159,7 @@ Add dedicated FAQ components to each service page:
 - [ ] Review mobile usability
 
 **Google Analytics / GA4:**
+
 - [ ] Set up GA4 property
 - [ ] Configure conversion tracking (contact form submissions)
 - [ ] Track page views by language
@@ -150,6 +167,7 @@ Add dedicated FAQ components to each service page:
 - [ ] Set up goal funnels (homepage → service page → contact)
 
 **Performance monitoring:**
+
 - [ ] Lighthouse CI already set up (desktop + mobile)
 - [ ] Monitor Core Web Vitals
 - [ ] Track time to first byte (TTFB)
@@ -158,12 +176,14 @@ Add dedicated FAQ components to each service page:
 ### 5. **Content Marketing (Priority: LOW)**
 
 **Resources section expansion:**
+
 - [ ] Publish monthly articles on Geneva tax updates
 - [ ] Create downloadable checklists (company formation, tax filing)
 - [ ] Quarterly business guides (Q1 tax deadlines, year-end accounting)
 - [ ] Video content (embedded YouTube with transcripts)
 
 **Social media integration:**
+
 - [ ] Share new articles on LinkedIn
 - [ ] Create carousel posts with key insights
 - [ ] Engage with Geneva business community
@@ -172,12 +192,14 @@ Add dedicated FAQ components to each service page:
 ## 📊 SEO Metrics to Track
 
 ### Search Console (Weekly)
+
 - Total impressions
 - Average position for key terms
 - Click-through rate (CTR)
 - Pages with crawl errors
 
 ### Key Performance Indicators (Monthly)
+
 - Organic traffic growth
 - Keyword rankings for:
   - "fiduciaire genève"
@@ -188,6 +210,7 @@ Add dedicated FAQ components to each service page:
 - Bounce rate by page
 
 ### Competitive Analysis (Quarterly)
+
 - Compare rankings vs. competitors
 - Analyze competitor content depth
 - Review competitor backlink profiles
@@ -196,13 +219,16 @@ Add dedicated FAQ components to each service page:
 ## 🛠️ Technical Implementation Notes
 
 ### Files Modified (Latest Commits)
+
 1. **Language switching fix:**
+
    - `app/[locale]/home/components/hero.tsx` - Client-side
    - `app/[locale]/home/components/services.tsx` - Client-side
    - `app/[locale]/home/components/about.tsx` - Client-side
    - `app/[locale]/page.tsx` - Updated prop passing
 
 2. **LocalBusiness schema:**
+
    - `src/lib/structuredData.ts` - Added buildLocalBusiness()
    - `app/[locale]/page.tsx` - Integrated schema
    - `app/[locale]/shared/footer.tsx` - Added phone/email
@@ -212,6 +238,7 @@ Add dedicated FAQ components to each service page:
    - `src/translations/*/home.json` (H1 updates)
 
 ### Existing Infrastructure
+
 - **Metadata generation**: `src/lib/metadata.ts` handles all meta tags
 - **Sitemap**: `app/sitemap.xml/route.ts` (dynamic generation)
 - **Structured data**: `src/lib/structuredData.ts` (reusable builders)
@@ -220,6 +247,7 @@ Add dedicated FAQ components to each service page:
 ## 📝 Quick Reference
 
 ### Contact Information
+
 - **Name**: Ark Fiduciaire SA
 - **Address**: 26 Boulevard Georges Favon, 1204 Genève, CH
 - **Phone**: +41 22 700 70 20
@@ -228,6 +256,7 @@ Add dedicated FAQ components to each service page:
 - **Google Maps CID**: 11595836239142935457
 
 ### Supported Languages
+
 - French (FR) - Primary/x-default
 - English (EN)
 - German (DE)
@@ -235,6 +264,7 @@ Add dedicated FAQ components to each service page:
 - Portuguese (PT)
 
 ### Key URLs
+
 - Sitemap: https://ark-fid.ch/sitemap.xml
 - Robots: https://ark-fid.ch/robots.txt
 - Humans: https://ark-fid.ch/humans.txt
@@ -242,18 +272,21 @@ Add dedicated FAQ components to each service page:
 ## 🎯 Success Criteria
 
 **3 Months:**
+
 - [ ] Indexed on first page for "fiduciaire genève"
 - [ ] 50+ organic visits per month
 - [ ] 5+ contact form submissions from organic search
 - [ ] Google Business Profile with 5+ reviews
 
 **6 Months:**
+
 - [ ] Top 5 for primary keywords in Geneva area
 - [ ] 200+ organic visits per month
 - [ ] 15+ contact form submissions from organic search
 - [ ] Domain Authority score > 25
 
 **12 Months:**
+
 - [ ] Top 3 for "fiduciaire genève" and related terms
 - [ ] 500+ organic visits per month
 - [ ] 30+ contact form submissions from organic search

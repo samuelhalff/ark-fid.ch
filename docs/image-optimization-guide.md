@@ -7,17 +7,19 @@
 ### ✅ What's Working
 
 1. **Next.js Image Component**: All images use `<Image>` from `next/image`
+
    - Automatic lazy loading (except priority images)
    - Responsive srcset generation
    - Blur placeholders for smooth loading
    - Automatic format conversion
 
 2. **Pre-optimized Files Available**:
+
    ```
    /public/assets/hero/services/
    ├── accounting-hero.jpg (263KB - original)
    ├── accounting-hero.webp (251KB)
-   ├── accounting-hero.avif (295KB) 
+   ├── accounting-hero.avif (295KB)
    ├── accounting-hero.optimized.webp (241KB)
    └── accounting-hero.optimized.avif (286KB)
    ```
@@ -30,25 +32,31 @@
 ### ⚠️ Issues Identified
 
 #### Issue #1: AVIF Not Enabled in Next.js Config
+
 **Before:**
+
 ```javascript
-formats: ['image/webp']  // Only WebP, no AVIF
+formats: ["image/webp"]; // Only WebP, no AVIF
 ```
 
 **After (FIXED):**
+
 ```javascript
-formats: ['image/avif', 'image/webp']  // AVIF first (smaller), WebP fallback
-deviceSizes: [360, 640, 768, 1024, 1280, 1920]  // More responsive breakpoints
+formats: ["image/avif", "image/webp"]; // AVIF first (smaller), WebP fallback
+deviceSizes: [360, 640, 768, 1024, 1280, 1920]; // More responsive breakpoints
 ```
 
 #### Issue #2: Next.js Re-processes Already Optimized Files
+
 **The Problem:**
+
 - Your code references: `/assets/hero/services/accounting-hero.webp`
 - Next.js Image component re-optimizes this WebP file
 - Result: Double optimization, wasted build time
 
 **Why This Happens:**
 Next.js `<Image>` component **always** processes images through its optimization pipeline, even if they're already optimized. This is by design - it ensures:
+
 - Consistent quality across all images
 - Proper responsive sizes
 - Format conversion (WebP → AVIF)
@@ -56,19 +64,21 @@ Next.js `<Image>` component **always** processes images through its optimization
 
 **Is This Bad?**
 Not really! Next.js caching is very efficient:
+
 - First build: processes all images
 - Subsequent builds: uses cached versions
 - Production: serves from `_next/image` with optimal headers
 
 ### 📊 Image Format Comparison
 
-| Format | File Size | Browser Support | Use Case |
-|--------|-----------|----------------|----------|
-| **AVIF** | Smallest (30-50% smaller than JPEG) | Modern browsers (90%+) | Primary format |
-| **WebP** | Small (25-35% smaller than JPEG) | Nearly universal (96%+) | Fallback |
-| **JPEG/PNG** | Largest | Universal (100%) | Last resort fallback |
+| Format       | File Size                           | Browser Support         | Use Case             |
+| ------------ | ----------------------------------- | ----------------------- | -------------------- |
+| **AVIF**     | Smallest (30-50% smaller than JPEG) | Modern browsers (90%+)  | Primary format       |
+| **WebP**     | Small (25-35% smaller than JPEG)    | Nearly universal (96%+) | Fallback             |
+| **JPEG/PNG** | Largest                             | Universal (100%)        | Last resort fallback |
 
 **Next.js serves images in this order:**
+
 1. AVIF (if browser supports)
 2. WebP (if browser supports)
 3. Original format (JPEG/PNG)
@@ -92,22 +102,24 @@ Fetch original → Fetch /_next/image?url=...&w=1024&q=75 (JPEG/PNG)
 ### Example Generated HTML
 
 When you use:
+
 ```tsx
-<Image 
-  src="/assets/hero/services/accounting-hero.webp" 
-  width={800} 
+<Image
+  src="/assets/hero/services/accounting-hero.webp"
+  width={800}
   height={600}
   sizes="(min-width: 1024px) 800px, 100vw"
 />
 ```
 
 Next.js generates (in production):
+
 ```html
 <img
   srcset="
-    /_next/image?url=%2Fassets%2Fhero%2Fservices%2Faccounting-hero.webp&w=360&q=75 360w,
-    /_next/image?url=%2Fassets%2Fhero%2Fservices%2Faccounting-hero.webp&w=640&q=75 640w,
-    /_next/image?url=%2Fassets%2Fhero%2Fservices%2Faccounting-hero.webp&w=768&q=75 768w,
+    /_next/image?url=%2Fassets%2Fhero%2Fservices%2Faccounting-hero.webp&w=360&q=75   360w,
+    /_next/image?url=%2Fassets%2Fhero%2Fservices%2Faccounting-hero.webp&w=640&q=75   640w,
+    /_next/image?url=%2Fassets%2Fhero%2Fservices%2Faccounting-hero.webp&w=768&q=75   768w,
     /_next/image?url=%2Fassets%2Fhero%2Fservices%2Faccounting-hero.webp&w=1024&q=75 1024w
   "
   src="/_next/image?url=%2Fassets%2Fhero%2Fservices%2Faccounting-hero.webp&w=1024&q=75"
@@ -135,17 +147,18 @@ const serviceHeroes = [
   src={homeHeroSrc}
   alt={t("Hero.ImageAlt")}
   sizes="(min-width:1280px) 560px, (min-width:1024px) 480px, 92vw"
-  quality={50}  // Aggressive quality for hero
-  priority      // Load immediately (LCP optimization)
+  quality={50} // Aggressive quality for hero
+  priority // Load immediately (LCP optimization)
   fetchPriority="high"
   loading="eager"
   placeholder="blur"
   blurDataURL={blur}
   fill
-/>
+/>;
 ```
 
 **Optimization Strategy:**
+
 - ✅ `priority` flag for LCP (Largest Contentful Paint)
 - ✅ `quality={50}` reduces file size significantly
 - ✅ `blur` placeholder prevents layout shift
@@ -162,12 +175,13 @@ const serviceHeroes = [
   sizes="(min-width:1024px) 20vw, (min-width:768px) 30vw, 80vw"
   quality={50}
   placeholder="blur"
-  loading="lazy"  // Lazy load below-the-fold images
+  loading="lazy" // Lazy load below-the-fold images
   blurDataURL={heroBlurData[service.image]}
 />
 ```
 
 **Optimization Strategy:**
+
 - ✅ `loading="lazy"` defers loading until near viewport
 - ✅ Smaller `sizes` values = smaller downloaded images
 - ✅ Custom blur placeholder per image
@@ -175,30 +189,36 @@ const serviceHeroes = [
 ## Performance Metrics
 
 ### Before AVIF Support
+
 - Hero image: ~250KB WebP
 - Service cards: ~75-240KB WebP each
 - Total page weight (images): ~1.2MB
 
 ### After AVIF Support (Expected)
+
 - Hero image: ~125-175KB AVIF (30-50% reduction)
 - Service cards: ~40-120KB AVIF each
 - Total page weight (images): ~600-800KB (33-50% reduction)
 
 ### Lighthouse Scores (Current)
+
 Based on `lighthouserc.desktop.json` and `lighthouserc.mobile.json`:
 
 **Desktop:**
+
 - Performance: Target 90+
 - Properly sized images: Check
 - Modern image formats: ✅ (with AVIF now enabled)
 
 **Mobile:**
+
 - Performance: Target 85+
 - Image optimization critical for 4G/3G users
 
 ## Recommendations
 
 ### ✅ Already Implemented
+
 1. ✅ Use Next.js `<Image>` component everywhere
 2. ✅ Add `priority` to above-the-fold images
 3. ✅ Use `loading="lazy"` for below-the-fold
@@ -207,6 +227,7 @@ Based on `lighthouserc.desktop.json` and `lighthouserc.mobile.json`:
 6. ✅ Proper `sizes` attribute for responsive images
 
 ### 🔧 Just Fixed
+
 1. ✅ Enable AVIF in next.config.js
 2. ✅ Add more device sizes (1024, 1280, 1920)
 3. ✅ Set minimumCacheTTL for better caching
@@ -214,17 +235,21 @@ Based on `lighthouserc.desktop.json` and `lighthouserc.mobile.json`:
 ### 📋 Optional Future Improvements
 
 #### 1. Use Original JPEGs Instead of Pre-converted WebP
+
 **Current:**
+
 ```tsx
-src="/assets/hero/services/accounting-hero.webp"
+src = "/assets/hero/services/accounting-hero.webp";
 ```
 
 **Better:**
+
 ```tsx
-src="/assets/hero/services/accounting-hero.jpg"
+src = "/assets/hero/services/accounting-hero.jpg";
 ```
 
 **Why?** Next.js will convert to AVIF/WebP anyway, and JPEGs are:
+
 - More universally supported
 - Better source for conversion
 - One less pre-processing step
@@ -232,12 +257,15 @@ src="/assets/hero/services/accounting-hero.jpg"
 **Action:** Update hero image arrays to use `.jpg` instead of `.webp`
 
 #### 2. Implement Image CDN (Optional)
+
 For high-traffic sites, consider:
+
 - Cloudflare Images
 - Imgix
 - Cloudinary
 
 Configure in `next.config.js`:
+
 ```javascript
 images: {
   loader: 'cloudflare',
@@ -246,14 +274,17 @@ images: {
 ```
 
 #### 3. Add Width/Height to All Images
+
 Prevents Cumulative Layout Shift (CLS):
 
 **Before:**
+
 ```tsx
 <Image src="..." fill />
 ```
 
 **Better (when possible):**
+
 ```tsx
 <Image src="..." width={800} height={600} />
 ```
@@ -261,11 +292,13 @@ Prevents Cumulative Layout Shift (CLS):
 ## Monitoring Image Performance
 
 ### Check Build Output
+
 ```bash
 npm run build
 ```
 
 Look for:
+
 ```
 Route (app)                              Size     First Load JS
 ...
@@ -273,6 +306,7 @@ Route (app)                              Size     First Load JS
 ```
 
 ### Check Network Tab (Production)
+
 1. Open DevTools → Network tab
 2. Filter by "Img"
 3. Check:
@@ -281,12 +315,15 @@ Route (app)                              Size     First Load JS
    - File sizes should be significantly smaller than originals
 
 ### Verify AVIF Support
+
 In browser console:
+
 ```javascript
 const img = new Image();
-img.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIABoAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A=';
-img.onload = () => console.log('✅ AVIF supported');
-img.onerror = () => console.log('❌ AVIF not supported');
+img.src =
+  "data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIABoAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A=";
+img.onload = () => console.log("✅ AVIF supported");
+img.onerror = () => console.log("❌ AVIF not supported");
 ```
 
 ## File Structure Reference
@@ -313,27 +350,35 @@ img.onerror = () => console.log('❌ AVIF not supported');
 ## Commands Reference
 
 ### Generate Blur Placeholders
+
 ```bash
 node scripts/generate-hero-blur-data.js
 ```
+
 Output: `src/lib/heroBlurData.json`
 
 ### Compress Images
+
 ```bash
 node scripts/compress-images.js
 ```
+
 Creates `.optimized.webp` and `.optimized.avif` files
 
 ### Optimize Images
+
 ```bash
 node scripts/optimize-images.js
 ```
+
 Processes and updates image references in code
 
 ### Check Image Usage
+
 ```bash
 node scripts/audit-image-usage.js
 ```
+
 Lists all images and their references
 
 ## Next.js Config Reference
@@ -367,23 +412,27 @@ images: {
 ## Troubleshooting
 
 ### Images Look Blurry
+
 - Increase `quality` prop (try 60-75)
 - Check `sizes` attribute matches actual display size
 - Verify source image has sufficient resolution
 
 ### Images Load Slowly
+
 - Add `priority` to above-the-fold images
 - Reduce `quality` for non-critical images
 - Check if too many images load simultaneously
 - Verify CDN/cache headers are correct
 
 ### Build is Slow
+
 - Next.js caches optimized images
 - First build is slow, subsequent builds are fast
 - Check `.next/cache/images/` for cached files
 - Consider `images: { unoptimized: true }` for development only
 
 ### AVIF Not Being Served
+
 - Check browser support (Chrome 85+, Firefox 93+)
 - Verify `formats: ['image/avif', 'image/webp']` in config
 - Check Network tab → Response Headers → Content-Type

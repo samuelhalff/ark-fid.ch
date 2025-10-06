@@ -5,11 +5,11 @@ import "@/src/i18n";
 
 const About = () => {
   const { t } = useTranslation("home");
-  
+
   const content = t("About.Content", {
     returnObjects: true,
   }) as string[];
-  
+
   return (
     <section className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center">
       <div className="w-full max-w-[1200px]">
