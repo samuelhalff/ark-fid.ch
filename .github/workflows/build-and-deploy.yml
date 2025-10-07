@@ -150,24 +150,31 @@ jobs:
       - name: Restart Node.js server
         run: |
           set +e
-          sudo apt-get install -y sshpass
+          sudo apt-get install -y sshpass curl
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
           USER="${{ secrets.DEPLOY_SSH_USER }}"
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
+          TOKEN="${{ secrets.RESTART_SECRET_TOKEN }}"
 
-          echo "[restart] Killing old process..."
-          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no "$USER@$HOST" \
-            'pkill -f "node.*server.js" && echo "[restart] Process killed" || echo "[restart] No process to kill"' \
-            || true
+          echo "[restart] Calling kill endpoint..."
+          curl -X POST "https://ark-fid.ch/api/kill/" \
+            -H "Authorization: Bearer $TOKEN" \
+            -s -o /dev/null -w "HTTP %{http_code}\n" || echo "[restart] Kill endpoint call failed (server may already be down)"
 
-          echo "[restart] Waiting 10s..."
-          sleep 10
+          echo "[restart] Waiting 20s for process to terminate..."
+          sleep 20
 
           echo "[restart] Starting new process..."
-          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no "$USER@$HOST" \
-            'cd /srv/customer/sites/ark-fid.ch/current && NODE_ENV=production nohup node server.js > server.out 2>&1 & echo "[restart] Process started with PID $!"'
+          for attempt in 1 2 3; do
+            echo "[restart] Start attempt $attempt/3..."
+            sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o ConnectTimeout=10 "$USER@$HOST" \
+              'cd /srv/customer/sites/ark-fid.ch/current && nohup node server.js > server.out 2>&1 & echo "[restart] Process started with PID $!"' \
+              && break || echo "[restart] Start attempt $attempt failed, retrying..."
+            sleep 5
+          done
 
+          echo "[restart] Waiting 10s for server to stabilize..."
           sleep 10
           set -e
 

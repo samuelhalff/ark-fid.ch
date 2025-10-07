@@ -20,10 +20,8 @@ if [ -f "$PID_FILE" ]; then
   rm -f "$PID_FILE"
 fi
 
-# Kill all node processes more aggressively
-pkill -9 -f 'node.*server.js' 2>/dev/null || true
-pkill -9 -f next-server 2>/dev/null || true
-pkill -9 node 2>/dev/null || true
+# Note: pkill removed - process kills itself via /api/kill endpoint
+# The containerized environment manages process lifecycle
 echo "[start-server] Waiting for port to be released..."
 sleep 5
 
