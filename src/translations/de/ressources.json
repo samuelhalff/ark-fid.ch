@@ -145,6 +145,13 @@
       "description": "Offizielle Richtlinien 2025 der CHS PP zur beruflichen Vorsorge (BVG) in der Schweiz: Regelung, Schlüsselpunkte für Arbeitgeber, Pensionskassen und Selbstständige, Anwendung der neuen AHV/IV-Grenzen, Mindestzinssatz und Rentenanpassung. Grundlagendokument für jede HR- und Lohnverwaltung (BVG) in Genf und der Westschweiz ab dem 1. Januar 2025.",
       "date": "2025-10-05",
       "source_url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
+    },
+    {
+      "filename": "Salaires-2025-2026-1.pdf",
+      "title": "Richtlöhne Genf 2025-2026",
+      "description": "Offizielle Liste der Richtlöhne für Genf (2025-2026), veröffentlicht vom OFPC: Referenzen für Lohnabrechnung, Swissdec-Konformität, HR-Management und Lohnverhandlung in Genf, angepasst für KMU, Selbstständige und Treuhänder.",
+      "date": "2025-10-07",
+      "source_url": "https://www.citedesmetiers.ch/app/uploads/2025/02/Salaires-2025-2026-1.pdf"
     }
   ],
   "Articles": [
@@ -499,6 +506,24 @@
           "url": "https://mon-lpp.ch/reforme-lpp-2025-changements-assures/"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-paie-comptabilite-nouveautes-geneve-2025",
+      "title": "Odoo 18: Neuheiten Lohnbuchhaltung und Finanzbuchhaltung 2025 für KMU und Selbstständige in Genf",
+      "description": "Entdecken Sie, wie Odoo 18 die Verwaltung von Lohn und Buchhaltung 2025 revolutioniert: Swissdec 5.0-Konformität, LPP/LAA/ALV und MWST-Tarife, Best Practices für Genf.",
+      "content": "Odoo 18, frisch erschienen für den Herbst 2025, bringt bedeutende Neuerungen für Lohn-, Buchhaltungs- und Steuerverwaltung, abgestimmt auf die spezifischen Anforderungen von Genf und der Romandie. In diesem Artikel geben wir einen Überblick über alle relevanten neuen Funktionen für KMU, Selbstständige und Treuhänder, mit den aktuellen Sätzen 2025 für Swissdec, LPP, LAA, ALV und die MWST.\n\n**1. Lohn & Swissdec 5.0**\nOdoo 18 bietet jetzt eine vollständige Swissdec 5.0-Integration, wodurch Schweizer Lohnabrechnungen automatisiert erstellt und standardisierte XML-Dateien sofort für AVS-LPP-LAA-ALV und Quellensteuererklärungen extrahiert werden. Die automatische Aktualisierung der kantonalen und eidgenössischen Tabellen reduziert Übermittlungsfehler für Sozialkassen und Behörden erheblich.\n\n**2. Buchhaltung & MWST: mehr Konformität**\nDie Version 18 erfüllt die neuen Swiss GAAP FER-Anforderungen und die Kriterien der ESTV für die MWST 2025. Wichtige Verbesserungen sind Mehrwährungsfähigkeit, reibungslosere Bankabstimmung und ein überarbeitetes Analytikmodul – ideal für Firmen in Genf und international. Sämtliche MWST-Neuerungen 2025 sind integriert, einschließlich automatisierter Abwicklung von Sondersätzen (z. B. Gastronomie, Bau).\n\n**3. LPP/LAA/ALV: Beitragsautomatisierung**\nMit der automatischen Aktualisierung der LPP-Grenzen (CHF 22'680.- bis CHF 90'720.- in 2025) ist das Handling der Anmeldungen und Beitragsberechnungen zeitgemäß. Nutzer generieren Tabellen und Atteste für Prüfungen mit wenigen Klicks (siehe Allianz, 2025). Die vollständige Digitalisierung spart bei Prüfungen wertvolle Zeit und verhindert Mahngebühren.\n\n**4. Umsetzung & Best Practices**\nUm von Odoo 18 in Genf optimal zu profitieren, empfiehlt sich ein Treuhänder mit Expertise in Lohn, LPP, MWST, Governance und Administration. Unterstützung bei Moduleinrichtung, Datensicherung und Automatisierung von Exporten ist für einen reibungslosen Umstieg entscheidend.\n\n**5. Ausblick für Genf und die Romandie**\nDie Odoo 18-Neuerungen sichern nicht nur die Einhaltung aller Vorschriften, sondern bieten auch einen echten Wettbewerbsvorteil: Risikovermeidung, Zeitersparnis und bessere Steuerung. Auch ESG-Verpflichtungen und das zentrale Verwalten rechtlicher Dokumente (GV, Protokolle, Berichte) werden unterstützt.\n\nFür einen erfolgreichen Umstieg auf Odoo 18 und vollständige Lohnkonformität Schweiz 2025-2026, arbeiten Sie mit einem lokalen Partner mit umfassendem Know-how in Steuer-, Lohn- und Gesellschaftsthemen in Genf.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-07",
+      "references": [
+        {
+          "labelKey": "afc_suisse_page_officielle_comptabilite_tva",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        },
+        {
+          "labelKey": "odoo_docs_paie_compta",
+          "url": "https://www.odoo.com/documentation/18.0/applications/finance/accounting/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -562,5 +587,7 @@
   "Bulletin officiel LPP 2025": "Offizielles LPP-2025-Bulletin",
   "Nouveautés LPP Genève": "LPP-Neuheiten Genf",
   "Directives LPP 2025": "BVG 2025 Richtlinien",
-  "Réforme LPP 2025 pour assurés": "BVG 2025 Reform für Versicherte"
+  "Réforme LPP 2025 pour assurés": "BVG 2025 Reform für Versicherte",
+  "afc_suisse_page_officielle_comptabilite_tva": "Eidg. Steuerverwaltung MWST-Infoseite (Schweiz)",
+  "odoo_docs_paie_compta": "Odoo 18: Lohn- & Buchhaltungsdokumentation"
 }

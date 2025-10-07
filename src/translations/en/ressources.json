@@ -145,6 +145,13 @@
       "description": "Official 2025 guidelines from CHS PP regarding occupational benefits (LPP) in Switzerland: regulation, key points for employers, pension funds and self-employed, application of new AVS/AI limits, minimum interest rate, and pension adjustment. Essential document for all HR and payroll (LPP) management in Geneva and French-speaking Switzerland as of 1 January 2025.",
       "date": "2025-10-05",
       "source_url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
+    },
+    {
+      "filename": "Salaires-2025-2026-1.pdf",
+      "title": "Indicative salaries Geneva 2025-2026",
+      "description": "Official list of indicative salaries for Geneva (2025-2026), published by the OFPC: references for payroll calculation, Swissdec compliance, HR management, and salary negotiation in Geneva, suitable for SMEs, freelancers, and fiduciaries.",
+      "date": "2025-10-07",
+      "source_url": "https://www.citedesmetiers.ch/app/uploads/2025/02/Salaires-2025-2026-1.pdf"
     }
   ],
   "Articles": [
@@ -499,6 +506,24 @@
           "url": "https://mon-lpp.ch/reforme-lpp-2025-changements-assures/"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-paie-comptabilite-nouveautes-geneve-2025",
+      "title": "Odoo 18: What's new in payroll and accounting 2025 for SMEs and freelancers in Geneva",
+      "description": "Discover how Odoo 18 is revolutionizing payroll and accounting management in 2025: Swissdec 5.0 compliance, LPP/LAA/AC and VAT rates, best practices for Geneva.",
+      "content": "Odoo 18, freshly released for fall 2025, introduces major innovations for payroll, accounting, and tax management, tailored to the specific requirements of Geneva and French-speaking Switzerland. In this article, we review the new features relevant for SMEs, freelancers, and fiduciaries, integrating the latest 2025 rates from Swissdec, LPP, LAA, AC, and VAT.\n\n**1. Payroll and Swissdec 5.0**\nOdoo 18 now offers full Swissdec 5.0 integration, enabling automatic generation of Swiss-compliant payslips, with instant extraction of standardized XML files for AVS-LPP-LAA-AC and withholding tax declarations. Payroll managers in Geneva will appreciate the automatic updating of cantonal and federal rates, drastically reducing errors when submitting data to social funds and authorities.\n\n**2. Accounting and VAT: enhanced compliance**\nVersion 18 meets the new Swiss GAAP FER requirements and the FTA criteria for VAT 2025. Major improvements include multi-currency management, smoother bank reconciliation, and a redesigned analytical management module, ideal for companies operating in Geneva and internationally. Odoo 18 also includes all VAT 2025 updates, making quarterly declarations easier and automating special rate management (notably for hospitality or construction).\n\n**3. LPP/LAA/AC: automation of contributions**\nThanks to automatic updating of LPP limits (CHF 22,680 to CHF 90,720 in 2025), affiliation and contribution management becomes ultra-modern. The user can generate in just a few clicks the summary tables and certificates required during audits (ref. Allianz, 2025). The complete digitalization of the workflow saves valuable time during audits and avoids late penalties.\n\n**4. Implementation and best practices**\nTo get the most out of Odoo 18 in Geneva, it is recommended to use a fiduciary with expertise in payroll, LPP, VAT, governance, and administrative outsourcing. Support for module configuration, data backup, and export automation is crucial for a seamless transition.\n\n**5. Outlook for Geneva and French-speaking Switzerland**\nOdoo 18's new features not only ensure compliance but also provide a real competitive advantage: risk reduction, time optimization, and stronger management control. This version is also optimized for ESG obligations and centralized management of legal documentation (AGMs, minutes, reports).\n\nFor a successful transition to Odoo 18 and fully compliant Swiss payroll in 2025-2026, work with a local partner with extensive expertise in taxation, payroll, and corporate matters in Geneva.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-07",
+      "references": [
+        {
+          "labelKey": "afc_suisse_page_officielle_comptabilite_tva",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        },
+        {
+          "labelKey": "odoo_docs_paie_compta",
+          "url": "https://www.odoo.com/documentation/18.0/applications/finance/accounting/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Swiss taxes 2025 – Overview (FDF)",
@@ -589,5 +614,7 @@
   "Bulletin officiel LPP 2025": "Official LPP 2025 bulletin",
   "Nouveautés LPP Genève": "LPP news Geneva",
   "Directives LPP 2025": "LPP 2025 guidelines",
-  "Réforme LPP 2025 pour assurés": "LPP 2025 reform for insured"
+  "Réforme LPP 2025 pour assurés": "LPP 2025 reform for insured",
+  "afc_suisse_page_officielle_comptabilite_tva": "Federal Tax Administration official VAT page (Switzerland)",
+  "odoo_docs_paie_compta": "Odoo 18: Payroll & accounting documentation"
 }

@@ -145,6 +145,13 @@
       "description": "Diretrizes oficiais 2025 da CHS PP quanto à previdência profissional (LPP) na Suíça: regulamentação, pontos-chave para empregadores, fundos de pensão e autônomos, aplicação dos novos limites AVS/AI, taxa de juros mínima e ajuste das pensões. Documento fundamental para toda gestão de RH e folha de pagamento (LPP) em Genebra e Suíça francófona a partir de 1º de janeiro de 2025.",
       "date": "2025-10-05",
       "source_url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
+    },
+    {
+      "filename": "Salaires-2025-2026-1.pdf",
+      "title": "Salários indicativos Genebra 2025-2026",
+      "description": "Lista oficial dos salários indicativos para Genebra (2025-2026), publicada pela OFPC: referências para o cálculo da folha de pagamento, conformidade Swissdec, gestão de RH e negociação salarial em Genebra, adequada para PME, autônomos e escritórios de contabilidade.",
+      "date": "2025-10-07",
+      "source_url": "https://www.citedesmetiers.ch/app/uploads/2025/02/Salaires-2025-2026-1.pdf"
     }
   ],
   "Articles": [
@@ -499,6 +506,24 @@
           "url": "https://mon-lpp.ch/reforme-lpp-2025-changements-assures/"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-paie-comptabilite-nouveautes-geneve-2025",
+      "title": "Odoo 18: Novidades em folha e contabilidade 2025 para PME e autônomos em Genebra",
+      "description": "Descubra como o Odoo 18 revoluciona a gestão da folha de pagamento e da contabilidade em 2025: conformidade Swissdec 5.0, tabelas LPP/LAA/AC e IVA, melhores práticas para Genebra.",
+      "content": "Odoo 18, recém-lançado para o outono de 2025, introduz grandes novidades para a gestão de folha, contabilidade e fiscalidade, adaptadas às exigências específicas de Genebra e da Suíça francófona. Neste artigo, revisamos as funcionalidades novas relevantes para PME, autônomos e escritórios de contabilidade, integrando as últimas tabelas de 2025 do Swissdec, LPP, LAA, AC e IVA.\n\n**1. Folha de pagamento e Swissdec 5.0**\nOdoo 18 agora oferece integração completa Swissdec 5.0, permitindo a geração automática de holerites em conformidade suíça, com extração instantânea dos arquivos XML padronizados para as declarações AVS-LPP-LAA-AC e imposto na fonte. Gestores de folha em Genebra apreciarão a atualização automática das tabelas cantonais e federais, reduzindo drasticamente erros na transmissão dos dados para as caixas sociais e autoridades.\n\n**2. Contabilidade e IVA: conformidade reforçada**\nA versão 18 atende aos novos requisitos Swiss GAAP FER e aos critérios da AFC para o IVA 2025. Os principais aprimoramentos incluem gestão multimoeda, conciliação bancária mais fluida e um módulo de gestão analítica repensado, ideal para empresas ativas em Genebra e internacionalmente. Odoo 18 também integra todas as novidades do IVA 2025, facilitando a declaração trimestral e a gestão automatizada de taxas especiais (especialmente para restauração ou construção).\n\n**3. LPP/LAA/AC: automação das contribuições**\nGraças à atualização automática dos limites do LPP (CHF 22’680.- até CHF 90’720.- em 2025), a gestão de filiações e contribuições torna-se ultramoderna. O usuário pode gerar em poucos cliques os quadros-síntese e os certificados exigidos nas auditorias (ref. Allianz, 2025). A digitalização completa do fluxo de trabalho poupa tempo precioso em auditorias e evita multas por atraso.\n\n**4. Implantação e boas práticas**\nPara tirar o máximo do Odoo 18 em Genebra, recomenda-se buscar um escritório de contabilidade com expertise em folha, LPP, IVA, governança e terceirização administrativa. O acompanhamento na configuração de módulos, backup de dados e automação das exportações é fundamental para uma transição suave.\n\n**5. Perspectivas para Genebra e Suíça francófona**\nAs novidades do Odoo 18 não apenas garantem conformidade, mas trazem uma verdadeira vantagem competitiva: redução de riscos, otimização de tempo e aumento no controle gerencial. A versão também é otimizada para obrigações ESG e para a gestão centralizada da documentação legal (assembleias, atas, relatórios).\n\nPara uma transição bem-sucedida ao Odoo 18 e uma folha plenamente em conformidade com as normas suíças 2025-2026, conte com um parceiro local com experiência em fiscalidade, folha e corporate em Genebra.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-07",
+      "references": [
+        {
+          "labelKey": "afc_suisse_page_officielle_comptabilite_tva",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        },
+        {
+          "labelKey": "odoo_docs_paie_compta",
+          "url": "https://www.odoo.com/documentation/18.0/applications/finance/accounting/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -562,5 +587,7 @@
   "Bulletin officiel LPP 2025": "Boletim oficial LPP 2025",
   "Nouveautés LPP Genève": "Novidades LPP Genebra",
   "Directives LPP 2025": "Diretrizes LPP 2025",
-  "Réforme LPP 2025 pour assurés": "Reforma LPP 2025 para segurados"
+  "Réforme LPP 2025 pour assurés": "Reforma LPP 2025 para segurados",
+  "afc_suisse_page_officielle_comptabilite_tva": "Página oficial do IVA da Administração Federal de Contribuições (Suíça)",
+  "odoo_docs_paie_compta": "Odoo 18: documentação de folha e contabilidade"
 }

@@ -145,6 +145,13 @@
       "description": "Directivas oficiales 2025 de la CHS PP sobre previsión profesional (LPP) en Suiza: regulación, puntos clave para empleadores, cajas de pensiones y autónomos, aplicación de los nuevos límites AVS/AI, tipo de interés mínimo y ajuste de pensiones. Documento fundamental para la gestión de RRHH y nóminas (LPP) en Ginebra y Suiza francófona a partir del 1 de enero de 2025.",
       "date": "2025-10-05",
       "source_url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
+    },
+    {
+      "filename": "Salaires-2025-2026-1.pdf",
+      "title": "Salarios indicativos Ginebra 2025-2026",
+      "description": "Lista oficial de salarios indicativos para Ginebra (2025-2026), publicada por la OFPC: referencias para el cálculo de nómina, conformidad Swissdec, gestión de RRHH y negociación salarial en Ginebra, adaptada para pymes, autónomos y fiduciarios.",
+      "date": "2025-10-07",
+      "source_url": "https://www.citedesmetiers.ch/app/uploads/2025/02/Salaires-2025-2026-1.pdf"
     }
   ],
   "Articles": [
@@ -499,6 +506,24 @@
           "url": "https://mon-lpp.ch/reforme-lpp-2025-changements-assures/"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-paie-comptabilite-nouveautes-geneve-2025",
+      "title": "Odoo 18: Novedades en nóminas y contabilidad 2025 para pymes y autónomos en Ginebra",
+      "description": "Descubre cómo Odoo 18 revoluciona la gestión de nóminas y contabilidad en 2025: conformidad Swissdec 5.0, baremos LPP/LAA/AC e IVA, mejores prácticas para Ginebra.",
+      "content": "Odoo 18, recién lanzado para otoño de 2025, introduce grandes novedades en la gestión de nóminas, contabilidad y fiscalidad, adaptadas a los requisitos específicos de Ginebra y la Suiza francófona. En este artículo, revisamos las novedades relevantes para pymes, autónomos y fiduciarios, integrando los últimos baremos 2025 de Swissdec, LPP, LAA, AC y el IVA.\n\n**1. Nóminas y Swissdec 5.0**\nOdoo 18 ahora ofrece una integración completa de Swissdec 5.0, permitiendo la generación automatizada de recibos de salario conformes a las normas suizas, con extracción instantánea de archivos XML estandarizados para las declaraciones AVS-LPP-LAA-AC e impuestos en la fuente. Los responsables de nóminas en Ginebra apreciarán la actualización automática de los baremos cantonales y federales, disminuyendo drásticamente los errores en la transmisión de datos a las cajas sociales y administraciones.\n\n**2. Contabilidad e IVA: conformidad reforzada**\nLa versión 18 cumple con los nuevos requisitos de Swiss GAAP FER y los criterios de la AFC para el IVA 2025. Entre las mejoras clave se encuentran la gestión multimoneda, la conciliación bancaria más fluida y un módulo de gestión analítica rediseñado, ideal para empresas activas en Ginebra y a nivel internacional. Odoo 18 integra además todas las novedades del IVA 2025, facilitando la declaración trimestral y la gestión automatizada de tipos especiales (especialmente hostelería o construcción).\n\n**3. LPP/LAA/AC: automatización de cotizaciones**\nCon la actualización automática de los límites LPP (CHF 22’680.- a CHF 90’720.- en 2025), la gestión de afiliaciones y cotizaciones se vuelve ultramoderna. El usuario puede generar en pocos clics los cuadros resumen y los certificados requeridos en controles (ref. Allianz, 2025). La digitalización completa del flujo de trabajo ahorra un tiempo valioso en las auditorías y evita las multas por retraso.\n\n**4. Implantación y buenas prácticas**\nPara aprovechar Odoo 18 en Ginebra, se recomienda acudir a un fiduciario con experiencia en nóminas, LPP, IVA, gobernanza y externalización administrativa. El acompañamiento en la configuración de módulos, copia de seguridad de datos y automatización de exportaciones es crucial para una transición sin contratiempos.\n\n**5. Perspectivas para Ginebra y Suiza francófona**\nLas novedades de Odoo 18 no solo facilitan el cumplimiento, también aportan una ventaja competitiva real: reducción de riesgos, optimización del tiempo y control reforzado de la gestión. Esta versión también optimiza las obligaciones ESG y la gestión centralizada de la documentación legal (juntas generales, actas, informes).\n\nPara una transición exitosa a Odoo 18 y una nómina completamente conforme con la normativa suiza 2025-2026, cuente con un socio local con experiencia en fiscalidad, nóminas y corporate en Ginebra.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-07",
+      "references": [
+        {
+          "labelKey": "afc_suisse_page_officielle_comptabilite_tva",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        },
+        {
+          "labelKey": "odoo_docs_paie_compta",
+          "url": "https://www.odoo.com/documentation/18.0/applications/finance/accounting/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -562,5 +587,7 @@
   "Bulletin officiel LPP 2025": "Boletín oficial LPP 2025",
   "Nouveautés LPP Genève": "Novedades LPP Ginebra",
   "Directives LPP 2025": "Directivas LPP 2025",
-  "Réforme LPP 2025 pour assurés": "Reforma LPP 2025 para asegurados"
+  "Réforme LPP 2025 pour assurés": "Reforma LPP 2025 para asegurados",
+  "afc_suisse_page_officielle_comptabilite_tva": "Página oficial del IVA de la Administración Federal de Contribuciones (Suiza)",
+  "odoo_docs_paie_compta": "Odoo 18: documentación de nóminas y contabilidad"
 }

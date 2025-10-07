@@ -145,6 +145,13 @@
       "description": "Directives officielles 2025 de la CHS PP concernant la prévoyance professionnelle (LPP) en Suisse : réglementation, points clés pour employeurs, caisses de pension et indépendants, application des nouvelles limites AVS/AI, taux d’intérêt minimal, et adaptation des rentes. Document fondamental pour toute gestion RH et paie (LPP) à Genève et en Suisse romande au 1er janvier 2025.",
       "date": "2025-10-05",
       "source_url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
+    },
+    {
+      "filename": "Salaires-2025-2026-1.pdf",
+      "title": "Salaires indicatifs Genève 2025-2026",
+      "description": "Liste officielle des salaires indicatifs pour Genève (2025-2026), publiée par l'OFPC : références pour le calcul de la paie, la conformité Swissdec, la gestion RH et la négociation salariale à Genève, adaptée aux PME, indépendants et fiduciaires.",
+      "date": "2025-10-07",
+      "source_url": "https://www.citedesmetiers.ch/app/uploads/2025/02/Salaires-2025-2026-1.pdf"
     }
   ],
   "Articles": [
@@ -499,6 +506,24 @@
           "url": "https://mon-lpp.ch/reforme-lpp-2025-changements-assures/"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-paie-comptabilite-nouveautes-geneve-2025",
+      "title": "Odoo 18 : Nouveautés paie et comptabilité 2025 pour PME et indépendants à Genève",
+      "description": "Découvrez comment Odoo 18 révolutionne la gestion de la paie et de la comptabilité en 2025 : conformité Swissdec 5.0, barèmes LPP/LAA/AC et TVA, meilleures pratiques pour Genève.",
+      "content": "Odoo 18, fraîchement sorti pour l’automne 2025, introduit des nouveautés majeures pour la gestion de la paie, de la comptabilité et de la fiscalité, adaptées aux exigences spécifiques de Genève et de la Suisse romande. Dans cet article, nous faisons le point sur les nouvelles fonctionnalités pertinentes pour les PME, indépendants et fiduciaires, en intégrant les derniers barèmes 2025 de Swissdec, LPP, LAA, AC et la TVA. \n\n**1. Paie et Swissdec 5.0**\nOdoo 18 propose désormais une intégration Swissdec 5.0 complète, permettant la génération automatisée des bulletins de salaire conformes aux normes suisses, avec extraction instantanée des fichiers XML normalisés pour les déclarations AVS-LPP-LAA-AC et impôts à la source. Les encadrants à Genève apprécieront l’actualisation automatique des barèmes cantonaux et fédéraux, réduisant drastiquement les erreurs lors de la transmission des données aux caisses sociales et administrations.\n\n**2. Comptabilité et TVA : conformité accrue**\nLa version 18 répond aux nouvelles exigences Swiss GAAP FER et aux critères de l’AFC pour la TVA 2025. Les améliorations majeures incluent la gestion multidevise, la réconciliation bancaire plus fluide, et un module de gestion analytique repensé, idéal pour les sociétés actives sur Genève et à l’international. Odoo 18 intègre également toutes les nouveautés TVA 2025, facilitant la déclaration trimestrielle et la gestion automatisée des taux spéciaux (notamment pour la restauration ou le bâtiment).\n\n**3. LPP/LAA/AC : automatisation des cotisations**\nGrâce à l’actualisation automatique des limites LPP (CHF 22’680.- au CHF 90’720.- en 2025), la gestion des affiliations et cotisations devient ultra-moderne. L’utilisateur peut générer en quelques clics les tableaux de synthèse et les attestations demandées lors des contrôles (réf. Allianz, 2025). La digitalisation complète du workflow permet de gagner un temps précieux lors des audits et évite les pénalités de retard.\n\n**4. Implémentation et bonnes pratiques**\nPour tirer parti d’Odoo 18 à Genève, il est recommandé de faire appel à un fiduciaire disposant d’une expertise sur la paie, la LPP, la TVA, la gouvernance et l’outsourcing administratif. L’accompagnement sur la configuration des modules, la sauvegarde des données et l’automatisation des exports est crucial pour une transition sans heurts. \n\n**5. Perspectives pour Genève et la Suisse romande**\nLes nouveautés Odoo 18 aident non seulement à rester conforme, mais offrent également un véritable avantage compétitif : réduction des risques, optimisation du temps et pilotage renforcé des activités. Cette version est également optimisée pour les obligations ESG et la gestion centralisée de la documentation légale (AG, PV, rapports). \n\nPour une transition réussie vers Odoo 18 et une paie complètement conforme aux normes suisses 2025-2026, faites-vous accompagner par un partenaire local doté d’une compétence étendue en fiscalité, paie et corporate à Genève.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-07",
+      "references": [
+        {
+          "labelKey": "afc_suisse_page_officielle_comptabilite_tva",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        },
+        {
+          "labelKey": "odoo_docs_paie_compta",
+          "url": "https://www.odoo.com/documentation/18.0/applications/finance/accounting/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -552,5 +577,7 @@
   "Changements prévoyance": "Mises à jour et adaptations récentes du 2e pilier applicable à Genève",
   "Directives LPP 2025": "Directives officielles de la prévoyance professionnelle (LPP) pour 2025",
   "Nouveautés LPP Genève": "Synthèse des nouveautés LPP 2025 à Genève",
-  "Réforme LPP 2025 pour assurés": "Explications pratiques sur la réforme LPP 2025 et son impact pour les assurés"
+  "Réforme LPP 2025 pour assurés": "Explications pratiques sur la réforme LPP 2025 et son impact pour les assurés",
+  "Odoo 18 nouveautés": "Nouveautés Odoo 18 pour la gestion PME Genève",
+  "Barèmes salaires Genève 2025": "Barèmes salariaux Genève en vigueur 2025-2026"
 }
