@@ -4,7 +4,7 @@ const AccountingHero = ({ params }: { params: { locale: string } }) => {
   return (
     <ServiceHero
       namespace="accounting"
-      imageSrc="/assets/hero/services/accounting-hero.optimized.optimized.webp"
+      imageSrc="/assets/hero/services/accounting-hero.optimized.webp"
       imageAlt="Zurich old town and Lake Zurich at sunrise, Switzerland"
       locale={params.locale}
       badge1Key="Hero.Badge"
