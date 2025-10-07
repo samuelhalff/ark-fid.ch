@@ -25,6 +25,23 @@ const ConsentAnalytics = dynamic(
 );
 import { getTranslations, getCurrentLocale } from "@/src/lib/i18n";
 
+// Read and inline critical CSS to eliminate render-blocking request
+const criticalCss = (() => {
+  try {
+    const filePath = path.join(
+      process.cwd(),
+      "public",
+      "assets",
+      "css",
+      "critical.css"
+    );
+    return readFileSync(filePath, "utf-8");
+  } catch (error) {
+    console.error("Failed to read critical.css:", error);
+    return "";
+  }
+})();
+
 const nonCriticalCssHref = (() => {
   const baseHref = "/assets/css/non-critical.css" as const;
   try {
@@ -180,12 +197,19 @@ export default async function RootLayout({
       <head>
         {/* Remove early preconnect to analytics to avoid competing with LCP; analytics loads only after consent */}
         {/** Defer Google Maps connections to pages that actually use Maps (e.g., contact). Removing global preconnect helps mobile Speed Index. */}
-        {/* Next/Image with priority handles preloading of LCP image. Avoid duplicate preload to keep mobile SI low. */}
+        {/* Preload most likely LCP hero image (accounting is first in rotation array) */}
+        <link
+          rel="preload"
+          as="image"
+          href="/assets/hero/services/accounting-hero.optimized.webp"
+          type="image/webp"
+          fetchPriority="high"
+        />
         {/* Ensure font swap to avoid layout shifts */}
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
         {/* Title, description and viewport are managed by Next metadata API */}
-        {/* eslint-disable-next-line @next/next/no-css-tags */}
-        <link rel="stylesheet" href="/assets/css/critical.css" />
+        {/* Inline critical CSS to eliminate render-blocking request */}
+        <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
       </head>
       <body className={inter.className}>
         {/* Accessibility: Skip link */}
