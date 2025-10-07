@@ -181,10 +181,10 @@ jobs:
               -o ConnectTimeout=10 \
               ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }} \
               'cd /srv/customer/sites/ark-fid.ch/current && NODE_ENV=production nohup node server.js > server.out 2>&1 & echo "[restart] Process started with PID $!"' 2>&1; then
-              echo "[restart] ✅ Server start succeeded"
+              echo "[restart] OK - Server start succeeded"
               break
             else
-              echo "[restart] ⚠️  Start attempt $i failed, retrying in 5s..."
+              echo "[restart] WARNING - Start attempt $i failed, retrying in 5s..."
               sleep 5
             fi
           done
@@ -192,7 +192,7 @@ jobs:
           echo "[restart] Step 4: Waiting 10 seconds for process to stabilize..."
           sleep 10
           
-          echo "[restart] ✅ Restart sequence complete"
+          echo "[restart] OK - Restart sequence complete"
           set -e  # Re-enable exit on error
 
       # Health check
