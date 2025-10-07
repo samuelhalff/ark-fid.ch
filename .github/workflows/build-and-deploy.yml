@@ -157,7 +157,7 @@ jobs:
         run: |
           set +e  # Don't exit on error
           sudo apt-get install -y sshpass
-          
+
           echo "[restart] Step 1: Stopping current Node.js process..."
           # Kill process, ignore exit codes (process might not exist, SSH might drop)
           sshpass -p "${{ secrets.DEPLOY_SSH_PASSWORD }}" ssh \
@@ -167,10 +167,10 @@ jobs:
             -o ServerAliveCountMax=2 \
             ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }} \
             'pkill -f "node.*server.js" && echo "[restart] Process killed" || echo "[restart] No process to kill"' 2>&1 || echo "[restart] Kill command completed (connection may have dropped)"
-          
+
           echo "[restart] Step 2: Waiting 20 seconds for cleanup and connection reset..."
           sleep 20
-          
+
           echo "[restart] Step 3: Starting new Node.js process..."
           # Start new process, retry up to 3 times if connection fails
           for i in 1 2 3; do
@@ -188,10 +188,10 @@ jobs:
               sleep 5
             fi
           done
-          
+
           echo "[restart] Step 4: Waiting 10 seconds for process to stabilize..."
           sleep 10
-          
+
           echo "[restart] OK - Restart sequence complete"
           set -e  # Re-enable exit on error
 
