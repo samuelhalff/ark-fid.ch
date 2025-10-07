@@ -179,12 +179,12 @@ jobs:
           sudo apt-get install -y curl
           echo "[deploy] Warming fixed pages..."
           for p in "/" "/en/" "/fr/" "/de/" "/es/" "/pt/"; do
-            curl -fsS "$SITE$p" -o /dev/null || true
+            curl -fsSL "$SITE$p" -o /dev/null || true
           done
 
           echo "[deploy] Warming pages from sitemap.xml (up to 200, parallel)..."
           TMP=$(mktemp)
-          if curl -fsS "$SITE/sitemap.xml" -o "$TMP"; then
+          if curl -fsSL "$SITE/sitemap.xml" -o "$TMP"; then
             # Extract <loc> URLs and warm in parallel (10 at a time)
             sed -n "s:.*<loc>\\(.*\\)</loc>.*:\\1:p" "$TMP" | head -n 200 | \
               xargs -n 1 -P 10 -I {} bash -lc "curl -fsS '{}' -o /dev/null || true"
