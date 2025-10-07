@@ -114,4 +114,80 @@ jobs:
             TMP="/tmp/ark-fid-release-$TS"
             LOG="$BASE_DIR/deploy.extract.log"
 
-            mkdir -p "$RELEASES_DIR" "$TMP" "$B_
+            mkdir -p "$RELEASES_DIR" "$TMP" "$BASE_DIR/artifact"
+            [ -f "$PART" ] && mv -f "$PART" "$ARTIFACT"
+
+            cp -f "$ARTIFACT" "$TMP/artifact.tar.gz"
+            gzip -cd "$TMP/artifact.tar.gz" > "$TMP/.payload.tar"
+            tar -xf "$TMP/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP"
+            rm -f "$TMP/.payload.tar"
+
+            # Validate required files
+            for f in server.js .next/BUILD_ID .next/static; do
+              if [ ! -e "$TMP/$f" ]; then
+                echo "[deploy] Missing $f" >> "$LOG"; exit 1
+              fi
+            done
+
+            # Move into releases and switch symlink
+            (mv "$TMP" "$REL_DIR") 2>/dev/null || { mkdir -p "$REL_DIR"; cp -a "$TMP"/. "$REL_DIR"/; rm -rf "$TMP"; }
+            ln -sfn "$REL_DIR" "$CURRENT_LINK"
+            echo "$TS" > "$BASE_DIR/last_release_ts"
+            echo "[deploy] Release $TS ready" >> "$LOG"
+
+            # Cleanup (keep newest 4)
+            KEEP=4
+            cd "$RELEASES_DIR" 2>/dev/null || exit 0
+            ls -1t | tail -n +$((KEEP+1)) | while read -r old; do
+              [ -n "$old" ] && [ "$old" != "$TS" ] && rm -rf "$RELEASES_DIR/$old" || true
+            done
+          '
+
+      # Restart via API (outside SSH so a process exit doesn't kill our session)
+      - name: Restart app via API
+        env:
+          RESTART_TOKEN: ${{ secrets.RESTART_SECRET_TOKEN }}
+        run: |
+          set -e
+          echo "[deploy] Calling /api/restart..."
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $RESTART_TOKEN" \
+            -H "Content-Type: application/json" \
+            "$SITE/api/restart" || true
+          # Give the orchestrator time to recycle the process
+          sleep 20
+
+      - name: Health check
+        run: |
+          set -e
+          sudo apt-get install -y curl
+          ATTEMPTS=40; SLEEP=3; OK=0
+          for i in $(seq 1 $ATTEMPTS); do
+            CODE=$(curl -o /dev/null -s -w "%{http_code}" "$SITE/") || true
+            if [ "$CODE" = "200" ]; then
+              echo "✅ Health OK (HTTP $CODE)"
+              OK=1; break
+            fi
+            echo "Waiting for server... ($i/$ATTEMPTS, HTTP $CODE)"
+            sleep $SLEEP
+          done
+          [ "$OK" -eq 1 ] || { echo "❌ Health check failed"; exit 1; }
+
+      - name: Warm up pages (root + languages + sitemap URLs)
+        run: |
+          set -e
+          sudo apt-get install -y curl
+          echo "[deploy] Warming fixed pages..."
+          for p in "/" "/en/" "/fr/" "/de/" "/es/" "/pt/"; do
+            curl -fsS "$SITE$p" -o /dev/null || true
+          done
+
+          echo "[deploy] Warming pages from sitemap.xml (up to 200, parallel)..."
+          TMP=$(mktemp)
+          if curl -fsS "$SITE/sitemap.xml" -o "$TMP"; then
+            # Extract <loc> URLs and warm in parallel (10 at a time)
+            sed -n "s:.*<loc>\\(.*\\)</loc>.*:\\1:p" "$TMP" | head -n 200 | \
+              xargs -n 1 -P 10 -I {} bash -lc "curl -fsS '{}' -o /dev/null || true"
+          else
+            echo "[deploy] No sitemap.xml found (skipping dynamic warmup)"
+          fi
