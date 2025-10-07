@@ -6,105 +6,104 @@ export const runtime = 'nodejs';
 export const revalidate = 0;
 
 /**
- * Secure restart endpoint for Infomaniak hosting automation
+ * Secure kill endpoint for deployment automation
  * 
  * When called with the correct secret token, this endpoint triggers process.exit(0),
- * which causes Infomaniak's orchestrator to automatically restart the application.
- * This is the recommended approach for automated deployments on Infomaniak's managed Node.js hosting.
+ * which terminates the current Node.js process. The deployment script will then
+ * start a new process with the updated code.
  * 
- * Security: Uses a secret token from environment variables to prevent unauthorized restarts.
+ * Security: Uses a secret token from environment variables to prevent unauthorized kills.
  * 
- * Usage: POST /api/restart with Authorization header: Bearer <RESTART_SECRET_TOKEN>
+ * Usage: POST /api/kill with Authorization header: Bearer <RESTART_SECRET_TOKEN>
  */
 export async function POST(request: NextRequest) {
   try {
-    console.log('[RESTART] POST request received');
-    console.log('[RESTART] Headers:', Object.fromEntries(request.headers.entries()));
-    console.log('[RESTART] NODE_ENV:', process.env.NODE_ENV);
-    console.log('[RESTART] RESTART_ALLOW_IN_DEV:', process.env.RESTART_ALLOW_IN_DEV);
+    console.log('[KILL] POST request received');
+    console.log('[KILL] Headers:', Object.fromEntries(request.headers.entries()));
+    console.log('[KILL] NODE_ENV:', process.env.NODE_ENV);
+    console.log('[KILL] RESTART_ALLOW_IN_DEV:', process.env.RESTART_ALLOW_IN_DEV);
     
     // Get the authorization header
     const authHeader = request.headers.get('authorization');
-    console.log('[RESTART] Auth header present:', !!authHeader);
+    console.log('[KILL] Auth header present:', !!authHeader);
     
     const token = (() => {
       if (!authHeader) return null;
       const match = authHeader.match(/^Bearer\s+(.+)$/i);
       return match ? match[1].trim() : null;
     })();
-    console.log('[RESTART] Token extracted:', !!token);
+    console.log('[KILL] Token extracted:', !!token);
 
     // Get the secret from environment
     const restartSecret = process.env.RESTART_SECRET_TOKEN;
-    console.log('[RESTART] Secret configured:', !!restartSecret);
+    console.log('[KILL] Secret configured:', !!restartSecret);
 
     // Validate secret token
     if (!restartSecret) {
-      console.error('[RESTART] RESTART_SECRET_TOKEN not configured');
+      console.error('[KILL] RESTART_SECRET_TOKEN not configured');
       return NextResponse.json(
-        { error: 'Restart endpoint not configured' },
+        { error: 'Kill endpoint not configured' },
         { status: 500 }
       );
     }
 
     // Optional safety: disable in non-production unless explicitly allowed
     if (process.env.NODE_ENV !== 'production' && process.env.RESTART_ALLOW_IN_DEV !== 'true') {
-      console.warn('[RESTART] Restart blocked in non-production environment');
-      console.warn('[RESTART] NODE_ENV:', process.env.NODE_ENV);
-      console.warn('[RESTART] RESTART_ALLOW_IN_DEV:', process.env.RESTART_ALLOW_IN_DEV);
+      console.warn('[KILL] Kill blocked in non-production environment');
+      console.warn('[KILL] NODE_ENV:', process.env.NODE_ENV);
+      console.warn('[KILL] RESTART_ALLOW_IN_DEV:', process.env.RESTART_ALLOW_IN_DEV);
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    console.log('[RESTART] Environment check passed');
+    console.log('[KILL] Environment check passed');
 
     // Constant-time compare using SHA-256 digests
     const valid = (() => {
       if (!token) {
-        console.log('[RESTART] No token provided');
+        console.log('[KILL] No token provided');
         return false;
       }
       try {
         const a = crypto.createHash('sha256').update(token).digest();
         const b = crypto.createHash('sha256').update(restartSecret).digest();
         const result = crypto.timingSafeEqual(a, b);
-        console.log('[RESTART] Token validation result:', result);
+        console.log('[KILL] Token validation result:', result);
         return result;
       } catch (err) {
-        console.error('[RESTART] Token validation error:', err);
+        console.error('[KILL] Token validation error:', err);
         return false;
       }
     })();
 
     if (!valid) {
-      console.warn('[RESTART] Unauthorized restart attempt');
+      console.warn('[KILL] Unauthorized kill attempt');
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
-    // Log the restart
-    console.log('[RESTART] Authorized restart requested. Triggering graceful shutdown...');
-    console.log('[RESTART] Infomaniak orchestrator will automatically restart the application.');
+    // Log the kill
+    console.log('[KILL] Authorized kill requested. Terminating process...');
+    console.log('[KILL] Deployment script will start new process with updated code.');
 
     // Send response before exiting
     const response = NextResponse.json({
       success: true,
-      message: 'Restart initiated. Application will be restarted by Infomaniak orchestrator.',
+      message: 'Process termination initiated. Deployment script will start new process.',
       timestamp: new Date().toISOString(),
     });
 
-    // Trigger the restart after a short delay to allow response to be sent
-    // Infomaniak's orchestrator will detect the exit and restart the app
+    // Trigger the kill after a short delay to allow response to be sent
     setTimeout(() => {
-      console.log('[RESTART] Exiting process. Infomaniak will restart...');
+      console.log('[KILL] Exiting process now...');
       process.exit(0);
     }, 500);
 
     return response;
 
   } catch (error) {
-    console.error('[RESTART] Error in restart endpoint:', error);
+    console.error('[KILL] Error in kill endpoint:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

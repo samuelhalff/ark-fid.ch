@@ -152,16 +152,48 @@ jobs:
               echo "[deploy] Deployment complete" >> "$LOG"
             '
 
-      # Restart via API
-      - name: Restart app via API
+      # Restart server - resilient to connection drops and process kills
+      - name: Restart Node.js server
         run: |
-          echo "[deploy] Calling /api/restart endpoint..."
-          curl -fsS -X POST \
-            -H "Authorization: Bearer ${{ secrets.RESTART_SECRET_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            https://ark-fid.ch/api/restart || true
-          echo "[deploy] Restart signal sent. Waiting 20s..."
+          set +e  # Don't exit on error
+          sudo apt-get install -y sshpass
+          
+          echo "[restart] Step 1: Stopping current Node.js process..."
+          # Kill process, ignore exit codes (process might not exist, SSH might drop)
+          sshpass -p "${{ secrets.DEPLOY_SSH_PASSWORD }}" ssh \
+            -p ${{ secrets.DEPLOY_SSH_PORT }} \
+            -o StrictHostKeyChecking=no \
+            -o ServerAliveInterval=5 \
+            -o ServerAliveCountMax=2 \
+            ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }} \
+            'pkill -f "node.*server.js" && echo "[restart] Process killed" || echo "[restart] No process to kill"' 2>&1 || echo "[restart] Kill command completed (connection may have dropped)"
+          
+          echo "[restart] Step 2: Waiting 20 seconds for cleanup and connection reset..."
           sleep 20
+          
+          echo "[restart] Step 3: Starting new Node.js process..."
+          # Start new process, retry up to 3 times if connection fails
+          for i in 1 2 3; do
+            echo "[restart] Start attempt $i/3..."
+            if sshpass -p "${{ secrets.DEPLOY_SSH_PASSWORD }}" ssh \
+              -p ${{ secrets.DEPLOY_SSH_PORT }} \
+              -o StrictHostKeyChecking=no \
+              -o ConnectTimeout=10 \
+              ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }} \
+              'cd /srv/customer/sites/ark-fid.ch/current && NODE_ENV=production nohup node server.js > server.out 2>&1 & echo "[restart] Process started with PID $!"' 2>&1; then
+              echo "[restart] ✅ Server start succeeded"
+              break
+            else
+              echo "[restart] ⚠️  Start attempt $i failed, retrying in 5s..."
+              sleep 5
+            fi
+          done
+          
+          echo "[restart] Step 4: Waiting 10 seconds for process to stabilize..."
+          sleep 10
+          
+          echo "[restart] ✅ Restart sequence complete"
+          set -e  # Re-enable exit on error
 
       # Health check
       - name: Health check and warmup
