@@ -67,15 +67,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     if: github.ref == 'refs/heads/main'
-    env:
-      HOST: ${{ secrets.DEPLOY_SSH_HOST }}
-      USER: ${{ secrets.DEPLOY_SSH_USER }}
-      PASS: ${{ secrets.DEPLOY_SSH_PASSWORD }}
-      PORT: ${{ secrets.DEPLOY_SSH_PORT || 22 }}
-      BASE_DIR: /srv/customer/sites/ark-fid.ch
-      SITE: https://ark-fid.ch
     steps:
-      - name: Checkout repo (for scripts if needed)
+      - name: Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
@@ -89,105 +82,112 @@ jobs:
       - name: Prepare partial artifact
         run: cp artifact/next-standalone.tar.gz artifact/next-standalone.tar.gz.part
 
-      - name: Upload release to server (rsync over password SSH)
+      - name: Upload release to server (rsync)
         run: |
-          set -e
-          sudo apt-get update && sudo apt-get install -y sshpass rsync
-          sshpass -p "$PASS" rsync -av --partial --inplace \
-            -e "ssh -o StrictHostKeyChecking=no -p $PORT" \
+          sudo apt-get update && sudo apt-get install -y sshpass
+          sshpass -p "${{ secrets.DEPLOY_SSH_PASSWORD }}" rsync -av \
+            -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.DEPLOY_SSH_PORT }}" \
             artifact/next-standalone.tar.gz.part \
-            "$USER@$HOST:$BASE_DIR/artifact/"
+            ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}:/srv/customer/sites/ark-fid.ch/artifact/
 
-      - name: Extract, symlink and cleanup on server
+      - name: Extract, symlink and cleanup releases
         run: |
-          set -e
           sudo apt-get install -y sshpass
-          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no "$USER@$HOST" bash -lc '
-            set -eE -o pipefail
-            BASE_DIR="'"$BASE_DIR"'"
-            RELEASES_DIR="$BASE_DIR/releases"
-            CURRENT_LINK="$BASE_DIR/current"
-            ARTIFACT="$BASE_DIR/artifact/next-standalone.tar.gz"
-            PART="$BASE_DIR/artifact/next-standalone.tar.gz.part"
-            TS=$(date +%Y%m%d%H%M%S)
-            REL_DIR="$RELEASES_DIR/$TS"
-            TMP="/tmp/ark-fid-release-$TS"
-            LOG="$BASE_DIR/deploy.extract.log"
+          sshpass -p "${{ secrets.DEPLOY_SSH_PASSWORD }}" ssh -p ${{ secrets.DEPLOY_SSH_PORT }} -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
+            ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }} bash -lc '
+              set -euo pipefail
+              BASE_DIR="/srv/customer/sites/ark-fid.ch"
+              RELEASES_DIR="$BASE_DIR/releases"
+              CURRENT_LINK="$BASE_DIR/current"
+              ARTIFACT="$BASE_DIR/artifact/next-standalone.tar.gz"
+              PART="$BASE_DIR/artifact/next-standalone.tar.gz.part"
+              TS=$(date +%Y%m%d%H%M%S)
+              REL_DIR="$RELEASES_DIR/$TS"
+              TMP="/tmp/ark-fid-release-$TS"
+              LOG="$BASE_DIR/deploy.extract.log"
 
-            mkdir -p "$RELEASES_DIR" "$TMP" "$BASE_DIR/artifact"
-            [ -f "$PART" ] && mv -f "$PART" "$ARTIFACT"
+              mkdir -p "$RELEASES_DIR" "$TMP"
 
-            cp -f "$ARTIFACT" "$TMP/artifact.tar.gz"
-            gzip -cd "$TMP/artifact.tar.gz" > "$TMP/.payload.tar"
-            tar -xf "$TMP/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP"
-            rm -f "$TMP/.payload.tar"
+              [ -f "$PART" ] && mv "$PART" "$ARTIFACT"
+              cp "$ARTIFACT" "$TMP/artifact.tar.gz"
 
-            # Validate required files
-            for f in server.js .next/BUILD_ID .next/static; do
-              if [ ! -e "$TMP/$f" ]; then
-                echo "[deploy] Missing $f" >> "$LOG"; exit 1
+              gzip -cd "$TMP/artifact.tar.gz" > "$TMP/.payload.tar"
+              tar -xf "$TMP/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP"
+              rm -f "$TMP/.payload.tar"
+
+              for f in server.js .next/BUILD_ID .next/static; do
+                [ -e "$TMP/$f" ] || { echo "[deploy] Missing required: $f" >> "$LOG"; exit 1; }
+              done
+
+              mv "$TMP" "$REL_DIR" || { cp -r "$TMP"/* "$REL_DIR"/ && rm -rf "$TMP"; }
+              
+              # Link shared .env file
+              mkdir -p "$BASE_DIR/shared"
+              if [ -f "$BASE_DIR/shared/.env" ]; then
+                ln -sfn "$BASE_DIR/shared/.env" "$REL_DIR/.env"
+                echo "[deploy] Linked .env from shared directory" >> "$LOG"
+              else
+                echo "[deploy] Warning: No .env file in shared directory" >> "$LOG"
               fi
-            done
+              
+              ln -sfn "$REL_DIR" "$CURRENT_LINK"
 
-            # Move into releases and switch symlink
-            (mv "$TMP" "$REL_DIR") 2>/dev/null || { mkdir -p "$REL_DIR"; cp -a "$TMP"/. "$REL_DIR"/; rm -rf "$TMP"; }
-            ln -sfn "$REL_DIR" "$CURRENT_LINK"
-            echo "$TS" > "$BASE_DIR/last_release_ts"
-            echo "[deploy] Release $TS ready" >> "$LOG"
+              echo "$TS" > "$BASE_DIR/last_release_ts"
+              
+              echo "[deploy] Release $TS deployed successfully" >> "$LOG"
 
-            # Cleanup (keep newest 4)
-            KEEP=4
-            cd "$RELEASES_DIR" 2>/dev/null || exit 0
-            ls -1t | tail -n +$((KEEP+1)) | while read -r old; do
-              [ -n "$old" ] && [ "$old" != "$TS" ] && rm -rf "$RELEASES_DIR/$old" || true
-            done
-          '
+              # Cleanup old releases (keep 4) - don't fail deployment if this fails
+              KEEP=4
+              (
+                cd "$RELEASES_DIR" 2>/dev/null || { echo "[cleanup] Warning: Could not access releases dir" >> "$LOG"; exit 0; }
+                releases=$(ls -1t 2>/dev/null | tail -n +$((KEEP+1)) 2>/dev/null || true)
+                for rel in $releases; do
+                  if [ -d "$rel" ] && [ "$rel" != "$TS" ]; then
+                    echo "[cleanup] Removing old release: $rel" >> "$LOG"
+                    rm -rf "$RELEASES_DIR/$rel" 2>/dev/null || echo "[cleanup] Warning: Failed to remove $rel" >> "$LOG"
+                  fi
+                done
+              ) || true
+              
+              echo "[deploy] Deployment complete" >> "$LOG"
+            '
 
-      # Restart via API (outside SSH so a process exit doesn't kill our session)
+      # Restart via API
       - name: Restart app via API
-        env:
-          RESTART_TOKEN: ${{ secrets.RESTART_SECRET_TOKEN }}
         run: |
-          set -e
-          echo "[deploy] Calling /api/restart..."
+          echo "[deploy] Calling /api/restart endpoint..."
           curl -fsS -X POST \
-            -H "Authorization: Bearer $RESTART_TOKEN" \
+            -H "Authorization: Bearer ${{ secrets.RESTART_SECRET_TOKEN }}" \
             -H "Content-Type: application/json" \
-            "$SITE/api/restart" || true
-          # Give the orchestrator time to recycle the process
+            https://ark-fid.ch/api/restart || true
+          echo "[deploy] Restart signal sent. Waiting 20s..."
           sleep 20
 
-      - name: Health check
+      # Health check
+      - name: Health check and warmup
         run: |
-          set -e
           sudo apt-get install -y curl
           ATTEMPTS=40; SLEEP=3; OK=0
           for i in $(seq 1 $ATTEMPTS); do
-            CODE=$(curl -o /dev/null -s -w "%{http_code}" "$SITE/") || true
-            if [ "$CODE" = "200" ]; then
-              echo "✅ Health OK (HTTP $CODE)"
-              OK=1; break
+            STATUS=$(curl -o /dev/null -s -w "%{http_code}" -L "https://ark-fid.ch/fr/")
+            if [ "$STATUS" -eq 200 ]; then
+              echo "✅ Health check OK (200 from /fr/)"
+              OK=1
+              break
             fi
-            echo "Waiting for server... ($i/$ATTEMPTS, HTTP $CODE)"
+            echo "Waiting for server... ($i/$ATTEMPTS, got $STATUS)"
             sleep $SLEEP
           done
           [ "$OK" -eq 1 ] || { echo "❌ Health check failed"; exit 1; }
 
-      - name: Warm up pages (root + languages + sitemap URLs)
-        run: |
-          set -e
-          sudo apt-get install -y curl
-          echo "[deploy] Warming fixed pages..."
-          for p in "/" "/en/" "/fr/" "/de/" "/es/" "/pt/"; do
-            curl -fsSL "$SITE$p" -o /dev/null || true
+          echo "[deploy] Warming up main paths..."
+          for path in "/" "/en/" "/fr/" "/de/" "/es/" "/pt/"; do
+            curl -fsSL "https://ark-fid.ch$path" >/dev/null 2>&1 || true
           done
 
-          echo "[deploy] Warming pages from sitemap.xml (up to 200, parallel)..."
-          TMP=$(mktemp)
-          if curl -fsSL "$SITE/sitemap.xml" -o "$TMP"; then
-            # Extract <loc> URLs and warm in parallel (10 at a time)
-            sed -n "s:.*<loc>\\(.*\\)</loc>.*:\\1:p" "$TMP" | head -n 200 | \
-              xargs -n 1 -P 10 -I {} bash -lc "curl -fsS '{}' -o /dev/null || true"
-          else
-            echo "[deploy] No sitemap.xml found (skipping dynamic warmup)"
-          fi
+          echo "[deploy] Warming up image assets..."
+          curl -fsSL "https://ark-fid.ch/fr/" | grep -Eo 'src="/[^"]+\.(png|jpg|jpeg|webp|avif|svg)"' \
+            | sed 's/src="//' | sed 's/"$//' \
+            | while read -r img; do
+                curl -fsSL "https://ark-fid.ch$img" >/dev/null 2>&1 || true
+              done
