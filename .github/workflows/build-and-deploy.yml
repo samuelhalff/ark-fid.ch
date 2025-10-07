@@ -1,175 +1,104 @@
-name: Build and Deploy (SSH)
+name: Deploy via SSH to Infomaniak
 
 on:
   push:
     branches: [main]
-    paths:
-      - "app/**"
-      - "src/**"
-      - "public/**"
-      - "tailwind.config.*"
-      - "postcss.config.*"
-      - "next.config.js"
-      - "package.json"
-      - "package-lock.json"
-      - "scripts/**"
   workflow_dispatch:
 
-concurrency:
-  group: production-deploy
-  cancel-in-progress: true
-
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20.x"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit --no-fund
-
-      - name: Restore Next.js build cache
-        uses: actions/cache@v4
-        with:
-          path: .next/cache
-          key: next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('src/**', 'app/**') }}
-          restore-keys: |
-            next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-
-
-      - name: Build
-        env:
-          NODE_OPTIONS: --max_old_space_size=4096
-          BUILD_SOURCEMAPS: "false"
-        run: npm run build
-
-      - name: Prepare artifact
-        run: bash scripts/prepare-artifact.sh
-
-      - name: Archive artifact
-        run: tar -czf next-standalone.tar.gz -C dist .
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: next-standalone
-          path: next-standalone.tar.gz
-          compression-level: 0
-          if-no-files-found: error
-
   deploy:
     runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main'
+    defaults:
+      run:
+        shell: bash
+    env:
+      DEPLOY_HOST: ark-fid.ch
+      DEPLOY_PATH: /srv/customer/sites/ark-fid.ch
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v3
         with:
-          fetch-depth: 1
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: package-lock.json
 
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: next-standalone
-          path: ./artifact
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Prepare partial artifact
-        run: cp artifact/next-standalone.tar.gz artifact/next-standalone.tar.gz.part
+      - name: Build Next.js app
+        run: npm run build
 
-      - name: Upload release to server (rsync)
+      - name: Create deployment artifact
+        run: bash scripts/prepare-artifact.sh
+
+      - name: Set up SSH key
         run: |
-          sudo apt-get update && sudo apt-get install -y sshpass
-          sshpass -p "${{ secrets.DEPLOY_SSH_PASSWORD }}" rsync -av \
-            -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.DEPLOY_SSH_PORT }}" \
-            artifact/next-standalone.tar.gz.part \
-            ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }}:/srv/customer/sites/ark-fid.ch/artifact/
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p 22 -H ${{ env.DEPLOY_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Extract, symlink and cleanup releases
+      - name: Upload artifact
+        run: scp -P 22 artifact.tar.gz ${{ secrets.SSH_USER }}@${{ env.DEPLOY_HOST }}:/tmp/artifact.tar.gz
+
+      - name: Deploy release
         run: |
-          sudo apt-get install -y sshpass
-          sshpass -p "${{ secrets.DEPLOY_SSH_PASSWORD }}" ssh -p ${{ secrets.DEPLOY_SSH_PORT }} -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=3 \
-            ${{ secrets.DEPLOY_SSH_USER }}@${{ secrets.DEPLOY_SSH_HOST }} bash -lc '
-              set -euo pipefail
-              BASE_DIR="/srv/customer/sites/ark-fid.ch"
-              RELEASES_DIR="$BASE_DIR/releases"
-              CURRENT_LINK="$BASE_DIR/current"
-              ARTIFACT="$BASE_DIR/artifact/next-standalone.tar.gz"
-              PART="$BASE_DIR/artifact/next-standalone.tar.gz.part"
-              TS=$(date +%Y%m%d%H%M%S)
-              REL_DIR="$RELEASES_DIR/$TS"
-              TMP="/tmp/ark-fid-release-$TS"
-              LOG="$BASE_DIR/deploy.extract.log"
+          ssh -p 22 ${{ secrets.SSH_USER }}@${{ env.DEPLOY_HOST }} 'bash -s' <<'EOSSH'
+          set -e
+          base="/srv/customer/sites/ark-fid.ch"
+          releases_dir="$base/releases"
+          current_link="$base/current"
+          timestamp=$(date +%Y%m%d%H%M%S)
+          release_dir="$releases_dir/$timestamp"
+          echo "Creating release directory $release_dir"
+          mkdir -p "$release_dir"
+          echo "Extracting artifact to $release_dir"
+          tar -xzf /tmp/artifact.tar.gz -C "$release_dir"
+          rm -f /tmp/artifact.tar.gz
+          echo "Updating current symlink -> $release_dir"
+          ln -sfn "$release_dir" "$current_link"
+          echo "Release $timestamp deployed"
+          EOSSH
 
-              mkdir -p "$RELEASES_DIR" "$TMP"
-
-              [ -f "$PART" ] && mv "$PART" "$ARTIFACT"
-              cp "$ARTIFACT" "$TMP/artifact.tar.gz"
-
-              gzip -cd "$TMP/artifact.tar.gz" > "$TMP/.payload.tar"
-              tar -xf "$TMP/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP"
-              rm -f "$TMP/.payload.tar"
-
-              for f in server.js .next/BUILD_ID .next/static; do
-                [ -e "$TMP/$f" ] || { echo "[deploy] Missing required: $f" >> "$LOG"; exit 1; }
-              done
-
-              mv "$TMP" "$REL_DIR" || { cp -r "$TMP"/* "$REL_DIR"/ && rm -rf "$TMP"; }
-              ln -sfn "$REL_DIR" "$CURRENT_LINK"
-
-              echo "$TS" > "$BASE_DIR/last_release_ts"
-              
-              echo "[deploy] Release $TS deployed successfully" >> "$LOG"
-
-              # Cleanup old releases (keep 4) - don't fail deployment if this fails
-              KEEP=4
-              (
-                cd "$RELEASES_DIR" 2>/dev/null || { echo "[cleanup] Warning: Could not access releases dir" >> "$LOG"; exit 0; }
-                releases=$(ls -1t 2>/dev/null | tail -n +$((KEEP+1)) 2>/dev/null || true)
-                for rel in $releases; do
-                  if [ -d "$rel" ] && [ "$rel" != "$TS" ]; then
-                    echo "[cleanup] Removing old release: $rel" >> "$LOG"
-                    rm -rf "$RELEASES_DIR/$rel" 2>/dev/null || echo "[cleanup] Warning: Failed to remove $rel" >> "$LOG"
-                  fi
-                done
-              ) || true
-              
-              echo "[deploy] Deployment complete" >> "$LOG"
-            '
-
-      # Restart via API (outside SSH so orchestrator kill doesn’t break CI)
-      - name: Restart app via API
+      - name: Clean up old releases
         run: |
-          echo "[deploy] Calling /api/restart endpoint..."
-          curl -fsS -X POST \
-            -H "Authorization: Bearer ${{ secrets.RESTART_SECRET_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            https://ark-fid.ch/api/restart || true
-          echo "[deploy] Restart signal sent. Waiting 20s..."
-          sleep 20
+          ssh -p 22 ${{ secrets.SSH_USER }}@${{ env.DEPLOY_HOST }} 'bash -s' <<'EOSSH'
+          base="/srv/customer/sites/ark-fid.ch"
+          releases_dir="$base/releases"
+          echo "Cleaning up old releases..."
+          cd "$releases_dir"
+          old_releases=$(ls -1t | sed -e '1,4d')
+          if [ -z "$old_releases" ]; then
+            echo "No old releases to remove"
+          else
+            echo "Removing old releases:"
+            echo "$old_releases"
+            rm -rf $old_releases || echo "Warning: failed to remove some releases"
+          fi
+          echo "Cleanup finished"
+          EOSSH
+        continue-on-error: true
 
-      # Health check
-      - name: Health check and warmup
+      - name: Restart server and warmup
         run: |
-          sudo apt-get install -y curl
-          ATTEMPTS=40; SLEEP=3; OK=0
-          for i in $(seq 1 $ATTEMPTS); do
-            if curl -fsS "https://ark-fid.ch/" >/dev/null 2>&1; then
-              echo "✅ Health check OK"
-              OK=1
+          echo "Triggering restart..."
+          curl -X POST "https://${{ env.DEPLOY_HOST }}/api/restart?token=${{ secrets.RESTART_TOKEN }}" || echo "Warning: restart request failed"
+          echo "Waiting for server..."
+          for i in {1..10}; do
+            code=$(curl -o /dev/null -s -w "%{http_code}" "https://${{ env.DEPLOY_HOST }}/") || true
+            if [ "$code" = "200" ]; then
+              echo "Server is up (HTTP $code)"
               break
+            else
+              echo "Server not ready (HTTP $code)"
+              sleep 5
             fi
-            echo "Waiting for server... ($i/$ATTEMPTS)"
-            sleep $SLEEP
           done
-          [ "$OK" -eq 1 ] || { echo "❌ Health check failed"; exit 1; }
-
-          echo "[deploy] Warming up main paths..."
-          for path in "/" "/en/" "/fr/" "/de/" "/es/" "/pt/"; do
-            curl -fsS "https://ark-fid.ch$path" >/dev/null 2>&1 || true
+          echo "Warming up pages..."
+          for page in "/" "/en/" "/fr/" "/de/" "/es/" "/pt/"; do
+            curl -s "https://${{ env.DEPLOY_HOST }}$page" -o /dev/null && echo "Warmed $page" || echo "Failed to warm $page"
           done
+        continue-on-error: true
