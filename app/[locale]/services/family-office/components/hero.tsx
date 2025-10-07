@@ -5,7 +5,7 @@ const FamilyOfficeHero = ({ params }: { params: { locale: string } }) => {
     <ServiceHero
       locale={params.locale}
       namespace="family-office"
-      imageSrc="/assets/hero/services/family-office-hero.webp"
+      imageSrc="/assets/hero/services/family-office-hero.optimized.webp"
       imageAlt="Swiss Alps landscape with family estate, Switzerland"
       badge1Key="Hero.Badge"
       badge1Fallback="Swiss excellence"

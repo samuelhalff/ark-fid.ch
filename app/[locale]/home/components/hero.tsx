@@ -20,15 +20,15 @@ const Hero = ({ locale }: HeroProps) => {
   const localePrefix = currentLocale ? `/${currentLocale}` : "/fr";
 
   const serviceHeroes = [
-    "/assets/hero/services/accounting-hero.webp",
-    "/assets/hero/services/corporate-hero.webp",
-    "/assets/hero/services/domiciliation-hero.webp",
-    "/assets/hero/services/incorporation-hero.webp",
-    "/assets/hero/services/odoo-hero.webp",
-    "/assets/hero/services/outsourcing-hero.webp",
-    "/assets/hero/services/payroll-hero.webp",
-    "/assets/hero/services/taxes-hero.webp",
-    "/assets/hero/services/family-office-hero.webp",
+    "/assets/hero/services/accounting-hero.optimized.webp",
+    "/assets/hero/services/corporate-hero.optimized.webp",
+    "/assets/hero/services/domiciliation-hero.optimized.webp",
+    "/assets/hero/services/incorporation-hero.optimized.webp",
+    "/assets/hero/services/odoo-hero.optimized.webp",
+    "/assets/hero/services/outsourcing-hero.optimized.webp",
+    "/assets/hero/services/payroll-hero.optimized.webp",
+    "/assets/hero/services/taxes-hero.optimized.webp",
+    "/assets/hero/services/family-office-hero.optimized.webp",
   ];
   const pick = Math.floor(Math.random() * serviceHeroes.length);
   const fallbackHero = "/assets/abstract-background-light.webp";

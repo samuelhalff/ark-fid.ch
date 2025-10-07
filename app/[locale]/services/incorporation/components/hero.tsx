@@ -5,7 +5,7 @@ const CorporateHero = ({ locale }: { locale?: string }) => {
     <ServiceHero
       locale={locale}
       namespace="incorporation"
-      imageSrc="/assets/hero/services/incorporation-hero.webp"
+      imageSrc="/assets/hero/services/incorporation-hero.optimized.webp"
       imageAlt="Spiez Castle on Lake Thun with mountains, Switzerland"
       badge1Key="Hero.Badge"
       badge1Fallback="Swiss excellence"

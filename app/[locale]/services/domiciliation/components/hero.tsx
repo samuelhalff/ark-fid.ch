@@ -4,7 +4,7 @@ const DomiciliationHero = ({ params }: { params: { locale: string } }) => {
   return (
     <ServiceHero
       namespace="domiciliation"
-      imageSrc="/assets/hero/services/domiciliation-hero.webp"
+      imageSrc="/assets/hero/services/domiciliation-hero.optimized.webp"
       imageAlt="Mountain ridge emerging above clouds in the Swiss Alps"
       locale={params.locale}
       badge1Key="Hero.Badge"

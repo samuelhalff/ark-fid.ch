@@ -5,7 +5,7 @@ const CorporateHero = ({ params }: { params: { locale: string } }) => {
     <ServiceHero
       locale={params.locale}
       namespace="corporate"
-      imageSrc="/assets/hero/services/corporate-hero.webp"
+      imageSrc="/assets/hero/services/corporate-hero.optimized.webp"
       imageAlt="Matterhorn peak at sunrise with alpine skyline, Switzerland"
       badge1Key="Hero.Badge"
       badge1Fallback="Swiss excellence"

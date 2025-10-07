@@ -4,7 +4,7 @@ const TaxesHero = ({ params }: { params: { locale: string } }) => {
   return (
     <ServiceHero
       namespace="taxes"
-      imageSrc="/assets/hero/services/taxes-hero.webp"
+      imageSrc="/assets/hero/services/taxes-hero.optimized.webp"
       imageAlt="Aerial view of winding mountain pass road in Switzerland"
       locale={params.locale}
       badge1Key="Hero.Badge"

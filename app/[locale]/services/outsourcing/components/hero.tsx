@@ -4,7 +4,7 @@ const OutsourcingHero = ({ params }: { params: { locale: string } }) => {
   return (
     <ServiceHero
       namespace="outsourcing"
-      imageSrc="/assets/hero/services/outsourcing-hero.webp"
+      imageSrc="/assets/hero/services/outsourcing-hero.optimized.webp"
       imageAlt="Aerial view of lush forest meeting turquoise Swiss lake"
       locale={params.locale}
       badge1Key="Hero.Badge"

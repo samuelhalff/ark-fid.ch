@@ -4,7 +4,7 @@ const OdooHero = ({ params }: { params: { locale: string } }) => {
   return (
     <ServiceHero
       namespace="odoo"
-      imageSrc="/assets/hero/services/odoo-hero.webp"
+      imageSrc="/assets/hero/services/odoo-hero.optimized.webp"
       imageAlt="Red train crossing a high alpine viaduct in winter, Switzerland"
       locale={params.locale}
       badge1Key="Hero.Badge"
