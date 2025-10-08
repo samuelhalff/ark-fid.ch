@@ -9,7 +9,30 @@ const baseConfig = {
   // Disable source maps on CI by default. Enable explicitly with BUILD_SOURCEMAPS=true
   productionBrowserSourceMaps: process.env.BUILD_SOURCEMAPS === 'true',
   experimental: {
-    optimizePackageImports: ['lucide-react', 'react-hook-form', 'sonner']
+    optimizePackageImports: ['lucide-react', 'react-hook-form', 'sonner'],
+    // Improve code splitting for better initial load performance
+    optimizeCss: true,
+  },
+  // Improve chunking strategy to reduce TBT
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Split large chunks to reduce main thread blocking
+      config.optimization = config.optimization || {};
+      config.optimization.splitChunks = {
+        ...config.optimization.splitChunks,
+        cacheGroups: {
+          ...config.optimization.splitChunks?.cacheGroups,
+          // Separate translations into their own chunks
+          translations: {
+            test: /[\\/]src[\\/]translations[\\/]/,
+            name: 'translations',
+            chunks: 'all',
+            priority: 10,
+          },
+        },
+      };
+    }
+    return config;
   },
   output: 'standalone',
   images: {

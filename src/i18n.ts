@@ -1,3 +1,15 @@
+// WARNING: Performance Issue - All translation files are imported at build time
+// This creates a large bundle (~880KB across 115 files) that must be parsed on every page load
+// causing significant TBT (Total Blocking Time) on mobile devices, especially EN locale.
+// 
+// Current impact: EN mobile TBT = 990ms vs PT mobile TBT = 130ms
+// 
+// TODO: Refactor to use i18next-http-backend for lazy-loading translations
+// This would load only the required locale/namespace on demand, reducing initial bundle size
+// and TBT by ~80-90%. See: https://github.com/i18next/i18next-http-backend
+//
+// For now, we've added webpack chunking to separate translations from main bundle.
+
 import incorporation from "@/src/translations/en/incorporation.json";
 import incorporationFr from "@/src/translations/fr/incorporation.json";
 import incorporationDe from "@/src/translations/de/incorporation.json";
