@@ -20,6 +20,9 @@ echo "🔨 Building fresh standalone..."
 npm run build
 
 echo "📦 Creating tarball..."
+# Copy static assets and public folder into standalone
+cp -r .next/static .next/standalone/.next/static
+cp -r public .next/standalone/public
 cd .next/standalone
 tar -czf ../../manual-deploy.tar.gz .
 cd ../..

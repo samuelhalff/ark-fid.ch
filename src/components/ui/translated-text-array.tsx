@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-// import "@/src/i18n";
+import "@/src/i18n";
 
 interface TranslatedTextArrayProps {
   translationKey: string;
