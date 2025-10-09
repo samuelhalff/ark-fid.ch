@@ -7,7 +7,7 @@ import {
 } from "@/src/components/navigation/NavigationComponents";
 import React, { useMemo } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import Link from "next/link";
+// Use plain <a> for full document reload on language change
 import type { Locale } from "@/src/lib/i18n";
 
 const VALID_LOCALES = ["en", "fr", "de", "es", "pt"] as const;
@@ -29,7 +29,7 @@ export default function LangSwitch(): React.ReactElement {
 
   // Determine active locale from the URL to avoid hydration flashes
   const activeLang = useMemo<Locale>(() => {
-    const seg0 = pathname.replace(/^\/+|\/+$|/g, "").split("/")[0];
+    const seg0 = pathname.replace(/^\/+|\/+$/g, "").split("/")[0];
     return seg0 && isValidLocale(seg0) ? seg0 : "fr";
   }, [pathname]);
   const options = useMemo(
@@ -71,16 +71,15 @@ export default function LangSwitch(): React.ReactElement {
           const href = buildHref(opt.code);
           return (
             <ListItem key={opt.code}>
-              <Link
+              <a
                 href={href}
-                prefetch={false}
                 hrefLang={opt.code}
                 rel="alternate"
                 aria-label={`Switch language to ${opt.label}`}
                 className="cursor-pointer block py-3 px-4 text-left w-full"
               >
                 {opt.label}
-              </Link>
+              </a>
             </ListItem>
           );
         })}

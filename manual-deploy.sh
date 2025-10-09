@@ -23,6 +23,9 @@ echo "📦 Creating tarball..."
 # Copy static assets and public folder into standalone
 cp -r .next/static .next/standalone/.next/static
 cp -r public .next/standalone/public
+# Include server-side translation JSONs required by getTranslations()
+mkdir -p .next/standalone/src
+cp -r src/translations .next/standalone/src/translations
 cd .next/standalone
 tar -czf ../../manual-deploy.tar.gz .
 cd ../..

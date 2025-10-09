@@ -2,9 +2,7 @@ import { type Metadata } from "next";
 import { headers } from "next/headers";
 import Hero from "@/app/[locale]/home/components/hero";
 import dynamic from "next/dynamic";
-const Services = dynamic(
-  () => import("@/app/[locale]/home/components/services")
-);
+import Services from "@/app/[locale]/home/components/services";
 const About = dynamic(() => import("@/app/[locale]/home/components/about"));
 const FAQ = dynamic(() => import("@/app/[locale]/home/components/faq"), {
   ssr: false,
@@ -40,6 +38,15 @@ export default async function Home({ params }: { params: { locale: string } }) {
   const activeLocale = isValidLocale(requestedLocale) ? requestedLocale : "fr";
   const t = await getTranslations(activeLocale, "contact");
   const homeT = await getTranslations(activeLocale, "home");
+  const heroTranslations = {
+    "Hero.Badge": homeT("Hero.Badge"),
+    "Hero.Title": homeT("Hero.Title"),
+    "Hero.Description": homeT("Hero.Description"),
+    "Hero.CTA": homeT("Hero.CTA"),
+    "Hero.ImageAlt": homeT("Hero.ImageAlt"),
+    "Hero.OdooPartnerBadge": homeT("Hero.OdooPartnerBadge"),
+    "Hero.OdooBadge": homeT("Hero.OdooBadge"),
+  };
   const localePrefix = `/${activeLocale}`;
   // Load FAQ texts for JSON-LD
   const loadFaq = async (locale: Locale) => {
@@ -62,6 +69,12 @@ export default async function Home({ params }: { params: { locale: string } }) {
     .filter((i) => faq[`Question${i}`] && faq[`Answer${i}`])
     .map((i) => ({ question: faq[`Question${i}`], answer: faq[`Answer${i}`] }));
   const faqJsonLd = buildFAQPage(faqEntries, 8);
+
+  // Choose a stable hero image index per request to avoid hydration mismatch
+  const indexSeed = (nonce || `${Date.now()}`)
+    .split("")
+    .reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+  const heroIndex = indexSeed % 9; // there are 9 service hero images
 
   // LocalBusiness schema for home page
   const localBusinessJsonLd = buildLocalBusiness({
@@ -125,7 +138,11 @@ export default async function Home({ params }: { params: { locale: string } }) {
     <div className="max-w-[var(--breakpoint-xl)] mx-auto w-full pb-4 xs:py-20 md:px-6">
       <StructuredData nonce={nonce} data={[faqJsonLd, localBusinessJsonLd]} />
       <section id="hero">
-        <Hero locale={activeLocale} />
+        <Hero
+          locale={activeLocale}
+          heroIndex={heroIndex}
+          translations={heroTranslations}
+        />
       </section>
       <section id="services">
         <Services locale={activeLocale} />

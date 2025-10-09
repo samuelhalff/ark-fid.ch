@@ -57,6 +57,12 @@ if [ -d "$ROOT_DIR/public" ]; then
   cp -R "$ROOT_DIR/public" "$DIST_DIR/public"
 fi
 
+# Include server-side translation JSONs used by getTranslations() at runtime
+if [ -d "$ROOT_DIR/src/translations" ]; then
+  mkdir -p "$DIST_DIR/src"
+  cp -R "$ROOT_DIR/src/translations" "$DIST_DIR/src/translations"
+fi
+
 # Also include required server-side manifests under .next/server to avoid ENOENT
 mkdir -p "$DIST_DIR/.next/server" "$DIST_DIR/.next/server/chunks"
 cp -R "$BUILD_DIR/standalone/.next/server/"* "$DIST_DIR/.next/server/" || true
@@ -108,4 +114,3 @@ shopt -u nullglob
 echo "Prepared deployable artifact in $DIST_DIR"
 du -sh "$DIST_DIR"
 find "$DIST_DIR" -maxdepth 2 -type d -print
-

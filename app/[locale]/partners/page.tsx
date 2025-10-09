@@ -20,6 +20,9 @@ const PartnersPage = async ({ params }: { params: { locale: string } }) => {
   const localePrefix = params.locale ? `/${params.locale}` : "/fr";
   const t = await getTranslations(params.locale as Locale, "partners");
   const tNav = await getTranslations(params.locale as Locale, "navbar");
+  const partners = t("Partners") as any[];
+  const serviceAreas = t("ServiceAreas.Areas") as any[];
+  const benefits = t("Partnership.Benefits") as string[];
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -61,6 +64,9 @@ const PartnersPage = async ({ params }: { params: { locale: string } }) => {
       </nav>
       <Presentation
         locale={params.locale}
+        partners={partners}
+        serviceAreas={serviceAreas}
+        benefits={benefits}
         strings={{
           title: t("Presentation.Title"),
           subtitle: t("Presentation.Subtitle"),

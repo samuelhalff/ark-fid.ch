@@ -6,7 +6,7 @@ import {
   CardHeader,
 } from "@/src/components/ui/card";
 import Link from "next/link";
-import ImageWithFallback from "@/src/components/ui/image-with-fallback";
+import Image from "next/image";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
@@ -109,7 +109,7 @@ export default async function TeamPage({
                 >
                   <CardHeader>
                     <div className="aspect-4/5 w-full rounded-md overflow-hidden mb-4 relative h-80">
-                      <ImageWithFallback
+                      <Image
                         src={member.profilePic}
                         alt={`Portrait of ${member.name}`}
                         className="w-full h-full object-cover object-top"

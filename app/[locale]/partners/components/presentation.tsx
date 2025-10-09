@@ -6,9 +6,15 @@ import ContactSection from "./ContactSection";
 
 const PartnersPresentation = ({
   locale,
+  partners,
+  serviceAreas,
+  benefits,
   strings,
 }: {
   locale?: string;
+  partners: any[];
+  serviceAreas: any[];
+  benefits: string[];
   strings: {
     title: string;
     subtitle: string;
@@ -50,7 +56,7 @@ const PartnersPresentation = ({
             </h2>
             <p className="max-w-2xl mx-auto">{s.partnersDescription}</p>
           </div>
-          <PartnersGrid />
+          <PartnersGrid partners={partners} />
         </section>
 
         {/* Service Areas Section */}
@@ -61,7 +67,7 @@ const PartnersPresentation = ({
             </h2>
             <p className="max-w-2xl mx-auto">{s.serviceAreasDescription}</p>
           </div>
-          <ServiceAreasGrid />
+          <ServiceAreasGrid serviceAreas={serviceAreas} />
         </section>
 
         {/* Partnership Benefits Section */}
@@ -72,7 +78,7 @@ const PartnersPresentation = ({
             </h2>
             <p className="max-w-2xl mx-auto">{s.partnershipDescription}</p>
           </div>
-          <BenefitsList />
+          <BenefitsList benefits={benefits} />
         </section>
 
         {/* Contact Section */}

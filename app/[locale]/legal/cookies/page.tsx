@@ -759,14 +759,15 @@ export default async function CookiesPage({
               )}
             </p>
             <div className="bg-muted/50 p-6 rounded-lg">
-              <p className="font-semibold">
-                {r("Cookies.Contact.Email", "Email: info@ark-fid.ch")}
-              </p>
+              <p className="font-semibold">Ark Fiduciaire SA</p>
               <p>
                 {r(
                   "Cookies.Contact.Address",
-                  "Address: Ark Fiduciaire SA, 26 Boulevard Georges Favon, 1204 Geneva"
+                  "26 Boulevard Georges Favon, 1204 Geneva"
                 )}
+              </p>
+              <p className="font-semibold">
+                {r("Cookies.Contact.Email", "Email: info@ark-fid.ch")}
               </p>
             </div>
           </div>

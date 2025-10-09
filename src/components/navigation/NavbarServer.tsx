@@ -177,9 +177,9 @@ export default function NavbarServer({
                     {navData.labels.contact}
                   </Link>
                 </li>
-                {/* Client controls (Lang + Theme) loaded client-only and deferred to reduce TBT */}
+                {/* Client controls (Lang + Theme) — defer with a safety maxDelay */}
                 <li className="ml-1">
-                  <Defer rootMargin="100px" idle={100} placeholder={null}>
+                  <Defer rootMargin="100px" idle={100} maxDelay={1500} placeholder={null}>
                     <HeaderControls />
                   </Defer>
                 </li>
@@ -187,9 +187,9 @@ export default function NavbarServer({
             </nav>
           </div>
 
-          {/* Mobile menu (client-only, split into its own chunk and deferred) */}
+          {/* Mobile menu (client-only, deferred with safety maxDelay) */}
           <div className="critical-nav__mobile">
-            <Defer rootMargin="100px" idle={150} placeholder={null}>
+            <Defer rootMargin="100px" idle={150} maxDelay={1800} placeholder={null}>
               <MobileMenuIsland locale={locale} navData={navData} />
             </Defer>
           </div>

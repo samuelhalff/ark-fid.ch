@@ -11,7 +11,6 @@ import {
   getMemberSlug,
   isPartnerRole,
 } from "@/src/lib/team";
-import ImageWithFallback from "@/src/components/ui/image-with-fallback";
 import { getPageMetadata } from "@/src/lib/metadata";
 import { Card, CardContent } from "@/src/components/ui/card";
 
@@ -162,7 +161,7 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
       <div className="grid grid-cols-1 md:grid-cols-[360px_1fr] gap-10 items-start">
         <div className="rounded-xl overflow-hidden shadow-sm border bg-card">
           <div className="relative aspect-4/5 w-full h-[480px]">
-            <ImageWithFallback
+            <Image
               src={member.profilePic}
               alt={`Portrait of ${member.name}`}
               fill

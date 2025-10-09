@@ -1,14 +1,10 @@
-"use client";
 import { Card, CardContent, CardHeader } from "@/src/components/ui/card";
 import services from "@/app/[locale]/home/components/services-items";
 import ImageWithFallback from "@/src/components/ui/image-with-fallback";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
-import "@/src/i18n";
 import heroBlurData from "@/src/lib/heroBlurData.json";
 import { localizePath } from "@/src/lib/paths";
-import { useParams } from "next/navigation";
-import { type Locale } from "@/src/lib/i18n";
+import { getTranslations, type Locale } from "@/src/lib/i18n";
 
 interface ServicesProps {
   showSubtitle?: boolean;
@@ -16,16 +12,16 @@ interface ServicesProps {
   locale?: string;
 }
 
-const Services = ({
+const Services = async ({
   showSubtitle = false,
   showHeading = true,
   locale,
 }: ServicesProps) => {
-  const params = useParams();
-  const currentLocale = (locale || params?.locale || "fr") as Locale;
+  const currentLocale = (locale || "fr") as Locale;
   const localePrefix = currentLocale ? `/${currentLocale}` : "/fr";
-  const { t: tHome } = useTranslation("home");
-  const { t: tItems } = useTranslation("servicesItems");
+
+  const tHome = await getTranslations(currentLocale, "home");
+  const tItems = await getTranslations(currentLocale, "servicesItems");
   return (
     <div
       id="services"

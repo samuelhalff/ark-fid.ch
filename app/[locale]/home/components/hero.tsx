@@ -4,19 +4,22 @@ import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
-import "@/src/i18n";
+// import { useTranslation } from "react-i18next";
+// import "@/src/i18n";
 import heroBlurData from "@/src/lib/heroBlurData.json";
 import { useParams } from "next/navigation";
 
 interface HeroProps {
   locale?: string;
+  heroIndex?: number; // stable index provided by server to avoid hydration mismatch
+  translations?: Record<string, string>; // server-provided translations to avoid hydration mismatch
 }
 
-const Hero = ({ locale }: HeroProps) => {
+const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
   const params = useParams();
   const currentLocale = (locale || params?.locale || "fr") as string;
-  const { t } = useTranslation("home");
+  // const { t } = useTranslation("home");
+  const t = (key: string) => translations?.[key] || key; // fallback to key if translation missing
   const localePrefix = currentLocale ? `/${currentLocale}` : "/fr";
 
   const serviceHeroes = [
@@ -30,7 +33,9 @@ const Hero = ({ locale }: HeroProps) => {
     "/assets/hero/services/taxes-hero.optimized.webp",
     "/assets/hero/services/family-office-hero.optimized.webp",
   ];
-  const pick = Math.floor(Math.random() * serviceHeroes.length);
+  const pick = Number.isFinite(heroIndex!)
+    ? Math.max(0, Math.min(serviceHeroes.length - 1, Number(heroIndex)))
+    : 0;
   const fallbackHero = "/assets/abstract-background-light.webp";
   const homeHeroSrc = serviceHeroes[pick] || fallbackHero;
   const blur = (heroBlurData as Record<string, string>)[homeHeroSrc];

@@ -220,13 +220,6 @@ export default async function RootLayout({
           Skip to content
         </a>
         <DeferredNonCriticalStyles href={nonCriticalCssHref} />
-        {/* Inline script to set theme class before React hydrates to avoid flicker */}
-        <script
-          nonce={nonce}
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var theme=localStorage.getItem('theme');if(theme==='dark'||(!theme&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){} })()`,
-          }}
-        />
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"

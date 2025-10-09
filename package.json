@@ -11,7 +11,7 @@
     "prebuild": "node scripts/validate-translations.js",
     "build": "next build",
     "start": "PORT=${PORT:-5000} node .next/standalone/server.js",
-    "prod": "npm run build && mkdir -p .next/standalone/.next && cp -r .next/static .next/standalone/.next/static 2>/dev/null || true && cp -r public .next/standalone/public 2>/dev/null || true && PORT=${PORT:-5000} node .next/standalone/server.js",
+    "prod": "npm run build && mkdir -p .next/standalone/.next && cp -r .next/static .next/standalone/.next/static 2>/dev/null || true && cp -r public .next/standalone/public 2>/dev/null || true && mkdir -p .next/standalone/src && cp -r src/translations .next/standalone/src/translations 2>/dev/null || true && PORT=${PORT:-5000} node .next/standalone/server.js",
     "lint": "next lint",
     "lint:translations": "node scripts/lint-translations.js",
     "validate:translations": "node scripts/validate-translations.js",

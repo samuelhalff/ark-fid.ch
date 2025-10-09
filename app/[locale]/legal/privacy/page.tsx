@@ -96,9 +96,6 @@ export default async function PrivacyPage({
                   "Address: [Swiss Business Address]"
                 )}
               </p>
-              <p>
-                {r("Privacy.DataController.Phone", "Phone: +41 XX XXX XX XX")}
-              </p>
             </div>
           </div>
         </section>
@@ -647,16 +644,15 @@ export default async function PrivacyPage({
             </p>
             <div className="bg-muted/50 p-6 rounded-lg">
               <p className="font-semibold">
-                {r("Privacy.Contact.CompanyName", "Ark Fiduciaire")}
+                {r("Privacy.Contact.CompanyName", "Ark Fiduciaire SA")}
               </p>
-              <p>{r("Privacy.Contact.Email", "Email: info@ark-fid.ch")}</p>
               <p>
                 {r(
                   "Privacy.Contact.Address",
-                  "Address: Ark Fiduciaire SA, 26 Boulevard Georges Favon, 1204 Geneva"
+                  "26 Boulevard Georges Favon, 1204 Geneva"
                 )}
               </p>
-              {/* <p>{r("Privacy.Contact.Phone", "Phone: +41 XX XXX XX XX")}</p> */}
+              <p>{r("Privacy.Contact.Email", "Email: info@ark-fid.ch")}</p>
             </div>
           </div>
         </section>

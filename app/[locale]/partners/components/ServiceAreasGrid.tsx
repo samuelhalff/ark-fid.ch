@@ -1,18 +1,16 @@
-"use client";
 import React from "react";
 import { Shield, Scale, TrendingUp, FileCheck } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import "@/src/i18n";
 
 interface ServiceArea {
   title: string;
   description: string;
 }
 
-const ServiceAreasGrid = () => {
-  const { t } = useTranslation("partners");
-  const serviceAreas =
-    (t("ServiceAreas.Areas", { returnObjects: true }) as ServiceArea[]) || [];
+interface ServiceAreasGridProps {
+  serviceAreas: ServiceArea[];
+}
+
+const ServiceAreasGrid = ({ serviceAreas }: ServiceAreasGridProps) => {
   const icons = [Scale, Shield, TrendingUp, FileCheck];
 
   return (

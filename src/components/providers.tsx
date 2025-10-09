@@ -7,5 +7,7 @@ import React from "react";
 // Keep providers minimal to reduce baseline JS. Client i18n is initialized only
 // in components that actually use it (see translated-* and pages that call useTranslation).
 export function Providers({ children }: { children: React.ReactNode }) {
-  return <ThemeProvider>{children}</ThemeProvider>;
+  return (
+    <ThemeProvider>{children}</ThemeProvider>
+  );
 }

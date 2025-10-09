@@ -1,14 +1,11 @@
-"use client";
 import React from "react";
 import { CheckCircle } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import "@/src/i18n";
 
-const BenefitsList = () => {
-  const { t } = useTranslation("partners");
-  const benefits =
-    (t("Partnership.Benefits", { returnObjects: true }) as string[]) || [];
+interface BenefitsListProps {
+  benefits: string[];
+}
 
+const BenefitsList = ({ benefits }: BenefitsListProps) => {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="grid gap-4">

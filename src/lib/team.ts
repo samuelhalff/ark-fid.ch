@@ -134,6 +134,15 @@ export const teamMembers: TeamMember[] = [
     },
     bioShort: "In charge of admin and accounting; law student supporting day‑to‑day client operations.",
   },
+  {
+    name: "Sixtine Dumas",
+    role: "Associate",
+    profilePic: "/assets/missing-profile.svg",
+    social: {
+      linkedin: "",
+    },
+    bioShort: "In charge of admin and accounting; law student supporting day‑to‑day client operations.",
+  },
 ];
 
 export const isPartnerRole = (role: TeamMember["role"]) => role === "Partner" || role === "ManagingPartner";

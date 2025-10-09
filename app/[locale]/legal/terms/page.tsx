@@ -364,13 +364,12 @@ export default async function TermsPage({
             </p>
             <div className="bg-muted/50 p-6 rounded-lg">
               <p className="font-semibold">
-                {r("contact:Contact.CompanyName", "Ark Fiduciaire")}
+                {r("Terms.Contact.CompanyName", "Ark Fiduciaire SA")}
               </p>
-              <p>{r("contact:Contact.Email", "Email: info@ark-fid.ch")}</p>
-              <p>{r("contact:Contact.Phone", "Phone: +41 XX XXX XX XX")}</p>
+              <p>{r("Terms.Contact.Email", "Email: info@ark-fid.ch")}</p>
               <p>
                 {r(
-                  "contact:Contact.Address",
+                  "Terms.Contact.Address",
                   "Address: 26 Boulevard Georges Favon, 1204 Geneva"
                 )}
               </p>

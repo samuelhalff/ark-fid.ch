@@ -3,11 +3,15 @@ node_modules
 next-env.d.ts
 dist
 next-standalone.tar.gz
+# Backups of .next created during local builds
+.next.bak.*
 *.txt
 !public/robots.txt
 !public/ebd95385d7154f45ba37d076b4efd008.txt
 .env*
 !.env.example
+# TypeScript incremental build info (do not commit)
+*.tsbuildinfo
 litellm_config.yaml
 .DS_Store
 .vscode
