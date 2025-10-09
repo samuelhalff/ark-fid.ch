@@ -524,6 +524,24 @@
           "url": "https://www.odoo.com/documentation/18.0/applications/finance/accounting/"
         }
       ]
+    },
+    {
+      "slug": "swissdec-5-0-et-salaires-geneve-2025-points-cles",
+      "title": "Swissdec 5.0 e novidades em folha/salários em Genebra para 2025: o que PME e independentes devem saber",
+      "description": "Panorama das mudanças salariais em Genebra em 2025, incluindo swissdec 5.0, novas tabelas, contribuições LPP/LAA/AC e boas práticas para PME.",
+      "content": "A gestão da folha em 2025 em Genebra é marcada pela entrada progressiva do swissdec 5.0. Esta norma, essencial para a troca padronizada de dados salariais, adapta suas exigências à evolução da regulamentação suíça. Para PME e independentes, antecipação é fundamental para evitar não conformidade nos acertos ou relatórios às autoridades de seguros ou fiscais.\n\n## Swissdec 5.0: o que muda em 2025\nO swissdec 5.0 normaliza mais processos, como a integração da declaração ELM (demonstração salarial suíça), atualização dos campos ligados ao LPP, LAA, AVS/AI/APG, e melhor compatibilidade com ferramentas ERP/folha. Os empregadores em Genebra devem atualizar seus softwares, especialmente Odoo (versões 17-18) e concorrentes locais. Os dados transmitidos tornam-se mais detalhados, com maior granularidade sobre tipos de encargos e isenções.\n\n## Tabelas e contribuições: LPP, LAA, AC 2025\nOs salários de 2025 estão sujeitos a reavaliação de vários limites e taxas. Em particular:\n- Contribuições AVS/AI/APG permanecem inalteradas, mas com algumas adaptações pontuais para determinados planos LPP.\n- As taxas de AC, LAA e subsídios familiares podem variar pontualmente. É indispensável consultar as últimas publicações cantonais e federais (veja fontes abaixo).\n- A tabela de imposto na fonte de 2025 para Genebra já está disponível e deve ser integrada desde janeiro em seus softwares e holerites.\n\n## Boas práticas para empregadores e fiduciárias\n- Verifique se todos os seus fornecedores (software de folha, ERP) estão homologados swissdec 5.0 a partir do final de 2024/início de 2025.\n- Treine suas equipes de folha nos novos fluxos ELM e na gestão de casos particulares (salários variáveis, bônus, fronteiriços).\n- Centralize suas atualizações e documente minuciosamente cada adaptação nos processos internos.\n- Em 2025, serão realizados controles cantonais mais frequentes quanto à entrada e devolução de dados.\n\n## Palavras-chave a acompanhar (Tendências 2025)\n- swissdec 5.0, folha digital Genebra, contribuição LPP 2025, melhoria do compliance folha, novidades Odoo payroll, tabelas imposto 2025 Genebra\n\n### Serviços Ark Fiduciaire\nPara garantir uma transição bem-sucedida para o swissdec 5.0 e manter-se atualizado com a regulamentação, a Ark Fiduciaire acompanha PME, independentes e empregadores na implementação de atualizações de softwares de folha (Odoo, Sage, Abacus...), terceirização da folha e auditorias de conformidade.\n\nEm caso de dúvidas sobre a folha em 2025, entre em contato conosco para uma consultoria personalizada.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-09",
+      "references": [
+        {
+          "labelKey": "obligations_swissdec_suisse",
+          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-92353.html"
+        },
+        {
+          "labelKey": "fedlex_loi_travail",
+          "url": "https://www.fedlex.admin.ch/eli/cc/822.11/fr"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -589,5 +607,7 @@
   "Directives LPP 2025": "Diretrizes LPP 2025",
   "Réforme LPP 2025 pour assurés": "Reforma LPP 2025 para segurados",
   "afc_suisse_page_officielle_comptabilite_tva": "Página oficial do IVA da Administração Federal de Contribuições (Suíça)",
-  "odoo_docs_paie_compta": "Odoo 18: documentação de folha e contabilidade"
+  "odoo_docs_paie_compta": "Odoo 18: documentação de folha e contabilidade",
+  "obligations_swissdec_suisse": "Obrigações swissdec na Suíça",
+  "fedlex_loi_travail": "Lei do trabalho suíça"
 }

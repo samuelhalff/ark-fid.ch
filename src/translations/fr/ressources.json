@@ -524,6 +524,24 @@
           "url": "https://www.odoo.com/documentation/18.0/applications/finance/accounting/"
         }
       ]
+    },
+    {
+      "slug": "swissdec-5-0-et-salaires-geneve-2025-points-cles",
+      "title": "Swissdec 5.0 et nouveautés paie/salaires à Genève pour 2025 : ce que doivent savoir PME et indépendants",
+      "description": "Tour d’horizon des changements salariaux à Genève en 2025, intégrant swissdec 5.0, nouveaux barèmes, cotisations LPP/LAA/AC et bonnes pratiques pour PME.",
+      "content": "La gestion de la paie en 2025 à Genève est marquée par l'entrée en vigueur progressive de swissdec 5.0. Cette norme, essentielle pour l'échange standardisé de données salariales, adapte ses exigences aux évolutions réglementaires suisses. Pour les PME et indépendants, l'anticipation est clé afin d'éviter toute non-conformité lors des décomptes ou du reporting aux autorités assurantielles ou fiscales.\n\n## Swissdec 5.0 : ce qui change en 2025\nSwissdec 5.0 normalise davantage de processus, comme l'intégration de la déclaration ELM (Swiss wage statement), l’actualisation des champs liés à la LPP, LAA, à l’AVS/AI/APG, et la compatibilité renforcée avec les outils ERP/paie. Les employeurs genevois doivent veiller à mettre à jour leurs logiciels, en particulier Odoo (versions 17-18) et concurrents locaux. Les données transmises deviennent plus détaillées, avec une granularité accrue sur les types de charges et exonérations.\n\n## Barèmes et cotisations : LPP, LAA, AC 2025\nLes salaires 2025 sont soumis à la revalorisation de plusieurs seuils et taux. En particulier :\n- Cotisations AVS/AI/APG inchangées, mais quelques adaptations ponctuelles pour certains plans LPP.\n- Les taux AC, LAA et allocations familiales peuvent évoluer ponctuellement. Il est indispensable de consulter les dernières publications cantonales et fédérales (voir sources ci-dessous).\n- Le barème d’imposition à la source 2025 pour Genève est disponible et à intégrer dès janvier dans vos logiciels et bulletins de paie.\n\n## Bonnes pratiques pour employeurs et fiduciaires\n- Vérifiez que tous vos prestataires (logiciels paie, ERP) sont bien homologués swissdec 5.0 dès fin 2024/début 2025.\n- Formez vos équipes paie aux nouveaux flux ELM et à la gestion des cas particuliers (salaires variables, bonus, frontaliers).\n- Centralisez vos mises à jour et documentez précisément chaque adaptation dans vos processus internes.\n- En 2025, des contrôles cantonaux plus fréquents sont annoncés sur la saisie et la restitution des données.\n\n## Mots clés à surveiller (Trends 2025)\n- swissdec 5.0, paie digitale Genève, cotisation LPP 2025, amélioration de la compliance paie, nouveautés Odoo payroll, barèmes impôt 2025 Genève\n\n### Services Ark Fiduciaire\nPour réussir votre transition vers swissdec 5.0 et rester à jour avec la réglementation, Ark Fiduciaire accompagne les PME, indépendants et employeurs dans l’implémentation des mises à jour logiciels paie (Odoo, Sage, Abacus...), externalisation de la fonction paie, et audits de conformité.\n\nPour toute question sur la paie 2025, contactez-nous pour un RDV conseil personnalisé.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-09",
+      "references": [
+        {
+          "labelKey": "obligations_swissdec_suisse",
+          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-92353.html"
+        },
+        {
+          "labelKey": "fedlex_loi_travail",
+          "url": "https://www.fedlex.admin.ch/eli/cc/822.11/fr"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -579,5 +597,7 @@
   "Nouveautés LPP Genève": "Synthèse des nouveautés LPP 2025 à Genève",
   "Réforme LPP 2025 pour assurés": "Explications pratiques sur la réforme LPP 2025 et son impact pour les assurés",
   "Odoo 18 nouveautés": "Nouveautés Odoo 18 pour la gestion PME Genève",
-  "Barèmes salaires Genève 2025": "Barèmes salariaux Genève en vigueur 2025-2026"
+  "Barèmes salaires Genève 2025": "Barèmes salariaux Genève en vigueur 2025-2026",
+  "Swissdec et paie": "Swissdec 5.0, évolutions paie et conformité en Suisse pour les PME",
+  "Barèmes impôt Genève": "Barèmes de l'impôt à la source et rectification Genève 2025"
 }

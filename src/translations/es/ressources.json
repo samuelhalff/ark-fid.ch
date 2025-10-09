@@ -524,6 +524,24 @@
           "url": "https://www.odoo.com/documentation/18.0/applications/finance/accounting/"
         }
       ]
+    },
+    {
+      "slug": "swissdec-5-0-et-salaires-geneve-2025-points-cles",
+      "title": "Swissdec 5.0 y novedades en nómina/salarios en Ginebra para 2025: lo que deben saber pymes y autónomos",
+      "description": "Resumen de los cambios salariales en Ginebra en 2025, incluido swissdec 5.0, nuevos baremos, aportes LPP/LAA/AC y buenas prácticas para pymes.",
+      "content": "La gestión de la nómina en 2025 en Ginebra está marcada por la introducción progresiva de swissdec 5.0. Esta norma, esencial para el intercambio estandarizado de datos salariales, adapta sus exigencias a las regulaciones suizas en evolución. Para pymes y autónomos, anticiparse es clave para evitar incumplimientos en las declaraciones o reportes a autoridades aseguradoras o fiscales.\n\n## Swissdec 5.0: ¿qué cambia en 2025?\nSwissdec 5.0 estandariza más procesos, como la integración de la declaración ELM (certificado salarial suizo), la actualización de campos de LPP, LAA, AVS/AI/APG y la compatibilidad reforzada con herramientas ERP/nómina. Los empleadores de Ginebra deben asegurarse de actualizar sus programas, especialmente Odoo (versiones 17-18) y la competencia local. Los datos transmitidos serán más detallados, con mayor granularidad sobre tipos de cargas y exenciones.\n\n## Baremos y cotizaciones: LPP, LAA, AC 2025\nLos salarios 2025 están sujetos a la revalorización de varios umbrales y tasas. En particular:\n- Cotizaciones AVS/AI/APG sin cambios, pero con algunas adaptaciones puntuales en ciertos planes LPP.\n- Las tasas de AC, LAA y asignaciones familiares pueden variar periódicamente. Es indispensable consultar las últimas publicaciones cantonales y federales (ver fuentes abajo).\n- El baremo de impuesto en la fuente de 2025 para Ginebra está disponible y debe integrar desde enero en sus programas y nóminas.\n\n## Buenas prácticas para empleadores y fiduciarias\n- Verifique que todos sus proveedores (programas de nómina, ERP) estén homologados con swissdec 5.0 desde finales de 2024/inicio de 2025.\n- Capacite a su equipo de nómina en los nuevos flujos ELM y en la gestión de casos específicos (sueldos variables, bonus, transfronterizos).\n- Centralice sus actualizaciones y documente detalladamente cada adaptación en sus procesos internos.\n- En 2025, se anuncian controles cantonales más frecuentes sobre la introducción y restitución de datos.\n\n## Palabras clave a vigilar (Tendencias 2025)\n- swissdec 5.0, nómina digital Ginebra, cotización LPP 2025, mejora de compliance en nómina, novedades Odoo payroll, baremos impuesto 2025 Ginebra\n\n### Servicios Ark Fiduciaire\nPara una transición exitosa hacia swissdec 5.0 y estar al día con la normativa, Ark Fiduciaire acompaña a pymes, autónomos y empleadores en la implementación de actualizaciones de programas de nómina (Odoo, Sage, Abacus...), externalización de nóminas y auditorías de cumplimiento.\n\nPara cualquier consulta sobre la nómina de 2025, contáctenos para una cita de asesoramiento personalizada.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-09",
+      "references": [
+        {
+          "labelKey": "obligations_swissdec_suisse",
+          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-92353.html"
+        },
+        {
+          "labelKey": "fedlex_loi_travail",
+          "url": "https://www.fedlex.admin.ch/eli/cc/822.11/fr"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -589,5 +607,7 @@
   "Directives LPP 2025": "Directivas LPP 2025",
   "Réforme LPP 2025 pour assurés": "Reforma LPP 2025 para asegurados",
   "afc_suisse_page_officielle_comptabilite_tva": "Página oficial del IVA de la Administración Federal de Contribuciones (Suiza)",
-  "odoo_docs_paie_compta": "Odoo 18: documentación de nóminas y contabilidad"
+  "odoo_docs_paie_compta": "Odoo 18: documentación de nóminas y contabilidad",
+  "obligations_swissdec_suisse": "Obligaciones swissdec en Suiza",
+  "fedlex_loi_travail": "Ley laboral suiza"
 }

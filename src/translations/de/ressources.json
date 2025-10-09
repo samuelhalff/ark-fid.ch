@@ -524,6 +524,24 @@
           "url": "https://www.odoo.com/documentation/18.0/applications/finance/accounting/"
         }
       ]
+    },
+    {
+      "slug": "swissdec-5-0-et-salaires-geneve-2025-points-cles",
+      "title": "Swissdec 5.0 und Neuerungen Lohn/Gehaltsabrechnung in Genf 2025: das müssen KMU und Selbständige wissen",
+      "description": "Überblick über die Lohnänderungen in Genf 2025, einschließlich swissdec 5.0, neue Tarife, LPP/LAA/ALV-Beiträge und Best Practices für KMU.",
+      "content": "Das Lohnmanagement 2025 in Genf ist von der schrittweisen Einführung von swissdec 5.0 geprägt. Dieser Standard, der für den standardisierten Austausch von Lohndaten wesentlich ist, passt seine Anforderungen an die Entwicklungen der Schweizer Regulierung an. Für KMU und Selbstständige ist vorausschauendes Handeln entscheidend, um Konformitätsprobleme bei Abrechnungen oder Meldungen an Versicherungs- und Steuerbehörden zu vermeiden.\n\n## Swissdec 5.0: Was ändert sich 2025\nSwissdec 5.0 normiert mehr Prozesse, wie die Integration der ELM-Deklaration (Schweizer Lohnausweis), die Aktualisierung von Feldern zur BVG, UVG, AHV/IV/EO und die verbesserte Kompatibilität mit Lohn-/ERP-Systemen. Genfer Arbeitgeber müssen ihre Software, insbesondere Odoo (Versionen 17-18) und lokale Mitbewerber, aktualisieren. Übermittelte Daten werden detaillierter, mit mehr Granularität bei Abgabentypen und Befreiungen.\n\n## Tarife und Beiträge: BVG, UVG, ALV 2025\nLöhne 2025 unterliegen der Anpassung mehrerer Schwellen und Sätze. Insbesondere:\n- AHV/IV/EO-Beiträge bleiben unverändert, jedoch gibt es einzelne Anpassungen bei bestimmten BVG-Plänen.\n- ALV-, UVG- und Familienzulagensätze können sich punktuell ändern. Es ist zwingend, die aktuellen kantonalen und eidgenössischen Publikationen zu beachten (siehe Quellen unten).\n- Der Quellensteuertarif 2025 für Genf liegt vor und ist ab Januar in Ihre Software und Lohnabrechnungen zu übernehmen.\n\n## Best Practices für Arbeitgeber und Treuhänder\n- Prüfen Sie, dass alle Ihre Dienstleister (Lohnsoftware, ERP) ab Ende 2024/Anfang 2025 swissdec 5.0-zertifiziert sind.\n- Schulen Sie Ihr Lohnteam zu den neuen ELM-Prozessen und zur Handhabung spezieller Fälle (variable Löhne, Prämien, Grenzgänger).\n- Zentralisieren Sie Ihre Updates und dokumentieren Sie jede Anpassung in Ihren internen Prozessen.\n- 2025 sind häufigere kantonale Kontrollen zur Datenerfassung und -ausgabe angekündigt.\n\n## Stichworte (Trends 2025)\n- swissdec 5.0, digitale Lohnabrechnung Genf, BVG-Beitrag 2025, Verbesserung der Lohnkonformität, Odoo Payroll Neuerungen, Quellensteuertarif Genf 2025\n\n### Ark Fiduciaire Dienstleistungen\nFür eine erfolgreiche Umstellung auf swissdec 5.0 und zur Einhaltung gesetzlicher Vorschriften unterstützt Ark Fiduciaire KMU, Selbständige und Arbeitgeber bei der Implementierung von Lohnsoftware-Updates (Odoo, Sage, Abacus...), Payroll-Outsourcing und Compliance-Audits.\n\nBei Fragen zu Löhnen 2025 kontaktieren Sie uns für eine individuelle Beratung.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-09",
+      "references": [
+        {
+          "labelKey": "obligations_swissdec_suisse",
+          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-92353.html"
+        },
+        {
+          "labelKey": "fedlex_loi_travail",
+          "url": "https://www.fedlex.admin.ch/eli/cc/822.11/fr"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -589,5 +607,7 @@
   "Directives LPP 2025": "BVG 2025 Richtlinien",
   "Réforme LPP 2025 pour assurés": "BVG 2025 Reform für Versicherte",
   "afc_suisse_page_officielle_comptabilite_tva": "Eidg. Steuerverwaltung MWST-Infoseite (Schweiz)",
-  "odoo_docs_paie_compta": "Odoo 18: Lohn- & Buchhaltungsdokumentation"
+  "odoo_docs_paie_compta": "Odoo 18: Lohn- & Buchhaltungsdokumentation",
+  "obligations_swissdec_suisse": "Swissdec-Pflichten in der Schweiz",
+  "fedlex_loi_travail": "Schweizer Arbeitsgesetz"
 }

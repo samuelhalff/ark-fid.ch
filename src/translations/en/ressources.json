@@ -524,6 +524,24 @@
           "url": "https://www.odoo.com/documentation/18.0/applications/finance/accounting/"
         }
       ]
+    },
+    {
+      "slug": "swissdec-5-0-et-salaires-geneve-2025-points-cles",
+      "title": "Swissdec 5.0 and new payroll/salary rules in Geneva for 2025: what SMEs and self-employed need to know",
+      "description": "Overview of salary changes in Geneva in 2025, including swissdec 5.0, new scales, LPP/LAA/AC contributions, and best practices for SMEs.",
+      "content": "Payroll management in 2025 in Geneva is shaped by the progressive introduction of swissdec 5.0. This standard, essential for standardized wage data exchange, adapts its requirements to evolving Swiss regulations. For SMEs and self-employed, anticipation is key to avoid any non-compliance during declarations or reporting to insurance or tax authorities.\n\n## Swissdec 5.0: what changes in 2025\nSwissdec 5.0 standardizes more processes, such as ELM declaration integration (Swiss wage statement), updates to fields related to LPP, LAA, to AVS/AI/APG, and enhanced compatibility with ERP/payroll tools. Geneva employers must ensure their software, especially Odoo (versions 17-18) and local competitors, are up to date. The data transmitted becomes more detailed, with greater granularity on types of charges and exemptions.\n\n## Scales and contributions: LPP, LAA, AC 2025\nSalaries in 2025 are subject to adjustments in several thresholds and rates. In particular:\n- AVS/AI/APG contributions remain unchanged, but there are occasional updates for certain LPP plans.\n- AC, LAA, and family allowance rates may change periodically. It is essential to consult the latest cantonal and federal publications (see sources below).\n- The 2025 withholding tax scale for Geneva is available and should be integrated from January into your software and pay slips.\n\n## Best practices for employers and fiduciaries\n- Check that all your providers (payroll software, ERP) are swissdec 5.0 certified from the end of 2024/beginning of 2025.\n- Train your payroll teams on the new ELM flows and management of particular cases (variable pay, bonuses, cross-border workers).\n- Centralize your updates and thoroughly document each change in your internal processes.\n- In 2025, more frequent cantonal controls are announced regarding data entry and reporting.\n\n## Keywords to watch (Trends 2025)\n- swissdec 5.0, Geneva digital payroll, LPP contribution 2025, payroll compliance improvement, new Odoo payroll features, 2025 Geneva tax scales\n\n### Ark Fiduciaire Services\nTo succeed in your transition to swissdec 5.0 and stay current with regulations, Ark Fiduciaire supports SMEs, self-employed, and employers in implementing payroll software updates (Odoo, Sage, Abacus...), payroll outsourcing, and compliance audits.\n\nFor any questions about 2025 payroll, contact us for a personalized advisory meeting.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-09",
+      "references": [
+        {
+          "labelKey": "obligations_swissdec_suisse",
+          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-92353.html"
+        },
+        {
+          "labelKey": "fedlex_loi_travail",
+          "url": "https://www.fedlex.admin.ch/eli/cc/822.11/fr"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Swiss taxes 2025 – Overview (FDF)",
@@ -616,5 +634,7 @@
   "Directives LPP 2025": "LPP 2025 guidelines",
   "Réforme LPP 2025 pour assurés": "LPP 2025 reform for insured",
   "afc_suisse_page_officielle_comptabilite_tva": "Federal Tax Administration official VAT page (Switzerland)",
-  "odoo_docs_paie_compta": "Odoo 18: Payroll & accounting documentation"
+  "odoo_docs_paie_compta": "Odoo 18: Payroll & accounting documentation",
+  "obligations_swissdec_suisse": "Swissdec obligations in Switzerland",
+  "fedlex_loi_travail": "Swiss labor law"
 }
