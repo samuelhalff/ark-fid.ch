@@ -79,7 +79,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
   const tItems = await getTranslations(currentLocale, "servicesItems");
   return (
     <footer
-      className="mt-12 xs:mt-20 bg-background border-t"
+      className="mt-12 xs:mt-20 bg-background border-t text-foreground"
       role="contentinfo"
     >
       <div className="max-w-[var(--breakpoint-xl)] mx-auto py-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-x-8 gap-y-10 px-6">
@@ -163,7 +163,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
                   {href.startsWith("http") ? (
                     <a
                       href={href}
-                      className="hover:text-foreground"
+                      className="text-muted-foreground hover:text-foreground"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -174,13 +174,13 @@ const Footer = async ({ locale }: { locale?: string }) => {
                         : tFooter(titleKey)}
                     </a>
                   ) : href === "#cookie-settings" ? (
-                    <CookieSettingsLink className="hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
+                    <CookieSettingsLink className="text-muted-foreground hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
                       {tFooter(titleKey)}
                     </CookieSettingsLink>
                   ) : (
                     <Link
                       href={`${localePrefix}${href}`}
-                      className="hover:text-foreground"
+                      className="text-muted-foreground hover:text-foreground"
                       locale={locale}
                       prefetch={false}
                     >

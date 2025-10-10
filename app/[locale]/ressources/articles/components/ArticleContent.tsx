@@ -4,7 +4,6 @@ import { estimateReadingTime } from "@/src/lib/readingTime";
 import { useTranslation } from "react-i18next";
 import "@/src/i18n";
 import ReactMarkdown from "react-markdown";
-import TranslatedText from "@/src/components/ui/translated-text";
 import ContactSection from "./ContactSection";
 
 interface ArticleContentProps {
@@ -38,34 +37,16 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
       {/* Author and Date */}
       <div className="text-center text-sm mb-8 space-y-1">
         <p>
-          <TranslatedText
-            ns="ressources"
-            translationKey="By"
-            fallbackText="By"
-          />{" "}
-          {article.author}
+          {(t("By") as string) || "By"} {article.author}
         </p>
         <p>
-          <TranslatedText
-            ns="ressources"
-            translationKey="Published"
-            fallbackText="Published on"
-          />{" "}
-          {formatDateDeterministic(article.date)}
+          {(t("Published") as string) || "Published on"} {formatDateDeterministic(article.date)}
         </p>
         {readingStats && (
           <p>
-            <TranslatedText
-              ns="ressources"
-              translationKey="ReadingTime"
-              fallbackText="Reading time"
-            />
-            : {readingStats.minutes}
-            <TranslatedText
-              ns="ressources"
-              translationKey="Minutes"
-              fallbackText="min"
-            />{" "}
+            {((t("ReadingTime") as string) || "Reading time") + ": "}
+            {readingStats.minutes}
+            {" " + ((t("Minutes") as string) || "min") + " "}
             ({readingStats.words} words)
           </p>
         )}
@@ -76,35 +57,33 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
       </article>
       {Array.isArray(article.references) && article.references.length > 0 && (
         <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-2">
-            <TranslatedText
-              ns="ressources"
-              translationKey="References"
-              fallbackText="References"
-            />
-          </h2>
+          <h2 className="text-xl font-semibold mb-2">{(t("References") as string) || "References"}</h2>
           <ul className="list-disc pl-6">
             {article.references.map((ref) => (
-                <li key={ref.url}>
-                  <a
-                    href={ref.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline"
-                  >
-                    <TranslatedText
-                      ns="ressources"
-                      translationKey={ref.labelKey}
-                      fallbackText={ref.labelKey}
-                    />
-                  </a>
-                </li>
-              ))}
+              <li key={ref.url}>
+                <a
+                  href={ref.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline"
+                >
+                  {((t(ref.labelKey) as string) || ref.labelKey)}
+                </a>
+              </li>
+            ))}
           </ul>
         </section>
       )}
 
-      <ContactSection />
+      <ContactSection
+        locale={undefined}
+        title={(t("Contact.Title") as string) || "Questions about this article?"}
+        description={
+          (t("Contact.Description") as string) ||
+          "Our experts are here to help you understand the details and implications for your business. Get personalized advice tailored to your situation."
+        }
+        buttonText={(t("Contact.ButtonText") as string) || "Contact Our Team"}
+      />
     </main>
   );
 }

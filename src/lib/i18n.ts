@@ -1,8 +1,12 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import { headers } from "next/headers";
 import { locales } from "./i18n-locales";
 import type { Locale } from "./i18n-locales";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export { locales };
 export type { Locale };
@@ -26,7 +30,9 @@ export async function getTranslations(locale: Locale, namespace: string) {
     const cacheKey = makeKey(loc);
     if (cache.has(cacheKey)) return cache.get(cacheKey) ?? null;
 
-    const filePath = path.join(process.cwd(), "src", "translations", loc, `${namespace}.json`);
+    // Use path relative to this module instead of process.cwd() for standalone builds
+    const translationsDir = path.join(__dirname, "..", "translations");
+    const filePath = path.join(translationsDir, loc, `${namespace}.json`);
     if (!fs.existsSync(filePath)) {
       cache.set(cacheKey, null);
       return null;
@@ -96,7 +102,8 @@ function maybeWarnMissing(namespace: string, locale: string) {
 
   const listNamespaces = (loc: string): string[] => {
     try {
-      const dir = path.join(process.cwd(), "src", "translations", loc);
+      const translationsDir = path.join(__dirname, "..", "translations");
+      const dir = path.join(translationsDir, loc);
       if (!fs.existsSync(dir)) return [];
       return fs
         .readdirSync(dir)

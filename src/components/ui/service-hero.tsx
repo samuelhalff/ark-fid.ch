@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import heroBlurData from "@/src/lib/heroBlurData.json";
+import { tidyTitle, splitTitle } from "@/src/lib/typography";
 
 interface ServiceHeroProps {
   namespace: string;
@@ -70,9 +71,22 @@ const ServiceHero = async ({
               {t(badge2Key) || badge2Fallback}
             </Badge>
           </div>
-          <h1 className="mt-6 max-w-full w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight mx-auto break-anywhere hyphenate">
-            {t(titleKey) || titleFallback}
-          </h1>
+          {(() => {
+            const raw = (t(titleKey) as string) || titleFallback;
+            const { title, subtitle } = splitTitle(raw);
+            return (
+              <>
+                <h1 className="mt-6 max-w-full w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight mx-auto break-anywhere hyphenate">
+                  {tidyTitle(title)}
+                </h1>
+                {subtitle ? (
+                  <p className="mt-2 text-xl sm:text-2xl font-semibold text-muted-foreground">
+                    {tidyTitle(subtitle)}
+                  </p>
+                ) : null}
+              </>
+            );
+          })()}
           <p className="mt-6 max-w-full w-full xs:text-lg mx-auto break-anywhere hyphenate">
             {t(descriptionKey) || descriptionFallback}
           </p>
@@ -138,7 +152,7 @@ const ServiceHero = async ({
                 sizes="(min-width:1024px) 520px, 90vw"
                 priority
                 fetchPriority="high"
-                quality={82}
+                quality={70}
                 placeholder="blur"
                 blurDataURL={
                   (heroBlurData as Record<string, string>)[src] ||

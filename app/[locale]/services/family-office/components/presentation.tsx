@@ -57,9 +57,11 @@ const FamilyOfficePresentation = ({
               return (
                 <div
                   key={`${item.Title}-${index}`}
-                  className="flex items-start gap-4 px-6 py-4 rounded-lg bg-primary/5"
+                  className="flex items-start gap-5 px-6 py-5 rounded-lg bg-primary/5"
                 >
-                  <Icon className="text-primary mt-1 min-w-[20px]" size={20} />
+                  <span className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shrink-0">
+                    <Icon size={20} />
+                  </span>
                   <div>
                     <span className="font-semibold block text-lg mb-2">
                       {item.Title}
@@ -88,8 +90,8 @@ const FamilyOfficePresentation = ({
                   key={index}
                   className="flex items-start gap-6 px-6 py-6 rounded-xl bg-muted/50 shadow-sm hover:shadow-md transition-shadow"
                 >
-                  <span className="mt-1">
-                    <Icon className="text-primary min-w-[20px]" size={20} />
+                  <span className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shrink-0">
+                    <Icon size={20} />
                   </span>
                   <div>
                     <span className="font-semibold text-lg text-gray-900 dark:text-gray-100 block mb-2">

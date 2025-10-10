@@ -7,6 +7,8 @@ import {
 } from "@/src/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
+import ImageWithFallback from "@/src/components/ui/image-with-fallback";
+import InitialsTile from "@/src/components/ui/initials-tile";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
@@ -104,22 +106,25 @@ export default async function TeamPage({
               >
                 <Card
                   className={
-                    "animate-in fade-in duration-250 text-center shadow-none hover:shadow-lg transition-shadow gap-2 py-5 border-0 hover:brightness-115"
+                    "animate-in fade-in duration-250 text-center shadow-none hover:shadow-lg transition-shadow gap-2 py-3 border-0 hover:brightness-115"
                   }
                 >
-                  <CardHeader>
+                  <CardHeader className="px-3 sm:px-4">
                     <div className="aspect-4/5 w-full rounded-md overflow-hidden mb-4 relative h-80">
-                      <Image
+                      <ImageWithFallback
                         src={member.profilePic}
                         alt={`Portrait of ${member.name}`}
                         className="w-full h-full object-cover object-top"
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
                         loading="lazy"
+                        fallbackVariant="initials"
+                        fallbackInitialsName={member.name}
+                        fallbackClassName="absolute inset-0"
                       />
                     </div>
                   </CardHeader>
-                  <CardContent className="text-left h-12">
+                  <CardContent className="text-left h-12 px-4">
                     <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
                       {member.name}
                     </h3>

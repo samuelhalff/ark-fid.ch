@@ -120,7 +120,7 @@ const Incorporation = async ({ params }: { params: { locale: string } }) => {
       <Hero locale={params.locale} />
       <nav
         aria-label="Breadcrumb"
-        className="max-w-[1200px] mx-auto px-4 md:px-6 mt-4 mb-6"
+        className="w-full max-w-[1200px] mx-auto mt-4 mb-6"
       >
         <ol className="flex items-center gap-1 text-sm text-muted-foreground">
           <li>

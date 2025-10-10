@@ -1,160 +1,91 @@
-"use client";
+import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 
-import TranslatedText from "@/src/components/ui/translated-text";
-import IconList from "@/src/components/ui/icon-list";
-
-export default function AccountingAccordion() {
+export default async function AccountingAccordion() {
+  const locale: Locale = getCurrentLocale();
+  const t = await getTranslations(locale, "accounting");
+  const generalList = [
+    { key: "Presentation.General.List.0", fallbackText: "Tailored chart of accounts" },
+    { key: "Presentation.General.List.1", fallbackText: "Accounts payable and receivable" },
+    { key: "Presentation.General.List.2", fallbackText: "Payment management" },
+    { key: "Presentation.General.List.3", fallbackText: "Treasury management" },
+  ];
+  const periodicList = [
+    { key: "Presentation.Periodic.List.0", fallbackText: "Interim and/or annual closing" },
+    { key: "Presentation.Periodic.List.1", fallbackText: "VAT semi-annual or quarterly" },
+    { key: "Presentation.Periodic.List.2", fallbackText: "Social insurances" },
+    { key: "Presentation.Periodic.List.3", fallbackText: "Tax return" },
+    { key: "Presentation.Periodic.List.4", fallbackText: "Ordinary and extraordinary general meetings" },
+    { key: "Presentation.Periodic.List.5", fallbackText: "Board of directors" },
+  ];
   return (
     <div className="space-y-6">
       <section>
         <h3 className="text-left text-lg font-semibold">
-          <TranslatedText
-            ns="accounting"
-            translationKey="Presentation.General.Title"
-            fallbackText="General accounting"
-          />
+          {(t("Presentation.General.Title") as string) || "General accounting"}
         </h3>
         <p className="mb-4 text-muted-foreground">
-          <TranslatedText
-            ns="accounting"
-            translationKey="Presentation.General.Desc"
-            fallbackText="We master all aspects of general accounting, from ledger to financial statements, ensuring accuracy and compliance."
-          />
+          {(t("Presentation.General.Desc") as string) ||
+            "We master all aspects of general accounting, from ledger to financial statements, ensuring accuracy and compliance."}
         </p>
-        <IconList
-          namespace="accounting"
-          icon={
-            <svg
-              className="w-4 h-4 text-primary"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M9 12l2 2 4-4" />
-              <circle cx="12" cy="12" r="9" />
-            </svg>
-          }
-          items={[
-            {
-              key: "Presentation.General.List.0",
-              fallbackText: "Tailored chart of accounts",
-            },
-            {
-              key: "Presentation.General.List.1",
-              fallbackText: "Accounts payable and receivable",
-            },
-            {
-              key: "Presentation.General.List.2",
-              fallbackText: "Payment management",
-            },
-            {
-              key: "Presentation.General.List.3",
-              fallbackText: "Treasury management",
-            },
-          ]}
-        />
+        <div className="grid gap-3">
+          {generalList.map((item, index) => (
+            <div key={index} className="flex items-start gap-3">
+              <div className="mt-0.5 flex-shrink-0">
+                <svg className="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M9 12l2 2 4-4" />
+                  <circle cx="12" cy="12" r="9" />
+                </svg>
+              </div>
+              <p className="text-muted-foreground">{(t(item.key) as string) || item.fallbackText}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section>
         <h3 className="text-left text-lg font-semibold">
-          <TranslatedText
-            ns="accounting"
-            translationKey="Presentation.Analytic.Title"
-            fallbackText="Analytical accounting"
-          />
+          {(t("Presentation.Analytic.Title") as string) || "Analytical accounting"}
         </h3>
         <p className="text-muted-foreground">
-          <TranslatedText
-            ns="accounting"
-            translationKey="Presentation.Analytic.Desc"
-            fallbackText="We help you set up and analyze an effective analytical accounting system to support better decisions."
-          />
+          {(t("Presentation.Analytic.Desc") as string) ||
+            "We help you set up and analyze an effective analytical accounting system to support better decisions."}
         </p>
       </section>
 
       <section>
         <h3 className="text-left text-lg font-semibold">
-          <TranslatedText
-            ns="accounting"
-            translationKey="Presentation.Periodic.Title"
-            fallbackText="Periodic tasks"
-          />
+          {(t("Presentation.Periodic.Title") as string) || "Periodic tasks"}
         </h3>
         <p className="mb-4 text-muted-foreground">
-          <TranslatedText
-            ns="accounting"
-            translationKey="Presentation.Periodic.Desc"
-            fallbackText="We prepare your periodic returns and obligations with rigor and timeliness."
-          />
+          {(t("Presentation.Periodic.Desc") as string) ||
+            "We prepare your periodic returns and obligations with rigor and timeliness."}
         </p>
-        <IconList
-          namespace="accounting"
-          icon={
-            <svg
-              className="w-4 h-4 text-primary"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M9 12l2 2 4-4" />
-              <circle cx="12" cy="12" r="9" />
-            </svg>
-          }
-          items={[
-            {
-              key: "Presentation.Periodic.List.0",
-              fallbackText: "Interim and/or annual closing",
-            },
-            {
-              key: "Presentation.Periodic.List.1",
-              fallbackText: "VAT semi-annual or quarterly",
-            },
-            {
-              key: "Presentation.Periodic.List.2",
-              fallbackText: "Social insurances",
-            },
-            { key: "Presentation.Periodic.List.3", fallbackText: "Tax return" },
-            {
-              key: "Presentation.Periodic.List.4",
-              fallbackText: "Ordinary and extraordinary general meetings",
-            },
-            {
-              key: "Presentation.Periodic.List.5",
-              fallbackText: "Board of directors",
-            },
-          ]}
-        />
+        <div className="grid gap-3">
+          {periodicList.map((item, index) => (
+            <div key={index} className="flex items-start gap-3">
+              <div className="mt-0.5 flex-shrink-0">
+                <svg className="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M9 12l2 2 4-4" />
+                  <circle cx="12" cy="12" r="9" />
+                </svg>
+              </div>
+              <p className="text-muted-foreground">{(t(item.key) as string) || item.fallbackText}</p>
+            </div>
+          ))}
+        </div>
         <p className="mt-4 text-muted-foreground">
-          <TranslatedText
-            ns="accounting"
-            translationKey="Presentation.Periodic.Followup"
-            fallbackText="Our dedicated team supports you at every step, ensuring transparent and optimized management."
-          />
+          {(t("Presentation.Periodic.Followup") as string) ||
+            "Our dedicated team supports you at every step, ensuring transparent and optimized management."}
         </p>
       </section>
 
       <section>
         <h3 className="text-left text-lg font-semibold">
-          <TranslatedText
-            ns="accounting"
-            translationKey="Presentation.Dashboards.Title"
-            fallbackText="Dashboards"
-          />
+          {(t("Presentation.Dashboards.Title") as string) || "Dashboards"}
         </h3>
         <p className="text-muted-foreground">
-          <TranslatedText
-            ns="accounting"
-            translationKey="Presentation.Dashboards.Desc"
-            fallbackText="Optimize visibility and control with intuitive accounting dashboards tailored to your needs."
-          />
+          {(t("Presentation.Dashboards.Desc") as string) ||
+            "Optimize visibility and control with intuitive accounting dashboards tailored to your needs."}
         </p>
       </section>
     </div>

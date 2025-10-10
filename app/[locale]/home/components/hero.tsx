@@ -1,4 +1,4 @@
-"use client";
+// Server component: no client hooks, translations provided by server
 // Inline a tiny arrow icon to avoid loading lucide-react in shared chunk
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
@@ -7,7 +7,7 @@ import Link from "next/link";
 // import { useTranslation } from "react-i18next";
 // import "@/src/i18n";
 import heroBlurData from "@/src/lib/heroBlurData.json";
-import { useParams } from "next/navigation";
+import { tidyTitle, splitTitle } from "@/src/lib/typography";
 
 interface HeroProps {
   locale?: string;
@@ -16,8 +16,7 @@ interface HeroProps {
 }
 
 const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
-  const params = useParams();
-  const currentLocale = (locale || params?.locale || "fr") as string;
+  const currentLocale = (locale || "fr") as string;
   // const { t } = useTranslation("home");
   const t = (key: string) => translations?.[key] || key; // fallback to key if translation missing
   const localePrefix = currentLocale ? `/${currentLocale}` : "/fr";
@@ -65,9 +64,22 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
               {t("Hero.Badge")}
             </Badge>
           </div>
-          <h1 className="mt-6 w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[3.1rem] xl:text-[3.3rem] font-bold tracking-tight leading-normal lg:leading-[3.75rem]">
-            {t("Hero.Title")}
-          </h1>
+          {(() => {
+            const raw = t("Hero.Title") as string;
+            const { title, subtitle } = splitTitle(raw);
+            return (
+              <>
+                <h1 className="mt-6 w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[3.1rem] xl:text-[3.3rem] font-bold tracking-tight leading-normal lg:leading-[3.75rem]">
+                  {tidyTitle(title)}
+                </h1>
+                {subtitle ? (
+                  <p className="mt-2 text-xl sm:text-2xl font-semibold text-muted-foreground">
+                    {tidyTitle(subtitle)}
+                  </p>
+                ) : null}
+              </>
+            );
+          })()}
           <p className="mt-6 w-full xs:text-lg">{t("Hero.Description")}</p>
           <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center">
             <Link
@@ -118,7 +130,7 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
           decoding="async"
         />
         <Badge
-          className="rounded-full py-1 border-none !text-center"
+          className="rounded-full py-1 border-none !text-center bg-secondary/80 dark:bg-secondary text-secondary-foreground"
           variant="secondary"
         >
           {t("Hero.OdooPartnerBadge") || t("Hero.OdooBadge")}

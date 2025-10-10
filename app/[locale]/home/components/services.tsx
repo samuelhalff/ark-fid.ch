@@ -5,6 +5,7 @@ import Link from "next/link";
 import heroBlurData from "@/src/lib/heroBlurData.json";
 import { localizePath } from "@/src/lib/paths";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
+import { tidyTitle } from "@/src/lib/typography";
 
 interface ServicesProps {
   showSubtitle?: boolean;
@@ -30,7 +31,7 @@ const Services = async ({
       {showHeading && (
         <>
           <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight max-w-4xl mx-auto text-center mb-10">
-            {tHome("Services.Title")}
+            {tidyTitle(tHome("Services.Title") as string)}
           </h2>
           {showSubtitle && (
             <p className="text-lg text-center mb-8 max-w-3xl mx-auto">
@@ -50,11 +51,11 @@ const Services = async ({
           >
             <Card
               // Add `overflow-hidden` as a safety net to ensure nothing can visually escape the card.
-              className="group flex flex-col justify-between items-center text-center border rounded-2xl overflow-hidden shadow-none h-full cursor-pointer ring-1 ring-border/50 hover:ring-primary/60 hover:shadow-xl transition-all duration-200"
+              className="group flex flex-col justify-between items-center text-center border rounded-2xl overflow-hidden shadow-none h-full cursor-pointer ring-0 dark:ring-2 ring-border/10 dark:ring-border/30 hover:ring-primary/5 dark:hover:ring-primary/20 hover:shadow-xl transition-all duration-200"
             >
               <CardHeader className="px-6 pt-6 pb-4 w-full">
-                <div className="flex flex-col items-center gap-5">
-                  <div className="text-gray-200 flex-shrink-0 flex items-center justify-center h-12 w-12 my-1 bg-gray-800/70 rounded-full">
+                <div className="flex flex-col items-center gap-6">
+                  <div className="flex-shrink-0 flex items-center justify-center h-14 w-14 sm:h-16 sm:w-16 my-1 rounded-full bg-primary/10 text-primary ring-1 ring-primary/20">
                     {service.icon}
                   </div>
                   {/* Text block with a min-height so all cards align their image area */}

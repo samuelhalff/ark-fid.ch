@@ -65,6 +65,8 @@ export function middleware(request: NextRequest) {
     const locale = pathname.split('/')[1]
     const response = NextResponse.next()
     response.headers.set('x-locale', locale)
+    // Expose the pathname to server components for active nav styling
+    response.headers.set('x-pathname', pathname)
     // Security headers
     response.headers.set('x-nonce', nonce)
     response.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
@@ -86,6 +88,7 @@ export function middleware(request: NextRequest) {
   const redirectUrl = new URL(`/${locale}${pathname}`, request.url)
   const response = NextResponse.redirect(redirectUrl)
   response.headers.set('x-nonce', nonce)
+  response.headers.set('x-pathname', pathname)
   response.headers.set('Content-Security-Policy', csp)
   response.headers.set('Referrer-Policy', 'no-referrer-when-downgrade')
   response.headers.set('X-Content-Type-Options', 'nosniff')

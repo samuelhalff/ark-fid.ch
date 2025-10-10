@@ -94,6 +94,22 @@ const Building2Icon = () => (
     <path d="M10 18h4" />
   </svg>
 );
+const PinIcon = () => (
+  <svg
+    className="text-primary"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M12 21s-6-4.5-6-10a6 6 0 1 1 12 0c0 5.5-6 10-6 10z" />
+    <circle cx="12" cy="11" r="2.5" />
+  </svg>
+);
 const SettingsIcon = () => (
   <svg
     className="text-primary"
@@ -173,7 +189,7 @@ const ServicesElements = [
     titleKey: "DomiciliationServices.Title",
     descriptionKey: "DomiciliationServices.Description",
     href: "/services/domiciliation",
-    icon: <Building2Icon />,
+    icon: <PinIcon />,
   },
   {
     titleKey: "FamilyOffice.Title",

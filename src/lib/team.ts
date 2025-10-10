@@ -119,7 +119,7 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Sébastien Gallié",
     role: "SeniorAccountant",
-    profilePic: "/assets/missing-profile.svg",
+    profilePic: "",
     social: {
       linkedin: "https://ch.linkedin.com/in/s%C3%A9bastien-galli%C3%A9",
     },
@@ -128,7 +128,7 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Maulk Hamdi",
     role: "Associate",
-    profilePic: "/assets/missing-profile.svg",
+    profilePic: "",
     social: {
       linkedin: "https://www.linkedin.com/in/maulk-hamdi-b47b68361",
     },
@@ -137,7 +137,7 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Sixtine Dumas",
     role: "Associate",
-    profilePic: "/assets/missing-profile.svg",
+    profilePic: "",
     social: {
       linkedin: "",
     },

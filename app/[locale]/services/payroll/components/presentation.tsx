@@ -1,122 +1,66 @@
-"use client";
+import { CheckCircle } from "lucide-react";
+import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
+import { tidyTitle } from "@/src/lib/typography";
+import ServicesListServer from "@/src/components/ui/services-list-server";
 
-import {
-  Users,
-  Clock,
-  FileText,
-  Calculator,
-  Shield,
-  CheckCircle,
-} from "lucide-react";
-import TranslatedText from "@/src/components/ui/translated-text";
-import TranslatedTextArray from "@/src/components/ui/translated-text-array";
-import TranslatedObjectArray from "@/src/components/ui/translated-object-array";
-import ServicesList from "@/src/components/ui/services-list";
 
-const iconMap = [Users, Clock, FileText, Calculator, Shield];
-
-const PayrollPresentation = () => {
+const PayrollPresentation = async () => {
+  const locale: Locale = getCurrentLocale();
+  const t = await getTranslations(locale, "payroll");
+  const title = (t("Presentation.Title") as string) || "Payroll Presentation";
+  const subtitle = (t("Presentation.Subtitle") as string) || "Professional Payroll services";
+  const intro = (t("Presentation.Intro") as unknown as string[]) || [
+    "We provide comprehensive payroll services to ensure your employees are paid accurately and on time.",
+    "Our expert team handles all aspects of payroll processing, from salary calculations to tax deductions and compliance reporting.",
+  ];
+  const strengths = (t("Presentation.Strengths") as unknown as Array<{ Title: string; Desc: string }>) || [
+    { Title: "Accuracy and reliability", Desc: "Precise calculations and timely payroll processing." },
+    { Title: "Compliance expertise", Desc: "Full adherence to Swiss employment and tax laws." },
+    { Title: "Confidential handling", Desc: "Secure and confidential management of sensitive data." },
+  ];
+  const services = (t("Presentation.Services") as unknown as string[]) || [
+    "Service 1: Description",
+    "Service 2: Description",
+    "Service 3: Description",
+    "Service 4: Description",
+  ];
   return (
     <section className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
       <div className="w-full max-w-[1200px]">
         <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
-          <TranslatedText
-            ns="payroll"
-            translationKey="Presentation.Title"
-            fallbackText="Payroll Presentation"
-          />
+          {tidyTitle(title)}
         </h1>
 
-        <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
-          <TranslatedText
-            ns="payroll"
-            translationKey="Presentation.Subtitle"
-            fallbackText="Professional Payroll services"
-          />
-        </h2>
+          <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
+          {tidyTitle(subtitle)}
+          </h2>
 
         <div className="text-left w-full">
           <div className="space-y-6 mb-12">
-            <TranslatedTextArray
-              ns="payroll"
-              translationKey="Presentation.Intro"
-              fallbackText={[
-                "We provide comprehensive payroll services to ensure your employees are paid accurately and on time.",
-                "Our expert team handles all aspects of payroll processing, from salary calculations to tax deductions and compliance reporting.",
-              ]}
-            />
+            {intro.map((text, idx) => (
+              <p key={idx} className="mb-8 text-lg">{text}</p>
+            ))}
           </div>
 
           <div className="space-y-16">
             <section>
-              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
-                <TranslatedText
-                  ns="payroll"
-                  translationKey="Presentation.StrengthsTitle"
-                  fallbackText="Our Strengths"
-                />
-              </h3>
+              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">{tidyTitle(((t("Presentation.StrengthsTitle") as string) || "Our Strengths"))}</h3>
               <div className="space-y-4 mb-8">
-                <TranslatedObjectArray
-                  ns="payroll"
-                  translationKey="Presentation.Strengths"
-                  fallbackItems={[
-                    {
-                      Title: "Accuracy and reliability",
-                      Desc: "Precise calculations and timely payroll processing.",
-                    },
-                    {
-                      Title: "Compliance expertise",
-                      Desc: "Full adherence to Swiss employment and tax laws.",
-                    },
-                    {
-                      Title: "Confidential handling",
-                      Desc: "Secure and confidential management of sensitive data.",
-                    },
-                  ]}
-                  renderItem={(item, index) => (
-                    <div
-                      key={index}
-                      className="flex items-start gap-4 px-6 py-4 rounded-lg bg-primary/5 mb-4"
-                    >
-                      <CheckCircle
-                        className="text-blue-400 mt-1 min-w-[20px]"
-                        size={20}
-                      />
-                      <div>
-                        <span className="font-semibold block text-lg mb-2">
-                          {item.Title}
-                        </span>
-                        <span className="text-base leading-relaxed">
-                          {item.Desc}
-                        </span>
-                      </div>
+                {strengths.map((item, index) => (
+                  <div key={index} className="flex items-start gap-4 px-6 py-4 rounded-lg bg-primary/5 mb-4">
+                    <CheckCircle className="text-blue-400 mt-1 min-w-[20px]" size={20} />
+                    <div>
+                      <span className="font-semibold block text-lg mb-2">{item.Title}</span>
+                      <span className="text-base leading-relaxed">{item.Desc}</span>
                     </div>
-                  )}
-                />
+                  </div>
+                ))}
               </div>
             </section>
 
             <section>
-              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
-                <TranslatedText
-                  ns="payroll"
-                  translationKey="Presentation.ServicesTitle"
-                  fallbackText="Services"
-                />
-              </h3>
-              <ServicesList
-                ns="payroll"
-                translationKey="Presentation.Services"
-                fallbackText={[
-                  "Service 1: Description",
-                  "Service 2: Description",
-                  "Service 3: Description",
-                  "Service 4: Description",
-                ]}
-                iconMap={iconMap}
-                className="space-y-6"
-              />
+              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">{tidyTitle(((t("Presentation.ServicesTitle") as string) || "Services"))}</h3>
+              <ServicesListServer ns="payroll" translationKey="Presentation.Services" fallbackText={services} className="space-y-6" locale={locale} />
             </section>
           </div>
         </div>

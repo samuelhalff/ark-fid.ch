@@ -1,5 +1,8 @@
 import { Metadata } from "next";
 import Image from "next/image";
+import ImageWithFallback from "@/src/components/ui/image-with-fallback";
+import InitialsTile from "@/src/components/ui/initials-tile";
+import { teamImageMap } from "@/src/lib/teamImages";
 import Link from "next/link";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
@@ -38,8 +41,9 @@ export async function generateMetadata({
     params.locale as Locale,
     `/team/${params.slug}`
   );
+  const isMissing = !member?.profilePic || (member.profilePic || "").includes("missing-profile.svg");
   const ogImages = member
-    ? [{ url: member.profilePic, width: 800, height: 1000, alt: name }]
+    ? [{ url: isMissing ? "/assets/abstract-background-light.webp" : member.profilePic, width: 800, height: 1000, alt: name }]
     : (base.openGraph?.images as any);
   return {
     ...base,
@@ -161,13 +165,26 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
       <div className="grid grid-cols-1 md:grid-cols-[360px_1fr] gap-10 items-start">
         <div className="rounded-xl overflow-hidden shadow-sm border bg-card">
           <div className="relative aspect-4/5 w-full h-[480px]">
-            <Image
-              src={member.profilePic}
-              alt={`Portrait of ${member.name}`}
-              fill
-              sizes="(max-width: 768px) 100vw, 360px"
-              className="object-cover object-top"
-            />
+            {(() => {
+              const mapped = (teamImageMap as Record<string, any>)[member.profilePic] || member.profilePic;
+              const isStatic = typeof mapped === "object" && mapped && "src" in mapped;
+              return (
+                <ImageWithFallback
+                  src={mapped as any}
+                  alt={`Portrait of ${member.name}`}
+                  fill
+                  priority
+                  fetchPriority="high"
+                  quality={70}
+                  placeholder={isStatic ? "blur" : undefined}
+                  sizes="(max-width: 768px) 100vw, 360px"
+                  className="object-cover object-top"
+                  fallbackVariant="initials"
+                  fallbackInitialsName={member.name}
+                  fallbackClassName="absolute inset-0"
+                />
+              );
+            })()}
           </div>
         </div>
 

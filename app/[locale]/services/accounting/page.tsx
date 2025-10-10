@@ -41,19 +41,32 @@ const Accounting = async ({ params }: { params: { locale: string } }) => {
         "@type": "ListItem",
         position: 2,
         name: (tNav("Accounting.Title") as string) || "Accounting",
-        item: `${baseUrl}/${params.locale}${localizePath("/services/accounting", params.locale as Locale)}/`,
+        item: `${baseUrl}/${params.locale}${localizePath(
+          "/services/accounting",
+          params.locale as Locale
+        )}/`,
       },
     ],
   } as const;
   const serviceJsonLd = buildServiceSchema({
-    name: (tService("Hero.Title") as string) || (tNav("Accounting.Title") as string) || "Accounting",
+    name:
+      (tService("Hero.Title") as string) ||
+      (tNav("Accounting.Title") as string) ||
+      "Accounting",
     description:
       (tService("Hero.Description") as string) ||
       "Accounting and reporting services for SMEs in Geneva and Lausanne.",
     serviceType: "Accounting",
-    url: `${baseUrl}/${params.locale}${localizePath("/services/accounting", params.locale as Locale)}/`,
+    url: `${baseUrl}/${params.locale}${localizePath(
+      "/services/accounting",
+      params.locale as Locale
+    )}/`,
     areaServed: ["Geneva", "Lausanne", "Romandy", "Switzerland"],
-    provider: { name: "Ark Fiduciaire", url: baseUrl, logo: `${baseUrl}/assets/arkfid--color.svg` },
+    provider: {
+      name: "Ark Fiduciaire",
+      url: baseUrl,
+      logo: `${baseUrl}/assets/arkfid--color.svg`,
+    },
   });
 
   return (
@@ -62,7 +75,7 @@ const Accounting = async ({ params }: { params: { locale: string } }) => {
       <Hero params={params} />
       <nav
         aria-label="Breadcrumb"
-        className="max-w-[1200px] mx-auto px-4 md:px-6 mt-4 mb-6"
+        className="w-full max-w-[1200px] mx-auto mt-4 mb-6"
       >
         <ol className="flex items-center gap-1 text-sm text-muted-foreground">
           <li>
@@ -84,7 +97,7 @@ const Accounting = async ({ params }: { params: { locale: string } }) => {
           </li>
         </ol>
       </nav>
-      <Presentation />
+      <Presentation t={tService} />
     </div>
   );
 };

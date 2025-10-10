@@ -188,9 +188,15 @@ jobs:
             curl -fsSL "https://ark-fid.ch$path" >/dev/null 2>&1 || true
           done
 
-          echo "[deploy] Warming up image assets..."
-          curl -fsSL "https://ark-fid.ch/fr/" | grep -Eo 'src="/[^"]+\.(png|jpg|jpeg|webp|avif|svg)"' \
-            | sed 's/src="//' | sed 's/"$//' \
-            | while read -r img; do
-                curl -fsSL "https://ark-fid.ch$img" >/dev/null 2>&1 || true
-              done
+          echo "[deploy] Simple warmup of next/image URLs (non-blocking)"
+          for locale in en fr de es pt; do
+            HTML=$(curl -fsSL "https://ark-fid.ch/$locale/" || true)
+            echo "$HTML" | grep -Eo '/_next/image/\?url=[^" ]+' | sed 's/&amp;/\&/g' | head -n 30 | while read -r u; do
+              curl -fsSL "https://ark-fid.ch$u" >/dev/null 2>&1 || true
+            done
+          done
+          # Warm a single additional path that often shows first: /fr/services/
+          SVC=$(curl -fsSL "https://ark-fid.ch/fr/services/" || true)
+          echo "$SVC" | grep -Eo '/_next/image/\?url=[^" ]+' | sed 's/&amp;/\&/g' | head -n 30 | while read -r u; do
+            curl -fsSL "https://ark-fid.ch$u" >/dev/null 2>&1 || true
+          done

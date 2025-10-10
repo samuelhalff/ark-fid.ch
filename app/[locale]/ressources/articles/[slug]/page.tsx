@@ -376,7 +376,24 @@ export default async function ArticlePage({ params }: Params) {
 
       <RelatedArticles currentSlug={params.slug} locale={locale} />
 
-      <ContactSection locale={locale} />
+      {(() => {
+        const title =
+          (ressources["Contact.Title"] as string) ||
+          "Questions about this article?";
+        const description =
+          (ressources["Contact.Description"] as string) ||
+          "Our experts are here to help you understand the details and implications for your business. Get personalized advice tailored to your situation.";
+        const buttonText =
+          (ressources["Contact.ButtonText"] as string) || "Contact Our Team";
+        return (
+          <ContactSection
+            locale={locale}
+            title={title}
+            description={description}
+            buttonText={buttonText}
+          />
+        );
+      })()}
     </main>
   );
 }

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import "../globals.css";
 import ServicesElements from "@/app/[locale]/navigation";
 import { getTranslations } from "@/src/lib/i18n";
+import { headers } from "next/headers";
 import { localizePath } from "@/src/lib/paths";
 
 const locales = ["en", "fr", "de", "es", "pt"] as const;
@@ -40,6 +41,7 @@ export default async function LocaleLayout({
   // Prepare server-side translated navigation labels and services list to avoid SSR key leakage
   const tNavbar = await getTranslations(activeLocale, "navbar");
   const tServices = await getTranslations(activeLocale, "servicesItems");
+  const currentPath = headers().get("x-pathname") || undefined;
   const navData = {
     labels: {
       home: tNavbar("Home"),
@@ -59,7 +61,7 @@ export default async function LocaleLayout({
   return (
     <div data-locale={activeLocale} lang={activeLocale}>
       {/* Render client NavBar with server-provided locale */}
-      <Navbar locale={activeLocale} navData={navData} />
+      <Navbar locale={activeLocale} navData={navData} currentPath={currentPath} />
       <main id="main-content" role="main">
         {children}
       </main>

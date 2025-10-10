@@ -1,90 +1,70 @@
-// Inline minimal icons to avoid pulling lucide-react into shared chunk
-
+// Outline icons sized to read well inside a 56–64px chip
+const calcClass = "h-6 w-6 sm:h-7 sm:w-7";
 const Calculator = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className="h-6 w-6"
-  >
-    <path d="M7 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3H7zM6 6a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V6zm1 1h4v2H7V7zm6 0h4v2h-4V7zM7 10h4v2H7v-2zm6 0h4v2h-4v-2zM7 13h4v2H7v-2zm6 0h4v6h-4v-6zM7 16h4v2H7v-2z" />
+  <svg viewBox="0 0 24 24" className={calcClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <rect x="4" y="3" width="16" height="18" rx="2" />
+    <path d="M8 7h8M8 11h3M13 11h3M8 15h3M13 15h3" />
   </svg>
 );
 
 const MessageSquareReply = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className="h-6 w-6"
-  >
-    <path d="M21 6H9a1 1 0 0 0-1 1v8c0 .6.4 1 1 1h9l3 3V7c0-.6-.4-1-1-1zm-3 4H12a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-6-2h6a.5.5 0 0 0 0-1H12a.5.5 0 0 0 0 1zM3 12h2v2H3v3a2 2 0 0 0 2 2h2v2l3-3h4a2 2 0 0 0 2-2H5a2 2 0 0 1-2-2V12z" />
+  <svg viewBox="0 0 24 24" className={calcClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M21 7a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h7l4 3V7z" />
+    <path d="M7 12h7M7 9h10" />
   </svg>
 );
 
 const Users = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className="h-6 w-6"
-  >
-    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm8 8.5a2.5 2.5 0 1 0-5 0m5 0a2.5 2.5 0 1 1-5 0m5 0V21a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-.5" />
+  <svg viewBox="0 0 24 24" className={calcClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="3" />
+    <path d="M22 21v-2a4 4 0 0 0-3-3.8" />
+    <path d="M16 3.2a4 4 0 0 1 0 7.6" />
   </svg>
 );
 
 const Building2 = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className="h-6 w-6"
-  >
-    <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18zM2 14v6a2 2 0 0 0 2 2h2V12H4a2 2 0 0 0-2 2zm18-2v8a2 2 0 0 1-2 2h-2v-8h2a2 2 0 0 1 2 0zM10 6h4m-4 4h4m-4 4h4" />
+  <svg viewBox="0 0 24 24" className={calcClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <rect x="6" y="3" width="12" height="18" rx="2" />
+    <path d="M10 7h4M10 11h4M10 15h4" />
+    <path d="M3 12h3v9H5a2 2 0 0 1-2-2zM21 12h-3v9h1a2 2 0 0 0 2-2z" />
   </svg>
 );
 
 const Briefcase = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className="h-6 w-6"
-  >
-    <path d="M8 7V5a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2h4a1 1 0 0 1 1 1v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a1 1 0 0 1 1-1h4zm2-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2h-4V5z" />
+  <svg viewBox="0 0 24 24" className={calcClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <rect x="3" y="7" width="18" height="12" rx="2" />
+    <path d="M9 7V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1M3 12h18" />
   </svg>
 );
 
 const Layers = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className="h-6 w-6"
-  >
-    <path d="M12.83 2.18l8.96 4.48A1 1 0 0 1 21.32 8L12 12.67 2.68 8a1 1 0 0 1-.47-1.34l8.96-4.48a2 2 0 0 1 1.66 0zm8.96 6.15L12 13l-9.79-4.67c-.11-.05-.22-.08-.33-.08L12 13l10.12-4.75c-.11 0-.22.03-.33.08zm0 4.34L12 17.67l-9.79-4.67c-.11-.05-.22-.08-.33-.08L12 17.67l10.12-4.75c-.11 0-.22.03-.33.08z" />
+  <svg viewBox="0 0 24 24" className={calcClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M12 4l8 4-8 4-8-4 8-4z" />
+    <path d="M4 12l8 4 8-4" />
+    <path d="M4 16l8 4 8-4" />
   </svg>
 );
 
-const FolderCode = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className="h-6 w-6"
-  >
-    <path d="M4 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-7L9 2H4zm6.5 11.5l-2 2L8 18l4.5-4.5L8 9 8.5 6.5l2 2zm5 0l2-2L18 9l-4.5 4.5L18 18l-.5 2.5-2-2z" />
+// Minimal settings/integration icon for Odoo — cleaner than folder/code
+const CogSimple = () => (
+  <svg viewBox="0 0 24 24" className={calcClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <circle cx="12" cy="12" r="3" />
+    <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.1 5.1l2.1 2.1M16.8 16.8l2.1 2.1M18.9 5.1l-2.1 2.1M5.1 18.9l2.1-2.1" />
+  </svg>
+);
+
+// Map pin to differentiate from incorporation building icon
+const MapPin = () => (
+  <svg viewBox="0 0 24 24" className={calcClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M12 21s-6-4.5-6-10a6 6 0 1 1 12 0c0 5.5-6 10-6 10z" />
+    <circle cx="12" cy="11" r="2.5" />
   </svg>
 );
 
 const Crown = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className="h-6 w-6"
-  >
-    <path d="M5 16L3 5l5.5 4L12 4l3.5 5L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z" />
+  <svg viewBox="0 0 24 24" className={calcClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M3 10l4 3 5-7 5 7 4-3v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
   </svg>
 );
 
@@ -132,14 +112,14 @@ const services = [
     image: "/assets/hero/services/corporate-hero.optimized.webp",
   },
   {
-    icon: <Building2 />,
+    icon: <MapPin />,
     titleKey: "DomiciliationServices.Title",
     href: "/services/domiciliation",
     descriptionKey: "DomiciliationServices.Description",
     image: "/assets/hero/services/domiciliation-hero.optimized.webp",
   },
   {
-    icon: <FolderCode />,
+    icon: <CogSimple />,
     titleKey: "OdooImplementation.Title",
     href: "/services/odoo",
     descriptionKey: "OdooImplementation.Description",

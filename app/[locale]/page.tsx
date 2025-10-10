@@ -3,11 +3,8 @@ import { headers } from "next/headers";
 import Hero from "@/app/[locale]/home/components/hero";
 import dynamic from "next/dynamic";
 import Services from "@/app/[locale]/home/components/services";
-const About = dynamic(() => import("@/app/[locale]/home/components/about"));
-const FAQ = dynamic(() => import("@/app/[locale]/home/components/faq"), {
-  ssr: false,
-  loading: () => null,
-});
+import About from "@/app/[locale]/home/components/about";
+import FAQ from "@/app/[locale]/home/components/faq";
 const Contact = dynamic(() => import("@/src/components/ui/contact-form"), {
   ssr: false,
   loading: () => null,

@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import Defer from "@/src/components/Defer";
+import ActiveNavSync from "@/src/components/navigation/ActiveNavSync";
+import { headers } from "next/headers";
 
 const HeaderControls = dynamic(
   () => import("@/src/components/navigation/HeaderControls"),
@@ -32,11 +34,25 @@ type NavData = {
 export default function NavbarServer({
   locale,
   navData,
+  currentPath: currentPathProp,
 }: {
   locale?: string;
   navData: NavData;
+  currentPath?: string | undefined;
 }) {
   const localePrefix = locale ? `/${locale}` : "/fr";
+  const currentPath = currentPathProp || headers().get("x-pathname") || "/";
+
+  const normalize = (p: string) => {
+    if (!p) return "/";
+    return p.length > 1 && p.endsWith("/") ? p.slice(0, -1) : p;
+  };
+  const isExact = (href: string) => normalize(currentPath) === normalize(href);
+  const isSection = (href: string) => {
+    const cur = normalize(currentPath);
+    const base = normalize(href);
+    return cur === base || cur.startsWith(base + "/");
+  };
 
   return (
     <div className="critical-nav__container critical-nav">
@@ -79,7 +95,7 @@ export default function NavbarServer({
                     href={`${localePrefix}/`}
                     prefetch={false}
                     locale={locale}
-                    className="px-3 py-2 rounded-md hover:bg-accent min-w-[92px] text-center critical-nav__link"
+                    className={`px-3 py-2 rounded-md min-w-[92px] text-center critical-nav__link ${isExact(`${localePrefix}`) ? "bg-accent" : "hover:bg-accent"}`}
                   >
                     {navData.labels.home}
                   </Link>
@@ -89,30 +105,21 @@ export default function NavbarServer({
                     href={`${localePrefix}/team`}
                     prefetch={false}
                     locale={locale}
-                    className="px-3 py-2 rounded-md hover:bg-accent min-w-[92px] text-center critical-nav__link"
+                    className={`px-3 py-2 rounded-md min-w-[92px] text-center critical-nav__link ${isSection(`${localePrefix}/team`) ? "bg-accent" : "hover:bg-accent"}`}
                   >
                     {navData.labels.team}
                   </Link>
                 </li>
                 <li className="relative group">
-                  {/* The main trigger link */}
                   <Link
                     href={`${localePrefix}/services`}
                     prefetch={false}
                     locale={locale}
-                    className="px-3 py-2 rounded-md hover:bg-accent min-w-[100px] text-center inline-flex items-center gap-1 critical-nav__link"
+                    className={`px-3 py-2 rounded-md min-w-[100px] text-center inline-flex items-center gap-1 critical-nav__link ${isSection(`${localePrefix}/services`) ? "bg-accent" : "hover:bg-accent"}`}
                   >
                     {navData.labels.services}
-                    <span className="transition-transform duration-200 group-hover:rotate-180">
-                      ▾
-                    </span>
+                    <span className="transition-transform duration-200 group-hover:rotate-180">▾</span>
                   </Link>
-
-                  {/* 
-    CSS-only dropdown menu.
-    - The `pt-2` class is the key fix for the hover-out issue.
-    - We have removed `group-focus-within` to ensure hover-out always closes it.
-  */}
                   <div className="invisible opacity-0 pointer-events-none group-hover:visible group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 absolute left-0 top-full pt-2 w-[min(92vw,720px)] bg-background border rounded-md shadow-xl z-50">
                     <div className="p-3">
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -124,23 +131,14 @@ export default function NavbarServer({
                               locale={locale}
                               className="block rounded-md p-3 hover:bg-accent focus:bg-accent focus:outline-none focus:ring-2 focus:ring-primary"
                             >
-                              <div className="text-left text-sm font-medium leading-none truncate">
-                                {item.title}
-                              </div>
-                              <p className="mt-1 text-left text-sm text-muted-foreground leading-snug line-clamp-2">
-                                {item.description}
-                              </p>
+                              <div className="text-left text-sm font-medium leading-none truncate">{item.title}</div>
+                              <p className="mt-1 text-left text-sm text-muted-foreground leading-snug line-clamp-2">{item.description}</p>
                             </Link>
                           </li>
                         ))}
                       </ul>
                       <div className="mt-2 text-right">
-                        <Link
-                          href={`${localePrefix}/services`}
-                          prefetch={false}
-                          locale={locale}
-                          className="text-sm text-primary underline hover:no-underline"
-                        >
+                        <Link href={`${localePrefix}/services`} prefetch={false} locale={locale} className="text-sm text-primary underline hover:no-underline">
                           {navData.labels.services} →
                         </Link>
                       </div>
@@ -152,7 +150,7 @@ export default function NavbarServer({
                     href={`${localePrefix}/ressources`}
                     prefetch={false}
                     locale={locale}
-                    className="px-3 py-2 rounded-md hover:bg-accent min-w-[112px] text-center critical-nav__link"
+                    className={`px-3 py-2 rounded-md min-w-[112px] text-center critical-nav__link ${isSection(`${localePrefix}/ressources`) ? "bg-accent" : "hover:bg-accent"}`}
                   >
                     {navData.labels.ressources}
                   </Link>
@@ -162,7 +160,7 @@ export default function NavbarServer({
                     href={`${localePrefix}/about`}
                     prefetch={false}
                     locale={locale}
-                    className="px-3 py-2 rounded-md hover:bg-accent min-w-[92px] text-center critical-nav__link"
+                    className={`px-3 py-2 rounded-md min-w-[92px] text-center critical-nav__link ${isSection(`${localePrefix}/about`) ? "bg-accent" : "hover:bg-accent"}`}
                   >
                     {navData.labels.about}
                   </Link>
@@ -172,12 +170,11 @@ export default function NavbarServer({
                     href={`${localePrefix}/contact`}
                     prefetch={false}
                     locale={locale}
-                    className="px-3 py-2 rounded-md hover:bg-accent min-w-[96px] text-center critical-nav__link"
+                    className={`px-3 py-2 rounded-md min-w-[96px] text-center critical-nav__link ${isSection(`${localePrefix}/contact`) ? "bg-accent" : "hover:bg-accent"}`}
                   >
                     {navData.labels.contact}
                   </Link>
                 </li>
-                {/* Client controls (Lang + Theme) — defer with a safety maxDelay */}
                 <li className="ml-1">
                   <Defer rootMargin="100px" idle={100} maxDelay={1500} placeholder={null}>
                     <HeaderControls />
@@ -185,6 +182,8 @@ export default function NavbarServer({
                 </li>
               </ul>
             </nav>
+            {/* Minimal client sync to update active state on route changes */}
+            <ActiveNavSync localePrefix={localePrefix} />
           </div>
 
           {/* Mobile menu (client-only, deferred with safety maxDelay) */}

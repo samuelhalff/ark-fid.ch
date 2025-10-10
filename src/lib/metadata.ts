@@ -28,14 +28,25 @@ interface MetadataConfig {
 
 // Function to load metadata config for a specific locale
 async function loadMetadataConfig(locale: Locale): Promise<MetadataConfig> {
-  try {
-    const config = await import(`@/src/translations/${locale}/metadata.json`);
-    return config.default;
-  } catch (error) {
-    // Fallback to English if locale not found
-    const config = await import(`@/src/translations/en/metadata.json`);
-    return config.default;
+  const readMetadata = (loc: string): MetadataConfig | null => {
+    try {
+      const filePath = pathJoin(process.cwd(), "src", "translations", loc, "metadata.json");
+      if (!fs.existsSync(filePath)) return null;
+      const fileContent = fs.readFileSync(filePath, "utf8");
+      return JSON.parse(fileContent);
+    } catch {
+      return null;
+    }
+  };
+
+  const primary = readMetadata(locale);
+  const fallback = primary ? null : readMetadata("en");
+
+  if (!primary && !fallback) {
+    throw new Error(`Metadata config not found for locale ${locale}`);
   }
+
+  return primary ?? fallback!;
 }
 
 const hreflangFor = (loc: Locale): string => {

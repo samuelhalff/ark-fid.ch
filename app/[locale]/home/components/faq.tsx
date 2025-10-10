@@ -1,15 +1,5 @@
-"use client";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-} from "@/src/components/ui/accordion";
-import { cn } from "@/src/lib/utils";
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
-
-import TranslatedText from "@/src/components/ui/translated-text";
-import { useTranslation } from "react-i18next";
-import "@/src/i18n";
+import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
+import { tidyTitle } from "@/src/lib/typography";
 
 // Inline Plus icon to eliminate lucide-react dependency
 const PlusIcon = ({ className }: { className?: string }) => (
@@ -34,13 +24,17 @@ const faq = Array.from({ length: 16 }).map((_, i) => ({
   answerKey: `Answer${i + 1}`,
 }));
 
-const FAQ = () => {
-  const { t } = useTranslation("faq");
-  // Resolve and filter out empty or placeholder entries
+export default async function FAQ() {
+  const locale: Locale = getCurrentLocale();
+  const t = await getTranslations(locale, "faq");
+  const title = (t("Title") as string) || "FAQ";
+  const subtitle = (t("Subtitle") as string) || "";
+  const lastUpdated = new Date();
+
   const items = faq
     .map(({ questionKey, answerKey }) => {
-      const q = t(questionKey);
-      const a = t(answerKey);
+      const q = t(questionKey) as string;
+      const a = t(answerKey) as string;
       return { questionKey, answerKey, q, a };
     })
     .filter(({ questionKey, answerKey, q, a }) => {
@@ -54,73 +48,52 @@ const FAQ = () => {
       id="faq"
       className="w-full max-w-[var(--breakpoint-xl)] mx-auto py-8 xs:py-16 px-6 mb-10"
     >
+      {/* Hide default summary markers across browsers to avoid double icons */}
+      <style>{`
+        summary.faq-summary::-webkit-details-marker { display: none; }
+        summary.faq-summary::marker { content: ""; }
+        .faq-icon svg { width: 16px; height: 16px; }
+      `}</style>
       <h2 className="text-center text-3xl xs:text-4xl md:text-5xl leading-[1.15]! font-bold tracking-tighter max-w-4xl mx-auto">
-        <TranslatedText ns="faq" translationKey="Title" fallbackText="FAQ" />
+        {tidyTitle(title)}
       </h2>
-      <p className="mt-1.5 text-center xs:text-lg max-w-2xl mx-auto">
-        <TranslatedText
-          ns="faq"
-          translationKey="Subtitle"
-          fallbackText="Subtitle"
-        />
-      </p>
+      {subtitle && (
+        <p className="mt-1.5 text-center xs:text-lg max-w-2xl mx-auto">{subtitle}</p>
+      )}
       <p className="mt-1 text-center text-sm text-muted-foreground">
-        <span>
-          <TranslatedText
-            ns="faq"
-            translationKey="LastUpdated"
-            fallbackText="dernière mise à jour"
-          />
-        </span>{" "}
+        <span>{(t("LastUpdated") as string) || "dernière mise à jour"}</span>{" "}
         <span suppressHydrationWarning>
           {new Intl.DateTimeFormat(undefined, {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
-          }).format(new Date())}
+          }).format(lastUpdated)}
         </span>
       </p>
 
-      <div className="min-h-[550px] md:min-h-[320px] xl:min-h-[300px]">
-        <Accordion
-          type="single"
-          collapsible
-          className="mt-8 space-y-4 md:columns-2 gap-4"
-        >
-          {items.map(({ questionKey, answerKey }, index) => (
-            <AccordionItem
-              key={questionKey}
-              value={`question-${index}`}
-              className="bg-accent py-1 px-4 rounded-xl border-none mt-0! mb-4! break-inside-avoid"
+      {/* Use CSS columns to avoid the grid row-height coupling issue */}
+      <div className="mt-8 columns-1 md:columns-2 gap-x-4">
+        {items.map(({ q, a, questionKey }) => (
+          <details
+            key={questionKey}
+            className="group bg-accent rounded-xl px-5 py-3 open:shadow-sm transition-shadow mb-4 break-inside-avoid"
+          >
+            <summary
+              className="faq-summary flex items-center justify-between gap-4 cursor-pointer select-none py-1 pr-2"
             >
-              <AccordionPrimitive.Header className="flex">
-                <AccordionPrimitive.Trigger
-                  className={cn(
-                    "flex flex-1 items-center justify-between py-4 font-semibold tracking-tight transition-all hover:underline [&[data-state=open]>svg]:rotate-45",
-                    "text-start text-lg"
-                  )}
-                >
-                  <TranslatedText
-                    ns="faq"
-                    translationKey={questionKey}
-                    fallbackText={questionKey.replace("", "")}
-                  />
-                  <PlusIcon className="h-5 w-5 shrink-0 transition-transform duration-200" />
-                </AccordionPrimitive.Trigger>
-              </AccordionPrimitive.Header>
-              <AccordionContent className="text-[15px] text-left">
-                <TranslatedText
-                  ns="faq"
-                  translationKey={answerKey}
-                  fallbackText={answerKey.replace("", "")}
-                />
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+              <h3 className="font-semibold tracking-tight text-lg leading-snug">
+                {q}
+              </h3>
+              <span className="faq-icon inline-flex h-7 w-7 items-center justify-center rounded-full bg-foreground/10 text-muted-foreground group-open:text-foreground/90 group-open:bg-foreground/15 transition-colors flex-none shrink-0">
+                <PlusIcon className="transition-transform group-open:rotate-45" />
+              </span>
+            </summary>
+            <div className="mt-2 pb-2 text-[15px] text-left text-muted-foreground">
+              {a}
+            </div>
+          </details>
+        ))}
       </div>
     </div>
   );
-};
-
-export default FAQ;
+}
