@@ -21,6 +21,23 @@ export function getCurrentLocale(): Locale {
   return isValidLocale(locale) ? locale : "fr";
 }
 
+function resolveTranslationsDir() {
+  const candidates = [
+    // Standalone/serverless deployment with outputFileTracingIncludes
+    path.join(process.cwd(), 'src', 'translations'),
+    // Fallback if the folder was hoisted to the root
+    path.join(process.cwd(), 'translations'),
+    // Local dev and non-standalone builds
+    path.join(__dirname, '..', 'translations'),
+  ];
+  for (const p of candidates) {
+    try {
+      if (fs.existsSync(p)) return p;
+    } catch {}
+  }
+  return candidates[0];
+}
+
 export async function getTranslations(locale: Locale, namespace: string) {
   // Simple in-memory cache to avoid repeated disk reads and logs
   const cache = getTranslationsCache();
@@ -30,8 +47,7 @@ export async function getTranslations(locale: Locale, namespace: string) {
     const cacheKey = makeKey(loc);
     if (cache.has(cacheKey)) return cache.get(cacheKey) ?? null;
 
-    // Use path relative to this module instead of process.cwd() for standalone builds
-    const translationsDir = path.join(__dirname, "..", "translations");
+    const translationsDir = resolveTranslationsDir();
     const filePath = path.join(translationsDir, loc, `${namespace}.json`);
     if (!fs.existsSync(filePath)) {
       cache.set(cacheKey, null);

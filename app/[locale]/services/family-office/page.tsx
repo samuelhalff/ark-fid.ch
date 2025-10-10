@@ -45,7 +45,10 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
           (tFamily("Breadcrumb.Label") as string) ||
           (tFamily("Hero.Title") as string) ||
           "Family office",
-        item: `${baseUrl}/${params.locale}${localizePath("/services/family-office", params.locale as Locale)}/`,
+        item: `${baseUrl}/${params.locale}${localizePath(
+          "/services/family-office",
+          params.locale as Locale
+        )}/`,
       },
     ],
   } as const;
@@ -59,9 +62,16 @@ const FamilyOffice = async ({ params }: { params: { locale: string } }) => {
       (tService("Hero.Description") as string) ||
       "Swiss family office advisory for governance and structuring.",
     serviceType: "Family office",
-    url: `${baseUrl}/${params.locale}${localizePath("/services/family-office", params.locale as Locale)}/`,
+    url: `${baseUrl}/${params.locale}${localizePath(
+      "/services/family-office",
+      params.locale as Locale
+    )}/`,
     areaServed: ["Geneva", "Lausanne", "Romandy", "Switzerland"],
-    provider: { name: "Ark Fiduciaire", url: baseUrl, logo: `${baseUrl}/assets/arkfid--color.svg` },
+    provider: {
+      name: "Ark Fiduciaire",
+      url: baseUrl,
+      logo: `${baseUrl}/assets/arkfid--color.svg`,
+    },
   });
 
   return (

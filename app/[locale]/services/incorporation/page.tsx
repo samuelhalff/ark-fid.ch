@@ -24,7 +24,10 @@ const Incorporation = async ({ params }: { params: { locale: string } }) => {
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params.locale ? `/${params.locale}` : "";
   const tNav = await getTranslations(params.locale as Locale, "navbar");
-  const tService = await getTranslations(params.locale as Locale, "incorporation");
+  const tService = await getTranslations(
+    params.locale as Locale,
+    "incorporation"
+  );
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -39,7 +42,10 @@ const Incorporation = async ({ params }: { params: { locale: string } }) => {
         "@type": "ListItem",
         position: 2,
         name: (tNav("Incorporation.Title") as string) || "Incorporation",
-        item: `${baseUrl}/${params.locale}${localizePath("/services/incorporation", params.locale as Locale)}/`,
+        item: `${baseUrl}/${params.locale}${localizePath(
+          "/services/incorporation",
+          params.locale as Locale
+        )}/`,
       },
     ],
   } as const;
@@ -99,14 +105,24 @@ const Incorporation = async ({ params }: { params: { locale: string } }) => {
   });
 
   const serviceJsonLd = buildServiceSchema({
-    name: (tService("Hero.Title") as string) || (tNav("Incorporation.Title") as string) || "Incorporation",
+    name:
+      (tService("Hero.Title") as string) ||
+      (tNav("Incorporation.Title") as string) ||
+      "Incorporation",
     description:
       (tService("Hero.Description") as string) ||
       "Company incorporation and registration assistance in Switzerland.",
     serviceType: "Incorporation",
-    url: `${baseUrl}/${params.locale}${localizePath("/services/incorporation", params.locale as Locale)}/`,
+    url: `${baseUrl}/${params.locale}${localizePath(
+      "/services/incorporation",
+      params.locale as Locale
+    )}/`,
     areaServed: ["Geneva", "Lausanne", "Romandy", "Switzerland"],
-    provider: { name: "Ark Fiduciaire", url: baseUrl, logo: `${baseUrl}/assets/arkfid--color.svg` },
+    provider: {
+      name: "Ark Fiduciaire",
+      url: baseUrl,
+      logo: `${baseUrl}/assets/arkfid--color.svg`,
+    },
   });
 
   return (

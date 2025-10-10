@@ -37,7 +37,10 @@ const Odoo = async ({ params }: { params: { locale: string } }) => {
         "@type": "ListItem",
         position: 2,
         name: "Odoo",
-        item: `${baseUrl}/${params.locale}${localizePath("/services/odoo", params.locale as Locale)}/`,
+        item: `${baseUrl}/${params.locale}${localizePath(
+          "/services/odoo",
+          params.locale as Locale
+        )}/`,
       },
     ],
   } as const;
@@ -48,9 +51,16 @@ const Odoo = async ({ params }: { params: { locale: string } }) => {
       (tService("Hero.Description") as string) ||
       "Odoo implementation aligned to Swiss standards.",
     serviceType: "Odoo",
-    url: `${baseUrl}/${params.locale}${localizePath("/services/odoo", params.locale as Locale)}/`,
+    url: `${baseUrl}/${params.locale}${localizePath(
+      "/services/odoo",
+      params.locale as Locale
+    )}/`,
     areaServed: ["Geneva", "Lausanne", "Romandy", "Switzerland"],
-    provider: { name: "Ark Fiduciaire", url: baseUrl, logo: `${baseUrl}/assets/arkfid--color.svg` },
+    provider: {
+      name: "Ark Fiduciaire",
+      url: baseUrl,
+      logo: `${baseUrl}/assets/arkfid--color.svg`,
+    },
   });
 
   return (

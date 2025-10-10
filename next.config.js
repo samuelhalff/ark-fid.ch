@@ -11,6 +11,10 @@ const baseConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react', 'react-hook-form', 'sonner'],
     optimizeCss: true,
+    // Ensure runtime access to JSON translation files in standalone/serverless outputs
+    outputFileTracingIncludes: {
+      '/**/*': ['src/translations/**/*'],
+    },
   },
   output: 'standalone',
   images: {

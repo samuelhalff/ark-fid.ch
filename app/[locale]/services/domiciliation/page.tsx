@@ -4,7 +4,11 @@ import { headers } from "next/headers";
 import Presentation from "./components/presentation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import StructuredData from "@/src/components/seo/StructuredData";
-import { buildBreadcrumbList, buildHowTo, buildServiceSchema } from "@/src/lib/structuredData";
+import {
+  buildBreadcrumbList,
+  buildHowTo,
+  buildServiceSchema,
+} from "@/src/lib/structuredData";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { localizePath } from "@/src/lib/paths";
 
@@ -26,7 +30,10 @@ const Domiciliation = async ({ params }: { params: { locale: string } }) => {
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params.locale ? `/${params.locale}` : "";
   const tNav = await getTranslations(params.locale as Locale, "navbar");
-  const tService = await getTranslations(params.locale as Locale, "domiciliation");
+  const tService = await getTranslations(
+    params.locale as Locale,
+    "domiciliation"
+  );
   const breadcrumbJsonLd = buildBreadcrumbList([
     {
       name: tNav("Services") as string,
@@ -34,7 +41,10 @@ const Domiciliation = async ({ params }: { params: { locale: string } }) => {
     },
     {
       name: (tNav("DomiciliationServices.Title") as string) || "Domiciliation",
-      item: `${baseUrl}/${params.locale}${localizePath("/services/domiciliation", params.locale as Locale)}/`,
+      item: `${baseUrl}/${params.locale}${localizePath(
+        "/services/domiciliation",
+        params.locale as Locale
+      )}/`,
     },
   ]);
   const howToJsonLd = buildHowTo({
@@ -88,19 +98,32 @@ const Domiciliation = async ({ params }: { params: { locale: string } }) => {
     ],
   });
   const serviceJsonLd = buildServiceSchema({
-    name: (tService("Hero.Title") as string) || (tNav("DomiciliationServices.Title") as string) || "Domiciliation",
+    name:
+      (tService("Hero.Title") as string) ||
+      (tNav("DomiciliationServices.Title") as string) ||
+      "Domiciliation",
     description:
       (tService("Hero.Description") as string) ||
       "Business domiciliation in Geneva or Lausanne for Swiss presence.",
     serviceType: "Domiciliation",
-    url: `${baseUrl}/${params.locale}${localizePath("/services/domiciliation", params.locale as Locale)}/`,
+    url: `${baseUrl}/${params.locale}${localizePath(
+      "/services/domiciliation",
+      params.locale as Locale
+    )}/`,
     areaServed: ["Geneva", "Lausanne", "Romandy", "Switzerland"],
-    provider: { name: "Ark Fiduciaire", url: baseUrl, logo: `${baseUrl}/assets/arkfid--color.svg` },
+    provider: {
+      name: "Ark Fiduciaire",
+      url: baseUrl,
+      logo: `${baseUrl}/assets/arkfid--color.svg`,
+    },
   });
 
   return (
     <div>
-      <StructuredData nonce={nonce} data={[breadcrumbJsonLd, howToJsonLd, serviceJsonLd]} />
+      <StructuredData
+        nonce={nonce}
+        data={[breadcrumbJsonLd, howToJsonLd, serviceJsonLd]}
+      />
       <Hero params={params} />
       <nav
         aria-label="Breadcrumb"
