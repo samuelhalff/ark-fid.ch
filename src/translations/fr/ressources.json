@@ -557,6 +557,8 @@
   },
   "ReadingTime": "Temps de lecture",
   "Minutes": "min",
+  "obligations_swissdec_suisse": "Obligations swissdec en Suisse",
+  "fedlex_loi_travail": "Loi sur le travail (Fedlex)",
   "Links": {
     "obligations_swissdec_suisse": "Obligations swissdec en Suisse",
     "fedlex_loi_travail": "Loi sur le travail (Fedlex)",

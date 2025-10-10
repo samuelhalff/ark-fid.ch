@@ -103,7 +103,8 @@ jobs:
           PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
 
           echo "[deploy] Testing SSH connectivity to $HOST:$PORT as $USER"
-          sshpass -p "$PASS" ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -p "$PORT" "$USER@$HOST" 'echo connected' || { echo "::error::SSH connection failed (check host/user/password/port)"; exit 255; }
+          # Probe is best-effort: some servers only allow keyboard-interactive; don't fail the job here
+          sshpass -p "$PASS" ssh -o PreferredAuthentications=keyboard-interactive,password -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -p "$PORT" "$USER@$HOST" 'echo connected' || echo "[deploy] SSH probe failed; proceeding to extract"
 
           sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no "$USER@$HOST" bash -lc '
             set -euo pipefail
