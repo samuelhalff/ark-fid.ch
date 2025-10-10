@@ -1,21 +1,126 @@
 // "use client";
 
 import React from "react";
-import {
-  ShieldCheck,
-  HandCoins,
-  Gavel,
-  Globe,
-  HeartHandshake,
-  Briefcase,
-  Library,
-  Building2,
-  Users,
-} from "lucide-react";
+// Inline SVGs for icons (replace lucide-react)
+const Briefcase = () => (
+  <svg
+    width="20"
+    height="20"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <rect x="3" y="7" width="18" height="13" rx="2" />
+    <path d="M8 7V5a4 4 0 0 1 8 0v2" />
+  </svg>
+);
+const HandCoins = () => (
+  <svg
+    width="20"
+    height="20"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <circle cx="17" cy="7" r="3" />
+    <path d="M2 15.5V17a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5" />
+    <path d="M2 15.5a2 2 0 0 1 2-2h7.5" />
+  </svg>
+);
+const Users = () => (
+  <svg
+    width="20"
+    height="20"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <circle cx="9" cy="7" r="4" />
+    <path d="M17 11a4 4 0 1 0-8 0" />
+    <path d="M2 21v-2a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v2" />
+  </svg>
+);
+const Library = () => (
+  <svg
+    width="20"
+    height="20"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <rect x="3" y="4" width="18" height="16" rx="2" />
+    <path d="M7 4v16" />
+    <path d="M17 4v16" />
+  </svg>
+);
+const HeartHandshake = () => (
+  <svg
+    width="20"
+    height="20"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path d="M12 21s-8-7.58-8-12A5 5 0 0 1 12 4a5 5 0 0 1 8 5c0 4.42-8 12-8 12z" />
+    <path d="M12 13l3-3" />
+    <path d="M12 13l-3-3" />
+  </svg>
+);
+const ShieldCheck = () => (
+  <svg
+    width="20"
+    height="20"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path d="M12 2l7 4v6c0 5.25-3.5 9.74-7 10-3.5-.26-7-4.75-7-10V6l7-4z" />
+    <path d="M9 12l2 2 4-4" />
+  </svg>
+);
+const Gavel = () => (
+  <svg
+    width="20"
+    height="20"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <rect x="7" y="2" width="10" height="4" rx="1" />
+    <rect x="2" y="7" width="4" height="10" rx="1" />
+    <rect x="7" y="18" width="10" height="4" rx="1" />
+    <path d="M2 22l20-20" />
+  </svg>
+);
+const Globe = () => (
+  <svg
+    width="20"
+    height="20"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <circle cx="12" cy="12" r="10" />
+    <path d="M2 12h20" />
+    <path d="M12 2a15.3 15.3 0 0 1 0 20" />
+    <path d="M12 2a15.3 15.3 0 0 0 0 20" />
+  </svg>
+);
+const Building2 = () => (
+  <svg
+    width="20"
+    height="20"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <rect x="3" y="7" width="18" height="13" rx="2" />
+    <path d="M8 7V5a4 4 0 0 1 8 0v2" />
+  </svg>
+);
 import Link from "next/link";
 
 const serviceIcons = [Briefcase, HandCoins, Users, Library, HeartHandshake];
-
 const highlightIcons = [ShieldCheck, HandCoins, Gavel, Globe];
 
 const FamilyOfficePresentation = ({
@@ -57,10 +162,10 @@ const FamilyOfficePresentation = ({
               return (
                 <div
                   key={`${item.Title}-${index}`}
-                  className="flex items-start gap-5 px-6 py-5 rounded-lg bg-primary/5"
+                  className="flex items-center gap-5 px-6 py-5 rounded-lg bg-primary/5"
                 >
-                  <span className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shrink-0">
-                    <Icon size={20} />
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shrink-0">
+                    <Icon />
                   </span>
                   <div>
                     <span className="font-semibold block text-lg mb-2">
@@ -88,10 +193,10 @@ const FamilyOfficePresentation = ({
               return (
                 <div
                   key={index}
-                  className="flex items-start gap-6 px-6 py-6 rounded-xl bg-muted/50 shadow-sm hover:shadow-md transition-shadow"
+                  className="flex items-center gap-6 px-6 py-6 rounded-xl bg-muted/50 shadow-sm hover:shadow-md transition-shadow"
                 >
-                  <span className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shrink-0">
-                    <Icon size={20} />
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shrink-0">
+                    <Icon />
                   </span>
                   <div>
                     <span className="font-semibold text-lg text-gray-900 dark:text-gray-100 block mb-2">

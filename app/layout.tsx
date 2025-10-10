@@ -1,5 +1,6 @@
 import { Providers } from "@/src/components/providers"; // Import your new client provider
 import { Metadata, Viewport } from "next";
+import Script from "next/script";
 import {
   generateOrganizationStructuredData,
   generateLocalBusinessStructuredData,
@@ -195,6 +196,19 @@ export default async function RootLayout({
       className={inter.variable}
     >
       <head>
+        {/* Google Tag Manager */}
+        <Script
+          id="gtm"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P6QT792D');`,
+          }}
+        />
+        {/* End Google Tag Manager */}
         {/* Remove early preconnect to analytics to avoid competing with LCP; analytics loads only after consent */}
         {/** Defer Google Maps connections to pages that actually use Maps (e.g., contact). Removing global preconnect helps mobile Speed Index. */}
         {/* Preload most likely LCP hero image (accounting is first in rotation array) */}
@@ -212,6 +226,16 @@ export default async function RootLayout({
         <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
       </head>
       <body className={inter.className}>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-P6QT792D"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
         {/* Accessibility: Skip link */}
         <a
           href="#main-content"

@@ -1,5 +1,12 @@
 import React from "react";
-import { Building2 } from "lucide-react";
+const BuildingIcon = (props: any) => (
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+    <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+    <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
+    <path d="M10 6h4M10 10h4M10 14h4M10 18h4" />
+  </svg>
+);
 import { headers } from "next/headers";
 import { Metadata } from "next";
 import { generateMetadataForPage } from "@/src/lib/metadata";
@@ -104,6 +111,8 @@ export default async function AboutUsPage({
 
   return (
     <div className="min-h-screen">
+      <link rel="preload" as="image" href="/assets/arkfid--color.svg" />
+      <link rel="preload" as="image" href="/assets/arkfid--light.svg" />
       <script
         type="application/ld+json"
         nonce={nonce}
@@ -113,7 +122,7 @@ export default async function AboutUsPage({
       <section className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
         <div className="w-full max-w-[1200px] text-center">
           <div className="inline-flex items-center rounded-lg bg-muted px-3 py-1 text-sm font-medium mb-6">
-            <Building2 className="mr-2 h-4 w-4" />
+            <BuildingIcon className="mr-2 h-4 w-4" />
             {text("Hero.Badge", "Established 2025")}
           </div>
 

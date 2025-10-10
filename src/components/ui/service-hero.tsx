@@ -58,6 +58,11 @@ const ServiceHero = async ({
 
   return (
     <div className="relative min-h-[calc(100vh-4rem)] max-w-[var(--breakpoint-xl)] w-full flex items-center justify-center overflow-hidden border-b border-accent mx-auto px-6 pb-24">
+      <link
+        rel="preload"
+        as="image"
+        href={imageSrc || "/assets/abstract-background-light.webp"}
+      />
       <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
         <div className="flex-1 max-w-3xl text-center animate-in fade-in duration-800">
           <div className="gap-2 flex justify-center items-center">
@@ -152,12 +157,7 @@ const ServiceHero = async ({
                 sizes="(min-width:1024px) 520px, 90vw"
                 priority
                 fetchPriority="high"
-                quality={70}
-                placeholder="blur"
-                blurDataURL={
-                  (heroBlurData as Record<string, string>)[src] ||
-                  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mO0dOjYfwAIGQMCq9zJ3wAAAABJRU5ErkJggg=="
-                }
+                quality={50}
                 fill
               />
             );

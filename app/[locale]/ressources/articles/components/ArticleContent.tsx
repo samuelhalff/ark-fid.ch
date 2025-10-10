@@ -59,18 +59,35 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
         <section className="mt-10">
           <h2 className="text-xl font-semibold mb-2">{(t("References") as string) || "References"}</h2>
           <ul className="list-disc pl-6">
-            {article.references.map((ref) => (
-              <li key={ref.url}>
-                <a
-                  href={ref.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 underline"
-                >
-                  {((t(ref.labelKey) as string) || ref.labelKey)}
-                </a>
-              </li>
-            ))}
+            {article.references.map((ref) => {
+              const key = ref.labelKey;
+              const translated = (t(key) as string) || key;
+              const isMissing = !translated || translated === key;
+              const looksClunky = (s?: string) => !s || s === key || /^[a-z0-9_]+$/.test(s);
+              let text: string | undefined = isMissing ? undefined : translated;
+              const explicit = (ref as any).label as string | undefined;
+              if (!text && explicit && !looksClunky(explicit)) text = explicit;
+              if (!text) {
+                try {
+                  const u = new URL(ref.url);
+                  text = u.hostname.replace(/^www\./, "");
+                } catch {
+                  text = key.replace(/_/g, " ");
+                }
+              }
+              return (
+                <li key={ref.url}>
+                  <a
+                    href={ref.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 underline break-anywhere"
+                  >
+                    {text}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </section>
       )}

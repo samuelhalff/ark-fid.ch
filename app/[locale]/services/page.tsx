@@ -99,7 +99,7 @@ export default async function ServicesPage({
         <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight max-w-4xl mx-auto text-center mb-4">
           {(tHome("Services.Title") as string) || "Services"}
         </h1>
-        <nav aria-label="Breadcrumb" className="px-0 mt-2 mb-6">
+        <nav aria-label="Breadcrumb" className="px-6 md:px-0 mt-2 mb-6">
           <ol className="flex items-center gap-1 text-sm text-muted-foreground justify-center">
             <li>
               <a href={`${localePrefix}/`} className="hover:underline">

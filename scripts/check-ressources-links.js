@@ -43,6 +43,18 @@ function fetchWithTimeout(url, options, timeout) {
     .finally(() => clearTimeout(id));
 }
 
+function looksLikeMissing(html = "") {
+  const s = String(html).toLowerCase();
+  return (
+    s.includes('content not found') ||
+    s.includes('page not found') ||
+    s.includes('page non trouvée') ||
+    s.includes('page introuvable') ||
+    s.includes('seite nicht gefunden') ||
+    s.includes('contenu introuvable')
+  );
+}
+
 async function checkLocale(locale) {
   const filePath = path.join(TRANSLATIONS_DIR, locale, 'ressources.json');
   let data;
@@ -102,6 +114,12 @@ async function checkLocale(locale) {
             status = getRes.status;
           }
           ok = status >= 200 && status < 300;
+          // Soft 404 detection by body content
+          try {
+            const gr = await fetchWithTimeout(ref.url, { method: 'GET', redirect: 'follow' }, timeoutMs);
+            const txt = await gr.text();
+            if (looksLikeMissing(txt)) ok = false;
+          } catch {}
         } catch (e) {
           status = 'ERR';
           ok = false;

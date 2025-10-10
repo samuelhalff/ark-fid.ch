@@ -3,6 +3,7 @@ import { type Metadata } from "next";
 import { headers } from "next/headers";
 import ResourceGrid from "./components/ResourceGrid";
 import FAQSection from "./components/FAQSection";
+import ContactSection from "./articles/components/ContactSection";
 import { notFound } from "next/navigation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
@@ -59,6 +60,11 @@ interface RessourcesData {
   Articles: RessourceArticle[];
   FAQ?: FAQContent;
   Links?: RessourcesLinks;
+  Contact?: {
+    Title?: string;
+    Description?: string;
+    ButtonText?: string;
+  };
 }
 
 async function loadRessources(locale: Locale): Promise<RessourcesData> {
@@ -124,6 +130,7 @@ async function loadRessources(locale: Locale): Promise<RessourcesData> {
       Articles: normalizeArticles(data.Articles),
       FAQ: normalizeFaq(data.FAQ),
       Links: data.Links,
+      Contact: data.Contact,
     };
   } catch (error) {
     if (locale !== "fr") {
@@ -162,6 +169,7 @@ export default async function RessourcesPage({
     ? requestedLocale
     : "fr";
   const tNav = await getTranslations(locale, "navbar");
+  const tRessources = await getTranslations(locale, "ressources");
 
   const ressources = await loadRessources(locale);
   const ressourcesFr =
@@ -357,6 +365,21 @@ export default async function RessourcesPage({
       </section>
 
       <FAQSection faq={ressources.FAQ || {}} locale={locale} nonce={nonce} />
+
+      <ContactSection
+        locale={locale}
+        title={
+          (tRessources("Contact.Title") as string) ||
+          "Questions about our resources?"
+        }
+        description={
+          (tRessources("Contact.Description") as string) ||
+          "Our experts are here to help you understand the details and implications for your business. Get personalized advice tailored to your situation."
+        }
+        buttonText={
+          (tRessources("Contact.ButtonText") as string) || "Contact Our Team"
+        }
+      />
     </main>
   );
 }

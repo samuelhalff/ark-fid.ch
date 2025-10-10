@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ImageWithFallback from "@/src/components/ui/image-with-fallback";
 import InitialsTile from "@/src/components/ui/initials-tile";
+import ContactSection from "../ressources/articles/components/ContactSection";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
@@ -31,6 +32,7 @@ export default async function TeamPage({
   const locale = (params?.locale as Locale) || ("fr" as Locale);
   const t = await getTranslations(locale, "team");
   const tNav = await getTranslations(locale, "navbar");
+  const tRessources = await getTranslations(locale, "ressources");
   const nonce = headers().get("x-nonce") || undefined;
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params?.locale ? `/${params.locale}` : "/fr";
@@ -60,6 +62,13 @@ export default async function TeamPage({
 
   return (
     <div className="container mx-auto px-4 py-15 mt-20 max-w-[var(--breakpoint-xl)]">
+      <link
+        rel="preload"
+        as="image"
+        href={
+          teamMembers[0]?.profilePic || "/assets/abstract-background-light.webp"
+        }
+      />
       <script
         type="application/ld+json"
         nonce={nonce}
@@ -138,6 +147,21 @@ export default async function TeamPage({
             );
           })}
       </div>
+
+      <ContactSection
+        locale={locale}
+        title={
+          (tRessources("Contact.Title") as string) ||
+          "Questions about our team?"
+        }
+        description={
+          (tRessources("Contact.Description") as string) ||
+          "Our team is here to help you with your business needs. Get in touch to discuss your project."
+        }
+        buttonText={
+          (tRessources("Contact.ButtonText") as string) || "Contact Our Team"
+        }
+      />
     </div>
   );
 }

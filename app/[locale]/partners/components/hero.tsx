@@ -76,6 +76,7 @@ const PartnersHero = async ({ locale }: PartnersHeroProps) => {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent">
+      <link rel="preload" as="image" href={heroSrc} />
       <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
         <div className="max-w-2xl text-center animate-in fade-in duration-800">
           <div className="gap-2 flex justify-center items-center mb-6">

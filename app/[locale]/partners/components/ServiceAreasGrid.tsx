@@ -1,5 +1,26 @@
 import React from "react";
-import { Shield, Scale, TrendingUp, FileCheck } from "lucide-react";
+const ScaleIcon = (props: any) => (
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M12 3v3" /><path d="M6 7h12" /><path d="M6 7l-3 6h6l-3-6z" /><path d="M18 7l-3 6h6l-3-6z" /><path d="M12 10v11" />
+  </svg>
+);
+const ShieldIcon = (props: any) => (
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+  </svg>
+);
+const TrendingUpIcon = (props: any) => (
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M3 17l6-6 4 4 7-7" /><path d="M14 7h7v7" />
+  </svg>
+);
+const FileCheckIcon = (props: any) => (
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <path d="M14 2v6h6" />
+    <path d="M9 15l2 2 4-4" />
+  </svg>
+);
 
 interface ServiceArea {
   title: string;
@@ -11,12 +32,12 @@ interface ServiceAreasGridProps {
 }
 
 const ServiceAreasGrid = ({ serviceAreas }: ServiceAreasGridProps) => {
-  const icons = [Scale, Shield, TrendingUp, FileCheck];
+  const icons = [ScaleIcon, ShieldIcon, TrendingUpIcon, FileCheckIcon];
 
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
       {serviceAreas.map((area, index) => {
-        const Icon = icons[index] || FileCheck;
+        const Icon = icons[index] || FileCheckIcon;
 
         return (
           <div

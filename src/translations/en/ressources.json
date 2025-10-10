@@ -402,10 +402,6 @@
         {
           "labelKey": "Accord télétravail Suisse France 2025",
           "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-99538.html"
-        },
-        {
-          "labelKey": "Guide télétravail OFAS 2025",
-          "url": "https://www.bsv.admin.ch/dam/bsv/fr/dokumente/sozialversicherungen/internationales/merkblaetter/homeoffice-international-fr.pdf.download.pdf"
         }
       ]
     },
@@ -555,7 +551,7 @@
   "Download": "Download",
   "SwissVATOffice": "Swiss VAT Office (FTA)",
   "Contact": {
-    "Title": "Questions about this article?",
+    "Title": "Get in touch",
     "Description": "Our experts can help you understand the details and implications for your business. Get personalised advice tailored to your situation.",
     "ButtonText": "Contact our team"
   },

@@ -136,6 +136,11 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
 
   return (
     <div className="container mx-auto px-4 py-15 mt-20 mb-20 max-w-[var(--breakpoint-xl)]">
+      {(() => {
+        const mapped = (teamImageMap as Record<string, any>)[member.profilePic] || member.profilePic;
+        const preloadSrc = typeof mapped === 'string' ? mapped : (mapped && typeof mapped === 'object' && 'src' in mapped ? (mapped as any).src : '/assets/abstract-background-light.webp');
+        return <link rel="preload" as="image" href={preloadSrc} />;
+      })()}
       <script
         type="application/ld+json"
         nonce={nonce}
@@ -167,8 +172,13 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
           <div className="relative aspect-4/5 w-full h-[480px]">
             {(() => {
               const mapped = (teamImageMap as Record<string, any>)[member.profilePic] || member.profilePic;
-              const isStatic = typeof mapped === "object" && mapped && "src" in mapped;
+              const preloadHref = typeof mapped === "object" && mapped && "src" in mapped ? (mapped as any).src : (mapped as string);
+              // Preload main portrait for faster LCP on member page
+              // @ts-ignore - allow raw link tag here
+              // eslint-disable-next-line @next/next/no-sync-scripts
               return (
+                <>
+                  <link rel="preload" as="image" href={preloadHref} />
                 <ImageWithFallback
                   src={mapped as any}
                   alt={`Portrait of ${member.name}`}
@@ -176,13 +186,14 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
                   priority
                   fetchPriority="high"
                   quality={70}
-                  placeholder={isStatic ? "blur" : undefined}
+                  placeholder={undefined}
                   sizes="(max-width: 768px) 100vw, 360px"
                   className="object-cover object-top"
                   fallbackVariant="initials"
                   fallbackInitialsName={member.name}
                   fallbackClassName="absolute inset-0"
                 />
+                </>
               );
             })()}
           </div>

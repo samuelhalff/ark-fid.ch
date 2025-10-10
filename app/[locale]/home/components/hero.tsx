@@ -53,6 +53,7 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
 
   return (
     <section className="relative min-h-[calc(100vh-4rem)] text-center max-w-[var(--breakpoint-xl)] w-full flex flex-col items-center justify-center border-b border-accent mx-auto px-6 pb-10">
+      <link rel="preload" as="image" href={homeHeroSrc} />
       <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-10 px-6 py-12 lg:py-0">
         {/* Left column */}
         <div className="flex-1 max-w-3xl text-center animate-in fade-in duration-800">
@@ -108,11 +109,6 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
             priority
             fetchPriority="high"
             loading="eager"
-            placeholder="blur"
-            blurDataURL={
-              blur ||
-              "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mO0dOjYfwAIGQMCq9zJ3wAAAABJRU5ErkJggg=="
-            }
             fill
           />
         </div>
@@ -130,7 +126,7 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
           decoding="async"
         />
         <Badge
-          className="rounded-full py-1 border-none !text-center bg-secondary/80 dark:bg-secondary text-secondary-foreground"
+          className="rounded-full py-1 px-3 border-black !text-center bg-transparent text-black dark:bg-secondary dark:text-secondary-foreground"
           variant="secondary"
         >
           {t("Hero.OdooPartnerBadge") || t("Hero.OdooBadge")}

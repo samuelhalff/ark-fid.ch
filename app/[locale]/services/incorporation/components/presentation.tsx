@@ -1,4 +1,9 @@
-import { CheckCircle } from "lucide-react";
+const Check = (props: any) => (
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M9 12l2 2 4-4" />
+    <circle cx="12" cy="12" r="9" />
+  </svg>
+);
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
 import ServicesListServer from "@/src/components/ui/services-list-server";
@@ -48,7 +53,7 @@ const CorporatePresentation = async () => {
               <div className="space-y-4 mb-8">
                 {strengths.map((item, index) => (
                   <div key={index} className="flex items-start gap-4 px-6 py-4 rounded-lg bg-primary/5 mb-4">
-                    <CheckCircle className="text-blue-400 mt-1 min-w-[20px]" size={20} />
+                    <Check className="text-blue-400 mt-1 min-w-[20px]" />
                     <div>
                       <span className="font-semibold block text-lg mb-2">{item.Title}</span>
                       <span className="text-base leading-relaxed">{item.Desc}</span>

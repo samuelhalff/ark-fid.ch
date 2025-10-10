@@ -69,7 +69,7 @@ const Odoo = async ({ params }: { params: { locale: string } }) => {
       <Hero params={params} />
       <nav
         aria-label="Breadcrumb"
-        className="w-full max-w-[1200px] mx-auto mt-4 mb-6"
+        className="w-full max-w-[1200px] mx-auto mt-4 mb-6 px-6 md:px-0"
       >
         <ol className="flex items-center gap-1 text-sm text-muted-foreground">
           <li>

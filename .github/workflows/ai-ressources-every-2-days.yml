@@ -60,6 +60,12 @@ jobs:
           echo "🧹 Removing entries with unreachable source URLs..."
           node scripts/remove-bad-files.js --check-remote || echo "⚠️ URL cleanup had issues (continuing...)"
 
+      - name: Clean up bad article references (unreachable URLs)
+        continue-on-error: true
+        run: |
+          echo "🧹 Removing unreachable article reference links..."
+          node scripts/clean-bad-article-refs.js --all-locales || echo "⚠️ Reference cleanup had issues (continuing...)"
+
       - name: Final verification (informational only)
         continue-on-error: true
         run: |
