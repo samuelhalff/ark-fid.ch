@@ -10,37 +10,7 @@ const baseConfig = {
   productionBrowserSourceMaps: process.env.BUILD_SOURCEMAPS === 'true',
   experimental: {
     optimizePackageImports: ['lucide-react', 'react-hook-form', 'sonner'],
-    // Improve code splitting for better initial load performance
     optimizeCss: true,
-  },
-  // Improve chunking strategy to reduce TBT
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      // Split translations into individual chunks for lazy loading
-      config.optimization = config.optimization || {};
-      config.optimization.splitChunks = {
-        ...config.optimization.splitChunks,
-        cacheGroups: {
-          ...config.optimization.splitChunks?.cacheGroups,
-          // Each translation file becomes its own chunk
-          translations: {
-            test: /[\\/]src[\\/]translations[\\/]/,
-            name(module) {
-              // Create chunk name based on locale and namespace
-              // e.g., translations-fr-home, translations-en-navbar
-              const match = module.context.match(/translations[\\/](\w+)[\\/](\w+)\.json/);
-              if (match) {
-                return `translations-${match[1]}-${match[2]}`;
-              }
-              return 'translations';
-            },
-            chunks: 'async', // Only split async chunks (dynamic imports)
-            priority: 10,
-          },
-        },
-      };
-    }
-    return config;
   },
   output: 'standalone',
   images: {

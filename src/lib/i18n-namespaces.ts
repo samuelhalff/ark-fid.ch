@@ -1,0 +1,33 @@
+export const namespaces = [
+  "about-us",
+  "accounting",
+  "contact",
+  "cookie",
+  "corporate",
+  "domiciliation",
+  "family-office",
+  "faq",
+  "footer",
+  "home",
+  "incorporation",
+  "legal",
+  "metadata",
+  "navbar",
+  "odoo",
+  "outsourcing",
+  "partners",
+  "payroll",
+  "privacy",
+  "ressources",
+  "services",
+  "servicesItems",
+  "taxes",
+  "team",
+  "team-bios",
+  "team-details",
+  "testimonials",
+] as const;
+
+export type Namespace = (typeof namespaces)[number];
+
+export const namespaceSet: ReadonlySet<string> = new Set(namespaces);
