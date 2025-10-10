@@ -1,8 +1,8 @@
-import fs from 'fs';
-import path from 'path';
-import { headers } from 'next/headers';
-import { locales } from './i18n-locales';
-import type { Locale } from './i18n-locales';
+import fs from "fs";
+import path from "path";
+import { headers } from "next/headers";
+import { locales } from "./i18n-locales";
+import type { Locale } from "./i18n-locales";
 
 export { locales };
 export type { Locale };
@@ -13,8 +13,8 @@ export function isValidLocale(locale: string): locale is Locale {
 
 export function getCurrentLocale(): Locale {
   const headersList = headers();
-  const locale = headersList.get('x-locale') || 'fr';
-  return isValidLocale(locale) ? locale : 'fr';
+  const locale = headersList.get("x-locale") || "fr";
+  return isValidLocale(locale) ? locale : "fr";
 }
 
 export async function getTranslations(locale: Locale, namespace: string) {
@@ -26,13 +26,13 @@ export async function getTranslations(locale: Locale, namespace: string) {
     const cacheKey = makeKey(loc);
     if (cache.has(cacheKey)) return cache.get(cacheKey) ?? null;
 
-    const filePath = path.join(process.cwd(), 'src', 'translations', loc, `${namespace}.json`);
+    const filePath = path.join(process.cwd(), "src", "translations", loc, `${namespace}.json`);
     if (!fs.existsSync(filePath)) {
       cache.set(cacheKey, null);
       return null;
     }
     try {
-      const fileContent = fs.readFileSync(filePath, 'utf8');
+      const fileContent = fs.readFileSync(filePath, "utf8");
       const data = JSON.parse(fileContent);
       cache.set(cacheKey, data);
       return data;
@@ -44,7 +44,7 @@ export async function getTranslations(locale: Locale, namespace: string) {
   };
 
   const primary = readDict(locale);
-  const fallback = primary ? null : readDict('en');
+  const fallback = primary ? null : readDict("en");
 
   if (!primary && !fallback) maybeWarnMissing(namespace, locale);
 
@@ -52,11 +52,11 @@ export async function getTranslations(locale: Locale, namespace: string) {
 
   // Return a function that can access nested properties
   return (key: string) => {
-    const keys = key.split('.');
+    const keys = key.split(".");
     let value: any = data;
 
     for (const k of keys) {
-      if (value && typeof value === 'object' && k in value) {
+      if (value && typeof value === "object" && k in value) {
         value = value[k];
       } else {
         return key; // Return key if not found
@@ -82,7 +82,7 @@ function getTranslationsCache() {
 
 const _warned = new Set<string>();
 function maybeWarnMissing(namespace: string, locale: string) {
-  if (process.env.NODE_ENV === 'production') return; // stay quiet in prod
+  if (process.env.NODE_ENV === "production") return; // stay quiet in prod
   const key = `${locale}:${namespace}`;
   if (_warned.has(key)) return;
   _warned.add(key);
@@ -90,18 +90,18 @@ function maybeWarnMissing(namespace: string, locale: string) {
   // Dev-only single warning to avoid noisy logs, with suggestions
   const toKebab = (s: string) =>
     s
-      .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
-      .replace(/_/g, '-')
+      .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+      .replace(/_/g, "-")
       .toLowerCase();
 
   const listNamespaces = (loc: string): string[] => {
     try {
-      const dir = path.join(process.cwd(), 'src', 'translations', loc);
+      const dir = path.join(process.cwd(), "src", "translations", loc);
       if (!fs.existsSync(dir)) return [];
       return fs
         .readdirSync(dir)
-        .filter((f) => f.endsWith('.json'))
-        .map((f) => f.replace(/\.json$/, ''));
+        .filter((f) => f.endsWith(".json"))
+        .map((f) => f.replace(/\.json$/, ""));
     } catch {
       return [];
     }
@@ -127,7 +127,7 @@ function maybeWarnMissing(namespace: string, locale: string) {
   };
 
   const local = listNamespaces(locale);
-  const en = listNamespaces('en');
+  const en = listNamespaces("en");
   const all = Array.from(new Set([...local, ...en])).filter(Boolean);
   const target = namespace.toLowerCase();
   const scored = all
@@ -141,7 +141,7 @@ function maybeWarnMissing(namespace: string, locale: string) {
 
   let message = `[i18n] Missing translations for "${namespace}" (locale: ${locale}) and fallback "en". Using keys as labels.`;
   if (scored.length) {
-    message += `\n[i18n] Did you mean one of: ${scored.join(', ')}?`;
+    message += `\n[i18n] Did you mean one of: ${scored.join(", ")}?`;
   }
   if (kebabHint !== namespace) {
     message += `\n[i18n] Hint: namespaces use kebab-case file names. Try: "${kebabHint}"`;
