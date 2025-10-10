@@ -87,7 +87,7 @@ jobs:
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
           USER="${{ secrets.DEPLOY_SSH_USER }}"
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
-          PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
+          PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
 
           sshpass -p "$PASS" rsync -av \
             -e "ssh -o StrictHostKeyChecking=no -p $PORT" \
@@ -100,7 +100,10 @@ jobs:
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
           USER="${{ secrets.DEPLOY_SSH_USER }}"
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
-          PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
+          PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
+
+          echo "[deploy] Testing SSH connectivity to $HOST:$PORT as $USER"
+          sshpass -p "$PASS" ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -p "$PORT" "$USER@$HOST" 'echo connected' || { echo "::error::SSH connection failed (check host/user/password/port)"; exit 255; }
 
           sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no "$USER@$HOST" bash -lc '
             set -euo pipefail
@@ -152,7 +155,7 @@ jobs:
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
           USER="${{ secrets.DEPLOY_SSH_USER }}"
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
-          PORT="${{ secrets.DEPLOY_SSH_PORT || 22 }}"
+          PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
           TOKEN="${{ secrets.RESTART_SECRET_TOKEN }}"
 
           echo "[restart] Killing old process..."

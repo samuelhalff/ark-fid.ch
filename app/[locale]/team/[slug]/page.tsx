@@ -185,8 +185,7 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
                   fill
                   priority
                   fetchPriority="high"
-                  quality={70}
-                  placeholder={undefined}
+                  quality={40}
                   sizes="(max-width: 768px) 100vw, 360px"
                   className="object-cover object-top"
                   fallbackVariant="initials"
