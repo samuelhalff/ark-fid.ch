@@ -210,10 +210,6 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Réforme fiscale Genève officielle",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-        },
-        {
           "labelKey": "Changements fiscaux Genève 2025",
           "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
         },
@@ -238,10 +234,6 @@
         {
           "labelKey": "Changements fiscaux Genève",
           "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
-        },
-        {
-          "labelKey": "Panorama fiscal 2025 AFC",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
         }
       ]
     },
@@ -256,10 +248,6 @@
         {
           "labelKey": "Modifications TVA 2025",
           "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
-        },
-        {
-          "labelKey": "Panorama fiscal Genève 2025",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
         },
         {
           "labelKey": "Prolongation du délai de décompte TVA",
@@ -279,10 +267,6 @@
       "author": "Ark Fiduciaire",
       "date": "2025-09-17",
       "references": [
-        {
-          "labelKey": "Réformes fiscales Genève",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-        },
         {
           "labelKey": "Obligations fiscales entreprises",
           "url": "https://www.geneve.ch/public/entreprises/informations-utiles-entreprises-prestations-demarches/impots"
@@ -538,6 +522,20 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/822.11/fr"
         }
       ]
+    },
+    {
+      "slug": "swissdec-5-paie-geneve-obligations-2025",
+      "title": "Swissdec 5.0 in Geneva: comprehensive guide to new payroll obligations 2025",
+      "description": "The switch to Swissdec 5.0 becomes essential for all Geneva-based companies from 2025. What are the real implications, which migration strategy to choose, what pitfalls to avoid? The essentials for SMEs and freelancers.",
+      "content": "As of 2025, Swissdec 5.0 becomes the Swiss standard for payroll processing and social declarations, notably in Geneva. Switching to Swissdec 5.0 (and soon 5.3) is not just a simple IT update: it is a major regulatory change affecting all employers subject to source taxation or electronic salary data transmission (ELM).\n\n### Swissdec 5.0: what is it?\nSwissdec is the national body that standardises salary data exchanges (ELM procedure) between companies, social insurance, pension funds, and tax authorities. Version 5.0 introduces better automation and new mandatory fields (such as cross-border telework), strengthened cyber protection, and greater synchronisation with source taxation.\n\n### What's changing concretely in 2025\n- In Geneva, migration to ELM 5.0 (or directly 5.3) must be complete before December 2025 to continue submitting payroll files to the AFC.\n- From January 2026, only reports conforming to ELM version 5.3 will be accepted for source taxation.\n- Major new feature: fine-tuned handling of cross-border telework, automated attestations and certificates, direct submission to authorities in Swissdec-compliant format.\n\n### Steps for a successful migration\n1. **Payroll system audit**: check the compatibility and Swissdec 5.x support of your current software.\n2. **Coordinate with your fiduciary or payroll vendor**: plan the technical upgrade, test Swissdec 5.x exports, and train your teams on the new functionalities and processes linked to cross-border telework.\n3. **Controls and documentation**: ensure the production of attestations, smooth transmission to the AFC, and retention of supporting documents.\n\n### Risks of non-compliance\n- Missed deadline: in January 2026, transmissions to the AFC via Swissdec 4 will be blocked.\n- Non-compliant transmission: rejections, possible penalties, administrative overload with paper alternatives or ISEL e-procedures.\n\n### Our tips for SMEs and freelancers in Geneva\nAnticipate: have your HR/payroll process audited now. Opt for a Swissdec certified solution, optimise cross-border telework management, and entrust regulatory monitoring to local experts.\n\n**Trending SEO keywords**: Swissdec 5 Geneva, cross-border telework Switzerland, ELM 2025, digital payroll Geneva, payroll obligations 2025, SME payroll audit Geneva.\n\nDo you want to manage your payroll stress-free? Our experts will assist you in migrating to Swissdec 5 and offer a free audit to check your compliance today.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-11",
+      "references": [
+        {
+          "labelKey": "Norme Swissdec 5 officielle",
+          "url": "https://www.swissdec.ch/fr/blog/normes-11/nouvelle-edition-des-directives-version-5-0-57"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Swiss taxes 2025 – Overview (FDF)",
@@ -632,5 +630,7 @@
   "afc_suisse_page_officielle_comptabilite_tva": "Federal Tax Administration official VAT page (Switzerland)",
   "odoo_docs_paie_compta": "Odoo 18: Payroll & accounting documentation",
   "obligations_swissdec_suisse": "Swissdec obligations in Switzerland",
-  "fedlex_loi_travail": "Swiss labor law"
+  "fedlex_loi_travail": "Swiss labor law",
+  "Norme Swissdec 5 officielle": "Official Swissdec 5 standard",
+  "Paie Genève Swissdec": "Geneva payroll Swissdec"
 }

@@ -258,10 +258,6 @@
           "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
         },
         {
-          "labelKey": "Panorama fiscal Genève 2025",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-        },
-        {
           "labelKey": "Prolongation du délai de décompte TVA",
           "url": "https://fr.taxlawblog.ch/"
         },
@@ -279,10 +275,6 @@
       "author": "Ark Fiduciaire",
       "date": "2025-09-17",
       "references": [
-        {
-          "labelKey": "Réformes fiscales Genève",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-        },
         {
           "labelKey": "Obligations fiscales entreprises",
           "url": "https://www.geneve.ch/public/entreprises/informations-utiles-entreprises-prestations-demarches/impots"
@@ -456,10 +448,6 @@
         {
           "labelKey": "Swissdec normes Genève",
           "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "TVA et fiscalité Genève",
-          "url": "https://www.ge.ch/document/baremes-rectification-impot-source-2025"
         }
       ]
     },
@@ -538,6 +526,20 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/822.11/fr"
         }
       ]
+    },
+    {
+      "slug": "swissdec-5-paie-geneve-obligations-2025",
+      "title": "Swissdec 5.0 à Genève : guide complet des nouvelles obligations paie 2025",
+      "description": "Le passage à Swissdec 5.0 devient incontournable pour toutes les entreprises genevoises dès 2025. Quelles implications concrètes, quelle stratégie de migration choisir, quels pièges éviter ? L’essentiel pour PME et indépendants.",
+      "content": "À compter de 2025, la norme Swissdec 5.0 devient la référence suisse pour le traitement des salaires et des déclarations sociales, notamment à Genève. Le passage à Swissdec 5.0 (et prochainement 5.3) n’est pas qu’une simple mise à jour informatique : il s’agit d’un changement réglementaire majeur, qui concerne tous les employeurs relevant du prélèvement à la source ou de la transmission électronique des données salariales (ELM).\n\n### Swissdec 5.0 : de quoi s’agit-il ?\nSwissdec est l’organisme national qui assure la normalisation des échanges de données salariales (procédure ELM) entre entreprises, assurances sociales, caisses de pension et autorités fiscales. La version 5.0 introduit une meilleure automatisation et de nouveaux champs obligatoires (comme le télétravail frontalier), un renforcement de la cyberprotection, et impose une synchronisation accrue avec la fiscalité à la source.\n\n### Ce qui change concrètement en 2025\n- Pour Genève, la migration vers ELM 5.0 (ou directement 5.3) doit être effective avant décembre 2025 pour continuer à transmettre vos fichiers salaires à l’AFC.\n- À partir de janvier 2026, seuls les rapports conformes à la version ELM 5.3 seront acceptés pour l’impôt à la source.\n- Nouveauté majeure : prise en compte fine du télétravail des frontaliers, attestations et certificats automatisés, transmission directe aux administrations en conformité Swissdec.\n\n### Étapes pour une migration réussie\n1. **Audit du système paie** : vérifiez la compatibilité et le support Swissdec 5.x de votre logiciel actuel.\n2. **Coordination avec votre fiduciaire ou éditeur paie** : planifiez l’upgrade technique, testez les exports Swissdec 5.x, et formez vos équipes sur les nouvelles fonctionnalités et processus liés au télétravail transfrontalier.\n3. **Contrôles et documentation** : assurez la production d’attestations, la transmission fluide à l’AFC, et la conservation des justificatifs.\n\n### Risques du non-respect\n- Délai non tenu : en janvier 2026, les transmissions à l’AFC via Swissdec 4 seront bloquées.\n- Transmission non conforme : rejets, sanctions potentielles, surcharge administrative avec les alternatives papier ou e-démarches ISEL.\n\n### Nos conseils pour PME et indépendants à Genève\nAnticipez : faites auditer votre processus RH/paie dès maintenant. Préférez une solution certifiée Swissdec, optimisez la gestion du télétravail frontalier, et confiez la veille réglementaire à des experts locaux.\n\n**Mots-clés SEO tendances** : Swissdec 5 Genève, télétravail frontalier Suisse, ELM 2025, paie digital Genève, obligations salariales 2025, audit paie PME Genève.\n\nVous souhaitez piloter votre paie sans stress ? Nos experts vous accompagnent dans la migration Swissdec 5 et proposent un audit gratuit pour vérifier votre conformité dès aujourd’hui.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-11",
+      "references": [
+        {
+          "labelKey": "Norme Swissdec 5 officielle",
+          "url": "https://www.swissdec.ch/fr/blog/normes-11/nouvelle-edition-des-directives-version-5-0-57"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -599,5 +601,7 @@
   "Odoo 18 nouveautés": "Nouveautés Odoo 18 pour la gestion PME Genève",
   "Barèmes salaires Genève 2025": "Barèmes salariaux Genève en vigueur 2025-2026",
   "Swissdec et paie": "Swissdec 5.0, évolutions paie et conformité en Suisse pour les PME",
-  "Barèmes impôt Genève": "Barèmes de l'impôt à la source et rectification Genève 2025"
+  "Barèmes impôt Genève": "Barèmes de l'impôt à la source et rectification Genève 2025",
+  "Obligations salariales": "Normes et exigences récentes sur la paie, Swissdec, télétravail, LPP.",
+  "Nouveautés TVA": "Changements réglementaires majeurs en matière de TVA 2025."
 }

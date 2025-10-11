@@ -238,10 +238,6 @@
         {
           "labelKey": "Changements fiscaux Genève",
           "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
-        },
-        {
-          "labelKey": "Panorama fiscal 2025 AFC",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
         }
       ]
     },
@@ -456,10 +452,6 @@
         {
           "labelKey": "Swissdec normes Genève",
           "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "TVA et fiscalité Genève",
-          "url": "https://www.ge.ch/document/baremes-rectification-impot-source-2025"
         }
       ]
     },
@@ -538,6 +530,24 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/822.11/fr"
         }
       ]
+    },
+    {
+      "slug": "swissdec-5-paie-geneve-obligations-2025",
+      "title": "Swissdec 5.0 em Genebra: guia completo das novas obrigações de folha 2025",
+      "description": "A adoção do Swissdec 5.0 torna-se obrigatória para todas as empresas de Genebra a partir de 2025. Quais as implicações práticas, qual estratégia de migração escolher, que armadilhas evitar? O essencial para PME e independentes.",
+      "content": "A partir de 2025, o Swissdec 5.0 torna-se o padrão suíço para o processamento de salários e declarações sociais, nomeadamente em Genebra. A passagem para o Swissdec 5.0 (e futuramente 5.3) não é apenas uma atualização informática: representa uma grande mudança regulatória, que diz respeito a todos os empregadores sujeitos ao imposto na fonte ou à transmissão eletrónica de dados salariais (ELM).\n\n### Swissdec 5.0: do que se trata?\nSwissdec é o organismo nacional que padroniza as trocas de dados salariais (procedimento ELM) entre empresas, seguros sociais, fundos de pensão e autoridades fiscais. A versão 5.0 introduz melhor automação e novos campos obrigatórios (como o teletrabalho transfronteiriço), reforço da ciberproteção e exige maior sincronização com o imposto na fonte.\n\n### O que muda concretamente em 2025\n- Para Genebra, a migração para o ELM 5.0 (ou diretamente 5.3) deve estar concluída antes de dezembro de 2025 para continuar a transmitir ficheiros salariais para a AFC.\n- A partir de janeiro de 2026, apenas serão aceitos os relatórios em conformidade com a versão ELM 5.3 para o imposto na fonte.\n- Grande novidade: consideração detalhada do teletrabalho transfronteiriço, automatização de atestados e certificados, transmissão directa às administrações no formato Swissdec.\n\n### Etapas para uma migração bem-sucedida\n1. **Auditoria ao sistema de folha**: verifique a compatibilidade e o suporte Swissdec 5.x do seu software atual.\n2. **Coordenação com o seu contabilista ou fornecedor de folha**: planeie a atualização técnica, teste as exportações Swissdec 5.x e treine as equipes nas novas funcionalidades e processos ligados ao teletrabalho transfronteiriço.\n3. **Controlo e documentação**: assegure a produção dos certificados, a transmissão regular à AFC e a conservação dos comprovativos.\n\n### Riscos do não cumprimento\n- Prazo não cumprido: em janeiro de 2026, transmissões para a AFC via Swissdec 4 serão bloqueadas.\n- Transmissão não conforme: rejeições, potenciais sanções, sobrecarga administrativa com alternativas em papel ou procedimentos eletrónicos ISEL.\n\n### Os nossos conselhos para PME e independentes em Genebra\nAntecipe: audite já o seu processo RH/folha. Prefira uma solução certificada Swissdec, otimize a gestão do teletrabalho transfronteiriço e confie a vigilância normativa a especialistas locais.\n\n**Palavras-chave SEO em tendência**: Swissdec 5 Genebra, teletrabalho transfronteiriço Suíça, ELM 2025, folha digital Genebra, obrigações salariais 2025, auditoria folha PME Genebra.\n\nQuer gerir a sua folha sem stress? Os nossos especialistas apoiam na migração Swissdec 5 e propõem uma auditoria gratuita para verificar a sua conformidade hoje mesmo.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-11",
+      "references": [
+        {
+          "labelKey": "Norme Swissdec 5 officielle",
+          "url": "https://www.swissdec.ch/fr/blog/normes-11/nouvelle-edition-des-directives-version-5-0-57"
+        },
+        {
+          "labelKey": "Paie Genève Swissdec",
+          "url": "https://www.ge.ch/actualite/mettez-jour-vos-logiciels-gestion-salaires-avant-2026-18-07-2025"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -605,5 +615,7 @@
   "afc_suisse_page_officielle_comptabilite_tva": "Página oficial do IVA da Administração Federal de Contribuições (Suíça)",
   "odoo_docs_paie_compta": "Odoo 18: documentação de folha e contabilidade",
   "obligations_swissdec_suisse": "Obrigações swissdec na Suíça",
-  "fedlex_loi_travail": "Lei do trabalho suíça"
+  "fedlex_loi_travail": "Lei do trabalho suíça",
+  "Norme Swissdec 5 officielle": "Norma Swissdec 5 oficial",
+  "Paie Genève Swissdec": "Folha Genebra Swissdec"
 }

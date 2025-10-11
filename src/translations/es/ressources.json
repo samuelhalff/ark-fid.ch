@@ -280,10 +280,6 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Réformes fiscales Genève",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-        },
-        {
           "labelKey": "Obligations fiscales entreprises",
           "url": "https://www.geneve.ch/public/entreprises/informations-utiles-entreprises-prestations-demarches/impots"
         },
@@ -456,10 +452,6 @@
         {
           "labelKey": "Swissdec normes Genève",
           "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "TVA et fiscalité Genève",
-          "url": "https://www.ge.ch/document/baremes-rectification-impot-source-2025"
         }
       ]
     },
@@ -538,6 +530,20 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/822.11/fr"
         }
       ]
+    },
+    {
+      "slug": "swissdec-5-paie-geneve-obligations-2025",
+      "title": "Swissdec 5.0 en Ginebra: guía completa de las nuevas obligaciones de nómina 2025",
+      "description": "El cambio a Swissdec 5.0 será imprescindible para todas las empresas de Ginebra a partir de 2025. ¿Qué implicaciones concretas, qué estrategia de migración elegir, qué trampas evitar? Lo esencial para pymes y autónomos.",
+      "content": "A partir de 2025, Swissdec 5.0 será el estándar suizo para el procesamiento de nóminas y declaraciones sociales, especialmente en Ginebra. El paso a Swissdec 5.0 (y próximamente 5.3) no es solo una simple actualización informática: es un cambio regulatorio importante, que afecta a todos los empleadores sujetos a la retención en la fuente o a la transmisión electrónica de datos salariales (ELM).\n\n### Swissdec 5.0: ¿de qué se trata?\nSwissdec es el organismo nacional que estandariza el intercambio de datos salariales (procedimiento ELM) entre empresas, seguros sociales, fondos de pensiones y autoridades fiscales. La versión 5.0 introduce una mejor automatización y nuevos campos obligatorios (como el teletrabajo transfronterizo), un refuerzo de la ciberprotección y exige una mayor sincronización con la fiscalidad en la fuente.\n\n### Lo que cambia concretamente en 2025\n- Para Ginebra, la migración a ELM 5.0 (o directamente 5.3) debe estar efectiva antes de diciembre de 2025 para seguir transmitiendo los archivos de nómina a la AFC.\n- A partir de enero de 2026, solo se aceptarán los informes conformes a la versión ELM 5.3 para el impuesto en la fuente.\n- Novedad importante: gestión detallada del teletrabajo transfronterizo, certificados y atestados automatizados, transmisión directa a las autoridades en conformidad con Swissdec.\n\n### Pasos para una migración exitosa\n1. **Auditoría del sistema de nómina**: verifique la compatibilidad y el soporte Swissdec 5.x de su software actual.\n2. **Coordinación con su asesor o proveedor de nóminas**: planifique la actualización técnica, pruebe las exportaciones Swissdec 5.x y forme a su equipo en las nuevas funciones y procesos vinculados al teletrabajo transfronterizo.\n3. **Controles y documentación**: asegure la emisión de certificados, la transmisión fluida a la AFC y la conservación de justificantes.\n\n### Riesgos de incumplimiento\n- Plazo no cumplido: en enero de 2026, las transmisiones a la AFC vía Swissdec 4 serán bloqueadas.\n- Transmisión no conforme: rechazos, posibles sanciones, sobrecarga administrativa con alternativas en papel o procedimientos electrónicos ISEL.\n\n### Nuestros consejos para pymes y autónomos en Ginebra\nAnticípese: haga auditar su proceso de RRHH/nómina desde ahora. Prefiera una solución certificada Swissdec, optimice la gestión del teletrabajo transfronterizo y confíe la vigilancia normativa a expertos locales.\n\n**Palabras clave SEO en tendencia**: Swissdec 5 Ginebra, teletrabajo transfronterizo Suiza, ELM 2025, nómina digital Ginebra, obligaciones salariales 2025, auditoría nómina pyme Ginebra.\n\n¿Quiere gestionar su nómina sin estrés? Nuestros expertos le acompañan en la migración Swissdec 5 y proponen una auditoría gratuita para verificar su conformidad hoy mismo.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-11",
+      "references": [
+        {
+          "labelKey": "Norme Swissdec 5 officielle",
+          "url": "https://www.swissdec.ch/fr/blog/normes-11/nouvelle-edition-des-directives-version-5-0-57"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -605,5 +611,7 @@
   "afc_suisse_page_officielle_comptabilite_tva": "Página oficial del IVA de la Administración Federal de Contribuciones (Suiza)",
   "odoo_docs_paie_compta": "Odoo 18: documentación de nóminas y contabilidad",
   "obligations_swissdec_suisse": "Obligaciones swissdec en Suiza",
-  "fedlex_loi_travail": "Ley laboral suiza"
+  "fedlex_loi_travail": "Ley laboral suiza",
+  "Norme Swissdec 5 officielle": "Norma oficial Swissdec 5",
+  "Paie Genève Swissdec": "Nómina Ginebra Swissdec"
 }

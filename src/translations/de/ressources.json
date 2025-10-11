@@ -280,10 +280,6 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Réformes fiscales Genève",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-        },
-        {
           "labelKey": "Obligations fiscales entreprises",
           "url": "https://www.geneve.ch/public/entreprises/informations-utiles-entreprises-prestations-demarches/impots"
         },
@@ -456,10 +452,6 @@
         {
           "labelKey": "Swissdec normes Genève",
           "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "TVA et fiscalité Genève",
-          "url": "https://www.ge.ch/document/baremes-rectification-impot-source-2025"
         }
       ]
     },
@@ -538,6 +530,20 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/822.11/fr"
         }
       ]
+    },
+    {
+      "slug": "swissdec-5-paie-geneve-obligations-2025",
+      "title": "Swissdec 5.0 in Genf: umfassender Leitfaden zu den neuen Lohnpflichten 2025",
+      "description": "Die Umstellung auf Swissdec 5.0 wird ab 2025 für alle Genfer Unternehmen unerlässlich. Was sind die konkreten Auswirkungen, welche Migrationsstrategie wählen, welche Fallstricke vermeiden? Das Wichtigste für KMU und Selbständige.",
+      "content": "Ab 2025 wird Swissdec 5.0 der Schweizer Standard für die Lohnverarbeitung und Sozialdeklarationen, insbesondere in Genf. Der Wechsel zu Swissdec 5.0 (und bald 5.3) ist nicht nur ein einfaches IT-Update: Es handelt sich um eine bedeutende regulatorische Änderung, die alle Arbeitgeber betrifft, die der Quellensteuer oder der elektronischen Lohnmeldungen (ELM) unterliegen.\n\n### Swissdec 5.0: worum geht es?\nSwissdec ist die nationale Organisation, die den Austausch von Lohndaten (ELM-Verfahren) zwischen Unternehmen, Sozialversicherungen, Pensionskassen und Steuerbehörden standardisiert. Version 5.0 führt eine bessere Automatisierung und neue Pflichtfelder (wie grenzüberschreitendes Homeoffice) ein, verstärkt den Cyberschutz und fordert eine stärkere Synchronisation mit der Quellensteuer.\n\n### Was ändert sich konkret 2025\n- Für Genf muss die Migration auf ELM 5.0 (oder direkt 5.3) vor Dezember 2025 abgeschlossen sein, um weiterhin Lohndateien an die AFC zu übermitteln.\n- Ab Januar 2026 werden nur noch Berichte, die den Spezifikationen von ELM 5.3 entsprechen, für die Quellensteuer akzeptiert.\n- Wesentliche Neuerung: detaillierte Berücksichtigung von grenzüberschreitendem Homeoffice, automatisierte Bescheinigungen und Zertifikate, direkte Übermittlung an Behörden im Swissdec-konformen Format.\n\n### Schritte für eine erfolgreiche Migration\n1. **Audit des Lohnsystems**: Überprüfen Sie die Kompatibilität und Swissdec-5.x-Unterstützung Ihrer aktuellen Software.\n2. **Absprache mit Treuhänder oder Lohnsoftware-Anbieter**: Planen Sie das technische Upgrade, testen Sie Swissdec-5.x-Exporte und schulen Sie Ihre Teams zu neuen Funktionen und Prozessen rund ums grenzüberschreitende Homeoffice.\n3. **Kontrollen und Dokumentation**: Stellen Sie die Erstellung von Bescheinigungen, die reibungslose Übermittlung an die AFC und die Aufbewahrung von Nachweisen sicher.\n\n### Risiken bei Nichteinhaltung\n- Frist nicht eingehalten: Ab Januar 2026 werden Übermittlungen an die AFC via Swissdec 4 blockiert.\n- Nicht konforme Übermittlung: Ablehnungen, mögliche Sanktionen, administrativer Mehraufwand mit Papierlösungen oder ISEL-E-Verfahren.\n\n### Unsere Tipps für KMU und Selbständige in Genf\nSeien Sie vorbereitet: Lassen Sie Ihre HR-/Lohnprozesse jetzt prüfen. Wählen Sie eine Swissdec-zertifizierte Lösung, optimieren Sie das grenzüberschreitende Homeoffice-Management und überlassen Sie die Einhaltung der Vorschriften lokalen Experten.\n\n**Aktuelle SEO-Schlüsselwörter**: Swissdec 5 Genf, grenzüberschreitendes Homeoffice Schweiz, ELM 2025, digitale Lohnabrechnung Genf, Lohnpflichten 2025, Lohnbuchhaltung für KMU Genf.\n\nSie möchten Ihre Löhne stressfrei verwalten? Unsere Experten begleiten Sie bei der Swissdec-5-Migration und bieten einen kostenlosen Audit zur Überprüfung Ihrer Konformität an.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-11",
+      "references": [
+        {
+          "labelKey": "Norme Swissdec 5 officielle",
+          "url": "https://www.swissdec.ch/fr/blog/normes-11/nouvelle-edition-des-directives-version-5-0-57"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -605,5 +611,7 @@
   "afc_suisse_page_officielle_comptabilite_tva": "Eidg. Steuerverwaltung MWST-Infoseite (Schweiz)",
   "odoo_docs_paie_compta": "Odoo 18: Lohn- & Buchhaltungsdokumentation",
   "obligations_swissdec_suisse": "Swissdec-Pflichten in der Schweiz",
-  "fedlex_loi_travail": "Schweizer Arbeitsgesetz"
+  "fedlex_loi_travail": "Schweizer Arbeitsgesetz",
+  "Norme Swissdec 5 officielle": "Offizieller Swissdec-5-Standard",
+  "Paie Genève Swissdec": "Genfer Lohnabrechnung Swissdec"
 }
