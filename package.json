@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "node scripts/dev.js",
     "predev": "node scripts/lint-translations.js || true",
-    "prebuild": "node scripts/validate-translations.js",
+    "prebuild": "node scripts/validate-translations.js && npm run css:build",
     "build": "next build",
     "start": "PORT=${PORT:-5000} node .next/standalone/server.js",
     "prod": "npm run build && mkdir -p .next/standalone/.next/static && cp -R .next/static/* .next/standalone/.next/static/ 2>/dev/null || true && mkdir -p .next/standalone/public && cp -R public/* .next/standalone/public/ 2>/dev/null || true && mkdir -p .next/standalone/src && cp -R src/translations .next/standalone/src/ 2>/dev/null || true && PORT=${PORT:-5000} node .next/standalone/server.js",
@@ -20,7 +20,7 @@
     "lint:capitalization:fix": "node scripts/lint-capitalization.js --fix",
     "ressources:sync": "node scripts/sync-ressources.js --apply",
     "articles:translate": "node scripts/translate-articles.js --apply",
-    "css:build": "tailwindcss -i ./app/globals.css -o ./public/assets/css/non-critical.css --config tailwind.config.ts --minify",
+    "css:build": "tailwindcss -i ./app/globals.css -o ./public/assets/css/non-critical.css --config tailwind.config.ts --minify --content './app/**/*.{ts,tsx}' './src/**/*.{ts,tsx}' './components/**/*.{ts,tsx}' './pages/**/*.{ts,tsx}'",
     "css:watch": "tailwindcss -i ./app/globals.css -o ./public/assets/css/non-critical.css --config tailwind.config.ts --watch",
     "css:report": "node scripts/report-unused-css.js",
     "optimize:images": "node scripts/optimize-images.js",
@@ -82,12 +82,11 @@
   },
   "browserslist": {
     "production": [
-      "defaults and supports es6-module",
-      "not IE 11",
-      "not op_mini all",
-      "not dead",
-      "iOS >= 14",
-      "Safari >= 14.1"
+      "last 3 Chrome versions",
+      "last 3 Edge versions",
+      "last 3 Firefox versions",
+      "Safari >= 16.4",
+      "iOS >= 16.4"
     ],
     "development": [
       "last 1 chrome version",

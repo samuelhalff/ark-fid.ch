@@ -25,6 +25,12 @@ const baseConfig = {
     minimumCacheTTL: 31536000, // 1 year for static assets
   },
   swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production'
+      ? { exclude: ['error', 'warn'] }
+      : false,
+    reactRemoveProperties: true,
+  },
   async redirects() {
     // Redirect old FR English-slugged URLs to localized French slugs
     return [
