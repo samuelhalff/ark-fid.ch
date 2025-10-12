@@ -1,14 +1,35 @@
 import React from "react";
 import { headers } from "next/headers";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Service from "@/app/[locale]/home/components/services";
-import ContactForm from "@/src/components/ui/contact-form";
 import StructuredData from "@/src/components/seo/StructuredData";
 import { buildBreadcrumbList, buildFAQPage } from "@/src/lib/structuredData";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 
 export const revalidate = false; // fully static; updates on redeploy
+
+const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
+  ssr: false,
+  loading: () => (
+    <div className="mx-auto w-full max-w-3xl">
+      <div className="animate-pulse rounded-2xl border border-border/40 bg-muted/30 p-6 sm:p-8">
+        <div className="h-6 w-40 rounded bg-foreground/10" />
+        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          <div className="h-11 rounded bg-foreground/5" />
+          <div className="h-11 rounded bg-foreground/5" />
+        </div>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <div className="h-11 rounded bg-foreground/5" />
+          <div className="h-11 rounded bg-foreground/5" />
+        </div>
+        <div className="mt-4 h-24 rounded bg-foreground/5" />
+        <div className="mt-5 h-10 w-36 rounded-full bg-foreground/10" />
+      </div>
+    </div>
+  ),
+});
 
 export async function generateMetadata({
   params: { locale },

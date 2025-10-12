@@ -1,10 +1,31 @@
 import { Metadata } from "next";
-import ContactForm from "@/src/components/ui/contact-form";
+import dynamic from "next/dynamic";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import GoogleMap from "@/src/components/ui/GoogleMap";
 import Defer from "@/src/components/Defer";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
+
+const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
+  ssr: false,
+  loading: () => (
+    <div className="mx-auto w-full max-w-3xl">
+      <div className="animate-pulse rounded-2xl border border-border/40 bg-muted/30 p-6 sm:p-8">
+        <div className="h-6 w-48 rounded bg-foreground/10" />
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="h-12 rounded bg-foreground/5" />
+          <div className="h-12 rounded bg-foreground/5" />
+        </div>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div className="h-12 rounded bg-foreground/5" />
+          <div className="h-12 rounded bg-foreground/5" />
+        </div>
+        <div className="mt-4 h-28 rounded bg-foreground/5" />
+        <div className="mt-6 h-11 w-40 rounded-full bg-foreground/10" />
+      </div>
+    </div>
+  ),
+});
 
 export async function generateMetadata({
   params: { locale },
