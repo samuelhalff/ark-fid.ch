@@ -117,11 +117,11 @@ export default async function TeamPage({
               >
                 <Card
                   className={
-                    "animate-in fade-in duration-250 text-center shadow-none hover:shadow-lg transition-shadow gap-2 py-3 border-0 hover:brightness-115"
+                    "animate-in fade-in duration-250 text-center shadow-none hover:shadow-lg transition-shadow gap-2 py-3 border-0 hover:brightness-[1.15]"
                   }
                 >
                   <CardHeader className="px-3 sm:px-4">
-                    <div className="aspect-4/5 w-full rounded-md overflow-hidden mb-4 relative h-80">
+                    <div className="team-card__image aspect-4/5 w-full rounded-md overflow-hidden mb-4 relative h-80">
                       <ImageWithFallback
                         src={member.profilePic}
                         alt={`Portrait of ${member.name}`}

@@ -7,6 +7,17 @@ module.exports = {
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
+  safelist: [
+    "invisible",
+    "pointer-events-none",
+    "pointer-events-auto",
+    "group-hover:visible",
+    "group-hover:opacity-100",
+    "group-hover:pointer-events-auto",
+    "aspect-4/5",
+    "hover:shadow-lg",
+    "hover:brightness-[1.15]",
+  ],
   theme: {
     extend: {
       colors: {

@@ -20,7 +20,7 @@
     "lint:capitalization:fix": "node scripts/lint-capitalization.js --fix",
     "ressources:sync": "node scripts/sync-ressources.js --apply",
     "articles:translate": "node scripts/translate-articles.js --apply",
-    "css:build": "tailwindcss -i ./app/globals.css -o ./public/assets/css/non-critical.css --config tailwind.config.ts --minify --content './app/**/*.{ts,tsx}' './src/**/*.{ts,tsx}' './components/**/*.{ts,tsx}' './pages/**/*.{ts,tsx}'",
+    "css:build": "tailwindcss -i ./app/globals.css -o ./public/assets/css/non-critical.css --config tailwind.config.ts --minify",
     "css:watch": "tailwindcss -i ./app/globals.css -o ./public/assets/css/non-critical.css --config tailwind.config.ts --watch",
     "css:report": "node scripts/report-unused-css.js",
     "optimize:images": "node scripts/optimize-images.js",

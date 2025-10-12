@@ -5,6 +5,12 @@
 @custom-variant dark (&:is(.dark *));
 @custom-variant light (&:is(.light *));
 
+/* Force include hover brightness class */
+.hover\:brightness-\[1\.15\]:hover {
+  --tw-brightness: brightness(1.15);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
 @layer base {
   :root {
     --background: 1 0 0;

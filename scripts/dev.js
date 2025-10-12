@@ -5,6 +5,7 @@
  */
 
 const { spawn } = require("node:child_process");
+const fs = require("node:fs");
 const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
@@ -25,6 +26,8 @@ const nextCmd = path.join(
 );
 
 const processes = [];
+let nextChild = null;
+let restartingNext = false;
 
 function spawnProcess(command, args, name) {
   const child = spawn(command, args, {
@@ -51,6 +54,9 @@ function spawnProcess(command, args, name) {
 }
 
 function shutdown(code = 0) {
+  if (nextChild && !nextChild.killed) {
+    nextChild.kill("SIGTERM");
+  }
   while (processes.length) {
     const child = processes.pop();
     if (!child.killed) {
@@ -90,4 +96,60 @@ spawnProcess(
   "tailwindcss --watch"
 );
 
-spawnProcess(nextCmd, ["dev", "-p", "5000"], "next dev");
+function startNext() {
+    const child = spawn(nextCmd, ["dev", "-p", "5000"], {
+      cwd: root,
+      stdio: "inherit",
+      env: { ...process.env },
+    });
+
+    child.on("exit", (code, signal) => {
+      if (restartingNext) {
+        restartingNext = false;
+        startNext();
+        return;
+      }
+      if (signal === "SIGTERM" || signal === "SIGINT") return;
+      if (code && code !== 0) {
+        console.error(`\n[dev] next dev exited with code ${code}`);
+        shutdown(code);
+      }
+    });
+
+    child.on("error", (err) => {
+      console.error(`\n[dev] Failed to start next dev:`, err);
+      shutdown(1);
+    });
+
+    nextChild = child;
+}
+
+startNext();
+
+const criticalCssPath = path.join(
+  root,
+  "public",
+  "assets",
+  "css",
+  "critical.css"
+);
+
+let restartTimer = null;
+try {
+  fs.watch(criticalCssPath, { persistent: true }, (eventType) => {
+    if (eventType !== "change" && eventType !== "rename") return;
+    if (restartTimer) return;
+    restartTimer = setTimeout(() => {
+      restartTimer = null;
+      console.log("\n[dev] Detected critical.css change. Restarting next dev...");
+      if (nextChild && !nextChild.killed) {
+        restartingNext = true;
+        nextChild.kill("SIGTERM");
+      } else {
+        startNext();
+      }
+    }, 150);
+  });
+} catch (err) {
+  console.warn("[dev] Unable to watch critical.css for reloads:", err.message);
+}

@@ -23,3 +23,7 @@
 .dark .initials-tile__panel{background-color:oklch(var(--foreground)/0.05)}
 .initials-tile__center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
 .initials-tile__center span{font-weight:600;letter-spacing:.05em;font-size:clamp(2.2rem,6vw,3.25rem);color:oklch(var(--foreground)/0.82)}
+.critical-nav__dropdown{visibility:hidden;opacity:0;pointer-events:none;transition:opacity .15s ease,transform .15s ease}
+.critical-nav__item:hover>.critical-nav__dropdown,.critical-nav__item:focus-within>.critical-nav__dropdown{visibility:visible;opacity:1;pointer-events:auto}
+.team-card__image{position:relative;width:100%;padding-top:125%}
+.team-card__image>span,.team-card__image>picture{position:absolute;inset:0}

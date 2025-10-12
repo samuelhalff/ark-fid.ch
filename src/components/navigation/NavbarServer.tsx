@@ -110,7 +110,7 @@ export default function NavbarServer({
                     {navData.labels.team}
                   </Link>
                 </li>
-                <li className="relative group">
+                <li className="relative group critical-nav__item">
                   <Link
                     href={`${localePrefix}/services`}
                     prefetch={false}
@@ -120,7 +120,7 @@ export default function NavbarServer({
                     {navData.labels.services}
                     <span className="transition-transform duration-200 group-hover:rotate-180">▾</span>
                   </Link>
-                  <div className="invisible opacity-0 pointer-events-none group-hover:visible group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 absolute left-0 top-full pt-2 w-[min(92vw,720px)] bg-background border rounded-md shadow-xl z-50">
+                  <div className="critical-nav__dropdown invisible opacity-0 pointer-events-none group-hover:visible group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 absolute left-0 top-full pt-2 w-[min(92vw,720px)] bg-background border rounded-md shadow-xl z-50">
                     <div className="p-3">
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {navData.services.map((item) => (

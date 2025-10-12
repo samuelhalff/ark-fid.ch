@@ -65,10 +65,20 @@ export default function RelatedArticles({
   locale,
   limit = 3,
 }: RelatedArticlesProps) {
-  const translations = getTranslationsRecord(
-    (locale as Locale) || "fr",
-    "ressources"
-  ) as RessourcesJson;
+  const raw = getTranslationsRecord((locale as Locale) || "fr", "ressources");
+  const translations: RessourcesJson = {
+    Articles: Array.isArray(raw["Articles"])
+      ? (raw["Articles"] as ArticleMeta[])
+      : [],
+    RelatedArticles:
+      typeof raw["RelatedArticles"] === "string"
+        ? (raw["RelatedArticles"] as string)
+        : "Related articles",
+    ReadMore:
+      typeof raw["ReadMore"] === "string"
+        ? (raw["ReadMore"] as string)
+        : "Read more",
+  };
   const all: ArticleMeta[] = translations.Articles;
   const current = all.find((a) => a.slug === currentSlug);
   if (!current) return null;
