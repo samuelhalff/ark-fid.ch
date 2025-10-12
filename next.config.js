@@ -15,6 +15,9 @@ const baseConfig = {
     outputFileTracingIncludes: {
       '/**/*': ['src/translations/**/*'],
     },
+    swcPlugins: [
+      // Configure SWC to skip polyfills for modern browsers
+    ],
   },
   output: 'standalone',
   images: {

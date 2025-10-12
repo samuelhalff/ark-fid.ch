@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getTranslationsRecord, type Locale } from "@/src/lib/i18n";
 
 interface ArticleMeta {
   slug: string;
@@ -59,20 +60,15 @@ function score(a: ArticleMeta, b: ArticleMeta): number {
   return s;
 }
 
-export default async function RelatedArticles({
+export default function RelatedArticles({
   currentSlug,
   locale,
   limit = 3,
 }: RelatedArticlesProps) {
-  let ressourcesModule: { default: Record<string, unknown> };
-  try {
-    ressourcesModule = await import(
-      `@/src/translations/${locale}/ressources.json`
-    );
-  } catch {
-    ressourcesModule = await import(`@/src/translations/en/ressources.json`);
-  }
-  const translations = ressourcesModule.default as unknown as RessourcesJson;
+  const translations = getTranslationsRecord(
+    (locale as Locale) || "fr",
+    "ressources"
+  ) as RessourcesJson;
   const all: ArticleMeta[] = translations.Articles;
   const current = all.find((a) => a.slug === currentSlug);
   if (!current) return null;

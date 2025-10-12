@@ -38,39 +38,43 @@ function resolveTranslationsDir() {
   return candidates[0];
 }
 
-export async function getTranslations(locale: Locale, namespace: string) {
-  // Simple in-memory cache to avoid repeated disk reads and logs
+function loadNamespace(locale: string, namespace: string): Record<string, unknown> | null {
   const cache = getTranslationsCache();
-  const makeKey = (loc: string) => `${loc}:${namespace}`;
+  const cacheKey = `${locale}:${namespace}`;
+  if (cache.has(cacheKey)) return cache.get(cacheKey) ?? null;
 
-  const readDict = (loc: string): Record<string, unknown> | null => {
-    const cacheKey = makeKey(loc);
-    if (cache.has(cacheKey)) return cache.get(cacheKey) ?? null;
+  const translationsDir = resolveTranslationsDir();
+  const filePath = path.join(translationsDir, locale, `${namespace}.json`);
+  if (!fs.existsSync(filePath)) {
+    cache.set(cacheKey, null);
+    return null;
+  }
 
-    const translationsDir = resolveTranslationsDir();
-    const filePath = path.join(translationsDir, loc, `${namespace}.json`);
-    if (!fs.existsSync(filePath)) {
-      cache.set(cacheKey, null);
-      return null;
-    }
-    try {
-      const fileContent = fs.readFileSync(filePath, "utf8");
-      const data = JSON.parse(fileContent);
-      cache.set(cacheKey, data);
-      return data;
-    } catch {
-      // If read/parse fails, cache null to avoid repeated attempts
-      cache.set(cacheKey, null);
-      return null;
-    }
-  };
+  try {
+    const fileContent = fs.readFileSync(filePath, "utf8");
+    const data = JSON.parse(fileContent);
+    cache.set(cacheKey, data);
+    return data;
+  } catch {
+    cache.set(cacheKey, null);
+    return null;
+  }
+}
 
-  const primary = readDict(locale);
-  const fallback = primary ? null : readDict("en");
+export function getTranslationsRecord(
+  locale: Locale,
+  namespace: string
+): Record<string, unknown> {
+  const primary = loadNamespace(locale, namespace);
+  const fallback = primary ? null : loadNamespace("en", namespace);
 
   if (!primary && !fallback) maybeWarnMissing(namespace, locale);
 
-  const data = primary ?? fallback ?? {};
+  return (primary ?? fallback ?? {}) as Record<string, unknown>;
+}
+
+export async function getTranslations(locale: Locale, namespace: string) {
+  const data = getTranslationsRecord(locale, namespace);
 
   // Return a function that can access nested properties
   return (key: string) => {
