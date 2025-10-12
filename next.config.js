@@ -82,6 +82,13 @@ const baseConfig = {
           { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
         ],
       },
+      // Self-hosted fonts in /public/fonts
+      {
+        source: '/fonts/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
       // Web manifests change rarely but validate on each request
       {
         source: '/:manifest(site\\.webmanifest|manifest\\.webmanifest)',

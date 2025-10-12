@@ -23,14 +23,21 @@ const PartnerLogo = ({ logo, title }: PartnerLogoProps) => {
     );
   }
 
+  const isWide = logo.toLowerCase().endsWith(".svg");
+  const containerClass = isWide
+    ? "h-12 min-w-[5rem] max-w-[9rem] px-3 py-2"
+    : "h-12 w-12 p-3";
+
   return (
-    <div className="w-12 h-12 p-3 bg-white dark:bg-gray-900/50 rounded-lg flex items-center justify-center transition-colors overflow-hidden">
+    <div
+      className={`${containerClass} bg-white dark:bg-gray-900/50 rounded-lg inline-flex items-center justify-center transition-colors overflow-hidden`}
+    >
       <Image
         src={logo}
         alt={`${title} logo`}
-        width={40}
+        width={isWide ? 120 : 64}
         height={40}
-        className="object-contain"
+        className="h-full w-auto max-w-full object-contain"
         loading="lazy"
         decoding="async"
       />

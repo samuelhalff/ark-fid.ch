@@ -9,6 +9,7 @@ import { buildServiceSchema } from "@/src/lib/structuredData";
 import { localizePath } from "@/src/lib/paths";
 
 export const runtime = "nodejs";
+export const revalidate = false; // fully static; updates on redeploy
 
 export async function generateMetadata({
   params: { locale },

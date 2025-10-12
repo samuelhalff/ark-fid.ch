@@ -9,7 +9,37 @@ type DeferredNonCriticalStylesProps = {
 export default function DeferredNonCriticalStyles({
   href,
 }: DeferredNonCriticalStylesProps) {
+  const isDev = process.env.NODE_ENV !== "production";
+
   useEffect(() => {
+    if (isDev) {
+      const markDev = "non-critical-dev";
+      const existing = document.querySelectorAll(
+        `link[data-arkfid-style="${markDev}"]`
+      );
+      let found = false;
+      existing.forEach((node) => {
+        if (!(node instanceof HTMLLinkElement)) {
+          return;
+        }
+        if (node.href.includes(href)) {
+          found = true;
+        } else {
+          node.remove();
+        }
+      });
+      if (found) {
+        return;
+      }
+      const sheet = document.createElement("link");
+      sheet.rel = "stylesheet";
+      sheet.href = `${href}?dev=${Date.now()}`;
+      sheet.setAttribute("data-arkfid-style", markDev);
+      document.head.appendChild(sheet);
+      return () => {
+        sheet.remove();
+      };
+    }
     const mark = "non-critical";
     const selector = `link[data-arkfid-style="${mark}"]`;
     const existingLinks = document.querySelectorAll(selector);
@@ -66,7 +96,7 @@ export default function DeferredNonCriticalStyles({
       preload.onload = null;
       preload.onerror = null;
     };
-  }, [href]);
+  }, [href, isDev]);
 
   return (
     <noscript>

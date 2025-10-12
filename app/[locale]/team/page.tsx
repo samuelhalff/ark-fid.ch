@@ -15,6 +15,8 @@ import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
 import { teamMembers, getMemberSlug } from "@/src/lib/team";
 
+export const revalidate = false;
+
 export async function generateMetadata({
   params: { locale },
 }: {

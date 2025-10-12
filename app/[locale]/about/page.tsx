@@ -16,6 +16,8 @@ import DNAValuesSection, {
 } from "@/src/components/ui/dna-values-section";
 import ContextualLinks from "@/src/components/ui/contextual-links";
 
+export const revalidate = false; // fully static; updates on redeploy
+
 export async function generateMetadata({
   params: { locale },
 }: {

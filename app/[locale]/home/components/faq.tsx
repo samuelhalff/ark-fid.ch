@@ -71,8 +71,8 @@ export default async function FAQ() {
         </span>
       </p>
 
-      {/* Use CSS columns to avoid the grid row-height coupling issue */}
-      <div className="mt-8 columns-1 md:columns-2 gap-x-4">
+      {/* Use CSS columns; add explicit columnGap to ensure spacing even if async CSS is delayed */}
+      <div className="mt-8 columns-1 md:columns-2" style={{ columnGap: '1rem' }}>
         {items.map(({ q, a, questionKey }) => (
           <details
             key={questionKey}

@@ -13,6 +13,7 @@ import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { localizePath } from "@/src/lib/paths";
 
 export const runtime = "nodejs";
+export const revalidate = false;
 
 export async function generateMetadata({
   params: { locale },

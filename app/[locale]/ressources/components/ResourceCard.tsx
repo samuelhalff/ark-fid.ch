@@ -130,11 +130,9 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   source,
 }) => {
   const icon =
-    type === "file" && extension ? (
-      iconMap[extension] || <FileIcon className="text-gray-400" size={28} />
-    ) : (
-      <FileTextIcon className="text-primary" size={28} />
-    );
+    type === "file" && extension
+      ? iconMap[extension] || <FileIcon className="text-gray-400" size={28} />
+      : <FileTextIcon className="text-primary" size={28} />;
   const cardContent = (
     <div className="flex flex-col border rounded-xl overflow-hidden shadow-sm h-full cursor-pointer hover:shadow-md transition-shadow bg-white dark:bg-muted p-5">
       <div className="flex items-start gap-3 mb-3">

@@ -8,6 +8,8 @@ import { localizePath } from "@/src/lib/paths";
 import StructuredData from "@/src/components/seo/StructuredData";
 import { buildHowTo, buildServiceSchema } from "@/src/lib/structuredData";
 
+export const revalidate = false;
+
 export async function generateMetadata({
   params: { locale },
 }: {

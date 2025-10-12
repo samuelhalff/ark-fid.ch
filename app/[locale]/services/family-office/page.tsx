@@ -9,6 +9,7 @@ import StructuredData from "@/src/components/seo/StructuredData";
 import { buildServiceSchema } from "@/src/lib/structuredData";
 
 export const runtime = "nodejs";
+export const revalidate = false;
 
 export async function generateMetadata({
   params: { locale },

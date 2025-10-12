@@ -205,17 +205,38 @@ async function dirSize(dir) {
 const replacements = new Map(); // key: original (as used in code), value: preferred asset
 
 function queueReplacement(originalFsPath, webpFsPath) {
+  // Determine the smallest viable asset among original, .webp, and .avif
+  const tryStat = (p) => {
+    try { return fs.statSync(p).size; } catch { return Infinity; }
+  };
+  const avifFsPath = originalFsPath.replace(/\.(jpe?g|png|webp|avif)$/i, ".avif");
+  const origSize = tryStat(originalFsPath);
+  const webpSize = tryStat(webpFsPath);
+  const avifSize = tryStat(avifFsPath);
+
+  // Choose the best path by bytes; prefer AVIF over WebP when sizes are equal
+  let bestFsPath = originalFsPath;
+  let bestSize = origSize;
+  if (avifSize <= bestSize) { bestFsPath = avifFsPath; bestSize = avifSize; }
+  if (webpSize < bestSize)  { bestFsPath = webpFsPath; bestSize = webpSize; }
+
+  // Only replace references if the best is meaningfully smaller (>1% and >5KB)
+  const pct = origSize && Number.isFinite(bestSize) ? (origSize - bestSize) / origSize : 0;
+  const diff = origSize - bestSize;
+  if (!Number.isFinite(bestSize) || pct < 0.01 || diff < 5 * 1024) return;
+
   // Convert to web root path strings used in code, e.g., /assets/...
   const toWebPath = (p) => {
     const i = p.lastIndexOf("public");
     return i >= 0 ? p.slice(i + "public".length).replace(/\\/g, "/") : null;
   };
   const origWeb = toWebPath(originalFsPath);
-  const webpWeb = toWebPath(webpFsPath);
-  if (!origWeb || !webpWeb) return;
-  const ext = path.extname(origWeb);
-  if (ext === ".jpg" || ext === ".jpeg" || ext === ".png") {
-    replacements.set(origWeb, webpWeb);
+  const bestWeb = toWebPath(bestFsPath);
+  if (!origWeb || !bestWeb) return;
+
+  const ext = path.extname(origWeb).toLowerCase();
+  if (ext === ".jpg" || ext === ".jpeg" || ext === ".png" || ext === ".webp") {
+    replacements.set(origWeb, bestWeb);
   }
 }
 

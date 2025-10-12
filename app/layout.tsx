@@ -1,13 +1,11 @@
 import { Providers } from "@/src/components/providers"; // Import your new client provider
 import { Metadata, Viewport } from "next";
-import Script from "next/script";
 import {
   generateOrganizationStructuredData,
   generateLocalBusinessStructuredData,
 } from "@/src/lib/metadata";
 import { inter } from "./fonts";
 import { headers } from "next/headers";
-import "./globals.css";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import path from "node:path";
@@ -45,6 +43,9 @@ const criticalCss = (() => {
 
 const nonCriticalCssHref = (() => {
   const baseHref = "/assets/css/non-critical.css" as const;
+  if (process.env.NODE_ENV !== "production") {
+    return baseHref;
+  }
   try {
     const filePath = path.join(
       process.cwd(),
@@ -196,29 +197,8 @@ export default async function RootLayout({
       className={inter.variable}
     >
       <head>
-        {/* Google Tag Manager */}
-        <Script
-          id="gtm"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-P6QT792D');`,
-          }}
-        />
-        {/* End Google Tag Manager */}
-        {/* Remove early preconnect to analytics to avoid competing with LCP; analytics loads only after consent */}
+        {/* GTM is now loaded only after consent via ConsentAnalytics */}
         {/** Defer Google Maps connections to pages that actually use Maps (e.g., contact). Removing global preconnect helps mobile Speed Index. */}
-        {/* Preload most likely LCP hero image (accounting is first in rotation array) */}
-        <link
-          rel="preload"
-          as="image"
-          href="/assets/hero/services/accounting-hero.optimized.webp"
-          type="image/webp"
-          fetchPriority="high"
-        />
         {/* Ensure font swap to avoid layout shifts */}
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
         {/* Title, description and viewport are managed by Next metadata API */}
@@ -226,16 +206,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
       </head>
       <body className={inter.className}>
-        {/* Google Tag Manager (noscript) */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-P6QT792D"
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          />
-        </noscript>
-        {/* End Google Tag Manager (noscript) */}
+        {/* GTM noscript removed to comply with consent gating */}
         {/* Accessibility: Skip link */}
         <a
           href="#main-content"
@@ -272,7 +243,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               />
               {/* Render Vercel Analytics only when user accepted cookies - can be deferred */}
               <Defer rootMargin="0px" idle={200} placeholder={null}>
-                <ConsentAnalytics gaId={gaId} />
+                <ConsentAnalytics gaId={gaId} gtmId="GTM-P6QT792D" />
               </Defer>
             </div>
           </ErrorBoundary>

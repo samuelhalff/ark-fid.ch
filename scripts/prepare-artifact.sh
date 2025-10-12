@@ -25,6 +25,25 @@ else
   echo "Warning: BUILD_ID not found in $BUILD_DIR"
 fi
 
+# Create percent-encoded aliases for any bracket-named chunk directories under app/
+# Some reverse proxies serve '/_next/static' directly and do not decode %5B %5D in paths.
+# Duplicating '[locale]' → '%5Blocale%5D' (and similar) avoids 404s for encoded requests.
+APP_CHUNKS_DIR="$DIST_DIR/.next/static/chunks/app"
+if [ -d "$APP_CHUNKS_DIR" ]; then
+  while IFS= read -r -d '' dir; do
+    base="$(basename "$dir")"
+    enc="${base//'['/%5B}"
+    enc="${enc//']'/%5D}"
+    if [ "$base" != "$enc" ]; then
+      target="$(dirname "$dir")/$enc"
+      if [ ! -d "$target" ]; then
+        mkdir -p "$(dirname "$target")"
+        cp -R "$dir" "$target"
+      fi
+    fi
+  done < <(find "$APP_CHUNKS_DIR" -type d -name '*[*]*' -print0)
+fi
+
 # Verify BUILD_ID matches static folder
 if [ -f "$DIST_DIR/.next/BUILD_ID" ]; then
   BUILD_ID=$(cat "$DIST_DIR/.next/BUILD_ID")

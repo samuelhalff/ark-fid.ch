@@ -8,6 +8,8 @@ import { buildBreadcrumbList, buildFAQPage } from "@/src/lib/structuredData";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 
+export const revalidate = false; // fully static; updates on redeploy
+
 export async function generateMetadata({
   params: { locale },
 }: {

@@ -21,16 +21,20 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
   const t = (key: string) => translations?.[key] || key; // fallback to key if translation missing
   const localePrefix = currentLocale ? `/${currentLocale}` : "/fr";
 
+  // Use original JPG sources and let next/image transform to AVIF/WebP.
+  // This avoids cases where pre-generated WebP is larger than the JPG source.
+  // Use JPEG masters for next/image so it can transcode once to AVIF/WebP
+  // with minimal quality loss. WebP alias blur placeholders are generated too.
   const serviceHeroes = [
-    "/assets/hero/services/accounting-hero.optimized.webp",
-    "/assets/hero/services/corporate-hero.optimized.webp",
-    "/assets/hero/services/domiciliation-hero.optimized.webp",
-    "/assets/hero/services/incorporation-hero.optimized.webp",
-    "/assets/hero/services/odoo-hero.optimized.webp",
-    "/assets/hero/services/outsourcing-hero.optimized.webp",
-    "/assets/hero/services/payroll-hero.optimized.webp",
-    "/assets/hero/services/taxes-hero.optimized.webp",
-    "/assets/hero/services/family-office-hero.optimized.webp",
+    "/assets/hero/services/accounting-hero.jpg",
+    "/assets/hero/services/corporate-hero.jpg",
+    "/assets/hero/services/domiciliation-hero.jpg",
+    "/assets/hero/services/incorporation-hero.jpg",
+    "/assets/hero/services/odoo-hero.jpg",
+    "/assets/hero/services/outsourcing-hero.jpg",
+    "/assets/hero/services/payroll-hero.jpg",
+    "/assets/hero/services/taxes-hero.jpg",
+    "/assets/hero/services/family-office-hero.jpg",
   ];
   const pick = Number.isFinite(heroIndex!)
     ? Math.max(0, Math.min(serviceHeroes.length - 1, Number(heroIndex)))
@@ -53,7 +57,7 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
 
   return (
     <section className="relative min-h-[calc(100vh-4rem)] text-center max-w-[var(--breakpoint-xl)] w-full flex flex-col items-center justify-center border-b border-accent mx-auto px-6 pb-10">
-      <link rel="preload" as="image" href={homeHeroSrc} />
+      {/** Do not add a manual preload here; next/image with priority handles the correct _next/image URL */}
       <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-10 px-6 py-12 lg:py-0">
         {/* Left column */}
         <div className="flex-1 max-w-3xl text-center animate-in fade-in duration-800">
@@ -109,6 +113,8 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
             priority
             fetchPriority="high"
             loading="eager"
+            placeholder={blur ? "blur" : undefined}
+            blurDataURL={blur}
             fill
           />
         </div>

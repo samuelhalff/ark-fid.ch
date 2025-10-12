@@ -32,7 +32,7 @@ function getConsent(): "accepted" | "declined" | null {
   }
 }
 
-export default function ConsentAnalytics({ gaId }: { gaId: string }) {
+export default function ConsentAnalytics({ gaId, gtmId }: { gaId: string; gtmId?: string }) {
   const [consent, setConsent] = useState<"accepted" | "declined" | null>(null);
   const [AnalyticsComp, setAnalyticsComp] =
     useState<React.ComponentType | null>(null);
@@ -82,6 +82,26 @@ export default function ConsentAnalytics({ gaId }: { gaId: string }) {
         window.gtag("js", new Date());
         window.gtag("config", GA_ID);
       }
+
+      // Load Google Tag Manager only after consent
+      if (gtmId && typeof window !== "undefined") {
+        // Avoid duplicating GTM injection
+        const hasGtm = Array.from(document.scripts).some((s) =>
+          s.src.includes("googletagmanager.com/gtm.js")
+        );
+        if (!hasGtm) {
+          // Setup dataLayer and push gtm.start event
+          (window as any).dataLayer = (window as any).dataLayer || [];
+          (window as any).dataLayer.push({
+            "gtm.start": new Date().getTime(),
+            event: "gtm.js",
+          });
+          const gtmScript = document.createElement("script");
+          gtmScript.async = true;
+          gtmScript.src = `https://www.googletagmanager.com/gtm.js?id=${gtmId}`;
+          document.head.appendChild(gtmScript);
+        }
+      }
       // Load Vercel Analytics
       import("@vercel/analytics/react")
         .then((mod) => {
@@ -94,7 +114,7 @@ export default function ConsentAnalytics({ gaId }: { gaId: string }) {
     return () => {
       mounted = false;
     };
-  }, [consent, AnalyticsComp, gaId]);
+  }, [consent, AnalyticsComp, gaId, gtmId]);
 
   if (consent !== "accepted" || !AnalyticsComp) return null;
   const C = AnalyticsComp;
