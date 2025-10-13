@@ -440,10 +440,6 @@
         {
           "labelKey": "Swissdec normes Genève",
           "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "TVA et fiscalité Genève",
-          "url": "https://www.ge.ch/document/baremes-rectification-impot-source-2025"
         }
       ]
     },
@@ -534,6 +530,20 @@
         {
           "labelKey": "Norme Swissdec 5 officielle",
           "url": "https://www.swissdec.ch/fr/blog/normes-11/nouvelle-edition-des-directives-version-5-0-57"
+        }
+      ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-pour-gestion-comptable-et-paie-geneve-2025",
+      "title": "Odoo 18: Key payroll and accounting updates for SMEs in Geneva in 2025",
+      "description": "Analysis of new Odoo 18 features useful for accounting management, payroll, and Swissdec 5.0 integration. Focus on the specific needs of SMEs and freelancers based in Geneva.",
+      "content": "Odoo 18, newly launched, is already positioning itself as an essential solution for the accounting and HR management of SMEs in Geneva. What new features are game-changers for finance departments and fiduciaries? This article breaks down the key modules:\n\n1. Native synchronization with Swissdec 5.0, facilitating salary transmissions and social declarations in compliance with LPP, LAA, and AC requirements for 2025. This enables strict adherence to new standards, with automation of scales and cantonal declarations (e.g., Geneva, Vaud).\n\n2. Accounting: Odoo 18 features improved multi-company and multi-currency management, a Swiss GAAP FER framework optimized for SMEs, automated bank reconciliation, FEC export, and customizable reporting to match local requirements (Geneva, French-speaking Switzerland).\n\n3. Payroll/Salaries: the new interface simplifies management of absences, remote work, medical certificates, and now automatically calculates social contributions according to the latest tables.\n\n4. VAT 2025 integration and tax updates: automatic updates of rates and functionalities for electronic invoicing and Swiss VAT reporting.\n\n5. Collaborative portal: employees and managers benefit from easy access to all HR documents, payslips, and legal reports.\n\nWhy upgrade? Odoo 18 delivers significant productivity gains, reduces error risks, and provides a real advantage for audit and tax compliance in Geneva. For any SME or fiduciary looking to optimize processes in 2025, this technological leap should be considered.\n\n✅ Need support for Swissdec 5.0 transition, administrative automation, or customized Odoo 18 integration in Geneva? Our Ark Fiduciaire experts are here to help at every step.\n\nGoogle Trends keywords: Odoo 18, Swissdec 5.0, Geneva payroll 2025, SME accounting management, Swiss tax automation, new social obligations 2025, Geneva SME digitalization.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-13",
+      "references": [
+        {
+          "labelKey": "Loi fédérale sur l’impôt fédéral direct (LIFD) – Fedlex",
+          "url": "https://www.fedlex.admin.ch/eli/cc/1991/2058_2058_2058/fr"
         }
       ]
     }
@@ -632,5 +642,6 @@
   "obligations_swissdec_suisse": "Swissdec obligations in Switzerland",
   "fedlex_loi_travail": "Swiss labor law",
   "Norme Swissdec 5 officielle": "Official Swissdec 5 standard",
-  "Paie Genève Swissdec": "Geneva payroll Swissdec"
+  "Paie Genève Swissdec": "Geneva payroll Swissdec",
+  "labelKeyFR": "English label"
 }

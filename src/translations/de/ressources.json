@@ -210,10 +210,6 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Réforme fiscale Genève officielle",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-        },
-        {
           "labelKey": "Changements fiscaux Genève 2025",
           "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
         },
@@ -238,10 +234,6 @@
         {
           "labelKey": "Changements fiscaux Genève",
           "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
-        },
-        {
-          "labelKey": "Panorama fiscal 2025 AFC",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
         }
       ]
     },
@@ -256,10 +248,6 @@
         {
           "labelKey": "Modifications TVA 2025",
           "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
-        },
-        {
-          "labelKey": "Panorama fiscal Genève 2025",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
         },
         {
           "labelKey": "Prolongation du délai de décompte TVA",
@@ -544,6 +532,20 @@
           "url": "https://www.swissdec.ch/fr/blog/normes-11/nouvelle-edition-des-directives-version-5-0-57"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-pour-gestion-comptable-et-paie-geneve-2025",
+      "title": "Odoo 18: Wichtige Neuerungen bei Lohn und Buchhaltung für KMU in Genf 2025",
+      "description": "Analyse der neuen Funktionen von Odoo 18 für das Rechnungswesen, die Lohnabrechnung und die Swissdec 5.0-Integration. Fokus auf die besonderen Bedürfnisse von KMU und Selbständigen in Genf.",
+      "content": "Odoo 18, kürzlich eingeführt, positioniert sich bereits als unverzichtbare Lösung für das Rechnungswesen und das Personalmanagement von KMU in Genf. Welche Neuerungen stellen für Finanzleitungen und Treuhänder einen Wendepunkt dar? Dieser Artikel beleuchtet die wichtigsten Module:\n\n1. Native Synchronisation mit Swissdec 5.0, vereinfacht die Übermittlung von Löhnen und Sozialmeldungen gemäss den Anforderungen LPP, UVG und ALV für 2025. Dies gewährleistet strikte Einhaltung der neuen Normen mit automatisierten Tarifen und kantonalen Meldungen (z. B. Genf, Waadt).\n\n2. Buchhaltung: Odoo 18 bietet verbesserte Multi-Company- und Mehrwährungsverwaltung, ein für KMU optimiertes Swiss GAAP FER, automatischen Bankabgleich, FEC-Export und anpassbares Reporting nach lokalen Vorgaben (Genf, Westschweiz).\n\n3. Lohn/Salär: Die neue Oberfläche vereinfacht die Verwaltung von Abwesenheiten, Homeoffice, Arztzeugnissen und berechnet Sozialabgaben nun automatisch nach den aktuellsten Tabellen.\n\n4. MWST-Integration 2025 und steuerliche Neuerungen: Automatische Aktualisierung der Sätze und Funktionen für die elektronische Rechnungsstellung und die Schweizer MWST-Abrechnung.\n\n5. Kollaboratives Portal: Mitarbeitende und Führungskräfte profitieren von einfacherem Zugang zu allen HR-Dokumenten, Lohnabrechnungen und gesetzlichen Berichten.\n\nWarum wechseln? Odoo 18 ermöglicht einen signifikanten Produktivitätsgewinn, reduziert Fehlerquellen und bringt einen echten Vorteil für die Audit- und Steuerkonformität in Genf. Für jedes KMU oder Treuhandunternehmen, das 2025 seine Prozesse optimieren möchte, ist dieser Technologiesprung zu überlegen.\n\n✅ Brauchen Sie Unterstützung beim Swissdec 5.0-Umstieg, bei der administrativen Automatisierung oder der maßgeschneiderten Odoo 18-Integration in Genf? Unsere Experten von Ark Fiduciaire begleiten Sie bei jedem Schritt.\n\nGoogle Trends-Schlagwörter: Odoo 18, Swissdec 5.0, Lohn Genf 2025, KMU Buchhaltung, Schweizer Steuerautomatisierung, neue Sozialpflichten 2025, KMU-Digitalisierung Genf.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-13",
+      "references": [
+        {
+          "labelKey": "Loi fédérale sur l’impôt fédéral direct (LIFD) – Fedlex",
+          "url": "https://www.fedlex.admin.ch/eli/cc/1991/2058_2058_2058/fr"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -613,5 +615,6 @@
   "obligations_swissdec_suisse": "Swissdec-Pflichten in der Schweiz",
   "fedlex_loi_travail": "Schweizer Arbeitsgesetz",
   "Norme Swissdec 5 officielle": "Offizieller Swissdec-5-Standard",
-  "Paie Genève Swissdec": "Genfer Lohnabrechnung Swissdec"
+  "Paie Genève Swissdec": "Genfer Lohnabrechnung Swissdec",
+  "labelKeyFR": "Deutsches Label"
 }

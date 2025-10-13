@@ -542,10 +542,20 @@
         {
           "labelKey": "Norme Swissdec 5 officielle",
           "url": "https://www.swissdec.ch/fr/blog/normes-11/nouvelle-edition-des-directives-version-5-0-57"
-        },
+        }
+      ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-pour-gestion-comptable-et-paie-geneve-2025",
+      "title": "Odoo 18: Novidades essenciais para folha de pagamento e contabilidade para PME em Genebra em 2025",
+      "description": "Análise das novas funcionalidades do Odoo 18 úteis na gestão contábil, folha de pagamento e integração com Swissdec 5.0. Foco nas necessidades das PME e autônomos de Genebra.",
+      "content": "Odoo 18, recém-lançado, já se destaca como solução indispensável para gestão contábil e RH das PME em Genebra. Quais novidades representam uma virada para diretores financeiros e fiduciárias? Este artigo detalha os módulos essenciais:\n\n1. Sincronização nativa com Swissdec 5.0, facilitando o envio de salários e declarações sociais em conformidade com LPP, LAA e AC para 2025. Isso garante o cumprimento rigoroso das novas normas, com automação das tabelas e declarações cantonais (ex.: Genebra, Vaud).\n\n2. Contabilidade: Odoo 18 incorpora gestão multiempresa e multimoeda aprimorada, referência Swiss GAAP FER otimizada para PME, conciliação bancária automatizada, exportação FEC e relatórios personalizáveis conforme regras locais (Genebra, Suíça francófona).\n\n3. Folha/Salários: a nova interface simplifica a gestão de ausências, trabalho remoto, atestados médicos e agora calcula automaticamente as contribuições sociais conforme as tabelas mais recentes.\n\n4. Integração IVA 2025 e novidades fiscais: atualizações automáticas das taxas e funcionalidades para faturação eletrónica e declaração do IVA suíço.\n\n5. Portal colaborativo: colaboradores e diretores têm acesso facilitado a todos os documentos de RH, contracheques e relatórios legais.\n\nPor que migrar? Odoo 18 permite ganho significativo de produtividade, redução de riscos de erro e real vantagem para compliance em auditoria e fiscalidade em Genebra. Para qualquer PME ou fiduciária buscando otimizar processos em 2025, esse salto tecnológico merece análise.\n\n✅ Precisa de apoio para a transição Swissdec 5.0, automação administrativa ou integração personalizada do Odoo 18 em Genebra? Os especialistas da Ark Fiduciaire estão prontos para ajudar em cada etapa.\n\nPalavras-chave do Google Trends: Odoo 18, Swissdec 5.0, folha Genebra 2025, gestão contábil PME, automação fiscal suíça, novas obrigações sociais 2025, digitalização PME Genebra.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-13",
+      "references": [
         {
-          "labelKey": "Paie Genève Swissdec",
-          "url": "https://www.ge.ch/actualite/mettez-jour-vos-logiciels-gestion-salaires-avant-2026-18-07-2025"
+          "labelKey": "Loi fédérale sur l’impôt fédéral direct (LIFD) – Fedlex",
+          "url": "https://www.fedlex.admin.ch/eli/cc/1991/2058_2058_2058/fr"
         }
       ]
     }
@@ -617,5 +627,6 @@
   "obligations_swissdec_suisse": "Obrigações swissdec na Suíça",
   "fedlex_loi_travail": "Lei do trabalho suíça",
   "Norme Swissdec 5 officielle": "Norma Swissdec 5 oficial",
-  "Paie Genève Swissdec": "Folha Genebra Swissdec"
+  "Paie Genève Swissdec": "Folha Genebra Swissdec",
+  "labelKeyFR": "Etiqueta PT"
 }

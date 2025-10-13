@@ -210,10 +210,6 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Réforme fiscale Genève officielle",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-        },
-        {
           "labelKey": "Changements fiscaux Genève 2025",
           "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
         },
@@ -544,6 +540,20 @@
           "url": "https://www.swissdec.ch/fr/blog/normes-11/nouvelle-edition-des-directives-version-5-0-57"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-pour-gestion-comptable-et-paie-geneve-2025",
+      "title": "Odoo 18: Novedades esenciales de nómina y contabilidad para pymes en Ginebra en 2025",
+      "description": "Análisis de las nuevas funcionalidades de Odoo 18 útiles para la gestión contable, la nómina y la integración Swissdec 5.0. Enfoque en las necesidades específicas de pymes y autónomos en Ginebra.",
+      "content": "Odoo 18, recién lanzado, ya se posiciona como una solución imprescindible para la gestión contable y de recursos humanos de las pymes en Ginebra. ¿Qué novedades marcan un antes y un después para direcciones financieras y fiduciarias? Este artículo resume los módulos esenciales:\n\n1. Sincronización nativa con Swissdec 5.0, facilitando la transmisión de salarios y declaraciones sociales conforme a los requisitos del LPP, LAA y AC para 2025. Permite un cumplimiento estricto de las nuevas normas, con automatización de baremos y declaraciones cantonales (por ejemplo, Ginebra, Vaud).\n\n2. Contabilidad: Odoo 18 incorpora una gestión multicompañía y multimoneda mejorada, referencia Swiss GAAP FER optimizada para pymes, conciliación bancaria automatizada, exportación FEC y reportes personalizables según normativas locales (Ginebra, Suiza francófona).\n\n3. Nómina/Salarios: la nueva interfaz simplifica la gestión de ausencias, teletrabajo, certificados médicos y ahora calcula automáticamente las cotizaciones sociales conforme a las tablas más recientes.\n\n4. Integración IVA 2025 y novedades fiscales: actualizaciones automáticas de tipos y funciones para la facturación electrónica y la declaración del IVA suizo.\n\n5. Portal colaborativo: empleados y directivos disfrutan de acceso fácil a todos los documentos de RR.HH., nóminas y reportes legales.\n\n¿Por qué migrar? Odoo 18 permite un notable aumento de productividad, reduce riesgos de error y ofrece una verdadera ventaja en cumplimiento de auditoría y fiscalidad en Ginebra. Para cualquier pyme o fiduciaria que quiera optimizar sus procesos en 2025, este avance tecnológico es clave.\n\n✅ ¿Necesitas ayuda con la transición Swissdec 5.0, la automatización administrativa o una integración a medida de Odoo 18 en Ginebra? Nuestros expertos de Ark Fiduciaire te acompañan en cada paso.\n\nPalabras clave de Google Trends: Odoo 18, Swissdec 5.0, nómina ginebra 2025, gestión contable pymes, automatización fiscal suiza, nuevas obligaciones sociales 2025, digitalización pymes ginebra.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-13",
+      "references": [
+        {
+          "labelKey": "Loi fédérale sur l’impôt fédéral direct (LIFD) – Fedlex",
+          "url": "https://www.fedlex.admin.ch/eli/cc/1991/2058_2058_2058/fr"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -613,5 +623,6 @@
   "obligations_swissdec_suisse": "Obligaciones swissdec en Suiza",
   "fedlex_loi_travail": "Ley laboral suiza",
   "Norme Swissdec 5 officielle": "Norma oficial Swissdec 5",
-  "Paie Genève Swissdec": "Nómina Ginebra Swissdec"
+  "Paie Genève Swissdec": "Nómina Ginebra Swissdec",
+  "labelKeyFR": "Etiqueta ES"
 }

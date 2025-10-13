@@ -210,10 +210,6 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Réforme fiscale Genève officielle",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-        },
-        {
           "labelKey": "Changements fiscaux Genève 2025",
           "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
         },
@@ -238,10 +234,6 @@
         {
           "labelKey": "Changements fiscaux Genève",
           "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
-        },
-        {
-          "labelKey": "Panorama fiscal 2025 AFC",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
         }
       ]
     },
@@ -540,6 +532,20 @@
           "url": "https://www.swissdec.ch/fr/blog/normes-11/nouvelle-edition-des-directives-version-5-0-57"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-pour-gestion-comptable-et-paie-geneve-2025",
+      "title": "Odoo 18 : Nouveautés paie et comptabilité essentielles pour les PME à Genève en 2025",
+      "description": "Analyse des nouvelles fonctionnalités Odoo 18 utiles pour la gestion comptable, la paie et l’intégration Swissdec 5.0. Focus sur les besoins spécifiques des PME et indépendants implantés à Genève.",
+      "content": "Odoo 18, nouvellement lancé, se positionne déjà comme une solution incontournable pour la gestion comptable et RH des PME à Genève. Quelles nouveautés marquent un tournant pour les directions financières et les fiduciaires ? Cet article décrypte les modules essentiels :\n\n1. Synchronisation native avec Swissdec 5.0, facilitant la transmission des salaires et déclarations sociales conformément aux exigences LPP, LAA et AC pour 2025. Cela permet un respect strict des nouvelles normes, avec automatisation des barèmes et déclarations cantonales (ex. Genève, Vaud).\n\n2. Comptabilité : Odoo 18 intègre la gestion multi-sociétés et multidevises améliorée, référentiel Swiss GAAP FER optimisé pour la PME, rapprochement bancaire automatisé, export FEC, et reporting paramétrable selon férules locales (Genève, Suisse romande).\n\n3. Paie/Salaires : la nouvelle interface simplifie la gestion des absences, du télétravail, des certificats médicaux, et calcule désormais automatiquement les cotisations sociales selon les dernières tables.\n\n4. Intégration TVA 2025 et nouveautés fiscales : mises à jour automatiques des taux et fonctionnalités pour la facturation électronique et la déclaration TVA suisse.\n\n5. Portail collaboratif : les employés et dirigeants bénéficient d’un accès facilité à tous les documents RH, bulletins de salaire, et rapports légaux.\n\nPourquoi migrer ? Odoo 18 permet un gain de productivité significatif, une réduction des risques d’erreur, et apporte un réel avantage pour la conformité audit-fiscalité à Genève. Pour toute PME ou fiduciaire soucieuse d’optimiser ses processus en 2025, ce virage technologique est à considérer.\n\n✅ Besoin d’accompagnement dans la transition Swissdec 5.0, l’automatisation administrative ou l’intégration Odoo 18 sur mesure à Genève ? Nos experts Ark Fiduciaire sont à votre écoute pour réussir chaque étape.\n\nMots-clés Google Trends : Odoo 18, Swissdec 5.0, paie Genève 2025, gestion comptable PME, automatisation fiscale suisse, nouvelles obligations sociales 2025, digitalisation PME Genève.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-13",
+      "references": [
+        {
+          "labelKey": "Loi fédérale sur l’impôt fédéral direct (LIFD) – Fedlex",
+          "url": "https://www.fedlex.admin.ch/eli/cc/1991/2058_2058_2058/fr"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -603,5 +609,7 @@
   "Swissdec et paie": "Swissdec 5.0, évolutions paie et conformité en Suisse pour les PME",
   "Barèmes impôt Genève": "Barèmes de l'impôt à la source et rectification Genève 2025",
   "Obligations salariales": "Normes et exigences récentes sur la paie, Swissdec, télétravail, LPP.",
-  "Nouveautés TVA": "Changements réglementaires majeurs en matière de TVA 2025."
+  "Nouveautés TVA": "Changements réglementaires majeurs en matière de TVA 2025.",
+  "Nouveautés Odoo 18": "Résumé des innovations Odoo 18",
+  "Swissdec Genève 2025": "Nouveaux standards Swissdec applicables à Genève en 2025"
 }
