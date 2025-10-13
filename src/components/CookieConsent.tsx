@@ -63,6 +63,22 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const manageBtnRef = useRef<HTMLButtonElement | null>(null);
 
+  const focusWithoutScroll = (el: HTMLElement | null) => {
+    if (!el) return;
+    try {
+      // @ts-ignore - older TS lib definitions miss FocusOptions
+      el.focus({ preventScroll: true });
+    } catch {
+      const win = typeof window !== "undefined" ? window : null;
+      const x = win?.scrollX ?? 0;
+      const y = win?.scrollY ?? 0;
+      el.focus?.();
+      if (win && (win.scrollX !== x || win.scrollY !== y)) {
+        win.scrollTo(x, y);
+      }
+    }
+  };
+
   useEffect(() => {
     setConsentState(getStoredConsent());
     const handler = () => setConsentState(null);
@@ -80,18 +96,19 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
     );
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
-    first?.focus();
+    // Focus the first element but avoid scrolling the page to the bottom.
+    focusWithoutScroll(first ?? null);
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key !== "Tab") return;
       if (focusable.length === 0) return;
       if (e.shiftKey) {
         if (document.activeElement === first) {
-          last?.focus();
+          focusWithoutScroll(last ?? null);
           e.preventDefault();
         }
       } else {
         if (document.activeElement === last) {
-          first?.focus();
+          focusWithoutScroll(first ?? null);
           e.preventDefault();
         }
       }
@@ -117,7 +134,7 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
       );
     } catch {}
     // Return focus to manage button for a11y
-    setTimeout(() => manageBtnRef.current?.focus(), 0);
+    setTimeout(() => focusWithoutScroll(manageBtnRef.current), 0);
   };
   const decline = () => {
     setConsent("declined");
@@ -128,7 +145,7 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
       );
     } catch {}
     // Return focus to manage button for a11y
-    setTimeout(() => manageBtnRef.current?.focus(), 0);
+    setTimeout(() => focusWithoutScroll(manageBtnRef.current), 0);
   };
 
   const legalCookiesHref = `/${locale}/legal/cookies`;

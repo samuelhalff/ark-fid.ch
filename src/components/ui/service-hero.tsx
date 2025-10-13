@@ -61,7 +61,7 @@ const ServiceHero = async ({
       <link
         rel="preload"
         as="image"
-        href={imageSrc || "/assets/abstract-background-light.webp"}
+        href={imageSrc || "/assets/hero/services/home-hero.avif"}
       />
       <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
         <div className="flex-1 max-w-3xl text-center animate-in fade-in duration-800">
@@ -147,7 +147,7 @@ const ServiceHero = async ({
             const translated = t(key) as string;
             const altText = translated === key ? imageAlt : translated;
             // If the target image is missing (assets being refreshed), fall back to a bundled abstract background
-            const fallback = "/assets/abstract-background-light.webp";
+            const fallback = "/assets/hero/services/home-hero.avif";
             const src = imageSrc || fallback;
             return (
               <Image

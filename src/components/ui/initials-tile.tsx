@@ -23,13 +23,15 @@ export default function InitialsTile({
   return (
     <div
       aria-label={`Avatar placeholder for ${name}`}
-      className={`initials-tile ${className}`}
+      className={`w-full h-full rounded-[0.85rem] bg-muted/0.18 border border-foreground/0.22 overflow-hidden dark:bg-muted/0.26 dark:border-foreground/0.32 ${className}`}
     >
-      <div className="initials-tile__overlay">
-        <div className="initials-tile__panel" />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-[-1rem] rotate-[-15deg] origin-bottom-left bg-[#fff4e7] dark:bg-muted/30 rounded-[3rem]" />
       </div>
-      <div className="initials-tile__center">
-        <span>{initials}</span>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="font-semibold tracking-[0.05em] text-[clamp(2.2rem,6vw,3.25rem)] text-foreground/0.82">
+          {initials}
+        </span>
       </div>
     </div>
   );

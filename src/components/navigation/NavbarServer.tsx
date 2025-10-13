@@ -2,8 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import Defer from "@/src/components/Defer";
-import ActiveNavSync from "@/src/components/navigation/ActiveNavSync";
 import { headers } from "next/headers";
+import ServicesDropdown from "@/src/components/navigation/ServicesDropdown";
+import type { NavData } from "@/src/components/navigation/types";
 
 const HeaderControls = dynamic(
   () => import("@/src/components/navigation/HeaderControls"),
@@ -13,23 +14,6 @@ const MobileMenuIsland = dynamic(
   () => import("@/src/components/navigation/MobileMenuIsland"),
   { ssr: false, loading: () => null }
 );
-
-type NavData = {
-  labels: {
-    home: string;
-    team: string;
-    services: string;
-    ressources: string;
-    about: string;
-    contact: string;
-    mobileNavigation: string;
-  };
-  services: Array<{
-    href: string;
-    title: string;
-    description: string;
-  }>;
-};
 
 export default function NavbarServer({
   locale,
@@ -53,18 +37,21 @@ export default function NavbarServer({
     const base = normalize(href);
     return cur === base || cur.startsWith(base + "/");
   };
+  const linkBase =
+    "inline-flex items-center justify-center px-3 py-2 rounded-lg font-medium text-[0.95rem] text-center min-w-[92px] transition-colors duration-160 ease-in-out hover:bg-accent hover:text-accent-foreground";
+  const activeClasses = "bg-accent text-accent-foreground";
 
   return (
-    <div className="critical-nav__container critical-nav">
-      <nav className="critical-nav__surface">
-        <div className="critical-nav__inner">
+    <div className="fixed top-0 left-0 right-0 z-50 w-full max-w-screen">
+      <nav className="backdrop-blur-[14px] bg-white border-b dark:bg-black h-16 flex items-center">
+        <div className="flex items-center justify-between gap-4 h-full mx-auto max-w-[1200px] px-4 w-full sm:px-6">
           <Link
             href={`${localePrefix}/`}
             prefetch={false}
             locale={locale}
             aria-label={navData.labels.home}
           >
-            <span className="critical-nav__logo">
+            <span className="flex items-center">
               <Image
                 className="hidden dark:block"
                 src="/assets/arkfid--light.svg"
@@ -87,7 +74,7 @@ export default function NavbarServer({
           </Link>
 
           {/* Desktop primary navigation (server-rendered) */}
-          <div className="critical-nav__links">
+          <div className="hidden md:block">
             <nav aria-label="Primary">
               <ul className="flex items-center gap-1">
                 <li>
@@ -95,7 +82,12 @@ export default function NavbarServer({
                     href={`${localePrefix}/`}
                     prefetch={false}
                     locale={locale}
-                    className={`px-3 py-2 rounded-md min-w-[92px] text-center critical-nav__link ${isExact(`${localePrefix}`) ? "bg-accent" : "hover:bg-accent"}`}
+                    aria-current={
+                      isExact(`${localePrefix}`) ? "page" : undefined
+                    }
+                    className={`${linkBase} ${
+                      isExact(`${localePrefix}`) ? activeClasses : ""
+                    }`}
                   >
                     {navData.labels.home}
                   </Link>
@@ -105,52 +97,37 @@ export default function NavbarServer({
                     href={`${localePrefix}/team`}
                     prefetch={false}
                     locale={locale}
-                    className={`px-3 py-2 rounded-md min-w-[92px] text-center critical-nav__link ${isSection(`${localePrefix}/team`) ? "bg-accent" : "hover:bg-accent"}`}
+                    aria-current={
+                      isSection(`${localePrefix}/team`) ? "page" : undefined
+                    }
+                    className={`${linkBase} ${
+                      isSection(`${localePrefix}/team`) ? activeClasses : ""
+                    }`}
                   >
                     {navData.labels.team}
                   </Link>
                 </li>
-                <li className="relative group critical-nav__item">
-                  <Link
-                    href={`${localePrefix}/services`}
-                    prefetch={false}
-                    locale={locale}
-                    className={`px-3 py-2 rounded-md min-w-[100px] text-center inline-flex items-center gap-1 critical-nav__link ${isSection(`${localePrefix}/services`) ? "bg-accent" : "hover:bg-accent"}`}
-                  >
-                    {navData.labels.services}
-                    <span className="transition-transform duration-200 group-hover:rotate-180">▾</span>
-                  </Link>
-                  <div className="critical-nav__dropdown invisible opacity-0 pointer-events-none group-hover:visible group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 absolute left-0 top-full pt-2 w-[min(92vw,720px)] bg-background border rounded-md shadow-xl z-50">
-                    <div className="p-3">
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        {navData.services.map((item) => (
-                          <li key={item.href} className="min-w-0">
-                            <Link
-                              href={`${localePrefix}${item.href}`}
-                              prefetch={false}
-                              locale={locale}
-                              className="block rounded-md p-3 hover:bg-accent focus:bg-accent focus:outline-none focus:ring-2 focus:ring-primary"
-                            >
-                              <div className="text-left text-sm font-medium leading-none truncate">{item.title}</div>
-                              <p className="mt-1 text-left text-sm text-muted-foreground leading-snug line-clamp-2">{item.description}</p>
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="mt-2 text-right">
-                        <Link href={`${localePrefix}/services`} prefetch={false} locale={locale} className="text-sm text-primary underline hover:no-underline">
-                          {navData.labels.services} →
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </li>
+                <ServicesDropdown
+                  locale={locale}
+                  localePrefix={localePrefix}
+                  navData={navData}
+                  isActive={isSection(`${localePrefix}/services`)}
+                />
                 <li>
                   <Link
                     href={`${localePrefix}/ressources`}
                     prefetch={false}
                     locale={locale}
-                    className={`px-3 py-2 rounded-md min-w-[112px] text-center critical-nav__link ${isSection(`${localePrefix}/ressources`) ? "bg-accent" : "hover:bg-accent"}`}
+                    aria-current={
+                      isSection(`${localePrefix}/ressources`)
+                        ? "page"
+                        : undefined
+                    }
+                    className={`${linkBase} min-w-[112px] ${
+                      isSection(`${localePrefix}/ressources`)
+                        ? activeClasses
+                        : ""
+                    }`}
                   >
                     {navData.labels.ressources}
                   </Link>
@@ -160,7 +137,12 @@ export default function NavbarServer({
                     href={`${localePrefix}/about`}
                     prefetch={false}
                     locale={locale}
-                    className={`px-3 py-2 rounded-md min-w-[92px] text-center critical-nav__link ${isSection(`${localePrefix}/about`) ? "bg-accent" : "hover:bg-accent"}`}
+                    aria-current={
+                      isSection(`${localePrefix}/about`) ? "page" : undefined
+                    }
+                    className={`${linkBase} ${
+                      isSection(`${localePrefix}/about`) ? activeClasses : ""
+                    }`}
                   >
                     {navData.labels.about}
                   </Link>
@@ -170,25 +152,38 @@ export default function NavbarServer({
                     href={`${localePrefix}/contact`}
                     prefetch={false}
                     locale={locale}
-                    className={`px-3 py-2 rounded-md min-w-[96px] text-center critical-nav__link ${isSection(`${localePrefix}/contact`) ? "bg-accent" : "hover:bg-accent"}`}
+                    aria-current={
+                      isSection(`${localePrefix}/contact`) ? "page" : undefined
+                    }
+                    className={`${linkBase} min-w-[96px] ${
+                      isSection(`${localePrefix}/contact`) ? activeClasses : ""
+                    }`}
                   >
                     {navData.labels.contact}
                   </Link>
                 </li>
                 <li className="ml-1">
-                  <Defer rootMargin="100px" idle={100} maxDelay={1500} placeholder={null}>
+                  <Defer
+                    rootMargin="100px"
+                    idle={100}
+                    maxDelay={1500}
+                    placeholder={null}
+                  >
                     <HeaderControls />
                   </Defer>
                 </li>
               </ul>
             </nav>
-            {/* Minimal client sync to update active state on route changes */}
-            <ActiveNavSync localePrefix={localePrefix} />
           </div>
 
           {/* Mobile menu (client-only, deferred with safety maxDelay) */}
-          <div className="critical-nav__mobile">
-            <Defer rootMargin="100px" idle={150} maxDelay={1800} placeholder={null}>
+          <div className="flex md:hidden">
+            <Defer
+              rootMargin="100px"
+              idle={150}
+              maxDelay={1800}
+              placeholder={null}
+            >
               <MobileMenuIsland locale={locale} navData={navData} />
             </Defer>
           </div>

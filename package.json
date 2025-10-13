@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "node scripts/dev.js",
     "predev": "node scripts/lint-translations.js || true",
-    "prebuild": "node scripts/validate-translations.js && npm run css:build",
+    "prebuild": "node scripts/validate-translations.js",
     "build": "next build",
     "start": "PORT=${PORT:-5000} node .next/standalone/server.js",
     "prod": "npm run build && mkdir -p .next/standalone/.next/static && cp -R .next/static/* .next/standalone/.next/static/ 2>/dev/null || true && mkdir -p .next/standalone/public && cp -R public/* .next/standalone/public/ 2>/dev/null || true && mkdir -p .next/standalone/src && cp -R src/translations .next/standalone/src/ 2>/dev/null || true && PORT=${PORT:-5000} node .next/standalone/server.js",
@@ -20,9 +20,6 @@
     "lint:capitalization:fix": "node scripts/lint-capitalization.js --fix",
     "ressources:sync": "node scripts/sync-ressources.js --apply",
     "articles:translate": "node scripts/translate-articles.js --apply",
-    "css:build": "tailwindcss -i ./app/globals.css -o ./public/assets/css/non-critical.css --config tailwind.config.ts --minify",
-    "css:watch": "tailwindcss -i ./app/globals.css -o ./public/assets/css/non-critical.css --config tailwind.config.ts --watch",
-    "css:report": "node scripts/report-unused-css.js",
     "optimize:images": "node scripts/optimize-images.js",
     "compress:images": "node scripts/compress-images.js --dir public/assets --threshold 100 --quality 70",
     "images:hero-blur": "node scripts/generate-hero-blur-data.js",
@@ -48,6 +45,7 @@
     "@vercel/analytics": "^1.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "compression": "^1.8.1",
     "embla-carousel-react": "^8.1.7",
     "i18next": "^25.4.1",
     "next": "14.2.10",
@@ -64,6 +62,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@builder.io/partytown": "^0.10.3",
     "@next/bundle-analyzer": "14.2.10",
     "@types/node": "^20.14.12",
     "@types/react": "^18.2.0",

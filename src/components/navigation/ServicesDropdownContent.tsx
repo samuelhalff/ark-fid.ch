@@ -6,14 +6,7 @@ import {
   NavigationMenuContent,
   NavigationMenuLink,
 } from "@/src/components/navigation/NavigationComponents";
-
-type NavData = {
-  services: Array<{
-    href: string;
-    title: string;
-    description: string;
-  }>;
-};
+import type { NavData } from "@/src/components/navigation/types";
 
 function ListItem({
   title,

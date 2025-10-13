@@ -6,14 +6,11 @@ import {
 } from "@/src/lib/metadata";
 import { inter } from "./fonts";
 import { headers } from "next/headers";
-import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
-import path from "node:path";
 // Vercel Analytics is rendered conditionally via ConsentAnalytics
 import dynamic from "next/dynamic";
 import Defer from "@/src/components/Defer";
 import ErrorBoundary from "@/src/components/ErrorBoundary";
-import DeferredNonCriticalStyles from "@/src/components/DeferredNonCriticalStyles";
+import "./globals.css";
 const CookieConsent = dynamic(() => import("@/src/components/CookieConsent"), {
   ssr: false,
   loading: () => null,
@@ -24,59 +21,7 @@ const ConsentAnalytics = dynamic(
 );
 import { getTranslations, getCurrentLocale } from "@/src/lib/i18n";
 
-// Read and inline critical CSS to eliminate render-blocking request
-const criticalCss = (() => {
-  try {
-    const filePath = path.join(
-      process.cwd(),
-      "public",
-      "assets",
-      "css",
-      "critical.css"
-    );
-    return readFileSync(filePath, "utf-8");
-  } catch (error) {
-    console.error("Failed to read critical.css:", error);
-    return "";
-  }
-})();
-
-const nonCriticalCssHref = (() => {
-  const baseHref = "/assets/css/non-critical.css" as const;
-  if (process.env.NODE_ENV !== "production") {
-    return baseHref;
-  }
-  try {
-    const filePath = path.join(
-      process.cwd(),
-      "public",
-      "assets",
-      "css",
-      "non-critical.css"
-    );
-    const fileContents = readFileSync(filePath);
-    const digest = createHash("sha256").update(fileContents).digest("hex");
-    const version = digest.slice(0, 10);
-    return `${baseHref}?v=${version}`;
-  } catch (error) {
-    if (process.env.NODE_ENV !== "production") {
-      const err = error instanceof Error ? error : new Error(String(error));
-      console.warn(
-        "Unable to compute non-critical CSS hash; falling back to base href",
-        err
-      );
-    }
-  }
-  return baseHref;
-})();
-
 // Using self-hosted Inter via next/font/local (see app/fonts.ts)
-
-// Page-level metadata is exported later in this file.
-
-// import { Inter } from "next/font/google";
-
-// const inter = Inter({ subsets: ["latin"] });
 
 // Here we define the STATIC metadata for the entire site
 // This is the baseline, and can be overridden by individual pages
@@ -202,19 +147,16 @@ export default async function RootLayout({
         {/* Ensure font swap to avoid layout shifts */}
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
         {/* Title, description and viewport are managed by Next metadata API */}
-        {/* Inline critical CSS to eliminate render-blocking request */}
-        <style dangerouslySetInnerHTML={{ __html: criticalCss }} />
       </head>
       <body className={inter.className}>
         {/* GTM noscript removed to comply with consent gating */}
         {/* Accessibility: Skip link */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 bg-primary text-primary-foreground px-3 py-2 rounded critical-skip-link"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[999] focus:w-auto focus:h-auto focus:px-5 focus:py-3 focus:rounded-lg bg-primary text-primary-foreground focus:shadow-xl"
         >
           Skip to content
         </a>
-        <DeferredNonCriticalStyles href={nonCriticalCssHref} />
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"

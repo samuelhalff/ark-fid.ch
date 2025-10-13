@@ -61,14 +61,14 @@ const PartnersHero = async ({ locale }: PartnersHeroProps) => {
 
   // Randomly pick a service hero image per request (same pool as home hero)
   const serviceHeroes = [
-    "/assets/hero/services/accounting-hero.optimized.webp",
-    "/assets/hero/services/corporate-hero.optimized.webp",
-    "/assets/hero/services/domiciliation-hero.optimized.webp",
-    "/assets/hero/services/incorporation-hero.optimized.webp",
-    "/assets/hero/services/odoo-hero.optimized.webp",
-    "/assets/hero/services/outsourcing-hero.optimized.webp",
-    "/assets/hero/services/payroll-hero.optimized.webp",
-    "/assets/hero/services/taxes-hero.optimized.webp",
+    "/assets/hero/services/accounting-hero.optimized.avif",
+    "/assets/hero/services/corporate-hero.optimized.avif",
+    "/assets/hero/services/domiciliation-hero.optimized.avif",
+    "/assets/hero/services/home-hero.avif",
+    "/assets/hero/services/odoo-hero.optimized.avif",
+    "/assets/hero/services/outsourcing-hero.optimized.avif",
+    "/assets/hero/services/payroll-hero.optimized.avif",
+    "/assets/hero/services/taxes-hero.optimized.avif",
   ];
   const pick = Math.floor(Math.random() * serviceHeroes.length);
   const heroSrc = serviceHeroes[pick];

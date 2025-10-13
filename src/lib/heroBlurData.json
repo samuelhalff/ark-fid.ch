@@ -19,11 +19,6 @@
   "/assets/hero/services/family-office-hero.jpg": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAwAgCdASoQABAAAsBMJZwAD4/QM4K3fLMwAAD+6RLKU8AUVw22XGw1lsr3yq9kQwytaivVFV9o/s4aCWR53H4fepehY52xkEbr9sD7lMdFAAAA",
   "/assets/hero/services/family-office-hero.optimized.avif": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAwAgCdASoQABAAAsBMJZwAD5GwM4K3fLEIAAD+6Rbf1hSAoiZxAUxk1tLcWkqxNYZdKFzmfErWQyc59Cm27I8gYpfc86gqu6nYBtA7zQnqDgAA",
   "/assets/hero/services/family-office-hero.optimized.webp": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAwAgCdASoQABAAAsBMJZwAD5GwM4K3fLEIAAD+6Rbf1hSAoiZxAUxk1tLcWkqxNYZdKFzmfErWQyc59Cm27I8gYpfc86gqu6nYBtA7zQnqDgAA",
-  "/assets/hero/services/incorporation-hero.avif": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAAAQAgCdASoNABAAAsBMJZwAAud6tHWnRJywAP74OxV2lmBYDUgF8ep8fwykvvLCKk6lrcseUlLfZnYriISrKBbCEIXvTT3zFOkHMJvEBO3w4NnVXMUx0CAA",
-  "/assets/hero/services/incorporation-hero.webp": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAAAQAgCdASoNABAAAsBMJZwAAud6tHWnRJywAP74OxV2lmBYDUgF8ep8fwykvvLCKk6lrcseUlLfZnYriISrKBbCEIXvTT3zFOkHMJvEBO3w4NnVXMUx0CAA",
-  "/assets/hero/services/incorporation-hero.jpg": "data:image/webp;base64,UklGRmAAAABXRUJQVlA4IFQAAADwAQCdASoNABAAAsBMJZwAAug0HsjSWEAA/vg7FXaWYFgNNnGaSRx/DKS+rAJB7VVvwsi8T7XelYNuGEzk14cEDJVxuapnnnRK+lTT4PfCT2T8CAA=",
-  "/assets/hero/services/incorporation-hero.optimized.avif": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAAAQAgCdASoNABAAAsBMJZwAAud6tHV/WoyAAP74OxV2lmBYDUgF8ep8fwykvvLCKk6lrfhZFwZuBKIy4Pl0fsNdXhwQMlXG5qmed+qLIyNSOzuuMikIAA==",
-  "/assets/hero/services/incorporation-hero.optimized.webp": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAAAQAgCdASoNABAAAsBMJZwAAud6tHV/WoyAAP74OxV2lmBYDUgF8ep8fwykvvLCKk6lrfhZFwZuBKIy4Pl0fsNdXhwQMlXG5qmed+qLIyNSOzuuMikIAA==",
   "/assets/hero/services/odoo-hero.avif": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADwAQCdASoQAAkAAsBMJbAAAurs8vc7u6AA/k5SZD2nTch0AwLMETYYtSPnaZKW5gtXUH5R7Fhql0i9MTLoV//9avOOdxh4AAA=",
   "/assets/hero/services/odoo-hero.webp": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADwAQCdASoQAAkAAsBMJbAAAurs8vc7u6AA/k5SZD2nTch0AwLMETYYtSPnaZKW5gtXUH5R7Fhql0i9MTLoV//9avOOdxh4AAA=",
   "/assets/hero/services/odoo-hero.jpg": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAADwAQCdASoQAAkAAsBMJbAAAuhI7UeTzvAA/k5SZD2nSRv7IwKc8BcUmLxihTWPNUo1LGxeAkH8fEPsjwf/61ecc7jQgAAA",
@@ -48,5 +43,7 @@
   "/assets/hero/services/taxes-hero.webp": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACwAQCdASoQAAkAAsBMJQBWACHIJ9J4AP7gC+pICY7nvnZeu5FiFZKG5WjGdU+i4pJuv7SQ32//cKFKaHZQe+wcHGbXd2uhX6g2gAAA",
   "/assets/hero/services/taxes-hero.jpg": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAACwAQCdASoQAAkAAsBMJQBdgCHIJ9J4AP7gC+qXMCI85VR88yZVJTewqcY1gTt/rkf5mo0yVy0ihhIWEN7HyRJFkDBxZ6+H4xtp4FwAAAA=",
   "/assets/hero/services/taxes-hero.optimized.avif": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACwAQCdASoQAAkAAsBMJQBWACHIJcwAAP7gC+pICY7nvnZeu5FiFZKKT1RjOqfRcUk3YKzQWBxQweWtj3uo+A3m/1iA/N+IZmRUtSAA",
-  "/assets/hero/services/taxes-hero.optimized.webp": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACwAQCdASoQAAkAAsBMJQBWACHIJcwAAP7gC+pICY7nvnZeu5FiFZKKT1RjOqfRcUk3YKzQWBxQweWtj3uo+A3m/1iA/N+IZmRUtSAA"
+  "/assets/hero/services/taxes-hero.optimized.webp": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACwAQCdASoQAAkAAsBMJQBWACHIJcwAAP7gC+pICY7nvnZeu5FiFZKKT1RjOqfRcUk3YKzQWBxQweWtj3uo+A3m/1iA/N+IZmRUtSAA",
+  "/assets/hero/services/home-hero.avif": "data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAABQBQCdASogABMAPrVKnkonJCKhsAgA4BaJZQCo+a9BD0NGXNCM3ttXrDxepbKBpjE6/gAAzdK9DUt9s6jByWHxkPvBCluDOd+23c1gos9ffZch5OKjdzcZhrLtjdsa4yMGmIXRNuxCUUU+iSHy5DmZ1+EL/m+6VJFNWr7e5dRtVwkYR5TqNOF5WCMOHQdxU7WmrEInUEz5R7UUooFZDAp3hhj3UxyVRvmAAA==",
+  "/assets/hero/services/home-hero.jpg": "data:image/webp;base64,UklGRrYAAABXRUJQVlA4IKoAAABQBQCdASogABMAPrVKnkonJCKhsAgA4BaJZQCo+a9BD0NGXNCM3ttXrDxepbKBpjE6/gAAzdK9DUt9s6jByWHxkPvBCluDOd+23c1gos9ffZch5OKjdzcZhrLtjdsa4yMGmIXRNuxCUUU+iSHy5DmZ1+EL/m+6VJFNWr7e5dRtVwkYR5TqNOF5WCMOHQdxU7WmrEInUEz5R7UUooFZDAp3hhj3UxyVRvmAAA=="
 }

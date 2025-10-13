@@ -25,9 +25,8 @@ export async function generateMetadata({
   return await generateMetadataForPage(activeLocale, "/");
 }
 
-// Ensure this page is dynamic so the hero image can rotate per request
-// Force this page to be dynamic (no static caching) to rotate the hero image
-export const revalidate = 0;
+// Redeploy happens every 48h, so cache the page until next deployment window
+export const revalidate = 60 * 60 * 48;
 
 export default async function Home({ params }: { params: { locale: string } }) {
   const nonce = headers().get("x-nonce") || undefined;

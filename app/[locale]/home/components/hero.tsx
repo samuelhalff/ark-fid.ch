@@ -26,20 +26,19 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
   // Use JPEG masters for next/image so it can transcode once to AVIF/WebP
   // with minimal quality loss. WebP alias blur placeholders are generated too.
   const serviceHeroes = [
-    "/assets/hero/services/accounting-hero.jpg",
-    "/assets/hero/services/corporate-hero.jpg",
-    "/assets/hero/services/domiciliation-hero.jpg",
-    "/assets/hero/services/incorporation-hero.jpg",
-    "/assets/hero/services/odoo-hero.jpg",
-    "/assets/hero/services/outsourcing-hero.jpg",
-    "/assets/hero/services/payroll-hero.jpg",
-    "/assets/hero/services/taxes-hero.jpg",
-    "/assets/hero/services/family-office-hero.jpg",
+    "/assets/hero/services/home-hero.avif",
+    "/assets/hero/services/corporate-hero.avif",
+    "/assets/hero/services/domiciliation-hero.avif",
+    "/assets/hero/services/odoo-hero.avif",
+    "/assets/hero/services/outsourcing-hero.avif",
+    "/assets/hero/services/payroll-hero.avif",
+    "/assets/hero/services/taxes-hero.avif",
+    "/assets/hero/services/family-office-hero.avif",
   ];
   const pick = Number.isFinite(heroIndex!)
     ? Math.max(0, Math.min(serviceHeroes.length - 1, Number(heroIndex)))
     : 0;
-  const fallbackHero = "/assets/abstract-background-light.webp";
+  const fallbackHero = "/assets/hero/services/home-hero.avif";
   const homeHeroSrc = serviceHeroes[pick] || fallbackHero;
   const blur = (heroBlurData as Record<string, string>)[homeHeroSrc];
 

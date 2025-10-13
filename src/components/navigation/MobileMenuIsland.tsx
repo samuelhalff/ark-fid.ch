@@ -1,19 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-
-type NavData = {
-  labels: {
-    home: string;
-    team: string;
-    services: string;
-    ressources: string;
-    about: string;
-    contact: string;
-    mobileNavigation: string;
-  };
-  services: Array<{ href: string; title: string; description: string }>;
-};
+import type { NavData } from "@/src/components/navigation/types";
 
 const DynamicMobileMenu = dynamic(
   () => import("@/src/components/navigation/MobileMenu"),

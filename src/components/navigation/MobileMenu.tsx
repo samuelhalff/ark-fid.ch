@@ -15,7 +15,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/src/lib/utils";
 import { MessageIcon } from "@/src/components/icons/MessageIcon";
-// no usePathname needed; compute pathname from window when required
+import type { NavData } from "@/src/components/navigation/types";
 
 const MobileMenuToggleIcon = ({
   open,
@@ -51,23 +51,6 @@ const MobileMenuToggleIcon = ({
     />
   </span>
 );
-
-type NavData = {
-  labels: {
-    home: string;
-    team: string;
-    services: string;
-    ressources: string;
-    about: string;
-    contact: string;
-    mobileNavigation: string;
-  };
-  services: Array<{
-    href: string;
-    title: string;
-    description: string;
-  }>;
-};
 
 const MobileMenu = ({
   locale,

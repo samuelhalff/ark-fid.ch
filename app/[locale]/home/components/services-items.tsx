@@ -95,7 +95,7 @@ const services = [
     titleKey: "Incorporation.Title",
     href: "/services/incorporation",
     descriptionKey: "Incorporation.Description",
-    image: "/assets/hero/services/incorporation-hero.optimized.webp",
+    image: "/assets/hero/services/home-hero.avif",
   },
   {
     icon: <Layers />,
