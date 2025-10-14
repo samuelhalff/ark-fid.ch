@@ -147,7 +147,7 @@ const serviceHeroes = [
   src={homeHeroSrc}
   alt={t("Hero.ImageAlt")}
   sizes="(min-width:1280px) 560px, (min-width:1024px) 480px, 92vw"
-  quality={50} // Aggressive quality for hero
+  quality={60} // Aggressive quality for hero
   priority // Load immediately (LCP optimization)
   fetchPriority="high"
   loading="eager"
@@ -160,7 +160,7 @@ const serviceHeroes = [
 **Optimization Strategy:**
 
 - ✅ `priority` flag for LCP (Largest Contentful Paint)
-- ✅ `quality={50}` reduces file size significantly
+- ✅ `quality={60}` reduces file size significantly
 - ✅ `blur` placeholder prevents layout shift
 - ✅ Responsive `sizes` attribute for correct image selection
 
@@ -173,7 +173,7 @@ const serviceHeroes = [
   alt={tItems(service.titleKey)}
   fill
   sizes="(min-width:1024px) 20vw, (min-width:768px) 30vw, 80vw"
-  quality={50}
+  quality={60}
   placeholder="blur"
   loading="lazy" // Lazy load below-the-fold images
   blurDataURL={heroBlurData[service.image]}

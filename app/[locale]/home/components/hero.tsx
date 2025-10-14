@@ -108,7 +108,7 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
             alt={t("Hero.ImageAlt") || "Ark Fiduciaire fiduciary services"}
             className="object-cover rounded-xl"
             sizes="(min-width:1280px) 560px, (min-width:1024px) 480px, 92vw"
-            quality={50}
+            quality={60}
             priority
             fetchPriority="high"
             loading="eager"

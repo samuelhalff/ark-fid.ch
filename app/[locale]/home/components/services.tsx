@@ -79,7 +79,7 @@ const Services = async ({
                       alt={tItems(service.titleKey)}
                       fill
                       sizes="(min-width:1024px) 20vw, (min-width:768px) 30vw, 80vw"
-                      quality={50}
+                      quality={60}
                       placeholder="blur"
                       loading="lazy"
                       blurDataURL={

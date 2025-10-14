@@ -157,7 +157,7 @@ const ServiceHero = async ({
                 sizes="(min-width:1024px) 520px, 90vw"
                 priority
                 fetchPriority="high"
-                quality={50}
+                quality={60}
                 fill
               />
             );
