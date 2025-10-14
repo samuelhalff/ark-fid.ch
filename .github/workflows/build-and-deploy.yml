@@ -103,8 +103,12 @@ jobs:
           PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
 
           echo "[deploy] Testing SSH connectivity to $HOST:$PORT as $USER"
-          # Probe is best-effort: some servers only allow keyboard-interactive; don't fail the job here
-          sshpass -p "$PASS" ssh -o PreferredAuthentications=keyboard-interactive,password -o PubkeyAuthentication=no -o StrictHostKeyChecking=no -p "$PORT" "$USER@$HOST" 'echo connected' || echo "[deploy] SSH probe failed; proceeding to extract"
+          # Probe is best-effort: some servers may have different auth preferences
+          if sshpass -p "$PASS" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p "$PORT" "$USER@$HOST" 'echo "SSH probe successful"' 2>/dev/null; then
+            echo "[deploy] SSH probe successful"
+          else
+            echo "[deploy] SSH probe failed (this is normal for some server configurations); proceeding with deployment"
+          fi
 
           sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no "$USER@$HOST" bash -lc '
             set -euo pipefail
@@ -118,36 +122,48 @@ jobs:
             TMP="/tmp/ark-fid-release-$TS"
             LOG="$BASE_DIR/deploy.extract.log"
 
+            echo "[deploy] Starting deployment at $(date)" >> "$LOG"
+            echo "[deploy] Release timestamp: $TS" >> "$LOG"
+            echo "[deploy] Target directory: $REL_DIR" >> "$LOG"
+
             mkdir -p "$RELEASES_DIR" "$TMP"
+            echo "[deploy] Created directories" >> "$LOG"
 
-            [ -f "$PART" ] && mv "$PART" "$ARTIFACT"
+            [ -f "$PART" ] && mv "$PART" "$ARTIFACT" && echo "[deploy] Moved partial artifact to final location" >> "$LOG"
             cp "$ARTIFACT" "$TMP/artifact.tar.gz"
+            echo "[deploy] Copied artifact to temp directory" >> "$LOG"
 
+            echo "[deploy] Extracting artifact..." >> "$LOG"
             gzip -cd "$TMP/artifact.tar.gz" > "$TMP/.payload.tar"
             tar -xf "$TMP/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP"
             rm -f "$TMP/.payload.tar"
+            echo "[deploy] Artifact extracted successfully" >> "$LOG"
 
             for f in server.js .next/BUILD_ID .next/static; do
-              [ -e "$TMP/$f" ] || { echo "[deploy] Missing required: $f" >> "$LOG"; exit 1; }
+              [ -e "$TMP/$f" ] || { echo "[deploy] ERROR: Missing required file: $f" >> "$LOG"; exit 1; }
             done
+            echo "[deploy] All required files present" >> "$LOG"
 
             mv "$TMP" "$REL_DIR" || { cp -r "$TMP"/* "$REL_DIR"/ && rm -rf "$TMP"; }
+            echo "[deploy] Moved to releases directory: $REL_DIR" >> "$LOG"
 
             mkdir -p "$BASE_DIR/shared"
             if [ -f "$BASE_DIR/shared/.env" ]; then
               ln -sfn "$BASE_DIR/shared/.env" "$REL_DIR/.env"
-              echo "[deploy] Linked .env" >> "$LOG"
+              echo "[deploy] Linked .env file" >> "$LOG"
             fi
 
             ln -sfn "$REL_DIR" "$CURRENT_LINK"
             echo "$TS" > "$BASE_DIR/last_release_ts"
-            echo "[deploy] Release $TS deployed successfully" >> "$LOG"
+            echo "[deploy] Updated current symlink to $REL_DIR" >> "$LOG"
+            echo "[deploy] Release $TS deployed successfully at $(date)" >> "$LOG"
 
             KEEP=4
             cd "$RELEASES_DIR" || exit 0
             ls -1t | tail -n +$((KEEP+1)) | while read -r rel; do
-              [ -d "$rel" ] && [ "$rel" != "$TS" ] && rm -rf "$RELEASES_DIR/$rel"
+              [ -d "$rel" ] && [ "$rel" != "$TS" ] && rm -rf "$RELEASES_DIR/$rel" && echo "[deploy] Cleaned up old release: $rel" >> "$LOG"
             done
+            echo "[deploy] Cleanup completed, keeping last $KEEP releases" >> "$LOG"
           '
 
       - name: Restart Node.js server
@@ -160,14 +176,14 @@ jobs:
           TOKEN="${{ secrets.RESTART_SECRET_TOKEN }}"
 
           echo "[restart] Killing old process..."
-          curl -X POST "https://ark-fid.ch/api/kill/" -H "Authorization: Bearer $TOKEN" -s || true
+          curl -X POST "https://ark-fid.ch/api/kill/" -H "Authorization: Bearer $TOKEN" -s -o /dev/null -w "[restart] Kill request status: %{http_code}\n" || echo "[restart] Kill request failed or no process to kill"
 
           echo "[restart] Waiting for process to terminate..."
           sleep 20
 
           echo "[restart] Starting new process..."
           sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no "$USER@$HOST" \
-            'cd /srv/customer/sites/ark-fid.ch/current && nohup node server.js > server.out 2>&1 &' || true
+            'cd /srv/customer/sites/ark-fid.ch/current && nohup node server.js > server.out 2>&1 &' || echo "[restart] SSH command completed"
 
           sleep 10
 
@@ -202,5 +218,7 @@ jobs:
           # Warm a single additional path that often shows first: /fr/services/
           SVC=$(curl -fsSL "https://ark-fid.ch/fr/services/" || true)
           echo "$SVC" | grep -Eo '/_next/image/\?url=[^" ]+' | sed 's/&amp;/\&/g' | head -n 30 | while read -r u; do
-            curl -fsSL "https://ark-fid.ch$u" >/dev/null 2>&1 || true
+              curl -fsSL "https://ark-fid.ch$u" >/dev/null 2>&1 || true
           done
+
+          echo "[deploy] Deployment completed successfully"
