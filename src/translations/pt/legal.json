@@ -288,9 +288,8 @@
                     "Navegação do site e funcionalidade básica",
                     "Segurança e autenticação",
                     "Preferências de idioma e acessibilidade",
-                    "Envio de formulários e gerenciamento de sessão"
-                ],
-                "LegalBasis": "Base legal: Necessário para prestação de serviços"
+                    "Submissão de formulário e gerenciamento de sessão"
+                ]
             },
             "Analytics": {
                 "Title": "2. Cookies de Analytics",
@@ -298,12 +297,11 @@
                 "Purpose": "Propósito:",
                 "Items": [
                     "Análise de tráfego do site",
-                    "Monitoramento de desempenho de páginas",
+                    "Monitoramento de desempenho da página",
                     "Padrões de comportamento do usuário",
                     "Otimização e melhoria do site"
                 ],
-                "LegalBasis": "Base legal: Interesses legítimos / Consentimento (quando necessário)",
-                "Providers": "Provedores: Google Analytics, ferramentas de analytics internas"
+                "Providers": "Provedores: Google Analytics, ferramentas de análise internas"
             },
             "Functional": {
                 "Title": "3. Cookies Funcionais",
@@ -311,11 +309,10 @@
                 "Purpose": "Propósito:",
                 "Items": [
                     "Lembrar preferências de idioma e tema",
-                    "Salvar dados de formulários e progresso",
+                    "Salvar dados de formulário e progresso",
                     "Personalizar conteúdo e layout",
                     "Fornecer funcionalidade de chat ao vivo"
-                ],
-                "LegalBasis": "Base legal: Interesses legítimos / Consentimento"
+                ]
             },
             "Marketing": {
                 "Title": "4. Cookies de Marketing",
@@ -323,11 +320,10 @@
                 "Purpose": "Propósito:",
                 "Items": [
                     "Publicidade direcionada",
-                    "Medição da eficácia de anúncios",
+                    "Medição da eficácia do anúncio",
                     "Campanhas de retargeting",
-                    "Integração com redes sociais"
+                    "Integração de mídia social"
                 ],
-                "LegalBasis": "Base legal: Consentimento",
                 "Providers": "Provedores: Google Ads, LinkedIn, Facebook"
             }
         },
@@ -424,6 +420,10 @@
             "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Genebra"
-        }
+        },
+        "ChromeLink": "Como desabilitar cookies no Google Chrome",
+        "FirefoxLink": "Como desabilitar cookies no Mozilla Firefox",
+        "SafariLink": "Como desabilitar cookies no Safari",
+        "IELink": "Como desabilitar cookies no Internet Explorer"
     }
 }

@@ -161,14 +161,6 @@ export default async function CookiesPage({
                     )}
                   </li>
                 </ul>
-                <p className="mt-3 text-sm">
-                  <strong>
-                    {r(
-                      "Cookies.Types.Essential.LegalBasis",
-                      "Legal basis: Necessary for service provision"
-                    )}
-                  </strong>
-                </p>
               </div>
             </div>
 
@@ -213,14 +205,6 @@ export default async function CookiesPage({
                     )}
                   </li>
                 </ul>
-                <p className="mt-3 text-sm">
-                  <strong>
-                    {r(
-                      "Cookies.Types.Analytics.LegalBasis",
-                      "Legal basis: Legitimate interests / Consent (where required)"
-                    )}
-                  </strong>
-                </p>
                 <p className="mt-2 text-sm">
                   <strong>
                     {r(
@@ -273,14 +257,6 @@ export default async function CookiesPage({
                     )}
                   </li>
                 </ul>
-                <p className="mt-3 text-sm">
-                  <strong>
-                    {r(
-                      "Cookies.Types.Functional.LegalBasis",
-                      "Legal basis: Legitimate interests / Consent"
-                    )}
-                  </strong>
-                </p>
               </div>
             </div>
 
@@ -325,14 +301,6 @@ export default async function CookiesPage({
                     )}
                   </li>
                 </ul>
-                <p className="mt-3 text-sm">
-                  <strong>
-                    {r(
-                      "Cookies.Types.Marketing.LegalBasis",
-                      "Legal basis: Consent"
-                    )}
-                  </strong>
-                </p>
                 <p className="mt-2 text-sm">
                   <strong>
                     {r(
@@ -523,18 +491,9 @@ export default async function CookiesPage({
         {/* Managing Cookies */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">
-            {r("Cookies.Managing.Title", "Managing Cookies")}
+            {r("Cookies.Management.Title", "Managing cookies")}
           </h2>
           <div className="space-y-6">
-            <div>
-              <p>
-                {r(
-                  "Cookies.Managing.Browser",
-                  "You can manage cookie preferences through your browser settings."
-                )}
-              </p>
-            </div>
-
             <div>
               <h3 className="text-lg font-semibold mb-3">
                 {r("Cookies.Management.ConsentBanner.Title", "Consent Banner")}
@@ -622,7 +581,7 @@ export default async function CookiesPage({
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Chrome
+                      Manage cookies in Chrome
                     </a>
                   </li>
                   <li>
@@ -632,7 +591,7 @@ export default async function CookiesPage({
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Firefox
+                      Manage cookies in Firefox
                     </a>
                   </li>
                   <li>
@@ -642,7 +601,7 @@ export default async function CookiesPage({
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Safari
+                      Manage cookies in Safari
                     </a>
                   </li>
                   <li>
@@ -652,7 +611,7 @@ export default async function CookiesPage({
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Internet Explorer
+                      Manage cookies in Internet Explorer
                     </a>
                   </li>
                 </ul>
@@ -742,7 +701,34 @@ export default async function CookiesPage({
                   "Notify users through our website banner or email (for significant changes)"
                 )}
               </li>
+              <li>
+                {r(
+                  "Cookies.Updates.Actions.2",
+                  "Request renewed consent where required by law"
+                )}
+              </li>
             </ul>
+          </div>
+        </section>
+
+        {/* Do Not Track Signals */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold mb-4">
+            {r("Cookies.DoNotTrack.Title", "Do Not Track Signals")}
+          </h2>
+          <div className="space-y-4">
+            <p>
+              {r(
+                "Cookies.DoNotTrack.Description",
+                'Some browsers include a "Do Not Track" feature that lets you tell websites you do not want to be tracked. Currently, there is no accepted standard for how websites should respond to Do Not Track signals.'
+              )}
+            </p>
+            <p>
+              {r(
+                "Cookies.DoNotTrack.Response",
+                "We respect your privacy choices and are monitoring developments in this area to implement appropriate responses to Do Not Track signals when industry standards are established."
+              )}
+            </p>
           </div>
         </section>
 

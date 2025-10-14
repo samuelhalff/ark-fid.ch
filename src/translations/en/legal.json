@@ -78,7 +78,7 @@
             "Resolution": {
                 "0": "Good faith negotiations between the parties",
                 "1": "Mediation through a recognized Swiss commercial mediation service",
-                "2": "If necessary, litigation before the competent Swiss courts"
+                "2": "If necessary, litigation before the competentCookies Swiss courts"
             },
             "Jurisdiction": "The place of jurisdiction is the registered office of Ark Fiduciaire SA in Switzerland."
         },
@@ -258,7 +258,7 @@
         }
     },
     "Cookies": {
-        "Title": "Cookies Policy",
+        "Title": "Cookies policy",
         "LastUpdated": "Last updated",
         "Subtitle": "Information about our use of cookies and tracking technologies",
         "Introduction": {
@@ -269,7 +269,7 @@
             ]
         },
         "WhatAreCookies": {
-            "Title": "What Are Cookies?",
+            "Title": "What are cookies?",
             "Description": "Cookies are small text files that are stored on your device (computer, tablet, or mobile) when you visit a website. They allow the website to recognize your device and store information about your preferences or past actions.",
             "CookiesContain": "Cookies typically contain:",
             "Contents": [
@@ -279,9 +279,9 @@
             ]
         },
         "Types": {
-            "Title": "Types of Cookies We Use",
+            "Title": "Types of cookies we use",
             "Essential": {
-                "Title": "1. Essential Cookies",
+                "Title": "1. Essential cookies",
                 "Description": "These cookies are necessary for the website to function properly and cannot be disabled.",
                 "Purpose": "Purpose:",
                 "Items": [
@@ -289,11 +289,10 @@
                     "Security and authentication",
                     "Language and accessibility preferences",
                     "Form submission and session management"
-                ],
-                "LegalBasis": "Legal basis: Necessary for service provision"
+                ]
             },
             "Analytics": {
-                "Title": "2. Analytics Cookies",
+                "Title": "2. Analytics cookies",
                 "Description": "These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously.",
                 "Purpose": "Purpose:",
                 "Items": [
@@ -302,11 +301,10 @@
                     "User behavior patterns",
                     "Website optimization and improvement"
                 ],
-                "LegalBasis": "Legal basis: Legitimate interests / Consent (where required)",
                 "Providers": "Providers: Google Analytics, internal analytics tools"
             },
             "Functional": {
-                "Title": "3. Functional Cookies",
+                "Title": "3. Functional cookies",
                 "Description": "These cookies enable enhanced functionality and personalization features.",
                 "Purpose": "Purpose:",
                 "Items": [
@@ -314,11 +312,10 @@
                     "Saving form data and progress",
                     "Customizing content and layout",
                     "Providing live chat functionality"
-                ],
-                "LegalBasis": "Legal basis: Legitimate interests / Consent"
+                ]
             },
             "Marketing": {
-                "Title": "4. Marketing Cookies",
+                "Title": "4. Marketing cookies",
                 "Description": "These cookies track visitors across websites to display relevant and engaging advertisements.",
                 "Purpose": "Purpose:",
                 "Items": [
@@ -327,12 +324,11 @@
                     "Retargeting campaigns",
                     "Social media integration"
                 ],
-                "LegalBasis": "Legal basis: Consent",
                 "Providers": "Providers: Google Ads, LinkedIn, Facebook"
             }
         },
         "ThirdParty": {
-            "Title": "Third-Party Cookies",
+            "Title": "Third-party cookies",
             "Description": "Our website may include content or services from third parties that set their own cookies. These include:",
             "TableHeaders": {
                 "Provider": "Provider",
@@ -351,14 +347,14 @@
             }
         },
         "Duration": {
-            "Title": "Cookie Duration",
+            "Title": "Cookie duration",
             "Description": "Cookies are classified by duration as follows:",
             "Types": [
                 "Session Cookies: Temporary cookies that are deleted when you close your browser",
                 "Persistent Cookies: Remain on your device for a set period or until manually deleted"
             ],
             "Lifespans": {
-                "Title": "Typical Cookie Lifespans:",
+                "Title": "Typical cookie lifespans:",
                 "Items": [
                     "Essential cookies: Session duration or up to 1 year",
                     "Analytics cookies: 2 years maximum",
@@ -368,9 +364,9 @@
             }
         },
         "Management": {
-            "Title": "Managing Your Cookie Preferences",
+            "Title": "Managing cookies",
             "ConsentBanner": {
-                "Title": "Cookie Consent Banner",
+                "Title": "Cookie consent banner",
                 "Description": "When you first visit our website, you'll see a cookie consent banner allowing you to:",
                 "Options": [
                     "Accept all cookies",
@@ -379,7 +375,7 @@
                 ]
             },
             "BrowserSettings": {
-                "Title": "Browser Settings",
+                "Title": "Browser settings",
                 "Description": "You can also control cookies through your browser settings. Most browsers allow you to:",
                 "Options": [
                     "View and delete cookies",
@@ -387,10 +383,14 @@
                     "Block third-party cookies",
                     "Clear all cookies when you close the browser"
                 ],
-                "Instructions": "Browser-specific instructions:"
+                "Instructions": "Browser-specific instructions:",
+                "ChromeLink": "Manage cookies in Chrome",
+                "FirefoxLink": "Manage cookies in Firefox",
+                "SafariLink": "Manage cookies in Safari",
+                "IELink": "Manage cookies in Internet Explorer"
             },
             "DisablingImpact": {
-                "Title": "Impact of Disabling Cookies",
+                "Title": "Impact of disabling cookies",
                 "Description": "Please note that disabling certain cookies may affect your experience on our website:",
                 "Effects": [
                     "Essential cookies: Website may not function properly",
@@ -401,12 +401,12 @@
             }
         },
         "DoNotTrack": {
-            "Title": "Do Not Track Signals",
+            "Title": "Do not track signals",
             "Description": "Some browsers include a \"Do Not Track\" feature that lets you tell websites you do not want to be tracked. Currently, there is no accepted standard for how websites should respond to Do Not Track signals.",
             "Response": "We respect your privacy choices and are monitoring developments in this area to implement appropriate responses to Do Not Track signals when industry standards are established."
         },
         "Updates": {
-            "Title": "Updates to This Policy",
+            "Title": "Updates to this policy",
             "Description": "We may update this Cookies Policy from time to time to reflect changes in technology, law, or our practices. When we make significant changes, we will:",
             "Actions": {
                 "0": "Update the \"Last Updated\" date at the top of this page",
@@ -415,11 +415,11 @@
             }
         },
         "Retention": {
-            "Title": "Data Retention",
+            "Title": "Data retention",
             "Description": "We retain cookie data for a limited period necessary for the purposes described in this policy."
         },
         "Contact": {
-            "Title": "Contact Us",
+            "Title": "Contact us",
             "Description": "If you have any questions about this Cookies Policy or our use of cookies, please contact us:",
             "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",

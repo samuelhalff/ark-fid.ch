@@ -289,8 +289,7 @@
                     "Sicherheit und Authentifizierung",
                     "Sprach- und Barrierefreiheitseinstellungen",
                     "Formularübermittlung und Sitzungsverwaltung"
-                ],
-                "LegalBasis": "Rechtsgrundlage: Erforderlich für Dienstleistungserbringung"
+                ]
             },
             "Analytics": {
                 "Title": "2. Analyse-Cookies",
@@ -299,10 +298,9 @@
                 "Items": [
                     "Website-Traffic-Analyse",
                     "Seitenleistungsüberwachung",
-                    "Nutzerverhaltensmuster",
+                    "Benutzerverhaltensmuster",
                     "Website-Optimierung und -Verbesserung"
                 ],
-                "LegalBasis": "Rechtsgrundlage: Berechtigte Interessen / Einwilligung (wo erforderlich)",
                 "Providers": "Anbieter: Google Analytics, interne Analyse-Tools"
             },
             "Functional": {
@@ -310,12 +308,11 @@
                 "Description": "Diese Cookies ermöglichen erweiterte Funktionalität und Personalisierungsfeatures.",
                 "Purpose": "Zweck:",
                 "Items": [
-                    "Merken von Sprach- und Theme-Präferenzen",
-                    "Speichern von Formulardaten und Fortschritt",
-                    "Anpassung von Inhalten und Layout",
-                    "Bereitstellung von Live-Chat-Funktionalität"
-                ],
-                "LegalBasis": "Rechtsgrundlage: Berechtigte Interessen / Einwilligung"
+                    "Sprach- und Theme-Einstellungen merken",
+                    "Formulardaten und Fortschritt speichern",
+                    "Inhalt und Layout anpassen",
+                    "Live-Chat-Funktionalität bereitstellen"
+                ]
             },
             "Marketing": {
                 "Title": "4. Marketing-Cookies",
@@ -323,11 +320,10 @@
                 "Purpose": "Zweck:",
                 "Items": [
                     "Zielgerichtete Werbung",
-                    "Messung der Werbewirksamkeit",
+                    "Messung der Anzeigeneffektivität",
                     "Retargeting-Kampagnen",
-                    "Social Media Integration"
+                    "Social-Media-Integration"
                 ],
-                "LegalBasis": "Rechtsgrundlage: Einwilligung",
                 "Providers": "Anbieter: Google Ads, LinkedIn, Facebook"
             }
         },
@@ -368,7 +364,7 @@
             }
         },
         "Management": {
-            "Title": "Verwaltung Ihrer Cookie-Präferenzen",
+            "Title": "Verwaltung der Cookies",
             "ConsentBanner": {
                 "Title": "Cookie-Einwilligungsbanner",
                 "Description": "Wenn Sie unsere Website zum ersten Mal besuchen, sehen Sie ein Cookie-Einwilligungsbanner, das Ihnen ermöglicht:",
@@ -387,7 +383,11 @@
                     "Drittanbieter-Cookies blockieren",
                     "Alle Cookies löschen, wenn Sie den Browser schließen"
                 ],
-                "Instructions": "Browser-spezifische Anweisungen:"
+                "Instructions": "Browser-spezifische Anweisungen:",
+                "ChromeLink": "Cookies in Chrome verwalten",
+                "FirefoxLink": "Cookies in Firefox verwalten",
+                "SafariLink": "Cookies in Safari verwalten",
+                "IELink": "Cookies in Internet Explorer verwalten"
             },
             "DisablingImpact": {
                 "Title": "Auswirkungen der Deaktivierung von Cookies",

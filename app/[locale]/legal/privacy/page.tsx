@@ -364,7 +364,7 @@ export default async function PrivacyPage({
             </ul>
             <p>
               {r(
-                "Privacy.DataSharing.Policy",
+                "Privacy.DataSharing.NoSelling",
                 "We do not sell personal data to third parties. All sharing is conducted with appropriate confidentiality agreements and data protection measures in place."
               )}
             </p>

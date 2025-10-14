@@ -288,9 +288,8 @@
                     "Navigation du site web et fonctionnalité de base",
                     "Sécurité et authentification",
                     "Préférences de langue et d'accessibilité",
-                    "Soumission de formulaires et gestion de session"
-                ],
-                "LegalBasis": "Base légale : Nécessaire pour la prestation de service"
+                    "Soumission de formulaire et gestion de session"
+                ]
             },
             "Analytics": {
                 "Title": "2. Cookies d'Analyse",
@@ -298,11 +297,10 @@
                 "Purpose": "Objectif :",
                 "Items": [
                     "Analyse du trafic du site web",
-                    "Surveillance de la performance des pages",
+                    "Surveillance des performances des pages",
                     "Modèles de comportement des utilisateurs",
                     "Optimisation et amélioration du site web"
                 ],
-                "LegalBasis": "Base légale : Intérêts légitimes / Consentement (si requis)",
                 "Providers": "Fournisseurs : Google Analytics, outils d'analyse internes"
             },
             "Functional": {
@@ -310,12 +308,11 @@
                 "Description": "Ces cookies permettent des fonctionnalités améliorées et des caractéristiques de personnalisation.",
                 "Purpose": "Objectif :",
                 "Items": [
-                    "Mémoriser les préférences de langue et de thème",
-                    "Sauvegarder les données de formulaires et les progrès",
-                    "Personnaliser le contenu et la mise en page",
-                    "Fournir une fonctionnalité de chat en direct"
-                ],
-                "LegalBasis": "Base légale : Intérêts légitimes / Consentement"
+                    "Mémorisation des préférences de langue et de thème",
+                    "Sauvegarde des données de formulaire et de progression",
+                    "Personnalisation du contenu et de la mise en page",
+                    "Fourniture de fonctionnalités de chat en direct"
+                ]
             },
             "Marketing": {
                 "Title": "4. Cookies Marketing",
@@ -323,11 +320,10 @@
                 "Purpose": "Objectif :",
                 "Items": [
                     "Publicité ciblée",
-                    "Mesure de l'efficacité des publicités",
+                    "Mesure de l'efficacité des annonces",
                     "Campagnes de reciblage",
                     "Intégration des réseaux sociaux"
                 ],
-                "LegalBasis": "Base légale : Consentement",
                 "Providers": "Fournisseurs : Google Ads, LinkedIn, Facebook"
             }
         },
@@ -368,7 +364,7 @@
             }
         },
         "Management": {
-            "Title": "Gestion de Vos Préférences de Cookies",
+            "Title": "Gestion des Cookies",
             "ConsentBanner": {
                 "Title": "Bannière de Consentement des Cookies",
                 "Description": "Lorsque vous visitez notre site web pour la première fois, vous verrez une bannière de consentement des cookies vous permettant de :",
@@ -387,7 +383,11 @@
                     "Bloquer les cookies tiers",
                     "Effacer tous les cookies lorsque vous fermez le navigateur"
                 ],
-                "Instructions": "Instructions spécifiques au navigateur :"
+                "Instructions": "Instructions spécifiques au navigateur :",
+                "ChromeLink": "Gérer les cookies dans Chrome",
+                "FirefoxLink": "Gérer les cookies dans Firefox",
+                "SafariLink": "Gérer les cookies dans Safari",
+                "IELink": "Gérer les cookies dans Internet Explorer"
             },
             "DisablingImpact": {
                 "Title": "Impact de la Désactivation des Cookies",
