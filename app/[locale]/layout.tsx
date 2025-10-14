@@ -10,6 +10,8 @@ type Locale = (typeof locales)[number];
 const isLocale = (value: string): value is Locale =>
   locales.includes(value as Locale);
 
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
@@ -40,7 +42,6 @@ export default async function LocaleLayout({
   // Prepare server-side translated navigation labels and services list to avoid SSR key leakage
   const tNavbar = await getTranslations(activeLocale, "navbar");
   const tServices = await getTranslations(activeLocale, "servicesItems");
-  const currentPath = headers().get("x-pathname") || undefined;
   const navData = {
     labels: {
       home: tNavbar("Home"),
@@ -51,16 +52,16 @@ export default async function LocaleLayout({
       contact: tNavbar("Contact"),
       mobileNavigation: tNavbar("MobileNavigation"),
     },
-    services: ServicesElements.map((s) => ({
-      href: localizePath(s.href, activeLocale),
-      title: tServices(s.titleKey),
-      description: tServices(s.descriptionKey),
+    services: ServicesElements.map((service) => ({
+      ...service,
+      title: tServices(service.titleKey),
+      description: tServices(service.descriptionKey),
     })),
   };
   return (
     <div data-locale={activeLocale} lang={activeLocale}>
       {/* Render client NavBar with server-provided locale */}
-      <Navbar locale={activeLocale} navData={navData} currentPath={currentPath} />
+      <Navbar locale={activeLocale} navData={navData} />
       <main id="main-content" role="main">
         {children}
       </main>

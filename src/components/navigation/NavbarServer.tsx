@@ -1,8 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import Defer from "@/src/components/Defer";
-import { headers } from "next/headers";
+import { usePathname } from "next/navigation";
 import ServicesDropdown from "@/src/components/navigation/ServicesDropdown";
 import type { NavData } from "@/src/components/navigation/types";
 
@@ -18,22 +20,20 @@ const MobileMenuIsland = dynamic(
 export default function NavbarServer({
   locale,
   navData,
-  currentPath: currentPathProp,
 }: {
   locale?: string;
   navData: NavData;
-  currentPath?: string | undefined;
 }) {
+  const pathname = usePathname();
   const localePrefix = locale ? `/${locale}` : "/fr";
-  const currentPath = currentPathProp || headers().get("x-pathname") || "/";
 
   const normalize = (p: string) => {
     if (!p) return "/";
     return p.length > 1 && p.endsWith("/") ? p.slice(0, -1) : p;
   };
-  const isExact = (href: string) => normalize(currentPath) === normalize(href);
+  const isActive = (href: string) => normalize(pathname) === normalize(href);
   const isSection = (href: string) => {
-    const cur = normalize(currentPath);
+    const cur = normalize(pathname);
     const base = normalize(href);
     return cur === base || cur.startsWith(base + "/");
   };
@@ -83,10 +83,10 @@ export default function NavbarServer({
                     prefetch={false}
                     locale={locale}
                     aria-current={
-                      isExact(`${localePrefix}`) ? "page" : undefined
+                      isActive(`${localePrefix}`) ? "page" : undefined
                     }
                     className={`${linkBase} ${
-                      isExact(`${localePrefix}`) ? activeClasses : ""
+                      isActive(`${localePrefix}`) ? activeClasses : ""
                     }`}
                   >
                     {navData.labels.home}
@@ -163,14 +163,7 @@ export default function NavbarServer({
                   </Link>
                 </li>
                 <li className="ml-1">
-                  <Defer
-                    rootMargin="100px"
-                    idle={100}
-                    maxDelay={1500}
-                    placeholder={null}
-                  >
-                    <HeaderControls />
-                  </Defer>
+                  <HeaderControls />
                 </li>
               </ul>
             </nav>
