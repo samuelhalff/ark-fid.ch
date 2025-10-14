@@ -109,7 +109,7 @@ Notes:
 - Run a check before committing to ensure parity.
 - Add new files/articles only in FR, then sync and translate other locales as needed.
 
-## AI-driven Ressources Update (every 2 days)
+## AI-driven Ressources Update (every 4 days)
 
 Script: `scripts/ai-ressources-update.js`
 
@@ -180,4 +180,5 @@ If an official PDF returns 404, prefer temporarily removing its entry across loc
 # IndexNow setup complete
 # Deployment trigger - Wed Oct  1 13:31:16 UTC 2025
 ```
+
 # Test deployment

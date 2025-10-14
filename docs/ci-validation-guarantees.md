@@ -218,7 +218,7 @@ echo $?
 
 ### Monitor CI Workflow
 
-- GitHub Actions tab → "AI Resources Update (every 2 days)"
+- GitHub Actions tab → "AI Resources Update (every 4 days)"
 - If workflow fails → Check logs for validation errors
 - Email notifications (configure in GitHub Settings)
 
