@@ -78,6 +78,7 @@ export default async function Image({
             lineHeight: 1.15,
             fontWeight: 600,
             whiteSpace: "pre-wrap",
+            display: "flex",
           }}
         >
           {article.title.length > 120
@@ -91,8 +92,10 @@ export default async function Image({
             alignItems: "center",
           }}
         >
-          <div style={{ fontSize: 28, fontWeight: 500 }}>{brand}</div>
-          <div style={{ fontSize: 20, opacity: 0.85 }}>
+          <div style={{ fontSize: 28, fontWeight: 500, display: "flex" }}>
+            {brand}
+          </div>
+          <div style={{ fontSize: 20, opacity: 0.85, display: "flex" }}>
             {locale.toUpperCase()} · {new Date().getFullYear()}
           </div>
         </div>
