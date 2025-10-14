@@ -414,6 +414,10 @@
                 "2": "Request renewed consent where required by law"
             }
         },
+        "Retention": {
+            "Title": "Data Retention",
+            "Description": "We retain cookie data for a limited period necessary for the purposes described in this policy."
+        },
         "Contact": {
             "Title": "Contact Us",
             "Description": "If you have any questions about this Cookies Policy or our use of cookies, please contact us:",

@@ -414,6 +414,10 @@
                 "2": "Solicitaremos consentimiento renovado donde lo requiera la ley"
             }
         },
+        "Retention": {
+            "Title": "Retención de Datos",
+            "Description": "Retenemos los datos de cookies por un período limitado necesario para los fines descritos en esta política."
+        },
         "Contact": {
             "Title": "Contáctenos",
             "Description": "Si tiene alguna pregunta sobre esta Política de Cookies o nuestro uso de cookies, por favor contáctenos:",

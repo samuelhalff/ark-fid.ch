@@ -187,7 +187,15 @@ export default async function ContactPage({
             <div className="h-[300px] w-full rounded-lg bg-muted/40" />
           }
         >
-          <GoogleMap className="w-full" privacyMode={false} />
+          <GoogleMap
+            className="w-full"
+            privacyMode={false}
+            labels={{
+              loadMap: t("MapLoadButton") as string,
+              openInGoogle: t("MapOpenExternal") as string,
+              placeholderNotice: t("MapPrivacyPlaceholder") as string,
+            }}
+          />
         </Defer>
       </section>
     </div>

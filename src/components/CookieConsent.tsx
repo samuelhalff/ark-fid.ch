@@ -183,9 +183,18 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);} 
               gtag('js', new Date());
-              // Signal granted consent
-              gtag('consent', 'update', { ad_storage: 'granted', analytics_storage: 'granted' });
-              gtag('config', '${measurementId}', { anonymize_ip: true });
+              // Signal granted consent for both GA and GTM
+              gtag('consent', 'update', { 
+                ad_storage: 'granted', 
+                analytics_storage: 'granted',
+                functionality_storage: 'granted',
+                personalization_storage: 'granted'
+              });
+              gtag('config', '${measurementId}', { 
+                anonymize_ip: true,
+                allow_google_signals: false,
+                allow_ad_personalization_signals: false
+              });
             `}
           </Script>
         </>

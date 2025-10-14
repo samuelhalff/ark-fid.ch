@@ -32,7 +32,13 @@ function getConsent(): "accepted" | "declined" | null {
   }
 }
 
-export default function ConsentAnalytics({ gaId, gtmId }: { gaId: string; gtmId?: string }) {
+export default function ConsentAnalytics({
+  gaId,
+  gtmId,
+}: {
+  gaId: string;
+  gtmId?: string;
+}) {
   const [consent, setConsent] = useState<"accepted" | "declined" | null>(null);
   const [AnalyticsComp, setAnalyticsComp] =
     useState<React.ComponentType | null>(null);
@@ -68,21 +74,6 @@ export default function ConsentAnalytics({ gaId, gtmId }: { gaId: string; gtmId?
   useEffect(() => {
     let mounted = true;
     if (consent === "accepted" && !AnalyticsComp) {
-      // Load Google Analytics if ID is provided
-      const GA_ID = gaId;
-      if (GA_ID && typeof window !== "undefined" && !window.gtag) {
-        const script = document.createElement("script");
-        script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
-        script.async = true;
-        document.head.appendChild(script);
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = (...args: any[]) => {
-          window.dataLayer.push(args);
-        };
-        window.gtag("js", new Date());
-        window.gtag("config", GA_ID);
-      }
-
       // Load Google Tag Manager only after consent
       if (gtmId && typeof window !== "undefined") {
         // Avoid duplicating GTM injection
@@ -96,6 +87,15 @@ export default function ConsentAnalytics({ gaId, gtmId }: { gaId: string; gtmId?
             "gtm.start": new Date().getTime(),
             event: "gtm.js",
           });
+          // Send consent update for GTM
+          if (typeof window !== "undefined" && window.gtag) {
+            window.gtag("consent", "update", {
+              ad_storage: "granted",
+              analytics_storage: "granted",
+              functionality_storage: "granted",
+              personalization_storage: "granted",
+            });
+          }
           const gtmScript = document.createElement("script");
           gtmScript.async = true;
           gtmScript.src = `https://www.googletagmanager.com/gtm.js?id=${gtmId}`;
@@ -114,7 +114,7 @@ export default function ConsentAnalytics({ gaId, gtmId }: { gaId: string; gtmId?
     return () => {
       mounted = false;
     };
-  }, [consent, AnalyticsComp, gaId, gtmId]);
+  }, [consent, AnalyticsComp, gtmId]);
 
   if (consent !== "accepted" || !AnalyticsComp) return null;
   const C = AnalyticsComp;

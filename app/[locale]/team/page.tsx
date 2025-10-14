@@ -12,6 +12,7 @@ import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
 import { teamMembers, getMemberSlug } from "@/src/lib/team";
+import { teamImageMap } from "@/src/lib/teamImages";
 
 export const revalidate = false;
 
@@ -121,7 +122,11 @@ export default async function TeamPage({
                   <CardHeader className="px-3 sm:px-4">
                     <div className="relative aspect-4/5 w-full rounded-md overflow-hidden mb-4 h-80">
                       <ImageWithFallback
-                        src={member.profilePic}
+                        src={
+                          (teamImageMap as Record<string, any>)[
+                            member.profilePic
+                          ] || member.profilePic
+                        }
                         alt={`Portrait of ${member.name}`}
                         className="w-full h-full object-cover object-top"
                         fill

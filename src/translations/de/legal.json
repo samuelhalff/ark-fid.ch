@@ -414,6 +414,10 @@
                 "2": "Erneute Einwilligung einholen, wo gesetzlich erforderlich"
             }
         },
+        "Retention": {
+            "Title": "Datenaufbewahrung",
+            "Description": "Wir bewahren Cookie-Daten für einen begrenzten Zeitraum auf, der für die in dieser Richtlinie beschriebenen Zwecke erforderlich ist."
+        },
         "Contact": {
             "Title": "Kontaktieren Sie uns",
             "Description": "Wenn Sie Fragen zu dieser Cookie-Richtlinie oder unserer Verwendung von Cookies haben, kontaktieren Sie uns bitte:",
