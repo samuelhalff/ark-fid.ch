@@ -1,6 +1,12 @@
 export type TeamMember = {
   name: string;
-  role: "Partner" | "ManagingPartner" | "Tax" | "OfficeProjectManager" | "SeniorAccountant" | "Associate";
+  role:
+    | "Partner"
+    | "ManagingPartner"
+    | "Tax"
+    | "OfficeProjectManager"
+    | "SeniorAccountant"
+    | "Associate";
   profilePic: string;
   social: {
     linkedin: string;
@@ -18,11 +24,12 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Hassan Barbir",
     role: "Partner",
-    profilePic: "/assets/team/hb.webp",
+    profilePic: "/assets/team/hb.avif",
     social: {
       linkedin: "https://www.linkedin.com/in/hassanbarbir",
     },
-    bioShort: "Partner at Ark Fiduciaire SA. Focus on corporate structuring, governance and cross‑border matters.",
+    bioShort:
+      "Partner at Ark Fiduciaire SA. Focus on corporate structuring, governance and cross‑border matters.",
     bioLong:
       "Hassan advises on corporate structuring, tax‑efficient reorganizations and governance for growth‑stage and international groups. Admitted to the bar in 2013 and holding an LL.M. in Tax (University of Geneva), he combines pragmatic deal execution with cross‑border coordination. He works in French, English and Italian.",
     pbmUrl: "https://pbm.law/fr/team/hassan-barbir",
@@ -38,11 +45,12 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Samuel Halff",
     role: "ManagingPartner",
-    profilePic: "/assets/team/sh.webp",
+    profilePic: "/assets/team/sh.avif",
     social: {
       linkedin: "https://www.linkedin.com/in/samuelhalff",
     },
-    bioShort: "Managing partner at Ark Fiduciaire SA. Finance, M&A and operations oriented.",
+    bioShort:
+      "Managing partner at Ark Fiduciaire SA. Finance, M&A and operations oriented.",
     bioLong:
       "Samuel focuses on finance operations, M&A readiness and leadership reporting. Admitted to the bar in 2013 and holder of an LL.M. from UCLA (2019–2020), he helps teams put in place reliable data, processes and governance that scale through transactions. He works in French, English and German.",
     pbmUrl: "https://pbm.law/fr/team/samuel-halff",
@@ -56,11 +64,12 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Rodrigue Sperisen",
     role: "Partner",
-    profilePic: "/assets/team/rs.webp",
+    profilePic: "/assets/team/rs.avif",
     social: {
       linkedin: "https://www.linkedin.com/in/rodrigue-sperisen-74543a185",
     },
-    bioShort: "Partner at Ark Fiduciaire SA. Accounting and finance operations specialist.",
+    bioShort:
+      "Partner at Ark Fiduciaire SA. Accounting and finance operations specialist.",
     bioLong:
       "Rodrigue is a TEP‑qualified lawyer (STEP Diploma, 2009; bar 2005) who designs robust ownership, governance and succession frameworks for companies and founders. He brings trust and estate structuring experience and builds clear, decision‑ready reporting with sound processes and tooling. He works in French and English.",
     pbmUrl: "https://pbm.law/fr/team/rodrigue-sperisen",
@@ -79,11 +88,12 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Lassana Dioum",
     role: "Partner",
-    profilePic: "/assets/team/ld.webp",
+    profilePic: "/assets/team/ld.avif",
     social: {
       linkedin: "https://www.linkedin.com/in/lassana-dioum-b429622b",
     },
-    bioShort: "Partner at Ark Fiduciaire SA. Tax, payroll and compliance for SMEs and international teams.",
+    bioShort:
+      "Partner at Ark Fiduciaire SA. Tax, payroll and compliance for SMEs and international teams.",
     bioLong:
       "Lassana leads tax, payroll and compliance programs for SMEs and international teams. Admitted to the bar in 2012 and graduate in economic law (University of Geneva), he coordinates filings, rulings and process implementation across jurisdictions with a focus on practical, people‑friendly execution. He works in French, English and Spanish.",
     pbmUrl: "https://pbm.law/fr/team/lassana-dioum",
@@ -99,21 +109,23 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Anthony Touboul",
     role: "Tax",
-    profilePic: "/assets/team/at.webp",
+    profilePic: "/assets/team/at.avif",
     social: {
       linkedin: "https://ch.linkedin.com/in/touboulanthony",
     },
-    bioShort: "Tax specialist supporting individuals and companies with Swiss and international tax compliance.",
+    bioShort:
+      "Tax specialist supporting individuals and companies with Swiss and international tax compliance.",
     pbmUrl: "https://pbm.law/fr/team/anthony-touboul",
   },
   {
     name: "Celeste Leal",
     role: "OfficeProjectManager",
-    profilePic: "/assets/team/cl.webp",
+    profilePic: "/assets/team/cl.avif",
     social: {
       linkedin: "https://www.linkedin.com/in/c%C3%A9lesteleal",
     },
-    bioShort: "Leads office operations and projects, ensuring smooth onboarding and efficient internal processes.",
+    bioShort:
+      "Leads office operations and projects, ensuring smooth onboarding and efficient internal processes.",
     pbmUrl: "https://pbm.law/fr/team/celeste-leal",
   },
   {
@@ -123,7 +135,8 @@ export const teamMembers: TeamMember[] = [
     social: {
       linkedin: "https://ch.linkedin.com/in/s%C3%A9bastien-galli%C3%A9",
     },
-    bioShort: "Senior accountant managing bookkeeping, reporting and monthly closes for clients; focused on reliable numbers and clear deliverables.",
+    bioShort:
+      "Senior accountant managing bookkeeping, reporting and monthly closes for clients; focused on reliable numbers and clear deliverables.",
   },
   {
     name: "Maulk Hamdi",
@@ -132,7 +145,8 @@ export const teamMembers: TeamMember[] = [
     social: {
       linkedin: "https://www.linkedin.com/in/maulk-hamdi-b47b68361",
     },
-    bioShort: "In charge of admin and accounting; law student supporting day‑to‑day client operations.",
+    bioShort:
+      "In charge of admin and accounting; law student supporting day‑to‑day client operations.",
   },
   {
     name: "Sixtine Dumas",
@@ -141,11 +155,13 @@ export const teamMembers: TeamMember[] = [
     social: {
       linkedin: "",
     },
-    bioShort: "In charge of admin and accounting; law student supporting day‑to‑day client operations.",
+    bioShort:
+      "In charge of admin and accounting; law student supporting day‑to‑day client operations.",
   },
 ];
 
-export const isPartnerRole = (role: TeamMember["role"]) => role === "Partner" || role === "ManagingPartner";
+export const isPartnerRole = (role: TeamMember["role"]) =>
+  role === "Partner" || role === "ManagingPartner";
 
 // Helpers for routing/profile pages
 export const slugify = (s: string) =>
