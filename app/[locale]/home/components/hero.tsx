@@ -121,21 +121,31 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
 
       {/* Partner logo + badge (fixed to bottom, inside section, not overlapping) */}
       <div className="w-full text-center justify-center mt-2 flex flex-col items-center gap-2 lg:bottom-6 lg:right-6 lg:mt-10">
-        <Image
-          src="/assets/partners/odoo-logo.svg"
-          alt="Logo du partenaire technologique Odoo, solution ERP utilisée par Ark Fiduciaire"
-          width={120}
-          height={40}
-          className="opacity-90"
-          loading="lazy"
-          decoding="async"
-        />
-        <Badge
-          className="rounded-full py-1 px-3 border-black !text-center bg-transparent text-black dark:bg-secondary dark:text-secondary-foreground"
-          variant="secondary"
-        >
-          {t("Hero.OdooPartnerBadge") || t("Hero.OdooBadge")}
-        </Badge>
+        <div className="mt-10 flex flex-col items-center justify-center">
+          <a
+            href="https://www.odoo.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center"
+          >
+            <Image
+              src="/assets/partners/odoo-logo.svg"
+              className="mt-0 w-24 h-16"
+              alt="Odoo Logo"
+              width={96}
+              height={64}
+              sizes="96px"
+              loading="lazy"
+              decoding="async"
+            />
+            <Badge
+              className="mt-2 rounded-full py-1 border-none"
+              variant="secondary"
+            >
+              {t("Hero.OdooPartnerBadge") || "Official Odoo Partner"}
+            </Badge>
+          </a>
+        </div>
       </div>
     </section>
   );
