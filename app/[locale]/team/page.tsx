@@ -13,6 +13,7 @@ import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
 import { teamMembers, getMemberSlug } from "@/src/lib/team";
 import { teamImageMap } from "@/src/lib/teamImages";
+import teamBlurData from "@/src/lib/teamBlurData.json";
 
 export const revalidate = false;
 
@@ -135,6 +136,18 @@ export default async function TeamPage({
                         fallbackVariant="initials"
                         fallbackInitialsName={member.name}
                         fallbackClassName="absolute inset-0"
+                        placeholder={
+                          (teamBlurData as Record<string, string>)[
+                            member.profilePic
+                          ]
+                            ? "blur"
+                            : undefined
+                        }
+                        blurDataURL={
+                          (teamBlurData as Record<string, string>)[
+                            member.profilePic
+                          ]
+                        }
                       />
                     </div>
                   </CardHeader>
