@@ -152,6 +152,13 @@
       "description": "Lista oficial dos salários indicativos para Genebra (2025-2026), publicada pela OFPC: referências para o cálculo da folha de pagamento, conformidade Swissdec, gestão de RH e negociação salarial em Genebra, adequada para PME, autônomos e escritórios de contabilidade.",
       "date": "2025-10-07",
       "source_url": "https://www.citedesmetiers.ch/app/uploads/2025/02/Salaires-2025-2026-1.pdf"
+    },
+    {
+      "filename": "Cotisations-sociales-2025-Suisse.pdf",
+      "title": "Contribuições sociais na Suíça: valores e taxas oficiais 2025",
+      "description": "Síntese oficial das contribuições AVS, AI, APG, AC, LAA, LPP, fiscalidade e encargos sociais aplicáveis a partir de 1º de janeiro de 2025 para empregados e empregadores na Suíça, incluindo adaptações cantonais para Genebra e Vaud.",
+      "date": "2025-10-17",
+      "source_url": "https://www.eures-t-rhinsuperieur.eu/fileadmin/user_upload/CH_cotisationsSecu_2025_f.pdf"
     }
   ],
   "Articles": [
@@ -275,10 +282,6 @@
       "author": "Ark Fiduciaire",
       "date": "2025-09-17",
       "references": [
-        {
-          "labelKey": "Réformes fiscales Genève",
-          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-        },
         {
           "labelKey": "Obligations fiscales entreprises",
           "url": "https://www.geneve.ch/public/entreprises/informations-utiles-entreprises-prestations-demarches/impots"
@@ -558,6 +561,24 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1991/2058_2058_2058/fr"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-facturation-et-comptabilite-suisse",
+      "title": "Odoo 18: novidades na faturação e contabilidade para a Suíça (Genebra e Romanda)",
+      "description": "Novas funcionalidades do Odoo 18 para faturação eletrónica, IVA e automatizações contabilísticas adaptadas às exigências suíças (Swissdec, QR-fatura, IVA 2025, etc.). Conselhos para PME e fiduciárias em Genebra.",
+      "content": "Odoo 18 marca uma evolução importante para as empresas suíças que pretendem otimizar a gestão contabilística, faturação e conformidade fiscal. A versão 18, disponível a partir de setembro de 2025, integra nativamente a gestão de QR-faturas, adapta o IVA a 2025 e automatiza lançamentos segundo os requisitos Swiss GAAP FER e Swissdec. Genebra destaca-se como o primeiro cantão-piloto para o arquivamento automatizado e seguro de faturas eletrónicas, com integração direta para a declaração de IVA via Odoo. Esta versão também facilita a integração com plataformas de processamento salarial compatíveis com Swissdec 5.0 e gera folhas de pagamento atualizadas conforme LPP/AC/LAA 2025. As novidades do Odoo 18 incluem:\n\n- Gerador de relatórios financeiros configurável para regras cantonais (Genebra, Vaud)\n- Reconciliação bancária automática eficiente com PostFinance/BCGE/UBS\n- Declaração periódica de IVA em conformidade com a AFC 2025\n- Exportações de documentos certificados (Swiss GAAP FER, auditoria legal)\n- Integração melhorada Odoo–ferramentas RH e payroll da Romanda\n\nPara PME de Genebra e fiduciárias, adotar o Odoo 18 significa:\n- Garantir a conformidade das obrigações fiscais e sociais\n- Ganhar tempo com a automação da faturação recorrente, lembretes e gestão do IVA (nomeadamente para o IVA 2025, declaração trimestral, taxas COVID)\n- Reduzir erros no processamento salarial devido à integração das convenções coletivas locais\n\nPalavras-chave: Odoo 18, faturação eletrónica Suíça, QR-fatura 2025, IVA 2025, Swissdec 5.0, Genebra, PME, fiduciária, automação contabilística\n\nPara garantir uma transição eficaz, recomenda-se antecipar a migração do Odoo 16 ou 17, verificando a compatibilidade dos módulos personalizados e formando as equipas na utilização das novas funções fiscais e sociais.\n\nContacte a Ark Fiduciaire para uma auditoria Odoo, migração segura e acompanhamento em Genebra e na Suíça romanda.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-17",
+      "references": [
+        {
+          "labelKey": "fedlex.admin.ch - Législation suisse sur la facturation et la comptabilité",
+          "url": "https://www.fedlex.admin.ch/fr"
+        },
+        {
+          "labelKey": "Odoo 18 - Documentation officielle Comptabilité",
+          "url": "https://www.odoo.com/documentation/18.0/fr/applications/finance/accounting/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -628,5 +649,7 @@
   "fedlex_loi_travail": "Lei do trabalho suíça",
   "Norme Swissdec 5 officielle": "Norma Swissdec 5 oficial",
   "Paie Genève Swissdec": "Folha Genebra Swissdec",
-  "labelKeyFR": "Etiqueta PT"
+  "labelKeyFR": "Etiqueta PT",
+  "fedlex.admin.ch - Législation suisse sur la facturation et la comptabilité": "fedlex.admin.ch - Legislação suíça sobre faturação e contabilidade",
+  "Odoo 18 - Documentation officielle Comptabilité": "Odoo 18 - Documentação oficial de contabilidade"
 }

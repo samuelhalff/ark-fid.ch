@@ -152,6 +152,13 @@
       "description": "Offizielle Liste der Richtlöhne für Genf (2025-2026), veröffentlicht vom OFPC: Referenzen für Lohnabrechnung, Swissdec-Konformität, HR-Management und Lohnverhandlung in Genf, angepasst für KMU, Selbstständige und Treuhänder.",
       "date": "2025-10-07",
       "source_url": "https://www.citedesmetiers.ch/app/uploads/2025/02/Salaires-2025-2026-1.pdf"
+    },
+    {
+      "filename": "Cotisations-sociales-2025-Suisse.pdf",
+      "title": "Sozialabgaben in der Schweiz: offizielle Beträge und Sätze 2025",
+      "description": "Offizielle Übersicht zu AHV, IV, EO, ALV, UVG, BVG, Steuern und Sozialabgaben ab 1. Januar 2025 für Arbeitnehmer und Arbeitgeber in der Schweiz, inklusive kantonaler Anpassungen für Genf und Waadt.",
+      "date": "2025-10-17",
+      "source_url": "https://www.eures-t-rhinsuperieur.eu/fileadmin/user_upload/CH_cotisationsSecu_2025_f.pdf"
     }
   ],
   "Articles": [
@@ -546,6 +553,24 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1991/2058_2058_2058/fr"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-facturation-et-comptabilite-suisse",
+      "title": "Odoo 18: Neuheiten bei Fakturierung und Buchhaltung für die Schweiz (Genf und Romandie)",
+      "description": "Neue Odoo 18-Funktionen für elektronische Fakturierung, MwSt. und Buchhaltungsautomatisierung nach Schweizer Anforderungen (Swissdec, QR-Rechnung, MwSt. 2025 etc.). Praxistipps für KMU und Treuhänder in Genf.",
+      "content": "Odoo 18 stellt einen bedeutenden Fortschritt für Schweizer Unternehmen dar, die ihre Buchhaltung, Fakturierung und Steuereinhaltung optimieren möchten. Die Version 18, verfügbar ab September 2025, integriert das Handling von QR-Rechnungen, passt sich an die MwSt.-Vorgaben 2025 an und automatisiert Buchungen gemäß Swiss GAAP FER und Swissdec-Standards. Genf ist dabei erster Pilotkanton für die sichere, automatisierte Archivierung elektronischer Rechnungen mit direkter Integration in die MwSt.-Erklärung via Odoo. Zudem vereinfacht diese Version die Anbindung an Swissdec-5.0-konforme Lohnplattformen und generiert aktuelle Lohnabrechnungen gemäß BVG/ALV/UVG 2025. Zu den Neuheiten von Odoo 18 zählen:\n\n- Konfigurierbarer Finanzberichts-Generator für kantonale Regeln (Genf, Waadt)\n- Leistungsstarker Bankabgleich mit PostFinance/BCGE/UBS\n- Periodische MwSt.-Abrechnung gemäß ESTV 2025\n- Export zertifizierter Dokumente (Swiss GAAP FER, gesetzliche Revision)\n- Verbesserte Odoo–Schnittstelle zu HR- und Payroll-Tools der Romandie\n\nFür Genfer KMU und Treuhänder bedeutet der Einsatz von Odoo 18:\n- Sicherstellung der Steuer- und Sozialversicherungskonformität\n- Zeitersparnis dank automatisierter wiederkehrender Fakturierung, Mahnwesen und MwSt.-Verwaltung (insbesondere MwSt. 2025, Quartalsabgabe, COVID-Sondersätze)\n- Minimierung von Lohnabrechnungsfehlern durch Einbindung lokaler Gesamtarbeitsverträge\n\nStichwörter: Odoo 18, elektronische Rechnungsstellung Schweiz, QR-Rechnung 2025, MwSt. 2025, Swissdec 5.0, Genf, KMU, Treuhand, Buchhaltungsautomatisierung\n\nFür eine reibungslose Umstellung wird empfohlen, die Migration von Odoo 16 oder 17 frühzeitig zu planen, die Kompatibilität individueller Module zu prüfen und Ihre Teams in den neuen Funktionen für Steuer- und Sozialkonformität zu schulen.\n\nFür ein Odoo-Audit, eine sichere Migration und Unterstützung in Genf und der Westschweiz kontaktieren Sie Ark Fiduciaire.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-17",
+      "references": [
+        {
+          "labelKey": "fedlex.admin.ch - Législation suisse sur la facturation et la comptabilité",
+          "url": "https://www.fedlex.admin.ch/fr"
+        },
+        {
+          "labelKey": "Odoo 18 - Documentation officielle Comptabilité",
+          "url": "https://www.odoo.com/documentation/18.0/fr/applications/finance/accounting/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -616,5 +641,7 @@
   "fedlex_loi_travail": "Schweizer Arbeitsgesetz",
   "Norme Swissdec 5 officielle": "Offizieller Swissdec-5-Standard",
   "Paie Genève Swissdec": "Genfer Lohnabrechnung Swissdec",
-  "labelKeyFR": "Deutsches Label"
+  "labelKeyFR": "Deutsches Label",
+  "fedlex.admin.ch - Législation suisse sur la facturation et la comptabilité": "fedlex.admin.ch – Schweizer Rechnungs- und Buchhaltungsgesetzgebung",
+  "Odoo 18 - Documentation officielle Comptabilité": "Odoo 18 – Offizielle Buchhaltungsdokumentation"
 }

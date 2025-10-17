@@ -152,6 +152,13 @@
       "description": "Liste officielle des salaires indicatifs pour Genève (2025-2026), publiée par l'OFPC : références pour le calcul de la paie, la conformité Swissdec, la gestion RH et la négociation salariale à Genève, adaptée aux PME, indépendants et fiduciaires.",
       "date": "2025-10-07",
       "source_url": "https://www.citedesmetiers.ch/app/uploads/2025/02/Salaires-2025-2026-1.pdf"
+    },
+    {
+      "filename": "Cotisations-sociales-2025-Suisse.pdf",
+      "title": "Cotisations sociales en Suisse : montants et taux officiels 2025",
+      "description": "Synthèse officielle des cotisations AVS, AI, APG, AC, LAA, LPP, fiscalité et charges sociales applicables dès le 1er janvier 2025 pour les salariés et employeurs en Suisse, incluant adaptations cantonales pour Genève et Vaud.",
+      "date": "2025-10-17",
+      "source_url": "https://www.eures-t-rhinsuperieur.eu/fileadmin/user_upload/CH_cotisationsSecu_2025_f.pdf"
     }
   ],
   "Articles": [
@@ -546,6 +553,24 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1991/2058_2058_2058/fr"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-facturation-et-comptabilite-suisse",
+      "title": "Odoo 18 : Les nouveautés de la facturation et de la comptabilité pour la Suisse (Genève et Romandie)",
+      "description": "Nouvelles fonctionnalités Odoo 18 en matière de facturation électronique, TVA, et automatisations comptables adaptées aux exigences suisses (Swissdec, QR-facture, TVA 2025, etc.). Conseils pour PME et fiduciaires à Genève.",
+      "content": "Odoo 18 marque une évolution majeure pour les entreprises suisses qui cherchent à optimiser leur gestion comptable, la facturation et leur conformité fiscale. La version 18, accessible dès septembre 2025, intègre en natif la gestion des QR-factures, adapte la TVA 2025 et automatise les écritures selon les exigences de Swiss GAAP FER et Swissdec. Genève se distingue comme premier canton pilote pour l’archivage automatisé sécurisé des factures électroniques, avec intégration directe à la déclaration TVA via Odoo. Cette version facilite également l’intégration aux plateformes de gestion de salaires compatibles Swissdec 5.0 et la génération des bulletins de paie à jour selon LPP/AC/LAA 2025. Les nouveautés Odoo 18 incluent :\n\n- Générateur de rapports financiers paramétrable aux barèmes cantonaux (Genève, Vaud)\n- Rapprochement bancaire automatique performant avec PostFinance/BCGE/UBS\n- Déclaration de TVA périodique conforme AFC 2025\n- Exportations documents certifiés (Swiss GAAP FER, révision légale)\n- Interfaçage amélioré Odoo–outils RH et paie romands\n\nPour les PME genevoises et les fiduciaires, adopter Odoo 18 c’est :\n- Sécuriser la conformité des écritures fiscales et sociales\n- Gagner du temps avec l’automatisation de la facturation récurrente, des rappels et de la gestion de la TVA (notamment pour la TVA 2025, déclaration trimestrielle, taux effets COVID)\n- Diminuer le risque d’erreurs sur la paie grâce à l’intégration des conventions collectives locales\n\nMots-clés : Odoo 18, facturation électronique Suisse, QR-facture 2025, TVA 2025, Swissdec 5.0, Genève, PME, fiduciaire, automatisation comptable\n\nPour garantir une transition efficace, il est conseillé d’anticiper la migration depuis Odoo 16 ou 17, en vérifiant la compatibilité des modules personnalisés et en formant vos équipes à l’utilisation des nouvelles fonctions de conformité fiscale et sociale.\n\nContactez Ark Fiduciaire pour un audit Odoo, une migration maîtrisée et un accompagnement à Genève et en Suisse romande.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-17",
+      "references": [
+        {
+          "labelKey": "fedlex.admin.ch - Législation suisse sur la facturation et la comptabilité",
+          "url": "https://www.fedlex.admin.ch/fr"
+        },
+        {
+          "labelKey": "Odoo 18 - Documentation officielle Comptabilité",
+          "url": "https://www.odoo.com/documentation/18.0/fr/applications/finance/accounting/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -611,5 +636,7 @@
   "Obligations salariales": "Normes et exigences récentes sur la paie, Swissdec, télétravail, LPP.",
   "Nouveautés TVA": "Changements réglementaires majeurs en matière de TVA 2025.",
   "Nouveautés Odoo 18": "Résumé des innovations Odoo 18",
-  "Swissdec Genève 2025": "Nouveaux standards Swissdec applicables à Genève en 2025"
+  "Swissdec Genève 2025": "Nouveaux standards Swissdec applicables à Genève en 2025",
+  "Cotisations sociales 2025": "Cotisations sociales à jour pour employeurs et salariés 2025",
+  "Odoo nouveautés 2025": "Nouvelles fonctionnalités Odoo applicables à la comptabilité suisse"
 }

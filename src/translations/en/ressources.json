@@ -152,6 +152,13 @@
       "description": "Official list of indicative salaries for Geneva (2025-2026), published by the OFPC: references for payroll calculation, Swissdec compliance, HR management, and salary negotiation in Geneva, suitable for SMEs, freelancers, and fiduciaries.",
       "date": "2025-10-07",
       "source_url": "https://www.citedesmetiers.ch/app/uploads/2025/02/Salaires-2025-2026-1.pdf"
+    },
+    {
+      "filename": "Cotisations-sociales-2025-Suisse.pdf",
+      "title": "Social security contributions in Switzerland: official amounts and rates 2025",
+      "description": "Official summary of AVS, AI, APG, AC, LAA, LPP, taxation and social charges applicable from 1 January 2025 for employees and employers in Switzerland, including cantonal adjustments for Geneva and Vaud.",
+      "date": "2025-10-17",
+      "source_url": "https://www.eures-t-rhinsuperieur.eu/fileadmin/user_upload/CH_cotisationsSecu_2025_f.pdf"
     }
   ],
   "Articles": [
@@ -546,6 +553,24 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1991/2058_2058_2058/fr"
         }
       ]
+    },
+    {
+      "slug": "odoo-18-nouveautes-facturation-et-comptabilite-suisse",
+      "title": "Odoo 18: What's new in invoicing and accounting for Switzerland (Geneva and Romandy)",
+      "description": "New Odoo 18 features for e-invoicing, VAT, and accounting automations tailored to Swiss requirements (Swissdec, QR-invoice, VAT 2025, etc.). Guidance for SMEs and fiduciaries in Geneva.",
+      "content": "Odoo 18 marks a major evolution for Swiss businesses seeking to optimize their accounting, invoicing, and tax compliance. Version 18, available from September 2025, natively integrates QR-invoice management, adapts to VAT 2025, and automates entries according to Swiss GAAP FER and Swissdec requirements. Geneva stands out as the first pilot canton for secure automated archiving of electronic invoices, with direct integration to VAT returns via Odoo. This version also makes it easier to interface with payroll management platforms compatible with Swissdec 5.0 and to generate up-to-date payslips according to LPP/AC/LAA 2025. Odoo 18 innovations include:\n\n- Customizable financial report generator for cantonal rules (Geneva, Vaud)\n- Robust automatic bank reconciliation with PostFinance/BCGE/UBS\n- Periodic VAT returns according to AFC 2025\n- Certified document exports (Swiss GAAP FER, statutory audit)\n- Improved Odoo–Swiss HR and payroll tool integration\n\nFor Geneva-based SMEs and fiduciaries, adopting Odoo 18 means:\n- Securing compliance with tax and social accounting\n- Saving time thanks to automated recurring invoicing, reminders, and VAT management (notably for VAT 2025, quarterly filing, COVID effect rates)\n- Reducing payroll errors through integration of local collective agreements\n\nKeywords: Odoo 18, Swiss e-invoicing, QR-invoice 2025, VAT 2025, Swissdec 5.0, Geneva, SME, fiduciary, accounting automation\n\nTo ensure an efficient transition, it's recommended to anticipate migration from Odoo 16 or 17, check custom module compatibility, and train your teams on using new tax and social compliance functions.\n\nContact Ark Fiduciaire for an Odoo audit, a smooth migration, and support in Geneva and French-speaking Switzerland.",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-17",
+      "references": [
+        {
+          "labelKey": "fedlex.admin.ch - Législation suisse sur la facturation et la comptabilité",
+          "url": "https://www.fedlex.admin.ch/fr"
+        },
+        {
+          "labelKey": "Odoo 18 - Documentation officielle Comptabilité",
+          "url": "https://www.odoo.com/documentation/18.0/fr/applications/finance/accounting/"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Swiss taxes 2025 – Overview (FDF)",
@@ -643,5 +668,7 @@
   "fedlex_loi_travail": "Swiss labor law",
   "Norme Swissdec 5 officielle": "Official Swissdec 5 standard",
   "Paie Genève Swissdec": "Geneva payroll Swissdec",
-  "labelKeyFR": "English label"
+  "labelKeyFR": "English label",
+  "fedlex.admin.ch - Législation suisse sur la facturation et la comptabilité": "fedlex.admin.ch - Swiss legislation on invoicing and accounting",
+  "Odoo 18 - Documentation officielle Comptabilité": "Odoo 18 - Official Accounting Documentation"
 }
