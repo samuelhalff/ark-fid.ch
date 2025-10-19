@@ -151,30 +151,29 @@ Notes:
 
 ## Ressources Link Integrity
 
-To detect broken (404) document links or missing locally cached PDFs for the ressources section:
+To detect unreachable article references in the ressources section:
 
 Scripts:
 
-- `node scripts/check-ressources-links.js --locale fr` – check only French locale for missing local files.
+- `node scripts/check-ressources-links.js --locale fr` – check references for a single locale.
 - `node scripts/check-ressources-links.js --all-locales` – scan every locale folder.
-- `node scripts/check-ressources-links.js --all-locales --remote` – also perform remote HTTP HEAD/GET to validate `source_url` (slower).
+- `node scripts/check-ressources-links.js --all-locales --remote` – perform remote HTTP HEAD/GET to validate reference URLs (slower).
 - `node scripts/check-ressources-links.js --all-locales --json` – output machine-readable JSON summary.
 
 Exit codes:
 
 - `0` all links OK
-- `1` at least one missing local file (not present in `public/assets/downloads/`)
+- `1` at least one expected resource missing locally (currently unused without downloadables)
 - `2` remote check enabled and at least one remote resource failed (non 2xx or network error)
 
 Workflow recommendation:
 
 1. Add/update entries in canonical `fr`.
-2. Run `node scripts/download-missing-pdfs.js --locale fr` to fetch available PDFs.
-3. Run link integrity check across all locales: `node scripts/check-ressources-links.js --all-locales`.
-4. Fix or remove any persistent 404 sources (sometimes official sources rename or retract documents).
-5. Sync other locales if structure changed: `npm run ressources:sync`.
+2. Run link integrity check across all locales: `node scripts/check-ressources-links.js --all-locales --remote`.
+3. Fix or remove any persistent 404 sources (sometimes official sources rename or retract documents).
+4. Sync other locales if structure changed: `npm run ressources:sync`.
 
-If an official PDF returns 404, prefer temporarily removing its entry across locales (preserving commit history) rather than leaving a broken download link in production.
+If an official reference returns 404, prefer temporarily removing its entry across locales rather than leaving a broken link in production.
 
 ```
 # IndexNow setup complete

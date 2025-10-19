@@ -40,26 +40,6 @@ jobs:
         run: |
           node scripts/ai-ressources-update.js --apply
 
-      - name: Download missing PDFs
-        continue-on-error: true
-        run: |
-          for locale in fr en de es pt; do
-            echo "Downloading missing PDFs for $locale..."
-            node scripts/download-missing-pdfs.js --locale $locale || echo "⚠️ Some PDFs failed for $locale (continuing...)"
-          done
-
-      - name: Clean up bad file entries (missing local files)
-        continue-on-error: true
-        run: |
-          echo "🧹 Removing entries with missing local PDFs..."
-          node scripts/remove-bad-files.js || echo "⚠️ Cleanup had issues (continuing...)"
-
-      - name: Clean up bad file entries (unreachable URLs)
-        continue-on-error: true
-        run: |
-          echo "🧹 Removing entries with unreachable source URLs..."
-          node scripts/remove-bad-files.js --check-remote || echo "⚠️ URL cleanup had issues (continuing...)"
-
       - name: Clean up bad article references (unreachable URLs)
         continue-on-error: true
         run: |
@@ -70,7 +50,7 @@ jobs:
         continue-on-error: true
         run: |
           echo "✅ Running final verification..."
-          node scripts/check-ressources-links.js --all-locales || echo "::warning::Some files still missing after cleanup"
+          node scripts/check-ressources-links.js --all-locales || echo "::warning::Some references missing after cleanup"
           node scripts/check-ressources-links.js --all-locales --remote || echo "::warning::Some URLs still unreachable after cleanup"
           echo "✅ Verification complete. Proceeding with deployment..."
 
@@ -78,11 +58,11 @@ jobs:
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add src/translations/**/ressources.json public/assets/downloads/** || true
+          git add src/translations/**/ressources.json || true
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "chore(ressources): every 4 days AI update (1 file + 1 article)" --author="samuelhalff <660062+samuelhalff@users.noreply.github.com>"
+            git commit -m "chore(ressources): every 4 days AI article update" --author="samuelhalff <660062+samuelhalff@users.noreply.github.com>"
             git push
           fi
 
@@ -126,9 +106,8 @@ jobs:
           echo "## 🎉 AI Resources Update Complete" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### What Happened" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ AI generated new content (1 file + 1 article target)" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ PDFs downloaded (where possible)" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Bad entries cleaned automatically" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ AI generated a new long-form article (FR canonical + translations)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ References cleaned automatically when possible" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Changes committed and deployed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Notes" >> $GITHUB_STEP_SUMMARY

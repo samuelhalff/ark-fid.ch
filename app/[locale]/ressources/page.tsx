@@ -10,14 +10,6 @@ import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 
 type ArticlesSearchParams = Record<string, string | string[] | undefined>;
 
-interface RessourceFile {
-  filename: string;
-  title: string;
-  description: string;
-  date?: string;
-  source_url?: string;
-}
-
 interface RessourceArticle {
   slug: string;
   title: string;
@@ -46,17 +38,12 @@ interface RessourcesData {
   IntroTitle?: string;
   IntroText?: string;
   IntroShort?: string;
-  FilesTitle?: string;
   ArticlesTitle?: string;
-  LoadMoreFiles?: string;
   LoadMoreArticles?: string;
-  ShowAllFiles?: string;
   ShowAllArticles?: string;
   ReadArticle?: string;
-  Download?: string;
   By?: string;
   Published?: string;
-  Files: RessourceFile[];
   Articles: RessourceArticle[];
   FAQ?: FAQContent;
   Links?: RessourcesLinks;
@@ -76,16 +63,6 @@ async function loadRessources(locale: Locale): Promise<RessourcesData> {
       };
     } = await import(`@/src/translations/${locale}/ressources.json`);
     const data = ressourcesModule.default;
-    const normalizeFiles = (input: unknown): RessourceFile[] => {
-      if (!Array.isArray(input)) return [];
-      return input.filter((file): file is RessourceFile => {
-        if (!file || typeof file !== "object") return false;
-        const candidate = file as Partial<RessourceFile>;
-        return Boolean(
-          candidate.filename && candidate.title && candidate.description
-        );
-      });
-    };
     const normalizeArticles = (input: unknown): RessourceArticle[] => {
       if (!Array.isArray(input)) return [];
       return input.filter((article): article is RessourceArticle => {
@@ -116,17 +93,12 @@ async function loadRessources(locale: Locale): Promise<RessourcesData> {
       IntroTitle: data.IntroTitle,
       IntroText: data.IntroText,
       IntroShort: data.IntroShort,
-      FilesTitle: data.FilesTitle,
       ArticlesTitle: data.ArticlesTitle,
-      LoadMoreFiles: data.LoadMoreFiles,
       LoadMoreArticles: data.LoadMoreArticles,
-      ShowAllFiles: data.ShowAllFiles,
       ShowAllArticles: data.ShowAllArticles,
       ReadArticle: data.ReadArticle,
-      Download: data.Download,
       By: data.By,
       Published: data.Published,
-      Files: normalizeFiles(data.Files),
       Articles: normalizeArticles(data.Articles),
       FAQ: normalizeFaq(data.FAQ),
       Links: data.Links,
@@ -175,7 +147,6 @@ export default async function RessourcesPage({
   const ressourcesFr =
     locale === "fr" ? ressources : await loadRessources("fr");
 
-  const files = ressources.Files;
   const articlesLocale = ressources.Articles;
   const articlesFr = ressourcesFr.Articles;
   const articlesMap = new Map(
@@ -185,22 +156,18 @@ export default async function RessourcesPage({
     .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
     .map((article) => articlesMap.get(article.slug) ?? article);
 
-  const step = 6;
-  const filesLimit = parseLimit(searchParams?.files, files.length, step);
+  const step = 12;
   const articlesLimit = parseLimit(
     searchParams?.articles,
     articlesCanonical.length,
     step
   );
-  const visibleFiles = files.slice(0, filesLimit);
   const visibleArticles = articlesCanonical.slice(0, articlesLimit);
-  const showMoreFiles = filesLimit < files.length;
   const showMoreArticles = articlesLimit < articlesCanonical.length;
-  const nextFiles = Math.min(filesLimit + step, files.length);
   const nextArticles = Math.min(articlesLimit + step, articlesCanonical.length);
 
   const buildHref = (
-    next: { files?: number | "all"; articles?: number | "all" },
+    next: { articles?: number | "all" },
     hash?: string
   ) => {
     const params = new URLSearchParams();
@@ -214,9 +181,7 @@ export default async function RessourcesPage({
       const value = Array.isArray(candidate) ? candidate[0] : candidate;
       return value;
     };
-    const filesParam = resolveValue("files", next.files);
     const articlesParam = resolveValue("articles", next.articles);
-    if (filesParam) params.set("files", String(filesParam));
     if (articlesParam) params.set("articles", String(articlesParam));
     const query = params.toString();
     return `/${locale}/ressources${query ? `?${query}` : ""}${
@@ -226,7 +191,6 @@ export default async function RessourcesPage({
 
   const labels = {
     ReadArticle: ressources.ReadArticle || "Read Article",
-    Download: ressources.Download || "Download",
     By: ressources.By || "By",
     Published: ressources.Published || "Published on",
   };
@@ -313,12 +277,7 @@ export default async function RessourcesPage({
         <h2 className="text-2xl font-semibold mb-6">
           {ressources.ArticlesTitle || "Articles"}
         </h2>
-        <ResourceGrid
-          files={[]}
-          articles={visibleArticles}
-          locale={locale}
-          labels={labels}
-        />
+        <ResourceGrid articles={visibleArticles} locale={locale} labels={labels} />
         {showMoreArticles && (
           <div className="flex items-center gap-3 justify-center mt-6">
             <a
@@ -336,34 +295,6 @@ export default async function RessourcesPage({
           </div>
         )}
       </section>
-      <section id="files">
-        <h2 className="text-2xl font-semibold mb-6">
-          {ressources.FilesTitle || "Files"}
-        </h2>
-        <ResourceGrid
-          files={visibleFiles}
-          articles={[]}
-          locale={locale}
-          labels={labels}
-        />
-        {showMoreFiles && (
-          <div className="flex items-center gap-3 justify-center mt-6">
-            <a
-              className="px-4 py-2 border rounded-md text-sm hover:bg-muted"
-              href={buildHref({ files: nextFiles }, "files")}
-            >
-              {ressources.LoadMoreFiles || "Load more files"}
-            </a>
-            <a
-              className="px-3 py-2 text-xs text-muted-foreground hover:underline"
-              href={buildHref({ files: "all" }, "files")}
-            >
-              {ressources.ShowAllFiles || "Show all"}
-            </a>
-          </div>
-        )}
-      </section>
-
       <FAQSection faq={ressources.FAQ || {}} locale={locale} nonce={nonce} />
 
       <ContactSection

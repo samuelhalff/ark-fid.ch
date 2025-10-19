@@ -3,164 +3,11 @@
   "IntroShort": "Recursos",
   "ArticlesShort": "Artigos",
   "IntroText": "Basées à Genève et actives dans toute la Suisse romande, nos équipes accompagnent aussi des clients en Suisse et à l'international. Vous trouverez ci-dessous une sélection de documents et d'articles pratiques adaptés au contexte réglementaire genevois, romand et fédéral. Ces ressources sont fournies pour votre convenance et n'ont pas valeur de conseil personnalisé. Pour une analyse ciblée de votre situation, contactez notre équipe.",
-  "FilesTitle": "Documents disponibles au téléchargement",
   "ArticlesTitle": "Articles d'experts",
   "ReadArticle": "Lire l'article",
-  "LoadMoreFiles": "Afficher plus de documents",
   "LoadMoreArticles": "Afficher plus d'articles",
-  "ShowAllFiles": "Tout afficher",
   "ShowAllArticles": "Tout afficher",
-  "Source": "Source",
   "ImageAltPrefix": "Illustration de l'article",
-  "Files": [
-    {
-      "filename": "guide-certificat-salaire-2025.pdf",
-      "title": "Guide d'établissement du certificat de salaire 2025 – AFC",
-      "description": "Guide officiel 2025 de l'Administration fédérale des contributions pour établir les certificats de salaire. Indispensable pour la gestion de paie et la conformité fiscale des entreprises suisses.",
-      "date": "2024-12-31",
-      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-wegleitung-2025-fr.pdf.download.pdf/dbst-form-lohna-wegleitung-2025-fr.pdf"
-    },
-    {
-      "filename": "instructions-vaud-2024.pdf",
-      "title": "Instructions générales pour la déclaration d'impôt 2024 – Canton de Vaud",
-      "description": "Guide officiel vaudois avec instructions VaudTax, eRelevé fiscal, déductions autorisées et procédures de dépôt électronique pour 2024.",
-      "date": "2024-12-30",
-      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21001_2024.pdf"
-    },
-    {
-      "filename": "deductions-vaudoises-2024.pdf",
-      "title": "Tableau des principales déductions vaudoises 2024",
-      "description": "Récapitulatif officiel des déductions fiscales vaudoises : frais professionnels, intérêts hypothécaires, déductions familiales et coefficients 2024.",
-      "date": "2024-01-01",
-      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/Tableau_des_d%C3%A9ductions_2024.pdf"
-    },
-    {
-      "filename": "modifications-tva-2025.pdf",
-      "title": "Modifications de l'ordonnance TVA 2025 – AFC",
-      "description": "Document officiel de l'AFC détaillant les changements TVA 2025 : nouveaux taux, obligations de décompte électronique et simplifications administratives.",
-      "date": "2024-12-31",
-      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/mwst/publikationen/mwst-publ-mwstv-aenderungen-2025-fr.pdf.download.pdf/mwst-publ-mwstv-aenderungen-2025-fr.pdf"
-    },
-    {
-      "filename": "instructions-ifd-2025.pdf",
-      "title": "Instructions 2025 pour l'impôt fédéral direct – AFC",
-      "description": "Instructions officielles de l'AFC pour la déclaration d'impôt fédéral direct 2025 : revenus, déductions, barèmes et procédures de calcul.",
-      "date": "2024-12-31",
-      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/wegleitungen/dbst-wgl-02a-2025-fr.pdf.download.pdf/dbst-wgl-02a-2025-fr.pdf"
-    },
-    {
-      "filename": "guide-nouveau-contribuable-2024.pdf",
-      "title": "Guide du futur contribuable – AFC",
-      "description": "Guide AFC pour nouveaux contribuables : primo-arrivants, obligations fiscales fédérales, procédures d'imposition et droits des contribuables en Suisse.",
-      "date": "2024-06-14",
-      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/estv/steuersystem/leifaden-neue-steuerpflichtige/estv-leitfaden-neue-steuerpflichtige-fr.pdf.download.pdf/estv-leitfaden-neue-steuerpflichtige-fr.pdf"
-    },
-    {
-      "filename": "modele-reglement-frais-2024.pdf",
-      "title": "Modèle de règlement des remboursements de frais – AFC",
-      "description": "Document de référence AFC établissant les barèmes officiels pour frais de déplacement, repas et représentation. Outil essentiel pour la conformité fiscale.",
-      "date": "2024-01-01",
-      "source_url": "https://www.estv.admin.ch/dam/estv/fr/dokumente/dbst/formulare/dbst-form-lohna-spesenreglement-2024-fr.pdf.download.pdf/dbst-form-lohna-spesenreglement-2024-fr.pdf"
-    },
-    {
-      "filename": "vaudtax-guide-linux-2024.pdf",
-      "title": "Aide à l'installation VaudTax 2024 sur Linux Ubuntu",
-      "description": "Guide technique officiel vaudois pour installer et utiliser VaudTax sur Ubuntu Linux : installation, dépannage et vérification de l'intégrité.",
-      "date": "2024-03-01",
-      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/VaudTax_2024_Guide_Linux_v1.pdf"
-    },
-    {
-      "filename": "instructions-propriete-immobiliere-vaud-2024.pdf",
-      "title": "Instructions complémentaires propriété immobilière – Canton de Vaud",
-      "description": "Instructions vaudoises pour l'imposition immobilière 2024 : valeur locative (taux 127%), impôt foncier et obligations déclaratives des propriétaires.",
-      "date": "2024-01-01",
-      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21004_2024.pdf"
-    },
-    {
-      "filename": "guide-vaudtax-2022.pdf",
-      "title": "Guide concernant la déclaration d'impôt – Canton de Vaud",
-      "description": "Guide de base vaudois pour la déclaration d'impôt : utilisation VaudTax, eRelevé fiscal, principales déductions et e-prestations disponibles.",
-      "date": "2022-03-01",
-      "source_url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21000_2022.pdf"
-    },
-    {
-      "filename": "Changements-TVA-2025.pdf",
-      "title": "Alterações do IVA 2025: O que as empresas de Genebra precisam saber",
-      "description": "Este documento detalha as principais alterações à lei do IVA que entraram em vigor em janeiro de 2025, incluindo os impactos na faturação, na apuração e no tratamento das plataformas digitais. É destinado a PMEs, autônomos e gestores financeiros em Genebra e na Suíça francófona que desejam antecipar os ajustes administrativos necessários para o segundo semestre de 2025, bem como a preparação para 2026.",
-      "date": "2025-09-17",
-      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
-    },
-    {
-      "filename": "Changements_TVA_2025_Suisse.pdf",
-      "title": "Principais alterações do IVA aplicáveis a partir de 2025 na Suíça",
-      "description": "Síntese oficial das revisões do IVA na Suíça aplicáveis a partir de 1º de janeiro de 2025, publicada pela Confederação. Este documento detalha as principais mudanças legais (declaração obrigatória online, novas taxas reduzidas, adaptações para plataformas digitais, etc.) que afetam diretamente PMEs e autônomos da Suíça francófona, bem como regras transitórias até 2026.",
-      "date": "2025-09-17",
-      "source_url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
-    },
-    {
-      "filename": "Argumentarium_Systemwechsel_Liegenschatssteuern_FR-1.pdf",
-      "title": "Mais impostos para a classe média? Reformas fiscais 2025: A iniciativa sobre o valor locativo e seu impacto em Genebra",
-      "description": "Argumentário oficial sobre a reforma do sistema de tributação da propriedade de habitação, incluindo a eliminação do valor locativo e a possível introdução de um novo imposto sobre segundas residências. Publicação atualizada em agosto de 2025, útil para proprietários, empresas imobiliárias e consultores fiscais da Suíça francófona.",
-      "date": "2025-09-17",
-      "source_url": "https://www.sp-ps.ch/wp-content/uploads/2025/08/Argumentarium_Systemwechsel_Liegenschatssteuern_FR-1.pdf"
-    },
-    {
-      "filename": "directives-impot-source-geneve-2025.pdf",
-      "title": "Diretivas sobre o imposto na fonte Genebra 2025",
-      "description": "PDF oficial contendo as regras e novidades de 2025 para a tributação na fonte de trabalhadores e autônomos não residentes com atividade em Genebra. Este documento reúne as instruções utilizadas por empregadores e fiduciários para folha de pagamento e retenção na fonte, atualizado para o ano fiscal vigente.",
-      "date": "2025-09-17",
-      "source_url": "https://www.efficore.ch/wp-content/uploads/2025/01/directives-impot-source-geneve-2025.pdf"
-    },
-    {
-      "filename": "Modification_loi_TVA_2025_amsuisse.pdf",
-      "title": "Alteração definitiva da lei do IVA para 2025",
-      "description": "Síntese oficial acessível da revisão do IVA 2025 na Suíça: novas taxas, obrigações para empresas e implicações práticas imediatas para a gestão administrativa, faturação e conformidade. Documento-chave a ser compartilhado com os responsáveis financeiros, RH e gestão de PME em Genebra.",
-      "date": "2025-09-17",
-      "source_url": "https://www.amsuisse.ch/fileadmin/forum_archiv/pdf/2024/06/2024_06_F_120_Modification_TVA.pdf"
-    },
-    {
-      "filename": "etudec_ecarts_salaraiux_suisse_2025.pdf",
-      "title": "Estudo sobre as disparidades salariais na Suíça 2025",
-      "description": "Análise das disparidades salariais entre dirigentes e colaboradores na Suíça em 2025, incluindo dados, tendências e recomendações oficiais do sindicato Unia.",
-      "date": "2025-09-17",
-      "source_url": "https://unia.ch/fileadmin/user_upload/Downloads/2025-09-15-%C3%A9tude-sur-les-%C3%A9carts-salariaux-2025-Unia.pdf"
-    },
-    {
-      "filename": "grille-des-salaires-minimums-genevois-2025.pdf",
-      "title": "Tabela de salários mínimos em Genebra 2025",
-      "description": "Este documento oficial apresenta os novos salários mínimos aplicáveis no cantão de Genebra a partir de 1 de janeiro de 2025, após as últimas negociações sociais. Destina-se a empregadores e responsáveis de RH que desejam cumprir a legislação salarial local.",
-      "date": "2025-10-01",
-      "source_url": "https://gastrosuisse.ch/assets/fr/droit/notices/salaire-minimum/gastrosuisse-notice-salaires-minimaux-geneve-2025.pdf"
-    },
-    {
-      "filename": "bulletin-prevoyance-lpp-2025.pdf",
-      "title": "Alterações dos montantes-limite LPP 2025 – Boletim oficial",
-      "description": "Boletim oficial que apresenta as alterações legais dos montantes-limite da previdência profissional (LPP) em vigor a partir de 1º de janeiro de 2025, incluindo o aumento da dedução de coordenação e do limite de entrada, bem como as taxas mínimas de juro aplicáveis. Fonte oficial: Confederação Suíça.",
-      "date": "2025-10-03",
-      "source_url": "https://sozialversicherungen.admin.ch/fr/d/20606/download"
-    },
-    {
-      "filename": "Directives_LPP_2025_CHS_PP.pdf",
-      "title": "Diretrizes 2025 para a previdência profissional LPP na Suíça",
-      "description": "Diretrizes oficiais 2025 da CHS PP quanto à previdência profissional (LPP) na Suíça: regulamentação, pontos-chave para empregadores, fundos de pensão e autônomos, aplicação dos novos limites AVS/AI, taxa de juros mínima e ajuste das pensões. Documento fundamental para toda gestão de RH e folha de pagamento (LPP) em Genebra e Suíça francófona a partir de 1º de janeiro de 2025.",
-      "date": "2025-10-05",
-      "source_url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
-    },
-    {
-      "filename": "Salaires-2025-2026-1.pdf",
-      "title": "Salários indicativos Genebra 2025-2026",
-      "description": "Lista oficial dos salários indicativos para Genebra (2025-2026), publicada pela OFPC: referências para o cálculo da folha de pagamento, conformidade Swissdec, gestão de RH e negociação salarial em Genebra, adequada para PME, autônomos e escritórios de contabilidade.",
-      "date": "2025-10-07",
-      "source_url": "https://www.citedesmetiers.ch/app/uploads/2025/02/Salaires-2025-2026-1.pdf"
-    },
-    {
-      "filename": "Cotisations-sociales-2025-Suisse.pdf",
-      "title": "Contribuições sociais na Suíça: valores e taxas oficiais 2025",
-      "description": "Síntese oficial das contribuições AVS, AI, APG, AC, LAA, LPP, fiscalidade e encargos sociais aplicáveis a partir de 1º de janeiro de 2025 para empregados e empregadores na Suíça, incluindo adaptações cantonais para Genebra e Vaud.",
-      "date": "2025-10-17",
-      "source_url": "https://www.eures-t-rhinsuperieur.eu/fileadmin/user_upload/CH_cotisationsSecu_2025_f.pdf"
-    }
-  ],
   "Articles": [
     {
       "slug": "annual-vat-settlement-2025",
@@ -282,6 +129,10 @@
       "author": "Ark Fiduciaire",
       "date": "2025-09-17",
       "references": [
+        {
+          "labelKey": "Réformes fiscales Genève",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
+        },
         {
           "labelKey": "Obligations fiscales entreprises",
           "url": "https://www.geneve.ch/public/entreprises/informations-utiles-entreprises-prestations-demarches/impots"
@@ -561,24 +412,6 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1991/2058_2058_2058/fr"
         }
       ]
-    },
-    {
-      "slug": "odoo-18-nouveautes-facturation-et-comptabilite-suisse",
-      "title": "Odoo 18: novidades na faturação e contabilidade para a Suíça (Genebra e Romanda)",
-      "description": "Novas funcionalidades do Odoo 18 para faturação eletrónica, IVA e automatizações contabilísticas adaptadas às exigências suíças (Swissdec, QR-fatura, IVA 2025, etc.). Conselhos para PME e fiduciárias em Genebra.",
-      "content": "Odoo 18 marca uma evolução importante para as empresas suíças que pretendem otimizar a gestão contabilística, faturação e conformidade fiscal. A versão 18, disponível a partir de setembro de 2025, integra nativamente a gestão de QR-faturas, adapta o IVA a 2025 e automatiza lançamentos segundo os requisitos Swiss GAAP FER e Swissdec. Genebra destaca-se como o primeiro cantão-piloto para o arquivamento automatizado e seguro de faturas eletrónicas, com integração direta para a declaração de IVA via Odoo. Esta versão também facilita a integração com plataformas de processamento salarial compatíveis com Swissdec 5.0 e gera folhas de pagamento atualizadas conforme LPP/AC/LAA 2025. As novidades do Odoo 18 incluem:\n\n- Gerador de relatórios financeiros configurável para regras cantonais (Genebra, Vaud)\n- Reconciliação bancária automática eficiente com PostFinance/BCGE/UBS\n- Declaração periódica de IVA em conformidade com a AFC 2025\n- Exportações de documentos certificados (Swiss GAAP FER, auditoria legal)\n- Integração melhorada Odoo–ferramentas RH e payroll da Romanda\n\nPara PME de Genebra e fiduciárias, adotar o Odoo 18 significa:\n- Garantir a conformidade das obrigações fiscais e sociais\n- Ganhar tempo com a automação da faturação recorrente, lembretes e gestão do IVA (nomeadamente para o IVA 2025, declaração trimestral, taxas COVID)\n- Reduzir erros no processamento salarial devido à integração das convenções coletivas locais\n\nPalavras-chave: Odoo 18, faturação eletrónica Suíça, QR-fatura 2025, IVA 2025, Swissdec 5.0, Genebra, PME, fiduciária, automação contabilística\n\nPara garantir uma transição eficaz, recomenda-se antecipar a migração do Odoo 16 ou 17, verificando a compatibilidade dos módulos personalizados e formando as equipas na utilização das novas funções fiscais e sociais.\n\nContacte a Ark Fiduciaire para uma auditoria Odoo, migração segura e acompanhamento em Genebra e na Suíça romanda.",
-      "author": "Ark Fiduciaire",
-      "date": "2025-10-17",
-      "references": [
-        {
-          "labelKey": "fedlex.admin.ch - Législation suisse sur la facturation et la comptabilité",
-          "url": "https://www.fedlex.admin.ch/fr"
-        },
-        {
-          "labelKey": "Odoo 18 - Documentation officielle Comptabilité",
-          "url": "https://www.odoo.com/documentation/18.0/fr/applications/finance/accounting/"
-        }
-      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -589,7 +422,6 @@
   "LastUpdated": "Mis à jour le",
   "RelatedArticles": "Articles connexes",
   "ReadMore": "Lire plus →",
-  "Download": "Télécharger",
   "SwissVATOffice": "Office fédéral de la TVA (AFC)",
   "Contact": {
     "Title": "Entrar em contato",
@@ -649,7 +481,5 @@
   "fedlex_loi_travail": "Lei do trabalho suíça",
   "Norme Swissdec 5 officielle": "Norma Swissdec 5 oficial",
   "Paie Genève Swissdec": "Folha Genebra Swissdec",
-  "labelKeyFR": "Etiqueta PT",
-  "fedlex.admin.ch - Législation suisse sur la facturation et la comptabilité": "fedlex.admin.ch - Legislação suíça sobre faturação e contabilidade",
-  "Odoo 18 - Documentation officielle Comptabilité": "Odoo 18 - Documentação oficial de contabilidade"
+  "labelKeyFR": "Etiqueta PT"
 }
