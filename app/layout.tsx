@@ -146,6 +146,19 @@ export default async function RootLayout({
         {/** Defer Google Maps connections to pages that actually use Maps (e.g., contact). Removing global preconnect helps mobile Speed Index. */}
         {/* Ensure font swap to avoid layout shifts */}
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
+        {/* Preload LCP background images with high priority */}
+        <link
+          rel="preload"
+          href="/assets/abstract-background-light.avif"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/assets/abstract-background-dark.avif"
+          as="image"
+          fetchPriority="high"
+        />
         {/* Title, description and viewport are managed by Next metadata API */}
       </head>
       <body className={inter.className}>
@@ -185,7 +198,11 @@ export default async function RootLayout({
               />
               {/* Render Vercel Analytics only when user accepted cookies - can be deferred */}
               <Defer rootMargin="0px" idle={200} placeholder={null}>
-                <ConsentAnalytics gaId={gaId} gtmId="GTM-P6QT792D" nonce={nonce} />
+                <ConsentAnalytics
+                  gaId={gaId}
+                  gtmId="GTM-P6QT792D"
+                  nonce={nonce}
+                />
               </Defer>
             </div>
           </ErrorBoundary>

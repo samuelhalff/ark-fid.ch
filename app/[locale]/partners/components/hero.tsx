@@ -75,7 +75,7 @@ const PartnersHero = async ({ locale }: PartnersHeroProps) => {
   const blur = (heroBlurData as Record<string, string>)[heroSrc];
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden border-b border-accent">
+    <div className="relative min-h-[calc(100vh-4rem)] max-w-[var(--breakpoint-xl)] w-full flex items-center justify-center overflow-hidden border-b border-accent mx-auto px-6 pb-24">
       <link rel="preload" as="image" href={heroSrc} />
       <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
         <div className="max-w-2xl text-center animate-in fade-in duration-800">

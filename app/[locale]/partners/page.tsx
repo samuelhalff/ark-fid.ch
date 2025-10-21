@@ -37,31 +37,33 @@ const PartnersPage = async ({ params }: { params: { locale: string } }) => {
   } as const;
 
   return (
-    <main>
+    <div>
       <script
         type="application/ld+json"
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <Hero locale={params.locale} />
-      <nav
-        aria-label="Breadcrumb"
-        className="max-w-[var(--breakpoint-xl)] mx-auto px-4 md:px-6 mt-4 mb-6"
-      >
-        <ol className="flex items-center gap-1 text-sm text-muted-foreground">
-          <li>
-            <a href={`${localePrefix}/`} className="hover:underline">
-              {(tNav("Home") as string) || "Home"}
-            </a>
-          </li>
-          <li className="flex items-center gap-1">
-            <span className="text-muted-foreground/60">/</span>
-            <span aria-current="page" className="font-medium text-foreground">
-              {t("IntroTitle")}
-            </span>
-          </li>
-        </ol>
-      </nav>
+      <header className="px-6 py-5 text-left">
+        <nav
+          aria-label="Breadcrumb"
+          className="w-full max-w-[1200px] mx-auto mt-4 mb-6 px-6 md:px-0"
+        >
+          <ol className="flex items-center gap-1 text-sm text-muted-foreground">
+            <li>
+              <a href={`${localePrefix}/`} className="hover:underline">
+                {(tNav("Home") as string) || "Home"}
+              </a>
+            </li>
+            <li className="flex items-center gap-1">
+              <span className="text-muted-foreground/60">/</span>
+              <span aria-current="page" className="font-medium text-foreground">
+                {t("IntroTitle")}
+              </span>
+            </li>
+          </ol>
+        </nav>
+      </header>
       <Presentation
         locale={params.locale}
         partners={partners}
@@ -82,7 +84,7 @@ const PartnersPage = async ({ params }: { params: { locale: string } }) => {
           contactCta: t("Contact.ButtonText"),
         }}
       />
-    </main>
+    </div>
   );
 };
 

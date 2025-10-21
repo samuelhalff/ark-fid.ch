@@ -34,27 +34,25 @@ const PartnersPresentation = ({
   return (
     <section className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center">
       <div className="w-full max-w-[1200px]">
-        <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-center w-full">
+        <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
           {s.title}
         </h1>
 
-        <div className="text-center w-full mb-16">
-          <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
+        <div className="text-left w-full mb-16">
+          <h2 className="text-xl font-bold mb-8 tracking-tight">
             {s.subtitle}
           </h2>
 
-          <div className="max-w-4xl mx-auto mb-12">
+          <div className="mx-auto mb-12">
             <p className="text-lg leading-relaxed">{s.description}</p>
           </div>
         </div>
 
         {/* Partners Section */}
         <section className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-semibold mb-4">
-              {s.partnersTitle}
-            </h2>
-            <p className="max-w-2xl mx-auto">{s.partnersDescription}</p>
+          <div className="text-left mb-12">
+            <h2 className="text-2xl font-semibold mb-4">{s.partnersTitle}</h2>
+            <p className="text-lg mx-auto">{s.partnersDescription}</p>
           </div>
           <PartnersGrid partners={partners} />
         </section>
