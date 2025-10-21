@@ -28,7 +28,7 @@ export interface GoogleMapProps {
 const DEFAULT_LAT = 46.2039844;
 const DEFAULT_LNG = 6.1426851;
 // Real Ark Fiduciaire Google CID (example value – replace if needed)
-export const ARK_GOOGLE_CID = "11595836239142935457";
+export const ARK_GOOGLE_CID = "14503321678509248216";
 
 // Server component wrapper (no hooks here)
 export const GoogleMap = async ({

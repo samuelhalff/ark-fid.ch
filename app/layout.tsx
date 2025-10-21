@@ -185,7 +185,7 @@ export default async function RootLayout({
               />
               {/* Render Vercel Analytics only when user accepted cookies - can be deferred */}
               <Defer rootMargin="0px" idle={200} placeholder={null}>
-                <ConsentAnalytics gaId={gaId} gtmId="GTM-P6QT792D" />
+                <ConsentAnalytics gaId={gaId} gtmId="GTM-P6QT792D" nonce={nonce} />
               </Defer>
             </div>
           </ErrorBoundary>

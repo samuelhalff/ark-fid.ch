@@ -35,9 +35,11 @@ function getConsent(): "accepted" | "declined" | null {
 export default function ConsentAnalytics({
   gaId,
   gtmId,
+  nonce,
 }: {
   gaId: string;
   gtmId?: string;
+  nonce?: string;
 }) {
   const [consent, setConsent] = useState<"accepted" | "declined" | null>(null);
   const [AnalyticsComp, setAnalyticsComp] =
@@ -99,6 +101,9 @@ export default function ConsentAnalytics({
           const gtmScript = document.createElement("script");
           gtmScript.async = true;
           gtmScript.src = `https://www.googletagmanager.com/gtm.js?id=${gtmId}`;
+          if (nonce) {
+            gtmScript.setAttribute("nonce", nonce);
+          }
           document.head.appendChild(gtmScript);
         }
       }
@@ -114,7 +119,7 @@ export default function ConsentAnalytics({
     return () => {
       mounted = false;
     };
-  }, [consent, AnalyticsComp, gtmId]);
+  }, [consent, AnalyticsComp, gtmId, nonce]);
 
   if (consent !== "accepted" || !AnalyticsComp) return null;
   const C = AnalyticsComp;

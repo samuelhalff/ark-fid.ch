@@ -10,6 +10,7 @@ interface ArticleStructuredDataProps {
   image?: string;
   url: string;
   locale: string;
+  nonce?: string;
 }
 
 export default function ArticleStructuredData({
@@ -22,6 +23,7 @@ export default function ArticleStructuredData({
   image,
   url,
   locale,
+  nonce,
 }: ArticleStructuredDataProps) {
   const organizationSchema = {
     "@context": "https://schema.org",
@@ -118,6 +120,7 @@ export default function ArticleStructuredData({
       <Script
         id="article-structured-data"
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(articleSchema),
         }}
@@ -125,6 +128,7 @@ export default function ArticleStructuredData({
       <Script
         id="organization-structured-data"
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(organizationSchema),
         }}
@@ -132,6 +136,7 @@ export default function ArticleStructuredData({
       <Script
         id="breadcrumb-structured-data"
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbSchema),
         }}

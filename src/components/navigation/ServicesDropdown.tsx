@@ -49,13 +49,20 @@ export default function ServicesDropdown({
         onClick={close}
       >
         {navData.labels.services}
-        <span
-          className={`transition-transform duration-200 ${
+        <svg
+          className={`relative top-px ml-1 size-3 transition duration-300 ${
             open ? "rotate-180" : ""
           }`}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
         >
-          ▾
-        </span>
+          <path d="m6 9 6 6 6-6" />
+        </svg>
       </Link>
       <div
         className={`absolute left-0 top-full pt-2 w-[min(92vw,720px)] bg-background border rounded-md shadow-xl z-50 transition-opacity duration-150 ${
