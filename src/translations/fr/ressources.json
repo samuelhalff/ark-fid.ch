@@ -64,10 +64,6 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Changements fiscaux Genève 2025",
-          "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
-        },
-        {
           "labelKey": "Analyse Econostrum 2025",
           "url": "https://econostrum.info/suisse/geneve-reforme-fiscale-historique-2025/"
         },
@@ -84,12 +80,7 @@
       "content": "L’année 2025 s’annonce riche en nouveautés fiscales à Genève. PME, indépendants et entrepreneurs doivent s’adapter à des évolutions majeures afin de réduire leur charge fiscale, rester conformes et anticiper efficacement la déclaration 2026.\n\nPrincipaux changements fiscaux à Genève en 2025\n\n1. Recul de l’impôt sur le revenu pour les particuliers\nDepuis le 1er janvier 2025, le barème cantonal et communal a baissé entre 11,4 % et 5,3 %. Cela implique des économies sensibles pour nombre de contribuables. En revanche, les acomptes restent calés sur les déclarations précédentes, prudence donc sur les montants à anticiper.\n\n2. Paiement des acomptes : mensualisation facilitée\nNouvelle flexibilité : les acomptes peuvent désormais être réglés sur 12 mois au lieu de 10, permettant une meilleure gestion de trésorerie pour entreprises et indépendants.\n\n3. Fiscalité immobilière : effets de la loi LEFI\nTous les biens immobiliers acquis avant fin 2014 voient leur valeur fiscale augmenter de 12%. Parallèlement, la charge d’impôt sur la fortune baisse de 15%. Les propriétaires doivent vérifier l’impact exact selon leur situation.\n\n4. Télétravail et transfrontalier : attention à la fiscalité mixte\nLa clarification du traitement fiscal des frontaliers en télétravail peut générer des régularisations (employeurs : mise à jour des pratiques conseillée).\n\n5. Nouvelles modalités pour sociétés (Rulings, imposition minimale, SCI)\nLes PME et entreprises soumises à l’imposition minimum ou impliquées dans des structures de type sociétés civiles immobilières (SCI) doivent faire le point sur les derniers ajustements (voir Panorama fiscal AFC 2025).\n\nConseils clés pour optimiser sa fiscalité en 2025–2026\n- Mettre à jour sa planification fiscale personnelle et d’entreprise\n- Anticiper l’éventuelle hausse de valeur sur anciens biens immobiliers\n- Ajuster le paiement des acomptes pour éviter intérêts inutiles\n- Revoir les statuts des sociétés/fusion/SCI avec un expert-comptable\n- Accompagner les collaborateurs transfrontaliers sur les nouvelles règles de télétravail\n- Bénéficier d’un audit fiscal 2025 pour sécuriser les choix d’optimisation\n\nTendances Google Trends constatées\n- \"Baisse impôt Genève 2025\"\n- \"Mensualisation acomptes impôts\"\n- \"Fiscalité PME Genève 2025\"\n- \"Télétravail impôts frontaliers\"\nCes requêtes montrent l’intérêt croissant pour l’optimisation, la gestion proactive, ainsi que la compréhension des nouvelles règles fiscales, surtout pour les PME, indépendants et professions libérales.\n\nEn conclusion :\nS’adapter aux changements fiscaux à Genève en 2025 exige proactivité et compétences. Nos experts accompagnent PME et indépendants sur tous ces sujets : fiscalité, TVA, implémentation Odoo, outsourcing, paie et intégrations. Contactez-nous pour une analyse personnalisée.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-17",
-      "references": [
-        {
-          "labelKey": "Changements fiscaux Genève",
-          "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
-        }
-      ]
+      "references": []
     },
     {
       "slug": "optimisation-fiscale-geneve-fin-2025",
@@ -124,10 +115,6 @@
         {
           "labelKey": "Obligations fiscales entreprises",
           "url": "https://www.geneve.ch/public/entreprises/informations-utiles-entreprises-prestations-demarches/impots"
-        },
-        {
-          "labelKey": "Fiscalité RFFA Genève",
-          "url": "https://fidulex.ch/la-reforme-de-la-fiscalite-des-entreprises-guide-geneve/"
         }
       ]
     },
@@ -222,10 +209,6 @@
         {
           "labelKey": "TVA Réforme 2025 AFC",
           "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
-        },
-        {
-          "labelKey": "TVA Mémo pratique Genève",
-          "url": "https://fidulex.ch/revision-de-la-tva-changements-cles-en-2025/"
         }
       ]
     },
@@ -400,6 +383,28 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1991/2058_2058_2058/fr"
         }
       ]
+    },
+    {
+      "slug": "roles-et-responsabilites-administrateurs-sa-sarl-geneve-2025",
+      "title": "Diriger une SA ou une Sàrl à Genève en 2025 : obligations légales, responsabilités et bonnes pratiques pour administrateurs",
+      "description": "Panorama concret et actualisé des responsabilités juridiques, fiscales et opérationnelles des administrateurs de SA et Sàrl à Genève en 2025. Points de vigilance, conseils pratiques et solutions pour éviter contentieux et sanctions.",
+      "content": "<h2>Introduction</h2><p>Assumer la fonction d'administrateur ou de gérant au sein d'une <strong>SA</strong> ou d'une <strong>Sàrl</strong> à Genève implique bien plus que la gestion quotidienne de l'entreprise. En 2025, dans un contexte marqué par l'évolution des exigences réglementaires et la digitalisation croissante, la vigilance des organes de direction doit être plus que jamais renforcée. Cet article vous donne un panorama intégral, concret et actualisé des obligations, risques et meilleures pratiques pour sécuriser votre mandat d'administrateur.</p><h2>1. Cadre légal en 2025 : rappel des fondements</h2><h3>1.1 Statut et rôle de l’administrateur (SA) et du gérant (Sàrl)</h3><ul><li><strong>Code des obligations (CO)</strong> : articles 716 ss. (SA), 809 ss. (Sàrl)</li><li>Pouvoir de décision, représentation et devoir de diligence</li></ul><h3>1.2 Les évolutions majeures récentes</h3><ul><li>Réforme du droit de la société anonyme (entrée en vigueur 2023, adaptations pratiques en 2025)</li><li>Clarification sur la tenue des assemblées générales digitales (art. 701 CO modifié)</li></ul><p>Sources officielles : <a href=\"https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr\">Code des obligations – fedlex.admin.ch</a></p><h2>2. Responsabilités et risques clés pour les administrateurs</h2><h3>2.1 Responsabilité civile</h3><ul><li>Action en responsabilité civile (art. 754 CO) : faute de gestion, violation d’obligations légales ou statutaires</li><li>Exemples concrets : versement de dividendes illicites, défaut de surveillance interne, fraude fiscale involontaire ou négligente</li></ul><h3>2.2 Responsabilité pénale et administrative</h3><ul><li>Infractions aux obligations comptables et fiscales (art. 166 et 167 CP)</li><li>Délits réprimés par l’<a href=\"https://www.ge.ch/registre-commerce\">Office du registre du commerce GE</a></li><li>Sanctions pénales en cas de banqueroute simple ou frauduleuse</li></ul><h2>3. Vigilance accrue en 2025 : contrôles et exigences récentes</h2><ul><li>Renforcement des pratiques anti-blanchiment (art. 52 LBA, obligations de documentation et d'annonce) : externalisation possible à un professionnel qualifié</li><li>Nouvelles exigences sur la traçabilité des avoirs et bénéficiaires effectifs : obligation de transparence accrue</li><li>Mise à jour des registres d’actions et procès-verbaux d’assemblées même en cas d’AG digitale</li><li>Délais de réaction stricts lors de pertes importantes du capital propre (art. 725 CO)</li></ul><p>Pour des PME genevoises, l’accompagnement fiduciaire permet d’éviter la multiplication des erreurs ou omissions volontaires ou non.</p><h2>4. Exemples pratiques : cas fréquents d’engagement de la responsabilité</h2><h3>4.1 Défaut de surveillance : le piège classique</h3><ul><li>Une PME découvre tardivement une dette fiscale non déclarée : l’administrateur peut être personnellement recherché pour le dommage subi par la société ou des tiers bénéficiaires (ex : créanciers; administration fiscale)</li></ul><h3>4.2 Fausses informations lors de l’assemblée générale</h3><ul><li>Mise à jour des procès-verbaux non conforme à la réalité financière : risque pénal et civil accru</li></ul><h3>4.3 Omission des contrôles anti-blanchiment lors de l’entrée d’un nouvel associé</h3><ul><li>Sanctions administratives, obligation de signalement et blocage possible de la société</li></ul><h2>5. Bonnes pratiques pour limiter ses risques en 2025</h2><ol><li><strong>Confier les tâches sensibles (comptabilité, fiscalité, LBA) à un fiduciaire expérimenté</strong></li><li><strong>Tenir à jour tous les registres officiellement requis</strong> : livre d’actions, PV, registre des bénéficiaires</li><li><strong>Mettre en place une politique de délégation et de double contrôle</strong> : chaque signature engage la société – vigilance sur les pouvoirs internes</li><li><strong>Former en continu les organes de direction</strong> : actualisation des connaissances en droit, fiscalité, risques opérationnels</li></ol><h2>6. Conseils pratiques d’optimisation par Ark Fiduciaire</h2><ul><li>Audit régulier de la conformité opérationnelle (registre, documentation, organisation de l’organe de révision le cas échéant)</li><li>Mise à disposition d’un modèle de PV et de check-lists annuelles à jour</li><li>Prise en charge du <strong>secrétariat corporatif</strong> (tenue des AG, rédaction des PV, communication avec les autorités)</li><li>Accompagnement lors de contrôles fiscaux ou administratifs</li></ul><h2>Conclusion</h2><p>Prendre la direction d’une SA ou d’une Sàrl à Genève en 2025 ne s’improvise pas. Entre l’évolution rapide de la législation suisse et les attentes croissantes en matière de conformité, la rigueur et l’anticipation s’imposent. Faites-vous accompagner par des professionnels aguerris pour transformer les obligations réglementaires en leviers de confiance et de développement pérenne.</p><h3>Sources</h3><ul><li><a href=\"https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr\">Code des obligations suisse – fedlex.admin.ch</a></li><li><a href=\"https://www.ge.ch/registre-commerce\">Office du registre du commerce du canton de Genève</a></li></ul>",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-21",
+      "references": [
+        {
+          "labelKey": "Responsabilités des membres du conseil d'administration d'une SA",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Code des obligations suisse (Dispositions sur la SA et la Sàrl)",
+          "url": "https://www.admin.ch/opc/fr/classified-compilation/19110009/index.html"
+        },
+        {
+          "labelKey": "Obligations de publication et de transparence – Droit suisse",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_958"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -464,5 +469,7 @@
   "Obligations salariales": "Normes et exigences récentes sur la paie, Swissdec, télétravail, LPP.",
   "Nouveautés TVA": "Changements réglementaires majeurs en matière de TVA 2025.",
   "Nouveautés Odoo 18": "Résumé des innovations Odoo 18",
-  "Swissdec Genève 2025": "Nouveaux standards Swissdec applicables à Genève en 2025"
+  "Swissdec Genève 2025": "Nouveaux standards Swissdec applicables à Genève en 2025",
+  "CO_fedlex": "Code des obligations suisse (fedlex)",
+  "RC_Geneve": "Office du registre du commerce Genève"
 }

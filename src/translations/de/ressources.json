@@ -64,10 +64,6 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Changements fiscaux Genève 2025",
-          "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
-        },
-        {
           "labelKey": "Analyse Econostrum 2025",
           "url": "https://econostrum.info/suisse/geneve-reforme-fiscale-historique-2025/"
         },
@@ -84,12 +80,7 @@
       "content": "Das Jahr 2025 bringt zahlreiche steuerliche Neuerungen in Genf. KMU, Selbstständige und Unternehmer müssen sich auf erhebliche Veränderungen einstellen, um ihre Steuerlast zu senken, konform zu bleiben und die Steuererklärung 2026 effizient vorzubereiten.\n\nWesentliche Steueränderungen in Genf 2025\n\n1. Senkung der Einkommenssteuer für Privatpersonen\nSeit dem 1. Januar 2025 ist der kantonale und kommunale Tarif um 11,4% bis 5,3% gesunken. Das bringt vielen Steuerzahlern spürbare Ersparnisse. Die Akontozahlungen bleiben jedoch an den Vorjahreserklärungen orientiert – daher Vorsicht bei der Vorausplanung.\n\n2. Zahlung der Akonti: vereinfachte Monatsraten\nNeue Flexibilität: Die Akontozahlungen können nun in 12 statt in 10 Monatsraten erfolgen, was Selbstständigen und Unternehmen die Liquiditätsplanung erleichtert.\n\n3. Immobilienbesteuerung: Auswirkungen des LEFI-Gesetzes\nAlle Immobilien, die vor Ende 2014 erworben wurden, erfahren eine steuerliche Wertsteigerung von 12%. Gleichzeitig sinkt die Vermögenssteuer um 15%. Eigentümer sollten den individuellen Einfluss prüfen.\n\n4. Homeoffice & Grenzgänger: vorsicht bei gemischter Besteuerung\nDie Klärung der steuerlichen Behandlung von Grenzgängern im Homeoffice kann zu Nachjustierungen führen (Arbeitgeber: Updates der Praktiken empfohlen).\n\n5. Neue Regelungen für Unternehmen (Rulings, Mindestbesteuerung, SCI)\nKMU und Unternehmen, die der Mindestbesteuerung unterliegen oder mit Immobiliengesellschaften (SCI) agieren, sollten die letzten Anpassungen prüfen (siehe Steuerpanorama AFC 2025).\n\nWichtige Tipps zur Steueroptimierung 2025–2026\n- Die persönliche und die Unternehmenssteuerplanung aktualisieren\n- Möglichen Wertzuwachs bei Alt-Immobilien voraussehen\n- Akontozahlungen rechtzeitig anpassen, um unnötige Zinsen zu vermeiden\n- Gesellschaftsstatuten/Fusion/SCI mit einem Steuerberater prüfen\n- Grenzgänger-Mitarbeiter über neue Homeoffice-Regeln informieren\n- Steuer-Check 2025 in Anspruch nehmen, um Optimierungsmöglichkeiten abzusichern\n\nBeobachtete Google Trends\n- \"Steuersenkung Genf 2025\"\n- \"Monatliche Akontozahlungen steuern\"\n- \"Steuern KMU Genf 2025\"\n- \"Homeoffice Steuern Grenzgänger\"\nDiese Suchanfragen spiegeln das steigende Interesse an Optimierung, proaktivem Management und dem Verständnis der neuen Steuerregeln – insbesondere für KMU, Selbstständige und freie Berufe – wider.\n\nFazit:\nSich an die steuerlichen Änderungen in Genf 2025 anzupassen, erfordert Proaktivität und Fachkompetenz. Unsere Experten unterstützen KMU und Selbständige in allen Bereichen: Steuern, MwSt, Odoo-Implementierung, Outsourcing, Lohnbuchhaltung und Integrationen. Kontaktieren Sie uns für eine individuelle Analyse.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-17",
-      "references": [
-        {
-          "labelKey": "Changements fiscaux Genève",
-          "url": "https://fidulex.ch/les-changements-fiscaux-a-geneve-2025/"
-        }
-      ]
+      "references": []
     },
     {
       "slug": "optimisation-fiscale-geneve-fin-2025",
@@ -124,10 +115,6 @@
         {
           "labelKey": "Obligations fiscales entreprises",
           "url": "https://www.geneve.ch/public/entreprises/informations-utiles-entreprises-prestations-demarches/impots"
-        },
-        {
-          "labelKey": "Fiscalité RFFA Genève",
-          "url": "https://fidulex.ch/la-reforme-de-la-fiscalite-des-entreprises-guide-geneve/"
         }
       ]
     },
@@ -222,10 +209,6 @@
         {
           "labelKey": "TVA Réforme 2025 AFC",
           "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
-        },
-        {
-          "labelKey": "TVA Mémo pratique Genève",
-          "url": "https://fidulex.ch/revision-de-la-tva-changements-cles-en-2025/"
         }
       ]
     },
@@ -400,6 +383,28 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1991/2058_2058_2058/fr"
         }
       ]
+    },
+    {
+      "slug": "roles-et-responsabilites-administrateurs-sa-sarl-geneve-2025",
+      "title": "Leitung einer AG oder GmbH in Genf 2025: Gesetzliche Pflichten, Verantwortlichkeiten und Best Practices für Verwaltungsräte",
+      "description": "Konkreter und aktueller Überblick über die rechtlichen, steuerlichen und operativen Verantwortlichkeiten von Verwaltungsräten von AG und GmbH in Genf im Jahr 2025. Wichtige Warnhinweise, praktische Ratschläge und Lösungen, um Streitigkeiten und Sanktionen zu vermeiden.",
+      "content": "<h2>Einleitung</h2><p>Die Übernahme der Funktion als Verwaltungsrat oder Geschäftsführer einer <strong>AG</strong> oder <strong>GmbH</strong> in Genf bedeutet weit mehr als das tägliche Management des Unternehmens. Im Jahr 2025, vor dem Hintergrund sich wandelnder regulatorischer Anforderungen und zunehmender Digitalisierung, ist bei den Leitungsorganen besondere Wachsamkeit gefragt. Dieser Artikel gibt einen umfassenden, praxisorientierten und aktuellen Überblick über Pflichten, Risiken und Best Practices zur Absicherung Ihres Verwaltungsmandats.</p><h2>1. Gesetzlicher Rahmen 2025: Grundlagen</h2><h3>1.1 Status und Rolle des Verwaltungsrates (AG) und des Geschäftsführers (GmbH)</h3><ul><li><strong>Obligationenrecht (OR)</strong>: Artikel 716 ff. (AG), 809 ff. (GmbH)</li><li>Entscheidungskompetenz, Vertretung und Sorgfaltspflichten</li></ul><h3>1.2 Wichtige aktuelle Entwicklungen</h3><ul><li>Reform des Aktienrechts (seit 2023 in Kraft, praktische Anpassungen 2025)</li><li>Klarstellung zur Abhaltung digitaler Generalversammlungen (Art. 701 OR geändert)</li></ul><p>Offizielle Quellen: <a href=\"https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr\">Obligationenrecht – fedlex.admin.ch</a></p><h2>2. Zentrale Verantwortlichkeiten und Risiken für Verwaltungsräte</h2><h3>2.1 Zivilrechtliche Haftung</h3><ul><li>Zivilklage nach Art. 754 OR: Pflichtverletzung, gesetzes- oder statutenwidriges Verhalten</li><li>Konkrete Beispiele: unzulässige Dividendenausschüttungen, fehlende interne Überwachung, ungewollter oder fahrlässiger Steuerbetrug</li></ul><h3>2.2 Straf- und Verwaltungshaftung</h3><ul><li>Verstöße gegen Buchführungs- und Steuerpflichten (Art. 166 und 167 StGB)</li><li>Delikte, die vom <a href=\"https://www.ge.ch/registre-commerce\">Handelsregisteramt Genève</a> verfolgt werden</li><li>Strafen bei einfacher oder betrügerischer Konkursanmeldung</li></ul><h2>3. Erhöhte Wachsamkeit 2025: Neue Kontrollen und Anforderungen</h2><ul><li>Verschärfte Geldwäschereipraxis (Art. 52 GwG, Dokumentations- und Meldepflichten): mögliche Auslagerung an eine qualifizierte Fachperson</li><li>Neue Anforderungen zur Rückverfolgbarkeit von Vermögenswerten und wirtschaftlich Berechtigten: erhöhte Transparenzpflicht</li><li>Aktualisierung von Aktienregistern und Protokollen, auch bei digitalen Generalversammlungen</li><li>Strikte Fristen bei erheblichen Verlusten des Eigenkapitals (Art. 725 OR)</li></ul><p>Für Genfer KMU hilft eine Treuhandbegleitung, Fehler oder (un-)bewusste Versäumnisse zu vermeiden.</p><h2>4. Praxisbeispiele: Häufige Fälle von Haftung</h2><h3>4.1 Überwachungsdefizite: die klassische Falle</h3><ul><li>Ein KMU entdeckt eine nicht gemeldete Steuerschuld zu spät: Der Verwaltungsrat kann persönlich für Schäden an der Firma oder an Dritten (z.B. Gläubiger, Steuerbehörde) haften.</li></ul><h3>4.2 Falsche Angaben bei der Generalversammlung</h3><ul><li>Protokolle spiegeln die tatsächliche Finanzlage nicht wider: erhöhtes Zivil- und Strafrisiko</li></ul><h3>4.3 Versäumnis der Geldwäschereikontrolle beim Eintritt eines neuen Gesellschafters</h3><ul><li>Verwaltungsstrafen, Meldepflicht und möglicher Block der Gesellschaft</li></ul><h2>5. Best Practices zur Risikominimierung 2025</h2><ol><li><strong>Sensible Aufgaben (Buchhaltung, Steuern, GwG) einem erfahrenen Treuhänder anvertrauen</strong></li><li><strong>Alle gesetzlich vorgeschriebenen Register aktuell halten</strong>: Aktienbuch, Protokolle, Register der wirtschaftlich Berechtigten</li><li><strong>Delegations- und Vier-Augen-Prinzip einführen</strong>: Jede Unterschrift bindet die Gesellschaft – Wachsamkeit bei internen Vollmachten</li><li><strong>Laufende Weiterbildung der Leitungsorgane</strong>: Aktualisierung der Kenntnisse in Recht, Steuern und operativen Risiken</li></ol><h2>6. Praxistipps von Ark Fiduciaire</h2><ul><li>Regelmäßiges Audit der operativen Compliance (Register, Dokumentation, Organisation der Revisionsstelle wenn nötig)</li><li>Vorlage aktueller Protokollmuster und jährlicher Checklisten</li><li>Übernahme der <strong>Corporate-Secretariat-Aufgaben</strong> (Abhalten von Generalversammlungen, Protokollführung, Behördengänge)</li><li>Begleitung bei steuerlichen oder behördlichen Kontrollen</li></ul><h2>Fazit</h2><p>Die Leitung einer AG oder GmbH in Genf im Jahr 2025 ist keine Improvisation. Angesichts des raschen Wandels der Schweizer Gesetzgebung und steigender Compliance-Erwartungen sind Gründlichkeit und vorausschauendes Handeln unerlässlich. Lassen Sie sich von erfahrenen Fachleuten begleiten, um regulatorische Pflichten in Hebel für Vertrauen und nachhaltige Entwicklung zu verwandeln.</p><h3>Quellen</h3><ul><li><a href=\"https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr\">Schweizer Obligationenrecht – fedlex.admin.ch</a></li><li><a href=\"https://www.ge.ch/registre-commerce\">Handelsregisteramt des Kantons Genf</a></li></ul>",
+      "author": "Ark Fiduciaire",
+      "date": "2025-10-21",
+      "references": [
+        {
+          "labelKey": "Responsabilités des membres du conseil d'administration d'une SA",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Code des obligations suisse (Dispositions sur la SA et la Sàrl)",
+          "url": "https://www.admin.ch/opc/fr/classified-compilation/19110009/index.html"
+        },
+        {
+          "labelKey": "Obligations de publication et de transparence – Droit suisse",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_958"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -469,5 +474,7 @@
   "fedlex_loi_travail": "Schweizer Arbeitsgesetz",
   "Norme Swissdec 5 officielle": "Offizieller Swissdec-5-Standard",
   "Paie Genève Swissdec": "Genfer Lohnabrechnung Swissdec",
-  "labelKeyFR": "Deutsches Label"
+  "labelKeyFR": "Deutsches Label",
+  "CO_fedlex": "Schweizer Obligationenrecht (fedlex)",
+  "RC_Geneve": "Handelsregisteramt Genève"
 }
