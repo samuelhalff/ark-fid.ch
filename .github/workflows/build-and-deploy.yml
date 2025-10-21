@@ -179,13 +179,13 @@ jobs:
           curl -X POST "https://ark-fid.ch/api/kill/" -H "Authorization: Bearer $TOKEN" -s -o /dev/null -w "[restart] Kill request status: %{http_code}\n" || echo "[restart] Kill request failed or no process to kill"
 
           echo "[restart] Waiting for process to terminate..."
-          sleep 10
+          sleep 30
 
           echo "[restart] Starting new process..."
           sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no "$USER@$HOST" \
             'cd /srv/customer/sites/ark-fid.ch/current && nohup node server.js > server.out 2>&1 &' || echo "[restart] SSH command completed"
 
-          sleep 10
+          sleep 30
 
       - name: Health check and warmup
         run: |
