@@ -3,7 +3,6 @@ import ReactMarkdown from "react-markdown";
 import ContactSection from "../components/ContactSection";
 import { generateMetadataForArticle } from "@/src/lib/metadata";
 import { headers } from "next/headers";
-import Image from "next/image";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 import RelatedArticles from "@/src/components/ressources/RelatedArticles";
 import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
@@ -150,9 +149,8 @@ export default async function ArticlePage({ params }: Params) {
       },
     ],
   } as const;
-  const imageUrl = article.image
-    ? `${baseUrl}/assets/${article.image}`
-    : undefined;
+  // Use relative path for local public assets to avoid Next/Image remote domain restrictions
+  const imageUrl = article.image ? `/assets/${article.image}` : undefined; // used for JSON-LD only; image hidden in UI
   const reading = estimateReadingTime(article.content || "");
 
   const articleJsonLd = {
@@ -292,21 +290,7 @@ export default async function ArticlePage({ params }: Params) {
       <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
         {article.title}
       </h1>
-      {imageUrl && (
-        <div className="mb-6">
-          <div className="relative mx-auto aspect-[4/3] w-full max-w-3xl overflow-hidden rounded-md">
-            <Image
-              src={imageUrl}
-              alt={`${ressources.ImageAltPrefix || "Article illustration"}: ${
-                article.title
-              }`}
-              fill
-              className="object-cover"
-              sizes="(min-width: 1024px) 768px, 100vw"
-            />
-          </div>
-        </div>
-      )}
+      {/* Feature image intentionally not displayed to keep layout compact */}
       <p className="text-lg mb-8 text-center">{article.description}</p>
 
       <div className="text-center text-sm mb-6 space-y-1">
