@@ -134,3 +134,12 @@ The pre-build validation will now:
 - For comprehensive validation, use `node scripts/check-translation-usage.js`
 - All translation components now properly initialize i18n
 - The `contact` namespace will now load correctly when used
+
+## New Ressources Reference Keys (Oct 2025)
+
+Added for a new multilingual article about company creation in Switzerland. These keys must exist in all locales under the `ressources` namespace:
+
+- `ressources:KMU_Registre_Commerce` – Label for SECO/KMU Commercial Register guidance
+- `ressources:GuideSocial_Creer_Son_Entreprise` – Label for “Guide Social” PDF about creating a business
+
+Both keys have been added to: `src/translations/fr|en|de|es|pt/ressources.json`.
