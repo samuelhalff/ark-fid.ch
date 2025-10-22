@@ -43,6 +43,9 @@ jobs:
           restore-keys: |
             next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-
 
+      - name: Validate article references (fail on 404/410)
+        run: npm run validate:article-refs
+
       - name: Build
         env:
           NODE_OPTIONS: --max_old_space_size=4096

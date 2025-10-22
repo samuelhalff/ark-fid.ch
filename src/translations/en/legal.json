@@ -111,7 +111,7 @@
             "Address": "26 Boulevard Georges-Favon, 1204 Geneva"
         },
         "DataCollection": {
-            "Title": "Data We Collect",
+            "Title": "Data we collect",
             "ProfessionalData": {
                 "Title": "Professional Service Data:",
                 "Items": [
@@ -145,7 +145,7 @@
             ]
         },
         "DataUse": {
-            "Title": "How We Use Your Data",
+            "Title": "How we use your data",
             "ServiceDelivery": {
                 "Title": "Service Delivery:",
                 "Items": [
@@ -230,7 +230,7 @@
             "Exercise": "To exercise these rights, contact us at info@ark-fid.ch. We will respond within 30 days."
         },
         "InternationalTransfers": {
-            "Title": "International Data Transfers",
+            "Title": "International data transfers",
             "Description": "We may transfer personal data outside Switzerland to:",
             "Destinations": {
                 "0": "EU/EEA countries with adequate data protection",
@@ -240,7 +240,7 @@
             "Safeguards": "All international transfers are conducted with appropriate legal safeguards to ensure your data remains protected to Swiss standards."
         },
         "PolicyChanges": {
-            "Title": "Changes to This Policy",
+            "Title": "Changes to this policy",
             "Description": "We may update this Privacy Policy to reflect changes in our practices, services, or legal requirements. Material changes will be communicated through:",
             "Communication": {
                 "0": "Email notification to registered clients",
@@ -250,7 +250,7 @@
             "Effectiveness": "The updated policy will be effective from the date specified in the revised version."
         },
         "Contact": {
-            "Title": "Contact Us",
+            "Title": "Contact us",
             "Description": "If you have questions about this Privacy Policy or wish to exercise your rights, please contact us:",
             "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",

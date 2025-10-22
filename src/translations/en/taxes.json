@@ -35,12 +35,12 @@
                 "Desc": "We represent you with tax authorities and negotiate on your behalf when necessary."
             }
         ],
-        "ServicesTitle": "Our Tax services",
+        "ServicesTitle": "Our tax services",
         "Services": [
-            "Tax Returns: Complete preparation and filing of individual and corporate tax returns",
-            "Tax Planning: Strategic planning to optimize your tax burden and ensure compliance",
-            "VAT Management: Comprehensive VAT registration, filing, and compliance services",
-            "Tax Representation: Professional representation with tax authorities and negotiations"
+            "Tax returns: complete preparation and filing of individual and corporate tax returns",
+            "Tax planning: strategic planning to optimize your tax burden and ensure compliance",
+            "VAT management: comprehensive VAT registration, filing, and compliance services",
+            "Tax representation: professional representation with tax authorities and negotiations"
         ]
     }
 }

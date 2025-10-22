@@ -6,7 +6,7 @@
         "Title": "Odoo: digitize your management",
         "Description": "Ark Fiduciaire supports you in the integration, customization, and evolution of your Odoo solution. Optimize your processes, automate tasks, and manage your business with a complete and scalable ERP.",
         "CTA": "Accelerate my Odoo project",
-        "SecondaryCTA": "Meet the Team",
+        "SecondaryCTA": "Meet the team",
         "OdooPartnerBadge": "Official Odoo partner"
     },
     "Presentation": {
@@ -17,12 +17,12 @@
             "We analyze your needs, configure the right modules, and train your teams to ensure rapid and effective adoption. Our technical support ensures the continuity and security of your Odoo environment.",
             "Your team stays autonomous: automate routine tasks, extract data from invoices and receipts automatically, and build simple reports without IT."
         ],
-        "ServicesTitle": "Our Odoo Services",
+        "ServicesTitle": "Our Odoo services",
         "Services": [
-            "Odoo implementation: Complete deployment and configuration of Odoo tailored to your business needs",
-            "Process Automation: Streamlining your workflows with automated administrative and operational tasks",
-            "Data Migration: Seamless transfer of your existing data to the new Odoo system",
-            "Training & Support: Comprehensive user training and ongoing technical assistance"
+            "Odoo implementation: complete deployment and configuration of Odoo tailored to your business needs",
+            "Process automation: streamlining your workflows with automated administrative and operational tasks",
+            "Data migration: seamless transfer of your existing data to the new Odoo system",
+            "Training & support: comprehensive user training and ongoing technical assistance"
         ],
         "StrengthsTitle": "Our strengths for your digital transformation",
         "Strengths": [

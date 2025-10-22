@@ -15,6 +15,7 @@
     "lint": "next lint",
     "lint:translations": "node scripts/lint-translations.js",
     "validate:translations": "node scripts/validate-translations.js",
+    "validate:article-refs": "node scripts/validate-article-refs.js",
     "lint:metadata": "node scripts/lint-metadata.js",
     "lint:capitalization": "node scripts/lint-capitalization.js",
     "lint:capitalization:fix": "node scripts/lint-capitalization.js --fix",

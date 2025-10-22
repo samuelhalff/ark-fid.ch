@@ -1,6 +1,6 @@
 {
     "Meta": {
-        "Title": "About Us | Ark Fiduciaire",
+        "Title": "About us | Ark Fiduciaire",
         "Description": "Learn about Ark Fiduciaire SA, born from the union of two specialized firms in 2025, bringing together decades of expertise in Swiss accounting and fiduciary services."
     },
     "Hero": {
@@ -17,7 +17,7 @@
     },
     "DNA": {
         "Title": "Our DNA",
-        "Subtitle": "The Values That Define Us",
+        "Subtitle": "The values that define us",
         "Values": [
             {
                 "Title": "Swiss precision",
@@ -38,7 +38,7 @@
         ]
     },
     "Expertise": {
-        "Title": "Collective Expertise",
+        "Title": "Collective expertise",
         "Content": [
             "Our team combines decades of experience across accounting, taxation, corporate services, and business consulting. This wealth of knowledge, gathered from two successful firms, allows us to approach challenges from multiple angles and provide comprehensive solutions.",
             "The diversity of our backgrounds—from traditional Swiss accounting practices to international business dynamics—enables us to serve both local SMEs and multinational corporations with equal expertise and dedication."
@@ -66,9 +66,9 @@
         ]
     },
     "CTA": {
-        "Title": "Ready to Partner with Us?",
+        "Title": "Ready to partner with us?",
         "Description": "Discover how our combined expertise can benefit your business.",
-        "ContactButton": "Get in Touch",
-        "TeamButton": "Meet Our Team"
+        "ContactButton": "Get in touch",
+        "TeamButton": "Meet our team"
     }
 }

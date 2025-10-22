@@ -58,6 +58,9 @@ jobs:
           node scripts/check-ressources-links.js --all-locales --remote || echo "::warning::Some URLs still unreachable after cleanup"
           echo "✅ Verification complete. Proceeding with deployment..."
 
+      - name: Validate article references (fail on 404/410)
+        run: npm run validate:article-refs
+
       - name: Commit and push changes
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"

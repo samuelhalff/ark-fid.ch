@@ -1,17 +1,17 @@
 {
-    "IntroTitle": "Our Partners",
+    "IntroTitle": "Our partners",
     "IntroText": "We collaborate with trusted partners to provide comprehensive professional services to our clients.",
     "Hero": {
-        "Badge": "Strategic Partnerships",
-        "CTA": "Partner With Us",
+        "Badge": "Strategic partnerships",
+        "CTA": "Partner with us",
         "SecondaryCTA": "Meet our team"
     },
     "Presentation": {
-        "Title": "Building Strong Partnerships",
-        "Subtitle": "Strategic Collaboration Network",
+        "Title": "Building strong partnerships",
+        "Subtitle": "Strategic collaboration network",
         "Description": "Through strategic partnerships, we expand our capabilities and deliver comprehensive solutions that meet all your professional service needs."
     },
-    "PartnersTitle": "Our Partner Network",
+    "PartnersTitle": "Our partner network",
     "PartnersDescription": "Discover our network of professional partners who share our commitment to excellence and client service.",
     "Partners": [
         {
@@ -28,29 +28,29 @@
         }
     ],
     "ServiceAreas": {
-        "Title": "Collaborative Service Areas",
+        "Title": "Collaborative service areas",
         "Description": "Through our partnerships, we offer enhanced capabilities across multiple domains:",
         "Areas": [
             {
-                "title": "Legal Advisory",
+                "title": "Legal advisory",
                 "description": "Comprehensive legal support through our attorney partnerships"
             },
             {
-                "title": "Risk Management",
+                "title": "Risk management",
                 "description": "Professional insurance and risk assessment services"
             },
             {
-                "title": "Business Consulting",
+                "title": "Business consulting",
                 "description": "Strategic advisory services for business development"
             },
             {
-                "title": "Compliance Support",
+                "title": "Compliance support",
                 "description": "Regulatory compliance and governance assistance"
             }
         ]
     },
     "Partnership": {
-        "Title": "Partnership Benefits",
+        "Title": "Partnership benefits",
         "Description": "Our strategic partnerships enable us to:",
         "Benefits": [
             "Provide comprehensive service coverage",
@@ -61,7 +61,7 @@
         ]
     },
     "Contact": {
-        "Title": "Partner with Us",
+        "Title": "Partner with us",
         "Description": "Interested in exploring partnership opportunities?",
         "CallToAction": "Contact us to discuss how we can collaborate to serve our clients better.",
         "ButtonText": "Contact us"
