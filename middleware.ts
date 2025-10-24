@@ -57,7 +57,8 @@ export function middleware(request: NextRequest) {
           `object-src 'none'`,
         ]
   ).join("; ");
-  const trustedTypesDirective = `trusted-types nextjs#bundler 'allow-duplicates'`;
+  // Allow Google's Trusted Types policy name used by Maps/Platform scripts
+  const trustedTypesDirective = `trusted-types nextjs#bundler goog#html 'allow-duplicates'`;
   const csp = `${cspDirectives}; ${trustedTypesDirective}`;
 
   // Check if the path already has a locale

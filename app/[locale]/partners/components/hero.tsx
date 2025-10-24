@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import Image from "next/image";
+import ResponsiveImage from "@/src/components/media/ResponsiveImage";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import heroBlurData from "@/src/lib/heroBlurData.json";
 
@@ -21,7 +22,7 @@ const IconHandshake = ({
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    className={className}
+    className={`ui-icon ${className}`}
     aria-hidden
     {...props}
   >
@@ -43,7 +44,7 @@ const IconUsers = ({
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    className={className}
+    className={`ui-icon ${className}`}
     aria-hidden
     {...props}
   >
@@ -72,11 +73,11 @@ const PartnersHero = async ({ locale }: PartnersHeroProps) => {
   ];
   const pick = Math.floor(Math.random() * serviceHeroes.length);
   const heroSrc = serviceHeroes[pick];
+  const heroMobileSrc = heroSrc; // If/when mobile variants exist, swap here
   const blur = (heroBlurData as Record<string, string>)[heroSrc];
 
   return (
     <div className="relative min-h-[calc(100vh-4rem)] max-w-[var(--breakpoint-xl)] w-full flex items-center justify-center overflow-hidden border-b border-accent mx-auto px-6 pb-24">
-      <link rel="preload" as="image" href={heroSrc} />
       <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
         <div className="max-w-2xl text-center animate-in fade-in duration-800">
           <div className="gap-2 flex justify-center items-center mb-6">
@@ -114,8 +115,9 @@ const PartnersHero = async ({ locale }: PartnersHeroProps) => {
           </div>
         </div>
         <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
-          <Image
-            src={heroSrc}
+          <ResponsiveImage
+            mobileSrc={heroMobileSrc}
+            desktopSrc={heroSrc}
             alt="Illustration des services fiduciaires professionnels offerts par Ark Fiduciaire"
             className="object-cover rounded-xl"
             sizes="(min-width:1280px) 560px, (min-width:1024px) 480px, 92vw"

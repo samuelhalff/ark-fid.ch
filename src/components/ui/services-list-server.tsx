@@ -88,7 +88,7 @@ export default async function ServicesListServer({
         const IconNode = icons && icons[idx % icons.length] ? icons[idx % icons.length] : DefaultIcons[idx % DefaultIcons.length];
         return (
           <div key={idx} className="flex items-center gap-5 sm:gap-6 px-6 sm:px-8 py-6 my-5 rounded-xl bg-muted/50 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shrink-0">
+            <span className="ui-icon inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shrink-0">
               {IconNode}
             </span>
             <div className="min-w-0">

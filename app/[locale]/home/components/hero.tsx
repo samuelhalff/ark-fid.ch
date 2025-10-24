@@ -3,6 +3,7 @@
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import Image from "next/image";
+import ResponsiveImage from "@/src/components/media/ResponsiveImage";
 import Link from "next/link";
 // import { useTranslation } from "react-i18next";
 // import "@/src/i18n";
@@ -40,6 +41,9 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
     : 0;
   const fallbackHero = "/assets/hero/services/home-hero.avif";
   const homeHeroSrc = serviceHeroes[pick] || fallbackHero;
+  // For now, use the same source for mobile/desktop. If mobile-specific
+  // variants are provided later, pass them here.
+  const homeHeroMobileSrc = homeHeroSrc; // e.g. "/assets/hero/services/home-hero-mobile.avif"
   const blur = (heroBlurData as Record<string, string>)[homeHeroSrc];
 
   const ArrowIcon = () => (
@@ -103,8 +107,9 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
 
         {/* Right column (image) */}
         <div className="flex-1 relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
-          <Image
-            src={homeHeroSrc}
+          <ResponsiveImage
+            mobileSrc={homeHeroMobileSrc}
+            desktopSrc={homeHeroSrc}
             alt={t("Hero.ImageAlt") || "Ark Fiduciaire fiduciary services"}
             className="object-cover rounded-xl"
             sizes="(min-width:1280px) 560px, (min-width:1024px) 480px, 92vw"

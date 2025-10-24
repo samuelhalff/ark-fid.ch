@@ -8,16 +8,15 @@ module.exports = {
     "./src/**/*.{ts,tsx}",
   ],
   safelist: [
-    "invisible",
-    "pointer-events-none",
-    "pointer-events-auto",
-    "group-hover:visible",
-    "group-hover:opacity-100",
-    "group-hover:pointer-events-auto",
+    // Keep only the classes we know are used dynamically across views
     "aspect-4/5",
     "hover:shadow-lg",
     "hover:brightness-[1.15]",
   ],
+  // Disable container core plugin if not used to shave a few bytes
+  corePlugins: {
+    container: false,
+  },
   theme: {
     extend: {
       colors: {

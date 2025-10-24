@@ -5,13 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 @custom-variant light (&:is(.light *));
 
-/* Force include hover brightness class */
-.hover\:brightness-\[1\.15\]:hover {
-  --tw-brightness: brightness(1.15);
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast)
-    var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate)
-    var(--tw-sepia) var(--tw-drop-shadow);
-}
+/* Tailwind already generates hover:brightness-[1.15] via safelist */
 
 @layer base {
   :root {
@@ -122,6 +116,15 @@
 }
 
 @layer components {
+  /* Icon defaults: ensure consistent strokes across inline SVGs */
+  .ui-icon svg,
+  svg.ui-icon {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
   .abstract-background {
     position: relative;
     z-index: 0; /* Create stacking context */

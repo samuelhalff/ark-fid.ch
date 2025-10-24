@@ -6,7 +6,12 @@ const Check = (props: any) => (
 );
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
-import ServicesListServer from "@/src/components/ui/services-list-server";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
+const ServicesListServer = dynamic(
+  () => import("@/src/components/ui/services-list-server"),
+  { suspense: true }
+);
 
 
 const OdooPresentation = async () => {
@@ -65,7 +70,23 @@ const OdooPresentation = async () => {
 
             <section>
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">{tidyTitle(((t("Presentation.ServicesTitle") as string) || "Services"))}</h3>
-              <ServicesListServer ns="odoo" translationKey="Presentation.Services" fallbackText={services} className="space-y-6" locale={locale} />
+              <Suspense
+                fallback={
+                  <div className="space-y-4">
+                    <div className="h-24 rounded-lg bg-muted/40" />
+                    <div className="h-24 rounded-lg bg-muted/40" />
+                    <div className="h-24 rounded-lg bg-muted/40" />
+                  </div>
+                }
+              >
+                <ServicesListServer
+                  ns="odoo"
+                  translationKey="Presentation.Services"
+                  fallbackText={services}
+                  className="space-y-6"
+                  locale={locale}
+                />
+              </Suspense>
             </section>
           </div>
         </div>

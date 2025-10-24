@@ -48,7 +48,7 @@ const AccountingPresentation = ({ t }: { t: (key: string) => string }) => {
                 <div key={index} className="flex items-start gap-3">
                   <div className="mt-0.5 flex-shrink-0">
                     <svg
-                      className="w-4 h-4 text-primary"
+                      className="ui-icon w-4 h-4 text-primary"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -113,7 +113,7 @@ const AccountingPresentation = ({ t }: { t: (key: string) => string }) => {
                       className="flex items-start gap-4 px-6 py-4 rounded-lg bg-primary/5 mb-4"
                     >
                       <svg
-                        className="text-blue-400 mt-1 min-w-[20px]"
+                        className="ui-icon text-blue-400 mt-1 min-w-[20px]"
                         width={20}
                         height={20}
                         viewBox="0 0 24 24"

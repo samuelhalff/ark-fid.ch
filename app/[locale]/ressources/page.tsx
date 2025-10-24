@@ -1,7 +1,11 @@
 import React from "react";
 import { type Metadata } from "next";
 import { headers } from "next/headers";
-import ResourceGrid from "./components/ResourceGrid";
+import { Suspense } from "react";
+import nextDynamic from "next/dynamic";
+const ResourceGrid = nextDynamic(() => import("./components/ResourceGrid"), {
+  suspense: true,
+});
 import FAQSection from "./components/FAQSection";
 import ContactSection from "./articles/components/ContactSection";
 import { notFound } from "next/navigation";
@@ -277,7 +281,21 @@ export default async function RessourcesPage({
         <h2 className="text-2xl font-semibold mb-6">
           {ressources.ArticlesTitle || "Articles"}
         </h2>
-        <ResourceGrid articles={visibleArticles} locale={locale} labels={labels} />
+        <Suspense
+          fallback={
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
+              <div className="h-40 rounded-lg bg-muted/40" />
+              <div className="h-40 rounded-lg bg-muted/40" />
+              <div className="h-40 rounded-lg bg-muted/40" />
+            </div>
+          }
+        >
+          <ResourceGrid
+            articles={visibleArticles}
+            locale={locale}
+            labels={labels}
+          />
+        </Suspense>
         {showMoreArticles && (
           <div className="flex items-center gap-3 justify-center mt-6">
             <a

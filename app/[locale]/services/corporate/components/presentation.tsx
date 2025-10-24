@@ -1,11 +1,18 @@
 const Check = (props: any) => (
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ui-icon ${props?.className || ""}`}
+    {...props}
+  >
     <path d="M9 12l2 2 4-4" />
     <circle cx="12" cy="12" r="9" />
   </svg>
 );
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
-import ServicesListServer from "@/src/components/ui/services-list-server";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
+const ServicesListServer = dynamic(
+  () => import("@/src/components/ui/services-list-server"),
+  { suspense: true }
+);
 import { tidyTitle } from "@/src/lib/typography";
 
 const CorporatePresentation = async () => {
@@ -86,18 +93,28 @@ const CorporatePresentation = async () => {
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
                 {tidyTitle(((t("Presentation.ServicesTitle") as string) || "Services"))}
               </h3>
-              <ServicesListServer
-                ns="corporate"
-                translationKey="Presentation.Services"
-                fallbackText={[
-                  "Service 1: Description",
-                  "Service 2: Description",
-                  "Service 3: Description",
-                  "Service 4: Description",
-                ]}
-                className="space-y-6"
-                locale={locale}
-              />
+              <Suspense
+                fallback={
+                  <div className="space-y-4">
+                    <div className="h-24 rounded-lg bg-muted/40" />
+                    <div className="h-24 rounded-lg bg-muted/40" />
+                    <div className="h-24 rounded-lg bg-muted/40" />
+                  </div>
+                }
+              >
+                <ServicesListServer
+                  ns="corporate"
+                  translationKey="Presentation.Services"
+                  fallbackText={[
+                    "Service 1: Description",
+                    "Service 2: Description",
+                    "Service 3: Description",
+                    "Service 4: Description",
+                  ]}
+                  className="space-y-6"
+                  locale={locale}
+                />
+              </Suspense>
             </section>
           </div>
         </div>

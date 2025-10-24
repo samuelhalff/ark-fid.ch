@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import ServicesElements from "@/app/[locale]/navigation";
 import { getTranslations } from "@/src/lib/i18n";
 import { headers } from "next/headers";
 import { localizePath } from "@/src/lib/paths";
+import nextDynamic from "next/dynamic";
 
 const locales = ["en", "fr", "de", "es", "pt"] as const;
 type Locale = (typeof locales)[number];
@@ -37,7 +38,11 @@ export default async function LocaleLayout({
   // providers (ThemeProvider) and NavBar remain singletons in the root.
   const Navbar = (await import("@/src/components/navigation/NavbarServer"))
     .default;
-  const Footer = (await import("@/app/[locale]/shared/footer")).default;
+  // Stream the footer as a Server Component using suspense to improve TTFB
+  const Footer = nextDynamic(
+    () => import("@/app/[locale]/shared/footer"),
+    { suspense: true }
+  );
 
   // Prepare server-side translated navigation labels and services list to avoid SSR key leakage
   const tNavbar = await getTranslations(activeLocale, "navbar");
@@ -65,7 +70,9 @@ export default async function LocaleLayout({
       <main id="main-content" role="main">
         {children}
       </main>
-      <Footer locale={activeLocale} />
+      <Suspense fallback={null}>
+        <Footer locale={activeLocale} />
+      </Suspense>
     </div>
   );
 }
