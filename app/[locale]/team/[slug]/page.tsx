@@ -322,7 +322,7 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {(t("PBM.LearnMore") as string) || "Learn more"}
+            {(t("PBM.LearnMore") as string) || "Learn more about PBM"}
           </a>
           : pbm.law
         </p>
