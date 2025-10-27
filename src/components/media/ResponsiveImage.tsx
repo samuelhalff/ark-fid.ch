@@ -25,15 +25,23 @@ export default function ResponsiveImage({
   className,
   ...imageProps
 }: ResponsiveImageProps) {
+  // If both sources are the same, render a single Next.js Image so optimization
+  // (responsive sizing, format, quality) is applied. Using <picture> with <source>
+  // bypasses Next.js optimization for those <source> URLs.
+  if (!mobileSrc || mobileSrc === desktopSrc) {
+    return (
+      <Image alt={alt} src={desktopSrc} className={className} {...imageProps} />
+    );
+  }
+
+  // Art-directed variant: keep <picture> for different sources per breakpoint.
+  // Note: <source> elements are not optimized by Next.js. Prefer identical
+  // sources with a single <Image> whenever possible.
   return (
     <picture className={pictureClassName}>
-      {/* Mobile first: < 640px */}
       <source media="(max-width: 639px)" srcSet={mobileSrc} />
-      {/* Desktop and up: >= 640px */}
       <source media="(min-width: 640px)" srcSet={desktopSrc} />
-      {/* Fallback image (will be replaced by matching <source>) */}
       <Image alt={alt} src={desktopSrc} className={className} {...imageProps} />
     </picture>
   );
 }
-
