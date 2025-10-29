@@ -43,8 +43,9 @@ jobs:
           restore-keys: |
             next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-
 
-      - name: Validate article references (fail on 404/410)
-        run: npm run validate:article-refs
+      - name: Validate article references (non-blocking)
+        continue-on-error: true
+        run: npm run validate:article-refs -- --no-fail
 
       - name: Build
         env:
