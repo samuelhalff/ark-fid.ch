@@ -185,9 +185,12 @@ jobs:
           echo "[restart] Waiting for process to terminate..."
           sleep 30
 
-          echo "[restart] Starting new process..."
-          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no "$USER@$HOST" \
-            'cd /srv/customer/sites/ark-fid.ch/current && nohup bash -c "while true; do node server.js >> server.out 2>&1; echo \"Node crashed, restarting...\" >> server.out; sleep 1; done" &' || echo "[restart] SSH command completed"
+          echo "[restart] Starting new process (refreshing symlink each restart)..."
+          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no "$USER@$HOST" '
+            set -e
+            # Supervisor loop: re-enter current symlink on every iteration so new releases apply
+            nohup bash -lc "while true; do cd /srv/customer/sites/ark-fid.ch/current && node server.js >> server.out 2>&1; echo \"Node crashed, restarting...\" >> server.out; sleep 1; done" &
+          ' || echo "[restart] SSH command completed"
 
           sleep 30
 

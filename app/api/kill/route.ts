@@ -84,21 +84,54 @@ export async function POST(request: NextRequest) {
     }
 
     // Log the kill
-    console.log('[KILL] Authorized kill requested. Terminating process...');
+    console.log('[KILL] Authorized kill requested. Terminating process and supervisor loop if present...');
     console.log('[KILL] Deployment script will start new process with updated code.');
 
     // Send response before exiting
     const response = NextResponse.json({
       success: true,
-      message: 'Process termination initiated. Deployment script will start new process.',
+      message: 'Process termination initiated. Supervisor loop will be signaled. Deployment script will start new process.',
       timestamp: new Date().toISOString(),
     });
 
-    // Trigger the kill after a short delay to allow response to be sent
+    // Attempt to terminate the supervisor loop (parent bash -c) before exiting Node
+    const ppid = process.ppid;
+    try {
+      if (ppid && ppid !== 1) {
+        console.log('[KILL] Signaling parent process (possible loop) with SIGTERM. PPID =', ppid);
+        // Give the parent a chance to stop its loop gracefully
+        setTimeout(() => {
+          try {
+            process.kill(ppid, 'SIGTERM');
+            console.log('[KILL] Sent SIGTERM to parent process', ppid);
+          } catch (e) {
+            console.warn('[KILL] Could not SIGTERM parent process:', e);
+          }
+        }, 50);
+
+        // If it is still alive shortly after, force kill
+        setTimeout(() => {
+          try {
+            // probe: signal 0 throws if process is gone
+            process.kill(ppid, 0 as any);
+            process.kill(ppid, 'SIGKILL');
+            console.log('[KILL] Parent process still alive; sent SIGKILL to', ppid);
+          } catch {
+            // already gone
+          }
+        }, 450);
+      } else {
+        console.log('[KILL] No valid parent to kill (ppid=', ppid, ')');
+      }
+    } catch (err) {
+      console.warn('[KILL] Error attempting to terminate parent process:', err);
+    }
+
+    // Trigger the exit after a short delay to allow response and parent kill attempt
     setTimeout(() => {
       console.log('[KILL] Exiting process now...');
       process.exit(0);
-    }, 500);
+    }, 800);
 
     return response;
 
