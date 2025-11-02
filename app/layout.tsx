@@ -171,7 +171,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
         />
 
-        <Providers>
+        <Providers nonce={nonce}>
           <ErrorBoundary>
             <div className="pt-3 abstract-background text-foreground pt-15 mt-10">
               {children}

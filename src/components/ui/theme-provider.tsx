@@ -5,10 +5,12 @@ import { ReactNode } from "react";
 
 interface ThemeProviderProps {
   children: ReactNode;
+  nonce?: string;
 }
 
 export default function ThemeProvider({
   children,
+  nonce,
   ...props
 }: ThemeProviderProps) {
   return (
@@ -16,6 +18,7 @@ export default function ThemeProvider({
       attribute="class"
       defaultTheme="system"
       enableSystem
+      nonce={nonce}
       {...props}
     >
       {children}
