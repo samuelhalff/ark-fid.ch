@@ -1,4 +1,5 @@
-import { Providers } from "@/src/components/providers"; // Import your new client provider
+// app/layout.tsx
+import { Providers } from "@/src/components/providers";
 import { Metadata, Viewport } from "next";
 import {
   generateOrganizationStructuredData,
@@ -6,7 +7,6 @@ import {
 } from "@/src/lib/metadata";
 import { inter } from "./fonts";
 import { headers } from "next/headers";
-// Vercel Analytics is rendered conditionally via ConsentAnalytics
 import dynamic from "next/dynamic";
 import Defer from "@/src/components/Defer";
 import ErrorBoundary from "@/src/components/ErrorBoundary";
@@ -20,11 +20,6 @@ const ConsentAnalytics = dynamic(
   { ssr: false, loading: () => null }
 );
 import { getTranslations, getCurrentLocale } from "@/src/lib/i18n";
-
-// Using self-hosted Inter via next/font/local (see app/fonts.ts)
-
-// Here we define the STATIC metadata for the entire site
-// This is the baseline, and can be overridden by individual pages
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -55,37 +50,18 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: new URL(
-          "/favicon.ico",
-          process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-        ).toString(),
+        url: "/favicon.ico",
         sizes: "any",
       },
-      {
-        url: new URL(
-          "/favicon.png",
-          process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-        ).toString(),
-        type: "image/png",
-      },
+      { url: "/favicon.png", type: "image/png" },
     ],
-    apple: [
-      {
-        url: new URL(
-          "/favicon.png",
-          process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-        ).toString(),
-        sizes: "180x180",
-        type: "image/png",
-      },
-    ],
+    apple: [{ url: "/favicon.png", sizes: "180x180", type: "image/png" }],
   },
   other: {
     "msvalidate.01": "C5C559E7A2F5598C1884F1DB1EBB8AA6",
   },
 };
 
-// Viewport configuration for SEO and mobile
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -102,6 +78,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // ✅ read nonce and UA headers from the middleware
   const nonce = headers().get("x-nonce") || undefined;
   const userAgent = headers().get("user-agent") || "";
   const isIOS = /iPad|iPhone|iPod/.test(userAgent);
@@ -112,7 +89,7 @@ export default async function RootLayout({
     ? "G-PBFJ9TQ7NR"
     : "G-BXZ54E31FL";
   const currentLocale = getCurrentLocale();
-  // Load cookie consent labels server-side to avoid client i18n
+
   const tCookie = await getTranslations(currentLocale, "cookie");
   const cookieLabels = {
     Title: tCookie("Title"),
@@ -122,6 +99,7 @@ export default async function RootLayout({
     Decline: tCookie("Decline"),
     Manage: tCookie("Manage"),
   } as const;
+
   const orgJsonLd = generateOrganizationStructuredData();
   const localBizJsonLd = generateLocalBusinessStructuredData();
   const webSiteJsonLd = {
@@ -135,18 +113,17 @@ export default async function RootLayout({
       "query-input": "required name=search_term_string",
     },
   } as const;
+
   return (
     <html
       suppressHydrationWarning
       lang={currentLocale}
       className={inter.variable}
     >
-      <head>
-        {/* GTM is now loaded only after consent via ConsentAnalytics */}
-        {/** Defer Google Maps connections to pages that actually use Maps (e.g., contact). Removing global preconnect helps mobile Speed Index. */}
-        {/* Ensure font swap to avoid layout shifts */}
+      {/* ✅ add nonce to <head> so Next’s internal scripts use it */}
+      <head nonce={nonce}>
+        {nonce ? <meta name="csp-nonce" content={nonce} /> : null}
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
-        {/* Preload LCP background images with high priority */}
         <link
           rel="preload"
           href="/assets/abstract-background-light.avif"
@@ -159,18 +136,25 @@ export default async function RootLayout({
           as="image"
           fetchPriority="high"
         />
-        {/* Title, description and viewport are managed by Next metadata API */}
       </head>
+
       <body className={inter.className}>
-        {/* GTM noscript removed to comply with consent gating */}
-        {/* Accessibility: Skip link */}
+        {/* ✅ expose nonce to client so dynamic scripts can reuse it */}
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{
+            __html: `window.__CSP_NONCE__ = ${JSON.stringify(nonce)};`,
+          }}
+        />
+
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[999] focus:w-auto focus:h-auto focus:px-5 focus:py-3 focus:rounded-lg bg-primary text-primary-foreground focus:shadow-xl"
         >
           Skip to content
         </a>
-        {/* JSON-LD Structured Data */}
+
+        {/* ✅ All inline JSON-LD scripts keep the same nonce */}
         <script
           type="application/ld+json"
           nonce={nonce}
@@ -186,17 +170,18 @@ export default async function RootLayout({
           nonce={nonce}
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
         />
+
         <Providers>
           <ErrorBoundary>
             <div className="pt-3 abstract-background text-foreground pt-15 mt-10">
               {children}
-              {/* Cookie Consent banner - must render immediately for GDPR compliance */}
+
               <CookieConsent
                 nonce={nonce}
                 locale={currentLocale}
                 labels={cookieLabels}
               />
-              {/* Render Vercel Analytics only when user accepted cookies - can be deferred */}
+
               <Defer rootMargin="0px" idle={200} placeholder={null}>
                 <ConsentAnalytics
                   gaId={gaId}
