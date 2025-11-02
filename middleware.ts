@@ -69,7 +69,13 @@ export function middleware(request: NextRequest) {
   if (pathnameHasLocale) {
     // Extract locale and set it in headers for the pages to use
     const locale = pathname.split("/")[1];
-    const response = NextResponse.next();
+    // Propagate request headers so Server Components can read them via headers()
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-locale", locale);
+    requestHeaders.set("x-pathname", pathname);
+    requestHeaders.set("x-nonce", nonce);
+    const response = NextResponse.next({ request: { headers: requestHeaders } });
+    // Also mirror on response for observability/debugging in the browser
     response.headers.set("x-locale", locale);
     // Expose the pathname to server components for active nav styling
     response.headers.set("x-pathname", pathname);
