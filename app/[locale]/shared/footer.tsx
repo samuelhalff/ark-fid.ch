@@ -138,6 +138,16 @@ const Footer = async ({ locale }: { locale?: string }) => {
           </p>
           <p>
             <a
+              href="tel:+41225125050"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
+              itemProp="telephone"
+              aria-label="Call Ark Fiduciaire at +41 22 512 50 50"
+            >
+              +41 22 512 50 50
+            </a>
+          </p>
+          <p>
+            <a
               href="https://maps.google.com/?cid=11595836239142935457"
               target="_blank"
               rel="noopener noreferrer"

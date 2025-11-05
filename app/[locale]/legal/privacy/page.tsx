@@ -653,6 +653,15 @@ export default async function PrivacyPage({
                 )}
               </p>
               <p>{r("Privacy.Contact.Email", "Email: info@ark-fid.ch")}</p>
+              <p>
+                <a
+                  href="tel:+41225125050"
+                  className="text-blue-700 dark:text-blue-400 hover:underline"
+                  aria-label="Call us at +41 22 512 50 50"
+                >
+                  +41 22 512 50 50
+                </a>
+              </p>
             </div>
           </div>
         </section>

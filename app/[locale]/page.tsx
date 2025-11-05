@@ -78,7 +78,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
     description: homeT("Hero.Description"),
     url: "https://ark-fid.ch",
     logo: "https://ark-fid.ch/assets/arkfid--color.svg",
-    // telephone: "+41227007020",
+    telephone: "+41225125050",
     email: "info@ark-fid.ch",
     address: {
       streetAddress: "26 Boulevard Georges Favon",

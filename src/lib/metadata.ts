@@ -338,6 +338,6 @@ export function generateLocalBusinessStructuredData() {
       "https://maps.google.com/?cid=11595836239142935457"
     ],
     "priceRange": "CHF",
-    "telephone": "+41"
+    "telephone": "+41 22 512 50 50"
   };
 }

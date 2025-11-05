@@ -171,6 +171,15 @@ export default async function ContactPage({
           {strings.subtitle && <br />}
           {strings.subtitle}
         </p>
+        <div className="mt-3">
+          <a
+            href="tel:+41225125050"
+            className="text-blue-700 dark:text-blue-400 hover:underline font-medium"
+            aria-label="Call us at +41 22 512 50 50"
+          >
+            +41 22 512 50 50
+          </a>
+        </div>
       </div>
 
       <ContactForm
