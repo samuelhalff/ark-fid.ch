@@ -141,6 +141,27 @@ const CrownIcon = () => (
     <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
   </svg>
 );
+const HandshakeIcon = () => (
+  <svg
+    className="text-primary"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M5 8 9 4a2 2 0 0 1 2.8 0l1.2 1.2a2 2 0 0 0 2.8 0L17 4a2 2 0 0 1 2.8 0L21 5.2" />
+    <path d="m3 7 2 2.5a2 2 0 0 1 .4 1.2V16a3 3 0 0 0 3 3h.5" />
+    <path d="m21 7-2 2.5a2 2 0 0 0-.4 1.2v5a3 3 0 0 1-3 3h-.5" />
+    <path d="M9.5 21 8 19.5a1 1 0 0 1 1.4-1.4l1.8 1.8" />
+    <path d="m13.5 21 3-3a1 1 0 0 0-1.4-1.4L13 18.8" />
+    <path d="M14 16 9.5 11.5" />
+    <path d="M11 16 8.5 13.5a1 1 0 0 1 0-1.4l1-1a1 1 0 0 1 1.4 0L14 15" />
+  </svg>
+);
 
 const ServicesElements = [
   {
@@ -166,6 +187,12 @@ const ServicesElements = [
     descriptionKey: "OutsourcingServices.Description",
     href: "/services/outsourcing",
     icon: <BriefcaseIcon />,
+  },
+  {
+    titleKey: "MAServices.Title",
+    descriptionKey: "MAServices.Description",
+    href: "/services/mergers-acquisitions",
+    icon: <HandshakeIcon />,
   },
   {
     titleKey: "CorporateServices.Title",

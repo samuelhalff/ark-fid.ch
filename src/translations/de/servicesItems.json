@@ -4,7 +4,7 @@
         "Description": "Umfassende Buchhaltungsdienstleistungen, einschließlich Buchführung und Finanzberichterstattung. Wir setzen auf maßgeschneiderte KI-Tools, um Effizienz zu gewinnen und Ihnen das Leben zu erleichtern."
     },
     "TaxesCompanyPersonal": {
-        "Title": "Steuern - Unternehmen und Privat",
+        "Title": "Steuern",
         "Description": "Wir behandeln alle Aspekte der Steuerkonformität, einschließlich Mehrwertsteueranmeldung, Körperschaftssteuererklärungen und Einkommensteuererklärungen für Privatpersonen."
     },
     "PayrollHR": {
@@ -15,6 +15,12 @@
         "Title": "Outsourcing-Dienstleistungen",
         "Description": "Wir bieten Outsourcing-Dienstleistungen für rechtliche, administrative und buchhalterische Aufgaben und ermöglichen es Ihnen, sich auf Ihre Kerngeschäftstätigkeiten zu konzentrieren, während wir die notwendigen Back-Office-Funktionen übernehmen."
     },
+    "MAServices": {
+        "Title": "Mergers & Acquisitions",
+        "Description": "Transaktionsberatung für Schweizer KMU mit Buy-Side- und Sell-Side-Mandaten, Bewertungen, Due-Diligence-Unterstützung und Integrationsplanung."
+    },
+    "ShowMore": "Mehr erfahren",
+    "ShowLess": "Weniger anzeigen",
     "CorporateServices": {
         "Title": "Unternehmensdienstleistungen",
         "Description": "Wir bieten eine Reihe von Unternehmensdienstleistungen, einschließlich Firmengründung, Compliance-Management und Corporate-Governance-Unterstützung, um sicherzustellen, dass Ihr Unternehmen reibungslos funktioniert."

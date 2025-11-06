@@ -1,6 +1,16 @@
 import React from "react";
 const UsersIcon = (props: any) => (
-  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg
+    viewBox="0 0 24 24"
+    width="24"
+    height="24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
     <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
     <circle cx="9" cy="7" r="4" />
     <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
@@ -23,21 +33,23 @@ const PartnerLogo = ({ logo, title }: PartnerLogoProps) => {
     );
   }
 
-  const isWide = logo.toLowerCase().endsWith(".svg");
-  const containerClass = isWide
-    ? "h-12 min-w-[5rem] max-w-[9rem] px-3 py-2"
-    : "h-12 w-12 p-3";
+  const normalizedLogo = logo.toLowerCase();
+  const isWide = normalizedLogo.endsWith(".svg");
+
+  const baseSizeClass = isWide ? "min-w-[5rem] max-w-[9rem] px-3 py-2" : "p-3";
+  const backgroundClass =
+    "bg-slate-30 dark:bg-gray-100 border border-slate-200/80 dark:border-slate-200/60";
 
   return (
     <div
-      className={`${containerClass} bg-white dark:bg-gray-900/50 rounded-lg inline-flex items-center justify-center transition-colors overflow-hidden`}
+      className={`${baseSizeClass} ${backgroundClass} rounded-lg inline-flex items-center justify-center transition-colors overflow-hidden`}
     >
       <Image
         src={logo}
         alt={`${title} logo`}
-        width={isWide ? 120 : 64}
-        height={40}
-        className="h-full w-auto max-w-full object-contain"
+        width={isWide ? 120 : 30}
+        height={30}
+        className="h-full w-auto max-w-full object-contain rounded"
         loading="lazy"
         decoding="async"
       />

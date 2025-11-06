@@ -30,6 +30,11 @@ const footerSections = [
         ns: "servicesItems",
       },
       {
+        titleKey: "MAServices.Title",
+        href: "/services/mergers-acquisitions",
+        ns: "servicesItems",
+      },
+      {
         titleKey: "CorporateServices.Title",
         href: "/services/corporate",
         ns: "servicesItems",

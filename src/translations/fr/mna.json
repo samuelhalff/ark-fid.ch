@@ -1,0 +1,49 @@
+{
+  "ImageAlt": "Reflets d'automne sur le lac de Blausee dans l'Oberland bernois",
+  "Hero": {
+    "Badge": "PME suisses",
+    "BadgeTwo": "Experts M&A",
+    "Title": "Conseil en fusions et acquisitions",
+    "Description": "Nous accompagnons les fondateurs, familles et investisseurs suisses dans leurs opérations d'achat ou de vente avec une gestion rigoureuse du processus, des valorisations claires et un soutien après la signature.",
+    "CTA": "Prendre rendez-vous"
+  },
+  "Presentation": {
+    "Title": "Un accompagnement M&A pragmatique pour les PME",
+    "Subtitle": "Préparer, négocier et finaliser votre transaction sereinement",
+    "Intro": [
+      "Ark Fiduciaire conseille les entreprises romandes et alémaniques tout au long du cycle de transaction. Nous structurons la stratégie de deal, préparons les modèles financiers, orchestrons les due diligences et pilotons les négociations pour que vous restiez concentré sur l'activité.",
+      "Nous couvrons les recherches clés des dirigeants : conseil M&A Suisse, valorisation d'entreprise, due diligence acheteur, préparation vendeur, sorties private equity et transmission familiale. Chaque mandat est adapté à vos objectifs et à votre calendrier.",
+      "Nos analyses combinent données de marché, comparables sectoriels et réalité opérationnelle pour sécuriser des conditions qui reflètent la valeur réelle de votre société."
+    ],
+    "PartnerNote": "Pour la structuration juridique, la rédaction du SPA et les dépôts réglementaires, nous travaillons main dans la main avec notre étude d'avocats partenaire.",
+    "PartnerLinkLabel": "Découvrir nos partenaires",
+    "ServicesTitle": "Nos services transactionnels",
+    "Services": [
+      "Mandats buy-side et sell-side, y compris screening des cibles et pilotage du processus",
+      "Modélisation financière, scénarios et valorisation indépendante de l'entreprise",
+      "Coordination des due diligences vendeur et acheteur (finance, fiscalité, RH)",
+      "Support de négociation pour lettres d'intention, SPA et check-list de closing",
+      "Planification post-fusion axée sur la finance, la paie et le reporting",
+      "Projets de transmission et carve-out pour les PME suisses recherchant une relève fluide"
+    ],
+    "StrengthsTitle": "Nos atouts pour votre transaction",
+    "Strengths": [
+      {
+        "Title": "Focalisation mid-market locale",
+        "Desc": "Nous connaissons les attentes des propriétaires suisses, des autorités cantonales et des banques locales pour anticiper les points sensibles."
+      },
+      {
+        "Title": "Équipe pluridisciplinaire",
+        "Desc": "Comptables, fiscalistes et spécialistes paie interviennent sur le projet afin de maîtriser les risques opérationnels et les earn-outs."
+      },
+      {
+        "Title": "Veille réglementaire",
+        "Desc": "Habitués aux notifications FINMA, aux autorisations SECO et aux échanges transfrontaliers, nous sécurisons la conformité du deal."
+      },
+      {
+        "Title": "Reporting pragmatique",
+        "Desc": "Memos synthétiques, suivis de data room et notes de négociation permettent aux décideurs de rester alignés."
+      }
+    ]
+  }
+}

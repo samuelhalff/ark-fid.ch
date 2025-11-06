@@ -1,0 +1,49 @@
+{
+  "ImageAlt": "Reflejos de otoño en el lago Blausee, Oberland bernés",
+  "Hero": {
+    "Badge": "Pymes suizas",
+    "BadgeTwo": "Especialistas en deals",
+    "Title": "Asesoría en fusiones y adquisiciones",
+    "Description": "Acompañamos a fundadores, familias e inversores en Suiza durante procesos de compra y venta con valoraciones claras, coordinación de due diligence e integración posterior al cierre.",
+    "CTA": "Concertar una reunión"
+  },
+  "Presentation": {
+    "Title": "Acompañamiento M&A para empresas suizas",
+    "Subtitle": "Preparar, negociar y cerrar operaciones con seguridad",
+    "Intro": [
+      "Ark Fiduciaire guía a clientes en la Suiza francófona y germanófona a lo largo del ciclo completo de una transacción. Definimos la estrategia, estructuramos modelos financieros, coordinamos las due diligence y apoyamos las negociaciones para que el equipo directivo mantenga el foco en la actividad.",
+      "Trabajamos sobre los temas que más se buscan hoy: asesoría M&A Suiza, valoración de empresa, due diligence comprador, preparación vendedor, salida de private equity y planificación sucesoria. Convertimos esas prioridades en un plan de trabajo adaptado a su calendario.",
+      "Combinamos datos de mercado, comparables sectoriales y la visión interna para asegurar condiciones que reflejen el valor real de la compañía."
+    ],
+    "PartnerNote": "Para la estructuración legal, la redacción del SPA y los trámites regulatorios colaboramos con nuestro despacho asociado.",
+    "PartnerLinkLabel": "Ver nuestros partners",
+    "ServicesTitle": "Servicios de transacción",
+    "Services": [
+      "Mandatos buy-side y sell-side con búsqueda de objetivos y gestión del proceso",
+      "Modelización financiera, escenarios y valoración independiente de la empresa",
+      "Coordinación de due diligence del vendedor y del comprador en finanzas, fiscalidad y RR. HH.",
+      "Soporte en negociaciones para LOI, SPA y listas de control de cierre",
+      "Planificación de integración post-fusión con foco en finanzas, nómina e informes",
+      "Proyectos de sucesión y carve-out para pymes suizas que buscan una transición fluida"
+    ],
+    "StrengthsTitle": "Ventajas de trabajar con Ark Fiduciaire",
+    "Strengths": [
+      {
+        "Title": "Conocimiento del mid-market local",
+        "Desc": "Sabemos cómo piensan los propietarios suizos, las autoridades cantonales y la banca doméstica, por lo que anticipamos obstáculos antes de que surjan."
+      },
+      {
+        "Title": "Equipo multidisciplinar",
+        "Desc": "Especialistas en contabilidad, fiscalidad y payroll participan en el proyecto para controlar los riesgos operativos y los mecanismos de earn-out."
+      },
+      {
+        "Title": "Dominio regulatorio",
+        "Desc": "La experiencia con notificaciones FINMA, autorizaciones SECO y flujos transfronterizos mantiene cada operación conforme a las normas."
+      },
+      {
+        "Title": "Comunicación clara",
+        "Desc": "Entregamos resúmenes ejecutivos, seguimiento de data room y notas de negociación para alinear a todas las partes."
+      }
+    ]
+  }
+}

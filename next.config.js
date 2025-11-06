@@ -81,6 +81,16 @@ const baseConfig = {
         permanent: true,
       },
       {
+        source: "/fr/services/mergers-acquisitions",
+        destination: "/fr/services/fusions-acquisitions",
+        permanent: true,
+      },
+      {
+        source: "/fr/services/mergers-acquisitions/",
+        destination: "/fr/services/fusions-acquisitions/",
+        permanent: true,
+      },
+      {
         source: "/fr/services/corporate",
         destination: "/fr/services/services-corporatifs",
         permanent: true,
@@ -124,6 +134,14 @@ const baseConfig = {
       {
         source: "/fr/services/externalisation/",
         destination: "/fr/services/outsourcing/",
+      },
+      {
+        source: "/fr/services/fusions-acquisitions",
+        destination: "/fr/services/mergers-acquisitions",
+      },
+      {
+        source: "/fr/services/fusions-acquisitions/",
+        destination: "/fr/services/mergers-acquisitions/",
       },
       {
         source: "/fr/services/services-corporatifs",

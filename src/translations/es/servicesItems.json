@@ -4,7 +4,7 @@
         "Description": "Servicios contables integrales, incluyendo teneduría de libros y reportes financieros. Nos basamos en herramientas de IA personalizadas para ganar eficiencia y facilitar su vida."
     },
     "TaxesCompanyPersonal": {
-        "Title": "Impuestos - empresa y personal",
+        "Title": "Impuestos",
         "Description": "Manejamos todos los aspectos del cumplimiento fiscal, incluyendo registro de IVA, declaraciones de impuestos corporativos y declaraciones de impuestos sobre la renta personal."
     },
     "PayrollHR": {
@@ -15,6 +15,12 @@
         "Title": "Servicios de externalización",
         "Description": "Proporcionamos servicios de externalización para tareas legales, administrativas y contables, permitiéndole enfocarse en sus actividades comerciales principales mientras nosotros manejamos las funciones de back-office necesarias."
     },
+    "MAServices": {
+        "Title": "Fusiones y adquisiciones",
+        "Description": "Asesoría M&A para pymes suizas con mandatos buy-side y sell-side, valoraciones, apoyo en due diligence e integración posterior a la operación."
+    },
+    "ShowMore": "Más información",
+    "ShowLess": "Ver menos",
     "CorporateServices": {
         "Title": "Servicios corporativos",
         "Description": "Ofrecemos una gama de servicios corporativos, incluyendo formación de empresas, gestión de cumplimiento y soporte de gobernanza corporativa para asegurar que su negocio opere sin problemas."

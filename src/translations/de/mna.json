@@ -1,0 +1,49 @@
+{
+  "ImageAlt": "Herbstfarben und Spiegelungen am Blausee im Berner Oberland",
+  "Hero": {
+    "Badge": "Schweizer KMU",
+    "BadgeTwo": "Deal-Spezialisten",
+    "Title": "Beratung für Mergers & Acquisitions",
+    "Description": "Wir begleiten Eigentümer, Familienunternehmen und Investoren in der Schweiz bei Kauf- und Verkaufsprozessen mit klaren Bewertungen, strukturiertem Projektmanagement und Unterstützung nach dem Closing.",
+    "CTA": "Gespräch vereinbaren"
+  },
+  "Presentation": {
+    "Title": "Pragmatische M&A-Begleitung für Schweizer Unternehmen",
+    "Subtitle": "Transaktionen sicher vorbereiten, verhandeln und abschliessen",
+    "Intro": [
+      "Ark Fiduciaire unterstützt Mandanten in der Romandie und der Deutschschweiz durch den gesamten Transaktionsablauf. Wir entwickeln die Deal-Strategie, erstellen Finanzmodelle, koordinieren Due-Diligence-Arbeiten und steuern die Verhandlungen, damit Sie sich auf das Tagesgeschäft konzentrieren können.",
+      "Wir greifen Suchbegriffe auf, die Entscheider heute nutzen: Schweizer M&A-Beratung, Unternehmensbewertung, Buy-Side-Due-Diligence, Verkaufsbereitschaft, Private-Equity-Exit und Nachfolgeplanung. Daraus entsteht ein praxistauglicher Fahrplan für Ihr Projekt.",
+      "Marktdaten, Branchenvergleiche und Ihr operatives Wissen fliessen in unsere Analysen ein, sodass die Konditionen den wahren Wert Ihres Unternehmens abbilden."
+    ],
+    "PartnerNote": "Für rechtliche Strukturierung, SPA-Erstellung und regulatorische Einreichungen arbeiten wir eng mit unserer Partnerkanzlei zusammen.",
+    "PartnerLinkLabel": "Unsere Partner kennenlernen",
+    "ServicesTitle": "Unsere Transaktionsleistungen",
+    "Services": [
+      "Buy-Side- und Sell-Side-Mandate inklusive Target-Screening und Prozesssteuerung",
+      "Finanzmodelle, Szenario-Analysen und unabhängige Unternehmensbewertungen",
+      "Koordination von Vendor- und Buy-Side-Due-Diligence (Finanzen, Steuern, HR)",
+      "Unterstützung bei LOIs, SPA-Verhandlungen und Closing-Checklisten",
+      "Post-Merger-Integration mit Fokus auf Finanzbuchhaltung, Payroll und Reporting",
+      "Nachfolge- und Carve-out-Projekte für Schweizer KMU mit nachhaltiger Übergabe"
+    ],
+    "StrengthsTitle": "Ihre Vorteile mit Ark Fiduciaire",
+    "Strengths": [
+      {
+        "Title": "Fokus auf den Mid-Market",
+        "Desc": "Wir kennen die Erwartungen von Schweizer Eigentümern, kantonalen Behörden und lokalen Finanzierern und erkennen Stolpersteine frühzeitig."
+      },
+      {
+        "Title": "Interdisziplinäres Team",
+        "Desc": "Fachleute für Buchhaltung, Steuern und Lohnwesen arbeiten direkt mit, sodass operative Risiken und Earn-out-Mechanismen kontrolliert bleiben."
+      },
+      {
+        "Title": "Regulatorisches Know-how",
+        "Desc": "Erfahrung mit FINMA-Meldungen, SECO-Bewilligungen und grenzüberschreitenden Datenflüssen sorgt für einen konformen Ablauf."
+      },
+      {
+        "Title": "Kompakte Entscheidungsgrundlagen",
+        "Desc": "Wir liefern kurze Entscheidungsnotizen, Data-Room-Tracker und Verhandlungsbriefings, damit alle Stakeholder informiert bleiben."
+      }
+    ]
+  }
+}

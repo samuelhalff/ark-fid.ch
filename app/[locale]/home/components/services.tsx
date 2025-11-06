@@ -83,18 +83,21 @@ const Services = async ({
       )}
       <div className="mt-8 xs:mt-12 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
         {services.map((service) => {
-          const headingId = `service-card-${service.titleKey.replace(/\./g, "-")}`;
+          const headingId = `service-card-${service.titleKey.replace(
+            /\./g,
+            "-"
+          )}`;
           const toggleId = `${headingId}-toggle`;
           const serviceHref = `${localePrefix}${localizePath(
             service.href,
             currentLocale
           )}`;
           return (
-            <div key={service.titleKey} className="relative h-full">
-              <Card className="relative group flex flex-col justify-between items-center text-center border rounded-2xl overflow-hidden shadow-none h-full cursor-pointer ring-0 dark:ring-2 ring-border/10 dark:ring-border/30 hover:ring-primary/5 dark:hover:ring-primary/20 hover:shadow-xl transition-all duration-200">
+            <div key={service.titleKey} className="relative h-full group">
+              <Card className="relative flex flex-col justify-between items-center text-center border rounded-2xl overflow-hidden shadow-none h-full cursor-pointer ring-0 dark:ring-2 ring-border/10 dark:ring-border/30 hover:ring-primary/5 dark:hover:ring-primary/20 hover:shadow-xl transition-all duration-200">
                 <CardHeader className="px-6 pt-6 pb-2 w-full">
                   <div className="flex-1 w-full flex flex-col items-center text-center gap-4">
-                    <div className="flex-shrink-0 flex items-center justify-center h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-primary/10 text-primary ring-1 ring-primary/20">
+                    <div className="flex-shrink-0 flex items-center justify-center h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 transition-colors duration-200 group-hover:bg-primary/15">
                       {service.icon}
                     </div>
                     <h3
@@ -106,24 +109,24 @@ const Services = async ({
                     <input
                       id={toggleId}
                       type="checkbox"
-                      className="service-toggle-input sr-only"
+                      className="peer sr-only"
                       aria-controls={`${toggleId}-content`}
                     />
                     <label
                       htmlFor={toggleId}
-                      className="service-toggle relative z-20 inline-flex items-center justify-center gap-2 cursor-pointer select-none rounded-full px-4 py-2 text-sm font-medium text-primary/80 hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 bg-primary/10 hover:bg-primary/15 transition-colors"
+                      className="service-toggle relative z-20 inline-flex items-center justify-center gap-2 cursor-pointer select-none rounded-full px-4 py-2 text-sm font-medium text-primary/80 hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 bg-primary/10 hover:bg-primary/15 transition-colors peer-checked:text-primary"
                     >
-                      <span className="service-toggle__more">
+                      <span className="peer-checked:hidden">
                         {tItems("ShowMore")}
                       </span>
-                      <span className="service-toggle__less">
+                      <span className="hidden peer-checked:inline">
                         {tItems("ShowLess")}
                       </span>
-                      <ArrowUpRightIcon className="service-toggle__icon transition-transform duration-200" />
+                      <ArrowUpRightIcon className="transition-transform duration-200 peer-checked:rotate-90" />
                     </label>
                     <div
                       id={`${toggleId}-content`}
-                      className="service-toggle-content relative z-20 px-1 text-left text-muted-foreground text-base xs:text-[17px] leading-7"
+                      className="service-toggle-content relative z-20 max-h-0 overflow-hidden px-1 text-left text-muted-foreground text-base xs:text-[17px] leading-7 transition-all duration-300 ease-in-out peer-checked:max-h-[600px] peer-checked:mt-3"
                     >
                       <p>{tItems(service.descriptionKey)}</p>
                     </div>

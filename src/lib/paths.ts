@@ -9,6 +9,7 @@ const frMap: Record<string, string> = {
   "/services/taxes": "/services/fiscalite",
   "/services/payroll": "/services/paie",
   "/services/outsourcing": "/services/externalisation",
+  "/services/mergers-acquisitions": "/services/fusions-acquisitions",
   "/services/corporate": "/services/services-corporatifs",
   "/services/domiciliation": "/services/domiciliation",
   "/services/incorporation": "/services/constitution-entreprise",
@@ -46,4 +47,3 @@ export function delocalizePath(path: string, locale: Locale): string {
   }
   return key;
 }
-

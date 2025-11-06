@@ -143,3 +143,17 @@ Added for a new multilingual article about company creation in Switzerland. Thes
 - `ressources:GuideSocial_Creer_Son_Entreprise` – Label for “Guide Social” PDF about creating a business
 
 Both keys have been added to: `src/translations/fr|en|de|es|pt/ressources.json`.
+
+## New Service Keys (Nov 2025)
+
+Added for the Mergers & Acquisitions service launch. Ensure all locales include:
+
+- `navbar:MAServices.Title`
+- `servicesItems:MAServices.Title`
+- `servicesItems:MAServices.Description`
+- Full namespace `mna` for service page copy (`Hero.*`, `Presentation.*`)
+
+### Service Card Toggle Labels (Nov 2025)
+
+- `servicesItems:ShowMore`
+- `servicesItems:ShowLess`
