@@ -22,7 +22,9 @@ function loadMockData(filePath) {
       : path.join(process.cwd(), filePath);
     return JSON.parse(fs.readFileSync(abs, "utf8"));
   } catch (error) {
-    throw new Error(`Failed to load mock data from ${filePath}: ${error.message}`);
+    throw new Error(
+      `Failed to load mock data from ${filePath}: ${error.message}`
+    );
   }
 }
 
@@ -47,6 +49,9 @@ const SERVICES = [
   "domiciliation et direction",
   "outsourcing administratif et financier",
   "implémentation Odoo et intégrations ERP",
+  "fusions et acquisitions (M&A)",
+  "family office (gestion de patrimoine, HNI)",
+  "constitution et incorporation d'entreprise",
 ];
 
 const TOPIC_KEYWORDS = [
@@ -58,12 +63,28 @@ const TOPIC_KEYWORDS = [
   {
     topic: "payroll",
     label: "Paie & salaires",
-    patterns: [/paie/i, /payroll/i, /salaire/i, /swissdec/i, /cotisation/i, /\bLPP\b/i, /\bLAA\b/i, /\bAVS\b/i],
+    patterns: [
+      /paie/i,
+      /payroll/i,
+      /salaire/i,
+      /swissdec/i,
+      /cotisation/i,
+      /\bLPP\b/i,
+      /\bLAA\b/i,
+      /\bAVS\b/i,
+    ],
   },
   {
     topic: "tax",
     label: "Fiscalité & TVA",
-    patterns: [/fisc/i, /imp[oô]t/i, /\btax/i, /\bTVA\b/i, /\bVAT\b/i, /\bIFD\b/i],
+    patterns: [
+      /fisc/i,
+      /imp[oô]t/i,
+      /\btax/i,
+      /\bTVA\b/i,
+      /\bVAT\b/i,
+      /\bIFD\b/i,
+    ],
   },
   {
     topic: "accounting",
@@ -73,7 +94,14 @@ const TOPIC_KEYWORDS = [
   {
     topic: "corporate",
     label: "Corporate & gouvernance",
-    patterns: [/corporate/i, /gouvernance/i, /assembl[ée]/i, /\bAG\b/i, /PV/i, /conseil d'administration/i],
+    patterns: [
+      /corporate/i,
+      /gouvernance/i,
+      /assembl[ée]/i,
+      /\bAG\b/i,
+      /PV/i,
+      /conseil d'administration/i,
+    ],
   },
   {
     topic: "domiciliation",
@@ -84,6 +112,33 @@ const TOPIC_KEYWORDS = [
     topic: "outsourcing",
     label: "Outsourcing & BPO",
     patterns: [/outsourcing/i, /externalisation/i, /\bBPO\b/i],
+  },
+  {
+    topic: "ma",
+    label: "Fusions & acquisitions",
+    patterns: [/fusion/i, /acquisition/i, /\bM&A\b/i, /m&a/i, /due diligence/i],
+  },
+  {
+    topic: "family-office",
+    label: "Family office & patrimoine",
+    patterns: [
+      /family.?office/i,
+      /patrimoine/i,
+      /\bHNI\b/i,
+      /fortune/i,
+      /wealth/i,
+    ],
+  },
+  {
+    topic: "incorporation",
+    label: "Incorporation & constitution",
+    patterns: [
+      /incorporation/i,
+      /constitution/i,
+      /créer/i,
+      /fondation/i,
+      /création d'entreprise/i,
+    ],
   },
   {
     topic: "finance",
@@ -121,7 +176,9 @@ function hasUnnecessaryCaps(input) {
 
 function detectTopic(article) {
   if (!article) return "general";
-  const base = `${article.slug || ""} ${article.title || ""} ${article.description || ""}`.toLowerCase();
+  const base = `${article.slug || ""} ${article.title || ""} ${
+    article.description || ""
+  }`.toLowerCase();
   for (const entry of TOPIC_KEYWORDS) {
     if (entry.patterns.some((rx) => rx.test(base))) {
       return entry.topic;
@@ -159,7 +216,11 @@ function buildSystemPrompt(frJson) {
     .filter(Boolean);
 
   const topicNote = lastArticle
-    ? `Dernier article publié le ${lastArticle.date}: "${lastArticle.title}". Thème identifié: ${describeTopic(lastTopic)}. Choisis un nouveau sujet clairement différent pour maintenir l'alternance éditoriale.`
+    ? `Dernier article publié le ${lastArticle.date}: "${
+        lastArticle.title
+      }". Thème identifié: ${describeTopic(
+        lastTopic
+      )}. Choisis un nouveau sujet clairement différent pour maintenir l'alternance éditoriale.`
     : "Aucun article récent identifié. Choisis un sujet à forte valeur pour dirigeants PME genevois.";
 
   return [
@@ -198,7 +259,7 @@ function buildSystemPrompt(frJson) {
 function buildTranslatePrompt(newArticle, newLabels) {
   return [
     "Tu es traducteur professionnel. Traduis les champs ci-dessous en conservant les structures, slugs, URLs et clés.",
-    "Respecte les minuscules/majuscules d'origine et garde \"Ark Fiduciaire\" tel quel.",
+    'Respecte les minuscules/majuscules d\'origine et garde "Ark Fiduciaire" tel quel.',
     "Fourni uniquement le JSON demandé, sans commentaire.",
     "",
     "Format attendu:",
@@ -259,7 +320,9 @@ async function azureAgentJson(prompt, { agentId = AZURE_AGENT_ID } = {}) {
 
   const agentMeta = await client.agents.getAgent(agentId);
   if (debugAgent) {
-    console.log(`[agent] Using agentId=${agentId} name=${agentMeta.name || ""}`);
+    console.log(
+      `[agent] Using agentId=${agentId} name=${agentMeta.name || ""}`
+    );
   }
 
   const thread = await client.agents.threads.create();
@@ -335,7 +398,10 @@ function validateNewArticle(frData, article) {
     "references",
   ];
   for (const key of required) {
-    if (!article[key] || (Array.isArray(article[key]) && !article[key].length)) {
+    if (
+      !article[key] ||
+      (Array.isArray(article[key]) && !article[key].length)
+    ) {
       const err = new Error(`Champ manquant ou vide: ${key}`);
       err.code = "MISSING_FIELD";
       err.field = key;
@@ -415,7 +481,9 @@ function buildRetryPrompt(basePrompt, error, frData) {
       `Slugs récents à éviter: ${recentSlugs.join(", ") || "aucun"}.`;
   } else if (error.code === "TOPIC_DUPLICATE") {
     hint =
-      `⚠️ Le dernier article (${error.previousTitle}) couvrait déjà ${describeTopic(error.topic)}.\n` +
+      `⚠️ Le dernier article (${
+        error.previousTitle
+      }) couvrait déjà ${describeTopic(error.topic)}.\n` +
       "Choisis un autre axe stratégique (paie, fiscalité, corporate, domiciliation, outsourcing, etc.).";
   } else if (error.code === "MISSING_FIELD" && error.field) {
     hint = `⚠️ Le champ ${error.field} est manquant. Fournis un article complet avec ce champ rempli.`;
@@ -482,7 +550,7 @@ async function repairReferences(article) {
     );
     const regenPrompt = [
       "Certaines références générées sont inaccessibles.",
-      "Fournis UNIQUEMENT un JSON de la forme {\"references\": [ {\"labelKey\": \"...\", \"url\": \"https://...\"}, ... ]}.",
+      'Fournis UNIQUEMENT un JSON de la forme {"references": [ {"labelKey": "...", "url": "https://..."}, ... ]}.',
       "URLs acceptables: sources officielles (admin.ch, ge.ch, vd.ch, fedlex.admin.ch, odoo.com/docs, etc.).",
       "Chaque domaine ne doit être représenté qu'une seule fois dans les références (pas de doublons de domaine).",
       `Thème de l'article: ${article.title} (slug: ${article.slug}).`,
@@ -537,7 +605,8 @@ async function generateArticleWithRetries(frData, attempts) {
       `Requesting Azure Agent for new FR article... (attempt ${attempt}/${attempts})`
     );
     const draft =
-      MOCK_DATA?.draft || (await azureAgentJson(prompt, { agentId: AZURE_AGENT_ID }));
+      MOCK_DATA?.draft ||
+      (await azureAgentJson(prompt, { agentId: AZURE_AGENT_ID }));
     try {
       const newArticle = draft.newArticle;
       const newLabels = draft.newLabels || {};
@@ -552,7 +621,10 @@ async function generateArticleWithRetries(frData, attempts) {
     }
   }
 
-  throw lastError || new Error("Échec génération article après plusieurs tentatives");
+  throw (
+    lastError ||
+    new Error("Échec génération article après plusieurs tentatives")
+  );
 }
 
 function mergeLabels(target, labels) {
@@ -616,7 +688,9 @@ async function main() {
 
     const payload = translations[locale];
     if (!payload || !payload.Article) {
-      console.warn(`[WARN] Missing translation payload for ${locale}; skipping.`);
+      console.warn(
+        `[WARN] Missing translation payload for ${locale}; skipping.`
+      );
       continue;
     }
     const articleTr = payload.Article;
