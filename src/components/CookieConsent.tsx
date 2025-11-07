@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Script from "next/script";
 import Link from "next/link";
 
@@ -14,16 +20,21 @@ type Props = {
     Accept: string;
     Decline: string;
     Manage: string;
+    Minimal?: string;
+    Full?: string;
   };
 };
 
-const CONSENT_KEY = "cookieConsent"; // values: "accepted" | "declined"
+type ConsentValue = "accepted" | "minimal" | "declined";
 
-function getStoredConsent(): "accepted" | "declined" | null {
+const CONSENT_KEY = "cookieConsent"; // values: "accepted" | "minimal" | "declined"
+
+function getStoredConsent(): ConsentValue | null {
   if (typeof window === "undefined") return null;
   try {
     const v = localStorage.getItem(CONSENT_KEY);
-    if (v === "accepted" || v === "declined") return v;
+    if (v === "accepted" || v === "declined" || v === "minimal")
+      return v as ConsentValue;
     return null;
   } catch (e) {
     // localStorage unavailable (private browsing, etc.)
@@ -34,14 +45,15 @@ function getStoredConsent(): "accepted" | "declined" | null {
       );
       if (cookieMatch) {
         const val = cookieMatch[1];
-        if (val === "accepted" || val === "declined") return val;
+        if (val === "accepted" || val === "declined" || val === "minimal")
+          return val as ConsentValue;
       }
     } catch {}
     return null;
   }
 }
 
-function setConsent(value: "accepted" | "declined") {
+function setConsent(value: ConsentValue) {
   // Set cookie first (always works)
   const maxAge = 60 * 60 * 24 * 365; // 365 days
   try {
@@ -57,9 +69,7 @@ function setConsent(value: "accepted" | "declined") {
 }
 
 export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
-  const [consent, setConsentState] = useState<"accepted" | "declined" | null>(
-    null
-  );
+  const [consent, setConsentState] = useState<ConsentValue | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const manageBtnRef = useRef<HTMLButtonElement | null>(null);
 
@@ -80,11 +90,22 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
   };
 
   useEffect(() => {
-    setConsentState(getStoredConsent());
+    const stored = getStoredConsent();
+    if (stored === "declined") {
+      setConsent("minimal");
+      setConsentState("minimal");
+    } else {
+      setConsentState(stored);
+    }
     const handler = () => setConsentState(null);
     window.addEventListener("open-cookie-settings", handler);
     return () => window.removeEventListener("open-cookie-settings", handler);
   }, []);
+  useEffect(() => {
+    if (consent === "accepted" || consent === "minimal") {
+      applyGtagConsent(consent);
+    }
+  }, [consent, applyGtagConsent]);
 
   // Minimal focus trap when the dialog is open
   useEffect(() => {
@@ -125,6 +146,45 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
     []
   );
 
+  const applyGtagConsent = useCallback(
+    (level: ConsentValue | null) => {
+      if (
+        typeof window === "undefined" ||
+        !measurementId ||
+        typeof (window as any).gtag !== "function"
+      ) {
+        return;
+      }
+      const gtag = (window as any).gtag as (...args: any[]) => void;
+      if (level === "accepted") {
+        gtag("consent", "update", {
+          ad_storage: "granted",
+          analytics_storage: "granted",
+          functionality_storage: "granted",
+          personalization_storage: "granted",
+        });
+        gtag("config", measurementId, {
+          anonymize_ip: true,
+          allow_google_signals: true,
+          allow_ad_personalization_signals: true,
+        });
+      } else if (level === "minimal") {
+        gtag("consent", "update", {
+          ad_storage: "denied",
+          analytics_storage: "denied",
+          functionality_storage: "granted",
+          personalization_storage: "denied",
+        });
+        gtag("config", measurementId, {
+          anonymize_ip: true,
+          allow_google_signals: false,
+          allow_ad_personalization_signals: false,
+        });
+      }
+    },
+    [measurementId]
+  );
+
   const accept = () => {
     setConsent("accepted");
     setConsentState("accepted");
@@ -133,22 +193,26 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
         new CustomEvent("cookie-consent-changed", { detail: "accepted" })
       );
     } catch {}
+    applyGtagConsent("accepted");
     // Return focus to manage button for a11y
     setTimeout(() => focusWithoutScroll(manageBtnRef.current), 0);
   };
-  const decline = () => {
-    setConsent("declined");
-    setConsentState("declined");
+  const enableMinimal = () => {
+    setConsent("minimal");
+    setConsentState("minimal");
     try {
       window.dispatchEvent(
-        new CustomEvent("cookie-consent-changed", { detail: "declined" })
+        new CustomEvent("cookie-consent-changed", { detail: "minimal" })
       );
     } catch {}
-    // Return focus to manage button for a11y
+    applyGtagConsent("minimal");
     setTimeout(() => focusWithoutScroll(manageBtnRef.current), 0);
   };
 
   const legalCookiesHref = `/${locale}/legal/cookies`;
+  const minimalLabel =
+    labels.Minimal || labels.Decline || "Essential + analytics";
+  const fullLabel = labels.Full || labels.Accept || "Full consent";
 
   return (
     <>
@@ -169,8 +233,9 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
         </button>
       )}
 
-      {/* Load GA only when consent is accepted and measurement ID is configured */}
-      {consent === "accepted" && measurementId ? (
+      {/* Load GA only when consent is accepted/minimal and measurement ID is configured */}
+      {measurementId &&
+      (consent === "accepted" || consent === "minimal") ? (
         <>
           <Script
             nonce={nonce}
@@ -183,12 +248,11 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);} 
               gtag('js', new Date());
-              // Signal granted consent for both GA and GTM
-              gtag('consent', 'update', { 
-                ad_storage: 'granted', 
-                analytics_storage: 'granted',
+              gtag('consent', 'default', { 
+                ad_storage: 'denied', 
+                analytics_storage: 'denied',
                 functionality_storage: 'granted',
-                personalization_storage: 'granted'
+                personalization_storage: 'denied'
               });
               gtag('config', '${measurementId}', { 
                 anonymize_ip: true,
@@ -232,17 +296,17 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
               <div className="flex gap-2 shrink-0">
                 <button
                   type="button"
-                  onClick={decline}
+                  onClick={enableMinimal}
                   className="inline-flex items-center justify-center rounded-md border border-input bg-transparent px-3 py-2 text-sm hover:bg-muted"
                 >
-                  {labels.Decline}
+                  {minimalLabel}
                 </button>
                 <button
                   type="button"
                   onClick={accept}
                   className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-sm text-primary-foreground hover:opacity-90"
                 >
-                  {labels.Accept}
+                  {fullLabel}
                 </button>
               </div>
             </div>

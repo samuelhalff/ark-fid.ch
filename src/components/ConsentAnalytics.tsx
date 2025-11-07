@@ -11,11 +11,13 @@ declare global {
 
 const CONSENT_KEY = "cookieConsent";
 
-function getConsent(): "accepted" | "declined" | null {
+type ConsentPref = "accepted" | "minimal" | "declined" | null;
+
+function getConsent(): ConsentPref {
   if (typeof window === "undefined") return null;
   try {
     const v = localStorage.getItem(CONSENT_KEY);
-    if (v === "accepted" || v === "declined") return v;
+    if (v === "accepted" || v === "declined" || v === "minimal") return v as ConsentPref;
     return null;
   } catch (e) {
     // localStorage unavailable - check cookie fallback
@@ -25,7 +27,8 @@ function getConsent(): "accepted" | "declined" | null {
       );
       if (cookieMatch) {
         const val = cookieMatch[1];
-        if (val === "accepted" || val === "declined") return val;
+        if (val === "accepted" || val === "declined" || val === "minimal")
+          return val as ConsentPref;
       }
     } catch {}
     return null;
@@ -41,7 +44,7 @@ export default function ConsentAnalytics({
   gtmId?: string;
   nonce?: string;
 }) {
-  const [consent, setConsent] = useState<"accepted" | "declined" | null>(null);
+  const [consent, setConsent] = useState<ConsentPref>(null);
   const [AnalyticsComp, setAnalyticsComp] =
     useState<React.ComponentType | null>(null);
 
@@ -53,7 +56,12 @@ export default function ConsentAnalytics({
     const onCustom = (e: Event) => {
       // custom event dispatched by CookieConsent after user action
       const val = (e as CustomEvent).detail;
-      if (val === "accepted" || val === "declined" || val === null) {
+      if (
+        val === "accepted" ||
+        val === "declined" ||
+        val === "minimal" ||
+        val === null
+      ) {
         setConsent(val);
       } else {
         setConsent(getConsent());
