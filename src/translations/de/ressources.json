@@ -92,12 +92,12 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Analyse Econostrum 2025",
-          "url": "https://econostrum.info/suisse/geneve-reforme-fiscale-historique-2025/"
+          "labelKey": "Steuerpanorama 2025 Genf – ge.ch",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
         },
         {
-          "labelKey": "Finances publiques Genève juin 2025",
-          "url": "https://geneve-attractive.ch/sites/default/files/source/docs/crea_financespubliques_juin2025.pdf"
+          "labelKey": "RTS-Bericht: Genfer Einkommenssteuer sinkt ab 2025",
+          "url": "https://www.rts.ch/info/regions/geneve/2024/article/l-impot-sur-le-revenu-va-baisser-a-geneve-des-2025-28704850.html"
         }
       ]
     },
@@ -426,16 +426,12 @@
       "date": "2025-10-21",
       "references": [
         {
-          "labelKey": "Responsabilités des membres du conseil d'administration d'une SA",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+          "labelKey": "OR Art. 716a – Pflichten des Verwaltungsrats (fedlex)",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/de#art_716a"
         },
         {
-          "labelKey": "Code des obligations suisse (Dispositions sur la SA et la Sàrl)",
-          "url": "https://www.admin.ch/opc/fr/classified-compilation/19110009/index.html"
-        },
-        {
-          "labelKey": "Obligations de publication et de transparence – Droit suisse",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_958"
+          "labelKey": "OR Art. 754 – Haftung der Organe (fedlex)",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/de#art_754"
         }
       ]
     },
@@ -470,12 +466,12 @@
       "date": "2025-10-24",
       "references": [
         {
-          "labelKey": "Obligations légales – Assemblée générale (admin.ch)",
-          "url": "https://www.admin.ch/opc/fr/classified-compilation/19110009/index.html#id-ni2-ni34-ni36-ni51"
+          "labelKey": "OR Art. 701–706 – fedlex.admin.ch",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/de#art_701"
         },
         {
-          "labelKey": "Modèle de procès-verbal et explications (fedlex.admin.ch)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/1911/899_899_899/fr"
+          "labelKey": "OR Art. 804 – fedlex.admin.ch",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/de#art_804"
         }
       ]
     },
@@ -488,12 +484,12 @@
       "date": "2025-10-29",
       "references": [
         {
-          "labelKey": "admin.ch_infos_beps",
-          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-96307.html"
+          "labelKey": "Säule 2 – Staatssekretariat für internationale Finanzfragen",
+          "url": "https://www.sif.admin.ch/de/sif/de/home/themen/beps/saeule-2.html"
         },
         {
-          "labelKey": "fedlex_explications_beps",
-          "url": "https://www.fedlex.admin.ch/eli/fga/2023/1925/fr"
+          "labelKey": "BEPS 2.0 in der Schweiz – Loyens & Loeff",
+          "url": "https://www.loyensloeff.com/knowledge/publications-news/beps-2-0-switzerland-implements-pillar-2-rules/"
         }
       ]
     },
