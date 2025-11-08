@@ -101,12 +101,6 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
     window.addEventListener("open-cookie-settings", handler);
     return () => window.removeEventListener("open-cookie-settings", handler);
   }, []);
-  useEffect(() => {
-    if (consent === "accepted" || consent === "minimal") {
-      applyGtagConsent(consent);
-    }
-  }, [consent, applyGtagConsent]);
-
   // Minimal focus trap when the dialog is open
   useEffect(() => {
     if (consent !== null) return; // only when banner is visible
@@ -184,6 +178,12 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
     },
     [measurementId]
   );
+
+  useEffect(() => {
+    if (consent === "accepted" || consent === "minimal") {
+      applyGtagConsent(consent);
+    }
+  }, [consent, applyGtagConsent]);
 
   const accept = () => {
     setConsent("accepted");
