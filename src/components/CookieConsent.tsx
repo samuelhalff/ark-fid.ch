@@ -97,10 +97,19 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
     } else {
       setConsentState(stored);
     }
+    
+    // Apply stored consent immediately if it exists
+    if (stored === "accepted" || stored === "minimal") {
+      // Wait a bit for gtag to be available
+      setTimeout(() => applyGtagConsent(stored), 100);
+    } else if (stored === "declined") {
+      setTimeout(() => applyGtagConsent("minimal"), 100);
+    }
+    
     const handler = () => setConsentState(null);
     window.addEventListener("open-cookie-settings", handler);
     return () => window.removeEventListener("open-cookie-settings", handler);
-  }, []);
+  }, [applyGtagConsent]);
   // Minimal focus trap when the dialog is open
   useEffect(() => {
     if (consent !== null) return; // only when banner is visible
@@ -163,9 +172,10 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
           allow_ad_personalization_signals: true,
         });
       } else if (level === "minimal") {
+        // Enable analytics_storage for minimal consent to track essential anonymous data
         gtag("consent", "update", {
           ad_storage: "denied",
-          analytics_storage: "denied",
+          analytics_storage: "granted",
           functionality_storage: "granted",
           personalization_storage: "denied",
         });
@@ -233,9 +243,8 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
         </button>
       )}
 
-      {/* Load GA only when consent is accepted/minimal and measurement ID is configured */}
-      {measurementId &&
-      (consent === "accepted" || consent === "minimal") ? (
+      {/* Initialize GA4 with consent defaults immediately, before user interaction */}
+      {measurementId ? (
         <>
           <Script
             nonce={nonce}
