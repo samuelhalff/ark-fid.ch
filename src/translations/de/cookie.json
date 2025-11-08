@@ -1,10 +1,10 @@
 {
-    "Title": "cookie-zustimmung",
-    "Text": "wir sammeln wesentliche anonyme daten, um ihre erfahrung zu verbessern. wählen sie 'wesentlich', um mit minimalen daten fortzufahren, oder 'alle' für vollständige analysen. wenn sie nicht einverstanden sind, verlassen sie bitte die seite.",
-    "Accept": "alle",
-    "Decline": "wesentlich",
-    "Minimal": "wesentlich",
-    "Full": "alle",
-    "LearnMore": "mehr erfahren",
-    "Manage": "cookies verwalten"
+    "Title": "Cookie-Zustimmung",
+    "Text": "Wir sammeln wesentliche anonyme Daten, um Ihre Erfahrung zu verbessern. Wählen Sie 'wesentlich' für minimale Daten oder 'alle' für vollständige Analysen. Wenn Sie nicht einverstanden sind, verlassen Sie bitte die Seite.",
+    "Accept": "Alle",
+    "Decline": "Wesentlich",
+    "Minimal": "Wesentlich",
+    "Full": "Alle",
+    "LearnMore": "Mehr erfahren",
+    "Manage": "Cookies verwalten"
 }

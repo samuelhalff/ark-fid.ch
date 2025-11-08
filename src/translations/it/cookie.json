@@ -1,10 +1,10 @@
 {
-    "Title": "consenso ai cookie",
-    "Text": "raccogliamo dati anonimi essenziali per migliorare la tua esperienza. scegli 'essenziale' per continuare con dati minimi o 'tutto' per analisi complete. se non sei d'accordo, ti preghiamo di lasciare il sito.",
-    "Accept": "tutto",
-    "Decline": "essenziale",
-    "Minimal": "essenziale",
-    "Full": "tutto",
-    "LearnMore": "per saperne di più",
-    "Manage": "gestisci i cookie"
+    "Title": "Consenso ai cookie",
+    "Text": "Raccogliamo dati anonimi essenziali per migliorare la tua esperienza. Scegli 'essenziale' per dati minimi o 'tutto' per analisi complete. Se non sei d'accordo, ti preghiamo di lasciare il sito.",
+    "Accept": "Tutto",
+    "Decline": "Essenziale",
+    "Minimal": "Essenziale",
+    "Full": "Tutto",
+    "LearnMore": "Per saperne di più",
+    "Manage": "Gestisci i cookie"
 }

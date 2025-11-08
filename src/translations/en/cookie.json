@@ -1,10 +1,10 @@
 {
-    "Title": "cookie consent",
-    "Text": "we collect essential anonymous data to improve your experience. choose 'essential' to continue with minimal data or 'all' for full analytics. if you disagree, please leave the site.",
-    "Accept": "all",
-    "Decline": "essential",
-    "Minimal": "essential",
-    "Full": "all",
-    "LearnMore": "learn more",
-    "Manage": "manage cookies"
+    "Title": "Cookie consent",
+    "Text": "We collect essential anonymous data to improve your experience. Choose 'essential' for minimal data or 'all' for full analytics. If you disagree, please leave the site.",
+    "Accept": "All",
+    "Decline": "Essential",
+    "Minimal": "Essential",
+    "Full": "All",
+    "LearnMore": "Learn more",
+    "Manage": "Manage cookies"
 }
