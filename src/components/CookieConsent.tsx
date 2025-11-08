@@ -53,7 +53,7 @@ function getStoredConsent(): ConsentValue | null {
   }
 }
 
-function setConsent(value: ConsentValue) {
+function persistConsent(value: ConsentValue) {
   // Set cookie first (always works)
   const maxAge = 60 * 60 * 24 * 365; // 365 days
   try {
@@ -92,7 +92,8 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
   useEffect(() => {
     const stored = getStoredConsent();
     if (stored === "declined") {
-      setConsent("minimal");
+      // Treat declined as minimal (persist the change)
+      persistConsent("minimal");
       setConsentState("minimal");
     } else {
       setConsentState(stored);
@@ -186,26 +187,27 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
   }, [consent, applyGtagConsent]);
 
   const accept = () => {
-    setConsent("accepted");
+    persistConsent("accepted");
     setConsentState("accepted");
     try {
       window.dispatchEvent(
         new CustomEvent("cookie-consent-changed", { detail: "accepted" })
       );
     } catch {}
-    applyGtagConsent("accepted");
-    // Return focus to manage button for a11y
+    // Note: applyGtagConsent will be called by the useEffect when consent state changes
+    // Defer focus to next frame to allow banner dismissal animation
     setTimeout(() => focusWithoutScroll(manageBtnRef.current), 0);
   };
   const enableMinimal = () => {
-    setConsent("minimal");
+    persistConsent("minimal");
     setConsentState("minimal");
     try {
       window.dispatchEvent(
         new CustomEvent("cookie-consent-changed", { detail: "minimal" })
       );
     } catch {}
-    applyGtagConsent("minimal");
+    // Note: applyGtagConsent will be called by the useEffect when consent state changes
+    // Defer focus to next frame to allow banner dismissal animation
     setTimeout(() => focusWithoutScroll(manageBtnRef.current), 0);
   };
 
