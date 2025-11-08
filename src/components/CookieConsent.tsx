@@ -89,49 +89,6 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
     }
   };
 
-  useEffect(() => {
-    const stored = getStoredConsent();
-    if (stored === "declined") {
-      setConsent("minimal");
-      setConsentState("minimal");
-    } else {
-      setConsentState(stored);
-    }
-    const handler = () => setConsentState(null);
-    window.addEventListener("open-cookie-settings", handler);
-    return () => window.removeEventListener("open-cookie-settings", handler);
-  }, []);
-  // Minimal focus trap when the dialog is open
-  useEffect(() => {
-    if (consent !== null) return; // only when banner is visible
-    const root = dialogRef.current;
-    if (!root) return;
-    const focusable = root.querySelectorAll<HTMLElement>(
-      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
-    );
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    // Focus the first element but avoid scrolling the page to the bottom.
-    focusWithoutScroll(first ?? null);
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== "Tab") return;
-      if (focusable.length === 0) return;
-      if (e.shiftKey) {
-        if (document.activeElement === first) {
-          focusWithoutScroll(last ?? null);
-          e.preventDefault();
-        }
-      } else {
-        if (document.activeElement === last) {
-          focusWithoutScroll(first ?? null);
-          e.preventDefault();
-        }
-      }
-    };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [consent]);
-
   const measurementId = useMemo(
     () =>
       process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ||
@@ -180,6 +137,54 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
   );
 
   useEffect(() => {
+    const stored = getStoredConsent();
+    if (stored === "declined") {
+      setConsent("minimal");
+      setConsentState("minimal");
+    } else if (stored) {
+      setConsentState(stored);
+    } else {
+      // No consent stored - send essential anonymous data by default
+      setConsent("minimal");
+      setConsentState(null); // Still show banner for user to choose
+      applyGtagConsent("minimal");
+    }
+    const handler = () => setConsentState(null);
+    window.addEventListener("open-cookie-settings", handler);
+    return () => window.removeEventListener("open-cookie-settings", handler);
+  }, [applyGtagConsent]);
+  // Minimal focus trap when the dialog is open
+  useEffect(() => {
+    if (consent !== null) return; // only when banner is visible
+    const root = dialogRef.current;
+    if (!root) return;
+    const focusable = root.querySelectorAll<HTMLElement>(
+      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    );
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    // Focus the first element but avoid scrolling the page to the bottom.
+    focusWithoutScroll(first ?? null);
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      if (focusable.length === 0) return;
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          focusWithoutScroll(last ?? null);
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === last) {
+          focusWithoutScroll(first ?? null);
+          e.preventDefault();
+        }
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [consent]);
+
+  useEffect(() => {
     if (consent === "accepted" || consent === "minimal") {
       applyGtagConsent(consent);
     }
@@ -210,9 +215,8 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
   };
 
   const legalCookiesHref = `/${locale}/legal/cookies`;
-  const minimalLabel =
-    labels.Minimal || labels.Decline || "Essential + analytics";
-  const fullLabel = labels.Full || labels.Accept || "Full consent";
+  const minimalLabel = labels.Minimal || "Essential";
+  const fullLabel = labels.Full || "All";
 
   return (
     <>
@@ -264,25 +268,27 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
         </>
       ) : null}
 
-      {/* Banner */}
+      {/* Full-page modal overlay */}
       {consent === null && (
         <div
-          className="fixed inset-x-0 bottom-0 z-50"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-labelledby="cookie-consent-title"
         >
           <div
             ref={dialogRef}
-            className="mx-auto mb-4 max-w-4xl rounded-lg border border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 p-4 shadow-lg"
+            className="mx-auto max-w-lg rounded-lg border border-border bg-background p-6 shadow-2xl"
           >
-            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-col gap-4">
               <div className="text-sm leading-relaxed">
-                <p id="cookie-consent-title" className="font-medium mb-1">
+                <p id="cookie-consent-title" className="font-medium mb-2">
                   {labels.Title}
                 </p>
-                <p>
-                  {labels.Text}{" "}
+                <p className="mb-2">
+                  {labels.Text}
+                </p>
+                <p className="text-xs text-muted-foreground">
                   <Link
                     href={legalCookiesHref}
                     className="underline"
@@ -290,21 +296,20 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
                   >
                     {labels.LearnMore}
                   </Link>
-                  .
                 </p>
               </div>
-              <div className="flex gap-2 shrink-0">
+              <div className="flex flex-col gap-2 sm:flex-row">
                 <button
                   type="button"
                   onClick={enableMinimal}
-                  className="inline-flex items-center justify-center rounded-md border border-input bg-transparent px-3 py-2 text-sm hover:bg-muted"
+                  className="inline-flex items-center justify-center rounded-md border border-input bg-transparent px-4 py-2 text-sm hover:bg-muted flex-1"
                 >
                   {minimalLabel}
                 </button>
                 <button
                   type="button"
                   onClick={accept}
-                  className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-sm text-primary-foreground hover:opacity-90"
+                  className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground hover:opacity-90 flex-1"
                 >
                   {fullLabel}
                 </button>
