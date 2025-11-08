@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * ConsentAnalytics handles additional analytics tools (GTM, Vercel Analytics)
+ * that require full user consent. GA4 is loaded by CookieConsent component
+ * with consent defaults, while this component loads GTM and Vercel Analytics
+ * only when consent is "accepted".
+ */
+
 import { useEffect, useState } from "react";
 
 declare global {
@@ -40,7 +47,7 @@ export default function ConsentAnalytics({
   gtmId,
   nonce,
 }: {
-  gaId: string;
+  gaId: string; // Not used here - GA4 is loaded by CookieConsent component
   gtmId?: string;
   nonce?: string;
 }) {
