@@ -367,12 +367,12 @@
             "Title": "Gestión de Cookies",
             "ConsentBanner": {
                 "Title": "Banner de Consentimiento de Cookies",
-                "Description": "Cuando visita nuestro sitio web por primera vez, verá un banner de consentimiento de cookies que le permite:",
+                "Description": "Cuando visita nuestro sitio web por primera vez, verá un banner de consentimiento de cookies con dos opciones:",
                 "Options": [
-                    "Aceptar todas las cookies",
-                    "Rechazar cookies no esenciales",
-                    "Personalizar sus preferencias por categoría de cookie"
-                ]
+                    "\"Todo\" - Aceptar todas las cookies incluyendo análisis, publicidad y personalización",
+                    "\"Esencial\" - Aceptar solo cookies funcionales esenciales, rechazando análisis y publicidad"
+                ],
+                "ChangePreferences": "Puede cambiar sus preferencias en cualquier momento utilizando el botón de configuración de cookies que aparece en el sitio web."
             },
             "BrowserSettings": {
                 "Title": "Configuraciones del Navegador",
