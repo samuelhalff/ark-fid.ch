@@ -501,29 +501,29 @@ export default async function CookiesPage({
               <p>
                 {r(
                   "Cookies.Management.ConsentBanner.Description",
-                  "When you first visit our website, you'll see a cookie consent banner allowing you to:"
+                  "When you first visit our website, you'll see a cookie consent banner with two options:"
                 )}
               </p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>
                   {r(
                     "Cookies.Management.ConsentBanner.Options.0",
-                    "Accept all cookies"
+                    '"All" - Accept all cookies including analytics, advertising, and personalization'
                   )}
                 </li>
                 <li>
                   {r(
                     "Cookies.Management.ConsentBanner.Options.1",
-                    "Reject non-essential cookies"
-                  )}
-                </li>
-                <li>
-                  {r(
-                    "Cookies.Management.ConsentBanner.Options.2",
-                    "Customize your preferences by cookie category"
+                    '"Essential" - Accept only essential functional cookies, declining analytics and advertising'
                   )}
                 </li>
               </ul>
+              <p className="mt-3">
+                {r(
+                  "Cookies.Management.ConsentBanner.ChangePreferences",
+                  "You can change your preferences at any time using the cookie settings button that appears on the website."
+                )}
+              </p>
             </div>
 
             <div>
