@@ -1,8 +1,8 @@
 {
     "Title": "Utilizamos cookies",
-    "Text": "Utilizamos cookies para analisar o tráfego e melhorar a sua experiência. Os cookies de análise só serão carregados após a sua aceitação.",
-    "Accept": "Aceitar",
-    "Decline": "Recusar",
+    "Text": "Coletamos dados anônimos essenciais para melhorar sua experiência. Escolha 'Esencial' para rastreamento mínimo ou 'Tudo' para análise completa.",
+    "Accept": "Tudo",
+    "Decline": "Esencial",
     "LearnMore": "Saiba mais sobre cookies neste site",
     "Manage": "Gerir cookies"
 }
