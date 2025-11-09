@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * ConsentAnalytics Component
+ * 
+ * Note: GA4 initialization and consent handling is now managed by CookieConsent.tsx.
+ * This component handles GTM (Google Tag Manager) and Vercel Analytics after consent is granted.
+ */
+
 import { useEffect, useState } from "react";
 
 declare global {
@@ -36,7 +43,7 @@ function getConsent(): ConsentPref {
 }
 
 export default function ConsentAnalytics({
-  gaId,
+  gaId, // Not used in this component - GA4 is handled by CookieConsent.tsx
   gtmId,
   nonce,
 }: {
