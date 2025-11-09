@@ -367,12 +367,12 @@
             "Title": "Managing cookies",
             "ConsentBanner": {
                 "Title": "Cookie consent banner",
-                "Description": "When you first visit our website, you'll see a cookie consent banner allowing you to:",
+                "Description": "When you first visit our website, you'll see a cookie consent banner with two options:",
                 "Options": [
-                    "Accept all cookies",
-                    "Reject non-essential cookies",
-                    "Customize your preferences by cookie category"
-                ]
+                    "\"All\" - Accept all cookies including analytics, advertising, and personalization",
+                    "\"Essential\" - Accept only essential functional cookies, declining analytics and advertising"
+                ],
+                "ChangePreferences": "You can change your preferences at any time using the cookie settings button that appears on the website."
             },
             "BrowserSettings": {
                 "Title": "Browser settings",

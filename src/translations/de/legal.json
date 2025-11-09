@@ -367,12 +367,12 @@
             "Title": "Verwaltung der Cookies",
             "ConsentBanner": {
                 "Title": "Cookie-Einwilligungsbanner",
-                "Description": "Wenn Sie unsere Website zum ersten Mal besuchen, sehen Sie ein Cookie-Einwilligungsbanner, das Ihnen ermöglicht:",
+                "Description": "Wenn Sie unsere Website zum ersten Mal besuchen, sehen Sie ein Cookie-Einwilligungsbanner mit zwei Optionen:",
                 "Options": [
-                    "Alle Cookies akzeptieren",
-                    "Nicht-wesentliche Cookies ablehnen",
-                    "Ihre Präferenzen nach Cookie-Kategorie anpassen"
-                ]
+                    "\"Alle\" - Alle Cookies akzeptieren, einschließlich Analytics, Werbung und Personalisierung",
+                    "\"Essenziell\" - Nur wesentliche funktionale Cookies akzeptieren, Analytics und Werbung ablehnen"
+                ],
+                "ChangePreferences": "Sie können Ihre Einstellungen jederzeit über die Cookie-Einstellungsschaltfläche auf der Website ändern."
             },
             "BrowserSettings": {
                 "Title": "Browser-Einstellungen",
