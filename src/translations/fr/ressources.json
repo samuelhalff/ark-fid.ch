@@ -29,11 +29,7 @@
       "references": [
         {
           "labelKey": "KMU_Registre_Commerce",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/creation-pme/creation-entreprise/registre-du-commerce/inscrire-son-entreprise.html"
-        },
-        {
-          "labelKey": "GuideSocial_Creer_Son_Entreprise",
-          "url": "https://www.guidesocial.ch/recherche/fiche/generatepdfAll/97/recherche/fiche/entreprise-creer-sa-propre-entreprise-97"
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/creation-pme/creation-entreprise.html"
         }
       ]
     },
@@ -61,7 +57,7 @@
       "references": [
         {
           "labelKey": "baisseImpotsGeneve2025",
-          "url": "https://www.agencemendes.ch/baisse-des-impots-a-geneve-en-2025-comment-optimiser-votre-fiscalite/"
+          "url": "https://www.ge.ch/actualite/tout-ce-qu-il-faut-savoir-concernant-vos-acomptes-impots-2025-18-12-2024"
         }
       ]
     },
@@ -75,7 +71,7 @@
       "references": [
         {
           "labelKey": "finmaCrypto2025",
-          "url": "https://www.rister.ch/post/cryptomonnaies-en-suisse/"
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-federal-direct/informations-specialisees-ifd/cryptomonnaies.html"
         },
         {
           "labelKey": "afcCrypto",
@@ -125,15 +121,7 @@
       "references": [
         {
           "labelKey": "Modifications TVA 2025",
-          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
-        },
-        {
-          "labelKey": "Prolongation du délai de décompte TVA",
-          "url": "https://fr.taxlawblog.ch/"
-        },
-        {
-          "labelKey": "Révision des recettes fiscales Genève",
-          "url": "https://www.radiolac.ch/actualite/geneve/les-previsions-de-recettes-fiscales-en-2025-revues-a-la-baisse/"
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
         }
       ]
     },
@@ -160,20 +148,8 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "TVA Changements 2025",
-          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
-        },
-        {
-          "labelKey": "Paie 2025 Genève",
-          "url": "https://www.hr-campus.ch/fr/univers-rh/connaissances-rh/articles-specialises/paie-en-suisse-ce-qui-change-en-2025/"
-        },
-        {
-          "labelKey": "Guide employeur salarié 2025",
-          "url": "https://www.odmfiduciaire.ch/2025/03/04/salaires-et-impots-en-suisse-le-guide-employeur-employe-2025/"
-        },
-        {
-          "labelKey": "Frontaliers télétravail",
-          "url": "https://www.hrtoday.ch/fr/article/les-changements-venir-pour-lemployeur-au-1er-janvier-2025"
+          "labelKey": "Accord télétravail Suisse France 2025",
+          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-99538.html"
         }
       ]
     },
@@ -186,16 +162,8 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Fiscalité entreprises GE",
-          "url": "https://fbk-conseils.ch/fiscalite-dune-pme-en-suisse-tout-comprendre-sur-les-impots/"
-        },
-        {
-          "labelKey": "Réformes fiscales 2025",
-          "url": "https://www.lombardodier.com/fr/insights/2025/july/tax-in-switzerland.html"
-        },
-        {
-          "labelKey": "Cybersécurité & compliance GE",
-          "url": "https://www.lombardodier.com/fr/insights/2025/june/business-owners-face-new-risks-around-tax.html"
+          "labelKey": "Présentations du panorama fiscal 2025 – ge.ch",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
         }
       ]
     },
@@ -270,10 +238,6 @@
         {
           "labelKey": "Administration fédérale TVA",
           "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
-        },
-        {
-          "labelKey": "Changements TVA 2025",
-          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
         }
       ]
     },
@@ -281,17 +245,13 @@
       "slug": "odoo-18-nouveautes-comptabilite-suisse-2025",
       "title": "Odoo 18 : les nouveautés comptabilité et gestion pour PME suisses en 2025",
       "description": "Tour d'horizon concret et détaillé des nouveautés Odoo 18, version 2025, dédiées à la gestion comptable et financière des PME et indépendants en Suisse romande : consolidation, budget analytique, multi-sociétés, mobilité, avantages et pièges à éviter.",
-      "content": "Odoo 18, disponible début 2025, inaugure une vague d’innovations taillées pour les entreprises suisses. Cette édition capitalise sur l’automatisation, l’analyse budgétaire approfondie et la gestion multi-sociétés adaptée aux réalités romandes, en mettant l’accent sur la mobilité et l’intégration administrative.\n\nParmi les nouveautés phares : la création de budgets analytiques sophistiqués, la consolidation multi-entreprises sur un plan comptable unifié, et la gestion multi-devises dans les rapports financiers. Les flux de gestion sont simplifiés grâce à des tableaux de bord interactifs et une navigation repensée. Le module Banque renforce la personnalisation des méthodes de paiements et la gestion des échéances, tandis que la mobilité (PWA, refonte mobile) assure un accès fluide à toutes les fonctions pour les équipes en déplacement.\n\nCes retours d’intégrateurs suisses pointent un bénéfice immédiat pour la centralisation financière des groupes et holdings suisses, mais exigent une attention particulière à l’accompagnement des équipes pour faire face aux changements fonctionnels et éviter une courbe d’apprentissage trop dure.\n\nLe passage à Odoo 18 représente une opportunité de moderniser l’outillage administratif, fiabiliser la chaîne comptable, automatiser les process et renforcer la conformité avec les exigences Swiss GAAP FER, LPP, TVA et fiscalité 2025 tout en restant agiles face à la croissance. Pour réussir votre projet Odoo, privilégiez l’accompagnement par une fiduciaire locale qui maîtrise la réalité fiscale romande et peut anticiper vos besoins évolutifs.\n\nPour approfondir : voir la présentation détaillée des modules sur [Odoo documentation officielle](https://www.odoo.com/documentation/18.0/) et l’analyse des nouveautés sur le site LPDE : [Les nouveautés de Odoo 18 module comptabilité & facturation](https://www.lpde.pro/blog/odoo-compta-9/les-nouveautes-de-odoo-18-module-comptabilite-facturation-2537).",
+      "content": "Odoo 18, disponible début 2025, inaugure une vague d’innovations taillées pour les entreprises suisses. Cette édition capitalise sur l’automatisation, l’analyse budgétaire approfondie et la gestion multi-sociétés adaptée aux réalités romandes, en mettant l’accent sur la mobilité et l’intégration administrative.\n\nParmi les nouveautés phares : la création de budgets analytiques sophistiqués, la consolidation multi-entreprises sur un plan comptable unifié, et la gestion multi-devises dans les rapports financiers. Les flux de gestion sont simplifiés grâce à des tableaux de bord interactifs et une navigation repensée. Le module Banque renforce la personnalisation des méthodes de paiements et la gestion des échéances, tandis que la mobilité (PWA, refonte mobile) assure un accès fluide à toutes les fonctions pour les équipes en déplacement.\n\nCes retours d’intégrateurs suisses pointent un bénéfice immédiat pour la centralisation financière des groupes et holdings suisses, mais exigent une attention particulière à l’accompagnement des équipes pour faire face aux changements fonctionnels et éviter une courbe d’apprentissage trop dure.\n\nLe passage à Odoo 18 représente une opportunité de moderniser l’outillage administratif, fiabiliser la chaîne comptable, automatiser les process et renforcer la conformité avec les exigences Swiss GAAP FER, LPP, TVA et fiscalité 2025 tout en restant agiles face à la croissance. Pour réussir votre projet Odoo, privilégiez l’accompagnement par une fiduciaire locale qui maîtrise la réalité fiscale romande et peut anticiper vos besoins évolutifs.\n\nPour approfondir, consultez la documentation officielle Odoo 18.",
       "author": "Ark Fiduciaire",
       "date": "2025-10-01",
       "references": [
         {
           "labelKey": "Documentation Odoo 18",
           "url": "https://www.odoo.com/documentation/18.0/"
-        },
-        {
-          "labelKey": "Nouveautés Odoo 18 Comptabilité",
-          "url": "https://www.lpde.pro/blog/odoo-compta-9/les-nouveautes-de-odoo-18-module-comptabilite-facturation-2537"
         }
       ]
     },
@@ -323,11 +283,7 @@
       "references": [
         {
           "labelKey": "Bulletin officiel LPP 2025",
-          "url": "https://sozialversicherungen.admin.ch/fr/d/20606/download"
-        },
-        {
-          "labelKey": "Nouveautés LPP Genève",
-          "url": "https://cje.ch/nouveautes-2025-prevoyance-professionnelle-lpp/"
+          "url": "https://www.bsv.admin.ch/bsv/fr/home/assurances-sociales/bv/grundlagen-und-gesetze/grundlagen/wichtige-aenderungen-ab-1-januar-2025.html"
         }
       ]
     },
@@ -341,15 +297,7 @@
       "references": [
         {
           "labelKey": "Directives LPP 2025",
-          "url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
-        },
-        {
-          "labelKey": "Nouveautés LPP Genève",
-          "url": "https://cje.ch/nouveautes-2025-prevoyance-professionnelle-lpp/"
-        },
-        {
-          "labelKey": "Réforme LPP 2025 pour assurés",
-          "url": "https://mon-lpp.ch/reforme-lpp-2025-changements-assures/"
+          "url": "https://www.bsv.admin.ch/bsv/fr/home/assurances-sociales/bv/grundlagen-und-gesetze/grundlagen/wichtige-aenderungen-ab-1-januar-2025.html"
         }
       ]
     },
