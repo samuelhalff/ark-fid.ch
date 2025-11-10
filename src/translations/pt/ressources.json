@@ -30,10 +30,6 @@
         {
           "labelKey": "KMU_Registre_Commerce",
           "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/creation-pme/creation-entreprise/registre-du-commerce/inscrire-son-entreprise.html"
-        },
-        {
-          "labelKey": "GuideSocial_Creer_Son_Entreprise",
-          "url": "https://www.guidesocial.ch/recherche/fiche/generatepdfAll/97/recherche/fiche/entreprise-creer-sa-propre-entreprise-97"
         }
       ]
     },
@@ -61,7 +57,7 @@
       "references": [
         {
           "labelKey": "baisseImpotsGeneve2025",
-          "url": "https://www.agencemendes.ch/baisse-des-impots-a-geneve-en-2025-comment-optimiser-votre-fiscalite/"
+          "url": "https://www.ge.ch/actualite/tout-ce-qu-il-faut-savoir-concernant-vos-acomptes-impots-2025-18-12-2024"
         }
       ]
     },
@@ -74,12 +70,12 @@
       "content": "A Suíça se estabeleceu como uma referência global em regulamentação de criptomoedas. Com uma estrutura legal clara e uma abordagem pragmática, as autoridades helvéticas oferecem um ambiente favorável, mantendo uma conformidade estrita.\n\n#### Classificação de tokens (FINMA)\n- **Payment Tokens**: isenção de ganhos de capital privados, mas inclusão no patrimônio.\n- **Utility Tokens**: status variável dependendo do uso.\n- **Security Tokens**: tratamentos alinhados com valores mobiliários.\n\n#### Obrigações fiscais\n- **Imposto sobre a fortuna**: declaração obrigatória em 31 de dezembro.\n- **Ganhos de capital**: isentos para investidores privados, tributáveis se atividades especulativas.\n- **IVA**: assimilado à troca, sujeição ao valor em CHF.\n\n#### Declarações\n- Obrigações de mineração (rendimentos da atividade)\n- Staking, DeFi, NFTs: tributações específicas\n\n#### Estratégias de otimização\n- Timing das cessões\n- Estruturação familiar\n- Domiciliação vantajosa\n\n(Artigo de 1.900 palavras com casos práticos de Genebra e da região da Romandia.)",
       "references": [
         {
-          "labelKey": "finmaCrypto2025",
-          "url": "https://www.rister.ch/post/cryptomonnaies-en-suisse/"
-        },
-        {
           "labelKey": "afcCrypto",
           "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-anticipe/informations-specialisees/cryptomonnaies.html"
+        },
+        {
+          "labelKey": "finmaCrypto2025",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-federal-direct/informations-specialisees-ifd/cryptomonnaies.html"
         }
       ]
     },
@@ -124,20 +120,8 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Modifications TVA 2025",
-          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
-        },
-        {
           "labelKey": "Panorama fiscal Genève 2025",
           "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
-        },
-        {
-          "labelKey": "Prolongation du délai de décompte TVA",
-          "url": "https://fr.taxlawblog.ch/"
-        },
-        {
-          "labelKey": "Révision des recettes fiscales Genève",
-          "url": "https://www.radiolac.ch/actualite/geneve/les-previsions-de-recettes-fiscales-en-2025-revues-a-la-baisse/"
         }
       ]
     },
@@ -166,24 +150,7 @@
       "content": "O ano de 2025 marca uma virada na gestão da folha de pagamento em Genebra e em toda a Suíça francófona, com reformas importantes para empregadores e autônomos atentos à conformidade e à otimização fiscal.\n\n1. Novos tetos e taxas AVS/LPP/benefícios familiares\nA partir de janeiro de 2025, o aumento do teto do AVS, a revalorização dos benefícios familiares (215 CHF por filho, 268 CHF mínimo para formação) e o novo limite de afiliação ao LPP impõem atualização imediata das bases de cálculo e sistemas de folha de pagamento. Trabalhadoras que atingirem a idade de referência (mulheres: 64 anos e 3 meses se nascidas em 1961) devem optar pelo regime de franquia antes do primeiro salário de 2025.\n\n2. Veículos elétricos e regulamentação de despesas\nEmpregadores agora devem incluir o custo de carregadores domésticos no salário sujeito a imposto e previdência, excluindo esse valor do cálculo da dedução forfait de 0,9%. A indenização por quilômetro para despesas profissionais permanece possível, mediante comprovante ou regulamento interno aprovado, com impacto direto na declaração de imposto e certificado de salário.\n\n3. Teletrabalho transfronteiriço: regime transitório 2025\nO acordo transitório Suíça-França sobre teletrabalho foi prorrogado até 31 de dezembro de 2025. Para Genebra, até 40% da atividade anual pode ser realizado em teletrabalho na França sem impacto fiscal para o empregador ou empregado: o salário é integralmente tributado em Genebra. A empresa, no entanto, deve fornecer certificado anual e informar os colaboradores sobre regras e direitos (LPD, fiscalidade, previdência, A1). Acima do limite, aplica-se a legislação francesa à parte correspondente do salário: é necessário cuidado já no planejamento da atividade.\n\n4. Rentabilidade, negociação salarial e tendências para o 4º trimestre de 2025\nO aumento nominal dos salários (+1,4% em média, maior em setores críticos) nem sempre compensará a inflação (prêmios de saúde +6% em média em Genebra). Ajustes são especialmente monitorados nos setores de saúde, comércio e hotelaria. Os empregadores devem antecipar essas restrições em sua política salarial e na atualização do orçamento social para 2026.\n\n5. Checklist de conformidade 2025 e boas práticas\n- Revisar e adaptar todos os parâmetros de folha a partir de janeiro (taxas, tetos, forfaits)\n- Informar e documentar opções de franquia AVS, LPP, regulamento de despesas, certificados transfronteiriços\n- Garantir o acompanhamento do teletrabalho de fronteiriços (atingimento de limites, emissão de certificado A1, transparência fiscal)\n- Manter-se atualizado sobre mudanças cantonais (benefícios, fiscalidade)\n- Considerar terceirização ou digitalização (Swissdec, Odoo folha, etc.) para reduzir riscos de erro e otimizar a conformidade\n\nPara atualização em tempo real e segurança na gestão social, recomenda-se contar com o apoio de um especialista de Genebra ou terceirizar por meio de ferramentas homologadas.",
       "author": "Ark Fiduciaire",
       "date": "2025-09-17",
-      "references": [
-        {
-          "labelKey": "TVA Changements 2025",
-          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
-        },
-        {
-          "labelKey": "Paie 2025 Genève",
-          "url": "https://www.hr-campus.ch/fr/univers-rh/connaissances-rh/articles-specialises/paie-en-suisse-ce-qui-change-en-2025/"
-        },
-        {
-          "labelKey": "Guide employeur salarié 2025",
-          "url": "https://www.odmfiduciaire.ch/2025/03/04/salaires-et-impots-en-suisse-le-guide-employeur-employe-2025/"
-        },
-        {
-          "labelKey": "Frontaliers télétravail",
-          "url": "https://www.hrtoday.ch/fr/article/les-changements-venir-pour-lemployeur-au-1er-janvier-2025"
-        }
-      ]
+      "references": []
     },
     {
       "slug": "optimisation-fiscale-entreprises-geneve-reformes-2025",
@@ -194,16 +161,8 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Fiscalité entreprises GE",
-          "url": "https://fbk-conseils.ch/fiscalite-dune-pme-en-suisse-tout-comprendre-sur-les-impots/"
-        },
-        {
-          "labelKey": "Réformes fiscales 2025",
-          "url": "https://www.lombardodier.com/fr/insights/2025/july/tax-in-switzerland.html"
-        },
-        {
-          "labelKey": "Cybersécurité & compliance GE",
-          "url": "https://www.lombardodier.com/fr/insights/2025/june/business-owners-face-new-risks-around-tax.html"
+          "labelKey": "Présentations du panorama fiscal 2025 – ge.ch",
+          "url": "https://www.ge.ch/document/presentations-du-panorama-fiscal-2025"
         }
       ]
     },
@@ -278,10 +237,6 @@
         {
           "labelKey": "Administration fédérale TVA",
           "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee/decompter-tva/modifications-tva-2025.html"
-        },
-        {
-          "labelKey": "Changements TVA 2025",
-          "url": "https://fidu-geneve.com/wp-content/uploads/2024/12/Changements-TVA-2025.pdf"
         }
       ]
     },
@@ -289,17 +244,13 @@
       "slug": "odoo-18-nouveautes-comptabilite-suisse-2025",
       "title": "Odoo 18: novidades contabilidade e gestão para PME suíças em 2025",
       "description": "Visão concreta e detalhada das novidades do Odoo 18, versão 2025, dedicadas à gestão contabilística e financeira de PME e autônomos na Suíça francófona: consolidação, orçamento analítico, multiempresas, mobilidade, vantagens e armadilhas a evitar.",
-      "content": "Odoo 18, disponível no início de 2025, inaugura uma onda de inovações pensadas para empresas suíças. Esta edição aposta na automatização, análise orçamentária avançada e gestão multiempresas adequada à realidade romanda, com ênfase na mobilidade e integração administrativa.\n\nEntre as principais novidades: criação de orçamentos analíticos sofisticados, consolidação multiempresas num plano contabilístico unificado, e gestão multimoeda nos relatórios financeiros. Os fluxos de gestão são simplificados graças a dashboards interativos e navegação repensada. O módulo Banco reforça a personalização dos métodos de pagamento e gestão de vencimentos, enquanto a mobilidade (PWA, reformulação mobile) garante acesso fluido a todas as funções para equipas em movimento.\n\nOs feedbacks de integradores suíços destacam um benefício imediato para a centralização financeira de grupos e holdings suíços, mas exigem atenção especial ao acompanhamento das equipas para enfrentar as mudanças funcionais e evitar uma curva de aprendizagem demasiado acentuada.\n\nA migração para o Odoo 18 representa uma oportunidade para modernizar as ferramentas administrativas, garantir a cadeia contabilística, automatizar processos e reforçar a conformidade com Swiss GAAP FER, LPP, IVA e fiscalidade de 2025, mantendo agilidade para crescer. Para o sucesso do seu projeto Odoo, prefira o acompanhamento de uma fiduciária local conhecedora da realidade fiscal romanda e capaz de antecipar suas necessidades futuras.\n\nPalavras-chave: Odoo 18, novidades 2025, finanças PME Genebra, orçamento analítico Odoo, multiempresas, consolidação, Swiss GAAP FER, automação contábil, SaaS ERP Suíça, gestão administrativa romanda, mobilidade ERP.\n\nPara saber mais: veja a apresentação detalhada dos módulos na [documentação oficial Odoo](https://www.odoo.com/documentation/18.0/) e a análise das novidades no site da LPDE: [Novidades do Odoo 18 módulo contabilidade & faturação](https://www.lpde.pro/blog/odoo-compta-9/les-nouveautes-de-odoo-18-module-comptabilite-facturation-2537).",
+      "content": "Odoo 18, disponível no início de 2025, inaugura uma onda de inovações pensadas para empresas suíças. Esta edição aposta na automatização, análise orçamentária avançada e gestão multiempresas adequada à realidade romanda, com ênfase na mobilidade e integração administrativa.\n\nEntre as principais novidades: criação de orçamentos analíticos sofisticados, consolidação multiempresas num plano contabilístico unificado, e gestão multimoeda nos relatórios financeiros. Os fluxos de gestão são simplificados graças a dashboards interativos e navegação repensada. O módulo Banco reforça a personalização dos métodos de pagamento e gestão de vencimentos, enquanto a mobilidade (PWA, reformulação mobile) garante acesso fluido a todas as funções para equipas em movimento.\n\nOs feedbacks de integradores suíços destacam um benefício imediato para a centralização financeira de grupos e holdings suíços, mas exigem atenção especial ao acompanhamento das equipas para enfrentar as mudanças funcionais e evitar uma curva de aprendizagem demasiado acentuada.\n\nA migração para o Odoo 18 representa uma oportunidade para modernizar as ferramentas administrativas, garantir a cadeia contabilística, automatizar processos e reforçar a conformidade com Swiss GAAP FER, LPP, IVA e fiscalidade de 2025, mantendo agilidade para crescer. Para o sucesso do seu projeto Odoo, prefira o acompanhamento de uma fiduciária local conhecedora da realidade fiscal romanda e capaz de antecipar suas necessidades futuras.\n\nPalavras-chave: Odoo 18, novidades 2025, finanças PME Genebra, orçamento analítico Odoo, multiempresas, consolidação, Swiss GAAP FER, automação contábil, SaaS ERP Suíça, gestão administrativa romanda, mobilidade ERP.\n\nPara saber mais: veja a apresentação detalhada dos módulos na [documentação oficial Odoo](https://www.odoo.com/documentation/18.0/).",
       "author": "Ark Fiduciaire",
       "date": "2025-10-01",
       "references": [
         {
           "labelKey": "Documentation Odoo 18",
           "url": "https://www.odoo.com/documentation/18.0/"
-        },
-        {
-          "labelKey": "Nouveautés Odoo 18 Comptabilité",
-          "url": "https://www.lpde.pro/blog/odoo-compta-9/les-nouveautes-de-odoo-18-module-comptabilite-facturation-2537"
         }
       ]
     },
@@ -334,8 +285,8 @@
           "url": "https://sozialversicherungen.admin.ch/fr/d/20606/download"
         },
         {
-          "labelKey": "Nouveautés LPP Genève",
-          "url": "https://cje.ch/nouveautes-2025-prevoyance-professionnelle-lpp/"
+          "labelKey": "Bulletin officiel LPP 2025",
+          "url": "https://www.bsv.admin.ch/bsv/fr/home/assurances-sociales/bv/grundlagen-und-gesetze/grundlagen/wichtige-aenderungen-ab-1-januar-2025.html"
         }
       ]
     },
@@ -350,14 +301,6 @@
         {
           "labelKey": "Directives LPP 2025",
           "url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
-        },
-        {
-          "labelKey": "Nouveautés LPP Genève",
-          "url": "https://cje.ch/nouveautes-2025-prevoyance-professionnelle-lpp/"
-        },
-        {
-          "labelKey": "Réforme LPP 2025 pour assurés",
-          "url": "https://mon-lpp.ch/reforme-lpp-2025-changements-assures/"
         }
       ]
     },
