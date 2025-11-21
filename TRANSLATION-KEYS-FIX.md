@@ -144,6 +144,10 @@ Added for a new multilingual article about company creation in Switzerland. Thes
 
 Both keys have been added to: `src/translations/fr|en|de|es|pt/ressources.json`.
 
+## New Ressources Reference Keys (Nov 2025 update)
+
+- `ressources:admin_ch_optimisation_fiscale_patrimoine` – Label for the Fedlex Swiss Civil Code succession reference (used by the wealth management article).
+
 ## New Service Keys (Nov 2025)
 
 Added for the Mergers & Acquisitions service launch. Ensure all locales include:

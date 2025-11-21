@@ -13,6 +13,7 @@ on:
 
 jobs:
   lhci:
+    if: false  # Disabled - Lighthouse CI no longer needed
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

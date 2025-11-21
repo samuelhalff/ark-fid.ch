@@ -549,7 +549,7 @@
       "references": [
         {
           "labelKey": "admin_ch_optimisation_fiscale_patrimoine",
-          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-88784.html"
+          "url": "https://www.fedlex.admin.ch/eli/cc/1907/215_215_215/fr"
         },
         {
           "labelKey": "fedlex_optimisation_gestion_patrimoine",
@@ -646,6 +646,7 @@
     "Tax": "Tax",
     "Payroll": "Payroll"
   },
+  "admin_ch_optimisation_fiscale_patrimoine": "Fedlex – Swiss Civil Code (succession rules)",
   "admin.ch_liste_des_taux_actuels_de_la_TVA_en_Suisse": "Admin.ch - list of current VAT rates in Switzerland",
   "fedlex_admin_ch_reforme_TVA_2024_message_officiel": "Fedlex.admin.ch - official message on the 2024 VAT reform",
   "Réforme fiscale Genève officielle": "Official Geneva tax reform",

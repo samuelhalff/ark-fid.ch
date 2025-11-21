@@ -558,7 +558,7 @@
       "references": [
         {
           "labelKey": "admin_ch_optimisation_fiscale_patrimoine",
-          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-88784.html"
+          "url": "https://www.fedlex.admin.ch/eli/cc/1907/215_215_215/fr"
         },
         {
           "labelKey": "fedlex_optimisation_gestion_patrimoine",
@@ -699,6 +699,7 @@
   "AFC – TVA Digitalisation 2025": "AFC – Digitalização IVA 2025 (Klara.ch)",
   "SECO – Comptabilité obligatoire": "SECO – Contabilidade obrigatória (kmu.admin.ch)",
   "Guide pratique gestion de patrimoine Suisse (EXPERTsuisse)": "Guia prático de gestão patrimonial (EXPERTsuisse)",
+  "admin_ch_optimisation_fiscale_patrimoine": "Fedlex – Código Civil suíço (regras de sucessão)",
   "Planification successorale (État de Genève)": "Informação oficial sobre planejamento sucessório (Estado de Genebra)",
   "Guide externalisation direction financière FEC/FSF": "Guia oficial de terceirização de funções financeiras – Federação Suíça dos Peritos em Finanças e Controlo (FSF/FEC)",
   "Dossier externalisation et LPD PFPDT": "Dossiê «Terceirização das funções administrativas e obrigações LPD» – Comissário Federal de Proteção de Dados e Transparência (PFPDT)",
