@@ -56,6 +56,10 @@ const footerSections = [
     ],
   },
   {
+    titleKey: "Resources.Title",
+    links: [{ titleKey: "Ressources", href: "/ressources", ns: "navbar" }],
+  },
+  {
     titleKey: "Social.Title",
     links: [
       {
@@ -169,9 +173,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
             aria-label={tFooter(titleKey)}
             className="xl:justify-self-end"
           >
-            <h6 className="font-semibold text-foreground">
-              {tFooter(titleKey)}
-            </h6>
+            <p className="font-semibold text-foreground">{tFooter(titleKey)}</p>
             <ul className="mt-6 space-y-4">
               {links.map(({ titleKey, href, ns }) => (
                 <li key={titleKey}>
