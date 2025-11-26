@@ -38,7 +38,7 @@ export function middleware(request: NextRequest) {
           `img-src 'self' data: blob: https: https://maps.gstatic.com https://maps.googleapis.com`,
           `frame-ancestors 'self'`,
           `base-uri 'self'`,
-          `form-action 'self'`,
+          `form-action 'self' https://submit-form.com`,
           `object-src 'none'`,
         ]
       : [
@@ -53,7 +53,7 @@ export function middleware(request: NextRequest) {
           `frame-src 'self' https://www.google.com https://maps.google.com https://maps.gstatic.com`,
           `frame-ancestors 'self'`,
           `base-uri 'self'`,
-          `form-action 'self'`,
+          `form-action 'self' https://submit-form.com`,
           `object-src 'none'`,
         ]
   ).join("; ");
@@ -74,7 +74,9 @@ export function middleware(request: NextRequest) {
     requestHeaders.set("x-locale", locale);
     requestHeaders.set("x-pathname", pathname);
     requestHeaders.set("x-nonce", nonce);
-    const response = NextResponse.next({ request: { headers: requestHeaders } });
+    const response = NextResponse.next({
+      request: { headers: requestHeaders },
+    });
     // Also mirror on response for observability/debugging in the browser
     response.headers.set("x-locale", locale);
     // Expose the pathname to server components for active nav styling
