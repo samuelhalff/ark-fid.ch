@@ -10,26 +10,24 @@ import {
   FormLabel,
   FormMessage,
 } from "@/src/components/ui/form";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input } from "@/src/components/ui/input";
 import { Button } from "@/src/components/ui/button";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import { Textarea } from "@/src/components/ui/textarea";
-import { toast, Toaster } from "sonner";
-import { useRouter } from "next/navigation";
 import React from "react";
 
 // We keep the types and defaults outside the component
 type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
 
 const defaultValues = {
-  firstName: "",
+  name: "",
   email: "",
   message: "",
   consent: false,
-  companyName: "",
+  company: "",
   phone: "",
 };
 
@@ -41,9 +39,9 @@ const createFormSchema = (errors: {
   consent: string;
 }) =>
   z.object({
-    firstName: z.string().min(1, { message: errors.required }),
+    name: z.string().min(1, { message: errors.required }),
     email: z.string().email({ message: errors.invalidEmail }),
-    companyName: z.string().optional(),
+    company: z.string().optional(),
     phone: z.string().optional(),
     message: z
       .string()
@@ -56,7 +54,6 @@ const createFormSchema = (errors: {
 
 const FORMSPARK_ACTION_URL = "https://submit-form.com/1e26cwX66";
 
-// Removed duplicate ContactForm declaration. The correct one is below with props.
 interface ContactFormProps {
   showTitle?: boolean;
   showSubtitle?: boolean;
@@ -100,8 +97,8 @@ const ContactForm: FC<ContactFormProps> = ({
   strings,
   redirectPath = "/",
 }) => {
-  const router = useRouter();
   const [sending, setSending] = React.useState(false);
+  const formRef = React.useRef<HTMLFormElement>(null);
 
   // Memoize schema based on provided error strings
   const formSchema = useMemo(
@@ -115,38 +112,28 @@ const ContactForm: FC<ContactFormProps> = ({
     mode: "onTouched",
   });
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  // Handle form submission - validate first, then submit natively
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Trigger validation
+    const isValid = await form.trigger();
+    if (!isValid) return;
+    
     setSending(true);
-    const goHome = () => {
-      form.reset(defaultValues);
-      router.push(redirectPath);
-    };
-    try {
-      const res = await fetch(FORMSPARK_ACTION_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error("Network response was not ok");
-      toast.success(strings.toasts.success, {
-        action: { label: "Close", onClick: () => toast.dismiss },
-        duration: 5000,
-        onAutoClose: goHome,
-        onDismiss: goHome,
-      });
-    } catch (e) {
-      toast.error(strings.toasts.error || "Something went wrong.");
-    } finally {
-      setSending(false);
+    
+    // Submit the form natively
+    if (formRef.current) {
+      formRef.current.submit();
     }
   };
 
+  // Build redirect URL (must be absolute for Formspark)
+  const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://ark-fid.ch";
+  const redirectUrl = `${baseUrl}${redirectPath}?success=true`;
+
   return (
     <div className="p-1 xs:p-3 md:p-3 w-full max-w-[var(--breakpoint-xl)] mx-auto">
-      {/* 4. REMOVED: The <title> tag. This must be handled by the page's metadata export. */}
       {showTitle && (
         <h1 className="mb-3 text-center xs:mb-14 text-2xl/7 font-bold sm:text-3xl sm:tracking-tight mt-0 animate-in fade-in duration-700">
           {strings.title}
@@ -156,19 +143,23 @@ const ContactForm: FC<ContactFormProps> = ({
       <div className="flex items-center justify-center">
         <Card className="my-3 max-w-[1200px] min-w-[350px] w-full mb-15 animate-in slide-in-from-bottom-7 duration-500">
           <CardContent>
-            <Toaster position="top-center" />
             <Form {...form}>
               <form
+                ref={formRef}
+                action={FORMSPARK_ACTION_URL}
+                method="POST"
                 className="flex flex-col gap-6"
                 id="contact-form"
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={handleSubmit}
                 aria-busy={sending}
               >
-                {/* 5. All hardcoded labels are replaced with the TranslatedText component */}
+                {/* Hidden redirect field for Formspark */}
+                <input type="hidden" name="_redirect" value={redirectUrl} />
+                
                 <div className="flex flex-col md:flex-row justify-between gap-4">
                   <FormField
                     control={form.control}
-                    name="firstName"
+                    name="name"
                     render={({ field }) => (
                       <FormItem className="flex-auto">
                         <FormLabel className="form-label">
@@ -178,9 +169,11 @@ const ContactForm: FC<ContactFormProps> = ({
                         <FormControl>
                           <Input
                             {...field}
+                            name="name"
                             placeholder={strings.placeholders.name}
                             disabled={sending}
                             className={"border-color-primary"}
+                            required
                           />
                         </FormControl>
                         <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -190,7 +183,7 @@ const ContactForm: FC<ContactFormProps> = ({
                 </div>
                 <FormField
                   control={form.control}
-                  name="companyName"
+                  name="company"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="form-label">
@@ -199,6 +192,7 @@ const ContactForm: FC<ContactFormProps> = ({
                       <FormControl>
                         <Input
                           {...field}
+                          name="company"
                           placeholder={strings.placeholders.companyName}
                           disabled={sending}
                           className={"border-color-primary"}
@@ -219,6 +213,7 @@ const ContactForm: FC<ContactFormProps> = ({
                       <FormControl>
                         <Input
                           {...field}
+                          name="phone"
                           placeholder={strings.placeholders.phone}
                           disabled={sending}
                           className={"border-color-primary"}
@@ -240,9 +235,12 @@ const ContactForm: FC<ContactFormProps> = ({
                       <FormControl>
                         <Input
                           {...field}
+                          name="email"
+                          type="email"
                           placeholder={strings.placeholders.email}
                           disabled={sending}
                           className={"border-color-primary"}
+                          required
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -261,10 +259,12 @@ const ContactForm: FC<ContactFormProps> = ({
                       <FormControl>
                         <Textarea
                           {...field}
+                          name="message"
                           rows={8}
                           placeholder={strings.placeholders.message}
                           disabled={sending}
                           className={"border-color-primary"}
+                          required
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -296,7 +296,6 @@ const ContactForm: FC<ContactFormProps> = ({
                 />
                 <Button
                   type="submit"
-                  name="submit"
                   disabled={sending}
                   style={{ cursor: "pointer" }}
                 >
