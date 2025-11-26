@@ -115,13 +115,13 @@ const ContactForm: FC<ContactFormProps> = ({
   // Handle form submission - validate first, then submit natively
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Trigger validation
     const isValid = await form.trigger();
     if (!isValid) return;
-    
+
     setSending(true);
-    
+
     // Submit the form natively
     if (formRef.current) {
       formRef.current.submit();
@@ -129,7 +129,10 @@ const ContactForm: FC<ContactFormProps> = ({
   };
 
   // Build redirect URL (must be absolute for Formspark)
-  const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://ark-fid.ch";
+  const baseUrl =
+    typeof window !== "undefined"
+      ? window.location.origin
+      : "https://ark-fid.ch";
   const redirectUrl = `${baseUrl}${redirectPath}?success=true`;
 
   return (
@@ -155,7 +158,7 @@ const ContactForm: FC<ContactFormProps> = ({
               >
                 {/* Hidden redirect field for Formspark */}
                 <input type="hidden" name="_redirect" value={redirectUrl} />
-                
+
                 <div className="flex flex-col md:flex-row justify-between gap-4">
                   <FormField
                     control={form.control}
