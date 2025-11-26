@@ -38,7 +38,7 @@ export function middleware(request: NextRequest) {
           `img-src 'self' data: blob: https: https://maps.gstatic.com https://maps.googleapis.com`,
           `frame-ancestors 'self'`,
           `base-uri 'self'`,
-          `form-action 'self' https://submit-form.com`,
+          `form-action 'self' https://api.formspark.io`,
           `object-src 'none'`,
         ]
       : [
@@ -53,7 +53,7 @@ export function middleware(request: NextRequest) {
           `frame-src 'self' https://www.google.com https://maps.google.com https://maps.gstatic.com`,
           `frame-ancestors 'self'`,
           `base-uri 'self'`,
-          `form-action 'self' https://submit-form.com`,
+          `form-action 'self' https://api.formspark.io`,
           `object-src 'none'`,
         ]
   ).join("; ");
