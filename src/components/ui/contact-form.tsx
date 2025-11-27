@@ -154,7 +154,16 @@ const ContactForm: FC<ContactFormProps> = ({
       <div className="flex items-center justify-center">
         <Card className="my-3 max-w-[1200px] min-w-[350px] w-full mb-15 animate-in slide-in-from-bottom-7 duration-500">
           <CardContent>
-            <Toaster position="top-center" />
+            <Toaster
+              position="top-center"
+              toastOptions={{
+                style: {
+                  marginTop: '1rem',
+                },
+              }}
+              expand={true}
+              richColors
+            />
             <Form {...form}>
               <form
                 className="flex flex-col gap-6"
@@ -175,6 +184,8 @@ const ContactForm: FC<ContactFormProps> = ({
                         <FormControl>
                           <Input
                             {...field}
+                            type="text"
+                            autoComplete="name"
                             placeholder={strings.placeholders.name}
                             disabled={sending}
                             className={"border-color-primary"}
@@ -196,6 +207,8 @@ const ContactForm: FC<ContactFormProps> = ({
                       <FormControl>
                         <Input
                           {...field}
+                          type="text"
+                          autoComplete="organization"
                           placeholder={strings.placeholders.companyName}
                           disabled={sending}
                           className={"border-color-primary"}
@@ -216,6 +229,8 @@ const ContactForm: FC<ContactFormProps> = ({
                       <FormControl>
                         <Input
                           {...field}
+                          type="tel"
+                          autoComplete="tel"
                           placeholder={strings.placeholders.phone}
                           disabled={sending}
                           className={"border-color-primary"}
@@ -237,6 +252,8 @@ const ContactForm: FC<ContactFormProps> = ({
                       <FormControl>
                         <Input
                           {...field}
+                          type="email"
+                          autoComplete="email"
                           placeholder={strings.placeholders.email}
                           disabled={sending}
                           className={"border-color-primary"}
