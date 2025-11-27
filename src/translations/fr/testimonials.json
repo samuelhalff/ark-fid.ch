@@ -1,41 +1,17 @@
 {
-    "SectionTitle": "Témoignages",
+    "SectionTitle": "Ce que nos clients disent",
     "List": [
         {
-            "name": "Alex Weber",
-            "designation": "PDG",
-            "company": "Swiss Innovations GmbH",
-            "testimonial": "S'associer avec eux a complètement transformé nos opérations financières. L'efficacité d'avoir notre comptabilité et paie gérées sur Odoo est inégalée ! Nous pouvons maintenant nous concentrer sur notre entreprise, sachant que notre conformité est entre des mains expertes."
+            "name": "Julien Roques",
+            "testimonial": "Ark s'est montrée très disponible et nous a permis en quelques jours de mettre en place notre comptabilité sur Odoo"
         },
         {
-            "name": "Clara Dubois",
-            "designation": "Directrice Générale",
-            "company": "Léman Distribution SA",
-            "testimonial": "Un service incroyable qui simplifie les complexités de la comptabilité suisse et de la paie swissdec. Hautement recommandé pour toute PME. Leur approche flexible nous permet de gérer la facturation quotidienne pendant qu'ils gèrent la clôture mensuelle et les taxes de manière transparente."
+            "name": "Antoine Fortis",
+            "testimonial": "Je souhaitais être autonome tout en ayant un support ponctuel pour ma comptabilité et mes salaires; chez Ark j'ai pu compter sur une équipe compétente et dynamique."
         },
         {
-            "name": "Marco Rossi",
-            "designation": "Fondateur",
-            "company": "Ticino Start-up",
-            "testimonial": "L'expérience collaborative sur Odoo est de premier ordre ! Nous avons une vue claire et en temps réel de nos finances, et leur équipe est toujours là pour nous soutenir. L'implémentation a été fluide et parfaitement adaptée à nos besoins."
-        },
-        {
-            "name": "Sophie Müller",
-            "designation": "Responsable RH",
-            "company": "Alpine Precision AG",
-            "testimonial": "Nous avons vu une amélioration significative de notre efficacité RH depuis l'externalisation de notre paie. Leur équipe gère toutes les déclarations swissdec et communications d'assurance parfaitement, ce qui a été un game-changer pour notre petite équipe."
-        },
-        {
-            "name": "Liam Schneider",
-            "designation": "Directeur Général",
-            "company": "Zurich Solutions",
-            "testimonial": "Le meilleur investissement que nous ayons fait dans notre back-office. L'équipe de support est incroyablement réactive et compétente, répondant à nos questions sur la comptabilité et Odoo. Leur service a été inestimable depuis notre incorporation."
-        },
-        {
-            "name": "Isabelle Favre",
-            "designation": "Propriétaire",
-            "company": "Geneva Consulting",
-            "testimonial": "Leur service m'a fait économiser des heures de travail administratif ! Les rapports financiers et insights qu'ils fournissent sont incroyablement puissants et faciles à comprendre. Cela nous aide à prendre des décisions plus intelligentes et basées sur les données pour notre croissance."
+            "name": "Armands Bush",
+            "testimonial": "Nous nous reposons sur Ark pour l'ensemble de notre comptabilité, salaires et notre fiscalité. L'équipe de Ark est toujours disponible et réactive. Nous pouvons nous concentrer pleinement sur notre activité et être confiants que ces tâches sont gérées parfaitement."
         }
     ]
 }
