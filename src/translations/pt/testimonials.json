@@ -1,8 +1,20 @@
 {
     "SectionTitle": "O que dizem nossos clientes",
     "Subtitle": "A confiança de nossos clientes é nossa maior recompensa",
-    "VerifiedClient": "Cliente verificado",
+    "Anonymous": "Anônimo",
     "List": [
+        {
+            "name": "Julien Roques",
+            "testimonial": "Ark foi muito disponível e nos ajudou a configurar nossa contabilidade no Odoo em poucos dias."
+        },
+        {
+            "name": "Antoine Fortis",
+            "testimonial": "Eu queria ser autônomo enquanto tinha suporte pontual para minha contabilidade e folha de pagamento; na Ark pude contar com uma equipe competente e dinâmica."
+        },
+        {
+            "name": "Armands Bush",
+            "testimonial": "Contamos com a Ark para toda a nossa contabilidade, folha de pagamento e fiscalidade. A equipe da Ark está sempre disponível e é reativa. Podemos nos concentrar totalmente em nossa atividade e ter confiança de que essas tarefas são gerenciadas perfeitamente."
+        },
         {
             "service": "Contabilidade",
             "rating": 5,
