@@ -57,6 +57,11 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
+// Helper function to get the effective rating (default to 5 for named reviews without explicit rating)
+function getEffectiveRating(testimonial: Testimonial): number {
+  return testimonial.rating ?? 5;
+}
+
 // Generate JSON-LD structured data for SEO
 function generateReviewsStructuredData(testimonials: Testimonial[], anonymousLabel: string) {
   const reviews = testimonials.map((testimonial) => ({
@@ -66,23 +71,20 @@ function generateReviewsStructuredData(testimonials: Testimonial[], anonymousLab
       "@type": "Person",
       "name": testimonial.name || anonymousLabel
     },
-    ...(testimonial.rating && {
-      "reviewRating": {
-        "@type": "Rating",
-        "ratingValue": testimonial.rating,
-        "bestRating": 5,
-        "worstRating": 1
-      }
-    }),
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": getEffectiveRating(testimonial),
+      "bestRating": 5,
+      "worstRating": 1
+    },
     ...(testimonial.service && {
       "about": testimonial.service
     })
   }));
 
-  // Calculate aggregate rating from reviews with ratings
-  const ratedReviews = testimonials.filter(t => typeof t.rating === 'number');
-  const avgRating = ratedReviews.length > 0 
-    ? ratedReviews.reduce((sum, t) => sum + (t.rating || 0), 0) / ratedReviews.length 
+  // Calculate aggregate rating from ALL reviews (default to 5 stars for reviews without explicit rating)
+  const avgRating = testimonials.length > 0 
+    ? testimonials.reduce((sum, t) => sum + getEffectiveRating(t), 0) / testimonials.length 
     : null;
 
   return {
@@ -100,7 +102,7 @@ function generateReviewsStructuredData(testimonials: Testimonial[], anonymousLab
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": Number(avgRating.toFixed(1)),
-        "reviewCount": ratedReviews.length,
+        "reviewCount": testimonials.length,
         "bestRating": 5,
         "worstRating": 1
       }
@@ -144,8 +146,8 @@ export default async function Testimonials() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
         {testimonials.map((testimonial, index) => {
           const isNamed = !!testimonial.name;
-          const hasRating = typeof testimonial.rating === 'number';
           const authorName = isNamed ? testimonial.name : anonymousLabel;
+          const effectiveRating = getEffectiveRating(testimonial);
           
           return (
             <article
@@ -154,30 +156,31 @@ export default async function Testimonials() {
               aria-label={`Review by ${authorName}`}
             >
               <Card
-                className="group relative h-full bg-gradient-to-br from-background to-accent/50 border border-border/50 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 hover:-translate-y-1"
+                className="group relative h-full bg-card border border-border/50 shadow-sm hover:shadow-lg hover:border-primary/30 transition-all duration-300 ease-out hover:-translate-y-1"
               >
-                <CardContent className="p-6">
-                  {testimonial.service && hasRating && (
-                    <div className="flex items-center justify-between mb-4">
+                <CardContent className="flex flex-col h-full p-6">
+                  {/* Header with badge and rating */}
+                  <div className="flex items-center justify-between mb-4">
+                    {testimonial.service ? (
                       <Badge variant="secondary" className="text-xs font-medium bg-primary/10 text-primary hover:bg-primary/15">
                         {testimonial.service}
                       </Badge>
-                      <StarRating rating={testimonial.rating as number} />
-                    </div>
-                  )}
+                    ) : (
+                      <QuoteIcon className="w-6 h-6 text-primary/30" />
+                    )}
+                    <StarRating rating={effectiveRating} />
+                  </div>
                   
-                  <QuoteIcon className="w-8 h-8 text-primary/20 mb-3" />
-                  
-                  <figure>
-                    <blockquote className="text-[15px] text-foreground/80 leading-relaxed mb-4">
+                  <figure className="flex flex-col flex-1">
+                    <blockquote className="text-[15px] text-foreground/80 leading-relaxed mb-4 flex-1">
                       <p>{testimonial.testimonial}</p>
                     </blockquote>
-                    <figcaption className="flex items-center gap-2 pt-4 border-t border-border/50">
+                    <figcaption className="flex items-center gap-3 pt-4 border-t border-border/50">
                       <div 
-                        className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center"
+                        className="w-9 h-9 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center shrink-0"
                         aria-hidden="true"
                       >
-                        <span className="text-primary text-sm">
+                        <span className="text-primary font-medium text-sm">
                           {isNamed ? testimonial.name?.charAt(0).toUpperCase() : '✓'}
                         </span>
                       </div>
