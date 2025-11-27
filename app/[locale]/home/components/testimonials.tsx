@@ -99,8 +99,8 @@ function generateReviewsStructuredData(testimonials: Testimonial[], anonymousLab
     ...(avgRating && {
       "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": avgRating.toFixed(1),
-        "reviewCount": testimonials.length,
+        "ratingValue": Number(avgRating.toFixed(1)),
+        "reviewCount": ratedReviews.length,
         "bestRating": 5,
         "worstRating": 1
       }
@@ -169,10 +169,7 @@ export default async function Testimonials() {
                   <QuoteIcon className="w-8 h-8 text-primary/20 mb-3" />
                   
                   <figure>
-                    <blockquote 
-                      className="text-[15px] text-foreground/80 leading-relaxed mb-4"
-                      cite="https://ark-fid.ch"
-                    >
+                    <blockquote className="text-[15px] text-foreground/80 leading-relaxed mb-4">
                       <p>{testimonial.testimonial}</p>
                     </blockquote>
                     <figcaption className="flex items-center gap-2 pt-4 border-t border-border/50">
