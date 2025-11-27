@@ -1,41 +1,37 @@
 {
-    "SectionTitle": "Testimonials",
+    "SectionTitle": "What our clients say",
+    "Subtitle": "Our clients' trust is our greatest reward",
+    "VerifiedClient": "Verified client",
     "List": [
         {
-            "name": "Alex Weber",
-            "designation": "CEO",
-            "company": "Swiss Innovations GmbH",
-            "testimonial": "Partnering with them has completely transformed our financial operations. The efficiency of having our accounting and payroll managed on Odoo is unmatched! We can now focus on our business, knowing our compliance is in expert hands."
+            "service": "Accounting",
+            "rating": 5,
+            "testimonial": "Our accounting is now perfectly structured thanks to Ark. Monthly closings are delivered on time and the quality of reports enables us to make informed decisions."
         },
         {
-            "name": "Clara Dubois",
-            "designation": "General Manager",
-            "company": "Léman Distribution SA",
-            "testimonial": "An amazing service that simplifies the complexities of Swiss accounting and swissdec payroll. Highly recommended for any SME. Their flexible approach lets us handle daily invoicing while they manage the monthly closing and taxes seamlessly."
+            "service": "Payroll & HR",
+            "rating": 5,
+            "testimonial": "Managing our payroll has become effortless. Accurate pay slips, compliant social declarations, and always-available support to answer our questions."
         },
         {
-            "name": "Marco Rossi",
-            "designation": "Founder",
-            "company": "Ticino Start-up",
-            "testimonial": "The collaborative experience on Odoo is top-notch! We have a clear, real-time view of our finances, and their team is always there to support us. The implementation was smooth and perfectly tailored to our needs."
+            "service": "Tax",
+            "rating": 5,
+            "testimonial": "Thanks to their tax expertise, we have optimized our situation while remaining fully compliant. Professional and reassuring support throughout."
         },
         {
-            "name": "Sophie Müller",
-            "designation": "HR Manager",
-            "company": "Alpine Precision AG",
-            "testimonial": "We've seen a significant improvement in our HR efficiency since outsourcing our payroll. Their team handles all the swissdec declarations and insurance communications flawlessly, which has been a game-changer for our small team."
+            "service": "M&A",
+            "rating": 5,
+            "testimonial": "The team supported us throughout our acquisition. Rigorous due diligence, precise valuation and strategic advice that made all the difference."
         },
         {
-            "name": "Liam Schneider",
-            "designation": "Managing Director",
-            "company": "Zurich Solutions",
-            "testimonial": "The best investment we've made in our back-office. The support team is incredibly responsive and knowledgeable, answering our questions on both accounting and Odoo. Their service has been invaluable since our incorporation."
+            "service": "Family Office",
+            "rating": 5,
+            "testimonial": "A tailored approach to managing our family wealth. Discretion, expertise and personalized follow-up that meets all our expectations."
         },
         {
-            "name": "Isabelle Favre",
-            "designation": "Owner",
-            "company": "Geneva Consulting",
-            "testimonial": "Their service has saved me hours of administrative work! The financial reports and insights they provide are incredibly powerful and easy to understand. This helps us make smarter, data-backed decisions for our growth."
+            "service": "Odoo & ERP",
+            "rating": 5,
+            "testimonial": "Implementing Odoo has transformed the way we work. Automated processes, centralized data and real-time visibility into our business."
         }
     ]
 }

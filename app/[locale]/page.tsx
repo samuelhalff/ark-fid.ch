@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Services from "@/app/[locale]/home/components/services";
 import About from "@/app/[locale]/home/components/about";
 import FAQ from "@/app/[locale]/home/components/faq";
+import Testimonials from "@/app/[locale]/home/components/testimonials";
 const Contact = dynamic(() => import("@/src/components/ui/contact-form"), {
   ssr: false,
   loading: () => null,
@@ -161,15 +162,15 @@ export default async function Home({ params }: { params: { locale: string } }) {
           <FAQ />
         </Defer>
       </section>
-      {/* <section id="testimonials">
+      <section id="testimonials">
         <Defer
           rootMargin="400px"
           idle={300}
           placeholder={<div className="h-64 w-full rounded-lg bg-muted/40" />}
         >
-          <Testimonials locale={activeLocale} />
+          <Testimonials />
         </Defer>
-      </section> */}
+      </section>
       <section id="contact">
         <Defer
           rootMargin="300px"

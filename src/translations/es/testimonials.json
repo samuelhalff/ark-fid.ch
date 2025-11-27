@@ -1,41 +1,37 @@
 {
-    "SectionTitle": "Testimonios",
+    "SectionTitle": "Lo que dicen nuestros clientes",
+    "Subtitle": "La confianza de nuestros clientes es nuestra mayor recompensa",
+    "VerifiedClient": "Cliente verificado",
     "List": [
         {
-            "name": "Alex Weber",
-            "designation": "CEO",
-            "company": "Swiss Innovations GmbH",
-            "testimonial": "Asociarnos con ellos ha transformado completamente nuestras operaciones financieras. ¡La eficiencia de tener nuestra contabilidad y nómina gestionadas en Odoo es incomparable! Ahora podemos enfocarnos en nuestro negocio, sabiendo que nuestro cumplimiento está en manos expertas."
+            "service": "Contabilidad",
+            "rating": 5,
+            "testimonial": "Nuestra contabilidad ahora está perfectamente estructurada gracias a Ark. Los cierres mensuales se entregan a tiempo y la calidad de los informes nos permite tomar decisiones informadas."
         },
         {
-            "name": "Clara Dubois",
-            "designation": "Gerente General",
-            "company": "Léman Distribution SA",
-            "testimonial": "Un servicio increíble que simplifica las complejidades de la contabilidad suiza y la nómina swissdec. Altamente recomendado para cualquier PYME. Su enfoque flexible nos permite manejar la facturación diaria mientras ellos gestionan el cierre mensual e impuestos sin problemas."
+            "service": "Nóminas y RRHH",
+            "rating": 5,
+            "testimonial": "Gestionar nuestra nómina se ha vuelto muy sencillo. Nóminas precisas, declaraciones sociales conformes y un soporte siempre disponible para responder a nuestras preguntas."
         },
         {
-            "name": "Marco Rossi",
-            "designation": "Fundador",
-            "company": "Ticino Start-up",
-            "testimonial": "¡La experiencia colaborativa en Odoo es de primera clase! Tenemos una vista clara y en tiempo real de nuestras finanzas, y su equipo siempre está ahí para apoyarnos. La implementación fue fluida y perfectamente adaptada a nuestras necesidades."
+            "service": "Fiscalidad",
+            "rating": 5,
+            "testimonial": "Gracias a su experiencia fiscal, hemos optimizado nuestra situación mientras permanecemos totalmente conformes. Un apoyo profesional y tranquilizador."
         },
         {
-            "name": "Sophie Müller",
-            "designation": "Gerente de RRHH",
-            "company": "Alpine Precision AG",
-            "testimonial": "Hemos visto una mejora significativa en nuestra eficiencia de RRHH desde que externalizamos nuestra nómina. Su equipo maneja todas las declaraciones swissdec y comunicaciones de seguros impecablemente, lo que ha sido un cambio radical para nuestro pequeño equipo."
+            "service": "M&A",
+            "rating": 5,
+            "testimonial": "El equipo nos acompañó durante toda nuestra adquisición. Due diligence rigurosa, valoración precisa y consejos estratégicos que marcaron la diferencia."
         },
         {
-            "name": "Liam Schneider",
-            "designation": "Director Gerente",
-            "company": "Zurich Solutions",
-            "testimonial": "La mejor inversión que hemos hecho en nuestro back-office. El equipo de soporte es increíblemente receptivo y conocedor, respondiendo nuestras preguntas tanto sobre contabilidad como Odoo. Su servicio ha sido invaluable desde nuestra incorporación."
+            "service": "Family Office",
+            "rating": 5,
+            "testimonial": "Un enfoque personalizado para la gestión de nuestro patrimonio familiar. Discreción, experiencia y un seguimiento personalizado que cumple todas nuestras expectativas."
         },
         {
-            "name": "Isabelle Favre",
-            "designation": "Propietaria",
-            "company": "Geneva Consulting",
-            "testimonial": "¡Su servicio me ha ahorrado horas de trabajo administrativo! Los informes financieros y perspectivas que proporcionan son increíblemente poderosos y fáciles de entender. Esto nos ayuda a tomar decisiones más inteligentes y basadas en datos para nuestro crecimiento."
+            "service": "Odoo y ERP",
+            "rating": 5,
+            "testimonial": "La implementación de Odoo ha transformado nuestra forma de trabajar. Procesos automatizados, datos centralizados y visibilidad en tiempo real de nuestro negocio."
         }
     ]
 }
