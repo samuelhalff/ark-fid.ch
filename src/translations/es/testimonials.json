@@ -5,14 +5,17 @@
     "List": [
         {
             "name": "Julien Roques",
+            "service": "Odoo y ERP",
             "testimonial": "Ark fue muy receptivo y nos ayudó a configurar nuestra contabilidad en Odoo en pocos días."
         },
         {
             "name": "Antoine Fortis",
+            "service": "Contabilidad",
             "testimonial": "Quería ser autónomo mientras tenía soporte puntual para mi contabilidad y nóminas; en Ark pude contar con un equipo competente y dinámico."
         },
         {
             "name": "Armands Bush",
+            "service": "Contabilidad",
             "testimonial": "Confiamos en Ark para toda nuestra contabilidad, nóminas y fiscalidad. El equipo de Ark siempre está disponible y es reactivo. Podemos concentrarnos plenamente en nuestra actividad y estar seguros de que estas tareas se gestionan perfectamente."
         },
         {

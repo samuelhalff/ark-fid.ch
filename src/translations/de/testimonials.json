@@ -5,14 +5,17 @@
     "List": [
         {
             "name": "Julien Roques",
+            "service": "Odoo & ERP",
             "testimonial": "Ark war sehr verfügbar und hat uns in wenigen Tagen geholfen, unsere Buchhaltung auf Odoo einzurichten."
         },
         {
             "name": "Antoine Fortis",
+            "service": "Buchhaltung",
             "testimonial": "Ich wollte autonom sein und gleichzeitig punktuelle Unterstützung für meine Buchhaltung und Lohnabrechnung haben; bei Ark konnte ich auf ein kompetentes und dynamisches Team zählen."
         },
         {
             "name": "Armands Bush",
+            "service": "Buchhaltung",
             "testimonial": "Wir verlassen uns auf Ark für unsere gesamte Buchhaltung, Lohnabrechnung und Steuern. Das Ark-Team ist immer verfügbar und reaktionsschnell. Wir können uns voll auf unser Geschäft konzentrieren und darauf vertrauen, dass diese Aufgaben perfekt erledigt werden."
         },
         {

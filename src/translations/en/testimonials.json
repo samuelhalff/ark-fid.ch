@@ -5,14 +5,17 @@
     "List": [
         {
             "name": "Julien Roques",
+            "service": "Odoo & ERP",
             "testimonial": "Ark was very responsive and helped us set up our accounting on Odoo within a few days."
         },
         {
             "name": "Antoine Fortis",
+            "service": "Accounting",
             "testimonial": "I wanted to be autonomous while having occasional support for my accounting and payroll; at Ark I could count on a competent and dynamic team."
         },
         {
             "name": "Armands Bush",
+            "service": "Accounting",
             "testimonial": "We rely on Ark for all our accounting, payroll and taxation. The Ark team is always available and responsive. We can fully focus on our business and be confident that these tasks are managed perfectly."
         },
         {
