@@ -117,7 +117,6 @@ const ContactForm: FC<ContactFormProps> = ({
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setSending(true);
     const goHome = () => {
-      form.reset(defaultValues);
       router.push(redirectPath);
     };
     try {
@@ -130,6 +129,7 @@ const ContactForm: FC<ContactFormProps> = ({
         body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error("Network response was not ok");
+      form.reset(defaultValues);
       toast.success(strings.toasts.success, {
         action: { label: "Close", onClick: () => toast.dismiss },
         duration: 5000,
