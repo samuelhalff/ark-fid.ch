@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import { testimonialAvatarMap } from "@/src/lib/testimonialImages";
 
 interface Testimonial {
   name?: string;
@@ -91,11 +92,12 @@ function TestimonialCard({
   const effectiveRating = getEffectiveRating(testimonial);
 
   // Named testimonials use male avatar, anonymous alternate between male/female based on index
-  const avatarSrc = isNamed
+  const avatarPath = isNamed
     ? "/assets/testimonials/avatar.avif"
     : index % 2 === 0
     ? "/assets/testimonials/avatar.avif"
     : "/assets/testimonials/avatar-female.avif";
+  const avatarSrc = testimonialAvatarMap[avatarPath];
 
   return (
     <article
@@ -112,6 +114,10 @@ function TestimonialCard({
                 alt=""
                 width={40}
                 height={40}
+                sizes="40px"
+                quality={50}
+                loading="lazy"
+                placeholder="blur"
                 className="w-10 h-10 rounded-full"
                 aria-hidden="true"
               />
