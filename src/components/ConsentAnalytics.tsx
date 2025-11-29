@@ -2,7 +2,7 @@
 
 /**
  * ConsentAnalytics Component
- * 
+ *
  * Note: GA4 initialization and consent handling is now managed by CookieConsent.tsx.
  * This component handles GTM (Google Tag Manager) and Vercel Analytics after consent is granted.
  */
@@ -24,7 +24,8 @@ function getConsent(): ConsentPref {
   if (typeof window === "undefined") return null;
   try {
     const v = localStorage.getItem(CONSENT_KEY);
-    if (v === "accepted" || v === "declined" || v === "minimal") return v as ConsentPref;
+    if (v === "accepted" || v === "declined" || v === "minimal")
+      return v as ConsentPref;
     return null;
   } catch (e) {
     // localStorage unavailable - check cookie fallback
@@ -52,8 +53,7 @@ export default function ConsentAnalytics({
   nonce?: string;
 }) {
   const [consent, setConsent] = useState<ConsentPref>(null);
-  const [AnalyticsComp, setAnalyticsComp] =
-    useState<React.ComponentType | null>(null);
+  const [gtmLoaded, setGtmLoaded] = useState(false);
 
   useEffect(() => {
     setConsent(getConsent());
@@ -89,8 +89,7 @@ export default function ConsentAnalytics({
   }, []);
 
   useEffect(() => {
-    let mounted = true;
-    if (consent === "accepted" && !AnalyticsComp) {
+    if (consent === "accepted" && !gtmLoaded) {
       // Load Google Tag Manager only after consent
       if (gtmId && typeof window !== "undefined") {
         // Avoid duplicating GTM injection
@@ -120,23 +119,11 @@ export default function ConsentAnalytics({
             gtmScript.setAttribute("nonce", nonce);
           }
           document.head.appendChild(gtmScript);
+          setGtmLoaded(true);
         }
       }
-      // Load Vercel Analytics
-      import("@vercel/analytics/react")
-        .then((mod) => {
-          if (mounted) setAnalyticsComp(() => mod.Analytics);
-        })
-        .catch(() => {
-          // ignore
-        });
     }
-    return () => {
-      mounted = false;
-    };
-  }, [consent, AnalyticsComp, gtmId, nonce]);
+  }, [consent, gtmLoaded, gtmId, nonce]);
 
-  if (consent !== "accepted" || !AnalyticsComp) return null;
-  const C = AnalyticsComp;
-  return <C />;
+  return null;
 }
