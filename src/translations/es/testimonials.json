@@ -1,22 +1,32 @@
 {
     "SectionTitle": "Lo que dicen nuestros clientes",
     "Subtitle": "La confianza de nuestros clientes es nuestra mayor recompensa",
+    "RatingBadge": "Valorado con 5 estrellas por clientes",
     "Anonymous": "Anónimo",
     "List": [
         {
             "name": "Julien Roques",
+            "company": "Florissant 1928 Sàrl",
             "service": "Odoo y ERP",
             "testimonial": "Ark fue muy receptivo y nos ayudó a configurar nuestra contabilidad en Odoo en pocos días."
         },
         {
             "name": "Antoine Fortis",
+            "company": "Pargo Sàrl",
             "service": "Contabilidad",
             "testimonial": "Quería ser autónomo mientras tenía soporte puntual para mi contabilidad y nóminas; en Ark pude contar con un equipo competente y dinámico."
         },
         {
             "name": "Armands Bush",
+            "company": "Austrenis Capital SA",
             "service": "Contabilidad",
             "testimonial": "Confiamos en Ark para toda nuestra contabilidad, nóminas y fiscalidad. El equipo de Ark siempre está disponible y es reactivo. Podemos concentrarnos plenamente en nuestra actividad y estar seguros de que estas tareas se gestionan perfectamente."
+        },
+        {
+            "name": "Pierre Saouter",
+            "company": "Principles Analytics Sàrl",
+            "service": "Contabilidad y Fiscalidad",
+            "testimonial": "Ark gestiona nuestra contabilidad y asuntos fiscales con un profesionalismo notable. Su experiencia nos da total tranquilidad, permitiéndonos concentrarnos completamente en hacer crecer nuestro negocio."
         },
         {
             "service": "Contabilidad",

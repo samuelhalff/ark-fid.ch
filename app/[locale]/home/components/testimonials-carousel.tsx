@@ -1,0 +1,197 @@
+"use client";
+
+import * as React from "react";
+import Image from "next/image";
+
+interface Testimonial {
+  name?: string;
+  company?: string;
+  service?: string;
+  testimonial: string;
+  rating?: number;
+}
+
+interface TestimonialsCarouselProps {
+  testimonials: Testimonial[];
+  anonymousLabel: string;
+}
+
+// Inline Star icon for ratings
+const StarIcon = ({ filled }: { filled: boolean }) => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill={filled ? "currentColor" : "none"}
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    className={filled ? "text-amber-400" : "text-muted-foreground/20"}
+  >
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+  </svg>
+);
+
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div
+      className="flex items-center gap-0.5 shrink-0"
+      role="img"
+      aria-label={`${rating} out of 5 stars`}
+    >
+      {[1, 2, 3, 4, 5].map((star) => (
+        <StarIcon key={star} filled={star <= rating} />
+      ))}
+    </div>
+  );
+}
+
+function getEffectiveRating(testimonial: Testimonial): number {
+  return testimonial.rating ?? 5;
+}
+
+// Interleave named and anonymous testimonials
+function interleaveTestimonials(testimonials: Testimonial[]): Testimonial[] {
+  const named = testimonials.filter((t) => !!t.name);
+  const anonymous = testimonials.filter((t) => !t.name);
+
+  const result: Testimonial[] = [];
+  let namedIdx = 0;
+  let anonIdx = 0;
+
+  // Pattern: anonymous, named, anonymous, anonymous, named, etc.
+  while (namedIdx < named.length || anonIdx < anonymous.length) {
+    if (anonIdx < anonymous.length) {
+      result.push(anonymous[anonIdx++]);
+    }
+    if (anonIdx < anonymous.length) {
+      result.push(anonymous[anonIdx++]);
+    }
+    if (namedIdx < named.length) {
+      result.push(named[namedIdx++]);
+    }
+  }
+
+  return result;
+}
+
+function TestimonialCard({
+  testimonial,
+  anonymousLabel,
+  index,
+}: {
+  testimonial: Testimonial;
+  anonymousLabel: string;
+  index: number;
+}) {
+  const isNamed = !!testimonial.name;
+  const authorName = isNamed ? testimonial.name : anonymousLabel;
+  const effectiveRating = getEffectiveRating(testimonial);
+
+  // Named testimonials use male avatar, anonymous alternate between male/female based on index
+  const avatarSrc = isNamed
+    ? "/assets/testimonials/avatar.avif"
+    : index % 2 === 0
+    ? "/assets/testimonials/avatar.avif"
+    : "/assets/testimonials/avatar-female.avif";
+
+  return (
+    <article
+      aria-label={`Review by ${authorName}`}
+      className="shrink-0 w-[350px] sm:w-[420px] lg:w-[480px]"
+    >
+      <div className="h-full rounded-xl bg-muted/20 dark:bg-white/[0.03] border border-border/20 dark:border-white/[0.08] p-6 transition-colors duration-200 hover:bg-muted/35 dark:hover:bg-white/[0.06]">
+        {/* Header with avatar, name, company and rating */}
+        <div className="flex items-start justify-between gap-4 mb-4">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <div className="w-11 h-11 shrink-0 rounded-full bg-white flex items-center justify-center">
+              <Image
+                src={avatarSrc}
+                alt=""
+                width={40}
+                height={40}
+                className="w-10 h-10 rounded-full"
+                aria-hidden="true"
+              />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="font-semibold text-base text-foreground">
+                {authorName}
+              </p>
+              {isNamed && testimonial.company ? (
+                <p className="text-sm text-muted-foreground">
+                  {testimonial.company}
+                </p>
+              ) : testimonial.service ? (
+                <p className="text-sm text-muted-foreground">
+                  {testimonial.service}
+                </p>
+              ) : null}
+            </div>
+          </div>
+          <StarRating rating={effectiveRating} />
+        </div>
+
+        {/* Testimonial quote */}
+        <blockquote className="text-[15px] text-foreground/80 leading-relaxed">
+          <p>&quot;{testimonial.testimonial}&quot;</p>
+        </blockquote>
+      </div>
+    </article>
+  );
+}
+
+export default function TestimonialsCarousel({
+  testimonials,
+  anonymousLabel,
+}: TestimonialsCarouselProps) {
+  const interleavedTestimonials = React.useMemo(
+    () => interleaveTestimonials(testimonials),
+    [testimonials]
+  );
+
+  // Duplicate for seamless loop
+  const duplicatedTestimonials = [
+    ...interleavedTestimonials,
+    ...interleavedTestimonials,
+  ];
+
+  return (
+    <div className="w-full overflow-hidden relative">
+      {/* Left fade gradient */}
+      <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+      {/* Right fade gradient */}
+      <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+      <div
+        className="flex gap-6 animate-scroll hover:[animation-play-state:paused]"
+        style={{
+          width: "max-content",
+        }}
+      >
+        {duplicatedTestimonials.map((testimonial, index) => (
+          <TestimonialCard
+            key={index}
+            testimonial={testimonial}
+            anonymousLabel={anonymousLabel}
+            index={index}
+          />
+        ))}
+      </div>
+      <style jsx>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .animate-scroll {
+          animation: scroll 60s linear infinite;
+        }
+      `}</style>
+    </div>
+  );
+}
