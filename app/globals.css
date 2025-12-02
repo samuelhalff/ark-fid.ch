@@ -31,12 +31,9 @@
     --breakpoint-xl: 1200px;
   }
 
-  /* Force GPU acceleration for animations to avoid layout thrashing */
-  [class*="animate-"],
-  [class*="transition-"] {
-    will-change: transform, opacity;
-    transform: translateZ(0);
-  }
+  /* GPU acceleration: apply selectively to heavy animations only */
+  /* Removed blanket will-change rule - it causes memory issues on mobile */
+  /* Apply will-change only to specific elements that benefit from it */
 
   .dark {
     --background: 0.145 0 0;
@@ -212,4 +209,44 @@
   -webkit-hyphens: auto;
   -ms-hyphens: auto;
   hyphens: auto;
+}
+
+/* FAQ summary marker removal */
+summary.faq-summary::-webkit-details-marker {
+  display: none;
+}
+
+summary.faq-summary::marker {
+  content: "";
+}
+
+.faq-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Testimonials carousel scroll animation */
+@keyframes testimonials-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-testimonials-scroll {
+  animation: testimonials-scroll 60s linear infinite;
+  will-change: transform; /* GPU acceleration for smooth scrolling */
+}
+
+.animate-testimonials-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-testimonials-scroll {
+    animation: none;
+  }
 }

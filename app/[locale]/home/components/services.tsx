@@ -18,6 +18,7 @@ const ArrowUpRightIcon = ({ className }: { className?: string }) => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className={className}
+    aria-hidden="true"
   >
     <path d="M7 17 17 7" />
     <polyline points="7 7 17 7 17 17" />
@@ -45,30 +46,6 @@ const Services = async ({
       id="services"
       className="max-w-[var(--breakpoint-xl)] mx-auto w-full py-8 xs:py-12 px-6"
     >
-      <style>{`
-        .service-toggle-input + label .service-toggle__less {
-          display: none;
-        }
-        .service-toggle-input:checked + label .service-toggle__less {
-          display: inline;
-        }
-        .service-toggle-input:checked + label .service-toggle__more {
-          display: none;
-        }
-        .service-toggle-input:checked + label .service-toggle__icon {
-          transform: rotate(90deg);
-        }
-        .service-toggle-content {
-          max-height: 0;
-          overflow: hidden;
-          margin-top: 0;
-          transition: max-height 0.3s ease, margin-top 0.3s ease;
-        }
-        .service-toggle-input:checked ~ .service-toggle-content {
-          max-height: 600px;
-          margin-top: 0.75rem;
-        }
-      `}</style>
       {showHeading && (
         <>
           <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight max-w-4xl mx-auto text-center mb-10">

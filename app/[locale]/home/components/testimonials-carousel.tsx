@@ -95,8 +95,8 @@ function TestimonialCard({
   const avatarPath = isNamed
     ? "/assets/testimonials/avatar.avif"
     : index % 2 === 0
-    ? "/assets/testimonials/avatar.avif"
-    : "/assets/testimonials/avatar-female.avif";
+      ? "/assets/testimonials/avatar.avif"
+      : "/assets/testimonials/avatar-female.avif";
   const avatarSrc = testimonialAvatarMap[avatarPath];
 
   return (
@@ -104,9 +104,9 @@ function TestimonialCard({
       aria-label={`Review by ${authorName}`}
       className="shrink-0 w-[350px] sm:w-[420px] lg:w-[480px]"
     >
-      <div className="h-full rounded-xl bg-muted/20 dark:bg-white/[0.03] border border-border/20 dark:border-white/[0.08] p-6 transition-colors duration-200 hover:bg-muted/35 dark:hover:bg-white/[0.06]">
+      <figure className="h-full rounded-xl bg-muted/20 dark:bg-white/[0.03] border border-border/20 dark:border-white/[0.08] p-6 transition-colors duration-200 hover:bg-muted/35 dark:hover:bg-white/[0.06] m-0">
         {/* Header with avatar, name, company and rating */}
-        <div className="flex items-start justify-between gap-4 mb-4">
+        <figcaption className="flex items-start justify-between gap-4 mb-4">
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <div className="w-11 h-11 shrink-0 rounded-full bg-white flex items-center justify-center">
               <Image
@@ -114,18 +114,19 @@ function TestimonialCard({
                 alt=""
                 width={40}
                 height={40}
-                sizes="40px"
-                quality={50}
-                loading="lazy"
-                placeholder="blur"
                 className="w-10 h-10 rounded-full"
                 aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+                placeholder="blur"
+                sizes="40px"
+                quality={50}
               />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="font-semibold text-base text-foreground">
+              <cite className="font-semibold text-base text-foreground not-italic block">
                 {authorName}
-              </p>
+              </cite>
               {isNamed && testimonial.company ? (
                 <p className="text-sm text-muted-foreground">
                   {testimonial.company}
@@ -138,13 +139,13 @@ function TestimonialCard({
             </div>
           </div>
           <StarRating rating={effectiveRating} />
-        </div>
+        </figcaption>
 
         {/* Testimonial quote */}
         <blockquote className="text-[15px] text-foreground/80 leading-relaxed">
           <p>&quot;{testimonial.testimonial}&quot;</p>
         </blockquote>
-      </div>
+      </figure>
     </article>
   );
 }
@@ -167,14 +168,12 @@ export default function TestimonialsCarousel({
   return (
     <div className="w-full overflow-hidden relative">
       {/* Left fade gradient */}
-      <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" aria-hidden="true" />
       {/* Right fade gradient */}
-      <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" aria-hidden="true" />
       <div
-        className="flex gap-6 animate-scroll hover:[animation-play-state:paused]"
-        style={{
-          width: "max-content",
-        }}
+        className="flex gap-6 animate-testimonials-scroll"
+        style={{ width: "max-content" }}
       >
         {duplicatedTestimonials.map((testimonial, index) => (
           <TestimonialCard
@@ -185,19 +184,6 @@ export default function TestimonialsCarousel({
           />
         ))}
       </div>
-      <style jsx>{`
-        @keyframes scroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        .animate-scroll {
-          animation: scroll 60s linear infinite;
-        }
-      `}</style>
     </div>
   );
 }

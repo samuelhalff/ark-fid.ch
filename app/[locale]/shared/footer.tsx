@@ -219,7 +219,8 @@ const Footer = async ({ locale }: { locale?: string }) => {
         {/* Copyright */}
         <span className="w-full text-center xs:text-start text-sm text-muted-foreground">
           {tFooter("Ark Fiduciaire SA")} - {tFooter("Copyright")} -{" "}
-          {new Date().getFullYear()} <br />
+          <span suppressHydrationWarning>{new Date().getFullYear()}</span>{" "}
+          <br />
         </span>
       </div>
     </footer>

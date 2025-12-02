@@ -36,13 +36,12 @@ export default async function LocaleLayout({
   // NOTE: Root layout (`app/layout.tsx`) is responsible for <html> and <body>.
   // Nested layouts must NOT render html/body. Keep this layout minimal so
   // providers (ThemeProvider) and NavBar remain singletons in the root.
-  const Navbar = (await import("@/src/components/navigation/NavbarServer"))
+  const Navbar = (await import("@/src/components/navigation/NavbarClient"))
     .default;
   // Stream the footer as a Server Component using suspense to improve TTFB
-  const Footer = nextDynamic(
-    () => import("@/app/[locale]/shared/footer"),
-    { suspense: true }
-  );
+  const Footer = nextDynamic(() => import("@/app/[locale]/shared/footer"), {
+    suspense: true,
+  });
 
   // Prepare server-side translated navigation labels and services list to avoid SSR key leakage
   const tNavbar = await getTranslations(activeLocale, "navbar");

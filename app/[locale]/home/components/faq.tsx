@@ -13,6 +13,7 @@ const PlusIcon = ({ className }: { className?: string }) => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
+    aria-hidden="true"
   >
     <path d="M5 12h14" />
     <path d="M12 5v14" />
@@ -48,17 +49,13 @@ export default async function FAQ() {
       id="faq"
       className="w-full max-w-[var(--breakpoint-xl)] mx-auto py-8 xs:py-16 px-6 mb-10"
     >
-      {/* Hide default summary markers across browsers to avoid double icons */}
-      <style>{`
-        summary.faq-summary::-webkit-details-marker { display: none; }
-        summary.faq-summary::marker { content: ""; }
-        .faq-icon svg { width: 16px; height: 16px; }
-      `}</style>
       <h2 className="text-center text-3xl xs:text-4xl md:text-5xl leading-[1.15]! font-bold tracking-tighter max-w-4xl mx-auto">
         {tidyTitle(title)}
       </h2>
       {subtitle && (
-        <p className="mt-1.5 text-center xs:text-lg max-w-2xl mx-auto">{subtitle}</p>
+        <p className="mt-1.5 text-center xs:text-lg max-w-2xl mx-auto">
+          {subtitle}
+        </p>
       )}
       <p className="mt-1 text-center text-sm text-muted-foreground">
         <span>{(t("LastUpdated") as string) || "dernière mise à jour"}</span>{" "}
@@ -72,15 +69,16 @@ export default async function FAQ() {
       </p>
 
       {/* Use CSS columns; add explicit columnGap to ensure spacing even if async CSS is delayed */}
-      <div className="mt-8 columns-1 md:columns-2" style={{ columnGap: '1rem' }}>
+      <div
+        className="mt-8 columns-1 md:columns-2"
+        style={{ columnGap: "1rem" }}
+      >
         {items.map(({ q, a, questionKey }) => (
           <details
             key={questionKey}
             className="group bg-accent rounded-xl px-5 py-3 open:shadow-sm transition-shadow mb-4 break-inside-avoid"
           >
-            <summary
-              className="faq-summary flex items-center justify-between gap-4 cursor-pointer select-none py-1 pr-2"
-            >
+            <summary className="faq-summary flex items-center justify-between gap-4 cursor-pointer select-none py-1 pr-2">
               <h3 className="font-semibold tracking-tight text-lg leading-snug">
                 {q}
               </h3>

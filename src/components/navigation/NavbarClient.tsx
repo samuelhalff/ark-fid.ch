@@ -17,7 +17,7 @@ const MobileMenuIsland = dynamic(
   { ssr: false, loading: () => null }
 );
 
-export default function NavbarServer({
+export default function NavbarClient({
   locale,
   navData,
 }: {

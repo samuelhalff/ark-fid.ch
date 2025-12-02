@@ -6,12 +6,12 @@ import { tidyTitle } from "@/src/lib/typography";
 const TestimonialsCarousel = dynamic(() => import("./testimonials-carousel"), {
   ssr: false,
   loading: () => (
-    <div className="w-full max-w-[var(--breakpoint-xl)] mx-auto px-6">
-      <div className="flex gap-4 overflow-hidden">
-        {[1, 2, 3, 4].map((i) => (
+    <div className="w-full overflow-hidden relative">
+      <div className="flex gap-6">
+        {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="shrink-0 w-[280px] sm:w-[320px] h-[180px] bg-muted/50 rounded-lg animate-pulse"
+            className="shrink-0 w-[350px] sm:w-[420px] lg:w-[480px] h-[180px] bg-muted/30 rounded-xl animate-pulse"
           />
         ))}
       </div>
