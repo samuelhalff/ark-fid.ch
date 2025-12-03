@@ -2,6 +2,7 @@ import React from "react";
 import { type Metadata } from "next";
 import { headers } from "next/headers";
 import { Suspense } from "react";
+import Link from "next/link";
 import nextDynamic from "next/dynamic";
 const ResourceGrid = nextDynamic(() => import("./components/ResourceGrid"), {
   suspense: true,
@@ -170,10 +171,7 @@ export default async function RessourcesPage({
   const showMoreArticles = articlesLimit < articlesCanonical.length;
   const nextArticles = Math.min(articlesLimit + step, articlesCanonical.length);
 
-  const buildHref = (
-    next: { articles?: number | "all" },
-    hash?: string
-  ) => {
+  const buildHref = (next: { articles?: number | "all" }, hash?: string) => {
     const params = new URLSearchParams();
     const current = searchParams ?? {};
     const resolveValue = (
@@ -227,7 +225,7 @@ export default async function RessourcesPage({
           }),
         }}
       />
-      <nav aria-label="Breadcrumb" className="mt-4 mb-6">
+      <nav aria-label="Breadcrumb" className="mt-8 mb-8">
         <ol className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
           <li>
             <a
@@ -245,14 +243,17 @@ export default async function RessourcesPage({
           </li>
         </ol>
       </nav>
-      <section className="mb-12">
-        <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-4">
+      <section className="mb-16 relative py-8 px-6 md:px-8">
+        {/* Decorative gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 dark:from-primary/10 dark:to-primary/10 rounded-3xl -z-10" />
+
+        <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-5 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
           {ressources.IntroTitle || "Resources"}
         </h1>
-        <p className="text-lg max-w-[700px]">
+        <p className="text-lg text-muted-foreground">
           {ressources.IntroText || "Helpful resources and documents"}
         </p>
-        <p className="text-sm mt-4 max-w-[720px] text-muted-foreground leading-relaxed">
+        <p className="text-sm mt-5 text-muted-foreground/80 leading-relaxed">
           {[
             {
               label: links.Accounting || "accounting",
@@ -277,10 +278,13 @@ export default async function RessourcesPage({
         </p>
       </section>
 
-      <section id="articles" className="mb-16">
-        <h2 className="text-2xl font-semibold mb-6">
-          {ressources.ArticlesTitle || "Articles"}
-        </h2>
+      <section id="articles" className="mb-20">
+        <div className="flex items-center gap-4 mb-8">
+          <h2 className="text-2xl font-semibold">
+            {ressources.ArticlesTitle || "Articles"}
+          </h2>
+          <div className="flex-1 h-px bg-gradient-to-r from-border to-transparent" />
+        </div>
         <Suspense
           fallback={
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
@@ -298,18 +302,20 @@ export default async function RessourcesPage({
         </Suspense>
         {showMoreArticles && (
           <div className="flex items-center gap-3 justify-center mt-6">
-            <a
+            <Link
               className="px-4 py-2 border rounded-md text-sm hover:bg-muted"
               href={buildHref({ articles: nextArticles }, "articles")}
+              scroll={false}
             >
               {ressources.LoadMoreArticles || "Load more articles"}
-            </a>
-            <a
+            </Link>
+            <Link
               className="px-3 py-2 text-xs text-muted-foreground hover:underline"
               href={buildHref({ articles: "all" }, "articles")}
+              scroll={false}
             >
               {ressources.ShowAllArticles || "Show all"}
-            </a>
+            </Link>
           </div>
         )}
       </section>
