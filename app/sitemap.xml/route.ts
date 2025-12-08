@@ -6,10 +6,10 @@ import path from 'path';
 
 const BASE = 'https://ark-fid.ch';
 // static routes
-const staticPaths = ['/', '/about', '/services', '/ressources', '/contact', '/team', '/legal/terms', '/legal/privacy', '/legal/cookies'];
+const staticPaths = ['/', '/about', '/services', '/ressources', '/contact', '/team', '/partners', '/legal/terms', '/legal/privacy', '/legal/cookies'];
 
 // dynamic routes
-const servicePaths = ['/services/accounting', '/services/taxes', '/services/payroll', '/services/incorporation', '/services/outsourcing', '/services/corporate', '/services/domiciliation'];
+const servicePaths = ['/services/accounting', '/services/taxes', '/services/payroll', '/services/incorporation', '/services/outsourcing', '/services/corporate', '/services/domiciliation', '/services/odoo', '/services/family-office', '/services/mergers-acquisitions'];
 
 // Enumerate articles from the canonical English translations JSON
 // Shape: { Articles: [{ slug, date, ... }] }
@@ -53,7 +53,8 @@ export async function GET() {
     return locales.map((locale) => {
       const basePath = p === '/' ? '' : p;
       const localized = basePath ? localizePath(basePath, locale as any) : '';
-      const loc = `${BASE}/${locale}${localized}`;
+      // Add trailing slash to match trailingSlash: true in next.config.js
+      const loc = `${BASE}/${locale}${localized}/`;
       const lastmod = pObj.date || defaultLastmod;
       // derive changefreq/priority
       const isHome = p === '/';
@@ -69,14 +70,16 @@ export async function GET() {
         ...locales.map((alt) => {
           const altPathBase = p === '/' ? '' : p;
           const altLocalized = altPathBase ? localizePath(altPathBase, alt as any) : '';
-          const href = `${BASE}/${alt}${altLocalized}`;
+          // Add trailing slash to alternate hrefs
+          const href = `${BASE}/${alt}${altLocalized}/`;
           return `    <xhtml:link rel="alternate" hreflang="${escapeXml(alt)}" href="${escapeXml(href)}"/>`;
         }),
         // x-default points to FR per canonical policy
         (() => {
           const altPathBase = p === '/' ? '' : p;
           const altLocalized = altPathBase ? localizePath(altPathBase, 'fr' as any) : '';
-          const href = `${BASE}/fr${altLocalized}`;
+          // Add trailing slash to x-default href
+          const href = `${BASE}/fr${altLocalized}/`;
           return `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(href)}"/>`;
         })(),
       ].join('\n');

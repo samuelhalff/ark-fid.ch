@@ -106,7 +106,8 @@ export function middleware(request: NextRequest) {
   // If no locale in the path, redirect to the path with detected locale
   const locale = getLocale(request);
   const redirectUrl = new URL(`/${locale}${pathname}`, request.url);
-  const response = NextResponse.redirect(redirectUrl);
+  // Use 308 permanent redirect for SEO - tells search engines not to index non-locale URLs
+  const response = NextResponse.redirect(redirectUrl, 308);
   response.headers.set("x-nonce", nonce);
   response.headers.set("x-pathname", pathname);
   response.headers.set("Content-Security-Policy", csp);
