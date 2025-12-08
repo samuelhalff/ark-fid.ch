@@ -50,14 +50,14 @@ function checkSitemapRoute() {
     const content = fs.readFileSync(sitemapPath, 'utf8');
     
     // The sitemap generates URLs like: const loc = `${BASE}/${locale}${localized}`
-    // Since localizePath removes trailing slashes, and the config has trailingSlash: true,
-    // we should check if trailing slashes are explicitly added in the sitemap generation.
-    // Note: Next.js may handle this automatically based on trailingSlash config,
-    // but for explicit SEO compliance, URLs should have trailing slashes in the sitemap.
+    // where localized is the result of localizePath which normalizes paths by removing trailing slashes.
+    // With trailingSlash: true in next.config.js, Next.js should add trailing slashes during routing,
+    // but for optimal SEO, URLs should explicitly include trailing slashes in the sitemap XML.
     
     // Look for URL generation patterns - checking if the file contains loc assignment
     const hasLocAssignment = content.includes('const loc = ') || content.includes('let loc = ');
-    const hasTrailingSlash = /\$\{[^}]+\}\/[`'"]/.test(content) || content.includes("+ '/'") || content.includes('+ "/"');
+    // Check if trailing slashes are explicitly added (e.g., ${localized}/ or + '/')
+    const hasTrailingSlash = /\$\{localized\}\//.test(content) || content.includes("+ '/'") || content.includes('+ "/"');
     
     if (hasLocAssignment) {
       if (hasTrailingSlash) {
