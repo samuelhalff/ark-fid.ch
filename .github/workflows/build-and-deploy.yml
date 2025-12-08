@@ -52,6 +52,10 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=4096
         run: npm run build
 
+      - name: Validate SEO configuration (non-blocking)
+        continue-on-error: true
+        run: node scripts/validate-seo.js
+
       - name: Prepare artifact
         run: bash scripts/prepare-artifact.sh
 
@@ -229,3 +233,15 @@ jobs:
           done
 
           echo "[deploy] Deployment completed successfully"
+
+      - name: Validate live sitemap (non-blocking)
+        continue-on-error: true
+        run: |
+          echo "Checking sitemap format..."
+          curl -s "https://ark-fid.ch/sitemap.xml" | head -50
+          # Check if URLs have trailing slashes by looking for paths ending with / before </loc>
+          if curl -s "https://ark-fid.ch/sitemap.xml" | grep -E '<loc>https://[^<]+/</loc>' | head -1; then
+            echo "✅ Sitemap URLs have trailing slashes"
+          else
+            echo "⚠️ WARNING: Sitemap URLs may be missing trailing slashes"
+          fi
