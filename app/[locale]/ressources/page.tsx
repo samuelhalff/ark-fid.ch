@@ -341,9 +341,30 @@ export default async function RessourcesPage({
 
 export async function generateMetadata({
   params: { locale },
+  searchParams,
 }: {
   params: { locale: string };
+  searchParams?: ArticlesSearchParams;
 }): Promise<Metadata> {
   const targetLocale = isValidLocale(locale) ? locale : "fr";
-  return await generateMetadataForPage(targetLocale, "/ressources");
+  const baseMetadata = await generateMetadataForPage(targetLocale, "/ressources");
+  
+  // If there are query parameters, add robots noindex to prevent duplicate content
+  const hasQueryParams = searchParams && Object.keys(searchParams).length > 0;
+  
+  if (hasQueryParams) {
+    return {
+      ...baseMetadata,
+      robots: {
+        index: false,
+        follow: true,
+        googleBot: {
+          index: false,
+          follow: true,
+        },
+      },
+    };
+  }
+  
+  return baseMetadata;
 }

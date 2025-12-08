@@ -40,6 +40,118 @@ const baseConfig = {
   async redirects() {
     // Redirect old FR English-slugged URLs to localized French slugs
     return [
+      // Redirect non-locale service URLs to French locale equivalents
+      {
+        source: "/services/accounting",
+        destination: "/fr/services/comptabilite/",
+        permanent: true,
+      },
+      {
+        source: "/services/accounting/",
+        destination: "/fr/services/comptabilite/",
+        permanent: true,
+      },
+      {
+        source: "/services/taxes",
+        destination: "/fr/services/fiscalite/",
+        permanent: true,
+      },
+      {
+        source: "/services/taxes/",
+        destination: "/fr/services/fiscalite/",
+        permanent: true,
+      },
+      {
+        source: "/services/payroll",
+        destination: "/fr/services/paie/",
+        permanent: true,
+      },
+      {
+        source: "/services/payroll/",
+        destination: "/fr/services/paie/",
+        permanent: true,
+      },
+      {
+        source: "/services/incorporation",
+        destination: "/fr/services/constitution-entreprise/",
+        permanent: true,
+      },
+      {
+        source: "/services/incorporation/",
+        destination: "/fr/services/constitution-entreprise/",
+        permanent: true,
+      },
+      {
+        source: "/services/outsourcing",
+        destination: "/fr/services/externalisation/",
+        permanent: true,
+      },
+      {
+        source: "/services/outsourcing/",
+        destination: "/fr/services/externalisation/",
+        permanent: true,
+      },
+      {
+        source: "/services/corporate",
+        destination: "/fr/services/services-corporatifs/",
+        permanent: true,
+      },
+      {
+        source: "/services/corporate/",
+        destination: "/fr/services/services-corporatifs/",
+        permanent: true,
+      },
+      {
+        source: "/services/domiciliation",
+        destination: "/fr/services/domiciliation/",
+        permanent: true,
+      },
+      {
+        source: "/services/domiciliation/",
+        destination: "/fr/services/domiciliation/",
+        permanent: true,
+      },
+      {
+        source: "/services/odoo",
+        destination: "/fr/services/odoo/",
+        permanent: true,
+      },
+      {
+        source: "/services/odoo/",
+        destination: "/fr/services/odoo/",
+        permanent: true,
+      },
+      {
+        source: "/services/family-office",
+        destination: "/fr/services/family-office/",
+        permanent: true,
+      },
+      {
+        source: "/services/family-office/",
+        destination: "/fr/services/family-office/",
+        permanent: true,
+      },
+      {
+        source: "/services/mergers-acquisitions",
+        destination: "/fr/services/fusions-acquisitions/",
+        permanent: true,
+      },
+      {
+        source: "/services/mergers-acquisitions/",
+        destination: "/fr/services/fusions-acquisitions/",
+        permanent: true,
+      },
+      {
+        source: "/services/paie",
+        destination: "/fr/services/paie/",
+        permanent: true,
+      },
+      {
+        source: "/services/paie/",
+        destination: "/fr/services/paie/",
+        permanent: true,
+      },
+      // Redirect old FR English-slugged URLs to localized French slugs
       {
         source: "/fr/services/accounting",
         destination: "/fr/services/comptabilite",
