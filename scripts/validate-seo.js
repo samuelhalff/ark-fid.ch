@@ -55,9 +55,12 @@ function checkSitemapRoute() {
     // Note: Next.js may handle this automatically based on trailingSlash config,
     // but for explicit SEO compliance, URLs should have trailing slashes in the sitemap.
     
-    if (content.match(/const loc = [`"].*\$\{.*\}[`"][\s;]/)) {
-      // Check if there's an explicit trailing slash before the closing quote
-      if (content.match(/\$\{[^}]+\}\/[`"]/) || content.includes("+ '/'")) {
+    // Look for URL generation patterns
+    const urlGenPattern = /const loc = [`'"].*\$\{.*\}[`'"][;\s]/;
+    const hasTrailingSlash = /\}\/[`'"]/.test(content) || content.includes("+ '/'") || content.includes('+ "/"');
+    
+    if (urlGenPattern.test(content)) {
+      if (hasTrailingSlash) {
         success('Sitemap route explicitly adds trailing slashes to URLs');
       } else {
         warn('Sitemap route does not explicitly add trailing slashes to generated URLs. Next.js may handle this based on trailingSlash config, but explicit trailing slashes in sitemap XML are recommended for SEO.');

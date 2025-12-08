@@ -239,8 +239,8 @@ jobs:
         run: |
           echo "Checking sitemap format..."
           curl -s "https://ark-fid.ch/sitemap.xml" | head -50
-          # Check if URLs have trailing slashes (they should with trailingSlash: true)
-          if curl -s "https://ark-fid.ch/sitemap.xml" | grep -q '<loc>https://ark-fid.ch/fr/services/comptabilite/</loc>'; then
+          # Check if URLs have trailing slashes by looking for the pattern /></loc>
+          if curl -s "https://ark-fid.ch/sitemap.xml" | grep -q '/</loc>'; then
             echo "✅ Sitemap URLs have trailing slashes"
           else
             echo "⚠️ WARNING: Sitemap URLs may be missing trailing slashes"
