@@ -49,12 +49,21 @@ function checkSitemapRoute() {
     const sitemapPath = path.join(process.cwd(), 'app', 'sitemap.xml', 'route.ts');
     const content = fs.readFileSync(sitemapPath, 'utf8');
     
-    // Check if URLs are generated with trailing slashes
-    // Look for patterns like: const loc = `${BASE}/${locale}${localized}/`
-    if (content.includes('${localized}/') || content.includes("localized + '/'")) {
-      success('Sitemap route appears to generate URLs with trailing slashes');
-    } else if (content.includes('${localized}`') && !content.includes('${localized}/`')) {
-      warn('Sitemap route may not be generating URLs with trailing slashes');
+    // The sitemap generates URLs like: const loc = `${BASE}/${locale}${localized}`
+    // Since localizePath removes trailing slashes, and the config has trailingSlash: true,
+    // we should check if trailing slashes are explicitly added in the sitemap generation.
+    // Note: Next.js may handle this automatically based on trailingSlash config,
+    // but for explicit SEO compliance, URLs should have trailing slashes in the sitemap.
+    
+    if (content.match(/const loc = [`"].*\$\{.*\}[`"][\s;]/)) {
+      // Check if there's an explicit trailing slash before the closing quote
+      if (content.match(/\$\{[^}]+\}\/[`"]/) || content.includes("+ '/'")) {
+        success('Sitemap route explicitly adds trailing slashes to URLs');
+      } else {
+        warn('Sitemap route does not explicitly add trailing slashes to generated URLs. Next.js may handle this based on trailingSlash config, but explicit trailing slashes in sitemap XML are recommended for SEO.');
+      }
+    } else {
+      success('Sitemap route structure checked');
     }
     
     return true;
