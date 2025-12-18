@@ -71,8 +71,12 @@ Ark Fiduciaire is a new brand (founded 2025 through strategic union of two firms
    oldfirm1.ch/services/accounting  → ark-fid.ch/services/accounting
    oldfirm2.ch/comptabilite         → ark-fid.ch/services/accounting
    ```
-3. Implement 301 redirects at DNS/hosting level (not just meta refresh)
-4. Verify redirects using: `curl -I https://old-domain.ch`
+3. **Not applicable** — there is no legacy website to redirect. Instead, focus on authority transfer via:
+   - Press release / merger announcement to local media and industry outlets
+   - Updating directory listings (local.ch, search.ch, ExpertSuisse)
+   - Verifying Google Business Profiles and requesting reviews from legacy clients
+   - Ensuring partner listings (Odoo, associations) point to `https://ark-fid.ch`
+4. Verify forward-looking tasks using: `curl -I https://ark-fid.ch/` and monitor Search Console for index coverage
 
 **Risk if not done:** You've lost years of SEO "juice" and domain authority.
 
@@ -266,7 +270,7 @@ Ark Fiduciaire is a new brand (founded 2025 through strategic union of two firms
 1. **Update LinkedIn profiles** of all partners to link to ark-fid.ch ⏱️ 15 min
 2. **Claim Google Business Profile** for Geneva + Lausanne ⏱️ 30 min
 3. **Verify Odoo partner link** points to new domain ⏱️ 5 min
-4. **Check 301 redirects** from legacy domains (if already set up) ⏱️ 10 min
+4. **Submit sitemap to Google Search Console & verify property** ⏱️ 10 min
 5. **Test schema markup** on homepage using Google Rich Results Test ⏱️ 5 min
 
 **Total time investment:** ~65 minutes
