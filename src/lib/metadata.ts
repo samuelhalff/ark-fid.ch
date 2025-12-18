@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Locale, locales } from "./i18n";
 import { localizePath } from "./paths";
+import { hreflangFor } from "./hreflang";
 import fs from 'fs';
 import { join as pathJoin } from 'path';
 
@@ -49,20 +50,8 @@ async function loadMetadataConfig(locale: Locale): Promise<MetadataConfig> {
   return primary ?? fallback!;
 }
 
-const hreflangFor = (loc: Locale): string => {
-  switch (loc) {
-    case 'fr':
-      return 'fr-CH';
-    case 'de':
-      return 'de-CH';
-    case 'es':
-      return 'es-ES';
-    case 'pt':
-      return 'pt-PT';
-    default:
-      return 'en';
-  }
-};
+const withTrailingSlash = (value: string) =>
+  value.endsWith("/") ? value : `${value}/`;
 
 // Parse placeholder locales from env (e.g., PLACEHOLDER_LOCALES="es,pt").
 function getPlaceholderLocales(): Set<Locale> {
@@ -103,10 +92,10 @@ export async function getPageMetadata(
   
   // Generate locale-aware URLs (all locales have prefix in our setup, but slugs may differ per locale)
   const localizedCanonical = localizePath(path, locale);
-  const canonicalPath = `/${locale}${localizedCanonical}`;
+  const canonicalPath = withTrailingSlash(`/${locale}${localizedCanonical}`);
   const alternateUrls = locales.reduce((acc, loc) => {
     const localized = localizePath(path, loc);
-    const locPath = `/${loc}${localized}`;
+    const locPath = withTrailingSlash(`/${loc}${localized}`);
     const key = hreflangFor(loc);
     acc[key] = `https://ark-fid.ch${locPath}`;
     return acc;
@@ -202,7 +191,11 @@ export async function getPageMetadata(
     alternates: {
       canonical: `https://ark-fid.ch${canonicalPath}`,
       languages: Object.assign(
-        { 'x-default': `https://ark-fid.ch/fr${localizePath(path, 'fr' as Locale)}` },
+        {
+          'x-default': `https://ark-fid.ch${withTrailingSlash(
+            `/fr${localizePath(path, 'fr' as Locale)}`
+          )}`,
+        },
         alternateUrls
       ),
     },

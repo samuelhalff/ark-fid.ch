@@ -105,7 +105,15 @@ export function middleware(request: NextRequest) {
 
   // If no locale in the path, redirect to the path with detected locale
   const locale = getLocale(request);
-  const redirectUrl = new URL(`/${locale}${pathname}`, request.url);
+  // Ensure we redirect directly to the trailing-slash URL to avoid redirect chains
+  // when `trailingSlash: true` is enabled in next.config.js.
+  let targetPath = `/${locale}${pathname}`;
+  if (!targetPath.endsWith("/")) {
+    targetPath += "/";
+  }
+  const redirectUrl = new URL(targetPath, request.url);
+  // Preserve query parameters (e.g. ?utm_source=..., ?articles=43)
+  redirectUrl.search = request.nextUrl.search;
   // Use 308 permanent redirect for SEO - tells search engines not to index non-locale URLs
   const response = NextResponse.redirect(redirectUrl, 308);
   response.headers.set("x-nonce", nonce);

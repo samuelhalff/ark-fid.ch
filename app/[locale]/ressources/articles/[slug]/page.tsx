@@ -93,6 +93,10 @@ export default async function ArticlePage({ params }: Params) {
   const localArticle = ressources.Articles.find(
     (article) => article.slug === params.slug
   );
+  // If a translation is missing, return a real 404 instead of rendering fallback content.
+  // This prevents "soft 404" reports for locale-specific URLs.
+  if (locale !== "fr" && !localArticle) return notFound();
+
   const frArticle = fr.Articles.find((article) => article.slug === params.slug);
   const article = localArticle ?? frArticle;
   if (!article) return notFound();
@@ -118,7 +122,7 @@ export default async function ArticlePage({ params }: Params) {
   }
 
   const baseUrl = "https://ark-fid.ch";
-  const articleUrl = `${baseUrl}/${locale}/ressources/articles/${params.slug}`;
+  const articleUrl = `${baseUrl}/${locale}/ressources/articles/${params.slug}/`;
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -396,6 +400,11 @@ export async function generateMetadata({ params }: Params) {
   const localArticle = ressources.Articles.find(
     (article) => article.slug === params.slug
   );
+  if (locale !== "fr" && !localArticle) {
+    return {
+      robots: { index: false, follow: false },
+    };
+  }
   const frArticle = fr.Articles.find((article) => article.slug === params.slug);
   const article = localArticle ?? frArticle;
   if (!article) return {};

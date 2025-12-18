@@ -14,13 +14,13 @@ export function buildFAQPage(entries: FAQEntry[], limit?: number) {
     .filter((e) => e.question && e.answer)
     .slice(0, limit || entries.length)
     .map((e) => ({
-      '@type': 'Question',
+      "@type": "Question",
       name: e.question,
-      acceptedAnswer: { '@type': 'Answer', text: e.answer },
+      acceptedAnswer: { "@type": "Answer", text: e.answer },
     }));
   return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
     mainEntity: list,
   } as const;
 }
@@ -51,27 +51,34 @@ export interface HowToConfig {
 
 export function buildHowTo(cfg: HowToConfig) {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'HowTo',
+    "@context": "https://schema.org",
+    "@type": "HowTo",
     name: cfg.name,
     description: cfg.description,
     ...(cfg.totalTime ? { totalTime: cfg.totalTime } : {}),
     ...(cfg.estimatedCost
       ? {
           estimatedCost: {
-            '@type': 'MonetaryAmount',
+            "@type": "MonetaryAmount",
             currency: cfg.estimatedCost.currency,
             value: cfg.estimatedCost.value,
             ...(cfg.estimatedCost.name ? { name: cfg.estimatedCost.name } : {}),
           },
         }
       : {}),
-    ...(cfg.tools ? { tool: cfg.tools.map((t) => ({ '@type': 'HowToTool', name: t })) } : {}),
+    ...(cfg.tools
+      ? { tool: cfg.tools.map((t) => ({ "@type": "HowToTool", name: t })) }
+      : {}),
     ...(cfg.supplies
-      ? { supply: cfg.supplies.map((s) => ({ '@type': 'HowToSupply', name: s })) }
+      ? {
+          supply: cfg.supplies.map((s) => ({
+            "@type": "HowToSupply",
+            name: s,
+          })),
+        }
       : {}),
     step: cfg.steps.map((s, idx) => ({
-      '@type': 'HowToStep',
+      "@type": "HowToStep",
       position: idx + 1,
       name: s.name,
       ...(s.text ? { text: s.text } : {}),
@@ -89,10 +96,10 @@ export interface BreadcrumbItem {
 
 export function buildBreadcrumbList(items: BreadcrumbItem[]) {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
     itemListElement: items.map((it, i) => ({
-      '@type': 'ListItem',
+      "@type": "ListItem",
       position: i + 1,
       name: it.name,
       item: it.item,
@@ -108,15 +115,17 @@ export interface OrganizationAggregateRatingConfig {
   logo?: string;
 }
 
-export function buildOrganizationAggregateRating(cfg: OrganizationAggregateRatingConfig) {
+export function buildOrganizationAggregateRating(
+  cfg: OrganizationAggregateRatingConfig
+) {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
+    "@context": "https://schema.org",
+    "@type": "Organization",
     name: cfg.name,
     url: cfg.url,
     ...(cfg.logo ? { logo: cfg.logo } : {}),
     aggregateRating: {
-      '@type': 'AggregateRating',
+      "@type": "AggregateRating",
       ratingValue: cfg.ratingValue,
       reviewCount: cfg.reviewCount,
     },
@@ -126,13 +135,13 @@ export function buildOrganizationAggregateRating(cfg: OrganizationAggregateRatin
 export function buildWebSiteSearchAction(siteUrl: string) {
   // Potential future enhancement – not wired yet.
   return {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
+    "@context": "https://schema.org",
+    "@type": "WebSite",
     url: siteUrl,
     potentialAction: {
-      '@type': 'SearchAction',
+      "@type": "SearchAction",
       target: `${siteUrl}/search?q={search_term_string}`,
-      'query-input': 'required name=search_term_string',
+      "query-input": "required name=search_term_string",
     },
   } as const;
 }
@@ -148,8 +157,8 @@ export interface ServiceSchemaConfig {
 
 export function buildServiceSchema(cfg: ServiceSchemaConfig) {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
+    "@context": "https://schema.org",
+    "@type": "Service",
     name: cfg.name,
     description: cfg.description,
     ...(cfg.serviceType ? { serviceType: cfg.serviceType } : {}),
@@ -158,7 +167,7 @@ export function buildServiceSchema(cfg: ServiceSchemaConfig) {
     ...(cfg.provider
       ? {
           provider: {
-            '@type': 'Organization',
+            "@type": "Organization",
             name: cfg.provider.name,
             ...(cfg.provider.url ? { url: cfg.provider.url } : {}),
             ...(cfg.provider.logo ? { logo: cfg.provider.logo } : {}),
@@ -188,13 +197,14 @@ export interface LocalBusinessConfig {
   openingHours?: string[];
   priceRange?: string;
   areaServed?: string[];
+  sameAs?: string[]; // Social media profiles, Google Maps, etc.
 }
 
 export function buildLocalBusiness(cfg: LocalBusinessConfig) {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    '@id': cfg.url,
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": cfg.url,
     name: cfg.name,
     description: cfg.description,
     url: cfg.url,
@@ -202,21 +212,95 @@ export function buildLocalBusiness(cfg: LocalBusinessConfig) {
     ...(cfg.telephone ? { telephone: cfg.telephone } : {}),
     email: cfg.email,
     address: {
-      '@type': 'PostalAddress',
+      "@type": "PostalAddress",
       streetAddress: cfg.address.streetAddress,
       postalCode: cfg.address.postalCode,
       addressLocality: cfg.address.addressLocality,
       addressCountry: cfg.address.addressCountry,
     },
-    ...(cfg.geo ? {
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: cfg.geo.latitude,
-        longitude: cfg.geo.longitude,
-      },
-    } : {}),
+    ...(cfg.geo
+      ? {
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: cfg.geo.latitude,
+            longitude: cfg.geo.longitude,
+          },
+        }
+      : {}),
     ...(cfg.openingHours ? { openingHours: cfg.openingHours } : {}),
     ...(cfg.priceRange ? { priceRange: cfg.priceRange } : {}),
     ...(cfg.areaServed ? { areaServed: cfg.areaServed } : {}),
+    ...(cfg.sameAs ? { sameAs: cfg.sameAs } : {}),
+  } as const;
+}
+
+export interface AccountingServiceConfig {
+  name: string;
+  description: string;
+  serviceType: string;
+  url: string; // absolute URL
+  areaServed?: string[];
+  provider?: {
+    name: string;
+    url: string;
+    telephone?: string;
+    email?: string;
+    address?: {
+      streetAddress: string;
+      postalCode: string;
+      addressLocality: string;
+      addressCountry: string;
+    };
+  };
+  offers?: {
+    description: string;
+    priceRange?: string;
+  };
+}
+
+export function buildAccountingService(cfg: AccountingServiceConfig) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    serviceType: cfg.serviceType,
+    name: cfg.name,
+    description: cfg.description,
+    url: cfg.url,
+    ...(cfg.areaServed ? { areaServed: cfg.areaServed } : {}),
+    ...(cfg.provider
+      ? {
+          provider: {
+            "@type": "ProfessionalService",
+            name: cfg.provider.name,
+            url: cfg.provider.url,
+            ...(cfg.provider.telephone
+              ? { telephone: cfg.provider.telephone }
+              : {}),
+            ...(cfg.provider.email ? { email: cfg.provider.email } : {}),
+            ...(cfg.provider.address
+              ? {
+                  address: {
+                    "@type": "PostalAddress",
+                    streetAddress: cfg.provider.address.streetAddress,
+                    postalCode: cfg.provider.address.postalCode,
+                    addressLocality: cfg.provider.address.addressLocality,
+                    addressCountry: cfg.provider.address.addressCountry,
+                  },
+                }
+              : {}),
+          },
+        }
+      : {}),
+    ...(cfg.offers
+      ? {
+          offers: {
+            "@type": "Offer",
+            description: cfg.offers.description,
+            ...(cfg.offers.priceRange
+              ? { priceRange: cfg.offers.priceRange }
+              : {}),
+          },
+        }
+      : {}),
   } as const;
 }

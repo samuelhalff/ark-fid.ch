@@ -186,7 +186,7 @@ export default async function RessourcesPage({
     const articlesParam = resolveValue("articles", next.articles);
     if (articlesParam) params.set("articles", String(articlesParam));
     const query = params.toString();
-    return `/${locale}/ressources${query ? `?${query}` : ""}${
+    return `/${locale}/ressources/${query ? `?${query}` : ""}${
       hash ? `#${hash}` : ""
     }`;
   };

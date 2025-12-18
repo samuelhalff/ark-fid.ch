@@ -93,6 +93,10 @@ export default async function Home({ params }: { params: { locale: string } }) {
     },
     openingHours: ["Mo-Fr 09:00-18:00"],
     areaServed: ["Geneva", "Switzerland", "Genève", "Suisse"],
+    sameAs: [
+      "https://www.linkedin.com/company/ark-fiduciaire/",
+      "https://maps.google.com/?cid=11595836239142935457",
+    ],
   });
 
   const contactStrings = {

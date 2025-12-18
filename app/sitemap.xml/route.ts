@@ -1,44 +1,76 @@
 import { NextResponse } from 'next/server';
-import { locales } from '@/src/lib/i18n'; // adjust exports
+import { locales, type Locale } from '@/src/lib/i18n'; // adjust exports
 import { localizePath } from '@/src/lib/paths';
+import { hreflangFor } from '@/src/lib/hreflang';
 import fs from 'fs';
 import path from 'path';
 
 const BASE = 'https://ark-fid.ch';
+const canonicalLocale = 'fr';
+
+function getPlaceholderLocales(): Set<string> {
+  const raw = process.env.PLACEHOLDER_LOCALES || '';
+  return new Set(
+    raw
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+  );
+}
+
+const placeholderLocales = getPlaceholderLocales();
+const sitemapLocales = locales.filter((locale) => !placeholderLocales.has(locale as any));
 // static routes
 const staticPaths = ['/', '/about', '/services', '/ressources', '/contact', '/team', '/partners', '/legal/terms', '/legal/privacy', '/legal/cookies'];
 
 // dynamic routes
 const servicePaths = ['/services/accounting', '/services/taxes', '/services/payroll', '/services/incorporation', '/services/outsourcing', '/services/corporate', '/services/domiciliation', '/services/odoo', '/services/family-office', '/services/mergers-acquisitions'];
 
-// Enumerate articles from the canonical English translations JSON
+function readRessourcesIndex(locale: string): Array<{ slug: string; date?: string }> {
+  const file = path.join(process.cwd(), 'src', 'translations', locale, 'ressources.json');
+  try {
+    if (!fs.existsSync(file)) return [];
+    const json = JSON.parse(fs.readFileSync(file, 'utf8')) as {
+      Articles?: Array<{ slug: string; date?: string }>;
+    };
+    return Array.isArray(json.Articles) ? json.Articles : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+// Enumerate articles from the canonical locale translations JSON.
 // Shape: { Articles: [{ slug, date, ... }] }
 const ressourcesArticles = (() => {
-  const file = path.join(process.cwd(), 'src', 'translations', 'en', 'ressources.json');
   try {
-    if (fs.existsSync(file)) {
-      const json = JSON.parse(fs.readFileSync(file, 'utf8')) as {
-        Articles?: Array<{ slug: string; date?: string }>
-      };
-      return (json.Articles || []).map((a) => ({
-        path: `/ressources/articles/${a.slug}`,
-        date: a.date,
-      }));
+    const slugsByLocale = new Map<string, Set<string>>();
+    for (const locale of sitemapLocales) {
+      const items = readRessourcesIndex(locale);
+      slugsByLocale.set(locale, new Set(items.map((a) => a.slug)));
     }
+
+    const canonical = readRessourcesIndex(canonicalLocale);
+    const canonicalArticles = canonical.length ? canonical : readRessourcesIndex('en');
+
+    return canonicalArticles.map((a) => ({
+      path: `/ressources/articles/${a.slug}`,
+      date: a.date,
+      locales: sitemapLocales.filter((locale) => slugsByLocale.get(locale)?.has(a.slug)),
+    }));
   } catch (_) {
     // fall through
   }
-  return [] as Array<{ path: string; date?: string }>;
+  return [] as Array<{ path: string; date?: string; locales?: string[] }>;
 })();
 
-type PathEntry = { path: string; date?: string } | string;
+type PathEntry = { path: string; date?: string; locales?: string[] } | string;
 const toPathEntry = (p: PathEntry) => (typeof p === 'string' ? { path: p } : p);
 
 const paths = [
   ...staticPaths.map(toPathEntry),
   ...servicePaths.map(toPathEntry),
   ...ressourcesArticles,
-] as Array<{ path: string; date?: string }>;
+] as Array<{ path: string; date?: string; locales?: string[] }>;
 
 function escapeXml(s: string) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
@@ -49,8 +81,11 @@ export async function GET() {
 
   const urlEntries = paths.flatMap((pObj) => {
     const p = pObj.path;
+    const pathLocales = (pObj.locales?.length ? pObj.locales : sitemapLocales).filter(
+      (locale) => sitemapLocales.includes(locale as any)
+    );
     // build per-locale entries and optionally a non-prefixed default locale entry
-    return locales.map((locale) => {
+    return pathLocales.map((locale) => {
       const basePath = p === '/' ? '' : p;
       const localized = basePath ? localizePath(basePath, locale as any) : '';
       // Add trailing slash to match trailingSlash: true in next.config.js
@@ -67,19 +102,21 @@ export async function GET() {
 
       // build alternates block
       const alternates = [
-        ...locales.map((alt) => {
+        ...pathLocales.map((alt) => {
           const altPathBase = p === '/' ? '' : p;
           const altLocalized = altPathBase ? localizePath(altPathBase, alt as any) : '';
           // Add trailing slash to alternate hrefs
           const href = `${BASE}/${alt}${altLocalized}/`;
-          return `    <xhtml:link rel="alternate" hreflang="${escapeXml(alt)}" href="${escapeXml(href)}"/>`;
+          const hreflang = hreflangFor(alt as Locale);
+          return `    <xhtml:link rel="alternate" hreflang="${escapeXml(hreflang)}" href="${escapeXml(href)}"/>`;
         }),
         // x-default points to FR per canonical policy
         (() => {
+          const xDefaultLocale = pathLocales.includes(canonicalLocale) ? canonicalLocale : pathLocales[0];
           const altPathBase = p === '/' ? '' : p;
-          const altLocalized = altPathBase ? localizePath(altPathBase, 'fr' as any) : '';
+          const altLocalized = altPathBase ? localizePath(altPathBase, xDefaultLocale as any) : '';
           // Add trailing slash to x-default href
-          const href = `${BASE}/fr${altLocalized}/`;
+          const href = `${BASE}/${xDefaultLocale}${altLocalized}/`;
           return `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(href)}"/>`;
         })(),
       ].join('\n');
