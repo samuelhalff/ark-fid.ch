@@ -231,11 +231,14 @@ summary.faq-summary::marker {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    /* Account for the flex `gap` that exists between the two duplicated halves. */
+    transform: translateX(calc(-50% - (var(--testimonials-gap) / 2)));
   }
 }
 
 .animate-testimonials-scroll {
+  /* Keep in sync with `gap-6` on the track element. */
+  --testimonials-gap: 1.5rem;
   animation: testimonials-scroll 60s linear infinite;
   will-change: transform; /* GPU acceleration for smooth scrolling */
 }
@@ -246,6 +249,12 @@ summary.faq-summary::marker {
 
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
+  .testimonials-carousel {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .animate-testimonials-scroll {
     animation: none;
   }
