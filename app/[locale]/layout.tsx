@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { Suspense, type ReactNode } from "react";
 import ServicesElements from "@/app/[locale]/navigation";
 import { getTranslations } from "@/src/lib/i18n";
-import { headers } from "next/headers";
 import { localizePath } from "@/src/lib/paths";
 import nextDynamic from "next/dynamic";
 
@@ -10,8 +9,6 @@ const locales = ["en", "fr", "de", "es", "pt"] as const;
 type Locale = (typeof locales)[number];
 const isLocale = (value: string): value is Locale =>
   locales.includes(value as Locale);
-
-export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -36,8 +33,10 @@ export default async function LocaleLayout({
   // NOTE: Root layout (`app/layout.tsx`) is responsible for <html> and <body>.
   // Nested layouts must NOT render html/body. Keep this layout minimal so
   // providers (ThemeProvider) and NavBar remain singletons in the root.
-  const Navbar = (await import("@/src/components/navigation/NavbarClient"))
-    .default;
+  const Navbar = nextDynamic(
+    () => import("@/src/components/navigation/NavbarClient"),
+    { ssr: true }
+  );
   // Stream the footer as a Server Component using suspense to improve TTFB
   const Footer = nextDynamic(() => import("@/app/[locale]/shared/footer"), {
     suspense: true,
@@ -69,7 +68,7 @@ export default async function LocaleLayout({
       <main id="main-content" role="main">
         {children}
       </main>
-      <Suspense fallback={null}>
+      <Suspense fallback={<div className="h-64 bg-muted" aria-hidden="true" />}>
         <Footer locale={activeLocale} />
       </Suspense>
     </div>

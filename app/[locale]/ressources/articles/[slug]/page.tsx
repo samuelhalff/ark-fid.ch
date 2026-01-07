@@ -93,33 +93,31 @@ export default async function ArticlePage({ params }: Params) {
   const localArticle = ressources.Articles.find(
     (article) => article.slug === params.slug
   );
-  // If a translation is missing, return a real 404 instead of rendering fallback content.
-  // This prevents "soft 404" reports for locale-specific URLs.
+  const frArticle = fr.Articles.find((article) => article.slug === params.slug);
+
+  // If slug doesn't exist at all in this locale, return 404
   if (locale !== "fr" && !localArticle) return notFound();
 
-  const frArticle = fr.Articles.find((article) => article.slug === params.slug);
+  // Check if this is a duplicate/untranslated article (content identical to FR)
+  // If so, return 404 to prevent soft 404 issues with Google
+  if (locale !== "fr" && localArticle && frArticle) {
+    const sameTitle = (localArticle.title || "") === (frArticle.title || "");
+    const sameDesc =
+      (localArticle.description || "") === (frArticle.description || "");
+    const sameContent =
+      (localArticle.content || "") === (frArticle.content || "");
+    if (sameTitle && sameDesc && sameContent) {
+      // This is duplicate content - return 404 to avoid soft 404 reports
+      return notFound();
+    }
+  }
+
   const article = localArticle ?? frArticle;
   if (!article) return notFound();
 
   const references: ArticleReference[] = Array.isArray(article.references)
     ? article.references
     : [];
-
-  // Determine if we're effectively showing a fallback (either missing local
-  // or local content is identical to FR canonical). Used to show notice and noindex.
-  let isFallback = false;
-  if (locale !== "fr") {
-    if (!localArticle) {
-      isFallback = true;
-    } else if (frArticle) {
-      const sameTitle = (localArticle.title || "") === (frArticle.title || "");
-      const sameDesc =
-        (localArticle.description || "") === (frArticle.description || "");
-      const sameContent =
-        (localArticle.content || "") === (frArticle.content || "");
-      if (sameTitle && sameDesc && sameContent) isFallback = true;
-    }
-  }
 
   const baseUrl = "https://ark-fid.ch";
   const articleUrl = `${baseUrl}/${locale}/ressources/articles/${params.slug}/`;
@@ -257,20 +255,6 @@ export default async function ArticlePage({ params }: Params) {
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
-      {isFallback && (
-        <div className="mb-4 rounded-md border bg-muted/40 text-muted-foreground px-3 py-2 text-sm">
-          {/* Localized fallback notice */}
-          {locale === "fr"
-            ? "Contenu affiché en anglais temporairement en attendant la traduction."
-            : locale === "de"
-            ? "Inhalt vorübergehend auf Englisch angezeigt, bis die Übersetzung verfügbar ist."
-            : locale === "es"
-            ? "Contenido mostrado temporalmente en inglés mientras se prepara la traducción."
-            : locale === "pt"
-            ? "Conteúdo exibido temporariamente em inglês enquanto a tradução é preparada."
-            : "Content temporarily shown in English until the translation is ready."}
-        </div>
-      )}
       <Defer rootMargin="200px" idle={150}>
         <Breadcrumbs
           className="mb-6"
@@ -395,33 +379,13 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Params) {
   const locale: Locale = isValidLocale(params.locale) ? params.locale : "fr";
   const ressources = await loadRessources(locale);
-  const fr = locale === "fr" ? ressources : await loadRessources("fr");
 
-  const localArticle = ressources.Articles.find(
+  const article = ressources.Articles.find(
     (article) => article.slug === params.slug
   );
-  if (locale !== "fr" && !localArticle) {
-    return {
-      robots: { index: false, follow: false },
-    };
-  }
-  const frArticle = fr.Articles.find((article) => article.slug === params.slug);
-  const article = localArticle ?? frArticle;
+  // If article not found, the page component returns notFound() so no metadata needed
   if (!article) return {};
 
-  let isFallback = false;
-  if (locale !== "fr") {
-    if (!localArticle) {
-      isFallback = true;
-    } else if (frArticle) {
-      const sameTitle = (localArticle.title || "") === (frArticle.title || "");
-      const sameDesc =
-        (localArticle.description || "") === (frArticle.description || "");
-      const sameContent =
-        (localArticle.content || "") === (frArticle.content || "");
-      if (sameTitle && sameDesc && sameContent) isFallback = true;
-    }
-  }
   const reading = article.content ? estimateReadingTime(article.content) : null;
   const meta = await generateMetadataForArticle(
     locale,
@@ -437,13 +401,12 @@ export async function generateMetadata({ params }: Params) {
     ...meta,
     robots: {
       ...(robotsConfig as Record<string, unknown>),
-      index: isFallback ? false : true,
+      index: true,
       follow: true,
     },
     other: {
       ...(meta.other || {}),
       estimatedReadingTime: reading ? reading.timeRequiredISO : undefined,
-      contentFallbackFrom: isFallback ? "fr" : undefined,
     },
   };
 }
