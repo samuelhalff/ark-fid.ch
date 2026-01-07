@@ -318,7 +318,7 @@ Ark Fiduciaire is a new brand (founded 2025 through strategic union of two firms
 
 ### Month 1 (Jan 2026): Foundation
 
-- ✅ Complete 301 redirects
+- ✅ N/A — no legacy website; prioritize GBP verification, directory updates, and a merger announcement/press release
 - ✅ Set up Google Business Profiles
 - ✅ Request 10 reviews from legacy clients
 - ✅ Update all directory listings
