@@ -1,0 +1,10 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Disallow internal/API routes
+Disallow: /api/
+Disallow: /_next/
+
+# Sitemap
+Sitemap: https://ark-fid.ch/sitemap.xml
