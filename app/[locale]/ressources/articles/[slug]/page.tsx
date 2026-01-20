@@ -386,12 +386,56 @@ export async function generateMetadata({ params }: Params) {
   // If article not found, the page component returns notFound() so no metadata needed
   if (!article) return {};
 
+  // Determine which locales have this article (and it's not a duplicate)
+  const { locales: allLocales } = await import("@/src/lib/i18n");
+  const validLocales: Locale[] = [];
+  
+  for (const loc of allLocales) {
+    try {
+      const locRessources = await loadRessources(loc);
+      const locArticle = locRessources.Articles.find(
+        (a) => a.slug === params.slug
+      );
+      
+      if (!locArticle) {
+        // Article doesn't exist in this locale
+        continue;
+      }
+      
+      // Check if it's a duplicate of French (same logic as in the page component)
+      if (loc !== "fr") {
+        const frRessources = await loadRessources("fr");
+        const frArticle = frRessources.Articles.find(
+          (a) => a.slug === params.slug
+        );
+        
+        if (frArticle) {
+          const sameTitle = (locArticle.title || "") === (frArticle.title || "");
+          const sameDesc = (locArticle.description || "") === (frArticle.description || "");
+          const sameContent = (locArticle.content || "") === (frArticle.content || "");
+          
+          if (sameTitle && sameDesc && sameContent) {
+            // This is a duplicate - skip this locale
+            continue;
+          }
+        }
+      }
+      
+      // Article exists and is not a duplicate
+      validLocales.push(loc);
+    } catch (error) {
+      // Locale might not have ressources.json - skip it
+      continue;
+    }
+  }
+
   const reading = article.content ? estimateReadingTime(article.content) : null;
   const meta = await generateMetadataForArticle(
     locale,
     article.slug,
     article.title,
-    article.description
+    article.description,
+    validLocales
   );
   const robotsConfig: Record<string, unknown> =
     meta && typeof meta.robots === "object" && meta.robots !== null
