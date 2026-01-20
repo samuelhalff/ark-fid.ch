@@ -97,15 +97,15 @@ export async function getPageMetadata(
   
   // Determine which locales to include in alternates
   // If validLocales is provided, use only those; otherwise use all locales
-  const localesToInclude = customData?.validLocales ?? locales;
+  const localesToInclude: Locale[] = customData?.validLocales ?? [...locales];
   
-  const alternateUrls = localesToInclude.reduce((acc, loc) => {
+  const alternateUrls = localesToInclude.reduce<Record<string, string>>((acc, loc) => {
     const localized = localizePath(path, loc);
     const locPath = withTrailingSlash(`/${loc}${localized}`);
     const key = hreflangFor(loc);
     acc[key] = `https://ark-fid.ch${locPath}`;
     return acc;
-  }, {} as Record<string, string>);
+  }, {});
 
   const ogLocale =
     locale === 'fr' ? 'fr_CH' :
