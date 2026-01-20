@@ -73,6 +73,7 @@ export async function getPageMetadata(
   customData?: {
     articleTitle?: string;
     articleDescription?: string;
+    validLocales?: Locale[];
   }
 ): Promise<Metadata> {
   const config = await loadMetadataConfig(locale);
@@ -93,7 +94,12 @@ export async function getPageMetadata(
   // Generate locale-aware URLs (all locales have prefix in our setup, but slugs may differ per locale)
   const localizedCanonical = localizePath(path, locale);
   const canonicalPath = withTrailingSlash(`/${locale}${localizedCanonical}`);
-  const alternateUrls = locales.reduce((acc, loc) => {
+  
+  // Determine which locales to include in alternates
+  // If validLocales is provided, use only those; otherwise use all locales
+  const localesToInclude = customData?.validLocales ?? locales;
+  
+  const alternateUrls = localesToInclude.reduce((acc, loc) => {
     const localized = localizePath(path, loc);
     const locPath = withTrailingSlash(`/${loc}${localized}`);
     const key = hreflangFor(loc);
@@ -192,9 +198,12 @@ export async function getPageMetadata(
       canonical: `https://ark-fid.ch${canonicalPath}`,
       languages: Object.assign(
         {
-          'x-default': `https://ark-fid.ch${withTrailingSlash(
-            `/fr${localizePath(path, 'fr' as Locale)}`
-          )}`,
+          'x-default': (() => {
+            const defaultLocale = localesToInclude.includes('fr' as Locale) ? 'fr' : localesToInclude[0];
+            return `https://ark-fid.ch${withTrailingSlash(
+              `/${defaultLocale}${localizePath(path, defaultLocale as Locale)}`
+            )}`;
+          })(),
         },
         alternateUrls
       ),
@@ -226,19 +235,22 @@ export async function generateMetadataForArticle(
   localeOrSlug: Locale | string,
   slugOrTitle?: string,
   titleOrDescription?: string,
-  description?: string
+  description?: string,
+  validLocales?: Locale[]
 ): Promise<Metadata> {
   if (typeof localeOrSlug === 'string' && slugOrTitle && titleOrDescription && !description) {
     // Old signature: generateMetadataForArticle(slug, title, description)
     return await getPageMetadata('fr' as Locale, `/ressources/articles/${localeOrSlug}`, {
       articleTitle: slugOrTitle,
       articleDescription: titleOrDescription,
+      validLocales,
     });
   } else {
-    // New signature: generateMetadataForArticle(locale, slug, title, description)
+    // New signature: generateMetadataForArticle(locale, slug, title, description, validLocales)
     return await getPageMetadata(localeOrSlug as Locale, `/ressources/articles/${slugOrTitle}`, {
       articleTitle: titleOrDescription,
       articleDescription: description,
+      validLocales,
     });
   }
 }
