@@ -198,9 +198,12 @@ export async function getPageMetadata(
       canonical: `https://ark-fid.ch${canonicalPath}`,
       languages: Object.assign(
         {
-          'x-default': `https://ark-fid.ch${withTrailingSlash(
-            `/${localesToInclude.includes('fr' as Locale) ? 'fr' : localesToInclude[0]}${localizePath(path, (localesToInclude.includes('fr' as Locale) ? 'fr' : localesToInclude[0]) as Locale)}`
-          )}`,
+          'x-default': (() => {
+            const defaultLocale = localesToInclude.includes('fr' as Locale) ? 'fr' : localesToInclude[0];
+            return `https://ark-fid.ch${withTrailingSlash(
+              `/${defaultLocale}${localizePath(path, defaultLocale as Locale)}`
+            )}`;
+          })(),
         },
         alternateUrls
       ),

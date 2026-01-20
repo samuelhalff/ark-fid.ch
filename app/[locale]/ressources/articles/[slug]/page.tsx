@@ -390,6 +390,9 @@ export async function generateMetadata({ params }: Params) {
   const { locales: allLocales } = await import("@/src/lib/i18n");
   const validLocales: Locale[] = [];
   
+  // Load French resources once for comparison
+  const frRessources = await loadRessources("fr");
+  
   for (const loc of allLocales) {
     try {
       const locRessources = await loadRessources(loc);
@@ -404,7 +407,6 @@ export async function generateMetadata({ params }: Params) {
       
       // Check if it's a duplicate of French (same logic as in the page component)
       if (loc !== "fr") {
-        const frRessources = await loadRessources("fr");
         const frArticle = frRessources.Articles.find(
           (a) => a.slug === params.slug
         );
