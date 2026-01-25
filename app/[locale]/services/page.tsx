@@ -168,7 +168,7 @@ export default async function ServicesPage({
           {" · "}
           <a
             className="underline hover:no-underline"
-            href={`${localePrefix}/contact`}
+            href={`${localePrefix}/contact/`}
           >
             {locale === "fr"
               ? "nous contacter"

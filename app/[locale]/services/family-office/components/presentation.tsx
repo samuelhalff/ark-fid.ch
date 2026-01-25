@@ -249,7 +249,7 @@ const FamilyOfficePresentation = ({
             {t("Presentation.CalloutText")}
           </p>
           <Link
-            href={`${localePrefix}/contact`}
+            href={`${localePrefix}/contact/`}
             className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-semibold text-primary-foreground transition hover:opacity-90"
           >
             {t("Presentation.CalloutCTA")}

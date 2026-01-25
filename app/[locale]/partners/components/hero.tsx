@@ -93,7 +93,7 @@ const PartnersHero = async ({ locale }: PartnersHeroProps) => {
             {t("IntroText")}
           </p>
           <div className="w-full flex flex-col sm:flex-row items-center gap-4 justify-center">
-            <a href={`${localePrefix}/contact`} className="w-full sm:w-auto">
+            <a href={`${localePrefix}/contact/`} className="w-full sm:w-auto">
               <Button
                 size="lg"
                 className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
@@ -102,7 +102,7 @@ const PartnersHero = async ({ locale }: PartnersHeroProps) => {
                 {t("Hero.CTA")} <IconHandshake className="h-5 w-5 ml-2" />
               </Button>
             </a>
-            <a href={`${localePrefix}/team`} className="w-full sm:w-auto">
+            <a href={`${localePrefix}/team/`} className="w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="lg"

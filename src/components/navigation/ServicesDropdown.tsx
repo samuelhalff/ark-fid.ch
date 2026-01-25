@@ -39,7 +39,7 @@ export default function ServicesDropdown({
       onBlur={handleBlur}
     >
       <Link
-        href={`${localePrefix}/services`}
+        href={`${localePrefix}/services/`}
         prefetch={false}
         locale={locale}
         aria-expanded={open}
@@ -92,7 +92,7 @@ export default function ServicesDropdown({
           </ul>
           <div className="mt-2 text-right">
             <Link
-              href={`${localePrefix}/services`}
+              href={`${localePrefix}/services/`}
               prefetch={false}
               locale={locale}
               className="text-sm text-primary underline hover:no-underline"

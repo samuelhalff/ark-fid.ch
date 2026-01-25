@@ -228,13 +228,13 @@ export default async function AboutUsPage({
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href={`${localePrefix}/contact`}
+                href={`${localePrefix}/contact/`}
                 className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90 transition-colors"
               >
                 {text("CTA.ContactButton", "Get in Touch")}
               </a>
               <a
-                href={`${localePrefix}/team`}
+                href={`${localePrefix}/team/`}
                 className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-3 text-sm font-medium shadow-sm hover:bg-accent hover:text-accent-foreground transition-colors"
               >
                 {text("CTA.TeamButton", "Meet Our Team")}

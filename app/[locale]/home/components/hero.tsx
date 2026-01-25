@@ -91,7 +91,7 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
           <p className="mt-6 w-full xs:text-lg">{t("Hero.Description")}</p>
           <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center">
             <Link
-              href={`${localePrefix}/contact`}
+              href={`${localePrefix}/contact/`}
               className="w-full sm:w-auto"
               locale={locale}
             >

@@ -49,7 +49,7 @@ const ContactSection = ({
         <MessageCircleIcon className="w-12 h-12 text-primary mx-auto mb-4" />
         <h3 className="text-xl font-semibold mb-4">{title}</h3>
         <p className="mb-6">{description}</p>
-        <Link href={`${localePrefix}/contact`} locale={locale} prefetch={false}>
+        <Link href={`${localePrefix}/contact/`} locale={locale} prefetch={false}>
           <Button size="lg" className="rounded-full">
             {buttonText}
           </Button>

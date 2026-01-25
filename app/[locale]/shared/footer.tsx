@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import CookieSettingsLink from "@/src/components/CookieSettingsLink";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
+import { buildInternalUrl } from "@/src/lib/paths";
 
 // Replace '#' with real or placeholder URLs for SEO. Update as needed.
 const footerSections = [
@@ -11,37 +12,37 @@ const footerSections = [
     links: [
       {
         titleKey: "Accounting.Title",
-        href: "/services/accounting",
+        href: "/services/accounting/",
         ns: "servicesItems",
       },
       {
         titleKey: "TaxesCompanyPersonal.Title",
-        href: "/services/taxes",
+        href: "/services/taxes/",
         ns: "servicesItems",
       },
       {
         titleKey: "PayrollHR.Title",
-        href: "/services/payroll",
+        href: "/services/payroll/",
         ns: "servicesItems",
       },
       {
         titleKey: "OutsourcingServices.Title",
-        href: "/services/outsourcing",
+        href: "/services/outsourcing/",
         ns: "servicesItems",
       },
       {
         titleKey: "MAServices.Title",
-        href: "/services/mergers-acquisitions",
+        href: "/services/mergers-acquisitions/",
         ns: "servicesItems",
       },
       {
         titleKey: "CorporateServices.Title",
-        href: "/services/corporate",
+        href: "/services/corporate/",
         ns: "servicesItems",
       },
       {
         titleKey: "OdooImplementation.Title",
-        href: "/services/odoo",
+        href: "/services/odoo/",
         ns: "servicesItems",
       },
     ],
@@ -49,15 +50,15 @@ const footerSections = [
   {
     titleKey: "Company.Title",
     links: [
-      { titleKey: "About", href: "/about", ns: "navbar" },
-      { titleKey: "Team", href: "/team", ns: "navbar" },
-      { titleKey: "Our partners", href: "/partners", ns: "navbar" },
-      { titleKey: "Contact", href: "/contact", ns: "navbar" },
+      { titleKey: "About", href: "/about/", ns: "navbar" },
+      { titleKey: "Team", href: "/team/", ns: "navbar" },
+      { titleKey: "Our partners", href: "/partners/", ns: "navbar" },
+      { titleKey: "Contact", href: "/contact/", ns: "navbar" },
     ],
   },
   {
     titleKey: "Resources.Title",
-    links: [{ titleKey: "Ressources", href: "/ressources", ns: "navbar" }],
+    links: [{ titleKey: "Ressources", href: "/ressources/", ns: "navbar" }],
   },
   {
     titleKey: "Social.Title",
@@ -72,9 +73,9 @@ const footerSections = [
   {
     titleKey: "Legal.Title",
     links: [
-      { titleKey: "Legal.Terms", href: "/legal/terms", ns: "footer" },
-      { titleKey: "Legal.Privacy", href: "/legal/privacy", ns: "footer" },
-      { titleKey: "Legal.Cookies", href: "/legal/cookies", ns: "footer" },
+      { titleKey: "Legal.Terms", href: "/legal/terms/", ns: "footer" },
+      { titleKey: "Legal.Privacy", href: "/legal/privacy/", ns: "footer" },
+      { titleKey: "Legal.Cookies", href: "/legal/cookies/", ns: "footer" },
       { titleKey: "Legal.Settings", href: "#cookie-settings", ns: "footer" },
     ],
   },

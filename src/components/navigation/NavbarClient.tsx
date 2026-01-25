@@ -94,7 +94,7 @@ export default function NavbarClient({
                 </li>
                 <li>
                   <Link
-                    href={`${localePrefix}/team`}
+                    href={`${localePrefix}/team/`}
                     prefetch={false}
                     locale={locale}
                     aria-current={
@@ -115,7 +115,7 @@ export default function NavbarClient({
                 />
                 <li>
                   <Link
-                    href={`${localePrefix}/ressources`}
+                    href={`${localePrefix}/ressources/`}
                     prefetch={false}
                     locale={locale}
                     aria-current={
@@ -134,7 +134,7 @@ export default function NavbarClient({
                 </li>
                 <li>
                   <Link
-                    href={`${localePrefix}/about`}
+                    href={`${localePrefix}/about/`}
                     prefetch={false}
                     locale={locale}
                     aria-current={
@@ -149,7 +149,7 @@ export default function NavbarClient({
                 </li>
                 <li>
                   <Link
-                    href={`${localePrefix}/contact`}
+                    href={`${localePrefix}/contact/`}
                     prefetch={false}
                     locale={locale}
                     aria-current={

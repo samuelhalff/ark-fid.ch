@@ -47,3 +47,31 @@ export function delocalizePath(path: string, locale: Locale): string {
   }
   return key;
 }
+
+/**
+ * Ensures a URL path ends with a trailing slash.
+ * This is the canonical URL format for this site to prevent redirect chains
+ * and duplicate content issues.
+ * 
+ * @example
+ * withTrailingSlash("/fr/contact") => "/fr/contact/"
+ * withTrailingSlash("/fr/contact/") => "/fr/contact/"
+ * withTrailingSlash("/") => "/"
+ */
+export function withTrailingSlash(path: string): string {
+  if (!path || path === "/") return "/";
+  return path.endsWith("/") ? path : `${path}/`;
+}
+
+/**
+ * Builds a normalized internal URL with locale prefix and trailing slash.
+ * Use this for all internal navigation links to ensure URL consistency.
+ * 
+ * @example
+ * buildInternalUrl("/contact", "fr") => "/fr/contact/"
+ * buildInternalUrl("/services/accounting", "fr") => "/fr/services/comptabilite/"
+ */
+export function buildInternalUrl(basePath: string, locale: Locale): string {
+  const localized = basePath === "/" ? "" : localizePath(basePath, locale);
+  return withTrailingSlash(`/${locale}${localized}`);
+}

@@ -97,7 +97,7 @@ const ServiceHero = async ({
           </p>
           <div className="w-full mt-12 flex items-center justify-center max-w-md mx-auto">
             <Link
-              href={`${localePrefix}/contact`}
+              href={`${localePrefix}/contact/`}
               className="w-full sm:w-auto"
               locale={locale}
               prefetch={false}
