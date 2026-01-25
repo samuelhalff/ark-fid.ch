@@ -118,7 +118,7 @@ const PartnersHero = async ({ locale }: PartnersHeroProps) => {
           <ResponsiveImage
             mobileSrc={heroMobileSrc}
             desktopSrc={heroSrc}
-            alt="Illustration des services fiduciaires professionnels offerts par Ark Fiduciaire"
+            alt={t("Hero.ImageAlt")}
             className="object-cover rounded-xl"
             sizes="(min-width:1280px) 560px, (min-width:1024px) 480px, 92vw"
             quality={60}
