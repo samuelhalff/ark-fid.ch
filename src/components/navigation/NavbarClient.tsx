@@ -46,7 +46,7 @@ export default function NavbarClient({
       <nav className="backdrop-blur-[14px] bg-white border-b dark:bg-black h-16 flex items-center">
         <div className="flex items-center justify-between gap-4 h-full mx-auto max-w-[1200px] px-4 w-full sm:px-6">
           <Link
-            href={`${localePrefix}/`}
+            href={localePrefix}
             prefetch={false}
             locale={locale}
             aria-label={navData.labels.home}
