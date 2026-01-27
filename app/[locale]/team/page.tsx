@@ -111,7 +111,7 @@ export default async function TeamPage({
             const slug = getMemberSlug(member);
             return (
               <Link
-                href={`${localePrefix}/team/${slug}`}
+                href={`${localePrefix}/team/${slug}/`}
                 key={member.name}
                 className="block"
               >

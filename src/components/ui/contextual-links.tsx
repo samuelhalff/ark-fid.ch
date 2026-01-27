@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { type Locale } from "@/src/lib/i18n";
-import { localizePath } from "@/src/lib/paths";
+import { localizePath, withTrailingSlash } from "@/src/lib/paths";
 
 interface LinkMapping {
   keywords: string[];
@@ -129,7 +129,7 @@ export default function ContextualLinks({
       }
 
       // Add the link
-      const localizedPath = localizePath(match.path, locale);
+      const localizedPath = withTrailingSlash(localizePath(match.path, locale));
       parts.push(
         <Link
           key={`link-${idx}-${match.index}`}

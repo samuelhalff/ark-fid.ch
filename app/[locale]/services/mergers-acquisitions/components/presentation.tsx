@@ -70,7 +70,7 @@ const MAPresentation = async () => {
               <p className="mb-6">
                 {partnerNote}{" "}
                 <Link
-                  href={`${localePrefix}${localizePath("/partners", locale)}`}
+                  href={`${localePrefix}${localizePath("/partners", locale)}/`}
                   className="text-primary hover:underline"
                   prefetch={false}
                 >

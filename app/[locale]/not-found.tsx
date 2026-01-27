@@ -108,7 +108,7 @@ export default async function NotFoundPage() {
           {suggestions.map((a) => (
             <Link
               key={a.slug}
-              href={`${localePrefix}/ressources/articles/${a.slug}`}
+              href={`${localePrefix}/ressources/articles/${a.slug}/`}
               className="group rounded-lg border p-4 hover:shadow-md transition-shadow bg-card"
               prefetch={false}
             >
@@ -186,7 +186,7 @@ export default async function NotFoundPage() {
       <div className="mt-10 text-center">
         <Link
           className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground hover:opacity-90"
-          href={`${localePrefix}`}
+          href={`${localePrefix}/`}
           prefetch={false}
         >
           {locale === "fr"
@@ -203,7 +203,7 @@ export default async function NotFoundPage() {
         <div className="mt-4">
           <Link
             className="text-sm text-muted-foreground hover:underline"
-            href={`${localePrefix}/ressources/articles`}
+            href={`${localePrefix}/ressources/articles/`}
             prefetch={false}
           >
             {locale === "fr"

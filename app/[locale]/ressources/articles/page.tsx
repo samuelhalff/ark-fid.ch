@@ -181,7 +181,7 @@ export default async function ArticlesIndex({
         {visibleArticles.map((article) => (
           <li key={article.slug} className="border-b pb-4">
             <h2 className="text-xl font-semibold">
-              <a href={`${localePrefix}/ressources/articles/${article.slug}`}>
+              <a href={`${localePrefix}/ressources/articles/${article.slug}/`}>
                 {article.title}
               </a>
             </h2>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { type Locale } from "@/src/lib/i18n";
-import { localizePath } from "@/src/lib/paths";
+import { localizePath, withTrailingSlash } from "@/src/lib/paths";
 
 interface LinkMapping {
   keywords: string[];
@@ -54,7 +54,7 @@ export default function ContextualLinksServer({ children, className = "", maxLin
         remainingText = remainingText.substring(match.index - currentIndex);
       }
 
-      const localizedPath = localizePath(match.path, locale);
+      const localizedPath = withTrailingSlash(localizePath(match.path, locale));
       parts.push(
         <Link key={`link-${idx}-${match.index}`} href={`${localePrefix}${localizedPath}`} className="text-primary hover:underline font-medium" prefetch={false}>
           {match.keyword}

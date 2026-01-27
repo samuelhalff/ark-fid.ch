@@ -107,7 +107,7 @@ export default function RelatedArticles({
           >
             <h3 className="font-medium text-lg mb-2">
               <Link
-                href={`/${locale}/ressources/articles/${r.slug}`}
+                href={`/${locale}/ressources/articles/${r.slug}/`}
                 className="hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded-sm"
               >
                 {r.title}
@@ -120,7 +120,7 @@ export default function RelatedArticles({
             )}
             <div className="mt-3">
               <Link
-                href={`/${locale}/ressources/articles/${r.slug}`}
+                href={`/${locale}/ressources/articles/${r.slug}/`}
                 className="text-primary text-sm font-medium hover:underline"
                 aria-label={`${translations.ReadMore || "Read more"}: ${
                   r.title
