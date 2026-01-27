@@ -33,8 +33,8 @@ export default function ThemeToggle() {
   const { setTheme } = useTheme();
 
   return (
-    <NavigationMenuItem>
-      <NavigationMenuTrigger className="flex items-center gap-1 px-2 min-w-[44px] justify-center">
+    <NavigationMenuItem className="theme-toggle">
+      <NavigationMenuTrigger className="theme-toggle-trigger flex items-center gap-1 px-2 min-w-[44px] justify-center">
         <svg
           className="h-4 w-4 dark:hidden"
           viewBox="0 0 24 24"

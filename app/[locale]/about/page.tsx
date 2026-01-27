@@ -1,6 +1,16 @@
 import React from "react";
 const BuildingIcon = (props: any) => (
-  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg
+    viewBox="0 0 24 24"
+    width="16"
+    height="16"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
     <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
     <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
     <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
@@ -135,7 +145,7 @@ export default async function AboutUsPage({
           <h2 className="text-xl xs:text-2xl md:text-2xl mb-8 md:leading-[2rem] tracking-tight">
             {text(
               "Hero.Subtitle",
-              "Born from excellence, united for innovation"
+              "Born from excellence, united for innovation",
             )}
           </h2>
         </div>
@@ -223,7 +233,7 @@ export default async function AboutUsPage({
             <p className="text-lg mb-6">
               {text(
                 "CTA.Description",
-                "Discover how our combined expertise can benefit your business."
+                "Discover how our combined expertise can benefit your business.",
               )}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

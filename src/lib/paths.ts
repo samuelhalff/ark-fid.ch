@@ -29,7 +29,8 @@ const maps: Record<Locale, (p: string) => string> = {
 
 // Localize a base path (e.g., "/services/accounting") to a locale-specific slug.
 export function localizePath(path: string, locale: Locale): string {
-  const normalize = (s: string) => (s.endsWith("/") && s !== "/" ? s.slice(0, -1) : s);
+  const normalize = (s: string) =>
+    s.endsWith("/") && s !== "/" ? s.slice(0, -1) : s;
   const key = normalize(path);
   const mapper = maps[locale] || identity;
   const localized = mapper(key);
@@ -39,7 +40,8 @@ export function localizePath(path: string, locale: Locale): string {
 // Map a localized path back to the base path (for rewrites if needed).
 // Currently only supports FR mappings.
 export function delocalizePath(path: string, locale: Locale): string {
-  const normalize = (s: string) => (s.endsWith("/") && s !== "/" ? s.slice(0, -1) : s);
+  const normalize = (s: string) =>
+    s.endsWith("/") && s !== "/" ? s.slice(0, -1) : s;
   const key = normalize(path);
   if (locale === "fr") {
     const entry = Object.entries(frMap).find(([, v]) => v === key);
@@ -52,7 +54,7 @@ export function delocalizePath(path: string, locale: Locale): string {
  * Ensures a URL path ends with a trailing slash.
  * This is the canonical URL format for this site to prevent redirect chains
  * and duplicate content issues.
- * 
+ *
  * @example
  * withTrailingSlash("/fr/contact") => "/fr/contact/"
  * withTrailingSlash("/fr/contact/") => "/fr/contact/"
@@ -66,7 +68,7 @@ export function withTrailingSlash(path: string): string {
 /**
  * Builds a normalized internal URL with locale prefix and trailing slash.
  * Use this for all internal navigation links to ensure URL consistency.
- * 
+ *
  * @example
  * buildInternalUrl("/contact", "fr") => "/fr/contact/"
  * buildInternalUrl("/services/accounting", "fr") => "/fr/services/comptabilite/"

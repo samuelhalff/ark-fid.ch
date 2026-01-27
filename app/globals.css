@@ -196,6 +196,33 @@
   .aspect-auto {
     aspect-ratio: auto;
   }
+
+  /* Header CLS guards: reserve space before client controls hydrate */
+  .site-header,
+  .site-header-inner {
+    min-height: 4rem;
+  }
+
+  .site-logo {
+    display: inline-flex;
+    align-items: center;
+    min-width: 7.5rem;
+    height: 2.25rem;
+  }
+
+  .site-header-controls {
+    min-width: 8.5rem;
+  }
+
+  .lang-switcher-trigger {
+    width: 5.5rem;
+    height: 2.25rem;
+  }
+
+  .theme-toggle-trigger {
+    width: 2.75rem;
+    height: 2.25rem;
+  }
 }
 
 /* Target German pages only: apply safe breaks and hyphenation to headings and paragraphs */

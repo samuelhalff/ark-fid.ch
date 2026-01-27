@@ -28,25 +28,25 @@ const MobileMenuToggleIcon = ({
     aria-hidden
     className={cn(
       "pointer-events-none relative flex h-4 w-6 items-center justify-center",
-      className
+      className,
     )}
   >
     <span
       className={cn(
         "absolute block h-[2px] w-6 rounded-full bg-current transition-all duration-300 ease-in-out",
-        open ? "translate-y-0 rotate-45" : "-translate-y-[6px] rotate-0"
+        open ? "translate-y-0 rotate-45" : "-translate-y-[6px] rotate-0",
       )}
     />
     <span
       className={cn(
         "absolute block h-[2px] w-6 rounded-full bg-current transition-all duration-200 ease-in-out",
-        open ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
+        open ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100",
       )}
     />
     <span
       className={cn(
         "absolute block h-[2px] w-6 rounded-full bg-current transition-all duration-300 ease-in-out",
-        open ? "translate-y-0 -rotate-45" : "translate-y-[6px] rotate-0"
+        open ? "translate-y-0 -rotate-45" : "translate-y-[6px] rotate-0",
       )}
     />
   </span>
@@ -74,7 +74,7 @@ const MobileMenu = ({
           variant="ghost"
           className={cn(
             "p-2 text-foreground transition-colors",
-            open ? "text-primary" : "hover:text-primary"
+            open ? "text-primary" : "hover:text-primary",
           )}
           aria-haspopup="dialog"
           aria-expanded={open}

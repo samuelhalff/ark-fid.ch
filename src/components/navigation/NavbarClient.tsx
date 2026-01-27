@@ -10,11 +10,11 @@ import type { NavData } from "@/src/components/navigation/types";
 
 const HeaderControls = dynamic(
   () => import("@/src/components/navigation/HeaderControls"),
-  { ssr: false, loading: () => null }
+  { ssr: false, loading: () => null },
 );
 const MobileMenuIsland = dynamic(
   () => import("@/src/components/navigation/MobileMenuIsland"),
-  { ssr: false, loading: () => null }
+  { ssr: false, loading: () => null },
 );
 
 export default function NavbarClient({
@@ -43,15 +43,15 @@ export default function NavbarClient({
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 w-full max-w-screen">
-      <nav className="backdrop-blur-[14px] bg-white border-b dark:bg-black h-16 flex items-center">
-        <div className="flex items-center justify-between gap-4 h-full mx-auto max-w-[1200px] px-4 w-full sm:px-6">
+      <nav className="site-header backdrop-blur-[14px] bg-white border-b dark:bg-black h-16 flex items-center">
+        <div className="site-header-inner flex items-center justify-between gap-4 h-full mx-auto max-w-[1200px] px-4 w-full sm:px-6">
           <Link
             href={`/${locale || 'fr'}/`}
             prefetch={false}
             locale={locale}
             aria-label={navData.labels.home}
           >
-            <span className="flex items-center w-[100px] h-[32px]">
+            <span className="site-logo flex items-center w-[100px] h-[32px]">
               <Image
                 className="hidden dark:block"
                 src="/assets/arkfid--light.svg"
@@ -162,7 +162,7 @@ export default function NavbarClient({
                     {navData.labels.contact}
                   </Link>
                 </li>
-                <li className="ml-1">
+                <li className="site-header-controls ml-1">
                   <HeaderControls />
                 </li>
               </ul>

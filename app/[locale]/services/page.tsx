@@ -145,12 +145,12 @@ export default async function ServicesPage({
           {locale === "fr"
             ? "Ressources utiles : "
             : locale === "de"
-            ? "Nützliche Ressourcen: "
-            : locale === "es"
-            ? "Recursos útiles: "
-            : locale === "pt"
-            ? "Recursos úteis: "
-            : "Useful resources: "}
+              ? "Nützliche Ressourcen: "
+              : locale === "es"
+                ? "Recursos útiles: "
+                : locale === "pt"
+                  ? "Recursos úteis: "
+                  : "Useful resources: "}
           <a
             className="underline hover:no-underline"
             href={`${localePrefix}/ressources/`}
@@ -158,12 +158,12 @@ export default async function ServicesPage({
             {locale === "fr"
               ? "articles et guides"
               : locale === "de"
-              ? "Artikel & Leitfäden"
-              : locale === "es"
-              ? "artículos y guías"
-              : locale === "pt"
-              ? "artigos e guias"
-              : "articles & guides"}
+                ? "Artikel & Leitfäden"
+                : locale === "es"
+                  ? "artículos y guías"
+                  : locale === "pt"
+                    ? "artigos e guias"
+                    : "articles & guides"}
           </a>
           {" · "}
           <a
@@ -173,17 +173,20 @@ export default async function ServicesPage({
             {locale === "fr"
               ? "nous contacter"
               : locale === "de"
-              ? "Kontakt"
-              : locale === "es"
-              ? "contacto"
-              : locale === "pt"
-              ? "contacto"
-              : "contact"}
+                ? "Kontakt"
+                : locale === "es"
+                  ? "contacto"
+                  : locale === "pt"
+                    ? "contacto"
+                    : "contact"}
           </a>
         </p>
       </div>
       <Defer rootMargin="0px" idle={200} placeholder={null}>
-        <ContactForm strings={contactStrings} redirectPath={`${localePrefix}/`} />
+        <ContactForm
+          strings={contactStrings}
+          redirectPath={`${localePrefix}/`}
+        />
       </Defer>
     </main>
   );
