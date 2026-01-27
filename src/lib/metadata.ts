@@ -27,8 +27,13 @@ interface MetadataConfig {
   };
 }
 
+const metadataConfigCache = new Map<Locale, MetadataConfig>();
+
 // Function to load metadata config for a specific locale
 async function loadMetadataConfig(locale: Locale): Promise<MetadataConfig> {
+  const cached = metadataConfigCache.get(locale);
+  if (cached) return cached;
+
   const readMetadata = (loc: string): MetadataConfig | null => {
     try {
       const filePath = pathJoin(process.cwd(), "src", "translations", loc, "metadata.json");
@@ -47,7 +52,9 @@ async function loadMetadataConfig(locale: Locale): Promise<MetadataConfig> {
     throw new Error(`Metadata config not found for locale ${locale}`);
   }
 
-  return primary ?? fallback!;
+  const resolved = primary ?? fallback!;
+  metadataConfigCache.set(locale, resolved);
+  return resolved;
 }
 
 const withTrailingSlash = (value: string) =>
