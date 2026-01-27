@@ -55,12 +55,13 @@ export default function LangSwitch(): React.ReactElement {
       newSegments = [targetLocale, ...segments.filter(Boolean)];
     }
     const qs = searchParams?.toString();
-    return `/${newSegments.join("/")}${qs ? `?${qs}` : ""}`;
+    const path = `/${newSegments.join("/")}${newSegments.length > 1 || newSegments[0] ? "/" : ""}`;
+    return `${path}${qs ? `?${qs}` : ""}`;
   }
 
   return (
     <NavigationMenuItem className="md:ml-30">
-      <NavigationMenuTrigger className="flex items-center gap-1 px-2 min-w-[56px] justify-center">
+      <NavigationMenuTrigger className="flex items-center gap-1 px-2 min-w-[56px] h-10 justify-center">
         <GlobeIcon className="h-4 w-4 mx-1" />
         <span className="inline-block w-8 text-center">
           {activeLang.toUpperCase()}

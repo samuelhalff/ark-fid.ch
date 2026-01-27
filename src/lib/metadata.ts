@@ -79,20 +79,23 @@ export async function getPageMetadata(
   const config = await loadMetadataConfig(locale);
   const placeholderLocales = getPlaceholderLocales();
   
+  // Normalize path for consistent lookup (remove trailing slash for lookup)
+  const normalizedPath = path === "/" ? "/" : path.replace(/\/+$/, "");
+  
   // Get page-specific metadata or fall back to default
-  const pageData = config.pages[path] || config.default;
+  const pageData = config.pages[normalizedPath] || config.default;
   
   let title = pageData.title;
   let description = pageData.description;
   
   // Handle dynamic pages (like articles)
-  if (path.startsWith("/ressources/articles/") && customData?.articleTitle) {
+  if (normalizedPath.startsWith("/ressources/articles/") && customData?.articleTitle) {
     title = config.dynamic.articles.titleTemplate.replace("{articleTitle}", customData.articleTitle);
     description = config.dynamic.articles.descriptionTemplate.replace("{articleDescription}", customData.articleDescription || "");
   }
   
   // Generate locale-aware URLs (all locales have prefix in our setup, but slugs may differ per locale)
-  const localizedCanonical = localizePath(path, locale);
+  const localizedCanonical = localizePath(normalizedPath, locale);
   const canonicalPath = withTrailingSlash(`/${locale}${localizedCanonical}`);
   
   // Determine which locales to include in alternates
@@ -100,7 +103,7 @@ export async function getPageMetadata(
   const localesToInclude: Locale[] = customData?.validLocales ?? [...locales];
   
   const alternateUrls = localesToInclude.reduce<Record<string, string>>((acc, loc) => {
-    const localized = localizePath(path, loc);
+    const localized = localizePath(normalizedPath, loc);
     const locPath = withTrailingSlash(`/${loc}${localized}`);
     const key = hreflangFor(loc);
     acc[key] = `https://ark-fid.ch${locPath}`;
@@ -119,8 +122,8 @@ export async function getPageMetadata(
     `/assets/og/og-${locale}.webp`
   ];
   // Dynamic article OG image route (Next.js /opengraph-image) if this is an article detail page
-  const isArticle = path.startsWith('/ressources/articles/');
-  const slug = isArticle ? path.split('/').pop() : undefined;
+  const isArticle = normalizedPath.startsWith('/ressources/articles/');
+  const slug = isArticle ? normalizedPath.split('/').pop() : undefined;
   const dynamicArticleOg = isArticle && slug ? `https://ark-fid.ch/${locale}/ressources/articles/${slug}/opengraph-image` : undefined;
 
   const ogImage = (() => {
@@ -201,7 +204,7 @@ export async function getPageMetadata(
           'x-default': (() => {
             const defaultLocale = localesToInclude.includes('fr' as Locale) ? 'fr' : localesToInclude[0];
             return `https://ark-fid.ch${withTrailingSlash(
-              `/${defaultLocale}${localizePath(path, defaultLocale as Locale)}`
+              `/${defaultLocale}${localizePath(normalizedPath, defaultLocale as Locale)}`
             )}`;
           })(),
         },
