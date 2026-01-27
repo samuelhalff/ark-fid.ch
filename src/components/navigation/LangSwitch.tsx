@@ -7,6 +7,7 @@ import {
 } from "@/src/components/navigation/NavigationComponents";
 import React, { useMemo } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { withTrailingSlash } from "@/src/lib/paths";
 // Use plain <a> for full document reload on language change
 import type { Locale } from "@/src/lib/i18n";
 
@@ -55,7 +56,7 @@ export default function LangSwitch(): React.ReactElement {
       newSegments = [targetLocale, ...segments.filter(Boolean)];
     }
     const qs = searchParams?.toString();
-    const path = `/${newSegments.join("/")}${newSegments.length > 1 || newSegments[0] ? "/" : ""}`;
+    const path = withTrailingSlash(`/${newSegments.join("/")}`);
     return `${path}${qs ? `?${qs}` : ""}`;
   }
 
