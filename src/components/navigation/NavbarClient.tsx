@@ -25,7 +25,7 @@ export default function NavbarClient({
   navData: NavData;
 }) {
   const pathname = usePathname();
-  const localePrefix = locale ? `/${locale}/` : "/fr/";
+  const localePrefix = locale ? `/${locale}` : "/fr";
 
   const normalize = (p: string) => {
     if (!p) return "/";
