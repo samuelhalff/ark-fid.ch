@@ -1,6 +1,7 @@
 "use client";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { withTrailingSlash } from "@/src/lib/paths";
 
 const LANGS = [
   { code: "en", label: "EN" },
@@ -30,7 +31,8 @@ export default function LangSwitchMobile({
     if (valid.includes(parts[0])) parts[0] = targetLocale;
     else parts.unshift(targetLocale);
     const qs = searchParams?.toString();
-    return `/${parts.join("/")}${qs ? `?${qs}` : ""}`;
+    const path = withTrailingSlash(`/${parts.join("/")}`);
+    return `${path}${qs ? `?${qs}` : ""}`;
   }
 
   return (
