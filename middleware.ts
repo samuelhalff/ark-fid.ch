@@ -73,7 +73,13 @@ export function middleware(request: NextRequest) {
     // Check if we need to add trailing slash to prevent redirect chains
     // When trailingSlash: true is set in next.config.js, URLs without trailing slash
     // would cause Next.js to redirect, creating "Page with redirect" issues in GSC
-    const needsTrailingSlash = pathname !== `/${locale}` && !pathname.endsWith("/");
+    // Skip for: file extensions, opengraph-image routes, API-like paths
+    const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(pathname);
+    const isSpecialRoute = pathname.includes("/opengraph-image") || pathname.includes("/twitter-image");
+    const needsTrailingSlash = pathname !== `/${locale}` && 
+                               !pathname.endsWith("/") && 
+                               !hasFileExtension && 
+                               !isSpecialRoute;
     
     if (needsTrailingSlash) {
       // Redirect to trailing slash version to avoid double redirect
