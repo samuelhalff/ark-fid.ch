@@ -69,6 +69,38 @@ export function middleware(request: NextRequest) {
   if (pathnameHasLocale) {
     // Extract locale and set it in headers for the pages to use
     const locale = pathname.split("/")[1];
+    
+    // Check if we need to add trailing slash to prevent redirect chains
+    // When trailingSlash: true is set in next.config.js, URLs without trailing slash
+    // would cause Next.js to redirect, creating "Page with redirect" issues in GSC
+    const needsTrailingSlash = pathname !== `/${locale}` && !pathname.endsWith("/");
+    
+    if (needsTrailingSlash) {
+      // Redirect to trailing slash version to avoid double redirect
+      const targetPath = `${pathname}/`;
+      const redirectUrl = new URL(targetPath, request.url);
+      redirectUrl.search = request.nextUrl.search;
+      const response = NextResponse.redirect(redirectUrl, 308);
+      response.headers.set("x-nonce", nonce);
+      response.headers.set("Content-Security-Policy", csp);
+      response.headers.set("Referrer-Policy", "no-referrer-when-downgrade");
+      response.headers.set("X-Content-Type-Options", "nosniff");
+      response.headers.set("X-Frame-Options", "SAMEORIGIN");
+      response.headers.set("X-DNS-Prefetch-Control", "on");
+      response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+      response.headers.set(
+        "Permissions-Policy",
+        "geolocation=(), microphone=(), camera=()"
+      );
+      if (isProd) {
+        response.headers.set(
+          "Strict-Transport-Security",
+          "max-age=63072000; includeSubDomains; preload"
+        );
+      }
+      return response;
+    }
+    
     // Propagate request headers so Server Components can read them via headers()
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set("x-locale", locale);

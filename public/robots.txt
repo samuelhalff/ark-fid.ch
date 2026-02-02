@@ -31,13 +31,5 @@ Disallow: /partners/
 Disallow: /legal
 Disallow: /legal/
 
-# Block non-canonical URL variations (without trailing slash for locale-only paths)
-# The canonical format uses trailing slashes
-Disallow: /fr$
-Disallow: /en$
-Disallow: /de$
-Disallow: /es$
-Disallow: /pt$
-
 # Sitemap
 Sitemap: https://ark-fid.ch/sitemap.xml

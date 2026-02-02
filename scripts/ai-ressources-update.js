@@ -52,6 +52,7 @@ const SERVICES = [
   "fusions et acquisitions (M&A)",
   "family office (gestion de patrimoine, HNI)",
   "constitution et incorporation d'entreprise",
+  "conformité réglementaire (SRO/OAR, LBA/AML, FINMA)",
 ];
 
 const TOPIC_KEYWORDS = [
@@ -145,6 +146,27 @@ const TOPIC_KEYWORDS = [
     label: "Conseil financier",
     patterns: [/tr[eé]sorerie/i, /treasury/i, /finance/i, /cash[- ]?flow/i],
   },
+  {
+    topic: "regulatory",
+    label: "Conformité réglementaire (SRO/OAR, LBA/AML, FINMA)",
+    patterns: [
+      /\bSRO\b/i,
+      /\bOAR\b/i,
+      /\bLBA\b/i,
+      /\bAML\b/i,
+      /\bFINMA\b/i,
+      /blanchiment/i,
+      /anti[- ]?money/i,
+      /conformit[ée]/i,
+      /r[ée]glement/i,
+      /licence/i,
+      /autorisation/i,
+      /agr[ée]ment/i,
+      /surveillance/i,
+      /self[- ]?regul/i,
+      /organisme.*auto/i,
+    ],
+  },
 ];
 
 function loadJSON(filePath) {
@@ -201,6 +223,54 @@ function getLastArticle(frData) {
   return sorted[sorted.length - 1];
 }
 
+/**
+ * Analyze recent topic distribution and suggest underrepresented topics.
+ * This ensures we don't keep writing about the same topics repeatedly.
+ */
+function analyzeRecentTopics(frData, recentCount = 15) {
+  const articles = Array.isArray(frData?.Articles) ? frData.Articles : [];
+  const sorted = [...articles].sort((a, b) =>
+    (b.date || "").localeCompare(a.date || "")
+  );
+  const recent = sorted.slice(0, recentCount);
+
+  // Count topics in recent articles
+  const topicCounts = {};
+  for (const topic of TOPIC_KEYWORDS) {
+    topicCounts[topic.topic] = 0;
+  }
+  topicCounts["general"] = 0;
+
+  for (const article of recent) {
+    const topic = detectTopic(article);
+    topicCounts[topic] = (topicCounts[topic] || 0) + 1;
+  }
+
+  // Find overrepresented topics (more than 2 articles in last 15)
+  const overrepresented = [];
+  for (const [topic, count] of Object.entries(topicCounts)) {
+    if (count >= 2 && topic !== "general") {
+      overrepresented.push({ topic, count, label: describeTopic(topic) });
+    }
+  }
+
+  // Find underrepresented topics (0-1 articles in last 15)
+  const underrepresented = TOPIC_KEYWORDS
+    .filter((t) => (topicCounts[t.topic] || 0) <= 1)
+    .map((t) => t.label);
+
+  // Get last 5 topics to avoid immediate repetition
+  const lastFiveTopics = recent.slice(0, 5).map((a) => detectTopic(a));
+
+  return {
+    topicCounts,
+    overrepresented,
+    underrepresented,
+    lastFiveTopics,
+    avoidTopics: [...new Set(lastFiveTopics.filter((t) => t !== "general"))],
+  };
+}
+
 function buildSystemPrompt(frJson) {
   const today = isoDateToday();
   const sixMonthsAgo = (() => {
@@ -215,24 +285,57 @@ function buildSystemPrompt(frJson) {
     .map((a) => a.slug)
     .filter(Boolean);
 
+  // Analyze topic distribution for better variety
+  const topicAnalysis = analyzeRecentTopics(frJson, 15);
+  
+  // Build topic guidance based on analysis
+  const avoidTopicsLabels = topicAnalysis.avoidTopics.map(describeTopic);
+  const suggestedTopics = topicAnalysis.underrepresented.slice(0, 4);
+  
   const topicNote = lastArticle
     ? `Dernier article publié le ${lastArticle.date}: "${
         lastArticle.title
       }". Thème identifié: ${describeTopic(
         lastTopic
-      )}. Choisis un nouveau sujet clairement différent pour maintenir l'alternance éditoriale.`
+      )}. Choisis un nouveau sujet CLAIREMENT DIFFÉRENT pour maintenir l'alternance éditoriale.`
     : "Aucun article récent identifié. Choisis un sujet à forte valeur pour dirigeants PME genevois.";
+
+  // Build topic diversity guidance
+  const diversityGuidance = [];
+  if (avoidTopicsLabels.length > 0) {
+    diversityGuidance.push(
+      `⚠️ THÈMES À ÉVITER (traités récemment dans les 5 derniers articles): ${avoidTopicsLabels.join(", ")}.`
+    );
+  }
+  if (suggestedTopics.length > 0) {
+    diversityGuidance.push(
+      `✅ THÈMES SUGGÉRÉS (peu couverts récemment, à privilégier): ${suggestedTopics.join(", ")}.`
+    );
+  }
+  if (topicAnalysis.overrepresented.length > 0) {
+    const overLabels = topicAnalysis.overrepresented.map(
+      (t) => `${t.label} (${t.count} articles)`
+    );
+    diversityGuidance.push(
+      `📊 Thèmes surreprésentés (éviter absolument): ${overLabels.join(", ")}.`
+    );
+  }
 
   return [
     "Tu es un assistant éditorial SEO expert pour Ark Fiduciaire (Genève, Suisse romande).",
     `Date actuelle: ${today}. N'intègre que des éléments publiés ou mis à jour entre ${sixMonthsAgo} et ${today}.`,
     topicNote,
+    "",
+    "=== DIVERSITÉ THÉMATIQUE (CRITIQUE) ===",
+    ...diversityGuidance,
+    "",
     "Objectif: proposer EXACTEMENT 1 nouvel article (section « Articles ») en français, avec des conseils pratiques et utiles pour les visiteurs PME/indépendants.",
+    "",
     "Contraintes impératives:",
     "- FOCUS sur des conseils pratiques, astuces concrètes, erreurs courantes à éviter, guides étape-par-étape, taux/rates actuels par canton/activité.",
-    "- Exemples souhaités: omissions courantes dans déclarations fiscales, taux sociaux par canton, taux TVA par activité, quand/déclarer comment, pièges à éviter, optimisations légales.",
+    "- Exemples souhaités: omissions courantes dans déclarations fiscales, taux sociaux par canton, taux TVA par activité, conformité LBA/AML, obtention de licences FINMA, affiliation SRO/OAR, quand/déclarer comment, pièges à éviter, optimisations légales.",
     "- ÉVITER les articles généraux ou théoriques; privilégier le concret et l'actionnable.",
-    "- Sujet cohérent avec nos services (liste ci-dessous) et différent du dernier article.",
+    "- Sujet cohérent avec nos services (liste ci-dessous) et DIFFÉRENT des articles récents.",
     "- Aucun doublon de slug, ni de sujet déjà traité récemment.",
     "- Article format pratique (800 à 1500 mots), structuré avec sections claires, listes, exemples chiffrés.",
     "- Style professionnel, humain, sans capitales superflues.",
@@ -444,23 +547,30 @@ function validateNewArticle(frData, article) {
 }
 
 function enforceTopicRotation(frData, newArticle) {
-  const lastArticle = getLastArticle(frData);
-  if (!lastArticle) return;
-  const previousTopic = detectTopic(lastArticle);
+  const articles = Array.isArray(frData?.Articles) ? frData.Articles : [];
+  if (!articles.length) return;
+  
+  // Get last 5 articles sorted by date
+  const sorted = [...articles].sort((a, b) =>
+    (b.date || "").localeCompare(a.date || "")
+  );
+  const recentArticles = sorted.slice(0, 5);
+  
   const nextTopic = detectTopic(newArticle);
-  if (
-    previousTopic &&
-    nextTopic &&
-    previousTopic === nextTopic &&
-    nextTopic !== "general"
-  ) {
-    const err = new Error(
-      `Le dernier article traitait déjà du thème ${describeTopic(nextTopic)}`
-    );
-    err.code = "TOPIC_DUPLICATE";
-    err.topic = nextTopic;
-    err.previousTitle = lastArticle.title;
-    throw err;
+  if (nextTopic === "general") return; // General topics are always allowed
+  
+  // Check if this topic appears in any of the last 5 articles
+  for (const article of recentArticles) {
+    const articleTopic = detectTopic(article);
+    if (articleTopic === nextTopic) {
+      const err = new Error(
+        `Le thème "${describeTopic(nextTopic)}" a déjà été traité récemment (article: "${article.title}")`
+      );
+      err.code = "TOPIC_DUPLICATE";
+      err.topic = nextTopic;
+      err.previousTitle = article.title;
+      throw err;
+    }
   }
 }
 
