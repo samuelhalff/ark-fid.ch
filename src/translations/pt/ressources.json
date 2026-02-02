@@ -137,8 +137,12 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Checklist AFC e-TVA",
-          "url": "https://www.amsuisse.ch/fileadmin/forum_archiv/pdf/2024/06/2024_06_F_120_Modification_TVA.pdf"
+          "labelKey": "Administration fédérale des contributions - TVA",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee.html"
+        },
+        {
+          "labelKey": "Portail PME - TVA",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots/tva.html"
         }
       ]
     },
@@ -196,8 +200,12 @@
       "date": "2025-10-03",
       "references": [
         {
-          "labelKey": "Bulletin officiel LPP 2025",
-          "url": "https://sozialversicherungen.admin.ch/fr/d/20606/download"
+          "labelKey": "Office fédéral des assurances sociales - LPP",
+          "url": "https://www.bsv.admin.ch/bsv/fr/home/assurances-sociales/bv.html"
+        },
+        {
+          "labelKey": "Commission de haute surveillance LPP",
+          "url": "https://www.oak-bv.admin.ch/fr"
         }
       ]
     },
@@ -210,8 +218,12 @@
       "date": "2025-10-05",
       "references": [
         {
-          "labelKey": "Directives LPP 2025",
-          "url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
+          "labelKey": "Portail PME - Prévoyance professionnelle",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/personnel/assurances-sociales/prevoyance-professionnelle.html"
+        },
+        {
+          "labelKey": "Office fédéral des assurances sociales - LPP",
+          "url": "https://www.bsv.admin.ch/bsv/fr/home/assurances-sociales/bv.html"
         }
       ]
     },

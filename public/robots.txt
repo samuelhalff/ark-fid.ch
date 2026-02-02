@@ -6,17 +6,30 @@ Allow: /
 Disallow: /api/
 Disallow: /_next/
 
-# Block crawl-heavy query parameters to prevent index bloat
-# This prevents "Crawled - currently not indexed" issues from parameter variations
-Disallow: /*?*
+# Block OpenGraph image routes (these are for social media crawlers, not search indexing)
+# Fixes "Crawled - currently not indexed" issues for opengraph-image paths
+Disallow: /*/opengraph-image
+Disallow: /*/opengraph-image/
+Disallow: /*/twitter-image
+Disallow: /*/twitter-image/
 
-# Block non-canonical URL variations (without trailing slash)
-# The canonical format uses trailing slashes
-Disallow: /fr$
-Disallow: /en$
-Disallow: /de$
-Disallow: /es$
-Disallow: /pt$
+# Block non-locale root paths that redirect to locale versions
+# These cause "Page with redirect" issues
+# The canonical URLs always have locale prefixes (e.g., /fr/, /en/)
+Disallow: /about
+Disallow: /about/
+Disallow: /contact
+Disallow: /contact/
+Disallow: /team
+Disallow: /team/
+Disallow: /services
+Disallow: /services/
+Disallow: /ressources
+Disallow: /ressources/
+Disallow: /partners
+Disallow: /partners/
+Disallow: /legal
+Disallow: /legal/
 
 # Sitemap
 Sitemap: https://ark-fid.ch/sitemap.xml

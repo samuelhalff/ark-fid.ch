@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { locales, type Locale } from "@/src/lib/i18n"; // adjust exports
 import { localizePath } from "@/src/lib/paths";
 import { hreflangFor } from "@/src/lib/hreflang";
+import { teamMembers, getMemberSlug } from "@/src/lib/team";
 import fs from "fs";
 import path from "path";
 
@@ -49,6 +50,9 @@ const servicePaths = [
   "/services/family-office",
   "/services/mergers-acquisitions",
 ];
+
+// Team member pages
+const teamPaths = teamMembers.map((member) => `/team/${getMemberSlug(member)}`);
 
 interface ArticleData {
   slug: string;
@@ -159,6 +163,7 @@ const toPathEntry = (p: PathEntry) => (typeof p === "string" ? { path: p } : p);
 const paths = [
   ...staticPaths.map(toPathEntry),
   ...servicePaths.map(toPathEntry),
+  ...teamPaths.map(toPathEntry),
   ...ressourcesArticles,
 ] as Array<{ path: string; date?: string; locales?: string[] }>;
 

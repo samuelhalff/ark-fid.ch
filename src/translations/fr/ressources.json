@@ -137,8 +137,12 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Checklist AFC e-TVA",
-          "url": "https://www.amsuisse.ch/fileadmin/forum_archiv/pdf/2024/06/2024_06_F_120_Modification_TVA.pdf"
+          "labelKey": "Administration fédérale des contributions - TVA",
+          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee.html"
+        },
+        {
+          "labelKey": "Portail PME - TVA",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots/tva.html"
         }
       ]
     },
@@ -194,7 +198,16 @@
       "content": "La prévoyance professionnelle (LPP) est au cœur de la protection sociale suisse, et chaque adaptation impacte fortement les finances des PME, indépendants et salariés à Genève. En 2025, plusieurs nouveautés notables entrent en vigueur, adoptées par le Conseil fédéral cet été. \n\n**1. Seuils et montants mis à jour**\nDès le 1er janvier 2025, le seuil d’entrée passe de CHF 22'050 à CHF 22'680 (salaire annuel), et la déduction de coordination de CHF 25'725 à CHF 26'460. Cela augmente le salaire « coordonné » sur lequel sont prélevées les cotisations, modifiant de fait le montant ponctionné chaque mois sur la [paie](/services/payroll) – ce qui a des conséquences directes sur la trésorerie des petites entreprises et le revenu disponible des collaborateurs. \n\n**2. Barème des taux LPP 2025 (inchangés)**\n- 25 à 34 ans : 7% (3,5% employeur + 3,5% employé)\n- 35 à 44 ans : 10% (5% chacun)\n- 45 à 54 ans : 15% (7,5% chacun)\n- 55 à 65 ans : 18% (9% chacun)\nBon à savoir : ces taux sont les minimums légaux. De nombreuses caisses genevoises appliquent des taux supérieurs pour assurer de meilleures rentes. \n\n**3. Intérêt minimal inchangé**\nLe taux d’intérêt minimal sur les avoirs LPP sera maintenu à 1,25% en 2025. \n\n**4. Adaptation des rentes**\nLa revalorisation des rentes AVS/AI entraine une hausse automatique des rentes de survivants et d’invalidité du 2ème pilier (augmentation de 5,8% pour les rentes ouvertes en 2021 par exemple). \n\n**5. Incidences concrètes pour entreprises et salariés**\n- Tous les logiciels de [paie](/services/payroll) devront être mis à jour pour appliquer les nouveaux seuils dès janvier.\n- Les indépendants affiliés à une LPP doivent recalculer leur capacité de déduction fiscale.\n- Les employeurs frontaliers doivent vérifier l’application des règles spécifiques selon la convention bilatérale et le domicile fiscal.\n\n**6. Optimisations à envisager**\n- Utilisez les services d’un expert-comptable maîtrisant les nouveautés LPP sur Genève pour limiter les écarts de caisse et maximiser la protection sociale.\n- Mettez à jour vos projections retraite avec les nouveaux barèmes.\n\n**\n\nPour aller plus loin et anticiper les impacts des réformes prévoyance en Suisse romande et à Genève, contactez ARK Fiduciaire pour un accompagnement et des solutions digitales adaptées à votre gestion salariale, paie et compliance sociale.\n\n### Related Services\n\n- [Payroll Services](/services/payroll)\n- [Contact Us](/[contact](/[contact](/contact)))",
       "author": "Ark Fiduciaire",
       "date": "2025-10-03",
-      "references": []
+      "references": [
+        {
+          "labelKey": "Office fédéral des assurances sociales - LPP",
+          "url": "https://www.bsv.admin.ch/bsv/fr/home/assurances-sociales/bv.html"
+        },
+        {
+          "labelKey": "Commission de haute surveillance LPP",
+          "url": "https://www.oak-bv.admin.ch/fr"
+        }
+      ]
     },
     {
       "slug": "changement-lpp-geneve-2025-employeurs-independants",
@@ -203,7 +216,16 @@
       "content": "Depuis le 1er janvier 2025, la prévoyance professionnelle (LPP) connaît de profonds ajustements réglementaires, particulièrement marqués à Genève et en Suisse romande. Ces changements concernent tant les employeurs (PME, associations, startups) que les indépendants et visent à optimiser la couverture des salariés face à l’évolution du marché du travail.\n\n### 1. Nouveaux seuils et déductions de coordination\nL’adaptation des rentes AVS/AI modifie le seuil d’entrée LPP, désormais fixé à 22’680 CHF (contre 22’050 CHF en 2024). La déduction de coordination passe à 26’460 CHF. Ces montants conditionnent l’assujettissement à la prévoyance et le calcul du salaire assuré. Pour les travailleurs à temps partiel ou multi-employeurs, cela favorise une meilleure cotisation et réduit les risques de sous-assurance.\n\n**\n\n### 2. Cotisations et taux d’intérêt minimal\nLe taux minimal d’intérêt reste fixé à 1,25% pour 2025. Pour l’employeur, ce taux impacte le rendement des avoirs LPP obligatoires et doit faire l’objet d’une vérification annuelle lors de la préparation des fiches de salaires et de la clôture comptable. Les cotisations personnelles peuvent être adaptées en Odoo (v17, v18).\n\n### 3. Implications pour la gestion de la [paie](/services/payroll) (Swissdec 5)\nL’intégration des nouveaux paramètres LPP dans vos logiciels de [paie](/services/payroll) (notamment Swissdec 5.0 ou Odoo RH) est essentielle pour éviter toute erreur lors des décomptes AVS/LPP et garantir la conformité réglementaire. Une attention particulière doit être portée aux seuils, aux bases de calcul, ainsi qu’aux justificatifs exigibles lors de contrôles cantonaux à Genève et Vaud.\n\n### 4. Obligations pour les indépendants\nLes indépendants affiliés volontairement bénéficient désormais de déductions fiscales LPP 2025 revues à la hausse, ce qui peut optimiser leur prévoyance et leur fiscalité – une opportunité à exploiter lors de la planification annuelle.\n\n### 5. Points clés à surveiller en 2025\n- Déclaration exacte des salaires soumis LPP avec justificatifs\n- Paramétrage des seuils et montants déductibles actualisés dans les logiciels de [paie](/services/payroll)\n- Révision éventuelle des plans de prévoyance, surtout pour les bas salaires et temps partiel\n- Suivi des communications officielles via l’OAK BV et ch.ch\n\nUn accompagnement par un fiduciaire spécialisé assure la conformité des démarches (paie, fiches de salaires, reporting Swissdec, affiliation LPP/Pension, conseils fiscaux à jour). Contactez Ark Fiduciaire pour un audit LPP 2025 personnalisé ou l’implémentation de nouvelles règles dans Odoo.",
       "author": "Ark Fiduciaire",
       "date": "2025-10-05",
-      "references": []
+      "references": [
+        {
+          "labelKey": "Portail PME - Prévoyance professionnelle",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/personnel/assurances-sociales/prevoyance-professionnelle.html"
+        },
+        {
+          "labelKey": "Office fédéral des assurances sociales - LPP",
+          "url": "https://www.bsv.admin.ch/bsv/fr/home/assurances-sociales/bv.html"
+        }
+      ]
     },
     {
       "slug": "odoo-18-paie-comptabilite-nouveautes-geneve-2025",
