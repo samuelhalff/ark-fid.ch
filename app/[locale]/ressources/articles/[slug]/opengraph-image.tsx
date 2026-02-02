@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { notFound } from "next/navigation";
 
 // Route Segment Config
 export const runtime = "nodejs";
@@ -7,9 +8,39 @@ export const revalidate = 60 * 60 * 24; // 24h
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+interface ArticleData {
+  slug: string;
+  title: string;
+  description?: string;
+  content?: string;
+  date?: string;
+}
+
+interface RessourcesData {
+  Articles?: ArticleData[];
+}
+
+/**
+ * Check if an article in a non-canonical locale is a genuine translation.
+ * Returns true if the article has meaningfully different content from FR.
+ */
+function isGenuineTranslation(
+  article: ArticleData,
+  canonicalArticle: ArticleData
+): boolean {
+  const sameTitle = (article.title || "") === (canonicalArticle.title || "");
+  const sameDesc =
+    (article.description || "") === (canonicalArticle.description || "");
+  const sameContent =
+    (article.content || "") === (canonicalArticle.content || "");
+  // If all three are identical, it's a duplicate, not a translation
+  return !(sameTitle && sameDesc && sameContent);
+}
+
 /**
  * Dynamic Open Graph image for article pages.
  * Displays localized title, brand mark, and subtle background.
+ * Returns 404 for non-existent or duplicate articles to match page behavior.
  */
 export default async function Image({
   params,
@@ -17,38 +48,33 @@ export default async function Image({
   params: { slug: string; locale: string };
 }) {
   const { slug, locale } = params;
+  
+  // Load locale-specific translations
   const translationsModule = await import(
     `@/src/translations/${locale}/ressources.json`
   );
-  const ressources = translationsModule.default as {
-    Articles?: Array<{
-      slug: string;
-      title: string;
-      date?: string;
-    }>;
-  };
+  const ressources = translationsModule.default as RessourcesData;
   const article = ressources.Articles?.find((entry) => entry.slug === slug);
+  
+  // If article doesn't exist in this locale, return 404
   if (!article) {
-    return new ImageResponse(
-      (
-        <div
-          style={{
-            fontSize: 48,
-            background: "#111827",
-            color: "white",
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: "system-ui, sans-serif",
-          }}
-        >
-          Article not found
-        </div>
-      ),
-      size
-    );
+    notFound();
+  }
+  
+  // For non-French locales, check if it's a genuine translation
+  if (locale !== "fr") {
+    try {
+      const frModule = await import(`@/src/translations/fr/ressources.json`);
+      const frRessources = frModule.default as RessourcesData;
+      const frArticle = frRessources.Articles?.find((a) => a.slug === slug);
+      
+      // If we can compare to FR and it's a duplicate, return 404
+      if (frArticle && !isGenuineTranslation(article, frArticle)) {
+        notFound();
+      }
+    } catch {
+      // If FR translations can't be loaded, continue with the image
+    }
   }
 
   const brand = "Ark Fiduciaire";
