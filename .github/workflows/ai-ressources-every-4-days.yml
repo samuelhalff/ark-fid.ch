@@ -47,8 +47,9 @@ jobs:
           AZURE_TRANSLATE_AGENT_ID: ${{ secrets.AZURE_TRANSLATE_AGENT_ID }}
           # Adjust if longer draft generations are needed
           AZURE_AGENT_RUN_TIMEOUT_MS: 180000
+          REQUIRE_TRANSLATIONS: "1"
         run: |
-          node scripts/ai-ressources-update.js --apply
+          node scripts/ai-ressources-update.js --apply --translate-existing
 
       - name: Clean up bad article references (unreachable URLs)
         continue-on-error: true

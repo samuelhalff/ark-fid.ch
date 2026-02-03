@@ -7,6 +7,7 @@ const rawArgs = process.argv.slice(2);
 const args = new Set(rawArgs);
 const APPLY = args.has("--apply");
 const DRY = args.has("--dry-run");
+const TRANSLATE_EXISTING = args.has("--translate-existing");
 let MOCK_PATH = null;
 
 for (const arg of rawArgs) {
@@ -30,6 +31,8 @@ function loadMockData(filePath) {
 
 const MOCK_DATA = MOCK_PATH ? loadMockData(MOCK_PATH) : null;
 const OFFLINE_MODE = process.env.OFFLINE_MODE === "1";
+const REQUIRE_TRANSLATIONS =
+  process.env.REQUIRE_TRANSLATIONS === "1" || process.env.CI === "true";
 
 const AZURE_AGENT_ENDPOINT = process.env.AZURE_AGENT_ENDPOINT;
 const AZURE_AGENT_ID = process.env.AZURE_AGENT_ID;
@@ -194,6 +197,16 @@ function hasUnnecessaryCaps(input) {
     }
   }
   return false;
+}
+
+function isDuplicateTranslation(localized, canonical) {
+  if (!localized || !canonical) return false;
+  const sameTitle = (localized.title || "") === (canonical.title || "");
+  const sameDesc =
+    (localized.description || "") === (canonical.description || "");
+  const sameContent =
+    (localized.content || "") === (canonical.content || "");
+  return sameTitle && sameDesc && sameContent;
 }
 
 function detectTopic(article) {
@@ -367,6 +380,7 @@ function buildTranslatePrompt(newArticle, newLabels) {
     "Tu es traducteur professionnel. Traduis les champs ci-dessous en conservant les structures, slugs, URLs et clés.",
     'Respecte les minuscules/majuscules d\'origine et garde "Ark Fiduciaire" tel quel.',
     "Fourni uniquement le JSON demandé, sans commentaire.",
+    "IMPORTANT: Chaque locale (en, de, es, pt) doit être traduite. Ne retourne jamais le texte français pour une autre langue.",
     "",
     "Format attendu:",
     "{",
@@ -749,6 +763,26 @@ function mergeLabels(target, labels) {
   }
 }
 
+function assertTranslationPayload(translations, locales) {
+  if (!translations || typeof translations !== "object") {
+    throw new Error("Translation payload missing.");
+  }
+  const missing = [];
+  for (const locale of locales) {
+    const payload = translations[locale];
+    if (!payload || !payload.Article) {
+      missing.push(`${locale}.Article`);
+      continue;
+    }
+    if (!payload.Article.title) missing.push(`${locale}.title`);
+    if (!payload.Article.description) missing.push(`${locale}.description`);
+    if (!payload.Article.content) missing.push(`${locale}.content`);
+  }
+  if (missing.length) {
+    throw new Error(`Translation payload incomplete: ${missing.join(", ")}`);
+  }
+}
+
 async function main() {
   if (!fs.existsSync(FR_PATH)) {
     throw new Error(`Canonical FR ressources file not found: ${FR_PATH}`);
@@ -783,11 +817,14 @@ async function main() {
   }
 
   console.log("Requesting Azure Agent for translations (EN/DE/ES/PT)...");
-  const translations =
+  let translations =
     MOCK_DATA?.translations ||
     (await azureAgentJson(buildTranslatePrompt(newArticle, newLabels), {
       agentId: AZURE_TRANSLATE_AGENT_ID,
     }));
+  if (REQUIRE_TRANSLATIONS) {
+    assertTranslationPayload(translations, LOCALES);
+  }
 
   for (const locale of LOCALES) {
     const targetPath = path.join(TRANSLATIONS_DIR, locale, "ressources.json");
@@ -801,22 +838,33 @@ async function main() {
 
     const payload = translations[locale];
     if (!payload || !payload.Article) {
-      console.warn(
-        `[WARN] Missing translation payload for ${locale}; skipping.`
-      );
+      const message = `[WARN] Missing translation payload for ${locale}; skipping.`;
+      if (REQUIRE_TRANSLATIONS) {
+        throw new Error(message);
+      }
+      console.warn(message);
       continue;
     }
     const articleTr = payload.Article;
     const labelsTr = payload.labels || {};
     const localizedArticle = {
       slug: newArticle.slug,
-      title: articleTr.title || newArticle.title,
-      description: articleTr.description || newArticle.description,
-      content: articleTr.content || newArticle.content,
+      title: articleTr.title,
+      description: articleTr.description,
+      content: articleTr.content,
       author: newArticle.author,
       date: newArticle.date,
       references: newArticle.references,
     };
+
+    if (
+      REQUIRE_TRANSLATIONS &&
+      isDuplicateTranslation(localizedArticle, newArticle)
+    ) {
+      throw new Error(
+        `[ERROR] ${locale} translation matches FR content for ${newArticle.slug}.`
+      );
+    }
 
     if (
       hasUnnecessaryCaps(localizedArticle.title) ||
@@ -839,6 +887,24 @@ async function main() {
     mergeLabels(data, labelsTr);
     saveJSON(targetPath, data);
     console.log(`${locale} updated.`);
+  }
+
+  if (TRANSLATE_EXISTING) {
+    const spawnSync = require("child_process").spawnSync;
+    console.log("Regenerating translations for existing articles...");
+    const result = spawnSync(
+      "node",
+      ["scripts/translate-articles.js", "--apply", "--force"],
+      {
+        stdio: "inherit",
+        env: process.env,
+      }
+    );
+    if (result.status !== 0) {
+      throw new Error(
+        `translate-articles.js failed with exit code ${result.status}`
+      );
+    }
   }
 
   console.log("Done.");
