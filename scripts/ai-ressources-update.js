@@ -199,6 +199,10 @@ function hasUnnecessaryCaps(input) {
   return false;
 }
 
+/**
+ * Detects untranslated payloads by comparing title, description and content
+ * against the canonical article.
+ */
 function isDuplicateTranslation(localized, canonical) {
   if (!localized || !canonical) return false;
   const sameTitle = (localized.title || "") === (canonical.title || "");
@@ -765,7 +769,9 @@ function mergeLabels(target, labels) {
 
 function assertTranslationPayload(translations, locales) {
   if (!translations || typeof translations !== "object") {
-    throw new Error("Translation payload missing.");
+    throw new Error(
+      `Translation payload missing or invalid. Received: ${typeof translations}`
+    );
   }
   const missing = [];
   for (const locale of locales) {
