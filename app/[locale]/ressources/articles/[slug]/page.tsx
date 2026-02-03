@@ -96,21 +96,7 @@ export default async function ArticlePage({ params }: Params) {
   const frArticle = fr.Articles.find((article) => article.slug === params.slug);
 
   // If slug doesn't exist at all in this locale, return 404
-  if (locale !== "fr" && !localArticle) return notFound();
-
-  // Check if this is a duplicate/untranslated article (content identical to FR)
-  // If so, return 404 to prevent soft 404 issues with Google
-  if (locale !== "fr" && localArticle && frArticle) {
-    const sameTitle = (localArticle.title || "") === (frArticle.title || "");
-    const sameDesc =
-      (localArticle.description || "") === (frArticle.description || "");
-    const sameContent =
-      (localArticle.content || "") === (frArticle.content || "");
-    if (sameTitle && sameDesc && sameContent) {
-      // This is duplicate content - return 404 to avoid soft 404 reports
-      return notFound();
-    }
-  }
+  if (locale !== "fr" && !localArticle && !frArticle) return notFound();
 
   const article = localArticle ?? frArticle;
   if (!article) return notFound();
@@ -380,9 +366,13 @@ export async function generateMetadata({ params }: Params) {
   const locale: Locale = isValidLocale(params.locale) ? params.locale : "fr";
   const ressources = await loadRessources(locale);
 
-  const article = ressources.Articles.find(
-    (article) => article.slug === params.slug
-  );
+  const article =
+    ressources.Articles.find((article) => article.slug === params.slug) ??
+    (locale === "fr"
+      ? undefined
+      : (await loadRessources("fr")).Articles.find(
+          (frArticle) => frArticle.slug === params.slug
+        ));
   // If article not found, the page component returns notFound() so no metadata needed
   if (!article) return {};
 
@@ -392,6 +382,19 @@ export async function generateMetadata({ params }: Params) {
   
   // Load French resources once for comparison
   const frRessources = await loadRessources("fr");
+  const isDuplicateOfFr = (candidate: ResourceArticle) => {
+    if (locale === "fr") return false;
+    const frArticle = frRessources.Articles.find(
+      (a) => a.slug === candidate.slug
+    );
+    if (!frArticle) return false;
+    const sameTitle = (candidate.title || "") === (frArticle.title || "");
+    const sameDesc =
+      (candidate.description || "") === (frArticle.description || "");
+    const sameContent =
+      (candidate.content || "") === (frArticle.content || "");
+    return sameTitle && sameDesc && sameContent;
+  };
   
   for (const loc of allLocales) {
     try {
@@ -399,30 +402,17 @@ export async function generateMetadata({ params }: Params) {
       const locArticle = locRessources.Articles.find(
         (a) => a.slug === params.slug
       );
-      
+
       if (!locArticle) {
         // Article doesn't exist in this locale
         continue;
       }
-      
-      // Check if it's a duplicate of French (same logic as in the page component)
-      if (loc !== "fr") {
-        const frArticle = frRessources.Articles.find(
-          (a) => a.slug === params.slug
-        );
-        
-        if (frArticle) {
-          const sameTitle = (locArticle.title || "") === (frArticle.title || "");
-          const sameDesc = (locArticle.description || "") === (frArticle.description || "");
-          const sameContent = (locArticle.content || "") === (frArticle.content || "");
-          
-          if (sameTitle && sameDesc && sameContent) {
-            // This is a duplicate - skip this locale
-            continue;
-          }
-        }
+
+      if (isDuplicateOfFr(locArticle)) {
+        // This is a duplicate - skip this locale
+        continue;
       }
-      
+
       // Article exists and is not a duplicate
       validLocales.push(loc);
     } catch (error) {
@@ -443,12 +433,13 @@ export async function generateMetadata({ params }: Params) {
     meta && typeof meta.robots === "object" && meta.robots !== null
       ? (meta.robots as Record<string, unknown>)
       : {};
+  const shouldIndex = locale === "fr" || !isDuplicateOfFr(article);
   return {
     ...meta,
     robots: {
       ...(robotsConfig as Record<string, unknown>),
-      index: true,
-      follow: true,
+      index: shouldIndex,
+      follow: shouldIndex,
     },
     other: {
       ...(meta.other || {}),
