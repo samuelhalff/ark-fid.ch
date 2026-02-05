@@ -464,18 +464,29 @@ function extractJsonFromText(raw) {
   }
 }
 
+/**
+ * Legacy Azure Agents use OpenAI-style IDs that start with "asst".
+ */
 function isLegacyAgentId(agentIdentifier) {
   return (
     typeof agentIdentifier === "string" && agentIdentifier.startsWith("asst")
   );
 }
 
+/**
+ * Build a Responses API agent_reference payload from "name" or "name:version".
+ * @param {string} agentName
+ * @returns {{name: string, type: string, version?: string}}
+ */
 function buildAgentReference(agentName) {
   if (typeof agentName !== "string" || !agentName.trim()) {
     throw new Error("AZURE_AGENT_NAME must be a non-empty string");
   }
   const trimmedName = agentName.trim();
   const [name, version] = trimmedName.split(":", 2);
+  if (!name) {
+    throw new Error("AZURE_AGENT_NAME must include a name");
+  }
   const agent = { name, type: "agent_reference" };
   if (version) {
     agent.version = version;
