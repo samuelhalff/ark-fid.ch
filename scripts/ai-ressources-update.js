@@ -945,20 +945,17 @@ async function repairReferences(article, category = "general") {
 
     let regen;
     try {
-      // Try SDK-based API first (more reliable), then Responses API as fallback
-      regen =
-        MOCK_DATA?.regenReferences?.[attempt - 1] ||
-        (await azureAgentJson(regenPrompt, { agentId: AZURE_AGENT_NAME }).catch(
-          (sdkErr) => {
-            console.warn(`[refs] SDK API failed (${sdkErr.message}), trying Responses API...`);
-            return azureAgentResponsesApi(regenPrompt, { agentName: AZURE_AGENT_NAME }).catch(
-              () => {
-                // Both methods failed, throw the original SDK error
-                throw sdkErr;
-              }
-            );
-          }
-        ));
+      // Use SDK API only for legacy agent IDs (starting with "asst_")
+      // Use Responses API for agent names (modern approach)
+      if (MOCK_DATA?.regenReferences?.[attempt - 1]) {
+        regen = MOCK_DATA.regenReferences[attempt - 1];
+      } else if (isLegacyAgentId(AZURE_AGENT_NAME)) {
+        // Legacy agent ID - use SDK API
+        regen = await azureAgentJson(regenPrompt, { agentId: AZURE_AGENT_NAME });
+      } else {
+        // Agent name - use Responses API (supports agent name references)
+        regen = await azureAgentResponsesApi(regenPrompt, { agentName: AZURE_AGENT_NAME });
+      }
     } catch (error) {
       console.warn(`[refs] Regeneration failed: ${error.message}`);
       break;
@@ -1016,21 +1013,12 @@ async function generateArticleWithRetries(frData, attempts, trendData = null) {
     let draft;
     if (MOCK_DATA?.draft) {
       draft = MOCK_DATA.draft;
+    } else if (isLegacyAgentId(AZURE_AGENT_NAME)) {
+      // Legacy agent ID (starts with "asst_") - use SDK API
+      draft = await azureAgentJson(prompt, { agentId: AZURE_AGENT_NAME });
     } else {
-      // Try SDK-based API first (more reliable), then Responses API as fallback
-      try {
-        draft = await azureAgentJson(prompt, { agentId: AZURE_AGENT_NAME });
-      } catch (sdkErr) {
-        console.warn(
-          `[agent] SDK API failed (${sdkErr.message}), trying Responses API...`
-        );
-        try {
-          draft = await azureAgentResponsesApi(prompt, { agentName: AZURE_AGENT_NAME });
-        } catch (responsesErr) {
-          // Both methods failed, throw the original SDK error as it's more informative
-          throw sdkErr;
-        }
-      }
+      // Agent name - use Responses API (supports agent name references)
+      draft = await azureAgentResponsesApi(prompt, { agentName: AZURE_AGENT_NAME });
     }
     
     try {
@@ -1158,27 +1146,18 @@ async function main() {
   let translations;
   if (MOCK_DATA?.translations) {
     translations = MOCK_DATA.translations;
+  } else if (isLegacyAgentId(AZURE_TRANSLATE_AGENT_NAME)) {
+    // Legacy agent ID (starts with "asst_") - use SDK API
+    translations = await azureAgentJson(
+      buildTranslatePrompt(newArticle, newLabels),
+      { agentId: AZURE_TRANSLATE_AGENT_NAME }
+    );
   } else {
-    // Try SDK-based API first (more reliable), then Responses API as fallback
-    try {
-      translations = await azureAgentJson(
-        buildTranslatePrompt(newArticle, newLabels),
-        { agentId: AZURE_TRANSLATE_AGENT_NAME }
-      );
-    } catch (sdkErr) {
-      console.warn(
-        `[agent] Translation SDK API failed (${sdkErr.message}), trying Responses API...`
-      );
-      try {
-        translations = await azureAgentResponsesApi(
-          buildTranslatePrompt(newArticle, newLabels),
-          { agentName: AZURE_TRANSLATE_AGENT_NAME }
-        );
-      } catch (responsesErr) {
-        // Both methods failed, throw the original SDK error as it's more informative
-        throw sdkErr;
-      }
-    }
+    // Agent name - use Responses API (supports agent name references)
+    translations = await azureAgentResponsesApi(
+      buildTranslatePrompt(newArticle, newLabels),
+      { agentName: AZURE_TRANSLATE_AGENT_NAME }
+    );
   }
   if (REQUIRE_TRANSLATIONS) {
     assertTranslationPayload(translations, LOCALES);
