@@ -945,15 +945,18 @@ async function repairReferences(article, category = "general") {
 
     let regen;
     try {
-      // Try Responses API first, fallback to legacy
+      // Try SDK-based API first (more reliable), then Responses API as fallback
       regen =
         MOCK_DATA?.regenReferences?.[attempt - 1] ||
-        (await azureAgentResponsesApi(regenPrompt, { agentName: AZURE_AGENT_NAME }).catch(
-          (responsesErr) => {
-            if (!isLegacyAgentId(AZURE_AGENT_NAME)) {
-              throw responsesErr;
-            }
-            return azureAgentJson(regenPrompt, { agentId: AZURE_AGENT_NAME });
+        (await azureAgentJson(regenPrompt, { agentId: AZURE_AGENT_NAME }).catch(
+          (sdkErr) => {
+            console.warn(`[refs] SDK API failed (${sdkErr.message}), trying Responses API...`);
+            return azureAgentResponsesApi(regenPrompt, { agentName: AZURE_AGENT_NAME }).catch(
+              () => {
+                // Both methods failed, throw the original SDK error
+                throw sdkErr;
+              }
+            );
           }
         ));
     } catch (error) {
@@ -1014,17 +1017,19 @@ async function generateArticleWithRetries(frData, attempts, trendData = null) {
     if (MOCK_DATA?.draft) {
       draft = MOCK_DATA.draft;
     } else {
-      // Try Responses API first (new method), fallback to legacy agent API
+      // Try SDK-based API first (more reliable), then Responses API as fallback
       try {
-        draft = await azureAgentResponsesApi(prompt, { agentName: AZURE_AGENT_NAME });
-      } catch (responsesErr) {
-        if (!isLegacyAgentId(AZURE_AGENT_NAME)) {
-          throw responsesErr;
-        }
-        console.warn(
-          `[agent] Responses API failed (${responsesErr.message}), trying legacy API...`
-        );
         draft = await azureAgentJson(prompt, { agentId: AZURE_AGENT_NAME });
+      } catch (sdkErr) {
+        console.warn(
+          `[agent] SDK API failed (${sdkErr.message}), trying Responses API...`
+        );
+        try {
+          draft = await azureAgentResponsesApi(prompt, { agentName: AZURE_AGENT_NAME });
+        } catch (responsesErr) {
+          // Both methods failed, throw the original SDK error as it's more informative
+          throw sdkErr;
+        }
       }
     }
     
@@ -1154,23 +1159,25 @@ async function main() {
   if (MOCK_DATA?.translations) {
     translations = MOCK_DATA.translations;
   } else {
-    // Try Responses API first, fallback to legacy
+    // Try SDK-based API first (more reliable), then Responses API as fallback
     try {
-      translations = await azureAgentResponsesApi(
-        buildTranslatePrompt(newArticle, newLabels),
-        { agentName: AZURE_TRANSLATE_AGENT_NAME }
-      );
-    } catch (responsesErr) {
-      if (!isLegacyAgentId(AZURE_TRANSLATE_AGENT_NAME)) {
-        throw responsesErr;
-      }
-      console.warn(
-        `[agent] Translation Responses API failed (${responsesErr.message}), trying legacy API...`
-      );
       translations = await azureAgentJson(
         buildTranslatePrompt(newArticle, newLabels),
         { agentId: AZURE_TRANSLATE_AGENT_NAME }
       );
+    } catch (sdkErr) {
+      console.warn(
+        `[agent] Translation SDK API failed (${sdkErr.message}), trying Responses API...`
+      );
+      try {
+        translations = await azureAgentResponsesApi(
+          buildTranslatePrompt(newArticle, newLabels),
+          { agentName: AZURE_TRANSLATE_AGENT_NAME }
+        );
+      } catch (responsesErr) {
+        // Both methods failed, throw the original SDK error as it's more informative
+        throw sdkErr;
+      }
     }
   }
   if (REQUIRE_TRANSLATIONS) {
