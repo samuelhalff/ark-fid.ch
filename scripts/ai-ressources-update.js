@@ -465,7 +465,7 @@ function extractJsonFromText(raw) {
 }
 
 /**
- * Legacy Azure Agents use OpenAI-style IDs that start with "asst".
+ * Legacy Azure agents use OpenAI-style IDs that start with "asst".
  */
 function isLegacyAgentId(agentIdentifier) {
   return (

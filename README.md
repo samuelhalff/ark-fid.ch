@@ -122,7 +122,8 @@ Environment (DefaultAzureCredential):
 ```
 # Required
 AZURE_AGENT_ENDPOINT=...
-AZURE_AGENT_NAME=... # optionally add :version (ex: web-deep-search:2)
+AZURE_AGENT_NAME=...
+# Example: AZURE_AGENT_NAME=web-deep-search:2
 
 # Optional
 AZURE_TRANSLATE_AGENT_NAME=...
