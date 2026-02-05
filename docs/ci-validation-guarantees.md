@@ -284,24 +284,27 @@ Manual additions bypassed validation.
 
 ### Issue Discovered
 
-Azure AI Agent API calls were failing with `UnsupportedApiVersion` error.
+Azure AI Agent API calls were failing with `Invalid 'assistant_id'` error.
 
 ### Root Cause
 
-The custom Responses API implementation was hitting API version compatibility issues with the Azure endpoint format.
+The SDK-based API (`AIProjectClient.agents.getAgent()`) requires an OpenAI-style assistant ID starting with `asst_`, but the `AZURE_AGENT_NAME` secret was configured with an agent name (e.g., "ark-fid-agent"), not a legacy assistant ID.
+
+A previous fix incorrectly changed the API selection logic to always try the SDK API first, which fails for agent names.
 
 ### Resolution
 
-1. ✅ Changed fallback order: SDK-based API is now tried first (more reliable)
-2. ✅ Responses API is used as fallback if SDK fails
-3. ✅ Updated `@azure/ai-projects` dependency to stable version `^1.0.1`
-4. ✅ SDK automatically uses correct API version (`v1`)
+1. ✅ API selection now based on agent identifier format:
+   - **Legacy IDs** (starting with `asst_`): Use SDK-based API
+   - **Agent names** (any other string): Use Responses API with agent reference
+2. ✅ Responses API properly supports agent name references
+3. ✅ `@azure/ai-projects` dependency at stable version `^1.0.1`
 
 ### Prevention
 
-- ✅ Use official Azure SDKs (`@azure/ai-projects`, `@azure/ai-agents`) for API calls
-- ✅ SDK handles API versioning automatically
-- ✅ Fallback to alternative API method if primary fails
+- ✅ Use `isLegacyAgentId()` helper to determine correct API method
+- ✅ SDK API only called when agent ID format is compatible
+- ✅ Responses API used for modern agent name-based references
 
 ---
 
