@@ -280,6 +280,31 @@ Manual additions bypassed validation.
 
 ---
 
+## Recent Fixes (February 2026)
+
+### Issue Discovered
+
+Azure AI Agent API calls were failing with `UnsupportedApiVersion` error.
+
+### Root Cause
+
+The custom Responses API implementation was hitting API version compatibility issues with the Azure endpoint format.
+
+### Resolution
+
+1. ✅ Changed fallback order: SDK-based API is now tried first (more reliable)
+2. ✅ Responses API is used as fallback if SDK fails
+3. ✅ Updated `@azure/ai-projects` dependency to stable version `^1.0.1`
+4. ✅ SDK automatically uses correct API version (`v1`)
+
+### Prevention
+
+- ✅ Use official Azure SDKs (`@azure/ai-projects`, `@azure/ai-agents`) for API calls
+- ✅ SDK handles API versioning automatically
+- ✅ Fallback to alternative API method if primary fails
+
+---
+
 ## Conclusion
 
 **YES, we can guarantee no 404s will reach your website.**
