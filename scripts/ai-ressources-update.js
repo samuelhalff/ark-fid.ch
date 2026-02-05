@@ -44,6 +44,9 @@ const AZURE_AGENT_NAME = process.env.AZURE_AGENT_NAME || process.env.AZURE_AGENT
 const AZURE_TRANSLATE_AGENT_NAME =
   process.env.AZURE_TRANSLATE_AGENT_NAME || process.env.AZURE_TRANSLATE_AGENT_ID || AZURE_AGENT_NAME;
 const AZURE_AGENT_API_VERSION = process.env.AZURE_AGENT_API_VERSION || "v1";
+const AZURE_AGENT_API_VERSIONS = Array.from(
+  new Set([AZURE_AGENT_API_VERSION, "v1"].filter(Boolean))
+);
 
 const ROOT = process.cwd();
 const TRANSLATIONS_DIR = path.join(ROOT, "src", "translations");
@@ -586,13 +589,9 @@ async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } =
   // Build the responses API URL
   // AZURE_AGENT_ENDPOINT should be: https://<resource>.services.ai.azure.com/api/projects/<project>
   const baseUrl = AZURE_AGENT_ENDPOINT.replace(/\/$/, "");
-  const responsesUrl = `${baseUrl}/agents/responses?api-version=${encodeURIComponent(
-    AZURE_AGENT_API_VERSION
-  )}`;
 
   if (debugAgent) {
     console.log(`[agent] Using Responses API with agent name: ${agentName}`);
-    console.log(`[agent] Endpoint: ${responsesUrl}`);
   }
 
   const timeoutMs = parseInt(process.env.AZURE_AGENT_RUN_TIMEOUT_MS || "180000", 10);
@@ -604,76 +603,121 @@ async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } =
     },
   };
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-  try {
-    const response = await fetch(responsesUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`
-      },
-      body: JSON.stringify(requestBody),
-      signal: controller.signal
-    });
-
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      const errorText = await response.text().catch(() => "");
-      throw new Error(`Azure Responses API HTTP ${response.status}: ${errorText.slice(0, 500)}`);
+  const callResponsesApi = async (apiVersion) => {
+    const responsesUrl = `${baseUrl}/agents/responses?api-version=${encodeURIComponent(
+      apiVersion
+    )}`;
+    if (debugAgent) {
+      console.log(`[agent] Endpoint: ${responsesUrl}`);
     }
 
-    const result = await response.json();
-    
-    // Extract text content from the response
-    let outputText = "";
-    if (result.output) {
-      if (typeof result.output === "string") {
-        outputText = result.output;
-      } else if (Array.isArray(result.output)) {
-        // Handle array of content items
-        for (const item of result.output) {
-          if (item.type === "text" && item.text) {
-            outputText = typeof item.text === "string" ? item.text : item.text.value || "";
-          } else if (item.type === "message" && item.content) {
-            for (const c of item.content) {
-              if (c.type === "text" && c.text) {
-                outputText = typeof c.text === "string" ? c.text : c.text.value || "";
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      const response = await fetch(responsesUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(requestBody),
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => "");
+        let errorPayload;
+        try {
+          errorPayload = JSON.parse(errorText);
+        } catch {
+          errorPayload = null;
+        }
+        const error = new Error(
+          `Azure Responses API HTTP ${response.status}: ${errorText.slice(0, 500)}`
+        );
+        const errorCode = errorPayload?.error?.code;
+        if (errorCode === "UnsupportedApiVersion" || errorText.includes("UnsupportedApiVersion")) {
+          error.code = "UnsupportedApiVersion";
+        }
+        throw error;
+      }
+
+      const result = await response.json();
+      
+      // Extract text content from the response
+      let outputText = "";
+      if (result.output) {
+        if (typeof result.output === "string") {
+          outputText = result.output;
+        } else if (Array.isArray(result.output)) {
+          // Handle array of content items
+          for (const item of result.output) {
+            if (item.type === "text" && item.text) {
+              outputText = typeof item.text === "string" ? item.text : item.text.value || "";
+            } else if (item.type === "message" && item.content) {
+              for (const c of item.content) {
+                if (c.type === "text" && c.text) {
+                  outputText = typeof c.text === "string" ? c.text : c.text.value || "";
+                }
               }
             }
           }
-        }
-      } else if (result.output.content) {
-        // Handle single message with content
-        for (const c of result.output.content) {
-          if (c.type === "text" && c.text) {
-            outputText = typeof c.text === "string" ? c.text : c.text.value || "";
+        } else if (result.output.content) {
+          // Handle single message with content
+          for (const c of result.output.content) {
+            if (c.type === "text" && c.text) {
+              outputText = typeof c.text === "string" ? c.text : c.text.value || "";
+            }
           }
         }
       }
-    }
-    
-    if (!outputText && result.choices?.[0]?.message?.content) {
-      outputText = result.choices[0].message.content;
-    }
-
-    if (!outputText) {
-      if (debugAgent) {
-        console.log("[agent] Full response:", JSON.stringify(result, null, 2));
+      
+      if (!outputText && result.choices?.[0]?.message?.content) {
+        outputText = result.choices[0].message.content;
       }
-      throw new Error("Azure Responses API returned no output text");
-    }
 
-    return extractJsonFromText(outputText);
-  } catch (err) {
-    clearTimeout(timeoutId);
-    if (err.name === "AbortError") {
-      throw new Error(`Azure Responses API timeout after ${timeoutMs}ms`);
+      if (!outputText) {
+        if (debugAgent) {
+          console.log("[agent] Full response:", JSON.stringify(result, null, 2));
+        }
+        throw new Error("Azure Responses API returned no output text");
+      }
+
+      return extractJsonFromText(outputText);
+    } catch (err) {
+      clearTimeout(timeoutId);
+      if (err.name === "AbortError") {
+        throw new Error(`Azure Responses API timeout after ${timeoutMs}ms`);
+      }
+      throw err;
     }
-    throw err;
+  };
+
+  let lastError;
+  for (const apiVersion of AZURE_AGENT_API_VERSIONS) {
+    try {
+      return await callResponsesApi(apiVersion);
+    } catch (err) {
+      if (err.code === "UnsupportedApiVersion" && apiVersion !== "v1") {
+        lastError = err;
+        if (debugAgent) {
+          console.warn(
+            `[agent] Responses API version ${apiVersion} unsupported, retrying with fallback...`
+          );
+        }
+        continue;
+      }
+      throw err;
+    }
   }
+
+  if (lastError) {
+    throw lastError;
+  }
+  throw new Error("Azure Responses API failed for all configured versions.");
 }
 
 function ensureAzureEnv() {
