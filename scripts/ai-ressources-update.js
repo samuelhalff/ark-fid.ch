@@ -469,7 +469,11 @@ function isLegacyAgentId(agentName) {
 }
 
 function buildAgentReference(agentName) {
-  const [name, version] = agentName.split(":");
+  if (typeof agentName !== "string") {
+    throw new Error("Missing AZURE_AGENT_NAME");
+  }
+  const [name, ...versionParts] = agentName.split(":");
+  const version = versionParts.length ? versionParts.join(":") : "";
   const agent = { name, type: "agent_reference" };
   if (version) {
     agent.version = version;
