@@ -207,7 +207,7 @@ For bad content to reach the website, ALL of these would need to fail simultaneo
 
 ```bash
 # Test AI generation (dry run)
-AZURE_AGENT_ENDPOINT=... node scripts/ai-ressources-update.js --dry-run
+AZURE_AGENT_ENDPOINT=... AZURE_AGENT_NAME=... node scripts/ai-ressources-update.js --dry-run
 
 # Validate all resources
 node scripts/check-ressources-links.js --all-locales --remote

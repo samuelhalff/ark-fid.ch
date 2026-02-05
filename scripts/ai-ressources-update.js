@@ -465,6 +465,36 @@ function extractJsonFromText(raw) {
 }
 
 /**
+ * Legacy Azure agents use OpenAI-style IDs that start with "asst".
+ */
+function isLegacyAgentId(agentIdentifier) {
+  return (
+    typeof agentIdentifier === "string" && agentIdentifier.startsWith("asst")
+  );
+}
+
+/**
+ * Build a Responses API agent_reference payload from "name" or "name:version".
+ * @param {string} agentName
+ * @returns {{name: string, type: string, version?: string}}
+ */
+function buildAgentReference(agentName) {
+  if (typeof agentName !== "string" || !agentName.trim()) {
+    throw new Error("AZURE_AGENT_NAME must be a non-empty string");
+  }
+  const trimmedName = agentName.trim();
+  const [name, version] = trimmedName.split(":", 2);
+  if (!name) {
+    throw new Error("AZURE_AGENT_NAME must include a name");
+  }
+  const agent = { name, type: "agent_reference" };
+  if (version) {
+    agent.version = version;
+  }
+  return agent;
+}
+
+/**
  * Legacy Azure Agent API using the AIProjectClient.
  * This is kept for backwards compatibility when Responses API fails.
  * @param {string} prompt - The user prompt
@@ -549,7 +579,7 @@ async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } =
   const debugAgent = !!process.env.DEBUG_AGENT;
 
   // Get access token for Azure AI Foundry
-  const tokenResponse = await credential.getToken("https://cognitiveservices.azure.com/.default");
+  const tokenResponse = await credential.getToken("https://ai.azure.com/.default");
   const accessToken = tokenResponse.token;
 
   // Build the responses API URL
@@ -567,11 +597,8 @@ async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } =
   const requestBody = {
     input: prompt,
     extra_body: {
-      agent: {
-        name: agentName,
-        type: "agent_reference"
-      }
-    }
+      agent: buildAgentReference(agentName),
+    },
   };
 
   const controller = new AbortController();
@@ -874,8 +901,13 @@ async function repairReferences(article, category = "general") {
       // Try Responses API first, fallback to legacy
       regen =
         MOCK_DATA?.regenReferences?.[attempt - 1] ||
-        (await azureAgentResponsesApi(regenPrompt, { agentName: AZURE_AGENT_NAME }).catch(() =>
-          azureAgentJson(regenPrompt, { agentId: AZURE_AGENT_NAME })
+        (await azureAgentResponsesApi(regenPrompt, { agentName: AZURE_AGENT_NAME }).catch(
+          (responsesErr) => {
+            if (!isLegacyAgentId(AZURE_AGENT_NAME)) {
+              throw responsesErr;
+            }
+            return azureAgentJson(regenPrompt, { agentId: AZURE_AGENT_NAME });
+          }
         ));
     } catch (error) {
       console.warn(`[refs] Regeneration failed: ${error.message}`);
@@ -939,7 +971,12 @@ async function generateArticleWithRetries(frData, attempts, trendData = null) {
       try {
         draft = await azureAgentResponsesApi(prompt, { agentName: AZURE_AGENT_NAME });
       } catch (responsesErr) {
-        console.warn(`[agent] Responses API failed (${responsesErr.message}), trying legacy API...`);
+        if (!isLegacyAgentId(AZURE_AGENT_NAME)) {
+          throw responsesErr;
+        }
+        console.warn(
+          `[agent] Responses API failed (${responsesErr.message}), trying legacy API...`
+        );
         draft = await azureAgentJson(prompt, { agentId: AZURE_AGENT_NAME });
       }
     }
@@ -1077,7 +1114,12 @@ async function main() {
         { agentName: AZURE_TRANSLATE_AGENT_NAME }
       );
     } catch (responsesErr) {
-      console.warn(`[agent] Translation Responses API failed (${responsesErr.message}), trying legacy API...`);
+      if (!isLegacyAgentId(AZURE_TRANSLATE_AGENT_NAME)) {
+        throw responsesErr;
+      }
+      console.warn(
+        `[agent] Translation Responses API failed (${responsesErr.message}), trying legacy API...`
+      );
       translations = await azureAgentJson(
         buildTranslatePrompt(newArticle, newLabels),
         { agentId: AZURE_TRANSLATE_AGENT_NAME }
