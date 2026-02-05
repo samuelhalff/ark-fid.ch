@@ -3,6 +3,10 @@
 const fs = require("fs");
 const path = require("path");
 
+// Import trend and reference validation modules
+const { getTopicSuggestions, buildSEOSuggestions } = require("./lib/trends");
+const { validateReferences, deduplicateByDomain, getFallbackReferences } = require("./lib/referenceValidator");
+
 const rawArgs = process.argv.slice(2);
 const args = new Set(rawArgs);
 const APPLY = args.has("--apply");
@@ -35,9 +39,10 @@ const REQUIRE_TRANSLATIONS =
   process.env.REQUIRE_TRANSLATIONS === "1" || process.env.CI === "true";
 
 const AZURE_AGENT_ENDPOINT = process.env.AZURE_AGENT_ENDPOINT;
-const AZURE_AGENT_ID = process.env.AZURE_AGENT_ID;
-const AZURE_TRANSLATE_AGENT_ID =
-  process.env.AZURE_TRANSLATE_AGENT_ID || AZURE_AGENT_ID;
+// Support both AZURE_AGENT_NAME (new) and AZURE_AGENT_ID (legacy)
+const AZURE_AGENT_NAME = process.env.AZURE_AGENT_NAME || process.env.AZURE_AGENT_ID;
+const AZURE_TRANSLATE_AGENT_NAME =
+  process.env.AZURE_TRANSLATE_AGENT_NAME || process.env.AZURE_TRANSLATE_AGENT_ID || AZURE_AGENT_NAME;
 
 const ROOT = process.cwd();
 const TRANSLATIONS_DIR = path.join(ROOT, "src", "translations");
@@ -288,7 +293,7 @@ function analyzeRecentTopics(frData, recentCount = 15) {
   };
 }
 
-function buildSystemPrompt(frJson) {
+function buildSystemPrompt(frJson, trendData = null) {
   const today = isoDateToday();
   const sixMonthsAgo = (() => {
     const d = new Date();
@@ -338,6 +343,32 @@ function buildSystemPrompt(frJson) {
     );
   }
 
+  // Build trend-based keyword guidance
+  const trendGuidance = [];
+  if (trendData && trendData.selectedTopic) {
+    const { suggestedTopic, keywords, outline, category } = trendData.selectedTopic;
+    trendGuidance.push(
+      "",
+      "=== SIGNAUX TENDANCE SEO (à intégrer si pertinent) ===",
+      `📈 Sujet suggéré par tendance: "${suggestedTopic}"`,
+      `🔑 Mots-clés SEO cibles: ${keywords.join(", ")}`
+    );
+    if (outline && outline.length > 0) {
+      trendGuidance.push(`📋 Plan suggéré: ${outline.join(" → ")}`);
+    }
+    if (category) {
+      trendGuidance.push(`📁 Catégorie thématique: ${category}`);
+    }
+    if (trendData.usedFallback) {
+      trendGuidance.push("ℹ️ (Sujet basé sur liste evergreen - tendances indisponibles)");
+    }
+    trendGuidance.push(
+      "",
+      "⚠️ IMPORTANT: Intègre ces mots-clés naturellement dans le titre, la description et le contenu pour optimiser le SEO.",
+      "⚠️ Le sujet suggéré est une indication, adapte-le selon nos services fiduciaires genevois."
+    );
+  }
+
   return [
     "Tu es un assistant éditorial SEO expert pour Ark Fiduciaire (Genève, Suisse romande).",
     `Date actuelle: ${today}. N'intègre que des éléments publiés ou mis à jour entre ${sixMonthsAgo} et ${today}.`,
@@ -345,6 +376,7 @@ function buildSystemPrompt(frJson) {
     "",
     "=== DIVERSITÉ THÉMATIQUE (CRITIQUE) ===",
     ...diversityGuidance,
+    ...trendGuidance,
     "",
     "Objectif: proposer EXACTEMENT 1 nouvel article (section « Articles ») en français, avec des conseils pratiques et utiles pour les visiteurs PME/indépendants.",
     "",
@@ -432,9 +464,16 @@ function extractJsonFromText(raw) {
   }
 }
 
-async function azureAgentJson(prompt, { agentId = AZURE_AGENT_ID } = {}) {
+/**
+ * Legacy Azure Agent API using the AIProjectClient.
+ * This is kept for backwards compatibility when Responses API fails.
+ * @param {string} prompt - The user prompt
+ * @param {Object} options - Options including agentId (agent name or ID)
+ * @returns {Promise<Object>} Parsed JSON response
+ */
+async function azureAgentJson(prompt, { agentId = AZURE_AGENT_NAME } = {}) {
   if (!AZURE_AGENT_ENDPOINT) throw new Error("Missing AZURE_AGENT_ENDPOINT");
-  if (!agentId) throw new Error("Missing AZURE_AGENT_ID");
+  if (!agentId) throw new Error("Missing AZURE_AGENT_NAME");
 
   const { AIProjectClient } = require("@azure/ai-projects");
   const { DefaultAzureCredential } = require("@azure/identity");
@@ -494,10 +533,123 @@ async function azureAgentJson(prompt, { agentId = AZURE_AGENT_ID } = {}) {
   return extractJsonFromText(lastAssistantText);
 }
 
+/**
+ * Call Azure AI Foundry Agent using the Responses API with agent reference.
+ * This is the new preferred method that uses agent name instead of agent ID.
+ * @param {string} prompt - The user prompt
+ * @param {Object} options - Options including agentName
+ * @returns {Promise<Object>} Parsed JSON response
+ */
+async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } = {}) {
+  if (!AZURE_AGENT_ENDPOINT) throw new Error("Missing AZURE_AGENT_ENDPOINT");
+  if (!agentName) throw new Error("Missing AZURE_AGENT_NAME");
+
+  const { DefaultAzureCredential } = require("@azure/identity");
+  const credential = new DefaultAzureCredential();
+  const debugAgent = !!process.env.DEBUG_AGENT;
+
+  // Get access token for Azure AI Foundry
+  const tokenResponse = await credential.getToken("https://cognitiveservices.azure.com/.default");
+  const accessToken = tokenResponse.token;
+
+  // Build the responses API URL
+  // AZURE_AGENT_ENDPOINT should be: https://<resource>.services.ai.azure.com/api/projects/<project>
+  const baseUrl = AZURE_AGENT_ENDPOINT.replace(/\/$/, "");
+  const responsesUrl = `${baseUrl}/agents/responses?api-version=2025-05-01-preview`;
+
+  if (debugAgent) {
+    console.log(`[agent] Using Responses API with agent name: ${agentName}`);
+    console.log(`[agent] Endpoint: ${responsesUrl}`);
+  }
+
+  const timeoutMs = parseInt(process.env.AZURE_AGENT_RUN_TIMEOUT_MS || "180000", 10);
+  
+  const requestBody = {
+    input: prompt,
+    extra_body: {
+      agent: {
+        name: agentName,
+        type: "agent_reference"
+      }
+    }
+  };
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const response = await fetch(responsesUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`
+      },
+      body: JSON.stringify(requestBody),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      const errorText = await response.text().catch(() => "");
+      throw new Error(`Azure Responses API HTTP ${response.status}: ${errorText.slice(0, 500)}`);
+    }
+
+    const result = await response.json();
+    
+    // Extract text content from the response
+    let outputText = "";
+    if (result.output) {
+      if (typeof result.output === "string") {
+        outputText = result.output;
+      } else if (Array.isArray(result.output)) {
+        // Handle array of content items
+        for (const item of result.output) {
+          if (item.type === "text" && item.text) {
+            outputText = typeof item.text === "string" ? item.text : item.text.value || "";
+          } else if (item.type === "message" && item.content) {
+            for (const c of item.content) {
+              if (c.type === "text" && c.text) {
+                outputText = typeof c.text === "string" ? c.text : c.text.value || "";
+              }
+            }
+          }
+        }
+      } else if (result.output.content) {
+        // Handle single message with content
+        for (const c of result.output.content) {
+          if (c.type === "text" && c.text) {
+            outputText = typeof c.text === "string" ? c.text : c.text.value || "";
+          }
+        }
+      }
+    }
+    
+    if (!outputText && result.choices?.[0]?.message?.content) {
+      outputText = result.choices[0].message.content;
+    }
+
+    if (!outputText) {
+      if (debugAgent) {
+        console.log("[agent] Full response:", JSON.stringify(result, null, 2));
+      }
+      throw new Error("Azure Responses API returned no output text");
+    }
+
+    return extractJsonFromText(outputText);
+  } catch (err) {
+    clearTimeout(timeoutId);
+    if (err.name === "AbortError") {
+      throw new Error(`Azure Responses API timeout after ${timeoutMs}ms`);
+    }
+    throw err;
+  }
+}
+
 function ensureAzureEnv() {
   const missing = [];
   if (!AZURE_AGENT_ENDPOINT) missing.push("AZURE_AGENT_ENDPOINT");
-  if (!AZURE_AGENT_ID) missing.push("AZURE_AGENT_ID");
+  if (!AZURE_AGENT_NAME) missing.push("AZURE_AGENT_NAME (or AZURE_AGENT_ID)");
   if (missing.length) {
     throw new Error(
       `Missing required Azure env vars: ${missing.join(", ")}. See README.`
@@ -653,81 +805,124 @@ async function httpOk(
   }
 }
 
-async function unreachableReferences(refs) {
-  if (OFFLINE_MODE) return [];
-  const bad = [];
-  for (const ref of refs) {
-    if (!ref || !ref.url) continue;
-    const ok = await httpOk(ref.url);
-    if (!ok) {
-      bad.push(ref);
-    }
+/**
+ * Validate and repair article references using the referenceValidator module.
+ * Replaces invalid references with verified fallbacks if needed.
+ * @param {Object} article - Article with references array
+ * @param {string} category - Topic category for fallback selection
+ */
+async function repairReferences(article, category = "general") {
+  if (OFFLINE_MODE) {
+    console.log("[refs] Offline mode: skipping reference validation");
+    return;
   }
-  return bad;
-}
 
-async function repairReferences(article) {
-  if (OFFLINE_MODE) return;
-  let bad = await unreachableReferences(article.references);
+  console.log(`[refs] Validating ${article.references?.length || 0} references...`);
+
+  // First, deduplicate by domain
+  const dedupedRefs = deduplicateByDomain(article.references || []);
+  if (dedupedRefs.length < (article.references || []).length) {
+    console.log(`[refs] Removed ${(article.references || []).length - dedupedRefs.length} duplicate domain references`);
+    article.references = dedupedRefs;
+  }
+
+  // Validate all references
+  const validationResult = await validateReferences(article.references, {
+    timeout: parseInt(process.env.LINK_CHECK_TIMEOUT_MS || "10000", 10),
+    minBytes: parseInt(process.env.LINK_CHECK_MIN_BYTES || "600", 10)
+  });
+
+  console.log(`[refs] Validation results: ${validationResult.stats.valid} valid, ${validationResult.stats.invalid} invalid`);
+
+  // Log rejected references
+  for (const ref of validationResult.invalid) {
+    const reason = ref._validation?.reason || "unknown";
+    const error = ref._validation?.error || "";
+    console.warn(`[refs] Rejected: ${ref.url} (${reason}: ${error})`);
+  }
+
+  // If we have some valid references, use them
+  if (validationResult.valid.length > 0) {
+    // Remove _validation metadata before saving
+    article.references = validationResult.valid.map(ref => {
+      const { _validation, ...cleanRef } = ref;
+      return cleanRef;
+    });
+  }
+
+  // If we don't have enough valid references (need at least 2), try to regenerate
   const maxRetries = parseInt(process.env.AI_REF_RETRIES || "2", 10);
   let attempt = 0;
 
-  while (bad.length && attempt < maxRetries) {
+  while (article.references.length < 2 && attempt < maxRetries) {
     attempt++;
     console.warn(
-      `Références inaccessibles détectées (${bad
-        .map((r) => r.url)
-        .join(", ")}). Tentative de régénération ${attempt}/${maxRetries}...`
+      `[refs] Need more references (have ${article.references.length}, need 2). Regeneration attempt ${attempt}/${maxRetries}...`
     );
+
     const regenPrompt = [
-      "Certaines références générées sont inaccessibles.",
+      "Certaines références générées sont inaccessibles ou invalides.",
       'Fournis UNIQUEMENT un JSON de la forme {"references": [ {"labelKey": "...", "url": "https://..."}, ... ]}.',
       "URLs acceptables: sources officielles (admin.ch, ge.ch, vd.ch, fedlex.admin.ch, odoo.com/docs, etc.).",
       "Chaque domaine ne doit être représenté qu'une seule fois dans les références (pas de doublons de domaine).",
       `Thème de l'article: ${article.title} (slug: ${article.slug}).`,
-      "URLs à éviter absolument:",
-      ...bad.map((ref) => `- ${ref.url}`),
+      "Fournis au moins 3 références de sources fiables et vérifiées.",
     ].join("\n");
 
     let regen;
     try {
+      // Try Responses API first, fallback to legacy
       regen =
         MOCK_DATA?.regenReferences?.[attempt - 1] ||
-        (await azureAgentJson(regenPrompt, { agentId: AZURE_AGENT_ID }));
+        (await azureAgentResponsesApi(regenPrompt, { agentName: AZURE_AGENT_NAME }).catch(() =>
+          azureAgentJson(regenPrompt, { agentId: AZURE_AGENT_NAME })
+        ));
     } catch (error) {
-      console.warn(`Échec régénération références: ${error.message}`);
+      console.warn(`[refs] Regeneration failed: ${error.message}`);
       break;
     }
 
     if (regen && Array.isArray(regen.references) && regen.references.length) {
-      article.references = regen.references;
-      bad = await unreachableReferences(article.references);
+      // Validate the new references
+      const newValidation = await validateReferences(regen.references);
+      if (newValidation.valid.length > 0) {
+        // Merge with existing valid references
+        const existingUrls = new Set(article.references.map(r => r.url));
+        for (const ref of newValidation.valid) {
+          if (!existingUrls.has(ref.url)) {
+            const { _validation, ...cleanRef } = ref;
+            article.references.push(cleanRef);
+          }
+        }
+      }
     } else {
-      console.warn("La régénération n'a pas retourné de références valides.");
+      console.warn("[refs] Regeneration returned no valid references.");
       break;
     }
   }
 
-  if (bad.length) {
-    if (process.env.FAIL_ON_BAD_REFERENCE) {
-      throw new Error(
-        `Références inaccessibles: ${bad.map((r) => r.url).join(", ")}`
-      );
+  // If still not enough references, use verified fallbacks
+  if (article.references.length < 2) {
+    console.warn(`[refs] Using verified fallback references for category: ${category}`);
+    const fallbacks = getFallbackReferences(category);
+    const existingUrls = new Set(article.references.map(r => r.url));
+    
+    for (const fallback of fallbacks) {
+      if (!existingUrls.has(fallback.url) && article.references.length < 3) {
+        article.references.push({ ...fallback });
+        existingUrls.add(fallback.url);
+      }
     }
-    console.warn(
-      `Suppression des références inaccessibles: ${bad
-        .map((r) => r.url)
-        .join(", ")}`
-    );
-    const badSet = new Set(bad.map((r) => r.url));
-    article.references = article.references.filter(
-      (ref) => !badSet.has(ref.url)
-    );
   }
+
+  // Final deduplication
+  article.references = deduplicateByDomain(article.references);
+  
+  console.log(`[refs] Final reference count: ${article.references.length}`);
 }
 
-async function generateArticleWithRetries(frData, attempts) {
-  const basePrompt = buildSystemPrompt(frData);
+async function generateArticleWithRetries(frData, attempts, trendData = null) {
+  const basePrompt = buildSystemPrompt(frData, trendData);
   let prompt = basePrompt;
   let lastError = null;
 
@@ -735,16 +930,27 @@ async function generateArticleWithRetries(frData, attempts) {
     console.log(
       `Requesting Azure Agent for new FR article... (attempt ${attempt}/${attempts})`
     );
-    const draft =
-      MOCK_DATA?.draft ||
-      (await azureAgentJson(prompt, { agentId: AZURE_AGENT_ID }));
+    
+    let draft;
+    if (MOCK_DATA?.draft) {
+      draft = MOCK_DATA.draft;
+    } else {
+      // Try Responses API first (new method), fallback to legacy agent API
+      try {
+        draft = await azureAgentResponsesApi(prompt, { agentName: AZURE_AGENT_NAME });
+      } catch (responsesErr) {
+        console.warn(`[agent] Responses API failed (${responsesErr.message}), trying legacy API...`);
+        draft = await azureAgentJson(prompt, { agentId: AZURE_AGENT_NAME });
+      }
+    }
+    
     try {
       const newArticle = draft.newArticle;
       const newLabels = draft.newLabels || {};
       validateNewArticle(frData, newArticle);
       enforceTopicRotation(frData, newArticle);
       normalizeArticleDates(newArticle);
-      return { newArticle, newLabels };
+      return { newArticle, newLabels, trendData };
     } catch (error) {
       lastError = error;
       console.warn(`Draft invalid: ${error.message}`);
@@ -798,12 +1004,49 @@ async function main() {
   }
 
   const frData = loadJSON(FR_PATH);
+
+  // Get existing slugs and topic analysis for trend selection
+  const existingSlugs = (Array.isArray(frData.Articles) ? frData.Articles : [])
+    .map(a => a.slug)
+    .filter(Boolean);
+  const topicAnalysis = analyzeRecentTopics(frData, 15);
+
+  // Fetch trend-based topic suggestions
+  console.log("\n📊 Fetching trend signals for topic selection...");
+  const trendData = await getTopicSuggestions({
+    existingSlugs,
+    avoidTopics: topicAnalysis.avoidTopics,
+    recentTopicCategories: topicAnalysis.lastFiveTopics
+  });
+
+  // Log trend information (keywords only, not sensitive)
+  if (trendData.selectedTopic) {
+    console.log(`[trends] Provider: ${trendData.provider}`);
+    console.log(`[trends] Trends checked: ${trendData.trendsChecked}`);
+    console.log(`[trends] Used fallback: ${trendData.usedFallback}`);
+    console.log(`[trends] Selected topic: "${trendData.selectedTopic.suggestedTopic}"`);
+    console.log(`[trends] Target keywords: ${trendData.selectedTopic.keywords?.join(", ")}`);
+    if (trendData.error) {
+      console.warn(`[trends] API warning: ${trendData.error}`);
+    }
+  }
+
+  // Build SEO suggestions
+  const seoSuggestions = buildSEOSuggestions(trendData.selectedTopic);
+  if (seoSuggestions) {
+    console.log(`[seo] Primary keyword: "${seoSuggestions.primaryKeyword}"`);
+    console.log(`[seo] Category: ${seoSuggestions.category}`);
+  }
+
   const { newArticle, newLabels } = await generateArticleWithRetries(
     frData,
-    parseInt(process.env.AI_ARTICLE_RETRIES || "3", 10)
+    parseInt(process.env.AI_ARTICLE_RETRIES || "3", 10),
+    trendData
   );
 
-  await repairReferences(newArticle);
+  // Detect the article category for reference fallback
+  const articleCategory = seoSuggestions?.category || detectTopic(newArticle) || "general";
+  await repairReferences(newArticle, articleCategory);
   normalizeArticleDates(newArticle);
 
   if (DRY || !APPLY) {
@@ -823,11 +1066,24 @@ async function main() {
   }
 
   console.log("Requesting Azure Agent for translations (EN/DE/ES/PT)...");
-  let translations =
-    MOCK_DATA?.translations ||
-    (await azureAgentJson(buildTranslatePrompt(newArticle, newLabels), {
-      agentId: AZURE_TRANSLATE_AGENT_ID,
-    }));
+  let translations;
+  if (MOCK_DATA?.translations) {
+    translations = MOCK_DATA.translations;
+  } else {
+    // Try Responses API first, fallback to legacy
+    try {
+      translations = await azureAgentResponsesApi(
+        buildTranslatePrompt(newArticle, newLabels),
+        { agentName: AZURE_TRANSLATE_AGENT_NAME }
+      );
+    } catch (responsesErr) {
+      console.warn(`[agent] Translation Responses API failed (${responsesErr.message}), trying legacy API...`);
+      translations = await azureAgentJson(
+        buildTranslatePrompt(newArticle, newLabels),
+        { agentId: AZURE_TRANSLATE_AGENT_NAME }
+      );
+    }
+  }
   if (REQUIRE_TRANSLATIONS) {
     assertTranslationPayload(translations, LOCALES);
   }

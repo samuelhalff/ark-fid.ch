@@ -36,18 +36,84 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Preflight - Validate required environment variables
+        env:
+          AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
+          AZURE_AGENT_NAME: ${{ secrets.AZURE_AGENT_NAME }}
+          AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
+          AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
+          AZURE_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
+          TRENDS_PROVIDER: ${{ vars.TRENDS_PROVIDER }}
+          TRENDS_GEO: ${{ vars.TRENDS_GEO }}
+          TRENDS_LANGUAGE: ${{ vars.TRENDS_LANGUAGE }}
+          TRENDS_MAX_TOPICS: ${{ vars.TRENDS_MAX_TOPICS }}
+        run: |
+          echo "🔍 Validating required environment variables..."
+          
+          # Check required Azure vars
+          if [ -n "$AZURE_AGENT_ENDPOINT" ]; then
+            echo "✅ AZURE_AGENT_ENDPOINT: set (length: ${#AZURE_AGENT_ENDPOINT})"
+          else
+            echo "❌ AZURE_AGENT_ENDPOINT: missing"
+            exit 1
+          fi
+          
+          if [ -n "$AZURE_AGENT_NAME" ]; then
+            echo "✅ AZURE_AGENT_NAME: set (length: ${#AZURE_AGENT_NAME})"
+          else
+            echo "❌ AZURE_AGENT_NAME: missing"
+            exit 1
+          fi
+          
+          if [ -n "$AZURE_TENANT_ID" ]; then
+            echo "✅ AZURE_TENANT_ID: set (length: ${#AZURE_TENANT_ID})"
+          else
+            echo "❌ AZURE_TENANT_ID: missing"
+            exit 1
+          fi
+          
+          if [ -n "$AZURE_CLIENT_ID" ]; then
+            echo "✅ AZURE_CLIENT_ID: set (length: ${#AZURE_CLIENT_ID})"
+          else
+            echo "❌ AZURE_CLIENT_ID: missing"
+            exit 1
+          fi
+          
+          if [ -n "$AZURE_CLIENT_SECRET" ]; then
+            echo "✅ AZURE_CLIENT_SECRET: set (length: ${#AZURE_CLIENT_SECRET})"
+          else
+            echo "❌ AZURE_CLIENT_SECRET: missing"
+            exit 1
+          fi
+          
+          # Check optional trend configuration (from vars, not secrets)
+          echo ""
+          echo "📊 Trend configuration (from repository variables):"
+          echo "  TRENDS_PROVIDER: ${TRENDS_PROVIDER:-'(not set, default: google_trends)'}"
+          echo "  TRENDS_GEO: ${TRENDS_GEO:-'(not set, default: CH)'}"
+          echo "  TRENDS_LANGUAGE: ${TRENDS_LANGUAGE:-'(not set, default: fr)'}"
+          echo "  TRENDS_MAX_TOPICS: ${TRENDS_MAX_TOPICS:-'(not set, default: 10)'}"
+          
+          echo ""
+          echo "✅ All required environment variables validated"
+
       - name: Run AI update (FR + translations via Azure Agent)
         env:
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
-          AZURE_AGENT_ID: ${{ secrets.AZURE_AGENT_ID }}
+          AZURE_AGENT_NAME: ${{ secrets.AZURE_AGENT_NAME }}
           AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
           AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
           AZURE_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
           # Optional: a distinct agent for translation
-          AZURE_TRANSLATE_AGENT_ID: ${{ secrets.AZURE_TRANSLATE_AGENT_ID }}
+          AZURE_TRANSLATE_AGENT_NAME: ${{ secrets.AZURE_TRANSLATE_AGENT_NAME }}
           # Adjust if longer draft generations are needed
           AZURE_AGENT_RUN_TIMEOUT_MS: 180000
           REQUIRE_TRANSLATIONS: "1"
+          # Trend provider configuration (from repository variables)
+          TRENDS_PROVIDER: ${{ vars.TRENDS_PROVIDER }}
+          TRENDS_GEO: ${{ vars.TRENDS_GEO }}
+          TRENDS_LANGUAGE: ${{ vars.TRENDS_LANGUAGE }}
+          TRENDS_MAX_TOPICS: ${{ vars.TRENDS_MAX_TOPICS }}
         run: |
           node scripts/ai-ressources-update.js --apply --translate-existing
 
@@ -123,7 +189,8 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### What Happened" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ AI generated a new long-form article (FR canonical + translations)" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ References cleaned automatically when possible" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Trend signals used for topic selection (SEO optimization)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ References validated and cleaned automatically" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Changes committed and deployed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Notes" >> $GITHUB_STEP_SUMMARY
