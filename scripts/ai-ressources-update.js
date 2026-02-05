@@ -464,16 +464,18 @@ function extractJsonFromText(raw) {
   }
 }
 
-function isLegacyAgentId(agentName) {
-  return typeof agentName === "string" && agentName.startsWith("asst");
+function isLegacyAgentId(agentIdentifier) {
+  return (
+    typeof agentIdentifier === "string" && agentIdentifier.startsWith("asst")
+  );
 }
 
 function buildAgentReference(agentName) {
-  if (typeof agentName !== "string") {
-    throw new Error("Missing AZURE_AGENT_NAME");
+  if (typeof agentName !== "string" || !agentName.trim()) {
+    throw new Error("AZURE_AGENT_NAME must be a non-empty string");
   }
-  const [name, ...versionParts] = agentName.split(":");
-  const version = versionParts.length ? versionParts.join(":") : "";
+  const trimmedName = agentName.trim();
+  const [name, version] = trimmedName.split(":", 2);
   const agent = { name, type: "agent_reference" };
   if (version) {
     agent.version = version;
