@@ -128,6 +128,7 @@ AZURE_AGENT_NAME=...
 # Optional
 AZURE_TRANSLATE_AGENT_NAME=...
 AZURE_AGENT_RUN_TIMEOUT_MS=180000
+AZURE_AGENT_API_VERSION=v1
 ```
 
 Authentication is handled through the Azure Identity DefaultAzureCredential chain. Supported options:

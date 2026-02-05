@@ -43,6 +43,7 @@ const AZURE_AGENT_ENDPOINT = process.env.AZURE_AGENT_ENDPOINT;
 const AZURE_AGENT_NAME = process.env.AZURE_AGENT_NAME || process.env.AZURE_AGENT_ID;
 const AZURE_TRANSLATE_AGENT_NAME =
   process.env.AZURE_TRANSLATE_AGENT_NAME || process.env.AZURE_TRANSLATE_AGENT_ID || AZURE_AGENT_NAME;
+const AZURE_AGENT_API_VERSION = process.env.AZURE_AGENT_API_VERSION || "v1";
 
 const ROOT = process.cwd();
 const TRANSLATIONS_DIR = path.join(ROOT, "src", "translations");
@@ -585,7 +586,9 @@ async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } =
   // Build the responses API URL
   // AZURE_AGENT_ENDPOINT should be: https://<resource>.services.ai.azure.com/api/projects/<project>
   const baseUrl = AZURE_AGENT_ENDPOINT.replace(/\/$/, "");
-  const responsesUrl = `${baseUrl}/agents/responses?api-version=2025-05-01-preview`;
+  const responsesUrl = `${baseUrl}/agents/responses?api-version=${encodeURIComponent(
+    AZURE_AGENT_API_VERSION
+  )}`;
 
   if (debugAgent) {
     console.log(`[agent] Using Responses API with agent name: ${agentName}`);
