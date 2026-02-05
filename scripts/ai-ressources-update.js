@@ -595,11 +595,19 @@ async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } =
   const timeoutMs = parseInt(process.env.AZURE_AGENT_RUN_TIMEOUT_MS || "180000", 10);
   const started = Date.now();
 
+  // Helper to check timeout and throw if exceeded
+  const checkTimeout = () => {
+    if (Date.now() - started > timeoutMs) {
+      throw new Error(`Azure Responses API timeout after ${timeoutMs}ms`);
+    }
+  };
+
   try {
     // Retrieve Agent by name to verify it exists
     let retrievedAgent;
     try {
       retrievedAgent = await projectClient.agents.getAgent(agentName);
+      checkTimeout();
       if (debugAgent) {
         console.log(`[agent] Retrieved agent - name: ${retrievedAgent.name}, id: ${retrievedAgent.id}`);
       }
@@ -612,6 +620,7 @@ async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } =
 
     // Get OpenAI client (supports extended APIs including conversations/responses)
     const openAIClient = await projectClient.getAzureOpenAIClient();
+    checkTimeout();
 
     // Check if conversations API is available (it may be a preview feature)
     if (openAIClient.conversations && openAIClient.responses) {
@@ -623,6 +632,7 @@ async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } =
       const conversation = await openAIClient.conversations.create({
         items: [{ type: "message", role: "user", content: prompt }]
       });
+      checkTimeout();
 
       if (debugAgent) {
         console.log(`[agent] Created conversation (id: ${conversation.id})`);
@@ -638,10 +648,7 @@ async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } =
           body: { agent: agentRef },
         }
       );
-
-      if (Date.now() - started > timeoutMs) {
-        throw new Error(`Azure Responses API timeout after ${timeoutMs}ms`);
-      }
+      checkTimeout();
 
       // Extract output text from response
       let outputText = "";
@@ -693,8 +700,9 @@ async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } =
       return await azureAgentJson(prompt, { agentId: agentName });
     }
   } catch (err) {
-    if (Date.now() - started > timeoutMs) {
-      throw new Error(`Azure Responses API timeout after ${timeoutMs}ms`);
+    // Check if this is a timeout error
+    if (err.message && err.message.includes("timeout")) {
+      throw err; // Re-throw timeout errors
     }
     // If conversations/responses API fails, try legacy API as fallback
     if (debugAgent) {
