@@ -103,6 +103,7 @@ async function cleanLocale(locale) {
       article.references = dedupedRefs;
     }
     
+    const countAfterDedup = article.references.length;
     const cleanRefs = [];
 
     for (const ref of article.references) {
@@ -141,7 +142,7 @@ async function cleanLocale(locale) {
 
     article.references = cleanRefs;
 
-    if (cleanRefs.length < article.references.length + totalDeduplicated) {
+    if (cleanRefs.length < countAfterDedup) {
       console.log(
         `  ✂️  [${article.slug}] Final count: ${cleanRefs.length} reference(s)`
       );
