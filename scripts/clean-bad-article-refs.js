@@ -2,6 +2,7 @@
 /**
  * Clean bad article references (404/410/unreachable URLs) from ressources.json files.
  * This script removes references that return errors or missing content.
+ * Uses the shared referenceValidator module for consistent validation.
  *
  * Usage:
  *   node scripts/clean-bad-article-refs.js [--locale fr] [--all-locales] [--dry-run]
@@ -9,6 +10,7 @@
 const fs = require("fs");
 const path = require("path");
 const { listLocales } = require("./lib/ressources");
+const { validateUrl, deduplicateByDomain } = require("./lib/referenceValidator");
 
 const ROOT = process.cwd();
 const TRANSLATIONS_DIR = path.join(ROOT, "src", "translations");
@@ -31,67 +33,37 @@ if (typeof fetch !== "function") {
   process.exit(1);
 }
 
-function fetchWithTimeout(url, options, timeout) {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeout);
-  return fetch(url, { ...options, signal: controller.signal }).finally(() =>
-    clearTimeout(id)
-  );
-}
+// Empty/placeholder content patterns for enhanced detection
+const EMPTY_CONTENT_PATTERNS = [
+  /page\s*not\s*found/i,
+  /404\s*error/i,
+  /content\s*unavailable/i,
+  /this\s*page\s*doesn't\s*exist/i,
+  /cette\s*page\s*n'existe\s*pas/i,
+  /seite\s*nicht\s*gefunden/i,
+  /pagina\s*no\s*encontrada/i,
+  /página\s*não\s*encontrada/i,
+  /under\s*construction/i,
+  /coming\s*soon/i,
+  /placeholder/i,
+  /lorem\s*ipsum/i
+];
 
 async function checkUrl(url) {
-  try {
-    // Try HEAD first
-    let res = await fetchWithTimeout(
-      url,
-      { method: "HEAD", redirect: "follow" },
-      timeoutMs
-    );
-    let status = res.status;
+  // Use the shared validator
+  const result = await validateUrl(url, {
+    timeout: timeoutMs,
+    minBytes: minBytes,
+    checkContent: true
+  });
 
-    // Some servers block HEAD, try GET
-    if (status === 405 || status === 403 || !res.ok) {
-      res = await fetchWithTimeout(
-        url,
-        { method: "GET", redirect: "follow" },
-        timeoutMs
-      );
-      status = res.status;
-    }
-
-    // Hard failures
-    if (status === 404 || status === 410 || status >= 500) {
-      return { ok: false, status, reason: "http-error" };
-    }
-
-    if (!res.ok) {
-      return { ok: false, status, reason: "not-ok" };
-    }
-
-    // Check body size for soft 404s
-    const ct = String(res.headers.get("content-type") || "").toLowerCase();
-    const isTextual = /(text|html|json|xml)/.test(ct);
-    let bodySize = 0;
-
-    if (isTextual) {
-      const buf = Buffer.from(await res.arrayBuffer());
-      bodySize = buf.byteLength;
-    } else {
-      bodySize = Number(res.headers.get("content-length") || 0);
-      if (!bodySize) {
-        const buf = Buffer.from(await res.arrayBuffer());
-        bodySize = buf.byteLength;
-      }
-    }
-
-    if (bodySize < minBytes) {
-      return { ok: false, status, bodySize, reason: "too-small" };
-    }
-
-    return { ok: true, status, bodySize };
-  } catch (e) {
-    return { ok: false, error: e.message, reason: "network-error" };
-  }
+  return {
+    ok: result.valid,
+    status: result.status,
+    bodySize: result.bodySize,
+    reason: result.reason || (result.valid ? "ok" : "validation-failed"),
+    error: result.error
+  };
 }
 
 async function cleanLocale(locale) {
@@ -113,6 +85,7 @@ async function cleanLocale(locale) {
   const articles = Array.isArray(data.Articles) ? data.Articles : [];
   let totalRemoved = 0;
   let totalChecked = 0;
+  let totalDeduplicated = 0;
 
   console.log(`\n🔍 Checking locale: ${locale}`);
 
@@ -120,6 +93,17 @@ async function cleanLocale(locale) {
     if (!article || !Array.isArray(article.references)) continue;
 
     const originalCount = article.references.length;
+    
+    // First, deduplicate by domain
+    const dedupedRefs = deduplicateByDomain(article.references);
+    if (dedupedRefs.length < originalCount) {
+      const dedupCount = originalCount - dedupedRefs.length;
+      console.log(`  🔄 [${article.slug}] Removed ${dedupCount} duplicate domain reference(s)`);
+      totalDeduplicated += dedupCount;
+      article.references = dedupedRefs;
+    }
+    
+    const countAfterDedup = article.references.length;
     const cleanRefs = [];
 
     for (const ref of article.references) {
@@ -158,32 +142,31 @@ async function cleanLocale(locale) {
 
     article.references = cleanRefs;
 
-    if (cleanRefs.length < originalCount) {
+    if (cleanRefs.length < countAfterDedup) {
       console.log(
-        `  ✂️  [${article.slug}] Removed ${
-          originalCount - cleanRefs.length
-        } bad reference(s)`
+        `  ✂️  [${article.slug}] Final count: ${cleanRefs.length} reference(s)`
       );
     }
   }
 
-  if (totalRemoved > 0) {
+  const totalModified = totalRemoved + totalDeduplicated;
+  if (totalModified > 0) {
     if (dryRun) {
       console.log(
-        `\n🔸 [DRY RUN] Would remove ${totalRemoved} bad reference(s) from ${locale}`
+        `\n🔸 [DRY RUN] Would modify ${totalModified} reference(s) from ${locale} (${totalRemoved} removed, ${totalDeduplicated} deduplicated)`
       );
     } else {
       // Write back to file with proper formatting
       fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + "\n", "utf8");
       console.log(
-        `\n✅ Removed ${totalRemoved} bad reference(s) from ${locale}`
+        `\n✅ Modified ${totalModified} reference(s) from ${locale} (${totalRemoved} removed, ${totalDeduplicated} deduplicated)`
       );
     }
   } else {
     console.log(`\n✅ No bad references found in ${locale}`);
   }
 
-  return { locale, checked: totalChecked, removed: totalRemoved };
+  return { locale, checked: totalChecked, removed: totalRemoved, deduplicated: totalDeduplicated };
 }
 
 async function main() {
@@ -201,14 +184,15 @@ async function main() {
 
   const totalChecked = results.reduce((sum, r) => sum + (r.checked || 0), 0);
   const totalRemoved = results.reduce((sum, r) => sum + (r.removed || 0), 0);
+  const totalDeduplicated = results.reduce((sum, r) => sum + (r.deduplicated || 0), 0);
 
   console.log("\n" + "=".repeat(60));
   console.log(
-    `📊 Summary: Checked ${totalChecked} references, removed ${totalRemoved} bad ones`
+    `📊 Summary: Checked ${totalChecked} references, removed ${totalRemoved} bad ones, deduplicated ${totalDeduplicated}`
   );
   console.log("=".repeat(60));
 
-  if (totalRemoved > 0 && !dryRun) {
+  if ((totalRemoved > 0 || totalDeduplicated > 0) && !dryRun) {
     console.log("✅ Files updated. Remember to commit the changes.");
   }
 }
