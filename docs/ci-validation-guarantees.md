@@ -73,7 +73,7 @@ function isPdfLikeResponse(res) {
 
 ## Defense Layer 3: CI Validation Steps (FAIL-SAFE)
 
-**Workflow:** `.github/workflows/ai-ressources-every-2-days.yml`
+**Workflow:** `.github/workflows/ai-ressources-every-4-days.yml`
 
 ### Step 1: Generate Content
 
@@ -250,7 +250,6 @@ OFFLINE_MODE=1                 # Skip HTTP checks for testing (default: 0)
 
 # Agent timeout
 AZURE_AGENT_RUN_TIMEOUT_MS=180000  # Agent run timeout (default: 180000ms)
-AZURE_AGENT_API_VERSION=v1         # Responses API version override (default: v1)
 ```
 
 ---

@@ -128,7 +128,6 @@ AZURE_AGENT_NAME=...
 # Optional
 AZURE_TRANSLATE_AGENT_NAME=...
 AZURE_AGENT_RUN_TIMEOUT_MS=180000
-AZURE_AGENT_API_VERSION=v1
 ```
 
 Authentication is handled through the Azure Identity DefaultAzureCredential chain. Supported options:
@@ -149,7 +148,8 @@ node scripts/ai-ressources-update.js --apply
 Notes:
 
 - The script expects JSON responses matching the specified schema. If the agent returns non-JSON content, adjust the agent instructions to produce `application/json` payloads.
-- GitHub workflow `.github/workflows/ai-ressources-every-2-days.yml` automates the run every two days using OIDC-based Azure login.
+- `AZURE_AGENT_NAME` accepts either an agent name or an `asst_` ID; the script resolves names to IDs automatically.
+- GitHub workflow `.github/workflows/ai-ressources-every-4-days.yml` automates the run every four days using OIDC-based Azure login.
 
 ## Ressources Link Integrity
 

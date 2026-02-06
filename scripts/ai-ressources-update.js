@@ -43,10 +43,7 @@ const AZURE_AGENT_ENDPOINT = process.env.AZURE_AGENT_ENDPOINT;
 const AZURE_AGENT_NAME = process.env.AZURE_AGENT_NAME || process.env.AZURE_AGENT_ID;
 const AZURE_TRANSLATE_AGENT_NAME =
   process.env.AZURE_TRANSLATE_AGENT_NAME || process.env.AZURE_TRANSLATE_AGENT_ID || AZURE_AGENT_NAME;
-const AZURE_AGENT_API_VERSION = process.env.AZURE_AGENT_API_VERSION || "v1";
-const AZURE_AGENT_API_VERSIONS = Array.from(
-  new Set([AZURE_AGENT_API_VERSION, "v1"].filter(Boolean))
-);
+
 
 const ROOT = process.cwd();
 const TRANSLATIONS_DIR = path.join(ROOT, "src", "translations");
@@ -469,38 +466,48 @@ function extractJsonFromText(raw) {
 }
 
 /**
- * Legacy Azure agents use OpenAI-style IDs that start with "asst".
+ * Resolve an agent name or ID to the internal assistant ID (asst_* format).
+ * If the identifier already looks like an assistant ID, returns it directly.
+ * Otherwise, lists all agents and finds the one matching by name.
+ * @param {import("@azure/ai-agents").AgentsClient} agentsClient
+ * @param {string} agentNameOrId - Agent name or assistant ID
+ * @returns {Promise<string>} The resolved assistant ID (asst_* format)
  */
-function isLegacyAgentId(agentIdentifier) {
-  return (
-    typeof agentIdentifier === "string" && agentIdentifier.startsWith("asst")
+async function resolveAgentId(agentsClient, agentNameOrId) {
+  const debugAgent = !!process.env.DEBUG_AGENT;
+  if (typeof agentNameOrId !== "string" || !agentNameOrId.trim()) {
+    throw new Error("AZURE_AGENT_NAME must be a non-empty string");
+  }
+  // If it already looks like an assistant ID, use it directly
+  if (agentNameOrId.startsWith("asst_") || agentNameOrId.startsWith("asst-")) {
+    if (debugAgent) console.log(`[agent] Using direct assistant ID: ${agentNameOrId}`);
+    return agentNameOrId;
+  }
+
+  // List agents and find by name
+  if (debugAgent) console.log(`[agent] Resolving agent name "${agentNameOrId}" to assistant ID...`);
+  const agentsIter = agentsClient.listAgents();
+  const candidates = [];
+  for await (const agent of agentsIter) {
+    if (debugAgent) console.log(`[agent]   found: id=${agent.id} name=${agent.name}`);
+    if (agent.name === agentNameOrId) {
+      if (debugAgent) console.log(`[agent] Resolved "${agentNameOrId}" -> ${agent.id}`);
+      return agent.id;
+    }
+    candidates.push({ id: agent.id, name: agent.name });
+  }
+
+  const available = candidates.map(c => `"${c.name}" (${c.id})`).join(", ") || "(none)";
+  throw new Error(
+    `Agent with name "${agentNameOrId}" not found. Available agents: ${available}`
   );
 }
 
-/**
- * Build a Responses API agent_reference payload from "name" or "name:version".
- * @param {string} agentName
- * @returns {{name: string, type: string, version?: string}}
- */
-function buildAgentReference(agentName) {
-  if (typeof agentName !== "string" || !agentName.trim()) {
-    throw new Error("AZURE_AGENT_NAME must be a non-empty string");
-  }
-  const trimmedName = agentName.trim();
-  const [name, version] = trimmedName.split(":", 2);
-  if (!name) {
-    throw new Error("AZURE_AGENT_NAME must include a name");
-  }
-  const agent = { name, type: "agent_reference" };
-  if (version) {
-    agent.version = version;
-  }
-  return agent;
-}
+
 
 /**
- * Legacy Azure Agent API using the AIProjectClient.
- * This is kept for backwards compatibility when Responses API fails.
+ * Call an Azure AI Foundry Agent using the standard thread/run API.
+ * Supports both agent names and legacy assistant IDs (asst_*).
  * @param {string} prompt - The user prompt
  * @param {Object} options - Options including agentId (agent name or ID)
  * @returns {Promise<Object>} Parsed JSON response
@@ -514,39 +521,53 @@ async function azureAgentJson(prompt, { agentId = AZURE_AGENT_NAME } = {}) {
   const credential = new DefaultAzureCredential();
   const client = new AIProjectClient(AZURE_AGENT_ENDPOINT, credential);
   const debugAgent = !!process.env.DEBUG_AGENT;
-
-  const agentMeta = await client.agents.getAgent(agentId);
-  if (debugAgent) {
-    console.log(
-      `[agent] Using agentId=${agentId} name=${agentMeta.name || ""}`
-    );
-  }
-
-  const thread = await client.agents.threads.create();
-  await client.agents.messages.create(thread.id, "user", prompt);
-
-  let run = await client.agents.runs.create(thread.id, agentId);
   const timeoutMs = parseInt(
     process.env.AZURE_AGENT_RUN_TIMEOUT_MS || "180000",
     10
   );
-  const started = Date.now();
-  while (["queued", "in_progress", "cancelling"].includes(run.status)) {
-    if (Date.now() - started > timeoutMs) {
-      throw new Error(
-        `Azure Agent run timeout after ${timeoutMs} ms (status=${run.status})`
-      );
-    }
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    run = await client.agents.runs.get(thread.id, run.id);
-  }
-  if (run.status === "failed") {
-    throw new Error(
-      "Azure Agent run failed: " +
-        (run.lastError?.message || JSON.stringify(run.lastError))
-    );
+
+  // Resolve agent name to assistant ID if needed
+  const assistantId = await resolveAgentId(client.agents, agentId);
+  if (debugAgent) {
+    console.log(`[agent] Using assistantId=${assistantId} (from input: ${agentId})`);
   }
 
+  // Create thread and send user message
+  const thread = await client.agents.threads.create();
+  await client.agents.messages.create(thread.id, "user", prompt);
+
+  if (debugAgent) {
+    console.log(`[agent] Created thread ${thread.id}, starting run...`);
+  }
+
+  // Create run and poll until complete, enforcing an overall timeout.
+  // The poller's requestOptions.timeout only covers individual HTTP calls,
+  // so we use AbortController to enforce the total wall-clock timeout.
+  const ac = new AbortController();
+  const timer = setTimeout(() => ac.abort(), timeoutMs);
+
+  let run;
+  try {
+    const poller = client.agents.runs.createAndPoll(thread.id, assistantId, {
+      pollingOptions: { intervalInMs: 2000 },
+    });
+    run = await poller.pollUntilDone({ abortSignal: ac.signal });
+  } catch (err) {
+    clearTimeout(timer);
+    if (ac.signal.aborted) {
+      throw new Error(
+        `Azure Agent run timeout after ${timeoutMs} ms`
+      );
+    }
+    throw err;
+  }
+  clearTimeout(timer);
+
+  if (debugAgent) {
+    console.log(`[agent] Run completed with status: ${run.status}`);
+  }
+
+  // Retrieve assistant messages
   const messages = await client.agents.messages.list(thread.id, {
     order: "asc",
   });
@@ -565,151 +586,6 @@ async function azureAgentJson(prompt, { agentId = AZURE_AGENT_NAME } = {}) {
     throw new Error("Azure Agent returned no assistant text content");
   }
   return extractJsonFromText(lastAssistantText);
-}
-
-/**
- * Call Azure AI Foundry Agent using the Responses API with agent reference.
- * This is the new preferred method that uses agent name instead of agent ID.
- * Uses the official Azure AI Projects SDK with conversation/response pattern.
- * @param {string} prompt - The user prompt
- * @param {Object} options - Options including agentName
- * @returns {Promise<Object>} Parsed JSON response
- */
-async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } = {}) {
-  if (!AZURE_AGENT_ENDPOINT) throw new Error("Missing AZURE_AGENT_ENDPOINT");
-  if (!agentName) throw new Error("Missing AZURE_AGENT_NAME");
-
-  const { AIProjectClient } = require("@azure/ai-projects");
-  const { DefaultAzureCredential } = require("@azure/identity");
-  const credential = new DefaultAzureCredential();
-  const debugAgent = !!process.env.DEBUG_AGENT;
-
-  // Create AI Project client
-  const projectClient = new AIProjectClient(AZURE_AGENT_ENDPOINT, credential);
-
-  if (debugAgent) {
-    console.log(`[agent] Using Responses API with agent name: ${agentName}`);
-    console.log(`[agent] Project endpoint: ${AZURE_AGENT_ENDPOINT}`);
-  }
-
-  const timeoutMs = parseInt(process.env.AZURE_AGENT_RUN_TIMEOUT_MS || "180000", 10);
-  const started = Date.now();
-
-  // Helper to check timeout and throw if exceeded
-  const checkTimeout = () => {
-    if (Date.now() - started > timeoutMs) {
-      throw new Error(`Azure Responses API timeout after ${timeoutMs}ms`);
-    }
-  };
-
-  try {
-    // Retrieve Agent by name to verify it exists
-    let retrievedAgent;
-    try {
-      retrievedAgent = await projectClient.agents.getAgent(agentName);
-      checkTimeout();
-      if (debugAgent) {
-        console.log(`[agent] Retrieved agent - name: ${retrievedAgent.name}, id: ${retrievedAgent.id}`);
-      }
-    } catch (agentErr) {
-      if (debugAgent) {
-        console.log(`[agent] Failed to retrieve agent by name: ${agentErr.message}`);
-      }
-      // If agent retrieval fails, we'll still try to use the name in the response
-    }
-
-    // Get OpenAI client (supports extended APIs including conversations/responses)
-    const openAIClient = await projectClient.getAzureOpenAIClient();
-    checkTimeout();
-
-    // Check if conversations API is available (it may be a preview feature)
-    if (openAIClient.conversations && openAIClient.responses) {
-      if (debugAgent) {
-        console.log("[agent] Using conversations/responses API (extended OpenAI client)");
-      }
-
-      // Create conversation with initial user message
-      const conversation = await openAIClient.conversations.create({
-        items: [{ type: "message", role: "user", content: prompt }]
-      });
-      checkTimeout();
-
-      if (debugAgent) {
-        console.log(`[agent] Created conversation (id: ${conversation.id})`);
-      }
-
-      // Generate response using the agent
-      const agentRef = buildAgentReference(agentName);
-      const response = await openAIClient.responses.create(
-        {
-          conversation: conversation.id,
-        },
-        {
-          body: { agent: agentRef },
-        }
-      );
-      checkTimeout();
-
-      // Extract output text from response
-      let outputText = "";
-      if (response.output_text) {
-        outputText = response.output_text;
-      } else if (response.output) {
-        if (typeof response.output === "string") {
-          outputText = response.output;
-        } else if (Array.isArray(response.output)) {
-          // Handle array of content items
-          for (const item of response.output) {
-            if (item.type === "text" && item.text) {
-              outputText = typeof item.text === "string" ? item.text : item.text.value || "";
-            } else if (item.type === "message" && item.content) {
-              for (const c of item.content) {
-                if (c.type === "text" && c.text) {
-                  outputText = typeof c.text === "string" ? c.text : c.text.value || "";
-                }
-              }
-            }
-          }
-        } else if (response.output.content) {
-          // Handle single message with content
-          for (const c of response.output.content) {
-            if (c.type === "text" && c.text) {
-              outputText = typeof c.text === "string" ? c.text : c.text.value || "";
-            }
-          }
-        }
-      }
-
-      if (!outputText && response.choices?.[0]?.message?.content) {
-        outputText = response.choices[0].message.content;
-      }
-
-      if (!outputText) {
-        if (debugAgent) {
-          console.log("[agent] Full response:", JSON.stringify(response, null, 2));
-        }
-        throw new Error("Azure Responses API returned no output text");
-      }
-
-      return extractJsonFromText(outputText);
-    } else {
-      // Fallback: conversations/responses API not available, use legacy thread/run API
-      if (debugAgent) {
-        console.log("[agent] Conversations/responses API not available, falling back to legacy thread/run API");
-      }
-      return await azureAgentJson(prompt, { agentId: agentName });
-    }
-  } catch (err) {
-    // Check if this is a timeout error
-    if (err.message && err.message.includes("timeout")) {
-      throw err; // Re-throw timeout errors
-    }
-    // If conversations/responses API fails, try legacy API as fallback
-    if (debugAgent) {
-      console.log(`[agent] Responses API failed: ${err.message}, falling back to legacy API`);
-    }
-    return await azureAgentJson(prompt, { agentId: agentName });
-  }
 }
 
 function ensureAzureEnv() {
@@ -937,16 +813,10 @@ async function repairReferences(article, category = "general") {
 
     let regen;
     try {
-      // Use SDK API only for legacy agent IDs (starting with "asst_")
-      // Use Responses API for agent names (modern approach)
       if (MOCK_DATA?.regenReferences?.[attempt - 1]) {
         regen = MOCK_DATA.regenReferences[attempt - 1];
-      } else if (isLegacyAgentId(AZURE_AGENT_NAME)) {
-        // Legacy agent ID - use SDK API
-        regen = await azureAgentJson(regenPrompt, { agentId: AZURE_AGENT_NAME });
       } else {
-        // Agent name - use Responses API (supports agent name references)
-        regen = await azureAgentResponsesApi(regenPrompt, { agentName: AZURE_AGENT_NAME });
+        regen = await azureAgentJson(regenPrompt, { agentId: AZURE_AGENT_NAME });
       }
     } catch (error) {
       console.warn(`[refs] Regeneration failed: ${error.message}`);
@@ -1005,12 +875,8 @@ async function generateArticleWithRetries(frData, attempts, trendData = null) {
     let draft;
     if (MOCK_DATA?.draft) {
       draft = MOCK_DATA.draft;
-    } else if (isLegacyAgentId(AZURE_AGENT_NAME)) {
-      // Legacy agent ID (starts with "asst_") - use SDK API
-      draft = await azureAgentJson(prompt, { agentId: AZURE_AGENT_NAME });
     } else {
-      // Agent name - use Responses API (supports agent name references)
-      draft = await azureAgentResponsesApi(prompt, { agentName: AZURE_AGENT_NAME });
+      draft = await azureAgentJson(prompt, { agentId: AZURE_AGENT_NAME });
     }
     
     try {
@@ -1138,17 +1004,10 @@ async function main() {
   let translations;
   if (MOCK_DATA?.translations) {
     translations = MOCK_DATA.translations;
-  } else if (isLegacyAgentId(AZURE_TRANSLATE_AGENT_NAME)) {
-    // Legacy agent ID (starts with "asst_") - use SDK API
+  } else {
     translations = await azureAgentJson(
       buildTranslatePrompt(newArticle, newLabels),
       { agentId: AZURE_TRANSLATE_AGENT_NAME }
-    );
-  } else {
-    // Agent name - use Responses API (supports agent name references)
-    translations = await azureAgentResponsesApi(
-      buildTranslatePrompt(newArticle, newLabels),
-      { agentName: AZURE_TRANSLATE_AGENT_NAME }
     );
   }
   if (REQUIRE_TRANSLATIONS) {
