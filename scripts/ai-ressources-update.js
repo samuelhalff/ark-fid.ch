@@ -570,6 +570,7 @@ async function azureAgentJson(prompt, { agentId = AZURE_AGENT_NAME } = {}) {
 /**
  * Call Azure AI Foundry Agent using the Responses API with agent reference.
  * This is the new preferred method that uses agent name instead of agent ID.
+ * Uses the official Azure AI Projects SDK with conversation/response pattern.
  * @param {string} prompt - The user prompt
  * @param {Object} options - Options including agentName
  * @returns {Promise<Object>} Parsed JSON response
@@ -578,83 +579,87 @@ async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } =
   if (!AZURE_AGENT_ENDPOINT) throw new Error("Missing AZURE_AGENT_ENDPOINT");
   if (!agentName) throw new Error("Missing AZURE_AGENT_NAME");
 
+  const { AIProjectClient } = require("@azure/ai-projects");
   const { DefaultAzureCredential } = require("@azure/identity");
   const credential = new DefaultAzureCredential();
   const debugAgent = !!process.env.DEBUG_AGENT;
 
-  // Get access token for Azure AI Foundry
-  const tokenResponse = await credential.getToken("https://ai.azure.com/.default");
-  const accessToken = tokenResponse.token;
-
-  // Build the responses API URL
-  // AZURE_AGENT_ENDPOINT should be: https://<resource>.services.ai.azure.com/api/projects/<project>
-  const baseUrl = AZURE_AGENT_ENDPOINT.replace(/\/$/, "");
+  // Create AI Project client
+  const projectClient = new AIProjectClient(AZURE_AGENT_ENDPOINT, credential);
 
   if (debugAgent) {
     console.log(`[agent] Using Responses API with agent name: ${agentName}`);
+    console.log(`[agent] Project endpoint: ${AZURE_AGENT_ENDPOINT}`);
   }
 
   const timeoutMs = parseInt(process.env.AZURE_AGENT_RUN_TIMEOUT_MS || "180000", 10);
-  
-  const requestBody = {
-    input: prompt,
-    extra_body: {
-      agent: buildAgentReference(agentName),
-    },
+  const started = Date.now();
+
+  // Helper to check timeout and throw if exceeded
+  const checkTimeout = () => {
+    if (Date.now() - started > timeoutMs) {
+      throw new Error(`Azure Responses API timeout after ${timeoutMs}ms`);
+    }
   };
 
-  const callResponsesApi = async (apiVersion) => {
-    const responsesUrl = `${baseUrl}/agents/responses?api-version=${encodeURIComponent(
-      apiVersion
-    )}`;
-    if (debugAgent) {
-      console.log(`[agent] Endpoint: ${responsesUrl}`);
+  try {
+    // Retrieve Agent by name to verify it exists
+    let retrievedAgent;
+    try {
+      retrievedAgent = await projectClient.agents.getAgent(agentName);
+      checkTimeout();
+      if (debugAgent) {
+        console.log(`[agent] Retrieved agent - name: ${retrievedAgent.name}, id: ${retrievedAgent.id}`);
+      }
+    } catch (agentErr) {
+      if (debugAgent) {
+        console.log(`[agent] Failed to retrieve agent by name: ${agentErr.message}`);
+      }
+      // If agent retrieval fails, we'll still try to use the name in the response
     }
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+    // Get OpenAI client (supports extended APIs including conversations/responses)
+    const openAIClient = await projectClient.getAzureOpenAIClient();
+    checkTimeout();
 
-    try {
-      const response = await fetch(responsesUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${accessToken}`
-        },
-        body: JSON.stringify(requestBody),
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        const errorText = await response.text().catch(() => "");
-        let errorPayload;
-        try {
-          errorPayload = JSON.parse(errorText);
-        } catch {
-          errorPayload = null;
-        }
-        const error = new Error(
-          `Azure Responses API HTTP ${response.status}: ${errorText.slice(0, 500)}`
-        );
-        const errorCode = errorPayload?.error?.code;
-        if (errorCode === "UnsupportedApiVersion" || errorText.includes("UnsupportedApiVersion")) {
-          error.code = "UnsupportedApiVersion";
-        }
-        throw error;
+    // Check if conversations API is available (it may be a preview feature)
+    if (openAIClient.conversations && openAIClient.responses) {
+      if (debugAgent) {
+        console.log("[agent] Using conversations/responses API (extended OpenAI client)");
       }
 
-      const result = await response.json();
-      
-      // Extract text content from the response
+      // Create conversation with initial user message
+      const conversation = await openAIClient.conversations.create({
+        items: [{ type: "message", role: "user", content: prompt }]
+      });
+      checkTimeout();
+
+      if (debugAgent) {
+        console.log(`[agent] Created conversation (id: ${conversation.id})`);
+      }
+
+      // Generate response using the agent
+      const agentRef = buildAgentReference(agentName);
+      const response = await openAIClient.responses.create(
+        {
+          conversation: conversation.id,
+        },
+        {
+          body: { agent: agentRef },
+        }
+      );
+      checkTimeout();
+
+      // Extract output text from response
       let outputText = "";
-      if (result.output) {
-        if (typeof result.output === "string") {
-          outputText = result.output;
-        } else if (Array.isArray(result.output)) {
+      if (response.output_text) {
+        outputText = response.output_text;
+      } else if (response.output) {
+        if (typeof response.output === "string") {
+          outputText = response.output;
+        } else if (Array.isArray(response.output)) {
           // Handle array of content items
-          for (const item of result.output) {
+          for (const item of response.output) {
             if (item.type === "text" && item.text) {
               outputText = typeof item.text === "string" ? item.text : item.text.value || "";
             } else if (item.type === "message" && item.content) {
@@ -665,59 +670,46 @@ async function azureAgentResponsesApi(prompt, { agentName = AZURE_AGENT_NAME } =
               }
             }
           }
-        } else if (result.output.content) {
+        } else if (response.output.content) {
           // Handle single message with content
-          for (const c of result.output.content) {
+          for (const c of response.output.content) {
             if (c.type === "text" && c.text) {
               outputText = typeof c.text === "string" ? c.text : c.text.value || "";
             }
           }
         }
       }
-      
-      if (!outputText && result.choices?.[0]?.message?.content) {
-        outputText = result.choices[0].message.content;
+
+      if (!outputText && response.choices?.[0]?.message?.content) {
+        outputText = response.choices[0].message.content;
       }
 
       if (!outputText) {
         if (debugAgent) {
-          console.log("[agent] Full response:", JSON.stringify(result, null, 2));
+          console.log("[agent] Full response:", JSON.stringify(response, null, 2));
         }
         throw new Error("Azure Responses API returned no output text");
       }
 
       return extractJsonFromText(outputText);
-    } catch (err) {
-      clearTimeout(timeoutId);
-      if (err.name === "AbortError") {
-        throw new Error(`Azure Responses API timeout after ${timeoutMs}ms`);
+    } else {
+      // Fallback: conversations/responses API not available, use legacy thread/run API
+      if (debugAgent) {
+        console.log("[agent] Conversations/responses API not available, falling back to legacy thread/run API");
       }
-      throw err;
+      return await azureAgentJson(prompt, { agentId: agentName });
     }
-  };
-
-  let lastError;
-  for (const apiVersion of AZURE_AGENT_API_VERSIONS) {
-    try {
-      return await callResponsesApi(apiVersion);
-    } catch (err) {
-      if (err.code === "UnsupportedApiVersion" && apiVersion !== "v1") {
-        lastError = err;
-        if (debugAgent) {
-          console.warn(
-            `[agent] Responses API version ${apiVersion} unsupported, retrying with fallback...`
-          );
-        }
-        continue;
-      }
-      throw err;
+  } catch (err) {
+    // Check if this is a timeout error
+    if (err.message && err.message.includes("timeout")) {
+      throw err; // Re-throw timeout errors
     }
+    // If conversations/responses API fails, try legacy API as fallback
+    if (debugAgent) {
+      console.log(`[agent] Responses API failed: ${err.message}, falling back to legacy API`);
+    }
+    return await azureAgentJson(prompt, { agentId: agentName });
   }
-
-  if (lastError) {
-    throw lastError;
-  }
-  throw new Error("Azure Responses API failed for all configured versions.");
 }
 
 function ensureAzureEnv() {
