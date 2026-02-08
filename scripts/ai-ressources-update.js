@@ -52,8 +52,6 @@ const AZURE_AGENT_RESEARCH_NAME =
   process.env.AZURE_AGENT_RESEARCH_NAME || AZURE_AGENT_NAME;
 const AZURE_AGENT_RESPONSES_API_VERSION =
   process.env.AZURE_AGENT_RESPONSES_API_VERSION || "2025-11-15-preview";
-const AZURE_AGENT_ALLOW_CLASSIC_FALLBACK =
-  process.env.AZURE_AGENT_ALLOW_CLASSIC_FALLBACK === "1";
 const AZURE_AGENT_FORCE_RESPONSES =
   process.env.AZURE_AGENT_FORCE_RESPONSES === "1";
 const AZURE_AGENT_RESPONSES_RETRIES = parseInt(
@@ -775,6 +773,69 @@ function buildAgentReference(agentName) {
   return agent;
 }
 
+async function listAgentsViaRest(credential) {
+  if (typeof fetch !== "function") {
+    return [];
+  }
+
+  const token = await credential.getToken("https://ai.azure.com/.default");
+  if (!token?.token) {
+    throw new Error("Failed to obtain Azure token for ai.azure.com scope");
+  }
+
+  const baseUrl = AZURE_AGENT_ENDPOINT.replace(/\/+$/, "");
+  const url = `${baseUrl}/agents?api-version=${AZURE_AGENT_RESPONSES_API_VERSION}`;
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${token.token}` },
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      `Foundry agents REST list failed: ${response.status} ${response.statusText}`,
+    );
+  }
+
+  const payload = await response.json();
+  const data = Array.isArray(payload?.data) ? payload.data : [];
+  return data.map((agent) => ({
+    id: agent.id,
+    name: (agent.name || agent.id || "").trim(),
+    version: agent.versions?.latest?.version,
+  }));
+}
+
+async function listAgentVersionsViaRest(credential, agentId) {
+  if (typeof fetch !== "function") {
+    return [];
+  }
+
+  const token = await credential.getToken("https://ai.azure.com/.default");
+  if (!token?.token) {
+    throw new Error("Failed to obtain Azure token for ai.azure.com scope");
+  }
+
+  const baseUrl = AZURE_AGENT_ENDPOINT.replace(/\/+$/, "");
+  const encoded = encodeURIComponent(agentId);
+  const url = `${baseUrl}/agents/${encoded}/versions?api-version=${AZURE_AGENT_RESPONSES_API_VERSION}`;
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${token.token}` },
+  });
+
+  if (!response.ok) {
+    throw new Error(
+      `Foundry agent versions REST list failed: ${response.status} ${response.statusText}`,
+    );
+  }
+
+  const payload = await response.json();
+  const data = Array.isArray(payload?.data) ? payload.data : [];
+  return data.map((version) => ({
+    id: version.id,
+    name: (version.name || "").trim(),
+    version: version.version,
+  }));
+}
+
 const agentReferenceCache = new Map();
 
 async function resolveAgentReference(agentName, credential) {
@@ -790,62 +851,77 @@ async function resolveAgentReference(agentName, credential) {
   const [namePart, versionPart] = trimmed.split(":", 2);
   const directRef = buildAgentReference(trimmed);
 
-  // Some Foundry setups (or service principals) cannot list agents, but the
-  // Responses API can still reference an agent by name. In that case, fall back
-  // to a direct agent_reference instead of failing early.
-  if (process.env.AZURE_AGENT_SKIP_LIST === "1") {
-    agentReferenceCache.set(agentName, directRef);
-    return directRef;
-  }
-
   const { AIProjectClient } = require("@azure/ai-projects");
   const client = new AIProjectClient(AZURE_AGENT_ENDPOINT, credential);
+
+  // Prefer Foundry agent metadata via REST. Some SDK list endpoints return only
+  // legacy assistants (asst_*) even when Foundry agents exist.
+  if (namePart) {
+    try {
+      const token = await credential.getToken("https://ai.azure.com/.default");
+      const url = `${AZURE_AGENT_ENDPOINT.replace(/\/+$/, "")}/agents?api-version=${encodeURIComponent(
+        AZURE_AGENT_RESPONSES_API_VERSION,
+      )}`;
+      const res = await fetch(url, {
+        headers: { Authorization: `Bearer ${token.token}` },
+      });
+      if (res.ok) {
+        const json = await res.json();
+        const data = Array.isArray(json?.data) ? json.data : [];
+        const match = data.find(
+          (a) =>
+            (a?.id && `${a.id}` === namePart) ||
+            (a?.name && `${a.name}`.toLowerCase() === namePart.toLowerCase()),
+        );
+        const latest = match?.versions?.latest;
+        if (match && latest) {
+          const ref = {
+            name: latest?.name || match?.name || namePart,
+            type: "agent_reference",
+          };
+          const v = versionPart || latest?.version;
+          if (v) ref.version = `${v}`;
+          agentReferenceCache.set(agentName, ref);
+          return ref;
+        }
+      }
+    } catch {
+      // ignore and continue to list-based resolution
+    }
+  }
   const listFn =
     typeof client.agents.list === "function"
       ? client.agents.list.bind(client.agents)
       : typeof client.agents.listAgents === "function"
         ? client.agents.listAgents.bind(client.agents)
         : null;
-  if (!listFn) {
-    agentReferenceCache.set(agentName, directRef);
-    return directRef;
-  }
-
   const candidates = [];
   const nameMatches = [];
   let idMatch = null;
   try {
-    for await (const agent of listFn()) {
-      const agentName = (agent.name || "").trim();
-      const agentVersion = agent.version;
-      candidates.push({ id: agent.id, name: agentName, version: agentVersion });
+    if (listFn) {
+      for await (const agent of listFn()) {
+        const agentName = (agent.name || "").trim();
+        const agentVersion = agent.version;
+        candidates.push({ id: agent.id, name: agentName, version: agentVersion });
 
-      if (agent.id === trimmed || agent.id === namePart) {
-        idMatch = agent;
-      }
+        if (agent.id === trimmed || agent.id === namePart) {
+          idMatch = agent;
+        }
 
-      if (
-        agentName &&
-        (agentName === namePart ||
-          agentName.toLowerCase() === namePart.toLowerCase())
-      ) {
-        nameMatches.push(agent);
+        if (
+          agentName &&
+          (agentName === namePart ||
+            agentName.toLowerCase() === namePart.toLowerCase())
+        ) {
+          nameMatches.push(agent);
+        }
       }
     }
   } catch (error) {
     console.warn(
-      `[agent] Could not list agents (${error?.message || error}). Proceeding with direct agent reference "${directRef.name}".`,
+      `[agent] Could not list agents (${error?.message || error}).`,
     );
-    agentReferenceCache.set(agentName, directRef);
-    return directRef;
-  }
-
-  if (candidates.length === 0) {
-    console.warn(
-      `[agent] Agent listing returned no candidates. Proceeding with direct agent reference "${directRef.name}".`,
-    );
-    agentReferenceCache.set(agentName, directRef);
-    return directRef;
   }
 
   let chosen = null;
@@ -881,21 +957,61 @@ async function resolveAgentReference(agentName, credential) {
     }
   }
 
+  let restCandidates = null;
   if (!chosen) {
-    const legacyOnly =
-      candidates.length > 0 &&
-      candidates.every((c) => isLegacyAgentId(c.id)) &&
-      candidates.every((c) => !c.version);
-    if (legacyOnly) {
-      console.warn(
-        `[agent] Agent "${trimmed}" not found in legacy agent listing. Proceeding with direct agent reference "${directRef.name}".`,
+    try {
+      restCandidates = await listAgentsViaRest(credential);
+      const restIdMatch = restCandidates.find(
+        (agent) => agent.id === trimmed || agent.id === namePart,
       );
-      agentReferenceCache.set(agentName, directRef);
-      return directRef;
-    }
+      const restNameMatches = restCandidates.filter(
+        (agent) =>
+          agent.name &&
+          (agent.name === namePart ||
+            agent.name.toLowerCase() === namePart.toLowerCase()),
+      );
 
+      if (versionPart) {
+        const restTarget = restNameMatches[0] || restIdMatch;
+        if (restTarget) {
+          const versions = await listAgentVersionsViaRest(
+            credential,
+            restTarget.id || restTarget.name,
+          );
+          const versionMatch = versions.find(
+            (agent) => `${agent.version || ""}` === `${versionPart}`,
+          );
+          if (versionMatch) {
+            chosen = {
+              id: restTarget.id,
+              name: restTarget.name,
+              version: versionMatch.version,
+            };
+          }
+        }
+      }
+
+      if (!chosen && restIdMatch) {
+        chosen = restIdMatch;
+      }
+
+      if (!chosen && restNameMatches.length) {
+        chosen = restNameMatches[0];
+      }
+    } catch (error) {
+      console.warn(
+        `[agent] REST agent listing failed (${error?.message || error}).`,
+      );
+    }
+  }
+
+  if (!chosen) {
+    const availableCandidates =
+      restCandidates && restCandidates.length
+        ? restCandidates
+        : candidates;
     const available =
-      candidates
+      availableCandidates
         .map(
           (c) =>
             `${c.name || "(unnamed)"}${c.version ? `:${c.version}` : ""} (${c.id})`,
@@ -1526,7 +1642,9 @@ async function requestAgentJson(prompt, { agentName = AZURE_AGENT_NAME } = {}) {
 
   // Legacy assistant IDs (asst_*) always use the classic thread/run API.
   if (isLegacyAgentId(agentName)) {
-    return await azureAgentJson(prompt, { agentId: agentName });
+    throw new Error(
+      `Legacy agent IDs are not allowed. Update AZURE_AGENT_NAME to a Foundry agent name like "web-deep-search:4".`,
+    );
   }
 
   if (AZURE_AGENT_FORCE_RESPONSES) {
@@ -1538,18 +1656,11 @@ async function requestAgentJson(prompt, { agentName = AZURE_AGENT_NAME } = {}) {
   }
 
   // New Foundry agents use the Responses API by default.
-  try {
-    const result = await azureAgentResponsesApi(prompt, { agentName });
-    if (AZURE_AGENT_RESPONSES_COOLDOWN_MS > 0) {
-      await sleep(AZURE_AGENT_RESPONSES_COOLDOWN_MS);
-    }
-    return result;
-  } catch (error) {
-    if (AZURE_AGENT_ALLOW_CLASSIC_FALLBACK) {
-      return await azureAgentJson(prompt, { agentId: agentName });
-    }
-    throw error;
+  const result = await azureAgentResponsesApi(prompt, { agentName });
+  if (AZURE_AGENT_RESPONSES_COOLDOWN_MS > 0) {
+    await sleep(AZURE_AGENT_RESPONSES_COOLDOWN_MS);
   }
+  return result;
 }
 
 function ensureAzureEnv() {
