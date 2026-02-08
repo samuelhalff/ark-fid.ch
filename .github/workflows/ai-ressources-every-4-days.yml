@@ -2,7 +2,7 @@ name: AI Resources Update (every 4 days)
 
 on:
   schedule:
-    - cron: "0 0 */4 * *" # every 4 days at 00:00 UTC
+    - cron: "0 0 */3 * *" # every 4 days at 00:00 UTC
   workflow_dispatch:
 
 concurrency:
