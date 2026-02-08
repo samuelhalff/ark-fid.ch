@@ -43,6 +43,8 @@ jobs:
           # Azure OpenAI endpoint isn't sensitive; prefer a known-good default.
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT || 'https://pbmch8303697696.cognitiveservices.azure.com/' }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          # Use a known-good Azure OpenAI api-version (GitHub secret values have caused 404s).
+          AZURE_OPENAI_API_VERSION: "2024-05-01-preview"
           AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
           AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
           AZURE_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
@@ -123,7 +125,8 @@ jobs:
           # Azure OpenAI endpoint isn't sensitive; prefer a known-good default.
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT || 'https://pbmch8303697696.cognitiveservices.azure.com/' }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
-          AZURE_OPENAI_API_VERSION: ${{ secrets.AZURE_OPENAI_API_VERSION }}
+          # Use a known-good Azure OpenAI api-version (GitHub secret values have caused 404s).
+          AZURE_OPENAI_API_VERSION: "2024-05-01-preview"
           # Keep translations on GPT-4.1, even if endpoint secret includes another deployment path.
           AZURE_OPENAI_DEPLOYMENT: "gpt-4.1"
           # Use a faster/higher-quality writer model for long-form drafting.
