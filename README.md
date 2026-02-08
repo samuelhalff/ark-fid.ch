@@ -123,12 +123,11 @@ Environment (DefaultAzureCredential):
 # Required
 AZURE_AGENT_ENDPOINT=...
 AZURE_AGENT_NAME=...
-# Example: AZURE_AGENT_NAME=web-deep-search:2
+# Example: AZURE_AGENT_NAME=web-deep-search:4
 
 # Optional
 AZURE_AGENT_RUN_TIMEOUT_MS=180000
 AZURE_AGENT_RESPONSES_API_VERSION=2025-11-15-preview
-AZURE_AGENT_ALLOW_CLASSIC_FALLBACK=0
 AZURE_AGENT_FORCE_RESPONSES=0
 AZURE_AGENT_RESPONSES_RETRIES=4
 AZURE_AGENT_RESPONSES_BACKOFF_MS=15000
@@ -166,7 +165,7 @@ node scripts/ai-ressources-update.js --apply --translate-existing
 Notes:
 
 - The script expects JSON responses matching the specified schema. If the agent returns non-JSON content, adjust the agent instructions to produce `application/json` payloads.
-- `AZURE_AGENT_NAME` accepts either an agent name or an `asst_` ID; the script resolves names to IDs automatically.
+- `AZURE_AGENT_NAME` must be a Foundry agent name (optionally pinned to a version like `web-deep-search:4`).
 - For new Foundry agents (non-`asst_`), the script uses the OpenAI Responses API with an `agent_reference` payload. Keep `AZURE_AGENT_RESPONSES_API_VERSION` aligned with your project OpenAI API version (default `2025-11-15-preview`).
 - Translations use Azure OpenAI (GPT-4.1) via `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, and `AZURE_OPENAI_API_VERSION` (no agent required).
 - `--translate-existing` fills missing/untranslated article translations (it does not force retranslation of every article).

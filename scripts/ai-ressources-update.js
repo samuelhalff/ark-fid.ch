@@ -45,9 +45,7 @@ const REQUIRE_TRANSLATIONS =
 const AI_TWO_STEP = process.env.AI_TWO_STEP === "1";
 
 const AZURE_AGENT_ENDPOINT = process.env.AZURE_AGENT_ENDPOINT;
-// Support both AZURE_AGENT_NAME (new) and AZURE_AGENT_ID (legacy)
-const AZURE_AGENT_NAME =
-  process.env.AZURE_AGENT_NAME || process.env.AZURE_AGENT_ID;
+const AZURE_AGENT_NAME = process.env.AZURE_AGENT_NAME;
 const AZURE_AGENT_RESEARCH_NAME =
   process.env.AZURE_AGENT_RESEARCH_NAME || AZURE_AGENT_NAME;
 const AZURE_AGENT_RESPONSES_API_VERSION =
@@ -1109,64 +1107,46 @@ function getRetryAfterMsFromError(error) {
   return null;
 }
 
-function buildAzureOpenAIChatUrl() {
-  if (!AZURE_OPENAI_ENDPOINT) {
-    throw new Error("Missing AZURE_OPENAI_ENDPOINT");
-  }
-  let url = AZURE_OPENAI_ENDPOINT.trim();
-  if (!url) {
-    throw new Error("Missing AZURE_OPENAI_ENDPOINT");
-  }
-
-  const hasChatCompletions = /\/chat\/completions(\?|$)/.test(url);
-  const hasDeploymentPath = /\/openai\/deployments\//.test(url);
-
-  if (!hasChatCompletions) {
-    if (hasDeploymentPath) {
-      url = `${url.replace(/\/+$/, "")}/chat/completions`;
-    } else {
-      url = `${url.replace(/\/+$/, "")}/openai/deployments/${AZURE_OPENAI_DEPLOYMENT}/chat/completions`;
-    }
-  }
-
-  if (!/api-version=/.test(url)) {
-    const sep = url.includes("?") ? "&" : "?";
-    url = `${url}${sep}api-version=${encodeURIComponent(
-      AZURE_OPENAI_API_VERSION,
-    )}`;
-  }
-
-  return url;
+function ensureHttpsUrl(input) {
+  const raw = String(input || "").trim();
+  if (!raw) return raw;
+  if (/^https?:\/\//i.test(raw)) return raw;
+  if (raw.startsWith("//")) return `https:${raw}`;
+  return `https://${raw}`;
 }
 
 function buildAzureOpenAIChatUrlFor({ endpoint, deployment, apiVersion }) {
   if (!endpoint) throw new Error("Missing Azure OpenAI endpoint");
-  let url = String(endpoint).trim();
+  let url = ensureHttpsUrl(String(endpoint).trim());
   if (!url) throw new Error("Missing Azure OpenAI endpoint");
+  if (!deployment) throw new Error("Missing Azure OpenAI deployment");
+  if (!apiVersion) throw new Error("Missing Azure OpenAI apiVersion");
 
-  const hasChatCompletions = /\/chat\/completions(\?|$)/.test(url);
-  const hasDeploymentPath = /\/openai\/deployments\//.test(url);
+  const u = new URL(url);
 
-  // If the endpoint already includes a deployment path, allow overriding the
-  // deployment name via the explicit `deployment` argument (used for drafting).
-  if (hasDeploymentPath && deployment) {
-    url = url.replace(/(\/openai\/deployments\/)([^\/\?]+)/, `$1${deployment}`);
-  }
+  // Normalize to the chat completions route (some teams store a full URL in the secret,
+  // others store just the origin).
+  const hasDeploymentPath = /\/openai\/deployments\//.test(u.pathname);
+  const hasChatCompletions = /\/chat\/completions$/.test(u.pathname);
 
-  if (!hasChatCompletions) {
-    if (hasDeploymentPath) {
-      url = `${url.replace(/\/+$/, "")}/chat/completions`;
-    } else {
-      url = `${url.replace(/\/+$/, "")}/openai/deployments/${deployment}/chat/completions`;
+  if (hasDeploymentPath) {
+    // Replace deployment in-path for drafting vs translations.
+    u.pathname = u.pathname.replace(
+      /(\/openai\/deployments\/)([^\/]+)/,
+      `$1${deployment}`,
+    );
+    if (!hasChatCompletions) {
+      u.pathname = `${u.pathname.replace(/\/+$/, "")}/chat/completions`;
     }
+  } else {
+    u.pathname = `/openai/deployments/${deployment}/chat/completions`;
   }
 
-  if (!/api-version=/.test(url)) {
-    const sep = url.includes("?") ? "&" : "?";
-    url = `${url}${sep}api-version=${encodeURIComponent(apiVersion)}`;
+  if (!u.searchParams.has("api-version")) {
+    u.searchParams.set("api-version", apiVersion);
   }
 
-  return url;
+  return u.toString();
 }
 
 function buildDraftRepairPromptFromExistingArticle(
@@ -1640,7 +1620,7 @@ async function azureAgentResponsesApi(
 async function requestAgentJson(prompt, { agentName = AZURE_AGENT_NAME } = {}) {
   if (!agentName) throw new Error("Missing AZURE_AGENT_NAME");
 
-  // Legacy assistant IDs (asst_*) always use the classic thread/run API.
+  // Legacy assistant IDs (asst_*) are not allowed.
   if (isLegacyAgentId(agentName)) {
     throw new Error(
       `Legacy agent IDs are not allowed. Update AZURE_AGENT_NAME to a Foundry agent name like "web-deep-search:4".`,
@@ -1666,7 +1646,7 @@ async function requestAgentJson(prompt, { agentName = AZURE_AGENT_NAME } = {}) {
 function ensureAzureEnv() {
   const missing = [];
   if (!AZURE_AGENT_ENDPOINT) missing.push("AZURE_AGENT_ENDPOINT");
-  if (!AZURE_AGENT_NAME) missing.push("AZURE_AGENT_NAME (or AZURE_AGENT_ID)");
+  if (!AZURE_AGENT_NAME) missing.push("AZURE_AGENT_NAME");
   if (missing.length) {
     throw new Error(
       `Missing required Azure env vars: ${missing.join(", ")}. See README.`,

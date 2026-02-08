@@ -322,15 +322,15 @@ In addition, the previous attempt hit `/agents/responses` with an API version un
 
 ### Resolution
 
-1. ✅ Classic flow is only used when the resolved agent ID starts with `asst_`
-2. ✅ New Foundry agents are called via the OpenAI Responses API with an `agent_reference` payload and Entra scope `https://ai.azure.com/.default` (via Azure Identity DefaultAzureCredential)
-3. ✅ Default OpenAI API version aligned to `2025-11-15-preview` with optional `AZURE_AGENT_FORCE_RESPONSES` and `AZURE_AGENT_ALLOW_CLASSIC_FALLBACK`
+1. ✅ Classic thread/run flow is disabled; legacy `asst_` agent IDs are rejected
+2. ✅ Foundry agents are called via the OpenAI Responses API with an `agent_reference` payload and Entra scope `https://ai.azure.com/.default` (via Azure Identity DefaultAzureCredential)
+3. ✅ Default OpenAI API version aligned to `2025-11-15-preview` with optional `AZURE_AGENT_FORCE_RESPONSES`
 
 ### Prevention
 
-- ✅ `resolveAgentId()` now treats non-legacy IDs as non-classic and falls back to Responses
-- ✅ `isLegacyAgentId()` determines the correct API path
-- ✅ Responses flow is exercised in CI for modern agent names
+- ✅ Legacy agent IDs are blocked to prevent classic flow regressions
+- ✅ `isLegacyAgentId()` guards against accidental classic usage
+- ✅ Responses flow is exercised in CI for Foundry agent names
 
 ---
 
