@@ -40,7 +40,8 @@ jobs:
         env:
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
           AZURE_AGENT_NAME: ${{ secrets.AZURE_AGENT_NAME }}
-          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          # Azure OpenAI endpoint isn't sensitive; prefer a known-good default.
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT || 'https://pbmch8303697696.cognitiveservices.azure.com/' }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
           AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
@@ -119,7 +120,8 @@ jobs:
           AZURE_AGENT_NAME: ${{ secrets.AZURE_AGENT_NAME }}
           # Foundry agent name-only mode (prevents accidental fallback to classic assistants).
           AZURE_AGENT_FORCE_RESPONSES: "1"
-          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          # Azure OpenAI endpoint isn't sensitive; prefer a known-good default.
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT || 'https://pbmch8303697696.cognitiveservices.azure.com/' }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           AZURE_OPENAI_API_VERSION: ${{ secrets.AZURE_OPENAI_API_VERSION }}
           # Keep translations on GPT-4.1, even if endpoint secret includes another deployment path.

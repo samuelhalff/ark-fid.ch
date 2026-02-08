@@ -1242,14 +1242,29 @@ async function azureOpenAIJson(prompt, options = {}) {
   let attempt = 0;
   while (true) {
     attempt += 1;
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "api-key": AZURE_OPENAI_API_KEY,
-      },
-      body: JSON.stringify(body),
-    });
+    let res;
+    try {
+      res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": AZURE_OPENAI_API_KEY,
+        },
+        body: JSON.stringify(body),
+      });
+    } catch (error) {
+      const cause = error?.cause;
+      const details = [];
+      if (cause?.code) details.push(`code=${cause.code}`);
+      if (cause?.errno) details.push(`errno=${cause.errno}`);
+      if (cause?.syscall) details.push(`syscall=${cause.syscall}`);
+      if (cause?.address) details.push(`address=${cause.address}`);
+      if (cause?.port) details.push(`port=${cause.port}`);
+      const detailSuffix = details.length ? ` (${details.join(", ")})` : "";
+      throw new Error(
+        `Azure OpenAI fetch failed: ${error?.message || "unknown error"}${detailSuffix}`,
+      );
+    }
     const text = await res.text().catch(() => "");
     if (res.ok) {
       const parsed = JSON.parse(text);
