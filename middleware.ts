@@ -61,6 +61,84 @@ export function middleware(request: NextRequest) {
   const trustedTypesDirective = `trusted-types nextjs#bundler goog#html 'allow-duplicates'`;
   const csp = `${cspDirectives}; ${trustedTypesDirective}`;
 
+  // Guardrails for malformed URLs that have shown up in Google Search Console.
+  // These mostly come from broken markdown link syntax accidentally emitted in article content.
+  // Examples:
+  // - /[team](/team)
+  // - /services/[taxes](/services/taxes)
+  // - /$/
+  // - /pt/family-office/ (legacy path)
+  {
+    const localePrefixMatch = pathname.match(/^\/([a-z]{2})(\/.*)?$/);
+    const localeFromPath =
+      localePrefixMatch && locales.includes(localePrefixMatch[1] as any)
+        ? localePrefixMatch[1]
+        : null;
+
+    const effectiveLocale = localeFromPath || getLocale(request);
+    const localePrefix = `/${effectiveLocale}`;
+    const rest = localeFromPath ? pathname.slice(3) || "/" : pathname;
+    const restNoTrailingSlash =
+      rest.length > 1 && rest.endsWith("/") ? rest.slice(0, -1) : rest;
+
+    const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(restNoTrailingSlash);
+    const isSpecialRoute =
+      restNoTrailingSlash.includes("/opengraph-image") ||
+      restNoTrailingSlash.includes("/twitter-image");
+
+    const redirectWithHeaders = (targetPath: string) => {
+      const redirectUrl = new URL(targetPath, request.url);
+      redirectUrl.search = request.nextUrl.search;
+      const response = NextResponse.redirect(redirectUrl, 308);
+      response.headers.set("x-nonce", nonce);
+      response.headers.set("x-pathname", pathname);
+      response.headers.set("Content-Security-Policy", csp);
+      response.headers.set("Referrer-Policy", "no-referrer-when-downgrade");
+      response.headers.set("X-Content-Type-Options", "nosniff");
+      response.headers.set("X-Frame-Options", "SAMEORIGIN");
+      response.headers.set("X-DNS-Prefetch-Control", "on");
+      response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+      response.headers.set(
+        "Permissions-Policy",
+        "geolocation=(), microphone=(), camera=()"
+      );
+      if (isProd) {
+        response.headers.set(
+          "Strict-Transport-Security",
+          "max-age=63072000; includeSubDomains; preload"
+        );
+      }
+      return response;
+    };
+
+    // Normalize /$/ -> locale home
+    if (restNoTrailingSlash === "/$") {
+      return redirectWithHeaders(`${localePrefix}/`);
+    }
+
+    // Legacy path normalization: /<locale>/family-office/ -> /<locale>/services/family-office/
+    if (restNoTrailingSlash === "/family-office") {
+      return redirectWithHeaders(`${localePrefix}/services/family-office/`);
+    }
+
+    // Fix markdown-style bracketed link paths.
+    // /[team](/team) -> /team
+    // /services/[taxes](/services/taxes) -> /services/taxes
+    const mdPathMatch = restNoTrailingSlash.match(
+      /^\/(?:services\/)?\[[^\]]+\]\((\/[^)]+)\)$/
+    );
+    if (mdPathMatch) {
+      let innerPath = mdPathMatch[1];
+      // If the malformed URL had a leading /services/ prefix, keep the inner path as-is.
+      // Otherwise, also keep as-is. We only ensure trailing slash.
+      let target = `${localePrefix}${innerPath}`;
+      if (!target.endsWith("/") && !hasFileExtension && !isSpecialRoute) {
+        target += "/";
+      }
+      return redirectWithHeaders(target);
+    }
+  }
+
   // Check if the path already has a locale
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`

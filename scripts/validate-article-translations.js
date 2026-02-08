@@ -34,6 +34,8 @@ function isGenuineTranslation(localeArticle, frArticle) {
 }
 
 function main() {
+  const REQUIRE =
+    process.env.REQUIRE_TRANSLATIONS === "1" || process.env.CI === "true";
   const fr = loadRessources("fr");
   const frArticleMap = new Map(fr.Articles.map((a) => [a.slug, a]));
 
@@ -140,6 +142,9 @@ function main() {
   const hasDuplicates = Object.values(summary.byLocale).some(
     (stats) => stats.duplicate > 0
   );
+  const hasMissing = Object.values(summary.byLocale).some(
+    (stats) => stats.missing > 0
+  );
   if (hasDuplicates) {
     console.log(
       "⚠️  Warning: Some locales have duplicate content that will be excluded from sitemap."
@@ -147,6 +152,13 @@ function main() {
     console.log(
       "   Consider translating these articles or keeping them excluded."
     );
+  }
+
+  if (REQUIRE && (hasDuplicates || hasMissing)) {
+    console.error(
+      "\n[CI] Translation validation failed: missing and/or duplicate articles detected."
+    );
+    process.exit(1);
   }
 }
 

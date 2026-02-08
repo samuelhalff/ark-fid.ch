@@ -126,8 +126,22 @@ AZURE_AGENT_NAME=...
 # Example: AZURE_AGENT_NAME=web-deep-search:2
 
 # Optional
-AZURE_TRANSLATE_AGENT_NAME=...
 AZURE_AGENT_RUN_TIMEOUT_MS=180000
+AZURE_AGENT_RESPONSES_API_VERSION=2025-11-15-preview
+AZURE_AGENT_ALLOW_CLASSIC_FALLBACK=0
+AZURE_AGENT_FORCE_RESPONSES=0
+AZURE_AGENT_RESPONSES_RETRIES=4
+AZURE_AGENT_RESPONSES_BACKOFF_MS=15000
+AZURE_AGENT_RESPONSES_BACKOFF_MAX_MS=120000
+AZURE_AGENT_RESPONSES_BACKOFF_JITTER_MS=2000
+AZURE_AGENT_RESPONSES_TIMEOUT_MS=180000
+AZURE_AGENT_RESPONSES_COOLDOWN_MS=8000
+AZURE_AGENT_RESPONSES_MAX_OUTPUT_TOKENS=0
+
+# Optional (SEO): enforce minimum FR article length (retries if too short)
+SEO_MIN_WORDS=1500
+# Optional (SEO): max length guidance (not enforced by code)
+SEO_MAX_WORDS=3000
 ```
 
 Authentication is handled through the Azure Identity DefaultAzureCredential chain. Supported options:
@@ -149,6 +163,10 @@ Notes:
 
 - The script expects JSON responses matching the specified schema. If the agent returns non-JSON content, adjust the agent instructions to produce `application/json` payloads.
 - `AZURE_AGENT_NAME` accepts either an agent name or an `asst_` ID; the script resolves names to IDs automatically.
+- For new Foundry agents (non-`asst_`), the script uses the OpenAI Responses API with an `agent_reference` payload. Keep `AZURE_AGENT_RESPONSES_API_VERSION` aligned with your project OpenAI API version (default `2025-11-15-preview`).
+- Translations use Azure OpenAI (GPT-4.1) via `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, and `AZURE_OPENAI_API_VERSION` (no agent required).
+- References are validated (no 404/empty pages). The Markdown `Références` section is regenerated from the validated `newArticle.references` list to avoid mismatches/hallucinated links.
+- Domain policy is configurable: in CI we allow broad domains but require at least 1 official source via `REFERENCE_MIN_TRUSTED_DOMAINS=1`.
 - GitHub workflow `.github/workflows/ai-ressources-every-4-days.yml` automates the run every four days using OIDC-based Azure login.
 
 ## Ressources Link Integrity

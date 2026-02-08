@@ -47,9 +47,33 @@ const TRUSTED_DOMAINS = [
   "finma.ch",
   "seco.admin.ch",
   "odoo.com",
+  "swissdec.ch",
+  "zefix.ch",
+  "fer.ch",
+  "economiesuisse.ch",
   "github.com",
   "wikipedia.org"
 ];
+
+function parseDomainList(raw) {
+  if (!raw || typeof raw !== "string") return [];
+  return raw
+    .split(",")
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+function isAllowedByList(url, allowedDomains) {
+  if (!allowedDomains || allowedDomains.length === 0) return true;
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+    return allowedDomains.some(
+      (d) => host === d || host.endsWith(`.${d}`),
+    );
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Check if a domain is in the trusted list
@@ -75,12 +99,28 @@ function isTrustedDomain(url) {
 function extractDomain(url) {
   try {
     const { hostname } = new URL(url);
-    // Get base domain (e.g., "example.com" from "www.example.com")
-    const parts = hostname.split(".");
-    if (parts.length >= 2) {
-      return parts.slice(-2).join(".");
+    const lower = hostname.toLowerCase();
+    // For Swiss institutional sites, different subdomains often represent
+    // different authorities (e.g., bsv.admin.ch vs estv.admin.ch). Treat
+    // the full hostname as the deduplication key.
+    const multiTenantRoots = [
+      "admin.ch",
+      "ge.ch",
+      "vd.ch",
+      "zh.ch",
+      "be.ch",
+      "ti.ch",
+    ];
+    if (
+      multiTenantRoots.some((root) => lower === root || lower.endsWith(`.${root}`))
+    ) {
+      return lower;
     }
-    return hostname;
+
+    // Default: base domain (e.g., "example.com" from "www.example.com")
+    const parts = lower.split(".");
+    if (parts.length >= 2) return parts.slice(-2).join(".");
+    return lower;
   } catch {
     return null;
   }
@@ -153,7 +193,10 @@ async function validateUrl(url, options = {}) {
   }
 
   try {
-    // First try HEAD request
+    // First try HEAD request to quickly detect hard failures and get metadata.
+    // Note: HEAD responses have no body, so if we want to validate content we
+    // must follow up with a GET for textual content.
+    let usedHead = true;
     let response = await fetchWithTimeout(url, { method: "HEAD", timeout });
     result.status = response.status;
     result.statusText = response.statusText;
@@ -175,6 +218,7 @@ async function validateUrl(url, options = {}) {
     // If HEAD fails with 405/403, try GET
     if (!response.ok || response.status === 405 || response.status === 403) {
       response = await fetchWithTimeout(url, { method: "GET", timeout });
+      usedHead = false;
       result.status = response.status;
       result.statusText = response.statusText;
       result.finalUrl = response.url;
@@ -197,8 +241,20 @@ async function validateUrl(url, options = {}) {
     const contentType = response.headers.get("content-type") || "";
     result.contentType = contentType;
 
+    // If we need to validate textual content, ensure we have a GET response body.
+    // A successful HEAD would otherwise appear as an empty page (0 bytes).
+    const looksTextual = /text|html|json|xml/i.test(contentType);
+    if (checkContent && looksTextual && usedHead) {
+      response = await fetchWithTimeout(url, { method: "GET", timeout });
+      usedHead = false;
+      result.status = response.status;
+      result.statusText = response.statusText;
+      result.finalUrl = response.url;
+      result.contentType = response.headers.get("content-type") || contentType;
+    }
+
     // Check content size
-    const isTextual = /text|html|json|xml/i.test(contentType);
+    const isTextual = /text|html|json|xml/i.test(result.contentType || "");
     
     if (checkContent && isTextual) {
       const body = await response.text();
@@ -262,6 +318,8 @@ async function validateUrl(url, options = {}) {
  */
 async function validateReferences(references, options = {}) {
   const { concurrency = 4, ...validateOptions } = options;
+  const requireTrusted = process.env.REFERENCE_REQUIRE_TRUSTED_DOMAINS === "1";
+  const allowedDomains = parseDomainList(process.env.REFERENCE_ALLOWED_DOMAINS);
 
   if (!Array.isArray(references) || references.length === 0) {
     return { valid: [], invalid: [], stats: { checked: 0, valid: 0, invalid: 0 } };
@@ -276,6 +334,28 @@ async function validateReferences(references, options = {}) {
       const ref = queue.shift();
       if (!ref || !ref.url) {
         results.push({ ref, result: { valid: false, reason: "missing-url", error: "Reference missing URL" } });
+        continue;
+      }
+      if (!isAllowedByList(ref.url, allowedDomains)) {
+        results.push({
+          ref,
+          result: {
+            valid: false,
+            reason: "domain-not-allowed",
+            error: "Domain not in allowlist",
+          },
+        });
+        continue;
+      }
+      if (requireTrusted && !isTrustedDomain(ref.url)) {
+        results.push({
+          ref,
+          result: {
+            valid: false,
+            reason: "untrusted-domain",
+            error: "Domain not in trusted list",
+          },
+        });
         continue;
       }
       const result = await validateUrl(ref.url, validateOptions);
@@ -339,6 +419,10 @@ const VERIFIED_FALLBACK_REFS = {
   ],
   payroll: [
     { labelKey: "Office fédéral des assurances sociales (OFAS)", url: "https://www.bsv.admin.ch/bsv/fr/home.html" },
+    { labelKey: "Swissdec - Standard de transmission salariale", url: "https://www.swissdec.ch/fr/" }
+  ],
+  odoo: [
+    { labelKey: "Odoo - Documentation officielle", url: "https://www.odoo.com/documentation" },
     { labelKey: "Swissdec - Standard de transmission salariale", url: "https://www.swissdec.ch/fr/" }
   ],
   corporate: [

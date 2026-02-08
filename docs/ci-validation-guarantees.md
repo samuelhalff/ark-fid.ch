@@ -248,8 +248,37 @@ FAIL_ON_BAD_REFERENCE=1        # Fail entirely if refs can't be fixed (default: 
 LINK_CHECK_TIMEOUT_MS=10000    # HTTP request timeout (default: 10000ms)
 OFFLINE_MODE=1                 # Skip HTTP checks for testing (default: 0)
 
+# SEO (optional)
+SEO_MIN_WORDS=1500             # Enforce minimum FR word count (0 = disabled)
+SEO_MAX_WORDS=3000             # Max guidance (not enforced by code)
+
+# Reference quality (optional)
+# In CI we typically allow broad domains but require at least one official source.
+REFERENCE_REQUIRE_TRUSTED_DOMAINS=0         # If 1, restrict to trusted list only
+REFERENCE_MIN_TRUSTED_DOMAINS=1             # Require N trusted/official domains
+REFERENCE_MIN_COUNT=4                       # Minimum refs after validation
+REFERENCE_MAX_COUNT=6                       # Maximum refs to keep
+REFERENCE_ALLOWED_DOMAINS=admin.ch,ge.ch,vd.ch,finma.ch,swissdec.ch  # Optional allowlist
+
 # Agent timeout
 AZURE_AGENT_RUN_TIMEOUT_MS=180000  # Agent run timeout (default: 180000ms)
+# Foundry OpenAI Responses API (new agents)
+AZURE_AGENT_RESPONSES_API_VERSION=2025-11-15-preview
+AZURE_AGENT_ALLOW_CLASSIC_FALLBACK=0
+AZURE_AGENT_FORCE_RESPONSES=0
+AZURE_AGENT_RESPONSES_RETRIES=4
+AZURE_AGENT_RESPONSES_BACKOFF_MS=15000
+AZURE_AGENT_RESPONSES_BACKOFF_MAX_MS=120000
+AZURE_AGENT_RESPONSES_BACKOFF_JITTER_MS=2000
+AZURE_AGENT_RESPONSES_TIMEOUT_MS=180000
+AZURE_AGENT_RESPONSES_COOLDOWN_MS=8000
+AZURE_AGENT_RESPONSES_MAX_OUTPUT_TOKENS=0
+
+# Translations (Azure OpenAI, GPT-4.1)
+AZURE_OPENAI_ENDPOINT=...
+AZURE_OPENAI_API_KEY=...
+AZURE_OPENAI_API_VERSION=2025-01-01-preview
+AZURE_OPENAI_DEPLOYMENT=gpt-4.1
 ```
 
 ---
@@ -287,23 +316,21 @@ Azure AI Agent API calls were failing with `Invalid 'assistant_id'` error.
 
 ### Root Cause
 
-The SDK-based API (`AIProjectClient.agents.getAgent()`) requires an OpenAI-style assistant ID starting with `asst_`, but the `AZURE_AGENT_NAME` secret was configured with an agent name (e.g., "ark-fid-agent"), not a legacy assistant ID.
+The new Foundry agent (`web-deep-search`) is not a legacy `asst_` assistant. The CI pipeline still attempted the classic thread/run flow, which requires an `asst_` ID, and failed.
 
-A previous fix incorrectly changed the API selection logic to always try the SDK API first, which fails for agent names.
+In addition, the previous attempt hit `/agents/responses` with an API version unsupported by the project runtime. The correct approach is to use the OpenAI Responses endpoint with an `agent_reference` payload.
 
 ### Resolution
 
-1. ✅ API selection now based on agent identifier format:
-   - **Legacy IDs** (starting with `asst_`): Use SDK-based API
-   - **Agent names** (any other string): Use Responses API with agent reference
-2. ✅ Responses API properly supports agent name references
-3. ✅ `@azure/ai-projects` dependency at stable version `^1.0.1`
+1. ✅ Classic flow is only used when the resolved agent ID starts with `asst_`
+2. ✅ New Foundry agents are called via the OpenAI Responses API with an `agent_reference` payload and Entra scope `https://ai.azure.com/.default` (via Azure Identity DefaultAzureCredential)
+3. ✅ Default OpenAI API version aligned to `2025-11-15-preview` with optional `AZURE_AGENT_FORCE_RESPONSES` and `AZURE_AGENT_ALLOW_CLASSIC_FALLBACK`
 
 ### Prevention
 
-- ✅ Use `isLegacyAgentId()` helper to determine correct API method
-- ✅ SDK API only called when agent ID format is compatible
-- ✅ Responses API used for modern agent name-based references
+- ✅ `resolveAgentId()` now treats non-legacy IDs as non-classic and falls back to Responses
+- ✅ `isLegacyAgentId()` determines the correct API path
+- ✅ Responses flow is exercised in CI for modern agent names
 
 ---
 

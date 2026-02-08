@@ -28,8 +28,17 @@ const getArgValue = (key) => {
 };
 
 const APPLY = hasFlag('--apply');
+const FORCE = hasFlag('--force-overwrite');
 const CHECK = hasFlag('--check');
 const localeList = (getArgValue('--locales') || 'en,de,es,pt').split(',').map(s => s.trim()).filter(Boolean);
+
+if (APPLY && !FORCE) {
+  console.error(
+    "Refusing to run with --apply without --force-overwrite. This script overwrites translated locale content with the FR canonical file."
+  );
+  console.error("If you really intend to do this, rerun with: --apply --force-overwrite");
+  process.exit(2);
+}
 
 const root = path.join(__dirname, '..', 'src', 'translations');
 const canonicalLocale = 'fr';

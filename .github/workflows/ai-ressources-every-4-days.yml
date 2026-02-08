@@ -40,6 +40,8 @@ jobs:
         env:
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
           AZURE_AGENT_NAME: ${{ secrets.AZURE_AGENT_NAME }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
           AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
           AZURE_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
@@ -49,7 +51,7 @@ jobs:
           TRENDS_MAX_TOPICS: ${{ vars.TRENDS_MAX_TOPICS }}
         run: |
           echo "🔍 Validating required environment variables..."
-          
+
           # Check required Azure vars
           if [ -n "$AZURE_AGENT_ENDPOINT" ]; then
             echo "✅ AZURE_AGENT_ENDPOINT: set (length: ${#AZURE_AGENT_ENDPOINT})"
@@ -57,35 +59,49 @@ jobs:
             echo "❌ AZURE_AGENT_ENDPOINT: missing"
             exit 1
           fi
-          
+
           if [ -n "$AZURE_AGENT_NAME" ]; then
             echo "✅ AZURE_AGENT_NAME: set (length: ${#AZURE_AGENT_NAME})"
           else
             echo "❌ AZURE_AGENT_NAME: missing"
             exit 1
           fi
-          
+
+          if [ -n "$AZURE_OPENAI_ENDPOINT" ]; then
+            echo "✅ AZURE_OPENAI_ENDPOINT: set (length: ${#AZURE_OPENAI_ENDPOINT})"
+          else
+            echo "❌ AZURE_OPENAI_ENDPOINT: missing"
+            exit 1
+          fi
+
+          if [ -n "$AZURE_OPENAI_API_KEY" ]; then
+            echo "✅ AZURE_OPENAI_API_KEY: set (length: ${#AZURE_OPENAI_API_KEY})"
+          else
+            echo "❌ AZURE_OPENAI_API_KEY: missing"
+            exit 1
+          fi
+
           if [ -n "$AZURE_TENANT_ID" ]; then
             echo "✅ AZURE_TENANT_ID: set (length: ${#AZURE_TENANT_ID})"
           else
             echo "❌ AZURE_TENANT_ID: missing"
             exit 1
           fi
-          
+
           if [ -n "$AZURE_CLIENT_ID" ]; then
             echo "✅ AZURE_CLIENT_ID: set (length: ${#AZURE_CLIENT_ID})"
           else
             echo "❌ AZURE_CLIENT_ID: missing"
             exit 1
           fi
-          
+
           if [ -n "$AZURE_CLIENT_SECRET" ]; then
             echo "✅ AZURE_CLIENT_SECRET: set (length: ${#AZURE_CLIENT_SECRET})"
           else
             echo "❌ AZURE_CLIENT_SECRET: missing"
             exit 1
           fi
-          
+
           # Check optional trend configuration (from vars, not secrets)
           echo ""
           echo "📊 Trend configuration (from repository variables):"
@@ -93,29 +109,56 @@ jobs:
           echo "  TRENDS_GEO: ${TRENDS_GEO:-'(not set, default: CH)'}"
           echo "  TRENDS_LANGUAGE: ${TRENDS_LANGUAGE:-'(not set, default: fr)'}"
           echo "  TRENDS_MAX_TOPICS: ${TRENDS_MAX_TOPICS:-'(not set, default: 10)'}"
-          
+
           echo ""
           echo "✅ All required environment variables validated"
 
-      - name: Run AI update (FR + translations via Azure Agent)
+      - name: Run AI update (FR + translations via Azure OpenAI)
         env:
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
           AZURE_AGENT_NAME: ${{ secrets.AZURE_AGENT_NAME }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_API_VERSION: ${{ vars.AZURE_OPENAI_API_VERSION }}
           AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
           AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
           AZURE_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
-          # Optional: a distinct agent for translation
-          AZURE_TRANSLATE_AGENT_NAME: ${{ secrets.AZURE_TRANSLATE_AGENT_NAME }}
           # Adjust if longer draft generations are needed
           AZURE_AGENT_RUN_TIMEOUT_MS: 180000
+          # Responses API throttling guardrails
+          AZURE_AGENT_RESPONSES_RETRIES: "4"
+          AZURE_AGENT_RESPONSES_BACKOFF_MS: "15000"
+          AZURE_AGENT_RESPONSES_BACKOFF_MAX_MS: "120000"
+          AZURE_AGENT_RESPONSES_BACKOFF_JITTER_MS: "2000"
+          AZURE_AGENT_RESPONSES_TIMEOUT_MS: "180000"
+          AZURE_AGENT_RESPONSES_COOLDOWN_MS: "8000"
+          # Leave uncapped to avoid incomplete JSON output
+          AZURE_AGENT_RESPONSES_MAX_OUTPUT_TOKENS: "0"
           REQUIRE_TRANSLATIONS: "1"
           # Trend provider configuration (from repository variables)
           TRENDS_PROVIDER: ${{ vars.TRENDS_PROVIDER }}
           TRENDS_GEO: ${{ vars.TRENDS_GEO }}
           TRENDS_LANGUAGE: ${{ vars.TRENDS_LANGUAGE }}
           TRENDS_MAX_TOPICS: ${{ vars.TRENDS_MAX_TOPICS }}
+          # Reference quality guardrails
+          # Allow broader sources, but keep at least one official source
+          REFERENCE_REQUIRE_TRUSTED_DOMAINS: "0"
+          REFERENCE_MIN_TRUSTED_DOMAINS: "1"
+          REFERENCE_MIN_COUNT: "4"
+          REFERENCE_MAX_COUNT: "6"
+          # Enforce minimum article length (SEO)
+          SEO_MIN_WORDS: "1500"
+          SEO_MAX_WORDS: "3000"
         run: |
           node scripts/ai-ressources-update.js --apply --translate-existing
+
+      - name: Fix malformed internal markdown links
+        run: node scripts/fix-article-internal-links.js --apply
+
+      - name: Validate article translations (fail on missing/duplicates)
+        env:
+          REQUIRE_TRANSLATIONS: "1"
+        run: node scripts/validate-article-translations.js
 
       - name: Clean up bad article references (unreachable URLs)
         continue-on-error: true

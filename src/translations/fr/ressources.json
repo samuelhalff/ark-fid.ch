@@ -168,7 +168,7 @@
       "references": [
         {
           "labelKey": "Administration fédérale des contributions - TVA",
-          "url": "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee.html"
+          "url": "https://www.ch.ch/fr/impots-et-finances/tva/"
         },
         {
           "labelKey": "Portail PME - TVA",
@@ -249,7 +249,7 @@
       "references": [
         {
           "labelKey": "Portail PME - Prévoyance professionnelle",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/personnel/assurances-sociales/prevoyance-professionnelle.html"
+          "url": "https://www.ch.ch/fr/travail-et-retraite/prevoyance-professionnelle/"
         },
         {
           "labelKey": "Office fédéral des assurances sociales - LPP",
