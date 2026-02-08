@@ -1208,6 +1208,45 @@ function buildDraftRepairPromptFromExistingArticle(
   ].join("\n");
 }
 
+function buildDraftAppendPromptFromExistingArticle(article, { minWords }) {
+  const targetMin = Math.max(parseInt(minWords || "1500", 10) || 1500, 1500);
+  const currentWords = countWords(article?.content || "");
+  const missing = Math.max(0, targetMin - currentWords);
+  const safetyBuffer = 250;
+  const addAtLeast = Math.max(400, missing + safetyBuffer);
+  return [
+    "Tu es un rédacteur SEO senior.",
+    "Objectif: compléter l'article EXISTANT en ajoutant du contenu UTILE (pas de blabla) pour dépasser le minimum de mots.",
+    "",
+    `Contrainte: ajoute au moins ${addAtLeast} mots (l'article actuel est ~${currentWords} mots, minimum requis: ${targetMin}).`,
+    "IMPORTANT:",
+    "- Ne modifie pas le texte existant: tu ajoutes uniquement de nouvelles sections à la fin.",
+    "- Ajoute 2 à 4 nouvelles sections H2, avec des sous-sections H3 si utile.",
+    "- Ajoute 1 checklist et 1 tableau dans les nouvelles sections.",
+    "- Ajoute 3 à 5 questions de FAQ supplémentaires (si une FAQ existe déjà, continue-la).",
+    "- N'inclus AUCUNE URL dans le texte (pas de http/https).",
+    "- Quand tu cites une source, écris seulement (source: <labelKey>) et utilise uniquement des labelKey déjà présents dans les références de l'article.",
+    "",
+    "Article existant (à compléter):",
+    JSON.stringify(
+      {
+        title: article?.title,
+        description: article?.description,
+        content: article?.content,
+        references: Array.isArray(article?.references) ? article.references : [],
+      },
+      null,
+      2,
+    ),
+    "",
+    "Retourne STRICTEMENT un JSON de la forme:",
+    "{",
+    '  "appendContent": "<Markdown à ajouter à la fin>",',
+    '  "newLabels": { "Libellé FR": "Texte à afficher (FR)" }',
+    "}",
+  ].join("\n");
+}
+
 async function azureOpenAIJson(prompt, options = {}) {
   const {
     endpoint = AZURE_OPENAI_ENDPOINT,
@@ -2311,14 +2350,39 @@ async function draftArticleFromResearch(frData, research, validatedReferences) {
       `Requesting Azure OpenAI draft... (attempt ${attempt}/${maxRetries + 1})`,
     );
     try {
-      const prompt =
-        draftArticle && lastError && lastError.code === "TOO_SHORT"
-          ? buildDraftRepairPromptFromExistingArticle(draftArticle, {
-              mode: "expand",
-              minWords: lastError.minWords,
-              maxWords: process.env.SEO_MAX_WORDS || "3000",
-            })
-          : draftArticle && lastError && lastError.code === "TOO_LONG"
+      if (draftArticle && lastError && lastError.code === "TOO_SHORT") {
+        const appendPayload = await azureOpenAIJson(
+          buildDraftAppendPromptFromExistingArticle(draftArticle, {
+            minWords: lastError.minWords,
+          }),
+          {
+            endpoint: AZURE_OPENAI_DRAFT_ENDPOINT,
+            deployment: AZURE_OPENAI_DRAFT_DEPLOYMENT,
+            apiVersion: AZURE_OPENAI_DRAFT_API_VERSION,
+            temperature: 0.2,
+            topP: 0.9,
+            maxTokens: Math.min(2048, AZURE_OPENAI_DRAFT_MAX_TOKENS),
+            system:
+              "You are an expert French SEO writer. Output ONLY a JSON object.",
+          },
+        );
+        const appendContent = appendPayload?.appendContent;
+        if (!appendContent || typeof appendContent !== "string") {
+          throw new Error("Append payload missing appendContent");
+        }
+        if (/https?:\/\//i.test(appendContent)) {
+          const err = new Error("Append content contains URLs (forbidden)");
+          err.code = "APPEND_HAS_URLS";
+          throw err;
+        }
+        accumulatedLabels = {
+          ...accumulatedLabels,
+          ...(appendPayload?.newLabels || {}),
+        };
+        draftArticle.content = `${String(draftArticle.content || "").trim()}\n\n${appendContent.trim()}`;
+      } else {
+        const prompt =
+          draftArticle && lastError && lastError.code === "TOO_LONG"
             ? buildDraftRepairPromptFromExistingArticle(draftArticle, {
                 mode: "condense",
                 minWords: process.env.SEO_MIN_WORDS || "1500",
@@ -2326,29 +2390,26 @@ async function draftArticleFromResearch(frData, research, validatedReferences) {
               })
             : basePrompt;
 
-      const payload = await azureOpenAIJson(prompt, {
-        endpoint: AZURE_OPENAI_DRAFT_ENDPOINT,
-        deployment: AZURE_OPENAI_DRAFT_DEPLOYMENT,
-        apiVersion: AZURE_OPENAI_DRAFT_API_VERSION,
-        temperature:
-          draftArticle &&
-          lastError &&
-          (lastError.code === "TOO_SHORT" || lastError.code === "TOO_LONG")
-            ? 0.2
-            : 0.3,
-        topP: 0.9,
-        maxTokens: AZURE_OPENAI_DRAFT_MAX_TOKENS,
-        system:
-          "You are an expert French SEO writer. Output ONLY a JSON object.",
-      });
+        const payload = await azureOpenAIJson(prompt, {
+          endpoint: AZURE_OPENAI_DRAFT_ENDPOINT,
+          deployment: AZURE_OPENAI_DRAFT_DEPLOYMENT,
+          apiVersion: AZURE_OPENAI_DRAFT_API_VERSION,
+          temperature:
+            draftArticle && lastError && lastError.code === "TOO_LONG" ? 0.2 : 0.3,
+          topP: 0.9,
+          maxTokens: AZURE_OPENAI_DRAFT_MAX_TOKENS,
+          system:
+            "You are an expert French SEO writer. Output ONLY a JSON object.",
+        });
 
-      const newArticle = payload?.newArticle;
-      const newLabels = payload?.newLabels || {};
-      if (!newArticle || typeof newArticle !== "object") {
-        throw new Error("Draft payload missing newArticle");
+        const newArticle = payload?.newArticle;
+        const newLabels = payload?.newLabels || {};
+        if (!newArticle || typeof newArticle !== "object") {
+          throw new Error("Draft payload missing newArticle");
+        }
+        accumulatedLabels = { ...accumulatedLabels, ...newLabels };
+        draftArticle = newArticle;
       }
-      accumulatedLabels = { ...accumulatedLabels, ...newLabels };
-      draftArticle = newArticle;
 
       // Lock references to the already validated list.
       draftArticle.references = validatedReferences;
