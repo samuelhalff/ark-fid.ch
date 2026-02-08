@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import type { Components } from "react-markdown";
+import remarkGfm from "remark-gfm";
 import ContactSection from "../components/ContactSection";
 import { generateMetadataForArticle } from "@/src/lib/metadata";
 import { headers } from "next/headers";
@@ -67,6 +69,16 @@ interface RessourcesDictionary {
   References?: string;
   [key: string]: unknown;
 }
+
+const markdownComponents: Components = {
+  table({ node: _node, className, ...props }) {
+    return (
+      <div className="my-6 overflow-x-auto">
+        <table className={["w-full", className].filter(Boolean).join(" ")} {...props} />
+      </div>
+    );
+  },
+};
 
 async function loadRessources(locale: Locale): Promise<RessourcesDictionary> {
   const ressourcesModule = await import(
@@ -302,7 +314,9 @@ export default async function ArticlePage({ params }: Params) {
         id="article-content"
         className="prose prose-lg dark:prose-invert max-w-none"
       >
-        <ReactMarkdown>{article.content ?? ""}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+          {article.content ?? ""}
+        </ReactMarkdown>
       </article>
 
       {references.length > 0 && (

@@ -4,11 +4,23 @@ import { estimateReadingTime } from "@/src/lib/readingTime";
 import { useTranslation } from "react-i18next";
 import "@/src/i18n";
 import ReactMarkdown from "react-markdown";
+import type { Components } from "react-markdown";
+import remarkGfm from "remark-gfm";
 import ContactSection from "./ContactSection";
 
 interface ArticleContentProps {
   slug: string;
 }
+
+const markdownComponents: Components = {
+  table({ node: _node, className, ...props }) {
+    return (
+      <div className="my-6 overflow-x-auto">
+        <table className={["w-full", className].filter(Boolean).join(" ")} {...props} />
+      </div>
+    );
+  },
+};
 
 export default function ArticleContent({ slug }: ArticleContentProps) {
   const { t } = useTranslation("ressources");
@@ -53,7 +65,9 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
       </div>
 
       <article className="prose prose-lg dark:prose-invert max-w-none">
-        <ReactMarkdown>{article.content ?? ""}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+          {article.content ?? ""}
+        </ReactMarkdown>
       </article>
       {Array.isArray(article.references) && article.references.length > 0 && (
         <section className="mt-10">
