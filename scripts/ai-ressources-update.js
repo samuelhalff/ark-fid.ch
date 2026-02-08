@@ -85,8 +85,14 @@ const AZURE_AGENT_RESPONSES_MAX_OUTPUT_TOKENS = parseInt(
   10,
 );
 
-const REFERENCE_MIN_COUNT = parseInt(process.env.REFERENCE_MIN_COUNT || "3", 10);
-const REFERENCE_MAX_COUNT = parseInt(process.env.REFERENCE_MAX_COUNT || "6", 10);
+const REFERENCE_MIN_COUNT = parseInt(
+  process.env.REFERENCE_MIN_COUNT || "3",
+  10,
+);
+const REFERENCE_MAX_COUNT = parseInt(
+  process.env.REFERENCE_MAX_COUNT || "6",
+  10,
+);
 const REFERENCE_MIN_TRUSTED_DOMAINS = parseInt(
   process.env.REFERENCE_MIN_TRUSTED_DOMAINS || "1",
   10,
@@ -655,7 +661,7 @@ function extractJsonFromText(raw) {
     for (let i = 0; i < input.length; i++) {
       const ch = input[i];
       if (!inString) {
-        if (ch === "\"") inString = true;
+        if (ch === '"') inString = true;
         out += ch;
         continue;
       }
@@ -670,7 +676,7 @@ function extractJsonFromText(raw) {
         out += ch;
         continue;
       }
-      if (ch === "\"") {
+      if (ch === '"') {
         inString = false;
         out += ch;
         continue;
@@ -769,6 +775,112 @@ function buildAgentReference(agentName) {
   return agent;
 }
 
+const agentReferenceCache = new Map();
+
+async function resolveAgentReference(agentName, credential) {
+  if (agentReferenceCache.has(agentName)) {
+    return agentReferenceCache.get(agentName);
+  }
+
+  if (typeof agentName !== "string" || !agentName.trim()) {
+    throw new Error("AZURE_AGENT_NAME must be a non-empty string");
+  }
+
+  const trimmed = agentName.trim();
+  const [namePart, versionPart] = trimmed.split(":", 2);
+
+  const { AIProjectClient } = require("@azure/ai-projects");
+  const client = new AIProjectClient(AZURE_AGENT_ENDPOINT, credential);
+  const listFn =
+    typeof client.agents.list === "function"
+      ? client.agents.list.bind(client.agents)
+      : typeof client.agents.listAgents === "function"
+        ? client.agents.listAgents.bind(client.agents)
+        : null;
+  if (!listFn) {
+    throw new Error("Azure agents client does not support list/listAgents");
+  }
+
+  const candidates = [];
+  const nameMatches = [];
+  let idMatch = null;
+  for await (const agent of listFn()) {
+    const agentName = (agent.name || "").trim();
+    const agentVersion = agent.version;
+    candidates.push({ id: agent.id, name: agentName, version: agentVersion });
+
+    if (agent.id === trimmed || agent.id === namePart) {
+      idMatch = agent;
+    }
+
+    if (
+      agentName &&
+      (agentName === namePart ||
+        agentName.toLowerCase() === namePart.toLowerCase())
+    ) {
+      nameMatches.push(agent);
+    }
+  }
+
+  let chosen = null;
+  if (versionPart) {
+    chosen = nameMatches.find(
+      (agent) => `${agent.version || ""}` === `${versionPart}`,
+    );
+    if (!chosen && nameMatches.length) {
+      const versions = nameMatches
+        .map((agent) => agent.version)
+        .filter(Boolean)
+        .map((v) => `${v}`);
+      const err = new Error(
+        `Agent "${namePart}" found, but version "${versionPart}" does not match available versions: ${
+          versions.length ? versions.join(", ") : "(unknown)"
+        }`,
+      );
+      err.code = "AGENT_VERSION_NOT_FOUND";
+      throw err;
+    }
+  }
+
+  if (!chosen && idMatch) {
+    chosen = idMatch;
+  }
+
+  if (!chosen && nameMatches.length) {
+    chosen = nameMatches[0];
+    if (nameMatches.length > 1) {
+      console.warn(
+        `[agent] Multiple agent versions found for "${namePart}". Using version "${chosen.version || "unknown"}". Set AZURE_AGENT_NAME=${namePart}:<version> to pin.`,
+      );
+    }
+  }
+
+  if (!chosen) {
+    const available =
+      candidates
+        .map(
+          (c) =>
+            `${c.name || "(unnamed)"}${c.version ? `:${c.version}` : ""} (${c.id})`,
+        )
+        .join(", ") || "(none)";
+    const err = new Error(
+      `Agent "${trimmed}" not found in project. Available agents: ${available}`,
+    );
+    err.code = "AGENT_NOT_FOUND";
+    throw err;
+  }
+
+  const ref = { name: chosen.name, type: "agent_reference" };
+  if (versionPart) {
+    ref.version = versionPart;
+  } else if (chosen.version) {
+    ref.version = chosen.version;
+  }
+
+  agentReferenceCache.set(agentName, ref);
+  return ref;
+}
+
 function extractResponseText(response) {
   if (!response || typeof response !== "object") return "";
   if (response.output_text) return response.output_text;
@@ -854,10 +966,7 @@ function buildAzureOpenAIChatUrlFor({ endpoint, deployment, apiVersion }) {
   // If the endpoint already includes a deployment path, allow overriding the
   // deployment name via the explicit `deployment` argument (used for drafting).
   if (hasDeploymentPath && deployment) {
-    url = url.replace(
-      /(\/openai\/deployments\/)([^\/\?]+)/,
-      `$1${deployment}`,
-    );
+    url = url.replace(/(\/openai\/deployments\/)([^\/\?]+)/, `$1${deployment}`);
   }
 
   if (!hasChatCompletions) {
@@ -876,9 +985,15 @@ function buildAzureOpenAIChatUrlFor({ endpoint, deployment, apiVersion }) {
   return url;
 }
 
-function buildDraftRepairPromptFromExistingArticle(article, { mode, minWords, maxWords }) {
+function buildDraftRepairPromptFromExistingArticle(
+  article,
+  { mode, minWords, maxWords },
+) {
   const targetMin = Math.max(parseInt(minWords || "1500", 10) || 1500, 1500);
-  const targetMax = Math.max(parseInt(maxWords || "3000", 10) || 3000, targetMin);
+  const targetMax = Math.max(
+    parseInt(maxWords || "3000", 10) || 3000,
+    targetMin,
+  );
   const currentWords = countWords(article?.content || "");
   const action =
     mode === "expand"
@@ -905,7 +1020,9 @@ function buildDraftRepairPromptFromExistingArticle(article, { mode, minWords, ma
           content: article?.content,
           author: article?.author,
           date: article?.date,
-          references: Array.isArray(article?.references) ? article.references : [],
+          references: Array.isArray(article?.references)
+            ? article.references
+            : [],
         },
       },
       null,
@@ -1201,7 +1318,7 @@ async function azureAgentResponsesApi(
     azureADTokenProvider,
     apiKey: null,
   });
-  const agentRef = buildAgentReference(agentName);
+  const agentRef = await resolveAgentReference(agentName, credential);
 
   if (debugAgent) {
     console.log(
@@ -1274,6 +1391,13 @@ async function azureAgentResponsesApi(
       }
 
       const status = error?.status || error?.statusCode;
+      if (status === 404) {
+        const err = new Error(
+          `Azure Agent not found (404). Check AZURE_AGENT_ENDPOINT and AZURE_AGENT_NAME. Resolved agent reference: ${agentRef.name}${agentRef.version ? `:${agentRef.version}` : ""}`,
+        );
+        err.code = "AGENT_NOT_FOUND_404";
+        throw err;
+      }
       if (
         (status === 408 ||
           status === 429 ||
@@ -1442,7 +1566,9 @@ function validateNewArticle(frData, article) {
   if (minWords > 0) {
     const words = countWords(article.content || "");
     if (words < minWords) {
-      const err = new Error(`Article trop court: ${words} mots (min: ${minWords})`);
+      const err = new Error(
+        `Article trop court: ${words} mots (min: ${minWords})`,
+      );
       err.code = "TOO_SHORT";
       err.words = words;
       err.minWords = minWords;
@@ -1453,7 +1579,9 @@ function validateNewArticle(frData, article) {
   if (maxWords > 0) {
     const words = countWords(article.content || "");
     if (words > maxWords) {
-      const err = new Error(`Article trop long: ${words} mots (max: ${maxWords})`);
+      const err = new Error(
+        `Article trop long: ${words} mots (max: ${maxWords})`,
+      );
       err.code = "TOO_LONG";
       err.words = words;
       err.maxWords = maxWords;
@@ -1601,7 +1729,10 @@ async function repairReferences(article, category = "general") {
   }
 
   // Validate all references
-  const validationResult = await validateReferences(article.references, validateOpts);
+  const validationResult = await validateReferences(
+    article.references,
+    validateOpts,
+  );
 
   console.log(
     `[refs] Validation results: ${validationResult.stats.valid} valid, ${validationResult.stats.invalid} invalid`,
@@ -1626,7 +1757,8 @@ async function repairReferences(article, category = "general") {
   let attempt = 0;
 
   while (
-    (article.references.length < minCount || trustedCount(article.references) < minTrusted) &&
+    (article.references.length < minCount ||
+      trustedCount(article.references) < minTrusted) &&
     attempt < maxRetries
   ) {
     attempt++;
@@ -1660,12 +1792,18 @@ async function repairReferences(article, category = "general") {
 
     if (regen && Array.isArray(regen.references) && regen.references.length) {
       // Validate the new references
-      const newValidation = await validateReferences(regen.references, validateOpts);
+      const newValidation = await validateReferences(
+        regen.references,
+        validateOpts,
+      );
       if (newValidation.valid.length > 0) {
         // Merge with existing valid references
         const existingUrls = new Set(article.references.map((r) => r.url));
         for (const ref of newValidation.valid) {
-          if (!existingUrls.has(ref.url) && article.references.length < maxCount) {
+          if (
+            !existingUrls.has(ref.url) &&
+            article.references.length < maxCount
+          ) {
             const { _validation, ...cleanRef } = ref;
             article.references.push(cleanRef);
           }
@@ -1678,7 +1816,10 @@ async function repairReferences(article, category = "general") {
   }
 
   // If still not enough references, use verified fallbacks
-  if (article.references.length < minCount || trustedCount(article.references) < minTrusted) {
+  if (
+    article.references.length < minCount ||
+    trustedCount(article.references) < minTrusted
+  ) {
     console.warn(
       `[refs] Using verified fallback references for category: ${category}`,
     );
@@ -1686,7 +1827,10 @@ async function repairReferences(article, category = "general") {
     const existingUrls = new Set(article.references.map((r) => r.url));
 
     for (const fallback of fallbacks) {
-      if (!existingUrls.has(fallback.url) && article.references.length < maxCount) {
+      if (
+        !existingUrls.has(fallback.url) &&
+        article.references.length < maxCount
+      ) {
         article.references.push({ ...fallback });
         existingUrls.add(fallback.url);
       }
@@ -1697,7 +1841,10 @@ async function repairReferences(article, category = "general") {
   article.references = deduplicateByDomain(article.references);
 
   // Final validation pass (especially important when fallbacks were used)
-  const finalValidation = await validateReferences(article.references, validateOpts);
+  const finalValidation = await validateReferences(
+    article.references,
+    validateOpts,
+  );
   if (finalValidation.invalid.length) {
     for (const ref of finalValidation.invalid) {
       const reason = ref._validation?.reason || "unknown";
@@ -1711,11 +1858,19 @@ async function repairReferences(article, category = "general") {
   });
 
   // If strict validation removed too many refs, try to top-up with validated fallbacks.
-  if (article.references.length < minCount || trustedCount(article.references) < minTrusted) {
+  if (
+    article.references.length < minCount ||
+    trustedCount(article.references) < minTrusted
+  ) {
     const fallbacks = getFallbackReferences(category);
     const existingUrls = new Set(article.references.map((r) => r.url));
-    const candidates = fallbacks.filter((r) => r && r.url && !existingUrls.has(r.url));
-    const fallbackValidation = await validateReferences(candidates, validateOpts);
+    const candidates = fallbacks.filter(
+      (r) => r && r.url && !existingUrls.has(r.url),
+    );
+    const fallbackValidation = await validateReferences(
+      candidates,
+      validateOpts,
+    );
     for (const ref of fallbackValidation.valid) {
       if (article.references.length >= maxCount) break;
       const { _validation, ...cleanRef } = ref;
@@ -1746,7 +1901,7 @@ function sanitizeContentExternalLinks(article) {
   if (typeof article.content !== "string" || !article.content) return;
   const allowed = new Set(
     (Array.isArray(article.references) ? article.references : [])
-      .map((r) => r && typeof r.url === "string" ? r.url : "")
+      .map((r) => (r && typeof r.url === "string" ? r.url : ""))
       .filter(Boolean),
   );
 
@@ -1776,7 +1931,9 @@ function syncContentReferencesSection(article) {
   }
 
   const refs = article.references
-    .filter((r) => r && typeof r.url === "string" && typeof r.labelKey === "string")
+    .filter(
+      (r) => r && typeof r.url === "string" && typeof r.labelKey === "string",
+    )
     .map((r) => ({ labelKey: r.labelKey.trim(), url: r.url.trim() }))
     .filter((r) => r.labelKey && r.url);
 
@@ -1815,8 +1972,11 @@ function countWords(text) {
 function logArticleMetrics(article, label = "article") {
   if (!article) return;
   const words = countWords(article.content || "");
-  const chars = typeof article.content === "string" ? article.content.length : 0;
-  const refCount = Array.isArray(article.references) ? article.references.length : 0;
+  const chars =
+    typeof article.content === "string" ? article.content.length : 0;
+  const refCount = Array.isArray(article.references)
+    ? article.references.length
+    : 0;
   console.log(`[seo] ${label} word count: ${words} (chars: ${chars})`);
   console.log(`[refs] ${label} references: ${refCount}`);
   if (refCount) {
@@ -1928,7 +2088,12 @@ function validateResearchPayload(frData, payload) {
   return research;
 }
 
-async function generateResearchWithRetries(frData, attempts, trendData, seoSuggestions) {
+async function generateResearchWithRetries(
+  frData,
+  attempts,
+  trendData,
+  seoSuggestions,
+) {
   const basePrompt = buildResearchPrompt(frData, trendData, seoSuggestions);
   let prompt = basePrompt;
   let lastError = null;
@@ -1959,7 +2124,10 @@ async function generateResearchWithRetries(frData, attempts, trendData, seoSugge
 async function draftArticleFromResearch(frData, research, validatedReferences) {
   const maxRetries = parseInt(process.env.AI_DRAFT_RETRIES || "2", 10);
   let lastError = null;
-  const basePrompt = buildDraftPromptFromResearch(research, validatedReferences);
+  const basePrompt = buildDraftPromptFromResearch(
+    research,
+    validatedReferences,
+  );
   let draftArticle = null;
   let accumulatedLabels = {};
   for (let attempt = 1; attempt <= maxRetries + 1; attempt++) {
@@ -1987,12 +2155,15 @@ async function draftArticleFromResearch(frData, research, validatedReferences) {
         deployment: AZURE_OPENAI_DRAFT_DEPLOYMENT,
         apiVersion: AZURE_OPENAI_DRAFT_API_VERSION,
         temperature:
-          draftArticle && lastError && (lastError.code === "TOO_SHORT" || lastError.code === "TOO_LONG")
+          draftArticle &&
+          lastError &&
+          (lastError.code === "TOO_SHORT" || lastError.code === "TOO_LONG")
             ? 0.2
             : 0.3,
         topP: 0.9,
         maxTokens: AZURE_OPENAI_DRAFT_MAX_TOKENS,
-        system: "You are an expert French SEO writer. Output ONLY a JSON object.",
+        system:
+          "You are an expert French SEO writer. Output ONLY a JSON object.",
       });
 
       const newArticle = payload?.newArticle;
