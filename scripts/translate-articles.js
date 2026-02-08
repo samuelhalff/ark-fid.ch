@@ -118,6 +118,7 @@ async function azureChatJson(prompt) {
   if (!AZURE.endpoint || !AZURE.apiKey) {
     throw new Error("Missing Azure OpenAI endpoint or API key");
   }
+  const maxAttempts = parseInt(process.env.AZURE_OPENAI_TRANSLATE_RETRIES || "4", 10);
   let url = AZURE.endpoint;
   if (!/api-version=/.test(url)) {
     const sep = url.includes("?") ? "&" : "?";
@@ -148,12 +149,30 @@ async function azureChatJson(prompt) {
         if (!content) throw new Error("Azure OpenAI returned no content.");
         return extractJson(content);
       } catch (e) {
+        if (attempt < maxAttempts) {
+          const delay = 2000 * attempt;
+          console.warn(
+            `[WARN] Azure parse error (attempt ${attempt}) retrying in ${delay}ms: ${e.message}`,
+          );
+          await sleep(delay);
+          continue;
+        }
         throw new Error("Azure JSON parse error: " + e.message);
       }
     }
-    if (res.status === 429 && attempt < 4) {
+    if (
+      (res.status === 408 ||
+        res.status === 429 ||
+        res.status === 500 ||
+        res.status === 502 ||
+        res.status === 503 ||
+        res.status === 504) &&
+      attempt < maxAttempts
+    ) {
       const delay = 2000 * attempt; // simple linear backoff
-      console.warn(`[WARN] 429 Azure (attempt ${attempt}) retrying in ${delay}ms`);
+      console.warn(
+        `[WARN] Azure HTTP ${res.status} (attempt ${attempt}) retrying in ${delay}ms`,
+      );
       await sleep(delay);
       continue;
     }

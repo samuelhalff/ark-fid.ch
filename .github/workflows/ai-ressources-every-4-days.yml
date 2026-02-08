@@ -45,7 +45,7 @@ jobs:
           AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
           AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
           AZURE_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
-          TRENDS_PROVIDER: ${{ vars.TRENDS_PROVIDER }}
+          TRENDS_PROVIDER: ${{ vars.TRENDS_PROVIDER || 'hybrid' }}
           TRENDS_GEO: ${{ vars.TRENDS_GEO }}
           TRENDS_LANGUAGE: ${{ vars.TRENDS_LANGUAGE }}
           TRENDS_MAX_TOPICS: ${{ vars.TRENDS_MAX_TOPICS }}
@@ -105,7 +105,7 @@ jobs:
           # Check optional trend configuration (from vars, not secrets)
           echo ""
           echo "📊 Trend configuration (from repository variables):"
-          echo "  TRENDS_PROVIDER: ${TRENDS_PROVIDER:-'(not set, default: google_trends)'}"
+          echo "  TRENDS_PROVIDER: ${TRENDS_PROVIDER:-'(not set, default: hybrid)'}"
           echo "  TRENDS_GEO: ${TRENDS_GEO:-'(not set, default: CH)'}"
           echo "  TRENDS_LANGUAGE: ${TRENDS_LANGUAGE:-'(not set, default: fr)'}"
           echo "  TRENDS_MAX_TOPICS: ${TRENDS_MAX_TOPICS:-'(not set, default: 10)'}"
@@ -117,9 +117,17 @@ jobs:
         env:
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
           AZURE_AGENT_NAME: ${{ secrets.AZURE_AGENT_NAME }}
+          # Foundry agent name-only mode (prevents accidental fallback to classic assistants).
+          AZURE_AGENT_FORCE_RESPONSES: "1"
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
-          AZURE_OPENAI_API_VERSION: ${{ vars.AZURE_OPENAI_API_VERSION }}
+          AZURE_OPENAI_API_VERSION: ${{ secrets.AZURE_OPENAI_API_VERSION }}
+          # Keep translations on GPT-4.1, even if endpoint secret includes another deployment path.
+          AZURE_OPENAI_DEPLOYMENT: "gpt-4.1"
+          # Use a faster/higher-quality writer model for long-form drafting.
+          AZURE_OPENAI_DRAFT_DEPLOYMENT: "gpt-4o"
+          # Allow enough output tokens for 1500–3000 word drafts.
+          AZURE_OPENAI_DRAFT_MAX_TOKENS: "6144"
           AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
           AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
           AZURE_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
@@ -135,8 +143,11 @@ jobs:
           # Leave uncapped to avoid incomplete JSON output
           AZURE_AGENT_RESPONSES_MAX_OUTPUT_TOKENS: "0"
           REQUIRE_TRANSLATIONS: "1"
+          # Two-step workflow: agent does research+refs, model drafts the article.
+          AI_TWO_STEP: "1"
+          AI_RESEARCH_RETRIES: "3"
           # Trend provider configuration (from repository variables)
-          TRENDS_PROVIDER: ${{ vars.TRENDS_PROVIDER }}
+          TRENDS_PROVIDER: ${{ vars.TRENDS_PROVIDER || 'hybrid' }}
           TRENDS_GEO: ${{ vars.TRENDS_GEO }}
           TRENDS_LANGUAGE: ${{ vars.TRENDS_LANGUAGE }}
           TRENDS_MAX_TOPICS: ${{ vars.TRENDS_MAX_TOPICS }}
@@ -175,7 +186,7 @@ jobs:
           echo "✅ Verification complete. Proceeding with deployment..."
 
       - name: Validate article references (fail on 404/410)
-        run: npm run validate:article-refs  -- --no-fail
+        run: npm run validate:article-refs
 
       - name: Commit and push changes
         run: |

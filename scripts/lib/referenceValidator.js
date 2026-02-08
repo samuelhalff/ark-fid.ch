@@ -14,7 +14,13 @@
 
 const DEFAULT_TIMEOUT_MS = parseInt(process.env.LINK_CHECK_TIMEOUT_MS || "10000", 10);
 const DEFAULT_MIN_BYTES = parseInt(process.env.LINK_CHECK_MIN_BYTES || "600", 10);
-const DEFAULT_USER_AGENT = "Mozilla/5.0 (compatible; ArkFiduciaire/1.0; +https://ark-fid.ch)";
+const DEFAULT_USER_AGENT =
+  process.env.LINK_CHECK_USER_AGENT ||
+  // Some sites return misleading 404/empty content for custom/bot-like UAs.
+  // Use a mainstream UA by default to reduce false negatives. Some domains
+  // (notably ch.ch) appear to return 404 when a UA is explicitly set; we
+  // handle that with a retry that omits default headers.
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
 const MAX_REDIRECTS = 5;
 
 // Patterns that indicate empty/placeholder content
@@ -29,7 +35,7 @@ const EMPTY_CONTENT_PATTERNS = [
   /página\s*não\s*encontrada/i,
   /under\s*construction/i,
   /coming\s*soon/i,
-  /placeholder/i,
+  /placeholder\s*(content|page)/i,
   /lorem\s*ipsum/i
 ];
 
@@ -37,6 +43,8 @@ const EMPTY_CONTENT_PATTERNS = [
 const TRUSTED_DOMAINS = [
   "admin.ch",
   "fedlex.admin.ch",
+  "kmu.admin.ch",
+  "ch.ch",
   "ge.ch",
   "vd.ch",
   "zh.ch",
@@ -133,18 +141,28 @@ function extractDomain(url) {
  * @returns {Promise<Response>}
  */
 async function fetchWithTimeout(url, options = {}) {
-  const { timeout = DEFAULT_TIMEOUT_MS, ...fetchOptions } = options;
+  const {
+    timeout = DEFAULT_TIMEOUT_MS,
+    omitDefaultHeaders = false,
+    ...fetchOptions
+  } = options;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeout);
   
   try {
+    const defaultHeaders = omitDefaultHeaders
+      ? {}
+      : {
+          "User-Agent": DEFAULT_USER_AGENT,
+          "Accept":
+            "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        };
     const response = await fetch(url, {
       ...fetchOptions,
       signal: controller.signal,
       redirect: "follow",
       headers: {
-        "User-Agent": DEFAULT_USER_AGENT,
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        ...defaultHeaders,
         ...fetchOptions.headers
       }
     });
@@ -193,6 +211,17 @@ async function validateUrl(url, options = {}) {
   }
 
   try {
+    const tryGetWithoutDefaultHeaders = async () => {
+      // Some sites return false 404s when we set a UA/Accept header, or when
+      // receiving HEAD requests. Retry with a GET and without our defaults.
+      const retry = await fetchWithTimeout(url, {
+        method: "GET",
+        timeout,
+        omitDefaultHeaders: true,
+      });
+      return retry;
+    };
+
     // First try HEAD request to quickly detect hard failures and get metadata.
     // Note: HEAD responses have no body, so if we want to validate content we
     // must follow up with a GET for textual content.
@@ -202,11 +231,21 @@ async function validateUrl(url, options = {}) {
     result.statusText = response.statusText;
     result.finalUrl = response.url;
 
-    // Check for hard failures
+    // Some servers incorrectly respond 404/410 to HEAD (or to our default headers).
+    // Retry with a GET without default headers before marking as not-found.
     if (response.status === 404 || response.status === 410) {
-      result.reason = "not-found";
-      result.error = `HTTP ${response.status}: ${response.statusText}`;
-      return result;
+      const retry = await tryGetWithoutDefaultHeaders();
+      if (!(retry.status === 404 || retry.status === 410)) {
+        response = retry;
+        usedHead = false;
+        result.status = response.status;
+        result.statusText = response.statusText;
+        result.finalUrl = response.url;
+      } else {
+        result.reason = "not-found";
+        result.error = `HTTP ${response.status}: ${response.statusText}`;
+        return result;
+      }
     }
 
     if (response.status >= 500) {
@@ -224,11 +263,21 @@ async function validateUrl(url, options = {}) {
       result.finalUrl = response.url;
     }
 
-    // Final status check after potential GET retry
+    // Final status check after potential GET retry. Retry once more without
+    // default headers for domains that block/lie to "bot-like" requests.
     if (response.status === 404 || response.status === 410) {
-      result.reason = "not-found";
-      result.error = `HTTP ${response.status}: ${response.statusText}`;
-      return result;
+      const retry = await tryGetWithoutDefaultHeaders();
+      if (retry.ok) {
+        response = retry;
+        usedHead = false;
+        result.status = response.status;
+        result.statusText = response.statusText;
+        result.finalUrl = response.url;
+      } else {
+        result.reason = "not-found";
+        result.error = `HTTP ${response.status}: ${response.statusText}`;
+        return result;
+      }
     }
 
     if (!response.ok) {
@@ -428,6 +477,26 @@ const VERIFIED_FALLBACK_REFS = {
   corporate: [
     { labelKey: "Code des obligations (CO)", url: "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr" },
     { labelKey: "Registre du commerce - Canton de Genève", url: "https://www.ge.ch/organisation/registre-du-commerce" }
+  ],
+  domiciliation: [
+    { labelKey: "Registre du commerce (Zefix)", url: "https://www.zefix.ch/fr/search/entity/welcome" },
+    { labelKey: "Code des obligations (CO) - Société anonyme", url: "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#book_2/tit_26/ch_2" }
+  ],
+  outsourcing: [
+    { labelKey: "Portail PME de la Confédération (PME)", url: "https://www.kmu.admin.ch/kmu/fr/home.html" },
+    { labelKey: "Code des obligations - Comptabilité", url: "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32" }
+  ],
+  ma: [
+    { labelKey: "Loi sur la fusion, la scission, la transformation et le transfert de patrimoine (LFus)", url: "https://www.fedlex.admin.ch/eli/cc/2003/218/fr" },
+    { labelKey: "Code des obligations (CO)", url: "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr" }
+  ],
+  "family-office": [
+    { labelKey: "FINMA - Autorité fédérale de surveillance", url: "https://www.finma.ch/fr/" },
+    { labelKey: "Loi sur le blanchiment d'argent (LBA)", url: "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr" }
+  ],
+  finance: [
+    { labelKey: "Finances - Portail PME", url: "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances.html" },
+    { labelKey: "Financement - Portail PME", url: "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/financement.html" }
   ],
   regulatory: [
     { labelKey: "FINMA - Autorité fédérale de surveillance", url: "https://www.finma.ch/fr/" },

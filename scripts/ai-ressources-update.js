@@ -42,11 +42,14 @@ const MOCK_DATA = MOCK_PATH ? loadMockData(MOCK_PATH) : null;
 const OFFLINE_MODE = process.env.OFFLINE_MODE === "1";
 const REQUIRE_TRANSLATIONS =
   process.env.REQUIRE_TRANSLATIONS === "1" || process.env.CI === "true";
+const AI_TWO_STEP = process.env.AI_TWO_STEP === "1";
 
 const AZURE_AGENT_ENDPOINT = process.env.AZURE_AGENT_ENDPOINT;
 // Support both AZURE_AGENT_NAME (new) and AZURE_AGENT_ID (legacy)
 const AZURE_AGENT_NAME =
   process.env.AZURE_AGENT_NAME || process.env.AZURE_AGENT_ID;
+const AZURE_AGENT_RESEARCH_NAME =
+  process.env.AZURE_AGENT_RESEARCH_NAME || AZURE_AGENT_NAME;
 const AZURE_AGENT_RESPONSES_API_VERSION =
   process.env.AZURE_AGENT_RESPONSES_API_VERSION || "2025-11-15-preview";
 const AZURE_AGENT_ALLOW_CLASSIC_FALLBACK =
@@ -95,6 +98,16 @@ const AZURE_OPENAI_API_VERSION =
   process.env.AZURE_OPENAI_API_VERSION || "2025-01-01-preview";
 const AZURE_OPENAI_DEPLOYMENT =
   process.env.AZURE_OPENAI_DEPLOYMENT || "gpt-4.1";
+const AZURE_OPENAI_DRAFT_ENDPOINT =
+  process.env.AZURE_OPENAI_DRAFT_ENDPOINT || AZURE_OPENAI_ENDPOINT;
+const AZURE_OPENAI_DRAFT_API_VERSION =
+  process.env.AZURE_OPENAI_DRAFT_API_VERSION || AZURE_OPENAI_API_VERSION;
+const AZURE_OPENAI_DRAFT_DEPLOYMENT =
+  process.env.AZURE_OPENAI_DRAFT_DEPLOYMENT || AZURE_OPENAI_DEPLOYMENT;
+const AZURE_OPENAI_DRAFT_MAX_TOKENS = parseInt(
+  process.env.AZURE_OPENAI_DRAFT_MAX_TOKENS || "4096",
+  10,
+);
 
 const ROOT = process.cwd();
 const TRANSLATIONS_DIR = path.join(ROOT, "src", "translations");
@@ -346,9 +359,9 @@ function analyzeRecentTopics(frData, recentCount = 15) {
 
 function buildSystemPrompt(frJson, trendData = null) {
   const today = isoDateToday();
-  const sixMonthsAgo = (() => {
+  const twelveMonthsAgo = (() => {
     const d = new Date();
-    d.setMonth(d.getMonth() - 6);
+    d.setMonth(d.getMonth() - 12);
     return d.toISOString().slice(0, 10);
   })();
   const lastArticle = getLastArticle(frJson);
@@ -437,7 +450,7 @@ function buildSystemPrompt(frJson, trendData = null) {
 
   return [
     "Tu es un assistant éditorial SEO expert pour Ark Fiduciaire (Genève, Suisse romande).",
-    `Date actuelle: ${today}. N'intègre que des éléments publiés ou mis à jour entre ${sixMonthsAgo} et ${today}.`,
+    `Date actuelle: ${today}. Privilégie des éléments publiés ou mis à jour entre ${twelveMonthsAgo} et ${today}. Les pages officielles stables (admin.ch, fedlex.admin.ch, bsv.admin.ch, estv.admin.ch, seco.admin.ch, finma.ch, kmu.admin.ch, ch.ch) peuvent être plus anciennes si elles sont encore valables.`,
     topicNote,
     "",
     "=== DIVERSITÉ THÉMATIQUE (CRITIQUE) ===",
@@ -500,6 +513,131 @@ function buildTranslatePrompt(newArticle, newLabels) {
   ].join("\n");
 }
 
+function buildResearchPrompt(frJson, trendData, seoSuggestions) {
+  const today = isoDateToday();
+  const twelveMonthsAgo = (() => {
+    const d = new Date();
+    d.setMonth(d.getMonth() - 12);
+    return d.toISOString().slice(0, 10);
+  })();
+
+  const topicAnalysis = analyzeRecentTopics(frJson, 15);
+  const avoidTopicsLabels = topicAnalysis.avoidTopics.map(describeTopic);
+  const suggestedTopics = topicAnalysis.underrepresented.slice(0, 4);
+  const recentSlugs = (Array.isArray(frJson.Articles) ? frJson.Articles : [])
+    .slice(-12)
+    .map((a) => a.slug)
+    .filter(Boolean);
+
+  const minWords = parseInt(process.env.SEO_MIN_WORDS || "800", 10);
+  const maxWords = parseInt(process.env.SEO_MAX_WORDS || "3000", 10);
+
+  const trendGuidance = [];
+  if (trendData && trendData.selectedTopic) {
+    const { suggestedTopic, keywords, outline, category } =
+      trendData.selectedTopic;
+    trendGuidance.push(
+      "",
+      "=== SIGNAUX TENDANCE SEO (à intégrer si pertinent) ===",
+      `📈 Sujet suggéré par tendance: "${suggestedTopic}"`,
+      `🔑 Mots-clés SEO cibles: ${Array.isArray(keywords) ? keywords.join(", ") : ""}`,
+    );
+    if (outline && outline.length > 0) {
+      trendGuidance.push(`📋 Plan suggéré: ${outline.join(" → ")}`);
+    }
+    if (category) {
+      trendGuidance.push(`📁 Catégorie thématique: ${category}`);
+    }
+  }
+
+  return [
+    "Tu es un stratège SEO + chercheur web pour Ark Fiduciaire (Genève, Suisse romande).",
+    `Date actuelle: ${today}. Privilégie des sources publiées ou mises à jour entre ${twelveMonthsAgo} et ${today}. Les pages officielles stables (admin.ch, fedlex.admin.ch, bsv.admin.ch, estv.admin.ch, seco.admin.ch, finma.ch, kmu.admin.ch, ch.ch) peuvent être plus anciennes si elles sont encore valables.`,
+    "",
+    "=== DIVERSITÉ THÉMATIQUE (CRITIQUE) ===",
+    avoidTopicsLabels.length
+      ? `⚠️ THÈMES À ÉVITER: ${avoidTopicsLabels.join(", ")}.`
+      : "",
+    suggestedTopics.length
+      ? `✅ THÈMES SUGGÉRÉS: ${suggestedTopics.join(", ")}.`
+      : "",
+    ...trendGuidance,
+    "",
+    "Objectif: proposer 1 sujet + plan + références vérifiables (PAS l'article complet).",
+    "",
+    "Contraintes:",
+    "- Sujet cohérent avec nos services (liste ci-dessous) et différent des articles récents.",
+    `- L'article final fera ${Math.max(minWords, 1500)} à ${Math.max(Math.max(minWords, 1500), maxWords)} mots.`,
+    "- Références: fournir 8 à 12 liens vérifiables (HTTP 200, pas de login), sans URL inventée.",
+    "- Références: inclure au moins 2 sources officielles (admin.ch / fedlex.admin.ch / bsv.admin.ch / estv.admin.ch / seco.admin.ch / finma.ch, etc.).",
+    "- Références: compléter avec des sources institutionnelles (chambres de commerce, caisses de pension, associations pro) et éventuellement médias économiques si accessible sans paywall.",
+    "- STRICT: chaque référence doit provenir d'un domaine différent (1 domaine = 1 lien). Si tu donnes 12 références, ce sont 12 domaines distincts, sinon la réponse est rejetée.",
+    `Slugs récents à éviter: ${recentSlugs.join(", ") || "aucun"}.`,
+    `Services à promouvoir: ${SERVICES.join(", ")}.`,
+    "",
+    seoSuggestions?.primaryKeyword
+      ? `Mot-clé principal à viser: ${seoSuggestions.primaryKeyword}`
+      : "",
+    "",
+    "Format de sortie STRICT (application/json):",
+    "{",
+    '  "research": {',
+    '    "slug": "<slug-unique-fr>",',
+    '    "title": "<titre FR>",',
+    '    "description": "<description FR>",',
+    '    "category": "<payroll|tax|corporate|odoo|accounting|incorporation|regulatory|outsourcing|ma|family-office|domiciliation|finance|general>",',
+    '    "primaryKeyword": "<mot-clé principal>",',
+    '    "secondaryKeywords": ["..."],',
+    '    "outline": ["H2 ...", "H2 ...", "FAQ ..."],',
+    '    "references": [ { "labelKey": "Libellé FR", "url": "https://..." }, ... ]',
+    "  }",
+    "}",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+function buildDraftPromptFromResearch(research, validatedReferences) {
+  const minWords = parseInt(process.env.SEO_MIN_WORDS || "1500", 10);
+  const maxWords = parseInt(process.env.SEO_MAX_WORDS || "3000", 10);
+  return [
+    "Tu es un rédacteur SEO senior pour Ark Fiduciaire (Genève).",
+    "Rédige un article long et utile, très concret, sans blabla.",
+    "",
+    `CONTRAINTE DE LONGUEUR (STRICTE): entre ${Math.max(minWords, 1500)} et ${Math.max(maxWords, Math.max(minWords, 1500))} mots (viser ~2200).`,
+    "Si tu es en dessous du minimum, tu DOIS ajouter du contenu (plus de H2/H3, plus d'explications, plus d'exemples). Ne termine pas tôt.",
+    "Structure obligatoire: 10+ sections H2, plusieurs H3, 2 tableaux, 2 checklists, 1 cas pratique chiffré (CHF), une section étape-par-étape, une section erreurs fréquentes + corrections, et une FAQ de 6 questions.",
+    "Astuce pour atteindre la longueur sans blabla: fais des sections orientées décision (risques, contrôles, documents, exemples) et des listes actionnables.",
+    "IMPORTANT:",
+    "- N'invente AUCUN lien ni URL.",
+    "- N'inclus AUCUNE URL dans le texte (pas de http/https).",
+    "- Quand tu cites une source, écris simplement (source: <labelKey>).",
+    "- Utilise exactement le slug, titre et description fournis.",
+    "",
+    "Plan à suivre:",
+    JSON.stringify(research.outline || [], null, 2),
+    "",
+    "Références disponibles (ne pas modifier, ne pas ajouter):",
+    JSON.stringify(validatedReferences, null, 2),
+    "",
+    "Format de sortie STRICT (application/json):",
+    "{",
+    '  "newArticle": {',
+    `    "slug": ${JSON.stringify(research.slug)},`,
+    `    "title": ${JSON.stringify(research.title)},`,
+    `    "description": ${JSON.stringify(research.description)},`,
+    '    "content": "<contenu FR complet en Markdown (sans URLs)>",',
+    '    "author": "Ark Fiduciaire",',
+    '    "date": "YYYY-MM-DD",',
+    '    "references": [ { "labelKey": "Libellé FR", "url": "https://..." }, ... ]',
+    "  },",
+    '  "newLabels": {',
+    '    "Libellé FR": "Texte à afficher (FR)"',
+    "  }",
+    "}",
+  ].join("\n");
+}
+
 function extractJsonFromText(raw) {
   if (!raw || typeof raw !== "string") {
     throw new Error("Empty Azure Agent response");
@@ -508,11 +646,64 @@ function extractJsonFromText(raw) {
     // Fix invalid escape sequences like "\_" or "\'" that frequently appear in
     // markdown-ish content inside JSON strings.
     input.replace(/\\(?!["\\/bfnrtu])/g, "\\\\");
+  const fixControlCharsInStrings = (input) => {
+    // JSON does not allow raw control characters inside strings (notably newlines).
+    // Some models emit JSON-like text with raw newlines within quoted strings.
+    let out = "";
+    let inString = false;
+    let escaped = false;
+    for (let i = 0; i < input.length; i++) {
+      const ch = input[i];
+      if (!inString) {
+        if (ch === "\"") inString = true;
+        out += ch;
+        continue;
+      }
+
+      if (escaped) {
+        escaped = false;
+        out += ch;
+        continue;
+      }
+      if (ch === "\\") {
+        escaped = true;
+        out += ch;
+        continue;
+      }
+      if (ch === "\"") {
+        inString = false;
+        out += ch;
+        continue;
+      }
+
+      const code = ch.charCodeAt(0);
+      if (code === 0x0a) {
+        out += "\\n";
+        continue;
+      }
+      if (code === 0x0d) {
+        out += "\\r";
+        continue;
+      }
+      if (code === 0x09) {
+        out += "\\t";
+        continue;
+      }
+      if (code < 0x20) {
+        out += `\\u${code.toString(16).padStart(4, "0")}`;
+        continue;
+      }
+      out += ch;
+    }
+    return out;
+  };
+  const fixLenientJson = (input) =>
+    fixControlCharsInStrings(fixBadJsonEscapes(input));
   try {
     return JSON.parse(raw);
   } catch (error) {
     try {
-      return JSON.parse(fixBadJsonEscapes(raw));
+      return JSON.parse(fixLenientJson(raw));
     } catch {}
     // Look for fenced code block
     const fence = raw.match(/```(?:json)?\n([\s\S]*?)```/i);
@@ -521,7 +712,7 @@ function extractJsonFromText(raw) {
       try {
         return JSON.parse(inner);
       } catch {
-        return JSON.parse(fixBadJsonEscapes(inner));
+        return JSON.parse(fixLenientJson(inner));
       }
     }
     // Fallback to first JSON object
@@ -538,7 +729,7 @@ function extractJsonFromText(raw) {
             try {
               return JSON.parse(candidate);
             } catch {
-              return JSON.parse(fixBadJsonEscapes(candidate));
+              return JSON.parse(fixLenientJson(candidate));
             }
           }
         }
@@ -652,25 +843,121 @@ function buildAzureOpenAIChatUrl() {
   return url;
 }
 
-async function azureOpenAITranslateJson(prompt) {
+function buildAzureOpenAIChatUrlFor({ endpoint, deployment, apiVersion }) {
+  if (!endpoint) throw new Error("Missing Azure OpenAI endpoint");
+  let url = String(endpoint).trim();
+  if (!url) throw new Error("Missing Azure OpenAI endpoint");
+
+  const hasChatCompletions = /\/chat\/completions(\?|$)/.test(url);
+  const hasDeploymentPath = /\/openai\/deployments\//.test(url);
+
+  // If the endpoint already includes a deployment path, allow overriding the
+  // deployment name via the explicit `deployment` argument (used for drafting).
+  if (hasDeploymentPath && deployment) {
+    url = url.replace(
+      /(\/openai\/deployments\/)([^\/\?]+)/,
+      `$1${deployment}`,
+    );
+  }
+
+  if (!hasChatCompletions) {
+    if (hasDeploymentPath) {
+      url = `${url.replace(/\/+$/, "")}/chat/completions`;
+    } else {
+      url = `${url.replace(/\/+$/, "")}/openai/deployments/${deployment}/chat/completions`;
+    }
+  }
+
+  if (!/api-version=/.test(url)) {
+    const sep = url.includes("?") ? "&" : "?";
+    url = `${url}${sep}api-version=${encodeURIComponent(apiVersion)}`;
+  }
+
+  return url;
+}
+
+function buildDraftRepairPromptFromExistingArticle(article, { mode, minWords, maxWords }) {
+  const targetMin = Math.max(parseInt(minWords || "1500", 10) || 1500, 1500);
+  const targetMax = Math.max(parseInt(maxWords || "3000", 10) || 3000, targetMin);
+  const currentWords = countWords(article?.content || "");
+  const action =
+    mode === "expand"
+      ? `Allonge le contenu pour dépasser ${targetMin} mots (objectif ~2200).`
+      : `Raccourcis le contenu pour être sous ${targetMax} mots (objectif ~2200).`;
+
+  return [
+    "Tu es un rédacteur SEO senior pour Ark Fiduciaire (Genève).",
+    action,
+    "IMPORTANT:",
+    "- Ne change PAS le slug, le titre, la description, l'auteur, la date.",
+    "- Ne change PAS les références; garde exactement la même liste.",
+    "- N'inclus AUCUNE URL dans le texte (pas de http/https).",
+    "- Conserve la structure (H2/H3) et les éléments obligatoires (2 tableaux, 2 checklists, 1 cas pratique chiffré CHF, étape-par-étape, erreurs fréquentes + corrections, FAQ 6 questions).",
+    `- Longueur STRICTE: ${targetMin} à ${targetMax} mots. Le texte actuel fait ~${currentWords} mots.`,
+    "",
+    "Voici l'article actuel (JSON):",
+    JSON.stringify(
+      {
+        newArticle: {
+          slug: article?.slug,
+          title: article?.title,
+          description: article?.description,
+          content: article?.content,
+          author: article?.author,
+          date: article?.date,
+          references: Array.isArray(article?.references) ? article.references : [],
+        },
+      },
+      null,
+      2,
+    ),
+    "",
+    "Retourne STRICTEMENT un JSON de la forme:",
+    "{",
+    '  "newArticle": {',
+    '    "slug": "...",',
+    '    "title": "...",',
+    '    "description": "...",',
+    '    "content": "...",',
+    '    "author": "Ark Fiduciaire",',
+    '    "date": "YYYY-MM-DD",',
+    '    "references": [ { "labelKey": "...", "url": "https://..." }, ... ]',
+    "  }",
+    "}",
+  ].join("\n");
+}
+
+async function azureOpenAIJson(prompt, options = {}) {
+  const {
+    endpoint = AZURE_OPENAI_ENDPOINT,
+    deployment = AZURE_OPENAI_DEPLOYMENT,
+    apiVersion = AZURE_OPENAI_API_VERSION,
+    temperature = 0.2,
+    topP = 0.9,
+    maxTokens = null,
+    system = "You are a professional assistant. Output ONLY a JSON object.",
+  } = options;
+
   if (!AZURE_OPENAI_API_KEY) {
     throw new Error("Missing AZURE_OPENAI_API_KEY");
   }
-  const url = buildAzureOpenAIChatUrl();
+  const url = buildAzureOpenAIChatUrlFor({
+    endpoint,
+    deployment,
+    apiVersion,
+  });
   const body = {
     messages: [
-      {
-        role: "system",
-        content:
-          "You are a professional translator. Output ONLY a JSON object.",
-      },
+      { role: "system", content: system },
       { role: "user", content: prompt },
     ],
-    temperature: 0.2,
-    top_p: 0.9,
+    temperature,
+    top_p: topP,
     response_format: { type: "json_object" },
+    ...(maxTokens ? { max_tokens: maxTokens } : {}),
   };
 
+  const maxRetries = parseInt(process.env.AZURE_OPENAI_RETRIES || "6", 10);
   let attempt = 0;
   while (true) {
     attempt += 1;
@@ -686,21 +973,44 @@ async function azureOpenAITranslateJson(prompt) {
     if (res.ok) {
       const parsed = JSON.parse(text);
       const content = parsed?.choices?.[0]?.message?.content;
-      if (!content) {
-        throw new Error("Azure OpenAI returned no content.");
-      }
+      if (!content) throw new Error("Azure OpenAI returned no content.");
       return extractJsonFromText(content);
     }
-    if (res.status === 429 && attempt < 4) {
-      const delay = 2000 * attempt;
+    const retryable = [408, 429, 500, 502, 503, 504];
+    if (retryable.includes(res.status) && attempt <= maxRetries) {
+      const retryAfterHeader = res.headers.get("retry-after");
+      const retryAfterSeconds = retryAfterHeader
+        ? parseInt(retryAfterHeader, 10)
+        : NaN;
+      const retryAfterMsHeader = res.headers.get("x-ms-retry-after-ms");
+      const retryAfterMs = retryAfterMsHeader
+        ? parseInt(retryAfterMsHeader, 10)
+        : NaN;
+
+      const serverDelayMs = Number.isFinite(retryAfterMs)
+        ? Math.max(0, retryAfterMs)
+        : Number.isFinite(retryAfterSeconds)
+          ? Math.max(0, retryAfterSeconds) * 1000
+          : null;
+      const expBackoffMs = Math.min(30000, 2000 * Math.pow(2, attempt - 1));
+      const jitterMs = Math.floor(Math.random() * 400);
+      const delay = Math.max(serverDelayMs || 0, expBackoffMs + jitterMs);
       console.warn(
-        `[WARN] Azure OpenAI 429 (attempt ${attempt}) retrying in ${delay}ms`,
+        `[WARN] Azure OpenAI HTTP ${res.status} (attempt ${attempt}/${maxRetries}) retrying in ${delay}ms`,
       );
       await sleep(delay);
       continue;
     }
     throw new Error(`Azure OpenAI HTTP ${res.status}: ${text.slice(0, 400)}`);
   }
+}
+
+async function azureOpenAITranslateJson(prompt) {
+  return await azureOpenAIJson(prompt, {
+    system: "You are a professional translator. Output ONLY a JSON object.",
+    temperature: 0.2,
+    topP: 0.9,
+  });
 }
 
 /**
@@ -1139,6 +1449,17 @@ function validateNewArticle(frData, article) {
       throw err;
     }
   }
+  const maxWords = parseInt(process.env.SEO_MAX_WORDS || "0", 10);
+  if (maxWords > 0) {
+    const words = countWords(article.content || "");
+    if (words > maxWords) {
+      const err = new Error(`Article trop long: ${words} mots (max: ${maxWords})`);
+      err.code = "TOO_LONG";
+      err.words = words;
+      err.maxWords = maxWords;
+      throw err;
+    }
+  }
 }
 
 function enforceTopicRotation(frData, newArticle) {
@@ -1171,9 +1492,8 @@ function enforceTopicRotation(frData, newArticle) {
 
 function normalizeArticleDates(article) {
   const today = isoDateToday();
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(article.date || "")) {
-    article.date = today;
-  }
+  // Always set publication date to "today" for newly generated content.
+  article.date = today;
 }
 
 function buildRetryPrompt(basePrompt, error, frData) {
@@ -1198,6 +1518,12 @@ function buildRetryPrompt(basePrompt, error, frData) {
       `⚠️ L'article est trop court (${error.words || "?"} mots).`,
       `Vise une longueur nette de ${error.minWords || "800"}+ mots (objectif +25%).`,
       "OBLIGATOIRE: ajoute 10+ sections H2, plusieurs H3, 2 checklists, 2 tableaux, 1 cas pratique chiffré (CHF), 1 section étape-par-étape et une FAQ de 6 questions.",
+    ].join(" ");
+  } else if (error.code === "TOO_LONG") {
+    hint = [
+      `⚠️ L'article est trop long (${error.words || "?"} mots).`,
+      `Réduis à ${error.maxWords || "3000"} mots max sans perdre en utilité.`,
+      "Supprime le blabla, garde les tableaux/checklists/cas pratique, et condense les sections redondantes.",
     ].join(" ");
   } else if (error.code === "MISSING_FIELD" && error.field) {
     hint = `⚠️ Le champ ${error.field} est manquant. Fournis un article complet avec ce champ rempli.`;
@@ -1401,6 +1727,18 @@ async function repairReferences(article, category = "general") {
   console.log(
     `[refs] Final reference count: ${article.references.length} (trusted: ${trustedCount(article.references)})`,
   );
+
+  const enforceMinimums =
+    process.env.REFERENCE_ENFORCE_MINIMUMS === "1" || process.env.CI === "true";
+  if (
+    enforceMinimums &&
+    (article.references.length < minCount ||
+      trustedCount(article.references) < minTrusted)
+  ) {
+    throw new Error(
+      `[refs] Minimum references not met after repair: have ${article.references.length}/${minCount}, trusted ${trustedCount(article.references)}/${minTrusted}`,
+    );
+  }
 }
 
 function sanitizeContentExternalLinks(article) {
@@ -1525,6 +1863,161 @@ async function generateArticleWithRetries(frData, attempts, trendData = null) {
   );
 }
 
+function validateResearchPayload(frData, payload) {
+  const research = payload?.research;
+  if (!research || typeof research !== "object") {
+    const err = new Error("Réponse agent invalide: research manquant");
+    err.code = "MISSING_RESEARCH";
+    throw err;
+  }
+  const required = [
+    "slug",
+    "title",
+    "description",
+    "category",
+    "primaryKeyword",
+    "outline",
+    "references",
+  ];
+  for (const key of required) {
+    if (
+      !research[key] ||
+      (Array.isArray(research[key]) && research[key].length === 0)
+    ) {
+      const err = new Error(`Champ research manquant ou vide: ${key}`);
+      err.code = "MISSING_FIELD";
+      err.field = key;
+      throw err;
+    }
+  }
+  if (!Array.isArray(research.outline)) {
+    const err = new Error("research.outline doit être un tableau");
+    err.code = "BAD_RESEARCH";
+    throw err;
+  }
+  if (!Array.isArray(research.references) || research.references.length === 0) {
+    const err = new Error("research.references doit être un tableau non vide");
+    err.code = "BAD_RESEARCH";
+    throw err;
+  }
+  for (const ref of research.references) {
+    if (
+      !ref ||
+      typeof ref !== "object" ||
+      typeof ref.labelKey !== "string" ||
+      typeof ref.url !== "string"
+    ) {
+      const err = new Error("Référence mal formée dans research.references");
+      err.code = "BAD_REFERENCE";
+      throw err;
+    }
+  }
+
+  const slugs = new Set(
+    (Array.isArray(frData.Articles) ? frData.Articles : [])
+      .map((a) => a.slug)
+      .filter(Boolean),
+  );
+  if (slugs.has(research.slug)) {
+    const err = new Error(`Slug déjà existant: ${research.slug}`);
+    err.code = "DUPLICATE_SLUG";
+    err.slug = research.slug;
+    throw err;
+  }
+
+  return research;
+}
+
+async function generateResearchWithRetries(frData, attempts, trendData, seoSuggestions) {
+  const basePrompt = buildResearchPrompt(frData, trendData, seoSuggestions);
+  let prompt = basePrompt;
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    console.log(
+      `Requesting Azure Agent for topic+references research... (attempt ${attempt}/${attempts})`,
+    );
+    try {
+      const payload = await requestAgentJson(prompt, {
+        agentName: AZURE_AGENT_RESEARCH_NAME,
+      });
+      const research = validateResearchPayload(frData, payload);
+      return { research, trendData };
+    } catch (error) {
+      lastError = error;
+      console.warn(`Research invalid: ${error.message}`);
+      prompt = `${basePrompt}\n\n⚠️ Correction requise: ${error.message}. Retourne STRICTEMENT le JSON demandé.`;
+    }
+  }
+
+  throw (
+    lastError ||
+    new Error("Échec génération research après plusieurs tentatives")
+  );
+}
+
+async function draftArticleFromResearch(frData, research, validatedReferences) {
+  const maxRetries = parseInt(process.env.AI_DRAFT_RETRIES || "2", 10);
+  let lastError = null;
+  const basePrompt = buildDraftPromptFromResearch(research, validatedReferences);
+  let draftArticle = null;
+  let accumulatedLabels = {};
+  for (let attempt = 1; attempt <= maxRetries + 1; attempt++) {
+    console.log(
+      `Requesting Azure OpenAI draft... (attempt ${attempt}/${maxRetries + 1})`,
+    );
+    try {
+      const prompt =
+        draftArticle && lastError && lastError.code === "TOO_SHORT"
+          ? buildDraftRepairPromptFromExistingArticle(draftArticle, {
+              mode: "expand",
+              minWords: lastError.minWords,
+              maxWords: process.env.SEO_MAX_WORDS || "3000",
+            })
+          : draftArticle && lastError && lastError.code === "TOO_LONG"
+            ? buildDraftRepairPromptFromExistingArticle(draftArticle, {
+                mode: "condense",
+                minWords: process.env.SEO_MIN_WORDS || "1500",
+                maxWords: lastError.maxWords,
+              })
+            : basePrompt;
+
+      const payload = await azureOpenAIJson(prompt, {
+        endpoint: AZURE_OPENAI_DRAFT_ENDPOINT,
+        deployment: AZURE_OPENAI_DRAFT_DEPLOYMENT,
+        apiVersion: AZURE_OPENAI_DRAFT_API_VERSION,
+        temperature:
+          draftArticle && lastError && (lastError.code === "TOO_SHORT" || lastError.code === "TOO_LONG")
+            ? 0.2
+            : 0.3,
+        topP: 0.9,
+        maxTokens: AZURE_OPENAI_DRAFT_MAX_TOKENS,
+        system: "You are an expert French SEO writer. Output ONLY a JSON object.",
+      });
+
+      const newArticle = payload?.newArticle;
+      const newLabels = payload?.newLabels || {};
+      if (!newArticle || typeof newArticle !== "object") {
+        throw new Error("Draft payload missing newArticle");
+      }
+      accumulatedLabels = { ...accumulatedLabels, ...newLabels };
+      draftArticle = newArticle;
+
+      // Lock references to the already validated list.
+      draftArticle.references = validatedReferences;
+      validateNewArticle(frData, draftArticle);
+      enforceTopicRotation(frData, draftArticle);
+      normalizeArticleDates(draftArticle);
+      return { newArticle: draftArticle, newLabels: accumulatedLabels };
+    } catch (error) {
+      lastError = error;
+      console.warn(`Draft invalid: ${error.message}`);
+    }
+  }
+
+  throw lastError || new Error("Échec génération draft Azure OpenAI");
+}
+
 function mergeLabels(target, labels) {
   if (!labels || typeof labels !== "object") return;
   for (const [key, value] of Object.entries(labels)) {
@@ -1578,6 +2071,7 @@ async function main() {
     existingSlugs,
     avoidTopics: topicAnalysis.avoidTopics,
     recentTopicCategories: topicAnalysis.lastFiveTopics,
+    topicCounts: topicAnalysis.topicCounts,
   });
 
   // Log trend information (keywords only, not sensitive)
@@ -1603,11 +2097,47 @@ async function main() {
     console.log(`[seo] Category: ${seoSuggestions.category}`);
   }
 
-  const { newArticle, newLabels } = await generateArticleWithRetries(
-    frData,
-    parseInt(process.env.AI_ARTICLE_RETRIES || "3", 10),
-    trendData,
-  );
+  let newArticle;
+  let newLabels;
+
+  if (AI_TWO_STEP) {
+    if (!MOCK_DATA) {
+      ensureOpenAIEnv();
+    }
+    const { research } = await generateResearchWithRetries(
+      frData,
+      parseInt(process.env.AI_RESEARCH_RETRIES || "2", 10),
+      trendData,
+      seoSuggestions,
+    );
+
+    const refCarrier = {
+      title: research.title,
+      slug: research.slug,
+      content: "",
+      references: Array.isArray(research.references) ? research.references : [],
+    };
+    await repairReferences(refCarrier, research.category || "general");
+    const validatedReferences = Array.isArray(refCarrier.references)
+      ? refCarrier.references
+      : [];
+
+    const drafted = await draftArticleFromResearch(
+      frData,
+      research,
+      validatedReferences,
+    );
+    newArticle = drafted.newArticle;
+    newLabels = drafted.newLabels || {};
+  } else {
+    const drafted = await generateArticleWithRetries(
+      frData,
+      parseInt(process.env.AI_ARTICLE_RETRIES || "3", 10),
+      trendData,
+    );
+    newArticle = drafted.newArticle;
+    newLabels = drafted.newLabels || {};
+  }
 
   // Detect the article category for reference fallback
   const articleCategory =
@@ -1711,12 +2241,14 @@ async function main() {
     console.log(`${locale} updated.`);
   }
 
-  if (TRANSLATE_EXISTING) {
+  if (TRANSLATE_EXISTING && APPLY && !DRY) {
     const spawnSync = require("child_process").spawnSync;
     console.log("Regenerating translations for existing articles...");
     const result = spawnSync(
       "node",
-      ["scripts/translate-articles.js", "--apply", "--force"],
+      // Translate only missing/untranslated items. Forcing full retranslation
+      // every run is expensive and increases 429/timeout risk in CI.
+      ["scripts/translate-articles.js", "--apply"],
       {
         stdio: "inherit",
         env: process.env,
