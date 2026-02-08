@@ -788,6 +788,15 @@ async function resolveAgentReference(agentName, credential) {
 
   const trimmed = agentName.trim();
   const [namePart, versionPart] = trimmed.split(":", 2);
+  const directRef = buildAgentReference(trimmed);
+
+  // Some Foundry setups (or service principals) cannot list agents, but the
+  // Responses API can still reference an agent by name. In that case, fall back
+  // to a direct agent_reference instead of failing early.
+  if (process.env.AZURE_AGENT_SKIP_LIST === "1") {
+    agentReferenceCache.set(agentName, directRef);
+    return directRef;
+  }
 
   const { AIProjectClient } = require("@azure/ai-projects");
   const client = new AIProjectClient(AZURE_AGENT_ENDPOINT, credential);
@@ -798,28 +807,45 @@ async function resolveAgentReference(agentName, credential) {
         ? client.agents.listAgents.bind(client.agents)
         : null;
   if (!listFn) {
-    throw new Error("Azure agents client does not support list/listAgents");
+    agentReferenceCache.set(agentName, directRef);
+    return directRef;
   }
 
   const candidates = [];
   const nameMatches = [];
   let idMatch = null;
-  for await (const agent of listFn()) {
-    const agentName = (agent.name || "").trim();
-    const agentVersion = agent.version;
-    candidates.push({ id: agent.id, name: agentName, version: agentVersion });
+  try {
+    for await (const agent of listFn()) {
+      const agentName = (agent.name || "").trim();
+      const agentVersion = agent.version;
+      candidates.push({ id: agent.id, name: agentName, version: agentVersion });
 
-    if (agent.id === trimmed || agent.id === namePart) {
-      idMatch = agent;
-    }
+      if (agent.id === trimmed || agent.id === namePart) {
+        idMatch = agent;
+      }
 
-    if (
-      agentName &&
-      (agentName === namePart ||
-        agentName.toLowerCase() === namePart.toLowerCase())
-    ) {
-      nameMatches.push(agent);
+      if (
+        agentName &&
+        (agentName === namePart ||
+          agentName.toLowerCase() === namePart.toLowerCase())
+      ) {
+        nameMatches.push(agent);
+      }
     }
+  } catch (error) {
+    console.warn(
+      `[agent] Could not list agents (${error?.message || error}). Proceeding with direct agent reference "${directRef.name}".`,
+    );
+    agentReferenceCache.set(agentName, directRef);
+    return directRef;
+  }
+
+  if (candidates.length === 0) {
+    console.warn(
+      `[agent] Agent listing returned no candidates. Proceeding with direct agent reference "${directRef.name}".`,
+    );
+    agentReferenceCache.set(agentName, directRef);
+    return directRef;
   }
 
   let chosen = null;
@@ -923,6 +949,36 @@ function extractResponseText(response) {
 function sleep(ms) {
   if (!ms || ms <= 0) return Promise.resolve();
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function getHeaderValue(headers, name) {
+  if (!headers) return null;
+  const lower = name.toLowerCase();
+  if (typeof headers.get === "function") {
+    return headers.get(name) || headers.get(lower) || null;
+  }
+  if (typeof headers === "object") {
+    return headers[name] || headers[lower] || null;
+  }
+  return null;
+}
+
+function getRetryAfterMsFromError(error) {
+  const headersCandidates = [
+    error?.headers,
+    error?.response?.headers,
+    error?.res?.headers,
+  ];
+  for (const headers of headersCandidates) {
+    const msRaw = getHeaderValue(headers, "x-ms-retry-after-ms");
+    const ms = msRaw ? parseInt(`${msRaw}`, 10) : NaN;
+    if (Number.isFinite(ms)) return Math.max(0, ms);
+
+    const secRaw = getHeaderValue(headers, "retry-after");
+    const sec = secRaw ? parseInt(`${secRaw}`, 10) : NaN;
+    if (Number.isFinite(sec)) return Math.max(0, sec) * 1000;
+  }
+  return null;
 }
 
 function buildAzureOpenAIChatUrl() {
@@ -1419,12 +1475,14 @@ async function azureAgentResponsesApi(
           AZURE_AGENT_RESPONSES_BACKOFF_MAX_MS > 0
             ? Math.min(proposed, AZURE_AGENT_RESPONSES_BACKOFF_MAX_MS)
             : proposed;
+        const retryAfterMs = getRetryAfterMsFromError(error);
+        const effectiveBackoffMs = Math.max(backoffMs, retryAfterMs || 0);
         if (debugAgent) {
           console.log(
-            `[agent] Responses API ${status} received. Retrying in ${backoffMs}ms...`,
+            `[agent] Responses API ${status} received. Retrying in ${effectiveBackoffMs}ms...`,
           );
         }
-        await sleep(backoffMs);
+        await sleep(effectiveBackoffMs);
         continue;
       }
       throw error;
