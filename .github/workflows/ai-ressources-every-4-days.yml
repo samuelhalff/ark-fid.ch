@@ -204,6 +204,9 @@ jobs:
             git commit -m "chore(ressources): every 4 days AI article update" --author="samuelhalff <660062+samuelhalff@users.noreply.github.com>"
             echo "⏳ Waiting 30 seconds before push to avoid deployment conflicts..."
             sleep 30
+            echo "🔄 Rebasing on latest origin/main to avoid non-fast-forward pushes..."
+            git fetch origin main
+            git rebase origin/main || { echo "Rebase failed"; git rebase --abort || true; exit 1; }
             git push
           fi
 
