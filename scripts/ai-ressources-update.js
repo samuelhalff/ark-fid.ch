@@ -882,6 +882,18 @@ async function resolveAgentReference(agentName, credential) {
   }
 
   if (!chosen) {
+    const legacyOnly =
+      candidates.length > 0 &&
+      candidates.every((c) => isLegacyAgentId(c.id)) &&
+      candidates.every((c) => !c.version);
+    if (legacyOnly) {
+      console.warn(
+        `[agent] Agent "${trimmed}" not found in legacy agent listing. Proceeding with direct agent reference "${directRef.name}".`,
+      );
+      agentReferenceCache.set(agentName, directRef);
+      return directRef;
+    }
+
     const available =
       candidates
         .map(
