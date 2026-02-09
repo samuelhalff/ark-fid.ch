@@ -83,6 +83,7 @@ export default function AgentChat({
   const [leadConfirmed, setLeadConfirmed] = useState(false);
   const [confirmedEmail, setConfirmedEmail] = useState("");
   const [leadSubmitting, setLeadSubmitting] = useState(false);
+  const [leadModalOpen, setLeadModalOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
@@ -90,6 +91,9 @@ export default function AgentChat({
   const [rateLimited, setRateLimited] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   const emailValid = useMemo(() => isValidEmail(contact.email), [contact.email]);
 
@@ -146,6 +150,40 @@ export default function AgentChat({
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages, sending]);
 
+  useEffect(() => {
+    if (!leadModalOpen) return;
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+    const focusable = modalRef.current?.querySelectorAll<HTMLElement>(
+      'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'
+    );
+    const first = focusable?.[0];
+    const last = focusable?.[focusable.length - 1];
+    first?.focus();
+
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setLeadModalOpen(false);
+        return;
+      }
+      if (event.key === "Tab" && focusable && first && last) {
+        const active = document.activeElement;
+        if (event.shiftKey && active === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && active === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      previousFocusRef.current?.focus();
+    };
+  }, [leadModalOpen]);
+
   const updateContact = (field: keyof ContactInfo) => (value: string) => {
     setContact((prev) => ({ ...prev, [field]: value }));
   };
@@ -181,6 +219,7 @@ export default function AgentChat({
       }
       setLeadConfirmed(true);
       setConfirmedEmail(contact.email);
+      setLeadModalOpen(false);
       inputRef.current?.focus();
     } catch {
       setError(strings.chat.error);
@@ -259,75 +298,24 @@ export default function AgentChat({
   };
 
   return (
-    <div className="grid gap-8">
-      <Card>
-        <CardContent className="p-6 md:p-8 grid gap-4">
-          <div>
-            <p className="text-base font-semibold">{strings.lead.title}</p>
-            <p className="text-sm text-muted-foreground mt-1">
-              {strings.lead.description}
-            </p>
-          </div>
-          <div className="grid gap-3 md:grid-cols-2">
-            <label className="grid gap-2 text-sm font-medium">
-              {strings.lead.fields.name}{" "}
-              <span className="text-xs text-muted-foreground">
-                ({strings.lead.optionalLabel})
-              </span>
-              <Input
-                value={contact.name}
-                onChange={(event) => updateContact("name")(event.target.value)}
-                placeholder={strings.lead.placeholders.name}
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-medium">
-              {strings.lead.fields.email}
-              <Input
-                value={contact.email}
-                onChange={(event) => updateContact("email")(event.target.value)}
-                placeholder={strings.lead.placeholders.email}
-                type="email"
-                required
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-medium">
-              {strings.lead.fields.companyName}{" "}
-              <span className="text-xs text-muted-foreground">
-                ({strings.lead.optionalLabel})
-              </span>
-              <Input
-                value={contact.companyName}
-                onChange={(event) =>
-                  updateContact("companyName")(event.target.value)
-                }
-                placeholder={strings.lead.placeholders.companyName}
-              />
-            </label>
-            <label className="grid gap-2 text-sm font-medium">
-              {strings.lead.fields.phone}{" "}
-              <span className="text-xs text-muted-foreground">
-                ({strings.lead.optionalLabel})
-              </span>
-              <Input
-                value={contact.phone}
-                onChange={(event) => updateContact("phone")(event.target.value)}
-                placeholder={strings.lead.placeholders.phone}
-              />
-            </label>
-          </div>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-            <Button
-              type="button"
-              onClick={handleStart}
-              disabled={!emailValid || leadSubmitting || leadConfirmed}
-              className="sm:w-auto w-full"
-            >
-              {leadConfirmed ? strings.lead.confirmed : strings.lead.button}
-            </Button>
-            <p className="text-xs text-muted-foreground">{strings.disclaimer}</p>
-          </div>
-        </CardContent>
-      </Card>
+    <div className="grid gap-6">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between bg-muted/30 border border-border/40 rounded-2xl px-4 py-3">
+        <div>
+          <p className="text-sm font-semibold">{strings.lead.title}</p>
+          <p className="text-xs text-muted-foreground">
+            {strings.lead.description}
+          </p>
+        </div>
+        <Button
+          type="button"
+          onClick={() => setLeadModalOpen(true)}
+          disabled={leadConfirmed}
+          className="sm:w-auto w-full"
+          ref={triggerRef}
+        >
+          {leadConfirmed ? strings.lead.confirmed : strings.lead.button}
+        </Button>
+      </div>
 
       <Card>
         <CardContent className="p-0">
@@ -424,6 +412,112 @@ export default function AgentChat({
           </div>
         </CardContent>
       </Card>
+      {leadModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-10"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="lead-modal-title"
+          onClick={() => setLeadModalOpen(false)}
+        >
+          <div
+            className="w-full max-w-lg rounded-2xl bg-background p-6 shadow-xl border border-border/60"
+            onClick={(event) => event.stopPropagation()}
+            ref={modalRef}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p
+                  id="lead-modal-title"
+                  className="text-base font-semibold"
+                >
+                  {strings.lead.title}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {strings.lead.description}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setLeadModalOpen(false)}
+                className="text-muted-foreground hover:text-foreground"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div className="grid gap-3 md:grid-cols-2 mt-4">
+              <label className="grid gap-2 text-sm font-medium">
+                {strings.lead.fields.name}{" "}
+                <span className="text-xs text-muted-foreground">
+                  ({strings.lead.optionalLabel})
+                </span>
+                <Input
+                  value={contact.name}
+                  onChange={(event) =>
+                    updateContact("name")(event.target.value)
+                  }
+                  placeholder={strings.lead.placeholders.name}
+                />
+              </label>
+              <label className="grid gap-2 text-sm font-medium">
+                {strings.lead.fields.email}
+                <Input
+                  value={contact.email}
+                  onChange={(event) =>
+                    updateContact("email")(event.target.value)
+                  }
+                  placeholder={strings.lead.placeholders.email}
+                  type="email"
+                  required
+                />
+              </label>
+              <label className="grid gap-2 text-sm font-medium">
+                {strings.lead.fields.companyName}{" "}
+                <span className="text-xs text-muted-foreground">
+                  ({strings.lead.optionalLabel})
+                </span>
+                <Input
+                  value={contact.companyName}
+                  onChange={(event) =>
+                    updateContact("companyName")(event.target.value)
+                  }
+                  placeholder={strings.lead.placeholders.companyName}
+                />
+              </label>
+              <label className="grid gap-2 text-sm font-medium">
+                {strings.lead.fields.phone}{" "}
+                <span className="text-xs text-muted-foreground">
+                  ({strings.lead.optionalLabel})
+                </span>
+                <Input
+                  value={contact.phone}
+                  onChange={(event) =>
+                    updateContact("phone")(event.target.value)
+                  }
+                  placeholder={strings.lead.placeholders.phone}
+                />
+              </label>
+            </div>
+            {error && (
+              <p className="text-xs text-red-500 mt-3">{error}</p>
+            )}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 mt-4">
+              <Button
+                type="button"
+                onClick={handleStart}
+                disabled={!emailValid || leadSubmitting || leadConfirmed}
+                className="sm:w-auto w-full"
+              >
+                {leadSubmitting ? strings.chat.thinking : strings.lead.button}
+              </Button>
+              <p className="text-xs text-muted-foreground">
+                {strings.disclaimer}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
