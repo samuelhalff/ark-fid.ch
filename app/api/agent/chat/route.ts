@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
+import type { ResponseInputItem } from "openai/resources/responses/responses";
 import { z } from "zod";
 import { promises as dns } from "dns";
 
@@ -139,7 +140,7 @@ const extractResponseText = (response: unknown): string => {
 const buildConversationItems = (
   data: z.infer<typeof requestSchema>,
   messages: z.infer<typeof messageSchema>[]
-) => {
+): ResponseInputItem[] => {
   const profile = [
     data.name ? `Name: ${data.name}` : null,
     data.email ? `Email: ${data.email}` : null,
@@ -158,17 +159,19 @@ const buildConversationItems = (
     .filter(Boolean)
     .join("\n");
 
+  const toInputMessage = (
+    role: "user" | "assistant" | "system",
+    content: string
+  ): ResponseInputItem =>
+    ({
+      type: "message",
+      role,
+      content,
+    } as const);
+
   return [
-    {
-      type: "message",
-      role: "system",
-      content: systemPrompt,
-    },
-    ...messages.map((message) => ({
-      type: "message",
-      role: message.role,
-      content: message.content,
-    })),
+    toInputMessage("system", systemPrompt),
+    ...messages.map((message) => toInputMessage(message.role, message.content)),
   ];
 };
 
@@ -429,7 +432,7 @@ export async function POST(request: Request) {
       apiVersion,
     });
     const conversation = await openAIClient.conversations.create({
-      items: buildConversationItems(payload, messages) as any,
+      items: buildConversationItems(payload, messages),
     });
     const agentReferenceName = retrievedAgent.name || agentName;
     const responseBody = {
