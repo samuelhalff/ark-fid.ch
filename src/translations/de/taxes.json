@@ -41,6 +41,90 @@
             "Steuerplanung: Strategische Planung zur Optimierung Ihrer Steuerlast und Gewährleistung der Compliance",
             "Mehrwertsteuerverwaltung: Umfassende Mehrwertsteueranmeldung, -erklärung und -compliance-Dienstleistungen",
             "Steuerliche Vertretung: Professionelle Vertretung bei Steuerbehörden und Verhandlungen"
-        ]
+        ],
+        "CommonQuestions": {
+            "Title": "Häufig gestellte Fragen zu Steuerdienstleistungen in der Schweiz",
+            "Questions": [
+                {
+                    "Question": "Wie funktioniert die Mehrwertsteuer für kleine Unternehmen in Genf?",
+                    "Answer": "Schweizer Unternehmen müssen sich für die Mehrwertsteuer registrieren, wenn der Jahresumsatz CHF 100'000 übersteigt. Nach der Registrierung stellen Sie MWST auf steuerpflichtige Verkäufe in Rechnung (7.7% Standardsatz, 2.5% reduziert, 3.7% Beherbergung) und können Vorsteuer auf Geschäftsausgaben zurückfordern. Die Abrechnung erfolgt vierteljährlich oder halbjährlich bei der Eidgenössischen Steuerverwaltung. Wir bearbeiten MWST-Registrierung, bereiten genaue Abrechnungen vor, verwalten Ihr MWST-Konto und gewährleisten Compliance mit schweizerischen Vorschriften. Für Genfer Unternehmen koordinieren wir mit lokalen Geschäftsvorgängen und stellen sicher, dass die MWST korrekt auf Rechnungen und Quittungen erscheint, während wir maximale zulässige Abzüge geltend machen und alle Schweizer MWST-Anforderungen erfüllen."
+                },
+                {
+                    "Question": "Was sind die wichtigsten Steuerüberlegungen bei der Gründung einer Gesellschaft in Genf oder Lausanne?",
+                    "Answer": "Die Gründung einer Gesellschaft in Genf oder Lausanne erfordert die Navigation föderaler, kantonaler und kommunaler Steuerschichten. Die Körperschaftsteuersätze variieren je nach Kanton – Genf hat andere Sätze als Waadt. Zu den wichtigsten Entscheidungen gehören die Wahl der Rechtsform (SA vs. Sàrl), das Verständnis der Beteiligungsabzüge für Holdinggesellschaften, Kapitalsteuerverpflichtungen und Quellensteuern auf Dividenden an ausländische Aktionäre. Wir analysieren Ihre spezifische Situation, vergleichen kantonale Steuerbehandlungen, strukturieren Ihre Einheit optimal, bearbeiten alle erforderlichen Registrierungen bei Bundes-, Kantons- und Gemeindeebenen und erstellen einen umfassenden Steuerkalender. Unser Ziel ist die Minimierung Ihrer gesamten Schweizer Steuerlast bei gleichzeitiger Sicherstellung vollständiger Compliance mit allen regulatorischen Anforderungen und dem Aufbau einer soliden Grundlage für zukünftiges Geschäftswachstum in der Region Genf-Lausanne."
+                },
+                {
+                    "Question": "Wie kann ich meine Steuersituation als kleines oder mittleres Unternehmen in der Schweiz optimieren?",
+                    "Answer": "Steueroptimierung für KMU umfasst strategische Planung in mehreren Bereichen: Wahl der optimalen Rechtsform (Sàrl vs. SA), Maximierung abzugsfähiger Geschäftsausgaben, Timing von Investitionen und Abschreibungen, Pensionsbeiträge für Direktoren und Mitarbeiter und Nutzung kantonaler Steueranreize. Genf und Waadt bieten spezifische Vorteile für bestimmte Branchen. Wir analysieren Ihre vollständige Situation einschließlich persönlicher und Unternehmensbesteuerung, um maßgeschneiderte Strategien zu entwickeln, die Ihre Steuerlast legal minimieren, während volle Compliance mit schweizerischen Bundes- und Kantonsvorschriften aufrechterhalten wird."
+                },
+                {
+                    "Question": "Wie wirken sich Doppelbesteuerungsabkommen auf internationale Unternehmen aus, die in der Schweiz tätig sind?",
+                    "Answer": "Die Schweiz hat über 100 Doppelbesteuerungsabkommen unterzeichnet, die Unternehmen vor doppelter Besteuerung desselben Einkommens schützen. Diese Abkommen bestimmen, welches Land primäre Besteuerungsrechte hat, basierend auf Faktoren wie Ansässigkeit, Betriebsstätte und Einkommensquelle. Für internationale Kunden, die in Genf tätig sind, analysieren wir Vertragsbestimmungen, bestimmen Ihren steuerlichen Ansässigkeitsstatus, bearbeiten Vertragsbefreiungsanträge und koordinieren mit ausländischen Steuerberatern. Dies gewährleistet optimale Steuerpositionierung bei gleichzeitiger Verwaltung grenzüberschreitender Compliance-Verpflichtungen in allen relevanten Jurisdiktionen."
+                },
+                {
+                    "Question": "Was sollte ich während einer Steuerprüfung im Kanton Genf oder Waadt erwarten?",
+                    "Answer": "Steuerprüfungen in Schweizer Kantonen sind professionelle Prozesse, bei denen Behörden die Genauigkeit Ihrer Erklärungen überprüfen. Sie fordern typischerweise detaillierte Dokumentation einschließlich Buchhaltungsunterlagen, Verträgen, Rechnungen und Korrespondenz an. Prüfungen können zufällig sein oder durch Diskrepanzen ausgelöst werden. Wir bereiten umfassende Dokumentationspakete vor, vertreten Sie in allen Kommunikationen mit Steuerbehörden, erklären technische Buchhaltungsbehandlungen und verhandeln bei Bedarf Vereinbarungen. Unsere Erfahrung mit Genfer und Lausanner Steuerverwaltungen hilft sicherzustellen, dass Prüfungen reibungslos mit minimaler Geschäftsstörung und optimalen Ergebnissen verlaufen."
+                },
+                {
+                    "Question": "Was sind die Quellensteuerverpflichtungen für Unternehmen, die ausländische Arbeitnehmer in der Schweiz beschäftigen?",
+                    "Answer": "Arbeitgeber müssen Quellensteuern für ausländische Mitarbeiter ohne C-Bewilligung oder Schweizer/EU-Bürger ohne Niederlassungsbewilligung einbehalten. Die Sätze variieren je nach Kanton, Einkommensniveau und Familiensituation. In Genf sind monatliche Quellensteuererklärungen obligatorisch, mit jährlichen Abstimmungen erforderlich. Wir berechnen korrekte Einbehaltungsbeträge, bereiten monatliche Einreichungen vor, bearbeiten Satzanpassungen für sich ändernde Situationen, verwalten jährliche Bescheinigungen und koordinieren mit Sozialversicherungserklärungen. Dies gewährleistet Compliance mit schweizerischem Arbeits- und Steuerrecht bei gleichzeitiger Vermeidung von Strafen für falsche Einbehaltung oder verspätete Einreichungen."
+                }
+            ]
+        },
+        "WhoThisIsFor": {
+            "Title": "Wer profitiert von unseren Steuerdienstleistungen?",
+            "Description": "Unsere Steuerdienstleistungen sind für Unternehmen und Privatpersonen konzipiert, die die Komplexitäten der schweizerischen Bundes- und Kantonsbesteuerung navigieren. Ob Sie Ihr erstes Unternehmen gründen oder internationale Operationen verwalten, wir bieten Expertenberatung.",
+            "TargetClients": [
+                "Startups, die Anleitung zur MWST-Registrierung und initialen Steuer-Compliance in Genf benötigen",
+                "KMU, die Steueroptimierungsstrategien zur Reduzierung ihrer gesamten schweizerischen Steuerlast suchen",
+                "Internationale Unternehmen, die grenzüberschreitende Besteuerung und Vertragsbefreiungsanträge verwalten",
+                "Expatriates und ausländische Arbeitnehmer, die schweizerische individuelle Steuerverpflichtungen und Quellensteuer navigieren",
+                "E-Commerce-Unternehmen, die MWST-Compliance in der Schweiz und der Europäischen Union handhaben"
+            ]
+        },
+        "ProcessTimeline": {
+            "Title": "Wie unser Steuerberatungsprozess funktioniert",
+            "Description": "Wir folgen einem strukturierten Ansatz zur Sicherstellung Ihrer Steuer-Compliance und -Optimierung, von der Erstanalyse bis zur laufenden Unterstützung.",
+            "Steps": [
+                {
+                    "Title": "Erstberatung und Steuersituationsanalyse (Woche 1)",
+                    "Description": "Wir beginnen mit einer umfassenden Überprüfung Ihrer aktuellen Steuersituation einschließlich individueller und Unternehmensverpflichtungen. Unser Team untersucht Ihre Unternehmensstruktur, Einnahmequellen, bestehende Steuererklärungen und identifiziert unmittelbare Compliance-Probleme oder -Möglichkeiten. Diese Erstbewertung deckt föderale, kantonale und kommunale Besteuerung in Genf und Lausanne, MWST-Verpflichtungen, Quellensteuern und internationale Steuerüberlegungen ab. Wir bieten einen klaren Fahrplan Ihrer Steuerverpflichtungen und potenzieller Optimierungsstrategien, die auf Ihre spezifischen Umstände zugeschnitten sind."
+                },
+                {
+                    "Title": "Steuerstrategieentwicklung und -planung (Wochen 2-3)",
+                    "Description": "Basierend auf unserer Analyse entwickeln wir eine umfassende Steuerstrategie, die auf Ihre Geschäftsziele abgestimmt ist. Dies umfasst die Bestimmung der optimalen Rechtsform, Timing von Einnahmen und Ausgaben, Pensionsplanung, Investitionsstrategien und Nutzung verfügbarer Abzüge und kantonaler Anreize. Für internationale Kunden koordinieren wir mit ausländischen Steuerberatern zur Sicherstellung globaler Steuereffizienz. Wir präsentieren unsere Empfehlungen in einem klaren Aktionsplan mit prognostizierten Steuereinsparungen, Compliance-Anforderungen und Implementierungsschritten für das aktuelle und zukünftige Steuerjahr."
+                },
+                {
+                    "Title": "Implementierung und Registrierung (Wochen 3-5)",
+                    "Description": "Wir führen die genehmigte Steuerstrategie aus, indem wir alle erforderlichen Registrierungen und Einreichungen bearbeiten. Dies umfasst MWST-Registrierung bei der Eidgenössischen Steuerverwaltung, Einrichtung von Quellensteuerkonten für Mitarbeiter, Registrierung für kantonale und kommunale Steuern und Festlegung von Berichtsplänen. Wir konfigurieren unsere Systeme zur Verfolgung Ihrer Fristen, richten digitalen Einreichungszugang ein und bereiten Vorlagen für laufende Einreichungen vor. Bei Umstrukturierungsszenarien bearbeiten wir Kommunikationen mit Steuerbehörden und gewährleisten reibungslose Übergänge mit minimaler Steuerauswirkung und vollständiger Dokumentation."
+                },
+                {
+                    "Title": "Laufende Compliance und Einreichung (Monatlich/Vierteljährlich/Jährlich)",
+                    "Description": "Wir verwalten alle wiederkehrenden Steuerverpflichtungen gemäß schweizerischen Regulierungskalendern. Dies umfasst Vorbereitung und Einreichung von MWST-Abrechnungen vierteljährlich oder halbjährlich, Einreichung monatlicher Quellensteuererklärungen, Leistung von Steuervorauszahlungen und Vorbereitung jährlicher Unternehmens- und individueller Steuererklärungen. Unser Team überwacht gesetzgeberische Änderungen, die Ihre Steuerposition beeinflussen, identifiziert proaktiv zusätzliche Optimierungsmöglichkeiten und führt organisierte Aufzeichnungen für potenzielle Prüfungen. Sie erhalten regelmäßige Updates zu Ihrer Steuerposition, bevorstehenden Fristen und allen erforderlichen Maßnahmen zur Aufrechterhaltung der Compliance."
+                },
+                {
+                    "Title": "Prüfungsunterstützung und Behördenvertretung (Bei Bedarf)",
+                    "Description": "Wenn Steuerbehörden Prüfungen einleiten oder Fragen zu Ihren Einreichungen stellen, bieten wir umfassende Unterstützung. Wir bereiten detaillierte Dokumentation vor, beantworten Informationsanfragen, erklären Buchhaltungsbehandlungen und Steuerpositionen und vertreten Sie in Besprechungen mit Genfer oder Waadtländer Steuerbeamten. Unsere Erfahrung mit schweizerischen Steuerbehörden hilft, Prüfungen effizient zu navigieren, legitime Steuerpositionen zu verteidigen und günstige Lösungen bei Streitigkeiten auszuhandeln. Wir bearbeiten alle Kommunikationen, schützen Ihre Interessen und arbeiten daran, Angelegenheiten schnell zu lösen, während wir positive Beziehungen zu Steuerverwaltungen aufrechterhalten."
+                }
+            ]
+        },
+        "UseCases": {
+            "Title": "Wie wir Unternehmen wie Ihrem bei der Besteuerung helfen",
+            "Description": "Reale Beispiele, wie unsere Steuerexpertise Genfer und Lausanner Unternehmen geholfen hat, ihre Steuerpositionen zu optimieren und gleichzeitig vollständige Compliance aufrechtzuerhalten.",
+            "Cases": [
+                {
+                    "Title": "Internationaler Berater navigiert schweizerische Steueransässigkeit und -verpflichtungen",
+                    "Description": "Ein französischer Unternehmensberater, der nach Genf umzog, benötigte Anleitung zur schweizerischen Steueransässigkeit, Quellensteuerbefreiungen und grenzüberschreitenden Einkommensbesteuerung. Herausforderung: Der Kunde arbeitete mit schweizerischen und internationalen Kunden, was komplexe Herkunftsfragen und potenzielle Doppelbesteuerung schuf. Unsere Lösung: Wir analysierten seinen Ansässigkeitsstatus nach schweizerischem Recht und dem Frankreich-Schweiz-Steuerabkommen, strukturierten seine Beratungsentität als Sàrl, bearbeiteten MWST-Registrierung und koordinierten mit seinem französischen Steuerberater zur Beseitigung der Doppelbesteuerung. Ergebnis: Der Kunde erreichte klare Steueransässigkeit, reduzierte seinen gesamten Steuersatz um 18% im Vergleich zu Anfangsprojektionen und etablierte konforme vierteljährliche MWST- und jährliche Steuererklärungsprozesse mit laufender Unterstützung."
+                },
+                {
+                    "Title": "E-Commerce-Startup verwaltet MWST in der Schweiz und der Europäischen Union",
+                    "Description": "Ein in Genf ansässiges Online-Retail-Startup, das sowohl an schweizerische als auch an EU-Kunden verkaufte, stand vor komplexen MWST-Compliance-Anforderungen über mehrere Jurisdiktionen hinweg. Herausforderung: Unterschiedliche MWST-Schwellen, Sätze und Registrierungsanforderungen in der Schweiz gegenüber EU-Ländern, plus Reverse-Charge-Mechanismen und Versandhandelsregeln. Unsere Lösung: Wir registrierten das Unternehmen für schweizerische MWST, bewerteten EU-Versandhandelsschwellen, implementierten ordnungsgemäße Rechnungssysteme für B2B- und B2C-Transaktionen und etablierten vierteljährliche MWST-Einreichungsverfahren für die Schweiz mit ordnungsgemäßer EU-Dokumentation. Ergebnis: Das Startup erreichte vollständige MWST-Compliance, vermied Strafen aus falscher MWST-Behandlung, automatisierte seine MWST-Berechnungssysteme und erhielt klare Anleitung, wann EU-Registrierung notwendig wäre, wenn Verkäufe skalierten. Umsatzwachstum setzte sich ohne Compliance-Hindernisse fort."
+                },
+                {
+                    "Title": "Holdinggesellschaft optimiert kantonale Steuervorteile in der Schweiz",
+                    "Description": "Eine familiengeführte Holdinggesellschaft mit Tochtergesellschaften in mehreren Ländern wollte in die Schweiz umziehen, um von der Beteiligungsabzugsregelung zu profitieren und ihre internationale Steuerstruktur zu optimieren. Herausforderung: Navigation kantonaler Steuerunterschiede, Verständnis von Beteiligungsabzugsanforderungen, Verwaltung von Quellensteuern auf Dividenden und Sicherstellung der Compliance mit Anti-Treaty-Shopping-Bestimmungen. Unsere Lösung: Wir verglichen Steuerbehandlungen in den Kantonen Genf, Waadt und Zug, strukturierten die Verlagerung zur Maximierung der Beteiligungsabzugsvorteile, bearbeiteten alle Registrierungs- und Ruling-Prozesse und etablierten steuereffiziente Dividenden- und Lizenzgebührenzahlungsstrukturen. Ergebnis: Die Holdinggesellschaft erreichte eine 65%ige Reduktion des effektiven Steuersatzes auf Dividenden ausländischer Tochtergesellschaften, erhielt günstige Steuerrulings von Genfer Behörden, sicherte Vertragszugang für alle Investitionen und etablierte laufende Compliance-Prozesse für jährliche Einreichungen und Substanzanforderungen."
+                }
+            ]
+        }
     }
 }
