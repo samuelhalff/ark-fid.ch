@@ -2156,12 +2156,15 @@ function syncContentReferencesSection(article) {
 
   let content = article.content;
   
-  // Match reference sections in various formats:
-  // Headings: "### Références" / "## References" / "### **Références**"
-  // Bold text: "**Sources :**" / "**Sources:**" / "**Références**"
-  // Plain text with separator: "Sources :" / "References:"
+  // Match reference sections in various formats and languages:
+  // French: "Références", "Sources"
+  // English: "References", "Sources"
+  // German: "Referenzen", "Quellen"
+  // Spanish: "Referencias", "Fuentes"
+  // Portuguese: "Referências", "Fontes"
+  // With various formatting: headings (###), bold (**), with/without colons
   const headingRe =
-    /^(?:#{2,3}\s*)?(?:\*\*)?(?:références?|references?|sources?)(?:\*\*)?(?:\s*:)?.*$/gim;
+    /^(?:#{2,3}\s*)?(?:\*\*)?(?:référence?s?|references?|referenzen?|referencias?|sources?|quellen?|fuentes?|fontes?)(?:\*\*)?(?:\s*:)?.*$/gim;
   
   // Find all reference section markers
   const indices = [];
