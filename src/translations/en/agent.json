@@ -6,6 +6,8 @@
         "Title": "Start with your email",
         "Description": "We use it to follow up with a tailored quote. Other fields are optional.",
         "Optional": "optional",
+        "VerificationLabel": "Verification",
+        "VerificationRequired": "Please complete the verification.",
         "Fields": {
             "Name": "Name",
             "Email": "Email",

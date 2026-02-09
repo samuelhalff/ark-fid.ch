@@ -6,6 +6,8 @@
         "Title": "Commencez par votre e-mail",
         "Description": "Nous l'utilisons pour faire un suivi avec un devis personnalisé. Les autres champs sont optionnels.",
         "Optional": "optionnel",
+        "VerificationLabel": "Vérification",
+        "VerificationRequired": "Veuillez valider la vérification.",
         "Fields": {
             "Name": "Nom",
             "Email": "E-mail",

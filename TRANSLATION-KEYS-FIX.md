@@ -173,6 +173,8 @@ Added for the new AI agent chat page. Ensure all locales include:
 - `agent:Lead.Title`
 - `agent:Lead.Description`
 - `agent:Lead.Optional`
+- `agent:Lead.VerificationLabel`
+- `agent:Lead.VerificationRequired`
 - `agent:Lead.Fields.Name`
 - `agent:Lead.Fields.Email`
 - `agent:Lead.Fields.CompanyName`

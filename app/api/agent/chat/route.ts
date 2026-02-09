@@ -31,6 +31,7 @@ const requestSchema = z
     messages: z.array(messageSchema).max(12).optional(),
     leadOnly: z.boolean().optional(),
     leadMessage: z.string().trim().max(240).optional(),
+    turnstileToken: z.string().trim().min(1).optional(),
   })
   .superRefine((value, ctx) => {
     const messages = value.messages ?? [];
@@ -77,6 +78,7 @@ const FORMSPARK_ACTION_URL = process.env.FORMSPARK_ACTION_URL;
 const DOMAIN_VALIDATION_TTL_MS = 12 * 60 * 60 * 1000;
 const DOMAIN_VALIDATION_TIMEOUT_MS = 3500;
 const DOMAIN_VALIDATION_MAX_ENTRIES = 400;
+const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY;
 const INVALID_EMAIL_DOMAINS = (
   process.env.INVALID_EMAIL_DOMAINS ||
   "example.com,example.org,example.net,test.com,test.ch,invalid,localhost"
@@ -265,6 +267,35 @@ const validateEmailDomain = async (domain: string) => {
 const getEmailDomain = (email: string) =>
   email.split("@")[1]?.toLowerCase() || "";
 
+const verifyTurnstile = async (token: string, ip?: string) => {
+  if (!TURNSTILE_SECRET_KEY) return false;
+  const body = new URLSearchParams({
+    secret: TURNSTILE_SECRET_KEY,
+    response: token,
+  });
+  if (ip && ip !== "unknown") {
+    body.append("remoteip", ip);
+  }
+  const res = await fetch(
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body,
+    }
+  );
+  if (!res.ok) {
+    if (DEBUG_VALIDATION) {
+      console.warn("[agent] Turnstile verify failed", res.status);
+    }
+    return false;
+  }
+  const payload = (await res.json()) as { success?: boolean };
+  return payload.success === true;
+};
+
 const submitLead = async (
   payload: z.infer<typeof requestSchema>,
   message?: string
@@ -391,6 +422,30 @@ export async function POST(request: Request) {
           { error: "missing_configuration" },
           { status: 500 }
         );
+      }
+      if (payload.turnstileToken && !TURNSTILE_SECRET_KEY) {
+        return NextResponse.json(
+          { error: "missing_configuration" },
+          { status: 500 }
+        );
+      }
+      if (TURNSTILE_SECRET_KEY) {
+        if (!payload.turnstileToken) {
+          return NextResponse.json(
+            { error: "turnstile_required" },
+            { status: 400 }
+          );
+        }
+        const turnstileOk = await verifyTurnstile(
+          payload.turnstileToken,
+          rateKey
+        );
+        if (!turnstileOk) {
+          return NextResponse.json(
+            { error: "turnstile_failed" },
+            { status: 400 }
+          );
+        }
       }
       await submitLead(payload, leadMessage);
       return NextResponse.json(

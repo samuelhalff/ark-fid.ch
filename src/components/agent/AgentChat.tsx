@@ -22,11 +22,32 @@ type ContactInfo = {
   phone: string;
 };
 
+type TurnstileInstance = {
+  render: (
+    element: HTMLElement,
+    options: {
+      sitekey: string;
+      callback: (token: string) => void;
+      "expired-callback": () => void;
+      "error-callback": () => void;
+    }
+  ) => string;
+  remove: (widgetId: string) => void;
+};
+
+declare global {
+  interface Window {
+    turnstile?: TurnstileInstance;
+  }
+}
+
 export type AgentChatStrings = {
   lead: {
     title: string;
     description: string;
     optionalLabel: string;
+    verificationLabel: string;
+    verificationRequired: string;
     fields: {
       name: string;
       email: string;
@@ -84,6 +105,11 @@ export default function AgentChat({
   const [confirmedEmail, setConfirmedEmail] = useState("");
   const [leadSubmitting, setLeadSubmitting] = useState(false);
   const [leadModalOpen, setLeadModalOpen] = useState(false);
+  const [turnstileReady, setTurnstileReady] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileWidgetId, setTurnstileWidgetId] = useState<string | null>(
+    null
+  );
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
@@ -94,6 +120,12 @@ export default function AgentChat({
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const turnstileRef = useRef<HTMLDivElement | null>(null);
+
+  const turnstileSiteKey = (
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ""
+  ).trim();
+  const turnstileEnabled = turnstileSiteKey.length > 0;
 
   const emailValid = useMemo(() => isValidEmail(contact.email), [contact.email]);
 
@@ -151,6 +183,62 @@ export default function AgentChat({
   }, [messages, sending]);
 
   useEffect(() => {
+    if (!turnstileEnabled) return;
+    if (window.turnstile) {
+      setTurnstileReady(true);
+      return;
+    }
+    const existing = document.querySelector<HTMLScriptElement>(
+      'script[src^="https://challenges.cloudflare.com/turnstile/"]'
+    );
+    if (existing) {
+      existing.addEventListener("load", () => setTurnstileReady(true), {
+        once: true,
+      });
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+    script.async = true;
+    script.defer = true;
+    script.onload = () => setTurnstileReady(true);
+    document.head.appendChild(script);
+  }, [turnstileEnabled]);
+
+  useEffect(() => {
+    if (!leadModalOpen) {
+      setTurnstileToken("");
+      if (turnstileWidgetId && window.turnstile) {
+        window.turnstile.remove(turnstileWidgetId);
+      }
+      setTurnstileWidgetId(null);
+      return;
+    }
+    if (!turnstileEnabled || !turnstileReady || !turnstileRef.current) return;
+    if (turnstileWidgetId || !window.turnstile) return;
+    const widgetId = window.turnstile.render(turnstileRef.current, {
+      sitekey: turnstileSiteKey,
+      callback: (token: string) => {
+        setTurnstileToken(token);
+        setError(null);
+      },
+      "expired-callback": () => {
+        setTurnstileToken("");
+        setError(strings.lead.verificationRequired);
+      },
+      "error-callback": () => setError(strings.lead.verificationRequired),
+    });
+    setTurnstileWidgetId(widgetId);
+  }, [
+    leadModalOpen,
+    turnstileEnabled,
+    turnstileReady,
+    turnstileWidgetId,
+    turnstileSiteKey,
+    strings.lead.verificationRequired,
+  ]);
+
+  useEffect(() => {
     if (!leadModalOpen) return;
     previousFocusRef.current = document.activeElement as HTMLElement | null;
     const focusable = modalRef.current?.querySelectorAll<HTMLElement>(
@@ -193,6 +281,10 @@ export default function AgentChat({
       setError(strings.chat.startHint);
       return;
     }
+    if (turnstileEnabled && !turnstileToken) {
+      setError(strings.lead.verificationRequired);
+      return;
+    }
     setError(null);
     setLeadSubmitting(true);
     try {
@@ -206,12 +298,20 @@ export default function AgentChat({
           messages: [],
           leadOnly: true,
           leadMessage: strings.lead.description,
+          turnstileToken,
         }),
       });
       const payload = (await res.json()) as { error?: string };
       if (!res.ok) {
         if (payload.error === "invalid_email_domain") {
           setError(strings.chat.invalidEmailDomain);
+          return;
+        }
+        if (
+          payload.error === "turnstile_required" ||
+          payload.error === "turnstile_failed"
+        ) {
+          setError(strings.lead.verificationRequired);
           return;
         }
         setError(strings.chat.error);
@@ -499,6 +599,14 @@ export default function AgentChat({
                 />
               </label>
             </div>
+            {turnstileEnabled && (
+              <div className="mt-4 space-y-2">
+                <p className="text-xs font-semibold text-muted-foreground">
+                  {strings.lead.verificationLabel}
+                </p>
+                <div ref={turnstileRef} />
+              </div>
+            )}
             {error && (
               <p className="text-xs text-red-500 mt-3">{error}</p>
             )}

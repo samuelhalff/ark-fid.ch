@@ -6,6 +6,8 @@
         "Title": "Empieza con tu correo",
         "Description": "Lo usamos para darte seguimiento con un presupuesto personalizado. Los demás campos son opcionales.",
         "Optional": "opcional",
+        "VerificationLabel": "Verificación",
+        "VerificationRequired": "Completa la verificación.",
         "Fields": {
             "Name": "Nombre",
             "Email": "Correo",

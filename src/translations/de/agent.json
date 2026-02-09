@@ -6,6 +6,8 @@
         "Title": "Starten Sie mit Ihrer E-Mail",
         "Description": "Wir nutzen sie, um mit einem passenden Angebot nachzufassen. Die übrigen Felder sind optional.",
         "Optional": "optional",
+        "VerificationLabel": "Bestätigung",
+        "VerificationRequired": "Bitte bestätigen Sie die Verifizierung.",
         "Fields": {
             "Name": "Name",
             "Email": "E-Mail",

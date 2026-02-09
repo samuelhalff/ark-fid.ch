@@ -61,6 +61,14 @@ export default async function AgentPage({
         "We use it to follow up with a tailored quote. Other fields are optional."
       ),
       optionalLabel: text("Lead.Optional", "optional"),
+      verificationLabel: text(
+        "Lead.VerificationLabel",
+        "Verification"
+      ),
+      verificationRequired: text(
+        "Lead.VerificationRequired",
+        "Please complete the verification."
+      ),
       fields: {
         name: text("Lead.Fields.Name", "Name"),
         email: text("Lead.Fields.Email", "Email"),
