@@ -108,7 +108,6 @@ export default function AgentChat({
   const [rateLimited, setRateLimited] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const turnstileRef = useRef<HTMLDivElement | null>(null);
@@ -402,7 +401,6 @@ export default function AgentChat({
           onClick={() => setLeadModalOpen(true)}
           disabled={leadConfirmed}
           className="sm:w-auto w-full"
-          ref={triggerRef}
         >
           {leadConfirmed ? strings.lead.confirmed : strings.lead.button}
         </Button>
@@ -537,20 +535,28 @@ export default function AgentChat({
                 <span aria-hidden="true">×</span>
               </button>
             </div>
-            <div className="grid gap-3 md:grid-cols-2 mt-4">
-              <label className="grid gap-2 text-sm font-medium">
-                {strings.lead.fields.name}
+            <div className="flex flex-col gap-4 mt-4">
+              <label className="flex flex-col gap-2 text-sm font-medium">
+                <span className="flex items-center gap-1">
+                  {strings.lead.fields.name}
+                </span>
                 <Input
                   value={contact.name}
                   onChange={(event) =>
                     updateContact("name")(event.target.value)
                   }
                   placeholder={strings.lead.placeholders.name}
+                  autoComplete="name"
+                  className="border-color-primary"
                 />
               </label>
-              <label className="grid gap-2 text-sm font-medium">
-                {strings.lead.fields.email}
-                <span className="text-green-600">*</span>
+              <label className="flex flex-col gap-2 text-sm font-medium">
+                <span className="flex items-center gap-1">
+                  {strings.lead.fields.email}
+                  <span className="text-green-600" aria-hidden="true">
+                    *
+                  </span>
+                </span>
                 <Input
                   value={contact.email}
                   onChange={(event) =>
@@ -559,6 +565,8 @@ export default function AgentChat({
                   placeholder={strings.lead.placeholders.email}
                   type="email"
                   required
+                  autoComplete="email"
+                  className="border-color-primary"
                 />
               </label>
             </div>

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { DefaultAzureCredential } from "@azure/identity";
+import { AIProjectClient } from "@azure/ai-projects";
 import { z } from "zod";
 import { promises as dns } from "dns";
 
@@ -26,8 +27,6 @@ const requestSchema = z
   .object({
     email: z.string().email(),
     name: z.string().trim().max(120).optional(),
-    companyName: z.string().trim().max(160).optional(),
-    phone: z.string().trim().max(80).optional(),
     messages: z.array(messageSchema).max(12).optional(),
     leadOnly: z.boolean().optional(),
     leadMessage: z.string().trim().max(240).optional(),
@@ -93,19 +92,6 @@ const domainValidationCache = new Map<
 >();
 const DEBUG_VALIDATION = process.env.DEBUG_AGENT === "1";
 
-const parseAgentReference = (raw: string) => {
-  const trimmed = raw.trim();
-  const [namePart, versionPart] = trimmed.split(":");
-  if (!namePart) {
-    throw new Error("AZURE_AGENT_NAME must include a name");
-  }
-  return {
-    type: "agent_reference",
-    name: namePart,
-    ...(versionPart ? { version: versionPart } : {}),
-  };
-};
-
 const extractResponseText = (response: unknown): string => {
   if (!response || typeof response !== "object") return "";
   const candidate = response as Record<string, any>;
@@ -157,8 +143,6 @@ const buildConversationItems = (
   const profile = [
     data.name ? `Name: ${data.name}` : null,
     data.email ? `Email: ${data.email}` : null,
-    data.companyName ? `Company: ${data.companyName}` : null,
-    data.phone ? `Phone: ${data.phone}` : null,
   ]
     .filter(Boolean)
     .join("\n");
@@ -306,8 +290,6 @@ const submitLead = async (
   const body = {
     fullName: payload.name || "",
     email: payload.email,
-    companyName: payload.companyName || "",
-    phone: payload.phone || "",
     message: message || "",
     source: "AI agent chat",
   };
@@ -328,38 +310,6 @@ const submitLead = async (
   }
 };
 
-const postJson = async (
-  url: string,
-  token: string,
-  body: Record<string, unknown>,
-  timeoutMs: number
-) => {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-      signal: controller.signal,
-    });
-    const text = await res.text();
-    if (!res.ok) {
-      const error = new Error(
-        `Azure Agent error ${res.status}: ${text.slice(0, 300)}`
-      );
-      (error as any).status = res.status;
-      throw error;
-    }
-    return text ? JSON.parse(text) : {};
-  } finally {
-    clearTimeout(timeout);
-  }
-};
-
 export async function POST(request: Request) {
   const rateKey = getRateLimitKey(request);
   const limit = applyRateLimit(rateKey);
@@ -375,15 +325,11 @@ export async function POST(request: Request) {
     );
   }
 
-  const azureEndpoint = getEnv("AZURE_AGENT_ENDPOINT");
+  const projectEndpoint = getEnv("AZURE_AGENT_ENDPOINT");
   const agentName = getEnv("AZURE_AGENT_NAME");
   const apiVersion = getEnv(
     "AZURE_AGENT_RESPONSES_API_VERSION",
     "2025-11-15-preview"
-  );
-  const timeoutMs = Number.parseInt(
-    getEnv("AZURE_AGENT_RESPONSES_TIMEOUT_MS", "180000"),
-    10
   );
   const maxOutputTokens = Number.parseInt(
     getEnv("AZURE_AGENT_RESPONSES_MAX_OUTPUT_TOKENS", "0"),
@@ -458,7 +404,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!azureEndpoint || !agentName) {
+    if (!projectEndpoint || !agentName) {
       return NextResponse.json(
         { error: "missing_configuration" },
         { status: 500 }
@@ -466,32 +412,38 @@ export async function POST(request: Request) {
     }
 
     const credential = new DefaultAzureCredential();
-    const token = await credential.getToken("https://ai.azure.com/.default");
-    if (!token?.token) {
-      throw new Error("Azure token acquisition failed");
+    const projectClient = new AIProjectClient(projectEndpoint, credential);
+    let retrievedAgent:
+      | Awaited<ReturnType<typeof projectClient.agents.getAgent>>
+      | undefined;
+    for await (const agent of projectClient.agents.listAgents()) {
+      if (agent.name === agentName) {
+        retrievedAgent = agent;
+        break;
+      }
     }
-
-    const baseUrl = `${azureEndpoint.replace(/\/+$/, "")}/openai`;
-    const agentRef = parseAgentReference(agentName);
-
-    const conversation = await postJson(
-      `${baseUrl}/conversations?api-version=${apiVersion}`,
-      token.token,
-      { items: buildConversationItems(payload, messages) },
-      timeoutMs
-    );
-
-    const response = await postJson(
-      `${baseUrl}/responses?api-version=${apiVersion}`,
-      token.token,
-      {
-        conversation: conversation.id,
-        agent: agentRef,
-        ...(Number.isFinite(maxOutputTokens) && maxOutputTokens > 0
-          ? { max_output_tokens: maxOutputTokens }
-          : {}),
+    if (!retrievedAgent) {
+      retrievedAgent = await projectClient.agents.getAgent(agentName);
+    }
+    const openAIClient = await projectClient.getAzureOpenAIClient({
+      apiVersion,
+    });
+    const conversation = await openAIClient.conversations.create({
+      items: buildConversationItems(payload, messages) as any,
+    });
+    const agentReferenceName = retrievedAgent.name || agentName;
+    const responseBody = {
+      agent: {
+        name: agentReferenceName,
+        type: "agent_reference",
       },
-      timeoutMs
+      ...(Number.isFinite(maxOutputTokens) && maxOutputTokens > 0
+        ? { max_output_tokens: maxOutputTokens }
+        : {}),
+    };
+    const response = await openAIClient.responses.create(
+      { conversation: conversation.id },
+      { body: responseBody }
     );
 
     const reply = extractResponseText(response);
