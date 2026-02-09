@@ -1,0 +1,41 @@
+{
+    "Title": "Instant quote assistant",
+    "Subtitle": "Get an approximate quote and clear next steps in minutes.",
+    "Intro": "Describe your needs and our AI assistant will suggest services and guidance without being pushy.",
+    "Lead": {
+        "Title": "Start with your email",
+        "Description": "We use it to follow up with a tailored quote. Other fields are optional.",
+        "Optional": "optional",
+        "Fields": {
+            "Name": "Name",
+            "Email": "Email",
+            "CompanyName": "Company",
+            "Phone": "Phone"
+        },
+        "Placeholders": {
+            "Name": "Your name",
+            "Email": "email@example.com",
+            "CompanyName": "Company name",
+            "Phone": "Phone number"
+        },
+        "Button": "Start chat",
+        "Confirmed": "Chat ready"
+    },
+    "Chat": {
+        "Placeholder": "Describe your request...",
+        "Send": "Send",
+        "Thinking": "Thinking...",
+        "Error": "We couldn't reach the assistant. Please try again.",
+        "RateLimit": "Too many requests. Please wait a moment.",
+        "StartHint": "Enter a valid email to start the chat."
+    },
+    "Suggestions": {
+        "Title": "Try one of these questions",
+        "Items": [
+            "Estimate the cost for domiciliation in Geneva",
+            "What documents are needed to incorporate a company in Switzerland?",
+            "We need payroll for 12 employees—what's the next step?"
+        ]
+    },
+    "Disclaimer": "Responses are indicative and will be confirmed by a specialist."
+}

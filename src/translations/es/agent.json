@@ -1,0 +1,41 @@
+{
+    "Title": "Asistente de presupuesto instantáneo",
+    "Subtitle": "Obtén una estimación aproximada y los próximos pasos en minutos.",
+    "Intro": "Describe tu necesidad y nuestro asistente de IA sugerirá servicios y orientación sin ser insistente.",
+    "Lead": {
+        "Title": "Empieza con tu correo",
+        "Description": "Lo usamos para darte seguimiento con un presupuesto personalizado. Los demás campos son opcionales.",
+        "Optional": "opcional",
+        "Fields": {
+            "Name": "Nombre",
+            "Email": "Correo",
+            "CompanyName": "Empresa",
+            "Phone": "Teléfono"
+        },
+        "Placeholders": {
+            "Name": "Tu nombre",
+            "Email": "correo@ejemplo.com",
+            "CompanyName": "Nombre de la empresa",
+            "Phone": "Número de teléfono"
+        },
+        "Button": "Iniciar chat",
+        "Confirmed": "Chat listo"
+    },
+    "Chat": {
+        "Placeholder": "Describe tu solicitud...",
+        "Send": "Enviar",
+        "Thinking": "Pensando...",
+        "Error": "No pudimos contactar al asistente. Inténtalo de nuevo.",
+        "RateLimit": "Demasiadas solicitudes. Espera un momento.",
+        "StartHint": "Introduce un correo válido para empezar."
+    },
+    "Suggestions": {
+        "Title": "Prueba una de estas preguntas",
+        "Items": [
+            "Estimación del coste de una domiciliación en Ginebra",
+            "¿Qué documentos se necesitan para constituir una empresa en Suiza?",
+            "Necesitamos nóminas para 12 empleados: ¿cuál es el siguiente paso?"
+        ]
+    },
+    "Disclaimer": "Las respuestas son orientativas y serán confirmadas por un especialista."
+}

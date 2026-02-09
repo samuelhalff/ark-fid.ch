@@ -44,6 +44,11 @@
       "description": "Guides et articles sur la comptabilité, la fiscalité et la paie en Suisse romande, avec perspectives et bonnes pratiques locales.",
       "keywords": "ressources fiduciaires, suisse romande, guides fiscaux, genève, lausanne"
     },
+    "/agent": {
+      "title": "Assistant de devis IA | Ark Fiduciaire",
+      "description": "Obtenez une estimation et les prochaines étapes pour vos services fiduciaires à Genève et Lausanne grâce à notre assistant IA.",
+      "keywords": "assistant devis, estimation fiduciaire, genève, lausanne, comptabilité"
+    },
     "/services": {
       "title": "Services Fiduciaires Genève | Experts Fiscalité & Comptabilité PME",
       "description": "Découvrez nos services fiduciaires à Genève : comptabilité, fiscalité, domiciliation, création de société, gestion salariale pour PME et scale-ups. Contactez-nous pour une consultation gratuite.",

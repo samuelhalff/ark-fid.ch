@@ -37,6 +37,11 @@
       "description": "Guias e artigos sobre contabilidade, fiscalidade e folha salarial na Suíça Romanda com perspetivas práticas.",
       "keywords": "recursos fiduciários, suíça romanda, guias fiscais, genebra, lausana"
     },
+    "/agent": {
+      "title": "Assistente de orçamento IA | Ark Fiduciaire",
+      "description": "Obtenha uma estimativa e próximos passos para serviços fiduciários em Genebra e Lausana com o nosso assistente de IA.",
+      "keywords": "assistente ia orçamento, serviços fiduciários, genebra, lausana"
+    },
     "/services": {
       "title": "Serviços fiduciários em Genebra – Ark Fiduciaire",
       "description": "Explore nossos serviços fiduciários em Genebra: contabilidade, impostos, folha de pagamento, domiciliação e constituição de empresas.",

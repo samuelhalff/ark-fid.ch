@@ -196,6 +196,17 @@ const MobileMenu = ({
             />
             <div>
               <Link
+                href={`${localePrefix}/agent/`}
+                onClick={handleLinkClick}
+                prefetch={false}
+                locale={locale}
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent active:scale-[0.99] transition-all font-bold"
+              >
+                <span>{navData.labels.agent}</span>
+              </Link>
+            </div>
+            <div>
+              <Link
                 href={`${localePrefix}/ressources/`}
                 onClick={handleLinkClick}
                 prefetch={false}

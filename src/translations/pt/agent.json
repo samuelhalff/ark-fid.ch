@@ -1,0 +1,41 @@
+{
+    "Title": "Assistente de orçamento instantâneo",
+    "Subtitle": "Obtenha uma estimativa aproximada e próximos passos em minutos.",
+    "Intro": "Descreva a sua necessidade e o nosso assistente de IA sugerirá serviços e orientação sem ser insistente.",
+    "Lead": {
+        "Title": "Comece com o seu e-mail",
+        "Description": "Usamos para fazer um acompanhamento com um orçamento personalizado. Os outros campos são opcionais.",
+        "Optional": "opcional",
+        "Fields": {
+            "Name": "Nome",
+            "Email": "E-mail",
+            "CompanyName": "Empresa",
+            "Phone": "Telefone"
+        },
+        "Placeholders": {
+            "Name": "O seu nome",
+            "Email": "email@exemplo.com",
+            "CompanyName": "Nome da empresa",
+            "Phone": "Número de telefone"
+        },
+        "Button": "Iniciar chat",
+        "Confirmed": "Chat pronto"
+    },
+    "Chat": {
+        "Placeholder": "Descreva o seu pedido...",
+        "Send": "Enviar",
+        "Thinking": "A pensar...",
+        "Error": "Não conseguimos contactar o assistente. Tente novamente.",
+        "RateLimit": "Demasiados pedidos. Aguarde um momento.",
+        "StartHint": "Introduza um e-mail válido para começar."
+    },
+    "Suggestions": {
+        "Title": "Experimente uma destas perguntas",
+        "Items": [
+            "Estimativa do custo de domiciliação em Genebra",
+            "Que documentos são necessários para constituir uma empresa na Suíça?",
+            "Precisamos de payroll para 12 colaboradores — qual é o próximo passo?"
+        ]
+    },
+    "Disclaimer": "As respostas são indicativas e serão confirmadas por um especialista."
+}

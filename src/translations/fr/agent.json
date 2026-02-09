@@ -1,0 +1,41 @@
+{
+    "Title": "Assistant de devis instantané",
+    "Subtitle": "Obtenez une estimation et les prochaines étapes en quelques minutes.",
+    "Intro": "Décrivez votre besoin et notre assistant IA proposera des services et des conseils sans insister.",
+    "Lead": {
+        "Title": "Commencez par votre e-mail",
+        "Description": "Nous l'utilisons pour faire un suivi avec un devis personnalisé. Les autres champs sont optionnels.",
+        "Optional": "optionnel",
+        "Fields": {
+            "Name": "Nom",
+            "Email": "E-mail",
+            "CompanyName": "Société",
+            "Phone": "Téléphone"
+        },
+        "Placeholders": {
+            "Name": "Votre nom",
+            "Email": "email@exemple.com",
+            "CompanyName": "Nom de la société",
+            "Phone": "Numéro de téléphone"
+        },
+        "Button": "Démarrer le chat",
+        "Confirmed": "Chat prêt"
+    },
+    "Chat": {
+        "Placeholder": "Décrivez votre demande...",
+        "Send": "Envoyer",
+        "Thinking": "En cours...",
+        "Error": "Impossible de joindre l'assistant. Réessayez.",
+        "RateLimit": "Trop de requêtes. Merci d'attendre un instant.",
+        "StartHint": "Saisissez un e-mail valide pour commencer."
+    },
+    "Suggestions": {
+        "Title": "Essayez l'une de ces questions",
+        "Items": [
+            "Estimez le coût d'une domiciliation à Genève",
+            "Quels documents sont nécessaires pour constituer une société en Suisse ?",
+            "Nous avons 12 employés en paie — quelle est la prochaine étape ?"
+        ]
+    },
+    "Disclaimer": "Les réponses sont indicatives et seront confirmées par un spécialiste."
+}

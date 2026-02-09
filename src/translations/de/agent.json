@@ -1,0 +1,41 @@
+{
+    "Title": "Sofortiger Angebotsassistent",
+    "Subtitle": "Erhalten Sie eine grobe Offerte und nächste Schritte in wenigen Minuten.",
+    "Intro": "Beschreiben Sie Ihr Anliegen und unser KI-Assistent schlägt passende Services vor, ohne aufdringlich zu sein.",
+    "Lead": {
+        "Title": "Starten Sie mit Ihrer E-Mail",
+        "Description": "Wir nutzen sie, um mit einem passenden Angebot nachzufassen. Die übrigen Felder sind optional.",
+        "Optional": "optional",
+        "Fields": {
+            "Name": "Name",
+            "Email": "E-Mail",
+            "CompanyName": "Firma",
+            "Phone": "Telefon"
+        },
+        "Placeholders": {
+            "Name": "Ihr Name",
+            "Email": "email@beispiel.com",
+            "CompanyName": "Firmenname",
+            "Phone": "Telefonnummer"
+        },
+        "Button": "Chat starten",
+        "Confirmed": "Chat bereit"
+    },
+    "Chat": {
+        "Placeholder": "Beschreiben Sie Ihre Anfrage...",
+        "Send": "Senden",
+        "Thinking": "Einen Moment...",
+        "Error": "Der Assistent ist derzeit nicht erreichbar. Bitte versuchen Sie es erneut.",
+        "RateLimit": "Zu viele Anfragen. Bitte kurz warten.",
+        "StartHint": "Geben Sie eine gültige E-Mail ein, um zu starten."
+    },
+    "Suggestions": {
+        "Title": "Probieren Sie eine dieser Fragen",
+        "Items": [
+            "Kosten für eine Domizilierung in Genf schätzen",
+            "Welche Dokumente braucht man für eine Firmengründung in der Schweiz?",
+            "Wir brauchen Lohnbuchhaltung für 12 Mitarbeitende – wie geht es weiter?"
+        ]
+    },
+    "Disclaimer": "Antworten sind indikativ und werden von einem Spezialisten bestätigt."
+}

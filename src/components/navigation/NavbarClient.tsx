@@ -115,6 +115,21 @@ export default function NavbarClient({
                 />
                 <li>
                   <Link
+                    href={`${localePrefix}/agent/`}
+                    prefetch={false}
+                    locale={locale}
+                    aria-current={
+                      isSection(`${localePrefix}/agent`) ? "page" : undefined
+                    }
+                    className={`${linkBase} min-w-[96px] ${
+                      isSection(`${localePrefix}/agent`) ? activeClasses : ""
+                    }`}
+                  >
+                    {navData.labels.agent}
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href={`${localePrefix}/ressources/`}
                     prefetch={false}
                     locale={locale}

@@ -49,6 +49,11 @@
       "description": "Guides and articles on accounting, tax and payroll in Switzerland with actionable insights for SMEs and entrepreneurs in Romandy.",
       "keywords": "fiduciary resources, tax guides geneva, accounting insights, swiss tax regulations, lausanne fiduciary"
     },
+    "/agent": {
+      "title": "AI quote assistant | Ark Fiduciaire",
+      "description": "Get an approximate quote and next steps for fiduciary services in Geneva and Lausanne with our AI assistant.",
+      "keywords": "ai quote assistant, fiduciary quote, geneva, lausanne, accounting quote"
+    },
     "/services": {
       "title": "Fiduciary Services Geneva | Tax & Accounting Experts for SMEs",
       "description": "Explore our fiduciary services in Geneva: accounting, tax, payroll, domiciliation, and company incorporation tailored for SMEs and scale-ups. Contact us for a free consultation.",
