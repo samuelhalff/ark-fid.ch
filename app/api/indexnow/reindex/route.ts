@@ -15,7 +15,11 @@ export async function POST(req: NextRequest) {
   const corePaths = ['/', '/about', '/services', '/ressources', '/contact', '/team'];
   const servicePaths = ['/services/accounting','/services/taxes','/services/payroll','/services/incorporation','/services/outsourcing','/services/corporate','/services/domiciliation','/services/odoo'];
   const paths = [...corePaths, ...servicePaths];
-  const urls = locales.flatMap((loc) => paths.map((p) => `${base}/${loc}${p === '/' ? '' : p}`));
+  const urls = locales.flatMap((loc) => paths.map((p) => {
+    const path = p === '/' ? '' : p;
+    const url = `${base}/${loc}${path}`;
+    return url.endsWith('/') ? url : `${url}/`;
+  }));
 
   try {
     await submitToIndexNow(urls);
