@@ -102,17 +102,6 @@ export default async function RootLayout({
 
   const orgJsonLd = generateOrganizationStructuredData();
   const localBizJsonLd = generateLocalBusinessStructuredData();
-  const webSiteJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    url: "https://ark-fid.ch/",
-    name: "Ark Fiduciaire SA",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: "https://ark-fid.ch/?q={search_term_string}",
-      "query-input": "required name=search_term_string",
-    },
-  } as const;
 
   return (
     <html
@@ -164,11 +153,6 @@ export default async function RootLayout({
           type="application/ld+json"
           nonce={nonce}
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBizJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          nonce={nonce}
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
         />
 
         <Providers nonce={nonce}>
