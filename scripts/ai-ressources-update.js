@@ -2155,23 +2155,41 @@ function syncContentReferencesSection(article) {
   if (refs.length === 0) return;
 
   let content = article.content;
-  // Match headings like:
-  // - "### Références"
-  // - "### **Références**"
-  // - "## References utiles"
+  
+  // Match reference sections in various formats:
+  // Headings: "### Références" / "## References" / "### **Références**"
+  // Bold text: "**Sources :**" / "**Sources:**" / "**Références**"
+  // Plain text with separator: "Sources :" / "References:"
   const headingRe =
-    /^#{2,3}\s*(?:\*\*)?(références?|references?)(?:\*\*)?(?:\s+.*)?$/gim;
+    /^(?:#{2,3}\s*)?(?:\*\*)?(?:références?|references?|sources?)(?:\*\*)?(?:\s*:)?.*$/gim;
+  
+  // Find all reference section markers
   const indices = [];
   for (const m of content.matchAll(headingRe)) {
-    if (typeof m.index === "number") indices.push(m.index);
+    if (typeof m.index === "number") {
+      // Only consider it a reference section if it's at the start of a line
+      // and followed by a list or another reference marker
+      const beforeMatch = content.slice(0, m.index);
+      const afterMatch = content.slice(m.index);
+      
+      // Check if this looks like a reference section
+      // (e.g., followed by a list or at end of document)
+      const nextLines = afterMatch.split('\n').slice(1, 5).join('\n');
+      if (nextLines.match(/^\s*-\s+/m) || afterMatch.length < 500) {
+        indices.push(m.index);
+      }
+    }
   }
+  
   if (indices.length) {
-    // Remove any agent-generated references sections and replace with
-    // a deterministic one derived from validated `article.references`.
+    // Remove everything from the first reference heading onwards
     content = content.slice(0, indices[0]).trimEnd();
   } else {
     content = content.trimEnd();
   }
+
+  // Remove trailing separators if present
+  content = content.replace(/(\n---\s*)+$/, '').trimEnd();
 
   const list = refs.map((r) => `- [${r.labelKey}](${r.url})`).join("\n");
   article.content = `${content}\n\n---\n### Références\n${list}\n`;
