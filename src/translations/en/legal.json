@@ -129,7 +129,8 @@
                     "Technical information (IP address, browser type, device information)",
                     "Usage data (pages visited, time spent, referral sources)",
                     "Cookies and similar tracking technologies",
-                    "Contact form submissions and communications"
+                    "Contact form submissions and communications",
+                    "AI assistant chat interactions and lead details (email, optional company and phone)"
                 ]
             }
         },
@@ -152,7 +153,8 @@
                     "Providing accounting, tax, payroll, and advisory services",
                     "Preparing financial statements and reports",
                     "Managing compliance obligations",
-                    "Communicating about your services and account"
+                    "Communicating about your services and account",
+                    "Responding to AI assistant requests and preparing follow-up quotes"
                 ]
             },
             "BusinessOperations": {

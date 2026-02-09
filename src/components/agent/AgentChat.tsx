@@ -49,6 +49,7 @@ export type AgentChatStrings = {
     error: string;
     rateLimit: string;
     startHint: string;
+    invalidEmailDomain: string;
   };
   suggestions: {
     title: string;
@@ -80,6 +81,8 @@ export default function AgentChat({
 }) {
   const [contact, setContact] = useState<ContactInfo>(defaultContact);
   const [leadConfirmed, setLeadConfirmed] = useState(false);
+  const [confirmedEmail, setConfirmedEmail] = useState("");
+  const [leadSubmitting, setLeadSubmitting] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
@@ -108,6 +111,7 @@ export default function AgentChat({
       }
       if (saved.leadConfirmed) {
         setLeadConfirmed(true);
+        setConfirmedEmail(saved.contact?.email || "");
       }
     } catch {
       window.localStorage.removeItem(STORAGE_KEY);
@@ -125,6 +129,19 @@ export default function AgentChat({
   }, [contact, messages, leadConfirmed]);
 
   useEffect(() => {
+    if (
+      !leadConfirmed ||
+      !confirmedEmail ||
+      !contact.email ||
+      contact.email === confirmedEmail
+    ) {
+      return;
+    }
+    setLeadConfirmed(false);
+    setConfirmedEmail("");
+  }, [contact.email, confirmedEmail, leadConfirmed]);
+
+  useEffect(() => {
     if (!scrollRef.current) return;
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages, sending]);
@@ -133,14 +150,43 @@ export default function AgentChat({
     setContact((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleStart = () => {
+  const handleStart = async () => {
     if (!emailValid) {
       setError(strings.chat.startHint);
       return;
     }
     setError(null);
-    setLeadConfirmed(true);
-    inputRef.current?.focus();
+    setLeadSubmitting(true);
+    try {
+      const res = await fetch("/api/agent/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...contact,
+          messages: [],
+          leadOnly: true,
+          leadMessage: strings.lead.description,
+        }),
+      });
+      const payload = (await res.json()) as { error?: string };
+      if (!res.ok) {
+        if (payload.error === "invalid_email_domain") {
+          setError(strings.chat.invalidEmailDomain);
+          return;
+        }
+        setError(strings.chat.error);
+        return;
+      }
+      setLeadConfirmed(true);
+      setConfirmedEmail(contact.email);
+      inputRef.current?.focus();
+    } catch {
+      setError(strings.chat.error);
+    } finally {
+      setLeadSubmitting(false);
+    }
   };
 
   const sendMessage = async (messageText?: string) => {
@@ -184,7 +230,12 @@ export default function AgentChat({
         return;
       }
 
-      const payload = (await res.json()) as { reply?: string };
+      const payload = (await res.json()) as { reply?: string; error?: string };
+      if (payload.error === "invalid_email_domain") {
+        setLeadConfirmed(false);
+        setError(strings.chat.invalidEmailDomain);
+        return;
+      }
       const reply = payload.reply ?? "";
       if (!res.ok || !reply) {
         throw new Error("Agent response invalid");
@@ -268,7 +319,7 @@ export default function AgentChat({
             <Button
               type="button"
               onClick={handleStart}
-              disabled={!emailValid}
+              disabled={!emailValid || leadSubmitting || leadConfirmed}
               className="sm:w-auto w-full"
             >
               {leadConfirmed ? strings.lead.confirmed : strings.lead.button}

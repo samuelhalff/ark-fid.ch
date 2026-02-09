@@ -27,7 +27,8 @@
         "Thinking": "En cours...",
         "Error": "Impossible de joindre l'assistant. Réessayez.",
         "RateLimit": "Trop de requêtes. Merci d'attendre un instant.",
-        "StartHint": "Saisissez un e-mail valide pour commencer."
+        "StartHint": "Saisissez un e-mail valide pour commencer.",
+        "InvalidEmailDomain": "Merci d'utiliser un domaine email professionnel valide."
     },
     "Suggestions": {
         "Title": "Essayez l'une de ces questions",

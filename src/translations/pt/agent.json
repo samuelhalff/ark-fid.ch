@@ -27,7 +27,8 @@
         "Thinking": "A pensar...",
         "Error": "Não conseguimos contactar o assistente. Tente novamente.",
         "RateLimit": "Demasiados pedidos. Aguarde um momento.",
-        "StartHint": "Introduza um e-mail válido para começar."
+        "StartHint": "Introduza um e-mail válido para começar.",
+        "InvalidEmailDomain": "Utilize um domínio de e-mail profissional válido."
     },
     "Suggestions": {
         "Title": "Experimente uma destas perguntas",

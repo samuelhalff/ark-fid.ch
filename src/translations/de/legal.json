@@ -129,7 +129,8 @@
                     "Technische Informationen (IP-Adresse, Browser-Typ, Geräteinformationen)",
                     "Nutzungsdaten (besuchte Seiten, Verweildauer, Verweisquellen)",
                     "Cookies und ähnliche Tracking-Technologien",
-                    "Kontaktformular-Übermittlungen und Kommunikation"
+                    "Kontaktformular-Übermittlungen und Kommunikation",
+                    "Interaktionen mit dem KI-Chat und Kontaktdaten (E-Mail, Firma, Telefon)"
                 ]
             }
         },
@@ -152,7 +153,8 @@
                     "Bereitstellung von Buchhaltungs-, Steuer-, Lohn- und Beratungsdienstleistungen",
                     "Erstellung von Jahresabschlüssen und Berichten",
                     "Verwaltung von Compliance-Verpflichtungen",
-                    "Kommunikation über Ihre Dienstleistungen und Ihr Konto"
+                    "Kommunikation über Ihre Dienstleistungen und Ihr Konto",
+                    "Beantwortung von KI-Assistenten-Anfragen und Vorbereitung von Folgeofferten"
                 ]
             },
             "BusinessOperations": {

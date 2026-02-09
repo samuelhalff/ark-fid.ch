@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { DefaultAzureCredential } from "@azure/identity";
 import { z } from "zod";
+import { promises as dns } from "dns";
 
 export const runtime = "nodejs";
 export const revalidate = 0;
@@ -21,13 +22,26 @@ const messageSchema = z.object({
   content: z.string().trim().min(1).max(2000),
 });
 
-const requestSchema = z.object({
-  email: z.string().email(),
-  name: z.string().trim().max(120).optional(),
-  companyName: z.string().trim().max(160).optional(),
-  phone: z.string().trim().max(80).optional(),
-  messages: z.array(messageSchema).min(1).max(12),
-});
+const requestSchema = z
+  .object({
+    email: z.string().email(),
+    name: z.string().trim().max(120).optional(),
+    companyName: z.string().trim().max(160).optional(),
+    phone: z.string().trim().max(80).optional(),
+    messages: z.array(messageSchema).max(12).optional(),
+    leadOnly: z.boolean().optional(),
+    leadMessage: z.string().trim().max(240).optional(),
+  })
+  .superRefine((value, ctx) => {
+    const messages = value.messages ?? [];
+    if (!value.leadOnly && messages.length < 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "messages must include at least one item",
+        path: ["messages"],
+      });
+    }
+  });
 
 const getEnv = (key: string, fallback?: string) =>
   process.env[key] || fallback || "";
@@ -58,6 +72,24 @@ const applyRateLimit = (key: string) => {
   rateLimitStore.set(key, entry);
   return { allowed: true, retryAfterMs: entry.resetAt - now };
 };
+
+const FORMSPARK_ACTION_URL = process.env.FORMSPARK_ACTION_URL;
+const DOMAIN_VALIDATION_TTL_MS = 12 * 60 * 60 * 1000;
+const DOMAIN_VALIDATION_TIMEOUT_MS = 3500;
+const DOMAIN_VALIDATION_MAX_ENTRIES = 400;
+const INVALID_EMAIL_DOMAINS = (
+  process.env.INVALID_EMAIL_DOMAINS ||
+  "example.com,example.org,example.net,test.com,test.ch,invalid,localhost"
+)
+  .split(",")
+  .map((value) => value.trim().toLowerCase())
+  .filter(Boolean);
+const invalidDomains = new Set(INVALID_EMAIL_DOMAINS);
+const domainValidationCache = new Map<
+  string,
+  { valid: boolean; checkedAt: number }
+>();
+const DEBUG_VALIDATION = process.env.DEBUG_AGENT === "1";
 
 const parseAgentReference = (raw: string) => {
   const trimmed = raw.trim();
@@ -117,7 +149,8 @@ const extractResponseText = (response: unknown): string => {
 };
 
 const buildConversationItems = (
-  data: z.infer<typeof requestSchema>
+  data: z.infer<typeof requestSchema>,
+  messages: z.infer<typeof messageSchema>[]
 ) => {
   const profile = [
     data.name ? `Name: ${data.name}` : null,
@@ -145,12 +178,123 @@ const buildConversationItems = (
       role: "system",
       content: systemPrompt,
     },
-    ...data.messages.map((message) => ({
+    ...messages.map((message) => ({
       type: "message",
       role: message.role,
       content: message.content,
     })),
   ];
+};
+
+const isLikelyInvalidDomain = (domain: string) => {
+  if (!domain || domain.length < 4 || !domain.includes(".")) return true;
+  if (invalidDomains.has(domain)) return true;
+  if (domain.endsWith(".local")) return true;
+  if (domain.startsWith("example.")) return true;
+  return false;
+};
+
+const withTimeout = async <T>(promise: Promise<T>, timeoutMs: number) => {
+  let timeoutHandle: NodeJS.Timeout | undefined;
+  const timeoutPromise = new Promise<T>((_, reject) => {
+    timeoutHandle = setTimeout(() => reject(new Error("timeout")), timeoutMs);
+  });
+  try {
+    return await Promise.race([promise, timeoutPromise]);
+  } finally {
+    if (timeoutHandle) clearTimeout(timeoutHandle);
+  }
+};
+
+const validateEmailDomain = async (domain: string) => {
+  if (isLikelyInvalidDomain(domain)) return false;
+  const cached = domainValidationCache.get(domain);
+  if (cached && Date.now() - cached.checkedAt < DOMAIN_VALIDATION_TTL_MS) {
+    cached.checkedAt = Date.now();
+    return cached.valid;
+  }
+  const lookup = async (
+    label: string,
+    promise: Promise<unknown>
+  ): Promise<boolean> => {
+    try {
+      const records = await withTimeout(promise, DOMAIN_VALIDATION_TIMEOUT_MS);
+      return Array.isArray(records) && records.length > 0;
+    } catch (error) {
+      if (DEBUG_VALIDATION) {
+        console.warn(`[agent] ${label} lookup failed`, domain, error);
+      }
+      return false;
+    }
+  };
+  const check = async () => {
+    const lookups = [
+      lookup("MX", dns.resolveMx(domain)),
+      lookup("A", dns.resolve4(domain)),
+      lookup("AAAA", dns.resolve6(domain)),
+    ];
+    try {
+      await Promise.any(
+        lookups.map(async (promise) => {
+          const ok = await promise;
+          if (!ok) throw new Error("empty");
+          return ok;
+        })
+      );
+      return true;
+    } catch {
+      return false;
+    }
+  };
+  const valid = await check();
+  if (domainValidationCache.size >= DOMAIN_VALIDATION_MAX_ENTRIES) {
+    let oldestKey: string | undefined;
+    let oldestTimestamp = Number.POSITIVE_INFINITY;
+    for (const [key, value] of domainValidationCache.entries()) {
+      if (value.checkedAt < oldestTimestamp) {
+        oldestTimestamp = value.checkedAt;
+        oldestKey = key;
+      }
+    }
+    if (oldestKey) domainValidationCache.delete(oldestKey);
+  }
+  domainValidationCache.set(domain, { valid, checkedAt: Date.now() });
+  return valid;
+};
+
+const getEmailDomain = (email: string) =>
+  email.split("@")[1]?.toLowerCase() || "";
+
+const submitLead = async (
+  payload: z.infer<typeof requestSchema>,
+  message?: string
+) => {
+  if (!FORMSPARK_ACTION_URL) {
+    throw new Error("Missing FORMSPARK_ACTION_URL");
+  }
+  const body = {
+    fullName: payload.name || "",
+    email: payload.email,
+    companyName: payload.companyName || "",
+    phone: payload.phone || "",
+    message: message || "",
+    source: "AI agent chat",
+  };
+  const res = await fetch(FORMSPARK_ACTION_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const detail = await res.text();
+    if (DEBUG_VALIDATION) {
+      console.warn("[agent] Lead submission failed", res.status, detail);
+    }
+    throw new Error("Lead submission failed");
+  }
 };
 
 const postJson = async (
@@ -215,13 +359,6 @@ export async function POST(request: Request) {
     10
   );
 
-  if (!azureEndpoint || !agentName) {
-    return NextResponse.json(
-      { error: "missing_configuration" },
-      { status: 500 }
-    );
-  }
-
   let payload: z.infer<typeof requestSchema>;
   try {
     payload = requestSchema.parse(await request.json());
@@ -233,6 +370,46 @@ export async function POST(request: Request) {
   }
 
   try {
+    // Email is validated by zod, so a single "@" is safe to split.
+    const emailDomain = getEmailDomain(payload.email);
+    if (!emailDomain || !(await validateEmailDomain(emailDomain))) {
+      return NextResponse.json(
+        { error: "invalid_email_domain" },
+        { status: 400 }
+      );
+    }
+
+    const messages = payload.messages ?? [];
+    const lastUserMessage = messages
+      .filter((message) => message.role === "user")
+      .at(-1)?.content;
+    const leadMessage = payload.leadMessage || lastUserMessage || "";
+
+    if (payload.leadOnly) {
+      if (!FORMSPARK_ACTION_URL) {
+        return NextResponse.json(
+          { error: "missing_configuration" },
+          { status: 500 }
+        );
+      }
+      await submitLead(payload, leadMessage);
+      return NextResponse.json(
+        { ok: true },
+        {
+          headers: {
+            "Cache-Control": "no-store, no-cache, must-revalidate",
+          },
+        }
+      );
+    }
+
+    if (!azureEndpoint || !agentName) {
+      return NextResponse.json(
+        { error: "missing_configuration" },
+        { status: 500 }
+      );
+    }
+
     const credential = new DefaultAzureCredential();
     const token = await credential.getToken("https://ai.azure.com/.default");
     if (!token?.token) {
@@ -245,7 +422,7 @@ export async function POST(request: Request) {
     const conversation = await postJson(
       `${baseUrl}/conversations?api-version=${apiVersion}`,
       token.token,
-      { items: buildConversationItems(payload) },
+      { items: buildConversationItems(payload, messages) },
       timeoutMs
     );
 

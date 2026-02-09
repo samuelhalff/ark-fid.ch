@@ -129,7 +129,8 @@
                     "Información técnica (dirección IP, tipo de navegador, información del dispositivo)",
                     "Datos de uso (páginas visitadas, tiempo transcurrido, fuentes de referencia)",
                     "Cookies y tecnologías de seguimiento similares",
-                    "Envíos de formularios de contacto y comunicaciones"
+                    "Envíos de formularios de contacto y comunicaciones",
+                    "Interacciones con el chat de IA y datos de contacto (correo, empresa, teléfono)"
                 ]
             }
         },
@@ -152,7 +153,8 @@
                     "Proporcionar servicios de contabilidad, impuestos, nóminas y asesoría",
                     "Preparar estados financieros e informes",
                     "Gestionar obligaciones de cumplimiento",
-                    "Comunicar sobre sus servicios y cuenta"
+                    "Comunicar sobre sus servicios y cuenta",
+                    "Responder solicitudes del asistente de IA y preparar presupuestos de seguimiento"
                 ]
             },
             "BusinessOperations": {

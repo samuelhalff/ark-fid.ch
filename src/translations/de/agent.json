@@ -27,7 +27,8 @@
         "Thinking": "Einen Moment...",
         "Error": "Der Assistent ist derzeit nicht erreichbar. Bitte versuchen Sie es erneut.",
         "RateLimit": "Zu viele Anfragen. Bitte kurz warten.",
-        "StartHint": "Geben Sie eine gültige E-Mail ein, um zu starten."
+        "StartHint": "Geben Sie eine gültige E-Mail ein, um zu starten.",
+        "InvalidEmailDomain": "Bitte verwenden Sie eine gültige geschäftliche E-Mail-Domain."
     },
     "Suggestions": {
         "Title": "Probieren Sie eine dieser Fragen",

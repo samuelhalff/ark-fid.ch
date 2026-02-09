@@ -89,6 +89,10 @@ export default async function AgentPage({
         "Chat.StartHint",
         "Enter a valid email to start the chat."
       ),
+      invalidEmailDomain: text(
+        "Chat.InvalidEmailDomain",
+        "Please use a valid business email domain."
+      ),
     },
     suggestions: {
       title: text("Suggestions.Title", "Try one of these questions"),
