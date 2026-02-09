@@ -45,7 +45,7 @@ function cleanupReferenceSections(article) {
   // Portuguese: "Referências", "Fontes"
   // With various formatting: headings (###), bold (**), with/without colons
   const headingRe =
-    /^(?:#{2,3}\s*)?(?:\*\*)?(?:référence?s?|references?|referenzen?|referencias?|sources?|quellen?|fuentes?|fontes?)(?:\*\*)?(?:\s*:)?.*$/gim;
+    /^(?:#{2,3}\s*|\*\*)?(?:référence?s?|references?|referenzen?|referencias?|sources?|quellen?|fuentes?|fontes?)\s*:?\s*(?:\*\*)?\s*$/gim;
   
   // Find all reference section markers
   const indices = [];
