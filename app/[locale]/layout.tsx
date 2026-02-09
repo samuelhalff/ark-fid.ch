@@ -4,6 +4,7 @@ import ServicesElements from "@/app/[locale]/navigation";
 import { getTranslations } from "@/src/lib/i18n";
 import { localizePath } from "@/src/lib/paths";
 import nextDynamic from "next/dynamic";
+import AgentFloatingButton from "@/src/components/agent/AgentFloatingButton";
 
 const locales = ["en", "fr", "de", "es", "pt"] as const;
 type Locale = (typeof locales)[number];
@@ -69,6 +70,10 @@ export default async function LocaleLayout({
       <main id="main-content" role="main">
         {children}
       </main>
+      <AgentFloatingButton
+        locale={activeLocale}
+        label={navData.labels.agent}
+      />
       <Suspense fallback={<div className="h-64 bg-muted" aria-hidden="true" />}>
         <Footer locale={activeLocale} />
       </Suspense>

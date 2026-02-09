@@ -168,6 +168,17 @@ const MobileMenu = ({
             </div>
             <div>
               <Link
+                href={`${localePrefix}/agent/`}
+                onClick={handleLinkClick}
+                prefetch={false}
+                locale={locale}
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent active:scale-[0.99] transition-all font-bold"
+              >
+                <span>{navData.labels.agent}</span>
+              </Link>
+            </div>
+            <div>
+              <Link
                 href={`${localePrefix}/team/`}
                 onClick={handleLinkClick}
                 prefetch={false}
@@ -194,17 +205,6 @@ const MobileMenu = ({
               services={navData.services}
               label={navData.labels.services}
             />
-            <div>
-              <Link
-                href={`${localePrefix}/agent/`}
-                onClick={handleLinkClick}
-                prefetch={false}
-                locale={locale}
-                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent active:scale-[0.99] transition-all font-bold"
-              >
-                <span>{navData.labels.agent}</span>
-              </Link>
-            </div>
             <div>
               <Link
                 href={`${localePrefix}/ressources/`}
