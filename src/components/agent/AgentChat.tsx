@@ -18,8 +18,6 @@ type Message = {
 type ContactInfo = {
   name: string;
   email: string;
-  companyName: string;
-  phone: string;
 };
 
 type TurnstileInstance = {
@@ -45,20 +43,15 @@ export type AgentChatStrings = {
   lead: {
     title: string;
     description: string;
-    optionalLabel: string;
     verificationLabel: string;
     verificationRequired: string;
     fields: {
       name: string;
       email: string;
-      companyName: string;
-      phone: string;
     };
     placeholders: {
       name: string;
       email: string;
-      companyName: string;
-      phone: string;
     };
     button: string;
     confirmed: string;
@@ -84,8 +77,6 @@ const MAX_MESSAGES = 12;
 const defaultContact: ContactInfo = {
   name: "",
   email: "",
-  companyName: "",
-  phone: "",
 };
 
 const createId = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -548,10 +539,7 @@ export default function AgentChat({
             </div>
             <div className="grid gap-3 md:grid-cols-2 mt-4">
               <label className="grid gap-2 text-sm font-medium">
-                {strings.lead.fields.name}{" "}
-                <span className="text-xs text-muted-foreground">
-                  ({strings.lead.optionalLabel})
-                </span>
+                {strings.lead.fields.name}
                 <Input
                   value={contact.name}
                   onChange={(event) =>
@@ -562,6 +550,7 @@ export default function AgentChat({
               </label>
               <label className="grid gap-2 text-sm font-medium">
                 {strings.lead.fields.email}
+                <span className="text-green-600">*</span>
                 <Input
                   value={contact.email}
                   onChange={(event) =>
@@ -570,32 +559,6 @@ export default function AgentChat({
                   placeholder={strings.lead.placeholders.email}
                   type="email"
                   required
-                />
-              </label>
-              <label className="grid gap-2 text-sm font-medium">
-                {strings.lead.fields.companyName}{" "}
-                <span className="text-xs text-muted-foreground">
-                  ({strings.lead.optionalLabel})
-                </span>
-                <Input
-                  value={contact.companyName}
-                  onChange={(event) =>
-                    updateContact("companyName")(event.target.value)
-                  }
-                  placeholder={strings.lead.placeholders.companyName}
-                />
-              </label>
-              <label className="grid gap-2 text-sm font-medium">
-                {strings.lead.fields.phone}{" "}
-                <span className="text-xs text-muted-foreground">
-                  ({strings.lead.optionalLabel})
-                </span>
-                <Input
-                  value={contact.phone}
-                  onChange={(event) =>
-                    updateContact("phone")(event.target.value)
-                  }
-                  placeholder={strings.lead.placeholders.phone}
                 />
               </label>
             </div>

@@ -1,24 +1,19 @@
 {
-    "Title": "Instant quote assistant",
-    "Subtitle": "Get an approximate quote and clear next steps in minutes.",
-    "Intro": "Describe your needs and our AI assistant will suggest services and guidance without being pushy.",
+    "Title": "Instant quote",
+    "Subtitle": "Get a quick estimate for your request.",
+    "Intro": "Describe what you need and we will reply with the next steps.",
     "Lead": {
-        "Title": "Start with your email",
-        "Description": "We use it to follow up with a tailored quote. Other fields are optional.",
-        "Optional": "optional",
+        "Title": "Your email: please enter your email to use the instant quote tool.",
+        "Description": "We use it to send your estimate and follow up if needed.",
         "VerificationLabel": "Verification",
         "VerificationRequired": "Please complete the verification.",
         "Fields": {
             "Name": "Name",
-            "Email": "Email",
-            "CompanyName": "Company",
-            "Phone": "Phone"
+            "Email": "Email"
         },
         "Placeholders": {
             "Name": "Your name",
-            "Email": "email@example.com",
-            "CompanyName": "Company name",
-            "Phone": "Phone number"
+            "Email": "email@example.com"
         },
         "Button": "Start chat",
         "Confirmed": "Chat ready"
@@ -29,7 +24,7 @@
         "Thinking": "Thinking...",
         "Error": "We couldn't reach the assistant. Please try again.",
         "RateLimit": "Too many requests. Please wait a moment.",
-        "StartHint": "Enter a valid email to start the chat.",
+        "StartHint": "Enter your email to start.",
         "InvalidEmailDomain": "Please use a valid business email domain."
     },
     "Suggestions": {

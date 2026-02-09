@@ -1,24 +1,19 @@
 {
-    "Title": "Assistente de orçamento instantâneo",
-    "Subtitle": "Obtenha uma estimativa aproximada e próximos passos em minutos.",
-    "Intro": "Descreva a sua necessidade e o nosso assistente de IA sugerirá serviços e orientação sem ser insistente.",
+    "Title": "Orçamento imediato",
+    "Subtitle": "Obtenha uma estimativa rápida para o seu pedido.",
+    "Intro": "Descreva a sua necessidade e receba os próximos passos.",
     "Lead": {
-        "Title": "Comece com o seu e-mail",
-        "Description": "Usamos para fazer um acompanhamento com um orçamento personalizado. Os outros campos são opcionais.",
-        "Optional": "opcional",
+        "Title": "O seu e-mail: indique o seu e-mail para usar a ferramenta de orçamento imediato.",
+        "Description": "Usamos para enviar a estimativa e fazer o seguimento se necessário.",
         "VerificationLabel": "Verificação",
         "VerificationRequired": "Conclua a verificação.",
         "Fields": {
             "Name": "Nome",
-            "Email": "E-mail",
-            "CompanyName": "Empresa",
-            "Phone": "Telefone"
+            "Email": "E-mail"
         },
         "Placeholders": {
             "Name": "O seu nome",
-            "Email": "email@exemplo.com",
-            "CompanyName": "Nome da empresa",
-            "Phone": "Número de telefone"
+            "Email": "email@exemplo.com"
         },
         "Button": "Iniciar chat",
         "Confirmed": "Chat pronto"
@@ -29,7 +24,7 @@
         "Thinking": "A pensar...",
         "Error": "Não conseguimos contactar o assistente. Tente novamente.",
         "RateLimit": "Demasiados pedidos. Aguarde um momento.",
-        "StartHint": "Introduza um e-mail válido para começar.",
+        "StartHint": "Introduza o seu e-mail para começar.",
         "InvalidEmailDomain": "Utilize um domínio de e-mail profissional válido."
     },
     "Suggestions": {

@@ -1,24 +1,19 @@
 {
-    "Title": "Sofortiger Angebotsassistent",
-    "Subtitle": "Erhalten Sie eine grobe Offerte und nächste Schritte in wenigen Minuten.",
-    "Intro": "Beschreiben Sie Ihr Anliegen und unser KI-Assistent schlägt passende Services vor, ohne aufdringlich zu sein.",
+    "Title": "Sofortangebot",
+    "Subtitle": "Erhalten Sie eine schnelle Schätzung für Ihre Anfrage.",
+    "Intro": "Beschreiben Sie Ihr Anliegen und erhalten Sie die nächsten Schritte.",
     "Lead": {
-        "Title": "Starten Sie mit Ihrer E-Mail",
-        "Description": "Wir nutzen sie, um mit einem passenden Angebot nachzufassen. Die übrigen Felder sind optional.",
-        "Optional": "optional",
+        "Title": "Ihre E-Mail: Bitte geben Sie Ihre E-Mail an, um das Sofortangebot zu nutzen.",
+        "Description": "Wir nutzen sie, um die Schätzung zu senden und ggf. nachzufassen.",
         "VerificationLabel": "Bestätigung",
-        "VerificationRequired": "Bitte bestätigen Sie die Verifizierung.",
+        "VerificationRequired": "Bitte schließen Sie die Verifizierung ab.",
         "Fields": {
             "Name": "Name",
-            "Email": "E-Mail",
-            "CompanyName": "Firma",
-            "Phone": "Telefon"
+            "Email": "E-Mail"
         },
         "Placeholders": {
             "Name": "Ihr Name",
-            "Email": "email@beispiel.com",
-            "CompanyName": "Firmenname",
-            "Phone": "Telefonnummer"
+            "Email": "email@beispiel.com"
         },
         "Button": "Chat starten",
         "Confirmed": "Chat bereit"
@@ -29,7 +24,7 @@
         "Thinking": "Einen Moment...",
         "Error": "Der Assistent ist derzeit nicht erreichbar. Bitte versuchen Sie es erneut.",
         "RateLimit": "Zu viele Anfragen. Bitte kurz warten.",
-        "StartHint": "Geben Sie eine gültige E-Mail ein, um zu starten.",
+        "StartHint": "Geben Sie Ihre E-Mail ein, um zu starten.",
         "InvalidEmailDomain": "Bitte verwenden Sie eine gültige geschäftliche E-Mail-Domain."
     },
     "Suggestions": {

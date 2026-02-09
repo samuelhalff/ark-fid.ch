@@ -60,7 +60,6 @@ export default async function AgentPage({
         "Lead.Description",
         "We use it to follow up with a tailored quote. Other fields are optional."
       ),
-      optionalLabel: text("Lead.Optional", "optional"),
       verificationLabel: text(
         "Lead.VerificationLabel",
         "Verification"
@@ -72,14 +71,10 @@ export default async function AgentPage({
       fields: {
         name: text("Lead.Fields.Name", "Name"),
         email: text("Lead.Fields.Email", "Email"),
-        companyName: text("Lead.Fields.CompanyName", "Company"),
-        phone: text("Lead.Fields.Phone", "Phone"),
       },
       placeholders: {
         name: text("Lead.Placeholders.Name", "Your name"),
         email: text("Lead.Placeholders.Email", "email@example.com"),
-        companyName: text("Lead.Placeholders.CompanyName", "Company name"),
-        phone: text("Lead.Placeholders.Phone", "Phone number"),
       },
       button: text("Lead.Button", "Start chat"),
       confirmed: text("Lead.Confirmed", "Chat ready"),

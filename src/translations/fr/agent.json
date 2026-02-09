@@ -1,24 +1,19 @@
 {
-    "Title": "Assistant de devis instantané",
-    "Subtitle": "Obtenez une estimation et les prochaines étapes en quelques minutes.",
-    "Intro": "Décrivez votre besoin et notre assistant IA proposera des services et des conseils sans insister.",
+    "Title": "Devis instantané",
+    "Subtitle": "Obtenez une estimation rapide pour votre demande.",
+    "Intro": "Décrivez votre besoin et recevez les prochaines étapes.",
     "Lead": {
-        "Title": "Commencez par votre e-mail",
-        "Description": "Nous l'utilisons pour faire un suivi avec un devis personnalisé. Les autres champs sont optionnels.",
-        "Optional": "optionnel",
+        "Title": "Votre email : merci d'indiquer votre adresse email pour utiliser notre outil de devis instantané.",
+        "Description": "Nous l'utilisons pour envoyer votre estimation et vous recontacter si besoin.",
         "VerificationLabel": "Vérification",
-        "VerificationRequired": "Veuillez valider la vérification.",
+        "VerificationRequired": "Merci de compléter la vérification.",
         "Fields": {
             "Name": "Nom",
-            "Email": "E-mail",
-            "CompanyName": "Société",
-            "Phone": "Téléphone"
+            "Email": "Email"
         },
         "Placeholders": {
             "Name": "Votre nom",
-            "Email": "email@exemple.com",
-            "CompanyName": "Nom de la société",
-            "Phone": "Numéro de téléphone"
+            "Email": "email@exemple.com"
         },
         "Button": "Démarrer le chat",
         "Confirmed": "Chat prêt"
@@ -29,7 +24,7 @@
         "Thinking": "En cours...",
         "Error": "Impossible de joindre l'assistant. Réessayez.",
         "RateLimit": "Trop de requêtes. Merci d'attendre un instant.",
-        "StartHint": "Saisissez un e-mail valide pour commencer.",
+        "StartHint": "Indiquez votre email pour commencer.",
         "InvalidEmailDomain": "Merci d'utiliser un domaine email professionnel valide."
     },
     "Suggestions": {
