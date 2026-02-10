@@ -304,3 +304,61 @@ export function buildAccountingService(cfg: AccountingServiceConfig) {
       : {}),
   } as const;
 }
+
+export interface SoftwareApplicationConfig {
+  name: string;
+  description: string;
+  applicationCategory: string;
+  operatingSystem?: string;
+  offers?: {
+    price: string;
+    priceCurrency: string;
+  };
+  aggregateRating?: {
+    ratingValue: string;
+    reviewCount: number;
+  };
+  author?: {
+    name: string;
+    url?: string;
+  };
+}
+
+export function buildSoftwareApplication(cfg: SoftwareApplicationConfig) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: cfg.name,
+    description: cfg.description,
+    applicationCategory: cfg.applicationCategory,
+    ...(cfg.operatingSystem ? { operatingSystem: cfg.operatingSystem } : {}),
+    ...(cfg.offers
+      ? {
+          offers: {
+            "@type": "Offer",
+            price: cfg.offers.price,
+            priceCurrency: cfg.offers.priceCurrency,
+          },
+        }
+      : {}),
+    ...(cfg.aggregateRating
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: cfg.aggregateRating.ratingValue,
+            reviewCount: cfg.aggregateRating.reviewCount,
+          },
+        }
+      : {}),
+    ...(cfg.author
+      ? {
+          author: {
+            "@type": "Organization",
+            name: cfg.author.name,
+            ...(cfg.author.url ? { url: cfg.author.url } : {}),
+          },
+        }
+      : {}),
+  } as const;
+}
+

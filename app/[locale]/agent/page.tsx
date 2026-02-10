@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { Metadata } from "next";
 import StructuredData from "@/src/components/seo/StructuredData";
-import { buildBreadcrumbList } from "@/src/lib/structuredData";
+import { buildBreadcrumbList, buildSoftwareApplication, buildServiceSchema } from "@/src/lib/structuredData";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import AgentChat from "@/src/components/agent/AgentChat";
@@ -52,6 +52,40 @@ export default async function AgentPage({
       item: `https://ark-fid.ch${localePrefix}/agent/`,
     },
   ]);
+
+  const softwareAppJsonLd = buildSoftwareApplication({
+    name: text("Title", "Instant Quote Assistant"),
+    description: text(
+      "Subtitle",
+      "AI-powered quote assistant for fiduciary services in Geneva and Lausanne"
+    ),
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web Browser",
+    offers: {
+      price: "0",
+      priceCurrency: "CHF",
+    },
+    author: {
+      name: "Ark Fiduciaire",
+      url: "https://ark-fid.ch",
+    },
+  });
+
+  const serviceJsonLd = buildServiceSchema({
+    name: text("Title", "Instant Quote Service"),
+    description: text(
+      "Intro",
+      "Get instant estimates for accounting, tax, payroll and fiduciary services"
+    ),
+    serviceType: "Financial Service",
+    url: `https://ark-fid.ch${localePrefix}/agent/`,
+    areaServed: ["Geneva", "Lausanne", "Romandy", "Switzerland"],
+    provider: {
+      name: "Ark Fiduciaire",
+      url: "https://ark-fid.ch",
+      logo: "https://ark-fid.ch/assets/arkfid--color.svg",
+    },
+  });
 
   const chatStrings = {
     lead: {
@@ -115,7 +149,7 @@ export default async function AgentPage({
     <main className="agent-page min-h-[100svh] h-[100svh] overflow-hidden">
       <div className="agent-page-dim" aria-hidden="true" />
       <div className="agent-page-content max-w-[1200px] mx-auto px-4 md:px-6 py-10 flex flex-col gap-8 h-full min-h-0">
-        <StructuredData nonce={nonce} data={[breadcrumbJsonLd]} />
+        <StructuredData nonce={nonce} data={[breadcrumbJsonLd, softwareAppJsonLd, serviceJsonLd]} />
         <header className="max-w-3xl mx-auto text-center space-y-4 shrink-0">
           <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold tracking-tight">
             {text("Title", "Instant quote")}
