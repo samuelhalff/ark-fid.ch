@@ -708,10 +708,11 @@ export default function AgentChat({
           />
           <Button
             type="button"
+            size="icon"
             onClick={() => void sendMessage()}
             disabled={!canChat || sending || !input.trim()}
             aria-label={strings.chat.send}
-            className="self-center h-9 w-9 aspect-square p-0 rounded-[999px] bg-foreground text-background shadow-sm hover:bg-foreground/90"
+            className="self-center !rounded-full bg-foreground text-background shadow-sm hover:bg-foreground/90"
           >
             <span className="sr-only">{strings.chat.send}</span>
             <svg
