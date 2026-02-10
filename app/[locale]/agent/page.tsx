@@ -124,7 +124,10 @@ export default async function AgentPage({
             {text("Subtitle", "Get a quick estimate for your request.")}
           </p>
           <p className="text-sm text-muted-foreground">
-            {text("Intro", "Describe what you need and receive the next steps.")}
+            {text(
+              "Intro",
+              "Describe what you need and receive the next steps.",
+            )}
           </p>
         </header>
 

@@ -786,105 +786,105 @@ export default function AgentChat({
           >
             <div className="rounded-[16px] bg-background p-5">
               <div className="flex items-start justify-between gap-3">
-              <div>
-                <p id="lead-modal-title" className="text-base font-semibold">
-                  {strings.lead.title}
-                </p>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {strings.lead.description}
-                </p>
-                <p className="text-xs text-muted-foreground mt-2">
-                  {strings.lead.helper}
-                </p>
-              </div>
-              </div>
-            <div className="grid gap-4 mt-4">
-              <label className="grid gap-1.5 text-sm font-medium">
-                <span>
-                  {strings.lead.fields.email}
-                  <span className="text-green-600 ml-0.5">*</span>
-                </span>
-                <Input
-                  value={contact.email}
-                  onChange={(event) =>
-                    updateContact("email")(event.target.value)
-                  }
-                  onKeyDown={handleLeadKeyDown}
-                  placeholder={strings.lead.placeholders.email}
-                  type="email"
-                  required
-                  className="!border-foreground/35 !border-opacity-100 bg-transparent focus-visible:!border-foreground/55 focus-visible:ring-0"
-                />
-              </label>
-              <label className="grid gap-1.5 text-sm font-medium">
-                <span>
-                  {strings.lead.fields.name}
-                  <span className="text-green-600 ml-0.5">*</span>
-                </span>
-                <Input
-                  value={contact.name}
-                  onChange={(event) =>
-                    updateContact("name")(event.target.value)
-                  }
-                  onKeyDown={handleLeadKeyDown}
-                  placeholder={strings.lead.placeholders.name}
-                  required
-                  className="!border-foreground/35 !border-opacity-100 bg-transparent focus-visible:!border-foreground/55 focus-visible:ring-0"
-                />
-              </label>
-            </div>
-            {turnstileEnabled && (
-              <div className="mt-3 space-y-2">
-                <p className="text-xs font-semibold text-muted-foreground">
-                  {strings.lead.verificationLabel}
-                </p>
-                <div className="flex justify-center">
-                  <div ref={turnstileRef} className="w-full max-w-[300px]" />
+                <div>
+                  <p id="lead-modal-title" className="text-base font-semibold">
+                    {strings.lead.title}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {strings.lead.description}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    {strings.lead.helper}
+                  </p>
                 </div>
               </div>
-            )}
-            {modalError && (
-              <p className="text-xs text-red-500 mt-3">{modalError}</p>
-            )}
-            <div className="flex flex-col gap-3 mt-4">
-              <Button
-                type="button"
-                onClick={handleStart}
-                disabled={!canConfirmLead || leadSubmitting || leadConfirmed}
-                className="w-full"
-              >
-                {leadSubmitting ? (
-                  <span className="inline-flex items-center gap-2">
-                    <svg
-                      className="animate-spin size-4"
-                      viewBox="0 0 24 24"
-                      aria-hidden
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                        fill="none"
-                      />
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                      />
-                    </svg>
-                    {strings.chat.thinking}
+              <div className="grid gap-4 mt-4">
+                <label className="grid gap-1.5 text-sm font-medium">
+                  <span>
+                    {strings.lead.fields.email}
+                    <span className="text-green-600 ml-0.5">*</span>
                   </span>
-                ) : (
-                  strings.lead.button
-                )}
-              </Button>
-              <p className="text-xs text-muted-foreground text-center">
-                {strings.disclaimer}
-              </p>
-            </div>
+                  <Input
+                    value={contact.email}
+                    onChange={(event) =>
+                      updateContact("email")(event.target.value)
+                    }
+                    onKeyDown={handleLeadKeyDown}
+                    placeholder={strings.lead.placeholders.email}
+                    type="email"
+                    required
+                    className="!border-foreground/35 !border-opacity-100 bg-transparent focus-visible:!border-foreground/55 focus-visible:ring-0"
+                  />
+                </label>
+                <label className="grid gap-1.5 text-sm font-medium">
+                  <span>
+                    {strings.lead.fields.name}
+                    <span className="text-green-600 ml-0.5">*</span>
+                  </span>
+                  <Input
+                    value={contact.name}
+                    onChange={(event) =>
+                      updateContact("name")(event.target.value)
+                    }
+                    onKeyDown={handleLeadKeyDown}
+                    placeholder={strings.lead.placeholders.name}
+                    required
+                    className="!border-foreground/35 !border-opacity-100 bg-transparent focus-visible:!border-foreground/55 focus-visible:ring-0"
+                  />
+                </label>
+              </div>
+              {turnstileEnabled && (
+                <div className="mt-3 space-y-2">
+                  <p className="text-xs font-semibold text-muted-foreground">
+                    {strings.lead.verificationLabel}
+                  </p>
+                  <div className="flex justify-center">
+                    <div ref={turnstileRef} className="w-full max-w-[300px]" />
+                  </div>
+                </div>
+              )}
+              {modalError && (
+                <p className="text-xs text-red-500 mt-3">{modalError}</p>
+              )}
+              <div className="flex flex-col gap-3 mt-4">
+                <Button
+                  type="button"
+                  onClick={handleStart}
+                  disabled={!canConfirmLead || leadSubmitting || leadConfirmed}
+                  className="w-full"
+                >
+                  {leadSubmitting ? (
+                    <span className="inline-flex items-center gap-2">
+                      <svg
+                        className="animate-spin size-4"
+                        viewBox="0 0 24 24"
+                        aria-hidden
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                        />
+                      </svg>
+                      {strings.chat.thinking}
+                    </span>
+                  ) : (
+                    strings.lead.button
+                  )}
+                </Button>
+                <p className="text-xs text-muted-foreground text-center">
+                  {strings.disclaimer}
+                </p>
+              </div>
             </div>
           </div>
         </div>
