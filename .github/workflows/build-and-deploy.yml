@@ -103,7 +103,7 @@ jobs:
           PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
 
           sshpass -p "$PASS" rsync -av \
-            -e "ssh -o StrictHostKeyChecking=no -p $PORT" \
+            -e "ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -p $PORT" \
             artifact/next-standalone.tar.gz.part \
             "$USER@$HOST:/srv/customer/sites/ark-fid.ch/artifact/"
 
@@ -117,13 +117,13 @@ jobs:
 
           echo "[deploy] Testing SSH connectivity to $HOST:$PORT as $USER"
           # Probe is best-effort: some servers may have different auth preferences
-          if sshpass -p "$PASS" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p "$PORT" "$USER@$HOST" 'echo "SSH probe successful"' 2>/dev/null; then
+          if sshpass -p "$PASS" ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -o ConnectTimeout=10 -p "$PORT" "$USER@$HOST" 'echo "SSH probe successful"' 2>/dev/null; then
             echo "[deploy] SSH probe successful"
           else
             echo "[deploy] SSH probe failed (this is normal for some server configurations); proceeding with deployment"
           fi
 
-          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no "$USER@$HOST" bash -lc '
+          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes "$USER@$HOST" bash -lc '
             set -euo pipefail
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
             RELEASES_DIR="$BASE_DIR/releases"
@@ -195,7 +195,7 @@ jobs:
           sleep 30
 
           echo "[restart] Starting new process (refreshing symlink each restart)..."
-          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no "$USER@$HOST" '
+          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes "$USER@$HOST" '
             set -e
             # Supervisor loop: re-enter current symlink on every iteration so new releases apply
             nohup bash -lc "while true; do cd /srv/customer/sites/ark-fid.ch/current && node server.js >> server.out 2>&1; echo \"Node crashed, restarting...\" >> server.out; sleep 1; done" &
