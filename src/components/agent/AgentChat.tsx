@@ -667,7 +667,7 @@ export default function AgentChat({
               className={cn(
                 "rounded-2xl px-4 py-3 text-sm leading-relaxed max-w-[75%]",
                 message.role === "user"
-                  ? "bg-primary text-primary-foreground whitespace-pre-wrap"
+                  ? "bg-primary text-primary-foreground whitespace-pre-wrap dark:bg-primary/75"
                   : "bg-muted/60 text-foreground",
               )}
             >
