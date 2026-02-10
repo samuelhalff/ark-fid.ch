@@ -109,6 +109,37 @@ Notes:
 - Run a check before committing to ensure parity.
 - Add new files/articles only in FR, then sync and translate other locales as needed.
 
+## AI Agent Chat (Quotes)
+
+The website includes an AI quote assistant at `/<locale>/agent/`, backed by `POST /api/agent/chat`.
+
+Environment (Entra ID / DefaultAzureCredential):
+
+```
+# Required
+AZURE_AGENT_ENDPOINT=...
+# Use the quote agent for chat. You can optionally pin a version (e.g. ark-quote-agent:9).
+AZURE_AGENT_CHAT_NAME=ark-quote-agent:9
+
+# Auth (one of):
+# - Managed identity / Azure hosting (DefaultAzureCredential)
+# - Azure CLI (`az login`) for local dev
+# - Service principal secrets:
+AZURE_TENANT_ID=...
+AZURE_CLIENT_ID=...
+AZURE_CLIENT_SECRET=...
+# - Or a JSON blob (tenantId/clientId/clientSecret):
+AZURE_CREDENTIALS=...
+
+# Optional
+AZURE_AGENT_CHAT_RESPONSES_API_VERSION=2025-11-15-preview
+AGENT_CHAT_ALLOWED_ORIGINS=https://ark-fid.ch
+AZURE_AGENT_RATE_LIMIT_WINDOW_MS=600000
+AZURE_AGENT_RATE_LIMIT_MAX=12
+```
+
+Note: `AZURE_AGENT_CHAT_NAME` is intentionally separate from `AZURE_AGENT_NAME` to avoid coupling the website chat agent to the AI ressources update workflow.
+
 ## AI-driven Ressources Update (every 4 days)
 
 Script: `scripts/ai-ressources-update.js`
