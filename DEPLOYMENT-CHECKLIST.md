@@ -82,12 +82,12 @@ Deploy Job:
 - ✅ `DEPLOY_SSH_PASSWORD`
 - ✅ `DEPLOY_SSH_PORT`
 - 🔧 `RESTART_SECRET_TOKEN` ← **MUST ADD!**
-- 🔧 (AI agent chat) `AZURE_AGENT_ENDPOINT`, `AZURE_AGENT_CHAT_NAME` (set to `ark-quote-agent:12`), and either `AZURE_CREDENTIALS` (JSON) or `AZURE_TENANT_ID`/`AZURE_CLIENT_ID`/`AZURE_CLIENT_SECRET` ← **ADD IF YOU WANT CI SMOKE CHECKS**
+- 🔧 (AI agent chat) `AZURE_AGENT_ENDPOINT`, `AZURE_AGENT_CHAT_NAME` (set to `ark-quote-agent:13`), and either `AZURE_CREDENTIALS` (JSON) or `AZURE_TENANT_ID`/`AZURE_CLIENT_ID`/`AZURE_CLIENT_SECRET` ← **ADD IF YOU WANT CI SMOKE CHECKS**
 
 **Server Environment (/.env):**
 - ✅ All existing environment variables
 - 🔧 `RESTART_SECRET_TOKEN=<same-as-github-secret>` ← **MUST ADD!**
-- 🔧 (AI agent chat) `AZURE_AGENT_ENDPOINT`, `AZURE_AGENT_CHAT_NAME` (set to `ark-quote-agent:12`), and Entra ID credentials (managed identity, Azure CLI for dev, or service principal) ← **MUST ADD FOR /agent**
+- 🔧 (AI agent chat) `AZURE_AGENT_ENDPOINT`, `AZURE_AGENT_CHAT_NAME` (set to `ark-quote-agent:13`), and Entra ID credentials (managed identity, Azure CLI for dev, or service principal) ← **MUST ADD FOR /agent**
 
 ### 8. Deployment Flow Verification
 
