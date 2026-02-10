@@ -136,8 +136,9 @@ Deploy Job:
    ```bash
    # On server:
    ssh K83cyp5GeC2_samhalff@57-101943.ssh.hosting-ik.com
-   cd /srv/customer/sites/ark-fid.ch
-   echo 'RESTART_SECRET_TOKEN=<generate-strong-secret>' >> .env
+   cd /srv/customer/sites/ark-fid.ch/shared
+   nano .env
+   # Add: RESTART_SECRET_TOKEN=<generate-strong-secret>
    
    # On GitHub:
    Settings → Secrets → Actions → New repository secret
@@ -152,9 +153,11 @@ Deploy Job:
    
    # On server:
    ssh K83cyp5GeC2_samhalff@57-101943.ssh.hosting-ik.com
-   cd /srv/customer/sites/ark-fid.ch
-   echo 'NEXT_PUBLIC_TURNSTILE_SITE_KEY=<site-key>' >> .env
-   echo 'TURNSTILE_SECRET_KEY=<secret-key>' >> .env
+   cd /srv/customer/sites/ark-fid.ch/shared
+   nano .env
+   # Add these lines:
+   # NEXT_PUBLIC_TURNSTILE_SITE_KEY=<site-key>
+   # TURNSTILE_SECRET_KEY=<secret-key>
    
    # On GitHub (for public site key):
    Settings → Secrets → Actions → New repository secret
