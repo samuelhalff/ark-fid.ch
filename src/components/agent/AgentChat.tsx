@@ -124,6 +124,7 @@ export default function AgentChat({
   const [rateLimited, setRateLimited] = useState(false);
   const [domainInvalid, setDomainInvalid] = useState(false);
   const [isMultiline, setIsMultiline] = useState(false);
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
   const endRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -319,6 +320,28 @@ export default function AgentChat({
     updateMaxHeight();
     window.addEventListener("resize", updateMaxHeight);
     return () => window.removeEventListener("resize", updateMaxHeight);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+    const updateOffset = () => {
+      const next = Math.max(
+        0,
+        Math.round(window.innerHeight - viewport.height - viewport.offsetTop),
+      );
+      setKeyboardOffset(next);
+    };
+    updateOffset();
+    viewport.addEventListener("resize", updateOffset);
+    viewport.addEventListener("scroll", updateOffset);
+    window.addEventListener("orientationchange", updateOffset);
+    return () => {
+      viewport.removeEventListener("resize", updateOffset);
+      viewport.removeEventListener("scroll", updateOffset);
+      window.removeEventListener("orientationchange", updateOffset);
+    };
   }, []);
 
   useEffect(() => {
@@ -649,11 +672,12 @@ export default function AgentChat({
   };
 
   return (
-    <div className="flex flex-col flex-1 min-h-0">
+    <div className="flex flex-col h-full min-h-0 overflow-hidden">
       <div
         className="flex-1 min-h-0 overflow-y-auto px-4 md:px-6 space-y-5"
         role="log"
         aria-live="polite"
+        style={{ paddingBottom: keyboardOffset ? keyboardOffset + 12 : 12 }}
       >
         {messages.map((message) => (
           <div
@@ -697,7 +721,10 @@ export default function AgentChat({
         )}
         <div ref={endRef} />
       </div>
-      <div className="sticky bottom-0 z-10 px-4 pb-5 pt-3 md:px-6 bg-transparent dark:bg-gradient-to-t dark:from-background dark:via-background/95 dark:to-transparent">
+      <div
+        className="sticky bottom-0 z-10 px-4 pb-5 pt-3 md:px-6 bg-transparent dark:bg-gradient-to-t dark:from-background dark:via-background/95 dark:to-transparent"
+        style={{ transform: keyboardOffset ? `translateY(-${keyboardOffset}px)` : undefined }}
+      >
         {canChat &&
           suggestions.length > 0 &&
           messages.length === 0 &&
@@ -744,7 +771,7 @@ export default function AgentChat({
             onKeyDown={handleKeyDown}
             placeholder={strings.chat.placeholder}
             rows={1}
-            className="resize-none overflow-hidden min-h-[40px] border-0 bg-transparent px-1 py-2 text-sm leading-6 text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60 shadow-none !outline-none !ring-0 !ring-offset-0 !shadow-none focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0 focus-visible:!shadow-none"
+            className="resize-none overflow-hidden min-h-[40px] border-0 bg-white dark:bg-foreground/15 px-1 py-2 text-sm leading-6 text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60 shadow-none !outline-none !ring-0 !ring-offset-0 !shadow-none focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0 focus-visible:!shadow-none"
             disabled={!canChat || sending}
           />
           <Button

@@ -9,6 +9,7 @@ import {
 } from "react";
 import Script from "next/script";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type Props = {
   nonce?: string;
@@ -72,6 +73,8 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
   const [consent, setConsentState] = useState<ConsentValue | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const manageBtnRef = useRef<HTMLButtonElement | null>(null);
+  const pathname = usePathname();
+  const hideManageButton = /(^|\/)agent(\/|$)/.test(pathname || "");
 
   const focusWithoutScroll = (el: HTMLElement | null) => {
     if (!el) return;
@@ -217,7 +220,7 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
   return (
     <>
       {/* Floating manage button: available after initial decision, and also before decision if user wants to open banner proactively. Hidden while banner is visible. */}
-      {consent !== null && (
+      {consent !== null && !hideManageButton && (
         <button
           type="button"
           ref={manageBtnRef}
