@@ -3,8 +3,9 @@
     "Subtitle": "Obtenha uma estimativa rápida para o seu pedido.",
     "Intro": "Descreva a sua necessidade e receba os próximos passos.",
     "Lead": {
-        "Title": "O seu e-mail: indique o seu e-mail para usar a ferramenta de orçamento imediato.",
-        "Description": "Usamos para enviar a estimativa e fazer o seguimento se necessário.",
+        "Title": "Abrir o chat",
+        "Description": "Indique o seu e-mail para aceder ao chat.",
+        "Helper": "Usamos para enviar a estimativa e contactar se necessário.",
         "VerificationLabel": "Verificação",
         "VerificationRequired": "Conclua a verificação.",
         "Fields": {
@@ -15,7 +16,7 @@
             "Name": "O seu nome",
             "Email": "email@exemplo.com"
         },
-        "Button": "Iniciar chat",
+        "Button": "Abrir o chat",
         "Confirmed": "Chat pronto"
     },
     "Chat": {
@@ -25,7 +26,8 @@
         "Error": "Não conseguimos contactar o assistente. Tente novamente.",
         "RateLimit": "Demasiados pedidos. Aguarde um momento.",
         "StartHint": "Introduza o seu e-mail para começar.",
-        "InvalidEmailDomain": "Utilize um domínio de e-mail profissional válido."
+        "InvalidEmailDomain": "Utilize um domínio de e-mail profissional válido.",
+        "ReadyHint": "Chat pronto. Pode começar a escrever abaixo."
     },
     "Suggestions": {
         "Title": "Experimente uma destas perguntas",

@@ -3,8 +3,9 @@
     "Subtitle": "Obtenez une estimation rapide pour votre demande.",
     "Intro": "Décrivez votre besoin et recevez les prochaines étapes.",
     "Lead": {
-        "Title": "Votre email : merci d'indiquer votre adresse email pour utiliser notre outil de devis instantané.",
-        "Description": "Nous l'utilisons pour envoyer votre estimation et vous recontacter si besoin.",
+        "Title": "Accéder au chat",
+        "Description": "Indiquez votre email pour accéder au chat.",
+        "Helper": "Nous l'utilisons pour envoyer l'estimation et vous recontacter si besoin.",
         "VerificationLabel": "Vérification",
         "VerificationRequired": "Merci de compléter la vérification.",
         "Fields": {
@@ -15,7 +16,7 @@
             "Name": "Votre nom",
             "Email": "email@exemple.com"
         },
-        "Button": "Démarrer le chat",
+        "Button": "Accéder au chat",
         "Confirmed": "Chat prêt"
     },
     "Chat": {
@@ -25,7 +26,8 @@
         "Error": "Impossible de joindre l'assistant. Réessayez.",
         "RateLimit": "Trop de requêtes. Merci d'attendre un instant.",
         "StartHint": "Indiquez votre email pour commencer.",
-        "InvalidEmailDomain": "Merci d'utiliser un domaine email professionnel valide."
+        "InvalidEmailDomain": "Merci d'utiliser un domaine email professionnel valide.",
+        "ReadyHint": "Chat prêt. Vous pouvez commencer à écrire ci-dessous."
     },
     "Suggestions": {
         "Title": "Essayez l'une de ces questions",

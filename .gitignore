@@ -10,6 +10,20 @@ next-standalone.tar.gz
 !public/ebd95385d7154f45ba37d076b4efd008.txt
 .env*
 !.env.example
+.env.backup
+*.env.backup
+*.env.*.bak
+*.env.*.backup
+# Private keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+id_rsa
+id_ed25519
+id_rsa.pub
+id_ed25519.pub
 # TypeScript incremental build info (do not commit)
 *.tsbuildinfo
 litellm_config.yaml

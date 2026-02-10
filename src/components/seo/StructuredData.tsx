@@ -18,6 +18,7 @@ const StructuredData: React.FC<StructuredDataProps> = ({ data, nonce }) => {
           key={i}
           type="application/ld+json"
           nonce={nonce}
+          suppressHydrationWarning
           // We intentionally stringify here (object is plain JSON)
           dangerouslySetInnerHTML={{ __html: JSON.stringify(obj) }}
         />

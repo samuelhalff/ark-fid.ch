@@ -48,25 +48,26 @@ export default async function AgentPage({
       item: `https://ark-fid.ch${localePrefix}/`,
     },
     {
-      name: text("Title", "Instant quote assistant"),
+      name: text("Title", "Instant quote"),
       item: `https://ark-fid.ch${localePrefix}/agent/`,
     },
   ]);
 
   const chatStrings = {
     lead: {
-      title: text("Lead.Title", "Start with your email"),
+      title: text("Lead.Title", "Unlock chat"),
       description: text(
         "Lead.Description",
-        "We use it to follow up with a tailored quote. Other fields are optional."
+        "Add your email to access the chat.",
       ),
-      verificationLabel: text(
-        "Lead.VerificationLabel",
-        "Verification"
+      helper: text(
+        "Lead.Helper",
+        "We use it to send your estimate and follow up if needed.",
       ),
+      verificationLabel: text("Lead.VerificationLabel", "Verification"),
       verificationRequired: text(
         "Lead.VerificationRequired",
-        "Please complete the verification."
+        "Please complete the verification.",
       ),
       fields: {
         name: text("Lead.Fields.Name", "Name"),
@@ -83,18 +84,22 @@ export default async function AgentPage({
       placeholder: text("Chat.Placeholder", "Describe your request..."),
       send: text("Chat.Send", "Send"),
       thinking: text("Chat.Thinking", "Thinking..."),
-      error: text("Chat.Error", "We couldn't reach the assistant. Please try again."),
+      error: text(
+        "Chat.Error",
+        "We couldn't reach the assistant. Please try again.",
+      ),
       rateLimit: text(
         "Chat.RateLimit",
-        "Too many requests. Please wait a moment."
+        "Too many requests. Please wait a moment.",
       ),
-      startHint: text(
-        "Chat.StartHint",
-        "Enter a valid email to start the chat."
-      ),
+      startHint: text("Chat.StartHint", "Enter your email to start."),
       invalidEmailDomain: text(
         "Chat.InvalidEmailDomain",
-        "Please use a valid business email domain."
+        "Please use a valid business email domain.",
+      ),
+      readyHint: text(
+        "Chat.ReadyHint",
+        "Chat ready. You can start typing below.",
       ),
     },
     suggestions: {
@@ -102,7 +107,7 @@ export default async function AgentPage({
     },
     disclaimer: text(
       "Disclaimer",
-      "Responses are indicative and will be confirmed by a specialist."
+      "Responses are indicative and will be confirmed by a specialist.",
     ),
   } as const;
 
@@ -111,19 +116,13 @@ export default async function AgentPage({
       <StructuredData nonce={nonce} data={[breadcrumbJsonLd]} />
       <header className="max-w-3xl mx-auto text-center space-y-4 mb-10">
         <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold tracking-tight">
-          {text("Title", "Instant quote assistant")}
+          {text("Title", "Instant quote")}
         </h1>
         <p className="text-lg text-muted-foreground">
-          {text(
-            "Subtitle",
-            "Get an approximate quote and clear next steps in minutes."
-          )}
+          {text("Subtitle", "Get a quick estimate for your request.")}
         </p>
         <p className="text-sm text-muted-foreground">
-          {text(
-            "Intro",
-            "Describe your needs and our AI assistant will suggest services and guidance without being pushy."
-          )}
+          {text("Intro", "Describe what you need and receive the next steps.")}
         </p>
       </header>
 

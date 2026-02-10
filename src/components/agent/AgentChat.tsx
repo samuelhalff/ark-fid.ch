@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Card, CardContent } from "@/src/components/ui/card";
 import { Input } from "@/src/components/ui/input";
 import { Textarea } from "@/src/components/ui/textarea";
@@ -20,6 +22,11 @@ type ContactInfo = {
   email: string;
 };
 
+type LeadMeta = {
+  id: string;
+  token: string;
+};
+
 type TurnstileInstance = {
   render: (
     element: HTMLElement,
@@ -28,7 +35,7 @@ type TurnstileInstance = {
       callback: (token: string) => void;
       "expired-callback": () => void;
       "error-callback": () => void;
-    }
+    },
   ) => string;
   remove: (widgetId: string) => void;
 };
@@ -43,6 +50,7 @@ export type AgentChatStrings = {
   lead: {
     title: string;
     description: string;
+    helper: string;
     verificationLabel: string;
     verificationRequired: string;
     fields: {
@@ -64,6 +72,7 @@ export type AgentChatStrings = {
     rateLimit: string;
     startHint: string;
     invalidEmailDomain: string;
+    readyHint: string;
   };
   suggestions: {
     title: string;
@@ -80,6 +89,10 @@ const defaultContact: ContactInfo = {
 };
 
 const createId = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+const createSessionId = () => {
+  if (typeof window === "undefined") return createId();
+  return window.crypto?.randomUUID?.() ?? createId();
+};
 
 const isValidEmail = (value: string) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
@@ -94,30 +107,72 @@ export default function AgentChat({
   const [contact, setContact] = useState<ContactInfo>(defaultContact);
   const [leadConfirmed, setLeadConfirmed] = useState(false);
   const [confirmedEmail, setConfirmedEmail] = useState("");
+  const [leadMeta, setLeadMeta] = useState<LeadMeta>({ id: "", token: "" });
+  const [sessionId, setSessionId] = useState("");
   const [leadSubmitting, setLeadSubmitting] = useState(false);
-  const [leadModalOpen, setLeadModalOpen] = useState(false);
+  const [leadModalOpen, setLeadModalOpen] = useState(true);
   const [turnstileReady, setTurnstileReady] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileWidgetId, setTurnstileWidgetId] = useState<string | null>(
-    null
+    null,
   );
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [chatError, setChatError] = useState<string | null>(null);
+  const [modalError, setModalError] = useState<string | null>(null);
   const [rateLimited, setRateLimited] = useState(false);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [domainInvalid, setDomainInvalid] = useState(false);
+  const endRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const turnstileRef = useRef<HTMLDivElement | null>(null);
+  const lastSavedRef = useRef<string | null>(null);
 
   const turnstileSiteKey = (
     process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ""
   ).trim();
   const turnstileEnabled = turnstileSiteKey.length > 0;
 
-  const emailValid = useMemo(() => isValidEmail(contact.email), [contact.email]);
+  const emailValid = useMemo(
+    () => isValidEmail(contact.email),
+    [contact.email],
+  );
+
+  const normalizedEmail = useMemo(
+    () => contact.email.trim(),
+    [contact.email],
+  );
+  const normalizedName = useMemo(() => contact.name.trim(), [contact.name]);
+
+  const canConfirmLead = useMemo(() => {
+    return normalizedEmail.length > 0 && normalizedName.length > 0 && emailValid;
+  }, [emailValid, normalizedEmail, normalizedName]);
+
+  const leadReady = useMemo(() => {
+    if (!leadConfirmed) return false;
+    return (
+      normalizedEmail.length > 0 &&
+      emailValid &&
+      confirmedEmail.length > 0 &&
+      confirmedEmail === normalizedEmail &&
+      leadMeta.id.length > 0 &&
+      leadMeta.token.length > 0
+    );
+  }, [
+    confirmedEmail,
+    emailValid,
+    leadConfirmed,
+    leadMeta.id,
+    leadMeta.token,
+    normalizedEmail,
+  ]);
+
+  const canChat = useMemo(
+    () => leadReady && !domainInvalid,
+    [domainInvalid, leadReady],
+  );
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -128,6 +183,10 @@ export default function AgentChat({
         contact?: ContactInfo;
         messages?: Message[];
         leadConfirmed?: boolean;
+        confirmedEmail?: string;
+        leadId?: string;
+        leadToken?: string;
+        sessionId?: string;
       };
       if (saved.contact) {
         setContact({ ...defaultContact, ...saved.contact });
@@ -135,9 +194,37 @@ export default function AgentChat({
       if (Array.isArray(saved.messages)) {
         setMessages(saved.messages.slice(-MAX_MESSAGES));
       }
-      if (saved.leadConfirmed) {
+      const savedEmail =
+        typeof saved.confirmedEmail === "string"
+          ? saved.confirmedEmail
+          : saved.contact?.email;
+      const normalizedEmail = (savedEmail ?? "").trim();
+      const savedLeadId = typeof saved.leadId === "string" ? saved.leadId : "";
+      const savedLeadToken =
+        typeof saved.leadToken === "string" ? saved.leadToken : "";
+      const savedSessionId =
+        typeof saved.sessionId === "string" ? saved.sessionId : "";
+
+      if (
+        saved.leadConfirmed &&
+        isValidEmail(normalizedEmail) &&
+        savedLeadId &&
+        savedLeadToken
+      ) {
         setLeadConfirmed(true);
-        setConfirmedEmail(saved.contact?.email || "");
+        setConfirmedEmail(normalizedEmail);
+        setLeadMeta({ id: savedLeadId, token: savedLeadToken });
+        if (saved.contact?.email && saved.contact.email !== normalizedEmail) {
+          setContact((prev) => ({ ...prev, email: normalizedEmail }));
+        }
+      } else if (saved.leadConfirmed) {
+        setLeadConfirmed(false);
+        setConfirmedEmail("");
+        setLeadMeta({ id: "", token: "" });
+      }
+
+      if (savedSessionId) {
+        setSessionId(savedSessionId);
       }
     } catch {
       window.localStorage.removeItem(STORAGE_KEY);
@@ -150,26 +237,73 @@ export default function AgentChat({
       contact,
       messages: messages.slice(-MAX_MESSAGES),
       leadConfirmed,
+      confirmedEmail,
+      leadId: leadMeta.id,
+      leadToken: leadMeta.token,
+      sessionId,
     };
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  }, [contact, messages, leadConfirmed]);
+    try {
+      const serialized = JSON.stringify(payload);
+      if (lastSavedRef.current === serialized) return;
+      lastSavedRef.current = serialized;
+      window.localStorage.setItem(STORAGE_KEY, serialized);
+    } catch {
+      lastSavedRef.current = null;
+    }
+  }, [
+    contact,
+    confirmedEmail,
+    leadMeta.id,
+    leadMeta.token,
+    messages,
+    leadConfirmed,
+    sessionId,
+  ]);
 
   useEffect(() => {
+    if (!leadConfirmed) return;
     if (
-      !leadConfirmed ||
+      !normalizedEmail ||
+      !emailValid ||
       !confirmedEmail ||
-      !contact.email ||
-      contact.email === confirmedEmail
+      normalizedEmail !== confirmedEmail ||
+      !leadMeta.id ||
+      !leadMeta.token
     ) {
+      setLeadConfirmed(false);
+      setConfirmedEmail("");
+      setLeadMeta({ id: "", token: "" });
+    }
+  }, [
+    contact.email,
+    confirmedEmail,
+    emailValid,
+    leadConfirmed,
+    leadMeta.id,
+    leadMeta.token,
+    normalizedEmail,
+  ]);
+
+  useEffect(() => {
+    setDomainInvalid(false);
+    setChatError(null);
+    setModalError(null);
+  }, [contact.email]);
+
+  useEffect(() => {
+    if (leadReady) {
+      setLeadModalOpen(false);
       return;
     }
-    setLeadConfirmed(false);
-    setConfirmedEmail("");
-  }, [contact.email, confirmedEmail, leadConfirmed]);
+    setLeadModalOpen(true);
+  }, [leadReady]);
 
   useEffect(() => {
-    if (!scrollRef.current) return;
-    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    if (!endRef.current) return;
+    endRef.current.scrollIntoView({
+      behavior: sending ? "smooth" : "auto",
+      block: "end",
+    });
   }, [messages, sending]);
 
   useEffect(() => {
@@ -179,7 +313,7 @@ export default function AgentChat({
       return;
     }
     const existing = document.querySelector<HTMLScriptElement>(
-      'script[src^="https://challenges.cloudflare.com/turnstile/"]'
+      'script[src^="https://challenges.cloudflare.com/turnstile/"]',
     );
     if (existing) {
       existing.addEventListener("load", () => setTurnstileReady(true), {
@@ -188,7 +322,8 @@ export default function AgentChat({
       return;
     }
     const script = document.createElement("script");
-    script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+    script.src =
+      "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
     script.async = true;
     script.defer = true;
     script.onload = () => setTurnstileReady(true);
@@ -198,6 +333,7 @@ export default function AgentChat({
   useEffect(() => {
     if (!leadModalOpen) {
       setTurnstileToken("");
+      setModalError(null);
       if (turnstileWidgetId && window.turnstile) {
         window.turnstile.remove(turnstileWidgetId);
       }
@@ -210,13 +346,13 @@ export default function AgentChat({
       sitekey: turnstileSiteKey,
       callback: (token: string) => {
         setTurnstileToken(token);
-        setError(null);
+        setModalError(null);
       },
       "expired-callback": () => {
         setTurnstileToken("");
-        setError(strings.lead.verificationRequired);
+        setModalError(strings.lead.verificationRequired);
       },
-      "error-callback": () => setError(strings.lead.verificationRequired),
+      "error-callback": () => setModalError(strings.lead.verificationRequired),
     });
     setTurnstileWidgetId(widgetId);
   }, [
@@ -232,17 +368,13 @@ export default function AgentChat({
     if (!leadModalOpen) return;
     previousFocusRef.current = document.activeElement as HTMLElement | null;
     const focusable = modalRef.current?.querySelectorAll<HTMLElement>(
-      'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'
+      'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])',
     );
     const first = focusable?.[0];
     const last = focusable?.[focusable.length - 1];
     first?.focus();
 
     const handleKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setLeadModalOpen(false);
-        return;
-      }
       if (event.key === "Tab" && focusable && first && last) {
         const active = document.activeElement;
         if (event.shiftKey && active === first) {
@@ -262,57 +394,125 @@ export default function AgentChat({
     };
   }, [leadModalOpen]);
 
+  useEffect(() => {
+    if (leadModalOpen) {
+      setModalError(null);
+    }
+  }, [leadModalOpen]);
+
   const updateContact = (field: keyof ContactInfo) => (value: string) => {
     setContact((prev) => ({ ...prev, [field]: value }));
   };
 
+  const ensureSessionId = () => {
+    if (sessionId) return sessionId;
+    const nextSessionId = createSessionId();
+    setSessionId(nextSessionId);
+    return nextSessionId;
+  };
+
+  const getRequestContext = () => {
+    if (typeof window === "undefined") {
+      return {
+        pageUrl: "",
+        referrer: "",
+        utm: {
+          source: "",
+          medium: "",
+          campaign: "",
+          term: "",
+          content: "",
+        },
+      };
+    }
+    const pageUrl = window.location.href;
+    const url = new URL(pageUrl);
+    return {
+      pageUrl,
+      referrer: document.referrer || "",
+      utm: {
+        source: url.searchParams.get("utm_source") || "",
+        medium: url.searchParams.get("utm_medium") || "",
+        campaign: url.searchParams.get("utm_campaign") || "",
+        term: url.searchParams.get("utm_term") || "",
+        content: url.searchParams.get("utm_content") || "",
+      },
+    };
+  };
+
   const handleStart = async () => {
-    if (!emailValid) {
-      setError(strings.chat.startHint);
+    if (normalizedEmail !== contact.email || normalizedName !== contact.name) {
+      setContact((prev) => ({
+        ...prev,
+        email: normalizedEmail,
+        name: normalizedName,
+      }));
+    }
+    if (!canConfirmLead) {
+      setModalError(strings.chat.startHint);
       return;
     }
     if (turnstileEnabled && !turnstileToken) {
-      setError(strings.lead.verificationRequired);
+      setModalError(strings.lead.verificationRequired);
       return;
     }
-    setError(null);
+    const resolvedSessionId = ensureSessionId();
+    setModalError(null);
     setLeadSubmitting(true);
     try {
-      const res = await fetch("/api/agent/chat", {
+      const { pageUrl, referrer, utm } = getRequestContext();
+      const res = await fetch("/api/agent/chat/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        keepalive: true,
         body: JSON.stringify({
           ...contact,
+          email: normalizedEmail,
           messages: [],
           leadOnly: true,
-          leadMessage: strings.lead.description,
-          turnstileToken,
+          sessionId: resolvedSessionId,
+          pageUrl,
+          referrer,
+          utm,
+          ...(turnstileToken ? { turnstileToken } : {}),
         }),
       });
-      const payload = (await res.json()) as { error?: string };
+      const payload = (await res.json()) as {
+        error?: string;
+        leadId?: string;
+        leadToken?: string;
+      };
       if (!res.ok) {
         if (payload.error === "invalid_email_domain") {
-          setError(strings.chat.invalidEmailDomain);
+          setDomainInvalid(true);
+          setChatError(strings.chat.invalidEmailDomain);
+          setModalError(strings.chat.invalidEmailDomain);
           return;
         }
         if (
           payload.error === "turnstile_required" ||
           payload.error === "turnstile_failed"
         ) {
-          setError(strings.lead.verificationRequired);
+          setModalError(strings.lead.verificationRequired);
           return;
         }
-        setError(strings.chat.error);
+        setModalError(strings.chat.error);
+        return;
+      }
+      if (!payload.leadId || !payload.leadToken) {
+        setModalError(strings.chat.error);
         return;
       }
       setLeadConfirmed(true);
-      setConfirmedEmail(contact.email);
+      setConfirmedEmail(normalizedEmail);
+      setLeadMeta({ id: payload.leadId, token: payload.leadToken });
       setLeadModalOpen(false);
+      setModalError(null);
       inputRef.current?.focus();
     } catch {
-      setError(strings.chat.error);
+      setModalError(strings.chat.error);
     } finally {
       setLeadSubmitting(false);
     }
@@ -321,12 +521,17 @@ export default function AgentChat({
   const sendMessage = async (messageText?: string) => {
     const trimmed = (messageText ?? input).trim();
     if (!trimmed || sending) return;
-    if (!leadConfirmed || !emailValid) {
-      setError(strings.chat.startHint);
+    if (!canChat) {
+      setChatError(
+        domainInvalid
+          ? strings.chat.invalidEmailDomain
+          : strings.chat.startHint,
+      );
       return;
     }
+    const resolvedSessionId = ensureSessionId();
 
-    setError(null);
+    setChatError(null);
     setRateLimited(false);
     setSending(true);
     const nextMessage: Message = {
@@ -339,13 +544,22 @@ export default function AgentChat({
     setInput("");
 
     try {
-      const res = await fetch("/api/agent/chat", {
+      const { pageUrl, referrer, utm } = getRequestContext();
+      const res = await fetch("/api/agent/chat/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        keepalive: true,
         body: JSON.stringify({
           ...contact,
+          email: normalizedEmail,
+          leadId: leadMeta.id,
+          leadToken: leadMeta.token,
+          sessionId: resolvedSessionId,
+          pageUrl,
+          referrer,
+          utm,
           messages: nextMessages.map((message) => ({
             role: message.role,
             content: message.content,
@@ -355,14 +569,21 @@ export default function AgentChat({
 
       if (res.status === 429) {
         setRateLimited(true);
-        setError(strings.chat.rateLimit);
+        setChatError(strings.chat.rateLimit);
         return;
       }
 
       const payload = (await res.json()) as { reply?: string; error?: string };
       if (payload.error === "invalid_email_domain") {
+        setDomainInvalid(true);
+        setChatError(strings.chat.invalidEmailDomain);
+        return;
+      }
+      if (payload.error === "lead_required" || payload.error === "lead_invalid") {
         setLeadConfirmed(false);
-        setError(strings.chat.invalidEmailDomain);
+        setConfirmedEmail("");
+        setLeadMeta({ id: "", token: "" });
+        setChatError(strings.chat.startHint);
         return;
       }
       const reply = payload.reply ?? "";
@@ -374,7 +595,7 @@ export default function AgentChat({
         { id: createId(), role: "assistant", content: reply },
       ]);
     } catch {
-      setError(strings.chat.error);
+      setChatError(strings.chat.error);
     } finally {
       setSending(false);
     }
@@ -387,55 +608,46 @@ export default function AgentChat({
     }
   };
 
+  const handleLeadKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    if (canConfirmLead && !leadSubmitting && !leadConfirmed) {
+      void handleStart();
+    }
+  };
+
   return (
     <div className="grid gap-6">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between bg-muted/30 border border-border/40 rounded-2xl px-4 py-3">
-        <div>
-          <p className="text-sm font-semibold">{strings.lead.title}</p>
-          <p className="text-xs text-muted-foreground">
-            {strings.lead.description}
-          </p>
-        </div>
-        <Button
-          type="button"
-          onClick={() => setLeadModalOpen(true)}
-          disabled={leadConfirmed}
-          className="sm:w-auto w-full"
-        >
-          {leadConfirmed ? strings.lead.confirmed : strings.lead.button}
-        </Button>
-      </div>
-
       <Card>
         <CardContent className="p-0">
-          <div
-            ref={scrollRef}
-            className="max-h-[420px] min-h-[320px] overflow-y-auto p-6 space-y-4"
-            role="log"
-            aria-live="polite"
-          >
-            {messages.length === 0 && (
-              <div className="text-sm text-muted-foreground">
-                {strings.chat.startHint}
-              </div>
-            )}
+          <div className="p-6 space-y-5" role="log" aria-live="polite">
             {messages.map((message) => (
               <div
                 key={message.id}
                 className={cn(
                   "flex",
-                  message.role === "user" ? "justify-end" : "justify-start"
+                  message.role === "user" ? "justify-end" : "justify-start",
                 )}
               >
                 <div
                   className={cn(
-                    "rounded-2xl px-4 py-3 text-sm leading-relaxed max-w-[75%] whitespace-pre-wrap",
+                    "rounded-2xl px-4 py-3 text-sm leading-relaxed max-w-[75%]",
                     message.role === "user"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted/60 text-foreground"
+                      ? "bg-primary text-primary-foreground whitespace-pre-wrap"
+                      : "bg-muted/60 text-foreground",
                   )}
                 >
-                  {message.content}
+                  {message.role === "assistant" ? (
+                    <div className="prose prose-sm max-w-none text-foreground dark:prose-invert prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-p:text-foreground prose-li:text-foreground prose-strong:text-foreground prose-a:text-foreground">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {message.content}
+                      </ReactMarkdown>
+                    </div>
+                  ) : (
+                    message.content
+                  )}
                 </div>
               </div>
             ))}
@@ -446,16 +658,17 @@ export default function AgentChat({
                 </div>
               </div>
             )}
+            <div ref={endRef} />
           </div>
-          <div className="border-t px-6 py-4 space-y-3">
-            {error && (
+          <div className="sticky bottom-0 z-10 border-t bg-card/95 px-6 py-4 space-y-3 backdrop-blur supports-[backdrop-filter]:bg-card/80">
+            {chatError && (
               <div
                 className={cn(
                   "text-xs",
-                  rateLimited ? "text-amber-600" : "text-red-500"
+                  rateLimited ? "text-amber-600" : "text-red-500",
                 )}
               >
-                {error}
+                {chatError}
               </div>
             )}
             <div className="flex gap-3">
@@ -467,130 +680,152 @@ export default function AgentChat({
                 placeholder={strings.chat.placeholder}
                 rows={3}
                 className="resize-none"
-                disabled={!leadConfirmed || sending}
+                disabled={!canChat || sending}
               />
               <Button
                 type="button"
                 onClick={() => void sendMessage()}
-                disabled={!leadConfirmed || sending || !input.trim()}
+                disabled={!canChat || sending || !input.trim()}
                 className="self-end"
               >
                 {strings.chat.send}
               </Button>
             </div>
-            {suggestions.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-xs font-semibold text-muted-foreground">
-                  {strings.suggestions.title}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {suggestions.map((item) => (
-                    <button
-                      key={item}
-                      type="button"
-                      onClick={() => void sendMessage(item)}
-                      className="rounded-full border px-3 py-1 text-xs text-muted-foreground hover:text-foreground hover:border-primary/50 hover:bg-primary/5 transition-colors"
-                      disabled={!leadConfirmed || sending}
-                    >
-                      {item}
-                    </button>
-                  ))}
+            {canChat &&
+              suggestions.length > 0 &&
+              messages.length === 0 &&
+              !input.trim() && (
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold text-muted-foreground">
+                    {strings.suggestions.title}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {suggestions.map((item) => (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => void sendMessage(item)}
+                        className="rounded-full border px-3 py-1 text-xs text-muted-foreground hover:text-foreground hover:border-primary/50 hover:bg-primary/5 transition-colors"
+                        disabled={sending}
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </CardContent>
       </Card>
+
       {leadModalOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-10"
           role="dialog"
           aria-modal="true"
           aria-labelledby="lead-modal-title"
-          onClick={() => setLeadModalOpen(false)}
         >
           <div
-            className="w-full max-w-lg rounded-2xl bg-background p-6 shadow-xl border border-border/60"
-            onClick={(event) => event.stopPropagation()}
+            className="w-full max-w-[340px] rounded-2xl bg-background p-5 shadow-xl border border-foreground/10 dark:border-foreground/30"
             ref={modalRef}
           >
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex items-start justify-between gap-3">
               <div>
-                <p
-                  id="lead-modal-title"
-                  className="text-base font-semibold"
-                >
+                <p id="lead-modal-title" className="text-base font-semibold">
                   {strings.lead.title}
                 </p>
                 <p className="text-sm text-muted-foreground mt-1">
                   {strings.lead.description}
                 </p>
+                <p className="text-xs text-muted-foreground mt-2">
+                  {strings.lead.helper}
+                </p>
               </div>
-              <button
-                type="button"
-                onClick={() => setLeadModalOpen(false)}
-                className="text-muted-foreground hover:text-foreground"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">×</span>
-              </button>
             </div>
-            <div className="flex flex-col gap-4 mt-4">
-              <label className="flex flex-col gap-2 text-sm font-medium">
-                <span className="flex items-center gap-1">
-                  {strings.lead.fields.name}
-                </span>
-                <Input
-                  value={contact.name}
-                  onChange={(event) =>
-                    updateContact("name")(event.target.value)
-                  }
-                  placeholder={strings.lead.placeholders.name}
-                  autoComplete="name"
-                  className="border-color-primary"
-                />
-              </label>
-              <label className="flex flex-col gap-2 text-sm font-medium">
-                <span className="flex items-center gap-1">
+            <div className="grid gap-4 mt-4">
+              <label className="grid gap-1.5 text-sm font-medium">
+                <span>
                   {strings.lead.fields.email}
-                  <span className="text-green-600" aria-hidden="true">
-                    *
-                  </span>
+                  <span className="text-green-600 ml-0.5">*</span>
                 </span>
                 <Input
                   value={contact.email}
                   onChange={(event) =>
                     updateContact("email")(event.target.value)
                   }
+                  onKeyDown={handleLeadKeyDown}
                   placeholder={strings.lead.placeholders.email}
                   type="email"
                   required
-                  autoComplete="email"
+                  className="border-color-primary"
+                />
+              </label>
+              <label className="grid gap-1.5 text-sm font-medium">
+                <span>
+                  {strings.lead.fields.name}
+                  <span className="text-green-600 ml-0.5">*</span>
+                </span>
+                <Input
+                  value={contact.name}
+                  onChange={(event) =>
+                    updateContact("name")(event.target.value)
+                  }
+                  onKeyDown={handleLeadKeyDown}
+                  placeholder={strings.lead.placeholders.name}
+                  required
                   className="border-color-primary"
                 />
               </label>
             </div>
             {turnstileEnabled && (
-              <div className="mt-4 space-y-2">
+              <div className="mt-3 space-y-2">
                 <p className="text-xs font-semibold text-muted-foreground">
                   {strings.lead.verificationLabel}
                 </p>
-                <div ref={turnstileRef} />
+                <div className="flex justify-center">
+                  <div ref={turnstileRef} className="w-full max-w-[300px]" />
+                </div>
               </div>
             )}
-            {error && (
-              <p className="text-xs text-red-500 mt-3">{error}</p>
+            {modalError && (
+              <p className="text-xs text-red-500 mt-3">{modalError}</p>
             )}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 mt-4">
+            <div className="flex flex-col gap-3 mt-4">
               <Button
                 type="button"
                 onClick={handleStart}
-                disabled={!emailValid || leadSubmitting || leadConfirmed}
-                className="sm:w-auto w-full"
+                disabled={!canConfirmLead || leadSubmitting || leadConfirmed}
+                className="w-full"
               >
-                {leadSubmitting ? strings.chat.thinking : strings.lead.button}
+                {leadSubmitting ? (
+                  <span className="inline-flex items-center gap-2">
+                    <svg
+                      className="animate-spin size-4"
+                      viewBox="0 0 24 24"
+                      aria-hidden
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                        fill="none"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                      />
+                    </svg>
+                    {strings.chat.thinking}
+                  </span>
+                ) : (
+                  strings.lead.button
+                )}
               </Button>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-muted-foreground text-center">
                 {strings.disclaimer}
               </p>
             </div>

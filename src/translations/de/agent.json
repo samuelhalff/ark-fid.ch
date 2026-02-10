@@ -3,8 +3,9 @@
     "Subtitle": "Erhalten Sie eine schnelle Schätzung für Ihre Anfrage.",
     "Intro": "Beschreiben Sie Ihr Anliegen und erhalten Sie die nächsten Schritte.",
     "Lead": {
-        "Title": "Ihre E-Mail: Bitte geben Sie Ihre E-Mail an, um das Sofortangebot zu nutzen.",
-        "Description": "Wir nutzen sie, um die Schätzung zu senden und ggf. nachzufassen.",
+        "Title": "Chat freischalten",
+        "Description": "Geben Sie Ihre E-Mail ein, um den Chat zu nutzen.",
+        "Helper": "Wir nutzen sie, um Ihre Schätzung zu senden und bei Bedarf nachzufassen.",
         "VerificationLabel": "Bestätigung",
         "VerificationRequired": "Bitte schließen Sie die Verifizierung ab.",
         "Fields": {
@@ -15,7 +16,7 @@
             "Name": "Ihr Name",
             "Email": "email@beispiel.com"
         },
-        "Button": "Chat starten",
+        "Button": "Chat freischalten",
         "Confirmed": "Chat bereit"
     },
     "Chat": {
@@ -25,7 +26,8 @@
         "Error": "Der Assistent ist derzeit nicht erreichbar. Bitte versuchen Sie es erneut.",
         "RateLimit": "Zu viele Anfragen. Bitte kurz warten.",
         "StartHint": "Geben Sie Ihre E-Mail ein, um zu starten.",
-        "InvalidEmailDomain": "Bitte verwenden Sie eine gültige geschäftliche E-Mail-Domain."
+        "InvalidEmailDomain": "Bitte verwenden Sie eine gültige geschäftliche E-Mail-Domain.",
+        "ReadyHint": "Chat bereit. Sie können unten losschreiben."
     },
     "Suggestions": {
         "Title": "Probieren Sie eine dieser Fragen",

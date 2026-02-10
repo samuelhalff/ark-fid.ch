@@ -242,8 +242,14 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
             id="ga4-src"
             src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
             strategy="afterInteractive"
+            suppressHydrationWarning
           />
-          <Script id="ga4-init" nonce={nonce} strategy="afterInteractive">
+          <Script
+            id="ga4-init"
+            nonce={nonce}
+            strategy="afterInteractive"
+            suppressHydrationWarning
+          >
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);} 

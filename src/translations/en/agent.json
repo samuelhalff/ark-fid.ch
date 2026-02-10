@@ -1,10 +1,11 @@
 {
     "Title": "Instant quote",
     "Subtitle": "Get a quick estimate for your request.",
-    "Intro": "Describe what you need and we will reply with the next steps.",
+    "Intro": "Describe what you need and receive the next steps.",
     "Lead": {
-        "Title": "Your email: please enter your email to use the instant quote tool.",
-        "Description": "We use it to send your estimate and follow up if needed.",
+        "Title": "Unlock chat",
+        "Description": "Add your email to access the chat.",
+        "Helper": "We use it to send your estimate and follow up if needed.",
         "VerificationLabel": "Verification",
         "VerificationRequired": "Please complete the verification.",
         "Fields": {
@@ -15,7 +16,7 @@
             "Name": "Your name",
             "Email": "email@example.com"
         },
-        "Button": "Start chat",
+        "Button": "Unlock chat",
         "Confirmed": "Chat ready"
     },
     "Chat": {
@@ -25,7 +26,8 @@
         "Error": "We couldn't reach the assistant. Please try again.",
         "RateLimit": "Too many requests. Please wait a moment.",
         "StartHint": "Enter your email to start.",
-        "InvalidEmailDomain": "Please use a valid business email domain."
+        "InvalidEmailDomain": "Please use a valid business email domain.",
+        "ReadyHint": "Chat ready. You can start typing below."
     },
     "Suggestions": {
         "Title": "Try one of these questions",

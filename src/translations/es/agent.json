@@ -3,8 +3,9 @@
     "Subtitle": "Obtén una estimación rápida para tu solicitud.",
     "Intro": "Describe tu necesidad y recibe los próximos pasos.",
     "Lead": {
-        "Title": "Tu correo: indica tu correo para usar nuestra herramienta de presupuesto instantáneo.",
-        "Description": "Lo usamos para enviar la estimación y darte seguimiento si hace falta.",
+        "Title": "Abrir el chat",
+        "Description": "Introduce tu correo para acceder al chat.",
+        "Helper": "Lo usamos para enviarte la estimación y contactarte si es necesario.",
         "VerificationLabel": "Verificación",
         "VerificationRequired": "Completa la verificación.",
         "Fields": {
@@ -15,7 +16,7 @@
             "Name": "Tu nombre",
             "Email": "correo@ejemplo.com"
         },
-        "Button": "Iniciar chat",
+        "Button": "Abrir el chat",
         "Confirmed": "Chat listo"
     },
     "Chat": {
@@ -25,7 +26,8 @@
         "Error": "No pudimos contactar al asistente. Inténtalo de nuevo.",
         "RateLimit": "Demasiadas solicitudes. Espera un momento.",
         "StartHint": "Introduce tu correo para empezar.",
-        "InvalidEmailDomain": "Utiliza un dominio de correo profesional válido."
+        "InvalidEmailDomain": "Utiliza un dominio de correo profesional válido.",
+        "ReadyHint": "Chat listo. Puedes empezar a escribir abajo."
     },
     "Suggestions": {
         "Title": "Prueba una de estas preguntas",

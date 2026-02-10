@@ -43,7 +43,7 @@ export default async function PrivacyPage({
         </p>
         <p className="text-xs dark:text-white mb-2">
           {r("Privacy.LastUpdated", "Last updated")}:{" "}
-          {formatDate("2025-08-25", locale)}
+          {formatDate("2026-02-09", locale)}
         </p>
         <Separator className="mt-6" />
       </div>

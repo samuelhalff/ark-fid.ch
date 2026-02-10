@@ -172,6 +172,7 @@ Added for the new AI agent chat page. Ensure all locales include:
 - `agent:Intro`
 - `agent:Lead.Title`
 - `agent:Lead.Description`
+- `agent:Lead.Helper`
 - `agent:Lead.VerificationLabel`
 - `agent:Lead.VerificationRequired`
 - `agent:Lead.Fields.Name`
@@ -187,6 +188,7 @@ Added for the new AI agent chat page. Ensure all locales include:
 - `agent:Chat.RateLimit`
 - `agent:Chat.StartHint`
 - `agent:Chat.InvalidEmailDomain`
+- `agent:Chat.ReadyHint`
 - `agent:Suggestions.Title`
 - `agent:Suggestions.Items`
 - `agent:Disclaimer`

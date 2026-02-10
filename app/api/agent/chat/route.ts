@@ -1,12 +1,22 @@
 import { NextResponse } from "next/server";
-import { DefaultAzureCredential } from "@azure/identity";
-import { AIProjectClient } from "@azure/ai-projects";
-import type { ResponseInputItem } from "openai/resources/responses/responses";
+import { ClientSecretCredential } from "@azure/identity";
+import { createHash, randomBytes, timingSafeEqual } from "crypto";
 import { z } from "zod";
 import { promises as dns } from "dns";
+import {
+  extractResponseText,
+  getAzureCredentialFromEnv,
+  getFoundryAccessToken,
+  isLegacyAssistantId,
+  parseAgentReference,
+  resolveFoundryAgentReference,
+  type FoundryAgentReferenceCacheEntry,
+} from "@/src/lib/ai/foundryAgent";
 
 export const runtime = "nodejs";
 export const revalidate = 0;
+
+type Role = "user" | "assistant";
 
 const RATE_LIMIT_WINDOW_MS = Number.parseInt(
   process.env.AZURE_AGENT_RATE_LIMIT_WINDOW_MS || "600000",
@@ -18,6 +28,31 @@ const RATE_LIMIT_MAX = Number.parseInt(
 );
 
 const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
+const agentReferenceCache = new Map<string, FoundryAgentReferenceCacheEntry>();
+
+const emptyToUndefined = (value: unknown) => {
+  if (typeof value === "string" && value.trim() === "") return undefined;
+  return value;
+};
+
+const optionalTrimmedString = (max: number) =>
+  z.preprocess(emptyToUndefined, z.string().trim().max(max).optional());
+
+const trimmedEmail = () =>
+  z.preprocess(
+    (value) => (typeof value === "string" ? value.trim() : value),
+    z.string().email()
+  );
+
+const utmSchema = z
+  .object({
+    source: optionalTrimmedString(160),
+    medium: optionalTrimmedString(160),
+    campaign: optionalTrimmedString(200),
+    term: optionalTrimmedString(160),
+    content: optionalTrimmedString(200),
+  })
+  .optional();
 
 const messageSchema = z.object({
   role: z.enum(["user", "assistant"]),
@@ -26,12 +61,23 @@ const messageSchema = z.object({
 
 const requestSchema = z
   .object({
-    email: z.string().email(),
-    name: z.string().trim().max(120).optional(),
+    email: trimmedEmail(),
+    name: optionalTrimmedString(120),
+    companyName: optionalTrimmedString(160),
+    phone: optionalTrimmedString(80),
     messages: z.array(messageSchema).max(12).optional(),
     leadOnly: z.boolean().optional(),
-    leadMessage: z.string().trim().max(240).optional(),
-    turnstileToken: z.string().trim().min(1).optional(),
+    leadMessage: optionalTrimmedString(240),
+    leadId: optionalTrimmedString(120),
+    leadToken: optionalTrimmedString(240),
+    sessionId: optionalTrimmedString(160),
+    pageUrl: optionalTrimmedString(600),
+    referrer: optionalTrimmedString(600),
+    utm: utmSchema,
+    turnstileToken: z.preprocess(
+      emptyToUndefined,
+      z.string().trim().min(1).optional()
+    ),
   })
   .superRefine((value, ctx) => {
     const messages = value.messages ?? [];
@@ -41,6 +87,15 @@ const requestSchema = z
         message: "messages must include at least one item",
         path: ["messages"],
       });
+    }
+    if (!value.leadOnly) {
+      if (!value.leadId || !value.leadToken) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "leadId and leadToken required",
+          path: ["leadId"],
+        });
+      }
     }
   });
 
@@ -53,6 +108,32 @@ const getRateLimitKey = (request: Request) => {
     return forwarded.split(",")[0]?.trim() || "unknown";
   }
   return request.headers.get("x-real-ip") || "unknown";
+};
+
+const normalizeOrigin = (origin: string) => origin.replace(/\/+$/, "");
+
+const getAllowedOrigins = () => {
+  const configured = (getEnv("AGENT_CHAT_ALLOWED_ORIGINS") || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+  const defaults = [getEnv("NEXT_PUBLIC_SITE_URL"), "https://ark-fid.ch"].filter(
+    Boolean
+  );
+  const candidates = [...defaults, ...configured].map(normalizeOrigin);
+  if (process.env.NODE_ENV !== "production") {
+    candidates.push("http://localhost:3000", "http://localhost:5000");
+  }
+  return new Set(candidates);
+};
+
+const allowedOrigins = getAllowedOrigins();
+
+const enforceOrigin = (request: Request) => {
+  if (process.env.NODE_ENV !== "production") return true;
+  const origin = request.headers.get("origin");
+  if (!origin) return true;
+  return allowedOrigins.has(normalizeOrigin(origin));
 };
 
 const applyRateLimit = (key: string) => {
@@ -75,6 +156,22 @@ const applyRateLimit = (key: string) => {
 };
 
 const FORMSPARK_ACTION_URL = process.env.FORMSPARK_ACTION_URL;
+const GRAPH_SCOPE = "https://graph.microsoft.com/.default";
+const GRAPH_TIMEOUT_MS = Number.parseInt(
+  process.env.MSGRAPH_TIMEOUT_MS || "6500",
+  10
+);
+const GRAPH_CACHE_TTL_MS = 10 * 60 * 1000;
+const SP_SITE_HOSTNAME = (
+  process.env.SP_SITE_HOSTNAME || "arkfiduciaire.sharepoint.com"
+).trim();
+const SP_SITE_PATH = (process.env.SP_SITE_PATH || "").trim();
+const SP_SITE_ID = (process.env.SP_SITE_ID || "").trim();
+const SP_LEADS_LIST_ID = (process.env.SP_LEADS_LIST_ID || "").trim();
+const SP_LEADS_LIST_NAME = (process.env.SP_LEADS_LIST_NAME || "").trim();
+const SP_MESSAGES_LIST_ID = (process.env.SP_MESSAGES_LIST_ID || "").trim();
+const SP_MESSAGES_LIST_NAME = (process.env.SP_MESSAGES_LIST_NAME || "").trim();
+const LEAD_TOKEN_SECRET = (process.env.AGENT_LEAD_TOKEN_SECRET || "").trim();
 const DOMAIN_VALIDATION_TTL_MS = 12 * 60 * 60 * 1000;
 const DOMAIN_VALIDATION_TIMEOUT_MS = 3500;
 const DOMAIN_VALIDATION_MAX_ENTRIES = 400;
@@ -93,86 +190,429 @@ const domainValidationCache = new Map<
 >();
 const DEBUG_VALIDATION = process.env.DEBUG_AGENT === "1";
 
-const extractResponseText = (response: unknown): string => {
-  if (!response || typeof response !== "object") return "";
-  const candidate = response as Record<string, any>;
-  if (typeof candidate.output_text === "string") return candidate.output_text;
-  if (Array.isArray(candidate.output)) {
-    for (const item of candidate.output) {
-      if (item?.type === "output_text" && typeof item.text === "string") {
-        return item.text;
-      }
-      if (item?.type === "text" && typeof item.text === "string") {
-        return item.text;
-      }
-      if (item?.type === "message" && Array.isArray(item.content)) {
-        for (const content of item.content) {
-          if (content?.type === "output_text" && typeof content.text === "string") {
-            return content.text;
-          }
-          if (content?.type === "text" && content.text) {
-            return typeof content.text === "string"
-              ? content.text
-              : content.text.value || "";
-          }
-        }
-      }
-    }
-  }
-  if (candidate.output?.content) {
-    for (const content of candidate.output.content) {
-      if (content?.type === "output_text" && typeof content.text === "string") {
-        return content.text;
-      }
-      if (content?.type === "text" && content.text) {
-        return typeof content.text === "string"
-          ? content.text
-          : content.text.value || "";
-      }
-    }
-  }
-  if (candidate.choices?.[0]?.message?.content) {
-    return candidate.choices[0].message.content;
-  }
-  return "";
+const leadFieldMap = {
+  title: getEnv("SP_LEADS_FIELD_TITLE", "Title").trim(),
+  email: getEnv("SP_LEADS_FIELD_EMAIL", "Email").trim(),
+  tokenHash: getEnv("SP_LEADS_FIELD_TOKEN_HASH", "LeadTokenHash").trim(),
+  transcript: getEnv("SP_LEADS_FIELD_TRANSCRIPT", "Messages").trim(),
+  name: getEnv("SP_LEADS_FIELD_NAME", "LeadName").trim(),
+  companyName: getEnv("SP_LEADS_FIELD_COMPANY", "LeadCompany").trim(),
+  phone: getEnv("SP_LEADS_FIELD_PHONE", "LeadPhone").trim(),
+  status: getEnv("SP_LEADS_FIELD_STATUS", "LeadStatus").trim(),
+  source: getEnv("SP_LEADS_FIELD_SOURCE", "LeadSource").trim(),
+  sessionId: getEnv("SP_LEADS_FIELD_SESSION_ID", "LeadSessionId").trim(),
+  pageUrl: getEnv("SP_LEADS_FIELD_PAGE_URL", "LeadPageUrl").trim(),
+  referrer: getEnv("SP_LEADS_FIELD_REFERRER", "LeadReferrer").trim(),
+  utmSource: getEnv("SP_LEADS_FIELD_UTM_SOURCE", "LeadUtmSource").trim(),
+  utmMedium: getEnv("SP_LEADS_FIELD_UTM_MEDIUM", "LeadUtmMedium").trim(),
+  utmCampaign: getEnv("SP_LEADS_FIELD_UTM_CAMPAIGN", "LeadUtmCampaign").trim(),
+  utmTerm: getEnv("SP_LEADS_FIELD_UTM_TERM", "LeadUtmTerm").trim(),
+  utmContent: getEnv("SP_LEADS_FIELD_UTM_CONTENT", "LeadUtmContent").trim(),
+  lastMessageAt: getEnv("SP_LEADS_FIELD_LAST_MESSAGE_AT", "LeadLastMessageAt").trim(),
+  lastUserMessage: getEnv(
+    "SP_LEADS_FIELD_LAST_USER_MESSAGE",
+    "LeadLastUserMessage"
+  ).trim(),
+  lastAssistantMessage: getEnv(
+    "SP_LEADS_FIELD_LAST_ASSISTANT_MESSAGE",
+    "LeadLastAssistantMessage"
+  ).trim(),
+  initialMessage: getEnv("SP_LEADS_FIELD_INITIAL_MESSAGE", "LeadInitialMessage").trim(),
+};
+
+const messageFieldMap = {
+  title: getEnv("SP_MESSAGES_FIELD_TITLE", "Title").trim(),
+  leadId: getEnv("SP_MESSAGES_FIELD_LEAD_ID", "LeadId").trim(),
+  role: getEnv("SP_MESSAGES_FIELD_ROLE", "Role").trim(),
+  content: getEnv("SP_MESSAGES_FIELD_CONTENT", "Content").trim(),
+  timestamp: getEnv("SP_MESSAGES_FIELD_TIMESTAMP", "Timestamp").trim(),
+  sessionId: getEnv("SP_MESSAGES_FIELD_SESSION_ID", "SessionId").trim(),
+};
+
+type GraphTokenCache = { token: string; expiresAt: number };
+const graphTokenCache: GraphTokenCache = { token: "", expiresAt: 0 };
+const graphSiteCache = { id: "", expiresAt: 0 };
+const graphListCache = new Map<string, { id: string; expiresAt: number }>();
+
+const buildSystemPrompt = (data: z.infer<typeof requestSchema>) => {
+  const profile = [
+    data.name ? `Name: ${data.name}` : null,
+    data.email ? `Email: ${data.email}` : null,
+    data.companyName ? `Company: ${data.companyName}` : null,
+    data.phone ? `Phone: ${data.phone}` : null,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  return [
+    "You are Ark Fiduciaire's assistant.",
+    "Provide an approximate quote and suggest relevant services based on the request.",
+    "Keep the tone commercial but not pushy.",
+    "Keep messages short and easy to scan.",
+    "Offer brief next steps and ask 2–4 clarifying questions only when useful.",
+    "Ask in a friendly, non-interview tone; explain that the info helps refine the assessment.",
+    "When relevant, ask about: company/association name, seat (city/canton), industry, whether there is a foreign parent or activity, and the goal in Switzerland.",
+    "For later tasks, explain what documents or information would be required.",
+    "Always end with clear pricing per topic/service, showing monthly and annual cost.",
+    "Format pricing as: Service — CHF X/month (CHF Y/year).",
+    profile ? `Client details:\n${profile}` : null,
+  ]
+    .filter(Boolean)
+    .join("\n");
 };
 
 const buildConversationItems = (
   data: z.infer<typeof requestSchema>,
   messages: z.infer<typeof messageSchema>[]
-): ResponseInputItem[] => {
-  const profile = [
-    data.name ? `Name: ${data.name}` : null,
-    data.email ? `Email: ${data.email}` : null,
-  ]
-    .filter(Boolean)
-    .join("\n");
-
-  const systemPrompt = [
-    "You are Ark Fiduciaire's assistant.",
-    "Provide an approximate quote and suggest relevant services based on the request.",
-    "Keep the tone commercial but not pushy.",
-    "Offer brief next steps and ask clarifying questions when needed.",
-    "For later tasks, explain what documents or information would be required.",
-    profile ? `Client details:\n${profile}` : null,
-  ]
-    .filter(Boolean)
-    .join("\n");
-
-  const toInputMessage = (
-    role: "user" | "assistant" | "system",
-    content: string
-  ): ResponseInputItem =>
-    ({
-      type: "message",
-      role,
-      content,
-    } as const);
-
+) => {
+  const systemPrompt = buildSystemPrompt(data);
   return [
-    toInputMessage("system", systemPrompt),
-    ...messages.map((message) => toInputMessage(message.role, message.content)),
+    {
+      type: "message",
+      role: "system",
+      content: systemPrompt,
+    },
+    ...messages.map((message) => ({
+      type: "message",
+      role: message.role,
+      content: message.content,
+    })),
   ];
+};
+
+const normalizeSitePath = (path: string) => {
+  const trimmed = path.trim();
+  if (!trimmed) return "";
+  const withSlash = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+  return withSlash.replace(/\/+$/, "");
+};
+
+const isSharePointConfigured = () => {
+  const siteReady = Boolean(SP_SITE_ID || (SP_SITE_HOSTNAME && SP_SITE_PATH));
+  const leadsReady = Boolean(SP_LEADS_LIST_ID || SP_LEADS_LIST_NAME);
+  return siteReady && leadsReady;
+};
+
+const isMessagesListConfigured = () =>
+  Boolean(SP_MESSAGES_LIST_ID || SP_MESSAGES_LIST_NAME);
+
+const getGraphCredential = () => {
+  const tenantId = (process.env.MSGRAPH_TENANT_ID || "").trim();
+  const clientId = (process.env.MSGRAPH_CLIENT_ID || "").trim();
+  const clientSecret = (process.env.MSGRAPH_CLIENT_SECRET || "").trim();
+  if (tenantId && clientId && clientSecret) {
+    return new ClientSecretCredential(tenantId, clientId, clientSecret);
+  }
+  return getAzureCredentialFromEnv();
+};
+
+const getGraphAccessToken = async () => {
+  const now = Date.now();
+  if (graphTokenCache.token && graphTokenCache.expiresAt - 60_000 > now) {
+    return graphTokenCache.token;
+  }
+  const credential = getGraphCredential();
+  const token = await credential.getToken(GRAPH_SCOPE);
+  if (!token?.token) {
+    throw new Error("Graph token acquisition failed");
+  }
+  graphTokenCache.token = token.token;
+  graphTokenCache.expiresAt =
+    token.expiresOnTimestamp ?? now + GRAPH_CACHE_TTL_MS;
+  return token.token;
+};
+
+type GraphRequestOptions = Omit<RequestInit, "body" | "headers"> & {
+  body?: Record<string, unknown> | string;
+  headers?: Record<string, string>;
+};
+
+const graphRequestJson = async (
+  path: string,
+  options: GraphRequestOptions = {}
+) => {
+  const token = await getGraphAccessToken();
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), GRAPH_TIMEOUT_MS);
+  const headers = new Headers(options.headers);
+  headers.set("Accept", "application/json");
+  headers.set("Authorization", `Bearer ${token}`);
+  let resolvedBody: BodyInit | undefined;
+  if (options.body && typeof options.body !== "string") {
+    resolvedBody = JSON.stringify(options.body);
+    headers.set("Content-Type", "application/json");
+  } else if (typeof options.body === "string") {
+    resolvedBody = options.body;
+  }
+  const url = path.startsWith("http")
+    ? path
+    : `https://graph.microsoft.com/v1.0${path}`;
+  try {
+    const res = await fetch(url, {
+      ...options,
+      headers,
+      body: resolvedBody,
+      signal: controller.signal,
+    });
+    const text = await res.text();
+    if (!res.ok) {
+      const error = new Error(
+        `Graph error ${res.status}: ${text.slice(0, 300)}`
+      );
+      (error as any).status = res.status;
+      throw error;
+    }
+    return text ? JSON.parse(text) : {};
+  } finally {
+    clearTimeout(timeout);
+  }
+};
+
+const getSharePointSiteId = async () => {
+  if (SP_SITE_ID) return SP_SITE_ID;
+  if (graphSiteCache.id && graphSiteCache.expiresAt > Date.now()) {
+    return graphSiteCache.id;
+  }
+  const path = normalizeSitePath(SP_SITE_PATH);
+  if (!path) {
+    throw new Error("missing_sharepoint_site");
+  }
+  const site = await graphRequestJson(
+    `/sites/${SP_SITE_HOSTNAME}:${path}`
+  );
+  if (!site?.id) {
+    throw new Error("sharepoint_site_lookup_failed");
+  }
+  graphSiteCache.id = site.id;
+  graphSiteCache.expiresAt = Date.now() + GRAPH_CACHE_TTL_MS;
+  return site.id as string;
+};
+
+const getSharePointListId = async (
+  listName: string,
+  listId: string,
+  cacheKey: string
+) => {
+  if (listId) return listId;
+  if (!listName) {
+    throw new Error("missing_sharepoint_list");
+  }
+  const cached = graphListCache.get(cacheKey);
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.id;
+  }
+  const siteId = await getSharePointSiteId();
+  const lists = await graphRequestJson(
+    `/sites/${siteId}/lists?$select=id,name&$top=200`
+  );
+  const match = Array.isArray(lists?.value)
+    ? lists.value.find(
+        (list: any) =>
+          typeof list?.name === "string" &&
+          list.name.toLowerCase() === listName.toLowerCase()
+      )
+    : undefined;
+  if (!match?.id) {
+    throw new Error(`sharepoint_list_not_found:${listName}`);
+  }
+  graphListCache.set(cacheKey, {
+    id: match.id,
+    expiresAt: Date.now() + GRAPH_CACHE_TTL_MS,
+  });
+  return match.id as string;
+};
+
+const getLeadsListId = async () =>
+  getSharePointListId(SP_LEADS_LIST_NAME, SP_LEADS_LIST_ID, "leads");
+
+const getMessagesListId = async () =>
+  getSharePointListId(
+    SP_MESSAGES_LIST_NAME,
+    SP_MESSAGES_LIST_ID,
+    "messages"
+  );
+
+const setLeadField = (
+  fields: Record<string, unknown>,
+  key: string,
+  value: unknown
+) => {
+  if (!key) return;
+  if (value === undefined || value === null) return;
+  if (typeof value === "string" && value.trim() === "") return;
+  fields[key] = value;
+};
+
+const hashLeadToken = (token: string) => {
+  const hash = createHash("sha256");
+  if (LEAD_TOKEN_SECRET) {
+    hash.update(LEAD_TOKEN_SECRET);
+    hash.update("|");
+  }
+  hash.update(token);
+  return hash.digest("hex");
+};
+
+const safeEqualHex = (left: string, right: string) => {
+  if (!left || !right) return false;
+  try {
+    const leftBuf = Buffer.from(left, "hex");
+    const rightBuf = Buffer.from(right, "hex");
+    if (leftBuf.length !== rightBuf.length) return false;
+    return timingSafeEqual(leftBuf, rightBuf);
+  } catch {
+    return false;
+  }
+};
+
+const formatTranscriptEntry = (role: Role, content: string) => {
+  const timestamp = new Date().toISOString();
+  const safeContent = content.replace(/\r\n/g, "\n").trim();
+  return `[${timestamp}] ${role}\n${safeContent}`;
+};
+
+const appendTranscript = (current: string, entry: string) => {
+  if (!current) return entry;
+  return `${current}\n${entry}`;
+};
+
+const buildLeadCreateFields = (
+  payload: z.infer<typeof requestSchema>,
+  leadTokenHash: string
+) => {
+  const fields: Record<string, unknown> = {};
+  setLeadField(fields, leadFieldMap.title, `Lead - ${payload.email}`);
+  setLeadField(fields, leadFieldMap.email, payload.email);
+  setLeadField(fields, leadFieldMap.name, payload.name);
+  setLeadField(fields, leadFieldMap.companyName, payload.companyName);
+  setLeadField(fields, leadFieldMap.phone, payload.phone);
+  setLeadField(fields, leadFieldMap.status, "new");
+  setLeadField(fields, leadFieldMap.source, "AI agent chat");
+  setLeadField(fields, leadFieldMap.sessionId, payload.sessionId);
+  setLeadField(fields, leadFieldMap.pageUrl, payload.pageUrl);
+  setLeadField(fields, leadFieldMap.referrer, payload.referrer);
+  setLeadField(fields, leadFieldMap.utmSource, payload.utm?.source);
+  setLeadField(fields, leadFieldMap.utmMedium, payload.utm?.medium);
+  setLeadField(fields, leadFieldMap.utmCampaign, payload.utm?.campaign);
+  setLeadField(fields, leadFieldMap.utmTerm, payload.utm?.term);
+  setLeadField(fields, leadFieldMap.utmContent, payload.utm?.content);
+  setLeadField(fields, leadFieldMap.initialMessage, payload.leadMessage);
+  setLeadField(fields, leadFieldMap.tokenHash, leadTokenHash);
+  return fields;
+};
+
+const createSharePointLead = async (payload: z.infer<typeof requestSchema>) => {
+  if (!leadFieldMap.tokenHash) {
+    throw new Error("missing_sharepoint_lead_token_field");
+  }
+  const leadToken = randomBytes(32).toString("hex");
+  const leadTokenHash = hashLeadToken(leadToken);
+  const fields = buildLeadCreateFields(payload, leadTokenHash);
+  const siteId = await getSharePointSiteId();
+  const listId = await getLeadsListId();
+  const result = await graphRequestJson(
+    `/sites/${siteId}/lists/${listId}/items`,
+    {
+      method: "POST",
+      body: { fields },
+    }
+  );
+  if (!result?.id) {
+    throw new Error("sharepoint_lead_create_failed");
+  }
+  return { leadId: `${result.id}`, leadToken };
+};
+
+const fetchLeadFields = async (
+  leadId: string,
+  includeTranscript: boolean
+) => {
+  const selectFields = [leadFieldMap.tokenHash];
+  if (includeTranscript && leadFieldMap.transcript) {
+    selectFields.push(leadFieldMap.transcript);
+  }
+  const select = selectFields.filter(Boolean).join(",");
+  const siteId = await getSharePointSiteId();
+  const listId = await getLeadsListId();
+  const result = await graphRequestJson(
+    `/sites/${siteId}/lists/${listId}/items/${leadId}?expand=fields($select=${encodeURIComponent(
+      select
+    )})`
+  );
+  return result?.fields ?? {};
+};
+
+const updateLeadFields = async (
+  leadId: string,
+  fields: Record<string, unknown>
+) => {
+  if (!Object.keys(fields).length) return;
+  const siteId = await getSharePointSiteId();
+  const listId = await getLeadsListId();
+  await graphRequestJson(
+    `/sites/${siteId}/lists/${listId}/items/${leadId}/fields`,
+    {
+      method: "PATCH",
+      body: fields,
+    }
+  );
+};
+
+const logLeadMessage = async ({
+  leadId,
+  role,
+  content,
+  sessionId,
+  email,
+  existingTranscript,
+}: {
+  leadId: string;
+  role: Role;
+  content: string;
+  sessionId?: string;
+  email: string;
+  existingTranscript?: string;
+}): Promise<string | undefined> => {
+  const timestamp = new Date().toISOString();
+  let nextTranscript: string | undefined;
+  if (isMessagesListConfigured()) {
+    const messageFields: Record<string, unknown> = {};
+    setLeadField(messageFields, messageFieldMap.title, `${role} - ${email}`);
+    setLeadField(messageFields, messageFieldMap.leadId, leadId);
+    setLeadField(messageFields, messageFieldMap.role, role);
+    setLeadField(messageFields, messageFieldMap.content, content);
+    setLeadField(messageFields, messageFieldMap.timestamp, timestamp);
+    setLeadField(messageFields, messageFieldMap.sessionId, sessionId);
+    const siteId = await getSharePointSiteId();
+    const listId = await getMessagesListId();
+    await graphRequestJson(
+      `/sites/${siteId}/lists/${listId}/items`,
+      {
+        method: "POST",
+        body: { fields: messageFields },
+      }
+    );
+  } else {
+    if (!leadFieldMap.transcript) {
+      throw new Error("missing_sharepoint_transcript_field");
+    }
+    const entry = formatTranscriptEntry(role, content);
+    nextTranscript = appendTranscript(existingTranscript || "", entry);
+    const updateFields: Record<string, unknown> = {
+      [leadFieldMap.transcript]: nextTranscript,
+    };
+    await updateLeadFields(leadId, updateFields);
+  }
+  const leadUpdate: Record<string, unknown> = {};
+  setLeadField(leadUpdate, leadFieldMap.lastMessageAt, timestamp);
+  if (role === "user") {
+    setLeadField(leadUpdate, leadFieldMap.lastUserMessage, content);
+    setLeadField(leadUpdate, leadFieldMap.status, "engaged");
+  } else {
+    setLeadField(leadUpdate, leadFieldMap.lastAssistantMessage, content);
+  }
+  await updateLeadFields(leadId, leadUpdate);
+  return nextTranscript;
 };
 
 const isLikelyInvalidDomain = (domain: string) => {
@@ -293,6 +733,8 @@ const submitLead = async (
   const body = {
     fullName: payload.name || "",
     email: payload.email,
+    companyName: payload.companyName || "",
+    phone: payload.phone || "",
     message: message || "",
     source: "AI agent chat",
   };
@@ -313,7 +755,53 @@ const submitLead = async (
   }
 };
 
+const postJson = async (
+  url: string,
+  headers: Record<string, string>,
+  body: Record<string, unknown>,
+  timeoutMs: number
+) => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        ...headers,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+    const text = await res.text();
+    if (!res.ok) {
+      const error = new Error(
+        `Azure Agent error ${res.status}: ${text.slice(0, 300)}`
+      );
+      (error as any).status = res.status;
+      throw error;
+    }
+    return text ? JSON.parse(text) : {};
+  } finally {
+    clearTimeout(timeout);
+  }
+};
+
+const buildSafetyIdentifier = (email: string) => {
+  const hash = createHash("sha256")
+    .update(email.trim().toLowerCase())
+    .digest("hex");
+  return hash;
+};
+
 export async function POST(request: Request) {
+  if (!enforceOrigin(request)) {
+    return NextResponse.json(
+      { error: "forbidden" },
+      { status: 403 }
+    );
+  }
+
   const rateKey = getRateLimitKey(request);
   const limit = applyRateLimit(rateKey);
   if (!limit.allowed) {
@@ -328,11 +816,14 @@ export async function POST(request: Request) {
     );
   }
 
-  const projectEndpoint = getEnv("AZURE_AGENT_ENDPOINT");
-  const agentName = getEnv("AZURE_AGENT_NAME");
-  const apiVersion = getEnv(
-    "AZURE_AGENT_RESPONSES_API_VERSION",
-    "2025-11-15-preview"
+  const azureEndpoint = getEnv("AZURE_AGENT_ENDPOINT");
+  const agentName = getEnv("AZURE_AGENT_CHAT_NAME", getEnv("AZURE_AGENT_NAME"));
+  const apiVersion =
+    getEnv("AZURE_AGENT_CHAT_RESPONSES_API_VERSION") ||
+    getEnv("AZURE_AGENT_RESPONSES_API_VERSION", "2025-11-15-preview");
+  const timeoutMs = Number.parseInt(
+    getEnv("AZURE_AGENT_RESPONSES_TIMEOUT_MS", "180000"),
+    10
   );
   const maxOutputTokens = Number.parseInt(
     getEnv("AZURE_AGENT_RESPONSES_MAX_OUTPUT_TOKENS", "0"),
@@ -364,9 +855,19 @@ export async function POST(request: Request) {
       .filter((message) => message.role === "user")
       .at(-1)?.content;
     const leadMessage = payload.leadMessage || lastUserMessage || "";
+    const sharePointEnabled = isSharePointConfigured();
+    const missingLeadTokenField = !leadFieldMap.tokenHash;
+    const missingTranscriptField =
+      !isMessagesListConfigured() && !leadFieldMap.transcript;
 
     if (payload.leadOnly) {
-      if (!FORMSPARK_ACTION_URL) {
+      if (!sharePointEnabled) {
+        return NextResponse.json(
+          { error: "missing_configuration" },
+          { status: 500 }
+        );
+      }
+      if (missingLeadTokenField) {
         return NextResponse.json(
           { error: "missing_configuration" },
           { status: 500 }
@@ -396,9 +897,18 @@ export async function POST(request: Request) {
           );
         }
       }
-      await submitLead(payload, leadMessage);
+      const lead = await createSharePointLead(payload);
+      if (FORMSPARK_ACTION_URL) {
+        try {
+          await submitLead(payload, leadMessage);
+        } catch (error) {
+          if (DEBUG_VALIDATION) {
+            console.warn("[agent] Formspark submission failed", error);
+          }
+        }
+      }
       return NextResponse.json(
-        { ok: true },
+        { ok: true, leadId: lead.leadId, leadToken: lead.leadToken },
         {
           headers: {
             "Cache-Control": "no-store, no-cache, must-revalidate",
@@ -407,51 +917,158 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!projectEndpoint || !agentName) {
+    if (!sharePointEnabled) {
+      return NextResponse.json(
+        { error: "missing_configuration" },
+        { status: 500 }
+      );
+    }
+    if (missingLeadTokenField || missingTranscriptField) {
       return NextResponse.json(
         { error: "missing_configuration" },
         { status: 500 }
       );
     }
 
-    const credential = new DefaultAzureCredential();
-    const projectClient = new AIProjectClient(projectEndpoint, credential);
-    let retrievedAgent:
-      | Awaited<ReturnType<typeof projectClient.agents.getAgent>>
-      | undefined;
-    for await (const agent of projectClient.agents.listAgents()) {
-      if (agent.name === agentName) {
-        retrievedAgent = agent;
-        break;
+    if (!azureEndpoint || !agentName) {
+      return NextResponse.json(
+        { error: "missing_configuration" },
+        { status: 500 }
+      );
+    }
+    if (isLegacyAssistantId(agentName)) {
+      return NextResponse.json(
+        { error: "missing_configuration" },
+        { status: 500 }
+      );
+    }
+
+    const apiKey = getEnv("AZURE_AGENT_API_KEY");
+    let accessToken: string | undefined;
+    let authHeaders: Record<string, string> | undefined;
+    try {
+      const credential = getAzureCredentialFromEnv();
+      accessToken = await getFoundryAccessToken(credential);
+      authHeaders = { Authorization: `Bearer ${accessToken}` };
+    } catch (error) {
+      if (!apiKey) {
+        throw error;
       }
+      if (DEBUG_VALIDATION) {
+        console.warn("[agent] Azure token acquisition failed; using API key");
+      }
+      authHeaders = { "api-key": apiKey };
     }
-    if (!retrievedAgent) {
-      retrievedAgent = await projectClient.agents.getAgent(agentName);
+    if (!authHeaders) {
+      return NextResponse.json(
+        { error: "missing_configuration" },
+        { status: 500 }
+      );
     }
-    const openAIClient = await projectClient.getAzureOpenAIClient({
-      apiVersion,
+
+    const baseUrl = `${azureEndpoint.replace(/\/+$/, "")}/openai`;
+    let agentRef;
+    try {
+      agentRef = await resolveFoundryAgentReference({
+        endpoint: azureEndpoint,
+        agentName,
+        apiVersion,
+        token: accessToken,
+        headers: authHeaders,
+        cache: agentReferenceCache,
+      });
+    } catch (error) {
+      if (DEBUG_VALIDATION) {
+        console.warn("[agent] Agent metadata lookup failed; using name-only ref");
+      }
+      agentRef = parseAgentReference(agentName);
+    }
+
+    const includeTranscript = !isMessagesListConfigured();
+    let leadFields: Record<string, unknown>;
+    try {
+      leadFields = await fetchLeadFields(
+        payload.leadId || "",
+        includeTranscript
+      );
+    } catch (error) {
+      const status = (error as any)?.status;
+      if (status === 403 || status === 404) {
+        return NextResponse.json(
+          { error: "lead_invalid" },
+          { status: 401 }
+        );
+      }
+      throw error;
+    }
+    const storedHash =
+      typeof leadFields?.[leadFieldMap.tokenHash] === "string"
+        ? (leadFields[leadFieldMap.tokenHash] as string)
+        : "";
+    const providedToken = payload.leadToken || "";
+    if (!safeEqualHex(storedHash, hashLeadToken(providedToken))) {
+      return NextResponse.json(
+        { error: storedHash ? "lead_invalid" : "lead_required" },
+        { status: 401 }
+      );
+    }
+    if (!lastUserMessage) {
+      return NextResponse.json(
+        { error: "invalid_request" },
+        { status: 400 }
+      );
+    }
+
+    const updatedTranscript = await logLeadMessage({
+      leadId: payload.leadId || "",
+      role: "user",
+      content: lastUserMessage,
+      sessionId: payload.sessionId || "",
+      email: payload.email,
+      existingTranscript: includeTranscript
+        ? (leadFields?.[leadFieldMap.transcript] as string | undefined)
+        : undefined,
     });
-    const conversation = await openAIClient.conversations.create({
-      items: buildConversationItems(payload, messages),
-    });
-    const agentReferenceName = retrievedAgent.name || agentName;
-    const responseBody = {
-      agent: {
-        name: agentReferenceName,
-        type: "agent_reference",
+
+    const conversation = await postJson(
+      `${baseUrl}/conversations?api-version=${apiVersion}`,
+      authHeaders,
+      { items: buildConversationItems(payload, messages) },
+      timeoutMs
+    );
+
+    const response = await postJson(
+      `${baseUrl}/responses?api-version=${apiVersion}`,
+      authHeaders,
+      {
+        conversation: conversation.id,
+        agent: agentRef,
+        safety_identifier: buildSafetyIdentifier(payload.email),
+        ...(Number.isFinite(maxOutputTokens) && maxOutputTokens > 0
+          ? { max_output_tokens: maxOutputTokens }
+          : {}),
       },
-      ...(Number.isFinite(maxOutputTokens) && maxOutputTokens > 0
-        ? { max_output_tokens: maxOutputTokens }
-        : {}),
-    };
-    const response = await openAIClient.responses.create(
-      { conversation: conversation.id },
-      { body: responseBody }
+      timeoutMs
     );
 
     const reply = extractResponseText(response);
     if (!reply) {
       throw new Error("Empty response from agent");
+    }
+
+    try {
+      await logLeadMessage({
+        leadId: payload.leadId || "",
+        role: "assistant",
+        content: reply,
+        sessionId: payload.sessionId || "",
+        email: payload.email,
+        existingTranscript: includeTranscript ? updatedTranscript : undefined,
+      });
+    } catch (error) {
+      if (DEBUG_VALIDATION) {
+        console.warn("[agent] Failed to log assistant reply", error);
+      }
     }
 
     return NextResponse.json(
@@ -464,6 +1081,9 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     const status = (error as any)?.status;
+    if (DEBUG_VALIDATION) {
+      console.warn("[agent] Agent request failed", error);
+    }
     if (status === 429) {
       return NextResponse.json(
         { error: "rate_limited" },
