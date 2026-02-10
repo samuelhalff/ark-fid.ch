@@ -677,7 +677,7 @@ export default function AgentChat({
         className="px-4 md:px-6 space-y-5"
         role="log"
         aria-live="polite"
-        style={{ paddingBottom: keyboardOffset ? `${keyboardOffset + 12}px` : '12px' }}
+        style={{ paddingBottom: keyboardOffset ? keyboardOffset + 12 : 12 }}
       >
         {messages.map((message) => (
           <div
