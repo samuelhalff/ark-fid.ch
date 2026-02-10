@@ -131,7 +131,7 @@ export default async function AgentPage({
           </p>
         </header>
 
-        <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col pb-32">
+        <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col pb-[180px]">
           <AgentChat strings={chatStrings} suggestions={suggestions} />
         </div>
       </div>

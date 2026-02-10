@@ -241,6 +241,20 @@
     position: relative;
     z-index: 1;
   }
+
+  .agent-chat-input {
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+    will-change: transform;
+  }
+
+  @media (min-width: 768px) {
+    .agent-chat-input {
+      padding-left: max(1.5rem, env(safe-area-inset-left));
+      padding-right: max(1.5rem, env(safe-area-inset-right));
+    }
+  }
 }
 
 /* Target German pages only: apply safe breaks and hyphenation to headings and paragraphs */

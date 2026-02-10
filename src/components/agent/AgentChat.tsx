@@ -307,9 +307,12 @@ export default function AgentChat({
 
   useEffect(() => {
     if (!endRef.current) return;
-    endRef.current.scrollIntoView({
-      block: "end",
-    });
+    setTimeout(() => {
+      endRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }, 0);
   }, [messages, sending]);
 
   useEffect(() => {
@@ -721,7 +724,7 @@ export default function AgentChat({
         <div ref={endRef} />
       </div>
       <div
-        className="fixed bottom-0 left-0 right-0 z-10 px-4 pb-5 pt-3 md:px-6 bg-background/95 backdrop-blur-sm dark:bg-gradient-to-t dark:from-background dark:via-background/95 dark:to-transparent"
+        className="agent-chat-input fixed bottom-0 left-0 right-0 z-10 pt-3 bg-background/95 backdrop-blur-sm dark:bg-gradient-to-t dark:from-background dark:via-background/95 dark:to-transparent"
         style={{ transform: keyboardOffset ? `translateY(-${keyboardOffset}px)` : undefined }}
       >
         {canChat &&
