@@ -133,6 +133,15 @@ SP_MESSAGES_FIELD_ROLE=Role
 SP_MESSAGES_FIELD_CONTENT=Content
 SP_MESSAGES_FIELD_TIMESTAMP=Timestamp
 SP_MESSAGES_FIELD_SESSION_ID=SessionId
+
+# Cloudflare Turnstile (CAPTCHA alternative) for agent chat lead verification
+# Get your keys from: https://dash.cloudflare.com/
+# NEXT_PUBLIC_TURNSTILE_SITE_KEY: Public site key (visible in browser)
+# TURNSTILE_SECRET_KEY: Secret key for server-side verification (keep secure)
+# IMPORTANT: Both keys must be set in production for chat unlock to work.
+# If not set, users will see verification errors when trying to unlock chat.
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=<your-turnstile-site-key>
+TURNSTILE_SECRET_KEY=<your-turnstile-secret-key>
 ```
 
 **Microsoft Graph permissions:** the app registration used for `MSGRAPH_*` (or `AZURE_*`) must have SharePoint permissions (e.g. `Sites.Selected` with site grant, or `Sites.ReadWrite.All`) and admin consent applied.

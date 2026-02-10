@@ -176,6 +176,22 @@ const DOMAIN_VALIDATION_TTL_MS = 12 * 60 * 60 * 1000;
 const DOMAIN_VALIDATION_TIMEOUT_MS = 3500;
 const DOMAIN_VALIDATION_MAX_ENTRIES = 400;
 const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY;
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+
+// Warn about Turnstile configuration mismatch
+if (TURNSTILE_SECRET_KEY && !TURNSTILE_SITE_KEY) {
+  console.warn(
+    "[agent] WARNING: TURNSTILE_SECRET_KEY is set but NEXT_PUBLIC_TURNSTILE_SITE_KEY is missing. " +
+    "This will cause chat unlock to fail. Both keys must be configured together."
+  );
+}
+if (!TURNSTILE_SECRET_KEY && TURNSTILE_SITE_KEY) {
+  console.warn(
+    "[agent] WARNING: NEXT_PUBLIC_TURNSTILE_SITE_KEY is set but TURNSTILE_SECRET_KEY is missing. " +
+    "Turnstile verification will be skipped (insecure). Both keys must be configured together."
+  );
+}
+
 const INVALID_EMAIL_DOMAINS = (
   process.env.INVALID_EMAIL_DOMAINS ||
   "example.com,example.org,example.net,test.com,test.ch,invalid,localhost"

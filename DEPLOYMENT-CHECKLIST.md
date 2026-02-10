@@ -82,11 +82,14 @@ Deploy Job:
 - ✅ `DEPLOY_SSH_PASSWORD`
 - ✅ `DEPLOY_SSH_PORT`
 - 🔧 `RESTART_SECRET_TOKEN` ← **MUST ADD!**
+- 🔧 `NEXT_PUBLIC_TURNSTILE_SITE_KEY` ← **MUST ADD FOR CHAT UNLOCK!**
 - 🔧 (AI agent chat) `AZURE_AGENT_ENDPOINT`, `AZURE_AGENT_CHAT_NAME` (set to `ark-quote-agent:9`), and either `AZURE_CREDENTIALS` (JSON) or `AZURE_TENANT_ID`/`AZURE_CLIENT_ID`/`AZURE_CLIENT_SECRET` ← **ADD IF YOU WANT CI SMOKE CHECKS**
 
 **Server Environment (/.env):**
 - ✅ All existing environment variables
 - 🔧 `RESTART_SECRET_TOKEN=<same-as-github-secret>` ← **MUST ADD!**
+- 🔧 `NEXT_PUBLIC_TURNSTILE_SITE_KEY=<turnstile-site-key>` ← **MUST ADD FOR CHAT UNLOCK!**
+- 🔧 `TURNSTILE_SECRET_KEY=<turnstile-secret-key>` ← **MUST ADD FOR CHAT UNLOCK!**
 - 🔧 (AI agent chat) `AZURE_AGENT_ENDPOINT`, `AZURE_AGENT_CHAT_NAME` (set to `ark-quote-agent:9`), and Entra ID credentials (managed identity, Azure CLI for dev, or service principal) ← **MUST ADD FOR /agent**
 
 ### 8. Deployment Flow Verification
@@ -142,7 +145,27 @@ Deploy Job:
    Value: <same-strong-secret>
    ```
 
-2. **Commit and push:**
+2. **Add Turnstile keys for chat unlock:**
+   ```bash
+   # Get keys from Cloudflare dashboard:
+   # https://dash.cloudflare.com/ → Turnstile → Create Widget
+   
+   # On server:
+   ssh K83cyp5GeC2_samhalff@57-101943.ssh.hosting-ik.com
+   cd /srv/customer/sites/ark-fid.ch
+   echo 'NEXT_PUBLIC_TURNSTILE_SITE_KEY=<site-key>' >> .env
+   echo 'TURNSTILE_SECRET_KEY=<secret-key>' >> .env
+   
+   # On GitHub (for public site key):
+   Settings → Secrets → Actions → New repository secret
+   Name: NEXT_PUBLIC_TURNSTILE_SITE_KEY
+   Value: <site-key>
+   ```
+   
+   ⚠️ **IMPORTANT:** Both keys MUST be set together. If only one is configured,
+   chat unlock will fail. The backend will log warnings if there's a mismatch.
+
+3. **Commit and push:**
    ```bash
    git add app/api/restart/
    git add scripts/trigger-restart.sh
@@ -152,12 +175,12 @@ Deploy Job:
    git push origin main
    ```
 
-3. **Monitor deployment:**
+4. **Monitor deployment:**
    - Watch GitHub Actions: https://github.com/samuelhalff/ark-fid.ch/actions
    - Check logs for "Trigger restart via /api/restart endpoint"
    - Verify BUILD_ID changed: `curl https://ark-fid.ch/_next/static/<NEW_BUILD_ID>/_buildManifest.js`
 
-4. **Verify success:**
+5. **Verify success:**
    - Site serves new BUILD_ID
    - No EADDRINUSE errors
    - Clean restart logs
