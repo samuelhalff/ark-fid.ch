@@ -109,6 +109,126 @@ jobs:
             artifact/next-standalone.tar.gz.part \
             "$USER@$HOST:/srv/customer/sites/ark-fid.ch/artifact/"
 
+      - name: Sync shared env (secrets -> prod)
+        env:
+          NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
+          TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
+          AZURE_AGENT_CHAT_NAME: ${{ secrets.AZURE_AGENT_CHAT_NAME }}
+          AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
+          AZURE_AGENT_API_KEY: ${{ secrets.AZURE_AGENT_API_KEY }}
+          AZURE_AGENT_CHAT_RESPONSES_API_VERSION: ${{ secrets.AZURE_AGENT_CHAT_RESPONSES_API_VERSION }}
+          AZURE_AGENT_RESPONSES_API_VERSION: ${{ secrets.AZURE_AGENT_RESPONSES_API_VERSION }}
+          MSGRAPH_TENANT_ID: ${{ secrets.MSGRAPH_TENANT_ID }}
+          MSGRAPH_CLIENT_ID: ${{ secrets.MSGRAPH_CLIENT_ID }}
+          MSGRAPH_CLIENT_SECRET: ${{ secrets.MSGRAPH_CLIENT_SECRET }}
+          SP_SITE_HOSTNAME: ${{ secrets.SP_SITE_HOSTNAME }}
+          SP_SITE_PATH: ${{ secrets.SP_SITE_PATH }}
+          SP_LEADS_LIST_NAME: ${{ secrets.SP_LEADS_LIST_NAME }}
+          SP_LEADS_FIELD_TITLE: ${{ secrets.SP_LEADS_FIELD_TITLE }}
+          SP_LEADS_FIELD_EMAIL: ${{ secrets.SP_LEADS_FIELD_EMAIL }}
+          SP_LEADS_FIELD_TOKEN_HASH: ${{ secrets.SP_LEADS_FIELD_TOKEN_HASH }}
+          SP_LEADS_FIELD_TRANSCRIPT: ${{ secrets.SP_LEADS_FIELD_TRANSCRIPT }}
+          SP_LEADS_FIELD_NAME: ${{ secrets.SP_LEADS_FIELD_NAME }}
+          SP_LEADS_FIELD_COMPANY: ${{ secrets.SP_LEADS_FIELD_COMPANY }}
+          SP_LEADS_FIELD_PHONE: ${{ secrets.SP_LEADS_FIELD_PHONE }}
+          SP_LEADS_FIELD_STATUS: ${{ secrets.SP_LEADS_FIELD_STATUS }}
+          SP_LEADS_FIELD_SOURCE: ${{ secrets.SP_LEADS_FIELD_SOURCE }}
+          SP_LEADS_FIELD_SESSION_ID: ${{ secrets.SP_LEADS_FIELD_SESSION_ID }}
+          SP_LEADS_FIELD_PAGE_URL: ${{ secrets.SP_LEADS_FIELD_PAGE_URL }}
+          SP_LEADS_FIELD_REFERRER: ${{ secrets.SP_LEADS_FIELD_REFERRER }}
+          SP_LEADS_FIELD_UTM_SOURCE: ${{ secrets.SP_LEADS_FIELD_UTM_SOURCE }}
+          SP_LEADS_FIELD_UTM_MEDIUM: ${{ secrets.SP_LEADS_FIELD_UTM_MEDIUM }}
+          SP_LEADS_FIELD_UTM_CAMPAIGN: ${{ secrets.SP_LEADS_FIELD_UTM_CAMPAIGN }}
+          SP_LEADS_FIELD_UTM_TERM: ${{ secrets.SP_LEADS_FIELD_UTM_TERM }}
+          SP_LEADS_FIELD_UTM_CONTENT: ${{ secrets.SP_LEADS_FIELD_UTM_CONTENT }}
+          SP_LEADS_FIELD_LAST_MESSAGE_AT: ${{ secrets.SP_LEADS_FIELD_LAST_MESSAGE_AT }}
+          SP_LEADS_FIELD_LAST_USER_MESSAGE: ${{ secrets.SP_LEADS_FIELD_LAST_USER_MESSAGE }}
+          SP_LEADS_FIELD_LAST_ASSISTANT_MESSAGE: ${{ secrets.SP_LEADS_FIELD_LAST_ASSISTANT_MESSAGE }}
+          SP_LEADS_FIELD_INITIAL_MESSAGE: ${{ secrets.SP_LEADS_FIELD_INITIAL_MESSAGE }}
+          AGENT_LEAD_TOKEN_SECRET: ${{ secrets.AGENT_LEAD_TOKEN_SECRET }}
+          FORMSPARK_ACTION_URL: ${{ secrets.FORMSPARK_ACTION_URL }}
+        run: |
+          sudo apt-get install -y sshpass
+          HOST="${{ secrets.DEPLOY_SSH_HOST }}"
+          USER="${{ secrets.DEPLOY_SSH_USER }}"
+          PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
+          PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
+
+          ENV_SYNC_B64=$(python - <<'PY'
+          import os, base64
+          keys = [
+            "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
+            "TURNSTILE_SECRET_KEY",
+            "AZURE_AGENT_CHAT_NAME",
+            "AZURE_AGENT_ENDPOINT",
+            "AZURE_AGENT_API_KEY",
+            "AZURE_AGENT_CHAT_RESPONSES_API_VERSION",
+            "AZURE_AGENT_RESPONSES_API_VERSION",
+            "MSGRAPH_TENANT_ID",
+            "MSGRAPH_CLIENT_ID",
+            "MSGRAPH_CLIENT_SECRET",
+            "SP_SITE_HOSTNAME",
+            "SP_SITE_PATH",
+            "SP_LEADS_LIST_NAME",
+            "SP_LEADS_FIELD_TITLE",
+            "SP_LEADS_FIELD_EMAIL",
+            "SP_LEADS_FIELD_TOKEN_HASH",
+            "SP_LEADS_FIELD_TRANSCRIPT",
+            "SP_LEADS_FIELD_NAME",
+            "SP_LEADS_FIELD_COMPANY",
+            "SP_LEADS_FIELD_PHONE",
+            "SP_LEADS_FIELD_STATUS",
+            "SP_LEADS_FIELD_SOURCE",
+            "SP_LEADS_FIELD_SESSION_ID",
+            "SP_LEADS_FIELD_PAGE_URL",
+            "SP_LEADS_FIELD_REFERRER",
+            "SP_LEADS_FIELD_UTM_SOURCE",
+            "SP_LEADS_FIELD_UTM_MEDIUM",
+            "SP_LEADS_FIELD_UTM_CAMPAIGN",
+            "SP_LEADS_FIELD_UTM_TERM",
+            "SP_LEADS_FIELD_UTM_CONTENT",
+            "SP_LEADS_FIELD_LAST_MESSAGE_AT",
+            "SP_LEADS_FIELD_LAST_USER_MESSAGE",
+            "SP_LEADS_FIELD_LAST_ASSISTANT_MESSAGE",
+            "SP_LEADS_FIELD_INITIAL_MESSAGE",
+            "AGENT_LEAD_TOKEN_SECRET",
+            "FORMSPARK_ACTION_URL",
+          ]
+          lines = []
+          for key in keys:
+            value = os.environ.get(key, "")
+            if value:
+              lines.append(f"{key}={value}")
+          payload = "\n".join(lines).encode()
+          print(base64.b64encode(payload).decode())
+          PY
+          )
+
+          if [ -z "$ENV_SYNC_B64" ]; then
+            echo "[deploy] No env values to sync."
+            exit 0
+          fi
+
+          sshpass -p "$PASS" ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -p "$PORT" "$USER@$HOST" bash -lc '
+            set -euo pipefail
+            ENV_FILE="/srv/customer/sites/ark-fid.ch/shared/.env"
+            TMP_FILE="/tmp/arkfid_env_sync"
+            printf "%s" "'"$ENV_SYNC_B64"'" | base64 -d > "$TMP_FILE"
+            touch "$ENV_FILE"
+            while IFS= read -r line; do
+              [ -z "$line" ] && continue
+              key=${line%%=*}
+              val=${line#*=}
+              esc=$(printf "%s" "$val" | sed -e "s/[\\\\&|]/\\\\\\\\&/g")
+              if grep -q "^${key}=" "$ENV_FILE"; then
+                sed -i "s|^${key}=.*|${key}=${esc}|" "$ENV_FILE"
+              else
+                printf "%s\n" "${key}=${val}" >> "$ENV_FILE"
+              fi
+            done < "$TMP_FILE"
+            rm -f "$TMP_FILE"
+          '
+
       - name: Extract, symlink and cleanup releases
         run: |
           sudo apt-get install -y sshpass
