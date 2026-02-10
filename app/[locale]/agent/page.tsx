@@ -54,10 +54,10 @@ export default async function AgentPage({
   ]);
 
   const softwareAppJsonLd = buildSoftwareApplication({
-    name: text("Title", "Instant Quote Assistant"),
+    name: text("Title", "Instant quote"),
     description: text(
       "Subtitle",
-      "AI-powered quote assistant for fiduciary services in Geneva and Lausanne"
+      "Get a quick estimate for your request."
     ),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web Browser",
@@ -72,10 +72,10 @@ export default async function AgentPage({
   });
 
   const serviceJsonLd = buildServiceSchema({
-    name: text("Title", "Instant Quote Service"),
+    name: text("Title", "Instant quote"),
     description: text(
       "Intro",
-      "Get instant estimates for accounting, tax, payroll and fiduciary services"
+      "Describe what you need and receive the next steps."
     ),
     serviceType: "Financial Service",
     url: `https://ark-fid.ch${localePrefix}/agent/`,
