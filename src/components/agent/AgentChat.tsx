@@ -672,12 +672,11 @@ export default function AgentChat({
   };
 
   return (
-    <div className="flex flex-col h-full min-h-0 overflow-hidden">
+    <div className="flex flex-col w-full">
       <div
-        className="flex-1 min-h-0 overflow-y-auto px-4 md:px-6 space-y-5"
+        className="px-4 md:px-6 space-y-5 pb-5"
         role="log"
         aria-live="polite"
-        style={{ paddingBottom: keyboardOffset ? keyboardOffset + 12 : 12 }}
       >
         {messages.map((message) => (
           <div
@@ -722,7 +721,7 @@ export default function AgentChat({
         <div ref={endRef} />
       </div>
       <div
-        className="sticky bottom-0 z-10 px-4 pb-5 pt-3 md:px-6 bg-transparent dark:bg-gradient-to-t dark:from-background dark:via-background/95 dark:to-transparent"
+        className="fixed bottom-0 left-0 right-0 z-10 px-4 pb-5 pt-3 md:px-6 bg-background/95 backdrop-blur-sm dark:bg-gradient-to-t dark:from-background dark:via-background/95 dark:to-transparent"
         style={{ transform: keyboardOffset ? `translateY(-${keyboardOffset}px)` : undefined }}
       >
         {canChat &&
