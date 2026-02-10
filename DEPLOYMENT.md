@@ -86,6 +86,13 @@ AZURE_CLIENT_SECRET=
 AZURE_CREDENTIALS=
 AGENT_CHAT_ALLOWED_ORIGINS=https://ark-fid.ch
 
+# Cloudflare Turnstile (bot protection for agent chat)
+# Get credentials from https://dash.cloudflare.com/?to=/:account/turnstile
+# IMPORTANT: NEXT_PUBLIC_TURNSTILE_SITE_KEY must be set at build time (in GitHub Actions secrets/vars)
+# If TURNSTILE_SECRET_KEY is set, verification is required; if unset, Turnstile is disabled
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=<your-turnstile-site-key>
+TURNSTILE_SECRET_KEY=<your-turnstile-secret-key>
+
 # Lead capture (SharePoint via Microsoft Graph)
 # Use MSGRAPH_* or reuse AZURE_* if the same app has Graph permissions.
 # If Azure AI Foundry and SharePoint live in different tenants (e.g. Foundry in permagest/pbm, leads in ark),
@@ -237,14 +244,15 @@ Notifies search engines of sitemap updates (IndexNow, Google, Bing)
 
 ## Secrets (GitHub Actions)
 
-| Secret                | Description                       |
-| --------------------- | --------------------------------- |
-| `DEPLOY_SSH_HOST`     | Server IP/domain                  |
-| `DEPLOY_SSH_USER`     | SSH username                      |
-| `DEPLOY_SSH_PASSWORD` | SSH password                      |
-| `DEPLOY_SSH_PORT`     | SSH port (default: 22)            |
-| `DEPLOY_PORT`         | Node.js HTTP port (default: 3000) |
-| `RESTART_SECRET_TOKEN`| Auth token for `/api/restart`     |
+| Secret                         | Description                                    |
+| ------------------------------ | ---------------------------------------------- |
+| `DEPLOY_SSH_HOST`              | Server IP/domain                               |
+| `DEPLOY_SSH_USER`              | SSH username                                   |
+| `DEPLOY_SSH_PASSWORD`          | SSH password                                   |
+| `DEPLOY_SSH_PORT`              | SSH port (default: 22)                         |
+| `DEPLOY_PORT`                  | Node.js HTTP port (default: 3000)              |
+| `RESTART_SECRET_TOKEN`         | Auth token for `/api/restart`                  |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Cloudflare Turnstile site key (build-time)   |
 
 ---
 

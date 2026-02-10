@@ -54,6 +54,7 @@ jobs:
       - name: Build
         env:
           NODE_OPTIONS: --max_old_space_size=4096
+          NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
         run: npm run build
 
       - name: Validate SEO configuration (non-blocking)
