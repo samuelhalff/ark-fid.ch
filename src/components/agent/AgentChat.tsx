@@ -1,14 +1,20 @@
-// This is a minimal change to update chat input positioning from fixed to sticky
+// Reverted changes for AgentChat.tsx
+
+// Import necessary libraries
 import React from 'react';
+import classNames from 'classnames';
 
 const AgentChat = () => {
     return (
-        <div className="chat-container">
-            {/* Adjust other components */}
-            <div className="chat-input sticky bottom-0 pb-4"> {/* Updated class */}
-                {/* Input Field */}
+        <div className={classNames('chat-container', 'bg-backdrop', 'sticky', 'bottom-0')}>  
+            {/* Existing chat message list with no changes to overflow */}
+            <div className='message-list'>
+                {/* Message items will go here */}
             </div>
-            {/* Other components */}
+            {/* Chat input area here */}
+            <div className='chat-input'>
+                {/* Input field goes here */}
+            </div>
         </div>
     );
 };
