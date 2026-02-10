@@ -102,17 +102,6 @@ export default async function RootLayout({
 
   const orgJsonLd = generateOrganizationStructuredData();
   const localBizJsonLd = generateLocalBusinessStructuredData();
-  const webSiteJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    url: "https://ark-fid.ch/",
-    name: "Ark Fiduciaire SA",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: "https://ark-fid.ch/?q={search_term_string}",
-      "query-input": "required name=search_term_string",
-    },
-  } as const;
 
   return (
     <html
@@ -120,26 +109,33 @@ export default async function RootLayout({
       lang={currentLocale}
       className={inter.variable}
     >
-      <head>
+      {/* ✅ add nonce to <head> so Next’s internal scripts use it */}
+      <head nonce={nonce}>
         {nonce ? <meta name="csp-nonce" content={nonce} /> : null}
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
         <link
           rel="preload"
           href="/assets/abstract-background-light.avif"
           as="image"
-          media="(prefers-color-scheme: light)"
           fetchPriority="high"
         />
         <link
           rel="preload"
           href="/assets/abstract-background-dark.avif"
           as="image"
-          media="(prefers-color-scheme: dark)"
           fetchPriority="high"
         />
       </head>
 
       <body className={inter.className}>
+        {/* ✅ expose nonce to client so dynamic scripts can reuse it */}
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{
+            __html: `window.__CSP_NONCE__ = ${JSON.stringify(nonce)};`,
+          }}
+        />
+
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[999] focus:w-auto focus:h-auto focus:px-5 focus:py-3 focus:rounded-lg bg-primary text-primary-foreground focus:shadow-xl"
@@ -151,20 +147,12 @@ export default async function RootLayout({
         <script
           type="application/ld+json"
           nonce={nonce}
-          suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
         <script
           type="application/ld+json"
           nonce={nonce}
-          suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBizJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          nonce={nonce}
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
         />
 
         <Providers nonce={nonce}>

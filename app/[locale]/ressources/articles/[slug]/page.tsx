@@ -113,6 +113,17 @@ export default async function ArticlePage({ params }: Params) {
   const article = localArticle ?? frArticle;
   if (!article) return notFound();
 
+  // If the locale article is just a copy of the FR version (not genuinely translated),
+  // return 404 to avoid "Crawled - currently not indexed" and "Soft 404" in GSC
+  if (locale !== "fr" && localArticle && frArticle) {
+    const sameTitle = (localArticle.title || "") === (frArticle.title || "");
+    const sameDesc = (localArticle.description || "") === (frArticle.description || "");
+    const sameContent = (localArticle.content || "") === (frArticle.content || "");
+    if (sameTitle && sameDesc && sameContent) {
+      return notFound();
+    }
+  }
+
   const references: ArticleReference[] = Array.isArray(article.references)
     ? article.references
     : [];
