@@ -146,9 +146,9 @@ export default async function AgentPage({
   } as const;
 
   return (
-    <main className="agent-page min-h-[100svh] h-[100svh] overflow-hidden">
+    <main className="agent-page min-h-[100svh]">
       <div className="agent-page-dim" aria-hidden="true" />
-      <div className="agent-page-content max-w-[1200px] mx-auto px-4 md:px-6 py-10 flex flex-col gap-8 h-full min-h-0">
+      <div className="agent-page-content max-w-[1200px] mx-auto px-4 md:px-6 py-10 flex flex-col gap-8">
         <StructuredData nonce={nonce} data={[breadcrumbJsonLd, softwareAppJsonLd, serviceJsonLd]} />
         <header className="max-w-3xl mx-auto text-center space-y-4 shrink-0">
           <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold tracking-tight">
@@ -165,7 +165,7 @@ export default async function AgentPage({
           </p>
         </header>
 
-        <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col min-h-0">
+        <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col">
           <AgentChat strings={chatStrings} suggestions={suggestions} />
         </div>
       </div>
