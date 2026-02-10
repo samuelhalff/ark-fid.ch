@@ -140,14 +140,13 @@ export default function AgentChat({
     [contact.email],
   );
 
-  const normalizedEmail = useMemo(
-    () => contact.email.trim(),
-    [contact.email],
-  );
+  const normalizedEmail = useMemo(() => contact.email.trim(), [contact.email]);
   const normalizedName = useMemo(() => contact.name.trim(), [contact.name]);
 
   const canConfirmLead = useMemo(() => {
-    return normalizedEmail.length > 0 && normalizedName.length > 0 && emailValid;
+    return (
+      normalizedEmail.length > 0 && normalizedName.length > 0 && emailValid
+    );
   }, [emailValid, normalizedEmail, normalizedName]);
 
   const leadReady = useMemo(() => {
@@ -578,7 +577,10 @@ export default function AgentChat({
         setChatError(strings.chat.invalidEmailDomain);
         return;
       }
-      if (payload.error === "lead_required" || payload.error === "lead_invalid") {
+      if (
+        payload.error === "lead_required" ||
+        payload.error === "lead_invalid"
+      ) {
         setLeadConfirmed(false);
         setConfirmedEmail("");
         setLeadMeta({ id: "", token: "" });
@@ -607,9 +609,7 @@ export default function AgentChat({
     }
   };
 
-  const handleLeadKeyDown = (
-    event: React.KeyboardEvent<HTMLInputElement>,
-  ) => {
+  const handleLeadKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== "Enter") return;
     event.preventDefault();
     if (canConfirmLead && !leadSubmitting && !leadConfirmed) {
@@ -624,42 +624,42 @@ export default function AgentChat({
         role="log"
         aria-live="polite"
       >
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={cn(
-                  "flex",
-                  message.role === "user" ? "justify-end" : "justify-start",
-                )}
-              >
-                <div
-                  className={cn(
-                    "rounded-2xl px-4 py-3 text-sm leading-relaxed max-w-[75%]",
-                    message.role === "user"
-                      ? "bg-primary text-primary-foreground whitespace-pre-wrap"
-                      : "bg-muted/60 text-foreground",
-                  )}
-                >
-                  {message.role === "assistant" ? (
-                    <div className="prose prose-sm max-w-none text-foreground dark:prose-invert prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-p:text-foreground prose-li:text-foreground prose-strong:text-foreground prose-a:text-foreground">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {message.content}
-                      </ReactMarkdown>
-                    </div>
-                  ) : (
-                    message.content
-                  )}
-                </div>
-              </div>
-            ))}
-            {sending && (
-              <div className="flex justify-start">
-                <div className="rounded-2xl px-4 py-3 text-sm bg-muted/60 text-muted-foreground">
-                  {strings.chat.thinking}
-                </div>
-              </div>
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className={cn(
+              "flex",
+              message.role === "user" ? "justify-end" : "justify-start",
             )}
-            <div ref={endRef} />
+          >
+            <div
+              className={cn(
+                "rounded-2xl px-4 py-3 text-sm leading-relaxed max-w-[75%]",
+                message.role === "user"
+                  ? "bg-primary text-primary-foreground whitespace-pre-wrap"
+                  : "bg-muted/60 text-foreground",
+              )}
+            >
+              {message.role === "assistant" ? (
+                <div className="prose prose-sm max-w-none text-foreground dark:prose-invert prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-p:text-foreground prose-li:text-foreground prose-strong:text-foreground prose-a:text-foreground">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {message.content}
+                  </ReactMarkdown>
+                </div>
+              ) : (
+                message.content
+              )}
+            </div>
+          </div>
+        ))}
+        {sending && (
+          <div className="flex justify-start">
+            <div className="rounded-2xl px-4 py-3 text-sm bg-muted/60 text-muted-foreground">
+              {strings.chat.thinking}
+            </div>
+          </div>
+        )}
+        <div ref={endRef} />
       </div>
       <div className="sticky bottom-0 z-10 px-4 pb-5 pt-3 md:px-6 bg-gradient-to-t from-background via-background/95 to-transparent">
         {canChat &&
