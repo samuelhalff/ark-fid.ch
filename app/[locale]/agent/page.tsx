@@ -112,22 +112,25 @@ export default async function AgentPage({
   } as const;
 
   return (
-    <main className="max-w-[1200px] mx-auto px-4 md:px-6 py-10 min-h-[calc(100vh-4rem)] flex flex-col gap-8">
-      <StructuredData nonce={nonce} data={[breadcrumbJsonLd]} />
-      <header className="max-w-3xl mx-auto text-center space-y-4 shrink-0">
-        <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold tracking-tight">
-          {text("Title", "Instant quote")}
-        </h1>
-        <p className="text-lg text-muted-foreground">
-          {text("Subtitle", "Get a quick estimate for your request.")}
-        </p>
-        <p className="text-sm text-muted-foreground">
-          {text("Intro", "Describe what you need and receive the next steps.")}
-        </p>
-      </header>
+    <main className="agent-page min-h-[calc(100vh-4rem)]">
+      <div className="agent-page-dim" aria-hidden="true" />
+      <div className="agent-page-content max-w-[1200px] mx-auto px-4 md:px-6 py-10 flex flex-col gap-8">
+        <StructuredData nonce={nonce} data={[breadcrumbJsonLd]} />
+        <header className="max-w-3xl mx-auto text-center space-y-4 shrink-0">
+          <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold tracking-tight">
+            {text("Title", "Instant quote")}
+          </h1>
+          <p className="text-lg text-muted-foreground">
+            {text("Subtitle", "Get a quick estimate for your request.")}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            {text("Intro", "Describe what you need and receive the next steps.")}
+          </p>
+        </header>
 
-      <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col min-h-[70vh] mt-auto">
-        <AgentChat strings={chatStrings} suggestions={suggestions} />
+        <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col min-h-[70vh] mt-auto">
+          <AgentChat strings={chatStrings} suggestions={suggestions} />
+        </div>
       </div>
     </main>
   );

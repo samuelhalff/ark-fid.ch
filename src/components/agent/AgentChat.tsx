@@ -668,7 +668,7 @@ export default function AgentChat({
                 "rounded-2xl px-4 py-3 text-sm leading-relaxed max-w-[75%]",
                 message.role === "user"
                   ? "bg-primary text-primary-foreground whitespace-pre-wrap dark:bg-primary/75"
-                  : "bg-muted/60 text-foreground",
+                  : "bg-foreground/6 text-foreground dark:bg-muted/70",
               )}
             >
               {message.role === "assistant" ? (
@@ -686,19 +686,24 @@ export default function AgentChat({
         {sending && (
           <div className="flex justify-start">
             <div className="rounded-2xl px-4 py-3 text-sm bg-muted/60 text-muted-foreground">
-              {strings.chat.thinking}
+              <span className="sr-only">{strings.chat.thinking}</span>
+              <span className="typing-dots" aria-hidden="true">
+                <span className="typing-dot" />
+                <span className="typing-dot" />
+                <span className="typing-dot" />
+              </span>
             </div>
           </div>
         )}
         <div ref={endRef} />
       </div>
-      <div className="sticky bottom-0 z-10 px-4 pb-5 pt-3 md:px-6 bg-gradient-to-t from-background via-background/95 to-transparent">
+      <div className="sticky bottom-0 z-10 px-4 pb-5 pt-3 md:px-6 bg-transparent dark:bg-gradient-to-t dark:from-background dark:via-background/95 dark:to-transparent">
         {canChat &&
           suggestions.length > 0 &&
           messages.length === 0 &&
           !input.trim() && (
             <div className="mb-3 space-y-2">
-              <p className="text-xs font-semibold text-muted-foreground">
+              <p className="text-xs font-semibold text-foreground dark:text-white">
                 {strings.suggestions.title}
               </p>
               <div className="flex flex-wrap gap-2">
@@ -728,7 +733,7 @@ export default function AgentChat({
         )}
         <div
           className={cn(
-            "mx-auto flex items-end gap-3 bg-transparent px-4 py-2 max-w-3xl",
+            "mx-auto flex items-end gap-3 bg-white dark:bg-white/10 px-4 py-2 shadow-[0_14px_30px_rgba(0,0,0,0.28)] max-w-3xl",
             isMultiline ? "rounded-[10px]" : "rounded-[18px]",
           )}
         >
@@ -739,7 +744,7 @@ export default function AgentChat({
             onKeyDown={handleKeyDown}
             placeholder={strings.chat.placeholder}
             rows={1}
-            className="resize-none overflow-hidden min-h-[40px] border-0 bg-transparent px-1 py-2 text-sm leading-6 shadow-none !outline-none !ring-0 !ring-offset-0 !shadow-none focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0 focus-visible:!shadow-none"
+            className="resize-none overflow-hidden min-h-[40px] border-0 bg-transparent px-1 py-2 text-sm leading-6 text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60 shadow-none !outline-none !ring-0 !ring-offset-0 !shadow-none focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0 focus-visible:!shadow-none"
             disabled={!canChat || sending}
           />
           <Button
@@ -808,7 +813,7 @@ export default function AgentChat({
                   placeholder={strings.lead.placeholders.email}
                   type="email"
                   required
-                  className="border-foreground/30 bg-transparent focus-visible:border-foreground/50 focus-visible:ring-0"
+                  className="!border-foreground/35 !border-opacity-100 bg-transparent focus-visible:!border-foreground/55 focus-visible:ring-0"
                 />
               </label>
               <label className="grid gap-1.5 text-sm font-medium">
@@ -824,7 +829,7 @@ export default function AgentChat({
                   onKeyDown={handleLeadKeyDown}
                   placeholder={strings.lead.placeholders.name}
                   required
-                  className="border-foreground/30 bg-transparent focus-visible:border-foreground/50 focus-visible:ring-0"
+                  className="!border-foreground/35 !border-opacity-100 bg-transparent focus-visible:!border-foreground/55 focus-visible:ring-0"
                 />
               </label>
             </div>
