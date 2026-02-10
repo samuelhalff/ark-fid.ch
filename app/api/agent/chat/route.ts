@@ -246,7 +246,8 @@ const buildSystemPrompt = (data: z.infer<typeof requestSchema>) => {
 
   return [
     "You are Ark Fiduciaire's assistant.",
-    "Always answer in the user's language.",
+    "Always answer in the user's language and do not mix languages.",
+    "Use the language of the latest user message in the conversation.",
     "Provide an approximate quote and suggest relevant services based on the request.",
     "Keep the tone commercial but not pushy.",
     "Keep messages short and easy to scan.",

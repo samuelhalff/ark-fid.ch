@@ -77,8 +77,8 @@ NEXT_PUBLIC_SITE_URL=https://ark-fid.ch
 
 # AI agent chat (quotes) - Azure AI Foundry (Entra ID auth)
 AZURE_AGENT_ENDPOINT=https://<resource>.services.ai.azure.com/api/projects/<project>
-# Use the quote agent for chat. You can optionally pin a version (e.g. ark-quote-agent:15).
-AZURE_AGENT_CHAT_NAME=ark-quote-agent:15
+# Use the quote agent for chat. You can optionally pin a version (e.g. ark-quote-agent:16).
+AZURE_AGENT_CHAT_NAME=ark-quote-agent:16
 # Prefer setting explicit SP secrets, or set AZURE_CREDENTIALS as JSON (tenantId/clientId/clientSecret)
 AZURE_TENANT_ID=
 AZURE_CLIENT_ID=
