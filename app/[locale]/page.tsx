@@ -6,6 +6,9 @@ import Services from "@/app/[locale]/home/components/services";
 import About from "@/app/[locale]/home/components/about";
 import FAQ from "@/app/[locale]/home/components/faq";
 import Testimonials from "@/app/[locale]/home/components/testimonials";
+import Link from "next/link";
+import { Button } from "@/src/components/ui/button";
+import { Card, CardContent } from "@/src/components/ui/card";
 const Contact = dynamic(() => import("@/src/components/ui/contact-form"), {
   ssr: false,
   loading: () => null,
@@ -35,6 +38,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
   const activeLocale = isValidLocale(requestedLocale) ? requestedLocale : "fr";
   const t = await getTranslations(activeLocale, "contact");
   const homeT = await getTranslations(activeLocale, "home");
+  const agentT = await getTranslations(activeLocale, "agent");
   const heroTranslations = {
     "Hero.Badge": homeT("Hero.Badge"),
     "Hero.Title": homeT("Hero.Title"),
@@ -147,6 +151,28 @@ export default async function Home({ params }: { params: { locale: string } }) {
       </section>
       <section id="services">
         <Services locale={activeLocale} />
+      </section>
+      <section id="instant-quote" className="px-6 md:px-0">
+        <Card className="mt-10 border-border/60 bg-muted/20">
+          <CardContent className="flex flex-col gap-6 p-6 md:p-8 md:flex-row md:items-center md:justify-between">
+            <div className="space-y-2">
+              <h2 className="text-2xl font-semibold">
+                {agentT("Title") as string}
+              </h2>
+              <p className="text-muted-foreground">
+                {agentT("Subtitle") as string}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {agentT("Intro") as string}
+              </p>
+            </div>
+            <Button asChild>
+              <Link href={`${localePrefix}/agent/`} prefetch={false}>
+                {agentT("Lead.Button") as string}
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
       </section>
       <section id="about">
         <Defer

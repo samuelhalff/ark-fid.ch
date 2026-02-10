@@ -94,6 +94,21 @@ export default function NavbarClient({
                 </li>
                 <li>
                   <Link
+                    href={`${localePrefix}/agent/`}
+                    prefetch={false}
+                    locale={locale}
+                    aria-current={
+                      isSection(`${localePrefix}/agent`) ? "page" : undefined
+                    }
+                    className={`${linkBase} min-w-[96px] ${
+                      isSection(`${localePrefix}/agent`) ? activeClasses : ""
+                    }`}
+                  >
+                    {navData.labels.agent}
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href={`${localePrefix}/team/`}
                     prefetch={false}
                     locale={locale}
@@ -130,21 +145,6 @@ export default function NavbarClient({
                     }`}
                   >
                     {navData.labels.ressources}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={`${localePrefix}/about/`}
-                    prefetch={false}
-                    locale={locale}
-                    aria-current={
-                      isSection(`${localePrefix}/about`) ? "page" : undefined
-                    }
-                    className={`${linkBase} ${
-                      isSection(`${localePrefix}/about`) ? activeClasses : ""
-                    }`}
-                  >
-                    {navData.labels.about}
                   </Link>
                 </li>
                 <li>

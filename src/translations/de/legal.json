@@ -129,7 +129,8 @@
                     "Technische Informationen (IP-Adresse, Browser-Typ, Geräteinformationen)",
                     "Nutzungsdaten (besuchte Seiten, Verweildauer, Verweisquellen)",
                     "Cookies und ähnliche Tracking-Technologien",
-                    "Kontaktformular-Übermittlungen und Kommunikation"
+                    "Kontaktformular-Übermittlungen und Kommunikation",
+                    "Inhalte des KI-Chats und Kontaktdaten (E-Mail, Name, Firma, Telefon), gespeichert in unserem Lead-Management-System (Microsoft 365/SharePoint) zur Bearbeitung Ihrer Anfrage"
                 ]
             }
         },
@@ -152,7 +153,8 @@
                     "Bereitstellung von Buchhaltungs-, Steuer-, Lohn- und Beratungsdienstleistungen",
                     "Erstellung von Jahresabschlüssen und Berichten",
                     "Verwaltung von Compliance-Verpflichtungen",
-                    "Kommunikation über Ihre Dienstleistungen und Ihr Konto"
+                    "Kommunikation über Ihre Dienstleistungen und Ihr Konto",
+                    "Beantwortung von KI-Assistenten-Anfragen, Protokollierung des Gesprächs und Vorbereitung von Folgeofferten"
                 ]
             },
             "BusinessOperations": {
@@ -174,7 +176,7 @@
                 "Banken und Finanzinstitute (für Zahlungsabwicklung)",
                 "Professionelle Dienstleister (Wirtschaftsprüfer, Rechtsberater, IT-Support)",
                 "Odoo SA und zertifizierte Partner (für ERP-Dienstleistungen)",
-                "Cloud-Dienstanbieter mit angemessenen Schutzmaßnahmen"
+                "Cloud-Dienstanbieter mit angemessenen Schutzmaßnahmen, darunter Microsoft 365/SharePoint für Lead-Management"
             ],
             "NoSelling": "Wir verkaufen keine persönlichen Daten an Dritte. Alle Weitergaben erfolgen mit angemessenen Vertraulichkeitsvereinbarungen und Datenschutzmaßnahmen."
         },

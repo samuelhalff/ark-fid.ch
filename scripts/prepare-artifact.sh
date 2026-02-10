@@ -82,6 +82,12 @@ if [ -d "$ROOT_DIR/src/translations" ]; then
   cp -R "$ROOT_DIR/src/translations" "$DIST_DIR/src/translations"
 fi
 
+# Include runtime env loader for standalone start
+if [ -f "$ROOT_DIR/scripts/load-env.js" ]; then
+  mkdir -p "$DIST_DIR/scripts"
+  cp "$ROOT_DIR/scripts/load-env.js" "$DIST_DIR/scripts/load-env.js"
+fi
+
 # Also include required server-side manifests under .next/server to avoid ENOENT
 mkdir -p "$DIST_DIR/.next/server" "$DIST_DIR/.next/server/chunks"
 cp -R "$BUILD_DIR/standalone/.next/server/"* "$DIST_DIR/.next/server/" || true

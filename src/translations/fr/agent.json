@@ -1,0 +1,41 @@
+{
+    "Title": "Devis instantané",
+    "Subtitle": "Obtenez une estimation rapide pour votre demande.",
+    "Intro": "Décrivez votre besoin et recevez les prochaines étapes.",
+    "Lead": {
+        "Title": "Accéder au chat",
+        "Description": "Indiquez votre email pour accéder au chat.",
+        "Helper": "Nous l'utilisons pour envoyer l'estimation et vous recontacter si besoin.",
+        "VerificationLabel": "Vérification",
+        "VerificationRequired": "Merci de compléter la vérification.",
+        "Fields": {
+            "Name": "Nom",
+            "Email": "Email"
+        },
+        "Placeholders": {
+            "Name": "Votre nom",
+            "Email": "email@exemple.com"
+        },
+        "Button": "Accéder au chat",
+        "Confirmed": "Chat prêt"
+    },
+    "Chat": {
+        "Placeholder": "Décrivez votre demande...",
+        "Send": "Envoyer",
+        "Thinking": "En cours...",
+        "Error": "Impossible de joindre l'assistant. Réessayez.",
+        "RateLimit": "Trop de requêtes. Merci d'attendre un instant.",
+        "StartHint": "Indiquez votre email pour commencer.",
+        "InvalidEmailDomain": "Merci d'utiliser un domaine email professionnel valide.",
+        "ReadyHint": "Chat prêt. Vous pouvez commencer à écrire ci-dessous."
+    },
+    "Suggestions": {
+        "Title": "Essayez l'une de ces questions",
+        "Items": [
+            "Estimez le coût d'une domiciliation à Genève",
+            "Quels documents sont nécessaires pour constituer une société en Suisse ?",
+            "Nous avons 12 employés en paie — quelle est la prochaine étape ?"
+        ]
+    },
+    "Disclaimer": "Les réponses sont indicatives et seront confirmées par un spécialiste."
+}

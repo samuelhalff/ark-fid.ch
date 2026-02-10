@@ -161,3 +161,34 @@ Added for the Mergers & Acquisitions service launch. Ensure all locales include:
 
 - `servicesItems:ShowMore`
 - `servicesItems:ShowLess`
+
+## New Agent Page Keys (Feb 2026)
+
+Added for the new AI agent chat page. Ensure all locales include:
+
+- `navbar:Agent`
+- `agent:Title`
+- `agent:Subtitle`
+- `agent:Intro`
+- `agent:Lead.Title`
+- `agent:Lead.Description`
+- `agent:Lead.Helper`
+- `agent:Lead.VerificationLabel`
+- `agent:Lead.VerificationRequired`
+- `agent:Lead.Fields.Name`
+- `agent:Lead.Fields.Email`
+- `agent:Lead.Placeholders.Name`
+- `agent:Lead.Placeholders.Email`
+- `agent:Lead.Button`
+- `agent:Lead.Confirmed`
+- `agent:Chat.Placeholder`
+- `agent:Chat.Send`
+- `agent:Chat.Thinking`
+- `agent:Chat.Error`
+- `agent:Chat.RateLimit`
+- `agent:Chat.StartHint`
+- `agent:Chat.InvalidEmailDomain`
+- `agent:Chat.ReadyHint`
+- `agent:Suggestions.Title`
+- `agent:Suggestions.Items`
+- `agent:Disclaimer`

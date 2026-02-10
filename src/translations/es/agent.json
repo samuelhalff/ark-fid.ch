@@ -1,0 +1,41 @@
+{
+    "Title": "Presupuesto instantáneo",
+    "Subtitle": "Obtén una estimación rápida para tu solicitud.",
+    "Intro": "Describe tu necesidad y recibe los próximos pasos.",
+    "Lead": {
+        "Title": "Abrir el chat",
+        "Description": "Introduce tu correo para acceder al chat.",
+        "Helper": "Lo usamos para enviarte la estimación y contactarte si es necesario.",
+        "VerificationLabel": "Verificación",
+        "VerificationRequired": "Completa la verificación.",
+        "Fields": {
+            "Name": "Nombre",
+            "Email": "Correo"
+        },
+        "Placeholders": {
+            "Name": "Tu nombre",
+            "Email": "correo@ejemplo.com"
+        },
+        "Button": "Abrir el chat",
+        "Confirmed": "Chat listo"
+    },
+    "Chat": {
+        "Placeholder": "Describe tu solicitud...",
+        "Send": "Enviar",
+        "Thinking": "Pensando...",
+        "Error": "No pudimos contactar al asistente. Inténtalo de nuevo.",
+        "RateLimit": "Demasiadas solicitudes. Espera un momento.",
+        "StartHint": "Introduce tu correo para empezar.",
+        "InvalidEmailDomain": "Utiliza un dominio de correo profesional válido.",
+        "ReadyHint": "Chat listo. Puedes empezar a escribir abajo."
+    },
+    "Suggestions": {
+        "Title": "Prueba una de estas preguntas",
+        "Items": [
+            "Estimación del coste de una domiciliación en Ginebra",
+            "¿Qué documentos se necesitan para constituir una empresa en Suiza?",
+            "Necesitamos nóminas para 12 empleados: ¿cuál es el siguiente paso?"
+        ]
+    },
+    "Disclaimer": "Las respuestas son orientativas y serán confirmadas por un especialista."
+}

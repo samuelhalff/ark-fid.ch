@@ -129,7 +129,8 @@
                     "Información técnica (dirección IP, tipo de navegador, información del dispositivo)",
                     "Datos de uso (páginas visitadas, tiempo transcurrido, fuentes de referencia)",
                     "Cookies y tecnologías de seguimiento similares",
-                    "Envíos de formularios de contacto y comunicaciones"
+                    "Envíos de formularios de contacto y comunicaciones",
+                    "Contenido del chat de IA y datos de contacto (correo, nombre, empresa, teléfono) guardados en nuestro sistema de gestión de leads (Microsoft 365/SharePoint) para responder a su solicitud"
                 ]
             }
         },
@@ -152,7 +153,8 @@
                     "Proporcionar servicios de contabilidad, impuestos, nóminas y asesoría",
                     "Preparar estados financieros e informes",
                     "Gestionar obligaciones de cumplimiento",
-                    "Comunicar sobre sus servicios y cuenta"
+                    "Comunicar sobre sus servicios y cuenta",
+                    "Responder solicitudes del asistente de IA, registrar la conversación y preparar presupuestos de seguimiento"
                 ]
             },
             "BusinessOperations": {
@@ -174,7 +176,7 @@
                 "Bancos e instituciones financieras (para procesamiento de pagos)",
                 "Proveedores de servicios profesionales (auditores, asesoría legal, soporte de TI)",
                 "Odoo SA y socios certificados (para servicios ERP)",
-                "Proveedores de servicios en la nube con salvaguardas apropiadas"
+                "Proveedores de servicios en la nube con salvaguardas apropiadas, incluido Microsoft 365/SharePoint para la gestión de leads"
             ],
             "NoSelling": "No vendemos datos personales a terceros. Todo el compartir se realiza con acuerdos de confidencialidad apropiados y medidas de protección de datos en su lugar."
         },

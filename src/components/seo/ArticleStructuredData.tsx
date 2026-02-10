@@ -121,6 +121,7 @@ export default function ArticleStructuredData({
         id="article-structured-data"
         type="application/ld+json"
         nonce={nonce}
+        suppressHydrationWarning
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(articleSchema),
         }}
@@ -129,6 +130,7 @@ export default function ArticleStructuredData({
         id="organization-structured-data"
         type="application/ld+json"
         nonce={nonce}
+        suppressHydrationWarning
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(organizationSchema),
         }}
@@ -137,6 +139,7 @@ export default function ArticleStructuredData({
         id="breadcrumb-structured-data"
         type="application/ld+json"
         nonce={nonce}
+        suppressHydrationWarning
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbSchema),
         }}

@@ -1,0 +1,41 @@
+{
+    "Title": "Orçamento imediato",
+    "Subtitle": "Obtenha uma estimativa rápida para o seu pedido.",
+    "Intro": "Descreva a sua necessidade e receba os próximos passos.",
+    "Lead": {
+        "Title": "Abrir o chat",
+        "Description": "Indique o seu e-mail para aceder ao chat.",
+        "Helper": "Usamos para enviar a estimativa e contactar se necessário.",
+        "VerificationLabel": "Verificação",
+        "VerificationRequired": "Conclua a verificação.",
+        "Fields": {
+            "Name": "Nome",
+            "Email": "E-mail"
+        },
+        "Placeholders": {
+            "Name": "O seu nome",
+            "Email": "email@exemplo.com"
+        },
+        "Button": "Abrir o chat",
+        "Confirmed": "Chat pronto"
+    },
+    "Chat": {
+        "Placeholder": "Descreva o seu pedido...",
+        "Send": "Enviar",
+        "Thinking": "A pensar...",
+        "Error": "Não conseguimos contactar o assistente. Tente novamente.",
+        "RateLimit": "Demasiados pedidos. Aguarde um momento.",
+        "StartHint": "Introduza o seu e-mail para começar.",
+        "InvalidEmailDomain": "Utilize um domínio de e-mail profissional válido.",
+        "ReadyHint": "Chat pronto. Pode começar a escrever abaixo."
+    },
+    "Suggestions": {
+        "Title": "Experimente uma destas perguntas",
+        "Items": [
+            "Estimativa do custo de domiciliação em Genebra",
+            "Que documentos são necessários para constituir uma empresa na Suíça?",
+            "Precisamos de payroll para 12 colaboradores — qual é o próximo passo?"
+        ]
+    },
+    "Disclaimer": "As respostas são indicativas e serão confirmadas por um especialista."
+}

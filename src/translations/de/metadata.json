@@ -37,6 +37,11 @@
       "description": "Leitfäden und Artikel zu Buchhaltung, Steuern und Lohn in der Romandie mit praxisnahen Einblicken.",
       "keywords": "treuhand ressourcen, westschweiz, steuerleitfäden, genf, lausanne"
     },
+    "/agent": {
+      "title": "KI-Angebotsassistent | Ark Fiduciaire",
+      "description": "Erhalten Sie eine grobe Offerte und nächste Schritte für Treuhandservices in Genf und Lausanne mit unserem KI-Assistenten.",
+      "keywords": "ki angebotsassistent, treuhand offerte, genf, lausanne"
+    },
     "/services": {
       "title": "Treuhanddienste in Genf – Ark Fiduciaire",
       "description": "Entdecken Sie unsere Treuhanddienste in Genf: Buchhaltung, Steuern, Lohn, Domizilierung und Firmengründung.",

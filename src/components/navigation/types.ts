@@ -3,6 +3,7 @@ export type NavData = {
     home: string;
     team: string;
     services: string;
+    agent: string;
     ressources: string;
     about: string;
     contact: string;
