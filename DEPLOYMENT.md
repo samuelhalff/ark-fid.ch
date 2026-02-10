@@ -140,6 +140,7 @@ SP_MESSAGES_FIELD_SESSION_ID=SessionId
 # TURNSTILE_SECRET_KEY: Secret key for server-side verification (keep secure)
 # IMPORTANT: Both keys must be set in production for chat unlock to work.
 # If not set, users will see verification errors when trying to unlock chat.
+# Troubleshooting guide: docs/turnstile-troubleshooting.md
 NEXT_PUBLIC_TURNSTILE_SITE_KEY=<your-turnstile-site-key>
 TURNSTILE_SECRET_KEY=<your-turnstile-secret-key>
 ```
