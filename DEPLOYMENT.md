@@ -62,6 +62,8 @@ mkdir -p /srv/customer/sites/ark-fid.ch/{artifact,releases,shared}
 
 `/srv/customer/sites/ark-fid.ch/shared/.env`
 
+When starting the standalone server via `npm run start` or `npm run prod`, the runtime loads `.env` and `.env.local` from the project root (without overriding environment variables already provided by the host). This prevents missing configuration when running the standalone server.
+
 ```bash
 PORT=3000
 NODE_ENV=production
@@ -72,8 +74,68 @@ INDEXNOW_SECRET=<match-github-actions-secret>
 NEXT_PUBLIC_SITE_URL=https://ark-fid.ch
 
 # Other secrets (GA, Azure, etc.)
-# ...
+
+# AI agent chat (quotes) - Azure AI Foundry (Entra ID auth)
+AZURE_AGENT_ENDPOINT=https://<resource>.services.ai.azure.com/api/projects/<project>
+# Use the quote agent for chat. You can optionally pin a version (e.g. ark-quote-agent:9).
+AZURE_AGENT_CHAT_NAME=ark-quote-agent:9
+# Prefer setting explicit SP secrets, or set AZURE_CREDENTIALS as JSON (tenantId/clientId/clientSecret)
+AZURE_TENANT_ID=
+AZURE_CLIENT_ID=
+AZURE_CLIENT_SECRET=
+AZURE_CREDENTIALS=
+AGENT_CHAT_ALLOWED_ORIGINS=https://ark-fid.ch
+
+# Lead capture (SharePoint via Microsoft Graph)
+# Use MSGRAPH_* or reuse AZURE_* if the same app has Graph permissions.
+# If Azure AI Foundry and SharePoint live in different tenants (e.g. Foundry in permagest/pbm, leads in ark),
+# set MSGRAPH_* for the ark tenant and keep AZURE_* for the Foundry tenant.
+# Ark setup: use the crm-dev app from the ark tenant (see spfx-crm repo) for MSGRAPH_*.
+MSGRAPH_TENANT_ID=
+MSGRAPH_CLIENT_ID=
+MSGRAPH_CLIENT_SECRET=
+AGENT_LEAD_TOKEN_SECRET=<random-32+ chars>
+SP_SITE_HOSTNAME=arkfiduciaire.sharepoint.com
+SP_SITE_PATH=/sites/CRM
+SP_SITE_ID= # optional if SP_SITE_PATH is set
+SP_LEADS_LIST_NAME=Prospects
+SP_LEADS_LIST_ID= # optional if list name is set
+SP_MESSAGES_LIST_NAME=LeadMessages # optional (if set, chat messages are stored in a separate list)
+SP_MESSAGES_LIST_ID= # optional
+
+# SharePoint lead list column internal names (defaults shown)
+SP_LEADS_FIELD_TITLE=Title
+SP_LEADS_FIELD_EMAIL=Email
+SP_LEADS_FIELD_NAME=LeadName
+SP_LEADS_FIELD_COMPANY=LeadCompany
+SP_LEADS_FIELD_PHONE=LeadPhone
+SP_LEADS_FIELD_STATUS=LeadStatus
+SP_LEADS_FIELD_SOURCE=LeadSource
+SP_LEADS_FIELD_SESSION_ID=LeadSessionId
+SP_LEADS_FIELD_PAGE_URL=LeadPageUrl
+SP_LEADS_FIELD_REFERRER=LeadReferrer
+SP_LEADS_FIELD_UTM_SOURCE=LeadUtmSource
+SP_LEADS_FIELD_UTM_MEDIUM=LeadUtmMedium
+SP_LEADS_FIELD_UTM_CAMPAIGN=LeadUtmCampaign
+SP_LEADS_FIELD_UTM_TERM=LeadUtmTerm
+SP_LEADS_FIELD_UTM_CONTENT=LeadUtmContent
+SP_LEADS_FIELD_TOKEN_HASH=LeadTokenHash
+SP_LEADS_FIELD_TRANSCRIPT=Messages # required if no messages list
+SP_LEADS_FIELD_LAST_MESSAGE_AT=LeadLastMessageAt
+SP_LEADS_FIELD_LAST_USER_MESSAGE=LeadLastUserMessage
+SP_LEADS_FIELD_LAST_ASSISTANT_MESSAGE=LeadLastAssistantMessage
+SP_LEADS_FIELD_INITIAL_MESSAGE=LeadInitialMessage
+
+# SharePoint message list column internal names (defaults shown)
+SP_MESSAGES_FIELD_TITLE=Title
+SP_MESSAGES_FIELD_LEAD_ID=LeadId
+SP_MESSAGES_FIELD_ROLE=Role
+SP_MESSAGES_FIELD_CONTENT=Content
+SP_MESSAGES_FIELD_TIMESTAMP=Timestamp
+SP_MESSAGES_FIELD_SESSION_ID=SessionId
 ```
+
+**Microsoft Graph permissions:** the app registration used for `MSGRAPH_*` (or `AZURE_*`) must have SharePoint permissions (e.g. `Sites.Selected` with site grant, or `Sites.ReadWrite.All`) and admin consent applied.
 
 ⚠️ **Critical:** `.env` files are **not deployed** by CI. Must be manually created on server and symlinked during deployment.
 
@@ -182,6 +244,7 @@ Notifies search engines of sitemap updates (IndexNow, Google, Bing)
 | `DEPLOY_SSH_PASSWORD` | SSH password                      |
 | `DEPLOY_SSH_PORT`     | SSH port (default: 22)            |
 | `DEPLOY_PORT`         | Node.js HTTP port (default: 3000) |
+| `RESTART_SECRET_TOKEN`| Auth token for `/api/restart`     |
 
 ---
 
