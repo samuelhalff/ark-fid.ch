@@ -112,9 +112,9 @@ export default async function AgentPage({
   } as const;
 
   return (
-    <main className="max-w-[1200px] mx-auto px-4 md:px-6 py-10">
+    <main className="max-w-[1200px] mx-auto px-4 md:px-6 py-10 min-h-[calc(100vh-4rem)] flex flex-col gap-8">
       <StructuredData nonce={nonce} data={[breadcrumbJsonLd]} />
-      <header className="max-w-3xl mx-auto text-center space-y-4 mb-10">
+      <header className="max-w-3xl mx-auto text-center space-y-4 shrink-0">
         <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold tracking-tight">
           {text("Title", "Instant quote")}
         </h1>
@@ -126,7 +126,7 @@ export default async function AgentPage({
         </p>
       </header>
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col min-h-[70vh] mt-auto">
         <AgentChat strings={chatStrings} suggestions={suggestions} />
       </div>
     </main>

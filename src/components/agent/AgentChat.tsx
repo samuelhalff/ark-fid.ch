@@ -301,7 +301,6 @@ export default function AgentChat({
   useEffect(() => {
     if (!endRef.current) return;
     endRef.current.scrollIntoView({
-      behavior: sending ? "smooth" : "auto",
       block: "end",
     });
   }, [messages, sending]);
@@ -619,10 +618,12 @@ export default function AgentChat({
   };
 
   return (
-    <div className="grid gap-6">
-      <Card>
-        <CardContent className="p-0">
-          <div className="p-6 space-y-5" role="log" aria-live="polite">
+    <div className="flex flex-col flex-1 min-h-0">
+      <div
+        className="flex-1 min-h-0 overflow-y-auto px-4 md:px-6 space-y-5"
+        role="log"
+        aria-live="polite"
+      >
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -659,64 +660,76 @@ export default function AgentChat({
               </div>
             )}
             <div ref={endRef} />
-          </div>
-          <div className="sticky bottom-0 z-10 border-t bg-card/95 px-6 py-4 space-y-3 backdrop-blur supports-[backdrop-filter]:bg-card/80">
-            {chatError && (
-              <div
-                className={cn(
-                  "text-xs",
-                  rateLimited ? "text-amber-600" : "text-red-500",
-                )}
-              >
-                {chatError}
+      </div>
+      <div className="sticky bottom-0 z-10 px-4 pb-5 pt-3 md:px-6 bg-gradient-to-t from-background via-background/95 to-transparent">
+        {canChat &&
+          suggestions.length > 0 &&
+          messages.length === 0 &&
+          !input.trim() && (
+            <div className="mb-3 space-y-2">
+              <p className="text-xs font-semibold text-muted-foreground">
+                {strings.suggestions.title}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {suggestions.map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => void sendMessage(item)}
+                    className="rounded-full border border-foreground/10 bg-background/80 px-3 py-1 text-xs text-muted-foreground hover:text-foreground hover:border-foreground/30 hover:bg-foreground/5 transition-colors"
+                    disabled={sending}
+                  >
+                    {item}
+                  </button>
+                ))}
               </div>
-            )}
-            <div className="flex gap-3">
-              <Textarea
-                ref={inputRef}
-                value={input}
-                onChange={(event) => setInput(event.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={strings.chat.placeholder}
-                rows={3}
-                className="resize-none"
-                disabled={!canChat || sending}
-              />
-              <Button
-                type="button"
-                onClick={() => void sendMessage()}
-                disabled={!canChat || sending || !input.trim()}
-                className="self-end"
-              >
-                {strings.chat.send}
-              </Button>
             </div>
-            {canChat &&
-              suggestions.length > 0 &&
-              messages.length === 0 &&
-              !input.trim() && (
-                <div className="space-y-2">
-                  <p className="text-xs font-semibold text-muted-foreground">
-                    {strings.suggestions.title}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {suggestions.map((item) => (
-                      <button
-                        key={item}
-                        type="button"
-                        onClick={() => void sendMessage(item)}
-                        className="rounded-full border px-3 py-1 text-xs text-muted-foreground hover:text-foreground hover:border-primary/50 hover:bg-primary/5 transition-colors"
-                        disabled={sending}
-                      >
-                        {item}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
+          )}
+        {chatError && (
+          <div
+            className={cn(
+              "mb-2 text-xs",
+              rateLimited ? "text-amber-600" : "text-red-500",
+            )}
+          >
+            {chatError}
           </div>
-        </CardContent>
-      </Card>
+        )}
+        <div className="mx-auto flex items-center gap-3 rounded-full border border-foreground/20 bg-background/90 px-4 py-2 shadow-[0_14px_30px_rgba(0,0,0,0.28)] max-w-3xl">
+          <Textarea
+            ref={inputRef}
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={strings.chat.placeholder}
+            rows={1}
+            className="resize-none !min-h-0 !h-7 max-h-32 border-0 bg-transparent px-1 !py-1 text-sm leading-5 shadow-none focus-visible:ring-0 focus-visible:border-transparent"
+            disabled={!canChat || sending}
+          />
+          <Button
+            type="button"
+            onClick={() => void sendMessage()}
+            disabled={!canChat || sending || !input.trim()}
+            aria-label={strings.chat.send}
+            className="self-center h-9 w-9 aspect-square p-0 rounded-[999px] bg-foreground text-background shadow-sm hover:bg-foreground/90"
+          >
+            <span className="sr-only">{strings.chat.send}</span>
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden
+              className="size-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 19V5" />
+              <path d="M5 12l7-7 7 7" />
+            </svg>
+          </Button>
+        </div>
+      </div>
 
       {leadModalOpen && (
         <div
