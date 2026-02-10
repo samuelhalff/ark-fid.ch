@@ -123,12 +123,19 @@ export default function AgentChat({
   const [modalError, setModalError] = useState<string | null>(null);
   const [rateLimited, setRateLimited] = useState(false);
   const [domainInvalid, setDomainInvalid] = useState(false);
+  const [isMultiline, setIsMultiline] = useState(false);
   const endRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const turnstileRef = useRef<HTMLDivElement | null>(null);
   const lastSavedRef = useRef<string | null>(null);
+
+  const TEXTAREA_MIN_HEIGHT = 40;
+  const FALLBACK_TEXTAREA_MAX_HEIGHT = 360;
+  const [textareaMaxHeight, setTextareaMaxHeight] = useState(
+    FALLBACK_TEXTAREA_MAX_HEIGHT,
+  );
 
   const turnstileSiteKey = (
     process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ""
@@ -303,6 +310,30 @@ export default function AgentChat({
       block: "end",
     });
   }, [messages, sending]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const updateMaxHeight = () => {
+      setTextareaMaxHeight(Math.floor(window.innerHeight * 0.66));
+    };
+    updateMaxHeight();
+    window.addEventListener("resize", updateMaxHeight);
+    return () => window.removeEventListener("resize", updateMaxHeight);
+  }, []);
+
+  useEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = "0px";
+    const nextHeight = Math.min(
+      Math.max(el.scrollHeight, TEXTAREA_MIN_HEIGHT),
+      textareaMaxHeight,
+    );
+    el.style.height = `${nextHeight}px`;
+    el.style.overflowY =
+      el.scrollHeight > textareaMaxHeight ? "auto" : "hidden";
+    setIsMultiline(nextHeight > TEXTAREA_MIN_HEIGHT + 4);
+  }, [input, textareaMaxHeight]);
 
   useEffect(() => {
     if (!turnstileEnabled) return;
@@ -695,7 +726,12 @@ export default function AgentChat({
             {chatError}
           </div>
         )}
-        <div className="mx-auto flex items-center gap-3 rounded-full border border-foreground/20 bg-background/90 px-4 py-2 shadow-[0_14px_30px_rgba(0,0,0,0.28)] max-w-3xl">
+        <div
+          className={cn(
+            "mx-auto flex items-end gap-3 bg-muted/70 px-4 py-2 shadow-[0_14px_30px_rgba(0,0,0,0.28)] max-w-3xl",
+            isMultiline ? "rounded-[10px]" : "rounded-[18px]",
+          )}
+        >
           <Textarea
             ref={inputRef}
             value={input}
@@ -703,7 +739,7 @@ export default function AgentChat({
             onKeyDown={handleKeyDown}
             placeholder={strings.chat.placeholder}
             rows={1}
-            className="resize-none !min-h-0 !h-7 max-h-32 border-0 bg-transparent px-1 !py-1 text-sm leading-5 shadow-none focus-visible:ring-0 focus-visible:border-transparent"
+            className="resize-none overflow-hidden min-h-[40px] border-0 bg-transparent px-1 py-2 text-sm leading-6 shadow-none !outline-none !ring-0 !ring-offset-0 !shadow-none focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0 focus-visible:!shadow-none"
             disabled={!canChat || sending}
           />
           <Button
