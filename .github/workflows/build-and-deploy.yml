@@ -22,6 +22,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,6 +35,13 @@ jobs:
 
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Validate Turnstile config
+        run: |
+          if [ -z "${NEXT_PUBLIC_TURNSTILE_SITE_KEY:-}" ]; then
+            echo "Missing NEXT_PUBLIC_TURNSTILE_SITE_KEY in GitHub Secrets"
+            exit 1
+          fi
 
       - name: Restore Next.js build cache
         uses: actions/cache@v4
