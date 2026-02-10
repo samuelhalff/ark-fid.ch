@@ -728,7 +728,7 @@ export default function AgentChat({
         )}
         <div
           className={cn(
-            "mx-auto flex items-end gap-3 bg-muted/70 px-4 py-2 shadow-[0_14px_30px_rgba(0,0,0,0.28)] max-w-3xl",
+            "mx-auto flex items-end gap-3 bg-transparent px-4 py-2 max-w-3xl",
             isMultiline ? "rounded-[10px]" : "rounded-[18px]",
           )}
         >
@@ -770,16 +770,17 @@ export default function AgentChat({
 
       {leadModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-10"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 px-4 py-10"
           role="dialog"
           aria-modal="true"
           aria-labelledby="lead-modal-title"
         >
           <div
-            className="w-full max-w-[340px] rounded-2xl bg-background p-5 shadow-xl border border-foreground/10 dark:border-foreground/30"
+            className="w-full max-w-[420px] rounded-[26px] bg-white/5 p-[12px] shadow-xl backdrop-blur-sm"
             ref={modalRef}
           >
-            <div className="flex items-start justify-between gap-3">
+            <div className="rounded-[16px] bg-background p-5">
+              <div className="flex items-start justify-between gap-3">
               <div>
                 <p id="lead-modal-title" className="text-base font-semibold">
                   {strings.lead.title}
@@ -791,7 +792,7 @@ export default function AgentChat({
                   {strings.lead.helper}
                 </p>
               </div>
-            </div>
+              </div>
             <div className="grid gap-4 mt-4">
               <label className="grid gap-1.5 text-sm font-medium">
                 <span>
@@ -807,7 +808,7 @@ export default function AgentChat({
                   placeholder={strings.lead.placeholders.email}
                   type="email"
                   required
-                  className="border-color-primary"
+                  className="border-foreground/30 bg-transparent focus-visible:border-foreground/50 focus-visible:ring-0"
                 />
               </label>
               <label className="grid gap-1.5 text-sm font-medium">
@@ -823,7 +824,7 @@ export default function AgentChat({
                   onKeyDown={handleLeadKeyDown}
                   placeholder={strings.lead.placeholders.name}
                   required
-                  className="border-color-primary"
+                  className="border-foreground/30 bg-transparent focus-visible:border-foreground/50 focus-visible:ring-0"
                 />
               </label>
             </div>
@@ -878,6 +879,7 @@ export default function AgentChat({
               <p className="text-xs text-muted-foreground text-center">
                 {strings.disclaimer}
               </p>
+            </div>
             </div>
           </div>
         </div>

@@ -3,8 +3,8 @@
     "Subtitle": "Get a quick estimate for your request.",
     "Intro": "Describe what you need and receive the next steps.",
     "Lead": {
-        "Title": "Unlock chat",
-        "Description": "Add your email to access the chat.",
+        "Title": "Speak to our agent",
+        "Description": "Add your email to speak to our agent.",
         "Helper": "We use it to send your estimate and follow up if needed.",
         "VerificationLabel": "Verification",
         "VerificationRequired": "Please complete the verification.",
@@ -16,7 +16,7 @@
             "Name": "Your name",
             "Email": "email@example.com"
         },
-        "Button": "Unlock chat",
+        "Button": "Speak to our agent",
         "Confirmed": "Chat ready"
     },
     "Chat": {

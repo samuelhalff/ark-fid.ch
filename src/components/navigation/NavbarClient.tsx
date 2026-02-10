@@ -38,8 +38,8 @@ export default function NavbarClient({
     return cur === base || cur.startsWith(base + "/");
   };
   const linkBase =
-    "inline-flex items-center justify-center px-3 py-2 rounded-lg font-medium text-[0.95rem] text-center min-w-[92px] transition-colors duration-160 ease-in-out hover:bg-accent hover:text-accent-foreground";
-  const activeClasses = "bg-accent text-accent-foreground";
+    "inline-flex items-center justify-center px-3 py-2 rounded-lg font-medium text-[0.95rem] text-center min-w-[92px] transition-colors duration-160 ease-in-out hover:bg-accent hover:text-accent-foreground cursor-pointer";
+  const activeClasses = "bg-accent text-accent-foreground cursor-default";
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 w-full max-w-screen">
@@ -104,6 +104,7 @@ export default function NavbarClient({
                       isSection(`${localePrefix}/agent`) ? activeClasses : ""
                     }`}
                   >
+                    <span aria-hidden="true" className="mr-1">{"\u26A1"}</span>
                     {navData.labels.agent}
                   </Link>
                 </li>

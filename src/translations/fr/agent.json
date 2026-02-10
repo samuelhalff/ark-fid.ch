@@ -3,9 +3,9 @@
     "Subtitle": "Obtenez une estimation rapide pour votre demande.",
     "Intro": "Décrivez votre besoin et recevez les prochaines étapes.",
     "Lead": {
-        "Title": "Accéder au chat",
-        "Description": "Indiquez votre email pour accéder au chat.",
-        "Helper": "Nous l'utilisons pour envoyer l'estimation et vous recontacter si besoin.",
+        "Title": "Parler à notre agent",
+        "Description": "Indiquez votre email pour parler à notre agent.",
+        "Helper": "Nous l'utilisons pour vous recontacter si besoin.",
         "VerificationLabel": "Vérification",
         "VerificationRequired": "Merci de compléter la vérification.",
         "Fields": {
@@ -16,7 +16,7 @@
             "Name": "Votre nom",
             "Email": "email@exemple.com"
         },
-        "Button": "Accéder au chat",
+        "Button": "Parler à notre agent",
         "Confirmed": "Chat prêt"
     },
     "Chat": {

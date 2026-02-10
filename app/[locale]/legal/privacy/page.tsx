@@ -182,6 +182,12 @@ export default async function PrivacyPage({
                     "Contact form submissions and communications"
                   )}
                 </li>
+                <li>
+                  {r(
+                    "Privacy.DataCollection.WebsiteData.Items.4",
+                    "AI assistant chat content and lead details (email, name, optional company and phone) saved in our lead management system (Microsoft 365/SharePoint) to follow up on your request"
+                  )}
+                </li>
               </ul>
             </div>
           </div>
