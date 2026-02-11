@@ -241,6 +241,12 @@
     position: relative;
     z-index: 1;
   }
+
+  /* Ensure footer is not dimmed when agent page is present */
+  body:has(.agent-page) footer {
+    position: relative;
+    z-index: 1;
+  }
 }
 
 /* Target German pages only: apply safe breaks and hyphenation to headings and paragraphs */
