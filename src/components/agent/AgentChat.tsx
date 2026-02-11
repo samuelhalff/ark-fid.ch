@@ -773,8 +773,9 @@ export default function AgentChat({
             onKeyDown={handleKeyDown}
             placeholder={strings.chat.placeholder}
             rows={1}
-            className="resize-none overflow-hidden min-h-[40px] border-0 bg-white dark:bg-foreground/15 px-1 py-2 text-sm leading-6 text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60 shadow-none !outline-none !ring-0 !ring-offset-0 !shadow-none focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0 focus-visible:!shadow-none"
+            className="resize-none overflow-hidden min-h-[40px] border-0 bg-white dark:bg-foreground/15 px-1 py-2 text-base leading-6 text-foreground placeholder:text-foreground/60 dark:placeholder:text-white/60 shadow-none !outline-none !ring-0 !ring-offset-0 !shadow-none focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0 focus-visible:!shadow-none"
             disabled={!canChat || sending}
+            style={{ fontSize: '16px' }}
           />
           <Button
             type="button"
