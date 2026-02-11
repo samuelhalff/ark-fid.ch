@@ -4,6 +4,8 @@ import ServicesListSection from "./sections/ServicesListSection";
 import ServiceLongForm from "@/src/components/ui/service-longform";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import { getCurrentLocale, type Locale } from "@/src/lib/i18n";
+import { Suspense } from "react";
+import ServicesListServer from "@/src/components/ui/services-list-server";
 
 const AccountingPresentation = ({ t }: { t: (key: string) => string }) => {
   const locale: Locale = getCurrentLocale();
@@ -34,43 +36,29 @@ const AccountingPresentation = ({ t }: { t: (key: string) => string }) => {
           </div>
           {/* Top-level key points list */}
           <div className="mb-12">
-            {/* Keep top-level key points lightweight; icon rendered inline to avoid large icon libs here */}
-            <div className="grid gap-3">
-              {[
-                {
-                  key: "Presentation.List.0",
-                  fallbackText: "General accounting",
-                },
-                {
-                  key: "Presentation.List.1",
-                  fallbackText: "Analytical accounting",
-                },
-                { key: "Presentation.List.2", fallbackText: "Periodic tasks" },
-                { key: "Presentation.List.3", fallbackText: "Dashboards" },
-                { key: "Presentation.List.4", fallbackText: "Custom services" },
-              ].map((item, index) => (
-                <div key={index} className="flex items-start gap-3">
-                  <div className="mt-0.5 flex-shrink-0">
-                    <svg
-                      className="ui-icon w-4 h-4 text-primary"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="M9 12l2 2 4-4" />
-                      <circle cx="12" cy="12" r="9" />
-                    </svg>
-                  </div>
-                  <p className="text-muted-foreground">
-                    {t(item.key) || item.fallbackText}
-                  </p>
+            <Suspense
+              fallback={
+                <div className="space-y-4">
+                  <div className="h-24 rounded-lg bg-muted/40" />
+                  <div className="h-24 rounded-lg bg-muted/40" />
+                  <div className="h-24 rounded-lg bg-muted/40" />
                 </div>
-              ))}
-            </div>
+              }
+            >
+              <ServicesListServer
+                ns="accounting"
+                translationKey="Presentation.List"
+                fallbackText={[
+                  "General accounting",
+                  "Analytical accounting",
+                  "Periodic tasks",
+                  "Dashboards",
+                  "Custom services",
+                ]}
+                className="space-y-6"
+                locale={locale}
+              />
+            </Suspense>
           </div>
 
           <div className="space-y-16">
