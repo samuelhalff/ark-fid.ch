@@ -34,6 +34,7 @@ const SERVICE_PATHS = {
 };
 
 const BASELINE_PATH = path.join(__dirname, "seo-suggest-baseline.json");
+const LATEST_PATH = path.join(__dirname, "seo-suggest-latest.json");
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -228,6 +229,9 @@ async function run() {
     fs.writeFileSync(BASELINE_PATH, JSON.stringify(results, null, 2) + "\n");
     console.log(`✅ SEO suggest baseline saved to ${BASELINE_PATH}`);
   }
+
+  fs.writeFileSync(LATEST_PATH, JSON.stringify(results, null, 2) + "\n");
+  console.log(`✅ SEO suggest latest snapshot saved to ${LATEST_PATH}`);
 
   if (driftWarnings.length > 0) {
     console.log(

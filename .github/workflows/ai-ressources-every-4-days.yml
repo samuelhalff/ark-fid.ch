@@ -120,6 +120,17 @@ jobs:
         continue-on-error: true
         run: node scripts/check-seo-suggest-drift.js
 
+      - name: Update service SEO from suggestions (non-blocking)
+        continue-on-error: true
+        env:
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_API_VERSION: "2024-05-01-preview"
+          AZURE_OPENAI_DEPLOYMENT: ${{ vars.AZURE_OPENAI_DEPLOYMENT || 'gpt-4.1' }}
+          SEO_SUGGEST_DRIFT_RATIO: ${{ vars.SEO_SUGGEST_DRIFT_RATIO || '0.4' }}
+          SEO_SUGGEST_MAX_UPDATES: ${{ vars.SEO_SUGGEST_MAX_UPDATES || '6' }}
+        run: node scripts/ai-update-service-seo.js --apply
+
       - name: Run AI update (FR + translations via Azure OpenAI)
         env:
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
