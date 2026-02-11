@@ -1,6 +1,7 @@
 // "use client";
 
 import React from "react";
+import ServiceLongForm from "@/src/components/ui/service-longform";
 // Inline SVGs for icons (replace lucide-react)
 const Briefcase = () => (
   <svg
@@ -240,6 +241,8 @@ const FamilyOfficePresentation = ({
             })}
           </div>
         </section>
+
+        <ServiceLongForm t={t} />
 
         <section className="rounded-xl border border-primary/20 bg-primary/5 p-12 text-center">
           <h3 className="text-2xl font-semibold mb-10">

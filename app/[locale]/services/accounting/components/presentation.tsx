@@ -1,6 +1,7 @@
 import Defer from "@/src/components/Defer";
 import AccountingAccordion from "./sections/AccountingAccordion";
 import ServicesListSection from "./sections/ServicesListSection";
+import ServiceLongForm from "@/src/components/ui/service-longform";
 
 const AccountingPresentation = ({ t }: { t: (key: string) => string }) => {
   return (
@@ -153,6 +154,8 @@ const AccountingPresentation = ({ t }: { t: (key: string) => string }) => {
                 <ServicesListSection />
               </Defer>
             </section>
+
+            <ServiceLongForm t={t} />
           </div>
         </div>
       </div>

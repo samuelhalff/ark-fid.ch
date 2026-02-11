@@ -9,6 +9,7 @@ const Check = (props: any) => (
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import ServiceLongForm from "@/src/components/ui/service-longform";
 const ServicesListServer = dynamic(
   () => import("@/src/components/ui/services-list-server"),
   { suspense: true }
@@ -116,6 +117,8 @@ const CorporatePresentation = async () => {
                 />
               </Suspense>
             </section>
+
+            <ServiceLongForm t={t} />
           </div>
         </div>
       </div>

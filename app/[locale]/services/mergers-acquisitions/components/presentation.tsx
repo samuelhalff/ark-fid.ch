@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { getCurrentLocale, getTranslations, type Locale } from "@/src/lib/i18n";
 import { localizePath } from "@/src/lib/paths";
 import { tidyTitle } from "@/src/lib/typography";
+import ServiceLongForm from "@/src/components/ui/service-longform";
 
 const ServicesListServer = dynamic(
   () => import("@/src/components/ui/services-list-server"),
@@ -151,6 +152,8 @@ const MAPresentation = async () => {
                 />
               </Suspense>
             </section>
+
+            <ServiceLongForm t={t} />
           </div>
         </div>
       </div>

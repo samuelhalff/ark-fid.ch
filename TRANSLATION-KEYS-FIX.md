@@ -218,3 +218,10 @@ Added for the ANobAG immigration article references. Ensure all locales include:
 - `ressources:SEM - Séjour en Suisse`
 - `ressources:ch.ch - Travailler en Suisse`
 - `ressources:Genève - Engager un étranger`
+
+## New Service Long-Form Keys (Feb 2026 - SEO Expansion)
+
+All service namespaces now include long-form copy for SEO and must be present across all locales:
+
+- `Presentation.LongFormTitle`
+- `Presentation.LongForm`

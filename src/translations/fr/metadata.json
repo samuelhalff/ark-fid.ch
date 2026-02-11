@@ -55,24 +55,24 @@
       "keywords": "services fiduciaires genève, comptabilité, conseil fiscal genève, comptabilité pme"
     },
     "/services/family-office": {
-      "title": "Family Office Suisse | Structuration Patrimoniale & Gouvernance",
-      "description": "Conseil en family office suisse : gouvernance, structuration patrimoniale et coordination fiscale pour familles et entrepreneurs. Réservez un entretien confidentiel à Genève.",
-      "keywords": "family office suisse, gouvernance familiale, structuration patrimoniale, romandie, multi-family office"
+      "title": "Family office administratif en Suisse romande | Ark Fiduciaire",
+      "description": "Family office administratif en Suisse romande. Ark Fiduciaire accompagne les familles et entrepreneurs qui souhaitent un point de coordination en Suisse pour la gouvernance, la fiscalité,...",
+      "keywords": "family office suisse, family office suisse romande, multi family office suisse, gouvernance familiale suisse, family office genève"
     },
     "/services/accounting": {
-      "title": "Comptabilité et gestion financière Genève | Ark Fiduciaire",
-      "description": "Comptabilité pour PME et indépendants à Genève. Ark Fiduciaire assure votre tenue comptable, bouclements annuels et conseils financiers.",
-      "keywords": "comptabilité genève, tenue de livres, reporting financier genève"
+      "title": "Comptabilité à Genève et Lausanne pour pme | Ark Fiduciaire",
+      "description": "Comptabilité à Genève et Lausanne pour pme. Nous nous consacrons à fournir des solutions complètes et personnalisées, conçues pour aborder chaque facette de vos besoins financiers et comp...",
+      "keywords": "comptabilité genève, fiduciaire genève, comptabilité pme genève, expert comptable genève, comptabilité lausanne"
     },
     "/services/corporate": {
-      "title": "Corporate - Ark Fiduciaire (Suisse romande)",
-      "description": "Gouvernance, conformité et administration pour sociétés actives en Suisse romande (Genève, Lausanne).",
-      "keywords": "corporate genève, corporate lausanne, conformité, gouvernance"
+      "title": "Administration corporate et secrétariat juridique à Genève | Ark Fiduciaire",
+      "description": "Administration corporate et secrétariat juridique à Genève. Notre équipe vous accompagne dans toutes les étapes de la vie de votre entreprise : de la constitution à la gestion quotidienne...",
+      "keywords": "administration corporate suisse, secrétariat juridique suisse, gouvernance d'entreprise suisse, administration société genève, registre du commerce suisse"
     },
     "/services/domiciliation": {
-      "title": "Domiciliation - Ark Fiduciaire (Genève & Lausanne)",
-      "description": "Domiciliation commerciale avec adresses à Genève ou Lausanne, pour une présence en Suisse romande avec rayonnement international.",
-      "keywords": "domiciliation genève, domiciliation lausanne, siège social, suisse romande",
+      "title": "Domiciliation d'entreprise à Genève et Lausanne | Ark Fiduciaire",
+      "description": "Domiciliation d'entreprise à Genève et Lausanne. Nous fournissons une adresse de siège social pour votre entreprise, accompagnée de la gestion du courrier et du support administratif.",
+      "keywords": "domiciliation genève, domiciliation lausanne, adresse domiciliation genève, domiciliation entreprise genève, domiciliation sàrl genève",
       "topics": [
         "domiciliation genève",
         "adresse siège social",
@@ -80,34 +80,34 @@
       ]
     },
     "/services/odoo": {
-      "title": "Implémentation Odoo Genève | ERP Suisse pour PME",
-      "description": "Implémentation Odoo alignée sur les normes comptables et fiscales suisses. Partenaire officiel Odoo à Genève spécialisé en transformation digitale des PME.",
-      "keywords": "odoo genève, odoo lausanne, erp suisse, partenaire odoo, odoo pme suisses"
+      "title": "Implémentation odoo à Genève pour pme suisses | Ark Fiduciaire",
+      "description": "Implémentation odoo à Genève pour pme suisses. Odoo est une solution ERP modulaire et flexible, idéale pour digitaliser et optimiser la gestion de votre entreprise. Ark Fiduciaire vous ac...",
+      "keywords": "odoo genève, intégrateur odoo genève, implémentation odoo suisse, odoo pme suisse, fiduciaire odoo"
     },
     "/services/outsourcing": {
-      "title": "Externalisation - Ark Fiduciaire (Suisse romande)",
-      "description": "Back-office juridique, administratif et comptable externalisé pour acteurs de Suisse romande, avec couverture internationale.",
-      "keywords": "externalisation genève, externalisation lausanne, back-office"
+      "title": "Externalisation back-office en Suisse romande | Ark Fiduciaire",
+      "description": "Externalisation back-office en Suisse romande. Nous nous occupons de votre comptabilité, paie et gestion administrative, vous permettant de vous concentrer sur le développement de votre e...",
+      "keywords": "externalisation comptable suisse, externalisation back office suisse, outsourcing suisse, externalisation administrative, back office suisse"
     },
     "/services/mergers-acquisitions": {
-      "title": "Fusions & acquisitions Suisse - Ark Fiduciaire",
-      "description": "Conseil M&A pour PME suisses : mandats buy-side et sell-side, valorisation, due diligence et préparation post-intégration.",
-      "keywords": "conseil m&a suisse, due diligence suisse, valorisation entreprise genève, transmission pme"
+      "title": "Conseil m&a et fusions-acquisitions en Suisse | Ark Fiduciaire",
+      "description": "Conseil m&a et fusions-acquisitions en Suisse. Ark Fiduciaire conseille les entreprises romandes et alémaniques tout au long du cycle de transaction. Nous structurons la stratégie de deal...",
+      "keywords": "fusion acquisition suisse, conseil m&a suisse, valorisation entreprise suisse, due diligence suisse, transmission pme suisse"
     },
     "/services/payroll": {
-      "title": "Gestion des salaires et ressources humaines Genève | Ark Fiduciaire",
-      "description": "Gestion de vos salaires à Genève. Paie, assurances sociales et conformité légale pour PME à Genève.",
-      "keywords": "gestion salaires genève, paie, rh, assurances sociales"
+      "title": "Gestion des salaires et paie en Suisse romande | Ark Fiduciaire",
+      "description": "Gestion des salaires et paie en Suisse romande. Nous nous occupons de toutes les tâches administratives de paie et RH, des calculs de salaire aux déclarations d'assurances sociales.",
+      "keywords": "gestion salaires suisse, paie genève, bulletin de salaire suisse, gestionnaire paie genève, charges sociales suisse"
     },
     "/services/taxes": {
-      "title": "Déclarations d'Impôts Genève | Conseil Fiscal Expatriés & PME",
-      "description": "Ark Fiduciaire vous accompagne pour vos déclarations d'impôts, optimisation fiscale et planification patrimoniale à Genève. Conseillers anglophones disponibles.",
-      "keywords": "fiscalité genève, déclarations impôts, tva, conseil fiscal, conseil fiscal expatriés genève"
+      "title": "Conseil fiscal et déclarations d'impôts à Genève | Ark Fiduciaire",
+      "description": "Conseil fiscal et déclarations d'impôts à Genève. Nos spécialistes fiscaux vous accompagnent dans toutes vos obligations fiscales, des déclarations à la planification stratégique.",
+      "keywords": "fiscalité genève, déclaration impôts genève, conseil fiscal suisse, fiduciaire genève impôts, tva suisse"
     },
     "/services/incorporation": {
-      "title": "Création de Société Genève | Coûts & Démarches Constitution",
-      "description": "Domiciliation et création d'entreprise à Genève. Ark Fiduciaire simplifie vos démarches juridiques, administratives et fiscales. Obtenez un devis transparent.",
-      "keywords": "création société genève, domiciliation genève, constitution entreprise, coût création société genève",
+      "title": "Création de société à Genève (sàrl, sa) | Ark Fiduciaire",
+      "description": "Création de société à Genève (sàrl, sa). Nous vous aidons à constituer votre entreprise rapidement et correctement. Choisissez un type de société, fournissez les documents requis, et nous...",
+      "keywords": "création société genève, constitution sàrl suisse, création sa suisse, ouvrir société genève, création entreprise genève",
       "topics": [
         "créer une société suisse",
         "constituer sàrl",
@@ -115,9 +115,9 @@
       ]
     },
     "/services/immigration": {
-      "title": "Immigration et permis de travail Genève | Ark Fiduciaire",
-      "description": "Accompagnement pour permis de séjour et de travail en Suisse, dossiers ANobAG et coordination avec les autorités à Genève et en Suisse romande.",
-      "keywords": "immigration genève, permis de travail suisse, permis de séjour, ANobAG, expatriés genève"
+      "title": "Immigration et permis de travail à Genève | Ark Fiduciaire",
+      "description": "Immigration et permis de travail à Genève. Nous aidons les entrepreneurs, cadres et familles à sécuriser leur installation en Suisse romande, avec une approche pragmatique et conforme.",
+      "keywords": "immigration suisse, permis de travail genève, permis de séjour suisse, anobag suisse, immigration genève"
     },
     "/legal/privacy": {
       "title": "Politique de confidentialité - Ark Fiduciaire",
