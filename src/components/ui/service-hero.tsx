@@ -48,7 +48,7 @@ const ServiceHero = async ({
   const scrollKey = "ScrollHint";
   const scrollLabelRaw = tServices(scrollKey) as string;
   const scrollLabel =
-    scrollLabelRaw === scrollKey ? "Read more below" : scrollLabelRaw;
+    scrollLabelRaw === scrollKey ? "Discover more" : scrollLabelRaw;
 
   const ArrowIcon = () => (
     <svg

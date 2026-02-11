@@ -16,38 +16,34 @@ const ServiceScrollHint = ({ label }: { label: string }) => {
     // Safari fallback
     motionMedia.addListener?.(onMotionChange);
 
-    const target = document.querySelector(targetSelector);
+    const onScroll = () => {
+      if (window.scrollY > window.innerHeight * 0.2) {
+        setHidden(true);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
 
-    if (!target || typeof IntersectionObserver === "undefined") {
-      const onScroll = () => {
-        if (window.scrollY > window.innerHeight * 0.2) {
-          setHidden(true);
+    const target = document.querySelector(targetSelector);
+    let observer: IntersectionObserver | null = null;
+
+    if (target && typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (entry?.isIntersecting) setHidden(true);
+        },
+        {
+          threshold: 0.1,
+          rootMargin: "0px 0px -40% 0px",
         }
-      };
-      window.addEventListener("scroll", onScroll, { passive: true });
-      onScroll();
-      return () => {
-        window.removeEventListener("scroll", onScroll);
-        motionMedia.removeEventListener?.("change", onMotionChange);
-        motionMedia.removeListener?.(onMotionChange);
-      };
+      );
+      observer.observe(target);
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (entry?.isIntersecting) setHidden(true);
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "0px 0px -40% 0px",
-      }
-    );
-
-    observer.observe(target);
-
     return () => {
-      observer.disconnect();
+      observer?.disconnect();
+      window.removeEventListener("scroll", onScroll);
       motionMedia.removeEventListener?.("change", onMotionChange);
       motionMedia.removeListener?.(onMotionChange);
     };
@@ -56,7 +52,7 @@ const ServiceScrollHint = ({ label }: { label: string }) => {
   return (
     <div
       aria-hidden="true"
-      className={`pointer-events-none absolute bottom-8 left-0 right-0 flex justify-center transition-opacity duration-300 ${
+      className={`pointer-events-none fixed bottom-16 left-0 right-0 z-30 flex justify-center transition-opacity duration-300 ${
         hidden ? "opacity-0" : "opacity-100"
       }`}
     >
