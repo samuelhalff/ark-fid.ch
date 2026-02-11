@@ -398,9 +398,18 @@ jobs:
               collect_images "$HTML"
             done
           done
-          sort -u "$TMP" | head -n 220 | while read -r u; do
-            curl -fsSL "https://ark-fid.ch$u" >/dev/null 2>&1 || true
-          done
+          sort -u "$TMP" | head -n 220 > "$TMP.list"
+          warm_images() {
+            local accept="$1"
+            while read -r u; do
+              curl -fsSL -H "Accept: $accept" "https://ark-fid.ch$u" >/dev/null 2>&1 || true
+            done < "$TMP.list"
+          }
+          # Warm modern formats explicitly to populate the image optimizer cache.
+          warm_images "image/avif,image/webp,*/*"
+          warm_images "image/webp,*/*"
+          warm_images "*/*"
+          rm -f "$TMP.list"
           rm -f "$TMP"
 
           echo "[deploy] Deployment completed successfully"
