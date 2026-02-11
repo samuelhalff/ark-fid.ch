@@ -27,6 +27,7 @@ Implemented automated contextual internal linking throughout the site to improve
 - corporate services, services corporatifs → `/services/corporate`
 - outsourcing, externalisation → `/services/outsourcing`
 - domiciliation, domizilierung → `/services/domiciliation`
+- immigration, permis, anobag, work permit → `/services/immigration`
 
 ### 2. Applied to About Page
 

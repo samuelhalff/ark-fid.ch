@@ -10,6 +10,61 @@
   "ImageAltPrefix": "Article illustration",
   "Articles": [
     {
+      "slug": "anobag-suisse-permis-travail",
+      "author": "Ark Fiduciaire",
+      "image": "abstract-background-dark.avif",
+      "date": "2026-02-11",
+      "references": [
+        {
+          "labelKey": "SVA Saint-Gall - ANobAG",
+          "url": "https://www.svasg.ch/?id=468"
+        },
+        {
+          "labelKey": "SVA Bâle-Campagne - ANobAG",
+          "url": "https://www.svabl.ch/sozialversicherungen/beitraege/arbeitnehmende-ohne-beitragspflichtigen-arbeitgeber-anobag"
+        },
+        {
+          "labelKey": "AKNW - ANobAG",
+          "url": "https://www.aknw.ch/broker/arbeitnehmende-ohne-beitragspflichtigen-arbeitgeber-anobag/"
+        },
+        {
+          "labelKey": "AKOW - ANobAG",
+          "url": "https://www.akow.ch/sozialversicherung/beitraege/arbeitnehmende-ohne-beitragspflichtigen-arbeitgeber-anobag"
+        },
+        {
+          "labelKey": "AK Zug - ANobAG",
+          "url": "https://www.akzug.ch/anobag"
+        },
+        {
+          "labelKey": "Swissmem - ANobAG",
+          "url": "https://www.swissmem.ch/de/themen/personal/sozialversicherungen/beitragspflicht/arbeitnehmende-ohne-beitragspflichtigen-arbeitgeber-anobag.html"
+        },
+        {
+          "labelKey": "SEM - Travail UE/AELE",
+          "url": "https://www.sem.admin.ch/sem/fr/home/themen/arbeit/eu_efta.html"
+        },
+        {
+          "labelKey": "SEM - Travail pays tiers",
+          "url": "https://www.sem.admin.ch/sem/fr/home/themen/arbeit/nicht-eu_efta.html"
+        },
+        {
+          "labelKey": "SEM - Séjour en Suisse",
+          "url": "https://www.sem.admin.ch/sem/fr/home/themen/aufenthalt.html"
+        },
+        {
+          "labelKey": "ch.ch - Travailler en Suisse",
+          "url": "https://www.ch.ch/fr/travailler-en-suisse/"
+        },
+        {
+          "labelKey": "Genève - Engager un étranger",
+          "url": "https://www.ge.ch/engager-etranger-suisse"
+        }
+      ],
+      "title": "ANobAG in Switzerland: requirements, steps and permits for foreign-employer staff (2026)",
+      "description": "Practical guide for employees of a foreign employer in Switzerland: ANobAG definition, AVS registration, L/B/C permits, timelines, documents and indicative costs.",
+      "content": "ANobAG (employee without a Swiss-contributing employer) applies when you work in Switzerland for a foreign company that is not affiliated with a Swiss AVS fund. It lets you remain employed by the foreign company while meeting Swiss social insurance and permit obligations.\n\n## ANobAG in simple terms\n\n- employer abroad, no Swiss establishment\n- work performed from Switzerland\n- AVS affiliation handled individually, with the relevant contributions\n\n## When ANobAG applies\n\nANobAG is common for executives, consultants and mobile professionals relocating to Geneva or Romandy while staying on a foreign payroll. It is usually the lightest option when no Swiss entity exists.\n\n## Residence and work permits: key points\n\nThe permit depends on nationality, length of stay and activity. EU/EFTA nationals follow a more straightforward process. Third-country nationals face tighter rules and quotas. Typical permit types are L, B, C and G.\n\n## Social insurance and contributions\n\nANobAG registration is done with the AVS fund of your canton of residence. AVS/AI/APG contributions are due, and in many cases the employee covers the employer share. Depending on the situation, accident insurance and occupational pension can also apply. Local practice varies, so a clean file helps avoid delays.\n\n## Documents to prepare\n\n- employment contract with the foreign employer\n- role description and proof of activity\n- identification and civil status documents\n- Swiss address and proof of residence\n- AVS and cantonal forms\n- insurance certificates if already in place\n\n## Steps and timelines\n\n1. situation review and choice of route (ANobAG or company incorporation)\n2. document collection and file validation\n3. AVS affiliation and social insurance setup\n4. permit application with the authorities\n5. follow-up and answers to requests\n\nOnce the file is complete, our internal processing is usually 1–3 business days. Authorities' timelines vary by canton and can reach 1–2 months in some cases.\n\n## Indicative costs\n\nAs a guide, ANobAG support often ranges from CHF 2,000 to 4,000, depending on complexity and coordination needs. Permit coordination can add roughly CHF 2,500 to 4,000. Figures depend on case details and preparation level.\n\n## ANobAG or Swiss company?\n\nANobAG is usually the fastest and lightest route when you just need to formalize work in Switzerland without a local entity. Incorporating a Swiss company offers more autonomy but requires share capital (CHF 20,000 for a Sàrl, CHF 50,000 for an SA) and higher setup and annual compliance obligations (payroll, accounting, VAT, tax returns).\n\n## Common pitfalls\n\n- starting work before the right permit is issued\n- underestimating permit or AVS timelines\n- mixing remote work abroad with physical presence in Switzerland\n- ignoring tax and social impacts of changing employer or structure\n\n## Quick checklist\n\n- confirm nationality and intended stay duration\n- validate whether ANobAG fits your profile\n- prepare contract and personal documents\n- coordinate AVS, insurance and permits\n- anticipate cantonal processing time\n\n## How Ark Fiduciaire can help\n\nWe handle the full process: assessment, file preparation, authority coordination and post-arrival follow-up. See our [immigration](/services/immigration) service and, if needed, our [company incorporation](/services/incorporation) support.\n\n### Related Services\n\n- [Immigration & permits](/services/immigration)\n- [Company Incorporation](/services/incorporation)\n- [Payroll Services](/services/payroll)\n- [Tax Services](/services/taxes)"
+    },
+    {
       "slug": "houle-ai",
       "title": "Houle.ai — AI & Microsoft consulting and products",
       "description": "Houle.ai specializes in artificial intelligence and Microsoft technology consulting, offering innovative solutions for digital transformation and business optimization.",
@@ -893,5 +948,16 @@
   "Obligations comptables d'une entreprise individuelle en Suisse": "Accounting Obligations for a Sole Proprietorship in Switzerland",
   "Pratiques en gouvernance des PME en Suisse romande": "SME Governance Practices in French-speaking Switzerland",
   "Guide pour les PME en conformité comptable et administrative": "Guide for SMEs on Accounting and Administrative Compliance",
-  "Le plan comptable général : un livret indispensable": "The General Chart of Accounts: An Essential Booklet"
+  "Le plan comptable général : un livret indispensable": "The General Chart of Accounts: An Essential Booklet",
+  "SVA Saint-Gall - ANobAG": "SVA St. Gallen – ANobAG",
+  "SVA Bâle-Campagne - ANobAG": "SVA Basel-Landschaft – ANobAG",
+  "AKNW - ANobAG": "AKNW – ANobAG",
+  "AKOW - ANobAG": "AKOW – ANobAG",
+  "AK Zug - ANobAG": "AK Zug – ANobAG",
+  "Swissmem - ANobAG": "Swissmem – ANobAG",
+  "SEM - Travail UE/AELE": "SEM – EU/EFTA employment",
+  "SEM - Travail pays tiers": "SEM – third-country employment",
+  "SEM - Séjour en Suisse": "SEM – stay in Switzerland",
+  "ch.ch - Travailler en Suisse": "ch.ch – working in Switzerland",
+  "Genève - Engager un étranger": "Geneva – hiring a foreign national"
 }

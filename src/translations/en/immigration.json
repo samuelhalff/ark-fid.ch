@@ -1,0 +1,51 @@
+{
+  "ImageAlt": "Airplane wing with Swiss cross above the clouds",
+  "Hero": {
+    "Badge": "Swiss immigration",
+    "BadgeTwo": "Permits & mobility",
+    "Title": "Immigration and work permits in Switzerland",
+    "Description": "Clear support for L, B, C permits, ANobAG cases and relocation in Romandy.",
+    "CTA": "Talk to a specialist"
+  },
+  "Presentation": {
+    "Title": "Immigration and mobility in French-speaking Switzerland",
+    "Subtitle": "Clear steps, reliable follow-up",
+    "Intro": [
+      "We help entrepreneurs, executives and families secure their move to Switzerland with a pragmatic, compliant approach.",
+      "We clarify the options (L/B/C permits, ANobAG, company incorporation) and coordinate with cantonal authorities and social insurance funds.",
+      "We handle the key steps so you keep a clear view of timelines, documents and costs."
+    ],
+    "ServicesTitle": "Our immigration services",
+    "Services": [
+      "Status review and mobility strategy (EU/EFTA or third-country)",
+      "Coordination of residence and work permits (L, B, C, G)",
+      "ANobAG files and social insurance registration",
+      "Company incorporation and employment contracts when needed",
+      "Arrival administration support (address, insurance, banking)",
+      "Tax and payroll follow-up to stay compliant"
+    ],
+    "StrengthsTitle": "What you gain",
+    "Strengths": [
+      {
+        "Title": "Clear diagnosis",
+        "Desc": "Rapid assessment of your situation and success likelihood before unnecessary costs."
+      },
+      {
+        "Title": "Complete file",
+        "Desc": "Preparation and verification of documents to limit authority requests."
+      },
+      {
+        "Title": "Local coordination",
+        "Desc": "Follow-up with cantonal offices, AVS funds and relevant partners."
+      },
+      {
+        "Title": "Social and tax compliance",
+        "Desc": "Alignment of ANobAG, payroll and tax duties for a smooth setup."
+      },
+      {
+        "Title": "Post-arrival support",
+        "Desc": "Assistance with renewals, employer changes or company creation."
+      }
+    ]
+  }
+}

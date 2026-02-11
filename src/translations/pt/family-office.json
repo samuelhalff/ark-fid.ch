@@ -4,7 +4,7 @@
         "Badge": "Excelência suíça",
         "BadgeTwo": "Legado familiar",
         "Title": "Family office",
-        "Description": "Family office completo para famílias de alto patrimônio: estruturação patrimonial, governança internacional, sucessão e projetos filantrópicos coordenados a partir da Suíça.",
+        "Description": "Family office para famílias e empreendedores de alto património: governança, coordenação administrativa, reporting consolidado e projetos filantrópicos a partir da Suíça.",
         "CTA": "Garanta seu legado",
         "SecondaryCTA": "Saiba mais"
     },
@@ -12,38 +12,38 @@
         "Label": "Family office"
     },
     "Presentation": {
-        "Title": "Family office: governança patrimonial com selo suíço",
-        "Subtitle": "Parceiro multi-family office para estruturar, transmitir e coordenar patrimônios globais.",
+        "Title": "Family office: governança e coordenação administrativa na Suíça",
+        "Subtitle": "Um parceiro administrativo e de governança, sem gestão de ativos",
         "Intro": [
-            "A Ark Fiduciaire apoia famílias empresárias e family offices que precisam de um hub suíço para coordenar governança, fiscalidade e reporting. Reunimos bancos, advogados e fiscalistas para entregar um panorama único com plano de ação concreto.",
-            "A partir de Genebra e Lausanne ativamos parceiros de confiança, relatórios digitais e fóruns familiares para manter cartas, holdings e iniciativas filantrópicas em conformidade com a regulação suíça."
+            "A Ark Fiduciaire apoia famílias e empreendedores que precisam de um ponto de coordenação na Suíça para governança, fiscalidade, jurídico e reporting.",
+            "Não oferecemos gestão de ativos: o nosso papel é administrativo e de coordenação com bancos, gestores externos, advogados e consultores fiscais, com workflows seguros."
         ],
         "HighlightsTitle": "Nossos diferenciais em family office",
         "Highlights": [
             {
-                "Title": "Supervisão independente",
-                "Desc": "Coordenação neutra de bancos, gestores e trustees sob padrões fiduciários suíços."
+                "Title": "Coordenação independente",
+                "Desc": "Supervisão administrativa de bancos e prestadores, sem aconselhamento de investimento."
             },
             {
                 "Title": "Coordenação 360°",
-                "Desc": "Um advisor dedicado gerencia administração, tributos, jurídico, reporting e demandas lifestyle com fluxos seguros."
+                "Desc": "Um interlocutor único gere administração, fiscalidade, jurídico, reporting e pedidos lifestyle."
             },
             {
                 "Title": "Governança e sucessão",
-                "Desc": "Suporte para cartas familiares, acordos societários, programas NextGen e sucessão transfronteiriça."
+                "Desc": "Cartas familiares, acordos de acionistas, programas nextgen e planeamento sucessório."
             },
             {
-                "Title": "Impacto e filantropia",
-                "Desc": "Criação e administração de fundações, políticas de investimento sustentável e relatórios de impacto."
+                "Title": "Filantropia e impacto",
+                "Desc": "Criação e administração de fundações, acompanhamento de doações e reporting de impacto."
             }
         ],
         "ServicesTitle": "Principais serviços de family office",
         "Services": [
-            "Revisão da estrutura patrimonial · consolidação de participações e fluxos de caixa",
-            "Coordenação fiscal e jurídica internacional · interface com consultores suíços e globais",
-            "Facilitação de governança familiar · cartas, conselhos de família e programas educativos",
-            "Suporte a operações e investimentos · due diligence, documentação e acompanhamento de deals",
-            "Administração filantrópica e lifestyle · fundações, arte, imóveis e concierge"
+            "Revisão de estrutura patrimonial · consolidação de participações e dashboards de fluxo",
+            "Coordenação fiscal e jurídica internacional · ligação com consultores suíços e internacionais",
+            "Governança familiar · cartas, conselhos de família, programas educativos",
+            "Suporte administrativo e pagamentos · preparação de transferências, documentação, seguimento de dossiers",
+            "Administração filantrópica e lifestyle · fundações, arte, imobiliário e concierge"
         ],
         "CalloutTitle": "Proteja o legado da sua família a partir da Suíça",
         "CalloutText": "Agende uma sessão confidencial com nossa equipe em Genebra ou Lausanne para alinhar prioridades e desenhar uma rota de governança.",

@@ -1,0 +1,51 @@
+{
+  "ImageAlt": "Aile d'avion avec croix suisse au-dessus des nuages",
+  "Hero": {
+    "Badge": "Immigration suisse",
+    "BadgeTwo": "Permis & mobilité",
+    "Title": "Immigration et permis de travail en Suisse",
+    "Description": "Accompagnement clair pour les permis L, B, C, les dossiers ANobAG et l'installation en Suisse romande.",
+    "CTA": "Parler à un spécialiste"
+  },
+  "Presentation": {
+    "Title": "Immigration et mobilité en Suisse romande",
+    "Subtitle": "Des démarches claires, un suivi fiable",
+    "Intro": [
+      "Nous aidons les entrepreneurs, cadres et familles à sécuriser leur installation en Suisse romande, avec une approche pragmatique et conforme.",
+      "Nous clarifions les options (permis L/B/C, ANobAG, création de société) et coordonnons les démarches avec les autorités cantonales et les caisses sociales.",
+      "Notre équipe s'occupe des étapes clés, vous gardez une vision claire des délais, des documents et des coûts."
+    ],
+    "ServicesTitle": "Nos services immigration",
+    "Services": [
+      "Analyse de statut et stratégie de mobilité (UE/AELE ou pays tiers)",
+      "Coordination des permis de séjour et de travail (L, B, C, G)",
+      "Dossiers ANobAG et affiliation aux assurances sociales",
+      "Création de société et contrats de travail si nécessaire",
+      "Accompagnement administratif à l'arrivée (adresse, assurances, banque)",
+      "Suivi fiscal et paie pour rester conforme"
+    ],
+    "StrengthsTitle": "Ce que vous gagnez",
+    "Strengths": [
+      {
+        "Title": "Diagnostic clair",
+        "Desc": "Évaluation rapide de votre situation et des chances de succès avant d'engager des frais inutiles."
+      },
+      {
+        "Title": "Dossier complet",
+        "Desc": "Préparation et vérification des pièces pour limiter les retours des autorités."
+      },
+      {
+        "Title": "Coordination locale",
+        "Desc": "Suivi avec les administrations cantonales, caisses AVS et partenaires associés."
+      },
+      {
+        "Title": "Conformité sociale et fiscale",
+        "Desc": "Alignement ANobAG, paie et obligations fiscales pour une installation sans surprises."
+      },
+      {
+        "Title": "Suivi après arrivée",
+        "Desc": "Accompagnement pour les renouvellements, changements d'employeur ou création de société."
+      }
+    ]
+  }
+}

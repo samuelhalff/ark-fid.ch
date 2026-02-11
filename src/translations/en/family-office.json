@@ -4,7 +4,7 @@
         "Badge": "Swiss excellence",
         "BadgeTwo": "Family legacy",
         "Title": "Family office",
-        "Description": "Comprehensive family office services for high-net-worth individuals and families: wealth structuring, international governance, succession planning and impact reporting managed from Switzerland.",
+        "Description": "Family office support for high-net-worth families and entrepreneurs: governance, administrative coordination, consolidated reporting and philanthropy projects from Switzerland.",
         "CTA": "Secure your legacy",
         "SecondaryCTA": "Learn more"
     },
@@ -12,38 +12,38 @@
         "Label": "Family office"
     },
     "Presentation": {
-        "Title": "Family office advisory rooted in Swiss governance",
-        "Subtitle": "Multi-family office partner for wealth structuring, succession and cross-border coordination.",
+        "Title": "Family office: governance and administrative coordination in Switzerland",
+        "Subtitle": "An administrative and governance partner, no asset management",
         "Intro": [
-            "Ark Fiduciaire supports entrepreneurs, family shareholders and single-family offices who need a Swiss desk to orchestrate wealth, governance and reporting. We consolidate banking, legal and tax stakeholders to deliver a unified view and actionable roadmap.",
-            "From Geneva and Lausanne we pilot trusted local providers, digital reporting and bespoke governance frameworks so that family charters, holdings and philanthropic projects remain aligned with Swiss regulation."
+            "Ark Fiduciaire supports families and entrepreneurs who need a Swiss coordination desk for governance, tax, legal and reporting.",
+            "We do not provide asset management: our role is administrative and coordination with banks, external asset managers, lawyers and tax advisers, using secure workflows."
         ],
         "HighlightsTitle": "What sets our family office apart",
         "Highlights": [
             {
-                "Title": "Independent Swiss oversight",
-                "Desc": "We operate free of product bias, coordinating banks, asset managers and trustees under strict Swiss fiduciary standards."
+                "Title": "Independent coordination",
+                "Desc": "Administrative oversight of banks and providers, without investment advice."
             },
             {
                 "Title": "360° coordination",
-                "Desc": "One lead advisor pilots administration, tax, legal, reporting and lifestyle requests with secure workflows."
+                "Desc": "One lead contact handles administration, tax, legal, reporting and lifestyle requests."
             },
             {
                 "Title": "Governance & succession",
-                "Desc": "Support for family charters, shareholder agreements, education programmes and cross-border succession planning."
+                "Desc": "Family charters, shareholder agreements, next-gen programmes and succession planning."
             },
             {
-                "Title": "Impact & philanthropy",
-                "Desc": "Design and administration of foundations, sustainable investment policies and impact reporting."
+                "Title": "Philanthropy & impact",
+                "Desc": "Foundation setup and administration, donation tracking and impact reporting."
             }
         ],
         "ServicesTitle": "Flagship family office services",
         "Services": [
-            "Wealth structuring reviews · consolidation of holdings and cash-flow dashboards",
-            "Cross-border tax & legal coordination · liaison with Swiss and international advisers",
+            "Ownership structure review · consolidated holdings and cash-flow dashboards",
+            "Cross-border tax and legal coordination · liaison with Swiss and international advisers",
             "Family governance facilitation · charters, councils and education workshops",
-            "Deal & investment support · due diligence, documentation and transaction follow-up",
-            "Philanthropy & lifestyle administration · foundations, art, property and concierge oversight"
+            "Administrative support & payments · payment preparation, documentation, case follow-up",
+            "Philanthropy and lifestyle administration · foundations, art, property and concierge oversight"
         ],
         "CalloutTitle": "Secure your family legacy from Switzerland",
         "CalloutText": "Schedule a confidential strategy session with our Geneva or Lausanne team to map your priorities and define a governance roadmap.",

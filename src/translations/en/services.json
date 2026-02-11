@@ -23,6 +23,10 @@
         "Title": "Incorporation services",
         "Description": "We assist you in the incorporation of your company, including selecting the legal form, drafting incorporation documents, and filing with the relevant authorities."
     },
+    "ImmigrationServices": {
+        "Title": "Immigration & permits",
+        "Description": "Support for Swiss residence and work permits, ANobAG cases, and coordination with cantonal authorities."
+    },
     "DomiciliationServices": {
         "Title": "Domiciliation services",
         "Description": "Domiciliation services provide businesses with a registered address. These services allow companies to establish their official headquarters without needing a physical office at the location."

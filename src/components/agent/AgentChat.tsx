@@ -723,8 +723,10 @@ export default function AgentChat({
       </div>
       <div
         className="sticky bottom-0 z-10 px-4 pb-5 pt-3 md:px-6 bg-transparent dark:bg-gradient-to-t dark:from-background dark:via-background/95 dark:to-transparent"
-        style={{ 
-          transform: keyboardOffset ? `translateY(-${keyboardOffset}px)` : undefined
+        style={{
+          transform: keyboardOffset
+            ? `translateY(-${keyboardOffset}px)`
+            : undefined,
         }}
       >
         {canChat &&

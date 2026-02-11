@@ -29,6 +29,10 @@
         "Title": "Constitution d'entreprise",
         "Description": "Accompagnement complet pour la création d'entreprise en Suisse. Choix de la forme juridique optimale, rédaction des statuts, immatriculation au registre du commerce, obtention des autorisations nécessaires. Support juridique et administratif pour entrepreneurs suisses et étrangers."
     },
+    "ImmigrationServices": {
+        "Title": "Immigration & permis",
+        "Description": "Accompagnement pour permis de séjour et de travail en Suisse, dossiers ANobAG, coordination avec les autorités et intégration administrative à Genève et en Suisse romande."
+    },
     "DomiciliationServices": {
         "Title": "Services de domiciliation",
         "Description": "Adresse commerciale prestigieuse à Genève ou Lausanne pour votre entreprise suisse. Gestion du courrier, réception d'appels téléphoniques, services administratifs complets. Solution économique pour PME et start-ups qui n'ont pas besoin de bureaux physiques tout en maintenant une présence professionnelle."
@@ -39,6 +43,6 @@
     },
     "FamilyOffice": {
         "Title": "Family office",
-        "Description": "Services complets de family office pour familles à haut patrimoine en Suisse. Gestion de fortune, planification successorale, optimisation fiscale internationale, structuration patrimoniale. Accompagnement personnalisé pour la préservation et la transmission du patrimoine familial selon les standards suisse."
+        "Description": "Services de family office axés sur la gouvernance et la coordination administrative pour familles à fort patrimoine. Reporting, conformité, paiements, succession, sans gestion d'actifs."
     }
 }

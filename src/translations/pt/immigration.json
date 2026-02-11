@@ -1,0 +1,51 @@
+{
+  "ImageAlt": "Asa de avião com cruz suíça acima das nuvens",
+  "Hero": {
+    "Badge": "Imigração suíça",
+    "BadgeTwo": "Autorizações e mobilidade",
+    "Title": "Imigração e autorizações de trabalho na Suíça",
+    "Description": "Apoio claro para autorizações L, B, C, casos ANobAG e a instalação na Suíça francófona.",
+    "CTA": "Falar com um especialista"
+  },
+  "Presentation": {
+    "Title": "Imigração e mobilidade na Suíça francófona",
+    "Subtitle": "Passos claros, acompanhamento fiável",
+    "Intro": [
+      "Ajudamos empreendedores, executivos e famílias a instalar-se na Suíça com uma abordagem pragmática e conforme.",
+      "Esclarecemos as opções (autorizações L/B/C, ANobAG, constituição de empresa) e coordenamos com autoridades cantonais e seguros sociais.",
+      "Tratamos das etapas-chave para que mantenha clareza sobre prazos, documentos e custos."
+    ],
+    "ServicesTitle": "Os nossos serviços de imigração",
+    "Services": [
+      "Revisão de estatuto e estratégia de mobilidade (UE/AELC ou países terceiros)",
+      "Coordenação de autorizações de residência e trabalho (L, B, C, G)",
+      "Processos ANobAG e registo nos seguros sociais",
+      "Constituição de empresa e contratos de trabalho quando necessário",
+      "Apoio administrativo na chegada (morada, seguros, banco)",
+      "Acompanhamento fiscal e de payroll para manter a conformidade"
+    ],
+    "StrengthsTitle": "O que ganha",
+    "Strengths": [
+      {
+        "Title": "Diagnóstico claro",
+        "Desc": "Avaliação rápida da sua situação e probabilidade de sucesso antes de custos desnecessários."
+      },
+      {
+        "Title": "Processo completo",
+        "Desc": "Preparação e verificação dos documentos para reduzir pedidos adicionais."
+      },
+      {
+        "Title": "Coordenação local",
+        "Desc": "Acompanhamento com autoridades cantonais, caixas AVS e parceiros relevantes."
+      },
+      {
+        "Title": "Conformidade social e fiscal",
+        "Desc": "Alinhamento de ANobAG, payroll e obrigações fiscais para uma instalação sem surpresas."
+      },
+      {
+        "Title": "Suporte após a chegada",
+        "Desc": "Assistência em renovações, mudança de empregador ou criação de empresa."
+      }
+    ]
+  }
+}

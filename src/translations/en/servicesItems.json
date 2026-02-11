@@ -33,12 +33,16 @@
         "Title": "Company incorporation",
         "Description": "We assist with the entire company incorporation process, ensuring compliance with Swiss regulations and providing ongoing support."
     },
+    "ImmigrationServices": {
+        "Title": "Immigration & permits",
+        "Description": "Support for Swiss residence and work permits, ANobAG cases, coordination with authorities, and administrative onboarding in Geneva and Romandy."
+    },
     "OdooImplementation": {
         "Title": "Odoo implementation",
         "Description": "We are official Odoo partners, providing full implementation and configuration services to ensure your Odoo setup meets Swiss accounting standards."
     },
     "FamilyOffice": {
         "Title": "Family office",
-        "Description": "Comprehensive family office services for high-net-worth individuals and families, including wealth management, estate planning, tax optimization, and succession planning."
+        "Description": "Family office services focused on governance and administrative coordination for high-net-worth families. Reporting, compliance, payments, succession, no asset management."
     }
 }

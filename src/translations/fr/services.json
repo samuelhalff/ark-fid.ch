@@ -23,6 +23,10 @@
         "Title": "Services de constitution",
         "Description": "Nous vous assistons dans la constitution de votre entreprise, y compris le choix de la forme juridique, la rédaction des documents de constitution et le dépôt auprès des autorités compétentes."
     },
+    "ImmigrationServices": {
+        "Title": "Immigration et permis",
+        "Description": "Accompagnement pour permis de séjour et de travail en Suisse, dossiers ANobAG et coordination des démarches avec les autorités cantonales."
+    },
     "DomiciliationServices": {
         "Title": "Services de domiciliation",
         "Description": "Les services de domiciliation fournissent aux entreprises une adresse enregistrée. Ces services permettent aux entreprises d'établir leur siège social officiel sans avoir besoin d'un bureau physique à cet endroit."

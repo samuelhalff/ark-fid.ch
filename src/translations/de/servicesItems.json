@@ -29,6 +29,10 @@
         "Title": "Firmengründung",
         "Description": "Wir begleiten Sie durch den gesamten Gründungsprozess, sorgen für die Einhaltung der Schweizer Vorschriften und bieten fortlaufende Unterstützung."
     },
+    "ImmigrationServices": {
+        "Title": "Einwanderung & Bewilligungen",
+        "Description": "Begleitung bei Schweizer Aufenthalts- und Arbeitsbewilligungen, ANobAG-Fällen, Koordination mit Behörden und administrativem Onboarding in Genf und der Romandie."
+    },
     "DomiciliationServices": {
         "Title": "Domizilierungsdienstleistungen",
         "Description": "Domizilierungsdienstleistungen bieten Unternehmen eine registrierte Adresse. Diese Dienstleistungen ermöglichen es Unternehmen, ihren offiziellen Hauptsitz zu etablieren, ohne ein physisches Büro an diesem Standort zu benötigen."
@@ -39,6 +43,6 @@
     },
     "FamilyOffice": {
         "Title": "Family office",
-        "Description": "Umfassende Family-Office-Dienstleistungen für vermögende Privatpersonen und Familien, einschließlich Vermögensverwaltung, Nachlassplanung, Steueroptimierung und Nachfolgeplanung."
+        "Description": "Family office mit Fokus auf Governance und administrative Koordination für vermögende Familien. Reporting, Compliance, Zahlungen, Nachfolge, keine Vermögensverwaltung."
     }
 }

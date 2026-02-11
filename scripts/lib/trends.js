@@ -188,6 +188,27 @@ const EVERGREEN_TOPICS = [
     category: "tax",
     outline: ["H2 statut", "H2 AVS/assurances", "H2 impôts", "H2 compta", "FAQ"],
   },
+  {
+    topic: "anobag-suisse-permis-travail",
+    title: "ANobAG en Suisse: affiliation, permis et étapes clés pour les expatriés",
+    keywords: [
+      "ANobAG",
+      "employeur étranger",
+      "permis de travail",
+      "AVS",
+      "Suisse",
+      "Genève",
+    ],
+    category: "immigration",
+    outline: [
+      "H2 définition ANobAG",
+      "H2 conditions et profils concernés",
+      "H2 étapes administratives",
+      "H2 délais et coûts indicatifs",
+      "H2 erreurs fréquentes + corrections",
+      "FAQ",
+    ],
+  },
 ];
 
 const CATEGORY_KEYWORDS = {
@@ -223,6 +244,17 @@ const CATEGORY_KEYWORDS = {
   odoo: ["odoo", "erp", "facturation", "comptabilité", "comptabilite", "tva"],
   finance: ["financement", "banque", "budget", "business plan", "levée de fonds", "levee de fonds"],
   "family-office": ["patrimoine", "succession", "planification", "family office"],
+  immigration: [
+    "immigration",
+    "permis",
+    "permis de travail",
+    "permis de séjour",
+    "sejour",
+    "anobag",
+    "migration",
+    "expat",
+    "expatrié",
+  ],
 };
 
 function isoDateToday() {
@@ -447,6 +479,7 @@ function pickOutlineForCategory(category) {
     corporate: ["H2 contexte", "H2 étapes", "H2 documents", "H2 risques", "FAQ"],
     finance: ["H2 options", "H2 dossier", "H2 KPIs", "H2 erreurs", "FAQ"],
     "family-office": ["H2 objectifs", "H2 gouvernance", "H2 fiscalité", "H2 risques", "FAQ"],
+    immigration: ["H2 statut", "H2 conditions", "H2 étapes", "H2 délais", "H2 erreurs", "FAQ"],
     general: ["H2 contexte", "H2 méthode", "H2 cas pratique", "H2 erreurs", "FAQ"],
   };
   return templates[category] || templates.general;

@@ -118,8 +118,8 @@ Environment (Entra ID / DefaultAzureCredential):
 ```
 # Required
 AZURE_AGENT_ENDPOINT=...
-# Use the quote agent for chat. You can optionally pin a version (e.g. ark-quote-agent:16).
-AZURE_AGENT_CHAT_NAME=ark-quote-agent:16
+# Use the quote agent for chat. You can optionally pin a version (e.g. ark-quote-agent:18).
+AZURE_AGENT_CHAT_NAME=ark-quote-agent:18
 
 # Auth (one of):
 # - Managed identity / Azure hosting (DefaultAzureCredential)

@@ -192,3 +192,29 @@ Added for the new AI agent chat page. Ensure all locales include:
 - `agent:Suggestions.Title`
 - `agent:Suggestions.Items`
 - `agent:Disclaimer`
+
+## New Service Keys (Feb 2026 - Immigration)
+
+Added for the Immigration service launch. Ensure all locales include:
+
+- `servicesItems:ImmigrationServices.Title`
+- `servicesItems:ImmigrationServices.Description`
+- `services:ImmigrationServices.Title`
+- `services:ImmigrationServices.Description`
+- Full namespace `immigration` for service page copy (`Hero.*`, `Presentation.*`, `ImageAlt`)
+
+## New Ressources Reference Keys (Feb 2026 - ANobAG)
+
+Added for the ANobAG immigration article references. Ensure all locales include:
+
+- `ressources:SVA Saint-Gall - ANobAG`
+- `ressources:SVA Bâle-Campagne - ANobAG`
+- `ressources:AKNW - ANobAG`
+- `ressources:AKOW - ANobAG`
+- `ressources:AK Zug - ANobAG`
+- `ressources:Swissmem - ANobAG`
+- `ressources:SEM - Travail UE/AELE`
+- `ressources:SEM - Travail pays tiers`
+- `ressources:SEM - Séjour en Suisse`
+- `ressources:ch.ch - Travailler en Suisse`
+- `ressources:Genève - Engager un étranger`

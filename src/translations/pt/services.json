@@ -23,6 +23,10 @@
         "Title": "Serviços de constituição",
         "Description": "Ajudamos você na constituição da sua empresa, incluindo a seleção da forma jurídica, redação dos documentos de constituição e arquivamento junto às autoridades competentes."
     },
+    "ImmigrationServices": {
+        "Title": "Imigração e autorizações",
+        "Description": "Apoio para autorizações de residência e trabalho na Suíça, casos ANobAG e coordenação com autoridades cantonais."
+    },
     "DomiciliationServices": {
         "Title": "Serviços de domiciliação",
         "Description": "Os serviços de domiciliação fornecem às empresas um endereço registrado. Esses serviços permitem que as empresas estabeleçam sua sede oficial sem precisar de um escritório físico no local."

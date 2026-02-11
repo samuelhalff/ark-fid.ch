@@ -10,6 +10,7 @@ export const namespaces = [
   "faq",
   "footer",
   "home",
+  "immigration",
   "incorporation",
   "legal",
   "metadata",

@@ -29,6 +29,10 @@
         "Title": "Constitución de empresa",
         "Description": "Le asistimos en todo el proceso de constitución de empresa, asegurando el cumplimiento de la normativa suiza y brindando soporte continuo."
     },
+    "ImmigrationServices": {
+        "Title": "Inmigración y permisos",
+        "Description": "Apoyo para permisos de residencia y trabajo en Suiza, casos ANobAG, coordinación con autoridades y onboarding administrativo en Ginebra y la Suiza francófona."
+    },
     "DomiciliationServices": {
         "Title": "Servicios de domiciliación",
         "Description": "Los servicios de domiciliación proporcionan a las empresas una dirección registrada. Estos servicios permiten a las empresas establecer su sede oficial sin necesidad de una oficina física en la ubicación."
@@ -39,6 +43,6 @@
     },
     "FamilyOffice": {
         "Title": "Family office",
-        "Description": "Servicios integrales de family office para individuos y familias de alto patrimonio, incluyendo gestión de patrimonio, planificación sucesoria, optimización fiscal y planificación sucesoria."
+        "Description": "Servicios de family office centrados en gobernanza y coordinación administrativa para familias de alto patrimonio. Reporting, cumplimiento, pagos, sucesión, sin gestión de activos."
     }
 }

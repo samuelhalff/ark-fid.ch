@@ -346,18 +346,62 @@ jobs:
             curl -fsSL "https://ark-fid.ch$path" >/dev/null 2>&1 || true
           done
 
-          echo "[deploy] Simple warmup of next/image URLs (non-blocking)"
+          echo "[deploy] Warmup next/image cache across key pages (non-blocking)"
+          TMP=$(mktemp)
+          collect_images() {
+            echo "$1" | grep -Eo '/_next/image/\?url=[^" ]+' | sed 's/&amp;/\&/g' >> "$TMP"
+          }
+          BASE_PATHS=("/" "/en/" "/fr/" "/de/" "/es/" "/pt/")
+          for path in "${BASE_PATHS[@]}"; do
+            HTML=$(curl -fsSL "https://ark-fid.ch$path" || true)
+            collect_images "$HTML"
+          done
+          # Warm service listing pages
           for locale in en fr de es pt; do
-            HTML=$(curl -fsSL "https://ark-fid.ch/$locale/" || true)
-            echo "$HTML" | grep -Eo '/_next/image/\?url=[^" ]+' | sed 's/&amp;/\&/g' | head -n 30 | while read -r u; do
-              curl -fsSL "https://ark-fid.ch$u" >/dev/null 2>&1 || true
+            HTML=$(curl -fsSL "https://ark-fid.ch/$locale/services/" || true)
+            collect_images "$HTML"
+          done
+          # Warm service detail pages (localized FR slugs + EN slugs for other locales)
+          FR_SERVICES=(
+            "/fr/services/comptabilite/"
+            "/fr/services/fiscalite/"
+            "/fr/services/paie/"
+            "/fr/services/externalisation/"
+            "/fr/services/fusions-acquisitions/"
+            "/fr/services/services-corporatifs/"
+            "/fr/services/constitution-entreprise/"
+            "/fr/services/domiciliation/"
+            "/fr/services/odoo/"
+            "/fr/services/family-office/"
+            "/fr/services/immigration/"
+          )
+          EN_SERVICES=(
+            "/services/accounting/"
+            "/services/taxes/"
+            "/services/payroll/"
+            "/services/outsourcing/"
+            "/services/mergers-acquisitions/"
+            "/services/corporate/"
+            "/services/incorporation/"
+            "/services/domiciliation/"
+            "/services/odoo/"
+            "/services/family-office/"
+            "/services/immigration/"
+          )
+          for path in "${FR_SERVICES[@]}"; do
+            HTML=$(curl -fsSL "https://ark-fid.ch$path" || true)
+            collect_images "$HTML"
+          done
+          for locale in en de es pt; do
+            for svc in "${EN_SERVICES[@]}"; do
+              HTML=$(curl -fsSL "https://ark-fid.ch/$locale$svc" || true)
+              collect_images "$HTML"
             done
           done
-          # Warm a single additional path that often shows first: /fr/services/
-          SVC=$(curl -fsSL "https://ark-fid.ch/fr/services/" || true)
-          echo "$SVC" | grep -Eo '/_next/image/\?url=[^" ]+' | sed 's/&amp;/\&/g' | head -n 30 | while read -r u; do
-              curl -fsSL "https://ark-fid.ch$u" >/dev/null 2>&1 || true
+          sort -u "$TMP" | head -n 220 | while read -r u; do
+            curl -fsSL "https://ark-fid.ch$u" >/dev/null 2>&1 || true
           done
+          rm -f "$TMP"
 
           echo "[deploy] Deployment completed successfully"
 

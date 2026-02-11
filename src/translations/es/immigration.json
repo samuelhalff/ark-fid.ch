@@ -1,0 +1,51 @@
+{
+  "ImageAlt": "Ala de avión con cruz suiza sobre las nubes",
+  "Hero": {
+    "Badge": "Inmigración suiza",
+    "BadgeTwo": "Permisos y movilidad",
+    "Title": "Inmigración y permisos de trabajo en Suiza",
+    "Description": "Apoyo claro para permisos L, B, C, casos ANobAG y la instalación en la Suiza francófona.",
+    "CTA": "Hablar con un especialista"
+  },
+  "Presentation": {
+    "Title": "Inmigración y movilidad en la Suiza francófona",
+    "Subtitle": "Pasos claros, seguimiento fiable",
+    "Intro": [
+      "Ayudamos a emprendedores, directivos y familias a instalarse en Suiza con un enfoque pragmático y conforme.",
+      "Aclaramos las opciones (permisos L/B/C, ANobAG, constitución de empresa) y coordinamos con autoridades cantonales y seguros sociales.",
+      "Nos encargamos de los pasos clave para que usted tenga claridad sobre plazos, documentos y costes."
+    ],
+    "ServicesTitle": "Nuestros servicios de inmigración",
+    "Services": [
+      "Revisión de estatus y estrategia de movilidad (UE/AELC o terceros países)",
+      "Coordinación de permisos de residencia y trabajo (L, B, C, G)",
+      "Expedientes ANobAG y registro en seguros sociales",
+      "Constitución de empresa y contratos de trabajo si es necesario",
+      "Apoyo administrativo a la llegada (dirección, seguros, banco)",
+      "Seguimiento fiscal y de nómina para cumplir"
+    ],
+    "StrengthsTitle": "Lo que gana",
+    "Strengths": [
+      {
+        "Title": "Diagnóstico claro",
+        "Desc": "Evaluación rápida de su situación y de las posibilidades de éxito antes de gastos innecesarios."
+      },
+      {
+        "Title": "Expediente completo",
+        "Desc": "Preparación y verificación de documentos para reducir requerimientos."
+      },
+      {
+        "Title": "Coordinación local",
+        "Desc": "Seguimiento con autoridades cantonales, cajas AVS y socios relevantes."
+      },
+      {
+        "Title": "Cumplimiento social y fiscal",
+        "Desc": "Alineación de ANobAG, nómina y obligaciones fiscales para una instalación sin sorpresas."
+      },
+      {
+        "Title": "Soporte posterior a la llegada",
+        "Desc": "Acompañamiento en renovaciones, cambios de empleador o creación de empresa."
+      }
+    ]
+  }
+}

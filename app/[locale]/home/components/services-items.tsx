@@ -62,6 +62,13 @@ const MapPin = () => (
   </svg>
 );
 
+const Plane = () => (
+  <svg viewBox="0 0 24 24" className={calcClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="M2 16l20-6-20-6 5 6-5 6z" />
+    <path d="M7 10h7" />
+  </svg>
+);
+
 const Crown = () => (
   <svg viewBox="0 0 24 24" className={calcClass} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
     <path d="M3 10l4 3 5-7 5 7 4-3v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
@@ -108,6 +115,13 @@ const services = [
     href: "/services/incorporation",
     descriptionKey: "Incorporation.Description",
     image: "/assets/hero/services/home-hero.avif",
+  },
+  {
+    icon: <Plane />,
+    titleKey: "ImmigrationServices.Title",
+    href: "/services/immigration",
+    descriptionKey: "ImmigrationServices.Description",
+    image: "/assets/hero/services/immigration-hero.optimized.webp",
   },
   {
     icon: <Layers />,

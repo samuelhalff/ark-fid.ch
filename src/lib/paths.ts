@@ -13,6 +13,7 @@ const frMap: Record<string, string> = {
   "/services/corporate": "/services/services-corporatifs",
   "/services/domiciliation": "/services/domiciliation",
   "/services/incorporation": "/services/constitution-entreprise",
+  "/services/immigration": "/services/immigration",
   "/services/odoo": "/services/odoo",
   "/services/family-office": "/services/family-office",
 };

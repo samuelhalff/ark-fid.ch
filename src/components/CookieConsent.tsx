@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Script from "next/script";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -42,7 +36,7 @@ function getStoredConsent(): ConsentValue | null {
     // Fallback: check cookie
     try {
       const cookieMatch = document.cookie.match(
-        new RegExp(`(?:^|; )${CONSENT_KEY}=([^;]*)`)
+        new RegExp(`(?:^|; )${CONSENT_KEY}=([^;]*)`),
       );
       if (cookieMatch) {
         const val = cookieMatch[1];
@@ -110,7 +104,7 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
     const root = dialogRef.current;
     if (!root) return;
     const focusable = root.querySelectorAll<HTMLElement>(
-      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
     );
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
@@ -140,7 +134,7 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
       process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ||
       process.env.NEXT_PUBLIC_GA_ID ||
       "G-BXZ54E31FL",
-    []
+    [],
   );
 
   const applyGtagConsent = useCallback(
@@ -179,7 +173,7 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
         });
       }
     },
-    [measurementId]
+    [measurementId],
   );
 
   useEffect(() => {
@@ -193,7 +187,7 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
     setConsentState("accepted");
     try {
       window.dispatchEvent(
-        new CustomEvent("cookie-consent-changed", { detail: "accepted" })
+        new CustomEvent("cookie-consent-changed", { detail: "accepted" }),
       );
     } catch {}
     applyGtagConsent("accepted");
@@ -205,7 +199,7 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
     setConsentState("minimal");
     try {
       window.dispatchEvent(
-        new CustomEvent("cookie-consent-changed", { detail: "minimal" })
+        new CustomEvent("cookie-consent-changed", { detail: "minimal" }),
       );
     } catch {}
     applyGtagConsent("minimal");
@@ -237,8 +231,7 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
       )}
 
       {/* Load GA only when consent is accepted/minimal and measurement ID is configured */}
-      {measurementId &&
-      (consent === "accepted" || consent === "minimal") ? (
+      {measurementId && (consent === "accepted" || consent === "minimal") ? (
         <>
           <Script
             nonce={nonce}

@@ -1,0 +1,51 @@
+{
+  "ImageAlt": "Flugzeugflügel mit Schweizer Kreuz über den Wolken",
+  "Hero": {
+    "Badge": "Schweizer Einwanderung",
+    "BadgeTwo": "Bewilligungen & Mobilität",
+    "Title": "Einwanderung und Arbeitsbewilligungen in der Schweiz",
+    "Description": "Klare Unterstützung für L-, B- und C-Bewilligungen, ANobAG-Fälle und die Ansiedlung in der Romandie.",
+    "CTA": "Mit einem Spezialisten sprechen"
+  },
+  "Presentation": {
+    "Title": "Einwanderung und Mobilität in der Westschweiz",
+    "Subtitle": "Klare Schritte, zuverlässige Begleitung",
+    "Intro": [
+      "Wir unterstützen Unternehmer, Führungskräfte und Familien bei der Ansiedlung in der Schweiz mit einem pragmatischen, konformen Ansatz.",
+      "Wir klären die Optionen (L/B/C-Bewilligungen, ANobAG, Firmengründung) und koordinieren mit kantonalen Behörden und Sozialversicherungen.",
+      "Wir übernehmen die wichtigsten Schritte, damit Sie Zeitpläne, Unterlagen und Kosten im Blick behalten."
+    ],
+    "ServicesTitle": "Unsere Einwanderungsleistungen",
+    "Services": [
+      "Statusanalyse und Mobilitätsstrategie (EU/EFTA oder Drittstaat)",
+      "Koordination von Aufenthalts- und Arbeitsbewilligungen (L, B, C, G)",
+      "ANobAG-Dossiers und Anmeldung bei Sozialversicherungen",
+      "Firmengründung und Arbeitsverträge bei Bedarf",
+      "Administrative Unterstützung bei der Ankunft (Adresse, Versicherung, Bank)",
+      "Steuer- und Payroll-Begleitung für die Compliance"
+    ],
+    "StrengthsTitle": "Ihr Mehrwert",
+    "Strengths": [
+      {
+        "Title": "Klare Einschätzung",
+        "Desc": "Schnelle Bewertung Ihrer Situation und Erfolgschancen vor unnötigen Kosten."
+      },
+      {
+        "Title": "Vollständiges Dossier",
+        "Desc": "Vorbereitung und Prüfung der Unterlagen, um Rückfragen zu vermeiden."
+      },
+      {
+        "Title": "Lokale Koordination",
+        "Desc": "Nachverfolgung mit kantonalen Stellen, AHV-Kassen und Partnern."
+      },
+      {
+        "Title": "Sozial- und Steuerkonformität",
+        "Desc": "Abgleich von ANobAG, Payroll und steuerlichen Pflichten für einen reibungslosen Start."
+      },
+      {
+        "Title": "Begleitung nach der Ankunft",
+        "Desc": "Unterstützung bei Verlängerungen, Arbeitgeberwechsel oder Firmengründung."
+      }
+    ]
+  }
+}

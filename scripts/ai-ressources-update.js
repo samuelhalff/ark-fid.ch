@@ -127,6 +127,7 @@ const SERVICES = [
   "fusions et acquisitions (M&A)",
   "family office (gestion de patrimoine, HNI)",
   "constitution et incorporation d'entreprise",
+  "immigration et mobilité internationale (permis, ANobAG, expatriés)",
   "conformité réglementaire (SRO/OAR, LBA/AML, FINMA)",
 ];
 
@@ -214,6 +215,18 @@ const TOPIC_KEYWORDS = [
       /créer/i,
       /fondation/i,
       /création d'entreprise/i,
+    ],
+  },
+  {
+    topic: "immigration",
+    label: "Immigration & mobilité",
+    patterns: [
+      /immigration/i,
+      /permis/i,
+      /\bANobAG\b/i,
+      /mobilit/i,
+      /expat/i,
+      /expatri/i,
     ],
   },
   {
@@ -587,7 +600,7 @@ function buildResearchPrompt(frJson, trendData, seoSuggestions) {
     '    "slug": "<slug-unique-fr>",',
     '    "title": "<titre FR>",',
     '    "description": "<description FR>",',
-    '    "category": "<payroll|tax|corporate|odoo|accounting|incorporation|regulatory|outsourcing|ma|family-office|domiciliation|finance|general>",',
+    '    "category": "<payroll|tax|corporate|odoo|accounting|incorporation|immigration|regulatory|outsourcing|ma|family-office|domiciliation|finance|general>",',
     '    "primaryKeyword": "<mot-clé principal>",',
     '    "secondaryKeywords": ["..."],',
     '    "outline": ["H2 ...", "H2 ...", "FAQ ..."],',

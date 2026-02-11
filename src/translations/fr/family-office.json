@@ -4,7 +4,7 @@
         "Badge": "Excellence suisse",
         "BadgeTwo": "Patrimoine familial",
         "Title": "Family office",
-        "Description": "Family office complet pour familles et entrepreneurs à fort patrimoine : structuration de fortune, gouvernance internationale, transmission et projets philanthropiques pilotés depuis la Suisse.",
+        "Description": "Family office pour familles et entrepreneurs à fort patrimoine : gouvernance, coordination administrative, reporting consolidé et projets philanthropiques depuis la Suisse.",
         "CTA": "Sécurisez votre héritage",
         "SecondaryCTA": "En savoir plus"
     },
@@ -12,38 +12,38 @@
         "Label": "Family office"
     },
     "Presentation": {
-        "Title": "Family office : gouvernance et stratégie patrimoniale en Suisse",
-        "Subtitle": "Partenaire multi-family office pour structurer, transmettre et coordonner vos actifs internationaux.",
+        "Title": "Family office : gouvernance et coordination patrimoniale en Suisse",
+        "Subtitle": "Un partenaire administratif et de gouvernance, sans gestion d'actifs",
         "Intro": [
-            "Ark Fiduciaire accompagne les familles actionnaires et family offices qui recherchent un bureau suisse pour orchestrer gouvernance, fiscalité et reporting. Nous consolidons banques, juristes et fiscalistes afin d'offrir une vue unique et un plan d'action concret.",
-            "Depuis Genève et Lausanne, nous animons l'écosystème de prestataires, les outils digitaux et les instances familiales pour que chartes, holdings et projets philanthropiques restent alignés sur la réglementation suisse."
+            "Ark Fiduciaire accompagne les familles et entrepreneurs qui souhaitent un point de coordination en Suisse pour la gouvernance, la fiscalité, le juridique et le reporting.",
+            "Nous ne proposons pas de gestion d'actifs : notre rôle est administratif et de coordination avec les banques, gérants externes, juristes et fiscalistes, avec des workflows sécurisés."
         ],
         "HighlightsTitle": "Nos atouts en family office",
         "Highlights": [
             {
-                "Title": "Supervision indépendante",
-                "Desc": "Pilotage neutre des banques, gérants et trustees dans le respect des standards fiduciaires suisses."
+                "Title": "Coordination indépendante",
+                "Desc": "Pilotage administratif des banques et prestataires, sans conseil en investissement."
             },
             {
                 "Title": "Coordination 360°",
-                "Desc": "Un interlocuteur unique gère administration, fiscalité, juridique, reporting et demandes lifestyle via des workflows sécurisés."
+                "Desc": "Un interlocuteur unique gère administration, fiscalité, juridique, reporting et demandes lifestyle."
             },
             {
                 "Title": "Gouvernance & succession",
-                "Desc": "Accompagnement pour chartes familiales, pactes d'actionnaires, programmes NextGen et planification successorale transfrontalière."
+                "Desc": "Chartes familiales, pactes d'actionnaires, programmes nextgen et planification successorale."
             },
             {
-                "Title": "Impact & philanthropie",
-                "Desc": "Création et administration de fondations, politiques d'investissement durable et reporting d'impact."
+                "Title": "Philanthropie & impact",
+                "Desc": "Création et administration de fondations, suivi des dons et reporting d'impact."
             }
         ],
         "ServicesTitle": "Services phares de family office",
         "Services": [
-            "Revue de structuration patrimoniale · consolidation des participations et tableaux de flux",
+            "Structuration patrimoniale · consolidation des participations et tableaux de flux",
             "Coordination fiscale & juridique internationale · interface avec conseillers suisses et étrangers",
-            "Animation de la gouvernance familiale · chartes, conseils de famille, programmes éducatifs",
-            "Support aux opérations & investissements · due diligence, documentation et suivi des deals",
-            "Administration philanthropique & lifestyle · fondations, art, immobilier et concierge dédié"
+            "Gouvernance familiale · chartes, conseils de famille, programmes éducatifs",
+            "Support administratif & paiements · préparation des virements, documentation, suivi des dossiers",
+            "Administration philanthropique & lifestyle · fondations, art, immobilier, conciergerie"
         ],
         "CalloutTitle": "Construisons votre feuille de route patrimoniale",
         "CalloutText": "Planifions un entretien confidentiel à Genève ou Lausanne pour aligner vos priorités et définir une gouvernance adaptée à votre famille.",

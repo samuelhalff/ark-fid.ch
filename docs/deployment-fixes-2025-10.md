@@ -152,7 +152,7 @@ done
 2. **`.github/workflows/build-and-deploy.yml`** (updated)
    - Restart step now kills any existing loop/Node processes before starting
    - Supervisor loop cd's into `current` on every iteration to honor new releases
-   - Health checks and warmup remain unchanged
+   - Health checks and warmup now prefetch service detail pages and next/image variants
 
 ### Created Files (Temporary/Diagnostic)
 

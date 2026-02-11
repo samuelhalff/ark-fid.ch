@@ -110,6 +110,22 @@ const PinIcon = () => (
     <circle cx="12" cy="11" r="2.5" />
   </svg>
 );
+const PlaneIcon = () => (
+  <svg
+    className="text-primary"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M2 16l20-6-20-6 5 6-5 6z" />
+    <path d="M7 10h7" />
+  </svg>
+);
 const SettingsIcon = () => (
   <svg
     className="text-primary"
@@ -205,6 +221,12 @@ const ServicesElements = [
     descriptionKey: "Incorporation.Description",
     href: "/services/incorporation/",
     icon: <Building2Icon />,
+  },
+  {
+    titleKey: "ImmigrationServices.Title",
+    descriptionKey: "ImmigrationServices.Description",
+    href: "/services/immigration/",
+    icon: <PlaneIcon />,
   },
   {
     titleKey: "OdooImplementation.Title",

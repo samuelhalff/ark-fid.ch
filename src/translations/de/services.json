@@ -23,6 +23,10 @@
         "Title": "Gründungsdienstleistungen",
         "Description": "Wir unterstützen Sie bei der Gründung Ihres Unternehmens, einschließlich der Auswahl der Rechtsform, der Erstellung von Gründungsdokumenten und der Einreichung bei den zuständigen Behörden."
     },
+    "ImmigrationServices": {
+        "Title": "Einwanderung & Bewilligungen",
+        "Description": "Begleitung bei Schweizer Aufenthalts- und Arbeitsbewilligungen, ANobAG-Fällen und Koordination mit kantonalen Behörden."
+    },
     "DomiciliationServices": {
         "Title": "Domizilierungsdienstleistungen",
         "Description": "Domizilierungsdienstleistungen bieten Unternehmen eine registrierte Adresse. Diese Dienstleistungen ermöglichen es Unternehmen, ihren offiziellen Hauptsitz zu etablieren, ohne ein physisches Büro an diesem Standort zu benötigen."
