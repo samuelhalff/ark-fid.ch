@@ -1,0 +1,911 @@
+{
+  "generatedAt": "2026-02-11T14:46:53.911Z",
+  "config": {
+    "maxSuggestions": 10,
+    "driftRatio": 0.4,
+    "seedsPerService": 1,
+    "providers": [
+      "google",
+      "bing"
+    ]
+  },
+  "seeds": {
+    "fr": {
+      "/services/accounting": [
+        "comptabilité genève"
+      ],
+      "/services/taxes": [
+        "fiscalité genève"
+      ],
+      "/services/payroll": [
+        "gestion salaires suisse"
+      ],
+      "/services/corporate": [
+        "administration corporate suisse"
+      ],
+      "/services/domiciliation": [
+        "domiciliation genève"
+      ],
+      "/services/incorporation": [
+        "création société genève"
+      ],
+      "/services/outsourcing": [
+        "externalisation comptable suisse"
+      ],
+      "/services/mergers-acquisitions": [
+        "fusion acquisition suisse"
+      ],
+      "/services/odoo": [
+        "odoo genève"
+      ],
+      "/services/family-office": [
+        "family office suisse"
+      ],
+      "/services/immigration": [
+        "immigration suisse"
+      ]
+    },
+    "en": {
+      "/services/accounting": [
+        "accounting geneva"
+      ],
+      "/services/taxes": [
+        "tax advice geneva"
+      ],
+      "/services/payroll": [
+        "payroll switzerland"
+      ],
+      "/services/corporate": [
+        "corporate administration switzerland"
+      ],
+      "/services/domiciliation": [
+        "domiciliation geneva"
+      ],
+      "/services/incorporation": [
+        "company incorporation geneva"
+      ],
+      "/services/outsourcing": [
+        "back office outsourcing switzerland"
+      ],
+      "/services/mergers-acquisitions": [
+        "m&a switzerland"
+      ],
+      "/services/odoo": [
+        "odoo geneva"
+      ],
+      "/services/family-office": [
+        "family office switzerland"
+      ],
+      "/services/immigration": [
+        "swiss immigration"
+      ]
+    },
+    "de": {
+      "/services/accounting": [
+        "buchhaltung genf"
+      ],
+      "/services/taxes": [
+        "steuerberatung genf"
+      ],
+      "/services/payroll": [
+        "lohnbuchhaltung schweiz"
+      ],
+      "/services/corporate": [
+        "corporate administration schweiz"
+      ],
+      "/services/domiciliation": [
+        "domizilierung genf"
+      ],
+      "/services/incorporation": [
+        "firmengründung genf"
+      ],
+      "/services/outsourcing": [
+        "backoffice outsourcing schweiz"
+      ],
+      "/services/mergers-acquisitions": [
+        "m&a schweiz"
+      ],
+      "/services/odoo": [
+        "odoo genf"
+      ],
+      "/services/family-office": [
+        "family office schweiz"
+      ],
+      "/services/immigration": [
+        "schweiz immigration"
+      ]
+    },
+    "es": {
+      "/services/accounting": [
+        "contabilidad ginebra"
+      ],
+      "/services/taxes": [
+        "asesoría fiscal ginebra"
+      ],
+      "/services/payroll": [
+        "gestión nóminas suiza"
+      ],
+      "/services/corporate": [
+        "administración corporativa suiza"
+      ],
+      "/services/domiciliation": [
+        "domiciliación ginebra"
+      ],
+      "/services/incorporation": [
+        "constitución sociedad ginebra"
+      ],
+      "/services/outsourcing": [
+        "externalización back office suiza"
+      ],
+      "/services/mergers-acquisitions": [
+        "m&a suiza"
+      ],
+      "/services/odoo": [
+        "odoo ginebra"
+      ],
+      "/services/family-office": [
+        "family office suiza"
+      ],
+      "/services/immigration": [
+        "inmigración suiza"
+      ]
+    },
+    "pt": {
+      "/services/accounting": [
+        "contabilidade genebra"
+      ],
+      "/services/taxes": [
+        "consultoria fiscal genebra"
+      ],
+      "/services/payroll": [
+        "folha salarial suíça"
+      ],
+      "/services/corporate": [
+        "administração corporate suíça"
+      ],
+      "/services/domiciliation": [
+        "domiciliação genebra"
+      ],
+      "/services/incorporation": [
+        "constituição empresa genebra"
+      ],
+      "/services/outsourcing": [
+        "outsourcing back office suíça"
+      ],
+      "/services/mergers-acquisitions": [
+        "m&a suíça"
+      ],
+      "/services/odoo": [
+        "odoo genebra"
+      ],
+      "/services/family-office": [
+        "family office suíça"
+      ],
+      "/services/immigration": [
+        "imigração suíça"
+      ]
+    }
+  },
+  "results": {
+    "fr": {
+      "/services/accounting": {
+        "comptabilité genève": {
+          "google": [
+            "comptabilité genève",
+            "comptable genève",
+            "comptable genève emploi",
+            "comptable genève salaire",
+            "finance genève",
+            "comptabilité geneve emploi",
+            "stage comptabilité genève",
+            "formation comptabilité genève",
+            "comptabilité pme genève sàrl",
+            "répétiteur comptabilité genève"
+          ],
+          "bing": [
+            "comptabilité genève",
+            "ifage genève comptabilité",
+            "formation comptabilité genève"
+          ]
+        }
+      },
+      "/services/taxes": {
+        "fiscalité genève": {
+          "google": [
+            "fiscalité genève",
+            "finance genève",
+            "taxe genève",
+            "formation fiscalité genève"
+          ],
+          "bing": [
+            "fiscalité genève"
+          ]
+        }
+      },
+      "/services/payroll": {
+        "gestion salaires suisse": {
+          "google": [
+            "gestion salaire suisse",
+            "gestion paie suisse",
+            "gestion patrimoine salaire suisse",
+            "contrôle de gestion salaire suisse",
+            "formation gestion des salaires suisse"
+          ],
+          "bing": []
+        }
+      },
+      "/services/corporate": {
+        "administration corporate suisse": {
+          "google": [
+            "business administration suisse",
+            "business management suisse"
+          ],
+          "bing": []
+        }
+      },
+      "/services/domiciliation": {
+        "domiciliation genève": {
+          "google": [
+            "domiciliation genève",
+            "domiciliation geneve pas cher",
+            "domicile genève",
+            "domiciliation entreprise genève",
+            "domiciliation particulier genève",
+            "domiciliation entreprise genève prix",
+            "domiciliation fiscale genève",
+            "domiciliation indépendant genève",
+            "domiciliation entreprise genève pas cher",
+            "domiciliation association genève"
+          ],
+          "bing": [
+            "domiciliation genève",
+            "zone de domiciliation autorisée genève",
+            "domiciliation fiscale genève"
+          ]
+        }
+      },
+      "/services/incorporation": {
+        "création société genève": {
+          "google": [
+            "création société genève",
+            "création sarl genève",
+            "création entreprise genève",
+            "ouvrir societe geneve"
+          ],
+          "bing": [
+            "création de société anonyme à genève",
+            "création société anonyme à genève",
+            "création de société en nom collectif à genève"
+          ]
+        }
+      },
+      "/services/outsourcing": {
+        "externalisation comptable suisse": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/mergers-acquisitions": {
+        "fusion acquisition suisse": {
+          "google": [
+            "fusion acquisition suisse",
+            "salaire fusion acquisition suisse"
+          ],
+          "bing": []
+        }
+      },
+      "/services/odoo": {
+        "odoo genève": {
+          "google": [
+            "odoo genève",
+            "intégrateur odoo genève",
+            "odoo formation genève"
+          ],
+          "bing": [
+            "odoo geneve",
+            "formation odoo genève"
+          ]
+        }
+      },
+      "/services/family-office": {
+        "family office suisse": {
+          "google": [
+            "family office suisse",
+            "family office suisse liste",
+            "family office suisse romande",
+            "family office suisse olivier delamarche",
+            "family office swiss",
+            "family office switzerland list",
+            "palms family office suisse sa",
+            "salaire family office suisse",
+            "emploi family office suisse",
+            "palms family office suisse"
+          ],
+          "bing": [
+            "family office suisse",
+            "palms family office suisse sa",
+            "path family office suisse sa",
+            "family office en suisse"
+          ]
+        }
+      },
+      "/services/immigration": {
+        "immigration suisse": {
+          "google": [
+            "immigration suisse",
+            "immigration suisse 2025",
+            "immigration suisse par nationalité",
+            "immigration suisse 2026",
+            "immigration suisse 19ème siècle",
+            "immigration suisse 2024",
+            "immigration suisse site officiel",
+            "immigration suisse statistique",
+            "immigration suisse 2025 inscription",
+            "immigration suisse contact"
+          ],
+          "bing": [
+            "immigration suisse",
+            "immigration suisse 2025",
+            "immigration suisse site officiel",
+            "immigration suisse 2024",
+            "immigration suisse 2025 inscription",
+            "immigration suisse en alsace",
+            "immigration suisse en france",
+            "immigration en suisse",
+            "immigration en suisse pour travailler",
+            "immigration italienne en suisse"
+          ]
+        }
+      }
+    },
+    "en": {
+      "/services/accounting": {
+        "accounting geneva": {
+          "google": [
+            "accounting geneva",
+            "accounting geneva il",
+            "geneva accounting system",
+            "geneva accounting software",
+            "geneva accounting system training",
+            "geneva accounting platform",
+            "accountants geneva ny",
+            "geneva accounting jobs",
+            "geneva accounting engine",
+            "accountant geneva al"
+          ],
+          "bing": []
+        }
+      },
+      "/services/taxes": {
+        "tax advice geneva": {
+          "google": [
+            "tax advice geneva",
+            "tax advisor geneva",
+            "tax advisor geneva switzerland"
+          ],
+          "bing": []
+        }
+      },
+      "/services/payroll": {
+        "payroll switzerland": {
+          "google": [
+            "payroll switzerland",
+            "wages switzerland",
+            "switzerland payroll taxes",
+            "switzerland payroll company",
+            "payroll plus switzerland",
+            "switzerland payroll services",
+            "payroll jobs in switzerland",
+            "daily wages in switzerland"
+          ],
+          "bing": [
+            "payroll switzerland",
+            "head of payroll dach in switzerland"
+          ]
+        }
+      },
+      "/services/corporate": {
+        "corporate administration switzerland": {
+          "google": [
+            "business administration switzerland",
+            "corporate taxes in switzerland"
+          ],
+          "bing": []
+        }
+      },
+      "/services/domiciliation": {
+        "domiciliation geneva": {
+          "google": [
+            "domiciliation geneva",
+            "geneva address",
+            "sites in geneva",
+            "directions to geneva ne"
+          ],
+          "bing": [
+            "domiciliation genève"
+          ]
+        }
+      },
+      "/services/incorporation": {
+        "company incorporation geneva": {
+          "google": [
+            "company registration geneva",
+            "companies in geneva"
+          ],
+          "bing": []
+        }
+      },
+      "/services/outsourcing": {
+        "back office outsourcing switzerland": {
+          "google": [],
+          "bing": [
+            "back office outsourcing services",
+            "business back office outsourcing",
+            "free back office outsourcing",
+            "insurance agency back office outsourcing",
+            "back office bookkeeping outsourcing",
+            "back office international services",
+            "law firm back office outsourcing",
+            "back office recruiting solutions",
+            "back office recruiting software",
+            "swiss bionic solutions back office"
+          ]
+        }
+      },
+      "/services/mergers-acquisitions": {
+        "m&a switzerland": {
+          "google": [
+            "m&a switzerland",
+            "m&a switzerland jobs",
+            "m&a internship switzerland",
+            "m&a boutique switzerland",
+            "chambers m&a switzerland",
+            "m&a advisory switzerland",
+            "m&a salary switzerland",
+            "m&a analyst switzerland",
+            "deloitte m&a switzerland",
+            "m&a advisor switzerland"
+          ],
+          "bing": [
+            "ma switzerland production sagl"
+          ]
+        }
+      },
+      "/services/odoo": {
+        "odoo geneva": {
+          "google": [],
+          "bing": [
+            "odoo geneve"
+          ]
+        }
+      },
+      "/services/family-office": {
+        "family office switzerland": {
+          "google": [
+            "family office switzerland",
+            "family office switzerland list",
+            "family office switzerland jobs",
+            "family foundation switzerland",
+            "single family office switzerland",
+            "tomlinson family office switzerland",
+            "multi family office switzerland",
+            "freemont family office switzerland",
+            "family office conference switzerland",
+            "hfi family office switzerland"
+          ],
+          "bing": [
+            "family office switzerland",
+            "family office switzerland ag",
+            "family office real estate switzerland summit"
+          ]
+        }
+      },
+      "/services/immigration": {
+        "swiss immigration": {
+          "google": [
+            "swiss immigration",
+            "swiss immigration news",
+            "swiss immigration policy",
+            "swiss immigration office",
+            "swiss immigration lawyer",
+            "swiss immigration contact",
+            "swiss immigration referendum",
+            "swiss immigration statistics",
+            "swiss immigration vote",
+            "swiss immigration office zurich"
+          ],
+          "bing": [
+            "swiss immigration",
+            "swiss immigration policy",
+            "swiss immigration office",
+            "swiss immigration surrey",
+            "swiss immigration lawyer",
+            "swiss immigration law office",
+            "swiss immigration to america 1800s",
+            "swiss immigration fiorella deshogues",
+            "swiss immigration to us",
+            "swiss immigration website"
+          ]
+        }
+      }
+    },
+    "de": {
+      "/services/accounting": {
+        "buchhaltung genf": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/taxes": {
+        "steuerberatung genf": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/payroll": {
+        "lohnbuchhaltung schweiz": {
+          "google": [
+            "lohnbuchhaltung schweiz",
+            "lohnbuchhaltung schweiz excel",
+            "lohnbuchhaltung schweiz software",
+            "lohnbuchhaltung schweiz jahresende informationen 2026",
+            "lohnbuchhaltung schweiz einfach erklärt",
+            "lohnbuchhaltung schweiz buch",
+            "lohnbuchhaltung schweiz kostenlos",
+            "lohnbuchhaltung schweiz kurs",
+            "lohnbuchhaltung schweiz buchungssätze",
+            "lohnbuchhaltung schweiz weiterbildung"
+          ],
+          "bing": [
+            "lohnbuchhaltung schweiz",
+            "lohnbuchhaltung schweiz einfach erklärt",
+            "lohnbuchhaltung software schweiz",
+            "seminar lohnbuchhaltung schweiz"
+          ]
+        }
+      },
+      "/services/corporate": {
+        "corporate administration schweiz": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/domiciliation": {
+        "domizilierung genf": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/incorporation": {
+        "firmengründung genf": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/outsourcing": {
+        "backoffice outsourcing schweiz": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/mergers-acquisitions": {
+        "m&a schweiz": {
+          "google": [
+            "m&a schweiz",
+            "m&a schweiz jobs",
+            "m&a schweiz gehalt",
+            "m&a schweiz wiwi treff",
+            "m&a praktikum schweiz",
+            "m&a boutique schweiz",
+            "m&a internship schweiz",
+            "m&a beratung schweiz",
+            "m&a analyst schweiz",
+            "m&a markt schweiz"
+          ],
+          "bing": [
+            "m&a schweiz",
+            "m&a jobs schweiz",
+            "m&a boutique schweiz"
+          ]
+        }
+      },
+      "/services/odoo": {
+        "odoo genf": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/family-office": {
+        "family office schweiz": {
+          "google": [
+            "family office schweiz",
+            "family office schweiz liste",
+            "family office schweiz gmbh",
+            "family office schweiz jobs",
+            "family office schweiz immobilien",
+            "single family office schweiz",
+            "multi family office schweiz",
+            "lindita family office schweiz",
+            "family office bremer schweiz gmbh",
+            "family office gründen schweiz"
+          ],
+          "bing": [
+            "family office schweiz",
+            "family office schweiz gmbh",
+            "office 365 family kaufen schweiz"
+          ]
+        }
+      },
+      "/services/immigration": {
+        "schweiz immigration": {
+          "google": [
+            "schweiz migration",
+            "schweiz migrationspolitik",
+            "schweiz migrationsamt",
+            "schweiz migration statistik",
+            "schweiz migration probleme",
+            "migration schweiz",
+            "immigration schweiz jobs",
+            "migration schweiz 2024",
+            "immigrationsanwalt schweiz",
+            "migration schweiz zahlen"
+          ],
+          "bing": [
+            "schweiz immigration",
+            "schweiz migration",
+            "schweiz migrationsanteil",
+            "schweiz migrationspolitik",
+            "schweiz migrationsamt",
+            "schweiz migration probleme",
+            "schweiz migration statistik",
+            "immigration in die schweiz",
+            "immigration in der schweiz"
+          ]
+        }
+      }
+    },
+    "es": {
+      "/services/accounting": {
+        "contabilidad ginebra": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/taxes": {
+        "asesoría fiscal ginebra": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/payroll": {
+        "gestión nóminas suiza": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/corporate": {
+        "administración corporativa suiza": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/domiciliation": {
+        "domiciliación ginebra": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/incorporation": {
+        "constitución sociedad ginebra": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/outsourcing": {
+        "externalización back office suiza": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/mergers-acquisitions": {
+        "m&a suiza": {
+          "google": [
+            "m suiza"
+          ],
+          "bing": []
+        }
+      },
+      "/services/odoo": {
+        "odoo ginebra": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/family-office": {
+        "family office suiza": {
+          "google": [
+            "family office suiza",
+            "family office hispano suiza ag"
+          ],
+          "bing": []
+        }
+      },
+      "/services/immigration": {
+        "inmigración suiza": {
+          "google": [
+            "inmigración suiza",
+            "inmigración suiza en argentina",
+            "inmigración suiza en chile",
+            "inmigración suiza 2025",
+            "inmigración suiza 2024",
+            "inmigración suiza en uruguay",
+            "inmigración suiza 2023",
+            "inmigración suiza en brasil",
+            "inmigración suiza en colombia",
+            "inmigración suiza en estados unidos"
+          ],
+          "bing": [
+            "inmigración suiza"
+          ]
+        }
+      }
+    },
+    "pt": {
+      "/services/accounting": {
+        "contabilidade genebra": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/taxes": {
+        "consultoria fiscal genebra": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/payroll": {
+        "folha salarial suíça": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/corporate": {
+        "administração corporate suíça": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/domiciliation": {
+        "domiciliação genebra": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/incorporation": {
+        "constituição empresa genebra": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/outsourcing": {
+        "outsourcing back office suíça": {
+          "google": [],
+          "bing": [
+            "outsourcing back office services",
+            "insurance agency back office outsourcing",
+            "business back office outsourcing",
+            "free back office outsourcing",
+            "law firm back office outsourcing",
+            "southcall business outsourcing inc"
+          ]
+        }
+      },
+      "/services/mergers-acquisitions": {
+        "m&a suíça": {
+          "google": [],
+          "bing": [
+            "ma swica"
+          ]
+        }
+      },
+      "/services/odoo": {
+        "odoo genebra": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/family-office": {
+        "family office suíça": {
+          "google": [],
+          "bing": []
+        }
+      },
+      "/services/immigration": {
+        "imigração suíça": {
+          "google": [
+            "imigração suiça no brasil",
+            "imigração suiça",
+            "imigração suíça no rio de janeiro",
+            "imigração suíça no espírito santo",
+            "imigração suíça aeroporto",
+            "imigração para suíça",
+            "programa de imigração suíça"
+          ],
+          "bing": [
+            "imigração suíça",
+            "imigração suíça no brasil",
+            "imigração suíça para o brasil",
+            "imigração na suíça"
+          ]
+        }
+      }
+    }
+  },
+  "errors": {
+    "fr": {
+      "/services/accounting": {},
+      "/services/taxes": {},
+      "/services/payroll": {},
+      "/services/corporate": {},
+      "/services/domiciliation": {},
+      "/services/incorporation": {},
+      "/services/outsourcing": {},
+      "/services/mergers-acquisitions": {},
+      "/services/odoo": {},
+      "/services/family-office": {},
+      "/services/immigration": {}
+    },
+    "en": {
+      "/services/accounting": {},
+      "/services/taxes": {},
+      "/services/payroll": {},
+      "/services/corporate": {},
+      "/services/domiciliation": {},
+      "/services/incorporation": {},
+      "/services/outsourcing": {},
+      "/services/mergers-acquisitions": {},
+      "/services/odoo": {},
+      "/services/family-office": {},
+      "/services/immigration": {}
+    },
+    "de": {
+      "/services/accounting": {},
+      "/services/taxes": {},
+      "/services/payroll": {},
+      "/services/corporate": {},
+      "/services/domiciliation": {},
+      "/services/incorporation": {},
+      "/services/outsourcing": {},
+      "/services/mergers-acquisitions": {},
+      "/services/odoo": {},
+      "/services/family-office": {},
+      "/services/immigration": {}
+    },
+    "es": {
+      "/services/accounting": {},
+      "/services/taxes": {},
+      "/services/payroll": {},
+      "/services/corporate": {},
+      "/services/domiciliation": {},
+      "/services/incorporation": {},
+      "/services/outsourcing": {},
+      "/services/mergers-acquisitions": {},
+      "/services/odoo": {},
+      "/services/family-office": {},
+      "/services/immigration": {}
+    },
+    "pt": {
+      "/services/accounting": {},
+      "/services/taxes": {},
+      "/services/payroll": {},
+      "/services/corporate": {},
+      "/services/domiciliation": {},
+      "/services/incorporation": {},
+      "/services/outsourcing": {},
+      "/services/mergers-acquisitions": {},
+      "/services/odoo": {},
+      "/services/family-office": {},
+      "/services/immigration": {}
+    }
+  }
+}
