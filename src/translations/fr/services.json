@@ -34,5 +34,11 @@
     "OdooImplementation": {
         "Title": "Implémentation Odoo",
         "Description": "Nous sommes des partenaires officiels d'Odoo, fournissant des services complets d'implémentation et de configuration pour garantir que votre configuration Odoo répond aux normes comptables suisses."
+    },
+    "ExpertBanner": {
+        "Title": "Parler à un de nos experts",
+        "Description": "Besoin d'un avis rapide ou d'un devis clair ? Notre équipe répond vite et va droit au but.",
+        "PrimaryCTA": "Parler à un expert",
+        "SecondaryCTA": "Obtenir un devis instantané"
     }
 }

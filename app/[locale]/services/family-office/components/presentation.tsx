@@ -1,6 +1,7 @@
 // "use client";
 
 import React from "react";
+import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import ServiceLongForm from "@/src/components/ui/service-longform";
 // Inline SVGs for icons (replace lucide-react)
 const Briefcase = () => (
@@ -258,6 +259,8 @@ const FamilyOfficePresentation = ({
             {t("Presentation.CalloutCTA")}
           </Link>
         </section>
+
+        <ServiceExpertBanner locale={locale} />
       </div>
     </section>
   );

@@ -34,5 +34,11 @@
     "OdooImplementation": {
         "Title": "Odoo implementation",
         "Description": "We are official Odoo partners, providing full implementation and configuration services to ensure your Odoo setup meets Swiss accounting standards."
+    },
+    "ExpertBanner": {
+        "Title": "Speak to one of our experts",
+        "Description": "Need a quick opinion or a clear quote? Our team replies fast and keeps it simple.",
+        "PrimaryCTA": "Speak to an expert",
+        "SecondaryCTA": "Get an instant quote"
     }
 }

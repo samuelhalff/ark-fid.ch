@@ -9,6 +9,7 @@ import { tidyTitle } from "@/src/lib/typography";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import ServiceLongForm from "@/src/components/ui/service-longform";
+import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 const ServicesListServer = dynamic(
   () => import("@/src/components/ui/services-list-server"),
   { suspense: true }
@@ -91,6 +92,7 @@ const CorporatePresentation = async () => {
             </section>
 
             <ServiceLongForm t={t} />
+            <ServiceExpertBanner locale={locale} />
           </div>
         </div>
       </div>

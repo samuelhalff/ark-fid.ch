@@ -34,5 +34,11 @@
     "OdooImplementation": {
         "Title": "Implementación Odoo",
         "Description": "Somos socios oficiales de Odoo, proporcionando servicios completos de implementación y configuración para asegurar que su configuración de Odoo cumpla con los estándares contables suizos."
+    },
+    "ExpertBanner": {
+        "Title": "Hable con uno de nuestros expertos",
+        "Description": "¿Necesita una opinión rápida o un presupuesto claro? Nuestro equipo responde rápido y con claridad.",
+        "PrimaryCTA": "Hablar con un experto",
+        "SecondaryCTA": "Obtener un presupuesto instantáneo"
     }
 }

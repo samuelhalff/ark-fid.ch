@@ -5,6 +5,7 @@ import { getCurrentLocale, getTranslations, type Locale } from "@/src/lib/i18n";
 import { localizePath } from "@/src/lib/paths";
 import { tidyTitle } from "@/src/lib/typography";
 import ServiceLongForm from "@/src/components/ui/service-longform";
+import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 
 const ServicesListServer = dynamic(
   () => import("@/src/components/ui/services-list-server"),
@@ -154,6 +155,7 @@ const MAPresentation = async () => {
             </section>
 
             <ServiceLongForm t={t} />
+            <ServiceExpertBanner locale={locale} />
           </div>
         </div>
       </div>

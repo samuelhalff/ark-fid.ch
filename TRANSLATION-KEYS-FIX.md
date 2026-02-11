@@ -203,6 +203,15 @@ Added for the Immigration service launch. Ensure all locales include:
 - `services:ImmigrationServices.Description`
 - Full namespace `immigration` for service page copy (`Hero.*`, `Presentation.*`, `ImageAlt`)
 
+## New Services Banner Keys (Feb 2026)
+
+Added global service banner copy in the `services` namespace for all locales:
+
+- `services:ExpertBanner.Title`
+- `services:ExpertBanner.Description`
+- `services:ExpertBanner.PrimaryCTA`
+- `services:ExpertBanner.SecondaryCTA`
+
 ## New Ressources Reference Keys (Feb 2026 - ANobAG)
 
 Added for the ANobAG immigration article references. Ensure all locales include:
@@ -224,4 +233,4 @@ Added for the ANobAG immigration article references. Ensure all locales include:
 All service namespaces now include long-form copy for SEO and must be present across all locales:
 
 - `Presentation.LongFormTitle`
-- `Presentation.LongForm`
+- `Presentation.LongFormSections` (array of `{ Title, Body[] }`)

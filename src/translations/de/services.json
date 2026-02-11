@@ -34,5 +34,11 @@
     "OdooImplementation": {
         "Title": "Odoo-Implementierung",
         "Description": "Wir sind offizielle Odoo-Partner und bieten vollständige Implementierungs- und Konfigurationsdienste, um sicherzustellen, dass Ihre Odoo-Einrichtung den schweizerischen Buchhaltungsstandards entspricht."
+    },
+    "ExpertBanner": {
+        "Title": "Sprechen Sie mit einem unserer Experten",
+        "Description": "Brauchen Sie eine schnelle Einschätzung oder ein klares Angebot? Unser Team antwortet zügig und verständlich.",
+        "PrimaryCTA": "Mit einem Experten sprechen",
+        "SecondaryCTA": "Sofortangebot erhalten"
     }
 }
