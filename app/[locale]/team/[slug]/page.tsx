@@ -243,6 +243,9 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
                     height={25}
                     alt="LinkedIn"
                     className="opacity-80"
+                    sizes="25px"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </Link>
               ) : null}

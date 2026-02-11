@@ -179,6 +179,7 @@ const ServiceHero = async ({
               className="opacity-90"
               loading="lazy"
               decoding="async"
+              sizes="120px"
             />
           </a>
           <Badge className="rounded-full py-1 border-none" variant="secondary">

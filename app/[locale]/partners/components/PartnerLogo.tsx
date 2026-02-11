@@ -50,6 +50,7 @@ const PartnerLogo = ({ logo, title }: PartnerLogoProps) => {
         width={isWide ? 120 : 30}
         height={30}
         className="h-full w-auto max-w-full object-contain rounded"
+        sizes={isWide ? "(max-width: 640px) 96px, 120px" : "30px"}
         loading="lazy"
         decoding="async"
       />
