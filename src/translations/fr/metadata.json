@@ -17,7 +17,7 @@
     "/": {
       "title": "Fiduciaire et Comptabilité à Genève | Ark Fiduciaire",
       "description": "Cabinet fiduciaire à Genève. Ark Fiduciaire accompagne entrepreneurs et PME en comptabilité, fiscalité, création d'entreprise et domiciliation. Nous consolidons vos partenaires bancaires, juridiques et fiscaux. Réservez un entretien stratégique aujourd'hui.",
-      "keywords": "fiduciaire genève, comptabilité genève, fiscalité genève, création entreprise, services pme"
+      "keywords": "fiduciaire genève, comptabilité genève, fiscalité genève, création entreprise, services PME"
     },
     "/about": {
       "title": "Ark Fiduciaire Genève – votre partenaire fiduciaire de proximité",
@@ -52,7 +52,7 @@
     "/services": {
       "title": "Services Fiduciaires Genève | Experts Fiscalité & Comptabilité PME",
       "description": "Découvrez nos services fiduciaires à Genève : comptabilité, fiscalité, domiciliation, création de société, gestion salariale pour PME et scale-ups. Contactez-nous pour une consultation gratuite.",
-      "keywords": "services fiduciaires genève, comptabilité, conseil fiscal genève, comptabilité pme"
+      "keywords": "services fiduciaires genève, comptabilité, conseil fiscal genève, comptabilité PME"
     },
     "/services/family-office": {
       "title": "Family office administratif en Suisse romande | Ark Fiduciaire",
@@ -60,9 +60,9 @@
       "keywords": "family office suisse, family office suisse romande, multi family office suisse, gouvernance familiale suisse, family office genève"
     },
     "/services/accounting": {
-      "title": "Comptabilité à Genève et Lausanne pour pme | Ark Fiduciaire",
-      "description": "Comptabilité à Genève et Lausanne pour pme. Nous nous consacrons à fournir des solutions complètes et personnalisées, conçues pour aborder chaque facette de vos besoins financiers et comp...",
-      "keywords": "comptabilité genève, fiduciaire genève, comptabilité pme genève, expert comptable genève, comptabilité lausanne"
+      "title": "Comptabilité à Genève et Lausanne pour PME | Ark Fiduciaire",
+      "description": "Comptabilité à Genève et Lausanne pour PME. Nous nous consacrons à fournir des solutions complètes et personnalisées, conçues pour aborder chaque facette de vos besoins financiers et comp...",
+      "keywords": "comptabilité genève, fiduciaire genève, comptabilité PME genève, expert comptable genève, comptabilité lausanne"
     },
     "/services/corporate": {
       "title": "Administration corporate et secrétariat juridique à Genève | Ark Fiduciaire",
@@ -80,9 +80,9 @@
       ]
     },
     "/services/odoo": {
-      "title": "Implémentation odoo à Genève pour pme suisses | Ark Fiduciaire",
-      "description": "Implémentation odoo à Genève pour pme suisses. Odoo est une solution ERP modulaire et flexible, idéale pour digitaliser et optimiser la gestion de votre entreprise. Ark Fiduciaire vous ac...",
-      "keywords": "odoo genève, intégrateur odoo genève, implémentation odoo suisse, odoo pme suisse, fiduciaire odoo"
+      "title": "Implémentation odoo à Genève pour PME suisses | Ark Fiduciaire",
+      "description": "Implémentation odoo à Genève pour PME suisses. Odoo est une solution ERP modulaire et flexible, idéale pour digitaliser et optimiser la gestion de votre entreprise. Ark Fiduciaire vous ac...",
+      "keywords": "odoo genève, intégrateur odoo genève, implémentation odoo suisse, odoo PME suisse, fiduciaire odoo"
     },
     "/services/outsourcing": {
       "title": "Externalisation back-office en Suisse romande | Ark Fiduciaire",
@@ -92,7 +92,7 @@
     "/services/mergers-acquisitions": {
       "title": "Conseil m&a et fusions-acquisitions en Suisse | Ark Fiduciaire",
       "description": "Conseil m&a et fusions-acquisitions en Suisse. Ark Fiduciaire conseille les entreprises romandes et alémaniques tout au long du cycle de transaction. Nous structurons la stratégie de deal...",
-      "keywords": "fusion acquisition suisse, conseil m&a suisse, valorisation entreprise suisse, due diligence suisse, transmission pme suisse"
+      "keywords": "fusion acquisition suisse, conseil m&a suisse, valorisation entreprise suisse, due diligence suisse, transmission PME suisse"
     },
     "/services/payroll": {
       "title": "Gestion des salaires et paie en Suisse romande | Ark Fiduciaire",

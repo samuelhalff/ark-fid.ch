@@ -1,7 +1,7 @@
 {
   "default": {
     "title": "Ark Fiduciaire | Fiduciaria en Ginebra y Lausana",
-    "description": "Fiduciaria en Ginebra y Lausana que ofrece contabilidad, impuestos, nóminas, administración corporativa y domiciliación para pymes suizas, scale-ups y grupos internacionales.",
+    "description": "Fiduciaria en Ginebra y Lausana que ofrece contabilidad, impuestos, nóminas, administración corporativa y domiciliación para PYMES suizas, scale-ups y grupos internacionales.",
     "keywords": "fiduciaria ginebra, fiduciaria lausana, suiza romanda, contabilidad, impuestos, nóminas, corporate, domiciliación",
     "author": "Ark Fiduciaire",
     "siteName": "Ark Fiduciaire"
@@ -9,12 +9,12 @@
   "pages": {
     "/": {
       "title": "Servicios fiduciarios Ginebra – contabilidad e impuestos | Ark Fiduciaire",
-      "description": "Ark Fiduciaire en Ginebra ofrece servicios fiduciarios, contabilidad, impuestos, nómina y constitución de empresas para pymes y emprendedores.",
+      "description": "Ark Fiduciaire en Ginebra ofrece servicios fiduciarios, contabilidad, impuestos, nómina y constitución de empresas para PYMES y emprendedores.",
       "keywords": "fiduciario ginebra, contabilidad ginebra, servicios fiscales ginebra, constitución empresa"
     },
     "/about": {
       "title": "Ark Fiduciaire Ginebra – su socio fiduciario local",
-      "description": "Ark Fiduciaire es una firma fiduciaria de confianza en Ginebra, que ofrece servicios de contabilidad, impuestos y negocios adaptados a pymes e individuos.",
+      "description": "Ark Fiduciaire es una firma fiduciaria de confianza en Ginebra, que ofrece servicios de contabilidad, impuestos y negocios adaptados a PYMES e individuos.",
       "keywords": "sobre ark fiduciaire, fiduciario ginebra, contadores ginebra, expertos fiduciarios"
     },
     "/contact": {
@@ -53,9 +53,9 @@
       "keywords": "family office suiza, family office suiza francófona, multi family office suiza, gobernanza familiar suiza, family office ginebra"
     },
     "/services/accounting": {
-      "title": "Contabilidad en ginebra y lausana para pymes | Ark Fiduciaire",
-      "description": "Contabilidad en ginebra y lausana para pymes. Nos dedicamos a proporcionar soluciones integrales y personalizadas, diseñadas para abordar cada faceta de sus necesidades financieras y cont...",
-      "keywords": "contabilidad ginebra, fiduciaria ginebra, contabilidad pymes ginebra, contabilidad lausana, contabilidad suiza"
+      "title": "Contabilidad en ginebra y lausana para PYMES | Ark Fiduciaire",
+      "description": "Contabilidad en ginebra y lausana para PYMES. Nos dedicamos a proporcionar soluciones integrales y personalizadas, diseñadas para abordar cada faceta de sus necesidades financieras y cont...",
+      "keywords": "contabilidad ginebra, fiduciaria ginebra, contabilidad PYMES ginebra, contabilidad lausana, contabilidad suiza"
     },
     "/services/corporate": {
       "title": "Administración corporativa y secretaría societaria en ginebra | Ark Fiduciaire",
@@ -68,9 +68,9 @@
       "keywords": "domiciliación ginebra, domiciliación lausana, dirección social ginebra, domiciliación suiza, domiciliación empresa ginebra"
     },
     "/services/odoo": {
-      "title": "Implementación de odoo en ginebra para pymes suizas | Ark Fiduciaire",
-      "description": "Implementación de odoo en ginebra para pymes suizas. Odoo es una solución ERP modular y flexible, ideal para digitalizar y optimizar la gestión de su negocio. Ark Fiduciaire lo apoya en l...",
-      "keywords": "odoo ginebra, implementación odoo suiza, integrador odoo ginebra, odoo para pymes suizas, odoo contabilidad suiza"
+      "title": "Implementación de odoo en ginebra para PYMES suizas | Ark Fiduciaire",
+      "description": "Implementación de odoo en ginebra para PYMES suizas. Odoo es una solución ERP modular y flexible, ideal para digitalizar y optimizar la gestión de su negocio. Ark Fiduciaire lo apoya en l...",
+      "keywords": "odoo ginebra, implementación odoo suiza, integrador odoo ginebra, odoo para PYMES suizas, odoo contabilidad suiza"
     },
     "/services/outsourcing": {
       "title": "Externalización de back-office en suiza francófona | Ark Fiduciaire",
@@ -80,7 +80,7 @@
     "/services/mergers-acquisitions": {
       "title": "Asesoría m&a para operaciones en suiza | Ark Fiduciaire",
       "description": "Asesoría m&a para operaciones en suiza. Ark Fiduciaire guía a clientes en la Suiza francófona y germanófona a lo largo del ciclo completo de una transacción. Definimos la estrategia, estr...",
-      "keywords": "m&a suiza, asesoría m&a suiza, valoración empresa suiza, due diligence suiza, sucesión pymes suiza"
+      "keywords": "m&a suiza, asesoría m&a suiza, valoración empresa suiza, due diligence suiza, sucesión PYMES suiza"
     },
     "/services/payroll": {
       "title": "Gestión de nóminas en suiza francófona | Ark Fiduciaire",
