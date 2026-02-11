@@ -242,8 +242,8 @@
     z-index: 1;
   }
 
-  /* Ensure footer is not dimmed on agent page */
-  footer {
+  /* Ensure footer is not dimmed when agent page is present */
+  body:has(.agent-page) footer {
     position: relative;
     z-index: 1;
   }
