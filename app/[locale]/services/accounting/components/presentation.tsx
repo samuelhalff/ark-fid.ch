@@ -8,7 +8,7 @@ import { getCurrentLocale, type Locale } from "@/src/lib/i18n";
 const AccountingPresentation = ({ t }: { t: (key: string) => string }) => {
   const locale: Locale = getCurrentLocale();
   return (
-    <section className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
+    <section data-service-content className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
       <div className="w-full max-w-[1200px]">
         <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
           {t("Presentation.Title") || "Holistic Vision of Your Accounting"}

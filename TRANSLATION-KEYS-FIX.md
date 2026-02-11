@@ -212,6 +212,10 @@ Added global service banner copy in the `services` namespace for all locales:
 - `services:ExpertBanner.PrimaryCTA`
 - `services:ExpertBanner.SecondaryCTA`
 
+## New Services Scroll Hint Key (Feb 2026)
+
+- `services:ScrollHint`
+
 ## New Ressources Reference Keys (Feb 2026 - ANobAG)
 
 Added for the ANobAG immigration article references. Ensure all locales include:

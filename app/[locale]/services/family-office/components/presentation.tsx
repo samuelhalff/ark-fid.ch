@@ -163,7 +163,7 @@ const FamilyOfficePresentation = ({
   const localePrefix = locale ? `/${locale}` : "/fr";
 
   return (
-    <section className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
+    <section data-service-content className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
       <div className="w-full max-w-[1200px] space-y-16">
         <header className="space-y-6 text-left">
           <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight">

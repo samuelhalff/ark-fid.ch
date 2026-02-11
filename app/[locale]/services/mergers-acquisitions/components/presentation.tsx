@@ -46,7 +46,7 @@ const MAPresentation = async () => {
     }>) || [];
 
   return (
-    <section className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
+    <section data-service-content className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
       <div className="w-full max-w-[1200px]">
         <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
           {tidyTitle(title || "Swiss M&A advisory for SMEs")}

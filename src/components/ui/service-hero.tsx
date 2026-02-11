@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import heroBlurData from "@/src/lib/heroBlurData.json";
 import { tidyTitle, splitTitle } from "@/src/lib/typography";
+import ServiceScrollHint from "@/src/components/ui/service-scroll-hint";
 
 interface ServiceHeroProps {
   namespace: string;
@@ -42,7 +43,12 @@ const ServiceHero = async ({
 }: ServiceHeroProps) => {
   const currentLocale = (locale as Locale) || ("fr" as Locale);
   const t = await getTranslations(currentLocale, namespace);
+  const tServices = await getTranslations(currentLocale, "services");
   const localePrefix = locale ? `/${locale}` : "/fr";
+  const scrollKey = "ScrollHint";
+  const scrollLabelRaw = tServices(scrollKey) as string;
+  const scrollLabel =
+    scrollLabelRaw === scrollKey ? "Read more below" : scrollLabelRaw;
 
   const ArrowIcon = () => (
     <svg
@@ -164,6 +170,7 @@ const ServiceHero = async ({
           })()}
         </div>
       </div>
+      <ServiceScrollHint label={scrollLabel} />
       {namespace === "odoo" && (
         <div className="absolute bottom-6 left-0 right-0 flex flex-col items-center gap-2">
           <a

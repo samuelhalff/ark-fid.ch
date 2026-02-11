@@ -40,5 +40,6 @@
         "Description": "Need a quick opinion or a clear quote? Our team replies fast and keeps it simple.",
         "PrimaryCTA": "Speak to an expert",
         "SecondaryCTA": "Get an instant quote"
-    }
+    },
+    "ScrollHint": "Read more below"
 }
