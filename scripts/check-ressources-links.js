@@ -51,7 +51,18 @@ function looksLikeMissing(html = "") {
     s.includes('page non trouvée') ||
     s.includes('page introuvable') ||
     s.includes('seite nicht gefunden') ||
-    s.includes('contenu introuvable')
+    s.includes('contenu introuvable') ||
+    s.includes('no content') ||
+    s.includes('no content available') ||
+    s.includes('aucun contenu') ||
+    s.includes('kein inhalt') ||
+    s.includes('keine inhalte') ||
+    s.includes('sin contenido') ||
+    s.includes('no hay contenido') ||
+    s.includes('sem conteúdo') ||
+    s.includes('no results found') ||
+    s.includes('aucun résultat') ||
+    s.includes('keine ergebnisse')
   );
 }
 

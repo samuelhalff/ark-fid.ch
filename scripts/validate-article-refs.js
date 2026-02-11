@@ -76,8 +76,8 @@ async function main() {
   });
   await Promise.all(runners);
   const bad = results.filter((r) => !r.ok);
-  const fatals = bad.filter((r) => r.reason === 'invalid-url' || r.reason === 'not-found' || r.status === 404 || r.status === 410);
-  const warnings = bad.filter((r) => !fatals.includes(r));
+  const fatals = bad;
+  const warnings = [];
   const summary = {
     checked: results.length,
     failures: fatals.length,

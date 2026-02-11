@@ -16,48 +16,44 @@
       "date": "2026-02-11",
       "references": [
         {
-          "labelKey": "SVA Saint-Gall - ANobAG",
-          "url": "https://www.svasg.ch/?id=468"
+          "labelKey": "SVA Bâle-Campagne – anobag",
+          "url": "https://www.sva-bl.ch/de/ausgleichskasse/beitragspflicht-ahv/iv/eo/internationales/arbeitnehmende-ohne-beitragspflichtigen-arbeitgeber-anobag"
         },
         {
-          "labelKey": "SVA Bâle-Campagne - ANobAG",
-          "url": "https://www.svabl.ch/sozialversicherungen/beitraege/arbeitnehmende-ohne-beitragspflichtigen-arbeitgeber-anobag"
+          "labelKey": "AKNW – anobag",
+          "url": "https://www.aknw.ch/dienstleistungen/weitere-dienstleistungen/internationales/anobag"
         },
         {
-          "labelKey": "AKNW - ANobAG",
-          "url": "https://www.aknw.ch/broker/arbeitnehmende-ohne-beitragspflichtigen-arbeitgeber-anobag/"
+          "labelKey": "AKSO – anobag",
+          "url": "https://www.akso.ch/dienstleistungen/weitere-dienstleistungen/internationales/anobag"
         },
         {
-          "labelKey": "AKOW - ANobAG",
-          "url": "https://www.akow.ch/sozialversicherung/beitraege/arbeitnehmende-ohne-beitragspflichtigen-arbeitgeber-anobag"
+          "labelKey": "SVA Schwyz – anobag",
+          "url": "https://www.aksz.ch/dienstleistungen/ahv-beitraege/anobag"
         },
         {
-          "labelKey": "AK Zug - ANobAG",
-          "url": "https://www.akzug.ch/anobag"
+          "labelKey": "SVA Schaffhouse – anobag",
+          "url": "https://www.svash.ch/ahv/ihre-beitraege-beitragspflicht/anobag/"
         },
         {
-          "labelKey": "Swissmem - ANobAG",
-          "url": "https://www.swissmem.ch/de/themen/personal/sozialversicherungen/beitragspflicht/arbeitnehmende-ohne-beitragspflichtigen-arbeitgeber-anobag.html"
+          "labelKey": "SEM – travailler en Suisse",
+          "url": "https://www.sem.admin.ch/sem/fr/home/overview-arbeit.html"
         },
         {
-          "labelKey": "SEM - Travail UE/AELE",
-          "url": "https://www.sem.admin.ch/sem/fr/home/themen/arbeit/eu_efta.html"
+          "labelKey": "SEM – UE/AELE : vivre et travailler",
+          "url": "https://www.sem.admin.ch/sem/fr/home/themen/arbeit/eu_efta-angehoerige.html"
         },
         {
-          "labelKey": "SEM - Travail pays tiers",
-          "url": "https://www.sem.admin.ch/sem/fr/home/themen/arbeit/nicht-eu_efta.html"
+          "labelKey": "SEM – Etats tiers : activité lucrative",
+          "url": "https://www.sem.admin.ch/sem/fr/home/themen/arbeit/nicht-eu_efta-angehoerige.html"
         },
         {
-          "labelKey": "SEM - Séjour en Suisse",
-          "url": "https://www.sem.admin.ch/sem/fr/home/themen/aufenthalt.html"
+          "labelKey": "ch.ch – travailler en Suisse (étrangers)",
+          "url": "https://www.ch.ch/fr/etrangers-en-suisse/travailler-en-suisse"
         },
         {
-          "labelKey": "ch.ch - Travailler en Suisse",
-          "url": "https://www.ch.ch/fr/travailler-en-suisse/"
-        },
-        {
-          "labelKey": "Genève - Engager un étranger",
-          "url": "https://www.ge.ch/engager-etranger-suisse"
+          "labelKey": "Genève – permis de travail UE/AELE",
+          "url": "https://www.ge.ch/demander-permis-travail-employeur-suisse/ressortissant-ue/aele"
         }
       ],
       "title": "ANobAG in der Schweiz: Voraussetzungen, Schritte und Bewilligungen für Mitarbeitende ausländischer Arbeitgeber (2026)",
@@ -668,8 +664,8 @@
       "date": "2026-02-08",
       "references": [
         {
-          "labelKey": "Guide administratif PME – Affaires Réglementaires Suisses",
-          "url": "https://www.admin.ch/gov/fr/politique/affaires/regles-administration.html"
+          "labelKey": "Portail PME (SECO) – savoir pratique",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique.html"
         },
         {
           "labelKey": "Comptabilité et bouclement avec Odoo – Fiduciaire Fidflow",

@@ -1690,7 +1690,7 @@ async function requestAgentJson(prompt, { agentName = AZURE_AGENT_NAME } = {}) {
   // Legacy assistant IDs (asst_*) are not allowed.
   if (isLegacyAgentId(agentName)) {
     throw new Error(
-      `Legacy agent IDs are not allowed. Update AZURE_AGENT_NAME to a Foundry agent name like "web-deep-search:4".`,
+      `Legacy agent IDs are not allowed. Update AZURE_AGENT_NAME to a Foundry agent name like "web-deep-search:5".`,
     );
   }
 

@@ -28,15 +28,28 @@ const EMPTY_CONTENT_PATTERNS = [
   /page\s*not\s*found/i,
   /404\s*error/i,
   /content\s*unavailable/i,
+  /no\s*content/i,
+  /no\s*content\s*available/i,
   /this\s*page\s*doesn't\s*exist/i,
   /cette\s*page\s*n'existe\s*pas/i,
+  /aucun\s*contenu/i,
+  /aucun\s*contenu\s*disponible/i,
   /seite\s*nicht\s*gefunden/i,
+  /kein\s*inhalt/i,
+  /keine\s*inhalte/i,
   /pagina\s*no\s*encontrada/i,
+  /sin\s*contenido/i,
+  /no\s*hay\s*contenido/i,
   /página\s*não\s*encontrada/i,
+  /sem\s*conte[uú]do/i,
+  /sem\s*conte[uú]do\s*dispon[ií]vel/i,
   /under\s*construction/i,
   /coming\s*soon/i,
   /placeholder\s*(content|page)/i,
-  /lorem\s*ipsum/i
+  /lorem\s*ipsum/i,
+  /no\s*results?\s*found/i,
+  /aucun\s*r[ée]sultat/i,
+  /keine\s*ergebnisse/i
 ];
 
 // Trusted source domains (less strict validation)
@@ -321,10 +334,13 @@ async function validateUrl(url, options = {}) {
 
       // Check for empty/placeholder patterns
       const hasEmptyPattern = EMPTY_CONTENT_PATTERNS.some(pattern => pattern.test(body));
-      if (hasEmptyPattern && !isTrustedDomain(url)) {
-        result.reason = "empty-content";
-        result.error = "Page appears to be empty or placeholder content";
-        return result;
+      if (hasEmptyPattern) {
+        const emptyThreshold = parseInt(process.env.LINK_CHECK_EMPTY_THRESHOLD || "20000", 10);
+        if (result.bodySize <= emptyThreshold) {
+          result.reason = "empty-content";
+          result.error = "Page appears to be empty or placeholder content";
+          return result;
+        }
       }
     } else {
       // For binary content, use content-length or read body
