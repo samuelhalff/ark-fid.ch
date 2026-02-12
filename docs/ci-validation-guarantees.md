@@ -212,6 +212,33 @@ After the AI resources update deploys, CI attempts to publish the newest FR arti
 
 The job uses the article Open Graph image for the illustration and the article description as the short summary, avoiding paid summarization APIs.
 
+### How to obtain `LINKEDIN_ACCESS_TOKEN`
+
+You must generate the access token once (and refresh it when it expires). We **do not** store the LinkedIn App Client Secret in GitHub.
+
+1. In your LinkedIn app, enable the **Share on LinkedIn** / Community Management product and request the `w_organization_social` scope.
+2. Add a redirect URL in the app settings (example: `https://localhost/linkedin-callback`).
+3. Generate an authorization code by visiting:
+
+   ```
+   https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_ENCODED_REDIRECT_URI&state=RANDOM_STRING&scope=w_organization_social
+   ```
+
+4. Copy the `code` query parameter from the redirect.
+5. Exchange the code for a token (example with curl):
+
+   ```bash
+   curl -X POST "https://www.linkedin.com/oauth/v2/accessToken" \
+     -d "grant_type=authorization_code" \
+     -d "code=CODE_FROM_STEP_4" \
+     -d "redirect_uri=YOUR_REDIRECT_URI" \
+     -d "client_id=YOUR_CLIENT_ID" \
+     -d "client_secret=YOUR_CLIENT_SECRET"
+   ```
+
+6. Save the returned `access_token` value as the GitHub secret `LINKEDIN_ACCESS_TOKEN`.
+7. Note the `expires_in` value; when it expires, repeat the steps above to refresh the token.
+
 ---
 
 ## Testing & Monitoring
