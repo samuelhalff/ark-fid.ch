@@ -407,8 +407,11 @@ export async function generateMetadata({ params }: Params) {
   
   // Load French resources once for comparison
   const frRessources = await loadRessources("fr");
-  const isDuplicateOfFr = (candidate: ResourceArticle) => {
-    if (locale === "fr") return false;
+  const isDuplicateOfFr = (
+    candidate: ResourceArticle,
+    candidateLocale: Locale
+  ) => {
+    if (candidateLocale === "fr") return false;
     const frArticle = frRessources.Articles.find(
       (a) => a.slug === candidate.slug
     );
@@ -433,7 +436,7 @@ export async function generateMetadata({ params }: Params) {
         continue;
       }
 
-      if (isDuplicateOfFr(locArticle)) {
+      if (isDuplicateOfFr(locArticle, loc)) {
         // This is a duplicate - skip this locale
         continue;
       }
@@ -458,7 +461,7 @@ export async function generateMetadata({ params }: Params) {
     meta && typeof meta.robots === "object" && meta.robots !== null
       ? (meta.robots as Record<string, unknown>)
       : {};
-  const shouldIndex = locale === "fr" || !isDuplicateOfFr(article);
+  const shouldIndex = locale === "fr" || !isDuplicateOfFr(article, locale);
   return {
     ...meta,
     robots: {
