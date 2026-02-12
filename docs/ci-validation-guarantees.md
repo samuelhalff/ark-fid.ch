@@ -208,7 +208,7 @@ After the AI resources update deploys, CI attempts to publish the newest FR arti
 ### Required GitHub secrets
 
 - `LINKEDIN_ACCESS_TOKEN`: OAuth access token with `w_organization_social` permission.
-- `LINKEDIN_ORGANIZATION_ID`: Organization ID (or full `urn:li:organization:{id}`) for https://www.linkedin.com/company/ark-fiduciaire/.
+- `LINKEDIN_ORGANIZATION_ID`: Organization ID (or full `urn:li:organization:{id}`) for https://www.linkedin.com/company/ark-fiduciaire/. **This is not the LinkedIn App Client ID**; the client ID/secret are only used to obtain the access token.
 
 The job uses the article Open Graph image for the illustration and the article description as the short summary, avoiding paid summarization APIs.
 
