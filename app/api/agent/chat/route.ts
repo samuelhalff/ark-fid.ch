@@ -102,6 +102,12 @@ const requestSchema = z
 const getEnv = (key: string, fallback?: string) =>
   process.env[key] || fallback || "";
 
+const normalizeFieldKey = (value: string) =>
+  value.includes(" ") ? value.replace(/ /g, "_x0020_") : value;
+
+const getFieldKey = (key: string, fallback: string) =>
+  normalizeFieldKey(getEnv(key, fallback).trim());
+
 const getRateLimitKey = (request: Request) => {
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) {
@@ -191,42 +197,48 @@ const domainValidationCache = new Map<
 const DEBUG_VALIDATION = process.env.DEBUG_AGENT === "1";
 
 const leadFieldMap = {
-  title: getEnv("SP_LEADS_FIELD_TITLE", "Title").trim(),
-  email: getEnv("SP_LEADS_FIELD_EMAIL", "Email").trim(),
-  tokenHash: getEnv("SP_LEADS_FIELD_TOKEN_HASH", "LeadTokenHash").trim(),
-  transcript: getEnv("SP_LEADS_FIELD_TRANSCRIPT", "Messages").trim(),
-  name: getEnv("SP_LEADS_FIELD_NAME", "LeadName").trim(),
-  companyName: getEnv("SP_LEADS_FIELD_COMPANY", "LeadCompany").trim(),
-  phone: getEnv("SP_LEADS_FIELD_PHONE", "LeadPhone").trim(),
-  status: getEnv("SP_LEADS_FIELD_STATUS", "LeadStatus").trim(),
-  source: getEnv("SP_LEADS_FIELD_SOURCE", "LeadSource").trim(),
-  sessionId: getEnv("SP_LEADS_FIELD_SESSION_ID", "LeadSessionId").trim(),
-  pageUrl: getEnv("SP_LEADS_FIELD_PAGE_URL", "LeadPageUrl").trim(),
-  referrer: getEnv("SP_LEADS_FIELD_REFERRER", "LeadReferrer").trim(),
-  utmSource: getEnv("SP_LEADS_FIELD_UTM_SOURCE", "LeadUtmSource").trim(),
-  utmMedium: getEnv("SP_LEADS_FIELD_UTM_MEDIUM", "LeadUtmMedium").trim(),
-  utmCampaign: getEnv("SP_LEADS_FIELD_UTM_CAMPAIGN", "LeadUtmCampaign").trim(),
-  utmTerm: getEnv("SP_LEADS_FIELD_UTM_TERM", "LeadUtmTerm").trim(),
-  utmContent: getEnv("SP_LEADS_FIELD_UTM_CONTENT", "LeadUtmContent").trim(),
-  lastMessageAt: getEnv("SP_LEADS_FIELD_LAST_MESSAGE_AT", "LeadLastMessageAt").trim(),
-  lastUserMessage: getEnv(
+  title: getFieldKey("SP_LEADS_FIELD_TITLE", "Title"),
+  email: getFieldKey("SP_LEADS_FIELD_EMAIL", "Email"),
+  tokenHash: getFieldKey("SP_LEADS_FIELD_TOKEN_HASH", "LeadTokenHash"),
+  transcript: getFieldKey("SP_LEADS_FIELD_TRANSCRIPT", "Messages"),
+  name: getFieldKey("SP_LEADS_FIELD_NAME", "LeadName"),
+  companyName: getFieldKey("SP_LEADS_FIELD_COMPANY", "LeadCompany"),
+  phone: getFieldKey("SP_LEADS_FIELD_PHONE", "LeadPhone"),
+  status: getFieldKey("SP_LEADS_FIELD_STATUS", "LeadStatus"),
+  source: getFieldKey("SP_LEADS_FIELD_SOURCE", "LeadSource"),
+  sessionId: getFieldKey("SP_LEADS_FIELD_SESSION_ID", "LeadSessionId"),
+  pageUrl: getFieldKey("SP_LEADS_FIELD_PAGE_URL", "LeadPageUrl"),
+  referrer: getFieldKey("SP_LEADS_FIELD_REFERRER", "LeadReferrer"),
+  utmSource: getFieldKey("SP_LEADS_FIELD_UTM_SOURCE", "LeadUtmSource"),
+  utmMedium: getFieldKey("SP_LEADS_FIELD_UTM_MEDIUM", "LeadUtmMedium"),
+  utmCampaign: getFieldKey("SP_LEADS_FIELD_UTM_CAMPAIGN", "LeadUtmCampaign"),
+  utmTerm: getFieldKey("SP_LEADS_FIELD_UTM_TERM", "LeadUtmTerm"),
+  utmContent: getFieldKey("SP_LEADS_FIELD_UTM_CONTENT", "LeadUtmContent"),
+  lastMessageAt: getFieldKey(
+    "SP_LEADS_FIELD_LAST_MESSAGE_AT",
+    "LeadLastMessageAt"
+  ),
+  lastUserMessage: getFieldKey(
     "SP_LEADS_FIELD_LAST_USER_MESSAGE",
     "LeadLastUserMessage"
-  ).trim(),
-  lastAssistantMessage: getEnv(
+  ),
+  lastAssistantMessage: getFieldKey(
     "SP_LEADS_FIELD_LAST_ASSISTANT_MESSAGE",
     "LeadLastAssistantMessage"
-  ).trim(),
-  initialMessage: getEnv("SP_LEADS_FIELD_INITIAL_MESSAGE", "LeadInitialMessage").trim(),
+  ),
+  initialMessage: getFieldKey(
+    "SP_LEADS_FIELD_INITIAL_MESSAGE",
+    "LeadInitialMessage"
+  ),
 };
 
 const messageFieldMap = {
-  title: getEnv("SP_MESSAGES_FIELD_TITLE", "Title").trim(),
-  leadId: getEnv("SP_MESSAGES_FIELD_LEAD_ID", "LeadId").trim(),
-  role: getEnv("SP_MESSAGES_FIELD_ROLE", "Role").trim(),
-  content: getEnv("SP_MESSAGES_FIELD_CONTENT", "Content").trim(),
-  timestamp: getEnv("SP_MESSAGES_FIELD_TIMESTAMP", "Timestamp").trim(),
-  sessionId: getEnv("SP_MESSAGES_FIELD_SESSION_ID", "SessionId").trim(),
+  title: getFieldKey("SP_MESSAGES_FIELD_TITLE", "Title"),
+  leadId: getFieldKey("SP_MESSAGES_FIELD_LEAD_ID", "LeadId"),
+  role: getFieldKey("SP_MESSAGES_FIELD_ROLE", "Role"),
+  content: getFieldKey("SP_MESSAGES_FIELD_CONTENT", "Content"),
+  timestamp: getFieldKey("SP_MESSAGES_FIELD_TIMESTAMP", "Timestamp"),
+  sessionId: getFieldKey("SP_MESSAGES_FIELD_SESSION_ID", "SessionId"),
 };
 
 type GraphTokenCache = { token: string; expiresAt: number };
