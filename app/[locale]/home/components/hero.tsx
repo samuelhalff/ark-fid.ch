@@ -102,6 +102,20 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
                 {t("Hero.CTA")} <ArrowIcon />
               </Button>
             </Link>
+            <Link
+              href={`${localePrefix}/agent/`}
+              className="w-full sm:w-auto"
+              locale={locale}
+              prefetch={false}
+            >
+              <Button
+                size="lg"
+                variant="secondary"
+                className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
+              >
+                {t("Hero.SecondaryCTA")}
+              </Button>
+            </Link>
           </div>
         </div>
 

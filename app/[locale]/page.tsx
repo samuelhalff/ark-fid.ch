@@ -44,6 +44,7 @@ export default async function Home({ params }: { params: { locale: string } }) {
     "Hero.Title": homeT("Hero.Title"),
     "Hero.Description": homeT("Hero.Description"),
     "Hero.CTA": homeT("Hero.CTA"),
+    "Hero.SecondaryCTA": homeT("Hero.SecondaryCTA"),
     "Hero.ImageAlt": homeT("Hero.ImageAlt"),
     "Hero.OdooPartnerBadge": homeT("Hero.OdooPartnerBadge"),
     "Hero.OdooBadge": homeT("Hero.OdooBadge"),

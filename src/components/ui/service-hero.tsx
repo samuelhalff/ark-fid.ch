@@ -49,6 +49,10 @@ const ServiceHero = async ({
   const scrollLabelRaw = tServices(scrollKey) as string;
   const scrollLabel =
     scrollLabelRaw === scrollKey ? "Discover more" : scrollLabelRaw;
+  const instantQuoteKey = "ExpertBanner.SecondaryCTA";
+  const instantQuoteRaw = tServices(instantQuoteKey) as string;
+  const instantQuote =
+    instantQuoteRaw === instantQuoteKey ? "Get an instant quote" : instantQuoteRaw;
 
   const ArrowIcon = () => (
     <svg
@@ -101,7 +105,7 @@ const ServiceHero = async ({
           <p className="mt-6 max-w-full w-full xs:text-lg mx-auto break-anywhere hyphenate">
             {t(descriptionKey) || descriptionFallback}
           </p>
-          <div className="w-full mt-12 flex items-center justify-center max-w-md mx-auto">
+          <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center max-w-md mx-auto">
             <Link
               href={`${localePrefix}/contact/`}
               className="w-full sm:w-auto"
@@ -115,6 +119,21 @@ const ServiceHero = async ({
               >
                 {t(ctaKey) || ctaFallback}
                 <ArrowIcon />
+              </Button>
+            </Link>
+            <Link
+              href={`${localePrefix}/agent/`}
+              className="w-full sm:w-auto"
+              locale={locale}
+              prefetch={false}
+            >
+              <Button
+                size="lg"
+                variant="secondary"
+                className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
+                style={{ cursor: "pointer" }}
+              >
+                {instantQuote}
               </Button>
             </Link>
           </div>
