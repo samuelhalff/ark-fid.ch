@@ -74,14 +74,22 @@ function truncate(text, maxLength) {
 
 function buildPostText({ title, description, url }) {
   const summary = description ? description.trim() : "";
+  const ctaByLocale = {
+    fr: "Lire l'article",
+    en: "Read the article",
+    de: "Artikel lesen",
+    es: "Leer el artículo",
+    pt: "Ler o artigo",
+  };
+  const cta = ctaByLocale[LOCALE] || "Read the article";
   const text = [
     `🆕 ${title}`,
     summary,
-    `Lire l'article : ${url}`,
+    `${cta} : ${url}`,
   ]
     .filter(Boolean)
     .join("\n\n");
-  return truncate(text, POST_MAX_LENGTH || 1200);
+  return truncate(text, POST_MAX_LENGTH);
 }
 
 async function fetchJson(url, options, label) {
@@ -174,7 +182,10 @@ async function createUgcPost({ token, payload }) {
     throw new Error(`No articles found in locale "${LOCALE}"`);
   }
 
-  const title = latest.title || "Nouvel article Ark Fiduciaire";
+  if (!latest.title) {
+    throw new Error("Latest article is missing a title.");
+  }
+  const title = latest.title;
   const description = latest.description || "";
   const slug = latest.slug;
   if (!slug) {
