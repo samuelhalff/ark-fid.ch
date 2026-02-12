@@ -201,6 +201,19 @@ For bad content to reach the website, ALL of these would need to fail simultaneo
 
 ---
 
+## LinkedIn article publishing (post-deploy)
+
+After the AI resources update deploys, CI attempts to publish the newest FR article to the Ark Fiduciaire LinkedIn page using the free LinkedIn API (UGC post + image asset upload). The step is non-blocking: if secrets are missing, it logs a skip notice and continues.
+
+### Required GitHub secrets
+
+- `LINKEDIN_ACCESS_TOKEN`: OAuth access token with `w_organization_social` permission.
+- `LINKEDIN_ORGANIZATION_ID`: Organization ID (or full `urn:li:organization:{id}`) for https://www.linkedin.com/company/ark-fiduciaire/.
+
+The job uses the article Open Graph image for the illustration and the article description as the short summary, avoiding paid summarization APIs.
+
+---
+
 ## Testing & Monitoring
 
 ### Local Testing Before Commit
