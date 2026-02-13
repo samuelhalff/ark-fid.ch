@@ -189,6 +189,7 @@ Added for the new AI agent chat page. Ensure all locales include:
 - `agent:Chat.StartHint`
 - `agent:Chat.InvalidEmailDomain`
 - `agent:Chat.ReadyHint`
+- `agent:Chat.ClearHistory`
 - `agent:Suggestions.Title`
 - `agent:Suggestions.Items`
 - `agent:Disclaimer`

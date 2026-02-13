@@ -27,7 +27,8 @@
         "RateLimit": "Zu viele Anfragen. Bitte kurz warten.",
         "StartHint": "Geben Sie Ihre E-Mail ein, um zu starten.",
         "InvalidEmailDomain": "Bitte verwenden Sie eine gültige geschäftliche E-Mail-Domain.",
-        "ReadyHint": "Chat bereit. Sie können unten losschreiben."
+        "ReadyHint": "Chat bereit. Sie können unten losschreiben.",
+        "ClearHistory": "Ein Fehler ist aufgetreten. Verlauf löschen."
     },
     "Suggestions": {
         "Title": "Probieren Sie eine dieser Fragen",

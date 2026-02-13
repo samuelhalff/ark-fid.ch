@@ -73,6 +73,7 @@ export type AgentChatStrings = {
     startHint: string;
     invalidEmailDomain: string;
     readyHint: string;
+    clearHistory: string;
   };
   suggestions: {
     title: string;
@@ -180,6 +181,8 @@ export default function AgentChat({
     () => leadReady && !domainInvalid,
     [domainInvalid, leadReady],
   );
+  const showClearHistory = chatError === strings.chat.error;
+  const showModalClearHistory = modalError === strings.chat.error;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -454,6 +457,31 @@ export default function AgentChat({
 
   const updateContact = (field: keyof ContactInfo) => (value: string) => {
     setContact((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleClearHistory = () => {
+    setContact({ ...defaultContact });
+    setLeadConfirmed(false);
+    setConfirmedEmail("");
+    setLeadMeta({ id: "", token: "" });
+    setSessionId("");
+    setLeadSubmitting(false);
+    setLeadModalOpen(true);
+    setTurnstileToken("");
+    setMessages([]);
+    setInput("");
+    setSending(false);
+    setChatError(null);
+    setModalError(null);
+    setRateLimited(false);
+    setDomainInvalid(false);
+    lastSavedRef.current = null;
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // noop
+    }
   };
 
   const ensureSessionId = () => {
@@ -762,6 +790,17 @@ export default function AgentChat({
             {chatError}
           </div>
         )}
+        {showClearHistory && (
+          <Button
+            type="button"
+            variant="link"
+            size="sm"
+            onClick={handleClearHistory}
+            className="mb-3 h-auto p-0 text-xs text-red-500 hover:text-red-600"
+          >
+            {strings.chat.clearHistory}
+          </Button>
+        )}
         <div
           className={cn(
             "mx-auto flex items-end gap-3 bg-background px-4 py-2 shadow-[0_14px_30px_rgba(0,0,0,0.28)] max-w-3xl border border-input/40",
@@ -876,6 +915,17 @@ export default function AgentChat({
               )}
               {modalError && (
                 <p className="text-xs text-red-500 mt-3">{modalError}</p>
+              )}
+              {showModalClearHistory && (
+                <Button
+                  type="button"
+                  variant="link"
+                  size="sm"
+                  onClick={handleClearHistory}
+                  className="mt-2 h-auto p-0 text-xs text-red-500 hover:text-red-600"
+                >
+                  {strings.chat.clearHistory}
+                </Button>
               )}
               <div className="flex flex-col gap-3 mt-4">
                 <Button

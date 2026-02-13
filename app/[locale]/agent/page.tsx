@@ -135,6 +135,10 @@ export default async function AgentPage({
         "Chat.ReadyHint",
         "Chat ready. You can start typing below.",
       ),
+      clearHistory: text(
+        "Chat.ClearHistory",
+        "An error occurred. Clear history.",
+      ),
     },
     suggestions: {
       title: text("Suggestions.Title", "Try one of these questions"),
