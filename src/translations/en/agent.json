@@ -27,7 +27,8 @@
         "RateLimit": "Too many requests. Please wait a moment.",
         "StartHint": "Enter your email to start.",
         "InvalidEmailDomain": "Please use a valid business email domain.",
-        "ReadyHint": "Chat ready. You can start typing below."
+        "ReadyHint": "Chat ready. You can start typing below.",
+        "ClearHistory": "An error occurred. Clear history."
     },
     "Suggestions": {
         "Title": "Try one of these questions",
