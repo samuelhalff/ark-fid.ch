@@ -51,7 +51,6 @@ jobs:
           key: next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('src/**', 'app/**') }}
           restore-keys: |
             next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-
-            next-cache-${{ runner.os }}-
 
       - name: Validate article references (non-blocking)
         continue-on-error: true
