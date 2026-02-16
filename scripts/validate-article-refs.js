@@ -21,7 +21,7 @@ const minBytesArg = (() => {
   if (i !== -1 && process.argv[i + 1]) return parseInt(process.argv[i + 1], 10) || 600;
   return 600;
 })();
-const WARNING_REASONS = new Set(['server-error', 'timeout', 'network-error', 'http-error']);
+const TRANSIENT_ERROR_REASONS = new Set(['server-error', 'timeout', 'network-error', 'http-error']);
 
 async function checkRef(url) {
   // Use the shared validator
@@ -77,8 +77,8 @@ async function main() {
   });
   await Promise.all(runners);
   const bad = results.filter((r) => !r.ok);
-  const warnings = bad.filter((r) => WARNING_REASONS.has(r.reason));
-  const fatals = bad.filter((r) => !WARNING_REASONS.has(r.reason));
+  const warnings = bad.filter((r) => TRANSIENT_ERROR_REASONS.has(r.reason));
+  const fatals = bad.filter((r) => !TRANSIENT_ERROR_REASONS.has(r.reason));
   const summary = {
     checked: results.length,
     failures: fatals.length,
