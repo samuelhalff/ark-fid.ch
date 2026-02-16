@@ -126,7 +126,7 @@ jobs:
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT || 'https://pbmch8303697696.cognitiveservices.azure.com/' }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           AZURE_OPENAI_API_VERSION: "2024-05-01-preview"
-          AZURE_OPENAI_DEPLOYMENT: ${{ vars.AZURE_OPENAI_DEPLOYMENT || 'gpt-4.1' }}
+          AZURE_OPENAI_DEPLOYMENT: "gpt-4.1"
           SEO_SUGGEST_DRIFT_RATIO: ${{ vars.SEO_SUGGEST_DRIFT_RATIO || '0.4' }}
           SEO_SUGGEST_MAX_UPDATES: ${{ vars.SEO_SUGGEST_MAX_UPDATES || '6' }}
         run: node scripts/ai-update-service-seo.js --apply
