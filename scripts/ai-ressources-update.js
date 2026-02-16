@@ -2164,7 +2164,10 @@ function sanitizeContentExternalLinks(article) {
 function normalizeMarkdownHeadings(article) {
   if (!article || typeof article !== "object") return;
   if (typeof article.content !== "string" || !article.content) return;
-  article.content = article.content.replace(/^(#{2,3})\s+H[23]\s+/gm, "$1 ");
+  article.content = article.content.replace(
+    /^(#{2,3})\s+H[23]\s+(?=\S)/gm,
+    "$1 ",
+  );
 }
 
 function syncContentReferencesSection(article) {
