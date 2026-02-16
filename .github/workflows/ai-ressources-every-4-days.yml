@@ -123,7 +123,7 @@ jobs:
       - name: Update service SEO from suggestions (non-blocking)
         continue-on-error: true
         env:
-          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT || 'https://pbmch8303697696.cognitiveservices.azure.com/' }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           AZURE_OPENAI_API_VERSION: "2024-05-01-preview"
           AZURE_OPENAI_DEPLOYMENT: ${{ vars.AZURE_OPENAI_DEPLOYMENT || 'gpt-4.1' }}
