@@ -166,7 +166,15 @@ const TOPIC_KEYWORDS = [
   {
     topic: "accounting",
     label: "Comptabilité & reporting",
-    patterns: [/comptabil/i, /closing/i, /reporting/i, /bilan/i, /FER/i],
+    patterns: [
+      /comptabil/i,
+      /comptable/i,
+      /cl[oô]ture/i,
+      /closing/i,
+      /reporting/i,
+      /bilan/i,
+      /FER/i,
+    ],
   },
   {
     topic: "corporate",
@@ -482,6 +490,7 @@ function buildSystemPrompt(frJson, trendData = null) {
     "- Aucun doublon de slug, ni de sujet déjà traité récemment.",
     lengthGuidance,
     ...longFormRequirements,
+    "- Titres: utilise la syntaxe Markdown (## pour H2, ### pour H3) sans écrire « H2 » ou « H3 » dans le texte.",
     "- Style professionnel, humain, sans capitales superflues.",
     "- Références: fournis 4 à 6 liens vérifiables (HTTP 200, pas de login), sans URL inventée.",
     "- Références: inclure au moins 1 source officielle (admin.ch / fedlex.admin.ch / bsv.admin.ch / estv.admin.ch / seco.admin.ch / finma.ch, etc.).",
@@ -627,6 +636,7 @@ function buildDraftPromptFromResearch(research, validatedReferences) {
     "- N'invente AUCUN lien ni URL.",
     "- N'inclus AUCUNE URL dans le texte (pas de http/https).",
     "- Quand tu cites une source, écris simplement (source: <labelKey>).",
+    "- Titres: utilise ## pour H2 et ### pour H3, sans préfixer les titres par « H2 » ou « H3 ».",
     "- Utilise exactement le slug, titre et description fournis.",
     "",
     "Plan à suivre:",
@@ -2151,6 +2161,12 @@ function sanitizeContentExternalLinks(article) {
   article.content = content;
 }
 
+function normalizeMarkdownHeadings(article) {
+  if (!article || typeof article !== "object") return;
+  if (typeof article.content !== "string" || !article.content) return;
+  article.content = article.content.replace(/^(#{2,3})\s+H[23]\s+/gm, "$1 ");
+}
+
 function syncContentReferencesSection(article) {
   if (!article || typeof article !== "object") return;
   if (typeof article.content !== "string" || !article.content) return;
@@ -2587,6 +2603,7 @@ async function main() {
   await repairReferences(newArticle, articleCategory);
   syncContentReferencesSection(newArticle);
   sanitizeContentExternalLinks(newArticle);
+  normalizeMarkdownHeadings(newArticle);
   normalizeArticleDates(newArticle);
   logArticleMetrics(newArticle, "FR");
 
