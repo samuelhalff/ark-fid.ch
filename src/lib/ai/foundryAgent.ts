@@ -151,30 +151,39 @@ export async function resolveFoundryAgentReference({
   return ref;
 }
 
+const readTextValue = (value: unknown) => {
+  if (typeof value === "string") return value;
+  if (value && typeof value === "object") {
+    const maybeValue = (value as { value?: unknown }).value;
+    if (typeof maybeValue === "string") return maybeValue;
+  }
+  return "";
+};
+
 export function extractResponseText(response: unknown): string {
   if (!response || typeof response !== "object") return "";
   const candidate = response as Record<string, any>;
   if (typeof candidate.output_text === "string") return candidate.output_text;
+  if (typeof candidate.output === "string") return candidate.output;
   if (Array.isArray(candidate.output)) {
     for (const item of candidate.output) {
-      if (item?.type === "output_text" && typeof item.text === "string") {
-        return item.text;
+      if (item?.type === "output_text") {
+        const text = readTextValue(item.text);
+        if (text) return text;
       }
-      if (item?.type === "text" && typeof item.text === "string") {
-        return item.text;
+      if (item?.type === "text") {
+        const text = readTextValue(item.text);
+        if (text) return text;
       }
       if (item?.type === "message" && Array.isArray(item.content)) {
         for (const content of item.content) {
-          if (
-            content?.type === "output_text" &&
-            typeof content.text === "string"
-          ) {
-            return content.text;
+          if (content?.type === "output_text") {
+            const text = readTextValue(content.text);
+            if (text) return text;
           }
-          if (content?.type === "text" && content.text) {
-            return typeof content.text === "string"
-              ? content.text
-              : content.text.value || "";
+          if (content?.type === "text") {
+            const text = readTextValue(content.text);
+            if (text) return text;
           }
         }
       }
@@ -182,13 +191,13 @@ export function extractResponseText(response: unknown): string {
   }
   if (candidate.output?.content) {
     for (const content of candidate.output.content) {
-      if (content?.type === "output_text" && typeof content.text === "string") {
-        return content.text;
+      if (content?.type === "output_text") {
+        const text = readTextValue(content.text);
+        if (text) return text;
       }
-      if (content?.type === "text" && content.text) {
-        return typeof content.text === "string"
-          ? content.text
-          : content.text.value || "";
+      if (content?.type === "text") {
+        const text = readTextValue(content.text);
+        if (text) return text;
       }
     }
   }
