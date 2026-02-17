@@ -151,19 +151,20 @@ export async function resolveFoundryAgentReference({
   return ref;
 }
 
+const readTextValue = (value: unknown) => {
+  if (typeof value === "string") return value;
+  if (value && typeof value === "object") {
+    const maybeValue = (value as { value?: unknown }).value;
+    if (typeof maybeValue === "string") return maybeValue;
+  }
+  return "";
+};
+
 export function extractResponseText(response: unknown): string {
   if (!response || typeof response !== "object") return "";
   const candidate = response as Record<string, any>;
   if (typeof candidate.output_text === "string") return candidate.output_text;
   if (typeof candidate.output === "string") return candidate.output;
-  const readTextValue = (value: unknown) => {
-    if (typeof value === "string") return value;
-    if (value && typeof value === "object") {
-      const maybeValue = (value as { value?: unknown }).value;
-      if (typeof maybeValue === "string") return maybeValue;
-    }
-    return "";
-  };
   if (Array.isArray(candidate.output)) {
     for (const item of candidate.output) {
       if (item?.type === "output_text") {
