@@ -1,0 +1,23 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=7xljiRkZAyvjf2HAKG30qQ&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-11-19T16:10:54Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/en/ressources/articles/roles-et-responsabilites-administrateurs-sa-sarl-geneve-2025/",
+      "userCanonical": "https://ark-fid.ch/en/ressources/articles/roles-et-responsabilites-administrateurs-sa-sarl-geneve-2025/",
+      "referringUrls": [
+        "https://ark-fid.ch/en/ressources/?articles=35",
+        "https://ark-fid.ch/en/services/odoo/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

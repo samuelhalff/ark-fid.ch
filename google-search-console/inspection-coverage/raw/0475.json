@@ -1,0 +1,20 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=RlI0kOI9Pz-81syxV2ZG1Q&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "lastCrawlTime": "2025-09-28T23:27:30Z",
+      "pageFetchState": "SUCCESSFUL",
+      "referringUrls": [
+        "https://ark-fid.ch/en/ressources/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

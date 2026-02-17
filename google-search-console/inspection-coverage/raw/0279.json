@@ -1,0 +1,21 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=FoBhAJESzzOVgNBxDnwI4g&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "lastCrawlTime": "2025-10-19T14:09:25Z",
+      "pageFetchState": "SUCCESSFUL",
+      "referringUrls": [
+        "https://ark-fid.ch/de/ressources/articles/optimisation-fiscale-entreprises-geneve-reformes-2025/",
+        "https://ark-fid.ch/de/ressources/articles/optimisation-fiscale-entreprises-geneve-reformes-2025"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

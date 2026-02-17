@@ -1,0 +1,25 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=c4sTRo5iOEVtUkQGadkSJg&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-02-12T03:45:08Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/es/ressources/articles/preparer-pme-independants-tva-2026/",
+      "userCanonical": "https://ark-fid.ch/es/ressources/articles/preparer-pme-independants-tva-2026/",
+      "sitemap": [
+        "https://ark-fid.ch/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://ark-fid.ch/fr/ressources/articles/preparer-pme-independants-tva-2026/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

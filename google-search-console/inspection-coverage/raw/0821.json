@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=Mq7g7f04k3nanfW_IxLW6A&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-10-11T15:31:54Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/pt/ressources/articles/swissdec-5-paie-geneve-obligations-2025/",
+      "userCanonical": "https://ark-fid.ch/pt/ressources/articles/swissdec-5-paie-geneve-obligations-2025/",
+      "referringUrls": [
+        "https://ark-fid.ch/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

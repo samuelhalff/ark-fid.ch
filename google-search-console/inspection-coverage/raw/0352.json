@@ -1,0 +1,20 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=maYqNQqQmd-wXl7ZoheDLQ&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "lastCrawlTime": "2025-10-07T04:13:34Z",
+      "pageFetchState": "SUCCESSFUL",
+      "referringUrls": [
+        "https://ark-fid.ch/es/ressources/articles/cotisations-lpp-geneve-2025-changements-impacts-pme/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

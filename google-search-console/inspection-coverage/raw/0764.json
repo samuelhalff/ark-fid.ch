@@ -1,0 +1,19 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=J1eP_M2xEF15-s3Sf4CvOQ&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-09-28T23:12:37Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/pt/ressources/articles/baisse-impots-geneve-2025",
+      "userCanonical": "https://ark-fid.ch/pt/ressources/articles/baisse-impots-geneve-2025/",
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

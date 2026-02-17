@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=fcivjw2WDZq57Wn0N-G_wA&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-11-11T02:12:34Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/es/ressources/articles/tva-2025-geneve-impact-pme-revision-fiscale/",
+      "userCanonical": "https://ark-fid.ch/es/ressources/articles/tva-2025-geneve-impact-pme-revision-fiscale/",
+      "referringUrls": [
+        "https://ark-fid.ch/es/ressources/articles/reforme-fiscale-geneve-2025-impact-contribuables-pme/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=eTF8ucNfqxDG5Fg7jEutnQ&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_STATE_UNSPECIFIED",
+      "lastCrawlTime": "2025-11-16T22:46:53Z",
+      "pageFetchState": "SUCCESSFUL",
+      "referringUrls": [
+        "https://ark-fid.ch/de/ressources/articles/digitalisation-comptabilite-obligations-pme-geneve-conformite-2025/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

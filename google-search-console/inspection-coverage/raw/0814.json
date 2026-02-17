@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=hGrS5sg9JPVs-P1qDoz8_Q&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-10-14T03:59:16Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/es/ressources/articles/odoo-18-nouveautes-pour-gestion-comptable-et-paie-geneve-2025/",
+      "userCanonical": "https://ark-fid.ch/es/ressources/articles/odoo-18-nouveautes-pour-gestion-comptable-et-paie-geneve-2025/",
+      "referringUrls": [
+        "https://ark-fid.ch/es/ressources/articles/odoo-18-nouveautes-pour-gestion-comptable-et-paie-geneve-2025/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

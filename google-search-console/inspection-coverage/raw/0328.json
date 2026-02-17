@@ -1,0 +1,25 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=21bwH66XbuRYsNLPNr9YzQ&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-10-12T19:12:12Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/pt/ressources/articles/swissdec-5-0-et-salaires-geneve-2025-points-cles/",
+      "userCanonical": "https://ark-fid.ch/pt/ressources/articles/swissdec-5-0-et-salaires-geneve-2025-points-cles/",
+      "sitemap": [
+        "https://ark-fid.ch/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://ark-fid.ch/en/ressources/articles/swissdec-5-0-et-salaires-geneve-2025-points-cles/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

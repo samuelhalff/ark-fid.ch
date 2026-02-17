@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=e7SpeS76_N8gqoLMvOt5dA&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-02-17T08:40:03Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/de/ressources/articles/controle-interne-pme-geneve-2025-piloter-risques-automatise/",
+      "userCanonical": "https://ark-fid.ch/de/ressources/articles/controle-interne-pme-geneve-2025-piloter-risques-automatise/",
+      "referringUrls": [
+        "https://ark-fid.ch/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

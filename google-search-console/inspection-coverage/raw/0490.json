@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=Ou1ErDIFyORouL1gGoEH1A&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-02-10T03:27:21Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/en/ressources/articles/outsourcing-administratif-pme-geneve-solutions-avantages-2025/",
+      "userCanonical": "https://ark-fid.ch/en/ressources/articles/outsourcing-administratif-pme-geneve-solutions-avantages-2025/",
+      "referringUrls": [
+        "https://ark-fid.ch/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

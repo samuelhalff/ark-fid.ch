@@ -1,0 +1,46 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=MSOUoyJEHnWXw8E6wHJFqw&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-02-14T02:45:46Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/de/ressources/articles/plan-comptable-suisse-pme-tendances-2026/",
+      "userCanonical": "https://ark-fid.ch/de/ressources/articles/plan-comptable-suisse-pme-tendances-2026/",
+      "sitemap": [
+        "https://ark-fid.ch/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://ark-fid.ch/de/ressources/?files=23"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    },
+    "richResultsResult": {
+      "verdict": "PASS",
+      "detectedItems": [
+        {
+          "richResultType": "Breadcrumbs",
+          "items": [
+            {
+              "name": "Unnamed item"
+            }
+          ]
+        },
+        {
+          "richResultType": "Review snippets",
+          "items": [
+            {
+              "name": "Ark Fiduciaire"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

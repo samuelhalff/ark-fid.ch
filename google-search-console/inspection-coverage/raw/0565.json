@@ -1,0 +1,23 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=yANdsou9Ahlaw5omddD0lQ&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-01-07T16:29:46Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/fr/services/externalisation/",
+      "userCanonical": "https://ark-fid.ch/fr/services/externalisation/",
+      "referringUrls": [
+        "https://ark-fid.ch/fr/ressources/articles/optimiser-les-charges-sociales-en-suisse-romande-2026-erreurs-frequentes-pour-pme-independants/",
+        "https://ark-fid.ch/services/outsourcing"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

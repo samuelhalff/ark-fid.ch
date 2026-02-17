@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=zea7kU29BnT2DAX8cX1UrA&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-01-09T10:38:57Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/pt/ressources/articles/optimiser-les-charges-sociales-en-suisse-romande-2026-erreurs-frequentes-pour-pme-independants/",
+      "userCanonical": "https://ark-fid.ch/pt/ressources/articles/optimiser-les-charges-sociales-en-suisse-romande-2026-erreurs-frequentes-pour-pme-independants/",
+      "referringUrls": [
+        "https://ark-fid.ch/pt/ressources/articles/optimiser-les-charges-sociales-en-suisse-romande-2026-erreurs-frequentes-pour-pme-independants/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

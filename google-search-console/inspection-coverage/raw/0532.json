@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=4jGComgOC5RkrL1EM-9gjg&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-01-13T07:35:26Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/fr/ressources/articles/declarations-fiscales-independants-pme-erreurs-recurrentes-et-optimisations-geneve-vaud-2026-guide-pratique/",
+      "userCanonical": "https://ark-fid.ch/fr/ressources/articles/declarations-fiscales-independants-pme-erreurs-recurrentes-et-optimisations-geneve-vaud-2026-guide-pratique/",
+      "referringUrls": [
+        "https://ark-fid.ch/fr/ressources/articles/declarations-fiscales-independants-pme-erreurs-recurrentes-et-optimisations-geneve-vaud-2026-guide-pratique/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=RAyIVEKBTBLZvQyv4uZnZw&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-09-28T23:10:19Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/de/ressources/articles/devancer-reformes-fiscales-entreprise-geneve-2026/",
+      "userCanonical": "https://ark-fid.ch/de/ressources/articles/devancer-reformes-fiscales-entreprise-geneve-2026/",
+      "referringUrls": [
+        "https://ark-fid.ch/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

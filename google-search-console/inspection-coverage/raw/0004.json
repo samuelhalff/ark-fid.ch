@@ -1,0 +1,43 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=UdGg3izJ7nMKTVX-ucAhEw&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-02-16T04:54:40Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/en/ressources/articles/constitution-societe-geneve-etapes-actualisees-2025-solutions-pme-independants/",
+      "userCanonical": "https://ark-fid.ch/en/ressources/articles/constitution-societe-geneve-etapes-actualisees-2025-solutions-pme-independants/",
+      "referringUrls": [
+        "https://ark-fid.ch/fr/ressources/articles/constitution-societe-geneve-etapes-actualisees-2025-solutions-pme-independants/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    },
+    "richResultsResult": {
+      "verdict": "PASS",
+      "detectedItems": [
+        {
+          "richResultType": "Breadcrumbs",
+          "items": [
+            {
+              "name": "Unnamed item"
+            }
+          ]
+        },
+        {
+          "richResultType": "Review snippets",
+          "items": [
+            {
+              "name": "Ark Fiduciaire"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

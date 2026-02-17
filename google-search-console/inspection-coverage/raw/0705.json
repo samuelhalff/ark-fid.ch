@@ -1,0 +1,23 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=hH2hLJxCqZXYwdgk0mQw7Q&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-11-30T05:39:13Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/fr/ressources/articles/transmission-entreprise-geneve-succession-strategique-pme-famille-2025/",
+      "userCanonical": "https://ark-fid.ch/fr/ressources/articles/transmission-entreprise-geneve-succession-strategique-pme-famille-2025/",
+      "referringUrls": [
+        "https://ark-fid.ch/fr/ressources/?articles=51",
+        "https://ark-fid.ch/fr/ressources/articles/gestion-paie-geneve-pme-obligations-defis-solutions-2025/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=RpvXjvfNeiGW-y7GSkqJug&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-02-03T08:34:59Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/de/ressources/articles/declarations-fiscales-independants-pme-erreurs-recurrentes-et-optimisations-geneve-vaud-2026-guide-pratique/",
+      "userCanonical": "https://ark-fid.ch/de/ressources/articles/declarations-fiscales-independants-pme-erreurs-recurrentes-et-optimisations-geneve-vaud-2026-guide-pratique/",
+      "referringUrls": [
+        "https://ark-fid.ch/de/ressources/articles/declarations-fiscales-independants-pme-erreurs-recurrentes-et-optimisations-geneve-vaud-2026-guide-pratique/",
+        "https://ark-fid.ch/de/ressources/articles/nouveautes-et-regles-concretes-cotisations-sociales-et-certificats-de-salaire-2026-pme-independants-suisse-romande/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=ebL5veeY7XzL5QS4M7pxXg&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-12-26T02:34:33Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/es/ressources/articles/optimisation-charges-sociales-suisse-romande-guide-independants-pme-2025/",
+      "userCanonical": "https://ark-fid.ch/es/ressources/articles/optimisation-charges-sociales-suisse-romande-guide-independants-pme-2025/",
+      "referringUrls": [
+        "https://ark-fid.ch/es/ressources/articles/optimiser-declaration-tva-suisse-2026-erreurs-courantes-et-guides-concrets-pme-independants/",
+        "https://ark-fid.ch/es/ressources/articles/fiscalite-cryptomonnaies-suisse-2025/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

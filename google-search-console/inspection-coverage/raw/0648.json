@@ -1,0 +1,23 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=LUzfJLaOWDc9jrTndkLqag&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-12-22T08:00:58Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/de/ressources/articles/declarations-fiscales-pme-geneve-vaud-2025-erreurs-pieges-conseils/",
+      "userCanonical": "https://ark-fid.ch/de/ressources/articles/declarations-fiscales-pme-geneve-vaud-2025-erreurs-pieges-conseils/",
+      "referringUrls": [
+        "https://ark-fid.ch/de/ressources/articles/fusion-et-acquisition-en-suisse-romande-2025-etapes-defis-et-opportunites-pour-les-pme/",
+        "https://ark-fid.ch/de/ressources/articles/optimiser-la-gestion-de-la-tva-geneve-2025-erreurs-courantes-solutions-pme/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=wbnrmfg90hopii-jzT44-g&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-01-09T07:10:50Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/es/services/mergers-acquisitions/",
+      "userCanonical": "https://ark-fid.ch/es/services/mergers-acquisitions/",
+      "referringUrls": [
+        "https://ark-fid.ch/es/ressources/articles/proces-verbal-assemblee-generale-obligations-redaction-suisse-2025/",
+        "https://ark-fid.ch/es/ressources/articles/swissdec-5-0-et-salaires-geneve-2025-points-cles",
+        "https://ark-fid.ch/es/ressources/articles/externalisation-comptabilite-geneve-pme-avantages-etapes-solutions-2025/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

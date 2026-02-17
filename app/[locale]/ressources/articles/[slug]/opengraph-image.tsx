@@ -127,6 +127,11 @@ export default async function Image({
         </div>
       </div>
     ),
-    size
+    {
+      ...size,
+      headers: {
+        "X-Robots-Tag": "noindex, nofollow",
+      },
+    }
   );
 }

@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=0J0l2DKnVI9-3SdzOebz6A&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-12-22T08:19:22Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/pt/ressources/articles/fusion-et-acquisition-en-suisse-romande-2025-etapes-defis-et-opportunites-pour-les-pme/",
+      "userCanonical": "https://ark-fid.ch/pt/ressources/articles/fusion-et-acquisition-en-suisse-romande-2025-etapes-defis-et-opportunites-pour-les-pme/",
+      "referringUrls": [
+        "https://ark-fid.ch/pt/services/accounting/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

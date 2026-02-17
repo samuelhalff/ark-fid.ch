@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=DfSMhQ5_F91sEbfkqt1EXA&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-11-30T12:16:57Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/es/ressources/articles/constitution-societe-geneve-etapes-actualisees-2025-solutions-pme-independants/",
+      "userCanonical": "https://ark-fid.ch/es/ressources/articles/constitution-societe-geneve-etapes-actualisees-2025-solutions-pme-independants/",
+      "referringUrls": [
+        "https://ark-fid.ch/es/team/samuel-halff/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

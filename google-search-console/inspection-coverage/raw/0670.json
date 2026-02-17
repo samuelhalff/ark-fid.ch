@@ -1,0 +1,24 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=EJeLw6y-YzXbLpEA3JNgZg&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-12-12T14:16:12Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/fr/ressources/articles/creer-entreprise-suisse/",
+      "userCanonical": "https://ark-fid.ch/fr/ressources/articles/creer-entreprise-suisse/",
+      "referringUrls": [
+        "https://ark-fid.ch/fr/ressources/?files=23&articles=all",
+        "https://ark-fid.ddns.net/fr/ressources/articles/creer-entreprise-suisse/",
+        "https://ark-fid.ch/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

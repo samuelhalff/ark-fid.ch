@@ -1,0 +1,25 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=KxLM3ZdVeh--bjEtX-o09A&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-12-13T05:56:31Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/es/ressources/articles/reformer-l-externalisation-de-la-direction-financiere-pour-les-pme-a-geneve-en-2025/",
+      "userCanonical": "https://ark-fid.ch/es/ressources/articles/reformer-l-externalisation-de-la-direction-financiere-pour-les-pme-a-geneve-en-2025/",
+      "sitemap": [
+        "https://ark-fid.ch/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://ark-fid.ch/pt/ressources/articles/reformer-l-externalisation-de-la-direction-financiere-pour-les-pme-a-geneve-en-2025/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

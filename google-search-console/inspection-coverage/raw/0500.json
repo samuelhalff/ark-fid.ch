@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=_pErNPeehGg3ab50_DDciA&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-02-05T04:04:28Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/en/ressources/articles/regles-pv-assemblee-generale-suisse-2026-guide-pratique-pme-independants/",
+      "userCanonical": "https://ark-fid.ch/en/ressources/articles/regles-pv-assemblee-generale-suisse-2026-guide-pratique-pme-independants/",
+      "referringUrls": [
+        "https://ark-fid.ch/en/ressources/articles/constitution-societe-geneve-etapes-actualisees-2025-solutions-pme-independants/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

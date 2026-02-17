@@ -1,0 +1,24 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=tfcHbqytLiJT-omfyGBJxg&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-02-14T19:27:49Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/de/partners/",
+      "userCanonical": "https://ark-fid.ch/de/partners/",
+      "referringUrls": [
+        "https://ark-fid.ch/de/ressources/articles/optimisation-fiscale-entreprises-geneve-reformes-2025",
+        "https://ark-fid.ch/de/services/taxes/",
+        "https://ark-fid.ch/de/ressources/articles/nouveautes-paie-geneve-2025-regles-frontaliers-teletravail/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

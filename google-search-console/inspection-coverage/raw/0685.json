@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=z-S4ax83KjroulI-ifP8Dg&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-12-05T02:03:53Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/fr/ressources/articles/optimiser-la-gestion-de-la-tva-geneve-2025-erreurs-courantes-solutions-pme/",
+      "userCanonical": "https://ark-fid.ch/fr/ressources/articles/optimiser-la-gestion-de-la-tva-geneve-2025-erreurs-courantes-solutions-pme/",
+      "referringUrls": [
+        "https://ark-fid.ch/fr/ressources/articles/reformer-l-externalisation-de-la-direction-financiere-pour-les-pme-a-geneve-en-2025/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

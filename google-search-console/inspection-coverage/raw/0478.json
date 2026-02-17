@@ -1,0 +1,43 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=g4zFRVPmqqVUfWSyvZX9-Q&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-02-14T08:17:26Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/de/services/immigration/",
+      "userCanonical": "https://ark-fid.ch/de/services/immigration/",
+      "referringUrls": [
+        "https://ark-fid.ch/fr/services/immigration/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    },
+    "richResultsResult": {
+      "verdict": "PASS",
+      "detectedItems": [
+        {
+          "richResultType": "Breadcrumbs",
+          "items": [
+            {
+              "name": "Unnamed item"
+            }
+          ]
+        },
+        {
+          "richResultType": "Review snippets",
+          "items": [
+            {
+              "name": "Ark Fiduciaire"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

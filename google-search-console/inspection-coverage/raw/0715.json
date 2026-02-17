@@ -1,0 +1,23 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=fWqXCj7RMBzDhP9hzojSrw&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-11-23T03:02:28Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/en/ressources/articles/reformer-l-externalisation-de-la-direction-financiere-pour-les-pme-a-geneve-en-2025/",
+      "userCanonical": "https://ark-fid.ch/en/ressources/articles/reformer-l-externalisation-de-la-direction-financiere-pour-les-pme-a-geneve-en-2025/",
+      "referringUrls": [
+        "https://ark-fid.ch/en/ressources/articles/mise-en-place-ou-amelioration-du-controle-des-proces-verbaux-et-assemblees-generales-en-pme-geneve-2025-solutions-pratiques/",
+        "https://ark-fid.ch/sitemap.xml"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=p6JD3msXFBCk0Mn-PrYWMA&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-01-02T18:10:33Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/pt/ressources/articles/odoo-erp-pme-suisse-romande-integration-optimale-2025-conseils-solutions/",
+      "userCanonical": "https://ark-fid.ch/pt/ressources/articles/odoo-erp-pme-suisse-romande-integration-optimale-2025-conseils-solutions/",
+      "referringUrls": [
+        "https://ark-fid.ch/es/ressources/articles/odoo-erp-pme-suisse-romande-integration-optimale-2025-conseils-solutions/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

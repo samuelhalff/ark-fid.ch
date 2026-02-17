@@ -1,0 +1,24 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=eWFE2fJTiTMHbrQxmTjGrg&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-12-30T04:13:20Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/es/ressources/articles/externalisation-paie-geneve-2025-avantages-securite-pme/",
+      "userCanonical": "https://ark-fid.ch/es/ressources/articles/externalisation-paie-geneve-2025-avantages-securite-pme/",
+      "referringUrls": [
+        "https://ark-fid.ch/es/ressources/articles/externalisation-comptabilite-geneve-pme-avantages-etapes-solutions-2025/",
+        "https://ark-fid.ch/es/ressources/articles/outsourcing-administratif-pme-geneve-solutions-avantages-2025",
+        "https://ark-fid.ch/es/partners/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

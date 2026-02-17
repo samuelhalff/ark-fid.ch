@@ -1,0 +1,23 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=tTx7_XusmBLh8Z8kOB8JOg&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-11-16T08:58:12Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/de/ressources/articles/externalisation-paie-geneve-2025-avantages-securite-pme/",
+      "userCanonical": "https://ark-fid.ch/de/ressources/articles/externalisation-paie-geneve-2025-avantages-securite-pme/",
+      "referringUrls": [
+        "https://ark-fid.ch/de/ressources/articles/?limit=20",
+        "https://ark-fid.ch/de/partners/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

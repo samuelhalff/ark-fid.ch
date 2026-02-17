@@ -1,0 +1,25 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=wXSkJ_N7S4ue3UJG6UNwKw&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-09-28T23:31:39Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/services/odoo",
+      "userCanonical": "https://ark-fid.ch/fr/services/odoo/",
+      "referringUrls": [
+        "https://ark-fid.ch/pt/about/",
+        "https://ark-fid.ch/pt/about",
+        "https://ark-fid.ch/de/ressources/articles/nouveautes-paie-geneve-2025-regles-frontaliers-teletravail/",
+        "https://ark-fid.ch/en/ressources/articles/optimisation-fiscale-geneve-fin-2025/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

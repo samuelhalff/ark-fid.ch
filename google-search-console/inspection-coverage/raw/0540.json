@@ -1,0 +1,23 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=djZ38gyic4dxsxRJqT0uqw&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-01-10T17:22:32Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/fr/services/externalisation/",
+      "userCanonical": "https://ark-fid.ch/fr/services/externalisation/",
+      "referringUrls": [
+        "https://ark-fid.ch/fr/legal/privacy/",
+        "https://ark-fid.ch/fr/ressources/articles/reforme-fiscale-geneve-2025-impact-contribuables-pme/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

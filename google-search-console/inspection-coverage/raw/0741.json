@@ -1,0 +1,23 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=KOPLsoyTLJupKYZAdoMY_A&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-11-16T17:24:42Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/es/ressources/articles/lpp-2025-reformes-nouvelles-obligations-et-impacts-pratiques-pour-les-entreprises-et-independants-geneve/",
+      "userCanonical": "https://ark-fid.ch/es/ressources/articles/lpp-2025-reformes-nouvelles-obligations-et-impacts-pratiques-pour-les-entreprises-et-independants-geneve/",
+      "referringUrls": [
+        "https://ark-fid.ch/sitemap.xml",
+        "https://ark-fid.ch/es/ressources/articles/lpp-2025-reformes-nouvelles-obligations-et-impacts-pratiques-pour-les-entreprises-et-independants-geneve/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

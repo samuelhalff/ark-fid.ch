@@ -1,0 +1,23 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=8gg7U8pIpJkG7Wo7JJn-IA&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-01-02T00:52:26Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/es/ressources/articles/erreurs-courantes-et-optimisations-legales-lors-du-changement-de-canton-pour-les-pme-et-independants-en-suisse-2025/",
+      "userCanonical": "https://ark-fid.ch/es/ressources/articles/erreurs-courantes-et-optimisations-legales-lors-du-changement-de-canton-pour-les-pme-et-independants-en-suisse-2025/",
+      "referringUrls": [
+        "https://ark-fid.ch/es/ressources/articles/optimiser-declaration-tva-suisse-2026-erreurs-courantes-et-guides-concrets-pme-independants/",
+        "https://ark-fid.ch/es/legal/privacy/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

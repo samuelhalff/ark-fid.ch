@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=ST9FEwgclh3OTYfL3146yQ&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-12-10T16:07:35Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/de/ressources/articles/reussir-l-externalisation-de-la-gestion-de-paie-en-suisse-romande-risques-et-garanties-2025/",
+      "userCanonical": "https://ark-fid.ch/de/ressources/articles/reussir-l-externalisation-de-la-gestion-de-paie-en-suisse-romande-risques-et-garanties-2025/",
+      "referringUrls": [
+        "https://ark-fid.ch/de/ressources/articles/reussir-l-externalisation-de-la-gestion-de-paie-en-suisse-romande-risques-et-garanties-2025/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

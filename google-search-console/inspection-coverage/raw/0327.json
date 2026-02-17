@@ -1,0 +1,26 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=i85BxdK8YIcNV-fONQR-LQ&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-10-13T03:22:26Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/es/ressources/articles/odoo-18-paie-comptabilite-nouveautes-geneve-2025/",
+      "userCanonical": "https://ark-fid.ch/es/ressources/articles/odoo-18-paie-comptabilite-nouveautes-geneve-2025/",
+      "sitemap": [
+        "https://ark-fid.ch/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://ark-fid.ch/en/ressources/articles/odoo-18-paie-comptabilite-nouveautes-geneve-2025/",
+        "https://ark-fid.ch/pt/ressources/articles/odoo-18-paie-comptabilite-nouveautes-geneve-2025/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=MzFECxAN4jLxO5wzYWSwyg&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-12-03T18:38:34Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/en/ressources/articles/beps-2-0-impacts-pme-suisse-nouvelles-obligations-fiscales/",
+      "userCanonical": "https://ark-fid.ch/en/ressources/articles/beps-2-0-impacts-pme-suisse-nouvelles-obligations-fiscales/",
+      "referringUrls": [
+        "https://ark-fid.ch/en/ressources/articles/baisse-impots-geneve-2025/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

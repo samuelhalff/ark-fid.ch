@@ -1,0 +1,23 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=NMy369oZlAZpP_wApBFbkw&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-12-23T10:57:56Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/de/services/odoo/",
+      "userCanonical": "https://ark-fid.ch/de/services/odoo/",
+      "referringUrls": [
+        "https://ark-fid.ch/de/services/taxes/",
+        "https://ark-fid.ch/de/ressources/articles/nouveautes-paie-geneve-2025-regles-frontaliers-teletravail/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

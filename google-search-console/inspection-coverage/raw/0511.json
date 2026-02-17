@@ -1,0 +1,23 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=1r14F_5m-J9RWCdrwnlO4g&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-01-29T12:52:49Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/fr/ressources/articles/proces-verbal-assemblee-generale-obligations-redaction-suisse-2025/",
+      "userCanonical": "https://ark-fid.ch/fr/ressources/articles/proces-verbal-assemblee-generale-obligations-redaction-suisse-2025/",
+      "referringUrls": [
+        "https://ark-fid.ch/fr/services/externalisation/",
+        "https://ark-fid.ddns.net/fr/ressources/articles/proces-verbal-assemblee-generale-obligations-redaction-suisse-2025/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

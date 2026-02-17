@@ -1,0 +1,24 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=ZAEchPMj2Z3lnMFHhEGI7A&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-09-28T23:39:00Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/fr/ressources/articles/",
+      "userCanonical": "https://ark-fid.ch/fr/ressources/articles/",
+      "referringUrls": [
+        "https://ark-fid.ch/fr/ressources/articles/declarations-fiscales-pme-geneve-vaud-2025-erreurs-pieges-conseils/",
+        "https://ark-fid.ch/fr/legal/privacy/",
+        "https://ark-fid.ch/fr/legal/privacy"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

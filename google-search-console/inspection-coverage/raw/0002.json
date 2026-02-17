@@ -1,0 +1,26 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=2DFy96OP0oXj3hPUtL7Acw&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-02-06T03:36:34Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/es/ressources/articles/optimiser-fiscalite-geneve-2025-preparer-2026/",
+      "userCanonical": "https://ark-fid.ch/es/ressources/articles/optimiser-fiscalite-geneve-2025-preparer-2026/",
+      "sitemap": [
+        "https://ark-fid.ch/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://ark-fid.ch/es/ressources/articles/fiscalite-cryptomonnaies-suisse-2025/",
+        "https://ark-fid.ch/de/ressources/articles/optimiser-fiscalite-geneve-2025-preparer-2026/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

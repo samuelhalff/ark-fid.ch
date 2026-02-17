@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=tHZeGuEZCpGfYiDfzbpnRA&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-12-30T03:54:27Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/pt/ressources/articles/erreurs-courantes-et-optimisations-legales-lors-du-changement-de-canton-pour-les-pme-et-independants-en-suisse-2025/",
+      "userCanonical": "https://ark-fid.ch/pt/ressources/articles/erreurs-courantes-et-optimisations-legales-lors-du-changement-de-canton-pour-les-pme-et-independants-en-suisse-2025/",
+      "referringUrls": [
+        "https://ark-fid.ch/pt/legal/cookies/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=Ry_ZPNNGKE-IEQsOVHUiJw&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Crawled - currently not indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-10-28T01:27:36Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/es/ressources/articles/optimisation-fiscale-geneve-fin-2025/",
+      "userCanonical": "https://ark-fid.ch/es/ressources/articles/optimisation-fiscale-geneve-fin-2025/",
+      "referringUrls": [
+        "https://ark-fid.ch/en/ressources/articles/optimisation-fiscale-geneve-fin-2025/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

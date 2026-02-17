@@ -1,0 +1,40 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=6KE2Prs7mTPPxwKiO6tJMA&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-02-17T02:15:17Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/en/ressources/articles/nouveautes-paie-geneve-2025-regles-frontaliers-teletravail",
+      "userCanonical": "https://ark-fid.ch/en/ressources/articles/nouveautes-paie-geneve-2025-regles-frontaliers-teletravail/",
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    },
+    "richResultsResult": {
+      "verdict": "PASS",
+      "detectedItems": [
+        {
+          "richResultType": "Breadcrumbs",
+          "items": [
+            {
+              "name": "Unnamed item"
+            }
+          ]
+        },
+        {
+          "richResultType": "Review snippets",
+          "items": [
+            {
+              "name": "Ark Fiduciaire"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
