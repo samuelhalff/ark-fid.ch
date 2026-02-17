@@ -1,0 +1,17 @@
+{
+  "path": "https://ark-fid.ch/sitemap.xml",
+  "lastSubmitted": "2026-02-09T12:26:42.599Z",
+  "isPending": false,
+  "isSitemapsIndex": false,
+  "type": "sitemap",
+  "lastDownloaded": "2026-02-16T21:40:24.620Z",
+  "warnings": "0",
+  "errors": "0",
+  "contents": [
+    {
+      "type": "web",
+      "submitted": "480",
+      "indexed": "0"
+    }
+  ]
+}

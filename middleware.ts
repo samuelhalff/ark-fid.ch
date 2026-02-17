@@ -10,6 +10,22 @@ export function middleware(request: NextRequest) {
     .replace(/[^a-zA-Z0-9]/g, "")
     .slice(0, 32);
   const isProd = process.env.NODE_ENV === "production";
+  const host = request.headers.get("host") || "";
+  const shouldNoIndex =
+    request.nextUrl.search.length > 0 ||
+    pathname.includes("/opengraph-image") ||
+    pathname.includes("/twitter-image");
+
+  if (isProd && host.startsWith("www.")) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.hostname = host.replace(/^www\./, "");
+    redirectUrl.protocol = "https";
+    const response = NextResponse.redirect(redirectUrl, 308);
+    if (shouldNoIndex) {
+      response.headers.set("X-Robots-Tag", "noindex, nofollow");
+    }
+    return response;
+  }
 
   // Normalize locale-prefixed requests for common root assets (e.g. /en/favicon.png -> /favicon.png)
   const staticRootAsset = pathname.match(
@@ -108,6 +124,9 @@ export function middleware(request: NextRequest) {
           "max-age=63072000; includeSubDomains; preload"
         );
       }
+      if (shouldNoIndex) {
+        response.headers.set("X-Robots-Tag", "noindex, nofollow");
+      }
       return response;
     };
 
@@ -182,6 +201,9 @@ export function middleware(request: NextRequest) {
           "max-age=63072000; includeSubDomains; preload"
         );
       }
+      if (shouldNoIndex) {
+        response.headers.set("X-Robots-Tag", "noindex, nofollow");
+      }
       return response;
     }
     
@@ -215,6 +237,9 @@ export function middleware(request: NextRequest) {
         "Strict-Transport-Security",
         "max-age=63072000; includeSubDomains; preload"
       );
+    }
+    if (shouldNoIndex) {
+      response.headers.set("X-Robots-Tag", "noindex, nofollow");
     }
     return response;
   }
@@ -250,6 +275,9 @@ export function middleware(request: NextRequest) {
       "Strict-Transport-Security",
       "max-age=63072000; includeSubDomains; preload"
     );
+  }
+  if (shouldNoIndex) {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
   }
   return response;
 }

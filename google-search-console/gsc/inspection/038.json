@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=NHnrBBDsUbZyWxokJm3iBg&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2025-12-25T11:25:19Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/en/ressources/articles/optimisation-charges-sociales-suisse-romande-guide-independants-pme-2025/",
+      "userCanonical": "https://ark-fid.ch/en/ressources/articles/optimisation-charges-sociales-suisse-romande-guide-independants-pme-2025/",
+      "referringUrls": [
+        "https://ark-fid.ch/en/contact/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

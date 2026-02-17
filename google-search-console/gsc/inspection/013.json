@@ -1,0 +1,22 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=pD-PLiJaS2Tljx5FXc1zbw&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "NEUTRAL",
+      "coverageState": "Page with redirect",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-02-14T09:59:01Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/en/ressources/articles/nouveautes-et-regles-concretes-cotisations-sociales-et-certificats-de-salaire-2026-pme-independants-suisse-romande/",
+      "userCanonical": "https://ark-fid.ch/en/ressources/articles/nouveautes-et-regles-concretes-cotisations-sociales-et-certificats-de-salaire-2026-pme-independants-suisse-romande/",
+      "referringUrls": [
+        "https://ark-fid.ch/en/ressources/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    }
+  }
+}

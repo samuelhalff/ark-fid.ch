@@ -11,6 +11,7 @@ import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 import { estimateReadingTime } from "@/src/lib/readingTime";
 import dynamicImport from "next/dynamic";
 import Defer from "@/src/components/Defer";
+import { normalizeInternalHref } from "@/src/lib/paths";
 
 // Force dynamic rendering to speed up build times
 export const dynamic = "force-dynamic";
@@ -70,7 +71,7 @@ interface RessourcesDictionary {
   [key: string]: unknown;
 }
 
-const markdownComponents: Components = {
+const buildMarkdownComponents = (locale: Locale): Components => ({
   table({ node: _node, className, ...props }) {
     return (
       <div className="my-6 overflow-x-auto">
@@ -78,7 +79,15 @@ const markdownComponents: Components = {
       </div>
     );
   },
-};
+  a({ node: _node, href, children, ...props }) {
+    const normalized = href ? normalizeInternalHref(href, locale) : href;
+    return (
+      <a href={normalized} {...props}>
+        {children}
+      </a>
+    );
+  },
+});
 
 async function loadRessources(locale: Locale): Promise<RessourcesDictionary> {
   const ressourcesModule = await import(
@@ -325,7 +334,10 @@ export default async function ArticlePage({ params }: Params) {
         id="article-content"
         className="prose prose-lg dark:prose-invert max-w-none"
       >
-        <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={buildMarkdownComponents(locale)}
+        >
           {article.content ?? ""}
         </ReactMarkdown>
       </article>

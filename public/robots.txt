@@ -5,6 +5,12 @@ Allow: /
 # Disallow internal/API routes
 Disallow: /api/
 Disallow: /_next/
+Disallow: /assets/
+Disallow: /_next/static/
+Disallow: /_next/image
+
+# Block query string variants to avoid duplicate indexing
+Disallow: /*?*
 
 # Block OpenGraph image routes (these are for social media crawlers, not search indexing)
 # Fixes "Crawled - currently not indexed" issues for opengraph-image paths

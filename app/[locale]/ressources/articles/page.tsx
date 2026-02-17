@@ -213,9 +213,29 @@ export default async function ArticlesIndex({
 
 export async function generateMetadata({
   params: { locale },
+  searchParams,
 }: {
   params: { locale: string };
+  searchParams?: ArticlesSearchParams;
 }): Promise<Metadata> {
   const targetLocale = isValidLocale(locale) ? locale : "fr";
-  return await generateMetadataForPage(targetLocale, "/ressources/articles");
+  const baseMetadata = await generateMetadataForPage(
+    targetLocale,
+    "/ressources/articles"
+  );
+  const hasQueryParams = searchParams && Object.keys(searchParams).length > 0;
+  if (hasQueryParams) {
+    return {
+      ...baseMetadata,
+      robots: {
+        index: false,
+        follow: true,
+        googleBot: {
+          index: false,
+          follow: true,
+        },
+      },
+    };
+  }
+  return baseMetadata;
 }

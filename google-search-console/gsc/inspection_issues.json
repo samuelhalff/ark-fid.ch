@@ -1,0 +1,112 @@
+[
+  {
+    "url": "https://ark-fid.ch/en/ressources/articles/nouveautes-et-regles-concretes-cotisations-sociales-et-certificats-de-salaire-2026-pme-independants-suisse-romande",
+    "verdict": "NEUTRAL",
+    "coverageState": "Page with redirect",
+    "indexingState": "INDEXING_ALLOWED",
+    "pageFetchState": "SUCCESSFUL",
+    "robotsTxtState": "ALLOWED",
+    "userCanonical": "https://ark-fid.ch/en/ressources/articles/nouveautes-et-regles-concretes-cotisations-sociales-et-certificats-de-salaire-2026-pme-independants-suisse-romande/",
+    "googleCanonical": "https://ark-fid.ch/en/ressources/articles/nouveautes-et-regles-concretes-cotisations-sociales-et-certificats-de-salaire-2026-pme-independants-suisse-romande/"
+  },
+  {
+    "url": "https://ark-fid.ch/fr/ressources/articles/nouveautes-et-regles-concretes-cotisations-sociales-et-certificats-de-salaire-2026-pme-independants-suisse-romande",
+    "verdict": "PASS",
+    "coverageState": "Submitted and indexed",
+    "indexingState": "INDEXING_ALLOWED",
+    "pageFetchState": "SUCCESSFUL",
+    "robotsTxtState": "ALLOWED",
+    "userCanonical": "https://ark-fid.ch/fr/ressources/articles/nouveautes-et-regles-concretes-cotisations-sociales-et-certificats-de-salaire-2026-pme-independants-suisse-romande/",
+    "googleCanonical": "https://ark-fid.ch/fr/ressources/articles/nouveautes-et-regles-concretes-cotisations-sociales-et-certificats-de-salaire-2026-pme-independants-suisse-romande"
+  },
+  {
+    "url": "https://ark-fid.ch/en/ressources/articles/cotisations-sociales-independants-pme-2026-suivi-calcul-erreurs-pieges-a-eviter-geneve-vaud",
+    "verdict": "PASS",
+    "coverageState": "Submitted and indexed",
+    "indexingState": "INDEXING_ALLOWED",
+    "pageFetchState": "SUCCESSFUL",
+    "robotsTxtState": "ALLOWED",
+    "userCanonical": "https://ark-fid.ch/en/ressources/articles/cotisations-sociales-independants-pme-2026-suivi-calcul-erreurs-pieges-a-eviter-geneve-vaud/",
+    "googleCanonical": "https://ark-fid.ch/en/ressources/articles/cotisations-sociales-independants-pme-2026-suivi-calcul-erreurs-pieges-a-eviter-geneve-vaud"
+  },
+  {
+    "url": "https://ark-fid.ch/en/ressources/articles/optimisation-charges-sociales-suisse-romande-guide-independants-pme-2025",
+    "verdict": "NEUTRAL",
+    "coverageState": "Page with redirect",
+    "indexingState": "INDEXING_ALLOWED",
+    "pageFetchState": "SUCCESSFUL",
+    "robotsTxtState": "ALLOWED",
+    "userCanonical": "https://ark-fid.ch/en/ressources/articles/optimisation-charges-sociales-suisse-romande-guide-independants-pme-2025/",
+    "googleCanonical": "https://ark-fid.ch/en/ressources/articles/optimisation-charges-sociales-suisse-romande-guide-independants-pme-2025/"
+  },
+  {
+    "url": "https://www.ark-fid.ch/",
+    "verdict": "NEUTRAL",
+    "coverageState": "URL is unknown to Google",
+    "indexingState": "INDEXING_STATE_UNSPECIFIED",
+    "pageFetchState": "PAGE_FETCH_STATE_UNSPECIFIED",
+    "robotsTxtState": "ROBOTS_TXT_STATE_UNSPECIFIED",
+    "userCanonical": null,
+    "googleCanonical": null
+  },
+  {
+    "url": "https://ark-fid.ch/en/ressources/articles/optimiser-les-charges-sociales-en-suisse-romande-2026-erreurs-frequentes-pour-pme-independants",
+    "verdict": "PASS",
+    "coverageState": "Submitted and indexed",
+    "indexingState": "INDEXING_ALLOWED",
+    "pageFetchState": "SUCCESSFUL",
+    "robotsTxtState": "ALLOWED",
+    "userCanonical": "https://ark-fid.ch/en/ressources/articles/optimiser-les-charges-sociales-en-suisse-romande-2026-erreurs-frequentes-pour-pme-independants/",
+    "googleCanonical": "https://ark-fid.ch/en/ressources/articles/optimiser-les-charges-sociales-en-suisse-romande-2026-erreurs-frequentes-pour-pme-independants"
+  },
+  {
+    "url": "https://ark-fid.ch/fr/ressources/articles/optimiser-declaration-tva-suisse-2026-erreurs-courantes-et-guides-concrets-pme-independants",
+    "verdict": "NEUTRAL",
+    "coverageState": "Page with redirect",
+    "indexingState": "INDEXING_ALLOWED",
+    "pageFetchState": "SUCCESSFUL",
+    "robotsTxtState": "ALLOWED",
+    "userCanonical": "https://ark-fid.ch/fr/ressources/articles/optimiser-declaration-tva-suisse-2026-erreurs-courantes-et-guides-concrets-pme-independants/",
+    "googleCanonical": "https://ark-fid.ch/fr/ressources/articles/optimiser-declaration-tva-suisse-2026-erreurs-courantes-et-guides-concrets-pme-independants/"
+  },
+  {
+    "url": "https://ark-fid.ch/en/ressources/articles/fiscalite-cryptomonnaies-suisse-2025",
+    "verdict": "NEUTRAL",
+    "coverageState": "Page with redirect",
+    "indexingState": "INDEXING_ALLOWED",
+    "pageFetchState": "SUCCESSFUL",
+    "robotsTxtState": "ALLOWED",
+    "userCanonical": "https://ark-fid.ch/en/ressources/articles/fiscalite-cryptomonnaies-suisse-2025/",
+    "googleCanonical": "https://ark-fid.ch/en/ressources/articles/fiscalite-cryptomonnaies-suisse-2025/"
+  },
+  {
+    "url": "https://ark-fid.ch/assets/downloads/instructions-ifd-2025.pdf",
+    "verdict": "NEUTRAL",
+    "coverageState": "Crawled - currently not indexed",
+    "indexingState": "INDEXING_ALLOWED",
+    "pageFetchState": "SUCCESSFUL",
+    "robotsTxtState": "ALLOWED",
+    "userCanonical": null,
+    "googleCanonical": "https://ark-fid.ch/assets/downloads/instructions-ifd-2025.pdf"
+  },
+  {
+    "url": "https://ark-fid.ch/fr/ressources/articles/optimiser-les-charges-sociales-en-suisse-romande-2026-erreurs-frequentes-pour-pme-independants",
+    "verdict": "NEUTRAL",
+    "coverageState": "Page with redirect",
+    "indexingState": "INDEXING_ALLOWED",
+    "pageFetchState": "SUCCESSFUL",
+    "robotsTxtState": "ALLOWED",
+    "userCanonical": "https://ark-fid.ch/fr/ressources/articles/optimiser-les-charges-sociales-en-suisse-romande-2026-erreurs-frequentes-pour-pme-independants/",
+    "googleCanonical": "https://ark-fid.ch/fr/ressources/articles/optimiser-les-charges-sociales-en-suisse-romande-2026-erreurs-frequentes-pour-pme-independants/"
+  },
+  {
+    "url": "https://ark-fid.ch/pt/ressources/articles/creer-entreprise-suisse",
+    "verdict": "PASS",
+    "coverageState": "Submitted and indexed",
+    "indexingState": "INDEXING_ALLOWED",
+    "pageFetchState": "SUCCESSFUL",
+    "robotsTxtState": "ALLOWED",
+    "userCanonical": "https://ark-fid.ch/pt/ressources/articles/creer-entreprise-suisse/",
+    "googleCanonical": "https://ark-fid.ch/pt/ressources/articles/creer-entreprise-suisse"
+  }
+]

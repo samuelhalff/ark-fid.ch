@@ -1,0 +1,47 @@
+{
+  "inspectionResult": {
+    "inspectionResultLink": "https://search.google.com/search-console/inspect?resource_id=sc-domain:ark-fid.ch&id=i1Z29kxspJwf73hGv3Mdzg&utm_medium=link&utm_source=api",
+    "indexStatusResult": {
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "robotsTxtState": "ALLOWED",
+      "indexingState": "INDEXING_ALLOWED",
+      "lastCrawlTime": "2026-02-15T18:55:01Z",
+      "pageFetchState": "SUCCESSFUL",
+      "googleCanonical": "https://ark-fid.ch/en/ressources/articles/lpp-2025-reformes-nouvelles-obligations-et-impacts-pratiques-pour-les-entreprises-et-independants-geneve/",
+      "userCanonical": "https://ark-fid.ch/en/ressources/articles/lpp-2025-reformes-nouvelles-obligations-et-impacts-pratiques-pour-les-entreprises-et-independants-geneve/",
+      "sitemap": [
+        "https://ark-fid.ch/sitemap.xml"
+      ],
+      "referringUrls": [
+        "https://ark-fid.ch/en/ressources/articles/cotisations-lpp-geneve-2025-changements-impacts-pme/",
+        "https://ark-fid.ch/de/ressources/articles/lpp-2025-reformes-nouvelles-obligations-et-impacts-pratiques-pour-les-entreprises-et-independants-geneve/"
+      ],
+      "crawledAs": "MOBILE"
+    },
+    "mobileUsabilityResult": {
+      "verdict": "VERDICT_UNSPECIFIED"
+    },
+    "richResultsResult": {
+      "verdict": "PASS",
+      "detectedItems": [
+        {
+          "richResultType": "Breadcrumbs",
+          "items": [
+            {
+              "name": "Unnamed item"
+            }
+          ]
+        },
+        {
+          "richResultType": "Review snippets",
+          "items": [
+            {
+              "name": "Ark Fiduciaire"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

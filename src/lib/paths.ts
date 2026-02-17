@@ -78,3 +78,87 @@ export function buildInternalUrl(basePath: string, locale: Locale): string {
   const localized = basePath === "/" ? "" : localizePath(basePath, locale);
   return withTrailingSlash(`/${locale}${localized}`);
 }
+
+const internalHosts = new Set(["ark-fid.ch", "www.ark-fid.ch"]);
+const fileExtRegex = /\.[a-zA-Z0-9]{1,8}$/;
+
+function hasFileExtension(path: string): boolean {
+  return fileExtRegex.test(path);
+}
+
+function isSpecialRoute(path: string): boolean {
+  return path.includes("/opengraph-image") || path.includes("/twitter-image");
+}
+
+/**
+ * Normalize an internal href to include locale + trailing slash.
+ * Preserves query/hash and leaves external links untouched.
+ */
+export function normalizeInternalHref(href: string, locale: Locale): string {
+  if (!href) return href;
+
+  let path = href;
+  let search = "";
+  let hash = "";
+
+  if (/^https?:\/\//i.test(href)) {
+    try {
+      const url = new URL(href);
+      if (!internalHosts.has(url.host)) return href;
+      path = url.pathname || "/";
+      search = url.search || "";
+      hash = url.hash || "";
+    } catch {
+      return href;
+    }
+  } else if (href.startsWith("/")) {
+    const queryIndex = href.indexOf("?");
+    const hashIndex = href.indexOf("#");
+    const cutIndex =
+      queryIndex === -1
+        ? hashIndex
+        : hashIndex === -1
+          ? queryIndex
+          : Math.min(queryIndex, hashIndex);
+    if (cutIndex !== -1) {
+      path = href.slice(0, cutIndex);
+      if (queryIndex !== -1) {
+        const end = hashIndex !== -1 ? hashIndex : href.length;
+        search = href.slice(queryIndex, end);
+      }
+      if (hashIndex !== -1) {
+        hash = href.slice(hashIndex);
+      }
+    }
+  } else {
+    return href;
+  }
+
+  if (path.startsWith("/_next/") || path.startsWith("/assets/")) {
+    return `${path}${search}${hash}`;
+  }
+
+  const localeMatch = path.match(/^\/([a-z]{2})(\/.*)?$/);
+  if (localeMatch && (maps as Record<string, unknown>)[localeMatch[1]]) {
+    const loc = localeMatch[1];
+    const rest = localeMatch[2] || "/";
+    let normalized = rest === "/" ? `/${loc}/` : `/${loc}${rest}`;
+    if (
+      normalized.length > 1 &&
+      !normalized.endsWith("/") &&
+      !hasFileExtension(normalized) &&
+      !isSpecialRoute(normalized)
+    ) {
+      normalized += "/";
+    }
+    return `${normalized}${search}${hash}`;
+  }
+
+  const basePath =
+    path.length > 1 && path.endsWith("/") ? path.slice(0, -1) : path;
+  let normalized = buildInternalUrl(basePath, locale);
+  if (hasFileExtension(basePath) || isSpecialRoute(basePath)) {
+    normalized = `/${locale}${localizePath(basePath, locale)}`;
+  }
+  return `${normalized}${search}${hash}`;
+}

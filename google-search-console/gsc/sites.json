@@ -1,0 +1,12 @@
+{
+  "siteEntry": [
+    {
+      "siteUrl": "sc-domain:ark-fid.ch",
+      "permissionLevel": "siteOwner"
+    },
+    {
+      "siteUrl": "sc-domain:houle.ai",
+      "permissionLevel": "siteOwner"
+    }
+  ]
+}

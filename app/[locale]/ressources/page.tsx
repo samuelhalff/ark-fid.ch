@@ -12,6 +12,7 @@ import ContactSection from "./articles/components/ContactSection";
 import { notFound } from "next/navigation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
+import { buildInternalUrl } from "@/src/lib/paths";
 
 type ArticlesSearchParams = Record<string, string | string[] | undefined>;
 
@@ -257,15 +258,15 @@ export default async function RessourcesPage({
           {[
             {
               label: links.Accounting || "accounting",
-              href: `/${locale}/services/accounting`,
+              href: buildInternalUrl("/services/accounting", locale),
             },
             {
               label: links.Tax || "tax",
-              href: `/${locale}/services/taxes`,
+              href: buildInternalUrl("/services/taxes", locale),
             },
             {
               label: links.Payroll || "payroll",
-              href: `/${locale}/services/payroll`,
+              href: buildInternalUrl("/services/payroll", locale),
             },
           ].map((item, index) => (
             <span key={item.href}>
