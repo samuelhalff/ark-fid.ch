@@ -221,6 +221,62 @@ Ark Fiduciaire is a new brand (founded 2025 through strategic union of two firms
 - Answer the Public (free tier)
 - Search Console (query report)
 
+#### Geneva keyword list (decoded)
+
+| Keyword | Intent | Page Type | Priority | Volume | Location |
+| --- | --- | --- | --- | --- | --- |
+| permis de travail genève | local | service | medium | 1900 | Geneva, Geneva, Switzerland |
+| déclaration d'impôt genève | local | service | medium | 1000 | Geneva, Geneva, Switzerland |
+| création de société genève | local | service | high | 880 | Geneva, Geneva, Switzerland |
+| experts comptables genève | local | landing | high | 720 | Geneva, Geneva, Switzerland |
+| fiduciaire à genève | local | primary | high | 480 | Geneva, Geneva, Switzerland |
+| domiciliation d'entreprise genève | local | service | high | 480 | Geneva, Geneva, Switzerland |
+| domiciliation société genève | local | service | high | 390 | Geneva, Geneva, Switzerland |
+| constitution de société genève | local | service | high | 390 | Geneva, Geneva, Switzerland |
+| conseil fiscal genève | local | service | high | 320 | Geneva, Geneva, Switzerland |
+| création sarl genève | local | service | high | 260 | Geneva, Geneva, Switzerland |
+| cabinet fiduciaire genève | local | primary | high | 260 | Geneva, Geneva, Switzerland |
+| comptabilité entreprise genève | local | service | high | 260 | Geneva, Geneva, Switzerland |
+| gestion de paie genève | local | service | high | 220 | Geneva, Geneva, Switzerland |
+| domiciliation commerciale genève | local | service | medium | 210 | Geneva, Geneva, Switzerland |
+| société fiduciaire genève | local | landing | medium | 210 | Geneva, Geneva, Switzerland |
+| optimisation fiscale genève | local | landing | high | 170 | Geneva, Geneva, Switzerland |
+| fiduciaire impôts genève | local | service | high | 170 | Geneva, Geneva, Switzerland |
+| tenue comptable genève | local | service | high | 170 | Geneva, Geneva, Switzerland |
+| adresse de domiciliation genève | local | service | medium | 170 | Geneva, Geneva, Switzerland |
+| création sa genève | local | service | high | 140 | Geneva, Geneva, Switzerland |
+| services fiduciaires genève | local | primary | high | 140 | Geneva, Geneva, Switzerland |
+| conseil installation genève | local | landing | low | 140 | Geneva, Geneva, Switzerland |
+| fiduciaire anglophone genève | local | landing | medium | 140 | Geneva, Geneva, Switzerland |
+| cabinet fiscal genève | local | service | medium | 140 | Geneva, Geneva, Switzerland |
+| fiduciaire paie genève | local | service | high | 120 | Geneva, Geneva, Switzerland |
+| gestion salaires genève | local | service | medium | 120 | Geneva, Geneva, Switzerland |
+| gestion comptable genève | local | service | medium | 120 | Geneva, Geneva, Switzerland |
+| accompagnement permis b genève | local | service | low | 110 | Geneva, Geneva, Switzerland |
+| clôture annuelle genève | local | service | medium | 110 | Geneva, Geneva, Switzerland |
+| administration rh genève | local | service | medium | 110 | Geneva, Geneva, Switzerland |
+| fiduciaire internationale genève | local | landing | medium | 110 | Geneva, Geneva, Switzerland |
+| ark fiduciaire genève | navigational | primary | high | 90 | Geneva, Geneva, Switzerland |
+| fiduciaire pme genève | local | landing | high | 90 | Geneva, Geneva, Switzerland |
+| externalisation comptable genève | local | service | high | 90 | Geneva, Geneva, Switzerland |
+| fiduciaire domiciliation genève | local | service | high | 90 | Geneva, Geneva, Switzerland |
+| déclaration fiscale entreprise genève | local | service | high | 90 | Geneva, Geneva, Switzerland |
+| bulletins de salaire genève | local | service | medium | 90 | Geneva, Geneva, Switzerland |
+| fiduciaire pour expatriés genève | local | landing | medium | 90 | Geneva, Geneva, Switzerland |
+| assistance permis de séjour genève | local | service | medium | 90 | Geneva, Geneva, Switzerland |
+| externalisation paie genève | local | service | high | 80 | Geneva, Geneva, Switzerland |
+| états financiers genève | local | service | low | 80 | Geneva, Geneva, Switzerland |
+| décompte tva genève | local | service | high | 70 | Geneva, Geneva, Switzerland |
+| bouclage comptable genève | local | service | medium | 70 | Geneva, Geneva, Switzerland |
+| conseil tva genève | local | service | medium | 70 | Geneva, Geneva, Switzerland |
+| fiduciaire startup genève | local | landing | medium | 70 | Geneva, Geneva, Switzerland |
+| fiscalité pme genève | local | landing | high | 60 | Geneva, Geneva, Switzerland |
+| fiduciaire création société genève | local | landing | high | 60 | Geneva, Geneva, Switzerland |
+| comptabilité tva genève | local | service | medium | 60 | Geneva, Geneva, Switzerland |
+| fiduciaire entrepreneurs genève | local | landing | medium | 60 | Geneva, Geneva, Switzerland |
+| immigration entreprise genève | local | service | low | 50 | Geneva, Geneva, Switzerland |
+| fiduciaire scale-up genève | local | landing | low | 30 | Geneva, Geneva, Switzerland |
+
 ---
 
 ### Priority 5: Technical Monitoring
