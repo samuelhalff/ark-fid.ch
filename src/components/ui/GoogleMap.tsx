@@ -28,11 +28,11 @@ export interface GoogleMapProps {
 const DEFAULT_LAT = 46.2039844;
 const DEFAULT_LNG = 6.1426851;
 // Real Ark Fiduciaire Google CID (example value – replace if needed)
-export const ARK_GOOGLE_CID = "14503321678509248216";
+export const ARK_GOOGLE_CID = "11150574028817027076";
 
 // Server component wrapper (no hooks here)
 export const GoogleMap = async ({
-  title = "Ark Fiduciaire – Genève",
+  title = "Ark Fiduciaire SA",
   latitude = DEFAULT_LAT,
   longitude = DEFAULT_LNG,
   cid = ARK_GOOGLE_CID,

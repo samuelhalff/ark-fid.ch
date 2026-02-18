@@ -48,16 +48,21 @@ export default async function ContactPage({
   const localePrefix = params?.locale ? `/${params.locale}` : "/fr";
   const placeJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Place",
-    name: "Ark Fiduciaire",
+    "@type": "LocalBusiness",
+    name: "Ark Fiduciaire SA",
     url: "https://ark-fid.ch",
     geo: {
       "@type": "GeoCoordinates",
       latitude: 46.2039844,
       longitude: 6.1426851,
     },
-    hasMap: "https://maps.google.com/?cid=11595836239142935457",
-    identifier: "11595836239142935457",
+    hasMap: "https://maps.google.com/?cid=11150574028817027076",
+    identifier: "11150574028817027076",
+    telephone: "+41225125050",
+    sameAs: [
+      "https://www.google.com/maps/place/Ark+Fiduciaire+SA/",
+      "https://maps.google.com/?cid=11150574028817027076",
+    ],
     address: {
       "@type": "PostalAddress",
       streetAddress: "26 Boulevard Georges Favon",
