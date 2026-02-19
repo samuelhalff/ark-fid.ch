@@ -46,6 +46,7 @@ const AI_TWO_STEP = process.env.AI_TWO_STEP === "1";
 
 const AZURE_AGENT_ENDPOINT = process.env.AZURE_AGENT_ENDPOINT;
 const AZURE_AGENT_NAME = process.env.AZURE_AGENT_NAME;
+const AZURE_AGENT_API_KEY = process.env.AZURE_AGENT_API_KEY;
 const AZURE_AGENT_RESEARCH_NAME =
   process.env.AZURE_AGENT_RESEARCH_NAME || AZURE_AGENT_NAME;
 const AZURE_AGENT_RESPONSES_API_VERSION =
@@ -1541,25 +1542,32 @@ async function azureAgentResponsesApi(
 
   const { DefaultAzureCredential } = require("@azure/identity");
   const { AzureOpenAI } = require("openai");
-  const credential = new DefaultAzureCredential();
+  const apiKey = (AZURE_AGENT_API_KEY || "").trim();
+  const useApiKey = !!apiKey;
+  const credential = useApiKey ? null : new DefaultAzureCredential();
   const debugAgent = !!process.env.DEBUG_AGENT;
 
-  const azureADTokenProvider = async () => {
-    const token = await credential.getToken("https://ai.azure.com/.default");
-    if (!token?.token) {
-      throw new Error("Failed to obtain Azure token for ai.azure.com scope");
-    }
-    return token.token;
-  };
+  const azureADTokenProvider = useApiKey
+    ? null
+    : async () => {
+        const token = await credential.getToken("https://ai.azure.com/.default");
+        if (!token?.token) {
+          throw new Error("Failed to obtain Azure token for ai.azure.com scope");
+        }
+        return token.token;
+      };
 
   const baseURL = `${AZURE_AGENT_ENDPOINT.replace(/\/+$/, "")}/openai`;
   const openAIClient = new AzureOpenAI({
     apiVersion: AZURE_AGENT_RESPONSES_API_VERSION,
     baseURL,
-    azureADTokenProvider,
-    apiKey: null,
+    ...(useApiKey
+      ? { apiKey }
+      : { azureADTokenProvider, apiKey: null }),
   });
-  const agentRef = await resolveAgentReference(agentName, credential);
+  const agentRef = useApiKey
+    ? buildAgentReference(agentName)
+    : await resolveAgentReference(agentName, credential);
 
   if (debugAgent) {
     console.log(

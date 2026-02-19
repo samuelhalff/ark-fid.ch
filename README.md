@@ -113,7 +113,7 @@ Notes:
 
 The website includes an AI quote assistant at `/<locale>/agent/`, backed by `POST /api/agent/chat`.
 
-Environment (Entra ID / DefaultAzureCredential):
+Environment (API key or Entra ID / DefaultAzureCredential):
 
 ```
 # Required
@@ -122,6 +122,8 @@ AZURE_AGENT_ENDPOINT=...
 AZURE_AGENT_CHAT_NAME=ark-quote-agent:18
 
 # Auth (one of):
+# - API key (preferred for Foundry endpoints):
+AZURE_AGENT_API_KEY=...
 # - Managed identity / Azure hosting (DefaultAzureCredential)
 # - Azure CLI (`az login`) for local dev
 # - Service principal secrets:
@@ -148,13 +150,16 @@ Providers:
 
 - Azure Agent with Bing grounding (requires `AZURE_AGENT_*` envs)
 
-Environment (DefaultAzureCredential):
+Environment (API key or DefaultAzureCredential):
 
 ```
 # Required
 AZURE_AGENT_ENDPOINT=...
 AZURE_AGENT_NAME=...
 # Example: AZURE_AGENT_NAME=web-deep-search:5
+
+# Optional: API key for Foundry agent calls
+AZURE_AGENT_API_KEY=...
 
 # Optional
 AZURE_AGENT_RUN_TIMEOUT_MS=180000
@@ -177,7 +182,7 @@ SEO_MAX_WORDS=3000
 AI_TWO_STEP=1
 ```
 
-Authentication is handled through the Azure Identity DefaultAzureCredential chain. Supported options:
+Authentication uses `AZURE_AGENT_API_KEY` when provided, otherwise it falls back to the Azure Identity DefaultAzureCredential chain. Supported options:
 
 - Local dev: run `az login` first.
 - GitHub Actions / CI: configure a federated service principal and call `azure/login@v2` with `allow-no-subscriptions: true` plus `AZURE_CLIENT_ID` and `AZURE_TENANT_ID` secrets.
