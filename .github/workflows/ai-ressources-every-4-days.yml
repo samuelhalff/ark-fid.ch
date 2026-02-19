@@ -40,6 +40,7 @@ jobs:
         env:
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
           AZURE_AGENT_NAME: ${{ secrets.AZURE_AGENT_NAME }}
+          AZURE_AGENT_API_KEY: ${{ secrets.AZURE_AGENT_API_KEY }}
           # Azure OpenAI endpoint isn't sensitive; prefer a known-good default.
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT || 'https://pbmch8303697696.cognitiveservices.azure.com/' }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
@@ -84,25 +85,35 @@ jobs:
             exit 1
           fi
 
-          if [ -n "$AZURE_TENANT_ID" ]; then
-            echo "✅ AZURE_TENANT_ID: set (length: ${#AZURE_TENANT_ID})"
+          if [ -n "$AZURE_AGENT_API_KEY" ]; then
+            echo "✅ AZURE_AGENT_API_KEY: set (length: ${#AZURE_AGENT_API_KEY})"
           else
-            echo "❌ AZURE_TENANT_ID: missing"
-            exit 1
+            echo "⚠️ AZURE_AGENT_API_KEY: missing (will use Entra ID if available)"
           fi
 
-          if [ -n "$AZURE_CLIENT_ID" ]; then
-            echo "✅ AZURE_CLIENT_ID: set (length: ${#AZURE_CLIENT_ID})"
-          else
-            echo "❌ AZURE_CLIENT_ID: missing"
-            exit 1
-          fi
+          if [ -z "$AZURE_AGENT_API_KEY" ]; then
+            if [ -n "$AZURE_TENANT_ID" ]; then
+              echo "✅ AZURE_TENANT_ID: set (length: ${#AZURE_TENANT_ID})"
+            else
+              echo "❌ AZURE_TENANT_ID: missing"
+              exit 1
+            fi
 
-          if [ -n "$AZURE_CLIENT_SECRET" ]; then
-            echo "✅ AZURE_CLIENT_SECRET: set (length: ${#AZURE_CLIENT_SECRET})"
+            if [ -n "$AZURE_CLIENT_ID" ]; then
+              echo "✅ AZURE_CLIENT_ID: set (length: ${#AZURE_CLIENT_ID})"
+            else
+              echo "❌ AZURE_CLIENT_ID: missing"
+              exit 1
+            fi
+
+            if [ -n "$AZURE_CLIENT_SECRET" ]; then
+              echo "✅ AZURE_CLIENT_SECRET: set (length: ${#AZURE_CLIENT_SECRET})"
+            else
+              echo "❌ AZURE_CLIENT_SECRET: missing"
+              exit 1
+            fi
           else
-            echo "❌ AZURE_CLIENT_SECRET: missing"
-            exit 1
+            echo "ℹ️ AZURE_AGENT_API_KEY provided; skipping Entra ID requirement"
           fi
 
           # Check optional trend configuration (from vars, not secrets)
@@ -135,6 +146,7 @@ jobs:
         env:
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
           AZURE_AGENT_NAME: ${{ secrets.AZURE_AGENT_NAME }}
+          AZURE_AGENT_API_KEY: ${{ secrets.AZURE_AGENT_API_KEY }}
           # Foundry agent name-only mode (prevents accidental fallback to classic assistants).
           AZURE_AGENT_FORCE_RESPONSES: "1"
           # Azure OpenAI endpoint isn't sensitive; prefer a known-good default.
