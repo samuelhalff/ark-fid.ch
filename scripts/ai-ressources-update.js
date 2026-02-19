@@ -81,6 +81,8 @@ const AZURE_AGENT_RESPONSES_MAX_OUTPUT_TOKENS = parseInt(
   process.env.AZURE_AGENT_RESPONSES_MAX_OUTPUT_TOKENS || "0",
   10,
 );
+const AZURE_AGENT_FALLBACK_TO_OPENAI =
+  process.env.AZURE_AGENT_FALLBACK_TO_OPENAI === "1";
 
 const REFERENCE_MIN_COUNT = parseInt(
   process.env.REFERENCE_MIN_COUNT || "3",
@@ -1712,20 +1714,47 @@ async function requestAgentJson(prompt, { agentName = AZURE_AGENT_NAME } = {}) {
     );
   }
 
-  if (AZURE_AGENT_FORCE_RESPONSES) {
+  const isPermissionError = (error) => {
+    const status = error?.status || error?.statusCode;
+    if (status === 401 || status === 403) return true;
+    const message = `${error?.message || ""}`.toLowerCase();
+    return (
+      message.includes("rbac") ||
+      message.includes("access denied") ||
+      message.includes("not have permissions") ||
+      message.includes("permissions")
+    );
+  };
+
+  const tryAgent = async () => {
     const result = await azureAgentResponsesApi(prompt, { agentName });
     if (AZURE_AGENT_RESPONSES_COOLDOWN_MS > 0) {
       await sleep(AZURE_AGENT_RESPONSES_COOLDOWN_MS);
     }
     return result;
-  }
+  };
 
-  // New Foundry agents use the Responses API by default.
-  const result = await azureAgentResponsesApi(prompt, { agentName });
-  if (AZURE_AGENT_RESPONSES_COOLDOWN_MS > 0) {
-    await sleep(AZURE_AGENT_RESPONSES_COOLDOWN_MS);
+  try {
+    if (AZURE_AGENT_FORCE_RESPONSES) {
+      return await tryAgent();
+    }
+    // New Foundry agents use the Responses API by default.
+    return await tryAgent();
+  } catch (error) {
+    if (AZURE_AGENT_FALLBACK_TO_OPENAI && isPermissionError(error)) {
+      if (!AZURE_OPENAI_API_KEY || !AZURE_OPENAI_ENDPOINT) {
+        throw error;
+      }
+      console.warn(
+        `[agent] Permission denied (${error?.status || "unknown"}). Falling back to Azure OpenAI.`,
+      );
+      return await azureOpenAIJson(prompt, {
+        system:
+          "You are an expert research assistant. Output ONLY a JSON object.",
+      });
+    }
+    throw error;
   }
-  return result;
 }
 
 function ensureAzureEnv() {
