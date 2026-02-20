@@ -851,6 +851,32 @@
           "url": "https://www.bfs.admin.ch/bfs/fr/home.html"
         }
       ]
+    },
+    {
+      "slug": "swiss-gaap-fer-pme-choisir",
+      "title": "Swiss GAAP FER for SMEs: when to adopt, benefits, costs, and watch points",
+      "description": "Guide for Swiss SMEs on Swiss GAAP FER adoption: when it makes sense, differences vs CO, impacts, costs, and key watch points.",
+      "content": "Swiss GAAP FER is a Swiss accounting framework used when an SME wants to go beyond the minimum requirements of the Code of Obligations (CO). It improves transparency for banks, investors, and partners, but it also requires more structured processes. This guide helps decide when to adopt it, what to expect, and how to manage the transition.\n\n## When Swiss GAAP FER makes sense for an SME\n\nAdoption is relevant when:\n\n- the SME seeks external financing from banks or investors\n- a group needs clear and comparable consolidation\n- governance requires more detailed reporting (board, shareholders)\n- international partners expect a recognized framework\n- management wants stronger performance steering (margins, cash flow, risks)\n\nFor a stable and simple structure, CO accounting may be enough. Once complexity grows, Swiss GAAP FER becomes a credibility lever.\n\n## Key differences vs CO financial statements\n\nSwiss GAAP FER follows the true-and-fair principle with more detailed expectations:\n\n- **more complete presentation** of financial statements and notes\n- **stricter rules** on provisions, revenue recognition, and commitments\n- **better comparability** for external readers (banks, investors)\n- **stronger documentation** of accounting policies\n\nIn practice, the switch often means a richer chart of accounts, longer notes, and tighter closing discipline.\n\n## Operational impacts and costs\n\nMoving to Swiss GAAP FER requires an initial effort and ongoing maintenance:\n\n- adapting the chart of accounts and procedures\n- collecting more detailed data (contracts, commitments, fixed assets)\n- training the internal team and partners\n- more frequent interaction with the auditor\n\n### Typical ranges to keep in mind\n\n- **initial compliance work**: CHF 5,000 to 25,000 depending on size\n- **annual follow‑up**: CHF 3,000 to 15,000 depending on complexity\n\nThese figures are indicative; the key is to define the scope and plan internal resources early.\n\n## Steps to manage the transition\n\n1. **Diagnostic**: identify gaps between CO and Swiss GAAP FER.\n2. **Chart of accounts**: add missing sections and align analytical axes.\n3. **Accounting policies**: document recognition and valuation rules.\n4. **Tools**: confirm the ERP (Odoo, Abacus, Sage) supports the requirements.\n5. **Training**: align finance and management on the new principles.\n6. **Pilot review**: produce a first set of statements and adjust.\n\n## Quick decision checklist\n\n- do we have external shareholders asking for deeper reporting?\n- does the bank require a higher level of information?\n- are we multi-entity or international?\n- are our closing processes robust enough?\n- is the finance team ready to document more?\n\nIf several answers are yes, Swiss GAAP FER is likely appropriate.\n\n## FAQ – Swiss GAAP FER for SMEs\n\n### Is it mandatory?\nNo. The law does not require it for SMEs, but some banks or partners may.\n\n### How is it different from IFRS?\nSwiss GAAP FER is lighter and adapted to Switzerland, while IFRS is heavier and international.\n\n### How long does the transition take?\nUsually 2 to 6 months, depending on size and data quality.\n\n### Can we switch back to CO later?\nYes, but you need to plan communication and re-align processes.\n\n### Related Services\n\n- [Accounting Services](/services/accounting)\n- [Outsourcing Services](/services/outsourcing)\n- [Odoo Integration](/services/odoo)\n- [Tax Services](/services/taxes)\n- [Contact Us](/contact)\n\n### References\n\n- [Swiss GAAP FER 30 – PwC](https://www.pwc.ch/en/publications/2024/ch_SGF_DCL_FER_41_EN_FER_30R_V2.0.pdf)\n- [FER framework advantages](https://www.fer.ch/fr/le-concept/avantages/)\n- [Swiss GAAP RPC – Karpeo](https://karpeo.ch/swiss-gaap-rpc-referentiel-comptable/)\n- [Swiss GAAP FER – BDO](https://asc.bdo.ch/en-gb/services/audit-assurance/financial-reporting/swiss-gaap-fer)",
+      "author": "Ark Fiduciaire",
+      "date": "2026-02-13",
+      "references": [
+        {
+          "labelKey": "Swiss GAAP FER 30 – PwC",
+          "url": "https://www.pwc.ch/en/publications/2024/ch_SGF_DCL_FER_41_EN_FER_30R_V2.0.pdf"
+        },
+        {
+          "labelKey": "Avantages du référentiel – FER",
+          "url": "https://www.fer.ch/fr/le-concept/avantages/"
+        },
+        {
+          "labelKey": "Swiss GAAP RPC – Karpeo",
+          "url": "https://karpeo.ch/swiss-gaap-rpc-referentiel-comptable/"
+        },
+        {
+          "labelKey": "Swiss GAAP FER – BDO",
+          "url": "https://asc.bdo.ch/en-gb/services/audit-assurance/financial-reporting/swiss-gaap-fer"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Swiss taxes 2025 – Overview (FDF)",
