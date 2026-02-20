@@ -84,11 +84,25 @@ function parseDomainList(raw) {
     .filter(Boolean);
 }
 
+const BLOCKED_DOMAINS = parseDomainList(process.env.REFERENCE_BLOCKED_DOMAINS);
+
 function isAllowedByList(url, allowedDomains) {
   if (!allowedDomains || allowedDomains.length === 0) return true;
   try {
     const host = new URL(url).hostname.toLowerCase();
     return allowedDomains.some(
+      (d) => host === d || host.endsWith(`.${d}`),
+    );
+  } catch {
+    return false;
+  }
+}
+
+function isBlockedDomain(url, blockedDomains = BLOCKED_DOMAINS) {
+  if (!blockedDomains || blockedDomains.length === 0) return false;
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+    return blockedDomains.some(
       (d) => host === d || host.endsWith(`.${d}`),
     );
   } catch {
@@ -220,6 +234,12 @@ async function validateUrl(url, options = {}) {
   if (!/^https?:\/\//.test(url)) {
     result.error = "URL must start with http:// or https://";
     result.reason = "invalid-protocol";
+    return result;
+  }
+
+  if (isBlockedDomain(url)) {
+    result.error = "Domain is blocked";
+    result.reason = "blocked-domain";
     return result;
   }
 
@@ -399,6 +419,17 @@ async function validateReferences(references, options = {}) {
       const ref = queue.shift();
       if (!ref || !ref.url) {
         results.push({ ref, result: { valid: false, reason: "missing-url", error: "Reference missing URL" } });
+        continue;
+      }
+      if (isBlockedDomain(ref.url)) {
+        results.push({
+          ref,
+          result: {
+            valid: false,
+            reason: "blocked-domain",
+            error: "Domain is blocked",
+          },
+        });
         continue;
       }
       if (!isAllowedByList(ref.url, allowedDomains)) {

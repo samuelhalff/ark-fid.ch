@@ -259,6 +259,7 @@ REFERENCE_MIN_TRUSTED_DOMAINS=1             # Require N trusted/official domains
 REFERENCE_MIN_COUNT=4                       # Minimum refs after validation
 REFERENCE_MAX_COUNT=6                       # Maximum refs to keep
 REFERENCE_ALLOWED_DOMAINS=admin.ch,ge.ch,vd.ch,finma.ch,swissdec.ch  # Optional allowlist
+REFERENCE_BLOCKED_DOMAINS=pwc.ch,bdo.ch,karpeo.ch  # Optional blocklist
 
 # Agent timeout
 AZURE_AGENT_RUN_TIMEOUT_MS=180000  # Agent run timeout (default: 180000ms)
