@@ -825,6 +825,58 @@
           "url": "https://www.news.admin.ch/fr/nsb?id=90145"
         }
       ]
+    },
+    {
+      "slug": "outsourcing-finance-cfo-a-la-demande",
+      "title": "CFO auf Abruf: wann auslagern, Kosten, KPIs und Governance",
+      "description": "Leitfaden für Schweizer KMU zum CFO auf Abruf: wann auslagern, Aufgabenumfang, Kostenmodelle, KPIs und Governance.",
+      "content": "Ein CFO auf Abruf (Finance-Outsourcing) ermöglicht KMU, eine erfahrene Finanzleitung zu nutzen, ohne eine Vollzeitstelle zu schaffen. In der Westschweiz wird dieses Modell genutzt, um den Cashflow zu sichern, das Reporting zu strukturieren und die Erwartungen von Banken oder Investoren zu erfüllen. Es passt besonders in Wachstumsphasen, bei digitalen Transformationen oder Restrukturierungen.\n\n## CFO auf Abruf: Wann auslagern?\n\nTypische Auslöser für eine Auslagerung sind:\n\n- schnelles Wachstum ohne stabile Finanzstruktur\n- Bedarf an verlässlichem Monatsreporting für Eigentümer oder Bank\n- Vorbereitung auf Finanzierung, Akquisition oder Nachfolge\n- steigende Komplexität (mehrere Gesellschaften, international, neue MWST-Pflichten)\n- ERP-Einführung (Odoo, Abacus, Sage) oder Prozess-Redesign\n\nViele KMU starten mit wenigen Tagen pro Monat und passen den Umfang danach an.\n\n## Aufgabenbereich eines CFO auf Abruf\n\nDer Umfang hängt vom Mandat ab, umfasst aber oft:\n\n1. **Finanzsteuerung und Reporting**: schnelle Abschlüsse, Dashboards, Margenanalysen.\n2. **Liquidität und Cashflow**: 13-Wochen-Planung, Szenarien, Kreditlinienmanagement.\n3. **Compliance und Steuern**: MWST-Koordination, interne Kontrollen, OR-Pflichten.\n4. **Prozesse und Tools**: ERP-Setup, Automatisierung der Fakturierung, Datenqualität.\n5. **Beratung der Geschäftsleitung**: Investitionsprioritäten, Kosten/Risiko-Abwägung, strategische Entscheidungen.\n\n### Beispiel-Lieferobjekte\n\n| Aufgabe | Deliverable | Frequenz |\n|---|---|---|\n| Finanzreporting | KPI-Dashboard (Marge, EBITDA, Cash) | Monatlich |\n| Liquidität | 13-Wochen-Plan + Stresstest | Wöchentlich |\n| Governance | Steuerungskomitee, Aktionsplan | Monatlich |\n| Projektfinanzierung | Businessplan, Szenarien | Ad hoc |\n\n## Governance und KPIs\n\nKlare Governance verhindert Abhängigkeiten und sorgt für belastbare Entscheidungen. Empfohlen wird:\n\n- eine interne Ansprechperson (Geschäftsleitung oder Eigentümer)\n- ein monatliches Steering Committee mit dokumentierten Beschlüssen\n- nachvollziehbare Finanzannahmen und Berechnungslogik\n\n### Wichtige KPIs für Schweizer KMU\n\n- Bruttomarge und operative Marge\n- Cash Runway (Monate verfügbare Liquidität)\n- DSO und DPO (Zahlungsfristen Kunden/Lieferanten)\n- Auslastung von Teams oder Projekten\n- Eigenkapitalquoten für Banken\n\n## Kosten und Preismodelle\n\nCFO-auf-Abruf-Leistungen werden meist verrechnet als:\n\n- **monatlicher Retainer** für 2 bis 6 Einsatztage\n- **Einzelmandat** (Businessplan, Audit, Finanzierung)\n- **Shared Time** mit saisonaler Anpassung\n\nIn der Schweiz liegt ein monatlicher Retainer häufig zwischen **2’500 und 8’000 CHF**, abhängig von Grösse, Komplexität und Autonomie. Das bleibt günstiger als eine Senior-Einstellung und glättet die Auslastung.\n\n## Zusammenarbeit absichern\n\nBewährte Punkte:\n\n- Vertraulichkeitsklausel und Zugriffsmanagement (DSG)\n- klare Verantwortlichkeiten (wer genehmigt, wer unterschreibt)\n- zentrale Dokumentation im gemeinsamen Workspace\n- quartalsweise Überprüfung der Ziele und KPIs\n\n## Partnerwahl\n\nVor der Unterschrift prüfen Sie:\n\n- Branchenerfahrung und lokale Referenzen\n- Fähigkeit, mit Ihrem ERP und Tools zu arbeiten\n- Kenntnis der Schweizer Pflichten (OR, MWST, BVG)\n- Verfügbarkeit in kritischen Phasen\n\n## FAQ – CFO auf Abruf\n\n### Was ist der Unterschied zu einem Treuhänder?\nEin CFO auf Abruf steuert Strategie und Liquidität, während der Treuhänder sich auf Compliance und Abschlüsse fokussiert.\n\n### Wie viele Tage pro Monat sind üblich?\nViele KMU starten mit 2 bis 4 Tagen pro Monat und passen danach an.\n\n### Kann man externen CFO und internes Team kombinieren?\nJa. Das Modell passt gut, wenn die Buchhaltung intern ist, aber die Finanzleitung fehlt.\n\n### Eignet sich das Modell in Krisen?\nJa, insbesondere um Kosten zu restrukturieren, Kreditlinien neu zu verhandeln und den Cashflow zu sichern.\n\n### Related Services\n\n- [Outsourcing Services](/services/outsourcing)\n- [Accounting Services](/services/accounting)\n- [Odoo Integration](/services/odoo)\n- [Tax Services](/services/taxes)\n- [Contact Us](/contact)",
+      "author": "Ark Fiduciaire",
+      "date": "2026-02-20",
+      "references": [
+        {
+          "labelKey": "Financement des PME – SECO",
+          "url": "https://www.seco.admin.ch/seco/fr/home/Standortfoerderung/KMU-Politik/Finanzierung_der_KMU.html"
+        },
+        {
+          "labelKey": "FINMA RS 2018/3 Outsourcing – FINMA",
+          "url": "https://www.finma.ch/fr/~/media/finma/dokumente/dokumentencenter/myfinma/rundschreiben/finma-rs-2018-03-01012021_de.pdf?la=fr"
+        },
+        {
+          "labelKey": "Portail PME – KMU.admin.ch",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
+        },
+        {
+          "labelKey": "Office fédéral de la statistique – BFS",
+          "url": "https://www.bfs.admin.ch/bfs/fr/home.html"
+        }
+      ]
+    },
+    {
+      "slug": "swiss-gaap-fer-pme-choisir",
+      "title": "Swiss GAAP FER für KMU: wann umstellen, Vorteile, Kosten und Risiken",
+      "description": "Leitfaden für Schweizer KMU zur Einführung von Swiss GAAP FER: wann sinnvoll, Unterschiede zum OR, Auswirkungen, Kosten und wichtige Hinweise.",
+      "content": "Swiss GAAP FER ist ein Schweizer Rechnungslegungsstandard, der für KMU sinnvoll ist, wenn sie über die Mindestanforderungen des Obligationenrechts (OR) hinausgehen wollen. Er schafft mehr Transparenz für Banken, Investoren und Partner, verlangt aber strukturiertere Prozesse. Dieser Leitfaden hilft bei der Entscheidung, den Auswirkungen und der Umsetzung.\n\n## Wann Swiss GAAP FER für ein KMU sinnvoll ist\n\nDie Einführung ist relevant, wenn:\n\n- das KMU externe Finanzierung durch Banken oder Investoren sucht\n- eine Gruppe eine klare und vergleichbare Konsolidierung benötigt\n- die Governance detaillierteres Reporting verlangt (Verwaltungsrat, Aktionäre)\n- internationale Partner ein anerkanntes Framework erwarten\n- die Geschäftsleitung stärkere Steuerung will (Marge, Cashflow, Risiken)\n\nFür eine stabile und einfache Struktur kann OR-Rechnungslegung ausreichen. Mit wachsender Komplexität wird Swiss GAAP FER zum Vertrauensfaktor.\n\n## Zentrale Unterschiede gegenüber OR-Abschlüssen\n\nSwiss GAAP FER folgt dem True-and-Fair-Prinzip mit höheren Anforderungen:\n\n- **vollständigere Darstellung** von Abschluss und Anhang\n- **strengere Regeln** für Rückstellungen, Umsatzrealisation und Verpflichtungen\n- **bessere Vergleichbarkeit** für externe Leser (Banken, Investoren)\n- **sauberere Dokumentation** der Rechnungslegungsgrundsätze\n\nIn der Praxis bedeutet das oft einen erweiterten Kontenplan, umfangreichere Anhänge und eine strengere Abschlussdisziplin.\n\n## Operative Auswirkungen und Kosten\n\nDer Wechsel erfordert initialen Aufwand und jährliche Pflege:\n\n- Anpassung von Kontenplan und Prozessen\n- detailliertere Datensammlung (Verträge, Verpflichtungen, Anlagen)\n- Schulung des internen Teams und der Partner\n- intensivere Zusammenarbeit mit dem Auditor\n\n### Typische Grössenordnungen\n\n- **Erstimplementierung**: 5’000 bis 25’000 CHF je nach Grösse\n- **jährliche Betreuung**: 3’000 bis 15’000 CHF je nach Komplexität\n\nDie Werte sind Richtgrössen; entscheidend ist die klare Abgrenzung des Umfangs.\n\n## Schritte für eine erfolgreiche Umstellung\n\n1. **Diagnose**: Unterschiede zwischen OR und Swiss GAAP FER identifizieren.\n2. **Kontenplan**: fehlende Strukturen ergänzen und Analytik ausrichten.\n3. **Bilanzierungsregeln**: Bewertungs- und Erfassungsregeln dokumentieren.\n4. **Tools**: prüfen, ob ERP (Odoo, Abacus, Sage) die Anforderungen abdeckt.\n5. **Schulung**: Finance und Management auf die neuen Prinzipien ausrichten.\n6. **Pilotabschluss**: ersten Abschluss erstellen und feinjustieren.\n\n## Schnell-Checkliste\n\n- verlangen externe Aktionäre detailliertes Reporting?\n- fordert die Bank mehr Transparenz?\n- sind wir multi-entity oder international?\n- sind unsere Abschlussprozesse robust genug?\n- ist das Finance-Team bereit, mehr zu dokumentieren?\n\nWenn mehrere Antworten ja sind, passt Swiss GAAP FER wahrscheinlich.\n\n## FAQ – Swiss GAAP FER für KMU\n\n### Ist es verpflichtend?\nNein. Gesetzlich ist es für KMU nicht vorgeschrieben, kann aber verlangt werden.\n\n### Unterschied zu IFRS?\nSwiss GAAP FER ist leichter und auf die Schweiz zugeschnitten, IFRS ist umfassender.\n\n### Wie lange dauert die Umstellung?\nMeist 2 bis 6 Monate, je nach Grösse und Datenqualität.\n\n### Kann man zurück zum OR?\nJa, mit geplanter Kommunikation und erneuter Prozessanpassung.\n\n### Related Services\n\n- [Accounting Services](/services/accounting)\n- [Outsourcing Services](/services/outsourcing)\n- [Odoo Integration](/services/odoo)\n- [Tax Services](/services/taxes)\n- [Contact Us](/contact)\n\n### Referenzen\n\n- [Swiss GAAP FER 30 – PwC](https://www.pwc.ch/en/publications/2024/ch_SGF_DCL_FER_41_EN_FER_30R_V2.0.pdf)\n- [Vorteile des Referenzrahmens – FER](https://www.fer.ch/fr/le-concept/avantages/)\n- [Swiss GAAP RPC – Karpeo](https://karpeo.ch/swiss-gaap-rpc-referentiel-comptable/)\n- [Swiss GAAP FER – BDO](https://asc.bdo.ch/en-gb/services/audit-assurance/financial-reporting/swiss-gaap-fer)",
+      "author": "Ark Fiduciaire",
+      "date": "2026-02-13",
+      "references": [
+        {
+          "labelKey": "Swiss GAAP FER 30 – PwC",
+          "url": "https://www.pwc.ch/en/publications/2024/ch_SGF_DCL_FER_41_EN_FER_30R_V2.0.pdf"
+        },
+        {
+          "labelKey": "Vorteile des Referenzrahmens – FER",
+          "url": "https://www.fer.ch/fr/le-concept/avantages/"
+        },
+        {
+          "labelKey": "Swiss GAAP RPC – Karpeo",
+          "url": "https://karpeo.ch/swiss-gaap-rpc-referentiel-comptable/"
+        },
+        {
+          "labelKey": "Swiss GAAP FER – BDO",
+          "url": "https://asc.bdo.ch/en-gb/services/audit-assurance/financial-reporting/swiss-gaap-fer"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
