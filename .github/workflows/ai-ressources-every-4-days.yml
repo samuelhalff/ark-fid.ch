@@ -158,6 +158,11 @@ jobs:
           AZURE_OPENAI_DEPLOYMENT: "gpt-4.1"
           # Use a faster/higher-quality writer model for long-form drafting.
           AZURE_OPENAI_DRAFT_DEPLOYMENT: "gpt-4o"
+          # Separate endpoint/model for research fallback (do not reuse draft endpoint).
+          AZURE_OPENAI_RESEARCH_ENDPOINT: ${{ secrets.AZURE_OPENAI_RESEARCH_ENDPOINT }}
+          AZURE_OPENAI_RESEARCH_API_KEY: ${{ secrets.AZURE_OPENAI_RESEARCH_API_KEY }}
+          AZURE_OPENAI_RESEARCH_API_VERSION: ${{ vars.AZURE_OPENAI_RESEARCH_API_VERSION || '2024-05-01-preview' }}
+          AZURE_OPENAI_RESEARCH_DEPLOYMENT: ${{ vars.AZURE_OPENAI_RESEARCH_DEPLOYMENT }}
           # Allow enough output tokens for 1500–3000 word drafts.
           AZURE_OPENAI_DRAFT_MAX_TOKENS: "6144"
           AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}

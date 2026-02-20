@@ -113,6 +113,13 @@ const AZURE_OPENAI_DRAFT_MAX_TOKENS = parseInt(
   process.env.AZURE_OPENAI_DRAFT_MAX_TOKENS || "4096",
   10,
 );
+const AZURE_OPENAI_RESEARCH_ENDPOINT = process.env.AZURE_OPENAI_RESEARCH_ENDPOINT;
+const AZURE_OPENAI_RESEARCH_API_VERSION =
+  process.env.AZURE_OPENAI_RESEARCH_API_VERSION || AZURE_OPENAI_API_VERSION;
+const AZURE_OPENAI_RESEARCH_DEPLOYMENT =
+  process.env.AZURE_OPENAI_RESEARCH_DEPLOYMENT;
+const AZURE_OPENAI_RESEARCH_API_KEY =
+  process.env.AZURE_OPENAI_RESEARCH_API_KEY || AZURE_OPENAI_API_KEY;
 
 const ROOT = process.cwd();
 const TRANSLATIONS_DIR = path.join(ROOT, "src", "translations");
@@ -1278,13 +1285,14 @@ async function azureOpenAIJson(prompt, options = {}) {
     endpoint = AZURE_OPENAI_ENDPOINT,
     deployment = AZURE_OPENAI_DEPLOYMENT,
     apiVersion = AZURE_OPENAI_API_VERSION,
+    apiKey = AZURE_OPENAI_API_KEY,
     temperature = 0.2,
     topP = 0.9,
     maxTokens = null,
     system = "You are a professional assistant. Output ONLY a JSON object.",
   } = options;
 
-  if (!AZURE_OPENAI_API_KEY) {
+  if (!apiKey) {
     throw new Error("Missing AZURE_OPENAI_API_KEY");
   }
   const url = buildAzureOpenAIChatUrlFor({
@@ -1313,7 +1321,7 @@ async function azureOpenAIJson(prompt, options = {}) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "api-key": AZURE_OPENAI_API_KEY,
+          "api-key": apiKey,
         },
         body: JSON.stringify(body),
       });
@@ -1742,13 +1750,22 @@ async function requestAgentJson(prompt, { agentName = AZURE_AGENT_NAME } = {}) {
     return await tryAgent();
   } catch (error) {
     if (AZURE_AGENT_FALLBACK_TO_OPENAI && isPermissionError(error)) {
-      if (!AZURE_OPENAI_API_KEY || !AZURE_OPENAI_ENDPOINT) {
+      if (
+        !AZURE_OPENAI_RESEARCH_ENDPOINT ||
+        !AZURE_OPENAI_RESEARCH_DEPLOYMENT ||
+        !AZURE_OPENAI_RESEARCH_API_KEY
+      ) {
         throw error;
       }
       console.warn(
         `[agent] Permission denied (${error?.status || "unknown"}). Falling back to Azure OpenAI.`,
       );
       return await azureOpenAIJson(prompt, {
+        endpoint: AZURE_OPENAI_RESEARCH_ENDPOINT,
+        deployment: AZURE_OPENAI_RESEARCH_DEPLOYMENT,
+        apiVersion: AZURE_OPENAI_RESEARCH_API_VERSION,
+        apiKey: AZURE_OPENAI_RESEARCH_API_KEY,
+        maxTokens: Math.min(2048, AZURE_OPENAI_DRAFT_MAX_TOKENS),
         system:
           "You are an expert research assistant. Output ONLY a JSON object.",
       });
