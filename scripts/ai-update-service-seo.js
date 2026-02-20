@@ -47,6 +47,42 @@ const SEO_SECTION_TITLES = {
 const BASELINE_PATH = path.join(__dirname, "seo-suggest-baseline.json");
 const LATEST_PATH = path.join(__dirname, "seo-suggest-latest.json");
 
+function ensureHttpsUrl(input) {
+  const raw = String(input || "").trim();
+  if (!raw) return raw;
+  if (/^https?:\/\//i.test(raw)) return raw;
+  if (raw.startsWith("//")) return `https:${raw}`;
+  return `https://${raw}`;
+}
+
+function buildAzureOpenAIChatUrl({ endpoint, deployment, apiVersion }) {
+  if (!endpoint) throw new Error("Missing Azure OpenAI endpoint");
+  if (!deployment) throw new Error("Missing Azure OpenAI deployment");
+  if (!apiVersion) throw new Error("Missing Azure OpenAI apiVersion");
+
+  const u = new URL(ensureHttpsUrl(endpoint));
+  const hasDeploymentPath = /\/openai\/deployments\//.test(u.pathname);
+  const hasChatCompletions = /\/chat\/completions$/.test(u.pathname);
+
+  if (hasDeploymentPath) {
+    u.pathname = u.pathname.replace(
+      /(\/openai\/deployments\/)([^\/]+)/,
+      `$1${deployment}`,
+    );
+    if (!hasChatCompletions) {
+      u.pathname = `${u.pathname.replace(/\/+$/, "")}/chat/completions`;
+    }
+  } else {
+    u.pathname = `/openai/deployments/${deployment}/chat/completions`;
+  }
+
+  if (!u.searchParams.has("api-version")) {
+    u.searchParams.set("api-version", apiVersion);
+  }
+
+  return u.toString();
+}
+
 function normalizeList(list) {
   return list.map((item) => item.toLowerCase().trim());
 }
@@ -81,12 +117,11 @@ async function azureChatJson(prompt, locale) {
   if (!AZURE_OPENAI_ENDPOINT || !AZURE_OPENAI_API_KEY) {
     throw new Error("Missing AZURE_OPENAI_ENDPOINT or AZURE_OPENAI_API_KEY");
   }
-  const base = AZURE_OPENAI_ENDPOINT.replace(/\/+$/, "");
-  const url = `${base}/openai/deployments/${encodeURIComponent(
-    AZURE_OPENAI_DEPLOYMENT,
-  )}/chat/completions?api-version=${encodeURIComponent(
-    AZURE_OPENAI_API_VERSION,
-  )}`;
+  const url = buildAzureOpenAIChatUrl({
+    endpoint: AZURE_OPENAI_ENDPOINT,
+    deployment: AZURE_OPENAI_DEPLOYMENT,
+    apiVersion: AZURE_OPENAI_API_VERSION,
+  });
 
   const system =
     "You are a careful multilingual SEO copywriter for a Swiss fiduciary firm. " +
