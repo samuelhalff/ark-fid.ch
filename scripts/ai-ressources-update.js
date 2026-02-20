@@ -2044,6 +2044,31 @@ async function repairReferences(article, category = "general") {
     return cleanRef;
   });
 
+  // Cap references at maxCount, leaving room for trusted fallbacks when needed.
+  // Without this, regeneration/fallback loops cannot add trusted references
+  // because they check article.references.length < maxCount.
+  if (
+    article.references.length >= maxCount &&
+    trustedCount(article.references) < minTrusted
+  ) {
+    const trusted = article.references.filter(
+      (r) => r?.url && isTrustedDomain(r.url),
+    );
+    const untrusted = article.references.filter(
+      (r) => !r?.url || !isTrustedDomain(r.url),
+    );
+    const slotsForUntrusted = Math.max(
+      0,
+      maxCount - Math.max(trusted.length, minTrusted),
+    );
+    article.references = [
+      ...trusted.slice(0, maxCount),
+      ...untrusted.slice(0, slotsForUntrusted),
+    ];
+  } else if (article.references.length > maxCount) {
+    article.references = article.references.slice(0, maxCount);
+  }
+
   // If we don't have enough valid references, try to regenerate
   const maxRetries = parseInt(process.env.AI_REF_RETRIES || "2", 10);
   let attempt = 0;
