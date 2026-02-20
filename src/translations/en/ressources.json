@@ -825,6 +825,32 @@
           "url": "https://www.news.admin.ch/fr/nsb?id=90145"
         }
       ]
+    },
+    {
+      "slug": "outsourcing-finance-cfo-a-la-demande",
+      "title": "On-demand CFO: when to outsource, costs, KPIs and governance",
+      "description": "Guide for Swiss SMEs on on-demand CFO services: when to outsource, scope of work, pricing models, KPIs and governance best practices.",
+      "content": "On-demand CFO (outsourced finance) lets an SME access senior financial leadership without a full-time hire. In French-speaking Switzerland, it helps secure cash flow, structure reporting, and meet bank and investor expectations. It also fits growth phases, digital transformation, or restructuring.\n\n## On-demand CFO: when to outsource?\n\nThe situations that most often justify outsourcing are:\n\n- rapid growth without a solid finance structure\n- the need for reliable monthly reporting for shareholders or the bank\n- preparation for fundraising, an acquisition, or a succession plan\n- increasing complexity (multi-entity, international, new VAT obligations)\n- an ERP rollout (Odoo, Abacus, Sage) or a process redesign\n\nA company can start with a few days per month and adjust the scope as needs evolve.\n\n## Scope of intervention for an on-demand CFO\n\nThe scope depends on the mandate, but typically includes:\n\n1. **Financial steering and reporting**: fast close, dashboards, margin analysis.\n2. **Treasury and cash flow**: 13-week forecasts, scenarios, credit line management.\n3. **Compliance and tax**: VAT coordination, internal controls, CO obligations.\n4. **Processes and tools**: ERP setup, invoicing automation, data reliability.\n5. **Executive advisory**: investment priorities, cost/risk trade-offs, strategic decisions.\n\n### Example deliverables\n\n| Mission | Deliverable | Frequency |\n|---|---|---|\n| Financial reporting | KPI dashboard (margin, EBITDA, cash) | Monthly |\n| Treasury | 13-week forecast + stress tests | Weekly |\n| Governance | Steering committee, action plan | Monthly |\n| Project finance | Business plan, scenarios | Ad hoc |\n\n## Governance and KPIs to track\n\nClear governance avoids dependency and secures decisions. Recommended practices include:\n\n- appointing an internal sponsor (management or owner)\n- holding a monthly steering committee with tracked decisions\n- documenting financial assumptions and calculation logic\n\n### Priority KPIs for Swiss SMEs\n\n- gross margin and operating margin\n- cash runway (months of available cash)\n- DSO and DPO (customer/supplier payment delays)\n- team or project utilization rates\n- equity ratios required by banks\n\n## Costs and pricing models\n\nOn-demand CFO services are generally billed as:\n\n- a **monthly retainer** for 2 to 6 days of intervention\n- a **one-off mission** (business plan, audit, fundraising)\n- **shared time** with seasonal adjustments\n\nIn Switzerland, a monthly retainer often ranges between **CHF 2,500 and 8,000**, depending on size, complexity, and autonomy. The cost remains below a senior hire and helps smooth the workload.\n\n## Securing the collaboration\n\nA few best practices:\n\n- confidentiality clause and access management (FDPA)\n- clear responsibility matrix (who approves, who signs)\n- centralized documentation in a shared workspace\n- quarterly review of objectives and KPIs\n\n## How to choose a partner\n\nBefore signing, check:\n\n- sector experience and local references\n- ability to work with your ERP and tools\n- knowledge of Swiss obligations (CO, VAT, LPP)\n- availability during critical phases\n\n## FAQ – On-demand CFO\n\n### What is the difference with an accountant?\nAn on-demand CFO drives financial strategy and cash management, while the accountant focuses on compliance and financial statements.\n\n### How many days per month should we plan for?\nMost SMEs start with 2 to 4 days per month, then adjust based on workload.\n\n### Can we combine an external CFO with an internal team?\nYes. The model works well when bookkeeping is in-house but financial leadership lacks time or expertise.\n\n### Is an on-demand CFO suitable in crisis situations?\nYes, especially to restructure costs, renegotiate credit lines, and secure cash flow.\n\n### Related Services\n\n- [Outsourcing Services](/services/outsourcing)\n- [Accounting Services](/services/accounting)\n- [Odoo Integration](/services/odoo)\n- [Tax Services](/services/taxes)\n- [Contact Us](/contact)",
+      "author": "Ark Fiduciaire",
+      "date": "2026-02-20",
+      "references": [
+        {
+          "labelKey": "Financement des PME – SECO",
+          "url": "https://www.seco.admin.ch/seco/fr/home/Standortfoerderung/KMU-Politik/Finanzierung_der_KMU.html"
+        },
+        {
+          "labelKey": "FINMA RS 2018/3 Outsourcing – FINMA",
+          "url": "https://www.finma.ch/fr/~/media/finma/dokumente/dokumentencenter/myfinma/rundschreiben/finma-rs-2018-03-01012021_de.pdf?la=fr"
+        },
+        {
+          "labelKey": "Portail PME – KMU.admin.ch",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
+        },
+        {
+          "labelKey": "Office fédéral de la statistique – BFS",
+          "url": "https://www.bfs.admin.ch/bfs/fr/home.html"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Swiss taxes 2025 – Overview (FDF)",

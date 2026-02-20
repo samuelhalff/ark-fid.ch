@@ -825,6 +825,32 @@
           "url": "https://www.news.admin.ch/fr/nsb?id=90145"
         }
       ]
+    },
+    {
+      "slug": "outsourcing-finance-cfo-a-la-demande",
+      "title": "CFO auf Abruf: wann auslagern, Kosten, KPIs und Governance",
+      "description": "Leitfaden für Schweizer KMU zum CFO auf Abruf: wann auslagern, Aufgabenumfang, Kostenmodelle, KPIs und Governance.",
+      "content": "Ein CFO auf Abruf (Finance-Outsourcing) ermöglicht KMU, eine erfahrene Finanzleitung zu nutzen, ohne eine Vollzeitstelle zu schaffen. In der Westschweiz wird dieses Modell genutzt, um den Cashflow zu sichern, das Reporting zu strukturieren und die Erwartungen von Banken oder Investoren zu erfüllen. Es passt besonders in Wachstumsphasen, bei digitalen Transformationen oder Restrukturierungen.\n\n## CFO auf Abruf: Wann auslagern?\n\nTypische Auslöser für eine Auslagerung sind:\n\n- schnelles Wachstum ohne stabile Finanzstruktur\n- Bedarf an verlässlichem Monatsreporting für Eigentümer oder Bank\n- Vorbereitung auf Finanzierung, Akquisition oder Nachfolge\n- steigende Komplexität (mehrere Gesellschaften, international, neue MWST-Pflichten)\n- ERP-Einführung (Odoo, Abacus, Sage) oder Prozess-Redesign\n\nViele KMU starten mit wenigen Tagen pro Monat und passen den Umfang danach an.\n\n## Aufgabenbereich eines CFO auf Abruf\n\nDer Umfang hängt vom Mandat ab, umfasst aber oft:\n\n1. **Finanzsteuerung und Reporting**: schnelle Abschlüsse, Dashboards, Margenanalysen.\n2. **Liquidität und Cashflow**: 13-Wochen-Planung, Szenarien, Kreditlinienmanagement.\n3. **Compliance und Steuern**: MWST-Koordination, interne Kontrollen, OR-Pflichten.\n4. **Prozesse und Tools**: ERP-Setup, Automatisierung der Fakturierung, Datenqualität.\n5. **Beratung der Geschäftsleitung**: Investitionsprioritäten, Kosten/Risiko-Abwägung, strategische Entscheidungen.\n\n### Beispiel-Lieferobjekte\n\n| Aufgabe | Deliverable | Frequenz |\n|---|---|---|\n| Finanzreporting | KPI-Dashboard (Marge, EBITDA, Cash) | Monatlich |\n| Liquidität | 13-Wochen-Plan + Stresstest | Wöchentlich |\n| Governance | Steuerungskomitee, Aktionsplan | Monatlich |\n| Projektfinanzierung | Businessplan, Szenarien | Ad hoc |\n\n## Governance und KPIs\n\nKlare Governance verhindert Abhängigkeiten und sorgt für belastbare Entscheidungen. Empfohlen wird:\n\n- eine interne Ansprechperson (Geschäftsleitung oder Eigentümer)\n- ein monatliches Steering Committee mit dokumentierten Beschlüssen\n- nachvollziehbare Finanzannahmen und Berechnungslogik\n\n### Wichtige KPIs für Schweizer KMU\n\n- Bruttomarge und operative Marge\n- Cash Runway (Monate verfügbare Liquidität)\n- DSO und DPO (Zahlungsfristen Kunden/Lieferanten)\n- Auslastung von Teams oder Projekten\n- Eigenkapitalquoten für Banken\n\n## Kosten und Preismodelle\n\nCFO-auf-Abruf-Leistungen werden meist verrechnet als:\n\n- **monatlicher Retainer** für 2 bis 6 Einsatztage\n- **Einzelmandat** (Businessplan, Audit, Finanzierung)\n- **Shared Time** mit saisonaler Anpassung\n\nIn der Schweiz liegt ein monatlicher Retainer häufig zwischen **2’500 und 8’000 CHF**, abhängig von Grösse, Komplexität und Autonomie. Das bleibt günstiger als eine Senior-Einstellung und glättet die Auslastung.\n\n## Zusammenarbeit absichern\n\nBewährte Punkte:\n\n- Vertraulichkeitsklausel und Zugriffsmanagement (DSG)\n- klare Verantwortlichkeiten (wer genehmigt, wer unterschreibt)\n- zentrale Dokumentation im gemeinsamen Workspace\n- quartalsweise Überprüfung der Ziele und KPIs\n\n## Partnerwahl\n\nVor der Unterschrift prüfen Sie:\n\n- Branchenerfahrung und lokale Referenzen\n- Fähigkeit, mit Ihrem ERP und Tools zu arbeiten\n- Kenntnis der Schweizer Pflichten (OR, MWST, BVG)\n- Verfügbarkeit in kritischen Phasen\n\n## FAQ – CFO auf Abruf\n\n### Was ist der Unterschied zu einem Treuhänder?\nEin CFO auf Abruf steuert Strategie und Liquidität, während der Treuhänder sich auf Compliance und Abschlüsse fokussiert.\n\n### Wie viele Tage pro Monat sind üblich?\nViele KMU starten mit 2 bis 4 Tagen pro Monat und passen danach an.\n\n### Kann man externen CFO und internes Team kombinieren?\nJa. Das Modell passt gut, wenn die Buchhaltung intern ist, aber die Finanzleitung fehlt.\n\n### Eignet sich das Modell in Krisen?\nJa, insbesondere um Kosten zu restrukturieren, Kreditlinien neu zu verhandeln und den Cashflow zu sichern.\n\n### Related Services\n\n- [Outsourcing Services](/services/outsourcing)\n- [Accounting Services](/services/accounting)\n- [Odoo Integration](/services/odoo)\n- [Tax Services](/services/taxes)\n- [Contact Us](/contact)",
+      "author": "Ark Fiduciaire",
+      "date": "2026-02-20",
+      "references": [
+        {
+          "labelKey": "Financement des PME – SECO",
+          "url": "https://www.seco.admin.ch/seco/fr/home/Standortfoerderung/KMU-Politik/Finanzierung_der_KMU.html"
+        },
+        {
+          "labelKey": "FINMA RS 2018/3 Outsourcing – FINMA",
+          "url": "https://www.finma.ch/fr/~/media/finma/dokumente/dokumentencenter/myfinma/rundschreiben/finma-rs-2018-03-01012021_de.pdf?la=fr"
+        },
+        {
+          "labelKey": "Portail PME – KMU.admin.ch",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
+        },
+        {
+          "labelKey": "Office fédéral de la statistique – BFS",
+          "url": "https://www.bfs.admin.ch/bfs/fr/home.html"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
