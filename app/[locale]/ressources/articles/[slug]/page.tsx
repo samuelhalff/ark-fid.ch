@@ -133,10 +133,6 @@ export default async function ArticlePage({ params }: Params) {
     }
   }
 
-  const references: ArticleReference[] = Array.isArray(article.references)
-    ? article.references
-    : [];
-
   const baseUrl = "https://ark-fid.ch";
   const articleUrl = `${baseUrl}/${locale}/ressources/articles/${params.slug}/`;
   const breadcrumbJsonLd = {
@@ -341,33 +337,6 @@ export default async function ArticlePage({ params }: Params) {
           {article.content ?? ""}
         </ReactMarkdown>
       </article>
-
-      {references.length > 0 && (
-        <section className="mt-10">
-          <h2 className="text-xl font-semibold mb-2">
-            {ressources.References}
-          </h2>
-          <ul className="list-disc pl-6">
-            {references.map((ref) => {
-              const value = ressources[ref.labelKey];
-              const resolvedLabel =
-                typeof value === "string" ? value : ref.labelKey;
-              return (
-                <li key={ref.url}>
-                  <a
-                    href={ref.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 underline"
-                  >
-                    {resolvedLabel}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-      )}
 
       <RelatedArticles currentSlug={params.slug} locale={locale} />
 
