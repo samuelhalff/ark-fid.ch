@@ -2057,10 +2057,10 @@ async function repairReferences(article, category = "general") {
     const untrusted = article.references.filter(
       (r) => !r?.url || !isTrustedDomain(r.url),
     );
-    const slotsForUntrusted = Math.max(
-      0,
-      maxCount - Math.max(trusted.length, minTrusted),
-    );
+    // Reserve at least minTrusted slots (or keep existing trusted count) for
+    // trusted references; fill the rest with untrusted.
+    const reservedForTrusted = Math.max(trusted.length, minTrusted);
+    const slotsForUntrusted = Math.max(0, maxCount - reservedForTrusted);
     article.references = [
       ...trusted.slice(0, maxCount),
       ...untrusted.slice(0, slotsForUntrusted),
