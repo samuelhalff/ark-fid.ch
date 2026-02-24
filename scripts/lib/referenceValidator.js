@@ -86,11 +86,73 @@ function parseDomainList(raw) {
 
 // Known competitor domains to exclude from article references by default.
 const DEFAULT_BLOCKED_DOMAINS = [
+  // Big-four / major audit & advisory firms
+  "pwc.ch",
+  "bdo.ch",
+  "ey.com",
+  "kpmg.ch",
+  "deloitte.ch",
+  // Mid-tier fiduciary & advisory firms
+  "taxpartner.ch",
+  "mazars.ch",
+  "grantthornton.ch",
+  "pkf.swiss",
+  "obt.ch",
+  "kendris.com",
+  "balmer-etienne.ch",
+  "caminada.com",
+  "fidinam.com",
+  "fidag-sa.ch",
+  // Online fiduciary / domiciliation competitors
   "rister.ch",
   "findea.ch",
   "fidulex.ch",
+  "entreprendre.ch",
+  "acctive.ch",
+  "fbk-conseils.ch",
+  "karpeo.ch",
+  "safe-fiduciaire.ch",
+  // Tax specialists
+  "berneyassocies.com",
+  "alltax.ch",
+  "omnitax.ch",
+  "retax.ch",
+  "wadsack.ch",
+  "core-partner.ch",
+  "adbtax.ch",
+  "cofidest.ch",
+  "cofidest-swiss-audit.ch",
+  "tax-services.ch",
+  "eurexsuisse.com",
+  "ftrust.ch",
+  "aaretax.ch",
+  // Regional fiduciaries
+  "aapartnertreuhand.ch",
+  "ackermann-treuhand.ch",
+  "treuco.ch",
+  "rnptreuhand.ch",
+  "nexova.ch",
+  "financialkeepers.ch",
+  "fg-fiduciaire.ch",
+  "roux-associes.ch",
+  "fidurolle.ch",
+  "zuffereypanigas.ch",
+  "fiduciaire-rutz-menger.ch",
+  "grf-societe-fiduciaire.ch",
+  "y-fiduciaire.ch",
+  "fiducom.ch",
+  // Domiciliation & other competitors
   "swissdomiciliation.ch",
-  "liberal-vd.ch"
+  "liberal-vd.ch",
+  "kaurum.com",
+  "finwise.ch",
+  "calliopee.ch",
+  "agfiduciaire.ch",
+  "aag-fiduciaire.ch",
+  "mm-t.ch",
+  "gtf.ch",
+  "bbtreuhand.ch",
+  "dlg.ch"
 ];
 const BLOCKED_DOMAINS = Array.from(
   new Set([
