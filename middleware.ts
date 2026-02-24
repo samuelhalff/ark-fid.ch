@@ -21,9 +21,7 @@ export function middleware(request: NextRequest) {
     redirectUrl.hostname = host.replace(/^www\./, "");
     redirectUrl.protocol = "https";
     const response = NextResponse.redirect(redirectUrl, 308);
-    if (shouldNoIndex) {
-      response.headers.set("X-Robots-Tag", "noindex, nofollow");
-    }
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
     return response;
   }
 
@@ -127,6 +125,10 @@ export function middleware(request: NextRequest) {
       if (shouldNoIndex) {
         response.headers.set("X-Robots-Tag", "noindex, nofollow");
       }
+      // Always noindex redirects to avoid "Page with redirect" indexing noise.
+      if (!response.headers.has("X-Robots-Tag")) {
+        response.headers.set("X-Robots-Tag", "noindex, nofollow");
+      }
       return response;
     };
 
@@ -204,6 +206,9 @@ export function middleware(request: NextRequest) {
       if (shouldNoIndex) {
         response.headers.set("X-Robots-Tag", "noindex, nofollow");
       }
+      if (!response.headers.has("X-Robots-Tag")) {
+        response.headers.set("X-Robots-Tag", "noindex, nofollow");
+      }
       return response;
     }
     
@@ -277,6 +282,9 @@ export function middleware(request: NextRequest) {
     );
   }
   if (shouldNoIndex) {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
+  if (!response.headers.has("X-Robots-Tag")) {
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
   }
   return response;

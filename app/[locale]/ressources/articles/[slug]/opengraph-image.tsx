@@ -130,7 +130,7 @@ export default async function Image({
     {
       ...size,
       headers: {
-        "X-Robots-Tag": "noindex, nofollow",
+        "X-Robots-Tag": "noindex, nofollow, noimageindex",
       },
     }
   );
