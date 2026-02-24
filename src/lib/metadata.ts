@@ -128,13 +128,7 @@ export async function getPageMetadata(
   const ogCandidates = [
     `/assets/og/og-${locale}.webp`
   ];
-  // Dynamic article OG image route (Next.js /opengraph-image) if this is an article detail page
-  const isArticle = normalizedPath.startsWith('/ressources/articles/');
-  const slug = isArticle ? normalizedPath.split('/').pop() : undefined;
-  const dynamicArticleOg = isArticle && slug ? `https://ark-fid.ch/${locale}/ressources/articles/${slug}/opengraph-image` : undefined;
-
   const ogImage = (() => {
-    if (dynamicArticleOg) return dynamicArticleOg;
     for (const rel of ogCandidates) {
       const abs = pathJoin(process.cwd(), 'public', rel.replace(/^\//, ''));
       try {

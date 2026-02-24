@@ -1,55 +1,68 @@
-"use strict";
-/**
- * Reference URL validator module.
- * Validates external links before including them in articles.
- *
- * Features:
- * - HEAD/GET requests with timeout
- * - 404/410 detection
- * - Empty/placeholder content detection
- * - Redirect following
- * - Domain deduplication
- * - Batch validation with concurrency control
- */
+// Existing code...
 
-const DEFAULT_TIMEOUT_MS = parseInt(process.env.LINK_CHECK_TIMEOUT_MS || "10000", 10);
-const DEFAULT_MIN_BYTES = parseInt(process.env.LINK_CHECK_MIN_BYTES || "600", 10);
-const DEFAULT_USER_AGENT =
-  process.env.LINK_CHECK_USER_AGENT ||
-  // Some sites return misleading 404/empty content for custom/bot-like UAs.
-  // Use a mainstream UA by default to reduce false negatives. Some domains
-  // (notably ch.ch) appear to return 404 when a UA is explicitly set; we
-  // handle that with a retry that omits default headers.
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
-const MAX_REDIRECTS = 5;
-
-// Patterns that indicate empty/placeholder content
-const EMPTY_CONTENT_PATTERNS = [
-  /page\s*not\s*found/i,
-  /404\s*error/i,
-  /content\s*unavailable/i,
-  /no\s*content/i,
-  /no\s*content\s*available/i,
-  /this\s*page\s*doesn't\s*exist/i,
-  /cette\s*page\s*n'existe\s*pas/i,
-  /aucun\s*contenu/i,
-  /aucun\s*contenu\s*disponible/i,
-  /seite\s*nicht\s*gefunden/i,
-  /kein\s*inhalt/i,
-  /keine\s*inhalte/i,
-  /pagina\s*no\s*encontrada/i,
-  /sin\s*contenido/i,
-  /no\s*hay\s*contenido/i,
-  /página\s*não\s*encontrada/i,
-  /sem\s*conte[uú]do/i,
-  /sem\s*conte[uú]do\s*dispon[ií]vel/i,
-  /under\s*construction/i,
-  /coming\s*soon/i,
-  /placeholder\s*(content|page)/i,
-  /lorem\s*ipsum/i,
-  /no\s*results?\s*found/i,
-  /aucun\s*r[ée]sultat/i,
-  /keine\s*ergebnisse/i
+const defaultBlockedDomains = [
+    // Other domains...
+    "pwc.ch",
+    "bdo.ch",
+    "ey.com",
+    "kpmg.ch",
+    "deloitte.ch",
+    "taxpartner.ch",
+    "mazars.ch",
+    "grantthornton.ch",
+    "pkf.swiss",
+    "obt.ch",
+    "kendris.com",
+    "balmer-etienne.ch",
+    "caminada.com",
+    "fidinam.com",
+    "fidag-sa.ch",
+    "rister.ch",
+    "findea.ch",
+    "fidulex.ch",
+    "entreprendre.ch",
+    "acctive.ch",
+    "fbk-conseils.ch",
+    "karpeo.ch",
+    "safe-fiduciaire.ch",
+    "berneyassocies.com",
+    "alltax.ch",
+    "omnitax.ch",
+    "retax.ch",
+    "wadsack.ch",
+    "core-partner.ch",
+    "adbtax.ch",
+    "cofidest.ch",
+    "cofidest-swiss-audit.ch",
+    "tax-services.ch",
+    "eurexsuisse.com",
+    "ftrust.ch",
+    "aaretax.ch",
+    "aapartnertreuhand.ch",
+    "ackermann-treuhand.ch",
+    "treuco.ch",
+    "rnptreuhand.ch",
+    "nexova.ch",
+    "financialkeepers.ch",
+    "fg-fiduciaire.ch",
+    "roux-associes.ch",
+    "fidurolle.ch",
+    "zuffereypanigas.ch",
+    "fiduciaire-rutz-menger.ch",
+    "grf-societe-fiduciaire.ch",
+    "y-fiduciaire.ch",
+    "fiducom.ch",
+    "swissdomiciliation.ch",
+    "liberal-vd.ch",
+    "kaurum.com",
+    "finwise.ch",
+    "calliopee.ch",
+    "agfiduciaire.ch",
+    "aag-fiduciaire.ch",
+    "mm-t.ch",
+    "gtf.ch",
+    "bbtreuhand.ch",
+    "dlg.ch"
 ];
 
 // Trusted source domains (less strict validation)
