@@ -84,7 +84,19 @@ function parseDomainList(raw) {
     .filter(Boolean);
 }
 
-const BLOCKED_DOMAINS = parseDomainList(process.env.REFERENCE_BLOCKED_DOMAINS);
+const DEFAULT_BLOCKED_DOMAINS = [
+  "rister.ch",
+  "findea.ch",
+  "fidulex.ch",
+  "swissdomiciliation.ch",
+  "liberal-vd.ch"
+];
+const BLOCKED_DOMAINS = Array.from(
+  new Set([
+    ...DEFAULT_BLOCKED_DOMAINS,
+    ...parseDomainList(process.env.REFERENCE_BLOCKED_DOMAINS)
+  ])
+);
 
 function isAllowedByList(url, allowedDomains) {
   if (!allowedDomains || allowedDomains.length === 0) return true;
