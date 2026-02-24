@@ -84,6 +84,7 @@ function parseDomainList(raw) {
     .filter(Boolean);
 }
 
+// Known competitor domains to exclude from article references by default.
 const DEFAULT_BLOCKED_DOMAINS = [
   "rister.ch",
   "findea.ch",
