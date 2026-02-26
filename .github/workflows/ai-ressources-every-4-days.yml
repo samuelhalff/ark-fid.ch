@@ -285,7 +285,7 @@ jobs:
           if [ "${{ steps.detect-article.outputs.has_new }}" = "true" ]; then
             SLUG="${{ steps.detect-article.outputs.slug }}"
             # Validate slug only contains safe characters (alphanumeric, hyphens, underscores)
-            if ! echo "$SLUG" | grep -qE '^[a-zA-Z0-9_-]+$'; then
+            if ! echo "$SLUG" | grep -qE '^[a-zA-Z0-9][a-zA-Z0-9_-]*$'; then
               echo "⚠️ Skipping reference validation: slug contains unexpected characters: $SLUG"
               exit 0
             fi
