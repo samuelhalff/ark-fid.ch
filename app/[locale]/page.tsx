@@ -1,7 +1,7 @@
 import { type Metadata } from "next";
 import { headers } from "next/headers";
 import Hero from "@/app/[locale]/home/components/hero";
-import dynamic from "next/dynamic";
+import ContactForm from "@/src/components/ui/contact-form";
 import Services from "@/app/[locale]/home/components/services";
 import About from "@/app/[locale]/home/components/about";
 import FAQ from "@/app/[locale]/home/components/faq";
@@ -9,10 +9,6 @@ import Testimonials from "@/app/[locale]/home/components/testimonials";
 import Link from "next/link";
 import { Button } from "@/src/components/ui/button";
 import { Card, CardContent } from "@/src/components/ui/card";
-const Contact = dynamic(() => import("@/src/components/ui/contact-form"), {
-  ssr: false,
-  loading: () => null,
-});
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import Defer from "@/src/components/Defer";
 import StructuredData from "@/src/components/seo/StructuredData";
@@ -36,7 +32,7 @@ export async function generateMetadata(
 }
 
 // Redeploy happens every 48h, so cache the page until next deployment window
-export const revalidate = 60 * 60 * 48;
+export const revalidate = 172800; // 48 hours
 
 export default async function Home(props: { params: Promise<{ locale: string }> }) {
   const params = await props.params;
@@ -215,7 +211,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           idle={200}
           placeholder={<div className="h-64 w-full rounded-lg bg-muted/40" />}
         >
-          <Contact strings={contactStrings} redirectPath={`${localePrefix}/`} />
+          <ContactForm strings={contactStrings} redirectPath={`${localePrefix}/`} />
         </Defer>
       </section>
     </div>

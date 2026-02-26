@@ -7,18 +7,11 @@ import {
 } from "@/src/lib/metadata";
 import { inter } from "./fonts";
 import { headers } from "next/headers";
-import dynamic from "next/dynamic";
 import Defer from "@/src/components/Defer";
 import ErrorBoundary from "@/src/components/ErrorBoundary";
+import { CookieConsent } from "@/src/components/ClientOnlyDynamic";
+import ConsentAnalytics from "@/src/components/ConsentAnalytics";
 import "./globals.css";
-const CookieConsent = dynamic(() => import("@/src/components/CookieConsent"), {
-  ssr: false,
-  loading: () => null,
-});
-const ConsentAnalytics = dynamic(
-  () => import("@/src/components/ConsentAnalytics"),
-  { ssr: false, loading: () => null }
-);
 import { getTranslations, getCurrentLocale } from "@/src/lib/i18n";
 
 export const metadata: Metadata = {

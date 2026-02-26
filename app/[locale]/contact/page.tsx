@@ -7,7 +7,6 @@ import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
 
 const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
-  ssr: false,
   loading: () => (
     <div className="mx-auto w-full max-w-3xl">
       <div className="animate-pulse rounded-2xl border border-border/40 bg-muted/30 p-6 sm:p-8">

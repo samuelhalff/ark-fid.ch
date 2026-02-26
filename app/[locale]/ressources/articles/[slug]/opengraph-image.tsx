@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 // Route Segment Config
 export const runtime = "nodejs";
 // Cache for 1 day as article titles seldom change. Adjust if editing frequency differs.
-export const revalidate = 60 * 60 * 24; // 24h
+export const revalidate = 86400; // 60 * 60 * 24 = 24h
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
