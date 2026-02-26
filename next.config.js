@@ -293,6 +293,10 @@ const baseConfig = {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable",
           },
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow, noimageindex",
+          },
         ],
       },
       // Favicons and icons
@@ -330,19 +334,7 @@ const baseConfig = {
           { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
         ],
       },
-    ];
-  },
-  async headers() {
-    return [
-      {
-        source: "/assets/:path*",
-        headers: [
-          {
-            key: "X-Robots-Tag",
-            value: "noindex, nofollow, noimageindex",
-          },
-        ],
-      },
+      // Next.js internals - noindex
       {
         source: "/_next/:path*",
         headers: [
