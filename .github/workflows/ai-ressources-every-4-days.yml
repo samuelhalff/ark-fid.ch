@@ -333,17 +333,40 @@ jobs:
           ARTICLE_TITLE: ${{ steps.detect-article.outputs.title }}
           ARTICLE_SLUG: ${{ steps.detect-article.outputs.slug }}
           ARTICLE_DESCRIPTION: ${{ steps.detect-article.outputs.description }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
         run: |
           python3 - <<'PY'
           import json, os, urllib.request, urllib.error
           title = os.environ.get('ARTICLE_TITLE', '')
           slug = os.environ.get('ARTICLE_SLUG', '')
           description = os.environ.get('ARTICLE_DESCRIPTION', '')
-          url = f"https://ark-fid.ch/fr/ressources/{slug}/"
+          unsplash_key = os.environ.get('UNSPLASH_ACCESS_KEY', '')
+          article_url = f"https://ark-fid.ch/fr/ressources/{slug}/"
+
+          # Fetch a random Switzerland landscape image from Unsplash
+          image_url = ''
+          try:
+              unsplash_req = urllib.request.Request(
+                  f"https://api.unsplash.com/photos/random?query=Switzerland+landscape&client_id={unsplash_key}",
+                  headers={'Accept-Version': 'v1'},
+              )
+              with urllib.request.urlopen(unsplash_req, timeout=15) as r:
+                  photo = json.loads(r.read().decode('utf-8'))
+                  image_url = photo.get('urls', {}).get('regular', '')
+                  print(f"✅ Unsplash image fetched: {image_url[:80]}...")
+          except Exception as e:
+              print(f"⚠️ Unsplash fetch failed: {e}")
+
+          # Build a concise LinkedIn comment/CTA from the article description (max 200 chars)
+          summary = description[:200].rsplit(' ', 1)[0] if len(description) > 200 else description
+          comment = f"{summary}. Découvrez l'article complet sur Ark Fiduciaire →" if summary else f"Découvrez notre dernier article : {title} →"
+
           payload = json.dumps({
               "title": title,
-              "url": url,
+              "url": article_url,
               "description": description,
+              "image_url": image_url,
+              "comment": comment,
           }).encode('utf-8')
           req = urllib.request.Request(
               'https://hooks.zapier.com/hooks/catch/3870740/u06k73r/',
