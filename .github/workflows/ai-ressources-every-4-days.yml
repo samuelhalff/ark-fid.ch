@@ -333,6 +333,7 @@ jobs:
           ARTICLE_TITLE: ${{ steps.detect-article.outputs.title }}
           ARTICLE_SLUG: ${{ steps.detect-article.outputs.slug }}
           ARTICLE_DESCRIPTION: ${{ steps.detect-article.outputs.description }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
         run: |
           python3 - <<'PY'
           import json, os, urllib.request, urllib.error
@@ -340,10 +341,34 @@ jobs:
           slug = os.environ.get('ARTICLE_SLUG', '')
           description = os.environ.get('ARTICLE_DESCRIPTION', '')
           url = f"https://ark-fid.ch/fr/ressources/{slug}/"
+
+          # Fetch a random Switzerland landscape image from Unsplash
+          image_url = ''
+          unsplash_key = os.environ.get('UNSPLASH_ACCESS_KEY', '')
+          if unsplash_key:
+              try:
+                  unsplash_req = urllib.request.Request(
+                      'https://api.unsplash.com/photos/random?query=Switzerland+landscape&orientation=landscape',
+                      headers={'Authorization': f'Client-ID {unsplash_key}'},
+                  )
+                  with urllib.request.urlopen(unsplash_req, timeout=15) as resp:
+                      data = json.loads(resp.read().decode('utf-8'))
+                      image_url = data.get('urls', {}).get('regular', '')
+                      print("✅ Unsplash image fetched successfully")
+              except urllib.error.HTTPError as e:
+                  print(f"⚠️ Unsplash fetch failed with HTTP {e.code}: {e.reason}")
+              except urllib.error.URLError as e:
+                  print(f"⚠️ Unsplash network error: {e.reason}")
+              except Exception as e:
+                  print(f"⚠️ Unsplash fetch error: {e}")
+          else:
+              print("⚠️ UNSPLASH_ACCESS_KEY not set; skipping image fetch")
+
           payload = json.dumps({
               "title": title,
               "url": url,
               "description": description,
+              "image_url": image_url,
           }).encode('utf-8')
           req = urllib.request.Request(
               'https://hooks.zapier.com/hooks/catch/3870740/u06k73r/',
