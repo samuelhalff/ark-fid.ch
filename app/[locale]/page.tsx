@@ -20,11 +20,17 @@ import { buildFAQPage, buildLocalBusiness } from "@/src/lib/structuredData";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 import type { FAQEntry } from "@/src/lib/structuredData";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const activeLocale = isValidLocale(locale) ? locale : "fr";
   return await generateMetadataForPage(activeLocale, "/");
 }
@@ -32,8 +38,9 @@ export async function generateMetadata({
 // Redeploy happens every 48h, so cache the page until next deployment window
 export const revalidate = 60 * 60 * 48;
 
-export default async function Home({ params }: { params: { locale: string } }) {
-  const nonce = headers().get("x-nonce") || undefined;
+export default async function Home(props: { params: Promise<{ locale: string }> }) {
+  const params = await props.params;
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const requestedLocale = params.locale;
   const activeLocale = isValidLocale(requestedLocale) ? requestedLocale : "fr";
   const t = await getTranslations(activeLocale, "contact");

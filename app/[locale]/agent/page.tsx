@@ -8,20 +8,27 @@ import AgentChat from "@/src/components/agent/AgentChat";
 
 export const revalidate = false;
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   return await generateMetadataForPage(locale as Locale, "/agent");
 }
 
-export default async function AgentPage({
-  params,
-}: {
-  params: { locale: string };
-}) {
-  const nonce = headers().get("x-nonce") || undefined;
+export default async function AgentPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const locale = params.locale as Locale;
   const localePrefix = locale ? `/${locale}` : "/fr";
   const t = await getTranslations(locale, "agent");

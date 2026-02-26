@@ -15,8 +15,8 @@ export function isValidLocale(locale: string): locale is Locale {
   return locales.includes(locale as Locale);
 }
 
-export function getCurrentLocale(): Locale {
-  const headersList = headers();
+export async function getCurrentLocale(): Promise<Locale> {
+  const headersList = await headers();
   const locale = headersList.get("x-locale") || "fr";
   return isValidLocale(locale) ? locale : "fr";
 }

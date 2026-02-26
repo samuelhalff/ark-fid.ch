@@ -12,12 +12,9 @@ import ServiceLongForm from "@/src/components/ui/service-longform";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 const ServicesListServer = dynamic(
   () => import("@/src/components/ui/services-list-server"),
-  { suspense: true }
 );
-
-
 const OutsourcingPresentation = async () => {
-  const locale: Locale = getCurrentLocale();
+  const locale: Locale = await getCurrentLocale();
   const t = await getTranslations(locale, "outsourcing");
   const title = (t("Presentation.Title") as string) || "Outsourcing";
   const subtitle = (t("Presentation.Subtitle") as string) || "Delegate, focus, grow";
@@ -42,18 +39,15 @@ const OutsourcingPresentation = async () => {
         <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
           {tidyTitle(title)}
         </h1>
-
           <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
           {tidyTitle(subtitle)}
           </h2>
-
         <div className="text-left w-full">
           <div className="space-y-6 mb-12">
             {intro.map((text, idx) => (
               <p key={idx} className="mb-8 text-lg">{text}</p>
             ))}
           </div>
-
           <div className="space-y-16">
             <section>
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">{tidyTitle(((t("Presentation.StrengthsTitle") as string) || "Our Strengths"))}</h3>
@@ -69,7 +63,6 @@ const OutsourcingPresentation = async () => {
                 ))}
               </div>
             </section>
-
             <section>
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">{tidyTitle(((t("Presentation.ServicesTitle") as string) || "Services"))}</h3>
               <Suspense
@@ -90,7 +83,6 @@ const OutsourcingPresentation = async () => {
                 />
               </Suspense>
             </section>
-
             <ServiceLongForm t={t} />
             <ServiceExpertBanner locale={locale} />
           </div>
@@ -99,5 +91,4 @@ const OutsourcingPresentation = async () => {
     </section>
   );
 };
-
 export default OutsourcingPresentation;

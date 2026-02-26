@@ -16,13 +16,22 @@ export function generateStaticParams() {
 
 // Remove generateMetadata here to avoid alternates duplication; use per-page metadata utilities instead.
 
-export default async function LocaleLayout({
-  children,
-  params: { locale },
-}: {
-  children: ReactNode;
-  params: { locale: string };
-}) {
+export default async function LocaleLayout(
+  props: {
+    children: ReactNode;
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
+  const {
+    children
+  } = props;
+
   // Validate that the incoming `locale` parameter is valid
   if (!isLocale(locale)) {
     notFound();
@@ -37,10 +46,7 @@ export default async function LocaleLayout({
     () => import("@/src/components/navigation/NavbarClient"),
     { ssr: true }
   );
-  // Stream the footer as a Server Component using suspense to improve TTFB
-  const Footer = nextDynamic(() => import("@/app/[locale]/shared/footer"), {
-    suspense: true,
-  });
+  const Footer = nextDynamic(() => import("@/app/[locale]/shared/footer"));
 
   // Prepare server-side translated navigation labels and services list to avoid SSR key leakage
   const tNavbar = await getTranslations(activeLocale, "navbar");

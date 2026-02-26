@@ -2,7 +2,7 @@ import ServicesListServer from "@/src/components/ui/services-list-server";
 import { getCurrentLocale, type Locale } from "@/src/lib/i18n";
 
 export default async function ServicesListSection() {
-  const locale: Locale = getCurrentLocale();
+  const locale: Locale = await getCurrentLocale();
   return (
     <div>
       <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">

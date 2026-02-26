@@ -32,20 +32,27 @@ const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
   ),
 });
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   return await generateMetadataForPage(locale as Locale, "/services");
 }
 
-export default async function ServicesPage({
-  params,
-}: {
-  params: { locale: string };
-}) {
-  const nonce = headers().get("x-nonce") || undefined;
+export default async function ServicesPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const locale = params.locale as Locale;
   const tHome = await getTranslations(locale, "home");
   const tNav = await getTranslations(locale, "navbar");

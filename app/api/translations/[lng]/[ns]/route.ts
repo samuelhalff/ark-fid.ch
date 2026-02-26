@@ -14,10 +14,8 @@ const resolveTranslationPath = (lng: string, ns: string) =>
 
 const isNamespace = (value: string): value is Namespace => namespaceSet.has(value);
 
-export async function GET(
-  _request: Request,
-  { params }: { params: { lng: string; ns: string } }
-) {
+export async function GET(_request: Request, props: { params: Promise<{ lng: string; ns: string }> }) {
+  const params = await props.params;
   const { lng, ns } = params;
 
   if (!localeSet.has(lng as Locale) || !isNamespace(ns)) {

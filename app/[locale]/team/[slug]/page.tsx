@@ -25,11 +25,12 @@ export async function generateStaticParams() {
   return locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Params;
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<Params>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   const member = findMemberBySlug(params.slug);
   const name = member?.name ?? "Team Member";
   const title = `${name} — Ark Fiduciaire`;
@@ -80,13 +81,14 @@ export async function generateMetadata({
   };
 }
 
-export default async function TeamMemberPage({ params }: { params: Params }) {
+export default async function TeamMemberPage(props: { params: Promise<Params> }) {
+  const params = await props.params;
   const locale = (params?.locale as Locale) || ("fr" as Locale);
   const t = await getTranslations(locale, "team");
   const tBios = await getTranslations(locale, "team-bios");
   const tNav = await getTranslations(locale, "navbar");
   const tDetails = await getTranslations(locale, "team-details");
-  const nonce = headers().get("x-nonce") || undefined;
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params?.locale ? `/${params.locale}` : "/fr";
 

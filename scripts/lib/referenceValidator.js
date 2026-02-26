@@ -65,6 +65,11 @@ const defaultBlockedDomains = [
     "dlg.ch"
 ];
 
+const DEFAULT_TIMEOUT_MS = parseInt(process.env.LINK_CHECK_TIMEOUT_MS || "10000", 10);
+const DEFAULT_MIN_BYTES = parseInt(process.env.LINK_CHECK_MIN_BYTES || "600", 10);
+const DEFAULT_USER_AGENT =
+  "Mozilla/5.0 (compatible; ResourceValidator/1.0)";
+
 // Trusted source domains (less strict validation)
 const TRUSTED_DOMAINS = [
   "admin.ch",

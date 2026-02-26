@@ -27,23 +27,30 @@ const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
   ),
 });
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   return await generateMetadataForPage(locale as Locale, "/contact");
 }
 
-export default async function ContactPage({
-  params,
-}: {
-  params: { locale: string };
-}) {
+export default async function ContactPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
   const locale = (params?.locale as Locale) || ("fr" as Locale);
   const t = await getTranslations(locale, "contact");
   const tNav = await getTranslations(locale, "navbar");
-  const nonce = headers().get("x-nonce") || undefined;
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params?.locale ? `/${params.locale}` : "/fr";
   const placeJsonLd = {

@@ -15,19 +15,26 @@ import { localizePath } from "@/src/lib/paths";
 export const runtime = "nodejs";
 export const revalidate = false;
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   return await generateMetadataForPage(
     locale as Locale,
     "/services/domiciliation"
   );
 }
 
-const Domiciliation = async ({ params }: { params: { locale: string } }) => {
-  const nonce = headers().get("x-nonce") || undefined;
+const Domiciliation = async (props: { params: Promise<{ locale: string }> }) => {
+  const params = await props.params;
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params.locale ? `/${params.locale}` : "";
   const tNav = await getTranslations(params.locale as Locale, "navbar");

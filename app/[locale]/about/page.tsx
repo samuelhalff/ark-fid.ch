@@ -28,24 +28,31 @@ import ContextualLinks from "@/src/components/ui/contextual-links";
 
 export const revalidate = false; // fully static; updates on redeploy
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   return await generateMetadataForPage(locale as Locale, "/about");
 }
 
-export default async function AboutUsPage({
-  params,
-}: {
-  params: { locale: string };
-}) {
+export default async function AboutUsPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
   const locale = (params?.locale as Locale) || ("fr" as Locale);
   const t = await getTranslations(locale, "about-us");
   const tNav = await getTranslations(locale, "navbar");
   const baseUrl = "https://ark-fid.ch";
-  const nonce = headers().get("x-nonce") || undefined;
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const localePrefix = params?.locale ? `/${params.locale}` : "/fr";
 
   // Fallback helpers: get arrays or use defaults when missing

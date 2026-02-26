@@ -3,11 +3,17 @@ import { Separator } from "@/src/components/ui/separator";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   return await generateMetadataForPage(locale as Locale, "/legal/privacy");
 }
 
@@ -23,11 +29,12 @@ function formatDate(date: string, locale: string) {
   }
 }
 
-export default async function PrivacyPage({
-  params,
-}: {
-  params: { locale: string };
-}) {
+export default async function PrivacyPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
   const locale = params.locale as Locale;
   const t = await getTranslations(locale, "legal");
   const r = (key: string, fallback: string) => (t(key) as string) || fallback;
