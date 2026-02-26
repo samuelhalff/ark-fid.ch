@@ -1,13 +1,13 @@
 {
-  "IntroTitle": "Ressources fiscales et comptables – Genève & Suisse romande",
+  "IntroTitle": "Recursos fiscais e contabilísticos – Genebra e Suíça francófona",
   "IntroShort": "Recursos",
   "ArticlesShort": "Artigos",
-  "IntroText": "Basées à Genève et actives dans toute la Suisse romande, nos équipes accompagnent aussi des clients en Suisse et à l'international. Vous trouverez ci-dessous une sélection de documents et d'articles pratiques adaptés au contexte réglementaire genevois, romand et fédéral. Ces ressources sont fournies pour votre convenance et n'ont pas valeur de conseil personnalisé. Pour une analyse ciblée de votre situation, contactez notre équipe.",
-  "ArticlesTitle": "Articles d'experts",
-  "ReadArticle": "Lire l'article",
-  "LoadMoreArticles": "Afficher plus d'articles",
-  "ShowAllArticles": "Tout afficher",
-  "ImageAltPrefix": "Illustration de l'article",
+  "IntroText": "Com sede em Genebra e ativos em toda a Suíça francófona, as nossas equipas também acompanham clientes na Suíça e internacionalmente. Abaixo encontrará uma seleção de documentos e artigos práticos adaptados ao contexto regulatório de Genebra, da Romanda e federal. Estes recursos são fornecidos para sua conveniência e não constituem aconselhamento personalizado. Para uma análise específica da sua situação, contacte a nossa equipa.",
+  "ArticlesTitle": "Artigos de especialistas",
+  "ReadArticle": "Ler o artigo",
+  "LoadMoreArticles": "Carregar mais artigos",
+  "ShowAllArticles": "Mostrar tudo",
+  "ImageAltPrefix": "Ilustração do artigo",
   "Articles": [
     {
       "slug": "anobag-suisse-permis-travail",
@@ -880,23 +880,23 @@
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
   "fiscalite-suisse-2025": "Administration fédérale des contributions – Impôts",
   "References": "Références",
-  "By": "Par",
-  "Published": "Publié le",
-  "LastUpdated": "Mis à jour le",
-  "RelatedArticles": "Articles connexes",
-  "ReadMore": "Lire plus →",
+  "By": "Por",
+  "Published": "Publicado em",
+  "LastUpdated": "Atualizado em",
+  "RelatedArticles": "Artigos relacionados",
+  "ReadMore": "Ler mais →",
   "SwissVATOffice": "Office fédéral de la TVA (AFC)",
   "Contact": {
     "Title": "Entrar em contato",
     "Description": "Nossos especialistas podem ajudá-lo a entender os detalhes e implicações para sua empresa. Obtenha consultoria personalizada adaptada à sua situação.",
     "ButtonText": "Contactar nossa equipe"
   },
-  "ReadingTime": "Temps de lecture",
+  "ReadingTime": "Tempo de leitura",
   "Minutes": "min",
   "Links": {
-    "Accounting": "Comptabilité",
-    "Tax": "Fiscalité",
-    "Payroll": "Paie"
+    "Accounting": "Contabilidade",
+    "Tax": "Fiscalidade",
+    "Payroll": "Folha de pagamento"
   },
   "admin.ch_liste_des_taux_actuels_de_la_TVA_en_Suisse": "Admin.ch - lista das taxas atuais de IVA na Suíça",
   "fedlex_admin_ch_reforme_TVA_2024_message_officiel": "Fedlex.admin.ch - comunicado oficial sobre a reforma do IVA 2024",
