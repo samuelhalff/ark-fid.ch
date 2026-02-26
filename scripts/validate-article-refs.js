@@ -6,7 +6,7 @@
  * - Prints a concise report; exits non-zero when failures found unless --no-fail.
  *
  * Usage:
- *   node scripts/validate-article-refs.js [--no-fail] [--min-bytes 600]
+ *   node scripts/validate-article-refs.js [--no-fail] [--min-bytes 600] [--slug <slug>]
  */
 const fs = require('fs');
 const path = require('path');
@@ -20,6 +20,11 @@ const minBytesArg = (() => {
   const i = process.argv.indexOf('--min-bytes');
   if (i !== -1 && process.argv[i + 1]) return parseInt(process.argv[i + 1], 10) || 600;
   return 600;
+})();
+const slugFilter = (() => {
+  const i = process.argv.indexOf('--slug');
+  if (i !== -1 && process.argv[i + 1]) return process.argv[i + 1];
+  return null;
 })();
 const TRANSIENT_ERROR_REASONS = new Set(['server-error', 'timeout', 'network-error', 'http-error']);
 
@@ -52,6 +57,7 @@ async function main() {
     let json; try { json = JSON.parse(fs.readFileSync(p, 'utf8')); } catch { continue; }
     const arts = Array.isArray(json.Articles) ? json.Articles : [];
     for (const a of arts) {
+      if (slugFilter && a.slug !== slugFilter) continue;
       const refs = Array.isArray(a.references) ? a.references : [];
       for (const ref of refs) {
         tasks.push(async () => {

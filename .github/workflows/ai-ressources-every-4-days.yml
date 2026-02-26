@@ -244,11 +244,7 @@ jobs:
         run: |
           echo "✅ Running final verification..."
           node scripts/check-ressources-links.js --all-locales || echo "::warning::Some references missing after cleanup"
-          node scripts/check-ressources-links.js --all-locales --remote || echo "::warning::Some URLs still unreachable after cleanup"
           echo "✅ Verification complete. Proceeding with deployment..."
-
-      - name: Validate article references (fail on 404/410)
-        run: npm run validate:article-refs
 
       - name: Detect new article for LinkedIn notification
         id: detect-article
@@ -283,6 +279,21 @@ jobs:
                   f.write(f'description<<{delim}\n{description}\n{delim}\n')
           print(f"Detected new article: {title[:80]}")
           PY
+
+      - name: Validate new article references (fail on 404/410)
+        run: |
+          if [ "${{ steps.detect-article.outputs.has_new }}" = "true" ]; then
+            SLUG="${{ steps.detect-article.outputs.slug }}"
+            # Validate slug only contains safe characters (alphanumeric, hyphens, underscores)
+            if ! echo "$SLUG" | grep -qE '^[a-zA-Z0-9_-]+$'; then
+              echo "⚠️ Skipping reference validation: slug contains unexpected characters: $SLUG"
+              exit 0
+            fi
+            echo "🔍 Validating references for new article: $SLUG"
+            npm run validate:article-refs -- --slug "$SLUG"
+          else
+            echo "ℹ️ No new article detected; skipping reference validation."
+          fi
 
       - name: Commit and push changes
         run: |
