@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-26T10:57:07.607Z",
+  "generatedAt": "2026-02-26T11:38:07.421Z",
   "config": {
     "maxSuggestions": 10,
     "driftRatio": 0.4,
@@ -376,8 +376,8 @@
             "accounting generalist",
             "accounting general journal",
             "accounting generalist job description",
-            "accounting general entries",
             "accounting general ledger debits and credits",
+            "accounting general entries",
             "accounting generalist salary",
             "accounting general journal template",
             "accounting general journal entries",
@@ -411,11 +411,11 @@
             "payroll switzerland",
             "payroll companies in switzerland",
             "switzerland payroll services",
-            "shadow switzerland payroll",
             "switzerland payroll in sap",
             "payroll calculator switzerland",
-            "local payroll providers in switzerland",
-            "helvetic payroll switzerland"
+            "helvetic payroll switzerland",
+            "shadow switzerland payroll",
+            "local payroll providers in switzerland"
           ]
         }
       },
@@ -700,8 +700,8 @@
             "schweiz migration statistik",
             "schweiz migrationsamt",
             "migration schweiz",
-            "immigration schweiz jobs",
-            "migration schweiz 2024"
+            "migration schweiz statistik",
+            "immigration schweiz jobs"
           ],
           "bing": [
             "schweiz immigration"
@@ -934,7 +934,6 @@
             "imigração suíça no rio de janeiro",
             "imigração suíça no espírito santo",
             "imigração suíça aeroporto",
-            "imigração suíça para o brasil",
             "imigração para suíça",
             "programa de imigração suíça"
           ],
