@@ -67,6 +67,16 @@ const defaultBlockedDomains = [
 
 const DEFAULT_TIMEOUT_MS = parseInt(process.env.LINK_CHECK_TIMEOUT_MS || "10000", 10);
 const DEFAULT_MIN_BYTES = parseInt(process.env.LINK_CHECK_MIN_BYTES || "600", 10);
+
+// Patterns that indicate a page has no real content (placeholder, error, empty shell)
+const EMPTY_CONTENT_PATTERNS = [
+  /coming\s+soon/i,
+  /under\s+construction/i,
+  /page\s+not\s+found/i,
+  /404\s+not\s+found/i,
+  /<body[^>]*>\s*<\/body>/i,
+  /^\s*$/,
+];
 const DEFAULT_USER_AGENT =
   "Mozilla/5.0 (compatible; ResourceValidator/1.0)";
 
@@ -541,8 +551,10 @@ function deduplicateByDomain(references) {
  */
 const VERIFIED_FALLBACK_REFS = {
   tax: [
-    { labelKey: "Administration fédérale des contributions (AFC)", url: "https://www.estv.admin.ch/estv/fr/accueil.html" },
-    { labelKey: "TVA Suisse - Documentation officielle", url: "https://www.estv.admin.ch/estv/fr/accueil/taxe-sur-la-valeur-ajoutee.html" }
+    { labelKey: "Administration fédérale des contributions (AFC)", url: "https://www.estv.admin.ch/estv/fr/home.html" },
+    { labelKey: "TVA Suisse - Documentation officielle", url: "https://www.estv.admin.ch/estv/fr/home/taxe-sur-la-valeur-ajoutee.html" },
+    { labelKey: "Impôts - Portail officiel suisse (ch.ch)", url: "https://www.ch.ch/fr/impots/" },
+    { labelKey: "Portail PME - Fiscalité", url: "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html" }
   ],
   payroll: [
     { labelKey: "Office fédéral des assurances sociales (OFAS)", url: "https://www.bsv.admin.ch/bsv/fr/home.html" },
