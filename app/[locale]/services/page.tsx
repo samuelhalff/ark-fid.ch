@@ -12,7 +12,6 @@ import Defer from "@/src/components/Defer";
 export const revalidate = false; // fully static; updates on redeploy
 
 const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
-  ssr: false,
   loading: () => (
     <div className="mx-auto w-full max-w-3xl">
       <div className="animate-pulse rounded-2xl border border-border/40 bg-muted/30 p-6 sm:p-8">

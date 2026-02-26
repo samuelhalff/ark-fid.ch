@@ -9,7 +9,8 @@ import { inter } from "./fonts";
 import { headers } from "next/headers";
 import Defer from "@/src/components/Defer";
 import ErrorBoundary from "@/src/components/ErrorBoundary";
-import { CookieConsent, ConsentAnalytics } from "@/src/components/ClientOnlyDynamic";
+import { CookieConsent } from "@/src/components/ClientOnlyDynamic";
+import ConsentAnalytics from "@/src/components/ConsentAnalytics";
 import "./globals.css";
 import { getTranslations, getCurrentLocale } from "@/src/lib/i18n";
 

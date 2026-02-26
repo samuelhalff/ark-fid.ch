@@ -2,9 +2,8 @@ import dynamic from "next/dynamic";
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
 
-// Dynamic import with SSR disabled to avoid blocking first paint
+// Dynamic import to avoid blocking first paint
 const TestimonialsCarousel = dynamic(() => import("./testimonials-carousel"), {
-  ssr: false,
   loading: () => (
     <div className="w-full overflow-hidden relative">
       <div className="flex gap-6">

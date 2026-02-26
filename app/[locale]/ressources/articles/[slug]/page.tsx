@@ -18,21 +18,15 @@ export const dynamic = "force-dynamic";
 
 const ShareButtons = dynamicImport(
   () => import("@/src/components/ui/ShareButtons"),
-  {
-    ssr: false,
-    loading: () => null,
-  }
+  { loading: () => null }
 );
 const ReadingProgress = dynamicImport(
   () => import("@/src/components/ui/reading-progress"),
-  { ssr: false, loading: () => null }
+  { loading: () => null }
 );
 const BackToTop = dynamicImport(
   () => import("@/src/components/ui/back-to-top"),
-  {
-    ssr: false,
-    loading: () => null,
-  }
+  { loading: () => null }
 );
 
 type Params = { params: Promise<{ slug: string; locale: string }> };
