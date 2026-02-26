@@ -3,7 +3,10 @@ name: Validate SEO & sitemap
 on:
   pull_request:
     paths:
-      - '**/*'
+      - 'app/**'
+      - 'src/**'
+      - 'scripts/validate-seo.js'
+      - 'scripts/ping-sitemaps.js'
 
 jobs:
   check:
