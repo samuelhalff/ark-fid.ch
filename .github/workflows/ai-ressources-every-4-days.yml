@@ -142,6 +142,19 @@ jobs:
           SEO_SUGGEST_MAX_UPDATES: ${{ vars.SEO_SUGGEST_MAX_UPDATES || '6' }}
         run: node scripts/ai-update-service-seo.js --apply
 
+      - name: Capture existing article slugs
+        run: |
+          python3 - <<'PY'
+          import json
+          with open('src/translations/fr/ressources.json') as f:
+              data = json.load(f)
+          articles = data.get('Articles', [])
+          slugs = [a.get('slug', '') for a in articles if a.get('slug')]
+          with open('/tmp/existing-slugs.txt', 'w') as f:
+              f.write('\n'.join(slugs))
+          print(f"Captured {len(slugs)} existing article slugs")
+          PY
+
       - name: Run AI update (FR + translations via Azure OpenAI)
         env:
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
@@ -228,6 +241,40 @@ jobs:
       - name: Validate article references (fail on 404/410)
         run: npm run validate:article-refs
 
+      - name: Detect new article for LinkedIn notification
+        id: detect-article
+        run: |
+          python3 - <<'PY'
+          import json, os, sys
+          try:
+              with open('/tmp/existing-slugs.txt') as f:
+                  existing = set(line for line in f.read().strip().split('\n') if line)
+          except FileNotFoundError:
+              existing = set()
+          with open('src/translations/fr/ressources.json') as f:
+              data = json.load(f)
+          articles = data.get('Articles', [])
+          new_ones = [a for a in articles if a.get('slug') and a.get('slug') not in existing]
+          if not new_ones:
+              print("No new articles detected")
+              sys.exit(0)
+          if len(new_ones) > 1:
+              print(f"Detected {len(new_ones)} new articles; notifying LinkedIn about the first one only")
+          a = new_ones[0]
+          title = a.get('title', '')[:400]
+          slug = a.get('slug', '')
+          description = a.get('description', '')[:4086]
+          output_file = os.environ.get('GITHUB_OUTPUT', '')
+          if output_file:
+              delim = 'ENDOFVALUE'
+              with open(output_file, 'a') as f:
+                  f.write('has_new=true\n')
+                  f.write(f'slug={slug}\n')
+                  f.write(f'title<<{delim}\n{title}\n{delim}\n')
+                  f.write(f'description<<{delim}\n{description}\n{delim}\n')
+          print(f"Detected new article: {title[:80]}")
+          PY
+
       - name: Commit and push changes
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -278,6 +325,42 @@ jobs:
           else
             echo "::warning::❌ Resources page: Failed (HTTP $STATUS)"
           fi
+
+      - name: Notify Zapier webhook (LinkedIn publication)
+        if: steps.detect-article.outputs.has_new == 'true'
+        continue-on-error: true
+        env:
+          ARTICLE_TITLE: ${{ steps.detect-article.outputs.title }}
+          ARTICLE_SLUG: ${{ steps.detect-article.outputs.slug }}
+          ARTICLE_DESCRIPTION: ${{ steps.detect-article.outputs.description }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request, urllib.error
+          title = os.environ.get('ARTICLE_TITLE', '')
+          slug = os.environ.get('ARTICLE_SLUG', '')
+          description = os.environ.get('ARTICLE_DESCRIPTION', '')
+          url = f"https://ark-fid.ch/fr/ressources/{slug}/"
+          payload = json.dumps({
+              "title": title,
+              "url": url,
+              "description": description,
+          }).encode('utf-8')
+          req = urllib.request.Request(
+              'https://hooks.zapier.com/hooks/catch/3870740/u06k73r/',
+              data=payload,
+              headers={'Content-Type': 'application/json'},
+              method='POST',
+          )
+          try:
+              with urllib.request.urlopen(req, timeout=30) as resp:
+                  body = resp.read().decode('utf-8', errors='replace')
+                  print(f"✅ Zapier webhook sent successfully (status: {resp.status})")
+                  print(f"Response: {body}")
+          except urllib.error.HTTPError as e:
+              print(f"⚠️ Zapier webhook failed with HTTP {e.code}: {e.reason}")
+          except Exception as e:
+              print(f"⚠️ Zapier webhook error: {e}")
+          PY
 
       - name: Summary
         if: always()
