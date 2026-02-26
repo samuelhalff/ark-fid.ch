@@ -35,7 +35,7 @@ const BackToTop = dynamicImport(
   }
 );
 
-type Params = { params: { slug: string; locale: string } };
+type Params = { params: Promise<{ slug: string; locale: string }> };
 
 type ArticleReference = {
   labelKey: string;
@@ -101,8 +101,9 @@ async function loadRessources(locale: Locale): Promise<RessourcesDictionary> {
   };
 }
 
-export default async function ArticlePage({ params }: Params) {
-  const nonce = headers().get("x-nonce") || undefined;
+export default async function ArticlePage(props: Params) {
+  const params = await props.params;
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const locale: Locale = isValidLocale(params.locale) ? params.locale : "fr";
   // Load the locale-specific translations on the server
   const ressources = await loadRessources(locale);
@@ -368,7 +369,8 @@ export async function generateStaticParams() {
   return ressources.Articles.map((article) => ({ slug: article.slug }));
 }
 
-export async function generateMetadata({ params }: Params) {
+export async function generateMetadata(props: Params) {
+  const params = await props.params;
   const locale: Locale = isValidLocale(params.locale) ? params.locale : "fr";
   const ressources = await loadRessources(locale);
 
@@ -385,7 +387,7 @@ export async function generateMetadata({ params }: Params) {
   // Determine which locales have this article (and it's not a duplicate)
   const { locales: allLocales } = await import("@/src/lib/i18n");
   const validLocales: Locale[] = [];
-  
+
   // Load French resources once for comparison
   const frRessources = await loadRessources("fr");
   const isDuplicateOfFr = (
@@ -404,7 +406,7 @@ export async function generateMetadata({ params }: Params) {
       (candidate.content || "") === (frArticle.content || "");
     return sameTitle && sameDesc && sameContent;
   };
-  
+
   for (const loc of allLocales) {
     try {
       const locRessources = await loadRessources(loc);

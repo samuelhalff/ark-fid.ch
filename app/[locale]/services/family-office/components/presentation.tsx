@@ -1,5 +1,4 @@
 // "use client";
-
 import React from "react";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import ServiceLongForm from "@/src/components/ui/service-longform";
@@ -148,10 +147,8 @@ const Building2 = () => (
   </svg>
 );
 import Link from "next/link";
-
 const serviceIcons = [Briefcase, HandCoins, Users, Library, HeartHandshake];
 const highlightIcons = [ShieldCheck, HandCoins, Gavel, Globe];
-
 const FamilyOfficePresentation = ({
   locale,
   t,
@@ -161,7 +158,6 @@ const FamilyOfficePresentation = ({
 }) => {
   // const params = useParams<{ locale?: string }>();
   const localePrefix = locale ? `/${locale}` : "/fr";
-
   return (
     <section data-service-content className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
       <div className="w-full max-w-[1200px] space-y-16">
@@ -180,7 +176,6 @@ const FamilyOfficePresentation = ({
             ))}
           </div>
         </header>
-
         <section className="space-y-6">
           <h3 className="text-xl xs:text-2xl md:text-2xl font-bold tracking-tight">
             {t("Presentation.HighlightsTitle")}
@@ -209,7 +204,6 @@ const FamilyOfficePresentation = ({
             })}
           </div>
         </section>
-
         <section className="space-y-6">
           <h3 className="text-xl xs:text-2xl md:text-2xl font-bold tracking-tight">
             {t("Presentation.ServicesTitle")}
@@ -242,9 +236,7 @@ const FamilyOfficePresentation = ({
             })}
           </div>
         </section>
-
         <ServiceLongForm t={t} />
-
         <section className="rounded-xl border border-primary/20 bg-primary/5 p-12 text-center">
           <h3 className="text-2xl font-semibold mb-10">
             {t("Presentation.CalloutTitle")}
@@ -259,11 +251,9 @@ const FamilyOfficePresentation = ({
             {t("Presentation.CalloutCTA")}
           </Link>
         </section>
-
         <ServiceExpertBanner locale={locale} />
       </div>
     </section>
   );
 };
-
 export default FamilyOfficePresentation;

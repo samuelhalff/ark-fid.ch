@@ -26,7 +26,7 @@ const faq = Array.from({ length: 16 }).map((_, i) => ({
 }));
 
 export default async function FAQ() {
-  const locale: Locale = getCurrentLocale();
+  const locale: Locale = await getCurrentLocale();
   const t = await getTranslations(locale, "faq");
   const title = (t("Title") as string) || "FAQ";
   const subtitle = (t("Subtitle") as string) || "";

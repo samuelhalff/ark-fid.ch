@@ -77,14 +77,15 @@ function parseLimit(
   return Math.min(numeric, total);
 }
 
-export default async function ArticlesIndex({
-  params,
-  searchParams,
-}: {
-  params: { locale: string };
-  searchParams?: ArticlesSearchParams;
-}) {
-  const nonce = headers().get("x-nonce") || undefined;
+export default async function ArticlesIndex(
+  props: {
+    params: Promise<{ locale: string }>;
+    searchParams?: Promise<ArticlesSearchParams>;
+  }
+) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const requestedLocale = params.locale;
   const locale: Locale = isValidLocale(requestedLocale) ? requestedLocale : "fr";
   const baseUrl = "https://ark-fid.ch";
@@ -211,13 +212,19 @@ export default async function ArticlesIndex({
   );
 }
 
-export async function generateMetadata({
-  params: { locale },
-  searchParams,
-}: {
-  params: { locale: string };
-  searchParams?: ArticlesSearchParams;
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+    searchParams?: Promise<ArticlesSearchParams>;
+  }
+): Promise<Metadata> {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const targetLocale = isValidLocale(locale) ? locale : "fr";
   const baseMetadata = await generateMetadataForPage(
     targetLocale,

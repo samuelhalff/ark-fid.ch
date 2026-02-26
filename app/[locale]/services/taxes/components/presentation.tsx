@@ -12,12 +12,9 @@ import ServiceLongForm from "@/src/components/ui/service-longform";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 const ServicesListServer = dynamic(
   () => import("@/src/components/ui/services-list-server"),
-  { suspense: true }
 );
-
-
 const Presentation = async () => {
-  const locale: Locale = getCurrentLocale();
+  const locale: Locale = await getCurrentLocale();
   const t = await getTranslations(locale, "taxes");
   const title = (t("Presentation.Title") as string) || "Taxes";
   const subtitle = (t("Presentation.Subtitle") as string) || "Expertise and compliance";
@@ -44,14 +41,12 @@ const Presentation = async () => {
           <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
           {tidyTitle(subtitle)}
           </h2>
-
         <div className="text-left w-full">
           <div className="space-y-6 mb-12">
             {intro.map((text, index) => (
               <p key={index} className="mb-8 text-lg">{text}</p>
             ))}
           </div>
-
           <div className="space-y-16">
             <section>
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">{tidyTitle(((t("Presentation.StrengthsTitle") as string) || "Our Strengths"))}</h3>
@@ -67,7 +62,6 @@ const Presentation = async () => {
                 ))}
               </div>
             </section>
-
             <section>
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">{tidyTitle(((t("Presentation.ServicesTitle") as string) || "Services"))}</h3>
               <Suspense
@@ -88,7 +82,6 @@ const Presentation = async () => {
                 />
               </Suspense>
             </section>
-
             <ServiceLongForm t={t} />
             <ServiceExpertBanner locale={locale} />
           </div>
@@ -97,5 +90,4 @@ const Presentation = async () => {
     </section>
   );
 };
-
 export default Presentation;

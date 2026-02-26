@@ -1,7 +1,7 @@
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 
 export default async function AccountingAccordion() {
-  const locale: Locale = getCurrentLocale();
+  const locale: Locale = await getCurrentLocale();
   const t = await getTranslations(locale, "accounting");
   const generalList = [
     { key: "Presentation.General.List.0", fallbackText: "Tailored chart of accounts" },

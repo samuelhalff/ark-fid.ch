@@ -4,9 +4,7 @@ import { headers } from "next/headers";
 import { Suspense } from "react";
 import Link from "next/link";
 import nextDynamic from "next/dynamic";
-const ResourceGrid = nextDynamic(() => import("./components/ResourceGrid"), {
-  suspense: true,
-});
+const ResourceGrid = nextDynamic(() => import("./components/ResourceGrid"));
 import FAQSection from "./components/FAQSection";
 import ContactSection from "./articles/components/ContactSection";
 import { notFound } from "next/navigation";
@@ -134,14 +132,15 @@ function parseLimit(
 // Force dynamic rendering to ensure JSON imports are always fresh
 export const dynamic = "force-dynamic";
 
-export default async function RessourcesPage({
-  params,
-  searchParams,
-}: {
-  params: { locale: string };
-  searchParams?: ArticlesSearchParams;
-}) {
-  const nonce = headers().get("x-nonce") || undefined;
+export default async function RessourcesPage(
+  props: {
+    params: Promise<{ locale: string }>;
+    searchParams?: Promise<ArticlesSearchParams>;
+  }
+) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const requestedLocale = params?.locale;
   const locale: Locale = isValidLocale(requestedLocale)
     ? requestedLocale
@@ -340,19 +339,25 @@ export default async function RessourcesPage({
   );
 }
 
-export async function generateMetadata({
-  params: { locale },
-  searchParams,
-}: {
-  params: { locale: string };
-  searchParams?: ArticlesSearchParams;
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+    searchParams?: Promise<ArticlesSearchParams>;
+  }
+): Promise<Metadata> {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   const targetLocale = isValidLocale(locale) ? locale : "fr";
   const baseMetadata = await generateMetadataForPage(targetLocale, "/ressources");
-  
+
   // If there are query parameters, add robots noindex to prevent duplicate content
   const hasQueryParams = searchParams && Object.keys(searchParams).length > 0;
-  
+
   if (hasQueryParams) {
     return {
       ...baseMetadata,
@@ -366,6 +371,6 @@ export async function generateMetadata({
       },
     };
   }
-  
+
   return baseMetadata;
 }

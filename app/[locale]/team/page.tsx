@@ -17,25 +17,32 @@ import teamBlurData from "@/src/lib/teamBlurData.json";
 
 export const revalidate = false;
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   return await generateMetadataForPage(locale as Locale, "/team");
 }
 // teamMembers now imported from shared module
 
-export default async function TeamPage({
-  params,
-}: {
-  params: { locale: string };
-}) {
+export default async function TeamPage(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+) {
+  const params = await props.params;
   const locale = (params?.locale as Locale) || ("fr" as Locale);
   const t = await getTranslations(locale, "team");
   const tNav = await getTranslations(locale, "navbar");
   const tRessources = await getTranslations(locale, "ressources");
-  const nonce = headers().get("x-nonce") || undefined;
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params?.locale ? `/${params.locale}` : "/fr";
 

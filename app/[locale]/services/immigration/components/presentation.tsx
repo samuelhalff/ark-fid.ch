@@ -12,11 +12,9 @@ import ServiceLongForm from "@/src/components/ui/service-longform";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 const ServicesListServer = dynamic(
   () => import("@/src/components/ui/services-list-server"),
-  { suspense: true }
 );
-
 const ImmigrationPresentation = async () => {
-  const locale: Locale = getCurrentLocale();
+  const locale: Locale = await getCurrentLocale();
   const t = await getTranslations(locale, "immigration");
   const title = (t("Presentation.Title") as string) || "Immigration";
   const subtitle =
@@ -56,11 +54,9 @@ const ImmigrationPresentation = async () => {
         <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
           {tidyTitle(title)}
         </h1>
-
         <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
           {tidyTitle(subtitle)}
         </h2>
-
         <div className="text-left w-full">
           <div className="space-y-6 mb-12">
             {intro.map((text, idx) => (
@@ -69,7 +65,6 @@ const ImmigrationPresentation = async () => {
               </p>
             ))}
           </div>
-
           <div className="space-y-16">
             <section>
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
@@ -97,7 +92,6 @@ const ImmigrationPresentation = async () => {
                 ))}
               </div>
             </section>
-
             <section>
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
                 {tidyTitle(
@@ -122,7 +116,6 @@ const ImmigrationPresentation = async () => {
                 />
               </Suspense>
             </section>
-
             <ServiceLongForm t={t} />
             <ServiceExpertBanner locale={locale} />
           </div>
@@ -131,5 +124,4 @@ const ImmigrationPresentation = async () => {
     </section>
   );
 };
-
 export default ImmigrationPresentation;

@@ -87,7 +87,7 @@ function generateReviewsStructuredData(
 }
 
 export default async function Testimonials() {
-  const locale: Locale = getCurrentLocale();
+  const locale: Locale = await getCurrentLocale();
   const t = await getTranslations(locale, "testimonials");
 
   const title = (t("SectionTitle") as string) || "Testimonials";

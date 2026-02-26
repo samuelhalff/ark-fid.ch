@@ -3,7 +3,7 @@ import { tidyTitle } from "@/src/lib/typography";
 import ContextualLinksServer from "@/src/components/ui/contextual-links-server";
 
 export default async function About() {
-  const locale: Locale = getCurrentLocale();
+  const locale: Locale = await getCurrentLocale();
   const t = await getTranslations(locale, "home");
 
   const content = (t("About.Content") as unknown) as string[];

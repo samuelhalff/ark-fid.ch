@@ -27,8 +27,8 @@ const byLocale: Record<Locale, LocaleRes> = {
 };
 
 export default async function NotFoundPage() {
-  const locale = getCurrentLocale();
-  const nonce = headers().get("x-nonce") || undefined;
+  const locale = await getCurrentLocale();
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const res = byLocale[locale] || (frJSON as unknown as LocaleRes);
   const suggestions = [...(res.Articles || [])]
     .sort((a, b) => {

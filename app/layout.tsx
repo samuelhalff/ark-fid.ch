@@ -79,8 +79,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   // ✅ read nonce and UA headers from the middleware
-  const nonce = headers().get("x-nonce") || undefined;
-  const userAgent = headers().get("user-agent") || "";
+  const nonce = (await headers()).get("x-nonce") || undefined;
+  const userAgent = (await headers()).get("user-agent") || "";
   const isIOS = /iPad|iPhone|iPod/.test(userAgent);
   const isAndroid = /Android/.test(userAgent);
   const gaId = isIOS
@@ -88,7 +88,7 @@ export default async function RootLayout({
     : isAndroid
     ? "G-PBFJ9TQ7NR"
     : "G-BXZ54E31FL";
-  const currentLocale = getCurrentLocale();
+  const currentLocale = await getCurrentLocale();
 
   const tCookie = await getTranslations(currentLocale, "cookie");
   const cookieLabels = {

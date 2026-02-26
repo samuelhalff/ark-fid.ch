@@ -142,6 +142,15 @@ jobs:
           SEO_SUGGEST_MAX_UPDATES: ${{ vars.SEO_SUGGEST_MAX_UPDATES || '6' }}
         run: node scripts/ai-update-service-seo.js --apply
 
+      - name: Refresh SEO suggest baseline
+        run: |
+          if [ -f scripts/seo-suggest-latest.json ]; then
+            cp scripts/seo-suggest-latest.json scripts/seo-suggest-baseline.json
+            echo "✅ SEO baseline refreshed from latest snapshot"
+          else
+            echo "⚠️ seo-suggest-latest.json not found, baseline not updated"
+          fi
+
       - name: Capture existing article slugs
         run: |
           python3 - <<'PY'
@@ -279,7 +288,7 @@ jobs:
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add "src/translations/**/*.json" || true
+          git add "src/translations/**/*.json" "scripts/seo-suggest-baseline.json" || true
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else

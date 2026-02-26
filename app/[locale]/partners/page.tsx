@@ -6,17 +6,24 @@ import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ locale: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   return await generateMetadataForPage(locale as Locale, "/partners");
 }
 
-const PartnersPage = async ({ params }: { params: { locale: string } }) => {
+const PartnersPage = async (props: { params: Promise<{ locale: string }> }) => {
+  const params = await props.params;
   const baseUrl = "https://ark-fid.ch";
-  const nonce = headers().get("x-nonce") || undefined;
+  const nonce = (await headers()).get("x-nonce") || undefined;
   const localePrefix = params.locale ? `/${params.locale}` : "/fr";
   const t = await getTranslations(params.locale as Locale, "partners");
   const tNav = await getTranslations(params.locale as Locale, "navbar");

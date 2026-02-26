@@ -6,12 +6,9 @@ import { localizePath } from "@/src/lib/paths";
 import { tidyTitle } from "@/src/lib/typography";
 import ServiceLongForm from "@/src/components/ui/service-longform";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
-
 const ServicesListServer = dynamic(
   () => import("@/src/components/ui/services-list-server"),
-  { suspense: true }
 );
-
 const Check = (props: { className?: string }) => (
   <svg
     viewBox="0 0 24 24"
@@ -29,9 +26,8 @@ const Check = (props: { className?: string }) => (
     <circle cx="12" cy="12" r="9" />
   </svg>
 );
-
 const MAPresentation = async () => {
-  const locale: Locale = getCurrentLocale();
+  const locale: Locale = await getCurrentLocale();
   const t = await getTranslations(locale, "mna");
   const localePrefix = `/${locale}`;
   const title = t("Presentation.Title") as string;
@@ -44,7 +40,6 @@ const MAPresentation = async () => {
       Title: string;
       Desc: string;
     }>) || [];
-
   return (
     <section data-service-content className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
       <div className="w-full max-w-[1200px]">
@@ -54,7 +49,6 @@ const MAPresentation = async () => {
         <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
           {tidyTitle(subtitle || "Guiding founders through each transaction step")}
         </h2>
-
         <div className="text-left w-full">
           <div className="space-y-6 mb-12">
             {(Array.isArray(intro) && intro.length > 0
@@ -82,7 +76,6 @@ const MAPresentation = async () => {
               </p>
             )}
           </div>
-
           <div className="space-y-16">
             <section>
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
@@ -123,7 +116,6 @@ const MAPresentation = async () => {
                 ))}
               </div>
             </section>
-
             <section>
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
                 {tidyTitle(
@@ -153,7 +145,6 @@ const MAPresentation = async () => {
                 />
               </Suspense>
             </section>
-
             <ServiceLongForm t={t} />
             <ServiceExpertBanner locale={locale} />
           </div>
@@ -162,5 +153,4 @@ const MAPresentation = async () => {
     </section>
   );
 };
-
 export default MAPresentation;

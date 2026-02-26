@@ -6,20 +6,17 @@ import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import { getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { Suspense } from "react";
 import ServicesListServer from "@/src/components/ui/services-list-server";
-
-const AccountingPresentation = ({ t }: { t: (key: string) => string }) => {
-  const locale: Locale = getCurrentLocale();
+const AccountingPresentation = async ({ t }: { t: (key: string) => string }) => {
+  const locale: Locale = await getCurrentLocale();
   return (
     <section data-service-content className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
       <div className="w-full max-w-[1200px]">
         <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
           {t("Presentation.Title") || "Holistic Vision of Your Accounting"}
         </h1>
-
         <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
           {t("Presentation.Subtitle") || "A 360° Offer"}
         </h2>
-
         <div className="text-left w-full">
           <div className="space-y-6 mb-12">
             {(Array.isArray(t("Presentation.Intro"))
@@ -60,7 +57,6 @@ const AccountingPresentation = ({ t }: { t: (key: string) => string }) => {
               />
             </Suspense>
           </div>
-
           <div className="space-y-16">
             {/* Detailed sections using Accordion (deferred island) */}
             <section>
@@ -74,7 +70,6 @@ const AccountingPresentation = ({ t }: { t: (key: string) => string }) => {
                 <AccountingAccordion />
               </Defer>
             </section>
-
             {/* Custom services as highlighted cards */}
             <section>
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
@@ -132,7 +127,6 @@ const AccountingPresentation = ({ t }: { t: (key: string) => string }) => {
                 })()}
               </div>
             </section>
-
             {/* Services list (deferred island) */}
             <section>
               <Defer
@@ -145,7 +139,6 @@ const AccountingPresentation = ({ t }: { t: (key: string) => string }) => {
                 <ServicesListSection />
               </Defer>
             </section>
-
             <ServiceLongForm t={t} />
             <ServiceExpertBanner locale={locale} />
           </div>
@@ -154,5 +147,4 @@ const AccountingPresentation = ({ t }: { t: (key: string) => string }) => {
     </section>
   );
 };
-
 export default AccountingPresentation;
