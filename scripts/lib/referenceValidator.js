@@ -62,7 +62,9 @@ const defaultBlockedDomains = [
     "mm-t.ch",
     "gtf.ch",
     "bbtreuhand.ch",
-    "dlg.ch"
+    "dlg.ch",
+    "enfinfidu.ch",
+    "fasoon.ch"
 ];
 
 const DEFAULT_TIMEOUT_MS = parseInt(process.env.LINK_CHECK_TIMEOUT_MS || "10000", 10);
