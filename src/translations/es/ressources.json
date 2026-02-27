@@ -10,37 +10,6 @@
   "ImageAltPrefix": "Ilustración del artículo",
   "Articles": [
     {
-      "slug": "comptabilite-crypto-fiscalite-suisse-2026",
-      "author": "Ark Fiduciaire",
-      "image": "abstract-background-dark.avif",
-      "date": "2026-02-27",
-      "references": [
-        {
-          "labelKey": "Code des obligations (CO) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
-        },
-        {
-          "labelKey": "TVA en Suisse – ESTV",
-          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
-        },
-        {
-          "labelKey": "Swiss GAAP FER – Fondation FER",
-          "url": "https://www.fer.ch/fr/"
-        },
-        {
-          "labelKey": "Portail PME – KMU.admin.ch",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
-        },
-        {
-          "labelKey": "Odoo Accounting Documentation",
-          "url": "https://www.odoo.com/documentation/17.0/applications/finance/accounting.html"
-        }
-      ],
-      "title": "Contabilidad cripto en Suiza: reglas fiscales, valoración y cierre 2026",
-      "description": "Guía práctica para pymes, autónomos y holdings: registrar criptoactivos, valorar el balance, gestionar el IVA y asegurar las declaraciones fiscales suizas.",
-      "content": "Los criptoactivos (bitcoin, ether, stablecoins, tokens utilitarios) ya forman parte de la tesorería de las pymes, los planes de incentivos y los pagos a proveedores. En 2026 el reto no es comprar cripto, sino mantener **una contabilidad fiable** y **declaraciones fiscales coherentes** con las exigencias suizas. Este artículo resume los pasos clave para llevar un libro cripto limpio, valorar el balance y evitar errores fiscales frecuentes.\n\n## 1. Por qué la contabilidad cripto es un tema clave en 2026\n\nLas autoridades suizas esperan una **trazabilidad completa** de los flujos y valoraciones transparentes. Factores que aceleran el tema:\n\n- más posiciones de tesorería en stablecoins\n- pagos a proveedores en cripto con conversiones instantáneas\n- planes de remuneración tokenizados\n- aumento de controles sobre la coherencia fiscal\n\n## 2. Clasificar los criptoactivos en el plan contable suizo\n\nLa **clasificación coherente** depende del uso:\n\n- **tesorería cripto**: tokens usados para pagos a corto plazo\n- **activos intangibles**: posiciones a largo plazo\n- **existencias de trading**: para trading activo o market making\n- **tokens utilitarios**: registrados como derechos de uso o anticipos\n\nUna cartografía clara reduce ajustes en el cierre y facilita la revisión del auditor.\n\n## 3. Registrar compras, ventas y comisiones\n\nCada transacción debe convertirse a CHF en la fecha de operación. Buenas prácticas:\n\n- utilizar un **tipo de cambio documentado** (plataforma, agregador o referencia interna)\n- contabilizar las **comisiones de red** como gasto operativo\n- conservar el hash de la transacción en el soporte contable\n\nSeparar ganancias y pérdidas por cambio facilita el análisis fiscal.\n\n## 4. Valoración y cierre anual: métodos y pruebas\n\nEl cierre 2026 exige una valoración prudente:\n\n1. **Activos corrientes**: aplicar el **menor entre coste y valor de mercado**.\n2. **Intangibles**: evaluar deterioros si el precio cae de forma sostenida.\n3. **Stablecoins**: revisar liquidez y riesgo de depeg.\n\nGuardar pruebas del tipo de cambio al 31.12 (exportaciones, capturas) y documentar el método en el dossier de cierre.\n\n## 5. Impuesto sobre beneficios, patrimonio y plusvalías privadas\n\nEl impacto fiscal varía según el perfil:\n\n- **sociedades**: cambios de valor afectan resultado imponible y balance\n- **autónomos**: la cripto utilizada en la actividad es activo profesional\n- **inversores privados**: las plusvalías suelen estar exentas salvo actividad profesional\n\nUna revisión anual evita el cambio involuntario a actividad comercial.\n\n## 6. IVA y facturación en cripto\n\nEl IVA se aplica sobre el valor en CHF del bien o servicio. Reglas clave:\n\n- facturar en CHF aunque el pago sea en cripto\n- documentar el tipo de cambio utilizado\n- registrar IVA repercutido y soportado como en una venta clásica\n\nLos proveedores que aceptan cripto deben alinear su facturación con la administración fiscal.\n\n## 7. Mining, staking y DeFi: tratamiento fiscal\n\nLos ingresos de mining, staking o lending suelen considerarse **ingresos imponibles**. Puntos clave:\n\n- reconocer el ingreso en la fecha de recepción\n- registrar costes asociados (energía, hardware, software)\n- diferenciar intereses de lending y ganancias de trading\n\nLa documentación es esencial para justificar la naturaleza de los ingresos.\n\n## 8. Documentación y pista de auditoría\n\nUna contabilidad cripto sólida necesita pruebas fáciles de auditar:\n\n- registro de wallets y plataformas\n- exportaciones mensuales de transacciones\n- conciliación entre wallets, bancos y libro mayor\n- justificación de movimientos internos (cold wallet, custody)\n\nSin estos elementos, el riesgo de ajustes fiscales aumenta.\n\n## 9. Herramientas y automatización contable\n\nLas pymes suizas buscan herramientas que integren cripto en el libro mayor. Prioridades:\n\n- conectores con exchanges y wallets\n- categorización automática de transacciones\n- informes de valoración en CHF\n- integración con ERP y facturación (p. ej., Odoo)\n\nEl objetivo es reducir el trabajo manual y asegurar el cierre.\n\n## 10. Checklist de conformidad 2026\n\n- definir una política interna de tenencia y conversión cripto\n- fijar y documentar el método de valoración\n- rastrear cada transacción y su tipo de cambio\n- separar cuentas cripto por uso (tesorería, inversiones, trading)\n- revisar el impacto fiscal antes del cierre\n\n## Palabras clave en tendencia 2026\n\ncontabilidad cripto suiza, fiscalidad staking suiza, valoración cripto balance, reporting tokens empresa, Swiss GAAP FER cripto, IVA pagos cripto, auditoría cripto Ginebra, tesorería cripto reporting.\n\n## Cómo Ark Fiduciaire acompaña a las empresas cripto\n\nAyudamos a pymes y holdings a estructurar su contabilidad cripto, asegurar el cierre y preparar declaraciones fiscales conformes. Combinamos experiencia fiduciaria y herramientas digitales para reducir riesgos y aumentar la fiabilidad de los datos.\n\n### Related Services\n\n- [Accounting Services](/services/accounting)\n- [Tax Services](/services/taxes)\n- [Outsourcing Services](/services/outsourcing)\n- [Odoo Integration](/services/odoo)\n- [Contact Us](/contact)"
-    },
-    {
       "slug": "anobag-suisse-permis-travail",
       "author": "Ark Fiduciaire",
       "image": "abstract-background-dark.avif",

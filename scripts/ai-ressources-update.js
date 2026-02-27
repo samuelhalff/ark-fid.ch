@@ -43,6 +43,14 @@ const OFFLINE_MODE = process.env.OFFLINE_MODE === "1";
 const REQUIRE_TRANSLATIONS =
   process.env.REQUIRE_TRANSLATIONS === "1" || process.env.CI === "true";
 const AI_TWO_STEP = process.env.AI_TWO_STEP === "1";
+const FORCE_TOPIC = (process.env.FORCE_TOPIC || "").trim();
+const FORCE_TOPIC_KEYWORDS = (process.env.FORCE_TOPIC_KEYWORDS || "")
+  .split(",")
+  .map((entry) => entry.trim())
+  .filter(Boolean);
+const FORCE_TOPIC_CATEGORY = (process.env.FORCE_TOPIC_CATEGORY || "").trim();
+const SKIP_TOPIC_ROTATION =
+  process.env.SKIP_TOPIC_ROTATION === "1" || Boolean(FORCE_TOPIC);
 
 const AZURE_AGENT_ENDPOINT = process.env.AZURE_AGENT_ENDPOINT;
 const AZURE_AGENT_NAME = process.env.AZURE_AGENT_NAME;
@@ -423,33 +431,41 @@ function buildSystemPrompt(frJson, trendData = null) {
   const avoidTopicsLabels = topicAnalysis.avoidTopics.map(describeTopic);
   const suggestedTopics = topicAnalysis.underrepresented.slice(0, 4);
 
-  const topicNote = lastArticle
-    ? `Dernier article publié le ${lastArticle.date}: "${
-        lastArticle.title
-      }". Thème identifié: ${describeTopic(
-        lastTopic,
-      )}. Choisis un nouveau sujet CLAIREMENT DIFFÉRENT pour maintenir l'alternance éditoriale.`
-    : "Aucun article récent identifié. Choisis un sujet à forte valeur pour dirigeants PME genevois.";
+  const topicNote = FORCE_TOPIC
+    ? `Thème forcé pour cette mise à jour: "${FORCE_TOPIC}". La rotation thématique est désactivée.`
+    : lastArticle
+      ? `Dernier article publié le ${lastArticle.date}: "${
+          lastArticle.title
+        }". Thème identifié: ${describeTopic(
+          lastTopic,
+        )}. Choisis un nouveau sujet CLAIREMENT DIFFÉRENT pour maintenir l'alternance éditoriale.`
+      : "Aucun article récent identifié. Choisis un sujet à forte valeur pour dirigeants PME genevois.";
 
   // Build topic diversity guidance
   const diversityGuidance = [];
-  if (avoidTopicsLabels.length > 0) {
+  if (FORCE_TOPIC) {
     diversityGuidance.push(
-      `⚠️ THÈMES À ÉVITER (traités récemment dans les 5 derniers articles): ${avoidTopicsLabels.join(", ")}.`,
+      "ℹ️ Rotation thématique désactivée pour ce run (thème forcé).",
     );
-  }
-  if (suggestedTopics.length > 0) {
-    diversityGuidance.push(
-      `✅ THÈMES SUGGÉRÉS (peu couverts récemment, à privilégier): ${suggestedTopics.join(", ")}.`,
-    );
-  }
-  if (topicAnalysis.overrepresented.length > 0) {
-    const overLabels = topicAnalysis.overrepresented.map(
-      (t) => `${t.label} (${t.count} articles)`,
-    );
-    diversityGuidance.push(
-      `📊 Thèmes surreprésentés (éviter absolument): ${overLabels.join(", ")}.`,
-    );
+  } else {
+    if (avoidTopicsLabels.length > 0) {
+      diversityGuidance.push(
+        `⚠️ THÈMES À ÉVITER (traités récemment dans les 5 derniers articles): ${avoidTopicsLabels.join(", ")}.`,
+      );
+    }
+    if (suggestedTopics.length > 0) {
+      diversityGuidance.push(
+        `✅ THÈMES SUGGÉRÉS (peu couverts récemment, à privilégier): ${suggestedTopics.join(", ")}.`,
+      );
+    }
+    if (topicAnalysis.overrepresented.length > 0) {
+      const overLabels = topicAnalysis.overrepresented.map(
+        (t) => `${t.label} (${t.count} articles)`,
+      );
+      diversityGuidance.push(
+        `📊 Thèmes surreprésentés (éviter absolument): ${overLabels.join(", ")}.`,
+      );
+    }
   }
 
   // Build trend-based keyword guidance
@@ -457,10 +473,13 @@ function buildSystemPrompt(frJson, trendData = null) {
   if (trendData && trendData.selectedTopic) {
     const { suggestedTopic, keywords, outline, category } =
       trendData.selectedTopic;
+    const trendLabel = trendData.forced
+      ? "Sujet imposé"
+      : "Sujet suggéré par tendance";
     trendGuidance.push(
       "",
       "=== SIGNAUX TENDANCE SEO (à intégrer si pertinent) ===",
-      `📈 Sujet suggéré par tendance: "${suggestedTopic}"`,
+      `📈 ${trendLabel}: "${suggestedTopic}"`,
       `🔑 Mots-clés SEO cibles: ${keywords.join(", ")}`,
     );
     if (outline && outline.length > 0) {
@@ -481,6 +500,13 @@ function buildSystemPrompt(frJson, trendData = null) {
     );
   }
 
+  const topicConstraint = FORCE_TOPIC
+    ? "- Sujet cohérent avec nos services (liste ci-dessous) en respectant le thème imposé."
+    : "- Sujet cohérent avec nos services (liste ci-dessous) et DIFFÉRENT des articles récents.";
+  const slugConstraint = FORCE_TOPIC
+    ? "- Aucun doublon de slug."
+    : "- Aucun doublon de slug, ni de sujet déjà traité récemment.";
+
   return [
     "Tu es un assistant éditorial SEO expert pour Ark Fiduciaire (Genève, Suisse romande).",
     `Date actuelle: ${today}. Privilégie des éléments publiés ou mis à jour entre ${twelveMonthsAgo} et ${today}. Les pages officielles stables (admin.ch, fedlex.admin.ch, bsv.admin.ch, estv.admin.ch, seco.admin.ch, finma.ch, kmu.admin.ch, ch.ch) peuvent être plus anciennes si elles sont encore valables.`,
@@ -496,8 +522,8 @@ function buildSystemPrompt(frJson, trendData = null) {
     "- FOCUS sur des conseils pratiques, astuces concrètes, erreurs courantes à éviter, guides étape-par-étape, taux/rates actuels par canton/activité.",
     "- Exemples souhaités: omissions courantes dans déclarations fiscales, taux sociaux par canton, taux TVA par activité, conformité LBA/AML, obtention de licences FINMA, affiliation SRO/OAR, quand/déclarer comment, pièges à éviter, optimisations légales.",
     "- ÉVITER les articles généraux ou théoriques; privilégier le concret et l'actionnable.",
-    "- Sujet cohérent avec nos services (liste ci-dessous) et DIFFÉRENT des articles récents.",
-    "- Aucun doublon de slug, ni de sujet déjà traité récemment.",
+    topicConstraint,
+    slugConstraint,
     lengthGuidance,
     ...longFormRequirements,
     "- Titres: utilise la syntaxe Markdown (## pour H2, ### pour H3) sans écrire « H2 » ou « H3 » dans le texte.",
@@ -570,10 +596,13 @@ function buildResearchPrompt(frJson, trendData, seoSuggestions) {
   if (trendData && trendData.selectedTopic) {
     const { suggestedTopic, keywords, outline, category } =
       trendData.selectedTopic;
+    const trendLabel = trendData.forced
+      ? "Sujet imposé"
+      : "Sujet suggéré par tendance";
     trendGuidance.push(
       "",
       "=== SIGNAUX TENDANCE SEO (à intégrer si pertinent) ===",
-      `📈 Sujet suggéré par tendance: "${suggestedTopic}"`,
+      `📈 ${trendLabel}: "${suggestedTopic}"`,
       `🔑 Mots-clés SEO cibles: ${Array.isArray(keywords) ? keywords.join(", ") : ""}`,
     );
     if (outline && outline.length > 0) {
@@ -584,23 +613,36 @@ function buildResearchPrompt(frJson, trendData, seoSuggestions) {
     }
   }
 
+  const diversityGuidance = FORCE_TOPIC
+    ? ["ℹ️ Rotation thématique désactivée pour ce run (thème forcé)."]
+    : [
+        avoidTopicsLabels.length
+          ? `⚠️ THÈMES À ÉVITER: ${avoidTopicsLabels.join(", ")}.`
+          : "",
+        suggestedTopics.length
+          ? `✅ THÈMES SUGGÉRÉS: ${suggestedTopics.join(", ")}.`
+          : "",
+      ];
+  const forcedTopicLine = FORCE_TOPIC
+    ? `Thème imposé pour cette mise à jour: "${FORCE_TOPIC}".`
+    : "";
+  const topicConstraint = FORCE_TOPIC
+    ? "- Sujet cohérent avec nos services (liste ci-dessous) en respectant le thème imposé."
+    : "- Sujet cohérent avec nos services (liste ci-dessous) et différent des articles récents.";
+
   return [
     "Tu es un stratège SEO + chercheur web pour Ark Fiduciaire (Genève, Suisse romande).",
     `Date actuelle: ${today}. Privilégie des sources publiées ou mises à jour entre ${twelveMonthsAgo} et ${today}. Les pages officielles stables (admin.ch, fedlex.admin.ch, bsv.admin.ch, estv.admin.ch, seco.admin.ch, finma.ch, kmu.admin.ch, ch.ch) peuvent être plus anciennes si elles sont encore valables.`,
     "",
+    forcedTopicLine,
     "=== DIVERSITÉ THÉMATIQUE (CRITIQUE) ===",
-    avoidTopicsLabels.length
-      ? `⚠️ THÈMES À ÉVITER: ${avoidTopicsLabels.join(", ")}.`
-      : "",
-    suggestedTopics.length
-      ? `✅ THÈMES SUGGÉRÉS: ${suggestedTopics.join(", ")}.`
-      : "",
+    ...diversityGuidance,
     ...trendGuidance,
     "",
     "Objectif: proposer 1 sujet + plan + références vérifiables (PAS l'article complet).",
     "",
     "Contraintes:",
-    "- Sujet cohérent avec nos services (liste ci-dessous) et différent des articles récents.",
+    topicConstraint,
     `- L'article final fera ${Math.max(minWords, 1500)} à ${Math.max(Math.max(minWords, 1500), maxWords)} mots.`,
     "- Références: fournir 12 à 18 liens vérifiables (HTTP 200, pas de login), sans URL inventée.",
     "- Références: inclure au moins 2 sources officielles (admin.ch / fedlex.admin.ch / bsv.admin.ch / estv.admin.ch / seco.admin.ch / finma.ch, etc.).",
@@ -1881,6 +1923,9 @@ function validateNewArticle(frData, article) {
 }
 
 function enforceTopicRotation(frData, newArticle) {
+  if (SKIP_TOPIC_ROTATION) {
+    return;
+  }
   const articles = Array.isArray(frData?.Articles) ? frData.Articles : [];
   if (!articles.length) return;
 
@@ -2603,14 +2648,35 @@ async function main() {
     .filter(Boolean);
   const topicAnalysis = analyzeRecentTopics(frData, 15);
 
-  // Fetch trend-based topic suggestions
-  console.log("\n📊 Fetching trend signals for topic selection...");
-  const trendData = await getTopicSuggestions({
-    existingSlugs,
-    avoidTopics: topicAnalysis.avoidTopics,
-    recentTopicCategories: topicAnalysis.lastFiveTopics,
-    topicCounts: topicAnalysis.topicCounts,
-  });
+  let trendData;
+  if (FORCE_TOPIC) {
+    const forcedKeywords = FORCE_TOPIC_KEYWORDS.length
+      ? FORCE_TOPIC_KEYWORDS
+      : [FORCE_TOPIC];
+    trendData = {
+      selectedTopic: {
+        suggestedTopic: FORCE_TOPIC,
+        keywords: forcedKeywords,
+        category: FORCE_TOPIC_CATEGORY || undefined,
+      },
+      forced: true,
+      provider: "forced",
+      usedFallback: true,
+      trendsChecked: 0,
+      relevantTrendsChecked: 0,
+      error: null,
+    };
+    console.log(`\n📌 Forced topic requested: "${FORCE_TOPIC}"`);
+  } else {
+    // Fetch trend-based topic suggestions
+    console.log("\n📊 Fetching trend signals for topic selection...");
+    trendData = await getTopicSuggestions({
+      existingSlugs,
+      avoidTopics: topicAnalysis.avoidTopics,
+      recentTopicCategories: topicAnalysis.lastFiveTopics,
+      topicCounts: topicAnalysis.topicCounts,
+    });
+  }
 
   // Log trend information (keywords only, not sensitive)
   if (trendData.selectedTopic) {
