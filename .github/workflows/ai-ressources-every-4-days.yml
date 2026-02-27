@@ -4,6 +4,23 @@ on:
   schedule:
     - cron: "0 0 */3 * *" # every 4 days at 00:00 UTC
   workflow_dispatch:
+    inputs:
+      force_topic:
+        description: "Override topic selection (e.g., comptabilite crypto)"
+        required: false
+        type: string
+      force_topic_keywords:
+        description: "Optional comma-separated SEO keywords"
+        required: false
+        type: string
+      force_topic_category:
+        description: "Optional category override (accounting, tax, payroll, etc.)"
+        required: false
+        type: string
+      skip_topic_rotation:
+        description: "Skip topic rotation guardrails"
+        required: false
+        type: boolean
 
 concurrency:
   group: ai-content-update
@@ -209,6 +226,10 @@ jobs:
           # Two-step workflow: agent does research+refs, model drafts the article.
           AI_TWO_STEP: "1"
           AI_RESEARCH_RETRIES: "3"
+          FORCE_TOPIC: ${{ inputs.force_topic }}
+          FORCE_TOPIC_KEYWORDS: ${{ inputs.force_topic_keywords }}
+          FORCE_TOPIC_CATEGORY: ${{ inputs.force_topic_category }}
+          SKIP_TOPIC_ROTATION: ${{ inputs.skip_topic_rotation == 'true' && '1' || '' }}
           # Trend provider configuration (from repository variables)
           TRENDS_PROVIDER: ${{ vars.TRENDS_PROVIDER || 'hybrid' }}
           TRENDS_GEO: ${{ vars.TRENDS_GEO }}
