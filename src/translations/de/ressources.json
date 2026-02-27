@@ -10,6 +10,37 @@
   "ImageAltPrefix": "Artikelillustration",
   "Articles": [
     {
+      "slug": "comptabilite-crypto-fiscalite-suisse-2026",
+      "author": "Ark Fiduciaire",
+      "image": "abstract-background-dark.avif",
+      "date": "2026-02-27",
+      "references": [
+        {
+          "labelKey": "Code des obligations (CO) – Fedlex",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "TVA en Suisse – ESTV",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        },
+        {
+          "labelKey": "Swiss GAAP FER – Fondation FER",
+          "url": "https://www.fer.ch/fr/"
+        },
+        {
+          "labelKey": "Portail PME – KMU.admin.ch",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
+        },
+        {
+          "labelKey": "Odoo Accounting Documentation",
+          "url": "https://www.odoo.com/documentation/17.0/applications/finance/accounting.html"
+        }
+      ],
+      "title": "Krypto-Buchhaltung in der Schweiz: Steuerregeln, Bewertung und Jahresabschluss 2026",
+      "description": "Praxisleitfaden für KMU, Selbstständige und Holdings: Krypto-Assets verbuchen, Bilanz bewerten, MWST handhaben und Steuererklärungen absichern.",
+      "content": "Krypto-Assets (Bitcoin, Ether, Stablecoins, Utility Tokens) gehören inzwischen zur Liquiditätssteuerung, zu Incentive-Programmen und zu Lieferantenzahlungen. 2026 liegt die Herausforderung nicht mehr beim Kauf, sondern bei einer **sauberen Buchhaltung** und **steuerlich konsistenten Deklarationen** in der Schweiz. Dieser Leitfaden bündelt die wichtigsten Schritte, um die Krypto-Bilanz zu bewerten und typische Fehler zu vermeiden.\n\n## 1. Warum Krypto-Buchhaltung 2026 ein Top-Thema ist\n\nDie Schweizer Behörden erwarten heute eine **vollständige Nachvollziehbarkeit** aller Transaktionen. Die Treiber:\n\n- mehr Treasury-Positionen in Stablecoins\n- Zahlungen an Lieferanten in Krypto mit automatischen Umrechnungen\n- tokenisierte Bonus- und Vergütungsmodelle\n- strengere Prüfungen zur Steuerkohärenz\n\n## 2. Krypto-Assets im Schweizer Kontenrahmen klassieren\n\nDie **korrekte Klassifizierung** hängt vom Einsatz ab:\n\n- **Krypto-Treasury**: Token für kurzfristige Zahlungen\n- **immaterielle Vermögenswerte**: langfristige Bestände\n- **Handelsbestand**: bei aktivem Trading oder Market Making\n- **Utility Tokens**: oft als vorausbezahlte Nutzungsrechte erfasst\n\nEine klare Zuordnung reduziert Anpassungen beim Jahresabschluss und erleichtert die Revision.\n\n## 3. Käufe, Verkäufe und Transaktionsgebühren verbuchen\n\nJede Transaktion wird zum Transaktionszeitpunkt in CHF bewertet. Best Practices:\n\n- **dokumentierte Wechselkurse** verwenden (Plattform, Aggregator, internes Referenzmodell)\n- **Netzwerkgebühren** als Betriebsaufwand erfassen\n- den Transaktionshash in der Belegkette dokumentieren\n\nWechselkursgewinne und -verluste sollten separat ausgewiesen werden.\n\n## 4. Bewertung und Jahresabschluss: Methoden und Nachweise\n\nFür den Abschluss 2026 gilt eine vorsichtige Bewertung:\n\n1. **Umlaufvermögen**: Prinzip **niedrigerer Wert aus Anschaffungskosten und Marktwert**.\n2. **Immaterielle Werte**: Werthaltigkeit prüfen und Abschreibungen dokumentieren.\n3. **Stablecoins**: Liquidität und De-Peg-Risiko bewerten.\n\nBelege für den Kurs per 31.12 sichern (Exports, Screenshots) und die Methode im Abschlussdossier festhalten.\n\n## 5. Gewinnsteuer, Vermögenssteuer und private Kapitalgewinne\n\nDie steuerliche Behandlung hängt vom Profil ab:\n\n- **Gesellschaften**: Wertänderungen beeinflussen Gewinn und Bilanz\n- **Selbstständige**: Krypto im Geschäft gelten als Geschäftsvermögen\n- **Private Anleger**: Kapitalgewinne sind meist steuerfrei, ausser bei gewerblichem Handel\n\nEin jährlicher Check verhindert die unbeabsichtigte Einstufung als gewerblicher Trader.\n\n## 6. MWST und Rechnungsstellung in Krypto\n\nDie MWST richtet sich nach dem CHF-Wert der Leistung. Wichtig:\n\n- Rechnungen in CHF ausstellen, auch bei Krypto-Zahlung\n- den verwendeten Umrechnungskurs dokumentieren\n- MWST wie bei einer klassischen Rechnung abbilden\n\nDienstleister mit Krypto-Zahlungen müssen die MWST-konforme Fakturierung sicherstellen.\n\n## 7. Mining, Staking und DeFi: steuerliche Behandlung\n\nErträge aus Mining, Staking oder Lending gelten grundsätzlich als **steuerbares Einkommen**. Wichtige Punkte:\n\n- Ertrag zum Zeitpunkt des Zuflusses erfassen\n- Kosten wie Energie, Hardware und Software sauber zuordnen\n- Lending-Zinsen von Handelsgewinnen trennen\n\nOhne Dokumentation steigt das Risiko von Nachbesteuerungen.\n\n## 8. Dokumentation und Prüfpfad\n\nEine belastbare Krypto-Buchhaltung braucht eine klare Belegkette:\n\n- Verzeichnis der Wallets und Börsen\n- monatliche Transaktions-Exports\n- Abgleich zwischen Wallets, Banken und Hauptbuch\n- Begründung interner Transfers (Cold Wallet, Custody)\n\nOhne diese Nachweise werden Prüfungen deutlich schwieriger.\n\n## 9. Tools und Automatisierung\n\nSchweizer KMU setzen auf Tools, die Krypto ins Hauptbuch integrieren. Prioritäten:\n\n- Schnittstellen zu Exchanges und Wallets\n- automatische Kategorisierung der Buchungen\n- Bewertungsreports in CHF\n- ERP- und Faktura-Integration (z. B. Odoo)\n\nZiel: weniger manuelle Buchungen und ein sicherer Abschluss.\n\n## 10. Compliance-Checkliste 2026\n\n- interne Richtlinie für Krypto-Bestände und Konvertierung definieren\n- Bewertungsmethode festlegen und dokumentieren\n- jede Transaktion samt Umrechnungskurs nachweisen\n- Krypto-Konten nach Nutzung trennen (Treasury, Investments, Trading)\n- steuerliche Auswirkungen vor dem Abschluss prüfen\n\n## Trend-Keywords 2026\n\nKrypto-Buchhaltung Schweiz, Krypto-Steuern 2026, Bilanzbewertung Krypto, Token Reporting Unternehmen, Swiss GAAP FER Krypto, MWST Krypto-Zahlungen, Krypto-Audit Genf, Treasury Krypto Reporting.\n\n## Wie Ark Fiduciaire Krypto-Unternehmen unterstützt\n\nWir unterstützen KMU und Holdings bei der Krypto-Buchhaltung, sichern Abschlussbuchungen und bereiten konforme Steuererklärungen vor. Unsere Kombination aus fiduziarischem Know-how und digitalen Tools reduziert Risiken und erhöht die Datenqualität.\n\n### Related Services\n\n- [Accounting Services](/services/accounting)\n- [Tax Services](/services/taxes)\n- [Outsourcing Services](/services/outsourcing)\n- [Odoo Integration](/services/odoo)\n- [Contact Us](/contact)"
+    },
+    {
       "slug": "anobag-suisse-permis-travail",
       "author": "Ark Fiduciaire",
       "image": "abstract-background-dark.avif",
