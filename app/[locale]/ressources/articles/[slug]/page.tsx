@@ -340,8 +340,9 @@ export default async function ArticlePage(props: Params) {
 
       {/* Use tRessources (getTranslations) for dot-notation key resolution
           so the Contact section is always rendered in the active locale.
-          Raw object access like ressources["Contact.Title"] would fail
-          because the JSON uses nested objects, not flat dotted keys. */}
+          Raw object access like ressources["Contact.Title"] returns undefined
+          (falling back to English) because the JSON uses nested objects,
+          not flat dotted keys. */}
       <ContactSection
         locale={locale}
         title={

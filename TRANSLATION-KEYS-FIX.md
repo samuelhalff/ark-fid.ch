@@ -239,3 +239,22 @@ All service namespaces now include long-form copy for SEO and must be present ac
 
 - `Presentation.LongFormTitle`
 - `Presentation.LongFormSections` (array of `{ Title, Body[] }`)
+
+## New Home & CTA Keys (Feb 2026 - Translation & CTA Fixes)
+
+### Home Scroll Hint
+
+Added to the `home` namespace `Hero` object for floating scroll badge on the home page:
+
+- `home:Hero.ScrollHint`
+
+### CTA Secondary Buttons
+
+Added `SecondaryButtonText` to the `Contact` section of both `ressources` and `partners` namespaces across all locales so every CTA banner has both "Contact" and "Get instant quote" buttons:
+
+- `ressources:Contact.SecondaryButtonText`
+- `partners:Contact.SecondaryButtonText`
+
+### Translation Bug Fix
+
+Fixed article page (`app/[locale]/ressources/articles/[slug]/page.tsx`) which was accessing nested translation keys with raw object syntax (`ressources["Contact.Title"]`) instead of the `getTranslations()` dot-notation function. This caused the contact banner on articles to always show English fallback strings regardless of the active locale.

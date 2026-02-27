@@ -72,8 +72,8 @@ export default function ArticleContent({ slug, locale }: ArticleContentProps) {
       </article>
 
       {/* Pass locale to ContactSection so the contact link uses the correct
-          locale prefix. Without this, the link defaults to /fr regardless of
-          the active language. */}
+          locale prefix. Without this, ContactSection receives undefined,
+          which resolves to /fr in the localePrefix calculation. */}
       <ContactSection
         locale={locale}
         title={(t("Contact.Title") as string) || "Questions about this article?"}

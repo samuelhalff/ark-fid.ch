@@ -257,7 +257,7 @@ export default function AgentChat({
   useEffect(() => {
     if (typeof window === "undefined") return;
     // Build the comparison payload without savedAt to avoid invalidating
-    // the dedup check on every render (Date.now() would always differ).
+    // the dedup check on every state change (Date.now() would always differ).
     const corePayload = {
       contact,
       messages: messages.slice(-MAX_MESSAGES),
