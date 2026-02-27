@@ -10,6 +10,7 @@ import ContactSection from "./ContactSection";
 
 interface ArticleContentProps {
   slug: string;
+  locale?: string;
 }
 
 const markdownComponents: Components = {
@@ -22,7 +23,7 @@ const markdownComponents: Components = {
   },
 };
 
-export default function ArticleContent({ slug }: ArticleContentProps) {
+export default function ArticleContent({ slug, locale }: ArticleContentProps) {
   const { t } = useTranslation("ressources");
   const articles = t("Articles", { returnObjects: true }) as Array<{
     slug: string;
@@ -70,8 +71,11 @@ export default function ArticleContent({ slug }: ArticleContentProps) {
         </ReactMarkdown>
       </article>
 
+      {/* Pass locale to ContactSection so the contact link uses the correct
+          locale prefix. Without this, the link defaults to /fr regardless of
+          the active language. */}
       <ContactSection
-        locale={undefined}
+        locale={locale}
         title={(t("Contact.Title") as string) || "Questions about this article?"}
         description={
           (t("Contact.Description") as string) ||

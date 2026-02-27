@@ -89,6 +89,7 @@ const PartnersPage = async (props: { params: Promise<{ locale: string }> }) => {
           contactTitle: t("Contact.Title"),
           contactDescription: t("Contact.Description"),
           contactCta: t("Contact.ButtonText"),
+          contactSecondaryCta: t("Contact.SecondaryButtonText"),
         }}
       />
     </div>
