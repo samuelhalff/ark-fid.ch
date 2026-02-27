@@ -28,6 +28,7 @@ const PartnersPresentation = ({
     contactTitle: string;
     contactDescription: string;
     contactCta: string;
+    contactSecondaryCta: string;
   };
 }) => {
   const s = strings;
@@ -85,6 +86,7 @@ const PartnersPresentation = ({
           title={s.contactTitle}
           description={s.contactDescription}
           cta={s.contactCta}
+          secondaryCta={s.contactSecondaryCta}
         />
       </div>
     </section>

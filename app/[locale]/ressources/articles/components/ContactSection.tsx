@@ -35,11 +35,14 @@ const ContactSection = ({
   title,
   description,
   buttonText,
+  secondaryButtonText,
 }: {
   locale?: string;
   title: string;
   description: string;
   buttonText: string;
+  /** Optional "Get instant quote" CTA displayed next to the primary contact button */
+  secondaryButtonText?: string;
 }) => {
   const localePrefix = locale ? `/${locale}` : "/fr";
 
@@ -49,15 +52,28 @@ const ContactSection = ({
         <MessageCircleIcon className="w-12 h-12 text-primary mx-auto mb-4" />
         <h3 className="text-xl font-semibold mb-4">{title}</h3>
         <p className="mb-6">{description}</p>
-        <Link
-          href={`${localePrefix}/contact/`}
-          locale={locale}
-          prefetch={false}
-        >
-          <Button size="lg" className="rounded-full">
-            {buttonText}
-          </Button>
-        </Link>
+        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Link
+            href={`${localePrefix}/contact/`}
+            locale={locale}
+            prefetch={false}
+          >
+            <Button size="lg" className="rounded-full">
+              {buttonText}
+            </Button>
+          </Link>
+          {secondaryButtonText && (
+            <Link
+              href={`${localePrefix}/agent/`}
+              locale={locale}
+              prefetch={false}
+            >
+              <Button size="lg" variant="secondary" className="rounded-full">
+                {secondaryButtonText}
+              </Button>
+            </Link>
+          )}
+        </div>
       </div>
     </section>
   );

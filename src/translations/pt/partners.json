@@ -64,6 +64,7 @@
         "Title": "Fazer Parceria Conosco",
         "Description": "Interessado em explorar oportunidades de parceria?",
         "CallToAction": "Entre em contato conosco para discutir como podemos colaborar para servir melhor nossos clientes.",
-        "ButtonText": "Entre em contato"
+        "ButtonText": "Entre em contato",
+        "SecondaryButtonText": "Obtenha um orçamento instantâneo"
     }
 }

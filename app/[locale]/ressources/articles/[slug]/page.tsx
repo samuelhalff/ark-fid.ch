@@ -102,6 +102,9 @@ export default async function ArticlePage(props: Params) {
   // Load the locale-specific translations on the server
   const ressources = await loadRessources(locale);
   const tNav = await getTranslations(locale, "navbar");
+  // Use getTranslations for dot-notation access (e.g. "Contact.Title")
+  // so nested keys resolve correctly to the active locale.
+  const tRessources = await getTranslations(locale, "ressources");
 
   // Load canonical FR to compare and/or fallback
   const fr = locale === "fr" ? ressources : await loadRessources("fr");
@@ -335,24 +338,29 @@ export default async function ArticlePage(props: Params) {
 
       <RelatedArticles currentSlug={params.slug} locale={locale} />
 
-      {(() => {
-        const title =
-          (ressources["Contact.Title"] as string) ||
-          "Questions about this article?";
-        const description =
-          (ressources["Contact.Description"] as string) ||
-          "Our experts are here to help you understand the details and implications for your business. Get personalized advice tailored to your situation.";
-        const buttonText =
-          (ressources["Contact.ButtonText"] as string) || "Contact Our Team";
-        return (
-          <ContactSection
-            locale={locale}
-            title={title}
-            description={description}
-            buttonText={buttonText}
-          />
-        );
-      })()}
+      {/* Use tRessources (getTranslations) for dot-notation key resolution
+          so the Contact section is always rendered in the active locale.
+          Raw object access like ressources["Contact.Title"] returns undefined
+          (falling back to English) because the JSON uses nested objects,
+          not flat dotted keys. */}
+      <ContactSection
+        locale={locale}
+        title={
+          (tRessources("Contact.Title") as string) ||
+          "Questions about this article?"
+        }
+        description={
+          (tRessources("Contact.Description") as string) ||
+          "Our experts are here to help you understand the details and implications for your business. Get personalized advice tailored to your situation."
+        }
+        buttonText={
+          (tRessources("Contact.ButtonText") as string) || "Contact Our Team"
+        }
+        secondaryButtonText={
+          (tRessources("Contact.SecondaryButtonText") as string) ||
+          "Get an instant quote"
+        }
+      />
     </main>
   );
 }

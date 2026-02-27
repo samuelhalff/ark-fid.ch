@@ -334,6 +334,10 @@ export default async function RessourcesPage(
         buttonText={
           (tRessources("Contact.ButtonText") as string) || "Contact Our Team"
         }
+        secondaryButtonText={
+          (tRessources("Contact.SecondaryButtonText") as string) ||
+          "Get an instant quote"
+        }
       />
     </main>
   );

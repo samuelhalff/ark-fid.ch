@@ -83,6 +83,8 @@ export type AgentChatStrings = {
 
 const STORAGE_KEY = "ark-agent-chat";
 const MAX_MESSAGES = 12;
+/** Storage data is considered stale and cleared after 24 hours */
+const STORAGE_TTL_MS = 24 * 60 * 60 * 1000;
 
 const defaultContact: ContactInfo = {
   name: "",
@@ -197,7 +199,18 @@ export default function AgentChat({
         leadId?: string;
         leadToken?: string;
         sessionId?: string;
+        savedAt?: number;
       };
+
+      // Clear stale data after 24 hours to keep the quote form fresh
+      if (
+        typeof saved.savedAt === "number" &&
+        Date.now() - saved.savedAt > STORAGE_TTL_MS
+      ) {
+        window.localStorage.removeItem(STORAGE_KEY);
+        return;
+      }
+
       if (saved.contact) {
         setContact({ ...defaultContact, ...saved.contact });
       }
@@ -243,7 +256,9 @@ export default function AgentChat({
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const payload = {
+    // Build the comparison payload without savedAt to avoid invalidating
+    // the dedup check on every state change (Date.now() would always differ).
+    const corePayload = {
       contact,
       messages: messages.slice(-MAX_MESSAGES),
       leadConfirmed,
@@ -253,10 +268,12 @@ export default function AgentChat({
       sessionId,
     };
     try {
-      const serialized = JSON.stringify(payload);
-      if (lastSavedRef.current === serialized) return;
-      lastSavedRef.current = serialized;
-      window.localStorage.setItem(STORAGE_KEY, serialized);
+      const coreJson = JSON.stringify(corePayload);
+      if (lastSavedRef.current === coreJson) return;
+      lastSavedRef.current = coreJson;
+      // Include savedAt timestamp so we can clear stale data after STORAGE_TTL_MS
+      const withTimestamp = { ...corePayload, savedAt: Date.now() };
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(withTimestamp));
     } catch {
       lastSavedRef.current = null;
     }

@@ -22,11 +22,14 @@ const ContactSection = ({
   title,
   description,
   cta,
+  secondaryCta,
 }: {
   locale?: string;
   title: string;
   description: string;
   cta: string;
+  /** Optional "Get instant quote" CTA displayed next to the primary contact button */
+  secondaryCta?: string;
 }) => {
   const localePrefix = locale ? `/${locale}` : "/fr";
 
@@ -36,11 +39,20 @@ const ContactSection = ({
         <AwardIcon className="w-12 h-12 text-primary mx-auto mb-4" />
         <h3 className="text-xl font-semibold mb-4">{title}</h3>
         <p className="mb-6">{description}</p>
-        <a href={`${localePrefix}/contact/`}>
-          <Button size="lg" className="rounded-full">
-            {cta}
-          </Button>
-        </a>
+        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <a href={`${localePrefix}/contact/`}>
+            <Button size="lg" className="rounded-full">
+              {cta}
+            </Button>
+          </a>
+          {secondaryCta && (
+            <a href={`${localePrefix}/agent/`}>
+              <Button size="lg" variant="secondary" className="rounded-full">
+                {secondaryCta}
+              </Button>
+            </a>
+          )}
+        </div>
       </div>
     </section>
   );

@@ -12,7 +12,8 @@
         "BadgeTwo": "AI powered",
         "OdooBadge": "Digital & ERP solutions",
         "OdooPartnerBadge": "Official Odoo partner",
-        "ImageAlt": "Ark Fiduciaire experts providing fiduciary, accounting and tax services for Swiss companies"
+        "ImageAlt": "Ark Fiduciaire experts providing fiduciary, accounting and tax services for Swiss companies",
+        "ScrollHint": "Discover more"
     },
     "Services": {
         "Title": "Our services",

@@ -975,7 +975,8 @@
   "Contact": {
     "Title": "Entrar em contato",
     "Description": "Nossos especialistas podem ajudá-lo a entender os detalhes e implicações para sua empresa. Obtenha consultoria personalizada adaptada à sua situação.",
-    "ButtonText": "Contactar nossa equipe"
+    "ButtonText": "Contactar nossa equipe",
+    "SecondaryButtonText": "Obtenha um orçamento instantâneo"
   },
   "ReadingTime": "Tempo de leitura",
   "Minutes": "min",

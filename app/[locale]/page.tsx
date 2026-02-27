@@ -51,6 +51,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
     "Hero.ImageAlt": homeT("Hero.ImageAlt"),
     "Hero.OdooPartnerBadge": homeT("Hero.OdooPartnerBadge"),
     "Hero.OdooBadge": homeT("Hero.OdooBadge"),
+    "Hero.ScrollHint": homeT("Hero.ScrollHint"),
   };
   const localePrefix = `/${activeLocale}`;
   // Load FAQ texts for JSON-LD

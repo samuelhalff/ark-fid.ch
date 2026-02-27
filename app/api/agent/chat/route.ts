@@ -190,6 +190,15 @@ const INVALID_EMAIL_DOMAINS = (
   .map((value) => value.trim().toLowerCase())
   .filter(Boolean);
 const invalidDomains = new Set(INVALID_EMAIL_DOMAINS);
+
+/**
+ * Internal company domains. Emails from these domains are allowed to use
+ * the chat but must NOT create prospect/lead records in SharePoint or
+ * trigger Formspark submissions. This avoids polluting the prospect list
+ * with internal test conversations.
+ */
+const INTERNAL_DOMAINS = new Set(["ark-fid.ch", "pbm.law"]);
+
 const domainValidationCache = new Map<
   string,
   { valid: boolean; checkedAt: number }
@@ -699,6 +708,10 @@ const validateEmailDomain = async (domain: string) => {
 const getEmailDomain = (email: string) =>
   email.split("@")[1]?.toLowerCase() || "";
 
+/** Returns true when the email belongs to an internal company domain */
+const isInternalEmail = (email: string) =>
+  INTERNAL_DOMAINS.has(getEmailDomain(email));
+
 const verifyTurnstile = async (token: string, ip?: string) => {
   if (!TURNSTILE_SECRET_KEY) return false;
   const body = new URLSearchParams({
@@ -847,8 +860,13 @@ export async function POST(request: Request) {
 
   try {
     // Email is validated by zod, so a single "@" is safe to split.
+    // Internal company domains bypass DNS validation since they are trusted.
     const emailDomain = getEmailDomain(payload.email);
-    if (!emailDomain || !(await validateEmailDomain(emailDomain))) {
+    if (
+      !emailDomain ||
+      (!INTERNAL_DOMAINS.has(emailDomain) &&
+        !(await validateEmailDomain(emailDomain)))
+    ) {
       return NextResponse.json(
         { error: "invalid_email_domain" },
         { status: 400 }
@@ -866,6 +884,22 @@ export async function POST(request: Request) {
       !isMessagesListConfigured() && !leadFieldMap.transcript;
 
     if (payload.leadOnly) {
+      // Internal company domains (ark-fid.ch, pbm.law) can use the chat
+      // but must NOT create prospect records or send Formspark messages.
+      // Return synthetic tokens so the rest of the chat flow works normally.
+      if (isInternalEmail(payload.email)) {
+        const syntheticId = `internal-${Date.now()}`;
+        const syntheticToken = randomBytes(24).toString("hex");
+        return NextResponse.json(
+          { ok: true, leadId: syntheticId, leadToken: syntheticToken },
+          {
+            headers: {
+              "Cache-Control": "no-store, no-cache, must-revalidate",
+            },
+          }
+        );
+      }
+
       if (!sharePointEnabled) {
         return NextResponse.json(
           { error: "missing_configuration" },
@@ -922,17 +956,24 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!sharePointEnabled) {
-      return NextResponse.json(
-        { error: "missing_configuration" },
-        { status: 500 }
-      );
-    }
-    if (missingLeadTokenField || missingTranscriptField) {
-      return NextResponse.json(
-        { error: "missing_configuration" },
-        { status: 500 }
-      );
+    // Internal company emails skip SharePoint verification and message logging
+    // but still use the AI agent for chat. This ensures internal testers can
+    // try the chat without polluting the prospect list.
+    const internalUser = isInternalEmail(payload.email);
+
+    if (!internalUser) {
+      if (!sharePointEnabled) {
+        return NextResponse.json(
+          { error: "missing_configuration" },
+          { status: 500 }
+        );
+      }
+      if (missingLeadTokenField || missingTranscriptField) {
+        return NextResponse.json(
+          { error: "missing_configuration" },
+          { status: 500 }
+        );
+      }
     }
 
     if (!azureEndpoint || !agentName) {
@@ -990,32 +1031,35 @@ export async function POST(request: Request) {
     }
 
     const includeTranscript = !isMessagesListConfigured();
-    let leadFields: Record<string, unknown>;
-    try {
-      leadFields = await fetchLeadFields(
-        payload.leadId || "",
-        includeTranscript
-      );
-    } catch (error) {
-      const status = (error as any)?.status;
-      if (status === 403 || status === 404) {
+    let leadFields: Record<string, unknown> = {};
+    // Internal users have synthetic lead IDs – skip SharePoint lead lookup
+    if (!internalUser) {
+      try {
+        leadFields = await fetchLeadFields(
+          payload.leadId || "",
+          includeTranscript
+        );
+      } catch (error) {
+        const status = (error as any)?.status;
+        if (status === 403 || status === 404) {
+          return NextResponse.json(
+            { error: "lead_invalid" },
+            { status: 401 }
+          );
+        }
+        throw error;
+      }
+      const storedHash =
+        typeof leadFields?.[leadFieldMap.tokenHash] === "string"
+          ? (leadFields[leadFieldMap.tokenHash] as string)
+          : "";
+      const providedToken = payload.leadToken || "";
+      if (!safeEqualHex(storedHash, hashLeadToken(providedToken))) {
         return NextResponse.json(
-          { error: "lead_invalid" },
+          { error: storedHash ? "lead_invalid" : "lead_required" },
           { status: 401 }
         );
       }
-      throw error;
-    }
-    const storedHash =
-      typeof leadFields?.[leadFieldMap.tokenHash] === "string"
-        ? (leadFields[leadFieldMap.tokenHash] as string)
-        : "";
-    const providedToken = payload.leadToken || "";
-    if (!safeEqualHex(storedHash, hashLeadToken(providedToken))) {
-      return NextResponse.json(
-        { error: storedHash ? "lead_invalid" : "lead_required" },
-        { status: 401 }
-      );
     }
     if (!lastUserMessage) {
       return NextResponse.json(
@@ -1024,16 +1068,20 @@ export async function POST(request: Request) {
       );
     }
 
-    const updatedTranscript = await logLeadMessage({
-      leadId: payload.leadId || "",
-      role: "user",
-      content: lastUserMessage,
-      sessionId: payload.sessionId || "",
-      email: payload.email,
-      existingTranscript: includeTranscript
-        ? (leadFields?.[leadFieldMap.transcript] as string | undefined)
-        : undefined,
-    });
+    // Log user message (skip for internal users – no SharePoint record exists)
+    let updatedTranscript: string | undefined;
+    if (!internalUser) {
+      updatedTranscript = await logLeadMessage({
+        leadId: payload.leadId || "",
+        role: "user",
+        content: lastUserMessage,
+        sessionId: payload.sessionId || "",
+        email: payload.email,
+        existingTranscript: includeTranscript
+          ? (leadFields?.[leadFieldMap.transcript] as string | undefined)
+          : undefined,
+      });
+    }
 
     const conversation = await postJson(
       `${baseUrl}/conversations?api-version=${apiVersion}`,
@@ -1061,18 +1109,21 @@ export async function POST(request: Request) {
       throw new Error("Empty response from agent");
     }
 
-    try {
-      await logLeadMessage({
-        leadId: payload.leadId || "",
-        role: "assistant",
-        content: reply,
-        sessionId: payload.sessionId || "",
-        email: payload.email,
-        existingTranscript: includeTranscript ? updatedTranscript : undefined,
-      });
-    } catch (error) {
-      if (DEBUG_VALIDATION) {
-        console.warn("[agent] Failed to log assistant reply", error);
+    // Log assistant reply (skip for internal users – no SharePoint record)
+    if (!internalUser) {
+      try {
+        await logLeadMessage({
+          leadId: payload.leadId || "",
+          role: "assistant",
+          content: reply,
+          sessionId: payload.sessionId || "",
+          email: payload.email,
+          existingTranscript: includeTranscript ? updatedTranscript : undefined,
+        });
+      } catch (error) {
+        if (DEBUG_VALIDATION) {
+          console.warn("[agent] Failed to log assistant reply", error);
+        }
       }
     }
 

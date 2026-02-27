@@ -2,9 +2,25 @@
 
 import { useEffect, useState } from "react";
 
-const ServiceScrollHint = ({ label }: { label: string }) => {
+/**
+ * Floating scroll-down hint badge.
+ *
+ * Reusable on any page that has a full-viewport hero section.
+ * Pass an optional `targetSelector` so the badge can also auto-hide when
+ * the user scrolls the specified element into view (IntersectionObserver).
+ * Defaults to `[data-service-content]` for backward-compatibility with
+ * service pages.
+ */
+const ServiceScrollHint = ({
+  label,
+  targetSelector = "[data-service-content]",
+}: {
+  label: string;
+  /** CSS selector for the content section below the hero. The badge hides
+   *  when this element enters the viewport. */
+  targetSelector?: string;
+}) => {
   const [hidden, setHidden] = useState(false);
-  const targetSelector = "[data-service-content]";
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -47,7 +63,7 @@ const ServiceScrollHint = ({ label }: { label: string }) => {
       motionMedia.removeEventListener?.("change", onMotionChange);
       motionMedia.removeListener?.(onMotionChange);
     };
-  }, []);
+  }, [targetSelector]);
 
   return (
     <div
