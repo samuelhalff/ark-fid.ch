@@ -9,6 +9,7 @@ import Link from "next/link";
 // import "@/src/i18n";
 import heroBlurData from "@/src/lib/heroBlurData.json";
 import { tidyTitle, splitTitle } from "@/src/lib/typography";
+import ServiceScrollHint from "@/src/components/ui/service-scroll-hint";
 
 interface HeroProps {
   locale?: string;
@@ -166,6 +167,12 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
           </a>
         </div>
       </div>
+      {/* Reusable floating scroll hint – same component used on service pages.
+          targetSelector points to #services, the first content section below the hero. */}
+      <ServiceScrollHint
+        label={t("Hero.ScrollHint") || "Discover more"}
+        targetSelector="#services"
+      />
     </section>
   );
 };
