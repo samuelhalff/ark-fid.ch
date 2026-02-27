@@ -10,6 +10,37 @@
   "ImageAltPrefix": "Article illustration",
   "Articles": [
     {
+      "slug": "comptabilite-crypto-fiscalite-suisse-2026",
+      "author": "Ark Fiduciaire",
+      "image": "abstract-background-dark.avif",
+      "date": "2026-02-27",
+      "references": [
+        {
+          "labelKey": "Code des obligations (CO) – Fedlex",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "TVA en Suisse – ESTV",
+          "url": "https://www.estv.admin.ch/estv/fr/home/mehrwertsteuer.html"
+        },
+        {
+          "labelKey": "Swiss GAAP FER – Fondation FER",
+          "url": "https://www.fer.ch/fr/"
+        },
+        {
+          "labelKey": "Portail PME – KMU.admin.ch",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
+        },
+        {
+          "labelKey": "Odoo Accounting Documentation",
+          "url": "https://www.odoo.com/documentation/17.0/applications/finance/accounting.html"
+        }
+      ],
+      "title": "Crypto accounting in Switzerland: tax rules, valuation and year-end close 2026",
+      "description": "Practical guide for SMEs, freelancers and holdings: how to record crypto assets, value the balance sheet, handle VAT and secure Swiss tax filings.",
+      "content": "Crypto assets (bitcoin, ether, stablecoins, utility tokens) are now part of SME treasury, incentive plans and supplier payments. In 2026 the challenge is no longer buying crypto, but keeping **reliable accounting records** and **tax filings** that align with Swiss requirements. This article summarizes the key steps to maintain a clean crypto ledger, value the balance sheet and avoid frequent tax mistakes.\n\n## 1. Why crypto accounting is a major topic in 2026\n\nSwiss authorities now expect **full traceability** of flows and transparent valuations of digital assets. Key trends pushing the topic:\n\n- more treasury allocations in stablecoins to manage liquidity\n- supplier payments in crypto with instant conversions\n- token-based incentive plans\n- increased tax audits on declaration consistency\n\n## 2. Classify crypto assets in the Swiss chart of accounts\n\nStart with a **consistent accounting classification** based on usage:\n\n- **crypto treasury**: tokens used for short-term payments\n- **intangible assets**: long-term positions treated as intangible assets\n- **trading inventory**: for active trading or market-making\n- **utility tokens**: often tracked as prepaid rights or advances\n\nA clear mapping reduces year-end adjustments and helps auditors review the file.\n\n## 3. Record purchases, sales and transaction fees\n\nEvery crypto transaction must be converted to CHF on the transaction date. Good practice includes:\n\n- use a **documented exchange rate** (platform, aggregator, or internal reference)\n- book **network fees** and commissions as operating expenses\n- store the transaction hash in the accounting support\n\nIsolating FX gains or losses makes tax analysis easier.\n\n## 4. Valuation and year-end close: methods and evidence\n\nThe 2026 close requires prudent valuation:\n\n1. **Current assets**: apply the **lower of cost or market** principle.\n2. **Intangibles**: test for impairment if prices drop sustainably.\n3. **Stablecoins**: verify liquidity and potential depegging risk.\n\nKeep evidence of the reference rate as of 31.12 (exports, screenshots) and document the chosen method in the closing file.\n\n## 5. Corporate income tax, wealth tax and private gains\n\nTax impacts vary by profile:\n\n- **companies**: valuation changes affect taxable profit and the balance sheet\n- **self-employed**: crypto used in business is treated as professional assets\n- **private investors**: capital gains are generally tax-exempt unless activity becomes professional\n\nAnnual reviews avoid an unintended switch into professional trading status.\n\n## 6. VAT and invoicing in crypto\n\nVAT applies to the CHF value of the goods or services supplied. Key rules:\n\n- invoice in CHF, even when payment is settled in crypto\n- document the conversion rate used\n- book output and input VAT like a traditional sale\n\nService providers accepting crypto should align invoicing with the tax authority’s requirements.\n\n## 7. Mining, staking and DeFi: tax treatment\n\nIncome from mining, staking or lending is generally **taxable revenue**. Key points:\n\n- recognize income on the receipt date\n- track related expenses (energy, hardware, software)\n- separate lending interest from trading gains\n\nDocumentation is essential to justify revenue classification.\n\n## 8. Documentation and audit trail\n\nStrong crypto accounting relies on evidence that is easy to audit:\n\n- register of wallets and platforms used\n- monthly transaction exports\n- reconciliation between wallets, banks and the general ledger\n- justification of internal transfers (cold wallet, custody)\n\nWithout this, the risk of tax adjustments rises quickly.\n\n## 9. Tools and accounting automation\n\nSwiss SMEs favor tools that integrate crypto into the general ledger. Priorities include:\n\n- connectors to exchanges and wallets\n- automated transaction categorization\n- CHF valuation reports\n- integration with ERP and invoicing (e.g., Odoo)\n\nThe goal is fewer manual entries and a reliable close.\n\n## 10. 2026 compliance checklist\n\n- define an internal policy for holding and converting crypto\n- set and document the valuation method\n- trace each transaction and conversion rate\n- separate crypto accounts by usage (treasury, investments, trading)\n- review tax impact before closing\n\n## Trending keywords 2026\n\nswitzerland crypto accounting, swiss crypto tax filing, balance sheet crypto valuation, corporate token reporting, Swiss GAAP FER crypto, VAT crypto payments, crypto audit Geneva, treasury crypto reporting.\n\n## How Ark Fiduciaire supports crypto businesses\n\nWe help SMEs and holdings structure crypto accounting, secure year-end entries and prepare compliant tax filings. Our team combines fiduciary expertise with digital tools to increase data reliability and reduce audit risk.\n\n### Related Services\n\n- [Accounting Services](/services/accounting)\n- [Tax Services](/services/taxes)\n- [Outsourcing Services](/services/outsourcing)\n- [Odoo Integration](/services/odoo)\n- [Contact Us](/contact)"
+    },
+    {
       "slug": "anobag-suisse-permis-travail",
       "author": "Ark Fiduciaire",
       "image": "abstract-background-dark.avif",
