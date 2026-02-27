@@ -975,7 +975,8 @@
   "Contact": {
     "Title": "Get in touch",
     "Description": "Our experts can help you understand the details and implications for your business. Get personalised advice tailored to your situation.",
-    "ButtonText": "Contact our team"
+    "ButtonText": "Contact our team",
+    "SecondaryButtonText": "Get an instant quote"
   },
   "ReadingTime": "Reading time",
   "Minutes": "min",

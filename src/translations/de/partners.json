@@ -64,6 +64,7 @@
         "Title": "Partner werden",
         "Description": "Interessiert an der Erkundung von Partnerschaftsmöglichkeiten?",
         "CallToAction": "Kontaktieren Sie uns, um zu besprechen, wie wir zusammenarbeiten können, um unsere Kunden besser zu bedienen.",
-        "ButtonText": "Kontakt aufnehmen"
+        "ButtonText": "Kontakt aufnehmen",
+        "SecondaryButtonText": "Sofortangebot erhalten"
     }
 }

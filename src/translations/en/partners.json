@@ -65,6 +65,7 @@
         "Title": "Partner with us",
         "Description": "Interested in exploring partnership opportunities?",
         "CallToAction": "Contact us to discuss how we can collaborate to serve our clients better.",
-        "ButtonText": "Contact us"
+        "ButtonText": "Contact us",
+        "SecondaryButtonText": "Get an instant quote"
     }
 }

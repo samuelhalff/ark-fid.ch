@@ -967,7 +967,8 @@
   "Contact": {
     "Title": "Kontakt aufnehmen",
     "Description": "Unsere Experten helfen Ihnen, die Details und Auswirkungen für Ihr Unternehmen zu verstehen. Erhalten Sie persönliche Beratung, die auf Ihre Situation zugeschnitten ist.",
-    "ButtonText": "Unser Team kontaktieren"
+    "ButtonText": "Unser Team kontaktieren",
+    "SecondaryButtonText": "Sofortangebot erhalten"
   },
   "ReadingTime": "Lesezeit",
   "Minutes": "min",

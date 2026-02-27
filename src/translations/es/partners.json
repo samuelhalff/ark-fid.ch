@@ -64,6 +64,7 @@
         "Title": "Asociarse con Nosotros",
         "Description": "¿Interesado en explorar oportunidades de asociación?",
         "CallToAction": "Contáctanos para discutir cómo podemos colaborar para servir mejor a nuestros clientes.",
-        "ButtonText": "Contáctanos"
+        "ButtonText": "Contáctanos",
+        "SecondaryButtonText": "Obtenga un presupuesto instantáneo"
     }
 }
