@@ -12,7 +12,8 @@
         "BadgeTwo": "Potenciado por IA",
         "OdooBadge": "Soluções digitais e ERP",
         "OdooPartnerBadge": "Parceiro Odoo oficial",
-        "ImageAlt": "Profissionais da Ark Fiduciaire a prestar serviços fiduciários, contabilísticos e fiscais a empresas suíças"
+        "ImageAlt": "Profissionais da Ark Fiduciaire a prestar serviços fiduciários, contabilísticos e fiscais a empresas suíças",
+        "ScrollHint": "Descobrir mais"
     },
     "Services": {
         "Title": "Os nossos serviços",

@@ -12,7 +12,8 @@
         "BadgeTwo": "KI-gestützt",
         "OdooBadge": "Digitale & ERP-Lösungen",
         "OdooPartnerBadge": "Offizieller Odoo-Partner",
-        "ImageAlt": "Ark Fiduciaire Fachleute unterstützen Schweizer Unternehmen mit Treuhand-, Buchhaltungs- und Steuerleistungen"
+        "ImageAlt": "Ark Fiduciaire Fachleute unterstützen Schweizer Unternehmen mit Treuhand-, Buchhaltungs- und Steuerleistungen",
+        "ScrollHint": "Mehr entdecken"
     },
     "Services": {
         "Title": "Unsere Dienstleistungen",
