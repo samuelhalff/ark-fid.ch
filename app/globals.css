@@ -333,16 +333,3 @@ summary.faq-summary::marker {
 .animate-testimonials-scroll:hover {
   animation-play-state: paused;
 }
-
-/* Respect reduced motion preference */
-@media (prefers-reduced-motion: reduce) {
-  .testimonials-carousel {
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .animate-testimonials-scroll {
-    animation: none;
-  }
-}

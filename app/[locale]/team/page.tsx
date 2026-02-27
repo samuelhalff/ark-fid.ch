@@ -186,6 +186,10 @@ export default async function TeamPage(
         buttonText={
           (tRessources("Contact.ButtonText") as string) || "Contact Our Team"
         }
+        secondaryButtonText={
+          (tRessources("Contact.SecondaryButtonText") as string) ||
+          "Get an instant quote"
+        }
       />
     </div>
   );
