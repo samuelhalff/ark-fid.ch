@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-28T00:05:33.963Z",
+  "generatedAt": "2026-03-01T00:06:28.954Z",
   "config": {
     "maxSuggestions": 10,
     "driftRatio": 0.4,
@@ -212,6 +212,7 @@
           "google": [
             "fiscalité genève",
             "finance genève",
+            "taxe genève",
             "formation fiscalité genève"
           ],
           "bing": [
@@ -244,15 +245,14 @@
         "domiciliation genève": {
           "google": [
             "domiciliation genève",
-            "domiciliation geneve pas cher",
             "domicile genève",
-            "domiciliation entreprise genève",
             "domiciliation particulier genève",
             "domiciliation entreprise genève prix",
             "domiciliation fiscale genève",
+            "domiciliation société genève",
             "domiciliation indépendant genève",
-            "domiciliation entreprise genève pas cher",
-            "domiciliation association genève"
+            "domiciliation association genève",
+            "fiduciaire domiciliation genève"
           ],
           "bing": [
             "domiciliation genève"
@@ -263,9 +263,7 @@
         "création société genève": {
           "google": [
             "création société genève",
-            "création sarl genève",
-            "création entreprise genève",
-            "ouvrir societe geneve"
+            "création sarl genève"
           ],
           "bing": []
         }
@@ -334,9 +332,9 @@
             "immigration suisse 2026",
             "immigration suisse 2025",
             "immigration suisse site officiel",
+            "immigration suisse 2026 inscription",
             "immigration suisse 2025 inscription",
             "immigration suisse contact",
-            "immigration suisse 2026 inscription",
             "immigration suisse par nationalité",
             "immigration suisse en france",
             "immigration suisse en alsace"
@@ -401,8 +399,6 @@
             "wages switzerland",
             "switzerland payroll taxes",
             "switzerland payroll company",
-            "payroll plus switzerland",
-            "switzerland payroll services",
             "payroll jobs in switzerland",
             "daily wages in switzerland"
           ],
@@ -525,9 +521,9 @@
             "swiss immigration policy",
             "swiss immigration to the us",
             "swiss immigration to america 1700s",
+            "swiss immigration laws",
             "swiss immigration lawyer",
             "swiss immigration problems",
-            "swiss immigration laws",
             "swiss immigration referendum",
             "swiss immigration model",
             "swiss immigration statistics"
@@ -718,11 +714,11 @@
             "contabilidad general concepto",
             "contabilidad general 1",
             "contabilidad general libro",
-            "contabilidad general inacap",
+            "contabilidad general online",
             "contabilidad general libro pdf",
-            "contabilidad general pedro zapata pdf",
-            "contabilidad general erly zeballos pdf",
-            "contabilidad general que es"
+            "contabilidad general que es",
+            "contabilidad general inacap",
+            "contabilidad general anzures"
           ]
         }
       },
