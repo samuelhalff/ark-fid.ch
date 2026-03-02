@@ -104,7 +104,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
     areaServed: ["Geneva", "Switzerland", "Genève", "Suisse"],
     sameAs: [
       "https://www.linkedin.com/company/ark-fiduciaire/",
-      "https://maps.google.com/?cid=11595836239142935457",
+      "https://maps.google.com/?cid=14946625157719331801",
     ],
   });
 
