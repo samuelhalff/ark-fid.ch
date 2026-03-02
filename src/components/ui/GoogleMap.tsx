@@ -25,10 +25,10 @@ export interface GoogleMapProps {
   };
 }
 
-const DEFAULT_LAT = 46.2039844;
-const DEFAULT_LNG = 6.1426851;
-// Real Ark Fiduciaire Google CID (example value – replace if needed)
-export const ARK_GOOGLE_CID = "11150574028817027076";
+const DEFAULT_LAT = 46.2021556;
+const DEFAULT_LNG = 6.1399595;
+// Ark Fiduciaire SA Google CID (place ID 0x478c65f758b086cb:0xcf6d1463ecc713d9)
+export const ARK_GOOGLE_CID = "14946625157719331801";
 
 // Server component wrapper (no hooks here)
 export const GoogleMap = async ({

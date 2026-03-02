@@ -59,15 +59,15 @@ export default async function ContactPage(
     url: "https://ark-fid.ch",
     geo: {
       "@type": "GeoCoordinates",
-      latitude: 46.2039844,
-      longitude: 6.1426851,
+      latitude: 46.2021556,
+      longitude: 6.1399595,
     },
-    hasMap: "https://maps.google.com/?cid=11150574028817027076",
-    identifier: "11150574028817027076",
+    hasMap: "https://maps.google.com/?cid=14946625157719331801",
+    identifier: "14946625157719331801",
     telephone: "+41225125050",
     sameAs: [
       "https://www.google.com/maps/place/Ark+Fiduciaire+SA/",
-      "https://maps.google.com/?cid=11150574028817027076",
+      "https://maps.google.com/?cid=14946625157719331801",
     ],
     address: {
       "@type": "PostalAddress",

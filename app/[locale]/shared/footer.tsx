@@ -158,7 +158,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
           </p>
           <p>
             <a
-              href="https://maps.google.com/?cid=11595836239142935457"
+              href="https://maps.google.com/?cid=14946625157719331801"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 dark:text-blue-400 hover:underline"

@@ -285,7 +285,7 @@ export function generateOrganizationStructuredData() {
     "sameAs": [
       // Populate with real profiles when available
       "https://www.linkedin.com/company/ark-fiduciaire/",
-      "https://maps.google.com/?cid=11595836239142935457"
+      "https://maps.google.com/?cid=14946625157719331801"
     ],
     "areaServed": ["Geneva", "Romandy", "Switzerland", "International"],
     "knowsAbout": [
@@ -344,7 +344,7 @@ export function generateLocalBusinessStructuredData() {
     ],
     "sameAs": [
       "https://www.linkedin.com/company/ark-fiduciaire",
-      "https://maps.google.com/?cid=11595836239142935457"
+      "https://maps.google.com/?cid=14946625157719331801"
     ],
     "priceRange": "CHF",
     "telephone": "+41 22 512 50 50"
