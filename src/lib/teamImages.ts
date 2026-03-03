@@ -7,6 +7,8 @@ import rs from "@/public/assets/team/rs.avif";
 import ld from "@/public/assets/team/ld.avif";
 import at from "@/public/assets/team/at.avif";
 import cl from "@/public/assets/team/cl.avif";
+import sg from "@/public/assets/team/sg.avif";
+import mh from "@/public/assets/team/mh.avif";
 
 export const teamImageMap: Record<string, any> = {
   "/assets/team/hb.avif": hb,
@@ -15,4 +17,6 @@ export const teamImageMap: Record<string, any> = {
   "/assets/team/ld.avif": ld,
   "/assets/team/at.avif": at,
   "/assets/team/cl.avif": cl,
+  "/assets/team/sg.avif": sg,
+  "/assets/team/mh.avif": mh,
 };

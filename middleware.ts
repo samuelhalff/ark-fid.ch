@@ -27,7 +27,7 @@ export function middleware(request: NextRequest) {
 
   // Normalize locale-prefixed requests for common root assets (e.g. /en/favicon.png -> /favicon.png)
   const staticRootAsset = pathname.match(
-    /^\/[a-z]{2}\/(favicon\.(?:png|ico|svg)|apple-touch-icon\.png|site\.webmanifest|manifest\.webmanifest)$/
+    /^\/[a-z]{2}\/(favicon\.(?:png|ico|svg)|apple-touch-icon\.png|site\.webmanifest|manifest\.webmanifest)$/,
   );
   if (staticRootAsset) {
     const target = "/" + staticRootAsset[1];
@@ -114,12 +114,12 @@ export function middleware(request: NextRequest) {
       response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
       response.headers.set(
         "Permissions-Policy",
-        "geolocation=(), microphone=(), camera=()"
+        "geolocation=(), microphone=(), camera=()",
       );
       if (isProd) {
         response.headers.set(
           "Strict-Transport-Security",
-          "max-age=63072000; includeSubDomains; preload"
+          "max-age=63072000; includeSubDomains; preload",
         );
       }
       if (shouldNoIndex) {
@@ -146,7 +146,7 @@ export function middleware(request: NextRequest) {
     // /[team](/team) -> /team
     // /services/[taxes](/services/taxes) -> /services/taxes
     const mdPathMatch = restNoTrailingSlash.match(
-      /^\/(?:services\/)?\[[^\]]+\]\((\/[^)]+)\)$/
+      /^\/(?:services\/)?\[[^\]]+\]\((\/[^)]+)\)$/,
     );
     if (mdPathMatch) {
       let innerPath = mdPathMatch[1];
@@ -162,24 +162,27 @@ export function middleware(request: NextRequest) {
 
   // Check if the path already has a locale
   const pathnameHasLocale = locales.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   );
 
   if (pathnameHasLocale) {
     // Extract locale and set it in headers for the pages to use
     const locale = pathname.split("/")[1];
-    
+
     // Check if we need to add trailing slash to prevent redirect chains
     // When trailingSlash: true is set in next.config.js, URLs without trailing slash
     // would cause Next.js to redirect, creating "Page with redirect" issues in GSC
     // Skip for: file extensions, opengraph-image routes, API-like paths
     const hasFileExtension = /\.[a-zA-Z0-9]+$/.test(pathname);
-    const isSpecialRoute = pathname.includes("/opengraph-image") || pathname.includes("/twitter-image");
-    const needsTrailingSlash = pathname !== `/${locale}` && 
-                               !pathname.endsWith("/") && 
-                               !hasFileExtension && 
-                               !isSpecialRoute;
-    
+    const isSpecialRoute =
+      pathname.includes("/opengraph-image") ||
+      pathname.includes("/twitter-image");
+    const needsTrailingSlash =
+      pathname !== `/${locale}` &&
+      !pathname.endsWith("/") &&
+      !hasFileExtension &&
+      !isSpecialRoute;
+
     if (needsTrailingSlash) {
       // Redirect to trailing slash version to avoid double redirect
       const targetPath = `${pathname}/`;
@@ -195,12 +198,12 @@ export function middleware(request: NextRequest) {
       response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
       response.headers.set(
         "Permissions-Policy",
-        "geolocation=(), microphone=(), camera=()"
+        "geolocation=(), microphone=(), camera=()",
       );
       if (isProd) {
         response.headers.set(
           "Strict-Transport-Security",
-          "max-age=63072000; includeSubDomains; preload"
+          "max-age=63072000; includeSubDomains; preload",
         );
       }
       if (shouldNoIndex) {
@@ -211,7 +214,7 @@ export function middleware(request: NextRequest) {
       }
       return response;
     }
-    
+
     // Propagate request headers so Server Components can read them via headers()
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set("x-locale", locale);
@@ -233,14 +236,14 @@ export function middleware(request: NextRequest) {
     response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
     response.headers.set(
       "Permissions-Policy",
-      "geolocation=(), microphone=(), camera=()"
+      "geolocation=(), microphone=(), camera=()",
     );
     // Append Trusted Types enforcement
     response.headers.set("Content-Security-Policy", csp);
     if (isProd) {
       response.headers.set(
         "Strict-Transport-Security",
-        "max-age=63072000; includeSubDomains; preload"
+        "max-age=63072000; includeSubDomains; preload",
       );
     }
     if (shouldNoIndex) {
@@ -272,13 +275,13 @@ export function middleware(request: NextRequest) {
   response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
   response.headers.set(
     "Permissions-Policy",
-    "geolocation=(), microphone=(), camera=()"
+    "geolocation=(), microphone=(), camera=()",
   );
   // Removed report-only header
   if (isProd) {
     response.headers.set(
       "Strict-Transport-Security",
-      "max-age=63072000; includeSubDomains; preload"
+      "max-age=63072000; includeSubDomains; preload",
     );
   }
   if (shouldNoIndex) {
@@ -316,6 +319,6 @@ export const config = {
   // Skip only internal/static paths that should not be internationalized
   // Allow `ressources` and other content routes to be redirected to /<locale>/...
   matcher: [
-    "/((?!_next|api|assets|favicon.ico|favicon.png|favicon.svg|apple-touch-icon.png|site.webmanifest|manifest.webmanifest|robots.txt|sitemap|sitemap.xml|sitemap_index.xml|browserconfig.xml|BingSiteAuth.xml|.*.txt).*)",
+    "/((?!_next|api|assets|\\.well-known|favicon.ico|favicon.png|favicon.svg|apple-touch-icon.png|site.webmanifest|manifest.webmanifest|robots.txt|sitemap|sitemap.xml|sitemap_index.xml|browserconfig.xml|BingSiteAuth.xml|.*.txt).*)",
   ],
 };

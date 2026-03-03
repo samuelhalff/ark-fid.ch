@@ -131,7 +131,7 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Sébastien Gallié",
     role: "SeniorAccountant",
-    profilePic: "",
+    profilePic: "/assets/team/sg.avif",
     social: {
       linkedin: "https://ch.linkedin.com/in/s%C3%A9bastien-galli%C3%A9",
     },
@@ -141,7 +141,7 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Maulk Hamdi",
     role: "Associate",
-    profilePic: "",
+    profilePic: "/assets/team/mh.avif",
     social: {
       linkedin: "https://www.linkedin.com/in/maulk-hamdi-b47b68361",
     },
