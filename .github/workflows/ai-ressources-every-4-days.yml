@@ -241,7 +241,7 @@ jobs:
           REFERENCE_MIN_TRUSTED_DOMAINS: "1"
           REFERENCE_MIN_COUNT: "4"
           REFERENCE_MAX_COUNT: "6"
-          REFERENCE_BLOCKED_DOMAINS: "pwc.ch,bdo.ch,karpeo.ch"
+          REFERENCE_BLOCKED_DOMAINS: ""
           # Enforce minimum article length (SEO)
           SEO_MIN_WORDS: "1500"
           SEO_MAX_WORDS: "3000"

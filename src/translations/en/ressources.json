@@ -1179,10 +1179,6 @@
           "url": "https://fr.wikipedia.org/wiki/Comptabilit%C3%A9_d%27entreprise"
         },
         {
-          "labelKey": "Méthodes comptables liées à la TVA en Suisse — Guide 2025",
-          "url": "https://magicheidi.ch/fr/blog/les-differentes-methodes-de-decompte-tva-que-choisir"
-        },
-        {
           "labelKey": "Directive relative à la clôture annuelle des comptes",
           "url": "https://www.francophonie.org/sites/default/files/2021-04/Directive_cloture_annuelle_des_comptes_NDIR%20-%2004_2021.PDF"
         },
@@ -1370,28 +1366,12 @@
       "date": "2026-02-26",
       "references": [
         {
-          "labelKey": "Optimisation fiscale dirigeant et arbitrage salaire/dividendes",
-          "url": "https://www.vermoegenszentrum.ch/fr/competences/optimisation-fiscale-pour-entrepreneurs-salaire-ou-dividende"
-        },
-        {
-          "labelKey": "Statut PME Suisse : Salaire ou dividende ?",
-          "url": "https://enfinfidu.ch/dividende-ou-salaire-que-choisir-en-tant-quactionnaire-de-pme-suisse/"
-        },
-        {
           "labelKey": "Dividende ou salaire : tout est question de proportionnalité",
           "url": "https://www.he-arc.ch/chroniques-ilce/salaire-vs-dividende-tout-est-question-de-proportionnalite/"
         },
         {
           "labelKey": "Optimisation fiscale des dividendes",
           "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots/non-imposition/optimiser-declaration.html"
-        },
-        {
-          "labelKey": "Salaire ou dividende : choisir au mieux pour un dirigeant suisse",
-          "url": "https://entreprendre.ch/fiches-pratiques/fiscalite/salaire-ou-dividende-que-choisir/"
-        },
-        {
-          "labelKey": "Propriétaire de SA/Sàrl et arbitrage rémunération",
-          "url": "https://fasoon.ch/fr/salaire-ou-dividende-pour-le-proprietaire-dune-sa-ou-dune-sarl/"
         }
       ]
     },
@@ -1524,18 +1504,6 @@
           "url": "https://goldblum.ch/fr/base-de-connaissances/domiciliation-entreprise-quel-canton-choisir"
         },
         {
-          "labelKey": "Avantages et défis de la domiciliation en Suisse",
-          "url": "https://fiduciaireattitud.ch/avantages-a-domicilier-son-entreprise-en-suisse/"
-        },
-        {
-          "labelKey": "Faire face aux risques liés à la domiciliation en Suisse",
-          "url": "https://tek-consulting-services.ch/domicilier-une-entreprise-en-suisse/"
-        },
-        {
-          "labelKey": "Obligations légales pour la domiciliation en Suisse",
-          "url": "https://avocatssansfrontieres.ch/domiciliation-dentreprise-un-choix-strategique-et-legal-pour-votre-activite/"
-        },
-        {
           "labelKey": "Régulations liées à la domiciliation en Suisse (source officielle)",
           "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
@@ -1552,10 +1520,6 @@
         {
           "labelKey": "Créer une entreprise : Inscription au registre du commerce",
           "url": "https://www.startups.ch/fr/blog/creation-dentreprise-en-suisse-guide-complet"
-        },
-        {
-          "labelKey": "Guide complet Registre du commerce en Suisse 2026 (MagicHeidi)",
-          "url": "https://magicheidi.ch/fr/commerce-register-switzerland-2026"
         },
         {
           "labelKey": "Communication officielle OFRC (État de Vaud 2025)",
