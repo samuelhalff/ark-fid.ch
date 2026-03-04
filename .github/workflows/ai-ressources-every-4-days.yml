@@ -407,9 +407,19 @@ jobs:
           else:
               print("⚠️ UNSPLASH_ACCESS_KEY not set; skipping image fetch")
 
-          # Build a concise LinkedIn comment/CTA from the article description (max 200 chars)
-          summary = description[:200].rsplit(' ', 1)[0] if len(description) > 200 else description
-          comment = f"{summary}. Découvrez l'article complet sur Ark Fiduciaire →" if summary else f"Découvrez notre dernier article : {title} →"
+          # Build a concise LinkedIn comment/CTA from the article description (max ~200 chars)
+          # Truncate at the last complete sentence boundary to avoid dangling fragments
+          if len(description) > 200:
+              truncated = description[:200].rsplit(' ', 1)[0]
+              last_end = max(truncated.rfind('.'), truncated.rfind('!'), truncated.rfind('?'))
+              summary = truncated[:last_end + 1] if last_end > 0 else truncated + '…'
+          else:
+              summary = description
+          if summary:
+              sep = ' ' if summary[-1:] in '.!?' else '. '
+              comment = f"{summary}{sep}Découvrez l'article complet sur Ark Fiduciaire →"
+          else:
+              comment = f"Découvrez notre dernier article : {title} →"
 
           payload = json.dumps({
               "title": title,
