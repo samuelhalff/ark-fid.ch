@@ -1,43 +1,97 @@
-// Keyword patterns that indicate a competitor domain (fiduciaries, lawyers,
-// accountants, tax advisors, etc.) in French, German, English, and Italian.
-// A hostname that matches any of these patterns is automatically blocked
-// unless it belongs to the TRUSTED_DOMAINS list.
-const COMPETITOR_KEYWORD_PATTERNS = [
-  // French
-  /fiduciai/i,
-  /fiduci[eè]/i,
-  /avocat/i,
-  /notaire/i,
-  /comptabl/i,
-  /expert[\s-]?compt/i,
-  /conseil[\s-]?fiscal/i,
-  /r[eé]visor/i,
-  // German
-  /treuhand/i,
-  /steuerber/i,
-  /anwalt/i,
-  /anw[aä]lt/i,
-  /kanzlei/i,
-  /buchhal/i,
-  /notar/i,
-  /rechtsanw/i,
-  /wirtschaftspr[uü]f/i,
-  /revisi[oó]n/i,
-  // English
-  /\blawyer/i,
-  /\battorney/i,
-  /\baccountan/i,
-  /\bbookkeep/i,
-  // Italian
-  /fiduciari[ao]/i,
-  /avvocat/i,
-  /contabil/i,
-  /commercialis/i,
-  /notaio/i,
-  // Generic / abbreviation patterns
-  /\bfidu\b/i,
-  /\bfidu[.-]/i,
-  /\btax[\s-]?consult/i,
+// Whitelist of domains allowed as article references.  Any domain NOT on this
+// list (or added at runtime via REFERENCE_ALLOWED_DOMAINS) is automatically
+// rejected.  This replaces the previous blacklist + keyword-heuristic approach
+// which could never keep up with new competitor sites.
+//
+// Categories:
+//   - Swiss federal government (admin.ch and subdomains)
+//   - Swiss portal (ch.ch)
+//   - All 26 Swiss cantonal domains
+//   - Swiss official bodies & registries
+//   - Social insurance organisations
+//   - Professional & industry associations
+//   - International knowledge / reference sites
+//   - Software & tools relevant to services
+//   - Odoo ecosystem partners (referenced in integration articles)
+//   - Self-reference (ark-fid.ch)
+//   - Academic / educational institutions
+//
+// Keep alphabetically sorted within each section for easy maintenance.
+const ALLOWED_REFERENCE_DOMAINS = [
+  // Swiss federal government (covers all *.admin.ch subdomains)
+  "admin.ch",
+  // Swiss portal
+  "ch.ch",
+  // Swiss cantons (all 26)
+  "ag.ch",
+  "ai.ch",
+  "ar.ch",
+  "be.ch",
+  "bl.ch",
+  "bs.ch",
+  "fr.ch",
+  "ge.ch",
+  "gl.ch",
+  "gr.ch",
+  "ju.ch",
+  "lu.ch",
+  "ne.ch",
+  "nw.ch",
+  "ow.ch",
+  "sg.ch",
+  "sh.ch",
+  "so.ch",
+  "sz.ch",
+  "tg.ch",
+  "ti.ch",
+  "ur.ch",
+  "vd.ch",
+  "vs.ch",
+  "zg.ch",
+  "zh.ch",
+  // Swiss official bodies & registries
+  "ahv-iv.ch",
+  "caisseavs.ch",
+  "finma.ch",
+  "snb.ch",
+  "swissdec.ch",
+  "zefix.ch",
+  // Swiss cantonal social insurance / compensation funds
+  "aknw.ch",
+  "akso.ch",
+  "cdas.ch",
+  "sva-bl.ch",
+  "sva-sz.ch",
+  "svash.ch",
+  // Professional & industry associations
+  "amsuisse.ch",
+  "ccig.ch",
+  "economiesuisse.ch",
+  "fer.ch",
+  "swissaccounting.org",
+  "veb.ch",
+  // International knowledge / reference
+  "europa.eu",
+  "francophonie.org",
+  "gaapex.ch",
+  "oecd.org",
+  "wikipedia.org",
+  // Software & tools
+  "github.com",
+  "odoo.com",
+  // Odoo ecosystem partners
+  "cobalt-it.ch",
+  "ficops.ch",
+  "fidflow.ch",
+  "hoop.swiss",
+  "houle.ai",
+  "niris.ch",
+  "open-net.ch",
+  // Academic / educational
+  "controledegestion.org",
+  "he-arc.ch",
+  // Self-reference
+  "ark-fid.ch",
 ];
 
 const DEFAULT_TIMEOUT_MS = parseInt(process.env.LINK_CHECK_TIMEOUT_MS || "10000", 10);
@@ -87,120 +141,36 @@ function parseDomainList(raw) {
     .filter(Boolean);
 }
 
-// Known competitor domains to exclude from article references by default.
-// This list is a hard blocklist – domains here are always rejected regardless
-// of keyword patterns.  Keep it alphabetically sorted for easy maintenance.
-const DEFAULT_BLOCKED_DOMAINS = [
-  "aag-fiduciaire.ch",
-  "aapartnertreuhand.ch",
-  "aaretax.ch",
-  "ackermann-treuhand.ch",
-  "acctive.ch",
-  "adbtax.ch",
-  "agfiduciaire.ch",
-  "alltax.ch",
-  "avocatssansfrontieres.ch",
-  "balmer-etienne.ch",
-  "bbtreuhand.ch",
-  "bdo.ch",
-  "berneyassocies.com",
-  "calliopee.ch",
-  "caminada.com",
-  "cofidest.ch",
-  "cofidest-swiss-audit.ch",
-  "core-partner.ch",
-  "deloitte.ch",
-  "dlg.ch",
-  "enfinfidu.ch",
-  "entreprendre.ch",
-  "eurexsuisse.com",
-  "ey.com",
-  "fasoon.ch",
-  "fbk-conseils.ch",
-  "fg-fiduciaire.ch",
-  "fidag-sa.ch",
-  "fidinam.com",
-  "fiduciaire-rutz-menger.ch",
-  "fiducom.ch",
-  "fidulex.ch",
-  "fidurolle.ch",
-  "financialkeepers.ch",
-  "findea.ch",
-  "finwise.ch",
-  "ftrust.ch",
-  "grantthornton.ch",
-  "grf-societe-fiduciaire.ch",
-  "gtf.ch",
-  "karpeo.ch",
-  "kaurum.com",
-  "kendris.com",
-  "kpmg.ch",
-  "liberal-vd.ch",
-  "magicheidi.ch",
-  "mazars.ch",
-  "mm-t.ch",
-  "nexova.ch",
-  "obt.ch",
-  "omnitax.ch",
-  "pkf.swiss",
-  "pwc.ch",
-  "retax.ch",
-  "rister.ch",
-  "rnptreuhand.ch",
-  "roux-associes.ch",
-  "safe-fiduciaire.ch",
-  "swissdomiciliation.ch",
-  "tax-services.ch",
-  "taxpartner.ch",
-  "tek-consulting-services.ch",
-  "treuco.ch",
-  "vermoegenszentrum.ch",
-  "wadsack.ch",
-  "y-fiduciaire.ch",
-  "zuffereypanigas.ch",
-];
-const BLOCKED_DOMAINS = Array.from(
+// Runtime-extended allowlist: merge the built-in list with any domains added
+// via the REFERENCE_ALLOWED_DOMAINS environment variable (comma-separated).
+const ALLOWED_DOMAINS = Array.from(
   new Set([
-    ...DEFAULT_BLOCKED_DOMAINS,
-    ...parseDomainList(process.env.REFERENCE_BLOCKED_DOMAINS)
+    ...ALLOWED_REFERENCE_DOMAINS,
+    ...parseDomainList(process.env.REFERENCE_ALLOWED_DOMAINS),
   ])
 );
 
-function isAllowedByList(url, allowedDomains) {
-  if (!allowedDomains || allowedDomains.length === 0) return true;
-  try {
-    const host = new URL(url).hostname.toLowerCase();
-    return allowedDomains.some(
-      (d) => host === d || host.endsWith(`.${d}`),
-    );
-  } catch {
-    return false;
-  }
-}
+// Optional explicit blocklist via environment variable.  Domains listed here
+// are rejected even if they appear in the allowlist (emergency override).
+const BLOCKED_DOMAINS = parseDomainList(process.env.REFERENCE_BLOCKED_DOMAINS);
 
-function isBlockedDomain(url, blockedDomains = BLOCKED_DOMAINS) {
-  if (!blockedDomains || blockedDomains.length === 0) return false;
+function isBlockedDomain(url, extraBlocked = BLOCKED_DOMAINS) {
   try {
     const host = new URL(url).hostname.toLowerCase();
-    // Exact domain match
+    // Explicit runtime blocklist takes priority (emergency override)
     if (
-      blockedDomains.some((d) => host === d || host.endsWith(`.${d}`))
+      extraBlocked &&
+      extraBlocked.length > 0 &&
+      extraBlocked.some((d) => host === d || host.endsWith(`.${d}`))
     ) {
       return true;
     }
-    // Keyword-based heuristic: skip for trusted/official domains
-    if (
-      TRUSTED_DOMAINS.some(
-        (d) => host === d || host.endsWith(`.${d}`),
-      )
-    ) {
-      return false;
-    }
-    // Strip www. and TLD for pattern matching (e.g. "www.fiduciaire-xyz.ch" → "fiduciaire-xyz")
-    const stripped = host.replace(/^www\./, "").replace(/\.[a-z]{2,}$/, "");
-    return COMPETITOR_KEYWORD_PATTERNS.some((re) => re.test(stripped));
+    // Whitelist approach: allow only domains in the allowed list
+    return !ALLOWED_DOMAINS.some(
+      (d) => host === d || host.endsWith(`.${d}`),
+    );
   } catch {
-    return false;
+    return true;
   }
 }
 
@@ -497,8 +467,6 @@ async function validateUrl(url, options = {}) {
  */
 async function validateReferences(references, options = {}) {
   const { concurrency = 4, ...validateOptions } = options;
-  const requireTrusted = process.env.REFERENCE_REQUIRE_TRUSTED_DOMAINS === "1";
-  const allowedDomains = parseDomainList(process.env.REFERENCE_ALLOWED_DOMAINS);
 
   if (!Array.isArray(references) || references.length === 0) {
     return { valid: [], invalid: [], stats: { checked: 0, valid: 0, invalid: 0 } };
@@ -521,29 +489,7 @@ async function validateReferences(references, options = {}) {
           result: {
             valid: false,
             reason: "blocked-domain",
-            error: "Domain is blocked",
-          },
-        });
-        continue;
-      }
-      if (!isAllowedByList(ref.url, allowedDomains)) {
-        results.push({
-          ref,
-          result: {
-            valid: false,
-            reason: "domain-not-allowed",
-            error: "Domain not in allowlist",
-          },
-        });
-        continue;
-      }
-      if (requireTrusted && !isTrustedDomain(ref.url)) {
-        results.push({
-          ref,
-          result: {
-            valid: false,
-            reason: "untrusted-domain",
-            error: "Domain not in trusted list",
+            error: "Domain not in allowed reference domains",
           },
         });
         continue;
@@ -677,6 +623,7 @@ module.exports = {
   isBlockedDomain,
   getFallbackReferences,
   VERIFIED_FALLBACK_REFS,
+  ALLOWED_REFERENCE_DOMAINS,
   DEFAULT_TIMEOUT_MS,
   DEFAULT_MIN_BYTES
 };

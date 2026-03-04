@@ -253,13 +253,13 @@ SEO_MIN_WORDS=1500             # Enforce minimum FR word count (0 = disabled)
 SEO_MAX_WORDS=3000             # Max guidance (not enforced by code)
 
 # Reference quality (optional)
-# In CI we typically allow broad domains but require at least one official source.
-REFERENCE_REQUIRE_TRUSTED_DOMAINS=0         # If 1, restrict to trusted list only
+# All references are restricted to the ALLOWED_REFERENCE_DOMAINS whitelist
+# in scripts/lib/referenceValidator.js (~60 trusted domains).
 REFERENCE_MIN_TRUSTED_DOMAINS=1             # Require N trusted/official domains
 REFERENCE_MIN_COUNT=4                       # Minimum refs after validation
 REFERENCE_MAX_COUNT=6                       # Maximum refs to keep
-REFERENCE_ALLOWED_DOMAINS=admin.ch,ge.ch,vd.ch,finma.ch,swissdec.ch  # Optional allowlist
-REFERENCE_BLOCKED_DOMAINS=pwc.ch,bdo.ch,karpeo.ch  # Optional blocklist
+REFERENCE_ALLOWED_DOMAINS=                  # Extra domains to add to whitelist at runtime (CSV)
+REFERENCE_BLOCKED_DOMAINS=                  # Emergency override to block even whitelisted domains (CSV)
 
 # Agent timeout
 AZURE_AGENT_RUN_TIMEOUT_MS=180000  # Agent run timeout (default: 180000ms)

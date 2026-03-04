@@ -236,12 +236,10 @@ jobs:
           TRENDS_LANGUAGE: ${{ vars.TRENDS_LANGUAGE }}
           TRENDS_MAX_TOPICS: ${{ vars.TRENDS_MAX_TOPICS }}
           # Reference quality guardrails
-          # Allow broader sources, but keep at least one official source
-          REFERENCE_REQUIRE_TRUSTED_DOMAINS: "0"
+          # All references are restricted to the ALLOWED_REFERENCE_DOMAINS whitelist
           REFERENCE_MIN_TRUSTED_DOMAINS: "1"
           REFERENCE_MIN_COUNT: "4"
           REFERENCE_MAX_COUNT: "6"
-          REFERENCE_BLOCKED_DOMAINS: ""
           # Enforce minimum article length (SEO)
           SEO_MIN_WORDS: "1500"
           SEO_MAX_WORDS: "3000"
