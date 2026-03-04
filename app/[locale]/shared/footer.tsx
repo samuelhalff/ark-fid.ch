@@ -172,7 +172,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
           <nav
             key={titleKey}
             aria-label={tFooter(titleKey)}
-            className="xl:justify-self-end"
+            className="xl:justify-self-end min-w-0 break-words"
           >
             <p className="font-semibold text-foreground">{tFooter(titleKey)}</p>
             <ul className="mt-6 space-y-4">
