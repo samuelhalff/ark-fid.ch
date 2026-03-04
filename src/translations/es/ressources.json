@@ -522,10 +522,6 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
-        },
-        {
-          "labelKey": "Registre du commerce - Canton de Genève",
-          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -766,10 +762,6 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
-        },
-        {
-          "labelKey": "Registre du commerce - Canton de Genève",
-          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -834,10 +826,6 @@
         {
           "labelKey": "Loi sur la fusion, la scission, la transformation et le transfert de patrimoine (LFus)",
           "url": "https://www.fedlex.admin.ch/eli/cc/2003/218/fr"
-        },
-        {
-          "labelKey": "Code des obligations (CO)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
     },
@@ -988,10 +976,6 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
-        },
-        {
-          "labelKey": "Registre du commerce - Canton de Genève",
-          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -1290,10 +1274,6 @@
           "url": "https://www.sif.admin.ch/fr/loi-sur-le-blanchiment-dargent"
         },
         {
-          "labelKey": "MROS - fedpol",
-          "url": "https://www.fedpol.admin.ch/fedpol/fr/home/kriminalitaet/geldwaescherei.html"
-        },
-        {
           "labelKey": "Bases légales de la lutte contre le blanchiment d'argent - FINMA",
           "url": "https://www.finma.ch/fr/documentation/bases-legales/lois-et-ordonnances/loi-sur-le-blanchiment-d-argent/"
         },
@@ -1340,10 +1320,6 @@
         {
           "labelKey": "Ventajas del marco – FER",
           "url": "https://www.fer.ch/fr/le-concept/avantages/"
-        },
-        {
-          "labelKey": "Swiss GAAP FER",
-          "url": "https://www.fer.ch/fr/"
         },
         {
           "labelKey": "Code des obligations - Comptabilité",
@@ -1502,10 +1478,6 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
         },
         {
-          "labelKey": "Blanchiment d'argent (fedpol, Bureau de communication en matière de blanchiment d'argent - MROS)",
-          "url": "https://www.fedpol.admin.ch/fedpol/fr/home/kriminalitaet/geldwaescherei.html"
-        },
-        {
           "labelKey": "Portail PME - Gestion des risques LBA",
           "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/gestion-risques/bases-normes-legales.html"
         },
@@ -1554,6 +1526,40 @@
         {
           "labelKey": "Régulations liées à la domiciliation en Suisse (source officielle)",
           "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
+        }
+      ]
+    },
+    {
+      "slug": "registre-commerce-suisse-guide-2026",
+      "title": "Registro mercantil en Suiza: documentos, plazos, errores y costes (guía práctica 2026)",
+      "description": "Guía práctica que detalla los pasos para la inscripción en el registro mercantil suizo, los documentos necesarios, los plazos previstos, los errores más comunes a evitar y una sección de preguntas frecuentes. Ideal para emprendedores y administradores.",
+      "content": "## Introducción al registro mercantil suizo\n\nEl registro mercantil suizo es una base de datos oficial que recopila las empresas que operan en Suiza. Desempeña un papel central en la transparencia económica y la seguridad jurídica. Toda empresa que realice una actividad comercial, industrial o artesanal debe inscribirse, salvo excepciones previstas por la ley. Esta inscripción otorga reconocimiento oficial y garantiza la protección de la razón social.\n\nEl registro es gestionado por los cantones, pero está supervisado a nivel federal por la Oficina Federal del Registro Mercantil (OFRM). La información registrada es pública y accesible a través de plataformas como Zefix, lo que facilita las verificaciones para socios comerciales y clientes.\n\n## Pasos para la inscripción\n\n### 1. Determinar la obligación de inscripción\nNo todas las empresas están obligadas a inscribirse en el registro mercantil. Por ejemplo, las empresas individuales con una facturación anual inferior a 100.000 CHF están exentas, salvo que deseen proteger su razón social.\n\n### 2. Elegir la forma jurídica\nLa elección de la forma jurídica (empresa individual, SàRL, SA, etc.) influye en los trámites de inscripción. Cada estatus tiene sus propios requisitos en cuanto a capital, responsabilidad y gestión.\n\n### 3. Preparar los documentos necesarios\nUna vez elegida la forma jurídica, es esencial reunir todos los documentos requeridos (ver sección \"Documentos requeridos\").\n\n### 4. Presentar la solicitud ante el registro cantonal\nLa inscripción se realiza ante la oficina cantonal competente. Los formularios pueden descargarse en línea u obtenerse directamente de las autoridades cantonales.\n\n### 5. Validación y publicación\nTras la verificación, la inscripción se valida y publica en la Gaceta Oficial Suiza de Comercio (SOGC).\n\n## Documentos requeridos\n\nLos documentos necesarios varían según la forma jurídica de la empresa. Aquí un resumen:\n\n| Forma jurídica | Documentos requeridos |\n|-----------------------|----------------------------------------------------------------------------------|\n| Empresa individual | Formulario de inscripción, documento de identidad, certificado de domicilio |\n| SàRL | Estatutos, acta de la asamblea, declaración de aceptación de los gerentes |\n| SA | Estatutos, acta de la asamblea, certificado bancario del capital |\n\n### Lista de comprobación de documentos\n\n- **Formulario de inscripción**: disponible en la oficina cantonal.\n- **Estatutos de la empresa**: para SàRL y SA.\n- **Certificado bancario**: que acredite el depósito del capital social.\n- **Declaración de aceptación**: firmada por los gerentes o administradores.\n- **Documento de identidad**: copia válida del pasaporte o del documento de identidad.\n\n## Plazos de inscripción y costes\n\n### Plazos\nLos plazos varían según el cantón y la complejidad del expediente. En general:\n\n- **Empresas individuales**: 5 a 10 días laborables.\n- **SàRL y SA**: 10 a 20 días laborables.\n\n### Costes\nLas tasas de inscripción también dependen de la forma jurídica. Aquí un resumen:\n\n| Forma jurídica | Coste aproximado (CHF) |\n|-----------------------|-------------------------|\n| Empresa individual | 120 - 200 |\n| SàRL | 600 - 1.000 |\n| SA | 800 - 1.200 |\n\nEstas cantidades incluyen las tasas administrativas y las publicaciones en la SOGC.\n\n## Errores frecuentes a evitar\n\n### 1. Presentar documentos incompletos\nUn error común es no presentar todos los documentos requeridos, lo que provoca retrasos.\n\n**Corrección**: Utilice una lista de comprobación para verificar que todos los documentos estén incluidos.\n\n### 2. Elegir una razón social no conforme\nAlgunas razones sociales pueden ser rechazadas si no cumplen las normas de protección o claridad.\n\n**Corrección**: Consulte Zefix para verificar la disponibilidad de la razón social.\n\n### 3. Descuidar los plazos de publicación\nUn retraso en la publicación puede acarrear complicaciones legales.\n\n**Corrección**: Siga los pasos administrativos con rigor y respete los plazos.\n\n## Caso práctico: Inscripción de una SàRL en Ginebra\n\n### Contexto\nUn emprendedor desea crear una SàRL en Ginebra con un capital social de 20.000 CHF. Estos son los pasos y costes asociados:\n\n1. **Redacción de los estatutos**: 500 CHF (honorarios de abogado).\n2. **Depósito del capital social**: 20.000 CHF (bloqueado temporalmente en una cuenta bancaria).\n3. **Tasa de inscripción en el registro**: 800 CHF.\n4. **Publicación en la SOGC**: 150 CHF.\n\n### Coste total\n\n| Detalle | Importe (CHF) |\n|-------------------------|---------------|\n| Redacción de estatutos | 500 |\n| Depósito de capital social | 20.000 |\n| Inscripción en el registro | 800 |\n| Publicación SOGC | 150 |\n| **Total** | **21.450** |\n\n## Pasos para una inscripción exitosa\n\n1. **Verifique la obligación de inscripción**: Confirme si su empresa debe inscribirse.\n2. **Elija la forma jurídica**: Analice las implicaciones fiscales y jurídicas.\n3. **Prepare los documentos**: Consulte la lista de comprobación para no olvidar nada.\n4. **Presente su expediente**: Entréguelo en la oficina cantonal competente.\n5. **Siga la publicación**: Verifique que la inscripción se haya publicado en la SOGC.\n\n## Preguntas frecuentes sobre el registro mercantil en Suiza\n\n### 1. ¿Quién debe inscribirse en el registro mercantil?\nTodas las empresas comerciales, industriales o artesanales, salvo las empresas individuales con una facturación anual inferior a 100.000 CHF.\n\n### 2. ¿Cuáles son las ventajas de la inscripción?\nLa inscripción otorga reconocimiento oficial, protege la razón social y refuerza la credibilidad ante los socios comerciales.\n\n### 3. ¿Cuáles son los plazos para inscribirse?\nLos plazos varían entre 5 y 20 días laborables según la forma jurídica y el cantón.\n\n### 4. ¿Qué hacer en caso de rechazo de la solicitud?\nCorrija los errores señalados por la oficina cantonal y vuelva a presentar su expediente.\n\n### 5. ¿Cómo verificar la disponibilidad de una razón social?\nUtilice la plataforma Zefix para consultar las razones sociales ya registradas.\n\n### 6. ¿Cuáles son las tasas de inscripción?\nLas tasas varían entre 120 CHF para una empresa individual y 1.200 CHF para una SA.\n\n## Obligaciones legales tras la inscripción en el registro mercantil\n\nUna vez inscrita su empresa en el registro mercantil, deben cumplirse ciertas obligaciones legales para garantizar la conformidad y evitar sanciones administrativas o financieras.\n\n### 1. Actualización de la información\n\nLas empresas deben informar al registro mercantil de cualquier cambio en sus datos registrados. Esto incluye:\n\n- **Modificación de la razón social**: Toda modificación debe ser comunicada y validada.\n- **Cambio de domicilio**: Una nueva dirección de la sede social debe comunicarse rápidamente.\n- **Modificación de estatutos**: Por ejemplo, un aumento de capital o un cambio de gerente.\n\n### 2. Depósito de cuentas anuales\n\nLas sociedades de capital (SàRL, SA) deben depositar sus cuentas anuales en el registro si superan dos de los tres umbrales siguientes durante dos ejercicios consecutivos:\n\n- Total del balance: 20 millones CHF.\n- Facturación: 40 millones CHF.\n- Número de empleados: 250.\n\n### 3. Cumplimiento de obligaciones fiscales\n\nLa inscripción en el registro mercantil implica también obligaciones fiscales, como:\n\n- Inscripción en el IVA si la facturación anual supera los 100.000 CHF.\n- Declaración anual de ingresos y beneficios.\n\n## Especificidades cantonales a tener en cuenta\n\nCada cantón en Suiza aplica reglas específicas respecto al registro mercantil. Aquí algunos ejemplos de particularidades:\n\n### Ginebra\n\n- **Idioma de los documentos**: Los documentos deben estar redactados en francés.\n- **Plazos de tramitación**: Generalmente más cortos que en otros cantones, con una media de 7 días laborables.\n\n### Zúrich\n\n- **Idioma de los documentos**: Los documentos deben estar en alemán.\n- **Tasas ligeramente más altas**: Las tasas de inscripción para una SàRL o una SA pueden llegar a 1.200 CHF.\n\n### Vaud\n\n- **Publicación rápida en la SOGC**: Las publicaciones suelen realizarse en las 48 horas siguientes a la aprobación.\n- **Asesoramiento para pymes**: El cantón ofrece servicios de asesoramiento gratuitos para emprendedores.\n\n## Lista de comprobación: Seguimiento tras la inscripción\n\nAquí una lista de comprobación para asegurarse de que se cumplen todos los pasos posteriores a la inscripción:\n\n- [ ] Verificar la publicación en la SOGC.\n- [ ] Actualizar la información en caso de cambios (dirección, estatutos, etc.).\n- [ ] Inscribirse en el IVA si es necesario.\n- [ ] Depositar las cuentas anuales si se alcanzan los umbrales legales.\n- [ ] Cumplir con las obligaciones fiscales cantonales y federales.\n\n## Tabla comparativa de plazos y tasas por cantón\n\n| Cantón | Plazos medios (días laborables) | Tasas aproximadas (CHF) |\n|-------------|-------------------------------|---------------------------|\n| Ginebra | 7 | 800 - 1.000 |\n| Zúrich | 10 | 1.000 - 1.200 |\n| Vaud | 8 | 600 - 900 |\n\n## Preguntas frecuentes adicionales\n\n### 7. ¿Qué hacer en caso de cambio de gerente o administrador?\nDebe presentar una declaración de modificación al registro mercantil, acompañada de los documentos justificativos (por ejemplo, una declaración de aceptación firmada por el nuevo gerente).\n\n### 8. ¿Es obligatorio publicar las cuentas anuales?\nNo, salvo que su empresa supere dos de los tres umbrales definidos por la ley (ver sección \"Depósito de cuentas anuales\").\n\n### 9. ¿Cómo obtener una copia de un extracto del registro mercantil?\nPuede solicitar un extracto oficial en la oficina cantonal competente o a través de la plataforma Zefix.\n\n### 10. ¿Cuáles son los riesgos en caso de incumplimiento de las obligaciones posteriores a la inscripción?\nLos riesgos incluyen multas, sanciones administrativas y, en algunos casos, la eliminación de la empresa del registro.\n\n### 11. ¿Se puede modificar la forma jurídica de la empresa tras la inscripción?\nSí, pero requiere un procedimiento específico, que incluye la modificación de los estatutos y una nueva inscripción en el registro mercantil.\n\n---\n### Referencias\n- [Crear una empresa: Inscripción en el registro mercantil](https://www.startups.ch/fr/blog/creation-dentreprise-en-suisse-guide-complet)\n- [Guía completa Registro mercantil en Suiza 2026 (MagicHeidi)](https://magicheidi.ch/fr/commerce-register-switzerland-2026)\n- [Comunicación oficial OFRM (Cantón de Vaud 2025)](https://www.vd.ch/fileadmin/user_upload/themes/economie_emploi/entreprises/registre_commerce/fichiers_pdf/Communication_OFRC_1-2025_FR.pdf)\n- [Inscripción en el registro mercantil - Portal PYME](https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/creation-pme/creation-entreprise/registre-du-commerce.html)\n- [Oficina Federal del Registro Mercantil (OFRM)](https://www.bj.admin.ch/bj/fr/home/wirtschaft/handelsregister.html)\n- [Zefix – Consulta de razones sociales en línea](https://www.zefix.ch/fr/)\n",
+      "author": "Ark Fiduciaire",
+      "date": "2026-03-04",
+      "references": [
+        {
+          "labelKey": "Créer une entreprise : Inscription au registre du commerce",
+          "url": "https://www.startups.ch/fr/blog/creation-dentreprise-en-suisse-guide-complet"
+        },
+        {
+          "labelKey": "Guide complet Registre du commerce en Suisse 2026 (MagicHeidi)",
+          "url": "https://magicheidi.ch/fr/commerce-register-switzerland-2026"
+        },
+        {
+          "labelKey": "Communication officielle OFRC (État de Vaud 2025)",
+          "url": "https://www.vd.ch/fileadmin/user_upload/themes/economie_emploi/entreprises/registre_commerce/fichiers_pdf/Communication_OFRC_1-2025_FR.pdf"
+        },
+        {
+          "labelKey": "Inscription au registre du commerce - Portail PME",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/creation-pme/creation-entreprise/registre-du-commerce.html"
+        },
+        {
+          "labelKey": "Office fédéral du registre du commerce (OFRC)",
+          "url": "https://www.bj.admin.ch/bj/fr/home/wirtschaft/handelsregister.html"
+        },
+        {
+          "labelKey": "Zefix – Consultation des raisons commerciales en ligne",
+          "url": "https://www.zefix.ch/fr/"
         }
       ]
     }
@@ -1801,5 +1807,15 @@
   "Obligations légales pour la domiciliation en Suisse": "Obligaciones legales para la domiciliación en Suiza",
   "Critères pour choisir un prestataire de domiciliation": "Cómo evaluar un proveedor fiable para domiciliar su empresa en Suiza",
   "Obligations fiscales des entreprises domiciliées en Suisse": "Principales obligaciones fiscales para la domiciliación en Suiza",
-  "Alternatives à la domiciliation en Suisse": "¿Cuáles son las otras opciones para establecer presencia en Suiza?"
+  "Alternatives à la domiciliation en Suisse": "¿Cuáles son las otras opciones para establecer presencia en Suiza?",
+  "Guide complet Registre du commerce en Suisse 2026 (MagicHeidi)": "Guía completa Registro mercantil en Suiza 2026 (MagicHeidi)",
+  "Inscription au registre du commerce - Portail PME": "Inscripción en el registro mercantil - Portal PYME",
+  "Créer une entreprise : Inscription au registre du commerce": "Crear una empresa: Inscripción en el registro mercantil",
+  "Office fédéral du registre du commerce (OFRC)": "Oficina Federal del Registro Mercantil (OFRM)",
+  "Communication officielle OFRC (État de Vaud 2025)": "Comunicación oficial OFRM (Cantón de Vaud 2025)",
+  "Zefix – Consultation des raisons commerciales en ligne": "Zefix – Consulta de razones sociales en línea",
+  "Obligations légales post-inscription": "Obligaciones legales tras la inscripción en el registro mercantil",
+  "Spécificités cantonales": "Especificidades cantonales del registro mercantil",
+  "Checklist post-inscription": "Lista de comprobación tras la inscripción",
+  "FAQ avancée registre du commerce": "Preguntas frecuentes avanzadas sobre el registro mercantil"
 }

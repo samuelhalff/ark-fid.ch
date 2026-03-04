@@ -830,10 +830,6 @@
         {
           "labelKey": "Loi sur la fusion, la scission, la transformation et le transfert de patrimoine (LFus)",
           "url": "https://www.fedlex.admin.ch/eli/cc/2003/218/fr"
-        },
-        {
-          "labelKey": "Code des obligations (CO)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
     },
@@ -1290,10 +1286,6 @@
           "url": "https://www.sif.admin.ch/fr/loi-sur-le-blanchiment-dargent"
         },
         {
-          "labelKey": "MROS - fedpol",
-          "url": "https://www.fedpol.admin.ch/fedpol/fr/home/kriminalitaet/geldwaescherei.html"
-        },
-        {
           "labelKey": "Bases légales de la lutte contre le blanchiment d'argent - FINMA",
           "url": "https://www.finma.ch/fr/documentation/bases-legales/lois-et-ordonnances/loi-sur-le-blanchiment-d-argent/"
         },
@@ -1340,10 +1332,6 @@
         {
           "labelKey": "FER framework advantages",
           "url": "https://www.fer.ch/fr/le-concept/avantages/"
-        },
-        {
-          "labelKey": "Swiss GAAP FER",
-          "url": "https://www.fer.ch/fr/"
         },
         {
           "labelKey": "Code des obligations - Comptabilité",
@@ -1502,10 +1490,6 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
         },
         {
-          "labelKey": "Blanchiment d'argent (fedpol, Bureau de communication en matière de blanchiment d'argent - MROS)",
-          "url": "https://www.fedpol.admin.ch/fedpol/fr/home/kriminalitaet/geldwaescherei.html"
-        },
-        {
           "labelKey": "Portail PME - Gestion des risques LBA",
           "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/gestion-risques/bases-normes-legales.html"
         },
@@ -1554,6 +1538,40 @@
         {
           "labelKey": "Régulations liées à la domiciliation en Suisse (source officielle)",
           "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
+        }
+      ]
+    },
+    {
+      "slug": "registre-commerce-suisse-guide-2026",
+      "title": "Swiss Commercial Register: documents, deadlines, mistakes and costs (practical guide 2026)",
+      "description": "A practical guide detailing the steps for registration in the Swiss commercial register, required documents, expected deadlines, common mistakes to avoid, and a FAQ. Ideal for entrepreneurs and administrators.",
+      "content": "## Introduction to the Swiss Commercial Register\n\nThe Swiss commercial register is an official database listing companies operating in Switzerland. It plays a central role in economic transparency and legal security. Any company conducting commercial, industrial, or craft activities must register, except for exceptions provided by law. This registration grants official recognition and ensures protection of the company name.\n\nThe register is managed by the cantons but is supervised at the federal level by the Federal Commercial Registry Office (FCRO). The recorded information is public and accessible via platforms such as Zefix, making it easier for business partners and clients to verify information.\n\n## Registration Steps\n\n### 1. Determine the registration requirement\nNot all companies are required to register in the commercial register. For example, sole proprietorships with annual turnover below CHF 100,000 are exempt, unless they wish to protect their company name.\n\n### 2. Choose the legal form\nThe choice of legal form (sole proprietorship, LLC, Ltd, etc.) affects the registration process. Each status has its own requirements in terms of capital, liability, and management.\n\n### 3. Prepare the required documents\nOnce the legal form is chosen, it is essential to gather all the necessary documents (see \"Required Documents\" section).\n\n### 4. Submit the application to the cantonal register\nRegistration is done with the competent cantonal office. Forms can be downloaded online or obtained directly from the cantonal authorities.\n\n### 5. Validation and publication\nAfter verification, the registration is validated and published in the Swiss Official Gazette of Commerce (SOGC).\n\n## Required Documents\n\nThe necessary documents vary depending on the company's legal form. Here is a summary table:\n\n| Legal form | Required documents |\n|-----------------------|----------------------------------------------------------------------------------|\n| Sole proprietorship | Registration form, ID, proof of residence |\n| LLC | Articles of association, minutes of the meeting, acceptance declaration of managers |\n| Ltd | Articles of association, minutes of the meeting, bank certificate for capital |\n\n### Document Checklist\n\n- **Registration form**: available from the cantonal office.\n- **Articles of association**: for LLCs and Ltds.\n- **Bank certificate**: proving the deposit of share capital.\n- **Acceptance declaration**: signed by managers or directors.\n- **ID**: valid copy of passport or identity card.\n\n## Registration Deadlines and Costs\n\n### Deadlines\nDeadlines vary depending on the canton and the complexity of the file. In general:\n\n- **Sole proprietorships**: 5 to 10 business days.\n- **LLC and Ltd**: 10 to 20 business days.\n\n### Costs\nRegistration fees also depend on the legal form. Here is an overview:\n\n| Legal form | Approximate cost (CHF) |\n|-----------------------|-------------------------|\n| Sole proprietorship | 120 - 200 |\n| LLC | 600 - 1,000 |\n| Ltd | 800 - 1,200 |\n\nThese amounts include administrative fees and publications in the SOGC.\n\n## Common Mistakes to Avoid\n\n### 1. Providing incomplete documents\nA common mistake is not providing all required documents, which causes delays.\n\n**Correction**: Use a checklist to ensure all documents are included.\n\n### 2. Choosing a non-compliant company name\nSome company names may be rejected if they do not comply with protection or clarity rules.\n\n**Correction**: Check Zefix to verify the availability of the company name.\n\n### 3. Neglecting publication deadlines\nA delay in publication can lead to legal complications.\n\n**Correction**: Follow administrative steps carefully and respect deadlines.\n\n## Case Study: Registering an LLC in Geneva\n\n### Context\nAn entrepreneur wants to create an LLC in Geneva with a share capital of CHF 20,000. Here are the steps and associated costs:\n\n1. **Drafting the articles of association**: CHF 500 (lawyer's fee).\n2. **Deposit of share capital**: CHF 20,000 (temporarily blocked in a bank account).\n3. **Registration fee**: CHF 800.\n4. **Publication in the SOGC**: CHF 150.\n\n### Total costs\n\n| Detail | Amount (CHF) |\n|-------------------------|---------------|\n| Drafting articles of association | 500 |\n| Deposit of share capital | 20,000 |\n| Registration | 800 |\n| SOGC publication | 150 |\n| **Total** | **21,450** |\n\n## Steps for a Successful Registration\n\n1. **Check the registration requirement**: Confirm if your company must register.\n2. **Choose the legal form**: Analyze tax and legal implications.\n3. **Prepare the documents**: Use the checklist to ensure nothing is forgotten.\n4. **Submit your file**: Submit it to the competent cantonal office.\n5. **Follow the publication**: Check that the registration is published in the SOGC.\n\n## FAQ about the Swiss Commercial Register\n\n### 1. Who must register in the commercial register?\nAll commercial, industrial, or craft companies, except sole proprietorships with annual turnover below CHF 100,000.\n\n### 2. What are the benefits of registration?\nRegistration grants official recognition, protects the company name, and strengthens credibility with business partners.\n\n### 3. What are the registration deadlines?\nDeadlines range from 5 to 20 business days depending on the legal form and canton.\n\n### 4. What to do if the application is rejected?\nCorrect the errors indicated by the cantonal office and resubmit your file.\n\n### 5. How to check the availability of a company name?\nUse the Zefix platform to check already registered company names.\n\n### 6. What are the registration fees?\nFees range from CHF 120 for a sole proprietorship to CHF 1,200 for a Ltd.\n\n## Legal Obligations after Registration in the Commercial Register\n\nOnce your company is registered in the commercial register, certain legal obligations must be met to ensure compliance and avoid administrative or financial penalties.\n\n### 1. Updating information\n\nCompanies must inform the commercial register of any changes to their recorded data. This includes:\n\n- **Change of company name**: Any change must be reported and validated.\n- **Change of address**: A new registered office address must be communicated promptly.\n- **Modification of articles of association**: For example, a capital increase or a change of manager.\n\n### 2. Filing annual accounts\n\nCapital companies (LLC, Ltd) must file their annual accounts with the register if they exceed two of the following three thresholds for two consecutive years:\n\n- Total balance sheet: CHF 20 million.\n- Turnover: CHF 40 million.\n- Number of employees: 250.\n\n### 3. Compliance with tax obligations\n\nRegistration in the commercial register also involves tax obligations, such as:\n\n- VAT registration if annual turnover exceeds CHF 100,000.\n- Annual declaration of income and profits.\n\n## Cantonal Specificities to Know\n\nEach canton in Switzerland applies specific rules regarding the commercial register. Here are some examples of particularities:\n\n### Geneva\n\n- **Language of documents**: Documents must be written in French.\n- **Processing times**: Generally shorter than in other cantons, with an average of 7 business days.\n\n### Zurich\n\n- **Language of documents**: Documents must be in German.\n- **Slightly higher fees**: Registration fees for an LLC or Ltd can reach CHF 1,200.\n\n### Vaud\n\n- **Fast publication in the SOGC**: Publications are often made within 48 hours after approval.\n- **Support for SMEs**: The canton offers free advisory services for entrepreneurs.\n\n## Checklist: Post-Registration Follow-up\n\nHere is a checklist to ensure all post-registration steps are followed:\n\n- [ ] Check publication in the SOGC.\n- [ ] Update information in case of changes (address, articles of association, etc.).\n- [ ] Register for VAT if necessary.\n- [ ] File annual accounts if legal thresholds are reached.\n- [ ] Comply with cantonal and federal tax obligations.\n\n## Comparative Table of Deadlines and Fees by Canton\n\n| Canton | Average deadlines (business days) | Approximate fees (CHF) |\n|-------------|---------------------------------|---------------------------|\n| Geneva | 7 | 800 - 1,000 |\n| Zurich | 10 | 1,000 - 1,200 |\n| Vaud | 8 | 600 - 900 |\n\n## Additional FAQ\n\n### 7. What to do in case of change of manager or director?\nYou must submit a modification declaration to the commercial register, with supporting documents (e.g., an acceptance declaration signed by the new manager).\n\n### 8. Is it mandatory to publish annual accounts?\nNo, unless your company exceeds two of the three thresholds defined by law (see \"Filing annual accounts\" section).\n\n### 9. How to obtain a copy of an extract from the commercial register?\nYou can request an official extract from the competent cantonal office or via the Zefix platform.\n\n### 10. What are the risks in case of non-compliance with post-registration obligations?\nRisks include fines, administrative sanctions, and, in some cases, removal of the company from the register.\n\n### 11. Can the legal form of the company be changed after registration?\nYes, but this requires a specific procedure, including modification of the articles of association and a new registration in the commercial register.\n\n---\n### References\n- [Create a company: Registration in the commercial register](https://www.startups.ch/fr/blog/creation-dentreprise-en-suisse-guide-complet)\n- [Complete guide Swiss Commercial Register 2026 (MagicHeidi)](https://magicheidi.ch/fr/commerce-register-switzerland-2026)\n- [Official FCRO communication (Canton of Vaud 2025)](https://www.vd.ch/fileadmin/user_upload/themes/economie_emploi/entreprises/registre_commerce/fichiers_pdf/Communication_OFRC_1-2025_FR.pdf)\n- [Registration in the commercial register - SME Portal](https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/creation-pme/creation-entreprise/registre-du-commerce.html)\n- [Federal Commercial Registry Office (FCRO)](https://www.bj.admin.ch/bj/fr/home/wirtschaft/handelsregister.html)\n- [Zefix – Online company name search](https://www.zefix.ch/fr/)\n",
+      "author": "Ark Fiduciaire",
+      "date": "2026-03-04",
+      "references": [
+        {
+          "labelKey": "Créer une entreprise : Inscription au registre du commerce",
+          "url": "https://www.startups.ch/fr/blog/creation-dentreprise-en-suisse-guide-complet"
+        },
+        {
+          "labelKey": "Guide complet Registre du commerce en Suisse 2026 (MagicHeidi)",
+          "url": "https://magicheidi.ch/fr/commerce-register-switzerland-2026"
+        },
+        {
+          "labelKey": "Communication officielle OFRC (État de Vaud 2025)",
+          "url": "https://www.vd.ch/fileadmin/user_upload/themes/economie_emploi/entreprises/registre_commerce/fichiers_pdf/Communication_OFRC_1-2025_FR.pdf"
+        },
+        {
+          "labelKey": "Inscription au registre du commerce - Portail PME",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/creation-pme/creation-entreprise/registre-du-commerce.html"
+        },
+        {
+          "labelKey": "Office fédéral du registre du commerce (OFRC)",
+          "url": "https://www.bj.admin.ch/bj/fr/home/wirtschaft/handelsregister.html"
+        },
+        {
+          "labelKey": "Zefix – Consultation des raisons commerciales en ligne",
+          "url": "https://www.zefix.ch/fr/"
         }
       ]
     }
@@ -1828,5 +1846,15 @@
   "Obligations légales pour la domiciliation en Suisse": "Legal obligations for domiciliation in Switzerland",
   "Critères pour choisir un prestataire de domiciliation": "How to evaluate a reliable provider for company domiciliation in Switzerland",
   "Obligations fiscales des entreprises domiciliées en Suisse": "Main tax obligations to comply with for domiciliation in Switzerland",
-  "Alternatives à la domiciliation en Suisse": "What are the other options to establish a presence in Switzerland?"
+  "Alternatives à la domiciliation en Suisse": "What are the other options to establish a presence in Switzerland?",
+  "Guide complet Registre du commerce en Suisse 2026 (MagicHeidi)": "Complete guide Swiss Commercial Register 2026 (MagicHeidi)",
+  "Inscription au registre du commerce - Portail PME": "Registration in the commercial register - SME Portal",
+  "Créer une entreprise : Inscription au registre du commerce": "Create a company: Registration in the commercial register",
+  "Office fédéral du registre du commerce (OFRC)": "Federal Commercial Registry Office (FCRO)",
+  "Communication officielle OFRC (État de Vaud 2025)": "Official FCRO communication (Canton of Vaud 2025)",
+  "Zefix – Consultation des raisons commerciales en ligne": "Zefix – Online company name search",
+  "Obligations légales post-inscription": "Legal obligations after registration in the commercial register",
+  "Spécificités cantonales": "Cantonal specificities of the commercial register",
+  "Checklist post-inscription": "Checklist of steps after registration",
+  "FAQ avancée registre du commerce": "Advanced FAQ on the commercial register"
 }

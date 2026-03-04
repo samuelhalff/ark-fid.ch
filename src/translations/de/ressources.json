@@ -490,10 +490,6 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
-        },
-        {
-          "labelKey": "Registre du commerce - Canton de Genève",
-          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -522,10 +518,6 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
-        },
-        {
-          "labelKey": "Registre du commerce - Canton de Genève",
-          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -612,10 +604,6 @@
         {
           "labelKey": "Loi sur la fusion, la scission, la transformation et le transfert de patrimoine (LFus)",
           "url": "https://www.fedlex.admin.ch/eli/cc/2003/218/fr"
-        },
-        {
-          "labelKey": "Code des obligations (CO)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
     },
@@ -766,10 +754,6 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
-        },
-        {
-          "labelKey": "Registre du commerce - Canton de Genève",
-          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -988,10 +972,6 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
-        },
-        {
-          "labelKey": "Registre du commerce - Canton de Genève",
-          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -1294,10 +1274,6 @@
           "url": "https://www.sif.admin.ch/fr/loi-sur-le-blanchiment-dargent"
         },
         {
-          "labelKey": "MROS - fedpol",
-          "url": "https://www.fedpol.admin.ch/fedpol/fr/home/kriminalitaet/geldwaescherei.html"
-        },
-        {
           "labelKey": "Le Conseil fédéral met en vigueur la loi révisée sur le blanchiment d'argent",
           "url": "https://www.news.admin.ch/fr/nsb?id=90145"
         }
@@ -1336,10 +1312,6 @@
         {
           "labelKey": "Vorteile des Referenzrahmens – FER",
           "url": "https://www.fer.ch/fr/le-concept/avantages/"
-        },
-        {
-          "labelKey": "Swiss GAAP FER",
-          "url": "https://www.fer.ch/fr/"
         },
         {
           "labelKey": "Code des obligations - Comptabilité",
@@ -1498,10 +1470,6 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
         },
         {
-          "labelKey": "Blanchiment d'argent (fedpol, Bureau de communication en matière de blanchiment d'argent - MROS)",
-          "url": "https://www.fedpol.admin.ch/fedpol/fr/home/kriminalitaet/geldwaescherei.html"
-        },
-        {
           "labelKey": "Portail PME - Gestion des risques LBA",
           "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/gestion-risques/bases-normes-legales.html"
         },
@@ -1546,6 +1514,40 @@
         {
           "labelKey": "Régulations liées à la domiciliation en Suisse (source officielle)",
           "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
+        }
+      ]
+    },
+    {
+      "slug": "registre-commerce-suisse-guide-2026",
+      "title": "Handelsregister Schweiz: Dokumente, Fristen, Fehler und Kosten (Praxisleitfaden 2026)",
+      "description": "Ein praxisorientierter Leitfaden mit den Schritten zur Eintragung ins Schweizer Handelsregister, den benötigten Dokumenten, zu erwartenden Fristen, häufigen Fehlern und einer FAQ. Ideal für Unternehmer und Verwaltungsräte.",
+      "content": "## Einführung ins Schweizer Handelsregister\n\nDas Schweizer Handelsregister ist eine offizielle Datenbank, die Unternehmen in der Schweiz erfasst. Es spielt eine zentrale Rolle für die wirtschaftliche Transparenz und die Rechtssicherheit. Jedes Unternehmen, das eine gewerbliche, industrielle oder handwerkliche Tätigkeit ausübt, muss sich – mit gesetzlich geregelten Ausnahmen – eintragen lassen. Die Eintragung verleiht eine offizielle Anerkennung und schützt die Firmenbezeichnung.\n\nDas Register wird von den Kantonen geführt, steht aber unter Aufsicht des Eidgenössischen Amtes für das Handelsregister (EHRA). Die eingetragenen Informationen sind öffentlich und über Plattformen wie Zefix zugänglich, was die Überprüfung für Geschäftspartner und Kunden erleichtert.\n\n## Schritte zur Eintragung\n\n### 1. Eintragungspflicht feststellen\nNicht alle Unternehmen sind zur Eintragung ins Handelsregister verpflichtet. Zum Beispiel sind Einzelunternehmen mit einem Jahresumsatz unter 100'000 CHF befreit, es sei denn, sie möchten ihre Firmenbezeichnung schützen.\n\n### 2. Rechtsform wählen\nDie Wahl der Rechtsform (Einzelfirma, GmbH, AG usw.) beeinflusst das Eintragungsverfahren. Jede Form hat eigene Anforderungen bezüglich Kapital, Haftung und Verwaltung.\n\n### 3. Benötigte Dokumente vorbereiten\nNach der Wahl der Rechtsform müssen alle erforderlichen Dokumente zusammengestellt werden (siehe Abschnitt \"Benötigte Dokumente\").\n\n### 4. Antrag beim kantonalen Handelsregisteramt einreichen\nDie Anmeldung erfolgt beim zuständigen kantonalen Amt. Formulare können online heruntergeladen oder direkt bei den kantonalen Behörden bezogen werden.\n\n### 5. Prüfung und Veröffentlichung\nNach der Prüfung wird die Eintragung bestätigt und im Schweizerischen Handelsamtsblatt (SHAB) veröffentlicht.\n\n## Benötigte Dokumente\n\nDie erforderlichen Unterlagen variieren je nach Rechtsform des Unternehmens. Hier eine Übersicht:\n\n| Rechtsform | Benötigte Dokumente |\n|-----------------------|----------------------------------------------------------------------------------|\n| Einzelfirma | Anmeldeformular, Ausweis, Wohnsitzbescheinigung |\n| GmbH | Statuten, Protokoll der Versammlung, Annahmeerklärung der Geschäftsführer |\n| AG | Statuten, Protokoll der Versammlung, Bankbestätigung für das Kapital |\n\n### Dokumenten-Checkliste\n\n- **Anmeldeformular**: erhältlich beim kantonalen Amt.\n- **Statuten**: für GmbH und AG.\n- **Bankbestätigung**: Nachweis über die Einzahlung des Stammkapitals.\n- **Annahmeerklärung**: unterschrieben von Geschäftsführern oder Verwaltungsräten.\n- **Ausweis**: Gültige Kopie des Passes oder der Identitätskarte.\n\n## Fristen und Kosten der Eintragung\n\n### Fristen\nDie Fristen variieren je nach Kanton und Komplexität des Dossiers. Im Allgemeinen:\n\n- **Einzelfirmen**: 5 bis 10 Arbeitstage.\n- **GmbH und AG**: 10 bis 20 Arbeitstage.\n\n### Kosten\nDie Eintragungskosten hängen ebenfalls von der Rechtsform ab. Hier ein Überblick:\n\n| Rechtsform | Ungefähre Kosten (CHF) |\n|-----------------------|-------------------------|\n| Einzelfirma | 120 - 200 |\n| GmbH | 600 - 1'000 |\n| AG | 800 - 1'200 |\n\nDiese Beträge beinhalten die Verwaltungsgebühren und die Veröffentlichung im SHAB.\n\n## Häufige Fehler und wie man sie vermeidet\n\n### 1. Unvollständige Unterlagen einreichen\nEin häufiger Fehler ist das Fehlen von Dokumenten, was zu Verzögerungen führt.\n\n**Korrektur**: Nutzen Sie eine Checkliste, um sicherzustellen, dass alle Unterlagen vorhanden sind.\n\n### 2. Nicht konforme Firmenbezeichnung wählen\nManche Firmenbezeichnungen werden abgelehnt, wenn sie nicht den Schutz- oder Klarheitsregeln entsprechen.\n\n**Korrektur**: Prüfen Sie die Verfügbarkeit der Firmenbezeichnung auf Zefix.\n\n### 3. Fristen für die Veröffentlichung nicht beachten\nVerspätete Veröffentlichungen können rechtliche Probleme verursachen.\n\n**Korrektur**: Folgen Sie den administrativen Schritten sorgfältig und halten Sie die Fristen ein.\n\n## Praxisfall: Eintragung einer GmbH in Genf\n\n### Kontext\nEin Unternehmer möchte eine GmbH in Genf mit einem Stammkapital von 20'000 CHF gründen. Hier die Schritte und Kosten:\n\n1. **Statuten erstellen**: 500 CHF (Anwaltskosten).\n2. **Einzahlung des Stammkapitals**: 20'000 CHF (vorübergehend auf einem Bankkonto gesperrt).\n3. **Eintragung ins Handelsregister**: 800 CHF.\n4. **Veröffentlichung im SHAB**: 150 CHF.\n\n### Gesamtkosten\n\n| Position | Betrag (CHF) |\n|-------------------------|---------------|\n| Statuten erstellen | 500 |\n| Einzahlung Stammkapital | 20'000 |\n| Eintragung Handelsregister | 800 |\n| SHAB-Veröffentlichung | 150 |\n| **Total** | **21'450** |\n\n## Schritte für eine erfolgreiche Eintragung\n\n1. **Eintragungspflicht prüfen**: Klären Sie, ob Ihr Unternehmen eintragungspflichtig ist.\n2. **Rechtsform wählen**: Analysieren Sie steuerliche und rechtliche Auswirkungen.\n3. **Dokumente vorbereiten**: Nutzen Sie die Checkliste.\n4. **Dossier einreichen**: Beim zuständigen kantonalen Amt abgeben.\n5. **Veröffentlichung prüfen**: Kontrollieren Sie die Veröffentlichung im SHAB.\n\n## FAQ zum Schweizer Handelsregister\n\n### 1. Wer muss sich ins Handelsregister eintragen?\nAlle gewerblichen, industriellen oder handwerklichen Unternehmen, außer Einzelfirmen mit einem Jahresumsatz unter 100'000 CHF.\n\n### 2. Welche Vorteile hat die Eintragung?\nDie Eintragung verleiht offizielle Anerkennung, schützt die Firmenbezeichnung und stärkt die Glaubwürdigkeit bei Geschäftspartnern.\n\n### 3. Welche Fristen gelten für die Eintragung?\nDie Fristen liegen je nach Rechtsform und Kanton zwischen 5 und 20 Arbeitstagen.\n\n### 4. Was tun bei Ablehnung des Antrags?\nBeheben Sie die vom Amt genannten Fehler und reichen Sie das Dossier erneut ein.\n\n### 5. Wie prüft man die Verfügbarkeit einer Firmenbezeichnung?\nNutzen Sie die Plattform Zefix zur Überprüfung bereits eingetragener Firmenbezeichnungen.\n\n### 6. Welche Kosten entstehen bei der Eintragung?\nDie Kosten liegen zwischen 120 CHF für eine Einzelfirma und 1'200 CHF für eine AG.\n\n## Gesetzliche Pflichten nach der Eintragung ins Handelsregister\n\nNach der Eintragung ins Handelsregister müssen bestimmte gesetzliche Pflichten eingehalten werden, um Konformität zu gewährleisten und Sanktionen zu vermeiden.\n\n### 1. Aktualisierung der Informationen\n\nUnternehmen müssen das Handelsregister über Änderungen der eingetragenen Daten informieren. Dazu gehören:\n\n- **Änderung der Firmenbezeichnung**: Jede Änderung muss gemeldet und bestätigt werden.\n- **Adressänderung**: Ein neuer Firmensitz muss umgehend gemeldet werden.\n- **Statutenänderung**: Zum Beispiel Kapitalerhöhung oder Wechsel des Geschäftsführers.\n\n### 2. Einreichung der Jahresrechnung\n\nKapitalgesellschaften (GmbH, AG) müssen ihre Jahresrechnung beim Register einreichen, wenn sie während zwei aufeinanderfolgenden Geschäftsjahren zwei der folgenden drei Schwellenwerte überschreiten:\n\n- Bilanzsumme: 20 Millionen CHF.\n- Umsatz: 40 Millionen CHF.\n- Anzahl Mitarbeitende: 250.\n\n### 3. Steuerliche Pflichten\n\nDie Eintragung ins Handelsregister zieht auch steuerliche Pflichten nach sich, wie zum Beispiel:\n\n- MWST-Anmeldung bei einem Jahresumsatz über 100'000 CHF.\n- Jährliche Deklaration von Einkommen und Gewinn.\n\n## Kantonale Besonderheiten\n\nJeder Kanton in der Schweiz hat spezifische Regeln für das Handelsregister. Hier einige Beispiele:\n\n### Genf\n\n- **Sprache der Dokumente**: Dokumente müssen auf Französisch verfasst sein.\n- **Bearbeitungszeiten**: In der Regel kürzer als in anderen Kantonen, durchschnittlich 7 Arbeitstage.\n\n### Zürich\n\n- **Sprache der Dokumente**: Dokumente müssen auf Deutsch eingereicht werden.\n- **Etwas höhere Gebühren**: Die Eintragungskosten für GmbH oder AG können bis zu 1'200 CHF betragen.\n\n### Waadt\n\n- **Schnelle Veröffentlichung im SHAB**: Veröffentlichungen erfolgen oft innerhalb von 48 Stunden nach Genehmigung.\n- **Unterstützung für KMU**: Der Kanton bietet kostenlose Beratungsdienste für Unternehmer an.\n\n## Checkliste: Nachverfolgung nach der Eintragung\n\nHier eine Checkliste, um sicherzustellen, dass alle Schritte nach der Eintragung eingehalten werden:\n\n- [ ] Veröffentlichung im SHAB prüfen.\n- [ ] Informationen bei Änderungen aktualisieren (Adresse, Statuten usw.).\n- [ ] Bei Bedarf für die MWST anmelden.\n- [ ] Jahresrechnung einreichen, falls Schwellenwerte erreicht werden.\n- [ ] Kantonale und eidgenössische Steuerpflichten einhalten.\n\n## Vergleichstabelle Fristen und Gebühren nach Kanton\n\n| Kanton | Durchschnittliche Fristen (Arbeitstage) | Ungefähre Gebühren (CHF) |\n|-------------|-------------------------------------|---------------------------|\n| Genf | 7 | 800 - 1'000 |\n| Zürich | 10 | 1'000 - 1'200 |\n| Waadt | 8 | 600 - 900 |\n\n## Zusätzliche FAQ\n\n### 7. Was tun bei Wechsel des Geschäftsführers oder Verwaltungsrats?\nSie müssen eine Änderungsmeldung beim Handelsregister einreichen, zusammen mit den erforderlichen Unterlagen (z. B. Annahmeerklärung des neuen Geschäftsführers).\n\n### 8. Müssen die Jahresrechnungen veröffentlicht werden?\nNein, außer Ihr Unternehmen überschreitet zwei der drei gesetzlich definierten Schwellenwerte (siehe Abschnitt \"Einreichung der Jahresrechnung\").\n\n### 9. Wie erhält man einen Auszug aus dem Handelsregister?\nSie können einen offiziellen Auszug beim zuständigen kantonalen Amt oder über die Plattform Zefix anfordern.\n\n### 10. Welche Risiken bestehen bei Nichteinhaltung der Pflichten nach der Eintragung?\nEs drohen Bussen, Verwaltungssanktionen und im Extremfall die Löschung des Unternehmens aus dem Register.\n\n### 11. Kann die Rechtsform nach der Eintragung geändert werden?\nJa, dies erfordert jedoch ein spezielles Verfahren, einschließlich Statutenänderung und Neueintragung im Handelsregister.\n\n---\n### Referenzen\n- [Unternehmensgründung: Eintragung ins Handelsregister](https://www.startups.ch/fr/blog/creation-dentreprise-en-suisse-guide-complet)\n- [Vollständiger Leitfaden Handelsregister Schweiz 2026 (MagicHeidi)](https://magicheidi.ch/fr/commerce-register-switzerland-2026)\n- [Offizielle Mitteilung EHRA (Kanton Waadt 2025)](https://www.vd.ch/fileadmin/user_upload/themes/economie_emploi/entreprises/registre_commerce/fichiers_pdf/Communication_OFRC_1-2025_FR.pdf)\n- [Eintragung ins Handelsregister – KMU-Portal](https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/creation-pme/creation-entreprise/registre-du-commerce.html)\n- [Eidgenössisches Amt für das Handelsregister (EHRA)](https://www.bj.admin.ch/bj/fr/home/wirtschaft/handelsregister.html)\n- [Zefix – Online-Firmensuche](https://www.zefix.ch/fr/)\n",
+      "author": "Ark Fiduciaire",
+      "date": "2026-03-04",
+      "references": [
+        {
+          "labelKey": "Créer une entreprise : Inscription au registre du commerce",
+          "url": "https://www.startups.ch/fr/blog/creation-dentreprise-en-suisse-guide-complet"
+        },
+        {
+          "labelKey": "Guide complet Registre du commerce en Suisse 2026 (MagicHeidi)",
+          "url": "https://magicheidi.ch/fr/commerce-register-switzerland-2026"
+        },
+        {
+          "labelKey": "Communication officielle OFRC (État de Vaud 2025)",
+          "url": "https://www.vd.ch/fileadmin/user_upload/themes/economie_emploi/entreprises/registre_commerce/fichiers_pdf/Communication_OFRC_1-2025_FR.pdf"
+        },
+        {
+          "labelKey": "Inscription au registre du commerce - Portail PME",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/creation-pme/creation-entreprise/registre-du-commerce.html"
+        },
+        {
+          "labelKey": "Office fédéral du registre du commerce (OFRC)",
+          "url": "https://www.bj.admin.ch/bj/fr/home/wirtschaft/handelsregister.html"
+        },
+        {
+          "labelKey": "Zefix – Consultation des raisons commerciales en ligne",
+          "url": "https://www.zefix.ch/fr/"
         }
       ]
     }
@@ -1793,5 +1795,15 @@
   "Obligations légales pour la domiciliation en Suisse": "Gesetzliche Verpflichtungen für die Domizilierung in der Schweiz",
   "Critères pour choisir un prestataire de domiciliation": "Wie bewertet man einen zuverlässigen Anbieter für die Domizilierung in der Schweiz",
   "Obligations fiscales des entreprises domiciliées en Suisse": "Die wichtigsten steuerlichen Verpflichtungen für die Domizilierung in der Schweiz",
-  "Alternatives à la domiciliation en Suisse": "Welche Alternativen gibt es zur klassischen Domizilierung in der Schweiz?"
+  "Alternatives à la domiciliation en Suisse": "Welche Alternativen gibt es zur klassischen Domizilierung in der Schweiz?",
+  "Guide complet Registre du commerce en Suisse 2026 (MagicHeidi)": "Vollständiger Leitfaden Handelsregister Schweiz 2026 (MagicHeidi)",
+  "Inscription au registre du commerce - Portail PME": "Eintragung ins Handelsregister – KMU-Portal",
+  "Créer une entreprise : Inscription au registre du commerce": "Unternehmensgründung: Eintragung ins Handelsregister",
+  "Office fédéral du registre du commerce (OFRC)": "Eidgenössisches Amt für das Handelsregister (EHRA)",
+  "Communication officielle OFRC (État de Vaud 2025)": "Offizielle Mitteilung EHRA (Kanton Waadt 2025)",
+  "Zefix – Consultation des raisons commerciales en ligne": "Zefix – Online-Firmensuche",
+  "Obligations légales post-inscription": "Gesetzliche Pflichten nach Eintragung ins Handelsregister",
+  "Spécificités cantonales": "Kantonale Besonderheiten des Handelsregisters",
+  "Checklist post-inscription": "Checkliste nach der Eintragung",
+  "FAQ avancée registre du commerce": "Erweiterte FAQ zum Handelsregister"
 }
