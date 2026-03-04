@@ -1,70 +1,43 @@
-// Existing code...
-
-const defaultBlockedDomains = [
-    // Other domains...
-    "pwc.ch",
-    "bdo.ch",
-    "ey.com",
-    "kpmg.ch",
-    "deloitte.ch",
-    "taxpartner.ch",
-    "mazars.ch",
-    "grantthornton.ch",
-    "pkf.swiss",
-    "obt.ch",
-    "kendris.com",
-    "balmer-etienne.ch",
-    "caminada.com",
-    "fidinam.com",
-    "fidag-sa.ch",
-    "rister.ch",
-    "findea.ch",
-    "fidulex.ch",
-    "entreprendre.ch",
-    "acctive.ch",
-    "fbk-conseils.ch",
-    "karpeo.ch",
-    "safe-fiduciaire.ch",
-    "berneyassocies.com",
-    "alltax.ch",
-    "omnitax.ch",
-    "retax.ch",
-    "wadsack.ch",
-    "core-partner.ch",
-    "adbtax.ch",
-    "cofidest.ch",
-    "cofidest-swiss-audit.ch",
-    "tax-services.ch",
-    "eurexsuisse.com",
-    "ftrust.ch",
-    "aaretax.ch",
-    "aapartnertreuhand.ch",
-    "ackermann-treuhand.ch",
-    "treuco.ch",
-    "rnptreuhand.ch",
-    "nexova.ch",
-    "financialkeepers.ch",
-    "fg-fiduciaire.ch",
-    "roux-associes.ch",
-    "fidurolle.ch",
-    "zuffereypanigas.ch",
-    "fiduciaire-rutz-menger.ch",
-    "grf-societe-fiduciaire.ch",
-    "y-fiduciaire.ch",
-    "fiducom.ch",
-    "swissdomiciliation.ch",
-    "liberal-vd.ch",
-    "kaurum.com",
-    "finwise.ch",
-    "calliopee.ch",
-    "agfiduciaire.ch",
-    "aag-fiduciaire.ch",
-    "mm-t.ch",
-    "gtf.ch",
-    "bbtreuhand.ch",
-    "dlg.ch",
-    "enfinfidu.ch",
-    "fasoon.ch"
+// Keyword patterns that indicate a competitor domain (fiduciaries, lawyers,
+// accountants, tax advisors, etc.) in French, German, English, and Italian.
+// A hostname that matches any of these patterns is automatically blocked
+// unless it belongs to the TRUSTED_DOMAINS list.
+const COMPETITOR_KEYWORD_PATTERNS = [
+  // French
+  /fiduciai/i,
+  /fiduci[eè]/i,
+  /avocat/i,
+  /notaire/i,
+  /comptabl/i,
+  /expert[\s-]?compt/i,
+  /conseil[\s-]?fiscal/i,
+  /r[eé]visor/i,
+  // German
+  /treuhand/i,
+  /steuerber/i,
+  /anwalt/i,
+  /anw[aä]lt/i,
+  /kanzlei/i,
+  /buchhal/i,
+  /notar/i,
+  /rechtsanw/i,
+  /wirtschaftspr[uü]f/i,
+  /revisi[oó]n/i,
+  // English
+  /\blawyer/i,
+  /\battorney/i,
+  /\baccountan/i,
+  /\bbookkeep/i,
+  // Italian
+  /fiduciari[ao]/i,
+  /avvocat/i,
+  /contabil/i,
+  /commercialis/i,
+  /notaio/i,
+  // Generic / abbreviation patterns
+  /\bfidu\b/i,
+  /\bfidu[.-]/i,
+  /\btax[\s-]?consult/i,
 ];
 
 const DEFAULT_TIMEOUT_MS = parseInt(process.env.LINK_CHECK_TIMEOUT_MS || "10000", 10);
@@ -115,12 +88,76 @@ function parseDomainList(raw) {
 }
 
 // Known competitor domains to exclude from article references by default.
+// This list is a hard blocklist – domains here are always rejected regardless
+// of keyword patterns.  Keep it alphabetically sorted for easy maintenance.
 const DEFAULT_BLOCKED_DOMAINS = [
-  "rister.ch",
-  "findea.ch",
+  "aag-fiduciaire.ch",
+  "aapartnertreuhand.ch",
+  "aaretax.ch",
+  "ackermann-treuhand.ch",
+  "acctive.ch",
+  "adbtax.ch",
+  "agfiduciaire.ch",
+  "alltax.ch",
+  "avocatssansfrontieres.ch",
+  "balmer-etienne.ch",
+  "bbtreuhand.ch",
+  "bdo.ch",
+  "berneyassocies.com",
+  "calliopee.ch",
+  "caminada.com",
+  "cofidest.ch",
+  "cofidest-swiss-audit.ch",
+  "core-partner.ch",
+  "deloitte.ch",
+  "dlg.ch",
+  "enfinfidu.ch",
+  "entreprendre.ch",
+  "eurexsuisse.com",
+  "ey.com",
+  "fasoon.ch",
+  "fbk-conseils.ch",
+  "fg-fiduciaire.ch",
+  "fidag-sa.ch",
+  "fidinam.com",
+  "fiduciaire-rutz-menger.ch",
+  "fiducom.ch",
   "fidulex.ch",
+  "fidurolle.ch",
+  "financialkeepers.ch",
+  "findea.ch",
+  "finwise.ch",
+  "ftrust.ch",
+  "grantthornton.ch",
+  "grf-societe-fiduciaire.ch",
+  "gtf.ch",
+  "karpeo.ch",
+  "kaurum.com",
+  "kendris.com",
+  "kpmg.ch",
+  "liberal-vd.ch",
+  "magicheidi.ch",
+  "mazars.ch",
+  "mm-t.ch",
+  "nexova.ch",
+  "obt.ch",
+  "omnitax.ch",
+  "pkf.swiss",
+  "pwc.ch",
+  "retax.ch",
+  "rister.ch",
+  "rnptreuhand.ch",
+  "roux-associes.ch",
+  "safe-fiduciaire.ch",
   "swissdomiciliation.ch",
-  "liberal-vd.ch"
+  "tax-services.ch",
+  "taxpartner.ch",
+  "tek-consulting-services.ch",
+  "treuco.ch",
+  "vermoegenszentrum.ch",
+  "wadsack.ch",
+  "y-fiduciaire.ch",
+  "zuffereypanigas.ch",
 ];
 const BLOCKED_DOMAINS = Array.from(
   new Set([
@@ -145,9 +182,23 @@ function isBlockedDomain(url, blockedDomains = BLOCKED_DOMAINS) {
   if (!blockedDomains || blockedDomains.length === 0) return false;
   try {
     const host = new URL(url).hostname.toLowerCase();
-    return blockedDomains.some(
-      (d) => host === d || host.endsWith(`.${d}`),
-    );
+    // Exact domain match
+    if (
+      blockedDomains.some((d) => host === d || host.endsWith(`.${d}`))
+    ) {
+      return true;
+    }
+    // Keyword-based heuristic: skip for trusted/official domains
+    if (
+      TRUSTED_DOMAINS.some(
+        (d) => host === d || host.endsWith(`.${d}`),
+      )
+    ) {
+      return false;
+    }
+    // Strip www. and TLD for pattern matching (e.g. "www.fiduciaire-xyz.ch" → "fiduciaire-xyz")
+    const stripped = host.replace(/^www\./, "").replace(/\.[a-z]{2,}$/, "");
+    return COMPETITOR_KEYWORD_PATTERNS.some((re) => re.test(stripped));
   } catch {
     return false;
   }
@@ -623,6 +674,7 @@ module.exports = {
   deduplicateByDomain,
   extractDomain,
   isTrustedDomain,
+  isBlockedDomain,
   getFallbackReferences,
   VERIFIED_FALLBACK_REFS,
   DEFAULT_TIMEOUT_MS,
