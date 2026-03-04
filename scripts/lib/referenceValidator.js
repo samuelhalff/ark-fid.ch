@@ -19,7 +19,7 @@ const COMPETITOR_KEYWORD_PATTERNS = [
   /anw[aä]lt/i,
   /kanzlei/i,
   /buchhal/i,
-  /notar(?!io)/i,
+  /notar/i,
   /rechtsanw/i,
   /wirtschaftspr[uü]f/i,
   /revisi[oó]n/i,
@@ -33,6 +33,7 @@ const COMPETITOR_KEYWORD_PATTERNS = [
   /avvocat/i,
   /contabil/i,
   /commercialis/i,
+  /notaio/i,
   // Generic / abbreviation patterns
   /\bfidu\b/i,
   /\bfidu[.-]/i,
