@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-04T00:06:55.816Z",
+  "generatedAt": "2026-03-07T00:06:40.641Z",
   "config": {
     "maxSuggestions": 10,
     "driftRatio": 0.4,
@@ -389,8 +389,7 @@
         "tax advice geneva": {
           "google": [
             "tax advice geneva",
-            "tax advisor geneva",
-            "tax advisor geneva switzerland"
+            "tax advisor geneva"
           ],
           "bing": []
         }
@@ -500,15 +499,15 @@
         "family office switzerland": {
           "google": [
             "family office switzerland",
+            "family office switzerland list",
             "family office switzerland jobs",
             "family foundation switzerland",
             "single family office switzerland",
             "tomlinson family office switzerland",
+            "multi family office switzerland",
             "freemont family office switzerland",
             "hfi family office switzerland",
-            "family office conference switzerland",
-            "jacobs family office switzerland",
-            "family office salary switzerland"
+            "family office conference switzerland"
           ],
           "bing": [
             "family office switzerland",
@@ -595,7 +594,7 @@
             "lohnbuchhaltung schweiz buch",
             "lohnbuchhaltung schweiz kurs",
             "lohnbuchhaltung schweiz buchungssätze",
-            "lohnbuchhaltung schweiz gratis"
+            "lohnbuchhaltung schweiz weiterbildung"
           ],
           "bing": [
             "lohnbuchhaltung schweiz"
@@ -835,14 +834,14 @@
         "contabilidade genebra": {
           "google": [],
           "bing": [
-            "contabilidade genesis",
             "contabilidad general 1",
+            "contabilidade genesis",
             "contabilidad general libro",
-            "contabilidad general online",
-            "contabilidad general libro pdf",
-            "contabilidad general que es",
             "contabilidad general inacap",
-            "contabilidad general erly zeballos pdf"
+            "contabilidad general libro pdf",
+            "contabilidad general erly zeballos pdf",
+            "contabilidad general que es",
+            "contabilidad general sage 50 y fiscalidad"
           ]
         }
       },
@@ -1012,7 +1011,11 @@
     "pt": {
       "/services/accounting": {},
       "/services/taxes": {},
-      "/services/payroll": {},
+      "/services/payroll": {
+        "folha salarial suíça": {
+          "google": "HTTP 500: <!DOCTYPE html>\n<html lang=en>\n  <meta charset=utf-8>\n  <meta name=viewport content=\"initial-scale=1, minimum-scale=1, width=device-width\">\n  <title>Error 500 (Server Error)!!1</title>\n  <style>\n    *"
+        }
+      },
       "/services/corporate": {},
       "/services/domiciliation": {},
       "/services/incorporation": {},
