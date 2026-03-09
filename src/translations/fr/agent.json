@@ -27,7 +27,9 @@
         "RateLimit": "Trop de requêtes. Merci d'attendre un instant.",
         "StartHint": "Indiquez votre email pour commencer.",
         "InvalidEmailDomain": "Merci d'utiliser un domaine email professionnel valide.",
-        "ReadyHint": "Chat prêt. Vous pouvez commencer à écrire ci-dessous."
+        "ReadyHint": "Chat prêt. Vous pouvez commencer à écrire ci-dessous.",
+        "ClearHistory": "Une erreur est survenue. Effacer l'historique.",
+        "Reconnect": "Reconnecter"
     },
     "Suggestions": {
         "Title": "Essayez l'une de ces questions",

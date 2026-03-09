@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Card, CardContent } from "@/src/components/ui/card";
 import { Input } from "@/src/components/ui/input";
 import { Textarea } from "@/src/components/ui/textarea";
 import { Button } from "@/src/components/ui/button";
@@ -73,6 +72,7 @@ export type AgentChatStrings = {
     startHint: string;
     invalidEmailDomain: string;
     readyHint: string;
+    reconnect: string;
     clearHistory: string;
   };
   suggestions: {
@@ -85,6 +85,8 @@ const STORAGE_KEY = "ark-agent-chat";
 const MAX_MESSAGES = 12;
 /** Storage data is considered stale and cleared after 24 hours */
 const STORAGE_TTL_MS = 24 * 60 * 60 * 1000;
+const LEAD_REQUEST_TIMEOUT_MS = 30_000;
+const CHAT_REQUEST_TIMEOUT_MS = 90_000;
 
 const defaultContact: ContactInfo = {
   name: "",
@@ -99,6 +101,24 @@ const createSessionId = () => {
 
 const isValidEmail = (value: string) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+
+const fetchWithTimeout = async (
+  input: RequestInfo | URL,
+  init: RequestInit,
+  timeoutMs: number,
+) => {
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    return await fetch(input, {
+      ...init,
+      signal: controller.signal,
+    });
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
+};
 
 export default function AgentChat({
   strings,
@@ -119,9 +139,12 @@ export default function AgentChat({
   const [turnstileWidgetId, setTurnstileWidgetId] = useState<string | null>(
     null,
   );
+  const [turnstileRenderKey, setTurnstileRenderKey] = useState(0);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
+  const [reconnecting, setReconnecting] = useState(false);
+  const [reconnectAvailable, setReconnectAvailable] = useState(false);
   const [chatError, setChatError] = useState<string | null>(null);
   const [modalError, setModalError] = useState<string | null>(null);
   const [rateLimited, setRateLimited] = useState(false);
@@ -185,6 +208,15 @@ export default function AgentChat({
   );
   const showClearHistory = chatError === strings.chat.error;
   const showModalClearHistory = modalError === strings.chat.error;
+
+  const resetTurnstile = () => {
+    setTurnstileToken("");
+    if (typeof window !== "undefined" && turnstileWidgetId && window.turnstile) {
+      window.turnstile.remove(turnstileWidgetId);
+    }
+    setTurnstileWidgetId(null);
+    setTurnstileRenderKey((prev) => prev + 1);
+  };
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -315,6 +347,7 @@ export default function AgentChat({
     setDomainInvalid(false);
     setChatError(null);
     setModalError(null);
+    setReconnectAvailable(false);
   }, [contact.email]);
 
   useEffect(() => {
@@ -404,12 +437,8 @@ export default function AgentChat({
 
   useEffect(() => {
     if (!leadModalOpen) {
-      setTurnstileToken("");
+      resetTurnstile();
       setModalError(null);
-      if (turnstileWidgetId && window.turnstile) {
-        window.turnstile.remove(turnstileWidgetId);
-      }
-      setTurnstileWidgetId(null);
       return;
     }
     if (!turnstileEnabled || !turnstileReady || !turnstileRef.current) return;
@@ -476,6 +505,117 @@ export default function AgentChat({
     setContact((prev) => ({ ...prev, [field]: value }));
   };
 
+  const requestLeadAccess = async ({
+    forceNewSession = false,
+    silent = false,
+  }: {
+    forceNewSession?: boolean;
+    silent?: boolean;
+  } = {}) => {
+    if (normalizedEmail !== contact.email || normalizedName !== contact.name) {
+      setContact((prev) => ({
+        ...prev,
+        email: normalizedEmail,
+        name: normalizedName,
+      }));
+    }
+    if (!canConfirmLead) {
+      if (!silent) {
+        setModalError(strings.chat.startHint);
+      }
+      return false;
+    }
+    if (turnstileEnabled && !turnstileToken) {
+      if (!silent) {
+        setModalError(strings.lead.verificationRequired);
+      }
+      return false;
+    }
+
+    const resolvedSessionId = forceNewSession
+      ? createSessionId()
+      : ensureSessionId();
+    if (forceNewSession) {
+      setSessionId(resolvedSessionId);
+    }
+
+    setModalError(null);
+    setChatError(null);
+    setReconnectAvailable(false);
+    setLeadSubmitting(true);
+
+    try {
+      const { pageUrl, referrer, utm } = getRequestContext();
+      const res = await fetchWithTimeout(
+        "/api/agent/chat/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...contact,
+            email: normalizedEmail,
+            messages: [],
+            leadOnly: true,
+            sessionId: resolvedSessionId,
+            pageUrl,
+            referrer,
+            utm,
+            ...(turnstileToken ? { turnstileToken } : {}),
+          }),
+        },
+        LEAD_REQUEST_TIMEOUT_MS,
+      );
+      const payload = (await res.json()) as {
+        error?: string;
+        leadId?: string;
+        leadToken?: string;
+      };
+
+      if (!res.ok) {
+        if (payload.error === "invalid_email_domain") {
+          setDomainInvalid(true);
+          setChatError(strings.chat.invalidEmailDomain);
+          setModalError(strings.chat.invalidEmailDomain);
+          return false;
+        }
+        if (
+          payload.error === "turnstile_required" ||
+          payload.error === "turnstile_failed"
+        ) {
+          resetTurnstile();
+          setModalError(strings.lead.verificationRequired);
+          return false;
+        }
+        setReconnectAvailable(true);
+        setModalError(strings.chat.error);
+        return false;
+      }
+
+      if (!payload.leadId || !payload.leadToken) {
+        setReconnectAvailable(true);
+        setModalError(strings.chat.error);
+        return false;
+      }
+
+      setLeadConfirmed(true);
+      setConfirmedEmail(normalizedEmail);
+      setLeadMeta({ id: payload.leadId, token: payload.leadToken });
+      setLeadModalOpen(false);
+      setModalError(null);
+      setReconnectAvailable(false);
+      inputRef.current?.focus();
+      return true;
+    } catch {
+      setReconnectAvailable(true);
+      setModalError(strings.chat.error);
+      return false;
+    } finally {
+      setLeadSubmitting(false);
+    }
+  };
+
   const handleClearHistory = () => {
     setContact({ ...defaultContact });
     setLeadConfirmed(false);
@@ -484,10 +624,12 @@ export default function AgentChat({
     setSessionId("");
     setLeadSubmitting(false);
     setLeadModalOpen(true);
-    setTurnstileToken("");
+    resetTurnstile();
     setMessages([]);
     setInput("");
     setSending(false);
+    setReconnecting(false);
+    setReconnectAvailable(false);
     setChatError(null);
     setModalError(null);
     setRateLimited(false);
@@ -538,80 +680,35 @@ export default function AgentChat({
   };
 
   const handleStart = async () => {
-    if (normalizedEmail !== contact.email || normalizedName !== contact.name) {
-      setContact((prev) => ({
-        ...prev,
-        email: normalizedEmail,
-        name: normalizedName,
-      }));
-    }
-    if (!canConfirmLead) {
-      setModalError(strings.chat.startHint);
-      return;
-    }
-    if (turnstileEnabled && !turnstileToken) {
-      setModalError(strings.lead.verificationRequired);
-      return;
-    }
-    const resolvedSessionId = ensureSessionId();
+    await requestLeadAccess();
+  };
+
+  const handleReconnect = async () => {
+    if (reconnecting) return;
+
+    setReconnecting(true);
+    setRateLimited(false);
+    setChatError(null);
     setModalError(null);
-    setLeadSubmitting(true);
+    setLeadConfirmed(false);
+    setConfirmedEmail("");
+    setLeadMeta({ id: "", token: "" });
+
     try {
-      const { pageUrl, referrer, utm } = getRequestContext();
-      const res = await fetch("/api/agent/chat/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        keepalive: true,
-        body: JSON.stringify({
-          ...contact,
-          email: normalizedEmail,
-          messages: [],
-          leadOnly: true,
-          sessionId: resolvedSessionId,
-          pageUrl,
-          referrer,
-          utm,
-          ...(turnstileToken ? { turnstileToken } : {}),
-        }),
-      });
-      const payload = (await res.json()) as {
-        error?: string;
-        leadId?: string;
-        leadToken?: string;
-      };
-      if (!res.ok) {
-        if (payload.error === "invalid_email_domain") {
-          setDomainInvalid(true);
-          setChatError(strings.chat.invalidEmailDomain);
-          setModalError(strings.chat.invalidEmailDomain);
-          return;
-        }
-        if (
-          payload.error === "turnstile_required" ||
-          payload.error === "turnstile_failed"
-        ) {
-          setModalError(strings.lead.verificationRequired);
-          return;
-        }
-        setModalError(strings.chat.error);
+      if (turnstileEnabled) {
+        const nextSessionId = createSessionId();
+        setSessionId(nextSessionId);
+        resetTurnstile();
+        setLeadModalOpen(true);
         return;
       }
-      if (!payload.leadId || !payload.leadToken) {
-        setModalError(strings.chat.error);
-        return;
+
+      const connected = await requestLeadAccess({ forceNewSession: true });
+      if (!connected) {
+        setLeadModalOpen(true);
       }
-      setLeadConfirmed(true);
-      setConfirmedEmail(normalizedEmail);
-      setLeadMeta({ id: payload.leadId, token: payload.leadToken });
-      setLeadModalOpen(false);
-      setModalError(null);
-      inputRef.current?.focus();
-    } catch {
-      setModalError(strings.chat.error);
     } finally {
-      setLeadSubmitting(false);
+      setReconnecting(false);
     }
   };
 
@@ -630,6 +727,7 @@ export default function AgentChat({
 
     setChatError(null);
     setRateLimited(false);
+    setReconnectAvailable(false);
     setSending(true);
     const nextMessage: Message = {
       id: createId(),
@@ -637,34 +735,44 @@ export default function AgentChat({
       content: trimmed,
     };
     const nextMessages = [...messages, nextMessage].slice(-MAX_MESSAGES);
+    const restoreDraft = () => {
+      setMessages((prev) =>
+        prev.filter((message) => message.id !== nextMessage.id),
+      );
+      setInput(trimmed);
+    };
     setMessages(nextMessages);
     setInput("");
 
     try {
       const { pageUrl, referrer, utm } = getRequestContext();
-      const res = await fetch("/api/agent/chat/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetchWithTimeout(
+        "/api/agent/chat/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...contact,
+            email: normalizedEmail,
+            leadId: leadMeta.id,
+            leadToken: leadMeta.token,
+            sessionId: resolvedSessionId,
+            pageUrl,
+            referrer,
+            utm,
+            messages: nextMessages.map((message) => ({
+              role: message.role,
+              content: message.content,
+            })),
+          }),
         },
-        keepalive: true,
-        body: JSON.stringify({
-          ...contact,
-          email: normalizedEmail,
-          leadId: leadMeta.id,
-          leadToken: leadMeta.token,
-          sessionId: resolvedSessionId,
-          pageUrl,
-          referrer,
-          utm,
-          messages: nextMessages.map((message) => ({
-            role: message.role,
-            content: message.content,
-          })),
-        }),
-      });
+        CHAT_REQUEST_TIMEOUT_MS,
+      );
 
       if (res.status === 429) {
+        restoreDraft();
         setRateLimited(true);
         setChatError(strings.chat.rateLimit);
         return;
@@ -672,6 +780,7 @@ export default function AgentChat({
 
       const payload = (await res.json()) as { reply?: string; error?: string };
       if (payload.error === "invalid_email_domain") {
+        restoreDraft();
         setDomainInvalid(true);
         setChatError(strings.chat.invalidEmailDomain);
         return;
@@ -680,10 +789,20 @@ export default function AgentChat({
         payload.error === "lead_required" ||
         payload.error === "lead_invalid"
       ) {
+        restoreDraft();
         setLeadConfirmed(false);
         setConfirmedEmail("");
         setLeadMeta({ id: "", token: "" });
-        setChatError(strings.chat.startHint);
+        setReconnectAvailable(true);
+        setChatError(strings.chat.error);
+        if (turnstileEnabled) {
+          const nextSessionId = createSessionId();
+          setSessionId(nextSessionId);
+          resetTurnstile();
+          setLeadModalOpen(true);
+        } else {
+          void handleReconnect();
+        }
         return;
       }
       const reply = payload.reply ?? "";
@@ -695,6 +814,8 @@ export default function AgentChat({
         { id: createId(), role: "assistant", content: reply },
       ]);
     } catch {
+      restoreDraft();
+      setReconnectAvailable(true);
       setChatError(strings.chat.error);
     } finally {
       setSending(false);
@@ -806,6 +927,18 @@ export default function AgentChat({
           >
             {chatError}
           </div>
+        )}
+        {reconnectAvailable && !rateLimited && (
+          <Button
+            type="button"
+            variant="link"
+            size="sm"
+            onClick={() => void handleReconnect()}
+            disabled={reconnecting || sending || leadSubmitting}
+            className="mb-3 h-auto p-0 text-xs text-foreground hover:text-foreground/80"
+          >
+            {reconnecting ? strings.chat.thinking : strings.chat.reconnect}
+          </Button>
         )}
         {showClearHistory && (
           <Button
@@ -926,7 +1059,11 @@ export default function AgentChat({
                     {strings.lead.verificationLabel}
                   </p>
                   <div className="flex justify-center">
-                    <div ref={turnstileRef} className="w-full max-w-[300px]" />
+                    <div
+                      key={turnstileRenderKey}
+                      ref={turnstileRef}
+                      className="w-full max-w-[300px]"
+                    />
                   </div>
                 </div>
               )}
@@ -942,6 +1079,18 @@ export default function AgentChat({
                   className="mt-2 h-auto p-0 text-xs text-red-500 hover:text-red-600"
                 >
                   {strings.chat.clearHistory}
+                </Button>
+              )}
+              {reconnectAvailable && (
+                <Button
+                  type="button"
+                  variant="link"
+                  size="sm"
+                  onClick={() => void handleReconnect()}
+                  disabled={reconnecting || sending || leadSubmitting}
+                  className="mt-2 h-auto p-0 text-xs text-foreground hover:text-foreground/80"
+                >
+                  {reconnecting ? strings.chat.thinking : strings.chat.reconnect}
                 </Button>
               )}
               <div className="flex flex-col gap-3 mt-4">

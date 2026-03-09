@@ -142,6 +142,7 @@ export default async function AgentPage(
         "Chat.ReadyHint",
         "Chat ready. You can start typing below.",
       ),
+      reconnect: text("Chat.Reconnect", "Reconnect"),
       clearHistory: text(
         "Chat.ClearHistory",
         "An error occurred. Clear history.",

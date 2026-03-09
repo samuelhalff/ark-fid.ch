@@ -28,7 +28,8 @@
         "StartHint": "Introduza o seu e-mail para começar.",
         "InvalidEmailDomain": "Utilize um domínio de e-mail profissional válido.",
         "ReadyHint": "Chat pronto. Pode começar a escrever abaixo.",
-        "ClearHistory": "Ocorreu um erro. Limpar histórico."
+        "ClearHistory": "Ocorreu um erro. Limpar histórico.",
+        "Reconnect": "Reconectar"
     },
     "Suggestions": {
         "Title": "Experimente uma destas perguntas",

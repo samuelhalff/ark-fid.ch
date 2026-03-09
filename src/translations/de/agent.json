@@ -28,7 +28,8 @@
         "StartHint": "Geben Sie Ihre E-Mail ein, um zu starten.",
         "InvalidEmailDomain": "Bitte verwenden Sie eine gültige geschäftliche E-Mail-Domain.",
         "ReadyHint": "Chat bereit. Sie können unten losschreiben.",
-        "ClearHistory": "Ein Fehler ist aufgetreten. Verlauf löschen."
+        "ClearHistory": "Ein Fehler ist aufgetreten. Verlauf löschen.",
+        "Reconnect": "Erneut verbinden"
     },
     "Suggestions": {
         "Title": "Probieren Sie eine dieser Fragen",
