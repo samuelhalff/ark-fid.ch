@@ -518,6 +518,13 @@ function buildSystemPrompt(frJson, trendData = null) {
     "",
     "Objectif: proposer EXACTEMENT 1 nouvel article (section « Articles ») en français, avec des conseils pratiques et utiles pour les visiteurs PME/indépendants.",
     "",
+    "=== FAITS VÉRIFIÉS (à utiliser obligatoirement si le sujet touche à la TVA/MWST/VAT) ===",
+    "Taux de TVA suisses actuels (depuis 2024):",
+    "- Taux normal: 8,1 %",
+    "- Taux réduit: 2,6 %",
+    "- Taux spécial hébergement: 3,8 %",
+    "⚠️ Ne JAMAIS utiliser les anciens taux (7,7 %, 2,5 %, 3,7 %) comme taux actuels. Si tu mentionnes les taux de TVA, utilise UNIQUEMENT les taux en vigueur ci-dessus.",
+    "",
     "Contraintes impératives:",
     "- FOCUS sur des conseils pratiques, astuces concrètes, erreurs courantes à éviter, guides étape-par-étape, taux/rates actuels par canton/activité.",
     "- Exemples souhaités: omissions courantes dans déclarations fiscales, taux sociaux par canton, taux TVA par activité, conformité LBA/AML, obtention de licences FINMA, affiliation SRO/OAR, quand/déclarer comment, pièges à éviter, optimisations légales.",
@@ -642,6 +649,13 @@ function buildResearchPrompt(frJson, trendData, seoSuggestions) {
     "",
     "Objectif: proposer 1 sujet + plan + références vérifiables (PAS l'article complet).",
     "",
+    "=== FAITS VÉRIFIÉS (à utiliser obligatoirement si le sujet touche à la TVA/MWST/VAT) ===",
+    "Taux de TVA suisses actuels (depuis 2024):",
+    "- Taux normal: 8,1 %",
+    "- Taux réduit: 2,6 %",
+    "- Taux spécial hébergement: 3,8 %",
+    "⚠️ Ne JAMAIS utiliser les anciens taux (7,7 %, 2,5 %, 3,7 %) comme taux actuels.",
+    "",
     "Contraintes:",
     topicConstraint,
     `- L'article final fera ${Math.max(minWords, 1500)} à ${Math.max(Math.max(minWords, 1500), maxWords)} mots.`,
@@ -692,6 +706,13 @@ function buildDraftPromptFromResearch(research, validatedReferences) {
     "- Quand tu cites une source, écris simplement (source: <labelKey>).",
     "- Titres: utilise ## pour H2 et ### pour H3, sans préfixer les titres par « H2 » ou « H3 ».",
     "- Utilise exactement le slug, titre et description fournis.",
+    "",
+    "=== FAITS VÉRIFIÉS (à utiliser obligatoirement si le sujet touche à la TVA/MWST/VAT) ===",
+    "Taux de TVA suisses actuels (depuis 2024):",
+    "- Taux normal: 8,1 %",
+    "- Taux réduit: 2,6 %",
+    "- Taux spécial hébergement: 3,8 %",
+    "⚠️ Ne JAMAIS utiliser les anciens taux (7,7 %, 2,5 %, 3,7 %) comme taux actuels.",
     "",
     "Plan à suivre:",
     JSON.stringify(research.outline || [], null, 2),
@@ -1921,6 +1942,17 @@ function validateNewArticle(frData, article) {
       err.maxWords = maxWords;
       throw err;
     }
+  }
+
+  // Fact-check: reject articles that use known outdated Swiss VAT rates
+  const content = (article.content || "") + " " + (article.title || "") + " " + (article.description || "");
+  const outdatedVatPattern = /\b7[.,]7\s*%/;
+  if (outdatedVatPattern.test(content)) {
+    const err = new Error(
+      "Article contient l'ancien taux de TVA suisse (7,7 %). Le taux normal actuel est 8,1 % (depuis 2024).",
+    );
+    err.code = "OUTDATED_FACT";
+    throw err;
   }
 }
 
