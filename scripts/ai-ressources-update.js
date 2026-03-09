@@ -11,6 +11,9 @@ const {
   getFallbackReferences,
   isTrustedDomain,
 } = require("./lib/referenceValidator");
+const {
+  extractOutdatedSwissVatRateMatches,
+} = require("./lib/outdatedVatValidator");
 
 const rawArgs = process.argv.slice(2);
 const args = new Set(rawArgs);
@@ -1905,14 +1908,19 @@ function validateNewArticle(frData, article) {
     }
   }
 
-  // Reject articles that mention the outdated 7.7% Swiss VAT rate (replaced by
-  // 8.1% since 1 January 2024). This catches AI-generated content that uses
-  // stale training data.
-  if (/\b7[.,]7\s*%/.test(article.content || "")) {
+  const outdatedVatRates = extractOutdatedSwissVatRateMatches(article);
+  if (outdatedVatRates.length > 0) {
+    const staleRates = Array.from(
+      new Set(outdatedVatRates.map(({ rate }) => rate)),
+    ).join(", ");
+    const currentRates = Array.from(
+      new Set(outdatedVatRates.map(({ currentRate }) => currentRate)),
+    ).join(", ");
     const err = new Error(
-      "Article contient l'ancien taux de TVA 7,7 % (le taux normal est 8,1 % depuis 2024)",
+      `Article contient des taux de TVA suisses obsolètes (${staleRates}); vérifier les taux actuels (${currentRates})`,
     );
     err.code = "OUTDATED_VAT_RATE";
+    err.rates = staleRates;
     throw err;
   }
 
