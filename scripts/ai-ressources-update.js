@@ -649,6 +649,7 @@ function buildResearchPrompt(frJson, trendData, seoSuggestions) {
     "- Taux de TVA suisses (depuis le 1er janvier 2024): taux normal 8,1 %, taux réduit 2,6 %, taux spécial hébergement 3,8 %. Les anciens taux (7,7 %, 2,5 %, 3,7 %) ne sont plus en vigueur.",
     "",
     "Contraintes:",
+    topicConstraint,
     `- L'article final fera ${Math.max(minWords, 1500)} à ${Math.max(Math.max(minWords, 1500), maxWords)} mots.`,
     "- Références: fournir 12 à 18 liens vérifiables (HTTP 200, pas de login), sans URL inventée.",
     "- Références: inclure au moins 2 sources officielles (admin.ch / fedlex.admin.ch / bsv.admin.ch / estv.admin.ch / seco.admin.ch / finma.ch, etc.).",
