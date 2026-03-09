@@ -518,6 +518,9 @@ function buildSystemPrompt(frJson, trendData = null) {
     "",
     "Objectif: proposer EXACTEMENT 1 nouvel article (section « Articles ») en français, avec des conseils pratiques et utiles pour les visiteurs PME/indépendants.",
     "",
+    "=== FAITS VÉRIFIÉS (ne pas contredire) ===",
+    "- Taux de TVA suisses (depuis le 1er janvier 2024): taux normal 8,1 %, taux réduit 2,6 %, taux spécial hébergement 3,8 %. Les anciens taux (7,7 %, 2,5 %, 3,7 %) ne sont plus en vigueur.",
+    "",
     "Contraintes impératives:",
     "- FOCUS sur des conseils pratiques, astuces concrètes, erreurs courantes à éviter, guides étape-par-étape, taux/rates actuels par canton/activité.",
     "- Exemples souhaités: omissions courantes dans déclarations fiscales, taux sociaux par canton, taux TVA par activité, conformité LBA/AML, obtention de licences FINMA, affiliation SRO/OAR, quand/déclarer comment, pièges à éviter, optimisations légales.",
@@ -642,6 +645,9 @@ function buildResearchPrompt(frJson, trendData, seoSuggestions) {
     "",
     "Objectif: proposer 1 sujet + plan + références vérifiables (PAS l'article complet).",
     "",
+    "=== FAITS VÉRIFIÉS (ne pas contredire) ===",
+    "- Taux de TVA suisses (depuis le 1er janvier 2024): taux normal 8,1 %, taux réduit 2,6 %, taux spécial hébergement 3,8 %. Les anciens taux (7,7 %, 2,5 %, 3,7 %) ne sont plus en vigueur.",
+    "",
     "Contraintes:",
     topicConstraint,
     `- L'article final fera ${Math.max(minWords, 1500)} à ${Math.max(Math.max(minWords, 1500), maxWords)} mots.`,
@@ -681,6 +687,9 @@ function buildDraftPromptFromResearch(research, validatedReferences) {
   return [
     "Tu es un rédacteur SEO senior pour Ark Fiduciaire (Genève).",
     "Rédige un article long et utile, très concret, sans blabla.",
+    "",
+    "=== FAITS VÉRIFIÉS (ne pas contredire) ===",
+    "- Taux de TVA suisses (depuis le 1er janvier 2024): taux normal 8,1 %, taux réduit 2,6 %, taux spécial hébergement 3,8 %. Les anciens taux (7,7 %, 2,5 %, 3,7 %) ne sont plus en vigueur.",
     "",
     `CONTRAINTE DE LONGUEUR (STRICTE): entre ${Math.max(minWords, 1500)} et ${Math.max(maxWords, Math.max(minWords, 1500))} mots (viser ~2200).`,
     "Si tu es en dessous du minimum, tu DOIS ajouter du contenu (plus de H2/H3, plus d'explications, plus d'exemples). Ne termine pas tôt.",
@@ -1894,6 +1903,17 @@ function validateNewArticle(frData, article) {
       err.code = "BAD_REFERENCE";
       throw err;
     }
+  }
+
+  // Reject articles that mention the outdated 7.7% Swiss VAT rate (replaced by
+  // 8.1% since 1 January 2024). This catches AI-generated content that uses
+  // stale training data.
+  if (/\b7[.,]7\s*%/.test(article.content || "")) {
+    const err = new Error(
+      "Article contient l'ancien taux de TVA 7,7 % (le taux normal est 8,1 % depuis 2024)",
+    );
+    err.code = "OUTDATED_VAT_RATE";
+    throw err;
   }
 
   const minWords = parseInt(process.env.SEO_MIN_WORDS || "0", 10);
