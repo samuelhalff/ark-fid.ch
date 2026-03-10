@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-07T00:06:40.641Z",
+  "generatedAt": "2026-03-10T13:29:24.543Z",
   "config": {
     "maxSuggestions": 10,
     "driftRatio": 0.4,
@@ -291,13 +291,13 @@
           "google": [
             "odoo genève",
             "intégrateur odoo genève",
-            "odoo formation genève"
+            "formation odoo genève"
           ],
           "bing": [
             "odoo geneve",
-            "odoo general atlantic",
-            "odoo generico github",
             "odoo general ledger",
+            "odoo generico github",
+            "odoo general atlantic",
             "odoo generate_thumbnails",
             "odoo general ledger report",
             "odoo gevent 8072",
@@ -350,8 +350,7 @@
             "immigration suisse en france",
             "immigration suisse 2024",
             "immigration suisse en alsace",
-            "immigration en suisse pour travailler",
-            "immigration en suisse"
+            "immigration en suisse pour travailler"
           ]
         }
       }
@@ -379,9 +378,9 @@
             "accounting generalist salary",
             "accounting general entries",
             "accounting general ledger debits and credits",
-            "accounting general journal template",
             "accounting general ledger template",
-            "accounting general ledger cheat sheet"
+            "accounting general ledger cheat sheet",
+            "accounting general journal template"
           ]
         }
       },
@@ -389,7 +388,8 @@
         "tax advice geneva": {
           "google": [
             "tax advice geneva",
-            "tax advisor geneva"
+            "tax advisor geneva",
+            "tax advisor geneva switzerland"
           ],
           "bing": []
         }
@@ -482,7 +482,6 @@
             "h & m switzerland",
             "m&a and private equity market in switzerland",
             "m and s switzerland",
-            "group m switzerland",
             "h and m home switzerland"
           ]
         }
@@ -512,8 +511,8 @@
           "bing": [
             "family office switzerland",
             "family office switzerland ag",
-            "single family office switzerland",
             "atag family office switzerland",
+            "single family office switzerland",
             "family office events switzerland"
           ]
         }
@@ -539,10 +538,10 @@
             "swiss immigration number",
             "swiss immigration lawyer",
             "swiss immigration law office",
-            "swiss immigration to america 1800s",
             "swiss immigration fiorella deshogues",
             "swiss immigration website",
-            "swiss immigration services"
+            "swiss immigration services",
+            "swiss immigration application"
           ]
         }
       }
@@ -575,10 +574,10 @@
             "steuerberatung englisch",
             "steuerberatung gansen dillingen",
             "steuerberatung engel",
+            "steuerberatung jenni dornbirn",
             "steuerberatung engler",
             "steuerberatung engerwitzdorf",
-            "steuerberatung grenchen",
-            "steuerberatung engelmann"
+            "steuerberatung grenchen"
           ]
         }
       },
@@ -656,11 +655,11 @@
           "google": [],
           "bing": [
             "odoo gent",
-            "odoo general atlantic",
             "odoo geneve",
+            "odoo general ledger",
             "odoo genz",
             "odoo generico github",
-            "odoo general ledger",
+            "odoo general atlantic",
             "odoo generate_thumbnails",
             "odoo agenda",
             "odoo general ledger report",
@@ -672,7 +671,6 @@
         "family office schweiz": {
           "google": [
             "family office schweiz",
-            "family office schweiz gmbh",
             "family office schweiz job",
             "family office schweiz liste",
             "family office schweiz immobilien",
@@ -680,7 +678,8 @@
             "multi family office schweiz",
             "lindita family office schweiz",
             "family office bremer schweiz gmbh",
-            "family office gründen schweiz"
+            "family office gründen schweiz",
+            "lohn family office schweiz"
           ],
           "bing": [
             "family office schweiz",
@@ -718,12 +717,12 @@
             "contabilidad general pdf",
             "contabilidad general concepto",
             "contabilidad general 1",
-            "contabilidad general libro",
             "contabilidad general online",
+            "contabilidad general libro",
             "contabilidad general libro pdf",
             "contabilidad general que es",
             "contabilidad general inacap",
-            "contabilidad general anzures"
+            "contabilidad general pedro zapata pdf"
           ]
         }
       },
@@ -777,8 +776,8 @@
         "odoo ginebra": {
           "google": [],
           "bing": [
-            "odoo general atlantic",
             "odoo general ledger",
+            "odoo general atlantic",
             "odoo generate_thumbnails",
             "odoo general ledger report",
             "odoo girardin",
@@ -834,14 +833,14 @@
         "contabilidade genebra": {
           "google": [],
           "bing": [
-            "contabilidad general 1",
             "contabilidade genesis",
+            "contabilidad general 1",
+            "contabilidad general online",
             "contabilidad general libro",
-            "contabilidad general inacap",
             "contabilidad general libro pdf",
-            "contabilidad general erly zeballos pdf",
             "contabilidad general que es",
-            "contabilidad general sage 50 y fiscalidad"
+            "contabilidad general inacap",
+            "contabilidad general erly zeballos pdf"
           ]
         }
       },
@@ -909,8 +908,8 @@
         "odoo genebra": {
           "google": [],
           "bing": [
-            "odoo general atlantic",
             "odoo general ledger",
+            "odoo general atlantic",
             "odoo generate_thumbnails",
             "odoo general ledger report",
             "odoo geneve",
@@ -1011,11 +1010,7 @@
     "pt": {
       "/services/accounting": {},
       "/services/taxes": {},
-      "/services/payroll": {
-        "folha salarial suíça": {
-          "google": "HTTP 500: <!DOCTYPE html>\n<html lang=en>\n  <meta charset=utf-8>\n  <meta name=viewport content=\"initial-scale=1, minimum-scale=1, width=device-width\">\n  <title>Error 500 (Server Error)!!1</title>\n  <style>\n    *"
-        }
-      },
+      "/services/payroll": {},
       "/services/corporate": {},
       "/services/domiciliation": {},
       "/services/incorporation": {},
