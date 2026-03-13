@@ -18,6 +18,7 @@ import { headers } from "next/headers";
 
 const BOOKING_URL =
   "https://outlook.office.com/bookwithme/user/a21b46e2d9a540cca4c290a48c40119e@ark-fid.ch/meetingtype/GHNs6ESvEUWN2gUat7rePg2?anonymous&ismsaljsauthenabled&ep=mlink";
+const CONTACT_CARD_MIN_HEIGHT_CLASS = "min-h-[220px]";
 
 const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
   loading: () => (
@@ -171,6 +172,10 @@ export default async function ContactPage(
       error: (t("Form.Error") as string) || "Something went wrong.",
     },
   } as const;
+  const cardBaseClasses =
+    `group flex ${CONTACT_CARD_MIN_HEIGHT_CLASS} flex-col items-center rounded-[24px] px-6 py-7 text-center shadow-sm transition-all duration-200`;
+  const iconWrapClasses =
+    "flex size-12 items-center justify-center rounded-full";
 
   return (
     <div className="mx-auto w-full max-w-[var(--breakpoint-xl)] px-6 py-12 space-y-14">
@@ -207,69 +212,73 @@ export default async function ContactPage(
           {strings.subtitle}
         </p>
       ) : null}
-      <section className="mx-auto max-w-5xl rounded-[28px] border border-border/60 bg-muted/30 p-4 shadow-sm sm:p-6 lg:p-7">
-        <div className="grid gap-3 lg:grid-cols-3">
+      <section className="mx-auto max-w-6xl rounded-[28px] border border-border/60 bg-muted/30 p-4 shadow-sm sm:p-6 lg:p-7">
+        <div className="grid gap-4 lg:grid-cols-3">
           <a
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex min-h-[180px] flex-col rounded-[22px] bg-blue-700 px-5 py-5 text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-800 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:min-h-[190px] sm:px-6 sm:py-6"
+            className={`${cardBaseClasses} bg-blue-700 text-white hover:-translate-y-1 hover:bg-blue-800 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
           >
-            <span className="flex size-11 items-center justify-center rounded-full bg-white/14">
+            <span className={`${iconWrapClasses} bg-white/14`}>
               <CalendarIcon className="size-5" />
             </span>
-            <span className="mt-6 block">
-              <span className="block text-base font-semibold sm:text-lg">
+            <span className="mt-6 flex flex-1 flex-col items-center">
+              <span className="block text-lg font-semibold">
                 {strings.bookingButton}
               </span>
-              <span className="mt-2 block max-w-md text-sm leading-6 text-white/80">
+              <span className="mt-2 block max-w-xs text-sm leading-6 text-white/80">
                 {strings.bookingDescription}
+              </span>
+              <span
+                aria-hidden="true"
+                className="mt-auto inline-flex size-10 items-center justify-center rounded-full bg-white/12 text-lg transition-transform duration-200 group-hover:translate-x-0.5"
+              >
+                →
               </span>
             </span>
           </a>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${strings.whatsapp.cta} ${WHATSAPP_NUMBER}`}
-              className="group flex min-h-[180px] flex-col rounded-[22px] border border-border/60 bg-background/96 px-5 py-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#25D366]/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/40 focus-visible:ring-offset-2 sm:min-h-[190px]"
-            >
-              <span className="flex size-10 items-center justify-center rounded-full bg-[#25D366]/10 text-[#1f9d55]">
-                <WhatsAppIcon className="size-5" />
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${strings.whatsapp.cta} ${WHATSAPP_NUMBER}`}
+            className={`${cardBaseClasses} border border-border/60 bg-background/96 text-foreground hover:-translate-y-1 hover:border-[#25D366]/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/40 focus-visible:ring-offset-2`}
+          >
+            <span className={`${iconWrapClasses} bg-[#25D366]/10 text-[#1f9d55]`}>
+              <WhatsAppIcon className="size-5" />
+            </span>
+            <span className="mt-6 flex flex-1 flex-col items-center">
+              <span className="block text-lg font-semibold">
+                {strings.whatsapp.badge}
               </span>
-              <span className="mt-5 block">
-                <span className="block text-sm font-semibold text-foreground">
-                  {strings.whatsapp.badge}
-                </span>
-                <span className="mt-1 block text-sm leading-6 text-muted-foreground">
-                  {strings.whatsapp.description}
-                </span>
-                <span className="mt-3 block text-sm font-medium text-foreground">
-                  {WHATSAPP_NUMBER}
-                </span>
+              <span className="mt-2 block max-w-xs text-sm leading-6 text-muted-foreground">
+                {strings.whatsapp.description}
               </span>
-            </a>
-            <div className="flex min-h-[180px] flex-col rounded-[22px] border border-border/60 bg-background/70 px-5 py-5 sm:min-h-[190px]">
-              <span className="flex size-10 items-center justify-center rounded-full bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300">
-                <PhoneIcon className="size-5" />
+              <span className="mt-auto inline-flex items-center rounded-full bg-[#25D366]/10 px-4 py-2 text-sm font-medium text-foreground">
+                {WHATSAPP_NUMBER}
               </span>
-              <span className="mt-5 block">
-                <span className="block text-sm font-semibold text-foreground">
-                  {strings.callLabel}
-                </span>
-                <span className="mt-1 block text-sm leading-6 text-muted-foreground">
-                  {strings.callDescription}
-                </span>
-                <a
-                  href="tel:+41225125050"
-                  className="mt-4 inline-flex items-center text-sm font-medium text-foreground underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                  aria-label={`${strings.callLabel} +41 22 512 50 50`}
-                >
-                  +41 22 512 50 50
-                </a>
+            </span>
+          </a>
+          <div className={`${cardBaseClasses} border border-border/60 bg-background/80 text-foreground`}>
+            <span className={`${iconWrapClasses} bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300`}>
+              <PhoneIcon className="size-5" />
+            </span>
+            <span className="mt-6 flex flex-1 flex-col items-center">
+              <span className="block text-lg font-semibold">
+                {strings.callLabel}
               </span>
-            </div>
+              <span className="mt-2 block max-w-xs text-sm leading-6 text-muted-foreground">
+                {strings.callDescription}
+              </span>
+              <a
+                href="tel:+41225125050"
+                className="mt-auto inline-flex items-center rounded-full border border-border/80 bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                aria-label={`${strings.callLabel} +41 22 512 50 50`}
+              >
+                +41 22 512 50 50
+              </a>
+            </span>
           </div>
         </div>
       </section>
