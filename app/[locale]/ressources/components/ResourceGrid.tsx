@@ -12,6 +12,7 @@ interface ArticleResource {
 interface ResourceGridProps {
   articles: ArticleResource[];
   locale?: string;
+  visibleCount?: number;
   labels?: {
     ReadArticle?: string;
     By?: string;
@@ -22,6 +23,7 @@ interface ResourceGridProps {
 const ResourceGrid: React.FC<ResourceGridProps> = ({
   articles,
   locale,
+  visibleCount = articles.length,
   labels,
 }) => {
   const prefix = locale ? `/${locale}` : "";
@@ -30,16 +32,20 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-8">
         {articles.map((article, index) => (
-          <ResourceCard
+          <div
             key={article.slug}
-            title={article.title}
-            description={article.description}
-            href={`${prefix}/ressources/articles/${article.slug}/`}
-            author={article.author}
-            date={article.date}
-            labels={labels}
-            colorIndex={index}
-          />
+            className={index < visibleCount ? undefined : "hidden"}
+          >
+            <ResourceCard
+              title={article.title}
+              description={article.description}
+              href={`${prefix}/ressources/articles/${article.slug}/`}
+              author={article.author}
+              date={article.date}
+              labels={labels}
+              colorIndex={index}
+            />
+          </div>
         ))}
       </div>
     </div>

@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import type { Metadata } from "next";
 import { buildBreadcrumbList } from "@/src/lib/structuredData";
+import ProgressiveArticlesList from "./components/ProgressiveArticlesList";
 import {
   getTranslations,
   isValidLocale,
@@ -64,26 +65,11 @@ async function loadRessources(locale: Locale): Promise<RessourcesContent> {
   }
 }
 
-function parseLimit(
-  value: string | string[] | undefined,
-  total: number,
-  pageSize: number
-) {
-  if (!value) return pageSize;
-  const resolved = Array.isArray(value) ? value[0] : value;
-  if (resolved === "all") return total;
-  const numeric = Number.parseInt(resolved, 10);
-  if (Number.isNaN(numeric) || numeric <= 0) return pageSize;
-  return Math.min(numeric, total);
-}
-
 export default async function ArticlesIndex(
   props: {
     params: Promise<{ locale: string }>;
-    searchParams?: Promise<ArticlesSearchParams>;
   }
 ) {
-  const searchParams = await props.searchParams;
   const params = await props.params;
   const nonce = (await headers()).get("x-nonce") || undefined;
   const requestedLocale = params.locale;
@@ -109,19 +95,6 @@ export default async function ArticlesIndex(
       return (b.date || "").localeCompare(a.date || "");
     })
     .map((article) => localizedMap.get(article.slug) ?? article);
-
-  const pageSize = 10;
-  const limit = parseLimit(searchParams?.limit, articlesAll.length, pageSize);
-  const visibleArticles = articlesAll.slice(0, limit);
-  const hasMore = limit < articlesAll.length;
-  const nextLimit = Math.min(limit + pageSize, articlesAll.length);
-
-  const buildHref = (next: number | "all") => {
-    const params = new URLSearchParams();
-    params.set("limit", String(next));
-    const query = params.toString();
-    return `${localePrefix}/ressources/articles${query ? `?${query}` : ""}`;
-  };
 
   const breadcrumb = buildBreadcrumbList([
     {
@@ -178,36 +151,13 @@ export default async function ArticlesIndex(
       <h1 className="text-3xl font-bold mb-6">
         {ressources.ArticlesTitle || "Articles"}
       </h1>
-      <ul className="space-y-4">
-        {visibleArticles.map((article) => (
-          <li key={article.slug} className="border-b pb-4">
-            <h2 className="text-xl font-semibold">
-              <a href={`${localePrefix}/ressources/articles/${article.slug}/`}>
-                {article.title}
-              </a>
-            </h2>
-            {article.description && (
-              <p className="text-muted-foreground">{article.description}</p>
-            )}
-          </li>
-        ))}
-      </ul>
-      {hasMore && (
-        <div className="flex items-center gap-3 justify-center mt-6">
-          <a
-            className="px-4 py-2 border rounded-md text-sm hover:bg-muted"
-            href={buildHref(nextLimit)}
-          >
-            {ressources.LoadMoreArticles || "Load more articles"}
-          </a>
-          <a
-            className="px-3 py-2 text-xs text-muted-foreground hover:underline"
-            href={buildHref("all")}
-          >
-            {ressources.ShowAllArticles || "Show all"}
-          </a>
-        </div>
-      )}
+      <ProgressiveArticlesList
+        articles={articlesAll}
+        localePrefix={localePrefix}
+        pageSize={10}
+        loadMoreLabel={ressources.LoadMoreArticles || "Load more articles"}
+        showAllLabel={ressources.ShowAllArticles || "Show all"}
+      />
     </main>
   );
 }
@@ -221,9 +171,7 @@ export async function generateMetadata(
   const searchParams = await props.searchParams;
   const params = await props.params;
 
-  const {
-    locale
-  } = params;
+  const { locale } = params;
 
   const targetLocale = isValidLocale(locale) ? locale : "fr";
   const baseMetadata = await generateMetadataForPage(

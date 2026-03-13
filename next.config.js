@@ -6,6 +6,9 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 /** @type {import('next').NextConfig} */
 const baseConfig = {
   trailingSlash: true,
+  // Let middleware own URL canonicalization so slashless requests do not hit
+  // a framework-level redirect before locale normalization/noindex headers apply.
+  skipTrailingSlashRedirect: true,
   // Disable source maps on CI by default. Enable explicitly with BUILD_SOURCEMAPS=true
   productionBrowserSourceMaps: process.env.BUILD_SOURCEMAPS === "true",
   experimental: {
