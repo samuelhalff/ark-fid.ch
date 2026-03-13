@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-10T13:29:24.543Z",
+  "generatedAt": "2026-03-13T00:06:54.802Z",
   "config": {
     "maxSuggestions": 10,
     "driftRatio": 0.4,
@@ -511,8 +511,8 @@
           "bing": [
             "family office switzerland",
             "family office switzerland ag",
-            "atag family office switzerland",
             "single family office switzerland",
+            "atag family office switzerland",
             "family office events switzerland"
           ]
         }
@@ -671,6 +671,7 @@
         "family office schweiz": {
           "google": [
             "family office schweiz",
+            "family office schweiz gmbh",
             "family office schweiz job",
             "family office schweiz liste",
             "family office schweiz immobilien",
@@ -678,8 +679,7 @@
             "multi family office schweiz",
             "lindita family office schweiz",
             "family office bremer schweiz gmbh",
-            "family office gründen schweiz",
-            "lohn family office schweiz"
+            "family office gründen schweiz"
           ],
           "bing": [
             "family office schweiz",
