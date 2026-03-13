@@ -272,16 +272,16 @@ summary.faq-summary::marker {
 }
 
 :root {
-  --floating-whatsapp-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
-  --floating-secondary-bottom: calc(var(--floating-whatsapp-bottom) + 4.75rem);
-  --floating-tertiary-bottom: calc(var(--floating-secondary-bottom) + 4rem);
+  --floating-whatsapp-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
+  --floating-secondary-bottom: calc(var(--floating-whatsapp-bottom) + 3.5rem);
+  --floating-tertiary-bottom: calc(var(--floating-secondary-bottom) + 3.5rem);
 }
 
 @media (min-width: 640px) {
   :root {
-    --floating-whatsapp-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
-    --floating-secondary-bottom: calc(var(--floating-whatsapp-bottom) + 5rem);
-    --floating-tertiary-bottom: calc(var(--floating-secondary-bottom) + 4.25rem);
+    --floating-whatsapp-bottom: calc(env(safe-area-inset-bottom, 0px) + 2rem);
+    --floating-secondary-bottom: calc(var(--floating-whatsapp-bottom) + 3.75rem);
+    --floating-tertiary-bottom: calc(var(--floating-secondary-bottom) + 3.75rem);
   }
 }
 

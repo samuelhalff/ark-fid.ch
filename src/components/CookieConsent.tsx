@@ -71,13 +71,13 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
   const pathname = usePathname();
   const hideManageButton = /(^|\/)agent(\/|$)/.test(pathname || "");
   const cookieButtonPositionClasses =
-    "fixed right-4 bottom-[var(--floating-secondary-bottom)] z-40 sm:right-6";
+    "fixed right-4 bottom-[var(--floating-whatsapp-bottom)] z-40 sm:right-6";
   const cookieButtonLayoutClasses =
     "flex size-12 items-center justify-center rounded-full";
   const cookieButtonColorClasses =
-    "border border-border/70 bg-background/92 text-amber-700 dark:text-amber-400 shadow-md backdrop-blur transition-all duration-200";
+    "bg-amber-500 text-white shadow-md transition-all duration-200";
   const cookieButtonHoverClasses =
-    "hover:-translate-y-0.5 hover:border-amber-400/40 hover:bg-background hover:shadow-lg";
+    "hover:-translate-y-0.5 hover:bg-amber-600 hover:shadow-lg";
   const cookieButtonFocusClasses =
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
