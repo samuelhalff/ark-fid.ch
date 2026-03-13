@@ -135,7 +135,7 @@ export default function WhatsAppLink({
       aria-label={`${ctaLabel} ${WHATSAPP_NUMBER}`}
       style={floatingBottom ? { bottom: floatingBottom } : undefined}
       className={cn(
-        "whatsapp-float-entry group fixed right-4 z-40 bottom-[var(--floating-whatsapp-bottom)] flex size-12 items-center justify-center rounded-full border border-border/70 bg-background/92 text-[#1f9d55] shadow-md backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:border-[#25D366]/35 hover:bg-background hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:right-6",
+        "whatsapp-float-entry group fixed right-4 z-40 bottom-[var(--floating-secondary-bottom)] flex size-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#1da851] hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:right-6",
         isCookieBannerVisible && "size-11 shadow-sm",
         className
       )}
@@ -143,13 +143,11 @@ export default function WhatsAppLink({
       <span
         aria-hidden="true"
         className={cn(
-          "whatsapp-float-pulse absolute inset-0 rounded-full bg-[#25D366]/12",
+          "whatsapp-float-pulse absolute inset-0 rounded-full bg-white/15",
           isCookieBannerVisible && "opacity-0"
         )}
       />
-      <span className="relative flex size-8 shrink-0 items-center justify-center rounded-full bg-[#25D366]/8">
-        <WhatsAppIcon className="size-5" />
-      </span>
+      <WhatsAppIcon className="relative size-5" />
       <span className="sr-only">
         {badgeText} - {ctaLabel}
       </span>
