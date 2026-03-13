@@ -16,6 +16,9 @@ import {
 } from "@/src/lib/whatsapp";
 import { headers } from "next/headers";
 
+const BOOKING_URL =
+  "https://outlook.office.com/bookwithme/user/a21b46e2d9a540cca4c290a48c40119e@ark-fid.ch/meetingtype/GHNs6ESvEUWN2gUat7rePg2?anonymous&ismsaljsauthenabled&ep=mlink";
+
 const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
   loading: () => (
     <div className="mx-auto w-full max-w-3xl">
@@ -204,19 +207,19 @@ export default async function ContactPage(
           {strings.subtitle}
         </p>
       ) : null}
-      <section className="mx-auto max-w-5xl rounded-[28px] border border-border/60 bg-muted/30 p-4 shadow-sm sm:p-6 lg:p-8">
-        <div className="grid gap-3 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+      <section className="mx-auto max-w-5xl rounded-[28px] border border-border/60 bg-muted/30 p-4 shadow-sm sm:p-6 lg:p-7">
+        <div className="grid gap-3 lg:grid-cols-3">
           <a
-            href="https://outlook.office.com/bookwithme/user/a21b46e2d9a540cca4c290a48c40119e@ark-fid.ch/meetingtype/GHNs6ESvEUWN2gUat7rePg2?anonymous&ismsaljsauthenabled&ep=mlink"
+            href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex min-h-[220px] flex-col justify-between rounded-[24px] bg-blue-700 px-6 py-6 text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-800 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:px-7 sm:py-7"
+            className="group flex min-h-[180px] flex-col rounded-[22px] bg-blue-700 px-5 py-5 text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-800 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:min-h-[190px] sm:px-6 sm:py-6"
           >
             <span className="flex size-11 items-center justify-center rounded-full bg-white/14">
               <CalendarIcon className="size-5" />
             </span>
-            <span className="mt-8 block">
-              <span className="block text-lg font-semibold sm:text-xl">
+            <span className="mt-6 block">
+              <span className="block text-base font-semibold sm:text-lg">
                 {strings.bookingButton}
               </span>
               <span className="mt-2 block max-w-md text-sm leading-6 text-white/80">
@@ -230,7 +233,7 @@ export default async function ContactPage(
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${strings.whatsapp.cta} ${WHATSAPP_NUMBER}`}
-              className="group flex min-h-[150px] flex-col rounded-[22px] border border-border/60 bg-background/96 px-5 py-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#25D366]/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/40 focus-visible:ring-offset-2"
+              className="group flex min-h-[180px] flex-col rounded-[22px] border border-border/60 bg-background/96 px-5 py-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#25D366]/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/40 focus-visible:ring-offset-2 sm:min-h-[190px]"
             >
               <span className="flex size-10 items-center justify-center rounded-full bg-[#25D366]/10 text-[#1f9d55]">
                 <WhatsAppIcon className="size-5" />
@@ -247,11 +250,7 @@ export default async function ContactPage(
                 </span>
               </span>
             </a>
-            <a
-              href="tel:+41225125050"
-              className="group flex min-h-[150px] flex-col rounded-[22px] border border-border/60 bg-background/96 px-5 py-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-300/60 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label={`${strings.callLabel} +41 22 512 50 50`}
-            >
+            <div className="flex min-h-[180px] flex-col rounded-[22px] border border-border/60 bg-background/70 px-5 py-5 sm:min-h-[190px]">
               <span className="flex size-10 items-center justify-center rounded-full bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300">
                 <PhoneIcon className="size-5" />
               </span>
@@ -262,11 +261,15 @@ export default async function ContactPage(
                 <span className="mt-1 block text-sm leading-6 text-muted-foreground">
                   {strings.callDescription}
                 </span>
-                <span className="mt-3 block text-sm font-medium text-foreground">
+                <a
+                  href="tel:+41225125050"
+                  className="mt-4 inline-flex items-center text-sm font-medium text-foreground underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                  aria-label={`${strings.callLabel} +41 22 512 50 50`}
+                >
                   +41 22 512 50 50
-                </span>
+                </a>
               </span>
-            </a>
+            </div>
           </div>
         </div>
       </section>

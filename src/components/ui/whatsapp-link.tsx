@@ -10,6 +10,13 @@ import {
 } from "@/src/lib/whatsapp";
 
 const FLOATING_VISIBILITY_SYNC_DELAY_MS = 180;
+const COOKIE_UI_SPACING_PX = 16;
+
+function getFloatingBottomOffset(cookieDialog: HTMLElement | null) {
+  if (!cookieDialog) return undefined;
+
+  return `calc(env(safe-area-inset-bottom, 0px) + ${Math.ceil(cookieDialog.getBoundingClientRect().height) + COOKIE_UI_SPACING_PX}px)`;
+}
 
 type WhatsAppLinkProps = {
   badgeText: string;
@@ -25,20 +32,39 @@ export default function WhatsAppLink({
   className,
 }: WhatsAppLinkProps) {
   const [isFloatingVisible, setIsFloatingVisible] = useState(false);
+  const [floatingBottom, setFloatingBottom] = useState<string | undefined>(
+    undefined
+  );
+  const [isCookieBannerVisible, setIsCookieBannerVisible] = useState(false);
 
   useEffect(() => {
     if (variant !== "floating") return;
 
+    let observer: ResizeObserver | null = null;
     let mutationObserver: MutationObserver | null = null;
     let frameId: ReturnType<typeof requestAnimationFrame> | null = null;
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
     const syncFloatingState = () => {
-      setIsFloatingVisible(
-        !document.querySelector<HTMLElement>(
-          '[aria-labelledby="cookie-consent-title"]'
-        )
+      const cookieBanner = document.querySelector<HTMLElement>(
+        '[aria-labelledby="cookie-consent-title"]'
       );
+      const cookieDialog = cookieBanner?.closest<HTMLElement>('[role="dialog"]');
+
+      setIsCookieBannerVisible(Boolean(cookieDialog));
+      setFloatingBottom(getFloatingBottomOffset(cookieDialog ?? null));
+      setIsFloatingVisible(true);
+
+      observer?.disconnect();
+      observer = null;
+
+      if (cookieDialog && typeof ResizeObserver !== "undefined") {
+        observer = new ResizeObserver(() => {
+          if (frameId !== null) window.cancelAnimationFrame(frameId);
+          frameId = window.requestAnimationFrame(syncFloatingState);
+        });
+        observer.observe(cookieDialog);
+      }
     };
 
     const scheduleSync = () => {
@@ -64,6 +90,7 @@ export default function WhatsAppLink({
     return () => {
       if (frameId !== null) window.cancelAnimationFrame(frameId);
       if (timeoutId !== null) clearTimeout(timeoutId);
+      observer?.disconnect();
       mutationObserver?.disconnect();
       window.removeEventListener("resize", scheduleSync);
       window.removeEventListener("cookie-consent-changed", scheduleSync);
@@ -106,14 +133,19 @@ export default function WhatsAppLink({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${ctaLabel} ${WHATSAPP_NUMBER}`}
+      style={floatingBottom ? { bottom: floatingBottom } : undefined}
       className={cn(
         "whatsapp-float-entry group fixed right-4 z-40 bottom-[var(--floating-whatsapp-bottom)] flex size-12 items-center justify-center rounded-full border border-border/70 bg-background/92 text-[#1f9d55] shadow-md backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:border-[#25D366]/35 hover:bg-background hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:right-6",
+        isCookieBannerVisible && "size-11 shadow-sm",
         className
       )}
     >
       <span
         aria-hidden="true"
-        className="whatsapp-float-pulse absolute inset-0 rounded-full bg-[#25D366]/12"
+        className={cn(
+          "whatsapp-float-pulse absolute inset-0 rounded-full bg-[#25D366]/12",
+          isCookieBannerVisible && "opacity-0"
+        )}
       />
       <span className="relative flex size-8 shrink-0 items-center justify-center rounded-full bg-[#25D366]/8">
         <WhatsAppIcon className="size-5" />
