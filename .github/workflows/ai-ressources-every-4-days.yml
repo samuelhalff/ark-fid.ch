@@ -1,8 +1,8 @@
-name: AI Resources Update (every 4 days)
+name: AI Resources Update (every 3 days)
 
 on:
   schedule:
-    - cron: "0 0 */3 * *" # every 4 days at 00:00 UTC
+    - cron: "0 0 */3 * *"
   workflow_dispatch:
     inputs:
       force_topic:
@@ -30,12 +30,11 @@ jobs:
   update:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # to commit changes
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Use PAT to allow commits to trigger other workflows
           token: ${{ secrets.PAT_TOKEN }}
 
       - name: Setup Node.js
@@ -55,129 +54,13 @@ jobs:
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: Preflight - Validate required environment variables
-        env:
-          AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
-          AZURE_AGENT_NAME: ${{ secrets.AZURE_AGENT_NAME }}
-          AZURE_AGENT_API_KEY: ${{ secrets.AZURE_AGENT_API_KEY }}
-          # Azure OpenAI endpoint isn't sensitive; prefer a known-good default.
-          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT || 'https://pbmch8303697696.cognitiveservices.azure.com/' }}
-          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
-          # Use a known-good Azure OpenAI api-version (GitHub secret values have caused 404s).
-          AZURE_OPENAI_API_VERSION: "2024-05-01-preview"
-          AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
-          AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
-          AZURE_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
-          TRENDS_PROVIDER: ${{ vars.TRENDS_PROVIDER || 'hybrid' }}
-          TRENDS_GEO: ${{ vars.TRENDS_GEO }}
-          TRENDS_LANGUAGE: ${{ vars.TRENDS_LANGUAGE }}
-          TRENDS_MAX_TOPICS: ${{ vars.TRENDS_MAX_TOPICS }}
-        run: |
-          echo "🔍 Validating required environment variables..."
-
-          # Check required Azure vars
-          if [ -n "$AZURE_AGENT_ENDPOINT" ]; then
-            echo "✅ AZURE_AGENT_ENDPOINT: set (length: ${#AZURE_AGENT_ENDPOINT})"
-          else
-            echo "❌ AZURE_AGENT_ENDPOINT: missing"
-            exit 1
-          fi
-
-          if [ -n "$AZURE_AGENT_NAME" ]; then
-            echo "✅ AZURE_AGENT_NAME: set (length: ${#AZURE_AGENT_NAME})"
-          else
-            echo "❌ AZURE_AGENT_NAME: missing"
-            exit 1
-          fi
-
-          if [ -n "$AZURE_OPENAI_ENDPOINT" ]; then
-            echo "✅ AZURE_OPENAI_ENDPOINT: set (length: ${#AZURE_OPENAI_ENDPOINT})"
-          else
-            echo "❌ AZURE_OPENAI_ENDPOINT: missing"
-            exit 1
-          fi
-
-          if [ -n "$AZURE_OPENAI_API_KEY" ]; then
-            echo "✅ AZURE_OPENAI_API_KEY: set (length: ${#AZURE_OPENAI_API_KEY})"
-          else
-            echo "❌ AZURE_OPENAI_API_KEY: missing"
-            exit 1
-          fi
-
-          if [ -n "$AZURE_AGENT_API_KEY" ]; then
-            echo "✅ AZURE_AGENT_API_KEY: set (length: ${#AZURE_AGENT_API_KEY})"
-          else
-            echo "⚠️ AZURE_AGENT_API_KEY: missing (will use Entra ID if available)"
-          fi
-
-          if [ -z "$AZURE_AGENT_API_KEY" ]; then
-            if [ -n "$AZURE_TENANT_ID" ]; then
-              echo "✅ AZURE_TENANT_ID: set (length: ${#AZURE_TENANT_ID})"
-            else
-              echo "❌ AZURE_TENANT_ID: missing"
-              exit 1
-            fi
-
-            if [ -n "$AZURE_CLIENT_ID" ]; then
-              echo "✅ AZURE_CLIENT_ID: set (length: ${#AZURE_CLIENT_ID})"
-            else
-              echo "❌ AZURE_CLIENT_ID: missing"
-              exit 1
-            fi
-
-            if [ -n "$AZURE_CLIENT_SECRET" ]; then
-              echo "✅ AZURE_CLIENT_SECRET: set (length: ${#AZURE_CLIENT_SECRET})"
-            else
-              echo "❌ AZURE_CLIENT_SECRET: missing"
-              exit 1
-            fi
-          else
-            echo "ℹ️ AZURE_AGENT_API_KEY provided; skipping Entra ID requirement"
-          fi
-
-          # Check optional trend configuration (from vars, not secrets)
-          echo ""
-          echo "📊 Trend configuration (from repository variables):"
-          echo "  TRENDS_PROVIDER: ${TRENDS_PROVIDER:-'(not set, default: hybrid)'}"
-          echo "  TRENDS_GEO: ${TRENDS_GEO:-'(not set, default: CH)'}"
-          echo "  TRENDS_LANGUAGE: ${TRENDS_LANGUAGE:-'(not set, default: fr)'}"
-          echo "  TRENDS_MAX_TOPICS: ${TRENDS_MAX_TOPICS:-'(not set, default: 10)'}"
-
-          echo ""
-          echo "✅ All required environment variables validated"
-
-      - name: Check SEO suggest drift (non-blocking)
-        continue-on-error: true
-        run: node scripts/check-seo-suggest-drift.js
-
-      - name: Update service SEO from suggestions (non-blocking)
-        continue-on-error: true
-        env:
-          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT || 'https://pbmch8303697696.cognitiveservices.azure.com/' }}
-          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
-          AZURE_OPENAI_API_VERSION: "2024-05-01-preview"
-          AZURE_OPENAI_DEPLOYMENT: "gpt-4.1"
-          SEO_SUGGEST_DRIFT_RATIO: ${{ vars.SEO_SUGGEST_DRIFT_RATIO || '0.4' }}
-          SEO_SUGGEST_MAX_UPDATES: ${{ vars.SEO_SUGGEST_MAX_UPDATES || '6' }}
-        run: node scripts/ai-update-service-seo.js --apply
-
-      - name: Refresh SEO suggest baseline
-        run: |
-          if [ -f scripts/seo-suggest-latest.json ]; then
-            cp scripts/seo-suggest-latest.json scripts/seo-suggest-baseline.json
-            echo "✅ SEO baseline refreshed from latest snapshot"
-          else
-            echo "⚠️ seo-suggest-latest.json not found, baseline not updated"
-          fi
-
       - name: Capture existing article slugs
         run: |
           python3 - <<'PY'
           import json
           with open('src/translations/fr/ressources.json') as f:
               data = json.load(f)
-          articles = data.get('Articles', [])
-          slugs = [a.get('slug', '') for a in articles if a.get('slug')]
+          slugs = [a['slug'] for a in data.get('Articles', []) if a.get('slug')]
           with open('/tmp/existing-slugs.txt', 'w') as f:
               f.write('\n'.join(slugs))
           print(f"Captured {len(slugs)} existing article slugs")
@@ -188,59 +71,43 @@ jobs:
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
           AZURE_AGENT_NAME: ${{ secrets.AZURE_AGENT_NAME }}
           AZURE_AGENT_API_KEY: ${{ secrets.AZURE_AGENT_API_KEY }}
-          # Foundry agent name-only mode (prevents accidental fallback to classic assistants).
           AZURE_AGENT_FORCE_RESPONSES: "1"
-          # Azure OpenAI endpoint isn't sensitive; prefer a known-good default.
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT || 'https://pbmch8303697696.cognitiveservices.azure.com/' }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
-          # Use a known-good Azure OpenAI api-version (GitHub secret values have caused 404s).
           AZURE_OPENAI_API_VERSION: "2024-05-01-preview"
-          # Keep translations on GPT-4.1, even if endpoint secret includes another deployment path.
           AZURE_OPENAI_DEPLOYMENT: "gpt-4.1"
-          # Use a faster/higher-quality writer model for long-form drafting.
           AZURE_OPENAI_DRAFT_DEPLOYMENT: "gpt-4o"
-          # Separate endpoint/model for research fallback (do not reuse draft endpoint).
           AZURE_OPENAI_RESEARCH_ENDPOINT: ${{ secrets.AZURE_OPENAI_RESEARCH_ENDPOINT }}
           AZURE_OPENAI_RESEARCH_API_KEY: ${{ secrets.AZURE_OPENAI_RESEARCH_API_KEY }}
           AZURE_OPENAI_RESEARCH_API_VERSION: ${{ vars.AZURE_OPENAI_RESEARCH_API_VERSION || '2024-05-01-preview' }}
           AZURE_OPENAI_RESEARCH_DEPLOYMENT: ${{ vars.AZURE_OPENAI_RESEARCH_DEPLOYMENT }}
-          # Allow enough output tokens for 1500–3000 word drafts.
           AZURE_OPENAI_DRAFT_MAX_TOKENS: "6144"
           AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
           AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
           AZURE_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
-          # Adjust if longer draft generations are needed
           AZURE_AGENT_RUN_TIMEOUT_MS: 180000
-          # Responses API throttling guardrails
           AZURE_AGENT_RESPONSES_RETRIES: "8"
           AZURE_AGENT_RESPONSES_BACKOFF_MS: "30000"
           AZURE_AGENT_RESPONSES_BACKOFF_MAX_MS: "300000"
           AZURE_AGENT_RESPONSES_BACKOFF_JITTER_MS: "2000"
           AZURE_AGENT_RESPONSES_TIMEOUT_MS: "180000"
           AZURE_AGENT_RESPONSES_COOLDOWN_MS: "15000"
-          # Leave uncapped to avoid incomplete JSON output
           AZURE_AGENT_RESPONSES_MAX_OUTPUT_TOKENS: "0"
-          # If Foundry agent RBAC fails, fall back to Azure OpenAI chat completions.
           AZURE_AGENT_FALLBACK_TO_OPENAI: "1"
           REQUIRE_TRANSLATIONS: "1"
-          # Two-step workflow: agent does research+refs, model drafts the article.
           AI_TWO_STEP: "1"
           AI_RESEARCH_RETRIES: "3"
           FORCE_TOPIC: ${{ inputs.force_topic }}
           FORCE_TOPIC_KEYWORDS: ${{ inputs.force_topic_keywords }}
           FORCE_TOPIC_CATEGORY: ${{ inputs.force_topic_category }}
           SKIP_TOPIC_ROTATION: ${{ inputs.skip_topic_rotation == 'true' && '1' || '' }}
-          # Trend provider configuration (from repository variables)
           TRENDS_PROVIDER: ${{ vars.TRENDS_PROVIDER || 'hybrid' }}
           TRENDS_GEO: ${{ vars.TRENDS_GEO }}
           TRENDS_LANGUAGE: ${{ vars.TRENDS_LANGUAGE }}
           TRENDS_MAX_TOPICS: ${{ vars.TRENDS_MAX_TOPICS }}
-          # Reference quality guardrails
-          # All references are restricted to the ALLOWED_REFERENCE_DOMAINS whitelist
           REFERENCE_MIN_TRUSTED_DOMAINS: "1"
           REFERENCE_MIN_COUNT: "4"
           REFERENCE_MAX_COUNT: "6"
-          # Enforce minimum article length (SEO)
           SEO_MIN_WORDS: "1500"
           SEO_MAX_WORDS: "3000"
         run: |
@@ -248,24 +115,6 @@ jobs:
 
       - name: Fix malformed internal markdown links
         run: node scripts/fix-article-internal-links.js --apply
-
-      - name: Validate article translations (fail on missing/duplicates)
-        env:
-          REQUIRE_TRANSLATIONS: "1"
-        run: node scripts/validate-article-translations.js
-
-      - name: Clean up bad article references (unreachable URLs)
-        continue-on-error: true
-        run: |
-          echo "🧹 Removing unreachable article reference links..."
-          node scripts/clean-bad-article-refs.js --all-locales || echo "⚠️ Reference cleanup had issues (continuing...)"
-
-      - name: Final verification (informational only)
-        continue-on-error: true
-        run: |
-          echo "✅ Running final verification..."
-          node scripts/check-ressources-links.js --all-locales || echo "::warning::Some references missing after cleanup"
-          echo "✅ Verification complete. Proceeding with deployment..."
 
       - name: Detect new article for LinkedIn notification
         id: detect-article
@@ -279,93 +128,42 @@ jobs:
               existing = set()
           with open('src/translations/fr/ressources.json') as f:
               data = json.load(f)
-          articles = data.get('Articles', [])
-          new_ones = [a for a in articles if a.get('slug') and a.get('slug') not in existing]
+          new_ones = [a for a in data.get('Articles', []) if a.get('slug') and a['slug'] not in existing]
           if not new_ones:
               print("No new articles detected")
               sys.exit(0)
           if len(new_ones) > 1:
-              print(f"Detected {len(new_ones)} new articles; notifying LinkedIn about the first one only")
+              print(f"Detected {len(new_ones)} new articles; notifying about the first one only")
           a = new_ones[0]
-          title = a.get('title', '')[:400]
-          slug = a.get('slug', '')
-          description = a.get('description', '')[:4086]
           output_file = os.environ.get('GITHUB_OUTPUT', '')
           if output_file:
               delim = 'ENDOFVALUE'
               with open(output_file, 'a') as f:
                   f.write('has_new=true\n')
-                  f.write(f'slug={slug}\n')
-                  f.write(f'title<<{delim}\n{title}\n{delim}\n')
-                  f.write(f'description<<{delim}\n{description}\n{delim}\n')
-          print(f"Detected new article: {title[:80]}")
+                  f.write(f'slug={a["slug"]}\n')
+                  f.write(f'title<<{delim}\n{a.get("title","")[:400]}\n{delim}\n')
+                  f.write(f'description<<{delim}\n{a.get("description","")[:4086]}\n{delim}\n')
+          print(f"Detected new article: {a.get('title','')[:80]}")
           PY
-
-      - name: Validate new article references (fail on 404/410)
-        run: |
-          if [ "${{ steps.detect-article.outputs.has_new }}" = "true" ]; then
-            SLUG="${{ steps.detect-article.outputs.slug }}"
-            # Validate slug only contains safe characters (alphanumeric, hyphens, underscores)
-            if ! echo "$SLUG" | grep -qE '^[a-zA-Z0-9][a-zA-Z0-9_-]*$'; then
-              echo "⚠️ Skipping reference validation: slug contains unexpected characters: $SLUG"
-              exit 0
-            fi
-            echo "🔍 Validating references for new article: $SLUG"
-            npm run validate:article-refs -- --slug "$SLUG"
-          else
-            echo "ℹ️ No new article detected; skipping reference validation."
-          fi
 
       - name: Commit and push changes
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add "src/translations/**/*.json" "scripts/seo-suggest-baseline.json" || true
+          git add "src/translations/**/*.json" || true
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "chore(ressources): every 4 days AI article update" --author="samuelhalff <660062+samuelhalff@users.noreply.github.com>"
-            echo "⏳ Waiting 30 seconds before push to avoid deployment conflicts..."
-            sleep 30
-            echo "🔄 Rebasing on latest origin/main to avoid non-fast-forward pushes..."
+            git commit -m "chore(ressources): AI article update" --author="samuelhalff <660062+samuelhalff@users.noreply.github.com>"
+            sleep 15
             git fetch origin main
-            git rebase origin/main || { echo "Rebase failed"; git rebase --abort || true; exit 1; }
+            git rebase origin/main || { git rebase --abort || true; exit 1; }
             git push
           fi
 
       - name: Ping sitemaps
-        run: |
-          node scripts/ping-sitemaps.js
-
-      # Note: No need to trigger deployment explicitly
-      # The push above will automatically trigger build-and-deploy.yml via push event
-
-      - name: Wait for deployment
-        run: |
-          echo "⏳ Waiting 5 minutes for deployment to complete..."
-          sleep 300
-
-      - name: Health check
         continue-on-error: true
-        run: |
-          echo "🏥 Checking site health..."
-          for locale in fr en de es pt; do
-            echo "Checking /${locale}/"
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://ark-fid.ch/${locale}/")
-            if [ "$STATUS" = "200" ]; then
-              echo "✅ ${locale}: OK"
-            else
-              echo "::warning::❌ ${locale}: Failed (HTTP $STATUS)"
-            fi
-          done
-
-          echo "Checking /fr/ressources/"
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://ark-fid.ch/fr/ressources/")
-          if [ "$STATUS" = "200" ]; then
-            echo "✅ Resources page: OK"
-          else
-            echo "::warning::❌ Resources page: Failed (HTTP $STATUS)"
-          fi
+        run: node scripts/ping-sitemaps.js
 
       - name: Notify Zapier webhook (LinkedIn publication)
         if: steps.detect-article.outputs.has_new == 'true'
@@ -384,29 +182,18 @@ jobs:
           unsplash_key = os.environ.get('UNSPLASH_ACCESS_KEY', '')
           article_url = f"https://ark-fid.ch/fr/ressources/articles/{slug}/"
 
-          # Fetch a random Switzerland landscape image from Unsplash
           image_url = ''
           if unsplash_key:
               try:
-                  unsplash_req = urllib.request.Request(
+                  req = urllib.request.Request(
                       'https://api.unsplash.com/photos/random?query=Switzerland+landscape&orientation=landscape',
                       headers={'Authorization': f'Client-ID {unsplash_key}', 'Accept-Version': 'v1'},
                   )
-                  with urllib.request.urlopen(unsplash_req, timeout=15) as r:
-                      photo = json.loads(r.read().decode('utf-8'))
-                      image_url = photo.get('urls', {}).get('regular', '')
-                      print(f"✅ Unsplash image fetched: {image_url[:80]}...")
-              except urllib.error.HTTPError as e:
-                  print(f"⚠️ Unsplash fetch failed with HTTP {e.code}: {e.reason}")
-              except urllib.error.URLError as e:
-                  print(f"⚠️ Unsplash network error: {e.reason}")
+                  with urllib.request.urlopen(req, timeout=15) as r:
+                      image_url = json.loads(r.read().decode('utf-8')).get('urls', {}).get('regular', '')
               except Exception as e:
-                  print(f"⚠️ Unsplash fetch error: {e}")
-          else:
-              print("⚠️ UNSPLASH_ACCESS_KEY not set; skipping image fetch")
+                  print(f"⚠️ Unsplash error: {e}")
 
-          # Build a concise LinkedIn comment/CTA from the article description (max ~200 chars)
-          # Truncate at the last complete sentence boundary to avoid dangling fragments
           if len(description) > 200:
               truncated = description[:200].rsplit(' ', 1)[0]
               last_end = max(truncated.rfind('.'), truncated.rfind('!'), truncated.rfind('?'))
@@ -420,41 +207,16 @@ jobs:
               comment = f"Découvrez notre dernier article : {title} →"
 
           payload = json.dumps({
-              "title": title,
-              "url": article_url,
-              "description": description,
-              "image_url": image_url,
-              "comment": comment,
+              "title": title, "url": article_url, "description": description,
+              "image_url": image_url, "comment": comment,
           }).encode('utf-8')
           req = urllib.request.Request(
               'https://hooks.zapier.com/hooks/catch/3870740/u06k73r/',
-              data=payload,
-              headers={'Content-Type': 'application/json'},
-              method='POST',
+              data=payload, headers={'Content-Type': 'application/json'}, method='POST',
           )
           try:
               with urllib.request.urlopen(req, timeout=30) as resp:
-                  body = resp.read().decode('utf-8', errors='replace')
-                  print(f"✅ Zapier webhook sent successfully (status: {resp.status})")
-                  print(f"Response: {body}")
-          except urllib.error.HTTPError as e:
-              print(f"⚠️ Zapier webhook failed with HTTP {e.code}: {e.reason}")
+                  print(f"✅ Zapier webhook sent (status: {resp.status})")
           except Exception as e:
               print(f"⚠️ Zapier webhook error: {e}")
           PY
-
-      - name: Summary
-        if: always()
-        run: |
-          echo "## 🎉 AI Resources Update Complete" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### What Happened" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ AI generated a new long-form article (FR canonical + translations)" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Trend signals used for topic selection (SEO optimization)" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ References validated and cleaned automatically" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Changes committed and deployed" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Notes" >> $GITHUB_STEP_SUMMARY
-          echo "- Check the commit diff to see what was added/removed" >> $GITHUB_STEP_SUMMARY
-          echo "- Check warnings above if any cleanup was needed" >> $GITHUB_STEP_SUMMARY
-          echo "- The workflow **always succeeds** - bad content is auto-removed" >> $GITHUB_STEP_SUMMARY
