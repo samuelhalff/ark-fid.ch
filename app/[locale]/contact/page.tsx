@@ -3,8 +3,22 @@ import dynamic from "next/dynamic";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import GoogleMap from "@/src/components/ui/GoogleMap";
 import Defer from "@/src/components/Defer";
+import { CalendarIcon } from "@/src/components/icons/CalendarIcon";
+import { PhoneIcon } from "@/src/components/icons/PhoneIcon";
+import { WhatsAppIcon } from "@/src/components/icons/WhatsAppIcon";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
+import {
+  WHATSAPP_BADGE_FALLBACK,
+  WHATSAPP_CTA_FALLBACK,
+  WHATSAPP_NUMBER,
+  WHATSAPP_PHONE_E164,
+  WHATSAPP_URL,
+} from "@/src/lib/whatsapp";
 import { headers } from "next/headers";
+
+const BOOKING_URL =
+  "https://outlook.office.com/bookwithme/user/a21b46e2d9a540cca4c290a48c40119e@ark-fid.ch/meetingtype/GHNs6ESvEUWN2gUat7rePg2?anonymous&ismsaljsauthenabled&ep=mlink";
+const CONTACT_CARD_MIN_HEIGHT_CLASS = "min-h-[220px]";
 
 const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
   loading: () => (
@@ -68,6 +82,16 @@ export default async function ContactPage(
     sameAs: [
       "https://www.google.com/maps/place/Ark+Fiduciaire+SA/",
       "https://maps.google.com/?cid=14946625157719331801",
+      WHATSAPP_URL,
+    ],
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "customer service",
+        telephone: WHATSAPP_PHONE_E164,
+        url: WHATSAPP_URL,
+        availableLanguage: ["English", "French", "German", "Spanish", "Portuguese"],
+      },
     ],
     address: {
       "@type": "PostalAddress",
@@ -101,8 +125,21 @@ export default async function ContactPage(
       typeof t("Title") === "string" ? (t("Title") as string) : "Get in Touch",
     subtitle:
       typeof t("Subtitle") === "string" ? (t("Subtitle") as string) : "",
+    bookingDescription:
+      (t("BookingDescription") as string) ||
+      "Best for a planned discussion with our team.",
     orContactUs: (t("OrContactUs") as string) || "or contact us",
     bookingButton: (t("BookingButton") as string) || "Book a call",
+    callLabel: (t("CallLabel") as string) || "Call us",
+    callDescription:
+      (t("CallDescription") as string) || "Speak directly with our team.",
+    whatsapp: {
+      badge: (t("WhatsApp.Badge") as string) || WHATSAPP_BADGE_FALLBACK,
+      cta: (t("WhatsApp.Open") as string) || WHATSAPP_CTA_FALLBACK,
+      description:
+        (t("WhatsApp.Description") as string) ||
+        "Quick questions, quick replies.",
+    },
     labels: {
       name: (t("Form.Name") as string) || "Name",
       companyName:
@@ -135,6 +172,10 @@ export default async function ContactPage(
       error: (t("Form.Error") as string) || "Something went wrong.",
     },
   } as const;
+  const cardBaseClasses =
+    `group flex ${CONTACT_CARD_MIN_HEIGHT_CLASS} flex-col items-center rounded-[24px] px-6 py-7 text-center shadow-sm transition-all duration-200`;
+  const iconWrapClasses =
+    "flex size-12 items-center justify-center rounded-full";
 
   return (
     <div className="mx-auto w-full max-w-[var(--breakpoint-xl)] px-6 py-12 space-y-14">
@@ -166,39 +207,95 @@ export default async function ContactPage(
           </li>
         </ol>
       </nav>
-      <div className="mt-6 flex justify-center">
-        <a
-          href="https://outlook.office.com/bookwithme/user/a21b46e2d9a540cca4c290a48c40119e@ark-fid.ch/meetingtype/GHNs6ESvEUWN2gUat7rePg2?anonymous&ismsaljsauthenabled&ep=mlink"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center rounded-full bg-blue-700 text-white px-6 py-3 text-base font-medium shadow hover:shadow-lg transition-all hover:scale-[1.03] focus-visible:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
-        >
-          {strings.bookingButton}
-        </a>
-      </div>
-      <div className="mt-4 text-center">
-        <p>
-          {strings.orContactUs}
-          {strings.subtitle && <br />}
+      {strings.subtitle ? (
+        <p className="mx-auto -mt-8 max-w-2xl text-center text-base leading-7 text-muted-foreground sm:text-lg">
           {strings.subtitle}
         </p>
-        <div className="mt-3">
+      ) : null}
+      <section className="mx-auto max-w-6xl rounded-[28px] border border-border/60 bg-muted/30 p-4 shadow-sm sm:p-6 lg:p-7">
+        <div className="grid gap-4 lg:grid-cols-3">
           <a
-            href="tel:+41225125050"
-            className="text-blue-700 dark:text-blue-400 hover:underline font-medium"
-            aria-label="Call us at +41 22 512 50 50"
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${cardBaseClasses} bg-blue-700 text-white hover:-translate-y-1 hover:bg-blue-800 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
           >
-            +41 22 512 50 50
+            <span className={`${iconWrapClasses} bg-white/14`}>
+              <CalendarIcon className="size-5" />
+            </span>
+            <span className="mt-6 flex flex-1 flex-col items-center">
+              <span className="block text-lg font-semibold">
+                {strings.bookingButton}
+              </span>
+              <span className="mt-2 block max-w-xs text-sm leading-6 text-white/80">
+                {strings.bookingDescription}
+              </span>
+              <span
+                aria-hidden="true"
+                className="mt-auto inline-flex size-10 items-center justify-center rounded-full bg-white/12 text-lg transition-transform duration-200 group-hover:translate-x-0.5"
+              >
+                →
+              </span>
+            </span>
           </a>
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${strings.whatsapp.cta} ${WHATSAPP_NUMBER}`}
+            className={`${cardBaseClasses} border border-border/60 bg-background/96 text-foreground hover:-translate-y-1 hover:border-[#25D366]/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/40 focus-visible:ring-offset-2`}
+          >
+            <span className={`${iconWrapClasses} bg-[#25D366]/10 text-[#1f9d55]`}>
+              <WhatsAppIcon className="size-5" />
+            </span>
+            <span className="mt-6 flex flex-1 flex-col items-center">
+              <span className="block text-lg font-semibold">
+                {strings.whatsapp.badge}
+              </span>
+              <span className="mt-2 block max-w-xs text-sm leading-6 text-muted-foreground">
+                {strings.whatsapp.description}
+              </span>
+              <span className="mt-auto inline-flex items-center rounded-full bg-[#25D366]/10 px-4 py-2 text-sm font-medium text-foreground">
+                {WHATSAPP_NUMBER}
+              </span>
+            </span>
+          </a>
+          <div className={`${cardBaseClasses} border border-border/60 bg-background/80 text-foreground`}>
+            <span className={`${iconWrapClasses} bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300`}>
+              <PhoneIcon className="size-5" />
+            </span>
+            <span className="mt-6 flex flex-1 flex-col items-center">
+              <span className="block text-lg font-semibold">
+                {strings.callLabel}
+              </span>
+              <span className="mt-2 block max-w-xs text-sm leading-6 text-muted-foreground">
+                {strings.callDescription}
+              </span>
+              <a
+                href="tel:+41225125050"
+                className="mt-auto inline-flex items-center rounded-full border border-border/80 bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                aria-label={`${strings.callLabel} +41 22 512 50 50`}
+              >
+                +41 22 512 50 50
+              </a>
+            </span>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <ContactForm
-        showTitle={false}
-        showSubtitle={false}
-        strings={strings}
-        redirectPath={`${localePrefix}/`}
-      />
+      <section className="mx-auto w-full max-w-3xl space-y-4">
+        <div className="text-center">
+          <p className="text-sm font-medium tracking-[0.16em] uppercase text-muted-foreground">
+            {strings.orContactUs}
+          </p>
+        </div>
+        <ContactForm
+          showTitle={false}
+          showSubtitle={false}
+          strings={strings}
+          redirectPath={`${localePrefix}/`}
+        />
+      </section>
       <section className="mt-8 space-y-6">
         <Defer
           rootMargin="200px"

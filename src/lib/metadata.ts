@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Locale, locales } from "./i18n";
 import { localizePath } from "./paths";
 import { hreflangFor } from "./hreflang";
+import { WHATSAPP_PHONE_E164, WHATSAPP_URL } from "./whatsapp";
 import fs from 'fs';
 import { join as pathJoin } from 'path';
 
@@ -273,11 +274,15 @@ export function generateOrganizationStructuredData() {
       "ratingValue": "5.0",
       "reviewCount": 6
     },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "customer service",
-      "availableLanguage": ["English", "French", "German", "Spanish", "Portuguese"]
-    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "telephone": WHATSAPP_PHONE_E164,
+        "url": WHATSAPP_URL,
+        "availableLanguage": ["English", "French", "German", "Spanish", "Portuguese"]
+      }
+    ],
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "CH"
@@ -285,7 +290,8 @@ export function generateOrganizationStructuredData() {
     "sameAs": [
       // Populate with real profiles when available
       "https://www.linkedin.com/company/ark-fiduciaire/",
-      "https://maps.google.com/?cid=14946625157719331801"
+      "https://maps.google.com/?cid=14946625157719331801",
+      WHATSAPP_URL
     ],
     "areaServed": ["Geneva", "Romandy", "Switzerland", "International"],
     "knowsAbout": [
@@ -344,9 +350,19 @@ export function generateLocalBusinessStructuredData() {
     ],
     "sameAs": [
       "https://www.linkedin.com/company/ark-fiduciaire",
-      "https://maps.google.com/?cid=14946625157719331801"
+      "https://maps.google.com/?cid=14946625157719331801",
+      WHATSAPP_URL
     ],
     "priceRange": "CHF",
-    "telephone": "+41 22 512 50 50"
+    "telephone": WHATSAPP_PHONE_E164,
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "telephone": WHATSAPP_PHONE_E164,
+        "url": WHATSAPP_URL,
+        "availableLanguage": ["English", "French", "German", "Spanish", "Portuguese"]
+      }
+    ]
   };
 }

@@ -17,7 +17,7 @@ export default function BackToTop({ threshold = 600 }: { threshold?: number }) {
       type="button"
       aria-label="Back to top"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className={`fixed right-4 bottom-4 z-30 rounded-full border bg-background/80 backdrop-blur px-3 py-2 shadow-md transition-all hover:shadow-lg active:scale-95 data-[state=open]:animate-in ${
+      className={`fixed right-4 bottom-[var(--floating-tertiary-bottom)] z-30 rounded-full border bg-background/80 backdrop-blur px-3 py-2 shadow-md transition-all hover:shadow-lg active:scale-95 data-[state=open]:animate-in sm:right-6 ${
         visible ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
