@@ -4,6 +4,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Script from "next/script";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CookieIcon } from "@/src/components/icons/CookieIcon";
+import { cn } from "@/src/lib/utils";
 
 type Props = {
   nonce?: string;
@@ -23,7 +25,6 @@ type Props = {
 type ConsentValue = "accepted" | "minimal" | "declined";
 
 const CONSENT_KEY = "cookieConsent"; // values: "accepted" | "minimal" | "declined"
-
 function getStoredConsent(): ConsentValue | null {
   if (typeof window === "undefined") return null;
   try {
@@ -69,6 +70,16 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
   const manageBtnRef = useRef<HTMLButtonElement | null>(null);
   const pathname = usePathname();
   const hideManageButton = /(^|\/)agent(\/|$)/.test(pathname || "");
+  const cookieButtonPositionClasses =
+    "fixed right-4 bottom-[var(--floating-secondary-bottom)] z-40 sm:right-6";
+  const cookieButtonLayoutClasses =
+    "flex size-12 items-center justify-center rounded-full";
+  const cookieButtonColorClasses =
+    "border border-border/70 bg-background/92 text-amber-700 dark:text-amber-400 shadow-md backdrop-blur transition-all duration-200";
+  const cookieButtonHoverClasses =
+    "hover:-translate-y-0.5 hover:border-amber-400/40 hover:bg-background hover:shadow-lg";
+  const cookieButtonFocusClasses =
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
   const focusWithoutScroll = (el: HTMLElement | null) => {
     if (!el) return;
@@ -223,10 +234,17 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
               window.dispatchEvent(new CustomEvent("open-cookie-settings"));
             } catch {}
           }}
-          className="fixed right-4 bottom-[var(--floating-secondary-bottom)] z-40 rounded-full border border-input bg-background/95 px-4 py-2 text-xs shadow-sm hover:bg-muted sm:right-6"
+          className={cn(
+            cookieButtonPositionClasses,
+            cookieButtonLayoutClasses,
+            cookieButtonColorClasses,
+            cookieButtonHoverClasses,
+            cookieButtonFocusClasses,
+          )}
           aria-label={labels.Manage}
         >
-          {labels.Manage}
+          <CookieIcon className="size-6" />
+          <span className="sr-only">{labels.Manage}</span>
         </button>
       )}
 
