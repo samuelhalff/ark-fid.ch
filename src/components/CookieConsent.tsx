@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Script from "next/script";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CookieIcon } from "@/src/components/icons/CookieIcon";
 
 type Props = {
   nonce?: string;
@@ -223,10 +224,11 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
               window.dispatchEvent(new CustomEvent("open-cookie-settings"));
             } catch {}
           }}
-          className="fixed right-4 bottom-[var(--floating-secondary-bottom)] z-40 rounded-full border border-input bg-background/95 px-4 py-2 text-xs shadow-sm hover:bg-muted sm:right-6"
+          className="fixed right-4 bottom-[var(--floating-secondary-bottom)] z-40 flex size-12 items-center justify-center rounded-full border border-border/70 bg-background/92 text-amber-600 shadow-md backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-400/40 hover:bg-background hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:right-6"
           aria-label={labels.Manage}
         >
-          {labels.Manage}
+          <CookieIcon className="size-5" />
+          <span className="sr-only">{labels.Manage}</span>
         </button>
       )}
 
