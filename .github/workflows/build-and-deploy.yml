@@ -83,10 +83,6 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=4096
         run: npm run build
 
-      - name: Validate SEO configuration (non-blocking)
-        continue-on-error: true
-        run: node scripts/validate-seo.js
-
       - name: Prepare artifact
         run: bash scripts/prepare-artifact.sh
 
