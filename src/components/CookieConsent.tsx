@@ -223,7 +223,7 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
               window.dispatchEvent(new CustomEvent("open-cookie-settings"));
             } catch {}
           }}
-          className="fixed right-4 bottom-4 z-40 rounded-full border border-input bg-background/95 px-4 py-2 text-xs shadow-sm hover:bg-muted"
+          className="fixed right-4 bottom-[var(--floating-secondary-bottom)] z-40 rounded-full border border-input bg-background/95 px-4 py-2 text-xs shadow-sm hover:bg-muted sm:right-6"
           aria-label={labels.Manage}
         >
           {labels.Manage}

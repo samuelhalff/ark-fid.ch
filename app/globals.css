@@ -271,6 +271,59 @@ summary.faq-summary::marker {
   content: "";
 }
 
+:root {
+  --floating-whatsapp-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
+  --floating-secondary-bottom: calc(var(--floating-whatsapp-bottom) + 4.75rem);
+  --floating-tertiary-bottom: calc(var(--floating-secondary-bottom) + 4rem);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --floating-whatsapp-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
+    --floating-secondary-bottom: calc(var(--floating-whatsapp-bottom) + 5rem);
+    --floating-tertiary-bottom: calc(var(--floating-secondary-bottom) + 4.25rem);
+  }
+}
+
+@keyframes whatsapp-float-entry {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.88);
+  }
+  65% {
+    opacity: 1;
+    transform: translate3d(0, -4px, 0) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes whatsapp-float-pulse {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  18% {
+    opacity: 0.4;
+    transform: scale(1.02);
+  }
+  60% {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+}
+
+.whatsapp-float-entry {
+  animation: whatsapp-float-entry 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.whatsapp-float-pulse {
+  animation: whatsapp-float-pulse 2.8s ease-out 0.35s 2;
+}
+
 .faq-icon svg {
   width: 16px;
   height: 16px;

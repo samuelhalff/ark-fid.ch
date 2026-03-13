@@ -1,9 +1,11 @@
 import { Separator } from "@/src/components/ui/separator";
+import { WhatsAppIcon } from "@/src/components/icons/WhatsAppIcon";
 import Link from "next/link";
 import Image from "next/image";
 import CookieSettingsLink from "@/src/components/CookieSettingsLink";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { buildInternalUrl } from "@/src/lib/paths";
+import { WHATSAPP_URL } from "@/src/lib/whatsapp";
 
 // Replace '#' with real or placeholder URLs for SEO. Update as needed.
 const footerSections = [
@@ -87,6 +89,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
   const tFooter = await getTranslations(currentLocale, "footer");
   const tNavbar = await getTranslations(currentLocale, "navbar");
   const tItems = await getTranslations(currentLocale, "servicesItems");
+  const tContact = await getTranslations(currentLocale, "contact");
   return (
     <footer
       className="mt-12 xs:mt-20 bg-background border-t text-foreground"
@@ -154,6 +157,18 @@ const Footer = async ({ locale }: { locale?: string }) => {
               aria-label="Call Ark Fiduciaire at +41 22 512 50 50"
             >
               +41 22 512 50 50
+            </a>
+          </p>
+          <p>
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-[#128C7E] hover:underline"
+              aria-label={tContact("WhatsApp.Open") as string}
+            >
+              <WhatsAppIcon className="size-4" />
+              <span>{tContact("WhatsApp.Badge") as string}</span>
             </a>
           </p>
           <p>

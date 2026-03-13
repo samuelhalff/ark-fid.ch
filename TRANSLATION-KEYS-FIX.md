@@ -255,6 +255,13 @@ Added `SecondaryButtonText` to the `Contact` section of both `ressources` and `p
 - `ressources:Contact.SecondaryButtonText`
 - `partners:Contact.SecondaryButtonText`
 
+### Contact WhatsApp CTA
+
+Added to the `contact` namespace across all locales for the global floating WhatsApp button and the contact-page WhatsApp badge:
+
+- `contact:WhatsApp.Badge`
+- `contact:WhatsApp.Open`
+
 ### Translation Bug Fix
 
 Fixed article page (`app/[locale]/ressources/articles/[slug]/page.tsx`) which was accessing nested translation keys with raw object syntax (`ressources["Contact.Title"]`) instead of the `getTranslations()` dot-notation function. This caused the contact banner on articles to always show English fallback strings regardless of the active locale.

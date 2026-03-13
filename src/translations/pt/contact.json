@@ -3,6 +3,10 @@
     "Subtitle": "Normalmente respondemos dentro de 24 horas.",
     "BookingButton": "Marcar uma chamada",
     "OrContactUs": "Ou entre em contacto.",
+    "WhatsApp": {
+        "Badge": "WhatsApp Business",
+        "Open": "Abrir conversa no WhatsApp com Ark Fiduciaire SA"
+    },
     "Form": {
         "Name": "Nome",
         "Email": "Email",

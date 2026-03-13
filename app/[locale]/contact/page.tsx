@@ -3,7 +3,14 @@ import dynamic from "next/dynamic";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import GoogleMap from "@/src/components/ui/GoogleMap";
 import Defer from "@/src/components/Defer";
+import WhatsAppLink from "@/src/components/ui/whatsapp-link";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
+import {
+  WHATSAPP_BADGE_FALLBACK,
+  WHATSAPP_CTA_FALLBACK,
+  WHATSAPP_PHONE_E164,
+  WHATSAPP_URL,
+} from "@/src/lib/whatsapp";
 import { headers } from "next/headers";
 
 const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
@@ -68,6 +75,16 @@ export default async function ContactPage(
     sameAs: [
       "https://www.google.com/maps/place/Ark+Fiduciaire+SA/",
       "https://maps.google.com/?cid=14946625157719331801",
+      WHATSAPP_URL,
+    ],
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "customer service",
+        telephone: WHATSAPP_PHONE_E164,
+        url: WHATSAPP_URL,
+        availableLanguage: ["English", "French", "German", "Spanish", "Portuguese"],
+      },
     ],
     address: {
       "@type": "PostalAddress",
@@ -103,6 +120,10 @@ export default async function ContactPage(
       typeof t("Subtitle") === "string" ? (t("Subtitle") as string) : "",
     orContactUs: (t("OrContactUs") as string) || "or contact us",
     bookingButton: (t("BookingButton") as string) || "Book a call",
+    whatsapp: {
+      badge: (t("WhatsApp.Badge") as string) || WHATSAPP_BADGE_FALLBACK,
+      cta: (t("WhatsApp.Open") as string) || WHATSAPP_CTA_FALLBACK,
+    },
     labels: {
       name: (t("Form.Name") as string) || "Name",
       companyName:
@@ -175,6 +196,13 @@ export default async function ContactPage(
         >
           {strings.bookingButton}
         </a>
+      </div>
+      <div className="mt-4 flex justify-center">
+        <WhatsAppLink
+          variant="badge"
+          badgeText={strings.whatsapp.badge}
+          ctaLabel={strings.whatsapp.cta}
+        />
       </div>
       <div className="mt-4 text-center">
         <p>
