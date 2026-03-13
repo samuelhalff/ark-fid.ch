@@ -164,10 +164,10 @@ const Footer = async ({ locale }: { locale?: string }) => {
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[#128C7E] hover:underline"
+              className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline"
               aria-label={tContact("WhatsApp.Open") as string}
             >
-              <WhatsAppIcon className="size-4" />
+              <WhatsAppIcon className="size-4 text-[#1f9d55]" />
               <span>{tContact("WhatsApp.Badge") as string}</span>
             </a>
           </p>

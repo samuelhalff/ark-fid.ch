@@ -9,7 +9,7 @@ import {
   WHATSAPP_URL,
 } from "@/src/lib/whatsapp";
 
-const COOKIE_DIALOG_SPACING = 16;
+const FLOATING_VISIBILITY_SYNC_DELAY_MS = 180;
 
 type WhatsAppLinkProps = {
   badgeText: string;
@@ -24,49 +24,30 @@ export default function WhatsAppLink({
   variant = "floating",
   className,
 }: WhatsAppLinkProps) {
-  const [isFloatingVisible, setIsFloatingVisible] = useState(variant !== "floating");
-  const [floatingBottom, setFloatingBottom] = useState<string | undefined>(
-    undefined
-  );
+  const [isFloatingVisible, setIsFloatingVisible] = useState(false);
 
   useEffect(() => {
     if (variant !== "floating") return;
 
-    let observer: ResizeObserver | null = null;
     let mutationObserver: MutationObserver | null = null;
-    let frameId = 0;
-    let timeoutId = 0;
+    let frameId: ReturnType<typeof requestAnimationFrame> | null = null;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
     const syncFloatingState = () => {
-      const cookieDialog = document.querySelector<HTMLElement>(
-        '[aria-labelledby="cookie-consent-title"]'
+      setIsFloatingVisible(
+        !document.querySelector<HTMLElement>(
+          '[aria-labelledby="cookie-consent-title"]'
+        )
       );
-      setFloatingBottom(
-        cookieDialog
-          ? `calc(env(safe-area-inset-bottom, 0px) + ${Math.ceil(cookieDialog.getBoundingClientRect().height) + COOKIE_DIALOG_SPACING}px)`
-          : undefined
-      );
-      setIsFloatingVisible(true);
-
-      observer?.disconnect();
-      observer = null;
-
-      if (cookieDialog && typeof ResizeObserver !== "undefined") {
-        observer = new ResizeObserver(() => {
-          if (frameId) window.cancelAnimationFrame(frameId);
-          frameId = window.requestAnimationFrame(syncFloatingState);
-        });
-        observer.observe(cookieDialog);
-      }
     };
 
     const scheduleSync = () => {
-      if (frameId) window.cancelAnimationFrame(frameId);
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
       frameId = window.requestAnimationFrame(syncFloatingState);
     };
 
     scheduleSync();
-    timeoutId = window.setTimeout(scheduleSync, 180);
+    timeoutId = setTimeout(scheduleSync, FLOATING_VISIBILITY_SYNC_DELAY_MS);
 
     if (typeof MutationObserver !== "undefined") {
       mutationObserver = new MutationObserver(scheduleSync);
@@ -81,9 +62,8 @@ export default function WhatsAppLink({
     window.addEventListener("open-cookie-settings", scheduleSync);
 
     return () => {
-      if (frameId) window.cancelAnimationFrame(frameId);
-      if (timeoutId) window.clearTimeout(timeoutId);
-      observer?.disconnect();
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
+      if (timeoutId !== null) clearTimeout(timeoutId);
       mutationObserver?.disconnect();
       window.removeEventListener("resize", scheduleSync);
       window.removeEventListener("cookie-consent-changed", scheduleSync);
@@ -126,7 +106,6 @@ export default function WhatsAppLink({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${ctaLabel} ${WHATSAPP_NUMBER}`}
-      style={floatingBottom ? { bottom: floatingBottom } : undefined}
       className={cn(
         "whatsapp-float-entry group fixed right-4 z-40 bottom-[var(--floating-whatsapp-bottom)] flex size-12 items-center justify-center rounded-full border border-border/70 bg-background/92 text-[#1f9d55] shadow-md backdrop-blur transition-all duration-200 hover:-translate-y-0.5 hover:border-[#25D366]/35 hover:bg-background hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:right-6",
         className

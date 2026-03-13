@@ -3,11 +3,14 @@ import dynamic from "next/dynamic";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import GoogleMap from "@/src/components/ui/GoogleMap";
 import Defer from "@/src/components/Defer";
-import WhatsAppLink from "@/src/components/ui/whatsapp-link";
+import { CalendarIcon } from "@/src/components/icons/CalendarIcon";
+import { PhoneIcon } from "@/src/components/icons/PhoneIcon";
+import { WhatsAppIcon } from "@/src/components/icons/WhatsAppIcon";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import {
   WHATSAPP_BADGE_FALLBACK,
   WHATSAPP_CTA_FALLBACK,
+  WHATSAPP_NUMBER,
   WHATSAPP_PHONE_E164,
   WHATSAPP_URL,
 } from "@/src/lib/whatsapp";
@@ -118,11 +121,20 @@ export default async function ContactPage(
       typeof t("Title") === "string" ? (t("Title") as string) : "Get in Touch",
     subtitle:
       typeof t("Subtitle") === "string" ? (t("Subtitle") as string) : "",
+    bookingDescription:
+      (t("BookingDescription") as string) ||
+      "Best for a planned discussion with our team.",
     orContactUs: (t("OrContactUs") as string) || "or contact us",
     bookingButton: (t("BookingButton") as string) || "Book a call",
+    callLabel: (t("CallLabel") as string) || "Call us",
+    callDescription:
+      (t("CallDescription") as string) || "Speak directly with our team.",
     whatsapp: {
       badge: (t("WhatsApp.Badge") as string) || WHATSAPP_BADGE_FALLBACK,
       cta: (t("WhatsApp.Open") as string) || WHATSAPP_CTA_FALLBACK,
+      description:
+        (t("WhatsApp.Description") as string) ||
+        "Quick questions, quick replies.",
     },
     labels: {
       name: (t("Form.Name") as string) || "Name",
@@ -187,46 +199,91 @@ export default async function ContactPage(
           </li>
         </ol>
       </nav>
-      <div className="mt-6 flex justify-center">
-        <a
-          href="https://outlook.office.com/bookwithme/user/a21b46e2d9a540cca4c290a48c40119e@ark-fid.ch/meetingtype/GHNs6ESvEUWN2gUat7rePg2?anonymous&ismsaljsauthenabled&ep=mlink"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center rounded-full bg-blue-700 text-white px-6 py-3 text-base font-medium shadow hover:shadow-lg transition-all hover:scale-[1.03] focus-visible:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
-        >
-          {strings.bookingButton}
-        </a>
-      </div>
-      <div className="mt-4 flex justify-center">
-        <WhatsAppLink
-          variant="badge"
-          badgeText={strings.whatsapp.badge}
-          ctaLabel={strings.whatsapp.cta}
-        />
-      </div>
-      <div className="mt-4 text-center">
-        <p>
-          {strings.orContactUs}
-          {strings.subtitle && <br />}
+      {strings.subtitle ? (
+        <p className="mx-auto -mt-8 max-w-2xl text-center text-base leading-7 text-muted-foreground sm:text-lg">
           {strings.subtitle}
         </p>
-        <div className="mt-3">
+      ) : null}
+      <section className="mx-auto max-w-5xl rounded-[28px] border border-border/60 bg-muted/30 p-4 shadow-sm sm:p-6 lg:p-8">
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
           <a
-            href="tel:+41225125050"
-            className="text-blue-700 dark:text-blue-400 hover:underline font-medium"
-            aria-label="Call us at +41 22 512 50 50"
+            href="https://outlook.office.com/bookwithme/user/a21b46e2d9a540cca4c290a48c40119e@ark-fid.ch/meetingtype/GHNs6ESvEUWN2gUat7rePg2?anonymous&ismsaljsauthenabled&ep=mlink"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex min-h-[220px] flex-col justify-between rounded-[24px] bg-blue-700 px-6 py-6 text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-800 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 sm:px-7 sm:py-7"
           >
-            +41 22 512 50 50
+            <span className="flex size-11 items-center justify-center rounded-full bg-white/14">
+              <CalendarIcon className="size-5" />
+            </span>
+            <span className="mt-8 block">
+              <span className="block text-lg font-semibold sm:text-xl">
+                {strings.bookingButton}
+              </span>
+              <span className="mt-2 block max-w-md text-sm leading-6 text-white/80">
+                {strings.bookingDescription}
+              </span>
+            </span>
           </a>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${strings.whatsapp.cta} ${WHATSAPP_NUMBER}`}
+              className="group flex min-h-[150px] flex-col rounded-[22px] border border-border/60 bg-background/96 px-5 py-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#25D366]/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/40 focus-visible:ring-offset-2"
+            >
+              <span className="flex size-10 items-center justify-center rounded-full bg-[#25D366]/10 text-[#1f9d55]">
+                <WhatsAppIcon className="size-5" />
+              </span>
+              <span className="mt-5 block">
+                <span className="block text-sm font-semibold text-foreground">
+                  {strings.whatsapp.badge}
+                </span>
+                <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                  {strings.whatsapp.description}
+                </span>
+                <span className="mt-3 block text-sm font-medium text-foreground">
+                  {WHATSAPP_NUMBER}
+                </span>
+              </span>
+            </a>
+            <a
+              href="tel:+41225125050"
+              className="group flex min-h-[150px] flex-col rounded-[22px] border border-border/60 bg-background/96 px-5 py-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-300/60 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              aria-label={`${strings.callLabel} +41 22 512 50 50`}
+            >
+              <span className="flex size-10 items-center justify-center rounded-full bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300">
+                <PhoneIcon className="size-5" />
+              </span>
+              <span className="mt-5 block">
+                <span className="block text-sm font-semibold text-foreground">
+                  {strings.callLabel}
+                </span>
+                <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                  {strings.callDescription}
+                </span>
+                <span className="mt-3 block text-sm font-medium text-foreground">
+                  +41 22 512 50 50
+                </span>
+              </span>
+            </a>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <ContactForm
-        showTitle={false}
-        showSubtitle={false}
-        strings={strings}
-        redirectPath={`${localePrefix}/`}
-      />
+      <section className="mx-auto w-full max-w-3xl space-y-4">
+        <div className="text-center">
+          <p className="text-sm font-medium tracking-[0.16em] uppercase text-muted-foreground">
+            {strings.orContactUs}
+          </p>
+        </div>
+        <ContactForm
+          showTitle={false}
+          showSubtitle={false}
+          strings={strings}
+          redirectPath={`${localePrefix}/`}
+        />
+      </section>
       <section className="mt-8 space-y-6">
         <Defer
           rootMargin="200px"
