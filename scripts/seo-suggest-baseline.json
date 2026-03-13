@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-13T00:06:54.802Z",
+  "generatedAt": "2026-03-13T09:10:01.518Z",
   "config": {
     "maxSuggestions": 10,
     "driftRatio": 0.4,
@@ -212,7 +212,6 @@
           "google": [
             "fiscalité genève",
             "finance genève",
-            "taxe genève",
             "formation fiscalité genève"
           ],
           "bing": [
@@ -314,11 +313,11 @@
             "family office suisse romande",
             "family office suisse olivier delamarche",
             "family office swiss",
+            "family office switzerland",
             "family office switzerland list",
             "palms family office suisse sa",
             "salaire family office suisse",
-            "emploi family office suisse",
-            "palms family office suisse"
+            "emploi family office suisse"
           ],
           "bing": [
             "family office suisse",
@@ -413,8 +412,8 @@
             "shadow switzerland payroll",
             "switzerland payroll in sap",
             "payroll calculator switzerland",
-            "local payroll providers in switzerland",
-            "helvetic payroll switzerland"
+            "helvetic payroll switzerland",
+            "local payroll providers in switzerland"
           ]
         }
       },
