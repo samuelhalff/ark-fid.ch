@@ -88,6 +88,10 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -227,6 +231,10 @@
       "references": [
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ]
@@ -317,6 +325,10 @@
       "references": [
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ]
@@ -349,11 +361,15 @@
       "references": [
         {
           "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation"
+          "url": "https://www.odoo.com/documentation/19.0/"
         },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr/"
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ]
     },
@@ -367,11 +383,15 @@
       "references": [
         {
           "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation"
+          "url": "https://www.odoo.com/documentation/19.0/"
         },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr/"
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ]
     },
@@ -383,6 +403,10 @@
       "author": "Ark Fiduciaire",
       "date": "2025-10-03",
       "references": [
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr"
+        },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
@@ -403,6 +427,10 @@
         },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ]
@@ -417,11 +445,15 @@
       "references": [
         {
           "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation"
+          "url": "https://www.odoo.com/documentation/19.0/"
         },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr/"
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ]
     },
@@ -433,6 +465,10 @@
       "author": "Ark Fiduciaire",
       "date": "2025-10-09",
       "references": [
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr"
+        },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
@@ -449,6 +485,10 @@
       "references": [
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ]
@@ -463,11 +503,15 @@
       "references": [
         {
           "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation"
+          "url": "https://www.odoo.com/documentation/19.0/"
         },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr/"
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ]
     },
@@ -499,6 +543,10 @@
       "references": [
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ]
@@ -514,6 +562,10 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
         },
         {
           "labelKey": "Registre du commerce - Canton de Genève",
@@ -553,6 +605,10 @@
         },
         {
           "labelKey": "Code des obligations - Comptabilité",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Code des obligations - Comptabilité",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
         }
       ]
@@ -589,6 +645,10 @@
         },
         {
           "labelKey": "Code des obligations - Comptabilité",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Code des obligations - Comptabilité",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
         }
       ]
@@ -619,6 +679,10 @@
       "author": "Ark Fiduciaire",
       "date": "2025-11-11",
       "references": [
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr"
+        },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
@@ -675,6 +739,10 @@
         },
         {
           "labelKey": "Code des obligations - Comptabilité",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Code des obligations - Comptabilité",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
         }
       ]
@@ -725,6 +793,10 @@
       "references": [
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ]
@@ -758,6 +830,10 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -789,6 +865,10 @@
       "references": [
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ]
@@ -803,11 +883,15 @@
       "references": [
         {
           "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation"
+          "url": "https://www.odoo.com/documentation/19.0/"
         },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr/"
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ]
     },
@@ -822,6 +906,10 @@
         {
           "labelKey": "Loi sur la fusion, la scission, la transformation et le transfert de patrimoine (LFus)",
           "url": "https://www.fedlex.admin.ch/eli/cc/2003/218/fr"
+        },
+        {
+          "labelKey": "Code des obligations (CO)",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
     },
@@ -887,6 +975,10 @@
       "author": "Ark Fiduciaire",
       "date": "2026-01-01",
       "references": [
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr"
+        },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
@@ -957,6 +1049,10 @@
       "references": [
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ]
@@ -972,6 +1068,10 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -983,6 +1083,10 @@
       "author": "Ark Fiduciaire",
       "date": "2026-01-25",
       "references": [
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr"
+        },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
@@ -1315,7 +1419,11 @@
         },
         {
           "labelKey": "Code des obligations - Comptabilité",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Swiss GAAP FER",
+          "url": "https://www.fer.ch/fr/"
         }
       ]
     },
@@ -1337,7 +1445,7 @@
         },
         {
           "labelKey": "Code des obligations (CO) - Société anonyme",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#book_2/tit_26/ch_2"
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
     },
@@ -1356,6 +1464,10 @@
         {
           "labelKey": "Optimisation fiscale des dividendes",
           "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots/non-imposition/optimiser-declaration.html"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -1374,6 +1486,10 @@
         {
           "labelKey": "SA ou Sàrl en Suisse : différences clés (Hoop)",
           "url": "https://www.hoop.swiss/fr/blog/sa-vs-sarl-en-suisse-les-principales-differences/"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ]
     },
@@ -1478,6 +1594,10 @@
         {
           "labelKey": "Régulations liées à la domiciliation en Suisse (source officielle)",
           "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
+        },
+        {
+          "labelKey": "Registre du commerce (Zefix)",
+          "url": "https://www.zefix.ch/fr/search/entity/welcome"
         }
       ]
     },
@@ -1517,11 +1637,11 @@
       "references": [
         {
           "labelKey": "Documentation Odoo - Localisation Suisse",
-          "url": "https://www.odoo.com/documentation"
+          "url": "https://www.odoo.com/documentation/19.0/"
         },
         {
           "labelKey": "Normes comptables (Swiss GAAP) pour PME — fedlex.admin.ch",
-          "url": "https://www.fedlex.admin.ch"
+          "url": "https://www.fedlex.admin.ch/"
         },
         {
           "labelKey": "Finances PME en Suisse — CCI Suisse",
