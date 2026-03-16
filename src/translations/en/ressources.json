@@ -1951,5 +1951,11 @@
     "Feuille officielle du commerce (FOSC) | SECO": "Swiss Official Gazette of Commerce (SOGC) | SECO",
     "Portail Zefix pour vérifier les inscriptions d'entreprises": "Zefix portal for checking company registrations",
     "Inscrire son entreprise - SECO": "Registering your business - SECO",
-    "Obligations légales après inscription - SECO": "Legal obligations for companies registered in the Commercial Register (SECO)"
+    "Obligations légales après inscription - SECO": "Legal obligations for companies registered in the Commercial Register (SECO)",
+    "ContextualCTA": {
+        "Title": "Need help with this topic?",
+        "Description": "Our experts are available for personalised guidance. First consultation free, no commitment.",
+        "PrimaryCTA": "Contact us",
+        "SecondaryCTA": "Instant quote"
+    }
 }

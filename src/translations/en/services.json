@@ -41,5 +41,18 @@
         "PrimaryCTA": "Speak to an expert",
         "SecondaryCTA": "Get an instant quote"
     },
-    "ScrollHint": "Discover more"
+    "ScrollHint": "Discover more",
+    "InlineContact": {
+        "Title": "Request a free quote",
+        "Description": "Tell us about your needs and receive a personalised proposal within 24 hours. No commitment.",
+        "PrimaryCTA": "Request a free quote",
+        "SecondaryCTA": "Book a call",
+        "TrustLine": "Trusted by 50+ businesses in Geneva and Lausanne"
+    },
+    "GoogleReviews": {
+        "Rating": "5.0",
+        "Count": "30+",
+        "Label": "Google Reviews",
+        "CTA": "See our reviews"
+    }
 }

@@ -1927,5 +1927,11 @@
     "Feuille officielle du commerce (FOSC) | SECO": "Feuille officielle du commerce (FOSC) | SECO",
     "Portail Zefix pour vérifier les inscriptions d'entreprises": "Portail Zefix pour vérifier les inscriptions d'entreprises",
     "Inscrire son entreprise - SECO": "Inscrire son entreprise - SECO",
-    "Obligations légales après inscription - SECO": "Obligations légales des entreprises inscrites au registre du commerce (SECO)"
+    "Obligations légales après inscription - SECO": "Obligations légales des entreprises inscrites au registre du commerce (SECO)",
+    "ContextualCTA": {
+        "Title": "Besoin d'aide sur ce sujet ?",
+        "Description": "Nos experts sont à votre disposition pour un accompagnement personnalisé. Premier échange gratuit et sans engagement.",
+        "PrimaryCTA": "Contactez-nous",
+        "SecondaryCTA": "Devis instantané"
+    }
 }

@@ -1916,5 +1916,11 @@
     "Feuille officielle du commerce (FOSC) | SECO": "Gaceta Oficial Suiza de Comercio (FOSC) | SECO",
     "Portail Zefix pour vérifier les inscriptions d'entreprises": "Portal Zefix para comprobar inscripciones de empresas",
     "Inscrire son entreprise - SECO": "Registrar su empresa - SECO",
-    "Obligations légales après inscription - SECO": "Obligaciones legales para empresas inscritas en el registro mercantil (SECO)"
+    "Obligations légales après inscription - SECO": "Obligaciones legales para empresas inscritas en el registro mercantil (SECO)",
+    "ContextualCTA": {
+        "Title": "¿Necesita ayuda con este tema?",
+        "Description": "Nuestros expertos están disponibles para un acompañamiento personalizado. Primera consulta gratuita y sin compromiso.",
+        "PrimaryCTA": "Contáctenos",
+        "SecondaryCTA": "Presupuesto instantáneo"
+    }
 }

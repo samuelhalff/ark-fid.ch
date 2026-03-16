@@ -1924,5 +1924,11 @@
     "Feuille officielle du commerce (FOSC) | SECO": "Schweizerisches Handelsamtsblatt (SHAB) | SECO",
     "Portail Zefix pour vérifier les inscriptions d'entreprises": "Zefix-Portal zur Überprüfung von Unternehmenseinträgen",
     "Inscrire son entreprise - SECO": "Unternehmen eintragen – SECO",
-    "Obligations légales après inscription - SECO": "Gesetzliche Pflichten für im Handelsregister eingetragene Unternehmen (SECO)"
+    "Obligations légales après inscription - SECO": "Gesetzliche Pflichten für im Handelsregister eingetragene Unternehmen (SECO)",
+    "ContextualCTA": {
+        "Title": "Brauchen Sie Hilfe zu diesem Thema?",
+        "Description": "Unsere Experten stehen Ihnen für eine persönliche Beratung zur Verfügung. Erstes Gespräch kostenlos und unverbindlich.",
+        "PrimaryCTA": "Kontaktieren Sie uns",
+        "SecondaryCTA": "Sofort-Angebot"
+    }
 }

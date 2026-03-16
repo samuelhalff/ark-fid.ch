@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import ContactSection from "../components/ContactSection";
+import ArticleContextualCTA from "@/src/components/ui/article-contextual-cta";
 import { generateMetadataForArticle } from "@/src/lib/metadata";
 import { headers } from "next/headers";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
@@ -166,6 +167,37 @@ export default async function ArticlePage(props: Params) {
   // Use relative path for local public assets to avoid Next/Image remote domain restrictions
   const imageUrl = article.image ? `/assets/${article.image}` : undefined; // used for JSON-LD only; image hidden in UI
   const reading = estimateReadingTime(article.content || "");
+
+  // Split content roughly at the midpoint (at a heading boundary) so we can
+  // inject a contextual CTA in the middle of the article.
+  const fullContent = article.content ?? "";
+  let articleFirstHalf = fullContent;
+  let articleSecondHalf: string | null = null;
+  {
+    const lines = fullContent.split("\n");
+    const targetIdx = Math.floor(lines.length / 2);
+    // Walk backwards from the midpoint to find a heading (## or ###)
+    let splitIdx = -1;
+    for (let i = targetIdx; i >= Math.floor(lines.length * 0.3); i--) {
+      if (/^#{2,3}\s/.test(lines[i])) {
+        splitIdx = i;
+        break;
+      }
+    }
+    // Walk forwards if we didn't find one backwards
+    if (splitIdx === -1) {
+      for (let i = targetIdx; i < Math.floor(lines.length * 0.7); i++) {
+        if (/^#{2,3}\s/.test(lines[i])) {
+          splitIdx = i;
+          break;
+        }
+      }
+    }
+    if (splitIdx > 0) {
+      articleFirstHalf = lines.slice(0, splitIdx).join("\n");
+      articleSecondHalf = lines.slice(splitIdx).join("\n");
+    }
+  }
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -332,8 +364,40 @@ export default async function ArticlePage(props: Params) {
           remarkPlugins={[remarkGfm]}
           components={buildMarkdownComponents(locale)}
         >
-          {article.content ?? ""}
+          {articleFirstHalf}
         </ReactMarkdown>
+
+        {/* Mid-article contextual CTA — lead magnet touchpoint */}
+        {articleSecondHalf && (
+          <ArticleContextualCTA
+            locale={locale}
+            title={
+              (tRessources("ContextualCTA.Title") as string) ||
+              "Need help with this topic?"
+            }
+            description={
+              (tRessources("ContextualCTA.Description") as string) ||
+              "Our experts are available for personalised guidance. First consultation free, no commitment."
+            }
+            primaryText={
+              (tRessources("ContextualCTA.PrimaryCTA") as string) ||
+              "Contact us"
+            }
+            secondaryText={
+              (tRessources("ContextualCTA.SecondaryCTA") as string) ||
+              "Instant quote"
+            }
+          />
+        )}
+
+        {articleSecondHalf && (
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={buildMarkdownComponents(locale)}
+          >
+            {articleSecondHalf}
+          </ReactMarkdown>
+        )}
       </article>
 
       <RelatedArticles currentSlug={params.slug} locale={locale} />

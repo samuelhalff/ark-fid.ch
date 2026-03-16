@@ -41,5 +41,18 @@
         "PrimaryCTA": "Parler à un expert",
         "SecondaryCTA": "Obtenez un devis instantané"
     },
-    "ScrollHint": "Découvrir plus"
+    "ScrollHint": "Découvrir plus",
+    "InlineContact": {
+        "Title": "Demander un devis gratuit",
+        "Description": "Décrivez-nous votre besoin et recevez une proposition personnalisée sous 24 heures. Sans engagement.",
+        "PrimaryCTA": "Demander un devis gratuit",
+        "SecondaryCTA": "Réserver un appel",
+        "TrustLine": "Plus de 50 entreprises à Genève et Lausanne nous font confiance"
+    },
+    "GoogleReviews": {
+        "Rating": "5.0",
+        "Count": "30+",
+        "Label": "avis Google",
+        "CTA": "Voir nos avis"
+    }
 }
