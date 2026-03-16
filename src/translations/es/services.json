@@ -41,5 +41,18 @@
         "PrimaryCTA": "Hablar con un experto",
         "SecondaryCTA": "Obtenga un presupuesto instantáneo"
     },
-    "ScrollHint": "Descubrir más"
+    "ScrollHint": "Descubrir más",
+    "InlineContact": {
+        "Title": "Solicitar un presupuesto gratuito",
+        "Description": "Descríbanos su necesidad y reciba una propuesta personalizada en 24 horas. Sin compromiso.",
+        "PrimaryCTA": "Solicitar un presupuesto gratuito",
+        "SecondaryCTA": "Reservar una llamada",
+        "TrustLine": "Más de 50 empresas en Ginebra y Lausana confían en nosotros"
+    },
+    "GoogleReviews": {
+        "Rating": "5.0",
+        "Count": "30+",
+        "Label": "reseñas de Google",
+        "CTA": "Ver nuestras reseñas"
+    }
 }

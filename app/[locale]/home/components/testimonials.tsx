@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
+import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
 
 // Dynamic import to avoid blocking first paint
 const TestimonialsCarousel = dynamic(() => import("./testimonials-carousel"), {
@@ -203,6 +204,11 @@ export default async function Testimonials() {
         testimonials={testimonials}
         anonymousLabel={anonymousLabel}
       />
+
+      {/* Google Reviews badge — social proof */}
+      <div className="flex justify-center mt-8">
+        <GoogleReviewsBadge locale={locale} />
+      </div>
     </section>
   );
 }

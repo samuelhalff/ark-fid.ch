@@ -3,6 +3,8 @@ import AccountingAccordion from "./sections/AccountingAccordion";
 import ServicesListSection from "./sections/ServicesListSection";
 import ServiceLongForm from "@/src/components/ui/service-longform";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
+import ServiceContactForm from "@/src/components/ui/service-contact-form";
+import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
 import { getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { Suspense } from "react";
 import ServicesListServer from "@/src/components/ui/services-list-server";
@@ -140,6 +142,10 @@ const AccountingPresentation = async ({ t }: { t: (key: string) => string }) => 
               </Defer>
             </section>
             <ServiceLongForm t={t} />
+            <ServiceContactForm locale={locale} />
+            <div className="flex justify-center">
+              <GoogleReviewsBadge locale={locale} />
+            </div>
             <ServiceExpertBanner locale={locale} />
           </div>
         </div>

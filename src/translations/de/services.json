@@ -41,5 +41,18 @@
         "PrimaryCTA": "Mit einem Experten sprechen",
         "SecondaryCTA": "Sofortangebot erhalten"
     },
-    "ScrollHint": "Mehr entdecken"
+    "ScrollHint": "Mehr entdecken",
+    "InlineContact": {
+        "Title": "Kostenloses Angebot anfordern",
+        "Description": "Beschreiben Sie uns Ihren Bedarf und erhalten Sie innerhalb von 24 Stunden ein persönliches Angebot. Unverbindlich.",
+        "PrimaryCTA": "Kostenloses Angebot anfordern",
+        "SecondaryCTA": "Gespräch buchen",
+        "TrustLine": "Über 50 Unternehmen in Genf und Lausanne vertrauen uns"
+    },
+    "GoogleReviews": {
+        "Rating": "5.0",
+        "Count": "30+",
+        "Label": "Google-Bewertungen",
+        "CTA": "Bewertungen ansehen"
+    }
 }
