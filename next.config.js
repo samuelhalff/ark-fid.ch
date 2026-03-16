@@ -225,6 +225,57 @@ const baseConfig = {
         destination: "/fr/services/constitution-entreprise/",
         permanent: true,
       },
+      // Consolidated article redirects — avoid 404s for merged content
+      {
+        source: "/:locale/ressources/articles/registre-commerce-suisse-guide-2026/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-documents-delais-erreurs-couts/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/registre-commerce-suisse-guide-2026",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-documents-delais-erreurs-couts/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/lba-aml-obligations-kyc-risques-dossier-conformite-fiduciaire/",
+        destination: "/:locale/ressources/articles/lba-aml-obligations-kyc-risques-fiduciaire-suisse/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/lba-aml-obligations-kyc-risques-dossier-conformite-fiduciaire",
+        destination: "/:locale/ressources/articles/lba-aml-obligations-kyc-risques-fiduciaire-suisse/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/cloture-comptable-pme-checklist-delais-controle-qualite/",
+        destination: "/:locale/ressources/articles/cloture-comptable-pme-delais-controle-interne-et-erreurs-courantes/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/cloture-comptable-pme-checklist-delais-controle-qualite",
+        destination: "/:locale/ressources/articles/cloture-comptable-pme-delais-controle-interne-et-erreurs-courantes/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/domiciliation-entreprise-definition-contrats-risques/",
+        destination: "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/domiciliation-entreprise-definition-contrats-risques",
+        destination: "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/optimiser-domiciliation-et-direction-pme-suisse-romande-2026-pieges-etapes-conseils-pratiques/",
+        destination: "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/optimiser-domiciliation-et-direction-pme-suisse-romande-2026-pieges-etapes-conseils-pratiques",
+        destination: "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
