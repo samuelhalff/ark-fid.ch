@@ -1,14 +1,14 @@
 {
   "default": {
     "title": "Ark Fiduciaire | Fiduciaria en Ginebra y Lausana",
-    "description": "Fiduciaria en Ginebra y Lausana que ofrece contabilidad, impuestos, nóminas, administración corporativa y domiciliación para PYMES suizas, scale-ups y grupos internacionales.",
+    "description": "Fiduciaria en Ginebra y Lausana: contabilidad, impuestos, nóminas, administración corporativa y domiciliación para PYMES y grupos internacionales.",
     "keywords": "fiduciaria ginebra, fiduciaria lausana, suiza romanda, contabilidad, impuestos, nóminas, corporate, domiciliación",
     "author": "Ark Fiduciaire",
     "siteName": "Ark Fiduciaire"
   },
   "pages": {
     "/": {
-      "title": "Servicios fiduciarios Ginebra – contabilidad e impuestos | Ark Fiduciaire",
+      "title": "Servicios fiduciarios en Ginebra | Ark Fiduciaire",
       "description": "Ark Fiduciaire en Ginebra ofrece servicios fiduciarios, contabilidad, impuestos, nómina y constitución de empresas para PYMES y emprendedores.",
       "keywords": "fiduciario ginebra, contabilidad ginebra, servicios fiscales ginebra, constitución empresa"
     },
@@ -38,8 +38,8 @@
       "keywords": "recursos fiduciarios, suiza romanda, guías fiscales, ginebra, lausana"
     },
     "/agent": {
-      "title": "Presupuesto instantáneo - Asistente IA | Servicios fiduciarios Ginebra",
-      "description": "Obtenga un presupuesto instantáneo para contabilidad, impuestos, nómina y servicios fiduciarios en Ginebra y Lausana. Nuestro asistente IA proporciona estimaciones inmediatas y próximos pasos para su negocio.",
+      "title": "Presupuesto instantáneo – Asistente IA | Ark Fiduciaire",
+      "description": "Presupuesto instantáneo para contabilidad, impuestos, nómina y servicios fiduciarios en Ginebra. Nuestro asistente IA le ofrece estimaciones y próximos pasos.",
       "keywords": "presupuesto instantáneo fiduciario, asistente ia cotización, presupuesto contabilidad ginebra, estimación impuestos suiza, cotización nómina lausana, costos servicios empresariales"
     },
     "/services": {
@@ -48,57 +48,57 @@
       "keywords": "servicios fiduciarios ginebra, servicios contables, asesoría fiscal ginebra"
     },
     "/services/family-office": {
-      "title": "Family office administrativo en suiza francófona | Ark Fiduciaire",
-      "description": "Family office administrativo en suiza francófona. Ark Fiduciaire acompaña a familias y emprendedores que necesitan un punto de coordinación en Suiza para gobernanza, fiscalidad, legal y r...",
+      "title": "Family office en suiza francófona | Ark Fiduciaire",
+      "description": "Family office administrativo en Suiza francófona. Acompañamos a familias y emprendedores con coordinación en gobernanza, fiscalidad y gestión patrimonial.",
       "keywords": "family office suiza, family office suiza francófona, multi family office suiza, gobernanza familiar suiza, family office ginebra"
     },
     "/services/accounting": {
-      "title": "Contabilidad en ginebra y lausana para PYMES | Ark Fiduciaire",
-      "description": "Contabilidad en ginebra y lausana para PYMES. Nos dedicamos a proporcionar soluciones integrales y personalizadas, diseñadas para abordar cada faceta de sus necesidades financieras y cont...",
+      "title": "Contabilidad Ginebra y Lausana para PYMES | Ark Fiduciaire",
+      "description": "Contabilidad en Ginebra y Lausana para PYMES. Soluciones integrales y personalizadas para abordar sus necesidades financieras y contables.",
       "keywords": "contabilidad ginebra, fiduciaria ginebra, contabilidad PYMES ginebra, contabilidad lausana, contabilidad suiza"
     },
     "/services/corporate": {
-      "title": "Administración corporativa y secretaría societaria en ginebra | Ark Fiduciaire",
-      "description": "Administración corporativa y secretaría societaria en ginebra. Nuestro equipo lo apoya en todas las etapas de la vida de su empresa: desde la incorporación hasta la gestión diaria, incluy...",
+      "title": "Administración corporativa en Ginebra | Ark Fiduciaire",
+      "description": "Administración corporativa y secretaría societaria en Ginebra. Le apoyamos en todas las etapas de su empresa, desde la incorporación hasta la gestión diaria.",
       "keywords": "administración corporativa suiza, secretaría societaria suiza, gobernanza corporativa suiza, administración societaria ginebra, registro mercantil suiza"
     },
     "/services/domiciliation": {
-      "title": "Domiciliación de empresas en ginebra y lausana | Ark Fiduciaire",
-      "description": "Domiciliación de empresas en ginebra y lausana. Proporcionamos una dirección de oficina registrada para su empresa, junto con gestión de correo y soporte administrativo.",
+      "title": "Domiciliación empresas Ginebra y Lausana | Ark Fiduciaire",
+      "description": "Domiciliación de empresas en Ginebra y Lausana. Dirección registrada, gestión de correo y soporte administrativo para su empresa.",
       "keywords": "domiciliación ginebra, domiciliación lausana, dirección social ginebra, domiciliación suiza, domiciliación empresa ginebra"
     },
     "/services/odoo": {
-      "title": "Implementación de odoo en ginebra para PYMES suizas | Ark Fiduciaire",
-      "description": "Implementación de odoo en ginebra para PYMES suizas. Odoo es una solución ERP modular y flexible, ideal para digitalizar y optimizar la gestión de su negocio. Ark Fiduciaire lo apoya en l...",
+      "title": "Implementación Odoo Ginebra para PYMES | Ark Fiduciaire",
+      "description": "Implementación de Odoo en Ginebra para PYMES. Solución ERP modular y flexible para digitalizar y optimizar la gestión de su negocio con Ark Fiduciaire.",
       "keywords": "odoo ginebra, implementación odoo suiza, integrador odoo ginebra, odoo para PYMES suizas, odoo contabilidad suiza"
     },
     "/services/outsourcing": {
-      "title": "Externalización de back-office en suiza francófona | Ark Fiduciaire",
-      "description": "Externalización de back-office en suiza francófona. Nos ocupamos de su contabilidad, nómina y gestión administrativa, permitiéndole concentrarse en el desarrollo de su negocio.",
+      "title": "Externalización back-office en suiza | Ark Fiduciaire",
+      "description": "Externalización de back-office en Suiza. Nos ocupamos de su contabilidad, nómina y gestión administrativa para que se concentre en su negocio.",
       "keywords": "externalización back office suiza, externalización contable suiza, outsourcing administrativo, outsourcing ginebra, back office suiza"
     },
     "/services/mergers-acquisitions": {
       "title": "Asesoría m&a para operaciones en suiza | Ark Fiduciaire",
-      "description": "Asesoría m&a para operaciones en suiza. Ark Fiduciaire guía a clientes en la Suiza francófona y germanófona a lo largo del ciclo completo de una transacción. Definimos la estrategia, estr...",
+      "description": "Asesoría M&A en Suiza. Ark Fiduciaire guía a clientes en Suiza francófona y germanófona en el ciclo completo: estrategia, due diligence y cierre.",
       "keywords": "m&a suiza, asesoría m&a suiza, valoración empresa suiza, due diligence suiza, sucesión PYMES suiza"
     },
     "/services/payroll": {
       "title": "Gestión de nóminas en suiza francófona | Ark Fiduciaire",
-      "description": "Gestión de nóminas en suiza francófona. Nos ocupamos de todas las tareas administrativas de nómina y RRHH, desde cálculos salariales hasta declaraciones de seguros sociales.",
+      "description": "Gestión de nóminas en Suiza francófona. Nos ocupamos de todas las tareas de nómina y RRHH, desde cálculos salariales hasta seguros sociales.",
       "keywords": "gestión nóminas suiza, nóminas ginebra, recibo de salario suiza, gestión salarial ginebra, cotizaciones sociales suiza"
     },
     "/services/taxes": {
-      "title": "Asesoría fiscal y declaraciones de impuestos en ginebra | Ark Fiduciaire",
-      "description": "Asesoría fiscal y declaraciones de impuestos en ginebra. Nuestros especialistas fiscales lo apoyan en todas sus obligaciones fiscales, desde declaraciones hasta planificación estratégica.",
+      "title": "Asesoría fiscal e impuestos Ginebra | Ark Fiduciaire",
+      "description": "Asesoría fiscal y declaraciones de impuestos en Ginebra. Nuestros especialistas lo apoyan en sus obligaciones fiscales, desde declaraciones hasta planificación.",
       "keywords": "asesoría fiscal ginebra, declaración impuestos ginebra, asesor fiscal suiza, iva suiza, impuestos expatriados ginebra"
     },
     "/services/incorporation": {
-      "title": "Constitución de sociedades en ginebra (sàrl/sa) | Ark Fiduciaire",
-      "description": "Constitución de sociedades en ginebra (sàrl/sa). Le ayudamos a constituir su empresa de forma rápida y correcta. Elija el tipo de sociedad, entregue los documentos requeridos y nosotros g...",
+      "title": "Constitución sociedades Ginebra (sàrl/sa) | Ark Fiduciaire",
+      "description": "Constitución de sociedades en Ginebra (Sàrl/SA). Le ayudamos a constituir su empresa de forma rápida y correcta con un proceso simplificado.",
       "keywords": "constitución sociedad ginebra, constitución sàrl suiza, constitución sa suiza, crear empresa ginebra, constitución empresa suiza"
     },
     "/services/immigration": {
-      "title": "Inmigración y permisos de trabajo en ginebra | Ark Fiduciaire",
+      "title": "Inmigración y permisos de trabajo Ginebra | Ark Fiduciaire",
       "description": "Inmigración y permisos de trabajo en ginebra. Ayudamos a emprendedores, directivos y familias a instalarse en Suiza con un enfoque pragmático y conforme.",
       "keywords": "inmigración suiza, permiso de trabajo ginebra, permiso de residencia suiza, anobag suiza, inmigración ginebra"
     },
