@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
   const base = 'https://ark-fid.ch';
   const corePaths = ['/', '/about', '/services', '/ressources', '/contact', '/team'];
-  const servicePaths = ['/services/accounting','/services/taxes','/services/payroll','/services/incorporation','/services/outsourcing','/services/corporate','/services/domiciliation','/services/odoo'];
+  const servicePaths = ['/services/accounting','/services/taxes','/services/payroll','/services/incorporation','/services/outsourcing','/services/corporate','/services/domiciliation','/services/odoo','/services/family-office','/services/mergers-acquisitions','/services/immigration'];
   const paths = [...corePaths, ...servicePaths];
   const urls = locales.flatMap((loc) => paths.map((p) => {
     const path = p === '/' ? '' : p;

@@ -285,6 +285,9 @@ export function generateOrganizationStructuredData() {
     ],
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "26 Boulevard Georges Favon",
+      "addressLocality": "Genève",
+      "postalCode": "1204",
       "addressCountry": "CH"
     },
     "sameAs": [
@@ -319,20 +322,14 @@ export function generateLocalBusinessStructuredData() {
     "name": "Ark Fiduciaire",
     "image": "https://ark-fid.ch/assets/arkfid--color.svg",
     "url": "https://ark-fid.ch",
-    "address": [
-      {
-        "@type": "PostalAddress",
-        "addressCountry": "CH",
-        "addressRegion": "GE",
-        "addressLocality": "Genève"
-      },
-      {
-        "@type": "PostalAddress",
-        "addressCountry": "CH",
-        "addressRegion": "VD",
-        "addressLocality": "Lausanne"
-      }
-    ],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "26 Boulevard Georges Favon",
+      "addressLocality": "Genève",
+      "postalCode": "1204",
+      "addressRegion": "GE",
+      "addressCountry": "CH"
+    },
     "areaServed": ["Geneva", "Lausanne", "Romandy", "Suisse romande", "French-speaking Switzerland", "Switzerland", "International"],
     "serviceArea": [
       {
@@ -353,7 +350,7 @@ export function generateLocalBusinessStructuredData() {
       "https://maps.google.com/?cid=14946625157719331801",
       WHATSAPP_URL
     ],
-    "priceRange": "CHF",
+    "priceRange": "$$",
     "telephone": WHATSAPP_PHONE_E164,
     "contactPoint": [
       {
