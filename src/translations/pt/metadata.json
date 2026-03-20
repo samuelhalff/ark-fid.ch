@@ -1,14 +1,14 @@
 {
   "default": {
     "title": "Ark Fiduciaire | Fiduciária em Genebra e Lausana",
-    "description": "Fiduciária em Genebra e Lausana que presta contabilidade, fiscalidade, folha salarial, administração corporate e domiciliação para PME suíças, scale-ups e grupos internacionais.",
+    "description": "Fiduciária em Genebra e Lausana: contabilidade, fiscalidade, folha salarial, administração corporate e domiciliação para PMEs e grupos internacionais.",
     "keywords": "fiduciária genebra, fiduciária lausana, suíça romanda, contabilidade, impostos, folha salarial, corporate, domiciliação",
     "author": "Ark Fiduciaire",
     "siteName": "Ark Fiduciaire"
   },
   "pages": {
     "/": {
-      "title": "Serviços fiduciários Genebra – contabilidade e impostos | Ark Fiduciaire",
+      "title": "Serviços fiduciários Genebra – impostos | Ark Fiduciaire",
       "description": "Ark Fiduciaire em Genebra oferece serviços fiduciários, contabilidade, impostos, folha de pagamento e constituição de empresas para PMEs e empreendedores.",
       "keywords": "fiduciário genebra, contabilidade genebra, serviços fiscais genebra, constituição empresa"
     },
@@ -38,8 +38,8 @@
       "keywords": "recursos fiduciários, suíça romanda, guias fiscais, genebra, lausana"
     },
     "/agent": {
-      "title": "Orçamento instantâneo - Assistente IA | Serviços fiduciários Genebra",
-      "description": "Obtenha um orçamento instantâneo para contabilidade, impostos, folha de pagamento e serviços fiduciários em Genebra e Lausana. Nosso assistente IA fornece estimativas imediatas e próximos passos para o seu negócio.",
+      "title": "Orçamento instantâneo – Assistente IA | Ark Fiduciaire",
+      "description": "Orçamento instantâneo para contabilidade, impostos e folha de pagamento em Genebra. Assistente IA com estimativas imediatas para o seu negócio.",
       "keywords": "orçamento instantâneo fiduciário, assistente ia cotação, orçamento contabilidade genebra, estimativa impostos suíça, cotação folha pagamento lausana, custos serviços empresariais"
     },
     "/services": {
@@ -48,57 +48,57 @@
       "keywords": "serviços fiduciários genebra, serviços contábeis, consultoria fiscal genebra"
     },
     "/services/family-office": {
-      "title": "Family office administrativo na suíça francófona | Ark Fiduciaire",
-      "description": "Family office administrativo na suíça francófona. A Ark Fiduciaire apoia famílias e empreendedores que precisam de um ponto de coordenação na Suíça para governança, fiscalidade, jurídico...",
+      "title": "Family office administrativo na Suíça | Ark Fiduciaire",
+      "description": "Family office administrativo na Suíça. A Ark Fiduciaire apoia famílias e empreendedores com coordenação de governança, fiscalidade e assuntos jurídicos.",
       "keywords": "family office suíça, family office suíça francófona, multi family office suíça, governança familiar suíça, family office genebra"
     },
     "/services/accounting": {
-      "title": "Contabilidade em genebra e lausana para PMEs | Ark Fiduciaire",
-      "description": "Contabilidade em genebra e lausana para PMEs. Nos dedicamos a fornecer soluções abrangentes e personalizadas, projetadas para abordar cada faceta de suas necessidades financeiras e contáb...",
+      "title": "Contabilidade Genebra e Lausana para PMEs | Ark Fiduciaire",
+      "description": "Contabilidade em Genebra e Lausana para PMEs. Soluções personalizadas para todas as suas necessidades financeiras e contábeis.",
       "keywords": "contabilidade genebra, fiduciária genebra, contabilidade PMEs genebra, contabilidade lausana, contabilidade suíça"
     },
     "/services/corporate": {
-      "title": "Administração corporate e secretaria societária em genebra | Ark Fiduciaire",
-      "description": "Administração corporate e secretaria societária em genebra. Nossa equipe o apoia em todas as fases da vida de sua empresa: desde a incorporação até a gestão diária, incluindo mudanças est...",
+      "title": "Administração corporate em Genebra | Ark Fiduciaire",
+      "description": "Administração corporate e secretaria societária em Genebra. Apoio em todas as fases da vida da sua empresa, da incorporação à gestão diária.",
       "keywords": "administração corporate suíça, secretaria societária suíça, governança corporativa suíça, administração societária genebra, registo comercial suíça"
     },
     "/services/domiciliation": {
-      "title": "Domiciliação de empresas em genebra e lausana | Ark Fiduciaire",
-      "description": "Domiciliação de empresas em genebra e lausana. Fornecemos um endereço de escritório registrado para sua empresa, junto com gestão de correspondência e suporte administrativo.",
+      "title": "Domiciliação de empresas Genebra e Lausana | Ark Fiduciaire",
+      "description": "Domiciliação em Genebra e Lausana. Endereço de escritório registrado, gestão de correspondência e suporte administrativo para a sua empresa.",
       "keywords": "domiciliação genebra, domiciliação lausana, endereço social genebra, domiciliação suíça, domiciliação empresa genebra"
     },
     "/services/odoo": {
-      "title": "Implementação odoo em genebra para PMEs suíças | Ark Fiduciaire",
-      "description": "Implementação odoo em genebra para PMEs suíças. Odoo é uma solução ERP modular e flexível, ideal para digitalizar e otimizar a gestão do seu negócio. A Ark Fiduciaire apoia você na integr...",
+      "title": "Implementação Odoo em Genebra para PMEs | Ark Fiduciaire",
+      "description": "Implementação Odoo em Genebra para PMEs. Solução ERP modular e flexível para digitalizar e otimizar a gestão do seu negócio com a Ark Fiduciaire.",
       "keywords": "odoo genebra, implementação odoo suíça, integrador odoo genebra, odoo para PMEs suíças, odoo contabilidade suíça"
     },
     "/services/outsourcing": {
-      "title": "Outsourcing de back-office na suíça francófona | Ark Fiduciaire",
-      "description": "Outsourcing de back-office na suíça francófona. Cuidamos da sua contabilidade, folha de pagamento e gestão administrativa, permitindo que você se concentre no desenvolvimento do seu negócio.",
+      "title": "Outsourcing de back-office na Suíça | Ark Fiduciaire",
+      "description": "Outsourcing de back-office na Suíça. Cuidamos da contabilidade, folha de pagamento e gestão administrativa para que se concentre no seu negócio.",
       "keywords": "outsourcing back office suíça, outsourcing contábil suíça, outsourcing administrativo, outsourcing genebra, back office suíça"
     },
     "/services/mergers-acquisitions": {
       "title": "Assessoria de m&a para operações na suíça | Ark Fiduciaire",
-      "description": "Assessoria de m&a para operações na suíça. Ark Fiduciaire acompanha clientes na Suíça francófona e germanófona durante todo o ciclo de uma transação. Definimos a estratégia do negócio, co...",
+      "description": "Assessoria de M&A na Suíça. A Ark Fiduciaire acompanha clientes durante todo o ciclo de uma transação, da estratégia à conclusão do negócio.",
       "keywords": "m&a suíça, assessoria m&a suíça, avaliação empresa suíça, due diligence suíça, sucessão PMEs suíça"
     },
     "/services/payroll": {
-      "title": "Gestão de folha salarial na suíça francófona | Ark Fiduciaire",
-      "description": "Gestão de folha salarial na suíça francófona. Cuidamos de todas as tarefas administrativas de folha de pagamento e RH, desde cálculos salariais até declarações de seguros sociais.",
+      "title": "Gestão de folha salarial na Suíça | Ark Fiduciaire",
+      "description": "Gestão de folha salarial na Suíça. Cuidamos das tarefas de folha de pagamento e RH, desde cálculos salariais até declarações de seguros sociais.",
       "keywords": "folha salarial suíça, payroll genebra, recibo de salário suíça, gestão salarial genebra, contribuições sociais suíça"
     },
     "/services/taxes": {
-      "title": "Consultoria fiscal e declarações de imposto em genebra | Ark Fiduciaire",
-      "description": "Consultoria fiscal e declarações de imposto em genebra. Nossos especialistas fiscais apoiam você em todas suas obrigações fiscais, desde declarações até planejamento estratégico.",
+      "title": "Consultoria fiscal e impostos Genebra | Ark Fiduciaire",
+      "description": "Consultoria fiscal e impostos em Genebra. Apoio em todas as obrigações fiscais, desde declarações até planejamento estratégico.",
       "keywords": "consultoria fiscal genebra, declaração de impostos genebra, consultor fiscal suíça, iva suíça, impostos expatriados genebra"
     },
     "/services/incorporation": {
-      "title": "Constituição de empresas em genebra (sàrl/sa) | Ark Fiduciaire",
-      "description": "Constituição de empresas em genebra (sàrl/sa). Ajudamos você a abrir sua empresa de forma rápida e correta. Escolha o tipo de empresa, envie os documentos necessários e cuidamos do regist...",
+      "title": "Constituição de empresas Genebra (Sàrl/SA) | Ark Fiduciaire",
+      "description": "Constituição de empresas em Genebra (Sàrl/SA). Ajudamos a abrir a sua empresa de forma rápida e correta, cuidando de todo o processo de registo.",
       "keywords": "constituição empresa genebra, constituição sàrl suíça, constituição sa suíça, abrir empresa genebra, constituição empresa suíça"
     },
     "/services/immigration": {
-      "title": "Imigração e autorizações de trabalho em genebra | Ark Fiduciaire",
+      "title": "Imigração e autorizações em Genebra | Ark Fiduciaire",
       "description": "Imigração e autorizações de trabalho em genebra. Ajudamos empreendedores, executivos e famílias a instalar-se na Suíça com uma abordagem pragmática e conforme.",
       "keywords": "imigração suíça, autorização de trabalho genebra, autorização de residência suíça, anobag suíça, imigração genebra"
     },

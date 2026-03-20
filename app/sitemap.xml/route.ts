@@ -32,6 +32,7 @@ const staticPaths = [
   "/contact",
   "/team",
   "/partners",
+  "/agent",
   "/legal/terms",
   "/legal/privacy",
   "/legal/cookies",
@@ -49,6 +50,7 @@ const servicePaths = [
   "/services/odoo",
   "/services/family-office",
   "/services/mergers-acquisitions",
+  "/services/immigration",
 ];
 
 // Team member pages
