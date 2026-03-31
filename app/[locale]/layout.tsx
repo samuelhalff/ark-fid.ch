@@ -4,6 +4,7 @@ import ServicesElements from "@/app/[locale]/navigation";
 import { getTranslations } from "@/src/lib/i18n";
 import { localizePath } from "@/src/lib/paths";
 import nextDynamic from "next/dynamic";
+import ScrollToTop from "@/src/components/ScrollToTop";
 
 const locales = ["en", "fr", "de", "es", "pt"] as const;
 type Locale = (typeof locales)[number];
@@ -70,6 +71,7 @@ export default async function LocaleLayout(
   };
   return (
     <div data-locale={activeLocale} lang={activeLocale}>
+      <ScrollToTop />
       {/* Render client NavBar with server-provided locale */}
       <Navbar locale={activeLocale} navData={navData} />
       <main id="main-content" role="main">

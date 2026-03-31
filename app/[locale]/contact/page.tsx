@@ -23,7 +23,7 @@ const CONTACT_CARD_MIN_HEIGHT_CLASS = "min-h-[220px]";
 const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
   loading: () => (
     <div className="mx-auto w-full max-w-3xl">
-      <div className="animate-pulse rounded-2xl border border-border/40 bg-muted/30 p-6 sm:p-8">
+      <div className="animate-pulse rounded-2xl bg-muted/30 p-6 sm:p-8">
         <div className="h-6 w-48 rounded bg-foreground/10" />
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <div className="h-12 rounded bg-foreground/5" />
@@ -212,7 +212,7 @@ export default async function ContactPage(
           {strings.subtitle}
         </p>
       ) : null}
-      <section className="mx-auto max-w-6xl rounded-[28px] border border-border/60 bg-muted/30 p-4 shadow-sm sm:p-6 lg:p-7">
+      <section className="mx-auto max-w-6xl rounded-[28px] bg-muted/40 p-4 shadow-sm sm:p-6 lg:p-7">
         <div className="grid gap-4 lg:grid-cols-3">
           <a
             href={BOOKING_URL}
@@ -243,7 +243,7 @@ export default async function ContactPage(
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`${strings.whatsapp.cta} ${WHATSAPP_NUMBER}`}
-            className={`${cardBaseClasses} border border-border/60 bg-background/96 text-foreground hover:-translate-y-1 hover:border-[#25D366]/25 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/40 focus-visible:ring-offset-2`}
+            className={`${cardBaseClasses} bg-background text-foreground hover:-translate-y-1 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/40 focus-visible:ring-offset-2`}
           >
             <span className={`${iconWrapClasses} bg-[#25D366]/10 text-[#1f9d55]`}>
               <WhatsAppIcon className="size-5" />
@@ -260,7 +260,7 @@ export default async function ContactPage(
               </span>
             </span>
           </a>
-          <div className={`${cardBaseClasses} border border-border/60 bg-background/80 text-foreground`}>
+          <div className={`${cardBaseClasses} bg-background text-foreground`}>
             <span className={`${iconWrapClasses} bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300`}>
               <PhoneIcon className="size-5" />
             </span>
@@ -273,7 +273,7 @@ export default async function ContactPage(
               </span>
               <a
                 href="tel:+41225125050"
-                className="mt-auto inline-flex items-center rounded-full border border-border/80 bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                className="mt-auto inline-flex items-center rounded-full bg-muted/60 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 aria-label={`${strings.callLabel} +41 22 512 50 50`}
               >
                 +41 22 512 50 50
@@ -294,6 +294,7 @@ export default async function ContactPage(
           showSubtitle={false}
           strings={strings}
           redirectPath={`${localePrefix}/`}
+          cardClassName="border-0 shadow-none bg-transparent"
         />
       </section>
       <section className="mt-8 space-y-6">
