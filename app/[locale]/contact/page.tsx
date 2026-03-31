@@ -23,7 +23,7 @@ const CONTACT_CARD_MIN_HEIGHT_CLASS = "min-h-[220px]";
 const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
   loading: () => (
     <div className="mx-auto w-full max-w-3xl">
-      <div className="animate-pulse rounded-2xl bg-muted/40 p-6 sm:p-8">
+      <div className="animate-pulse rounded-2xl bg-muted/30 p-6 sm:p-8">
         <div className="h-6 w-48 rounded bg-foreground/10" />
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <div className="h-12 rounded bg-foreground/5" />
