@@ -98,6 +98,8 @@ interface ContactFormProps {
     };
   };
   redirectPath?: string; // locale-aware redirect after success
+  /** Additional classes merged into the inner Card element */
+  cardClassName?: string;
 }
 
 const ContactForm: FC<ContactFormProps> = ({
@@ -105,6 +107,7 @@ const ContactForm: FC<ContactFormProps> = ({
   showSubtitle = true,
   strings,
   redirectPath = "/",
+  cardClassName,
 }) => {
   const router = useRouter();
   const [sending, setSending] = React.useState(false);
@@ -170,7 +173,7 @@ const ContactForm: FC<ContactFormProps> = ({
       )}
       {showSubtitle && <p className="w-full text-center">{strings.subtitle}</p>}
       <div className="flex items-center justify-center">
-        <Card className="my-3 max-w-[1200px] min-w-[350px] w-full mb-15 animate-in slide-in-from-bottom-7 duration-500">
+        <Card className={`my-3 max-w-[1200px] min-w-[350px] w-full mb-15 animate-in slide-in-from-bottom-7 duration-500${cardClassName ? ` ${cardClassName}` : ""}`}>
           <CardContent>
             <Toaster
               position="top-center"
