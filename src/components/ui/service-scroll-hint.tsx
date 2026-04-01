@@ -68,7 +68,7 @@ const ServiceScrollHint = ({
   return (
     <div
       aria-hidden="true"
-      className={`pointer-events-none fixed bottom-16 left-0 right-0 z-30 hidden justify-center transition-opacity duration-300 sm:flex ${
+      className={`pointer-events-none fixed bottom-16 left-8 z-30 hidden transition-opacity duration-300 sm:flex ${
         hidden ? "opacity-0" : "opacity-100"
       }`}
     >
