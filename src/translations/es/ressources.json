@@ -91,6 +91,10 @@
         },
         {
           "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
           "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
@@ -833,6 +837,10 @@
         },
         {
           "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
           "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
@@ -1071,6 +1079,10 @@
         },
         {
           "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
           "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
@@ -1208,7 +1220,7 @@
         },
         {
           "labelKey": "Comptabilité et bouclement avec Odoo – Fiduciaire Fidflow",
-          "url": "https://www.fidflow.ch/ma-situation/odoo"
+          "url": "https://www.fidflow.ch/en/ma-situation/odoo"
         },
         {
           "labelKey": "Odoo 18 et gestion comptable en PME suisses – Ark Fiduciaire",
@@ -1660,10 +1672,6 @@
           "url": "https://ark-fid.ch/fr/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/"
         },
         {
-          "labelKey": "Ordonnance sur les obligations liées aux entreprises en Suisse",
-          "url": "https://www.fedlex.admin.ch/eli/cc/2010/809/fr"
-        },
-        {
           "labelKey": "Importance du canton de Genève pour la domiciliation",
           "url": "https://www.finma.ch/fr/"
         }
@@ -1860,6 +1868,10 @@
         {
           "labelKey": "Registre du commerce - Guide fédéral",
           "url": "https://www.zefix.ch/fr/search/entity/welcome"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ]
     },
@@ -1871,10 +1883,6 @@
       "author": "Ark Fiduciaire",
       "date": "2026-04-08",
       "references": [
-        {
-          "labelKey": "Sentencia del Tribunal Federal 9C_606/2025 del 24.02.2026",
-          "url": "https://entscheidsuche.ch/view/CH_BGer_009_9C-606-2025_2026-02-24"
-        },
         {
           "labelKey": "Attention sur les prêts intra-groupe et taux admissibles",
           "url": "https://www.estv2.admin.ch/dvs/rundschreiben/dbst-rs-2-207-dv-2024-fr.pdf"
