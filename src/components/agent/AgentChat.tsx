@@ -133,7 +133,7 @@ export default function AgentChat({
   const [leadMeta, setLeadMeta] = useState<LeadMeta>({ id: "", token: "" });
   const [sessionId, setSessionId] = useState("");
   const [leadSubmitting, setLeadSubmitting] = useState(false);
-  const [leadModalOpen, setLeadModalOpen] = useState(true);
+  const [leadModalOpen, setLeadModalOpen] = useState(false);
   const [turnstileReady, setTurnstileReady] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileWidgetId, setTurnstileWidgetId] = useState<string | null>(
@@ -157,6 +157,7 @@ export default function AgentChat({
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const turnstileRef = useRef<HTMLDivElement | null>(null);
   const lastSavedRef = useRef<string | null>(null);
+  const pendingAutoSendRef = useRef<string | null>(null);
 
   const TEXTAREA_MIN_HEIGHT = 40;
   const FALLBACK_TEXTAREA_MAX_HEIGHT = 360;
@@ -353,9 +354,7 @@ export default function AgentChat({
   useEffect(() => {
     if (leadReady) {
       setLeadModalOpen(false);
-      return;
     }
-    setLeadModalOpen(true);
   }, [leadReady]);
 
   useEffect(() => {
@@ -634,6 +633,7 @@ export default function AgentChat({
     setModalError(null);
     setRateLimited(false);
     setDomainInvalid(false);
+    pendingAutoSendRef.current = null;
     lastSavedRef.current = null;
     if (typeof window === "undefined") return;
     try {
@@ -716,11 +716,15 @@ export default function AgentChat({
     const trimmed = (messageText ?? input).trim();
     if (!trimmed || sending) return;
     if (!canChat) {
-      setChatError(
-        domainInvalid
-          ? strings.chat.invalidEmailDomain
-          : strings.chat.startHint,
-      );
+      if (domainInvalid) {
+        setChatError(strings.chat.invalidEmailDomain);
+        return;
+      }
+      pendingAutoSendRef.current = trimmed;
+      if (messageText) {
+        setInput(messageText);
+      }
+      setLeadModalOpen(true);
       return;
     }
     const resolvedSessionId = ensureSessionId();
@@ -837,6 +841,16 @@ export default function AgentChat({
     }
   };
 
+  // Auto-send pending message once the lead gate is resolved
+  useEffect(() => {
+    if (!canChat) return;
+    const pending = pendingAutoSendRef.current;
+    if (!pending) return;
+    pendingAutoSendRef.current = null;
+    void sendMessage(pending);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [canChat]);
+
   return (
     <div className="flex flex-col">
       <div
@@ -895,8 +909,7 @@ export default function AgentChat({
             : undefined,
         }}
       >
-        {canChat &&
-          suggestions.length > 0 &&
+        {suggestions.length > 0 &&
           messages.length === 0 &&
           !input.trim() && (
             <div className="mb-3 space-y-2">
@@ -965,13 +978,13 @@ export default function AgentChat({
             placeholder={strings.chat.placeholder}
             rows={1}
             className="resize-none overflow-hidden min-h-[40px] border-0 bg-background px-1 py-2 text-base leading-6 text-foreground placeholder:text-foreground/60 shadow-none !outline-none !ring-0 !ring-offset-0 !shadow-none focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0 focus-visible:!shadow-none"
-            disabled={!canChat || sending}
+            disabled={sending}
           />
           <Button
             type="button"
             size="icon"
             onClick={() => void sendMessage()}
-            disabled={!canChat || sending || !input.trim()}
+            disabled={sending || !input.trim()}
             aria-label={strings.chat.send}
             className="self-center !rounded-full bg-foreground text-background shadow-sm hover:bg-foreground/90"
           >
