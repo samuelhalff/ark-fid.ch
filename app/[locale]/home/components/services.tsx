@@ -74,7 +74,7 @@ const Services = async ({
               <Card className="relative flex flex-col justify-between items-center text-center border rounded-2xl overflow-hidden shadow-none h-full cursor-pointer ring-0 dark:ring-2 ring-border/10 dark:ring-border/30 hover:ring-primary/5 dark:hover:ring-primary/20 hover:shadow-xl transition-all duration-200">
                 <CardHeader className="px-6 pt-6 pb-2 w-full">
                   <div className="flex-1 w-full flex flex-col items-center text-center gap-4">
-                    <div className="flex-shrink-0 flex items-center justify-center h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 transition-colors duration-200 group-hover:bg-primary/15">
+                    <div className="flex-shrink-0 flex items-center justify-center h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-primary text-primary-foreground ring-1 ring-primary/20 dark:bg-primary/10 dark:text-primary transition-colors duration-200 group-hover:bg-primary/90 dark:group-hover:bg-primary/15">
                       {service.icon}
                     </div>
                     <h3

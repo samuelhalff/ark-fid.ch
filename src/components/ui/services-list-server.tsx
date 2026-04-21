@@ -87,13 +87,13 @@ export default async function ServicesListServer({
         const desc = rest.join(":").trim();
         const IconNode = icons && icons[idx % icons.length] ? icons[idx % icons.length] : DefaultIcons[idx % DefaultIcons.length];
         return (
-          <div key={idx} className="flex items-center gap-5 sm:gap-6 px-6 sm:px-8 py-6 my-5 rounded-xl bg-muted/50 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-            <span className="ui-icon inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shrink-0">
+          <div key={idx} className="flex items-center gap-5 sm:gap-6 px-6 sm:px-8 py-6 my-5 rounded-xl bg-card ring-1 ring-border/50 dark:bg-muted/50 dark:ring-0 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+            <span className="ui-icon inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground ring-1 ring-primary/20 dark:bg-primary/10 dark:text-primary shrink-0">
               {IconNode}
             </span>
             <div className="min-w-0">
-              <span className="font-semibold text-base sm:text-lg text-gray-900 dark:text-gray-100 block mb-2 break-anywhere">{title}</span>
-              {desc && <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300 break-anywhere leading-relaxed">{desc}</span>}
+              <span className="font-semibold text-base sm:text-lg text-foreground block mb-2 break-anywhere">{title}</span>
+              {desc && <span className="text-sm sm:text-base text-muted-foreground break-anywhere leading-relaxed">{desc}</span>}
             </div>
           </div>
         );

@@ -218,17 +218,17 @@ const FamilyOfficePresentation = ({
               return (
                 <div
                   key={index}
-                  className="flex items-center gap-6 px-6 py-6 rounded-xl bg-muted/50 shadow-sm hover:shadow-md transition-shadow"
+                  className="flex items-center gap-6 px-6 py-6 rounded-xl bg-card ring-1 ring-border/50 dark:bg-muted/50 dark:ring-0 shadow-sm hover:shadow-md transition-shadow"
                 >
-                  <span className="ui-icon inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/20 shrink-0">
+                  <span className="ui-icon inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground ring-1 ring-primary/20 dark:bg-primary/10 dark:text-primary shrink-0">
                     <Icon />
                   </span>
                   <div>
-                    <span className="font-semibold text-lg text-gray-900 dark:text-gray-100 block mb-2">
+                    <span className="font-semibold text-lg text-foreground block mb-2">
                       {title}
                     </span>
                     {desc && (
-                      <span className="text-lg text-gray-700 dark:text-gray-300">
+                      <span className="text-lg text-muted-foreground">
                         {desc}
                       </span>
                     )}
