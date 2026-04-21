@@ -275,3 +275,22 @@ Added to the `contact` namespace across all locales for the redesigned contact-p
 ### Translation Bug Fix
 
 Fixed article page (`app/[locale]/ressources/articles/[slug]/page.tsx`) which was accessing nested translation keys with raw object syntax (`ressources["Contact.Title"]`) instead of the `getTranslations()` dot-notation function. This caused the contact banner on articles to always show English fallback strings regardless of the active locale.
+
+## New SO-FIT Affiliation Keys (Apr 2026)
+
+Added for the discreet SO-FIT (OAR/SRO) affiliation mention across the site. Ensure all locales include:
+
+### Footer namespace
+
+- `footer:SoFitAffiliationPrefix` — rendered as small-print text next to a single external link to `https://so-fit.ch` in the footer legal area.
+
+### Legal namespace
+
+- `legal:Terms.SoFitAffiliation`
+- `legal:Terms.SoFitAffiliationSuffix`
+
+Both are rendered as a single discreet italicized small-print paragraph at the bottom of the Terms of Service page, with `SO-FIT` linked once to `https://so-fit.ch` (the name `SO-FIT` itself is never translated).
+
+### Latest article translations
+
+The article `aml-lba-domiciliation-incorporation-suisse-so-fit` (date `2026-04-21`) is now available in `fr`, `en`, `de`, `es`, `pt`, each with a small-print SO-FIT affiliation footnote at the end of the body.

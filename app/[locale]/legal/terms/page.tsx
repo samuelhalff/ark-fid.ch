@@ -357,6 +357,28 @@ export default async function TermsPage(
           </div>
         </section>
 
+        {/* SO-FIT Affiliation */}
+        <section className="mb-12">
+          <p className="text-xs text-muted-foreground italic">
+            {r(
+              "Terms.SoFitAffiliation",
+              "Ark Fiduciaire SA is affiliated with the SRO of"
+            )}{" "}
+            <a
+              href="https://so-fit.ch"
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+              className="hover:underline"
+            >
+              SO-FIT
+            </a>
+            {r(
+              "Terms.SoFitAffiliationSuffix",
+              " (self-regulatory body under the Swiss AMLA/FinSA)."
+            )}
+          </p>
+        </section>
+
         {/* Contact Information */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">
