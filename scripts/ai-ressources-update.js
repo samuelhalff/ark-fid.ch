@@ -54,6 +54,10 @@ const FORCE_TOPIC_KEYWORDS = (process.env.FORCE_TOPIC_KEYWORDS || "")
 const FORCE_TOPIC_CATEGORY = (process.env.FORCE_TOPIC_CATEGORY || "").trim();
 const SKIP_TOPIC_ROTATION =
   process.env.SKIP_TOPIC_ROTATION === "1" || Boolean(FORCE_TOPIC);
+const TOPIC_ROTATION_WINDOW = Math.max(
+  1,
+  parseInt(process.env.TOPIC_ROTATION_WINDOW || "10", 10) || 10,
+);
 
 const AZURE_AGENT_ENDPOINT = process.env.AZURE_AGENT_ENDPOINT;
 const AZURE_AGENT_NAME = process.env.AZURE_AGENT_NAME;
@@ -344,6 +348,42 @@ function describeTopic(topic) {
   return entry ? entry.label : "Thème général";
 }
 
+function getTopicTokens(article) {
+  if (!article) return new Set();
+  const corpus = `${article.slug || ""} ${article.title || ""} ${
+    article.description || ""
+  }`.toLowerCase();
+  const stopWords = new Set([
+    "suisse",
+    "geneve",
+    "guide",
+    "pratique",
+    "entreprise",
+    "entreprises",
+    "article",
+    "obligations",
+    "etapes",
+    "erreurs",
+    "couts",
+  ]);
+  return new Set(
+    corpus
+      .split(/[^a-z0-9à-öø-ÿ]+/i)
+      .filter((token) => token.length >= 4 && !stopWords.has(token)),
+  );
+}
+
+function getTopicSimilarityDetails(tokensA, tokensB) {
+  if (!tokensA.size || !tokensB.size) {
+    return { score: 0, overlap: 0 };
+  }
+  const overlap = Array.from(tokensA).filter((token) => tokensB.has(token))
+    .length;
+  const union = new Set([...tokensA, ...tokensB]).size;
+  const score = union ? overlap / union : 0;
+  return { score, overlap };
+}
+
 function getLastArticle(frData) {
   const articles = Array.isArray(frData?.Articles) ? frData.Articles : [];
   if (!articles.length) return null;
@@ -389,15 +429,18 @@ function analyzeRecentTopics(frData, recentCount = 15) {
     (t) => (topicCounts[t.topic] || 0) <= 1,
   ).map((t) => t.label);
 
-  // Get last 5 topics to avoid immediate repetition
-  const lastFiveTopics = recent.slice(0, 5).map((a) => detectTopic(a));
+  // Get recent topics in the enforced rotation window to avoid repetition
+  const lastRotationTopics = recent
+    .slice(0, TOPIC_ROTATION_WINDOW)
+    .map((a) => detectTopic(a));
 
   return {
     topicCounts,
     overrepresented,
     underrepresented,
-    lastFiveTopics,
-    avoidTopics: [...new Set(lastFiveTopics.filter((t) => t !== "general"))],
+    lastRotationTopics,
+    avoidTopics: [...new Set(lastRotationTopics.filter((t) => t !== "general"))],
+    rotationWindow: TOPIC_ROTATION_WINDOW,
   };
 }
 
@@ -453,7 +496,7 @@ function buildSystemPrompt(frJson, trendData = null) {
   } else {
     if (avoidTopicsLabels.length > 0) {
       diversityGuidance.push(
-        `⚠️ THÈMES À ÉVITER (traités récemment dans les 5 derniers articles): ${avoidTopicsLabels.join(", ")}.`,
+        `⚠️ THÈMES À ÉVITER (traités récemment dans les ${topicAnalysis.rotationWindow} derniers articles): ${avoidTopicsLabels.join(", ")}.`,
       );
     }
     if (suggestedTopics.length > 0) {
@@ -644,7 +687,7 @@ function buildResearchPrompt(frJson, trendData, seoSuggestions) {
     ? ["ℹ️ Rotation thématique désactivée pour ce run (thème forcé)."]
     : [
         avoidTopicsLabels.length
-          ? `⚠️ THÈMES À ÉVITER: ${avoidTopicsLabels.join(", ")}.`
+          ? `⚠️ THÈMES À ÉVITER (sur les ${topicAnalysis.rotationWindow} derniers articles): ${avoidTopicsLabels.join(", ")}.`
           : "",
         suggestedTopics.length
           ? `✅ THÈMES SUGGÉRÉS: ${suggestedTopics.join(", ")}.`
@@ -2026,25 +2069,36 @@ function enforceTopicRotation(frData, newArticle) {
   const articles = Array.isArray(frData?.Articles) ? frData.Articles : [];
   if (!articles.length) return;
 
-  // Get last 5 articles sorted by date
+  // Get recent articles sorted by date
   const sorted = [...articles].sort((a, b) =>
     (b.date || "").localeCompare(a.date || ""),
   );
-  const recentArticles = sorted.slice(0, 5);
+  const recentArticles = sorted.slice(0, TOPIC_ROTATION_WINDOW);
 
   const nextTopic = detectTopic(newArticle);
-  if (nextTopic === "general") return; // General topics are always allowed
+  const nextTokens = getTopicTokens(newArticle);
 
-  // Check if this topic appears in any of the last 5 articles
+  // Check if this topic appears in any of the recent articles
   for (const article of recentArticles) {
     const articleTopic = detectTopic(article);
-    if (articleTopic === nextTopic) {
+    if (nextTopic !== "general" && articleTopic === nextTopic) {
       const err = new Error(
-        `Le thème "${describeTopic(nextTopic)}" a déjà été traité récemment (article: "${article.title}")`,
+        `Le thème "${describeTopic(nextTopic)}" a déjà été traité dans les ${TOPIC_ROTATION_WINDOW} derniers articles (article: "${article.title}")`,
       );
       err.code = "TOPIC_DUPLICATE";
       err.topic = nextTopic;
       err.previousTitle = article.title;
+      throw err;
+    }
+
+    const details = getTopicSimilarityDetails(nextTokens, getTopicTokens(article));
+    if (details.score >= 0.5 && details.overlap >= 3) {
+      const err = new Error(
+        `Sujet trop similaire à un article récent ("${article.title}", similarité ${(details.score * 100).toFixed(0)}%)`,
+      );
+      err.code = "TOPIC_SIMILAR";
+      err.previousTitle = article.title;
+      err.similarity = details.score;
       throw err;
     }
   }
@@ -2072,7 +2126,11 @@ function buildRetryPrompt(basePrompt, error, frData) {
       `⚠️ Le dernier article (${
         error.previousTitle
       }) couvrait déjà ${describeTopic(error.topic)}.\n` +
-      "Choisis un autre axe stratégique (paie, fiscalité, corporate, domiciliation, outsourcing, etc.).";
+      `Choisis un autre axe stratégique (paie, fiscalité, corporate, domiciliation, outsourcing, etc.) différent des ${TOPIC_ROTATION_WINDOW} derniers thèmes.`;
+  } else if (error.code === "TOPIC_SIMILAR") {
+    hint =
+      `⚠️ Le sujet proposé reste trop proche d'un article récent (${error.previousTitle}).\n` +
+      `Choisis un angle clairement distinct des ${TOPIC_ROTATION_WINDOW} derniers sujets (pas de variante légère ni reformulation du même thème).`;
   } else if (error.code === "TOO_SHORT") {
     hint = [
       `⚠️ L'article est trop court (${error.words || "?"} mots).`,
@@ -2770,7 +2828,7 @@ async function main() {
     trendData = await getTopicSuggestions({
       existingSlugs,
       avoidTopics: topicAnalysis.avoidTopics,
-      recentTopicCategories: topicAnalysis.lastFiveTopics,
+      recentTopicCategories: topicAnalysis.lastRotationTopics,
       topicCounts: topicAnalysis.topicCounts,
     });
   }
