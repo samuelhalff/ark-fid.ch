@@ -89,7 +89,9 @@
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Ginebra",
             "Commitment": "Estamos comprometidos a mantener los más altos estándares de servicio profesional y satisfacción del cliente."
-        }
+        },
+        "SoFitAffiliation": "Ark Fiduciaire SA está afiliada al OAR de",
+        "SoFitAffiliationSuffix": " (organismo de autorregulación en el sentido de la LBA/LSFin suiza)."
     },
     "Privacy": {
         "Title": "Política de Privacidad",

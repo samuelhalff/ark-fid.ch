@@ -1960,6 +1960,41 @@
           "url": "https://www.finma.ch/fr/documentation/bases-legales/lois-et-ordonnances/loi-sur-le-blanchiment-d-argent/"
         }
       ]
+    },
+    {
+      "slug": "aml-lba-domiciliation-incorporation-suisse-so-fit",
+      "author": "Ark Fiduciaire",
+      "image": "abstract-background-dark.avif",
+      "date": "2026-04-21",
+      "references": [
+        {
+          "labelKey": "AMLA (Anti-Money Laundering Act) – Fedlex",
+          "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/en"
+        },
+        {
+          "labelKey": "FINMA – anti-money laundering",
+          "url": "https://www.finma.ch/en/supervision/anti-money-laundering/"
+        },
+        {
+          "labelKey": "FINMA – self-regulatory organisations (SROs)",
+          "url": "https://www.finma.ch/en/authorisation/self-regulatory-organisations-sros/"
+        },
+        {
+          "labelKey": "MROS (fedpol) – Money Laundering Reporting Office",
+          "url": "https://www.fedpol.admin.ch/fedpol/en/home/kriminalitaet/geldwaescherei/meldestelle.html"
+        },
+        {
+          "labelKey": "SO-FIT – self-regulatory organisation",
+          "url": "https://www.so-fit.ch/"
+        },
+        {
+          "labelKey": "FINMA Anti-Money Laundering Ordinance (AMLO-FINMA) – Fedlex",
+          "url": "https://www.fedlex.admin.ch/eli/cc/2008/523/en"
+        }
+      ],
+      "title": "AML in Switzerland: domiciliation, company formation support and why we are affiliated with SO-FIT",
+      "description": "When domiciliation and support with company formation trigger AML obligations in Switzerland, with concrete examples and the role of our SO-FIT affiliation.",
+      "content": "Domiciliation in Switzerland is no longer a purely administrative service. As soon as a financial, structuring or execution component on behalf of a client is involved, you quickly enter an **AML** perimeter that requires specific controls. That is exactly why our team is now affiliated with a self-regulatory organisation.\n\n## What is actually changing for fiduciaries offering domiciliation\n\nFor a long time, many firms viewed domiciliation as a \"mailbox + mail forwarding\" service. The reality is different. Authorities now expect a more substantive reading: who is behind the company, where does the money come from, what is the real economic purpose, and why does this structure exist.\n\nIn practice, when a fiduciary supports sensitive operations (organising flows, preparing account openings, coordinating incorporation with third parties, monitoring foreign structures), AML logic applies at a higher standard.\n\n## Why we are affiliated with SO-FIT (sometimes called SOFT)\n\nOur affiliation with **[SO-FIT](https://www.so-fit.ch/)** follows a simple logic: deliver these services within a recognised and documented supervisory framework. This is not a marketing argument. It is an internal organisational choice.\n\nBy being affiliated with an SRO:\n\n- we apply formalised **KYC** procedures and client file documentation\n- we follow rules on controls, traceability and ongoing training\n- we can demonstrate to our clients and banking partners that our AML processes are framed and audited\n\nThe result: less improvisation, more legal and operational certainty.\n\n## Domiciliation: when AML risk increases\n\nRisk rises when domiciliation is combined with other services that bring the fiduciary closer to an operational role in the structure.\n\n### Typical warning signals\n\n- beneficial owner difficult to identify\n- international shareholding chain without clear justification\n- very broad announced activity with no concrete business model\n- urgent execution request while the KYC file is still incomplete\n\nAn incomplete file at the start often becomes a banking or compliance problem a few weeks later.\n\n## Company formation support: what is new on the AML side\n\nOne of the most sensitive points today concerns **incorporation support**. Helping to set up a GmbH/Sàrl or an AG/SA is not automatically problematic. However, as soon as you get involved in steps with real financial or structural impact, the compliance bar rises.\n\nThis is where AML \"novelties\" are very concrete for SMEs: incorporation can no longer be treated purely as a notarial or administrative formality. The client, their activity, their beneficial owners and the consistency of the setup must be qualified from the start.\n\n## Concrete example 1: domiciliation + banking onboarding\n\nAn international company wants an address in Geneva and asks for support in opening a bank account. Shareholders are spread across several jurisdictions.\n\nWithout a solid AML framework, this type of file often gets stuck at the bank. With a structured approach:\n\n1. identification of the individuals actually controlling the company\n2. collection of evidence on the source of funds\n3. documented explanation of the business model in Switzerland\n4. consistency review before sending to the bank\n\nThis avoids costly back-and-forth and reduces the risk of refusal.\n\n## Concrete example 2: forming a Sàrl with a third-party investor\n\nA local founder sets up a Sàrl, partly financed by a foreign investor. The AML reflex is not to block the project but to ask the right questions:\n\n- who is funding what exactly?\n- what is the economic logic of the flows?\n- who exercises effective control after incorporation?\n\nThis upfront work avoids surprises during subsequent reviews and secures the relationship with financial partners.\n\n## Concrete example 3: change of beneficial owner after incorporation\n\nA domiciled company changes its shareholding three months after registration. If this change is not quickly reflected in the AML file, the fiduciary takes a direct risk.\n\nGood practice: immediate update of the client profile, review of the new control structure, and maintenance of a complete audit trail.\n\n## What our clients see concretely since the SRO affiliation\n\nOur SO-FIT affiliation translates into very tangible impacts:\n\n- stricter (but more useful) onboarding checklist\n- better-controlled timelines because critical documents are requested from the start\n- better acceptance of files by partners who expect a clear AML framework\n- ability to document a file quickly in case of a control\n\nIn short: a little more rigour at the start, much less friction afterwards.\n\n## The most expensive mistakes\n\n- starting the relationship before full client file validation\n- confusing legal and beneficial owner\n- ignoring a change of shareholder during the engagement\n- keeping incomplete documentation \"in the meantime\"\n\nThese mistakes are not theoretical. They generate delays, banking refusals and sanction risks.\n\n## Our working framework for domiciliation and incorporation mandates\n\nWe apply a simple method:\n\n1. scoping the mandate and AML qualification from the first exchange\n2. document collection focused on real economic substance\n3. internal validation before operational execution\n4. monitoring of changes (shareholders, officers, activity, flows)\n\nThis framework is aligned with AMLA/AMLO requirements and with the supervisory expectations applicable to financial intermediaries.\n\n## Key takeaway for executives\n\nIf you request domiciliation or incorporation support in Switzerland, anticipate AML compliance as a building block of the project, not as an end-of-file step. That is what saves time and protects your structure in the long run.\n\nOur team supports these processes within a clear SRO framework via SO-FIT, with practical execution adapted to the operational realities of SMEs.\n\n### Related Services\n\n- [Domiciliation Services](/services/domiciliation)\n- [Company Incorporation](/services/incorporation)\n- [Corporate Services](/services/corporate)\n- [Outsourcing Services](/services/outsourcing)\n- [Contact Us](/contact)\n\n---\n\n*Ark Fiduciaire SA is affiliated with the SRO of [SO-FIT](https://so-fit.ch) (self-regulatory body under the Swiss AMLA/FinSA).*"
     }
   ],
   "suisse-impots-2025": "Swiss taxes 2025 – Overview (FDF)",

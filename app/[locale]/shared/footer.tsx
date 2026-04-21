@@ -237,6 +237,17 @@ const Footer = async ({ locale }: { locale?: string }) => {
           {tFooter("Ark Fiduciaire SA")} - {tFooter("Copyright")} -{" "}
           <span suppressHydrationWarning>{new Date().getFullYear()}</span>{" "}
           <br />
+          <span className="text-xs">
+            {tFooter("SoFitAffiliationPrefix")}{" "}
+            <a
+              href="https://so-fit.ch"
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+              className="hover:text-foreground hover:underline"
+            >
+              SO-FIT
+            </a>
+          </span>
         </span>
       </div>
     </footer>

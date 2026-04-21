@@ -89,7 +89,9 @@
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Genf",
             "Commitment": "Wir sind verpflichtet, die höchsten Standards professioneller Dienstleistung und Kundenzufriedenheit zu wahren."
-        }
+        },
+        "SoFitAffiliation": "Ark Fiduciaire SA ist Mitglied der SRO von",
+        "SoFitAffiliationSuffix": " (Selbstregulierungsorganisation im Sinne des GwG/FIDLEG)."
     },
     "Privacy": {
         "Title": "Datenschutzerklärung",
