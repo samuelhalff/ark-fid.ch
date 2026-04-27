@@ -14,6 +14,12 @@ const {
 const {
   extractOutdatedSwissVatRateMatches,
 } = require("./lib/outdatedVatValidator");
+const { buildLengthRecoveryPlan } = require("./lib/draftLengthRecovery");
+const {
+  extractOpenAIMetrics,
+  formatOpenAIMetricsLog,
+  formatWordProgressLog,
+} = require("./lib/openaiTelemetry");
 
 const rawArgs = process.argv.slice(2);
 const args = new Set(rawArgs);
@@ -1401,22 +1407,26 @@ function buildDraftRepairPromptFromExistingArticle(
   ].join("\n");
 }
 
-function buildDraftAppendPromptFromExistingArticle(article, { minWords }) {
-  const targetMin = Math.max(parseInt(minWords || "1500", 10) || 1500, 1500);
-  const currentWords = countWords(article?.content || "");
-  const missing = Math.max(0, targetMin - currentWords);
-  const safetyBuffer = 250;
-  const addAtLeast = Math.max(400, missing + safetyBuffer);
+function buildDraftAppendPromptFromExistingArticle(
+  article,
+  { minWords, appendAttempt = 1 },
+) {
+  const recoveryPlan = buildLengthRecoveryPlan({
+    currentWords: countWords(article?.content || ""),
+    minWords,
+    attempt: appendAttempt,
+  });
   return [
     "Tu es un rédacteur SEO senior.",
     "Objectif: compléter l'article EXISTANT en ajoutant du contenu UTILE (pas de blabla) pour dépasser le minimum de mots.",
     "",
-    `Contrainte: ajoute au moins ${addAtLeast} mots (l'article actuel est ~${currentWords} mots, minimum requis: ${targetMin}).`,
+    `Contrainte: ajoute au moins ${recoveryPlan.addAtLeastWords} mots (l'article actuel est ~${recoveryPlan.currentWords} mots, minimum requis: ${recoveryPlan.targetMinWords}).`,
+    `Tu es encore sous le minimum après ${appendAttempt} tentative(s) de correction. Cette fois, ajoute franchement de la matière utile, sans répéter l'existant.`,
     "IMPORTANT:",
     "- Ne modifie pas le texte existant: tu ajoutes uniquement de nouvelles sections à la fin.",
-    "- Ajoute 2 à 4 nouvelles sections H2, avec des sous-sections H3 si utile.",
-    "- Ajoute 1 checklist et 1 tableau dans les nouvelles sections.",
-    "- Ajoute 3 à 5 questions de FAQ supplémentaires (si une FAQ existe déjà, continue-la).",
+    "- Ajoute 3 à 5 nouvelles sections H2, avec des sous-sections H3 si utile.",
+    "- Ajoute 2 checklists et au moins 1 tableau dans les nouvelles sections.",
+    "- Ajoute 4 à 6 questions de FAQ supplémentaires (si une FAQ existe déjà, continue-la).",
     "- N'inclus AUCUNE URL dans le texte (pas de http/https).",
     "- Quand tu cites une source, écris seulement (source: <labelKey>) et utilise uniquement des labelKey déjà présents dans les références de l'article.",
     "",
@@ -1455,6 +1465,8 @@ async function azureOpenAIJson(prompt, options = {}) {
     temperature = 0.2,
     topP = 0.9,
     maxTokens = null,
+    debugLabel = null,
+    onMetrics = null,
     system = "You are a professional assistant. Output ONLY a JSON object.",
   } = options;
 
@@ -1507,6 +1519,15 @@ async function azureOpenAIJson(prompt, options = {}) {
     const text = await res.text().catch(() => "");
     if (res.ok) {
       const parsed = JSON.parse(text);
+      const metrics = extractOpenAIMetrics(parsed, {
+        requestedMaxTokens: maxTokens,
+      });
+      if (debugLabel) {
+        console.log(formatOpenAIMetricsLog(debugLabel, metrics));
+      }
+      if (typeof onMetrics === "function") {
+        onMetrics(metrics);
+      }
       const content = parsed?.choices?.[0]?.message?.content;
       if (!content) throw new Error("Azure OpenAI returned no content.");
       return extractJsonFromText(content);
@@ -2668,6 +2689,7 @@ async function generateResearchWithRetries(
 
 async function draftArticleFromResearch(frData, research, validatedReferences) {
   const maxRetries = parseInt(process.env.AI_DRAFT_RETRIES || "2", 10);
+  const minWords = parseInt(process.env.SEO_MIN_WORDS || "1500", 10);
   let lastError = null;
   const basePrompt = buildDraftPromptFromResearch(
     research,
@@ -2675,15 +2697,26 @@ async function draftArticleFromResearch(frData, research, validatedReferences) {
   );
   let draftArticle = null;
   let accumulatedLabels = {};
+  let appendAttempt = 0;
   for (let attempt = 1; attempt <= maxRetries + 1; attempt++) {
     console.log(
       `Requesting Azure OpenAI draft... (attempt ${attempt}/${maxRetries + 1})`,
     );
+    let attemptMetrics = null;
     try {
       if (draftArticle && lastError && lastError.code === "TOO_SHORT") {
+        appendAttempt += 1;
+        const beforeWords = countWords(draftArticle?.content || "");
+        const recoveryPlan = buildLengthRecoveryPlan({
+          currentWords: beforeWords,
+          minWords: lastError.minWords,
+          maxTokens: AZURE_OPENAI_DRAFT_MAX_TOKENS,
+          attempt: appendAttempt,
+        });
         const appendPayload = await azureOpenAIJson(
           buildDraftAppendPromptFromExistingArticle(draftArticle, {
             minWords: lastError.minWords,
+            appendAttempt,
           }),
           {
             endpoint: AZURE_OPENAI_DRAFT_ENDPOINT,
@@ -2691,7 +2724,11 @@ async function draftArticleFromResearch(frData, research, validatedReferences) {
             apiVersion: AZURE_OPENAI_DRAFT_API_VERSION,
             temperature: 0.2,
             topP: 0.9,
-            maxTokens: Math.min(2048, AZURE_OPENAI_DRAFT_MAX_TOKENS),
+            maxTokens: recoveryPlan.requestedMaxTokens,
+            debugLabel: `draft append attempt ${attempt}/${maxRetries + 1}`,
+            onMetrics: (metrics) => {
+              attemptMetrics = metrics;
+            },
             system:
               "You are an expert French SEO writer. Output ONLY a JSON object.",
           },
@@ -2710,9 +2747,19 @@ async function draftArticleFromResearch(frData, research, validatedReferences) {
           ...(appendPayload?.newLabels || {}),
         };
         draftArticle.content = `${String(draftArticle.content || "").trim()}\n\n${appendContent.trim()}`;
+        const afterWords = countWords(draftArticle.content || "");
+        console.log(
+          formatWordProgressLog("append", {
+            beforeWords,
+            afterWords,
+            minWords: lastError.minWords,
+          }),
+        );
       } else {
+        const isCondenseAttempt =
+          draftArticle && lastError && lastError.code === "TOO_LONG";
         const prompt =
-          draftArticle && lastError && lastError.code === "TOO_LONG"
+          isCondenseAttempt
             ? buildDraftRepairPromptFromExistingArticle(draftArticle, {
                 mode: "condense",
                 minWords: process.env.SEO_MIN_WORDS || "1500",
@@ -2725,9 +2772,13 @@ async function draftArticleFromResearch(frData, research, validatedReferences) {
           deployment: AZURE_OPENAI_DRAFT_DEPLOYMENT,
           apiVersion: AZURE_OPENAI_DRAFT_API_VERSION,
           temperature:
-            draftArticle && lastError && lastError.code === "TOO_LONG" ? 0.2 : 0.3,
+            isCondenseAttempt ? 0.2 : 0.3,
           topP: 0.9,
           maxTokens: AZURE_OPENAI_DRAFT_MAX_TOKENS,
+          debugLabel: `${isCondenseAttempt ? "draft condense" : "draft"} attempt ${attempt}/${maxRetries + 1}`,
+          onMetrics: (metrics) => {
+            attemptMetrics = metrics;
+          },
           system:
             "You are an expert French SEO writer. Output ONLY a JSON object.",
         });
@@ -2737,8 +2788,19 @@ async function draftArticleFromResearch(frData, research, validatedReferences) {
         if (!newArticle || typeof newArticle !== "object") {
           throw new Error("Draft payload missing newArticle");
         }
+        appendAttempt = 0;
         accumulatedLabels = { ...accumulatedLabels, ...newLabels };
         draftArticle = newArticle;
+        console.log(
+          formatWordProgressLog(
+            isCondenseAttempt ? "condense" : "draft",
+            {
+              beforeWords: 0,
+              afterWords: countWords(draftArticle.content || ""),
+              minWords,
+            },
+          ),
+        );
       }
 
       // Lock references to the already validated list.
@@ -2748,8 +2810,12 @@ async function draftArticleFromResearch(frData, research, validatedReferences) {
       normalizeArticleDates(draftArticle);
       return { newArticle: draftArticle, newLabels: accumulatedLabels };
     } catch (error) {
+      const currentWords = countWords(draftArticle?.content || "");
+      const metricsSuffix = error?.code && attemptMetrics
+        ? ` [words=${currentWords} finish_reason=${attemptMetrics.finishReason || "unknown"} completion_tokens=${attemptMetrics.completionTokens ?? "?"} requested_max_tokens=${attemptMetrics.requestedMaxTokens ?? "default"}]`
+        : "";
       lastError = error;
-      console.warn(`Draft invalid: ${error.message}`);
+      console.warn(`Draft invalid: ${error.message}${metricsSuffix}`);
     }
   }
 
