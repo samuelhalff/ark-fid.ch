@@ -1,0 +1,69 @@
+"use strict";
+
+const fs = require("fs");
+const path = require("path");
+const {
+  describeTopic,
+  findRecentTitleConflict,
+  findRecentTopicConflict,
+} = require("./lib/articleTopicGuardrails");
+
+const ROOT = process.cwd();
+const FR_PATH = path.join(ROOT, "src", "translations", "fr", "ressources.json");
+const TOPIC_ROTATION_WINDOW = Math.max(
+  1,
+  parseInt(process.env.TOPIC_ROTATION_WINDOW || "10", 10) || 10,
+);
+
+function loadJSON(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
+
+function fail(message) {
+  console.error(`❌ ${message}`);
+  process.exit(1);
+}
+
+if (!fs.existsSync(FR_PATH)) {
+  fail(`Canonical FR ressources file not found: ${FR_PATH}`);
+}
+
+const frData = loadJSON(FR_PATH);
+const articles = Array.isArray(frData.Articles) ? frData.Articles : [];
+if (articles.length < 2) {
+  console.log("ℹ️ Not enough FR articles to validate latest-article guardrails");
+  process.exit(0);
+}
+
+const sorted = [...articles].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+const latest = sorted[0];
+const recent = sorted.slice(1, TOPIC_ROTATION_WINDOW + 1);
+
+const titleConflict = findRecentTitleConflict(recent, latest, {
+  windowSize: TOPIC_ROTATION_WINDOW,
+});
+if (titleConflict) {
+  fail(
+    titleConflict.code === "DUPLICATE_TITLE"
+      ? `Latest article title duplicates recent content: "${latest.title}" matches "${titleConflict.previousTitle}"`
+      : `Latest article title is too close to recent content: "${latest.title}" vs "${titleConflict.previousTitle}"`,
+  );
+}
+
+const topicConflict = findRecentTopicConflict(recent, latest, {
+  windowSize: TOPIC_ROTATION_WINDOW,
+});
+if (topicConflict) {
+  if (topicConflict.code === "TOPIC_DUPLICATE") {
+    fail(
+      `Latest article repeats recent topic "${describeTopic(topicConflict.topic)}": "${latest.title}" vs "${topicConflict.previousTitle}"`,
+    );
+  }
+  fail(
+    `Latest article is too similar to recent content: "${latest.title}" vs "${topicConflict.previousTitle}"`,
+  );
+}
+
+console.log(
+  `✅ Latest FR article passes duplicate-title and recent-topic guardrails (${TOPIC_ROTATION_WINDOW}-article window)`,
+);

@@ -116,6 +116,9 @@ jobs:
       - name: Fix malformed internal markdown links
         run: node scripts/fix-article-internal-links.js --apply
 
+      - name: Validate latest article guardrails
+        run: node scripts/validate-latest-article-guardrails.js
+
       - name: Detect new article for LinkedIn notification
         id: detect-article
         run: |

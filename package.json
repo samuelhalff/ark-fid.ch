@@ -17,6 +17,7 @@
     "test": "npm run typecheck",
     "lint:translations": "node scripts/lint-translations.js",
     "validate:article-facts": "node scripts/validate-article-facts.js",
+    "validate:latest-article": "node scripts/validate-latest-article-guardrails.js",
     "validate:translations": "node scripts/validate-translations.js",
     "validate:article-refs": "node scripts/validate-article-refs.js",
     "lint:metadata": "node scripts/lint-metadata.js",

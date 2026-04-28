@@ -16,6 +16,15 @@ const {
 } = require("./lib/outdatedVatValidator");
 const { buildLengthRecoveryPlan } = require("./lib/draftLengthRecovery");
 const {
+  TOPIC_KEYWORDS,
+  describeTopic,
+  detectTopic,
+  findRecentTitleConflict,
+  findRecentTopicConflict,
+  getTopicSimilarityDetails,
+  getTopicTokens,
+} = require("./lib/articleTopicGuardrails");
+const {
   extractOpenAIMetrics,
   formatOpenAIMetricsLog,
   formatWordProgressLog,
@@ -162,140 +171,6 @@ const SERVICES = [
   "conformité réglementaire (SRO/OAR, LBA/AML, FINMA)",
 ];
 
-const TOPIC_KEYWORDS = [
-  {
-    topic: "odoo",
-    label: "Odoo / ERP",
-    patterns: [/odoo/i, /\berp\b/i, /erp 17/i, /erp 18/i],
-  },
-  {
-    topic: "payroll",
-    label: "Paie & salaires",
-    patterns: [
-      /paie/i,
-      /payroll/i,
-      /salaire/i,
-      /swissdec/i,
-      /cotisation/i,
-      /\bLPP\b/i,
-      /\bLAA\b/i,
-      /\bAVS\b/i,
-    ],
-  },
-  {
-    topic: "tax",
-    label: "Fiscalité & TVA",
-    patterns: [
-      /fisc/i,
-      /imp[oô]t/i,
-      /\btax/i,
-      /\bTVA\b/i,
-      /\bVAT\b/i,
-      /\bIFD\b/i,
-    ],
-  },
-  {
-    topic: "accounting",
-    label: "Comptabilité & reporting",
-    patterns: [
-      /comptabil/i,
-      /comptable/i,
-      /cl[oô]ture/i,
-      /closing/i,
-      /reporting/i,
-      /bilan/i,
-      /FER/i,
-    ],
-  },
-  {
-    topic: "corporate",
-    label: "Corporate & gouvernance",
-    patterns: [
-      /corporate/i,
-      /gouvernance/i,
-      /assembl[ée]/i,
-      /\bAG\b/i,
-      /PV/i,
-      /conseil d'administration/i,
-    ],
-  },
-  {
-    topic: "domiciliation",
-    label: "Domiciliation & siège",
-    patterns: [/domicil/i],
-  },
-  {
-    topic: "outsourcing",
-    label: "Outsourcing & BPO",
-    patterns: [/outsourcing/i, /externalisation/i, /\bBPO\b/i],
-  },
-  {
-    topic: "ma",
-    label: "Fusions & acquisitions",
-    patterns: [/fusion/i, /acquisition/i, /\bM&A\b/i, /m&a/i, /due diligence/i],
-  },
-  {
-    topic: "family-office",
-    label: "Family office & patrimoine",
-    patterns: [
-      /family.?office/i,
-      /patrimoine/i,
-      /\bHNI\b/i,
-      /fortune/i,
-      /wealth/i,
-    ],
-  },
-  {
-    topic: "incorporation",
-    label: "Incorporation & constitution",
-    patterns: [
-      /incorporation/i,
-      /constitution/i,
-      /créer/i,
-      /fondation/i,
-      /création d'entreprise/i,
-    ],
-  },
-  {
-    topic: "immigration",
-    label: "Immigration & mobilité",
-    patterns: [
-      /immigration/i,
-      /permis/i,
-      /\bANobAG\b/i,
-      /mobilit/i,
-      /expat/i,
-      /expatri/i,
-    ],
-  },
-  {
-    topic: "finance",
-    label: "Conseil financier",
-    patterns: [/tr[eé]sorerie/i, /treasury/i, /finance/i, /cash[- ]?flow/i],
-  },
-  {
-    topic: "regulatory",
-    label: "Conformité réglementaire (SRO/OAR, LBA/AML, FINMA)",
-    patterns: [
-      /\bSRO\b/i,
-      /\bOAR\b/i,
-      /\bLBA\b/i,
-      /\bAML\b/i,
-      /\bFINMA\b/i,
-      /blanchiment/i,
-      /anti[- ]?money/i,
-      /conformit[ée]/i,
-      /r[ée]glement/i,
-      /licence/i,
-      /autorisation/i,
-      /agr[ée]ment/i,
-      /surveillance/i,
-      /self[- ]?regul/i,
-      /organisme.*auto/i,
-    ],
-  },
-];
-
 function loadJSON(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
@@ -334,60 +209,6 @@ function isDuplicateTranslation(localized, canonical) {
     (localized.description || "") === (canonical.description || "");
   const sameContent = (localized.content || "") === (canonical.content || "");
   return sameTitle && sameDesc && sameContent;
-}
-
-function detectTopic(article) {
-  if (!article) return "general";
-  const base = `${article.slug || ""} ${article.title || ""} ${
-    article.description || ""
-  }`.toLowerCase();
-  for (const entry of TOPIC_KEYWORDS) {
-    if (entry.patterns.some((rx) => rx.test(base))) {
-      return entry.topic;
-    }
-  }
-  return "general";
-}
-
-function describeTopic(topic) {
-  const entry = TOPIC_KEYWORDS.find((t) => t.topic === topic);
-  return entry ? entry.label : "Thème général";
-}
-
-function getTopicTokens(article) {
-  if (!article) return new Set();
-  const corpus = `${article.slug || ""} ${article.title || ""} ${
-    article.description || ""
-  }`.toLowerCase();
-  const stopWords = new Set([
-    "suisse",
-    "geneve",
-    "guide",
-    "pratique",
-    "entreprise",
-    "entreprises",
-    "article",
-    "obligations",
-    "etapes",
-    "erreurs",
-    "couts",
-  ]);
-  return new Set(
-    corpus
-      .split(/[^a-z0-9à-öø-ÿ]+/i)
-      .filter((token) => token.length >= 4 && !stopWords.has(token)),
-  );
-}
-
-function getTopicSimilarityDetails(tokensA, tokensB) {
-  if (!tokensA.size || !tokensB.size) {
-    return { score: 0, overlap: 0 };
-  }
-  const overlap = Array.from(tokensA).filter((token) => tokensB.has(token))
-    .length;
-  const union = new Set([...tokensA, ...tokensB]).size;
-  const score = union ? overlap / union : 0;
-  return { score, overlap };
 }
 
 function getLastArticle(frData) {
@@ -2022,6 +1843,23 @@ function validateNewArticle(frData, article) {
     throw err;
   }
 
+  const titleConflict = findRecentTitleConflict(
+    Array.isArray(frData.Articles) ? frData.Articles : [],
+    article,
+    { windowSize: TOPIC_ROTATION_WINDOW },
+  );
+  if (titleConflict) {
+    const err = new Error(
+      titleConflict.code === "DUPLICATE_TITLE"
+        ? `Titre déjà utilisé récemment: ${titleConflict.previousTitle}`
+        : `Titre trop proche d'un article récent: ${titleConflict.previousTitle}`,
+    );
+    err.code = titleConflict.code;
+    err.previousTitle = titleConflict.previousTitle;
+    err.previousSlug = titleConflict.previousSlug;
+    throw err;
+  }
+
   if (!Array.isArray(article.references)) {
     console.warn("[validateNewArticle] references field missing or not an array; defaulting to empty");
     article.references = [];
@@ -2090,39 +1928,32 @@ function enforceTopicRotation(frData, newArticle) {
   const articles = Array.isArray(frData?.Articles) ? frData.Articles : [];
   if (!articles.length) return;
 
-  // Get recent articles sorted by date
-  const sorted = [...articles].sort((a, b) =>
-    (b.date || "").localeCompare(a.date || ""),
-  );
-  const recentArticles = sorted.slice(0, TOPIC_ROTATION_WINDOW);
-
-  const nextTopic = detectTopic(newArticle);
-  const nextTokens = getTopicTokens(newArticle);
-
-  // Check if this topic appears in any of the recent articles
-  for (const article of recentArticles) {
-    const articleTopic = detectTopic(article);
-    if (nextTopic !== "general" && articleTopic === nextTopic) {
-      const err = new Error(
-        `Le thème "${describeTopic(nextTopic)}" a déjà été traité dans les ${TOPIC_ROTATION_WINDOW} derniers articles (article: "${article.title}")`,
-      );
-      err.code = "TOPIC_DUPLICATE";
-      err.topic = nextTopic;
-      err.previousTitle = article.title;
-      throw err;
-    }
-
-    const details = getTopicSimilarityDetails(nextTokens, getTopicTokens(article));
-    if (details.score >= 0.5 && details.overlap >= 3) {
-      const err = new Error(
-        `Sujet trop similaire à un article récent ("${article.title}", similarité ${(details.score * 100).toFixed(0)}%)`,
-      );
-      err.code = "TOPIC_SIMILAR";
-      err.previousTitle = article.title;
-      err.similarity = details.score;
-      throw err;
-    }
+  const conflict = findRecentTopicConflict(articles, newArticle, {
+    windowSize: TOPIC_ROTATION_WINDOW,
+  });
+  if (!conflict) {
+    return;
   }
+
+  if (conflict.code === "TOPIC_DUPLICATE") {
+    const err = new Error(
+      `Le thème "${describeTopic(conflict.topic)}" a déjà été traité dans les ${TOPIC_ROTATION_WINDOW} derniers articles (article: "${conflict.previousTitle}")`,
+    );
+    err.code = conflict.code;
+    err.topic = conflict.topic;
+    err.previousTitle = conflict.previousTitle;
+    err.previousSlug = conflict.previousSlug;
+    throw err;
+  }
+
+  const err = new Error(
+    `Sujet trop similaire à un article récent ("${conflict.previousTitle}", similarité ${(conflict.similarity * 100).toFixed(0)}%)`,
+  );
+  err.code = conflict.code;
+  err.previousTitle = conflict.previousTitle;
+  err.previousSlug = conflict.previousSlug;
+  err.similarity = conflict.similarity;
+  throw err;
 }
 
 function normalizeArticleDates(article) {
@@ -2142,6 +1973,14 @@ function buildRetryPrompt(basePrompt, error, frData) {
     hint =
       `⚠️ Le slug "${error.slug}" existe déjà. Choisis un nouveau sujet et un slug unique.\n` +
       `Slugs récents à éviter: ${recentSlugs.join(", ") || "aucun"}.`;
+  } else if (error.code === "DUPLICATE_TITLE") {
+    hint =
+      `⚠️ Le titre proposé duplique un article récent (${error.previousTitle}).\n` +
+      "Choisis un sujet différent avec un titre nettement distinct.";
+  } else if (error.code === "DUPLICATE_TITLE_FINGERPRINT") {
+    hint =
+      `⚠️ Le titre proposé reste trop proche d'un article récent (${error.previousTitle}).\n` +
+      "Évite les variantes légères, reformulations et permutations des mêmes mots-clés.";
   } else if (error.code === "TOPIC_DUPLICATE") {
     hint =
       `⚠️ Le dernier article (${
@@ -2648,6 +2487,23 @@ function validateResearchPayload(frData, payload) {
     const err = new Error(`Slug déjà existant: ${research.slug}`);
     err.code = "DUPLICATE_SLUG";
     err.slug = research.slug;
+    throw err;
+  }
+
+  const titleConflict = findRecentTitleConflict(
+    Array.isArray(frData.Articles) ? frData.Articles : [],
+    research,
+    { windowSize: TOPIC_ROTATION_WINDOW },
+  );
+  if (titleConflict) {
+    const err = new Error(
+      titleConflict.code === "DUPLICATE_TITLE"
+        ? `Titre déjà utilisé récemment: ${titleConflict.previousTitle}`
+        : `Titre trop proche d'un article récent: ${titleConflict.previousTitle}`,
+    );
+    err.code = titleConflict.code;
+    err.previousTitle = titleConflict.previousTitle;
+    err.previousSlug = titleConflict.previousSlug;
     throw err;
   }
 

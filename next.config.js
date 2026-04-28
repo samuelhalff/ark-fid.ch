@@ -228,12 +228,32 @@ const baseConfig = {
       // Consolidated article redirects — avoid 404s for merged content
       {
         source: "/:locale/ressources/articles/registre-commerce-suisse-guide-2026/",
-        destination: "/:locale/ressources/articles/registre-commerce-suisse-documents-delais-erreurs-couts/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
         permanent: true,
       },
       {
         source: "/:locale/ressources/articles/registre-commerce-suisse-guide-2026",
-        destination: "/:locale/ressources/articles/registre-commerce-suisse-documents-delais-erreurs-couts/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/guide-registre-commerce-suisse-documents-delais-erreurs-couts/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/guide-registre-commerce-suisse-documents-delais-erreurs-couts",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/guide-pratique-registre-commerce-suisse/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/guide-pratique-registre-commerce-suisse",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
         permanent: true,
       },
       {

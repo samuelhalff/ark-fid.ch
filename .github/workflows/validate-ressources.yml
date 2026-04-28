@@ -67,6 +67,9 @@ jobs:
           REQUIRE_TRANSLATIONS: "1"
         run: node scripts/validate-article-translations.js
 
+      - name: Validate latest article guardrails
+        run: node scripts/validate-latest-article-guardrails.js
+
       - name: Clean up bad article references
         continue-on-error: true
         run: node scripts/clean-bad-article-refs.js --all-locales || echo "⚠️ Reference cleanup had issues"
