@@ -74,6 +74,9 @@ jobs:
         continue-on-error: true
         run: node scripts/clean-bad-article-refs.js --all-locales || echo "⚠️ Reference cleanup had issues"
 
+      - name: Validate curated reference source policy
+        run: npm run validate:reference-sources
+
       - name: Check resource links
         continue-on-error: true
         run: node scripts/check-ressources-links.js --all-locales || echo "⚠️ Some references missing"

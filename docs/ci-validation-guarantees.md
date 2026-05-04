@@ -253,8 +253,9 @@ SEO_MIN_WORDS=1500             # Enforce minimum FR word count (0 = disabled)
 SEO_MAX_WORDS=4000             # Enforce maximum FR word count (0 = disabled)
 
 # Reference quality (optional)
-# All references are restricted to the ALLOWED_REFERENCE_DOMAINS whitelist
-# in scripts/lib/referenceValidator.js (~60 trusted domains).
+# Public source URLs are restricted to the curated allowlist in
+# scripts/lib/referenceValidator.js and documented in docs/reference-source-policy.md.
+# Known firm/competitor domains are blocked even if added at runtime.
 REFERENCE_MIN_TRUSTED_DOMAINS=1             # Require N trusted/official domains
 REFERENCE_MIN_COUNT=4                       # Minimum refs after validation
 REFERENCE_MAX_COUNT=6                       # Maximum refs to keep

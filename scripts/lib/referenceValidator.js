@@ -1,7 +1,14 @@
-// Whitelist of domains allowed as article references.  Any domain NOT on this
-// list (or added at runtime via REFERENCE_ALLOWED_DOMAINS) is automatically
-// rejected.  This replaces the previous blacklist + keyword-heuristic approach
-// which could never keep up with new competitor sites.
+// Curated source policy for public article references.
+//
+// Goal: use competitors and firms as private research inspiration when useful,
+// but never publish their URLs as sources. Public references should point to
+// official authorities, institutional bodies, recognized associations, academic
+// sources, or official product/vendor documentation such as odoo.com.
+//
+// Any domain NOT on this list (or added at runtime via
+// REFERENCE_ALLOWED_DOMAINS) is rejected. The built-in firm blocklist below
+// still wins over runtime additions, so known firm/competitor domains cannot be
+// reintroduced accidentally in CI.
 //
 // Categories:
 //   - Swiss federal government (admin.ch and subdomains)
@@ -11,10 +18,14 @@
 //   - Social insurance organisations
 //   - Professional & industry associations
 //   - International knowledge / reference sites
-//   - Software & tools relevant to services
-//   - Odoo ecosystem partners (referenced in integration articles)
+//   - Recognized software / vendor documentation
 //   - Self-reference (ark-fid.ch)
 //   - Academic / educational institutions
+//
+// Explicitly excluded:
+//   - Fiduciaries, accounting firms, Treuhand firms
+//   - Consulting firms, Odoo integrators, law/notary firms
+//   - Big 4 or other competitors, even when their content is useful research
 //
 // Keep alphabetically sorted within each section for easy maintenance.
 const ALLOWED_REFERENCE_DOMAINS = [
@@ -52,14 +63,21 @@ const ALLOWED_REFERENCE_DOMAINS = [
   // Swiss official bodies & registries
   "ahv-iv.ch",
   "caisseavs.ch",
+  "centrepatronal.ch",
+  "entscheidsuche.ch",
+  "expertsuisse.ch",
   "finma.ch",
+  "ocas.ch",
+  "rab-asr.ch",
   "snb.ch",
+  "so-fit.ch",
   "swissdec.ch",
   "zefix.ch",
   // Swiss cantonal social insurance / compensation funds
   "aknw.ch",
   "akso.ch",
   "cdas.ch",
+  "jardinsuisse.ch",
   "sva-bl.ch",
   "sva-sz.ch",
   "svash.ch",
@@ -69,29 +87,32 @@ const ALLOWED_REFERENCE_DOMAINS = [
   "economiesuisse.ch",
   "fer.ch",
   "swissaccounting.org",
+  "swissmem.ch",
   "veb.ch",
   // International knowledge / reference
   "europa.eu",
   "francophonie.org",
-  "gaapex.ch",
   "oecd.org",
   "wikipedia.org",
-  // Software & tools
+  // Recognized software / vendor documentation
   "github.com",
   "odoo.com",
-  // Odoo ecosystem partners
-  "cobalt-it.ch",
-  "ficops.ch",
-  "fidflow.ch",
-  "hoop.swiss",
-  "houle.ai",
-  "niris.ch",
-  "open-net.ch",
   // Academic / educational
   "controledegestion.org",
   "he-arc.ch",
   // Self-reference
   "ark-fid.ch",
+];
+
+const DISALLOWED_FIRM_SOURCE_DOMAINS = [
+  "cobalt-it.ch",
+  "ficops.ch",
+  "fidflow.ch",
+  "gaapex.ch",
+  "hoop.swiss",
+  "houle.ai",
+  "niris.ch",
+  "open-net.ch",
 ];
 
 const DEFAULT_TIMEOUT_MS = parseInt(process.env.LINK_CHECK_TIMEOUT_MS || "10000", 10);
@@ -125,7 +146,9 @@ const TRUSTED_DOMAINS = [
   "finma.ch",
   "seco.admin.ch",
   "odoo.com",
+  "so-fit.ch",
   "swissdec.ch",
+  "rab-asr.ch",
   "zefix.ch",
   "fer.ch",
   "economiesuisse.ch",
@@ -150,18 +173,29 @@ const ALLOWED_DOMAINS = Array.from(
   ])
 );
 
-// Optional explicit blocklist via environment variable.  Domains listed here
-// are rejected even if they appear in the allowlist (emergency override).
-const BLOCKED_DOMAINS = parseDomainList(process.env.REFERENCE_BLOCKED_DOMAINS);
+// Optional explicit blocklist via environment variable. Domains listed here are
+// rejected even if they appear in the allowlist. The built-in firm-source
+// blocklist is always active.
+const BLOCKED_DOMAINS = Array.from(
+  new Set([
+    ...DISALLOWED_FIRM_SOURCE_DOMAINS,
+    ...parseDomainList(process.env.REFERENCE_BLOCKED_DOMAINS),
+  ]),
+);
 
-function isBlockedDomain(url, extraBlocked = BLOCKED_DOMAINS) {
+function isBlockedDomain(url, extraBlocked = []) {
   try {
     const host = new URL(url).hostname.toLowerCase();
-    // Explicit runtime blocklist takes priority (emergency override)
+    const blockedDomains = Array.from(
+      new Set([
+        ...BLOCKED_DOMAINS,
+        ...(Array.isArray(extraBlocked) ? extraBlocked : []),
+      ]),
+    );
+    // Explicit/built-in blocklists take priority over all allowlist entries.
     if (
-      extraBlocked &&
-      extraBlocked.length > 0 &&
-      extraBlocked.some((d) => host === d || host.endsWith(`.${d}`))
+      blockedDomains.length > 0 &&
+      blockedDomains.some((d) => host === d || host.endsWith(`.${d}`))
     ) {
       return true;
     }
@@ -559,6 +593,11 @@ const VERIFIED_FALLBACK_REFS = {
     { labelKey: "Office fédéral des assurances sociales (OFAS)", url: "https://www.bsv.admin.ch/bsv/fr/home.html" },
     { labelKey: "Swissdec - Standard de transmission salariale", url: "https://www.swissdec.ch/fr/" }
   ],
+  audit: [
+    { labelKey: "Autorité fédérale de surveillance en matière de révision (ASR)", url: "https://www.rab-asr.ch/" },
+    { labelKey: "Code des obligations - Révision", url: "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_727" },
+    { labelKey: "EXPERTsuisse - Audit et conseil", url: "https://www.expertsuisse.ch/fr-ch" }
+  ],
   odoo: [
     { labelKey: "Odoo - Documentation officielle", url: "https://www.odoo.com/documentation" },
     { labelKey: "Swissdec - Standard de transmission salariale", url: "https://www.swissdec.ch/fr/" }
@@ -624,6 +663,7 @@ module.exports = {
   getFallbackReferences,
   VERIFIED_FALLBACK_REFS,
   ALLOWED_REFERENCE_DOMAINS,
+  DISALLOWED_FIRM_SOURCE_DOMAINS,
   DEFAULT_TIMEOUT_MS,
   DEFAULT_MIN_BYTES
 };

@@ -10,9 +10,9 @@ const TOPIC_KEYWORDS = [
     topic: "payroll",
     label: "Paie & salaires",
     patterns: [
-      /paie/i,
-      /payroll/i,
-      /salaire/i,
+      /\bpaie\b/i,
+      /\bpayroll\b/i,
+      /\bsalaires?\b/i,
       /swissdec/i,
       /cotisation/i,
       /\bLPP\b/i,
@@ -30,6 +30,19 @@ const TOPIC_KEYWORDS = [
       /\bTVA\b/i,
       /\bVAT\b/i,
       /\bIFD\b/i,
+    ],
+  },
+  {
+    topic: "audit",
+    label: "Audit & révision",
+    patterns: [
+      /audit/i,
+      /r[ée]vision/i,
+      /contr[oô]le ordinaire/i,
+      /contr[oô]le restreint/i,
+      /organe de r[ée]vision/i,
+      /rapport de r[ée]vision/i,
+      /seuils? de r[ée]vision/i,
     ],
   },
   {
@@ -117,7 +130,16 @@ const TOPIC_KEYWORDS = [
   {
     topic: "finance",
     label: "Conseil financier",
-    patterns: [/tr[eé]sorerie/i, /treasury/i, /finance/i, /cash[- ]?flow/i],
+    patterns: [
+      /tr[eé]sorerie/i,
+      /treasury/i,
+      /finance/i,
+      /cash[- ]?flow/i,
+      /paiements?/i,
+      /retards? de paiement/i,
+      /budget/i,
+      /forecast/i,
+    ],
   },
   {
     topic: "regulatory",

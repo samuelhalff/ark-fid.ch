@@ -10,6 +10,7 @@ const {
   deduplicateByDomain,
   getFallbackReferences,
   isTrustedDomain,
+  ALLOWED_REFERENCE_DOMAINS,
 } = require("./lib/referenceValidator");
 const {
   extractOutdatedSwissVatRateMatches,
@@ -127,6 +128,10 @@ const REFERENCE_MIN_TRUSTED_DOMAINS = parseInt(
   process.env.REFERENCE_MIN_TRUSTED_DOMAINS || "1",
   10,
 );
+const ALLOWED_REFERENCE_DOMAINS_PROMPT = [
+  "Domaines autorisés pour les références publiées:",
+  ALLOWED_REFERENCE_DOMAINS.join(", "),
+].join(" ");
 
 const AZURE_OPENAI_ENDPOINT = process.env.AZURE_OPENAI_ENDPOINT;
 const AZURE_OPENAI_API_KEY = process.env.AZURE_OPENAI_API_KEY;
@@ -159,13 +164,18 @@ const LOCALES = ["en", "de", "es", "pt"];
 
 const SERVICES = [
   "comptabilité (PME, indépendants, Swiss GAAP FER)",
+  "audit et révision (contrôle ordinaire/restreint, opting-out, préparation du dossier)",
+  "contrôle interne et gestion des risques (séparation des tâches, accès bancaires, workflows)",
   "fiscalité (TVA, impôt cantonal et fédéral, BEPS 2.0)",
   "corporate (gouvernance, PV, AG, conseils d'administration)",
   "paie (swissdec, LPP, LAA, AC, payroll externalisé)",
+  "reporting de gestion (budget, forecast, KPIs, comptabilité analytique)",
+  "trésorerie et financement (cash-flow, dossiers bancaires, retards de paiement)",
   "domiciliation et direction",
   "outsourcing administratif et financier",
-  "implémentation Odoo et intégrations ERP",
+  "implémentation Odoo et intégrations ERP (facture QR, CAMT, stock, e-commerce, workflows)",
   "fusions et acquisitions (M&A)",
+  "transmission d'entreprise et due diligence financière",
   "family office (gestion de patrimoine, HNI)",
   "constitution et incorporation d'entreprise",
   "immigration et mobilité internationale (permis, ANobAG, expatriés)",
@@ -428,8 +438,10 @@ function buildSystemPrompt(frJson, trendData = null) {
     "- Style professionnel, humain, sans capitales superflues.",
     "- Références: fournis 4 à 6 liens vérifiables (HTTP 200, pas de login), sans URL inventée.",
     "- Références: inclure au moins 1 source officielle (admin.ch / fedlex.admin.ch / bsv.admin.ch / estv.admin.ch / seco.admin.ch / finma.ch, etc.).",
-    "- Références: compléter avec des sources institutionnelles (chambre de commerce, caisse de pension, association pro, fondations reconnues) et/ou médias économiques (si accessible sans paywall).",
-    "- INTERDIT: ne JAMAIS citer de sites concurrents (fiduciaires, treuhand, avocats, notaires, comptables, experts-comptables, steuerberater, kanzlei, etc.). Aucun lien vers un cabinet concurrent.",
+    "- Références: compléter uniquement avec des sources institutionnelles, associations professionnelles, institutions académiques, registres officiels, documentation officielle Odoo ou sites reconnus de cette liste.",
+    ALLOWED_REFERENCE_DOMAINS_PROMPT,
+    "- Inspiration privée autorisée: tu peux lire des concurrents pour comprendre le sujet, mais tu ne dois jamais publier leur URL comme source.",
+    "- INTERDIT: ne JAMAIS citer de sites concurrents ou de cabinets (fiduciaires, treuhand, avocats, notaires, comptables, experts-comptables, consultants, intégrateurs Odoo, steuerberater, kanzlei, Big 4, etc.). Aucun lien vers un cabinet concurrent.",
     "- Chaque domaine ne doit être représenté qu'une seule fois dans les références (pas de doublons de domaine).",
     `Slugs récents à éviter: ${recentSlugs.join(", ") || "aucun"}.`,
     `Services à promouvoir: ${SERVICES.join(", ")}.`,
@@ -549,8 +561,10 @@ function buildResearchPrompt(frJson, trendData, seoSuggestions) {
     `- L'article final fera ${Math.max(minWords, 1500)} à ${Math.max(Math.max(minWords, 1500), maxWords)} mots.`,
     "- Références: fournir 12 à 18 liens vérifiables (HTTP 200, pas de login), sans URL inventée.",
     "- Références: inclure au moins 2 sources officielles (admin.ch / fedlex.admin.ch / bsv.admin.ch / estv.admin.ch / seco.admin.ch / finma.ch, etc.).",
-    "- Références: compléter avec des sources institutionnelles (chambres de commerce, caisses de pension, associations pro) et éventuellement médias économiques si accessible sans paywall.",
-    "- INTERDIT: ne JAMAIS citer de sites concurrents (fiduciaires, treuhand, avocats, notaires, comptables, experts-comptables, steuerberater, kanzlei, etc.). Aucun lien vers un cabinet concurrent.",
+    "- Références: compléter uniquement avec des sources institutionnelles, associations professionnelles, institutions académiques, registres officiels, documentation officielle Odoo ou sites reconnus de cette liste.",
+    ALLOWED_REFERENCE_DOMAINS_PROMPT,
+    "- Inspiration privée autorisée: tu peux lire des concurrents pour comprendre le sujet, mais tu ne dois jamais publier leur URL comme source.",
+    "- INTERDIT: ne JAMAIS citer de sites concurrents ou de cabinets (fiduciaires, treuhand, avocats, notaires, comptables, experts-comptables, consultants, intégrateurs Odoo, steuerberater, kanzlei, Big 4, etc.). Aucun lien vers un cabinet concurrent.",
     "- STRICT: chaque référence doit provenir d'un domaine différent (1 domaine = 1 lien). Si tu donnes 12 références, ce sont 12 domaines distincts, sinon la réponse est rejetée.",
     `Slugs récents à éviter: ${recentSlugs.join(", ") || "aucun"}.`,
     `Services à promouvoir: ${SERVICES.join(", ")}.`,
@@ -565,7 +579,7 @@ function buildResearchPrompt(frJson, trendData, seoSuggestions) {
     '    "slug": "<slug-unique-fr>",',
     '    "title": "<titre FR>",',
     '    "description": "<description FR>",',
-    '    "category": "<payroll|tax|corporate|odoo|accounting|incorporation|immigration|regulatory|outsourcing|ma|family-office|domiciliation|finance|general>",',
+    '    "category": "<payroll|tax|corporate|odoo|accounting|audit|incorporation|immigration|regulatory|outsourcing|ma|family-office|domiciliation|finance|general>",',
     '    "primaryKeyword": "<mot-clé principal>",',
     '    "secondaryKeywords": ["..."],',
     '    "outline": ["H2 ...", "H2 ...", "FAQ ..."],',
@@ -1991,7 +2005,7 @@ function buildRetryPrompt(basePrompt, error, frData) {
       `⚠️ Le dernier article (${
         error.previousTitle
       }) couvrait déjà ${describeTopic(error.topic)}.\n` +
-      `Choisis un autre axe stratégique (paie, fiscalité, corporate, domiciliation, outsourcing, etc.) différent des ${TOPIC_ROTATION_WINDOW} derniers thèmes.`;
+      `Choisis un autre axe stratégique (audit/révision, contrôle interne, reporting, Odoo, financement, M&A, fiscalité, corporate, etc.) différent des ${TOPIC_ROTATION_WINDOW} derniers thèmes.`;
   } else if (error.code === "TOPIC_SIMILAR") {
     hint =
       `⚠️ Le sujet proposé reste trop proche d'un article récent (${error.previousTitle}).\n` +
@@ -2149,7 +2163,10 @@ async function repairReferences(article, category = "general") {
     const regenPrompt = [
       "Certaines références générées sont inaccessibles ou invalides.",
       'Fournis UNIQUEMENT un JSON de la forme {"references": [ {"labelKey": "...", "url": "https://..."}, ... ]}.',
-      "URLs acceptables: sources officielles (admin.ch, ge.ch, vd.ch, fedlex.admin.ch, bsv.admin.ch, estv.admin.ch, seco.admin.ch, finma.ch, etc.), institutions (chambres de commerce, caisses de pension), associations professionnelles, médias économiques (si accessible sans paywall).",
+      "URLs acceptables: sources officielles (admin.ch, ge.ch, vd.ch, fedlex.admin.ch, bsv.admin.ch, estv.admin.ch, seco.admin.ch, finma.ch, etc.), institutions, chambres de commerce, caisses de pension, associations professionnelles, institutions académiques, documentation officielle Odoo.",
+      ALLOWED_REFERENCE_DOMAINS_PROMPT,
+      "Tu peux t'inspirer de concurrents en recherche privée, mais n'inclus jamais leur URL dans les références publiées.",
+      "Interdit: fiduciaires, treuhand, avocats, notaires, comptables, experts-comptables, consultants, intégrateurs Odoo, Big 4 ou autres cabinets concurrents.",
       `Contraintes: au moins ${minCount} références, dont au moins ${minTrusted} source(s) officielle(s).`,
       "Chaque domaine ne doit être représenté qu'une seule fois dans les références (pas de doublons de domaine).",
       `Thème de l'article: ${article.title} (slug: ${article.slug}).`,

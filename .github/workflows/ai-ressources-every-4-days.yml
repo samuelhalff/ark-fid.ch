@@ -117,6 +117,9 @@ jobs:
       - name: Fix malformed internal markdown links
         run: node scripts/fix-article-internal-links.js --apply
 
+      - name: Validate curated reference source policy
+        run: npm run validate:reference-sources
+
       - name: Validate latest article guardrails
         run: node scripts/validate-latest-article-guardrails.js
 

@@ -18,11 +18,14 @@ The AI-driven resources update system has multiple layers of validation to preve
 - Retries up to 2 times if URLs are not reachable (env: `AI_REF_RETRIES`)
 - Automatically filters out unreachable references
 - Can fail entirely with `FAIL_ON_BAD_REFERENCE=1`
+- Restricts public source URLs to the curated allowlist in `docs/reference-source-policy.md`
+- Blocks known fiduciary, consulting, Odoo integrator, and competitor domains even if runtime allowlist variables are extended
 
 **Agent Instructions:**
 - System prompt explicitly states: "Tous les liens DOIVENT être pertinents et répondre HTTP 200"
 - Instructs agent to use web search tool to verify URLs exist
 - "Ne renvoie JAMAIS d'URL inventée ou spéculative"
+- Allows competitor pages only as private research inspiration; their URLs must not appear in published sources
 - If not 100% certain a PDF exists, should set `source_url: null`
 
 ### 2. PDF Download (`scripts/download-missing-pdfs.js`)
@@ -48,6 +51,14 @@ node scripts/check-ressources-links.js --all-locales --remote
 - Validates Article `references[].url` accessibility (HTTP 200)
 - Exit code 2 if any remote URLs return 404 or fail
 - **CI FAILS if this step fails** → prevents 404s from reaching production
+
+**Step 3: Curated Source Policy Check**
+```bash
+npm run validate:reference-sources
+```
+- Validates `source_url`, `references[].url`, and article body links without network calls
+- Fails on domains outside the curated source policy
+- Prevents publishing competitor/firm URLs as article sources
 
 ## Environment Variables
 

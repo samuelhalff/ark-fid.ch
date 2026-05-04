@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Input } from "@/src/components/ui/input";
@@ -209,14 +209,14 @@ export default function AgentChat({
   const showClearHistory = chatError === strings.chat.error;
   const showModalClearHistory = modalError === strings.chat.error;
 
-  const resetTurnstile = () => {
+  const resetTurnstile = useCallback(() => {
     setTurnstileToken("");
     if (typeof window !== "undefined" && turnstileWidgetId && window.turnstile) {
       window.turnstile.remove(turnstileWidgetId);
     }
     setTurnstileWidgetId(null);
     setTurnstileRenderKey((prev) => prev + 1);
-  };
+  }, [turnstileWidgetId]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -462,6 +462,7 @@ export default function AgentChat({
     turnstileReady,
     turnstileWidgetId,
     turnstileSiteKey,
+    resetTurnstile,
     strings.lead.verificationRequired,
   ]);
 

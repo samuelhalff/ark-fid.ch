@@ -207,7 +207,8 @@ Notes:
 - `--translate-existing` fills missing/untranslated article translations (it does not force retranslation of every article).
 - Topic selection uses trend signals + editorial rotation. Default `TRENDS_PROVIDER=hybrid` uses public Google Trends RSS (broad, filtered) + evergreen rotation, and enriches keywords using Google Suggest (`TRENDS_SUGGEST=1`).
 - References are validated (no 404/empty pages). The Markdown `Références` section is regenerated from the validated `newArticle.references` list to avoid mismatches/hallucinated links.
-- Domain policy is configurable: in CI we allow broad domains but require at least 1 official source via `REFERENCE_MIN_TRUSTED_DOMAINS=1`.
+- Public reference domains are restricted to the curated policy in `docs/reference-source-policy.md`; competitor/firm URLs may be used as private research inspiration but must not be published as sources.
+- CI also requires at least 1 trusted/official source via `REFERENCE_MIN_TRUSTED_DOMAINS=1`.
 - GitHub workflow `.github/workflows/ai-ressources-every-4-days.yml` automates the run every four days using OIDC-based Azure login.
 
 ## Ressources Link Integrity

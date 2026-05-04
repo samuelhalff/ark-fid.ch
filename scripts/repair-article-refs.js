@@ -40,8 +40,9 @@ const TRANSIENT_REASONS = new Set(['server-error', 'timeout', 'network-error', '
 // Mirrors the TOPIC_KEYWORDS list in ai-ressources-update.js without importing it.
 const TOPIC_PATTERNS = [
   { topic: 'odoo',         patterns: [/odoo/i, /\berp\b/i] },
-  { topic: 'payroll',      patterns: [/paie/i, /payroll/i, /salaire/i, /swissdec/i, /cotisation/i, /\bLPP\b/i, /\bLAA\b/i, /\bAVS\b/i] },
+  { topic: 'payroll',      patterns: [/\bpaie\b/i, /\bpayroll\b/i, /\bsalaires?\b/i, /swissdec/i, /cotisation/i, /\bLPP\b/i, /\bLAA\b/i, /\bAVS\b/i] },
   { topic: 'tax',          patterns: [/fisc/i, /imp[oô]t/i, /\btax/i, /\bTVA\b/i, /\bVAT\b/i] },
+  { topic: 'audit',        patterns: [/audit/i, /r[ée]vision/i, /contr[oô]le ordinaire/i, /contr[oô]le restreint/i, /organe de r[ée]vision/i] },
   { topic: 'accounting',   patterns: [/comptabil/i, /comptable/i, /cl[oô]ture/i, /bilan/i, /\bFER\b/i, /reporting/i] },
   { topic: 'corporate',    patterns: [/corporate/i, /gouvernance/i, /assembl[ée]/i, /\bAG\b/i, /conseil d'administration/i] },
   { topic: 'domiciliation',patterns: [/domicil/i] },
@@ -50,7 +51,7 @@ const TOPIC_PATTERNS = [
   { topic: 'family-office',patterns: [/family.?office/i, /patrimoine/i, /fortune/i, /wealth/i] },
   { topic: 'incorporation',patterns: [/incorporation/i, /constitution/i, /création d'entreprise/i] },
   { topic: 'immigration',  patterns: [/immigration/i, /permis/i, /\bANobAG\b/i, /mobilit/i, /expat/i] },
-  { topic: 'finance',      patterns: [/tr[eé]sorerie/i, /cash[- ]?flow/i, /finance/i] },
+  { topic: 'finance',      patterns: [/tr[eé]sorerie/i, /cash[- ]?flow/i, /finance/i, /paiements?/i, /budget/i, /forecast/i] },
   { topic: 'regulatory',   patterns: [/\bFINMA\b/i, /\bLBA\b/i, /\bAML\b/i, /blanchiment/i, /conformit/i] },
 ];
 
