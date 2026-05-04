@@ -54,4 +54,22 @@ assert.ok(
   "evergreen rotation should include audit/révision topics",
 );
 
+const requiredLeadGenTopics = [
+  "frontaliers-teletravail-paie-suisse-france",
+  "tva-prestations-internationales-suisse-reverse-charge",
+  "migration-odoo-depuis-excel-legacy-erp",
+  "debiteurs-recouvrement-retards-paiement-pme",
+  "archivage-numerique-comptable-suisse-pme",
+  "succursale-ou-filiale-suisse-entreprise-etrangere",
+  "ayants-droit-economiques-registre-actions-suisse",
+  "succession-entrepreneur-pme-suisse-fiscalite",
+];
+
+for (const slug of requiredLeadGenTopics) {
+  assert.ok(
+    EVERGREEN_TOPICS.some((topic) => topic.topic === slug),
+    `evergreen rotation should include ${slug}`,
+  );
+}
+
 console.log("Topic diversity policy tests passed");
