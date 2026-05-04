@@ -250,7 +250,7 @@ OFFLINE_MODE=1                 # Skip HTTP checks for testing (default: 0)
 
 # SEO (optional)
 SEO_MIN_WORDS=1500             # Enforce minimum FR word count (0 = disabled)
-SEO_MAX_WORDS=3000             # Max guidance (not enforced by code)
+SEO_MAX_WORDS=4000             # Enforce maximum FR word count (0 = disabled)
 
 # Reference quality (optional)
 # All references are restricted to the ALLOWED_REFERENCE_DOMAINS whitelist
@@ -280,6 +280,9 @@ AZURE_OPENAI_ENDPOINT=...
 AZURE_OPENAI_API_KEY=...
 AZURE_OPENAI_API_VERSION=2025-01-01-preview
 AZURE_OPENAI_DEPLOYMENT=gpt-4.1
+AZURE_OPENAI_DRAFT_DEPLOYMENT=gpt-5.2
+AZURE_OPENAI_DRAFT_API_VERSION=2025-01-01-preview
+AZURE_OPENAI_DRAFT_MAX_TOKENS=8192
 ```
 
 ---

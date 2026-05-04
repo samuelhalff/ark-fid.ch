@@ -29,6 +29,7 @@ const {
   formatOpenAIMetricsLog,
   formatWordProgressLog,
 } = require("./lib/openaiTelemetry");
+const { buildAzureOpenAIChatBody } = require("./lib/azureOpenAIChatOptions");
 
 const rawArgs = process.argv.slice(2);
 const args = new Set(rawArgs);
@@ -413,6 +414,7 @@ function buildSystemPrompt(frJson, trendData = null) {
     "",
     "=== FAITS VÉRIFIÉS (ne pas contredire) ===",
     "- Taux de TVA suisses (depuis le 1er janvier 2024): taux normal 8,1 %, taux réduit 2,6 %, taux spécial hébergement 3,8 %. Les anciens taux (7,7 %, 2,5 %, 3,7 %) ne sont plus en vigueur.",
+    "- INTERDIT ABSOLU: ne mentionne jamais les anciens taux 7,7 %, 2,5 % ou 3,7 %, même pour une comparaison historique. Si tu parles des taux, utilise uniquement 8,1 %, 2,6 % et 3,8 %.",
     "",
     "Contraintes impératives:",
     "- FOCUS sur des conseils pratiques, astuces concrètes, erreurs courantes à éviter, guides étape-par-étape, taux/rates actuels par canton/activité.",
@@ -540,6 +542,7 @@ function buildResearchPrompt(frJson, trendData, seoSuggestions) {
     "",
     "=== FAITS VÉRIFIÉS (ne pas contredire) ===",
     "- Taux de TVA suisses (depuis le 1er janvier 2024): taux normal 8,1 %, taux réduit 2,6 %, taux spécial hébergement 3,8 %. Les anciens taux (7,7 %, 2,5 %, 3,7 %) ne sont plus en vigueur.",
+    "- INTERDIT ABSOLU: ne mentionne jamais les anciens taux 7,7 %, 2,5 % ou 3,7 %, même pour une comparaison historique. Si tu parles des taux, utilise uniquement 8,1 %, 2,6 % et 3,8 %.",
     "",
     "Contraintes:",
     topicConstraint,
@@ -619,6 +622,7 @@ function buildDraftPromptFromResearch(research, validatedReferences) {
     "",
     "=== FAITS VÉRIFIÉS (ne pas contredire) ===",
     "- Taux de TVA suisses (depuis le 1er janvier 2024): taux normal 8,1 %, taux réduit 2,6 %, taux spécial hébergement 3,8 %. Les anciens taux (7,7 %, 2,5 %, 3,7 %) ne sont plus en vigueur.",
+    "- INTERDIT ABSOLU: ne mentionne jamais les anciens taux 7,7 %, 2,5 % ou 3,7 %, même pour une comparaison historique. Si tu parles des taux, utilise uniquement 8,1 %, 2,6 % et 3,8 %.",
     "",
     `CONTRAINTE DE LONGUEUR (STRICTE): entre ${Math.max(minWords, 1500)} et ${Math.max(maxWords, Math.max(minWords, 1500))} mots (viser ~2200).`,
     "Si tu es en dessous du minimum, tu DOIS ajouter du contenu (plus de H2/H3, plus d'explications, plus d'exemples). Ne termine pas tôt.",
@@ -1299,16 +1303,17 @@ async function azureOpenAIJson(prompt, options = {}) {
     deployment,
     apiVersion,
   });
-  const body = {
+  const body = buildAzureOpenAIChatBody({
+    deployment,
     messages: [
       { role: "system", content: system },
       { role: "user", content: prompt },
     ],
     temperature,
-    top_p: topP,
-    response_format: { type: "json_object" },
-    ...(maxTokens ? { max_tokens: maxTokens } : {}),
-  };
+    topP,
+    maxTokens,
+    responseFormat: { type: "json_object" },
+  });
 
   const maxRetries = parseInt(process.env.AZURE_OPENAI_RETRIES || "6", 10);
   let attempt = 0;

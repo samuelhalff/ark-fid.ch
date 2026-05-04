@@ -69,19 +69,20 @@ jobs:
       - name: Run AI update (FR + translations via Azure OpenAI)
         env:
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
-          AZURE_AGENT_NAME: ${{ secrets.AZURE_AGENT_NAME }}
+          AZURE_AGENT_NAME: ${{ vars.AZURE_AGENT_NAME || 'web-deep-search:6' }}
           AZURE_AGENT_API_KEY: ${{ secrets.AZURE_AGENT_API_KEY }}
           AZURE_AGENT_FORCE_RESPONSES: "1"
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT || 'https://pbmch8303697696.cognitiveservices.azure.com/' }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
-          AZURE_OPENAI_API_VERSION: "2024-05-01-preview"
+          AZURE_OPENAI_API_VERSION: "2025-01-01-preview"
           AZURE_OPENAI_DEPLOYMENT: "gpt-4.1"
-          AZURE_OPENAI_DRAFT_DEPLOYMENT: "gpt-4o"
+          AZURE_OPENAI_DRAFT_DEPLOYMENT: "gpt-5.2"
+          AZURE_OPENAI_DRAFT_API_VERSION: "2025-01-01-preview"
           AZURE_OPENAI_RESEARCH_ENDPOINT: ${{ secrets.AZURE_OPENAI_RESEARCH_ENDPOINT }}
           AZURE_OPENAI_RESEARCH_API_KEY: ${{ secrets.AZURE_OPENAI_RESEARCH_API_KEY }}
           AZURE_OPENAI_RESEARCH_API_VERSION: ${{ vars.AZURE_OPENAI_RESEARCH_API_VERSION || '2024-05-01-preview' }}
           AZURE_OPENAI_RESEARCH_DEPLOYMENT: ${{ vars.AZURE_OPENAI_RESEARCH_DEPLOYMENT }}
-          AZURE_OPENAI_DRAFT_MAX_TOKENS: "6144"
+          AZURE_OPENAI_DRAFT_MAX_TOKENS: "8192"
           AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
           AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
           AZURE_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
@@ -109,7 +110,7 @@ jobs:
           REFERENCE_MIN_COUNT: "4"
           REFERENCE_MAX_COUNT: "6"
           SEO_MIN_WORDS: "1500"
-          SEO_MAX_WORDS: "3000"
+          SEO_MAX_WORDS: "4000"
         run: |
           node scripts/ai-ressources-update.js --apply --translate-existing
 
