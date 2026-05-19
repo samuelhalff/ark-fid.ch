@@ -102,9 +102,9 @@ function TestimonialCard({
   return (
     <article
       aria-label={`Review by ${authorName}`}
-      className="shrink-0 w-[350px] sm:w-[420px] lg:w-[480px]"
+      className="shrink-0 w-[320px] sm:w-[400px] lg:w-[460px]"
     >
-      <figure className="h-full rounded-xl bg-muted/20 dark:bg-white/[0.03] border border-border/20 dark:border-white/[0.08] p-6 transition-colors duration-200 hover:bg-muted/35 dark:hover:bg-white/[0.06] m-0">
+      <figure className="m-0 h-full rounded-[24px] border border-border/70 bg-gradient-to-br from-muted/60 via-background to-muted/20 p-6 shadow-sm transition-colors duration-200 hover:shadow-md dark:border-white/[0.08] dark:hover:bg-white/[0.06]">
         {/* Header with avatar, name, company and rating */}
         <figcaption className="flex items-start justify-between gap-4 mb-4">
           <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -142,7 +142,7 @@ function TestimonialCard({
         </figcaption>
 
         {/* Testimonial quote */}
-        <blockquote className="text-[15px] text-foreground/80 leading-relaxed">
+        <blockquote className="text-[15px] leading-relaxed text-foreground/80">
           <p>&quot;{testimonial.testimonial}&quot;</p>
         </blockquote>
       </figure>

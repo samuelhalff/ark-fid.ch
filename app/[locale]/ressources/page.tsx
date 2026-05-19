@@ -9,6 +9,8 @@ import { notFound } from "next/navigation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 import { buildInternalUrl } from "@/src/lib/paths";
+import PageHero from "@/src/components/site/page-hero";
+import SectionHeading from "@/src/components/site/section-heading";
 
 type ArticlesSearchParams = Record<string, string | string[] | undefined>;
 
@@ -195,47 +197,47 @@ export default async function RessourcesPage(
           </li>
         </ol>
       </nav>
-      <section className="mb-16 relative py-8 px-6 md:px-8">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 dark:from-primary/10 dark:to-primary/10 rounded-3xl -z-10" />
-
-        <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-5 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
-          {ressources.IntroTitle || "Resources"}
-        </h1>
-        <p className="text-lg text-muted-foreground">
-          {ressources.IntroText || "Helpful resources and documents"}
-        </p>
-        <p className="text-sm mt-5 text-muted-foreground/80 leading-relaxed">
-          {[
-            {
-              label: links.Accounting || "accounting",
-              href: buildInternalUrl("/services/accounting", locale),
-            },
-            {
-              label: links.Tax || "tax",
-              href: buildInternalUrl("/services/taxes", locale),
-            },
-            {
-              label: links.Payroll || "payroll",
-              href: buildInternalUrl("/services/payroll", locale),
-            },
-          ].map((item, index) => (
-            <span key={item.href}>
-              {index > 0 && <span className="mx-1">·</span>}
-              <a href={item.href} className="underline hover:no-underline">
+      <section className="mb-16">
+        <PageHero
+          eyebrow={ressources.IntroShort || "Ressources"}
+          title={ressources.IntroTitle || "Resources"}
+          description={ressources.IntroText || "Helpful resources and documents"}
+        >
+          <div className="flex flex-wrap gap-2">
+            {[
+              {
+                label: links.Accounting || "accounting",
+                href: buildInternalUrl("/services/accounting", locale),
+              },
+              {
+                label: links.Tax || "tax",
+                href: buildInternalUrl("/services/taxes", locale),
+              },
+              {
+                label: links.Payroll || "payroll",
+                href: buildInternalUrl("/services/payroll", locale),
+              },
+            ].map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="inline-flex items-center rounded-full border border-border/70 bg-background/90 px-3 py-1.5 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:border-[#D17A4F]/25 hover:text-[#B86340]"
+              >
                 {item.label}
               </a>
-            </span>
-          ))}
-        </p>
+            ))}
+          </div>
+        </PageHero>
       </section>
 
       <section id="articles" className="mb-20">
-        <div className="flex items-center gap-4 mb-8">
-          <h2 className="text-2xl font-semibold">
-            {ressources.ArticlesTitle || "Articles"}
-          </h2>
-          <div className="flex-1 h-px bg-gradient-to-r from-border to-transparent" />
-        </div>
+        <SectionHeading
+          eyebrow={ressources.ArticlesShort || "Articles"}
+          title={ressources.ArticlesTitle || "Articles"}
+          align="left"
+          className="mb-8 max-w-3xl"
+          titleClassName="text-3xl sm:text-4xl"
+        />
         <Suspense
           fallback={
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">

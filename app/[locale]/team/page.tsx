@@ -14,6 +14,7 @@ import { headers } from "next/headers";
 import { teamMembers, getMemberSlug } from "@/src/lib/team";
 import { teamImageMap } from "@/src/lib/teamImages";
 import teamBlurData from "@/src/lib/teamBlurData.json";
+import PageHero from "@/src/components/site/page-hero";
 
 export const revalidate = false;
 
@@ -70,7 +71,7 @@ export default async function TeamPage(
   } as const;
 
   return (
-    <div className="container mx-auto px-4 py-15 mt-20 max-w-[var(--breakpoint-xl)]">
+    <div className="container mx-auto mt-20 max-w-[var(--breakpoint-xl)] px-4 py-12">
       <link
         rel="preload"
         as="image"
@@ -98,14 +99,19 @@ export default async function TeamPage(
           </li>
         </ol>
       </nav>
-      <div className="text-center mb-12 animate-in fade-in duration-900">
-        <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.2]! tracking-tight">
-          {title}
-        </h1>
-        <p className="mt-2">{subtitle}</p>
+      <div className="mb-12 animate-in fade-in duration-900">
+        <PageHero
+          eyebrow={title}
+          title={subtitle}
+          description={
+            locale === "fr"
+              ? "Une équipe expérimentée à Genève et à Lausanne au service des entreprises en Suisse romande et à l'international."
+              : undefined
+          }
+        />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-25 animate-in slide-in-from-bottom-7 duration-500">
+      <div className="mb-24 grid grid-cols-1 gap-5 animate-in slide-in-from-bottom-7 duration-500 md:grid-cols-2 xl:grid-cols-3">
         {teamMembers
           .sort((a, b) =>
             a.name
@@ -124,11 +130,11 @@ export default async function TeamPage(
               >
                 <Card
                   className={
-                    "animate-in fade-in duration-250 text-center shadow-none hover:shadow-lg transition-shadow gap-2 py-3 border-0 hover:brightness-[1.15]"
+                    "animate-in gap-3 rounded-[28px] border border-border/70 bg-gradient-to-br from-muted/50 via-background to-muted/20 py-4 text-left shadow-sm transition-all duration-250 hover:-translate-y-0.5 hover:shadow-lg"
                   }
                 >
                   <CardHeader className="px-3 sm:px-4">
-                    <div className="relative aspect-4/5 w-full rounded-md overflow-hidden mb-4 h-80">
+                    <div className="relative mb-4 h-80 w-full overflow-hidden rounded-[22px] border border-border/60 bg-muted/40 aspect-4/5">
                       <ImageWithFallback
                         src={
                           (teamImageMap as Record<string, any>)[
@@ -158,13 +164,32 @@ export default async function TeamPage(
                       />
                     </div>
                   </CardHeader>
-                  <CardContent className="text-left h-12 px-4">
-                    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+                  <CardContent className="space-y-3 px-4 pb-2">
+                    <div>
+                      <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
                       {member.name}
-                    </h3>
-                    <h2>
-                      {(t(`Role.${member.role}`) as string) || member.role}
-                    </h2>
+                      </h3>
+                      <p className="mt-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#B86340]">
+                        {(t(`Role.${member.role}`) as string) || member.role}
+                      </p>
+                    </div>
+                    {member.bioShort ? (
+                      <p className="text-sm leading-6 text-muted-foreground">
+                        {member.bioShort}
+                      </p>
+                    ) : null}
+                    {member.languages?.length ? (
+                      <div className="flex flex-wrap gap-2">
+                        {member.languages.slice(0, 3).map((language) => (
+                          <span
+                            key={language}
+                            className="rounded-full border border-border/70 bg-background/90 px-2.5 py-1 text-[0.7rem] font-medium uppercase tracking-[0.16em] text-muted-foreground"
+                          >
+                            {language}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
                   </CardContent>
                   <CardFooter className="flex justify-center"></CardFooter>
                 </Card>

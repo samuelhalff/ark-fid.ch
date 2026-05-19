@@ -92,17 +92,18 @@ const Footer = async ({ locale }: { locale?: string }) => {
   const tContact = await getTranslations(currentLocale, "contact");
   return (
     <footer
-      className="mt-12 xs:mt-20 bg-background border-t text-foreground"
+      className="mt-12 border-t border-border/70 bg-gradient-to-b from-background to-[#f8efe9] text-foreground dark:to-[#231915] xs:mt-20"
       role="contentinfo"
     >
-      <div className="max-w-[var(--breakpoint-xl)] mx-auto py-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-x-8 gap-y-10 px-6">
+      <div className="mx-auto grid max-w-[var(--breakpoint-xl)] grid-cols-1 gap-x-8 gap-y-10 px-6 py-12 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
         <Link
           href={`${localePrefix}/`}
           aria-label={tNavbar("Home")}
           locale={locale}
           prefetch={false}
+          className="space-y-5"
         >
-          <span>
+          <span className="block">
             <Image
               className="hidden dark:block"
               src="/assets/arkfid--light.svg"
@@ -124,11 +125,13 @@ const Footer = async ({ locale }: { locale?: string }) => {
               decoding="async"
             />
           </span>
+          <span className="inline-flex rounded-full border border-[#d66a3d]/20 bg-[#f5dfd5] px-3 py-1 text-xs font-medium uppercase tracking-[0.22em] text-[#b6542b] dark:border-[#d66a3d]/30 dark:bg-[#3b241c] dark:text-[#f2b294]">
+            Ark Fiduciaire SA
+          </span>
         </Link>
 
-        {/* Address / Location Block */}
         <div
-          className="text-sm space-y-3"
+          className="space-y-3 rounded-[24px] border border-border/70 bg-background/80 p-5 text-sm shadow-sm sm:col-span-2 md:col-span-1"
           itemScope
           itemType="https://schema.org/PostalAddress"
         >
@@ -143,7 +146,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
           <p>
             <a
               href="mailto:info@ark-fid.ch"
-              className="text-blue-600 dark:text-blue-400 hover:underline"
+              className="text-[#b6542b] hover:underline dark:text-[#f2b294]"
               itemProp="email"
             >
               info@ark-fid.ch
@@ -152,7 +155,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
           <p>
             <a
               href="tel:+41225125050"
-              className="text-blue-600 dark:text-blue-400 hover:underline"
+              className="text-[#b6542b] hover:underline dark:text-[#f2b294]"
               itemProp="telephone"
               aria-label="Call Ark Fiduciaire at +41 22 512 50 50"
             >
@@ -164,7 +167,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:underline"
+              className="inline-flex items-center gap-2 text-[#b6542b] hover:underline dark:text-[#f2b294]"
               aria-label={tContact("WhatsApp.Open") as string}
             >
               <WhatsAppIcon className="size-4 text-[#1f9d55]" />
@@ -176,7 +179,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
               href="https://maps.google.com/?cid=14946625157719331801"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 dark:text-blue-400 hover:underline"
+              className="text-[#b6542b] hover:underline dark:text-[#f2b294]"
             >
               Google Maps
             </a>
@@ -187,16 +190,18 @@ const Footer = async ({ locale }: { locale?: string }) => {
           <nav
             key={titleKey}
             aria-label={tFooter(titleKey)}
-            className="xl:justify-self-end min-w-0 break-words"
+            className="min-w-0 break-words xl:justify-self-end"
           >
-            <p className="font-semibold text-foreground">{tFooter(titleKey)}</p>
-            <ul className="mt-6 space-y-4">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#8f5f4a] dark:text-[#e1a488]">
+              {tFooter(titleKey)}
+            </p>
+            <ul className="mt-5 space-y-3">
               {links.map(({ titleKey, href, ns }) => (
                 <li key={titleKey}>
                   {href.startsWith("http") ? (
                     <a
                       href={href}
-                      className="text-muted-foreground hover:text-foreground"
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -207,13 +212,13 @@ const Footer = async ({ locale }: { locale?: string }) => {
                           : tFooter(titleKey)}
                     </a>
                   ) : href === "#cookie-settings" ? (
-                    <CookieSettingsLink className="text-muted-foreground hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
+                    <CookieSettingsLink className="text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40">
                       {tFooter(titleKey)}
                     </CookieSettingsLink>
                   ) : (
                     <Link
                       href={`${localePrefix}${href}`}
-                      className="text-muted-foreground hover:text-foreground"
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                       locale={locale}
                       prefetch={false}
                     >
@@ -231,9 +236,8 @@ const Footer = async ({ locale }: { locale?: string }) => {
         ))}
       </div>
       <Separator />
-      <div className="max-w-[var(--breakpoint-xl)] mx-auto py-8 flex flex-col-reverse sm:flex-row items-center justify-between gap-x-2 gap-y-5 px-6">
-        {/* Copyright */}
-        <span className="w-full text-center xs:text-start text-sm text-muted-foreground">
+      <div className="mx-auto flex max-w-[var(--breakpoint-xl)] flex-col-reverse items-center justify-between gap-x-2 gap-y-5 px-6 py-8 sm:flex-row">
+        <span className="w-full text-center text-sm text-muted-foreground xs:text-start">
           {tFooter("Ark Fiduciaire SA")} - {tFooter("Copyright")} -{" "}
           <span suppressHydrationWarning>{new Date().getFullYear()}</span>{" "}
           <br />

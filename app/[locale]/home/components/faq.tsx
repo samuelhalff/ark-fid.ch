@@ -1,5 +1,6 @@
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
+import SectionHeading from "@/src/components/site/section-heading";
 
 // Inline Plus icon to eliminate lucide-react dependency
 const PlusIcon = ({ className }: { className?: string }) => (
@@ -47,17 +48,15 @@ export default async function FAQ() {
   return (
     <div
       id="faq"
-      className="w-full max-w-[var(--breakpoint-xl)] mx-auto py-8 xs:py-16 px-6 mb-10"
+      className="mx-auto mb-10 w-full max-w-[var(--breakpoint-xl)] px-6 py-8 xs:py-16"
     >
-      <h2 className="text-center text-3xl xs:text-4xl md:text-5xl leading-[1.15]! font-bold tracking-tighter max-w-4xl mx-auto">
-        {tidyTitle(title)}
-      </h2>
-      {subtitle && (
-        <p className="mt-1.5 text-center xs:text-lg max-w-2xl mx-auto">
-          {subtitle}
-        </p>
-      )}
-      <p className="mt-1 text-center text-sm text-muted-foreground">
+      <SectionHeading
+        eyebrow="FAQ"
+        title={tidyTitle(title)}
+        description={subtitle}
+        className="max-w-4xl"
+      />
+      <p className="mt-2 text-center text-sm text-muted-foreground">
         <span>{(t("LastUpdated") as string) || "dernière mise à jour"}</span>{" "}
         <span suppressHydrationWarning>
           {new Intl.DateTimeFormat(undefined, {
@@ -76,7 +75,7 @@ export default async function FAQ() {
         {items.map(({ q, a, questionKey }) => (
           <details
             key={questionKey}
-            className="group bg-accent rounded-xl px-5 py-3 open:shadow-sm transition-shadow mb-4 break-inside-avoid"
+            className="group mb-4 break-inside-avoid rounded-[22px] border border-border/70 bg-gradient-to-br from-muted/60 via-background to-muted/20 px-5 py-4 shadow-sm transition-shadow open:shadow-md"
           >
             <summary className="faq-summary flex items-center justify-between gap-4 cursor-pointer select-none py-1 pr-2">
               <h3 className="font-semibold tracking-tight text-lg leading-snug">

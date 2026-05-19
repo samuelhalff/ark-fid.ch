@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
+import SectionHeading from "@/src/components/site/section-heading";
 // Server-provided texts via ArticleContent props; no client translation needed
 
 function MessageCircleIcon({
@@ -47,12 +48,20 @@ const ContactSection = ({
   const localePrefix = locale ? `/${locale}` : "/fr";
 
   return (
-    <section className="bg-muted/50 rounded-xl p-8 text-center mt-12">
-      <div className="max-w-2xl mx-auto">
-        <MessageCircleIcon className="w-12 h-12 text-primary mx-auto mb-4" />
-        <h3 className="text-xl font-semibold mb-4">{title}</h3>
-        <p className="mb-6">{description}</p>
-        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+    <section className="mt-12 rounded-[30px] border border-border/70 bg-gradient-to-br from-muted/60 via-background to-muted/20 p-8 text-center shadow-sm sm:p-10">
+      <div className="mx-auto max-w-2xl">
+        <div className="mb-5 flex justify-center">
+          <span className="flex size-14 items-center justify-center rounded-full bg-[#FAEEE5] text-[#B86340] dark:bg-[#D17A4F]/10 dark:text-[#F3C0A6]">
+            <MessageCircleIcon className="h-7 w-7" />
+          </span>
+        </div>
+        <SectionHeading
+          eyebrow="Parlons-en"
+          title={title}
+          description={description}
+          className="max-w-2xl"
+        />
+        <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             href={`${localePrefix}/contact/`}
             locale={locale}

@@ -10,6 +10,7 @@ import Link from "next/link";
 import heroBlurData from "@/src/lib/heroBlurData.json";
 import { tidyTitle, splitTitle } from "@/src/lib/typography";
 import ServiceScrollHint from "@/src/components/ui/service-scroll-hint";
+import SectionHeading from "@/src/components/site/section-heading";
 
 interface HeroProps {
   locale?: string;
@@ -60,15 +61,20 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
   );
 
   return (
-    <section className="relative min-h-[calc(100vh-4rem)] text-center max-w-[var(--breakpoint-xl)] w-full flex flex-col items-center justify-center border-b border-accent mx-auto px-6 pb-10">
+    <section className="relative mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-[var(--breakpoint-xl)] flex-col items-center justify-center px-6 pb-12 pt-6">
       {/** Do not add a manual preload here; next/image with priority handles the correct _next/image URL */}
-      <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-10 px-6 py-12 lg:py-0">
+      <div className="relative w-full overflow-hidden rounded-[36px] border border-border/70 bg-gradient-to-br from-muted/70 via-background to-muted/30 px-6 py-10 shadow-sm sm:px-8 sm:py-12 lg:px-12 lg:py-14">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(209,122,79,0.14),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(209,122,79,0.08),transparent_28%)]"
+        />
+        <div className="relative mx-auto flex w-full max-w-[var(--breakpoint-xl)] flex-col items-center justify-between gap-10 lg:flex-row lg:items-stretch lg:gap-12">
         {/* Left column */}
-        <div className="flex-1 max-w-3xl text-center animate-in fade-in duration-800">
-          <div className="w-full gap-2 text-center">
+        <div className="flex flex-1 animate-in fade-in flex-col justify-center duration-800">
+          <div className="w-full text-left">
             <Badge
-              className="rounded-full py-1 border-none !text-center"
-              variant={"destructive"}
+              className="rounded-full border border-[#D17A4F]/20 bg-[#FAEEE5] px-3 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#B86340] dark:border-[#D17A4F]/20 dark:bg-[#D17A4F]/10 dark:text-[#F3C0A6]"
+              variant={"outline"}
             >
               {t("Hero.Badge")}
             </Badge>
@@ -76,21 +82,27 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
           {(() => {
             const raw = t("Hero.Title") as string;
             const { title, subtitle } = splitTitle(raw);
+
             return (
-              <>
-                <h1 className="mt-6 w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[3.1rem] xl:text-[3.3rem] font-bold tracking-tight leading-normal lg:leading-[3.75rem]">
-                  {tidyTitle(title)}
-                </h1>
+              <SectionHeading
+                eyebrow="Genève · Plainpalais"
+                title={tidyTitle(title)}
+                description={t("Hero.Description")}
+                titleAs="h1"
+                align="left"
+                className="mt-6 max-w-3xl"
+                titleClassName="text-4xl sm:text-5xl xl:text-[4.4rem] xl:leading-[0.98]"
+                descriptionClassName="max-w-2xl text-base sm:text-lg"
+              >
                 {subtitle ? (
-                  <p className="mt-2 text-xl sm:text-2xl font-semibold text-muted-foreground">
+                  <p className="mt-1 text-lg font-semibold text-muted-foreground sm:text-xl">
                     {tidyTitle(subtitle)}
                   </p>
                 ) : null}
-              </>
+              </SectionHeading>
             );
           })()}
-          <p className="mt-6 w-full xs:text-lg">{t("Hero.Description")}</p>
-          <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center">
+          <div className="mt-10 flex w-full flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:justify-start">
             <Link
               href={`${localePrefix}/contact/`}
               className="w-full sm:w-auto"
@@ -98,7 +110,7 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
             >
               <Button
                 size="lg"
-                className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
+                className="w-full rounded-full px-6 text-base transition-transform hover:scale-[1.01] hover:shadow-lg focus-visible:scale-[1.01] focus-visible:shadow-lg sm:w-auto"
               >
                 {t("Hero.CTA")} <ArrowIcon />
               </Button>
@@ -112,7 +124,7 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
               <Button
                 size="lg"
                 variant="secondary"
-                className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
+                className="w-full rounded-full border border-border/70 bg-background/90 px-6 text-base transition-transform hover:scale-[1.01] hover:shadow-lg focus-visible:scale-[1.01] focus-visible:shadow-lg sm:w-auto"
               >
                 {t("Hero.SecondaryCTA")}
               </Button>
@@ -121,12 +133,13 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
         </div>
 
         {/* Right column (image) */}
-        <div className="flex-1 relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
+        <div className="relative flex w-full flex-1 animate-in overflow-hidden rounded-[28px] border border-border/60 bg-accent/40 shadow-lg duration-500 slide-in-from-right-10 lg:max-w-xl xl:max-w-[34rem]">
+          <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/18 via-transparent to-transparent" />
           <ResponsiveImage
             mobileSrc={homeHeroMobileSrc}
             desktopSrc={homeHeroSrc}
             alt={t("Hero.ImageAlt") || "Ark Fiduciaire fiduciary services"}
-            className="object-cover rounded-xl"
+            className="rounded-[28px] object-cover"
             sizes="(min-width:1280px) 560px, (min-width:1024px) 480px, 92vw"
             quality={60}
             priority
@@ -136,11 +149,20 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
             blurDataURL={blur}
             fill
           />
+          <div className="pointer-events-none absolute inset-x-4 bottom-4 z-[2] rounded-2xl border border-white/20 bg-white/92 px-4 py-3 shadow-md backdrop-blur dark:border-white/10 dark:bg-black/70">
+            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-[#B86340]">
+              {t("Hero.OdooBadge") || "Solutions digitales & ERP"}
+            </p>
+            <p className="mt-1 text-sm font-medium text-foreground">
+              {t("Hero.OdooPartnerBadge") || "Partenaire Odoo officiel"}
+            </p>
+          </div>
         </div>
+      </div>
       </div>
 
       {/* Partner logo + badge (fixed to bottom, inside section, not overlapping) */}
-      <div className="w-full text-center justify-center mt-2 flex flex-col items-center gap-2 lg:bottom-6 lg:right-6 lg:mt-10">
+      <div className="mt-6 flex w-full flex-col items-center justify-center gap-2 text-center lg:mt-8">
         <div className="mt-10 flex flex-col items-center justify-center">
           <a
             href="https://www.odoo.com"
@@ -159,7 +181,7 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
               decoding="async"
             />
             <Badge
-              className="mt-2 rounded-full py-1 border-none"
+              className="mt-2 rounded-full border border-border/70 px-3 py-1"
               variant="secondary"
             >
               {t("Hero.OdooPartnerBadge") || "Official Odoo Partner"}

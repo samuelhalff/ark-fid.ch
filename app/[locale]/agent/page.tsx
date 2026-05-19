@@ -5,6 +5,7 @@ import { buildBreadcrumbList, buildSoftwareApplication, buildServiceSchema } fro
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import AgentChat from "@/src/components/agent/AgentChat";
+import PageHero from "@/src/components/site/page-hero";
 
 export const revalidate = false;
 
@@ -160,24 +161,24 @@ export default async function AgentPage(
   return (
     <main className="agent-page min-h-[100svh]">
       <div className="agent-page-dim" aria-hidden="true" />
-      <div className="agent-page-content max-w-[1200px] mx-auto px-4 md:px-6 py-10 flex flex-col gap-8">
+      <div className="agent-page-content mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-10 md:px-6">
         <StructuredData nonce={nonce} data={[breadcrumbJsonLd, softwareAppJsonLd, serviceJsonLd]} />
-        <header className="max-w-3xl mx-auto text-center space-y-4 shrink-0">
-          <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold tracking-tight">
-            {text("Title", "Instant quote")}
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            {text("Subtitle", "Get a quick estimate for your request.")}
-          </p>
-          <p className="text-sm text-muted-foreground">
-            {text(
-              "Intro",
-              "Describe what you need and receive the next steps.",
-            )}
-          </p>
-        </header>
+        <div className="mx-auto max-w-4xl w-full">
+          <PageHero
+            eyebrow={text("Lead.Title", "Parler à notre agent")}
+            title={text("Title", "Instant quote")}
+            description={text("Subtitle", "Get a quick estimate for your request.")}
+          >
+            <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
+              {text(
+                "Intro",
+                "Describe what you need and receive the next steps.",
+              )}
+            </p>
+          </PageHero>
+        </div>
 
-        <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col">
+        <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col rounded-[34px] border border-border/70 bg-background/95 shadow-sm backdrop-blur-sm">
           <AgentChat strings={chatStrings} suggestions={suggestions} />
         </div>
       </div>

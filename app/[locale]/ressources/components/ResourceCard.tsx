@@ -61,43 +61,41 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   return (
     <a
       href={href}
-      className="group relative flex flex-col h-full rounded-2xl p-6 bg-white dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 transition-all duration-300 hover:border-slate-200 dark:hover:border-slate-700 hover:shadow-md hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50"
+      className="group relative flex h-full flex-col rounded-[24px] border border-border/70 bg-gradient-to-br from-muted/55 via-background to-muted/20 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md dark:border-white/[0.08] dark:hover:bg-white/[0.06]"
     >
-      {/* Subtle top accent line on hover */}
-      <div
-        className={`absolute top-0 left-6 right-6 h-0.5 ${colors.accent} rounded-full opacity-0 group-hover:opacity-60 transition-opacity duration-300`}
-      />
-
-      {/* Date badge with color */}
-      {date && (
-        <div className="mb-4">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+        {date ? (
           <time
             dateTime={new Date(date).toISOString()}
-            className={`inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md ${colors.badge}`}
+            className={`inline-flex items-center rounded-full px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.16em] ${colors.badge}`}
           >
             {formatDateDeterministic(date)}
           </time>
-        </div>
-      )}
+        ) : (
+          <span className={`inline-flex h-7 w-7 items-center justify-center rounded-full ${colors.badge}`}>
+            <span className={`h-2 w-2 rounded-full ${colors.accent}`} />
+          </span>
+        )}
+        {author ? (
+          <span className="text-[0.72rem] font-medium uppercase tracking-[0.14em] text-muted-foreground">
+            {author}
+          </span>
+        ) : null}
+      </div>
 
-      {/* Title */}
-      <h3 className="text-lg font-semibold leading-snug tracking-tight text-foreground group-hover:text-primary transition-colors duration-200 mb-3">
+      <h3 className="mb-3 text-lg font-semibold leading-snug tracking-tight text-foreground transition-colors duration-200 group-hover:text-primary">
         {title}
       </h3>
 
-      {/* Description */}
-      <p className="flex-1 text-sm text-muted-foreground leading-relaxed mb-4">
+      <p className="mb-4 flex-1 text-sm leading-relaxed text-muted-foreground">
         {description}
       </p>
 
-      {/* Footer with author and read more */}
-      <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
-        {author && (
-          <p className="text-xs text-muted-foreground">
-            <span className="text-foreground/70 font-medium">{author}</span>
-          </p>
-        )}
-        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-primary group-hover:gap-2.5 transition-all duration-200">
+      <div className="flex items-center justify-between border-t border-border/60 pt-4">
+        <span className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
+          {(labels && labels.Published) || "Publié"}
+        </span>
+        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-all duration-200 group-hover:gap-2.5">
           {(labels && labels.ReadArticle) || "Read"}
           <svg
             className="w-4 h-4"

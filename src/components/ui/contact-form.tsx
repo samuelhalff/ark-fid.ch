@@ -174,7 +174,7 @@ const ContactForm: FC<ContactFormProps> = ({
       )}
       {showSubtitle && <p className="w-full text-center">{strings.subtitle}</p>}
       <div className="flex items-center justify-center">
-        <Card className={cn("my-3 max-w-[1200px] min-w-[350px] w-full mb-15 animate-in slide-in-from-bottom-7 duration-500", cardClassName)}>
+        <Card className={cn("my-3 mb-15 w-full max-w-[1200px] min-w-0 animate-in slide-in-from-bottom-7 duration-500", cardClassName)}>
           <CardContent>
             <Toaster
               position="top-center"

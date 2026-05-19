@@ -30,7 +30,7 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
 
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-8">
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
         {articles.map((article, index) => (
           <div
             key={article.slug}

@@ -15,6 +15,7 @@ import {
   WHATSAPP_URL,
 } from "@/src/lib/whatsapp";
 import { headers } from "next/headers";
+import PageHero from "@/src/components/site/page-hero";
 
 const BOOKING_URL =
   "https://outlook.office.com/bookwithme/user/a21b46e2d9a540cca4c290a48c40119e@ark-fid.ch/meetingtype/GHNs6ESvEUWN2gUat7rePg2?anonymous&ismsaljsauthenabled&ep=mlink";
@@ -178,7 +179,7 @@ export default async function ContactPage(
     "flex size-12 items-center justify-center rounded-full";
 
   return (
-    <div className="mx-auto w-full max-w-[var(--breakpoint-xl)] px-6 py-12 space-y-14">
+    <div className="mx-auto w-full max-w-[var(--breakpoint-xl)] space-y-12 px-6 py-12">
       <script
         type="application/ld+json"
         nonce={nonce}
@@ -189,10 +190,7 @@ export default async function ContactPage(
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.2]! tracking-tight text-center">
-        {strings.title}
-      </h1>
-      <nav aria-label="Breadcrumb" className="px-0 mt-2 mb-6">
+      <nav aria-label="Breadcrumb" className="mb-6 mt-2 px-0">
         <ol className="flex items-center gap-1 text-sm text-muted-foreground justify-center">
           <li>
             <a href={`${localePrefix}/`} className="hover:underline">
@@ -208,26 +206,35 @@ export default async function ContactPage(
         </ol>
       </nav>
       {strings.subtitle ? (
-        <p className="mx-auto -mt-8 max-w-2xl text-center text-base leading-7 text-muted-foreground sm:text-lg">
-          {strings.subtitle}
-        </p>
-      ) : null}
-      <section className="mx-auto max-w-6xl rounded-[28px] bg-muted/40 p-4 shadow-sm sm:p-6 lg:p-7">
+        <PageHero
+          eyebrow={(tNav("Contact") as string) || strings.title}
+          title={strings.title}
+          description={strings.subtitle}
+          className="-mt-2"
+        />
+      ) : (
+        <PageHero
+          eyebrow={(tNav("Contact") as string) || strings.title}
+          title={strings.title}
+          className="-mt-2"
+        />
+      )}
+      <section className="mx-auto max-w-6xl rounded-[30px] border border-border/70 bg-gradient-to-br from-muted/55 via-background to-muted/20 p-4 shadow-sm sm:p-6 lg:p-7">
         <div className="grid gap-4 lg:grid-cols-3">
           <a
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={`${cardBaseClasses} bg-blue-700 text-white hover:-translate-y-1 hover:bg-blue-800 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
+            className={`${cardBaseClasses} bg-foreground text-background hover:-translate-y-1 hover:bg-foreground/90 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
           >
-            <span className={`${iconWrapClasses} bg-white/14`}>
+            <span className={`${iconWrapClasses} bg-white/12`}>
               <CalendarIcon className="size-5" />
             </span>
             <span className="mt-6 flex flex-1 flex-col items-center">
               <span className="block text-lg font-semibold">
                 {strings.bookingButton}
               </span>
-              <span className="mt-2 block max-w-xs text-sm leading-6 text-white/80">
+              <span className="mt-2 block max-w-xs text-sm leading-6 text-white/78">
                 {strings.bookingDescription}
               </span>
               <span
@@ -294,10 +301,10 @@ export default async function ContactPage(
           showSubtitle={false}
           strings={strings}
           redirectPath={`${localePrefix}/`}
-          cardClassName="border-0 shadow-none bg-transparent"
+          cardClassName="rounded-[30px] border border-border/70 bg-gradient-to-br from-muted/55 via-background to-muted/20 shadow-sm"
         />
       </section>
-      <section className="mt-8 space-y-6">
+      <section className="mt-8 space-y-6 rounded-[30px] border border-border/70 bg-gradient-to-br from-muted/55 via-background to-muted/20 p-4 shadow-sm sm:p-6">
         <Defer
           rootMargin="200px"
           idle={200}

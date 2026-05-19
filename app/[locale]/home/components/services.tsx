@@ -6,6 +6,7 @@ import heroBlurData from "@/src/lib/heroBlurData.json";
 import { localizePath } from "@/src/lib/paths";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
+import SectionHeading from "@/src/components/site/section-heading";
 
 const ArrowUpRightIcon = ({ className }: { className?: string }) => (
   <svg
@@ -44,21 +45,19 @@ const Services = async ({
   return (
     <div
       id="services"
-      className="max-w-[var(--breakpoint-xl)] mx-auto w-full py-8 xs:py-12 px-6"
+      className="mx-auto w-full max-w-[var(--breakpoint-xl)] px-6 py-10 xs:py-14"
     >
       {showHeading && (
         <>
-          <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight max-w-4xl mx-auto text-center mb-10">
-            {tidyTitle(tHome("Services.Title") as string)}
-          </h2>
-          {showSubtitle && (
-            <p className="text-lg text-center mb-8 max-w-3xl mx-auto">
-              {tHome("Services.Subtitle")}
-            </p>
-          )}
+          <SectionHeading
+            eyebrow="Nos services"
+            title={tidyTitle(tHome("Services.Title") as string)}
+            description={showSubtitle ? tHome("Services.Subtitle") : undefined}
+            className="max-w-4xl"
+          />
         </>
       )}
-      <div className="mt-8 xs:mt-12 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+      <div className="mx-auto mt-8 grid w-full gap-4 sm:mt-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
         {services.map((service) => {
           const headingId = `service-card-${service.titleKey.replace(
             /\./g,
@@ -72,14 +71,14 @@ const Services = async ({
           return (
             <div key={service.titleKey} className="relative h-full group">
               <Card className="relative flex flex-col justify-between items-center text-center border rounded-2xl overflow-hidden shadow-none h-full cursor-pointer ring-0 dark:ring-2 ring-border/10 dark:ring-border/30 hover:ring-primary/5 dark:hover:ring-primary/20 hover:shadow-xl transition-all duration-200">
-                <CardHeader className="px-6 pt-6 pb-2 w-full">
-                  <div className="flex-1 w-full flex flex-col items-center text-center gap-4">
-                    <div className="flex-shrink-0 flex items-center justify-center h-14 w-14 sm:h-16 sm:w-16 rounded-full bg-primary text-primary-foreground ring-1 ring-primary/20 dark:bg-primary/10 dark:text-primary transition-colors duration-200 group-hover:bg-primary/90 dark:group-hover:bg-primary/15">
+                <CardHeader className="w-full px-5 pb-2 pt-5 sm:px-6">
+                  <div className="flex w-full flex-1 flex-col items-start gap-4 text-left">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#D17A4F]/20 bg-[#FAEEE5] text-[#B86340] ring-1 ring-[#D17A4F]/10 transition-colors duration-200 group-hover:bg-[#F6E4D9] dark:border-[#D17A4F]/20 dark:bg-[#D17A4F]/10 dark:text-[#F3C0A6]">
                       {service.icon}
                     </div>
                     <h3
                       id={headingId}
-                      className="text-2xl font-bold tracking-tight break-words text-balance"
+                      className="text-2xl font-semibold tracking-tight break-words text-balance"
                     >
                       {tItems(service.titleKey)}
                     </h3>
@@ -91,7 +90,7 @@ const Services = async ({
                     />
                     <label
                       htmlFor={toggleId}
-                      className="service-toggle relative z-20 inline-flex items-center justify-center gap-2 cursor-pointer select-none rounded-full px-4 py-2 text-sm font-medium text-primary/80 hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 bg-primary/10 hover:bg-primary/15 transition-colors peer-checked:text-primary"
+                      className="service-toggle relative z-20 inline-flex items-center justify-center gap-2 self-start cursor-pointer select-none rounded-full border border-border/70 bg-background/90 px-4 py-2 text-sm font-medium text-foreground/80 transition-colors hover:border-[#D17A4F]/25 hover:text-[#B86340] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 peer-checked:text-[#B86340]"
                     >
                       <span className="peer-checked:hidden">
                         {tItems("ShowMore")}
@@ -103,16 +102,16 @@ const Services = async ({
                     </label>
                     <div
                       id={`${toggleId}-content`}
-                      className="service-toggle-content relative z-20 max-h-0 overflow-hidden px-1 text-left text-muted-foreground text-base xs:text-[17px] leading-7 transition-all duration-300 ease-in-out peer-checked:max-h-[600px] peer-checked:mt-3"
+                      className="service-toggle-content relative z-20 max-h-0 overflow-hidden px-0 text-left text-sm leading-7 text-muted-foreground transition-all duration-300 ease-in-out peer-checked:mt-3 peer-checked:max-h-[600px] sm:text-base"
                     >
                       <p>{tItems(service.descriptionKey)}</p>
                     </div>
                   </div>
                 </CardHeader>
 
-                <CardContent className="p-0 w-full mt-auto">
-                  <div className="w-full p-0 box-border">
-                    <div className="relative w-full aspect-[2/1] overflow-hidden bg-muted/30 will-change-transform transition-transform duration-300 ease-out group-hover:scale-[1.02]">
+                <CardContent className="mt-auto w-full p-0">
+                  <div className="box-border w-full p-0">
+                    <div className="relative w-full overflow-hidden border-t border-border/60 bg-muted/30 aspect-[2.4/1] transition-transform duration-300 ease-out will-change-transform group-hover:scale-[1.01]">
                       <ImageWithFallback
                         src={service.image}
                         alt={tItems(service.titleKey)}
@@ -129,6 +128,7 @@ const Services = async ({
                         }
                         className="object-cover object-center transition-transform duration-300 ease-out group-hover:scale-[1.02]"
                       />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/20 to-transparent dark:from-background/35" />
                     </div>
                   </div>
                 </CardContent>

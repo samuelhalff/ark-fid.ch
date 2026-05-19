@@ -1,0 +1,75 @@
+import * as React from "react";
+
+import { cn } from "@/src/lib/utils";
+
+type SectionHeadingProps = {
+  eyebrow?: React.ReactNode;
+  title: React.ReactNode;
+  description?: React.ReactNode;
+  titleAs?: React.ElementType;
+  align?: "left" | "center";
+  className?: string;
+  titleClassName?: string;
+  descriptionClassName?: string;
+  children?: React.ReactNode;
+};
+
+export default function SectionHeading({
+  eyebrow,
+  title,
+  description,
+  titleAs: TitleTag = "h2",
+  align = "center",
+  className,
+  titleClassName,
+  descriptionClassName,
+  children,
+}: SectionHeadingProps) {
+  const isCentered = align === "center";
+
+  return (
+    <div
+      className={cn(
+        "space-y-4",
+        isCentered ? "mx-auto text-center" : "text-left",
+        className,
+      )}
+    >
+      {eyebrow ? (
+        <div
+          className={cn(
+            "inline-flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-[#B86340]",
+            isCentered ? "justify-center" : "justify-start",
+          )}
+        >
+          <span aria-hidden="true" className="h-px w-6 bg-current/65" />
+          <span>{eyebrow}</span>
+        </div>
+      ) : null}
+
+      <div className="space-y-3">
+        <TitleTag
+          className={cn(
+            "text-3xl font-semibold tracking-[-0.035em] text-foreground sm:text-4xl lg:text-[2.85rem] lg:leading-[1.05]",
+            titleClassName,
+          )}
+        >
+          {title}
+        </TitleTag>
+        {description ? (
+          <p
+            className={cn(
+              "max-w-3xl text-sm leading-7 text-muted-foreground sm:text-base",
+              isCentered ? "mx-auto" : "",
+              descriptionClassName,
+            )}
+          >
+            {description}
+          </p>
+        ) : null}
+      </div>
+
+      {children}
+    </div>
+  );
+}

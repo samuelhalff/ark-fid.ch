@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
+import SectionHeading from "@/src/components/site/section-heading";
 
 // Dynamic import to avoid blocking first paint
 const TestimonialsCarousel = dynamic(() => import("./testimonials-carousel"), {
@@ -176,7 +177,7 @@ export default async function Testimonials() {
       <div className="max-w-[var(--breakpoint-xl)] mx-auto px-6">
         {/* Rating badge */}
         <div className="flex justify-center mb-4">
-          <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-muted/50 px-3 py-1.5 text-sm text-muted-foreground">
             <svg
               className="w-4 h-4 text-amber-500"
               viewBox="0 0 24 24"
@@ -189,15 +190,12 @@ export default async function Testimonials() {
           </div>
         </div>
 
-        <h2
-          id="testimonials-heading"
-          className="text-center text-3xl xs:text-4xl md:text-5xl leading-[1.15]! font-bold tracking-tighter max-w-4xl mx-auto mb-4"
-        >
-          {tidyTitle(title)}
-        </h2>
-        <p className="text-center text-muted-foreground text-lg max-w-2xl mx-auto mb-12">
-          {subtitle}
-        </p>
+        <SectionHeading
+          eyebrow="Avis de nos clients"
+          title={tidyTitle(title)}
+          description={subtitle}
+          className="mb-12 max-w-4xl"
+        />
       </div>
 
       <TestimonialsCarousel
