@@ -11,6 +11,7 @@ import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 import { buildInternalUrl } from "@/src/lib/paths";
 import PageHero from "@/src/components/site/page-hero";
 import SectionHeading from "@/src/components/site/section-heading";
+import Reveal from "@/src/components/motion/reveal";
 
 type ArticlesSearchParams = Record<string, string | string[] | undefined>;
 
@@ -197,7 +198,7 @@ export default async function RessourcesPage(
           </li>
         </ol>
       </nav>
-      <section className="mb-16">
+      <Reveal className="mb-16">
         <PageHero
           eyebrow={ressources.IntroShort || "Ressources"}
           title={ressources.IntroTitle || "Resources"}
@@ -228,16 +229,17 @@ export default async function RessourcesPage(
             ))}
           </div>
         </PageHero>
-      </section>
+      </Reveal>
 
       <section id="articles" className="mb-20">
-        <SectionHeading
-          eyebrow={ressources.ArticlesShort || "Articles"}
-          title={ressources.ArticlesTitle || "Articles"}
-          align="left"
-          className="mb-8 max-w-3xl"
-          titleClassName="text-3xl sm:text-4xl"
-        />
+        <Reveal className="mb-8 max-w-3xl">
+          <SectionHeading
+            eyebrow={ressources.ArticlesShort || "Articles"}
+            title={ressources.ArticlesTitle || "Articles"}
+            align="left"
+            titleClassName="text-3xl sm:text-4xl"
+          />
+        </Reveal>
         <Suspense
           fallback={
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">

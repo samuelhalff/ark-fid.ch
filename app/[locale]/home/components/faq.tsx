@@ -1,6 +1,7 @@
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
 import SectionHeading from "@/src/components/site/section-heading";
+import Reveal from "@/src/components/motion/reveal";
 
 // Inline Plus icon to eliminate lucide-react dependency
 const PlusIcon = ({ className }: { className?: string }) => (
@@ -50,12 +51,13 @@ export default async function FAQ() {
       id="faq"
       className="mx-auto mb-10 w-full max-w-[var(--breakpoint-xl)] px-6 py-8 xs:py-16"
     >
-      <SectionHeading
-        eyebrow="FAQ"
-        title={tidyTitle(title)}
-        description={subtitle}
-        className="max-w-4xl"
-      />
+      <Reveal className="max-w-4xl mx-auto">
+        <SectionHeading
+          eyebrow="FAQ"
+          title={tidyTitle(title)}
+          description={subtitle}
+        />
+      </Reveal>
       <p className="mt-2 text-center text-sm text-muted-foreground">
         <span>{(t("LastUpdated") as string) || "dernière mise à jour"}</span>{" "}
         <span suppressHydrationWarning>
@@ -72,23 +74,28 @@ export default async function FAQ() {
         className="mt-8 columns-1 md:columns-2"
         style={{ columnGap: "1rem" }}
       >
-        {items.map(({ q, a, questionKey }) => (
-          <details
+        {items.map(({ q, a, questionKey }, index) => (
+          <Reveal
             key={questionKey}
-            className="group mb-4 break-inside-avoid rounded-[22px] border border-border/70 bg-gradient-to-br from-muted/60 via-background to-muted/20 px-5 py-4 shadow-sm transition-shadow open:shadow-md"
+            className="mb-4 break-inside-avoid"
+            delay={Math.min((index % 6) * 0.03, 0.15)}
           >
-            <summary className="faq-summary flex items-center justify-between gap-4 cursor-pointer select-none py-1 pr-2">
-              <h3 className="font-semibold tracking-tight text-lg leading-snug">
-                {q}
-              </h3>
-              <span className="faq-icon inline-flex h-7 w-7 items-center justify-center rounded-full bg-foreground/10 text-muted-foreground group-open:text-foreground/90 group-open:bg-foreground/15 transition-colors flex-none shrink-0">
-                <PlusIcon className="transition-transform group-open:rotate-45" />
-              </span>
-            </summary>
-            <div className="mt-2 pb-2 text-[15px] text-left text-muted-foreground">
-              {a}
-            </div>
-          </details>
+            <details
+              className="group rounded-[22px] border border-border/70 bg-gradient-to-br from-muted/60 via-background to-muted/20 px-5 py-4 shadow-sm transition-shadow open:shadow-md"
+            >
+              <summary className="faq-summary flex items-center justify-between gap-4 cursor-pointer select-none py-1 pr-2">
+                <h3 className="font-semibold tracking-tight text-lg leading-snug">
+                  {q}
+                </h3>
+                <span className="faq-icon inline-flex h-7 w-7 items-center justify-center rounded-full bg-foreground/10 text-muted-foreground group-open:text-foreground/90 group-open:bg-foreground/15 transition-colors flex-none shrink-0">
+                  <PlusIcon className="transition-transform group-open:rotate-45" />
+                </span>
+              </summary>
+              <div className="mt-2 pb-2 text-[15px] text-left text-muted-foreground">
+                {a}
+              </div>
+            </details>
+          </Reveal>
         ))}
       </div>
     </div>

@@ -7,6 +7,7 @@ import { localizePath } from "@/src/lib/paths";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
 import SectionHeading from "@/src/components/site/section-heading";
+import Reveal from "@/src/components/motion/reveal";
 
 const ArrowUpRightIcon = ({ className }: { className?: string }) => (
   <svg
@@ -48,17 +49,16 @@ const Services = async ({
       className="mx-auto w-full max-w-[var(--breakpoint-xl)] px-6 py-10 xs:py-14"
     >
       {showHeading && (
-        <>
+        <Reveal className="max-w-4xl">
           <SectionHeading
             eyebrow="Nos services"
             title={tidyTitle(tHome("Services.Title") as string)}
             description={showSubtitle ? tHome("Services.Subtitle") : undefined}
-            className="max-w-4xl"
           />
-        </>
+        </Reveal>
       )}
       <div className="mx-auto mt-8 grid w-full gap-4 sm:mt-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-        {services.map((service) => {
+        {services.map((service, index) => {
           const headingId = `service-card-${service.titleKey.replace(
             /\./g,
             "-"
@@ -69,7 +69,11 @@ const Services = async ({
             currentLocale
           )}`;
           return (
-            <div key={service.titleKey} className="relative h-full group">
+            <Reveal
+              key={service.titleKey}
+              className="relative h-full group"
+              delay={Math.min(index * 0.05, 0.24)}
+            >
               <Card className="relative flex flex-col justify-between items-center text-center border rounded-2xl overflow-hidden shadow-none h-full cursor-pointer ring-0 dark:ring-2 ring-border/10 dark:ring-border/30 hover:ring-primary/5 dark:hover:ring-primary/20 hover:shadow-xl transition-all duration-200">
                 <CardHeader className="w-full px-5 pb-2 pt-5 sm:px-6">
                   <div className="flex w-full flex-1 flex-col items-start gap-4 text-left">
@@ -142,7 +146,7 @@ const Services = async ({
               >
                 <span className="sr-only">{tItems(service.titleKey)}</span>
               </Link>
-            </div>
+            </Reveal>
           );
         })}
       </div>

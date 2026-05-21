@@ -1,4 +1,5 @@
 import React from "react";
+import Reveal from "@/src/components/motion/reveal";
 
 interface Labels {
   ReadArticle?: string;
@@ -59,6 +60,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   const colors = cardColors[colorIndex % cardColors.length];
 
   return (
+    <Reveal delay={Math.min(colorIndex * 0.04, 0.24)} className="h-full">
     <a
       href={href}
       className="group relative flex h-full flex-col rounded-[24px] border border-border/70 bg-gradient-to-br from-muted/55 via-background to-muted/20 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md dark:border-white/[0.08] dark:hover:bg-white/[0.06]"
@@ -113,6 +115,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
         </span>
       </div>
     </a>
+    </Reveal>
   );
 };
 
