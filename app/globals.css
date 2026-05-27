@@ -11,7 +11,7 @@
   :root {
     --background: 1 0 0;
     --foreground: 0.145 0 0;
-    --card: 1 0 0;
+    --card: 0.94 0.009 75;
     --card-foreground: 0.145 0 0;
     --popover: 1 0 0;
     --popover-foreground: 0.145 0 0;
@@ -21,14 +21,19 @@
     --secondary-foreground: 0.205 0 0;
     --muted: 0.97 0 0;
     --muted-foreground: 0.556 0 0;
-    --accent: 0.97 0 0;
+    --accent: 0.658 0.122 47.5;
     --accent-foreground: 0.205 0 0;
     --destructive: 0.577 0.245 27.325;
     --border: 0.922 0 0;
     --input: 0.922 0 0;
-    --ring: 0.708 0 0;
+    --ring: 0.658 0.122 47.5;
     --radius: 0.625rem;
     --breakpoint-xl: 1200px;
+    --brand: 0.658 0.122 47.5;
+    --brand-hover: 0.553 0.116 44;
+    --brand-soft: 0.928 0.022 58;
+    --brand-on-dark: 0.738 0.099 50;
+    --surface-warm: 0.928 0.012 68;
   }
 
   /* GPU acceleration: apply selectively to heavy animations only */
@@ -48,12 +53,17 @@
     --secondary-foreground: 0.985 0 0;
     --muted: 0.269 0 0;
     --muted-foreground: 0.708 0 0;
-    --accent: 0.269 0 0;
+    --accent: 0.738 0.099 50;
     --accent-foreground: 0.985 0 0;
     --destructive: 0.704 0.191 22.216;
     --border: 1 0 0 / 0.1;
     --input: 1 0 0 / 0.15;
-    --ring: 0.556 0 0;
+    --ring: 0.738 0.099 50;
+    --brand: 0.738 0.099 50;
+    --brand-hover: 0.85 0.085 55;
+    --brand-soft: 0.31 0.045 50;
+    --brand-on-dark: 0.738 0.099 50;
+    --surface-warm: 0.245 0.008 70;
   }
 
   * {
@@ -146,32 +156,17 @@
     );
   }
 
-  /* Gradient overlay under content to diffuse image toward bottom */
   .abstract-background::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-image: linear-gradient(
-      to bottom,
-      oklch(var(--background) / 0.5),
-      oklch(var(--background) / 0.75),
-      oklch(var(--background) / 0.8),
-      oklch(var(--background) / 0.9),
-      oklch(var(--background) / 1)
-    );
+    background-color: oklch(var(--background) / 0.88);
   }
 
   .light .abstract-background::before {
-    background-image: linear-gradient(
-      to bottom,
-      oklch(var(--background) / 0.3),
-      oklch(var(--background) / 0.45),
-      oklch(var(--background) / 0.5),
-      oklch(var(--background) / 0.55),
-      oklch(var(--background) / 0.6)
-    );
+    background-color: oklch(var(--background) / 0.48);
   }
 
   /* Utility: allow long words to break without overflowing */
@@ -207,7 +202,7 @@
   .site-logo {
     display: inline-flex;
     align-items: center;
-    min-width: 7.5rem;
+    min-width: 6.25rem;
     height: 2.25rem;
   }
 
@@ -225,8 +220,118 @@
     height: 2.25rem;
   }
 
+  .btn-main-cta {
+    --btn-wave-fill: oklch(var(--brand));
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transform: none;
+    padding-left: 2.75rem !important;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease 0.18s !important;
+  }
+
+  .btn-main-cta::before {
+    content: "";
+    position: absolute;
+    left: 1.18rem;
+    top: 50%;
+    z-index: 1;
+    width: 0.42rem;
+    height: 0.42rem;
+    border-bottom: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    transform: translateY(-50%) rotate(-45deg);
+    pointer-events: none;
+  }
+
+  .btn-main-cta::after {
+    content: "";
+    position: absolute;
+    inset: auto -18% -52% -18%;
+    z-index: -1;
+    height: 0%;
+    border-radius: 48% 52% 0 0 / 20% 26% 0 0;
+    background: var(--btn-wave-fill);
+    transform: translate3d(0, 0, 0);
+    transition: height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-main-cta > span,
+  .btn-secondary-cta > span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-main-cta:hover,
+  .btn-main-cta:focus-visible {
+    transform: none;
+    color: #fff;
+  }
+
+  .btn-main-cta:hover::after,
+  .btn-main-cta:focus-visible::after {
+    height: 162%;
+  }
+
+  .btn-main-cta:hover::before,
+  .btn-main-cta:focus-visible::before {
+    content: "";
+  }
+
+  .btn-secondary-cta {
+    --btn-wave-fill: oklch(var(--foreground));
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background-color: oklch(var(--card)) !important;
+    color: oklch(var(--foreground)) !important;
+    box-shadow: inset 0 0 0 1px rgb(20 16 14 / 0.1);
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease 0.18s !important;
+  }
+
+  .btn-secondary-cta::after {
+    content: "";
+    position: absolute;
+    inset: auto -18% -52% -18%;
+    z-index: -1;
+    height: 0%;
+    border-radius: 48% 52% 0 0 / 20% 26% 0 0;
+    background: var(--btn-wave-fill);
+    transform: translate3d(0, 0, 0);
+    transition: height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-secondary-cta:hover,
+  .btn-secondary-cta:focus-visible {
+    color: oklch(var(--background)) !important;
+  }
+
+  .btn-secondary-cta:hover::after,
+  .btn-secondary-cta:focus-visible::after {
+    height: 162%;
+  }
+
+  .dark .btn-secondary-cta {
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn-main-cta,
+    .btn-secondary-cta,
+    .btn-main-cta::before,
+    .btn-main-cta::after,
+    .btn-secondary-cta::after {
+      transition: none;
+    }
+  }
+
   .agent-page {
     position: relative;
+    background: #070707;
   }
 
   .agent-page-dim {
@@ -234,18 +339,54 @@
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    background: oklch(var(--background) / 0.9);
+    background:
+      radial-gradient(circle at 50% 0%, rgb(221 126 42 / 0.12), transparent 34rem),
+      #070707;
   }
 
   .agent-page-content {
     position: relative;
     z-index: 1;
+    color: #f7f4f1;
   }
 
   /* Ensure footer is not dimmed when agent page is present */
   body:has(.agent-page) footer {
     position: relative;
     z-index: 1;
+  }
+
+  .prose a {
+    @apply text-foreground underline decoration-brand/40 underline-offset-4 transition-colors hover:text-brand hover:decoration-brand;
+  }
+
+  .prose h2 {
+    @apply mb-4 mt-12 text-2xl font-semibold tracking-tight sm:text-3xl;
+  }
+
+  .prose h2::before {
+    content: "";
+    @apply mr-3 inline-block h-1 w-6 rounded-full bg-brand align-middle;
+  }
+
+  .prose h3 {
+    @apply mb-3 mt-8 text-xl font-semibold tracking-tight;
+  }
+
+  .prose blockquote {
+    @apply rounded-r-md border-l-4 border-brand bg-brand-soft/50 py-2 pl-4 not-italic;
+  }
+
+  .prose table thead {
+    @apply bg-muted/40;
+  }
+
+  .prose table th {
+    @apply font-semibold text-foreground;
+  }
+
+  .prose strong {
+    @apply text-foreground;
   }
 }
 

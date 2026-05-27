@@ -36,18 +36,18 @@ const DomiciliationPresentation = async () => {
     "Service 4: Description",
   ];
   return (
-    <section data-service-content className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
-      <div className="w-full max-w-[1200px]">
-        <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
+    <section data-service-content className="w-full px-5 py-12 sm:px-8 lg:py-16">
+      <div className="mx-auto w-full max-w-[1240px]">
+        <h2 className="mb-6 max-w-[18ch] text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl">
           {tidyTitle(title)}
-        </h1>
+        </h2>
           <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
           {tidyTitle(subtitle)}
           </h2>
         <div className="text-left w-full">
-          <div className="space-y-6 mb-12">
+          <div className="mb-12 max-w-3xl space-y-6">
             {intro.map((text, idx) => (
-              <p key={idx} className="mb-8 text-lg">{text}</p>
+              <p key={idx} className="mb-8 text-base leading-8 text-muted-foreground sm:text-lg">{text}</p>
             ))}
           </div>
           <div className="space-y-16">
@@ -56,7 +56,7 @@ const DomiciliationPresentation = async () => {
               <div className="space-y-4 mb-8">
                 {strengths.map((item, index) => (
                   <div key={index} className="flex items-start gap-4 px-6 py-4 rounded-lg bg-primary/5 mb-4">
-                    <Check className="text-blue-400 mt-1 min-w-[20px]" />
+                    <Check className="text-brand mt-1 min-w-[20px]" />
                     <div>
                       <span className="font-semibold block text-lg mb-2">{item.Title}</span>
                       <span className="text-base leading-relaxed">{item.Desc}</span>
@@ -85,7 +85,7 @@ const DomiciliationPresentation = async () => {
                 />
               </Suspense>
             </section>
-            <ServiceLongForm t={t} />
+            <ServiceLongForm t={t} locale={locale} />
             <ServiceContactForm locale={locale} />
             <div className="flex justify-center">
               <GoogleReviewsBadge locale={locale} />

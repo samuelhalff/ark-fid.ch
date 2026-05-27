@@ -43,8 +43,13 @@ export default function Reveal({
   from = "bottom",
 }: RevealProps) {
   const shouldReduceMotion = useReducedMotion();
+  const [mounted, setMounted] = React.useState(false);
 
-  if (shouldReduceMotion) {
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (shouldReduceMotion || !mounted) {
     return <div className={className}>{children}</div>;
   }
 
@@ -54,12 +59,11 @@ export default function Reveal({
     <LazyMotion features={domAnimation}>
       <m.div
         className={cn(className)}
-        initial={{ opacity: 0, x, y, scale: 0.985, filter: "blur(10px)" }}
+        initial={{ opacity: 0, x, y, filter: "blur(10px)" }}
         whileInView={{
           opacity: 1,
           x: 0,
           y: 0,
-          scale: 1,
           filter: "blur(0px)",
         }}
         viewport={{ once, amount }}

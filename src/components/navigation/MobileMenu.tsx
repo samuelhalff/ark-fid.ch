@@ -33,19 +33,19 @@ const MobileMenuToggleIcon = ({
   >
     <span
       className={cn(
-        "absolute block h-[2px] w-6 rounded-full bg-current transition-all duration-300 ease-in-out",
+        "absolute block h-[2px] w-6 rounded-full bg-current transition-colors duration-300 ease-in-out",
         open ? "translate-y-0 rotate-45" : "-translate-y-[6px] rotate-0",
       )}
     />
     <span
       className={cn(
-        "absolute block h-[2px] w-6 rounded-full bg-current transition-all duration-200 ease-in-out",
+        "absolute block h-[2px] w-6 rounded-full bg-current transition-colors duration-200 ease-in-out",
         open ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100",
       )}
     />
     <span
       className={cn(
-        "absolute block h-[2px] w-6 rounded-full bg-current transition-all duration-300 ease-in-out",
+        "absolute block h-[2px] w-6 rounded-full bg-current transition-colors duration-300 ease-in-out",
         open ? "translate-y-0 -rotate-45" : "translate-y-[6px] rotate-0",
       )}
     />
@@ -95,7 +95,7 @@ const MobileMenu = ({
         <SheetTitle className="sr-only">
           {navData.labels.mobileNavigation}
         </SheetTitle>
-        <div className="flex items-center h-16 px-4 border-b">
+        <div className="flex h-16 items-center px-4 shadow-[0_10px_24px_rgba(20,16,14,0.05)] dark:shadow-[0_10px_24px_rgba(0,0,0,0.24)]">
           <div className="flex-1 flex justify-start">
             <Image
               className="hidden dark:block"
@@ -148,7 +148,7 @@ const MobileMenu = ({
                 onClick={handleLinkClick}
                 prefetch={false}
                 locale={locale}
-                className="flex items-center justify-center gap-2 w-full text-center font-semibold text-lg py-3 rounded-xl border border-accent bg-transparent hover:bg-accent/30 active:scale-[0.99] transition-all"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent/30 py-3 text-center text-lg font-semibold shadow-sm transition-colors hover:bg-accent/40"
                 style={{ letterSpacing: 0.5 }}
               >
                 <MessageIcon size={20} className="opacity-80" />
@@ -161,7 +161,7 @@ const MobileMenu = ({
                 onClick={handleLinkClick}
                 prefetch={false}
                 locale={locale}
-                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent active:scale-[0.99] transition-all font-bold"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
                 <span>{navData.labels.home}</span>
               </Link>
@@ -172,7 +172,7 @@ const MobileMenu = ({
                 onClick={handleLinkClick}
                 prefetch={false}
                 locale={locale}
-                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent active:scale-[0.99] transition-all font-bold"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
                 <span>{navData.labels.agent}</span>
               </Link>
@@ -183,7 +183,7 @@ const MobileMenu = ({
                 onClick={handleLinkClick}
                 prefetch={false}
                 locale={locale}
-                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent active:scale-[0.99] transition-all font-bold"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
                 <span>{navData.labels.team}</span>
               </Link>
@@ -194,7 +194,7 @@ const MobileMenu = ({
                 onClick={handleLinkClick}
                 prefetch={false}
                 locale={locale}
-                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent active:scale-[0.99] transition-all font-bold"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
                 <span>{navData.labels.about}</span>
               </Link>
@@ -211,7 +211,7 @@ const MobileMenu = ({
                 onClick={handleLinkClick}
                 prefetch={false}
                 locale={locale}
-                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent active:scale-[0.99] transition-all font-bold"
+                className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
                 <span>{navData.labels.ressources}</span>
               </Link>

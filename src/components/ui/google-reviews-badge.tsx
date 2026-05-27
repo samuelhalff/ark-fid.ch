@@ -40,7 +40,7 @@ const GoogleReviewsBadge = async ({ locale }: { locale: string }) => {
   const fullStars = Math.floor(numericRating);
 
   return (
-    <div className="inline-flex items-center gap-3 rounded-full border border-border/40 bg-background/80 px-4 py-2 shadow-sm">
+    <div className="inline-flex items-center gap-3 rounded-full bg-background/80 px-4 py-2 shadow-sm">
       {/* Google "G" logo */}
       <svg
         width="20"

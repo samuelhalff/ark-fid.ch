@@ -168,8 +168,11 @@ export default async function AgentPage(
             eyebrow={text("Lead.Title", "Parler à notre agent")}
             title={text("Title", "Instant quote")}
             description={text("Subtitle", "Get a quick estimate for your request.")}
+            eyebrowClassName="text-brand"
+            titleClassName="text-white"
+            descriptionClassName="text-white/68"
           >
-            <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
+            <p className="max-w-2xl text-sm leading-7 text-white/60">
               {text(
                 "Intro",
                 "Describe what you need and receive the next steps.",
@@ -178,7 +181,7 @@ export default async function AgentPage(
           </PageHero>
         </div>
 
-        <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col rounded-[34px] border border-border/70 bg-background/95 shadow-sm backdrop-blur-sm">
+        <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col rounded-[34px] bg-card text-foreground shadow-[0_26px_80px_rgba(0,0,0,0.42)] backdrop-blur-sm">
           <AgentChat strings={chatStrings} suggestions={suggestions} />
         </div>
       </div>

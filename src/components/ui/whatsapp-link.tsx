@@ -110,7 +110,7 @@ export default function WhatsAppLink({
           className
         )}
       >
-        <span className="flex size-8 shrink-0 items-center justify-center rounded-full border border-[#25D366]/20 bg-[#25D366]/8 text-[#1f9d55] transition-colors duration-200 group-hover:border-[#25D366]/35 group-hover:bg-[#25D366]/12">
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#25D366]/8 text-[#1f9d55] shadow-sm transition-colors duration-200 group-hover:bg-[#25D366]/12">
           <WhatsAppIcon className="size-4" />
         </span>
         <span className="min-w-0">
@@ -135,8 +135,8 @@ export default function WhatsAppLink({
       aria-label={`${ctaLabel} ${WHATSAPP_NUMBER}`}
       style={floatingBottom ? { bottom: floatingBottom } : undefined}
       className={cn(
-        "whatsapp-float-entry group fixed right-4 z-40 bottom-[var(--floating-secondary-bottom)] flex size-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#1da851] hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:right-6",
-        isCookieBannerVisible && "size-11 shadow-sm",
+        "whatsapp-float-entry group fixed right-4 z-40 bottom-[var(--floating-secondary-bottom)] flex size-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-md transition-colors duration-200 hover:bg-[#1da851] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:right-6",
+        isCookieBannerVisible && "shadow-sm",
         className
       )}
     >

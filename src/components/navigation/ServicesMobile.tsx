@@ -35,10 +35,10 @@ export default function ServicesMobile({
 
   return (
     <div>
-      <div className="flex items-center gap-3 text-md px-2 py-2 rounded font-medium border-b rounded-none border-muted">
+      <div className="flex items-center gap-3 rounded bg-surface-warm px-2 py-2 text-md font-medium shadow-sm">
         <span>{label || "Services"}</span>
       </div>
-      <div className="flex flex-col mt-1 divide-y divide-muted/50 rounded-md overflow-hidden">
+      <div className="mt-2 flex flex-col gap-1 overflow-hidden rounded-md">
         {items.map((service) => (
           <Link
             key={service.href}

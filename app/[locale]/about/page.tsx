@@ -5,6 +5,7 @@ import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import PageHero from "@/src/components/site/page-hero";
 import SectionHeading from "@/src/components/site/section-heading";
+import { CtaBanner } from "@/src/components/ui/surface";
 
 export const revalidate = false;
 
@@ -22,7 +23,7 @@ type DNAValueItem = {
 };
 
 const dnaIconClasses =
-  "flex size-11 items-center justify-center rounded-full border border-[#d66a3d]/20 bg-[#f5dfd5] text-[#b6542b] dark:border-[#d66a3d]/35 dark:bg-[#3b241c] dark:text-[#f2b294]";
+  "flex size-11 items-center justify-center rounded-full bg-[#f5dfd5] text-[#b6542b] shadow-sm dark:bg-[#3b241c] dark:text-[#f2b294]";
 
 const DNAIcons = [
   ({ className = "" }: { className?: string }) => (
@@ -182,28 +183,28 @@ export default async function AboutUsPage(props: {
         />
 
         <div className="mt-10 grid gap-6 lg:grid-cols-[1.12fr_0.88fr]">
-          <section className="rounded-[30px] border border-border/70 bg-gradient-to-br from-background via-background to-[#f7ebe5] p-6 shadow-sm dark:to-[#2d1f1a]">
+          <section className="rounded-[30px] bg-surface-warm p-6 text-center shadow-sm dark:bg-card">
             <SectionHeading
               eyebrow={text("Hero.Badge", "Established 2025")}
               title={text("Foundation.Title", "Our foundation")}
               description={foundation[0] ?? ""}
               titleAs="h2"
             />
-            <div className="mt-6 space-y-4 text-base leading-7 text-muted-foreground">
+            <div className="mx-auto mt-6 max-w-3xl space-y-4 text-base leading-7 text-muted-foreground">
               {foundation.slice(1).map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
           </section>
 
-          <section className="rounded-[30px] border border-border/70 bg-gradient-to-br from-background via-background to-[#f3ddd4] p-6 shadow-sm dark:to-[#34221c]">
+          <section className="rounded-[30px] bg-card p-6 text-center shadow-sm dark:bg-surface-warm">
             <SectionHeading
               eyebrow={text("DNA.Title", "Our DNA")}
               title={text("Expertise.Title", "Collective expertise")}
               description={expertise[0] ?? ""}
               titleAs="h2"
             />
-            <div className="mt-6 space-y-4 text-base leading-7 text-muted-foreground">
+            <div className="mx-auto mt-6 max-w-3xl space-y-4 text-base leading-7 text-muted-foreground">
               {expertise.slice(1).map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
@@ -224,15 +225,15 @@ export default async function AboutUsPage(props: {
               return (
                 <article
                   key={`${item.Title}-${index}`}
-                  className="rounded-[28px] border border-border/70 bg-gradient-to-br from-background via-background to-[#f8efe9] p-6 shadow-sm dark:to-[#2c1e19]"
+                  className="rounded-[28px] bg-surface-warm p-6 text-center shadow-sm dark:bg-card"
                 >
-                  <div className={dnaIconClasses}>
+                  <div className={`${dnaIconClasses} mx-auto`}>
                     <Icon />
                   </div>
                   <h3 className="mt-5 text-xl font-semibold tracking-tight">
                     {item.Title}
                   </h3>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                  <p className="mx-auto mt-3 max-w-[36rem] text-sm leading-7 text-muted-foreground">
                     {item.Desc}
                   </p>
                 </article>
@@ -242,28 +243,28 @@ export default async function AboutUsPage(props: {
         </section>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          <section className="rounded-[30px] border border-border/70 bg-gradient-to-br from-background via-background to-[#f7ebe5] p-6 shadow-sm dark:to-[#2d1f1a]">
+          <section className="rounded-[30px] bg-card p-6 text-center shadow-sm dark:bg-surface-warm">
             <SectionHeading
               eyebrow={text("Expertise.Title", "Collective expertise")}
               title={text("Vision.Title", "Our vision")}
               description={vision[0] ?? ""}
               titleAs="h2"
             />
-            <div className="mt-6 space-y-4 text-base leading-7 text-muted-foreground">
+            <div className="mx-auto mt-6 max-w-3xl space-y-4 text-base leading-7 text-muted-foreground">
               {vision.slice(1).map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
           </section>
 
-          <section className="rounded-[30px] border border-border/70 bg-gradient-to-br from-background via-background to-[#f3ddd4] p-6 shadow-sm dark:to-[#34221c]">
+          <section className="rounded-[30px] bg-surface-warm p-6 text-center shadow-sm dark:bg-card">
             <SectionHeading
               eyebrow={text("Vision.Title", "Our vision")}
               title={text("Partnership.Title", "The power of partnership")}
               description={partnership[0] ?? ""}
               titleAs="h2"
             />
-            <div className="mt-6 space-y-4 text-base leading-7 text-muted-foreground">
+            <div className="mx-auto mt-6 max-w-3xl space-y-4 text-base leading-7 text-muted-foreground">
               {partnership.slice(1).map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
@@ -271,36 +272,34 @@ export default async function AboutUsPage(props: {
           </section>
         </div>
 
-        <section className="mt-10 rounded-[32px] border border-border/70 bg-gradient-to-r from-[#1f1b19] via-[#26201d] to-[#312621] p-8 text-white shadow-sm dark:from-[#f1e3db] dark:via-[#f3e9e3] dark:to-[#f7f2ef] dark:text-foreground">
-          <SectionHeading
-            eyebrow={text("Future.Title", "Looking forward")}
-            title={text("CTA.Title", "Ready to partner with us?")}
-            description={future[0] ?? ""}
-            titleAs="h2"
-            eyebrowClassName="text-[#e1a488] dark:text-[#b6542b]"
-            titleClassName="text-white dark:text-foreground"
-            descriptionClassName="text-white/78 dark:text-muted-foreground"
-          />
-          <div className="mt-6 space-y-4 text-base leading-7 text-white/78 dark:text-muted-foreground">
-            {future.slice(1).map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
-          </div>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href={`${localePrefix}/contact/`}
-              className="inline-flex min-h-11 items-center justify-center rounded-full bg-white px-6 text-sm font-semibold text-[#1f1b19] transition-colors hover:bg-white/90 dark:bg-foreground dark:text-background dark:hover:bg-foreground/90"
-            >
-              {text("CTA.ContactButton", "Get in touch")}
-            </Link>
-            <Link
-              href={`${localePrefix}/team/`}
-              className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/20 px-6 text-sm font-semibold text-white transition-colors hover:bg-white/10 dark:border-foreground/15 dark:text-foreground dark:hover:bg-foreground/5"
-            >
-              {text("CTA.TeamButton", "Meet our team")}
-            </Link>
-          </div>
-        </section>
+        <CtaBanner
+          className="mt-10 rounded-[32px]"
+          variant="contrast"
+          eyebrow={text("Future.Title", "Looking forward")}
+          title={text("CTA.Title", "Ready to partner with us?")}
+          description={
+            <>
+              {future[0] ?? ""}
+              {future.length > 1 ? (
+                <span className="mt-5 block space-y-4">
+                  {future.slice(1).map((paragraph, index) => (
+                    <span key={index} className="block">
+                      {paragraph}
+                    </span>
+                  ))}
+                </span>
+              ) : null}
+            </>
+          }
+          primary={{
+            href: `${localePrefix}/contact/`,
+            label: text("CTA.ContactButton", "Get in touch"),
+          }}
+          secondary={{
+            href: `${localePrefix}/team/`,
+            label: text("CTA.TeamButton", "Meet our team"),
+          }}
+        />
       </div>
     </div>
   );

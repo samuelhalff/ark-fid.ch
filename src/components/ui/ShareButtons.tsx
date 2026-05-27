@@ -28,7 +28,7 @@ export default function ShareButtons({ url, title, className }: Props) {
   }
 
   const baseBtn =
-    "inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-sm transition-colors hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary";
+    "inline-flex items-center gap-2 rounded-md bg-surface-warm px-3 py-1.5 text-sm shadow-sm transition-colors hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary";
 
   return (
     <div

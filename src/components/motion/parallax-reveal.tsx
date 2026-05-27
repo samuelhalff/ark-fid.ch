@@ -27,6 +27,7 @@ export default function ParallaxReveal({
 }: ParallaxRevealProps) {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const shouldReduceMotion = useReducedMotion();
+  const [mounted, setMounted] = React.useState(false);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -35,7 +36,11 @@ export default function ParallaxReveal({
   const y = useTransform(scrollYProgress, [0, 1], [offset, -offset]);
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.985, 1.01, 0.995]);
 
-  if (shouldReduceMotion) {
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (shouldReduceMotion || !mounted) {
     return (
       <div ref={ref} className={className}>
         {children}

@@ -8,6 +8,9 @@ type PageHeroProps = {
   title: React.ReactNode;
   description?: React.ReactNode;
   className?: string;
+  eyebrowClassName?: string;
+  titleClassName?: string;
+  descriptionClassName?: string;
   children?: React.ReactNode;
 };
 
@@ -16,19 +19,18 @@ export default function PageHero({
   title,
   description,
   className,
+  eyebrowClassName,
+  titleClassName,
+  descriptionClassName,
   children,
 }: PageHeroProps) {
   return (
     <section
       className={cn(
-        "relative overflow-hidden rounded-[32px] border border-border/70 bg-gradient-to-br from-muted/70 via-background to-muted/30 px-6 py-10 shadow-sm sm:px-8 sm:py-12 lg:px-12 lg:py-14",
+        "relative py-8 sm:py-10 lg:py-14",
         className,
       )}
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(209,122,79,0.14),transparent_32%),radial-gradient(circle_at_bottom_left,rgba(209,122,79,0.08),transparent_28%)]"
-      />
       <div className="relative">
         <SectionHeading
           eyebrow={eyebrow}
@@ -36,9 +38,16 @@ export default function PageHero({
           description={description}
           titleAs="h1"
           align="left"
-          className="max-w-4xl"
-          titleClassName="text-4xl sm:text-5xl lg:text-[3.5rem] lg:leading-[1.02]"
-          descriptionClassName="max-w-2xl text-base sm:text-lg"
+          className="max-w-5xl"
+          eyebrowClassName={eyebrowClassName}
+          titleClassName={cn(
+            "max-w-[16ch] text-5xl leading-[0.98] sm:text-6xl lg:text-7xl",
+            titleClassName,
+          )}
+          descriptionClassName={cn(
+            "max-w-[58ch] text-base leading-8 sm:text-lg",
+            descriptionClassName,
+          )}
         />
         {children ? <div className="relative mt-8">{children}</div> : null}
       </div>

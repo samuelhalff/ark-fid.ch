@@ -58,7 +58,7 @@ export default function DNAValuesSection({
             className="flex items-start gap-4 p-6 rounded-lg bg-primary/5"
           >
             {React.createElement(iconMap[index % iconMap.length], {
-              className: "text-blue-400 mt-1 min-w-[24px]",
+              className: "text-brand-hover dark:text-brand mt-1 min-w-[24px]",
             })}
             <div>
               <h5 className="font-semibold text-lg mb-2">{item.Title}</h5>

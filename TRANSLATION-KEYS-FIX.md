@@ -217,6 +217,18 @@ Added global service banner copy in the `services` namespace for all locales:
 
 - `services:ScrollHint`
 
+## New Home Trust Strip Keys (May 2026)
+
+Added a compact landing-page trust strip for SO-FIT / OAR / SRO, Odoo and Swiss GAAP FER. Ensure all locales include:
+
+- `home:Trust.Eyebrow`
+- `home:Trust.Sofit.Title`
+- `home:Trust.Sofit.Description`
+- `home:Trust.Odoo.Title`
+- `home:Trust.Odoo.Description`
+- `home:Trust.Gaap.Title`
+- `home:Trust.Gaap.Description`
+
 ## New Ressources Reference Keys (Feb 2026 - ANobAG)
 
 Added for the ANobAG immigration article references. Ensure all locales include:

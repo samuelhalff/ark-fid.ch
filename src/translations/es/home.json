@@ -8,7 +8,7 @@
         "Description": "Acompañamiento fiduciario con precisión suiza y eficiencia digital para gestionar contabilidad, impuestos, nóminas y gobierno corporativo desde la creación hasta la expansión.",
         "CTA": "Ponerse en contacto",
         "SecondaryCTA": "Obtenga un presupuesto instantáneo",
-        "Badge": "Swiss made",
+        "Badge": "Genève · Lausanne",
         "BadgeTwo": "Impulsado por IA",
         "OdooBadge": "Soluciones digitales y ERP",
         "OdooPartnerBadge": "Partner oficial de Odoo",
@@ -18,6 +18,21 @@
     "Services": {
         "Title": "Nuestros servicios",
         "Subtitle": "Programas fiduciarios, contables y fiscales completos para cada etapa de crecimiento. Combinamos experiencia a demanda, procesos suizos probados y herramientas digitales seguras para PYMES, scale-ups y grupos internacionales."
+    },
+    "Trust": {
+        "Eyebrow": "Afiliaciones y marcos",
+        "Sofit": {
+            "Title": "SO-FIT",
+            "Description": "Miembro OAR / SRO bajo la LBA suiza. KYC para domiciliación sensible, escrow, flujos de pago y estructuras documentadas."
+        },
+        "Odoo": {
+            "Title": "Odoo",
+            "Description": "Partner oficial para contabilidad, automatizaciones y reporting."
+        },
+        "Gaap": {
+            "Title": "Swiss GAAP FER",
+            "Description": "Estados financieros claros, coherentes y auditables."
+        }
     },
     "About": {
         "Title": "¿Por qué elegir Ark Fiduciaire?",

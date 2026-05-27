@@ -1,4 +1,6 @@
 import { tidyTitle } from "@/src/lib/typography";
+import ServiceContactForm from "@/src/components/ui/service-contact-form";
+import { Fragment } from "react";
 
 type ServiceLongFormProps = {
   t: (key: string) => string;
@@ -8,6 +10,7 @@ type ServiceLongFormProps = {
   fallbackTitle?: string;
   fallbackBody?: string[];
   className?: string;
+  locale?: string;
 };
 
 const ServiceLongForm = ({
@@ -18,6 +21,7 @@ const ServiceLongForm = ({
   fallbackTitle = "Detailed approach and deliverables",
   fallbackBody = [],
   className = "",
+  locale,
 }: ServiceLongFormProps) => {
   const title = (t(titleKey) as string) || fallbackTitle;
   const sections = t(sectionsKey) as unknown as Array<{
@@ -41,26 +45,44 @@ const ServiceLongForm = ({
         </h3>
       ) : null}
       {Array.isArray(sections) && sections.length > 0 ? (
-        <div className="space-y-10 text-base leading-relaxed">
+        <div className="max-w-3xl space-y-10 text-base leading-8 text-muted-foreground">
           {sections.map((section, index) => (
-            <div key={index} className="space-y-4">
-              {section?.Title ? (
-                <h4 className="text-lg font-semibold">
-                  {tidyTitle(section.Title)}
-                </h4>
+            <Fragment key={index}>
+              <div className="space-y-4">
+                {section?.Title ? (
+                  <h4 className="text-lg font-bold text-foreground">
+                    {tidyTitle(section.Title)}
+                  </h4>
+                ) : null}
+                {(Array.isArray(section?.Body) ? section.Body : []).map(
+                  (paragraph, pIndex) => (
+                    <p key={pIndex}>{paragraph}</p>
+                  )
+                )}
+              </div>
+              {index === 0 && locale ? (
+                <ServiceContactForm
+                  key="service-mid-cta"
+                  locale={locale}
+                  compact
+                />
               ) : null}
-              {(Array.isArray(section?.Body) ? section.Body : []).map(
-                (paragraph, pIndex) => (
-                  <p key={pIndex}>{paragraph}</p>
-                )
-              )}
-            </div>
+            </Fragment>
           ))}
         </div>
       ) : (
-        <div className="space-y-6 text-base leading-relaxed">
+        <div className="max-w-3xl space-y-6 text-base leading-8 text-muted-foreground">
           {body.map((paragraph, index) => (
-            <p key={index}>{paragraph}</p>
+            <Fragment key={index}>
+              <p>{paragraph}</p>
+              {index === 0 && locale ? (
+                <ServiceContactForm
+                  key="service-mid-cta"
+                  locale={locale}
+                  compact
+                />
+              ) : null}
+            </Fragment>
           ))}
         </div>
       )}

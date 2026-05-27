@@ -103,7 +103,7 @@ export default function RelatedArticles({
         {related.map((r) => (
           <article
             key={r.slug}
-            className="border rounded-lg p-4 hover:shadow-sm transition-shadow"
+            className="rounded-lg bg-surface-warm/55 p-4 shadow-sm transition-colors hover:bg-card"
           >
             <h3 className="font-medium text-lg mb-2">
               <Link

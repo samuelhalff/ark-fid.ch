@@ -4,11 +4,11 @@
         "Description": "Soutien fiduciaire expert à Genève et Lausanne. Comptabilité, fiscalité, salaires, domiciliation et accompagnement ERP pour aider les entreprises suisses et internationales à rester conformes et à croître sereinement."
     },
     "Hero": {
-        "Title": "Fiduciaire à Genève – Votre partenaire de confiance",
-        "Description": "Un accompagnement fiduciaire expert qui associe précision suisse et efficacité numérique pour couvrir comptabilité, fiscalité, salaires et gouvernance d'entreprise de la création à l'expansion.",
+        "Title": "Comptabilité, fiscalité, tranquillité.",
+        "Description": "Une fiduciaire genevoise complète, exécutée avec précision suisse et la vitesse des outils numériques modernes pour accompagner PME, entrepreneurs et familles.",
         "CTA": "Contactez-nous",
         "SecondaryCTA": "Obtenez un devis instantané",
-        "Badge": "Swiss made",
+        "Badge": "Genève · Lausanne",
         "BadgeTwo": "Assisté par l'IA",
         "OdooBadge": "Solutions digitales & ERP",
         "OdooPartnerBadge": "Partenaire Odoo officiel",
@@ -17,7 +17,22 @@
     },
     "Services": {
         "Title": "Nos services",
-        "Subtitle": "Programmes fiduciaires, comptables et fiscaux complets pour chaque étape de votre développement. Nous combinons expertise à la demande, méthodologies suisses éprouvées et outils numériques sécurisés pour accompagner PME, scale-ups et groupes internationaux."
+        "Subtitle": ""
+    },
+    "Trust": {
+        "Eyebrow": "Affiliations et cadres",
+        "Sofit": {
+            "Title": "SO-FIT",
+            "Description": "Membre OAR / SRO LBA. Procédures KYC pour domiciliation sensible, tiers séquestre (escrow), flux de paiement et structures documentées."
+        },
+        "Odoo": {
+            "Title": "Odoo",
+            "Description": "Partenaire officiel pour comptabilité, automatisations et reporting."
+        },
+        "Gaap": {
+            "Title": "Swiss GAAP FER",
+            "Description": "États financiers lisibles, cohérents et auditables."
+        }
     },
     "About": {
         "Title": "Pourquoi choisir Ark Fiduciaire ?",

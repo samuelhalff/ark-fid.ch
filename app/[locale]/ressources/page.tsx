@@ -43,6 +43,7 @@ interface RessourcesData {
   IntroTitle?: string;
   IntroText?: string;
   IntroShort?: string;
+  ArticlesShort?: string;
   ArticlesTitle?: string;
   LoadMoreArticles?: string;
   ShowAllArticles?: string;
@@ -98,6 +99,7 @@ async function loadRessources(locale: Locale): Promise<RessourcesData> {
       IntroTitle: data.IntroTitle,
       IntroText: data.IntroText,
       IntroShort: data.IntroShort,
+      ArticlesShort: data.ArticlesShort,
       ArticlesTitle: data.ArticlesTitle,
       LoadMoreArticles: data.LoadMoreArticles,
       ShowAllArticles: data.ShowAllArticles,
@@ -155,7 +157,7 @@ export default async function RessourcesPage(
   const links = ressources.Links || {};
 
   return (
-    <main className="max-w-[1200px] mx-auto px-4 md:px-6 py-10">
+    <main className="mx-auto max-w-[1240px] px-5 py-10 sm:px-8">
       <script
         type="application/ld+json"
         nonce={nonce}
@@ -222,7 +224,7 @@ export default async function RessourcesPage(
               <a
                 key={item.href}
                 href={item.href}
-                className="inline-flex items-center rounded-full border border-border/70 bg-background/90 px-3 py-1.5 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:border-[#D17A4F]/25 hover:text-[#B86340]"
+                className="inline-flex items-center rounded-full bg-surface-warm px-3 py-1.5 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground shadow-sm transition-colors hover:text-brand-hover"
               >
                 {item.label}
               </a>

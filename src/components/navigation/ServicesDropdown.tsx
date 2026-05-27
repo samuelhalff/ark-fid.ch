@@ -43,8 +43,10 @@ export default function ServicesDropdown({
         prefetch={false}
         locale={locale}
         aria-expanded={open}
-        className={`px-3 py-2 rounded-md min-w-[100px] text-center inline-flex items-center gap-1 critical-nav__link hover:bg-accent ${
-          isActive ? "bg-accent text-accent-foreground" : ""
+        className={`critical-nav__link relative inline-flex items-center gap-1 rounded-full px-3 py-2 text-center text-sm font-medium transition-colors hover:bg-surface-warm after:absolute after:inset-x-3 after:-bottom-1 after:h-[2px] after:origin-center after:rounded-full after:bg-brand after:transition-transform after:duration-200 ${
+          isActive
+            ? "text-brand-hover after:scale-x-100 dark:text-brand"
+            : "after:scale-x-0"
         }`}
         onClick={close}
       >
@@ -65,7 +67,7 @@ export default function ServicesDropdown({
         </svg>
       </Link>
       <div
-        className={`absolute left-0 top-full pt-2 w-[min(92vw,720px)] bg-background border rounded-md shadow-xl z-50 transition-opacity duration-150 ${
+        className={`absolute left-0 top-full z-50 w-[min(92vw,720px)] rounded-md bg-background pt-2 shadow-xl transition-opacity duration-150 ${
           open ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
       >
@@ -77,7 +79,7 @@ export default function ServicesDropdown({
                   href={`${localePrefix}${item.href}`}
                   prefetch={false}
                   locale={locale}
-                  className="block rounded-md p-3 hover:bg-accent focus:bg-accent focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="block rounded-md p-3 transition-colors hover:bg-surface-warm/70 focus:bg-surface-warm/70 focus:outline-none focus:ring-2 focus:ring-foreground/15 dark:hover:bg-white/[0.06] dark:focus:bg-white/[0.06]"
                   onClick={close}
                 >
                   <div className="text-left text-sm font-medium leading-none truncate">

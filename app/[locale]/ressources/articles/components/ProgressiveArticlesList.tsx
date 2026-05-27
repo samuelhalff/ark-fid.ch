@@ -34,7 +34,7 @@ export default function ProgressiveArticlesList({
         {articles.map((article, index) => (
           <li
             key={article.slug}
-            className={`border-b pb-4 ${index < visibleCount ? "" : "hidden"}`}
+            className={`rounded-2xl bg-surface-warm/45 p-4 shadow-sm ${index < visibleCount ? "" : "hidden"}`}
           >
             <h2 className="text-xl font-semibold">
               <a href={`${localePrefix}/ressources/articles/${article.slug}/`}>

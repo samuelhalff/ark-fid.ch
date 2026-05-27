@@ -22,6 +22,21 @@ import { toast, Toaster } from "sonner";
 import { useRouter } from "next/navigation";
 import React from "react";
 
+const ChevronDownIcon = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden
+  >
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+);
+
 // We keep the types and defaults outside the component
 type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
 
@@ -32,6 +47,7 @@ const defaultValues = {
   consent: false,
   companyName: "",
   phone: "",
+  subject: "",
 };
 
 // Build the schema from provided error messages (server-supplied)
@@ -46,6 +62,7 @@ const createFormSchema = (errors: {
     email: z.string().email({ message: errors.invalidEmail }),
     companyName: z.string().optional(),
     phone: z.string().optional(),
+    subject: z.string().optional(),
     message: z
       .string()
       .min(1, { message: errors.required })
@@ -74,6 +91,7 @@ interface ContactFormProps {
       name: string;
       companyName: string;
       phone: string;
+      subject?: string;
       email: string;
       message: string;
       consent: string;
@@ -84,6 +102,7 @@ interface ContactFormProps {
       name: string;
       companyName: string;
       phone: string;
+      subject?: string;
       email: string;
       message: string;
     };
@@ -97,6 +116,7 @@ interface ContactFormProps {
       success: string;
       error: string;
     };
+    subjects?: Array<{ label: string; value: string }>;
   };
   redirectPath?: string; // locale-aware redirect after success
   /** Additional classes merged into the inner Card element */
@@ -112,6 +132,7 @@ const ContactForm: FC<ContactFormProps> = ({
 }) => {
   const router = useRouter();
   const [sending, setSending] = React.useState(false);
+  const [subjectOpen, setSubjectOpen] = React.useState(false);
 
   // Memoize schema based on provided error strings
   const formSchema = useMemo(
@@ -166,15 +187,19 @@ const ContactForm: FC<ContactFormProps> = ({
   };
 
   return (
-    <div className="p-1 xs:p-3 md:p-3 w-full max-w-[var(--breakpoint-xl)] mx-auto">
+    <div className="w-full max-w-[var(--breakpoint-xl)] mx-auto">
       {showTitle && (
-        <h1 className="mb-3 text-center xs:mb-14 text-2xl/7 font-bold sm:text-3xl sm:tracking-tight mt-0 animate-in fade-in duration-700">
+        <h2 className="mb-6 text-left text-2xl font-semibold tracking-tight sm:text-3xl">
           {strings.title}
-        </h1>
+        </h2>
       )}
-      {showSubtitle && <p className="w-full text-center">{strings.subtitle}</p>}
+      {showSubtitle ? (
+        <p className="mb-8 w-full text-left text-muted-foreground">
+          {strings.subtitle}
+        </p>
+      ) : null}
       <div className="flex items-center justify-center">
-        <Card className={cn("my-3 mb-15 w-full max-w-[1200px] min-w-0 animate-in slide-in-from-bottom-7 duration-500", cardClassName)}>
+        <Card className={cn("w-full max-w-[1200px] min-w-0 animate-in slide-in-from-bottom-7 duration-500", cardClassName)}>
           <CardContent>
             <Toaster
               position="top-center"
@@ -210,7 +235,6 @@ const ContactForm: FC<ContactFormProps> = ({
                             autoComplete="name"
                             placeholder={strings.placeholders.name}
                             disabled={sending}
-                            className={"border-color-primary"}
                           />
                         </FormControl>
                         <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -233,7 +257,6 @@ const ContactForm: FC<ContactFormProps> = ({
                           autoComplete="organization"
                           placeholder={strings.placeholders.companyName}
                           disabled={sending}
-                          className={"border-color-primary"}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -255,13 +278,84 @@ const ContactForm: FC<ContactFormProps> = ({
                           autoComplete="tel"
                           placeholder={strings.placeholders.phone}
                           disabled={sending}
-                          className={"border-color-primary"}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
                     </FormItem>
                   )}
                 />
+                {strings.subjects?.length ? (
+                  <FormField
+                    control={form.control}
+                    name="subject"
+                    render={({ field }) => {
+                      const subjects = strings.subjects || [];
+                      const selected = subjects.find(
+                        (subject) => subject.value === field.value
+                      );
+                      return (
+                        <FormItem>
+                          <FormLabel className="form-label">
+                            {strings.labels.subject || "Sujet"}
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <button
+                                type="button"
+                                disabled={sending}
+                                aria-haspopup="listbox"
+                                aria-expanded={subjectOpen}
+                                className="flex h-10 w-full items-center justify-between rounded-md bg-surface-warm px-3 py-2 text-left text-sm text-foreground shadow-[inset_0_0_0_1px_rgba(20,16,14,0.06),0_1px_2px_rgba(20,16,14,0.04)] transition-[background-color,box-shadow] hover:bg-surface-warm/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 dark:bg-card dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08),0_1px_2px_rgba(0,0,0,0.22)]"
+                                onClick={() =>
+                                  setSubjectOpen((current) => !current)
+                                }
+                              >
+                                <span
+                                  className={cn(
+                                    "truncate",
+                                    !selected && "text-muted-foreground"
+                                  )}
+                                >
+                                  {selected?.label ||
+                                    strings.placeholders.subject ||
+                                    "Choisir un sujet"}
+                                </span>
+                                <ChevronDownIcon className="size-4 shrink-0 text-muted-foreground" />
+                              </button>
+                              {subjectOpen ? (
+                                <div
+                                  role="listbox"
+                                  className="absolute z-30 mt-2 max-h-72 w-full overflow-auto rounded-xl bg-popover p-1 text-popover-foreground shadow-lg"
+                                >
+                                  {subjects.map((subject) => (
+                                    <button
+                                      key={subject.value}
+                                      type="button"
+                                      role="option"
+                                      aria-selected={field.value === subject.value}
+                                      className={cn(
+                                        "flex w-full rounded-lg px-3 py-2 text-left text-sm transition-colors hover:bg-muted",
+                                        field.value === subject.value &&
+                                          "bg-brand-soft text-brand-hover dark:bg-brand/15 dark:text-brand"
+                                      )}
+                                      onClick={() => {
+                                        field.onChange(subject.value);
+                                        setSubjectOpen(false);
+                                      }}
+                                    >
+                                      {subject.label}
+                                    </button>
+                                  ))}
+                                </div>
+                              ) : null}
+                            </div>
+                          </FormControl>
+                          <FormMessage className="place-self-start text-primary-red m-1!" />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ) : null}
                 <FormField
                   control={form.control}
                   name="email"
@@ -278,7 +372,6 @@ const ContactForm: FC<ContactFormProps> = ({
                           autoComplete="email"
                           placeholder={strings.placeholders.email}
                           disabled={sending}
-                          className={"border-color-primary"}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -300,7 +393,6 @@ const ContactForm: FC<ContactFormProps> = ({
                           rows={8}
                           placeholder={strings.placeholders.message}
                           disabled={sending}
-                          className={"border-color-primary"}
                         />
                       </FormControl>
                       <FormMessage className="place-self-start text-primary-red m-1!" />
@@ -318,7 +410,7 @@ const ContactForm: FC<ContactFormProps> = ({
                             checked={field.value}
                             onCheckedChange={field.onChange}
                             disabled={sending}
-                            className="w-4 h-4 text-blue-600 bg-gray-200 border-gray-700 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-700 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-800 dark:border-gray-400"
+                            className="h-4 w-4 rounded-sm bg-background text-brand-hover focus-visible:ring-2 focus-visible:ring-brand dark:bg-muted"
                           />
                         </FormControl>
                         <FormLabel className="mt-0! hover:cursor-pointer">

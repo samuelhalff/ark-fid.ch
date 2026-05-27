@@ -175,10 +175,10 @@ export default async function Testimonials() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <div className="max-w-[var(--breakpoint-xl)] mx-auto px-6">
+      <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
         {/* Rating badge */}
         <Reveal className="flex justify-center mb-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-muted/50 px-3 py-1.5 text-sm text-muted-foreground">
+          <div className="inline-flex items-center gap-2 rounded-full bg-surface-warm px-3 py-1.5 text-sm text-muted-foreground shadow-sm">
             <svg
               className="w-4 h-4 text-amber-500"
               viewBox="0 0 24 24"

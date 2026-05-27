@@ -75,11 +75,11 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
   const cookieButtonLayoutClasses =
     "flex size-12 items-center justify-center rounded-full";
   const cookieButtonColorClasses =
-    "bg-amber-500 text-white shadow-md transition-all duration-200";
+    "bg-brand text-foreground shadow-md transition-all duration-200";
   const cookieButtonHoverClasses =
-    "hover:-translate-y-0.5 hover:bg-amber-600 hover:shadow-lg";
+    "hover:bg-brand-hover hover:text-white";
   const cookieButtonFocusClasses =
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
   const focusWithoutScroll = (el: HTMLElement | null) => {
     if (!el) return;
@@ -294,7 +294,7 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
         >
           <div
             ref={dialogRef}
-            className="mx-auto mb-4 max-w-4xl rounded-lg border border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 p-4 shadow-lg"
+            className="mx-auto mb-4 max-w-4xl rounded-lg bg-background/95 p-4 shadow-lg backdrop-blur supports-[backdrop-filter]:bg-background/75"
           >
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="text-sm leading-relaxed">
@@ -317,7 +317,7 @@ export default function CookieConsent({ nonce, locale = "fr", labels }: Props) {
                 <button
                   type="button"
                   onClick={enableMinimal}
-                  className="inline-flex items-center justify-center rounded-md border border-input bg-transparent px-3 py-2 text-sm hover:bg-muted"
+                  className="inline-flex items-center justify-center rounded-md bg-surface-warm px-3 py-2 text-sm shadow-sm hover:bg-muted"
                 >
                   {minimalLabel}
                 </button>

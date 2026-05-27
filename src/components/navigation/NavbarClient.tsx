@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import Defer from "@/src/components/Defer";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import ServicesDropdown from "@/src/components/navigation/ServicesDropdown";
 import type { NavData } from "@/src/components/navigation/types";
@@ -25,7 +26,15 @@ export default function NavbarClient({
   navData: NavData;
 }) {
   const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
   const localePrefix = locale ? `/${locale}` : "/fr";
+
+  useEffect(() => {
+    const updateScrolled = () => setScrolled(window.scrollY > 4);
+    updateScrolled();
+    window.addEventListener("scroll", updateScrolled, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrolled);
+  }, []);
 
   const normalize = (p: string) => {
     if (!p) return "/";
@@ -38,13 +47,20 @@ export default function NavbarClient({
     return cur === base || cur.startsWith(base + "/");
   };
   const linkBase =
-    "inline-flex items-center justify-center px-3 py-2 rounded-lg font-medium text-[0.95rem] text-center min-w-[92px] transition-colors duration-160 ease-in-out hover:bg-accent hover:text-accent-foreground cursor-pointer";
-  const activeClasses = "bg-accent text-accent-foreground cursor-default";
+    "relative inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-center transition-colors duration-160 ease-in-out hover:bg-surface-warm hover:text-foreground cursor-pointer after:absolute after:inset-x-3 after:-bottom-1 after:h-[2px] after:origin-center after:scale-x-0 after:rounded-full after:bg-brand after:transition-transform after:duration-200";
+  const activeClasses =
+    "text-brand-hover hover:text-brand-hover after:scale-x-100 dark:text-brand dark:hover:text-brand";
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 w-full max-w-screen">
-      <nav className="site-header backdrop-blur-[14px] bg-white border-b dark:bg-black h-16 flex items-center">
-        <div className="site-header-inner flex items-center justify-between gap-4 h-full mx-auto max-w-[1200px] px-4 w-full sm:px-6">
+      <nav
+        className={`site-header flex h-16 items-center bg-background transition-[box-shadow] duration-200 ${
+          scrolled
+            ? "shadow-[0_16px_38px_rgba(20,16,14,0.16),0_1px_0_rgba(20,16,14,0.06)] dark:shadow-[0_18px_42px_rgba(0,0,0,0.72),0_1px_0_rgba(255,255,255,0.10)]"
+            : "shadow-none"
+        }`}
+      >
+        <div className="site-header-inner mx-auto flex h-full w-full max-w-[1240px] items-center justify-between gap-6 px-5 sm:px-8 xl:px-0">
           <Link
             href={`/${locale || 'fr'}/`}
             prefetch={false}
@@ -74,9 +90,9 @@ export default function NavbarClient({
           </Link>
 
           {/* Desktop primary navigation (server-rendered) */}
-          <div className="hidden md:block">
+          <div className="hidden min-w-0 flex-1 md:block">
             <nav aria-label="Primary">
-              <ul className="flex items-center gap-1">
+              <ul className="flex min-w-0 items-center justify-end gap-1">
                 <li>
                   <Link
                     href={`${localePrefix}/`}
@@ -100,7 +116,7 @@ export default function NavbarClient({
                     aria-current={
                       isSection(`${localePrefix}/agent`) ? "page" : undefined
                     }
-                    className={`${linkBase} min-w-[96px] ${
+                    className={`${linkBase} ${
                       isSection(`${localePrefix}/agent`) ? activeClasses : ""
                     }`}
                   >
@@ -139,7 +155,7 @@ export default function NavbarClient({
                         ? "page"
                         : undefined
                     }
-                    className={`${linkBase} min-w-[112px] ${
+                    className={`${linkBase} ${
                       isSection(`${localePrefix}/ressources`)
                         ? activeClasses
                         : ""
@@ -156,7 +172,7 @@ export default function NavbarClient({
                     aria-current={
                       isSection(`${localePrefix}/contact`) ? "page" : undefined
                     }
-                    className={`${linkBase} min-w-[96px] ${
+                    className={`${linkBase} ${
                       isSection(`${localePrefix}/contact`) ? activeClasses : ""
                     }`}
                   >

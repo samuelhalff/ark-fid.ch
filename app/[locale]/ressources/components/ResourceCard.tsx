@@ -10,31 +10,27 @@ interface Labels {
 // Color palette for visual variety
 const cardColors = [
   {
-    badge: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
-    accent: "bg-blue-500",
+    badge:
+      "bg-brand-soft text-brand-hover dark:bg-brand/15 dark:text-brand",
   },
   {
     badge:
       "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
-    accent: "bg-emerald-500",
   },
   {
     badge:
       "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300",
-    accent: "bg-violet-500",
   },
   {
     badge:
       "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
-    accent: "bg-amber-500",
   },
   {
     badge: "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300",
-    accent: "bg-rose-500",
   },
   {
-    badge: "bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300",
-    accent: "bg-cyan-500",
+    badge:
+      "bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-200",
   },
 ];
 
@@ -44,6 +40,7 @@ interface ResourceCardProps {
   href: string;
   date?: string;
   author?: string;
+  category?: string;
   labels?: Labels;
   colorIndex?: number;
 }
@@ -53,39 +50,35 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   description,
   href,
   date,
-  author,
+  category,
   labels,
   colorIndex = 0,
 }) => {
   const colors = cardColors[colorIndex % cardColors.length];
+  const formattedDate = formatResourceDate(date);
 
   return (
     <Reveal delay={Math.min(colorIndex * 0.04, 0.24)} className="h-full">
     <a
       href={href}
-      className="group relative flex h-full flex-col rounded-[24px] border border-border/70 bg-gradient-to-br from-muted/55 via-background to-muted/20 p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md dark:border-white/[0.08] dark:hover:bg-white/[0.06]"
+      className="group relative flex h-full flex-col rounded-[18px] bg-card p-5 shadow-sm transition-colors duration-200 hover:bg-surface-warm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand dark:hover:bg-surface-warm"
     >
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-        {date ? (
-          <time
-            dateTime={new Date(date).toISOString()}
-            className={`inline-flex items-center rounded-full px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.16em] ${colors.badge}`}
-          >
-            {formatDateDeterministic(date)}
-          </time>
-        ) : (
-          <span className={`inline-flex h-7 w-7 items-center justify-center rounded-full ${colors.badge}`}>
-            <span className={`h-2 w-2 rounded-full ${colors.accent}`} />
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        {category ? (
+          <span className={`w-fit rounded-full px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] ${colors.badge}`}>
+            {category}
           </span>
+        ) : (
+          <span />
         )}
-        {author ? (
-          <span className="text-[0.72rem] font-medium uppercase tracking-[0.14em] text-muted-foreground">
-            {author}
+        {formattedDate ? (
+          <span className="text-[0.68rem] font-medium uppercase tracking-[0.14em] text-muted-foreground/75">
+            {formattedDate}
           </span>
         ) : null}
       </div>
 
-      <h3 className="mb-3 text-lg font-semibold leading-snug tracking-tight text-foreground transition-colors duration-200 group-hover:text-primary">
+      <h3 className="mb-3 text-lg font-semibold leading-snug tracking-tight text-foreground">
         {title}
       </h3>
 
@@ -93,11 +86,8 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
         {description}
       </p>
 
-      <div className="flex items-center justify-between border-t border-border/60 pt-4">
-        <span className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
-          {(labels && labels.Published) || "Publié"}
-        </span>
-        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-all duration-200 group-hover:gap-2.5">
+      <div className="flex items-center justify-end pt-4">
+        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors duration-200 group-hover:text-brand-hover">
           {(labels && labels.ReadArticle) || "Read"}
           <svg
             className="w-4 h-4"
@@ -119,19 +109,16 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   );
 };
 
-export default ResourceCard;
-
-function formatDateDeterministic(date?: string) {
-  if (!date) return "";
-  try {
-    // Use a fixed locale to produce consistent server/client output (day/month/year)
-    return new Intl.DateTimeFormat("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    }).format(new Date(date));
-  } catch (e) {
-    // Fallback to ISO date if formatting fails
-    return new Date(date).toISOString().split("T")[0];
-  }
+function formatResourceDate(date?: string) {
+  if (!date) return null;
+  const parsed = new Date(`${date}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) return date;
+  return new Intl.DateTimeFormat("fr-CH", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(parsed);
 }
+
+export default ResourceCard;

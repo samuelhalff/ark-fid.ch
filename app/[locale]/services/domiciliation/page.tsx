@@ -60,11 +60,6 @@ const Domiciliation = async (props: { params: Promise<{ locale: string }> }) => 
     description:
       "Procédure pour obtenir une adresse de siège et mettre en place la domiciliation commerciale.",
     totalTime: "P14D",
-    estimatedCost: {
-      currency: "CHF",
-      value: "2500",
-      name: "Frais annuels estimés de domiciliation, y.c gestion du courrier",
-    },
     tools: [
       "Contrat de domiciliation",
       "Gestion/redirect courrier",
@@ -135,7 +130,7 @@ const Domiciliation = async (props: { params: Promise<{ locale: string }> }) => 
       <Hero params={params} />
       <nav
         aria-label="Breadcrumb"
-        className="w-full max-w-[1200px] mx-auto mt-4 mb-6 px-6 md:px-0"
+        className="mx-auto mb-6 mt-4 w-full max-w-[1240px] px-5 sm:px-8"
       >
         <ol className="flex items-center gap-1 text-sm text-muted-foreground">
           <li>

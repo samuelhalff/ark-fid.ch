@@ -9,6 +9,7 @@ type SectionHeadingProps = {
   titleAs?: React.ElementType;
   align?: "left" | "center";
   className?: string;
+  eyebrowClassName?: string;
   titleClassName?: string;
   descriptionClassName?: string;
   children?: React.ReactNode;
@@ -21,6 +22,7 @@ export default function SectionHeading({
   titleAs: TitleTag = "h2",
   align = "center",
   className,
+  eyebrowClassName,
   titleClassName,
   descriptionClassName,
   children,
@@ -38,11 +40,14 @@ export default function SectionHeading({
       {eyebrow ? (
         <div
           className={cn(
-            "inline-flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-[#B86340]",
+            "inline-flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-brand-hover",
             isCentered ? "justify-center" : "justify-start",
+            eyebrowClassName,
           )}
         >
-          <span aria-hidden="true" className="h-px w-6 bg-current/65" />
+          {isCentered ? (
+            <span aria-hidden="true" className="h-px w-6 bg-current/65" />
+          ) : null}
           <span>{eyebrow}</span>
         </div>
       ) : null}

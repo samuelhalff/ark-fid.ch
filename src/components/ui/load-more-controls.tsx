@@ -23,7 +23,7 @@ export default function LoadMoreControls({
     <div className="flex items-center gap-3 justify-center mt-6">
       <button
         type="button"
-        className="px-4 py-2 border rounded-md text-sm hover:bg-muted"
+        className="rounded-md bg-surface-warm px-4 py-2 text-sm shadow-sm hover:bg-muted"
         onClick={onLoadMore}
       >
         {loadMoreLabel}

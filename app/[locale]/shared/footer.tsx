@@ -60,11 +60,8 @@ const footerSections = [
   },
   {
     titleKey: "Resources.Title",
-    links: [{ titleKey: "Ressources", href: "/ressources/", ns: "navbar" }],
-  },
-  {
-    titleKey: "Social.Title",
     links: [
+      { titleKey: "Ressources", href: "/ressources/", ns: "navbar" },
       {
         titleKey: "Social.LinkedIn",
         href: "https://www.linkedin.com/company/ark-fiduciaire/",
@@ -92,16 +89,16 @@ const Footer = async ({ locale }: { locale?: string }) => {
   const tContact = await getTranslations(currentLocale, "contact");
   return (
     <footer
-      className="mt-12 border-t border-border/70 bg-gradient-to-b from-background to-[#f8efe9] text-foreground dark:to-[#231915] xs:mt-20"
+      className="mt-12 bg-surface-warm/35 text-foreground xs:mt-20"
       role="contentinfo"
     >
-      <div className="mx-auto grid max-w-[var(--breakpoint-xl)] grid-cols-1 gap-x-8 gap-y-10 px-6 py-12 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
+      <div className="mx-auto grid max-w-[1240px] grid-cols-1 gap-x-8 gap-y-10 px-5 py-12 sm:grid-cols-2 sm:px-8 md:grid-cols-4 lg:grid-cols-[120px_minmax(340px,2fr)_repeat(4,minmax(120px,1fr))]">
         <Link
           href={`${localePrefix}/`}
           aria-label={tNavbar("Home")}
           locale={locale}
           prefetch={false}
-          className="space-y-5"
+          className="space-y-5 lg:pt-1"
         >
           <span className="block">
             <Image
@@ -125,13 +122,10 @@ const Footer = async ({ locale }: { locale?: string }) => {
               decoding="async"
             />
           </span>
-          <span className="inline-flex rounded-full border border-[#d66a3d]/20 bg-[#f5dfd5] px-3 py-1 text-xs font-medium uppercase tracking-[0.22em] text-[#b6542b] dark:border-[#d66a3d]/30 dark:bg-[#3b241c] dark:text-[#f2b294]">
-            Ark Fiduciaire SA
-          </span>
         </Link>
 
         <div
-          className="space-y-3 rounded-[24px] border border-border/70 bg-background/80 p-5 text-sm shadow-sm sm:col-span-2 md:col-span-1"
+          className="space-y-3 rounded-2xl bg-surface-warm p-5 text-sm shadow-sm sm:col-span-2 md:col-span-2 lg:col-span-1"
           itemScope
           itemType="https://schema.org/PostalAddress"
         >
@@ -190,7 +184,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
           <nav
             key={titleKey}
             aria-label={tFooter(titleKey)}
-            className="min-w-0 break-words xl:justify-self-end"
+            className="min-w-0 break-words"
           >
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#8f5f4a] dark:text-[#e1a488]">
               {tFooter(titleKey)}
@@ -236,7 +230,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
         ))}
       </div>
       <Separator />
-      <div className="mx-auto flex max-w-[var(--breakpoint-xl)] flex-col-reverse items-center justify-between gap-x-2 gap-y-5 px-6 py-8 sm:flex-row">
+      <div className="mx-auto flex max-w-[1240px] flex-col-reverse items-center justify-between gap-x-2 gap-y-5 px-5 py-8 sm:flex-row sm:px-8">
         <span className="w-full text-center text-sm text-muted-foreground xs:text-start">
           {tFooter("Ark Fiduciaire SA")} - {tFooter("Copyright")} -{" "}
           <span suppressHydrationWarning>{new Date().getFullYear()}</span>{" "}

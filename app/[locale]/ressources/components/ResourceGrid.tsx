@@ -13,6 +13,7 @@ interface ResourceGridProps {
   articles: ArticleResource[];
   locale?: string;
   visibleCount?: number;
+  categoryBySlug?: Record<string, string>;
   labels?: {
     ReadArticle?: string;
     By?: string;
@@ -24,6 +25,7 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
   articles,
   locale,
   visibleCount = articles.length,
+  categoryBySlug,
   labels,
 }) => {
   const prefix = locale ? `/${locale}` : "";
@@ -42,6 +44,7 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
               href={`${prefix}/ressources/articles/${article.slug}/`}
               author={article.author}
               date={article.date}
+              category={categoryBySlug?.[article.slug]}
               labels={labels}
               colorIndex={index}
             />

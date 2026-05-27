@@ -8,7 +8,7 @@
         "Description": "Fiduziarische Unterstützung mit schweizerischer Präzision und digitaler Effizienz für Buchhaltung, Steuern, Lohnwesen und Unternehmensführung von der Gründung bis zur Expansion.",
         "CTA": "Kontakt aufnehmen",
         "SecondaryCTA": "Sofortangebot erhalten",
-        "Badge": "Swiss made",
+        "Badge": "Genève · Lausanne",
         "BadgeTwo": "KI-gestützt",
         "OdooBadge": "Digitale & ERP-Lösungen",
         "OdooPartnerBadge": "Offizieller Odoo-Partner",
@@ -18,6 +18,21 @@
     "Services": {
         "Title": "Unsere Dienstleistungen",
         "Subtitle": "Umfassende Treuhand-, Buchhaltungs- und Steuerprogramme für jede Wachstumsphase. Wir kombinieren Expertise auf Abruf, bewährte Schweizer Prozesse und sichere digitale Werkzeuge für KMU, Scale-ups und internationale Gruppen."
+    },
+    "Trust": {
+        "Eyebrow": "Mitgliedschaften und Rahmen",
+        "Sofit": {
+            "Title": "SO-FIT",
+            "Description": "SRO / OAR-Mitglied nach Schweizer GwG. KYC-Prozesse für sensible Domizilierung, Escrow-Mandate, Zahlungsflüsse und dokumentierte Strukturen."
+        },
+        "Odoo": {
+            "Title": "Odoo",
+            "Description": "Offizieller Partner für Buchhaltung, Automatisierung und Reporting."
+        },
+        "Gaap": {
+            "Title": "Swiss GAAP FER",
+            "Description": "Lesbare, konsistente und prüfbare Abschlüsse."
+        }
     },
     "About": {
         "Title": "Warum Ark Fiduciaire?",

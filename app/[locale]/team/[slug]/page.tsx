@@ -146,25 +146,61 @@ export default async function TeamMemberPage(props: { params: Promise<Params> })
     `Details.${slug}.credentials`,
     member.credentials
   );
+  const mappedProfileImage =
+    (teamImageMap as Record<string, any>)[member.profilePic] ||
+    member.profilePic;
+  const profileImageSrc =
+    typeof mappedProfileImage === "string"
+      ? mappedProfileImage || "/assets/abstract-background-light.webp"
+      : mappedProfileImage &&
+          typeof mappedProfileImage === "object" &&
+          "src" in mappedProfileImage
+        ? (mappedProfileImage as any).src
+        : "/assets/abstract-background-light.webp";
+  const absoluteProfileImage = profileImageSrc.startsWith("http")
+    ? profileImageSrc
+    : `${baseUrl}${profileImageSrc}`;
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${baseUrl}${localePrefix}/team/${params.slug}/#person`,
+    name: member.name,
+    jobTitle: roleLabel,
+    description: bioShort,
+    image: absoluteProfileImage,
+    url: `${baseUrl}${localePrefix}/team/${params.slug}/`,
+    worksFor: {
+      "@type": "Organization",
+      name: "Ark Fiduciaire SA",
+      url: baseUrl,
+    },
+    sameAs: [
+      member.social.linkedin,
+      ...(member.pbmUrl ? [member.pbmUrl] : []),
+    ].filter(Boolean),
+    knowsLanguage: languages,
+    alumniOf: education.map((name) => ({
+      "@type": "EducationalOrganization",
+      name,
+    })),
+    memberOf: memberships.map((name) => ({
+      "@type": "Organization",
+      name,
+    })),
+  } as const;
 
   return (
     <div className="container mx-auto px-4 py-15 mt-20 mb-20 max-w-[var(--breakpoint-xl)]">
-      {(() => {
-        const mapped =
-          (teamImageMap as Record<string, any>)[member.profilePic] ||
-          member.profilePic;
-        const preloadSrc =
-          typeof mapped === "string"
-            ? mapped
-            : mapped && typeof mapped === "object" && "src" in mapped
-            ? (mapped as any).src
-            : "/assets/abstract-background-light.webp";
-        return <link rel="preload" as="image" href={preloadSrc} />;
-      })()}
+      <link rel="preload" as="image" href={profileImageSrc} />
       <script
         type="application/ld+json"
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        nonce={nonce}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
       <nav aria-label="Breadcrumb" className="px-0 mt-2 mb-6">
         <ol className="flex items-center gap-1 text-sm text-muted-foreground justify-center">
@@ -188,24 +224,13 @@ export default async function TeamMemberPage(props: { params: Promise<Params> })
         </ol>
       </nav>
       <div className="grid grid-cols-1 md:grid-cols-[360px_1fr] gap-10 items-start">
-        <div className="rounded-xl overflow-hidden shadow-sm border bg-card">
+        <div className="overflow-hidden rounded-xl bg-card shadow-sm">
           <div className="relative aspect-4/5 w-full h-[480px]">
             {(() => {
-              const mapped =
-                (teamImageMap as Record<string, any>)[member.profilePic] ||
-                member.profilePic;
-              const preloadHref =
-                typeof mapped === "object" && mapped && "src" in mapped
-                  ? (mapped as any).src
-                  : (mapped as string);
-              // Preload main portrait for faster LCP on member page
-              // @ts-ignore - allow raw link tag here
-              // eslint-disable-next-line @next/next/no-sync-scripts
               return (
                 <>
-                  <link rel="preload" as="image" href={preloadHref} />
                   <ImageWithFallback
-                    src={mapped as any}
+                    src={mappedProfileImage as any}
                     alt={`Portrait of ${member.name}`}
                     fill
                     priority
@@ -222,7 +247,7 @@ export default async function TeamMemberPage(props: { params: Promise<Params> })
           </div>
         </div>
 
-        <Card className="shadow-sm border bg-card/70">
+        <Card className="bg-card/70 shadow-sm">
           <CardContent className="p-6 sm:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -253,7 +278,7 @@ export default async function TeamMemberPage(props: { params: Promise<Params> })
               ) : null}
             </div>
 
-            <hr className="my-6 border-border/60" />
+            <div className="my-6 h-px rounded-full bg-surface-warm" />
 
             <div className="prose prose-neutral max-w-none dark:prose-invert">
               <p className="text-base leading-7 mb-4">{bioLong || bioShort}</p>

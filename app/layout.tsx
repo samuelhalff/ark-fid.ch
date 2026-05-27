@@ -160,7 +160,7 @@ export default async function RootLayout({
 
         <Providers nonce={nonce}>
           <ErrorBoundary>
-            <div className="pt-3 abstract-background text-foreground pt-15 mt-10">
+            <div className="text-foreground">
               {children}
 
               <WhatsAppLink

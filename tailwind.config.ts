@@ -60,6 +60,15 @@ module.exports = {
           4: "oklch(var(--chart-4) / <alpha-value>)",
           5: "oklch(var(--chart-5) / <alpha-value>)",
         },
+        brand: {
+          DEFAULT: "oklch(var(--brand) / <alpha-value>)",
+          hover: "oklch(var(--brand-hover) / <alpha-value>)",
+          soft: "oklch(var(--brand-soft) / <alpha-value>)",
+          onDark: "oklch(var(--brand-on-dark) / <alpha-value>)",
+        },
+        surface: {
+          warm: "oklch(var(--surface-warm) / <alpha-value>)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

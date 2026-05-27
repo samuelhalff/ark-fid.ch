@@ -669,7 +669,7 @@ export default async function PrivacyPage(
               <p>
                 <a
                   href="tel:+41225125050"
-                  className="text-blue-700 dark:text-blue-400 hover:underline"
+                  className="text-brand-hover dark:text-brand hover:underline"
                   aria-label="Call us at +41 22 512 50 50"
                 >
                   +41 22 512 50 50

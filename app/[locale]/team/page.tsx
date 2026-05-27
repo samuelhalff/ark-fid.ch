@@ -48,9 +48,18 @@ export default async function TeamPage(
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params?.locale ? `/${params.locale}` : "/fr";
 
-  const title = (t("Title") as string) || "Our team";
+  const title = locale === "fr" ? "L'équipe" : (t("Title") as string) || "Our team";
   const subtitle =
-    (t("Subtitle") as string) || "A team of complementary talents";
+    locale === "fr"
+      ? "Une équipe de talents complémentaires."
+      : (t("Subtitle") as string) || "A team of complementary talents";
+  const orderedTeamMembers = [...teamMembers].sort((a, b) => {
+    if (a.name === "Samuel Halff") return -1;
+    if (b.name === "Samuel Halff") return 1;
+    return a.name.split(" ")[1].localeCompare(b.name.split(" ")[1], undefined, {
+      sensitivity: "base",
+    });
+  });
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -70,20 +79,43 @@ export default async function TeamPage(
       },
     ],
   } as const;
+  const teamItemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${baseUrl}${localePrefix}/team/#team`,
+    name: title,
+    itemListElement: orderedTeamMembers.map((member, index) => {
+      const slug = getMemberSlug(member);
+      return {
+        "@type": "ListItem",
+        position: index + 1,
+        url: `${baseUrl}${localePrefix}/team/${slug}/`,
+        name: member.name,
+      };
+    }),
+  } as const;
 
   return (
-    <div className="container mx-auto mt-20 max-w-[var(--breakpoint-xl)] px-4 py-12">
+    <div className="mx-auto w-full max-w-[1240px] px-5 py-10 sm:px-8 sm:py-12">
       <link
         rel="preload"
         as="image"
         href={
-          teamMembers[0]?.profilePic || "/assets/abstract-background-light.webp"
+          orderedTeamMembers[0]?.profilePic ||
+          "/assets/abstract-background-light.webp"
         }
       />
       <script
         type="application/ld+json"
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        nonce={nonce}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(teamItemListJsonLd),
+        }}
       />
       <nav aria-label="Breadcrumb" className="px-0 mt-2 mb-6">
         <ol className="flex items-center gap-1 text-sm text-muted-foreground justify-center">
@@ -113,94 +145,94 @@ export default async function TeamPage(
       </Reveal>
 
       <div className="mb-24 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {teamMembers
-          .sort((a, b) =>
-            a.name
-              .split(" ")[1]
-              .localeCompare(b.name.split(" ")[1], undefined, {
-                sensitivity: "base",
-              })
-          )
-          .map((member, index) => {
-            const slug = getMemberSlug(member);
-            return (
-              <Reveal
-                key={member.name}
-                delay={Math.min(index * 0.05, 0.25)}
+        {orderedTeamMembers.map((member, index) => {
+          const slug = getMemberSlug(member);
+          return (
+            <Reveal key={member.name} delay={Math.min(index * 0.05, 0.25)}>
+              <Link
+                href={`${localePrefix}/team/${slug}/`}
+                className="block h-full"
               >
-                <Link
-                  href={`${localePrefix}/team/${slug}/`}
-                  className="block"
+                <Card
+                  className={
+                    "group h-full min-h-[620px] gap-3 rounded-[28px] bg-surface-warm py-4 text-left shadow-sm transition-colors duration-200 hover:bg-card dark:bg-card dark:hover:bg-surface-warm"
+                  }
                 >
-                  <Card
-                    className={
-                      "gap-3 rounded-[28px] border border-border/70 bg-gradient-to-br from-muted/50 via-background to-muted/20 py-4 text-left shadow-sm transition-all duration-250 hover:-translate-y-0.5 hover:shadow-lg"
-                    }
-                  >
-                    <CardHeader className="px-3 sm:px-4">
-                      <div className="relative mb-4 h-80 w-full overflow-hidden rounded-[22px] border border-border/60 bg-muted/40 aspect-4/5">
-                        <ImageWithFallback
-                          src={
-                            (teamImageMap as Record<string, any>)[
-                              member.profilePic
-                            ] || member.profilePic
-                          }
-                          alt={`Portrait of ${member.name}`}
-                          className="w-full h-full object-cover object-top"
-                          fill
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          loading="lazy"
-                          fallbackVariant="initials"
-                          fallbackInitialsName={member.name}
-                          fallbackClassName="absolute inset-0"
-                          placeholder={
-                            (teamBlurData as Record<string, string>)[
-                              member.profilePic
-                            ]
-                              ? "blur"
-                              : undefined
-                          }
-                          blurDataURL={
-                            (teamBlurData as Record<string, string>)[
-                              member.profilePic
-                            ]
-                          }
-                        />
+                  <CardHeader className="px-3 sm:px-4">
+                    <div
+                      className="relative mb-4 h-[360px] w-full shrink-0 overflow-hidden rounded-[22px] bg-muted/45"
+                      style={{ height: 360 }}
+                    >
+                      <ImageWithFallback
+                        src={
+                          (teamImageMap as Record<string, any>)[
+                            member.profilePic
+                          ] || member.profilePic
+                        }
+                        alt={`Portrait of ${member.name}`}
+                        className="h-full w-full object-cover object-top"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        loading="lazy"
+                        fallbackVariant="initials"
+                        fallbackInitialsName={member.name}
+                        fallbackClassName="absolute inset-0"
+                        placeholder={
+                          (teamBlurData as Record<string, string>)[
+                            member.profilePic
+                          ]
+                            ? "blur"
+                            : undefined
+                        }
+                        blurDataURL={
+                          (teamBlurData as Record<string, string>)[
+                            member.profilePic
+                          ]
+                        }
+                      />
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 bg-foreground/0 transition-colors duration-500 group-hover:bg-foreground/[0.04] dark:group-hover:bg-white/[0.05]"
+                      />
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute bottom-0 left-0 h-1 w-0 bg-brand transition-[width] duration-500 ease-out group-hover:w-full"
+                      />
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3 px-4 pb-2">
+                    <div>
+                      <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+                        {member.name}
+                      </h3>
+                      <p className="mt-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-brand-hover">
+                        {(t(`Role.${member.role}`) as string) || member.role}
+                      </p>
+                    </div>
+                    {member.bioShort ? (
+                      <p className="text-sm leading-6 text-muted-foreground">
+                        {member.bioShort}
+                      </p>
+                    ) : null}
+                    {member.languages?.length ? (
+                      <div className="flex flex-wrap gap-2">
+                        {member.languages.slice(0, 3).map((language) => (
+                          <span
+                            key={language}
+                            className="rounded-full bg-background/80 px-2.5 py-1 text-[0.7rem] font-medium uppercase tracking-[0.16em] text-muted-foreground"
+                          >
+                            {language}
+                          </span>
+                        ))}
                       </div>
-                    </CardHeader>
-                    <CardContent className="space-y-3 px-4 pb-2">
-                      <div>
-                        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-                          {member.name}
-                        </h3>
-                        <p className="mt-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#B86340]">
-                          {(t(`Role.${member.role}`) as string) || member.role}
-                        </p>
-                      </div>
-                      {member.bioShort ? (
-                        <p className="text-sm leading-6 text-muted-foreground">
-                          {member.bioShort}
-                        </p>
-                      ) : null}
-                      {member.languages?.length ? (
-                        <div className="flex flex-wrap gap-2">
-                          {member.languages.slice(0, 3).map((language) => (
-                            <span
-                              key={language}
-                              className="rounded-full border border-border/70 bg-background/90 px-2.5 py-1 text-[0.7rem] font-medium uppercase tracking-[0.16em] text-muted-foreground"
-                            >
-                              {language}
-                            </span>
-                          ))}
-                        </div>
-                      ) : null}
-                    </CardContent>
-                    <CardFooter className="flex justify-center"></CardFooter>
-                  </Card>
-                </Link>
-              </Reveal>
-            );
-          })}
+                    ) : null}
+                  </CardContent>
+                  <CardFooter className="flex justify-center"></CardFooter>
+                </Card>
+              </Link>
+            </Reveal>
+          );
+        })}
       </div>
 
       <ContactSection

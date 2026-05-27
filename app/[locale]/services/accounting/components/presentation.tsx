@@ -11,16 +11,16 @@ import ServicesListServer from "@/src/components/ui/services-list-server";
 const AccountingPresentation = async ({ t }: { t: (key: string) => string }) => {
   const locale: Locale = await getCurrentLocale();
   return (
-    <section data-service-content className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
-      <div className="w-full max-w-[1200px]">
-        <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
+    <section data-service-content className="w-full px-5 py-12 sm:px-8 lg:py-16">
+      <div className="mx-auto w-full max-w-[1240px]">
+        <h2 className="mb-6 max-w-[18ch] text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl">
           {t("Presentation.Title") || "Holistic Vision of Your Accounting"}
-        </h1>
+        </h2>
         <h2 className="text-xl xs:text-2xl md:text-2xl font-bold mb-8 md:leading-[2rem] tracking-tight">
           {t("Presentation.Subtitle") || "A 360° Offer"}
         </h2>
         <div className="text-left w-full">
-          <div className="space-y-6 mb-12">
+          <div className="mb-12 max-w-3xl space-y-6">
             {(Array.isArray(t("Presentation.Intro"))
               ? (t("Presentation.Intro") as unknown as string[])
               : [
@@ -28,7 +28,7 @@ const AccountingPresentation = async ({ t }: { t: (key: string) => string }) => 
                   "From basic bookkeeping to complex financial analysis, we handle all aspects of your accounting needs with precision and professionalism.",
                 ]
             ).map((text, index) => (
-              <p key={index} className="mb-8 text-lg">
+              <p key={index} className="mb-8 text-base leading-8 text-muted-foreground sm:text-lg">
                 {text}
               </p>
             ))}
@@ -102,7 +102,7 @@ const AccountingPresentation = async ({ t }: { t: (key: string) => string }) => 
                       className="flex items-start gap-4 px-6 py-4 rounded-lg bg-primary/5 mb-4"
                     >
                       <svg
-                        className="ui-icon text-blue-400 mt-1 min-w-[20px]"
+                        className="ui-icon text-brand mt-1 min-w-[20px]"
                         width={20}
                         height={20}
                         viewBox="0 0 24 24"
@@ -141,7 +141,7 @@ const AccountingPresentation = async ({ t }: { t: (key: string) => string }) => 
                 <ServicesListSection />
               </Defer>
             </section>
-            <ServiceLongForm t={t} />
+            <ServiceLongForm t={t} locale={locale} />
             <ServiceContactForm locale={locale} />
             <div className="flex justify-center">
               <GoogleReviewsBadge locale={locale} />

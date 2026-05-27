@@ -4,6 +4,7 @@ import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import ServiceContactForm from "@/src/components/ui/service-contact-form";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
 import ServiceLongForm from "@/src/components/ui/service-longform";
+import { CtaBanner } from "@/src/components/ui/surface";
 // Inline SVGs for icons (replace lucide-react)
 const Briefcase = () => (
   <svg
@@ -148,7 +149,6 @@ const Building2 = () => (
     <path d="M8 7V5a4 4 0 0 1 8 0v2" />
   </svg>
 );
-import Link from "next/link";
 const serviceIcons = [Briefcase, HandCoins, Users, Library, HeartHandshake];
 const highlightIcons = [ShieldCheck, HandCoins, Gavel, Globe];
 const FamilyOfficePresentation = ({
@@ -161,12 +161,12 @@ const FamilyOfficePresentation = ({
   // const params = useParams<{ locale?: string }>();
   const localePrefix = locale ? `/${locale}` : "/fr";
   return (
-    <section data-service-content className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center pt-25">
-      <div className="w-full max-w-[1200px] space-y-16">
+    <section data-service-content className="w-full px-5 py-12 sm:px-8 lg:py-16">
+      <div className="mx-auto w-full max-w-[1240px] space-y-16">
         <header className="space-y-6 text-left">
-          <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight">
+          <h2 className="mb-6 max-w-[18ch] text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl">
             {t("Presentation.Title")}
-          </h1>
+          </h2>
           <h2 className="text-xl xs:text-2xl md:text-2xl font-semibold md:leading-[2rem] tracking-tight text-muted-foreground">
             {t("Presentation.Subtitle")}
           </h2>
@@ -218,7 +218,7 @@ const FamilyOfficePresentation = ({
               return (
                 <div
                   key={index}
-                  className="flex items-center gap-6 px-6 py-6 rounded-xl bg-card ring-1 ring-border/50 dark:bg-muted/50 dark:ring-0 shadow-sm hover:shadow-md transition-shadow"
+                  className="flex items-center gap-6 rounded-xl bg-card px-6 py-6 shadow-sm transition-colors hover:bg-surface-warm dark:bg-muted/50"
                 >
                   <span className="ui-icon inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground ring-1 ring-primary/20 dark:bg-primary/10 dark:text-primary shrink-0">
                     <Icon />
@@ -238,21 +238,16 @@ const FamilyOfficePresentation = ({
             })}
           </div>
         </section>
-        <ServiceLongForm t={t} />
-        <section className="rounded-xl border border-primary/20 bg-primary/5 p-12 text-center">
-          <h3 className="text-2xl font-semibold mb-10">
-            {t("Presentation.CalloutTitle")}
-          </h3>
-          <p className="text-lg leading-loose text-muted-foreground mb-12 mx-auto max-w-2xl">
-            {t("Presentation.CalloutText")}
-          </p>
-          <Link
-            href={`${localePrefix}/contact/`}
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-semibold text-primary-foreground transition hover:opacity-90"
-          >
-            {t("Presentation.CalloutCTA")}
-          </Link>
-        </section>
+        <ServiceLongForm t={t} locale={locale} />
+        <CtaBanner
+          variant="warm"
+          title={t("Presentation.CalloutTitle")}
+          description={t("Presentation.CalloutText")}
+          primary={{
+            href: `${localePrefix}/contact/`,
+            label: t("Presentation.CalloutCTA"),
+          }}
+        />
         <ServiceContactForm locale={locale} />
         <div className="flex justify-center">
           <GoogleReviewsBadge locale={locale} />

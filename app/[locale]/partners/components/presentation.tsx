@@ -33,19 +33,19 @@ const PartnersPresentation = ({
 }) => {
   const s = strings;
   return (
-    <section className="mx-auto w-full py-12 xs:py-20 px-6 flex flex-col items-center">
-      <div className="w-full max-w-[1200px]">
-        <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight mb-8 text-left w-full">
+    <section className="w-full px-5 py-12 sm:px-8 xs:py-20">
+      <div className="mx-auto w-full max-w-[1240px]">
+        <h2 className="mb-6 max-w-[18ch] text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl">
           {s.title}
-        </h1>
+        </h2>
 
-        <div className="text-left w-full mb-16">
-          <h2 className="text-xl font-bold mb-8 tracking-tight">
+        <div className="mb-16 w-full text-left">
+          <h3 className="mb-5 text-xl font-semibold tracking-tight">
             {s.subtitle}
-          </h2>
+          </h3>
 
-          <div className="mx-auto mb-12">
-            <p className="text-lg leading-relaxed">{s.description}</p>
+          <div className="mb-12 max-w-3xl">
+            <p className="text-base leading-8 text-muted-foreground sm:text-lg">{s.description}</p>
           </div>
         </div>
 
@@ -53,7 +53,7 @@ const PartnersPresentation = ({
         <section className="mb-20">
           <div className="text-left mb-12">
             <h2 className="text-2xl font-semibold mb-4">{s.partnersTitle}</h2>
-            <p className="text-lg mx-auto">{s.partnersDescription}</p>
+            <p className="max-w-3xl text-base leading-8 text-muted-foreground sm:text-lg">{s.partnersDescription}</p>
           </div>
           <PartnersGrid partners={partners} />
         </section>

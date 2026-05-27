@@ -104,7 +104,7 @@ function TestimonialCard({
       aria-label={`Review by ${authorName}`}
       className="shrink-0 w-[320px] sm:w-[400px] lg:w-[460px]"
     >
-      <figure className="m-0 h-full rounded-[24px] border border-border/70 bg-gradient-to-br from-muted/60 via-background to-muted/20 p-6 shadow-sm transition-colors duration-200 hover:shadow-md dark:border-white/[0.08] dark:hover:bg-white/[0.06]">
+      <figure className="m-0 h-full rounded-[24px] bg-surface-warm p-6 shadow-sm transition-colors duration-200 hover:bg-card dark:bg-card dark:hover:bg-surface-warm">
         {/* Header with avatar, name, company and rating */}
         <figcaption className="flex items-start justify-between gap-4 mb-4">
           <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -166,13 +166,11 @@ export default function TestimonialsCarousel({
   ];
 
   return (
-    <div className="testimonials-carousel w-full overflow-hidden relative">
-      {/* Left fade gradient */}
-      <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" aria-hidden="true" />
-      {/* Right fade gradient */}
-      <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" aria-hidden="true" />
+    <div className="testimonials-carousel relative mx-auto w-full max-w-[1240px] overflow-hidden">
+      <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 w-8 bg-background sm:w-12" aria-hidden="true" />
+      <div className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 w-8 bg-background sm:w-12" aria-hidden="true" />
       <div
-        className="flex gap-6 animate-testimonials-scroll"
+        className="flex animate-testimonials-scroll gap-5 px-10 sm:gap-6 sm:px-14"
         style={{ width: "max-content" }}
       >
         {duplicatedTestimonials.map((testimonial, index) => (

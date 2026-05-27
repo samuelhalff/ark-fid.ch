@@ -49,7 +49,7 @@ export default async function FAQ() {
   return (
     <div
       id="faq"
-      className="mx-auto mb-10 w-full max-w-[var(--breakpoint-xl)] px-6 py-8 xs:py-16"
+      className="mx-auto mb-10 w-full max-w-[1240px] px-5 py-8 sm:px-8 xs:py-16"
     >
       <Reveal className="max-w-4xl mx-auto">
         <SectionHeading
@@ -81,7 +81,7 @@ export default async function FAQ() {
             delay={Math.min((index % 6) * 0.03, 0.15)}
           >
             <details
-              className="group rounded-[22px] border border-border/70 bg-gradient-to-br from-muted/60 via-background to-muted/20 px-5 py-4 shadow-sm transition-shadow open:shadow-md"
+              className="group rounded-[22px] bg-surface-warm px-5 py-4 shadow-sm transition-shadow open:shadow-md dark:bg-card"
             >
               <summary className="faq-summary flex items-center justify-between gap-4 cursor-pointer select-none py-1 pr-2">
                 <h3 className="font-semibold tracking-tight text-lg leading-snug">

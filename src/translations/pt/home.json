@@ -19,6 +19,21 @@
         "Title": "Os nossos serviços",
         "Subtitle": "Programas fiduciários, contabilísticos e fiscais completos para cada etapa de crescimento. Combinamos experiência sob medida, processos suíços comprovados e ferramentas digitais seguras para PME, scale-ups e grupos internacionais."
     },
+    "Trust": {
+        "Eyebrow": "Afiliações e enquadramento",
+        "Sofit": {
+            "Title": "SO-FIT",
+            "Description": "Membro OAR / SRO nos termos da LBA suíça. KYC para domiciliação sensível, escrow, fluxos de pagamento e estruturas documentadas."
+        },
+        "Odoo": {
+            "Title": "Odoo",
+            "Description": "Parceiro oficial para contabilidade, automações e reporting."
+        },
+        "Gaap": {
+            "Title": "Swiss GAAP FER",
+            "Description": "Demonstrações financeiras claras, coerentes e auditáveis."
+        }
+    },
     "About": {
         "Title": "Por que escolher a Ark Fiduciaire?",
         "Content": [
