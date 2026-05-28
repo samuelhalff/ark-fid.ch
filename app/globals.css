@@ -387,10 +387,36 @@
     color: #f7f4f1;
   }
 
-  /* Ensure footer is not dimmed when agent page is present */
+  /* Agent page: force dark mode on entire viewport (navbar, footer, chat) */
+  body:has(.agent-page) {
+    overflow: hidden;
+    --background: 0.145 0 0;
+    --foreground: 0.985 0 0;
+    --card: 0.205 0 0;
+    --card-foreground: 0.985 0 0;
+    --popover: 0.205 0 0;
+    --popover-foreground: 0.985 0 0;
+    --primary: 0.922 0 0;
+    --primary-foreground: 0.205 0 0;
+    --secondary: 0.269 0 0;
+    --secondary-foreground: 0.985 0 0;
+    --muted: 0.269 0 0;
+    --muted-foreground: 0.72 0 0;
+    --border: 1 0 0 / 0.1;
+    --input: 1 0 0 / 0.15;
+    --surface-warm: 0.245 0.008 70;
+    --ring: 0.738 0.099 50;
+  }
+
   body:has(.agent-page) footer {
     position: relative;
     z-index: 1;
+  }
+
+  /* Text selection: readable on both themes */
+  ::selection {
+    background-color: oklch(0.738 0.099 50 / 0.28);
+    color: inherit;
   }
 
   .prose {
