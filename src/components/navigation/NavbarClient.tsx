@@ -52,7 +52,7 @@ export default function NavbarClient({
     "text-brand-hover hover:text-brand-hover after:scale-x-100 dark:text-brand dark:hover:text-brand";
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 w-full max-w-screen">
+    <div className="fixed top-0 left-0 right-0 z-50 w-full">
       <nav
         className={`site-header flex h-16 items-center bg-background transition-[box-shadow] duration-200 ${
           scrolled

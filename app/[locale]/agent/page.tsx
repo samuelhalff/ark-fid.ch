@@ -161,7 +161,7 @@ export default async function AgentPage(
   return (
     <main className="agent-page min-h-[100svh]">
       <div className="agent-page-dim" aria-hidden="true" />
-      <div className="agent-page-content mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-10 md:px-6">
+      <div className="agent-page-content mx-auto flex max-w-[1200px] flex-col gap-8 px-5 py-10 sm:px-8">
         <StructuredData nonce={nonce} data={[breadcrumbJsonLd, softwareAppJsonLd, serviceJsonLd]} />
         <div className="mx-auto max-w-4xl w-full">
           <PageHero

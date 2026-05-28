@@ -190,7 +190,7 @@ export default async function TeamMemberPage(props: { params: Promise<Params> })
   } as const;
 
   return (
-    <div className="container mx-auto px-4 py-15 mt-20 mb-20 max-w-[var(--breakpoint-xl)]">
+    <div className="mx-auto px-5 py-15 mt-20 mb-20 sm:px-8 max-w-[var(--breakpoint-xl)]">
       <link rel="preload" as="image" href={profileImageSrc} />
       <script
         type="application/ld+json"

@@ -200,13 +200,13 @@ export function CtaBanner({
           </p>
         ) : null}
         {(primary || secondary) ? (
-          <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
             {primary ? (
               <Button
                 asChild
                 size="lg"
                 className={cn(
-                  "w-full max-w-[17.25rem] rounded-full sm:w-56 sm:max-w-none",
+                  "w-full rounded-full sm:w-auto sm:min-w-[14rem]",
                   variant === "contrast"
                     ? "btn-main-cta !bg-foreground !text-background hover:!text-white dark:!bg-foreground dark:!text-background dark:hover:!text-white"
                     : "btn-main-cta !bg-foreground !text-background hover:!text-white",
@@ -226,12 +226,7 @@ export function CtaBanner({
                 asChild
                 size="lg"
                 variant="secondary"
-                className={cn(
-                  "w-full max-w-[17.25rem] rounded-full sm:w-56 sm:max-w-none",
-                  variant === "contrast"
-                    ? "btn-secondary-cta"
-                    : "btn-secondary-cta",
-                )}
+                className="btn-secondary-cta w-full rounded-full sm:w-auto sm:min-w-[14rem]"
               >
                 <Link
                   href={secondary.href}

@@ -378,7 +378,7 @@ export default async function ArticlePage(props: Params) {
   } as const;
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-12 mt-8">
+    <main className="max-w-3xl mx-auto px-5 py-12 mt-8 sm:px-8">
       <Defer rootMargin="300px" idle={200}>
         <ReadingProgress targetSelector="#article-content" />
       </Defer>
