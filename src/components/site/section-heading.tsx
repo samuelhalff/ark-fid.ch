@@ -40,15 +40,20 @@ export default function SectionHeading({
       {eyebrow ? (
         <div
           className={cn(
-            "inline-flex items-center gap-3 text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-brand-hover",
-            isCentered ? "justify-center" : "justify-start",
+            "text-[0.68rem] font-semibold uppercase tracking-[0.26em] text-brand-hover",
+            isCentered
+              ? "grid grid-cols-[1.5rem_auto_1.5rem] items-center justify-center gap-3"
+              : "inline-flex items-center justify-start gap-3",
             eyebrowClassName,
           )}
         >
           {isCentered ? (
             <span aria-hidden="true" className="h-px w-6 bg-current/65" />
           ) : null}
-          <span>{eyebrow}</span>
+          <span className="min-w-0 text-center">{eyebrow}</span>
+          {isCentered ? (
+            <span aria-hidden="true" className="h-px w-6 bg-current/65" />
+          ) : null}
         </div>
       ) : null}
 

@@ -53,7 +53,7 @@ const Services = async ({
                   : tidyTitle(tHome("Services.Title") as string)
               }
               align="left"
-              titleClassName="max-w-[18ch] text-4xl sm:text-5xl"
+              titleClassName="max-w-[18ch] text-4xl sm:text-5xl lg:text-[3.25rem]"
             />
             {showSubtitle ? (
               <p className="max-w-[42ch] text-sm leading-7 text-muted-foreground sm:text-base">

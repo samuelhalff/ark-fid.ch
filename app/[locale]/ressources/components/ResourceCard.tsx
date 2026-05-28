@@ -41,6 +41,7 @@ interface ResourceCardProps {
   date?: string;
   author?: string;
   category?: string;
+  locale?: string;
   labels?: Labels;
   colorIndex?: number;
 }
@@ -51,11 +52,12 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   href,
   date,
   category,
+  locale,
   labels,
   colorIndex = 0,
 }) => {
   const colors = cardColors[colorIndex % cardColors.length];
-  const formattedDate = formatResourceDate(date);
+  const formattedDate = formatResourceDate(date, locale);
 
   return (
     <Reveal delay={Math.min(colorIndex * 0.04, 0.24)} className="h-full">
@@ -109,11 +111,11 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   );
 };
 
-function formatResourceDate(date?: string) {
+function formatResourceDate(date?: string, locale = "fr") {
   if (!date) return null;
   const parsed = new Date(`${date}T00:00:00Z`);
   if (Number.isNaN(parsed.getTime())) return date;
-  return new Intl.DateTimeFormat("fr-CH", {
+  return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "short",
     year: "numeric",

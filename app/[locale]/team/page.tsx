@@ -11,7 +11,11 @@ import ContactSection from "../ressources/articles/components/ContactSection";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
-import { teamMembers, getMemberSlug } from "@/src/lib/team";
+import {
+  teamMembers,
+  getMemberSlug,
+  getTeamMembersSortedByLastName,
+} from "@/src/lib/team";
 import { teamImageMap } from "@/src/lib/teamImages";
 import teamBlurData from "@/src/lib/teamBlurData.json";
 import PageHero from "@/src/components/site/page-hero";
@@ -53,13 +57,7 @@ export default async function TeamPage(
     locale === "fr"
       ? "Une équipe de talents complémentaires."
       : (t("Subtitle") as string) || "A team of complementary talents";
-  const orderedTeamMembers = [...teamMembers].sort((a, b) => {
-    if (a.name === "Samuel Halff") return -1;
-    if (b.name === "Samuel Halff") return 1;
-    return a.name.split(" ")[1].localeCompare(b.name.split(" ")[1], undefined, {
-      sensitivity: "base",
-    });
-  });
+  const orderedTeamMembers = getTeamMembersSortedByLastName(teamMembers);
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",

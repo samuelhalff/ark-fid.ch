@@ -7,6 +7,15 @@
   "ReadArticle": "Leer el artículo",
   "LoadMoreArticles": "Cargar más artículos",
   "ShowAllArticles": "Mostrar todo",
+  "Share": {
+    "Article": "Compartir este artículo",
+    "LinkedIn": "Compartir en LinkedIn",
+    "X": "Compartir en X",
+    "WhatsApp": "Compartir en WhatsApp",
+    "Email": "Compartir por correo electrónico",
+    "CopyLink": "Copiar enlace",
+    "Copied": "Copiado"
+  },
   "ImageAltPrefix": "Ilustración del artículo",
   "Articles": [
     {
@@ -2447,5 +2456,14 @@
   "Loi sur le blanchiment d’argent : obligations complémentaires (OFJ)": "Ley de lucha contra el blanqueo de capitales (obligaciones complementarias – OFJ)",
   "Loi fédérale sur la transparence des personnes morales et l’identification des ayants droit économiques (LTPM)": "LTPM – transparencia de las personas jurídicas e identificación de titulares reales",
   "Loi fédérale sur la transparence des personnes morales (LTPM), consultation officielle": "Consulta oficial – LTPM (transparencia de las personas jurídicas)",
-  "Brochure «Droit révisé de la société anonyme» – EXPERTsuisse": "Folleto EXPERTsuisse – ley revisada de sociedad anónima"
+  "Brochure «Droit révisé de la société anonyme» – EXPERTsuisse": "Folleto EXPERTsuisse – ley revisada de sociedad anónima",
+  "Categories": {
+    "all": "Todo",
+    "accounting": "Contabilidad",
+    "tax": "Fiscalidad",
+    "payroll": "Nómina",
+    "corporate": "Sociedades",
+    "international": "Internacional",
+    "digital": "Digital"
+  }
 }

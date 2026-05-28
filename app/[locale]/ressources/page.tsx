@@ -12,6 +12,7 @@ import { buildInternalUrl } from "@/src/lib/paths";
 import PageHero from "@/src/components/site/page-hero";
 import SectionHeading from "@/src/components/site/section-heading";
 import Reveal from "@/src/components/motion/reveal";
+import type { ResourceCategoryLabels } from "@/src/lib/resourceCategories";
 
 type ArticlesSearchParams = Record<string, string | string[] | undefined>;
 
@@ -50,6 +51,7 @@ interface RessourcesData {
   ReadArticle?: string;
   By?: string;
   Published?: string;
+  Categories?: ResourceCategoryLabels;
   Articles: RessourceArticle[];
   FAQ?: FAQContent;
   Links?: RessourcesLinks;
@@ -106,6 +108,7 @@ async function loadRessources(locale: Locale): Promise<RessourcesData> {
       ReadArticle: data.ReadArticle,
       By: data.By,
       Published: data.Published,
+      Categories: data.Categories,
       Articles: normalizeArticles(data.Articles),
       FAQ: normalizeFaq(data.FAQ),
       Links: data.Links,
@@ -152,6 +155,15 @@ export default async function RessourcesPage(
     ReadArticle: ressources.ReadArticle || "Read Article",
     By: ressources.By || "By",
     Published: ressources.Published || "Published on",
+  };
+  const categoryLabels: ResourceCategoryLabels = ressources.Categories || {
+    all: locale === "fr" ? "Tous" : "All",
+    accounting: locale === "fr" ? "Comptabilité" : "Accounting",
+    tax: locale === "fr" ? "Fiscalité" : "Tax",
+    payroll: locale === "fr" ? "Paie" : "Payroll",
+    corporate: locale === "fr" ? "Sociétés" : "Corporate",
+    international: "International",
+    digital: "Digital",
   };
 
   const links = ressources.Links || {};
@@ -256,6 +268,7 @@ export default async function RessourcesPage(
             articles={articlesCanonical}
             locale={locale}
             labels={labels}
+            categoryLabels={categoryLabels}
             step={12}
             loadMoreLabel={ressources.LoadMoreArticles || "Load more articles"}
             showAllLabel={ressources.ShowAllArticles || "Show all"}

@@ -180,7 +180,7 @@ export default function NavbarClient({
                   </Link>
                 </li>
                 <li className="site-header-controls ml-1">
-                  <HeaderControls />
+              <HeaderControls />
                 </li>
               </ul>
             </nav>

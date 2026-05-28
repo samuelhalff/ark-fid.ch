@@ -160,6 +160,15 @@ export const teamMembers: TeamMember[] = [
   },
 ];
 
+const getLastName = (name: string) => name.trim().split(/\s+/).at(-1) || name;
+
+export const getTeamMembersSortedByLastName = (members: TeamMember[]) =>
+  [...members].sort((a, b) =>
+    getLastName(a.name).localeCompare(getLastName(b.name), undefined, {
+      sensitivity: "base",
+    }),
+  );
+
 export const isPartnerRole = (role: TeamMember["role"]) =>
   role === "Partner" || role === "ManagingPartner";
 

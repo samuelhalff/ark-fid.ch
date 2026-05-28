@@ -18,7 +18,7 @@ if (!fs.existsSync(distDir)) {
 process.env.NODE_ENV = process.env.NODE_ENV || 'production'
 process.chdir(distDir)
 
-const currentPort = parseInt(process.env.PORT, 10) || 3000
+const currentPort = parseInt(process.env.PORT, 10) || 5000
 const hostname = process.env.HOSTNAME || '0.0.0.0'
 
 let keepAliveTimeout = parseInt(process.env.KEEP_ALIVE_TIMEOUT || '', 10)

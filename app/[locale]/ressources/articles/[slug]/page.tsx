@@ -448,7 +448,19 @@ export default async function ArticlePage(props: Params) {
           idle={250}
           placeholder={<div className="h-[36px] w-64 rounded-md bg-muted/40" />}
         >
-          <ShareButtons url={articleUrl} title={article.title} />
+          <ShareButtons
+            url={articleUrl}
+            title={article.title}
+            labels={{
+              shareArticle: tRessources("Share.Article") as string,
+              shareLinkedIn: tRessources("Share.LinkedIn") as string,
+              shareX: tRessources("Share.X") as string,
+              shareWhatsApp: tRessources("Share.WhatsApp") as string,
+              shareEmail: tRessources("Share.Email") as string,
+              copyLink: tRessources("Share.CopyLink") as string,
+              copied: tRessources("Share.Copied") as string,
+            }}
+          />
         </Defer>
       </div>
 

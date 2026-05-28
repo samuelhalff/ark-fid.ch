@@ -169,38 +169,43 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
       </section>
       <section
         id="affiliations"
-        className="mx-auto w-full max-w-[1240px] px-5 pb-8 sm:px-8"
+        className="mx-auto w-full max-w-[1240px] px-5 pb-10 sm:px-8"
         aria-labelledby="affiliations-title"
       >
-        <div className="grid gap-2.5 rounded-[24px] bg-surface-warm p-3 text-center shadow-sm dark:bg-card sm:grid-cols-[0.85fr_repeat(3,1fr)] sm:p-4 sm:text-left">
-          <div className="flex items-center justify-center rounded-2xl bg-background/70 px-4 py-3 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground dark:bg-background/10 sm:justify-start">
-            <span id="affiliations-title">
-              {homeT("Trust.Eyebrow") as string}
-            </span>
-          </div>
-          {trustItems.map((item) => (
-            <article
-              key={item.title}
-              className={`rounded-2xl px-4 py-3 ${
-                item.featured
-                  ? "bg-foreground text-background dark:bg-background dark:text-foreground"
-                  : "bg-background/70 text-foreground dark:bg-background/10"
-              }`}
+        <div className="grid gap-2 rounded-2xl bg-surface-warm p-2.5 sm:grid-cols-[auto_repeat(3,1fr)] sm:items-center sm:gap-2.5 sm:p-3 dark:bg-card">
+          <div className="flex items-center px-4 py-4 sm:py-5">
+            <p
+              id="affiliations-title"
+              className="font-mono text-[10.5px] uppercase leading-5 tracking-[0.14em] text-muted-foreground/80"
             >
-              <h2 className="text-base font-semibold tracking-tight">
-                {item.title}
-              </h2>
-              <p
-                className={`mt-1.5 text-sm leading-6 ${
+              {homeT("Trust.Eyebrow") as string}
+            </p>
+          </div>
+          <ul className="contents">
+            {trustItems.map((item) => (
+              <li
+                key={item.title}
+                className={`rounded-xl px-4 py-4 sm:py-5 ${
                   item.featured
-                    ? "text-background/76 dark:text-foreground/76"
-                    : "text-muted-foreground"
+                    ? "bg-brand/[0.09] ring-1 ring-inset ring-brand/20 dark:bg-brand/[0.12]"
+                    : "bg-background/70 ring-1 ring-inset ring-foreground/[0.06] dark:bg-background/[0.08]"
                 }`}
               >
-                {item.description}
-              </p>
-            </article>
-          ))}
+                <h2
+                  className={`text-[15px] font-semibold tracking-[-0.01em] ${
+                    item.featured
+                      ? "text-brand-hover dark:text-brand"
+                      : "text-foreground"
+                  }`}
+                >
+                  {item.title}
+                </h2>
+                <p className="mt-1 text-[12px] leading-5 text-muted-foreground">
+                  {item.description}
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
       <section id="services">
@@ -243,6 +248,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
         <Defer
           rootMargin="300px"
           idle={200}
+          maxDelay={1200}
           placeholder={<div className="h-40 w-full rounded-lg bg-muted/40" />}
         >
           <About />
@@ -252,6 +258,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
         <Defer
           rootMargin="300px"
           idle={200}
+          maxDelay={1200}
           placeholder={<div className="h-40 w-full rounded-lg bg-muted/40" />}
         >
           <FAQ />
@@ -261,6 +268,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
         <Defer
           rootMargin="400px"
           idle={300}
+          maxDelay={1400}
           placeholder={<div className="h-64 w-full rounded-lg bg-muted/40" />}
         >
           <Testimonials />
@@ -270,6 +278,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
         <Defer
           rootMargin="300px"
           idle={200}
+          maxDelay={1400}
           placeholder={<div className="h-64 w-full rounded-lg bg-muted/40" />}
         >
           <ContactForm strings={contactStrings} redirectPath={`${localePrefix}/`} />

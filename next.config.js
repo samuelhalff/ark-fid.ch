@@ -15,16 +15,16 @@ const baseConfig = {
     optimizePackageImports: ["lucide-react", "react-hook-form", "sonner"],
     optimizeCss: true,
     nextScriptWorkers: true,
-    // Ensure runtime access to JSON translation files in standalone/serverless outputs
-    outputFileTracingIncludes: {
-      "/**/*": ["src/translations/**/*"],
-    },
     swcPlugins: [
       // Configure SWC to skip polyfills for modern browsers
     ],
     esmExternals: true, // prefer native ESM deps
   },
-  output: "standalone",
+  // Ensure runtime access to JSON translation files in standalone/serverless outputs.
+  outputFileTracingIncludes: {
+    "/**/*": ["src/translations/**/*"],
+  },
+  ...(process.env.NODE_ENV === "production" ? { output: "standalone" } : {}),
   images: {
     unoptimized: false,
     formats: ["image/avif", "image/webp"],
@@ -32,7 +32,6 @@ const baseConfig = {
     imageSizes: [16, 24, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000, // 1 year for static assets
   },
-  swcMinify: true,
   compiler: {
     removeConsole:
       process.env.NODE_ENV === "production"

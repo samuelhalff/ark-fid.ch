@@ -78,6 +78,27 @@ The validation now checks these critical keys across all 5 locales (en, fr, de, 
 **Navigation (4 keys):**
 
 - `navbar:Home`
+
+**Resources categories (7 keys):**
+
+- `ressources:Categories.all`
+- `ressources:Categories.accounting`
+- `ressources:Categories.tax`
+- `ressources:Categories.payroll`
+- `ressources:Categories.corporate`
+- `ressources:Categories.international`
+- `ressources:Categories.digital`
+
+**Resources share controls (7 keys):**
+
+- `ressources:Share.Article`
+- `ressources:Share.LinkedIn`
+- `ressources:Share.X`
+- `ressources:Share.WhatsApp`
+- `ressources:Share.Email`
+- `ressources:Share.CopyLink`
+- `ressources:Share.Copied`
+
 - `navbar:Services`
 - `navbar:About`
 - `navbar:Contact`
