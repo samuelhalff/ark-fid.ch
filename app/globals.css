@@ -395,15 +395,8 @@
     z-index: 1;
   }
 
-  /* Give the layout's main a defined height so flex-1 children can fill it */
-  body:has(.agent-page) #main-content {
-    height: 100svh;
-    overflow: hidden;
-  }
-
   body:has(.agent-page) footer {
-    position: relative;
-    z-index: 1;
+    display: none;
   }
 
   /* Text selection: readable on both themes */

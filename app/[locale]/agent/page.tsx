@@ -159,13 +159,12 @@ export default async function AgentPage(
   } as const;
 
   return (
-    <div className="agent-page flex h-full flex-col">
+    <div className="agent-page">
       <div className="agent-page-dim" aria-hidden="true" />
-      <div className="agent-page-content flex min-h-0 flex-1 flex-col">
+      <div className="agent-page-content">
         <StructuredData nonce={nonce} data={[breadcrumbJsonLd, softwareAppJsonLd, serviceJsonLd]} />
-        <div className="mx-auto flex min-h-0 w-full max-w-[1200px] flex-1 flex-col px-5 sm:px-8">
-          {/* Header — shrinks to its content */}
-          <div className="mx-auto w-full max-w-4xl shrink-0 pb-6 pt-8 sm:pt-10">
+        <div className="mx-auto w-full max-w-4xl px-5 sm:px-8">
+          <div className="pb-6 pt-8 sm:pt-10">
             <PageHero
               eyebrow={text("Lead.Title", "Parler à notre agent")}
               title={text("Title", "Instant quote")}
@@ -182,11 +181,8 @@ export default async function AgentPage(
               </p>
             </PageHero>
           </div>
-          {/* Chat card — takes all remaining height; inner scroll */}
-          <div className="mx-auto mb-5 flex min-h-0 w-full max-w-4xl flex-1 flex-col overflow-hidden rounded-[34px] bg-card text-foreground shadow-[0_26px_80px_rgba(0,0,0,0.42)] sm:mb-7">
-            <AgentChat strings={chatStrings} suggestions={suggestions} />
-          </div>
         </div>
+        <AgentChat strings={chatStrings} suggestions={suggestions} />
       </div>
     </div>
   );

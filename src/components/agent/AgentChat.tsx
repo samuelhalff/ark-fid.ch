@@ -839,155 +839,158 @@ export default function AgentChat({
   };
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      <div
-        className="min-h-0 flex-1 overflow-y-auto"
-        role="log"
-        aria-live="polite"
-      >
-        <div className="mx-auto max-w-3xl space-y-5 px-4 py-5 md:px-6 md:py-6">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={cn(
-              "flex",
-              message.role === "user" ? "justify-end" : "justify-start",
-            )}
-          >
+    <>
+      {/* Messages — grow with page scroll */}
+      <div role="log" aria-live="polite">
+        <div className="mx-auto max-w-4xl space-y-5 px-5 py-5 sm:px-8 md:py-6">
+          {messages.map((message) => (
             <div
+              key={message.id}
               className={cn(
-                "max-w-[85%] rounded-[24px] px-4 py-3 text-sm leading-relaxed shadow-sm sm:max-w-[75%]",
-                message.role === "user"
-                  ? "bg-foreground text-background whitespace-pre-wrap dark:bg-primary dark:text-primary-foreground"
-                  : "bg-surface-warm text-foreground dark:bg-card",
+                "flex",
+                message.role === "user" ? "justify-end" : "justify-start",
               )}
             >
-              {message.role === "assistant" ? (
-                <div className="prose prose-sm max-w-none text-foreground dark:prose-invert prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-p:text-foreground prose-li:text-foreground prose-strong:text-foreground prose-a:text-foreground">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {message.content}
-                  </ReactMarkdown>
-                </div>
-              ) : (
-                message.content
-              )}
+              <div
+                className={cn(
+                  "max-w-[85%] rounded-[24px] px-4 py-3 text-sm leading-relaxed shadow-sm sm:max-w-[75%]",
+                  message.role === "user"
+                    ? "bg-foreground text-background whitespace-pre-wrap dark:bg-primary dark:text-primary-foreground"
+                    : "bg-surface-warm text-foreground dark:bg-card",
+                )}
+              >
+                {message.role === "assistant" ? (
+                  <div className="prose prose-sm max-w-none text-foreground dark:prose-invert prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-p:text-foreground prose-li:text-foreground prose-strong:text-foreground prose-a:text-foreground">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {message.content}
+                    </ReactMarkdown>
+                  </div>
+                ) : (
+                  message.content
+                )}
+              </div>
             </div>
-          </div>
-        ))}
-        {sending && (
-          <div className="flex justify-start">
-            <div className="rounded-[24px] bg-surface-warm px-4 py-3 text-sm text-muted-foreground shadow-sm dark:bg-card">
-              <span className="sr-only">{strings.chat.thinking}</span>
-              <span className="typing-dots" aria-hidden="true">
-                <span className="typing-dot" />
-                <span className="typing-dot" />
-                <span className="typing-dot" />
-              </span>
-            </div>
-          </div>
-        )}
-          <div ref={endRef} />
-        </div>
-      </div>
-      <div
-        className="shrink-0 bg-background/95 px-4 pt-3 shadow-[0_-16px_32px_rgba(20,16,14,0.06)] backdrop-blur-sm md:px-6 dark:shadow-[0_-18px_34px_rgba(0,0,0,0.28)]"
-        style={{ paddingBottom: keyboardOffset ? keyboardOffset + 20 : 20 }}
-      >
-        {canChat &&
-          suggestions.length > 0 &&
-          messages.length === 0 &&
-          !input.trim() && (
-            <div className="mb-3 space-y-2">
-              <p className="text-xs font-semibold text-foreground dark:text-white">
-                {strings.suggestions.title}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {suggestions.map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => void sendMessage(item)}
-                    className="rounded-full bg-[#f7ebe5] px-3 py-1 text-xs text-[#8c4f39] shadow-sm transition-colors hover:bg-[#f3ddd4] hover:text-[#663628] dark:bg-[#34221c] dark:text-[#f2b294] dark:hover:bg-[#412721] dark:hover:text-[#f7c8b2]"
-                    disabled={sending}
-                  >
-                    {item}
-                  </button>
-                ))}
+          ))}
+          {sending && (
+            <div className="flex justify-start">
+              <div className="rounded-[24px] bg-surface-warm px-4 py-3 text-sm text-muted-foreground shadow-sm dark:bg-card">
+                <span className="sr-only">{strings.chat.thinking}</span>
+                <span className="typing-dots" aria-hidden="true">
+                  <span className="typing-dot" />
+                  <span className="typing-dot" />
+                  <span className="typing-dot" />
+                </span>
               </div>
             </div>
           )}
-        {chatError && (
+          {/* Spacer keeps the last message above the fixed input bar */}
+          <div className="h-36" aria-hidden="true" />
+          <div ref={endRef} />
+        </div>
+      </div>
+
+      {/* Input bar — fixed at viewport bottom, moves with mobile keyboard */}
+      <div
+        className="fixed bottom-0 left-0 right-0 z-10 bg-background/95 px-5 pt-3 shadow-[0_-16px_32px_rgba(20,16,14,0.06)] backdrop-blur-sm sm:px-8 dark:shadow-[0_-18px_34px_rgba(0,0,0,0.28)]"
+        style={{ paddingBottom: keyboardOffset ? keyboardOffset + 20 : 20 }}
+      >
+        <div className="mx-auto max-w-4xl">
+          {canChat &&
+            suggestions.length > 0 &&
+            messages.length === 0 &&
+            !input.trim() && (
+              <div className="mb-3 space-y-2">
+                <p className="text-xs font-semibold text-foreground">
+                  {strings.suggestions.title}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {suggestions.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => void sendMessage(item)}
+                      className="rounded-full bg-[#f7ebe5] px-3 py-1 text-xs text-[#8c4f39] shadow-sm transition-colors hover:bg-[#f3ddd4] hover:text-[#663628] dark:bg-[#34221c] dark:text-[#f2b294] dark:hover:bg-[#412721] dark:hover:text-[#f7c8b2]"
+                      disabled={sending}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          {chatError && (
+            <div
+              className={cn(
+                "mb-2 text-xs",
+                rateLimited ? "text-amber-600" : "text-red-500",
+              )}
+            >
+              {chatError}
+            </div>
+          )}
+          {reconnectAvailable && !rateLimited && (
+            <Button
+              type="button"
+              variant="link"
+              size="sm"
+              onClick={() => void handleReconnect()}
+              disabled={reconnecting || sending || leadSubmitting}
+              className="mb-3 h-auto p-0 text-xs text-foreground hover:text-foreground/80"
+            >
+              {reconnecting ? strings.chat.thinking : strings.chat.reconnect}
+            </Button>
+          )}
+          {showClearHistory && (
+            <Button
+              type="button"
+              variant="link"
+              size="sm"
+              onClick={handleClearHistory}
+              className="mb-3 h-auto p-0 text-xs text-red-500 hover:text-red-600"
+            >
+              {strings.chat.clearHistory}
+            </Button>
+          )}
           <div
             className={cn(
-              "mb-2 text-xs",
-              rateLimited ? "text-amber-600" : "text-red-500",
+              "flex items-end gap-3 bg-background px-4 py-2 shadow-[0_12px_28px_rgba(0,0,0,0.12)] dark:shadow-[0_18px_32px_rgba(0,0,0,0.34)]",
+              isMultiline ? "rounded-[10px]" : "rounded-[18px]",
             )}
           >
-            {chatError}
-          </div>
-        )}
-        {reconnectAvailable && !rateLimited && (
-          <Button
-            type="button"
-            variant="link"
-            size="sm"
-            onClick={() => void handleReconnect()}
-            disabled={reconnecting || sending || leadSubmitting}
-            className="mb-3 h-auto p-0 text-xs text-foreground hover:text-foreground/80"
-          >
-            {reconnecting ? strings.chat.thinking : strings.chat.reconnect}
-          </Button>
-        )}
-        {showClearHistory && (
-          <Button
-            type="button"
-            variant="link"
-            size="sm"
-            onClick={handleClearHistory}
-            className="mb-3 h-auto p-0 text-xs text-red-500 hover:text-red-600"
-          >
-            {strings.chat.clearHistory}
-          </Button>
-        )}
-        <div
-          className={cn(
-            "mx-auto flex max-w-3xl items-end gap-3 bg-background px-4 py-2 shadow-[0_12px_28px_rgba(0,0,0,0.12)] dark:shadow-[0_18px_32px_rgba(0,0,0,0.34)]",
-            isMultiline ? "rounded-[10px]" : "rounded-[18px]",
-          )}
-        >
-          <Textarea
-            ref={inputRef}
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={strings.chat.placeholder}
-            rows={1}
-            className="resize-none overflow-hidden min-h-[40px] border-0 bg-background px-1 py-2 text-base leading-6 text-foreground placeholder:text-foreground/60 shadow-none !outline-none !ring-0 !ring-offset-0 !shadow-none focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0 focus-visible:!shadow-none"
-            disabled={!canChat || sending}
-          />
-          <Button
-            type="button"
-            size="icon"
-            onClick={() => void sendMessage()}
-            disabled={!canChat || sending || !input.trim()}
-            aria-label={strings.chat.send}
-            className="self-center !rounded-full bg-[#1f1b19] text-white shadow-sm hover:bg-[#2b2521] dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
-          >
-            <span className="sr-only">{strings.chat.send}</span>
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden
-              className="size-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+            <Textarea
+              ref={inputRef}
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={strings.chat.placeholder}
+              rows={1}
+              className="resize-none overflow-hidden min-h-[40px] border-0 bg-background px-1 py-2 text-base leading-6 text-foreground placeholder:text-foreground/60 shadow-none !outline-none !ring-0 !ring-offset-0 !shadow-none focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0 focus-visible:!shadow-none"
+              disabled={!canChat || sending}
+            />
+            <Button
+              type="button"
+              size="icon"
+              onClick={() => void sendMessage()}
+              disabled={!canChat || sending || !input.trim()}
+              aria-label={strings.chat.send}
+              className="self-center !rounded-full bg-[#1f1b19] text-white shadow-sm hover:bg-[#2b2521] dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
             >
-              <path d="M12 19V5" />
-              <path d="M5 12l7-7 7 7" />
-            </svg>
-          </Button>
+              <span className="sr-only">{strings.chat.send}</span>
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden
+                className="size-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 19V5" />
+                <path d="M5 12l7-7 7 7" />
+              </svg>
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -1134,6 +1137,6 @@ export default function AgentChat({
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
