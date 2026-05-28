@@ -159,30 +159,33 @@ export default async function AgentPage(
   } as const;
 
   return (
-    <main className="agent-page min-h-[100svh]">
+    <main className="agent-page flex h-[100svh] flex-col overflow-hidden">
       <div className="agent-page-dim" aria-hidden="true" />
-      <div className="agent-page-content mx-auto flex max-w-[1200px] flex-col gap-8 px-5 py-10 sm:px-8">
+      <div className="agent-page-content flex flex-1 flex-col overflow-hidden">
         <StructuredData nonce={nonce} data={[breadcrumbJsonLd, softwareAppJsonLd, serviceJsonLd]} />
-        <div className="mx-auto max-w-4xl w-full">
-          <PageHero
-            eyebrow={text("Lead.Title", "Parler à notre agent")}
-            title={text("Title", "Instant quote")}
-            description={text("Subtitle", "Get a quick estimate for your request.")}
-            eyebrowClassName="text-brand"
-            titleClassName="text-white"
-            descriptionClassName="text-white/68"
-          >
-            <p className="max-w-2xl text-sm leading-7 text-white/60">
-              {text(
-                "Intro",
-                "Describe what you need and receive the next steps.",
-              )}
-            </p>
-          </PageHero>
-        </div>
-
-        <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col rounded-[34px] bg-card text-foreground shadow-[0_26px_80px_rgba(0,0,0,0.42)] backdrop-blur-sm">
-          <AgentChat strings={chatStrings} suggestions={suggestions} />
+        <div className="mx-auto flex w-full max-w-[1200px] flex-1 flex-col overflow-hidden px-5 sm:px-8">
+          {/* Header — fixed height, does not scroll */}
+          <div className="mx-auto w-full max-w-4xl shrink-0 pb-6 pt-8 sm:pt-10">
+            <PageHero
+              eyebrow={text("Lead.Title", "Parler à notre agent")}
+              title={text("Title", "Instant quote")}
+              description={text("Subtitle", "Get a quick estimate for your request.")}
+              eyebrowClassName="text-brand"
+              titleClassName="text-white"
+              descriptionClassName="text-white/68"
+            >
+              <p className="max-w-2xl text-sm leading-7 text-white/60">
+                {text(
+                  "Intro",
+                  "Describe what you need and receive the next steps.",
+                )}
+              </p>
+            </PageHero>
+          </div>
+          {/* Chat card — fills remaining height, scrolls internally */}
+          <div className="mx-auto mb-5 flex w-full max-w-4xl flex-1 flex-col overflow-hidden rounded-[34px] bg-card text-foreground shadow-[0_26px_80px_rgba(0,0,0,0.42)] sm:mb-7">
+            <AgentChat strings={chatStrings} suggestions={suggestions} />
+          </div>
         </div>
       </div>
     </main>

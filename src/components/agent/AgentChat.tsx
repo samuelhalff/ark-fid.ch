@@ -839,12 +839,11 @@ export default function AgentChat({
   };
 
   return (
-    <div className="flex min-h-[65svh] flex-col">
+    <div className="flex h-full flex-col">
       <div
-        className="space-y-5 px-4 py-5 md:px-6 md:py-6"
+        className="flex-1 overflow-y-auto space-y-5 px-4 py-5 md:px-6 md:py-6"
         role="log"
         aria-live="polite"
-        style={{ paddingBottom: keyboardOffset ? keyboardOffset + 12 : 12 }}
       >
         {messages.map((message) => (
           <div
@@ -889,12 +888,8 @@ export default function AgentChat({
         <div ref={endRef} />
       </div>
       <div
-        className="sticky bottom-0 z-10 bg-background/95 px-4 pb-5 pt-3 shadow-[0_-16px_32px_rgba(20,16,14,0.06)] backdrop-blur-sm md:px-6 dark:shadow-[0_-18px_34px_rgba(0,0,0,0.28)]"
-        style={{
-          transform: keyboardOffset
-            ? `translateY(-${keyboardOffset}px)`
-            : undefined,
-        }}
+        className="shrink-0 bg-background/95 px-4 pt-3 shadow-[0_-16px_32px_rgba(20,16,14,0.06)] backdrop-blur-sm md:px-6 dark:shadow-[0_-18px_34px_rgba(0,0,0,0.28)]"
+        style={{ paddingBottom: keyboardOffset ? keyboardOffset + 20 : 20 }}
       >
         {canChat &&
           suggestions.length > 0 &&
