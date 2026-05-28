@@ -191,7 +191,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
                     : "bg-background/70 ring-1 ring-inset ring-foreground/[0.06] dark:bg-background/[0.08]"
                 }`}
               >
-                <h2
+                <p
                   className={`text-[15px] font-semibold tracking-[-0.01em] ${
                     item.featured
                       ? "text-brand-hover dark:text-brand"
@@ -199,7 +199,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
                   }`}
                 >
                   {item.title}
-                </h2>
+                </p>
                 <p className="mt-1 text-[12px] leading-5 text-muted-foreground">
                   {item.description}
                 </p>

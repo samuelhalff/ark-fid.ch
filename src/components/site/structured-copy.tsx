@@ -17,7 +17,7 @@ export default function StructuredCopy({
 
   return (
     <div className="space-y-8">
-      <div className="max-w-4xl space-y-5 text-lg leading-8 text-muted-foreground">
+      <div className="max-w-4xl space-y-5 text-lg leading-8 text-foreground/85">
         {lead.map((paragraph, index) => (
           <ContextualLinksServer
             key={`lead-${index}`}
@@ -34,7 +34,7 @@ export default function StructuredCopy({
             <ContextualLinksServer
               key={`supporting-${index}`}
               locale={locale}
-              className="text-sm leading-7 text-muted-foreground"
+              className="text-sm leading-7 text-foreground/80"
               maxLinksPerParagraph={1}
             >
               {paragraph}

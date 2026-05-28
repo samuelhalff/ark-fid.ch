@@ -69,7 +69,7 @@ export default function SectionHeading({
         {description ? (
           <p
             className={cn(
-              "max-w-3xl text-sm leading-7 text-muted-foreground sm:text-base",
+              "max-w-3xl text-sm leading-7 text-foreground/75 sm:text-base",
               isCentered ? "mx-auto" : "",
               descriptionClassName,
             )}
