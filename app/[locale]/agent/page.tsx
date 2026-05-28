@@ -171,10 +171,10 @@ export default async function AgentPage(
               title={text("Title", "Instant quote")}
               description={text("Subtitle", "Get a quick estimate for your request.")}
               eyebrowClassName="text-brand"
-              titleClassName="text-white"
-              descriptionClassName="text-white/68"
+              titleClassName="text-foreground"
+              descriptionClassName="text-muted-foreground"
             >
-              <p className="max-w-2xl text-sm leading-7 text-white/60">
+              <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
                 {text(
                   "Intro",
                   "Describe what you need and receive the next steps.",

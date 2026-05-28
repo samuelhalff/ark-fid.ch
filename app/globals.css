@@ -368,14 +368,23 @@
 
   .agent-page {
     position: relative;
-    background: #070707;
   }
 
+  /* Light mode: subtle warm glow only */
   .agent-page-dim {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 0;
+    background: radial-gradient(circle at 50% 0%, oklch(0.738 0.099 50 / 0.06), transparent 30rem);
+  }
+
+  /* Dark mode: full dark gradient background */
+  .dark .agent-page {
+    background: #070707;
+  }
+
+  .dark .agent-page-dim {
     background:
       radial-gradient(circle at 50% 0%, rgb(221 126 42 / 0.12), transparent 34rem),
       #070707;
@@ -384,27 +393,6 @@
   .agent-page-content {
     position: relative;
     z-index: 1;
-    color: #f7f4f1;
-  }
-
-  /* Agent page: force dark mode on entire viewport (navbar, footer, chat) */
-  body:has(.agent-page) {
-    --background: 0.145 0 0;
-    --foreground: 0.985 0 0;
-    --card: 0.205 0 0;
-    --card-foreground: 0.985 0 0;
-    --popover: 0.205 0 0;
-    --popover-foreground: 0.985 0 0;
-    --primary: 0.922 0 0;
-    --primary-foreground: 0.205 0 0;
-    --secondary: 0.269 0 0;
-    --secondary-foreground: 0.985 0 0;
-    --muted: 0.269 0 0;
-    --muted-foreground: 0.72 0 0;
-    --border: 1 0 0 / 0.1;
-    --input: 1 0 0 / 0.15;
-    --surface-warm: 0.245 0.008 70;
-    --ring: 0.738 0.099 50;
   }
 
   /* Give the layout's main a defined height so flex-1 children can fill it */
