@@ -109,14 +109,14 @@ export default async function NotFoundPage() {
             <Link
               key={a.slug}
               href={`${localePrefix}/ressources/articles/${a.slug}/`}
-              className="group rounded-lg border p-4 hover:shadow-md transition-shadow bg-card"
+              className="group rounded-lg bg-card p-4 shadow-sm transition-colors hover:bg-surface-warm"
               prefetch={false}
             >
               <h3 className="font-semibold group-hover:underline">{a.title}</h3>
               <p className="text-sm text-muted-foreground mt-2 line-clamp-3">
                 {a.description}
               </p>
-              <span className="inline-flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400 mt-3">
+              <span className="inline-flex items-center gap-1 text-sm text-brand-hover dark:text-brand mt-3">
                 {locale === "fr"
                   ? "Lire l'article"
                   : locale === "de"
@@ -152,7 +152,7 @@ export default async function NotFoundPage() {
               <Link
                 href={s.href}
                 prefetch={false}
-                className="flex items-start gap-3 rounded-md border p-3 hover:bg-accent"
+                className="flex items-start gap-3 rounded-md bg-surface-warm/55 p-3 shadow-sm hover:bg-accent"
               >
                 <span aria-hidden>{s.icon}</span>
                 <span>

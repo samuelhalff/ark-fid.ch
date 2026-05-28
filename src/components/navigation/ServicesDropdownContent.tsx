@@ -28,7 +28,7 @@ function ListItem({
           href={href}
           prefetch={false}
           locale={locale}
-          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+          className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-surface-warm/70 hover:text-foreground focus:bg-surface-warm/70 focus:text-foreground focus:ring-2 focus:ring-foreground/15 dark:hover:bg-white/[0.06] dark:focus:bg-white/[0.06]"
         >
           <div className="flex gap-2 items-center text-sm font-medium leading-none">
             {icon && icon}

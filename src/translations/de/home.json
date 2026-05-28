@@ -8,7 +8,7 @@
         "Description": "Fiduziarische Unterstützung mit schweizerischer Präzision und digitaler Effizienz für Buchhaltung, Steuern, Lohnwesen und Unternehmensführung von der Gründung bis zur Expansion.",
         "CTA": "Kontakt aufnehmen",
         "SecondaryCTA": "Sofortangebot erhalten",
-        "Badge": "Swiss made",
+        "Badge": "Genève · Lausanne",
         "BadgeTwo": "KI-gestützt",
         "OdooBadge": "Digitale & ERP-Lösungen",
         "OdooPartnerBadge": "Offizieller Odoo-Partner",
@@ -16,16 +16,33 @@
         "ScrollHint": "Mehr entdecken"
     },
     "Services": {
+        "Eyebrow": "Dienstleistungen",
         "Title": "Unsere Dienstleistungen",
         "Subtitle": "Umfassende Treuhand-, Buchhaltungs- und Steuerprogramme für jede Wachstumsphase. Wir kombinieren Expertise auf Abruf, bewährte Schweizer Prozesse und sichere digitale Werkzeuge für KMU, Scale-ups und internationale Gruppen."
     },
+    "Trust": {
+        "Eyebrow": "Mitgliedschaften und Rahmen",
+        "Sofit": {
+            "Title": "SO-FIT",
+            "Description": "SRO / OAR-Mitglied nach Schweizer GwG. KYC-Prozesse für sensible Domizilierung, Escrow-Mandate, Zahlungsflüsse und dokumentierte Strukturen."
+        },
+        "Odoo": {
+            "Title": "Odoo",
+            "Description": "Offizieller Partner für Buchhaltung, Automatisierung und Reporting."
+        },
+        "Gaap": {
+            "Title": "Swiss GAAP FER",
+            "Description": "Lesbare, konsistente und prüfbare Abschlüsse."
+        }
+    },
     "About": {
+        "Eyebrow": "Über uns",
         "Title": "Warum Ark Fiduciaire?",
         "Content": [
             "Ark Fiduciaire stützt sich auf tiefgreifende lokale Expertise und modernste technologische Werkzeuge, um Unternehmer, Familienunternehmen, NGOs und internationale Gruppen bei der Sicherung ihrer Schweizer Buchhaltung und Compliance zu unterstützen. Wir agieren als integriertes Treuhandteam, das die operativen Realitäten der Romandie versteht und gleichzeitig Stakeholder im Ausland koordiniert.",
             "Unsere multidisziplinären Spezialisten decken Buchhaltung, Steuern, Lohnwesen, HR-Administration, Governance und Unternehmenssekretariat ab. Sie profitieren von zertifizierten Buchhaltern, Steuerberatern und Beratern, die komplexe Regeln in pragmatische Aktionspläne für Ihre Organisation umwandeln.",
             "Jedes Mandat beginnt mit einer Analysephase, in der wir Ihre Ziele, internen Prozesse und Risikobereitschaft kartieren. Anschließend entwerfen wir einen evolvierenden Serviceplan, von der Unternehmensgründung und Buchhaltung bis zum konsolidierten Reporting, zur Mehrwertsteuerstrategie oder zur HR-Auslagerung.",
-            "Der Schweizer Regulierungsrahmen entwickelt sich schnell. Wir verfolgen Aktualisierungen von FINMA, AHV und Kantonen, setzen erforderliche Anpassungen um und dokumentieren alle Kontrollen, damit Sie auditbereit bleiben. Unsere Kunden verlassen sich darauf, dass wir Fristen antizipieren, Strafen vermeiden und eine einwandfreie Dokumentation aufrechterhalten.",
+            "Der Schweizer Regulierungsrahmen entwickelt sich schnell. Wir verfolgen Aktualisierungen der SRO / OAR, der AHV und der Kantone, setzen erforderliche Anpassungen um und dokumentieren die notwendigen Kontrollen, damit Sie auditbereit bleiben. Unsere Kunden verlassen sich darauf, dass wir Fristen antizipieren, Strafen vermeiden und eine einwandfreie Dokumentation aufrechterhalten.",
             "Technologie steht im Herzen unseres Modells. Durch die Kombination von KI-gestützter Dokumentenverarbeitung und Odoo-ERP-Integrationen verkürzen wir Abschlusszeiten, automatisieren wiederkehrende Abstimmungen und erstellen Dashboards, die Ihre Entscheidungen in Echtzeit steuern, ohne die Datensicherheit zu beeinträchtigen.",
             "Verankert in Genf und Lausanne koordinieren wir regelmäßig mit Anwälten, Auditoren und Steuerberatern in der Schweiz, Europa und Amerika. Mehrsprachige Unterstützung in Französisch, Englisch, Deutsch, Spanisch und Portugiesisch gewährleistet eine reibungslose Kommunikation für verteilte Teams.",
             "Unsere Kunden schätzen unsere transparente Preisgestaltung, dedizierten Ansprechpartner und Klarheit der Lieferungen. Sie wissen immer, wer für jede Aufgabe verantwortlich ist, den Status laufender Prozesse und bevorstehende Compliance-Fristen im Kalender.",

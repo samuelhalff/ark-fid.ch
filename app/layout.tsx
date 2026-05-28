@@ -118,6 +118,20 @@ export default async function RootLayout({
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
         <link
           rel="preload"
+          href="/assets/fonts/Inter-Regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/assets/fonts/Inter-SemiBold.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
           href="/assets/abstract-background-light.avif"
           as="image"
           fetchPriority="high"
@@ -160,7 +174,7 @@ export default async function RootLayout({
 
         <Providers nonce={nonce}>
           <ErrorBoundary>
-            <div className="pt-3 abstract-background text-foreground pt-15 mt-10">
+            <div className="text-foreground">
               {children}
 
               <WhatsAppLink

@@ -87,7 +87,7 @@ export default async function ServicesListServer({
         const desc = rest.join(":").trim();
         const IconNode = icons && icons[idx % icons.length] ? icons[idx % icons.length] : DefaultIcons[idx % DefaultIcons.length];
         return (
-          <div key={idx} className="flex items-center gap-5 sm:gap-6 px-6 sm:px-8 py-6 my-5 rounded-xl bg-card ring-1 ring-border/50 dark:bg-muted/50 dark:ring-0 shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+          <div key={idx} className="my-5 flex items-center gap-5 overflow-hidden rounded-xl bg-card px-6 py-6 shadow-sm transition-colors hover:bg-surface-warm sm:gap-6 sm:px-8 dark:bg-muted/50">
             <span className="ui-icon inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground ring-1 ring-primary/20 dark:bg-primary/10 dark:text-primary shrink-0">
               {IconNode}
             </span>

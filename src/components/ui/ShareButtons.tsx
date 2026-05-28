@@ -5,9 +5,18 @@ type Props = {
   url: string;
   title?: string;
   className?: string;
+  labels?: {
+    shareArticle: string;
+    shareLinkedIn: string;
+    shareX: string;
+    shareWhatsApp: string;
+    shareEmail: string;
+    copyLink: string;
+    copied: string;
+  };
 };
 
-export default function ShareButtons({ url, title, className }: Props) {
+export default function ShareButtons({ url, title, className, labels }: Props) {
   const [copied, setCopied] = React.useState(false);
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title || "");
@@ -28,19 +37,28 @@ export default function ShareButtons({ url, title, className }: Props) {
   }
 
   const baseBtn =
-    "inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-sm transition-colors hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary";
+    "inline-flex items-center gap-2 rounded-md bg-surface-warm px-3 py-1.5 text-sm shadow-sm transition-colors hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary";
+  const text = labels || {
+    shareArticle: "Share this article",
+    shareLinkedIn: "Share on LinkedIn",
+    shareX: "Share on X",
+    shareWhatsApp: "Share on WhatsApp",
+    shareEmail: "Share via email",
+    copyLink: "Copy link",
+    copied: "Copied",
+  };
 
   return (
     <div
       className={"flex flex-wrap items-center gap-2 " + (className || "")}
-      aria-label="Share this article"
+      aria-label={text.shareArticle}
     >
       <a
         className={baseBtn}
         href={links.linkedin}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Share on LinkedIn"
+        aria-label={text.shareLinkedIn}
       >
         <svg
           className="h-4 w-4"
@@ -57,7 +75,7 @@ export default function ShareButtons({ url, title, className }: Props) {
         href={links.twitter}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Share on X"
+        aria-label={text.shareX}
       >
         <svg
           className="h-4 w-4"
@@ -74,7 +92,7 @@ export default function ShareButtons({ url, title, className }: Props) {
         href={links.whatsapp}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Share on WhatsApp"
+        aria-label={text.shareWhatsApp}
       >
         <svg
           className="h-4 w-4"
@@ -86,7 +104,7 @@ export default function ShareButtons({ url, title, className }: Props) {
         </svg>
         WhatsApp
       </a>
-      <a className={baseBtn} href={links.mailto} aria-label="Share via email">
+      <a className={baseBtn} href={links.mailto} aria-label={text.shareEmail}>
         <svg
           className="h-4 w-4"
           viewBox="0 0 24 24"
@@ -107,7 +125,7 @@ export default function ShareButtons({ url, title, className }: Props) {
         className={baseBtn}
         onClick={copyLink}
         aria-live="polite"
-        aria-label="Copy link"
+        aria-label={text.copyLink}
       >
         <svg
           className="h-4 w-4"
@@ -123,7 +141,7 @@ export default function ShareButtons({ url, title, className }: Props) {
           <path d="m15 9 2-2a5 5 0 1 1 0 7l-2-2" />
           <path d="M8 12h8" />
         </svg>
-        {copied ? "Copied" : "Copy link"}
+        {copied ? text.copied : text.copyLink}
       </button>
     </div>
   );

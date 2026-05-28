@@ -1,12 +1,9 @@
 // Inline minimal arrow icon to avoid pulling lucide-react into shared chunk
 import { Button } from "@/src/components/ui/button";
-import { Badge } from "@/src/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
-import heroBlurData from "@/src/lib/heroBlurData.json";
 import { tidyTitle, splitTitle } from "@/src/lib/typography";
-import ServiceScrollHint from "@/src/components/ui/service-scroll-hint";
 
 interface ServiceHeroProps {
   namespace: string;
@@ -29,10 +26,6 @@ const ServiceHero = async ({
   namespace,
   imageSrc,
   imageAlt,
-  badge1Key,
-  badge1Fallback,
-  badge2Key,
-  badge2Fallback,
   titleKey,
   titleFallback,
   descriptionKey,
@@ -45,67 +38,40 @@ const ServiceHero = async ({
   const t = await getTranslations(currentLocale, namespace);
   const tServices = await getTranslations(currentLocale, "services");
   const localePrefix = locale ? `/${locale}` : "/fr";
-  const scrollKey = "ScrollHint";
-  const scrollLabelRaw = tServices(scrollKey) as string;
-  const scrollLabel =
-    scrollLabelRaw === scrollKey ? "Discover more" : scrollLabelRaw;
   const instantQuoteKey = "ExpertBanner.SecondaryCTA";
   const instantQuoteRaw = tServices(instantQuoteKey) as string;
   const instantQuote =
     instantQuoteRaw === instantQuoteKey ? "Get an instant quote" : instantQuoteRaw;
 
-  const ArrowIcon = () => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      aria-hidden="true"
-      className="h-5! w-5!"
-    >
-      <path d="M7 17a1 1 0 0 0 1.707.707l7.586-7.586V16a1 1 0 1 0 2 0V6a1 1 0 0 0-1-1H9a1 1 0 1 0 0 2h5.879L7.293 15.586A1 1 0 0 0 7 16v1z" />
-    </svg>
-  );
-
   return (
-    <div className="relative min-h-[calc(100vh-4rem)] max-w-[var(--breakpoint-xl)] w-full flex items-center justify-center overflow-hidden border-b border-accent mx-auto px-6 pb-24">
+    <section className="relative w-full bg-background px-5 py-12 sm:px-8 sm:py-16 lg:py-20">
       <link
         rel="preload"
         as="image"
         href={imageSrc || "/assets/hero/services/home-hero.avif"}
       />
-      <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
-        <div className="flex-1 max-w-3xl text-center animate-in fade-in duration-800">
-          <div className="gap-2 flex justify-center items-center">
-            <Badge className="rounded-full py-1 border-none">
-              {t(badge1Key) || badge1Fallback}
-            </Badge>
-            <Badge
-              variant="destructive"
-              className="rounded-full py-1 border-none"
-            >
-              {t(badge2Key) || badge2Fallback}
-            </Badge>
-          </div>
+      <div className="mx-auto grid w-full max-w-[1240px] gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.8fr)] lg:items-center">
+        <div className="min-w-0 max-w-3xl">
           {(() => {
             const raw = (t(titleKey) as string) || titleFallback;
             const { title, subtitle } = splitTitle(raw);
             return (
               <>
-                <h1 className="mt-6 max-w-full w-full text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold tracking-tight mx-auto break-anywhere hyphenate">
+                <h1 className="mt-7 max-w-[14ch] text-balance text-5xl font-bold leading-[0.98] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
                   {tidyTitle(title)}
                 </h1>
                 {subtitle ? (
-                  <p className="mt-2 text-xl sm:text-2xl font-semibold text-muted-foreground">
+                  <p className="mt-4 max-w-[36ch] text-xl font-semibold leading-8 text-muted-foreground sm:text-2xl">
                     {tidyTitle(subtitle)}
                   </p>
                 ) : null}
               </>
             );
           })()}
-          <p className="mt-6 max-w-full w-full xs:text-lg mx-auto break-anywhere hyphenate">
+          <p className="mt-7 max-w-[58ch] text-base leading-8 text-muted-foreground sm:text-lg">
             {t(descriptionKey) || descriptionFallback}
           </p>
-          <div className="w-full mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center max-w-md mx-auto">
+          <div className="mt-10 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center">
             <Link
               href={`${localePrefix}/contact/`}
               className="w-full sm:w-auto"
@@ -114,11 +80,10 @@ const ServiceHero = async ({
             >
               <Button
                 size="lg"
-                className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
+                className="btn-main-cta w-full rounded-full bg-foreground px-6 text-base text-background transition-colors hover:text-white sm:w-auto"
                 style={{ cursor: "pointer" }}
               >
-                {t(ctaKey) || ctaFallback}
-                <ArrowIcon />
+                <span>{t(ctaKey) || ctaFallback}</span>
               </Button>
             </Link>
             <Link
@@ -130,43 +95,38 @@ const ServiceHero = async ({
               <Button
                 size="lg"
                 variant="secondary"
-                className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
+                className="btn-secondary-cta w-full rounded-full px-6 text-base sm:w-auto"
                 style={{ cursor: "pointer" }}
               >
-                {instantQuote}
+                <span>{instantQuote}</span>
               </Button>
             </Link>
           </div>
           {/* Inline Odoo partner branding for accounting only (reverted position) */}
           {namespace === "accounting" && (
-            <div className="mt-10 flex flex-col items-center justify-center">
+            <div className="mt-8">
               <a
                 href="https://www.odoo.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col items-center"
+                className="inline-flex items-center gap-3 rounded-full bg-surface-warm px-4 py-2 text-sm text-muted-foreground shadow-sm transition-colors hover:text-foreground"
               >
                 <Image
                   src="/assets/partners/odoo-logo.svg"
-                  className="mt-0 w-24 h-16"
+                  className="h-6 w-auto"
                   alt="Odoo Logo"
                   width={96}
-                  height={64}
+                  height={32}
                   sizes="96px"
                   loading="lazy"
                   decoding="async"
                 />
-                <Badge
-                  className="mt-2 rounded-full py-1 border-none"
-                  variant="secondary"
-                >
-                  {t("Hero.OdooPartnerBadge") || "Official Odoo Partner"}
-                </Badge>
+                <span>{t("Hero.OdooPartnerBadge") || "Official Odoo Partner"}</span>
               </a>
             </div>
           )}
         </div>
-        <div className="flex-1 relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
+        <div className="relative min-h-[320px] w-full overflow-hidden rounded-[28px] bg-muted/30 shadow-sm sm:min-h-[420px] lg:min-h-[520px]">
           {(() => {
             const key = "ImageAlt";
             const translated = t(key) as string;
@@ -178,7 +138,7 @@ const ServiceHero = async ({
               <Image
                 src={src}
                 alt={altText}
-                className="object-cover rounded-xl"
+                className="object-cover"
                 sizes="(min-width:1024px) 520px, 90vw"
                 priority
                 fetchPriority="high"
@@ -189,31 +149,7 @@ const ServiceHero = async ({
           })()}
         </div>
       </div>
-      <ServiceScrollHint label={scrollLabel} />
-      {namespace === "odoo" && (
-        <div className="absolute bottom-6 left-0 right-0 flex flex-col items-center gap-2">
-          <a
-            href="https://www.odoo.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              src="/assets/partners/odoo-logo.svg"
-              alt="Odoo Logo"
-              width={120}
-              height={40}
-              className="opacity-90"
-              loading="lazy"
-              decoding="async"
-              sizes="120px"
-            />
-          </a>
-          <Badge className="rounded-full py-1 border-none" variant="secondary">
-            {t("Hero.OdooPartnerBadge") || "Official Odoo Partner"}
-          </Badge>
-        </div>
-      )}
-    </div>
+    </section>
   );
 };
 

@@ -1,5 +1,7 @@
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
+import SectionHeading from "@/src/components/site/section-heading";
+import Reveal from "@/src/components/motion/reveal";
 
 // Inline Plus icon to eliminate lucide-react dependency
 const PlusIcon = ({ className }: { className?: string }) => (
@@ -47,17 +49,16 @@ export default async function FAQ() {
   return (
     <div
       id="faq"
-      className="w-full max-w-[var(--breakpoint-xl)] mx-auto py-8 xs:py-16 px-6 mb-10"
+      className="mx-auto mb-10 w-full max-w-[1240px] px-5 py-8 sm:px-8 xs:py-16"
     >
-      <h2 className="text-center text-3xl xs:text-4xl md:text-5xl leading-[1.15]! font-bold tracking-tighter max-w-4xl mx-auto">
-        {tidyTitle(title)}
-      </h2>
-      {subtitle && (
-        <p className="mt-1.5 text-center xs:text-lg max-w-2xl mx-auto">
-          {subtitle}
-        </p>
-      )}
-      <p className="mt-1 text-center text-sm text-muted-foreground">
+      <Reveal className="max-w-4xl mx-auto">
+        <SectionHeading
+          eyebrow="FAQ"
+          title={tidyTitle(title)}
+          description={subtitle}
+        />
+      </Reveal>
+      <p className="mt-2 text-center text-sm text-muted-foreground">
         <span>{(t("LastUpdated") as string) || "dernière mise à jour"}</span>{" "}
         <span suppressHydrationWarning>
           {new Intl.DateTimeFormat(undefined, {
@@ -73,23 +74,28 @@ export default async function FAQ() {
         className="mt-8 columns-1 md:columns-2"
         style={{ columnGap: "1rem" }}
       >
-        {items.map(({ q, a, questionKey }) => (
-          <details
+        {items.map(({ q, a, questionKey }, index) => (
+          <Reveal
             key={questionKey}
-            className="group bg-accent rounded-xl px-5 py-3 open:shadow-sm transition-shadow mb-4 break-inside-avoid"
+            className="mb-4 break-inside-avoid"
+            delay={Math.min((index % 6) * 0.03, 0.15)}
           >
-            <summary className="faq-summary flex items-center justify-between gap-4 cursor-pointer select-none py-1 pr-2">
-              <h3 className="font-semibold tracking-tight text-lg leading-snug">
-                {q}
-              </h3>
-              <span className="faq-icon inline-flex h-7 w-7 items-center justify-center rounded-full bg-foreground/10 text-muted-foreground group-open:text-foreground/90 group-open:bg-foreground/15 transition-colors flex-none shrink-0">
-                <PlusIcon className="transition-transform group-open:rotate-45" />
-              </span>
-            </summary>
-            <div className="mt-2 pb-2 text-[15px] text-left text-muted-foreground">
-              {a}
-            </div>
-          </details>
+            <details
+              className="group rounded-[22px] bg-surface-warm px-5 py-4 shadow-sm transition-shadow open:shadow-md dark:bg-card"
+            >
+              <summary className="faq-summary flex items-center justify-between gap-4 cursor-pointer select-none py-1 pr-2">
+                <h3 className="font-semibold tracking-tight text-lg leading-snug">
+                  {q}
+                </h3>
+                <span className="faq-icon inline-flex h-7 w-7 items-center justify-center rounded-full bg-foreground/10 text-muted-foreground group-open:text-foreground/90 group-open:bg-foreground/15 transition-colors flex-none shrink-0">
+                  <PlusIcon className="transition-transform group-open:rotate-45" />
+                </span>
+              </summary>
+              <div className="mt-2 pb-2 text-[15px] text-left text-muted-foreground">
+                {a}
+              </div>
+            </details>
+          </Reveal>
         ))}
       </div>
     </div>

@@ -51,10 +51,10 @@ const PartnersPage = async (props: { params: Promise<{ locale: string }> }) => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <Hero locale={params.locale} />
-      <header className="px-6 py-5 text-left">
+      <header className="px-5 py-5 text-left sm:px-8">
         <nav
           aria-label="Breadcrumb"
-          className="w-full max-w-[1200px] mx-auto mt-4 mb-6 px-6 md:px-0"
+          className="mx-auto mb-6 mt-4 w-full max-w-[1240px]"
         >
           <ol className="flex items-center gap-1 text-sm text-muted-foreground">
             <li>

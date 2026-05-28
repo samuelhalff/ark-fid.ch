@@ -16,16 +16,33 @@
         "ScrollHint": "Descobrir mais"
     },
     "Services": {
+        "Eyebrow": "Serviços",
         "Title": "Os nossos serviços",
         "Subtitle": "Programas fiduciários, contabilísticos e fiscais completos para cada etapa de crescimento. Combinamos experiência sob medida, processos suíços comprovados e ferramentas digitais seguras para PME, scale-ups e grupos internacionais."
     },
+    "Trust": {
+        "Eyebrow": "Afiliações e enquadramento",
+        "Sofit": {
+            "Title": "SO-FIT",
+            "Description": "Membro OAR / SRO nos termos da LBA suíça. KYC para domiciliação sensível, escrow, fluxos de pagamento e estruturas documentadas."
+        },
+        "Odoo": {
+            "Title": "Odoo",
+            "Description": "Parceiro oficial para contabilidade, automações e reporting."
+        },
+        "Gaap": {
+            "Title": "Swiss GAAP FER",
+            "Description": "Demonstrações financeiras claras, coerentes e auditáveis."
+        }
+    },
     "About": {
+        "Eyebrow": "Sobre nós",
         "Title": "Por que escolher a Ark Fiduciaire?",
         "Content": [
             "A Ark Fiduciaire baseia-se numa profunda experiência local e ferramentas tecnológicas de ponta para apoiar empreendedores, empresas familiares, ONGs e grupos internacionais na segurança da sua contabilidade e conformidade suíça. Atuamos como uma equipa fiduciária integrada que compreende as realidades operacionais da Romandie enquanto coordena com as partes interessadas no estrangeiro.",
             "Os nossos especialistas multidisciplinares cobrem contabilidade, fiscalidade, salários, administração de RH, governação e secretariado corporativo. Beneficia de contabilistas certificados, consultores fiscais e consultores que transformam regras complexas em planos de ação pragmáticos para a sua organização.",
             "Cada mandato começa com uma fase de análise durante a qual mapeamos os seus objetivos, processos internos e apetite pelo risco. Depois concebemos um plano de serviços evolutivo, desde a formação e manutenção contabilística até ao reporte consolidado, estratégia de IVA ou externalização de RH.",
-            "O quadro regulamentar suíço evolui rapidamente. Seguimos as atualizações da FINMA, AVS e cantões, implementamos os ajustes necessários e documentamos todos os controlos para que esteja preparado para uma auditoria. Os nossos clientes contam connosco para antecipar prazos, evitar penalizações e manter uma documentação impecável.",
+            "O quadro regulamentar suíço evolui rapidamente. Seguimos as atualizações dos OAR / SRO, do AVS e dos cantões, implementamos os ajustes necessários e documentamos os controlos necessários para que esteja preparado para uma auditoria. Os nossos clientes contam connosco para antecipar prazos, evitar penalizações e manter uma documentação impecável.",
             "A tecnologia está no coração do nosso modelo. Combinando processamento documental assistido por IA e integrações ERP Odoo, encurtamos os tempos de fecho, automatizamos reconciliações repetitivas e produzimos dashboards para impulsionar as suas decisões em tempo real, sem comprometer a segurança dos dados.",
             "Ancorados em Genebra e Lausana, coordenamos regularmente com advogados, auditores e consultores fiscais na Suíça, Europa e América. O apoio multilingue em francês, inglês, alemão, espanhol e português assegura uma comunicação fluida para equipas distribuídas.",
             "Os nossos clientes apreciam a nossa tarifação transparente, contactos dedicados e clareza dos entregáveis. Sabe sempre a pessoa responsável por cada tarefa, o estado dos processos em curso e as próximas datas limite de conformidade no calendário.",

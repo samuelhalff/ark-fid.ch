@@ -139,14 +139,14 @@ export const teamMembers: TeamMember[] = [
       "Senior accountant managing bookkeeping, reporting and monthly closes for clients; focused on reliable numbers and clear deliverables.",
   },
   {
-    name: "Maulk Hamdi",
+    name: "Catia Cardoso",
     role: "Associate",
-    profilePic: "/assets/team/mh.avif",
+    profilePic: "",
     social: {
-      linkedin: "https://www.linkedin.com/in/maulk-hamdi-b47b68361",
+      linkedin: "",
     },
     bioShort:
-      "In charge of admin and accounting; law student supporting day‑to‑day client operations.",
+      "Supports administrative and accounting operations for day-to-day client needs.",
   },
   {
     name: "Sixtine Dumas",
@@ -159,6 +159,15 @@ export const teamMembers: TeamMember[] = [
       "In charge of admin and accounting; law student supporting day‑to‑day client operations.",
   },
 ];
+
+const getLastName = (name: string) => name.trim().split(/\s+/).at(-1) || name;
+
+export const getTeamMembersSortedByLastName = (members: TeamMember[]) =>
+  [...members].sort((a, b) =>
+    getLastName(a.name).localeCompare(getLastName(b.name), undefined, {
+      sensitivity: "base",
+    }),
+  );
 
 export const isPartnerRole = (role: TeamMember["role"]) =>
   role === "Partner" || role === "ManagingPartner";

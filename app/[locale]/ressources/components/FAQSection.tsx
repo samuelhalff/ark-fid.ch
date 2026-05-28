@@ -43,7 +43,7 @@ export default function FAQSection({
         {faq.Items.map((item, idx) => (
           <details
             key={idx}
-            className="group border border-border/60 rounded-md p-4 bg-background/40"
+            className="group rounded-md bg-surface-warm/60 p-4 shadow-sm"
           >
             <summary className="cursor-pointer list-none font-medium flex items-start justify-between">
               <span className="pr-4 leading-snug">{item.q}</span>

@@ -1,4 +1,5 @@
 import React from "react";
+import Reveal from "@/src/components/motion/reveal";
 
 interface Labels {
   ReadArticle?: string;
@@ -9,31 +10,27 @@ interface Labels {
 // Color palette for visual variety
 const cardColors = [
   {
-    badge: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
-    accent: "bg-blue-500",
+    badge:
+      "bg-brand-soft text-brand-hover dark:bg-brand/15 dark:text-brand",
   },
   {
     badge:
       "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
-    accent: "bg-emerald-500",
   },
   {
     badge:
       "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300",
-    accent: "bg-violet-500",
   },
   {
     badge:
       "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
-    accent: "bg-amber-500",
   },
   {
     badge: "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300",
-    accent: "bg-rose-500",
   },
   {
-    badge: "bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-300",
-    accent: "bg-cyan-500",
+    badge:
+      "bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-200",
   },
 ];
 
@@ -43,6 +40,8 @@ interface ResourceCardProps {
   href: string;
   date?: string;
   author?: string;
+  category?: string;
+  locale?: string;
   labels?: Labels;
   colorIndex?: number;
 }
@@ -52,52 +51,45 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   description,
   href,
   date,
-  author,
+  category,
+  locale,
   labels,
   colorIndex = 0,
 }) => {
   const colors = cardColors[colorIndex % cardColors.length];
+  const formattedDate = formatResourceDate(date, locale);
 
   return (
+    <Reveal delay={Math.min(colorIndex * 0.04, 0.24)} className="h-full">
     <a
       href={href}
-      className="group relative flex flex-col h-full rounded-2xl p-6 bg-white dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 transition-all duration-300 hover:border-slate-200 dark:hover:border-slate-700 hover:shadow-md hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50"
+      className="group relative flex h-full flex-col rounded-[18px] bg-card p-5 shadow-sm transition-colors duration-200 hover:bg-surface-warm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand dark:hover:bg-surface-warm"
     >
-      {/* Subtle top accent line on hover */}
-      <div
-        className={`absolute top-0 left-6 right-6 h-0.5 ${colors.accent} rounded-full opacity-0 group-hover:opacity-60 transition-opacity duration-300`}
-      />
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        {category ? (
+          <span className={`w-fit rounded-full px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] ${colors.badge}`}>
+            {category}
+          </span>
+        ) : (
+          <span />
+        )}
+        {formattedDate ? (
+          <span className="text-[0.68rem] font-medium uppercase tracking-[0.14em] text-muted-foreground/75">
+            {formattedDate}
+          </span>
+        ) : null}
+      </div>
 
-      {/* Date badge with color */}
-      {date && (
-        <div className="mb-4">
-          <time
-            dateTime={new Date(date).toISOString()}
-            className={`inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md ${colors.badge}`}
-          >
-            {formatDateDeterministic(date)}
-          </time>
-        </div>
-      )}
-
-      {/* Title */}
-      <h3 className="text-lg font-semibold leading-snug tracking-tight text-foreground group-hover:text-primary transition-colors duration-200 mb-3">
+      <h3 className="mb-3 text-lg font-semibold leading-snug tracking-tight text-foreground">
         {title}
       </h3>
 
-      {/* Description */}
-      <p className="flex-1 text-sm text-muted-foreground leading-relaxed mb-4">
+      <p className="mb-4 flex-1 text-sm leading-relaxed text-muted-foreground">
         {description}
       </p>
 
-      {/* Footer with author and read more */}
-      <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
-        {author && (
-          <p className="text-xs text-muted-foreground">
-            <span className="text-foreground/70 font-medium">{author}</span>
-          </p>
-        )}
-        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-primary group-hover:gap-2.5 transition-all duration-200">
+      <div className="flex items-center justify-end pt-4">
+        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors duration-200 group-hover:text-brand-hover">
           {(labels && labels.ReadArticle) || "Read"}
           <svg
             className="w-4 h-4"
@@ -115,22 +107,20 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
         </span>
       </div>
     </a>
+    </Reveal>
   );
 };
 
-export default ResourceCard;
-
-function formatDateDeterministic(date?: string) {
-  if (!date) return "";
-  try {
-    // Use a fixed locale to produce consistent server/client output (day/month/year)
-    return new Intl.DateTimeFormat("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    }).format(new Date(date));
-  } catch (e) {
-    // Fallback to ISO date if formatting fails
-    return new Date(date).toISOString().split("T")[0];
-  }
+function formatResourceDate(date?: string, locale = "fr") {
+  if (!date) return null;
+  const parsed = new Date(`${date}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) return date;
+  return new Intl.DateTimeFormat(locale, {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(parsed);
 }
+
+export default ResourceCard;

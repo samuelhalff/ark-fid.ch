@@ -40,7 +40,7 @@ export default async function CookiesPage(
   const r = (key: string, fallback: string) => (t(key) as string) || fallback;
 
   return (
-    <div className="container mx-auto px-4 py-16 max-w-[var(--breakpoint-xl)]">
+    <div className="mx-auto px-5 py-16 sm:px-8 max-w-[var(--breakpoint-xl)]">
       <div className="mb-12">
         <h1 className="text-4xl font-bold mb-4">
           {r("Cookies.Title", "Cookies Policy")}
@@ -372,7 +372,7 @@ export default async function CookiesPage(
                     <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
                       <a
                         href="https://policies.google.com/privacy"
-                        className="text-blue-600 hover:underline"
+                        className="text-brand-hover hover:underline"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -396,7 +396,7 @@ export default async function CookiesPage(
                     <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
                       <a
                         href="https://policies.google.com/privacy"
-                        className="text-blue-600 hover:underline"
+                        className="text-brand-hover hover:underline"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -417,7 +417,7 @@ export default async function CookiesPage(
                     <td className="border border-gray-300 dark:border-gray-600 px-4 py-2">
                       <a
                         href="https://www.linkedin.com/legal/privacy-policy"
-                        className="text-blue-600 hover:underline"
+                        className="text-brand-hover hover:underline"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -584,7 +584,7 @@ export default async function CookiesPage(
                   <li>
                     <a
                       href="https://support.google.com/chrome/answer/95647"
-                      className="text-blue-600 hover:underline"
+                      className="text-brand-hover hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -594,7 +594,7 @@ export default async function CookiesPage(
                   <li>
                     <a
                       href="https://support.mozilla.org/en-US/kb/cookies-information-websites-store-on-your-computer"
-                      className="text-blue-600 hover:underline"
+                      className="text-brand-hover hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -604,7 +604,7 @@ export default async function CookiesPage(
                   <li>
                     <a
                       href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac"
-                      className="text-blue-600 hover:underline"
+                      className="text-brand-hover hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -614,7 +614,7 @@ export default async function CookiesPage(
                   <li>
                     <a
                       href="https://support.microsoft.com/en-us/help/17442/windows-internet-explorer-delete-manage-cookies"
-                      className="text-blue-600 hover:underline"
+                      className="text-brand-hover hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -765,7 +765,7 @@ export default async function CookiesPage(
               <p>
                 <a
                   href="tel:+41225125050"
-                  className="text-blue-700 dark:text-blue-400 hover:underline"
+                  className="text-brand-hover dark:text-brand hover:underline"
                   aria-label="Call us at +41 22 512 50 50"
                 >
                   +41 22 512 50 50

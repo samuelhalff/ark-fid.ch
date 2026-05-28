@@ -84,6 +84,102 @@ const buildMarkdownComponents = (locale: Locale): Components => ({
   },
 });
 
+const articleUiLabels: Record<
+  Locale,
+  {
+    relatedServices: string;
+    contactUs: string;
+    services: Record<string, string>;
+  }
+> = {
+  fr: {
+    relatedServices: "Services liés",
+    contactUs: "Nous contacter",
+    services: {
+      "Accounting Services": "Comptabilité",
+      "Tax Services": "Fiscalité",
+      "Payroll Services": "Paie et RH",
+      "Domiciliation Services": "Domiciliation",
+      "Company Incorporation": "Constitution d'entreprise",
+      "Corporate Services": "Services corporatifs",
+      "Outsourcing Services": "Externalisation",
+      "Immigration & permits": "Immigration et permis",
+      "Odoo Integration": "Intégration Odoo",
+      "Our Team": "Notre équipe",
+    },
+  },
+  en: {
+    relatedServices: "Related services",
+    contactUs: "Contact us",
+    services: {},
+  },
+  de: {
+    relatedServices: "Verwandte Dienstleistungen",
+    contactUs: "Kontakt aufnehmen",
+    services: {
+      "Accounting Services": "Buchhaltung",
+      "Tax Services": "Steuern",
+      "Payroll Services": "Lohn & HR",
+      "Domiciliation Services": "Domizilierung",
+      "Company Incorporation": "Firmengründung",
+      "Corporate Services": "Unternehmensdienstleistungen",
+      "Outsourcing Services": "Outsourcing",
+      "Immigration & permits": "Immigration und Bewilligungen",
+      "Odoo Integration": "Odoo-Integration",
+      "Our Team": "Unser Team",
+    },
+  },
+  es: {
+    relatedServices: "Servicios relacionados",
+    contactUs: "Contactar",
+    services: {
+      "Accounting Services": "Contabilidad",
+      "Tax Services": "Fiscalidad",
+      "Payroll Services": "Nómina y RR. HH.",
+      "Domiciliation Services": "Domiciliación",
+      "Company Incorporation": "Constitución de empresa",
+      "Corporate Services": "Servicios corporativos",
+      "Outsourcing Services": "Externalización",
+      "Immigration & permits": "Inmigración y permisos",
+      "Odoo Integration": "Integración Odoo",
+      "Our Team": "Nuestro equipo",
+    },
+  },
+  pt: {
+    relatedServices: "Serviços relacionados",
+    contactUs: "Contactar",
+    services: {
+      "Accounting Services": "Contabilidade",
+      "Tax Services": "Fiscalidade",
+      "Payroll Services": "Salários e RH",
+      "Domiciliation Services": "Domiciliação",
+      "Company Incorporation": "Constituição de empresa",
+      "Corporate Services": "Serviços corporativos",
+      "Outsourcing Services": "Externalização",
+      "Immigration & permits": "Imigração e autorizações",
+      "Odoo Integration": "Integração Odoo",
+      "Our Team": "A nossa equipa",
+    },
+  },
+};
+
+function normalizeArticleUiLabels(content: string, locale: Locale) {
+  const labels = articleUiLabels[locale];
+  let normalized = content
+    .replace(/^### Related Services$/gim, `### ${labels.relatedServices}`)
+    .replace(/^## Related Services$/gim, `## ${labels.relatedServices}`)
+    .replace(/\[Contact Us\]\(\/contact\)/g, `[${labels.contactUs}](/contact)`);
+
+  for (const [source, target] of Object.entries(labels.services)) {
+    normalized = normalized.replace(
+      new RegExp(`\\[${source.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\]`, "g"),
+      `[${target}]`,
+    );
+  }
+
+  return normalized;
+}
+
 async function loadRessources(locale: Locale): Promise<RessourcesDictionary> {
   const ressourcesModule = await import(
     `@/src/translations/${locale}/ressources.json`
@@ -166,11 +262,11 @@ export default async function ArticlePage(props: Params) {
   } as const;
   // Use relative path for local public assets to avoid Next/Image remote domain restrictions
   const imageUrl = article.image ? `/assets/${article.image}` : undefined; // used for JSON-LD only; image hidden in UI
-  const reading = estimateReadingTime(article.content || "");
+  const fullContent = normalizeArticleUiLabels(article.content ?? "", locale);
+  const reading = estimateReadingTime(fullContent);
 
   // Split content roughly at the midpoint (at a heading boundary) so we can
   // inject a contextual CTA in the middle of the article.
-  const fullContent = article.content ?? "";
   let articleFirstHalf = fullContent;
   let articleSecondHalf: string | null = null;
   {
@@ -282,7 +378,7 @@ export default async function ArticlePage(props: Params) {
   } as const;
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-12 mt-8">
+    <main className="max-w-3xl mx-auto px-5 py-12 mt-8 sm:px-8">
       <Defer rootMargin="300px" idle={200}>
         <ReadingProgress targetSelector="#article-content" />
       </Defer>
@@ -352,7 +448,19 @@ export default async function ArticlePage(props: Params) {
           idle={250}
           placeholder={<div className="h-[36px] w-64 rounded-md bg-muted/40" />}
         >
-          <ShareButtons url={articleUrl} title={article.title} />
+          <ShareButtons
+            url={articleUrl}
+            title={article.title}
+            labels={{
+              shareArticle: tRessources("Share.Article") as string,
+              shareLinkedIn: tRessources("Share.LinkedIn") as string,
+              shareX: tRessources("Share.X") as string,
+              shareWhatsApp: tRessources("Share.WhatsApp") as string,
+              shareEmail: tRessources("Share.Email") as string,
+              copyLink: tRessources("Share.CopyLink") as string,
+              copied: tRessources("Share.Copied") as string,
+            }}
+          />
         </Defer>
       </div>
 

@@ -23,7 +23,7 @@ export default function InitialsTile({
   return (
     <div
       aria-label={`Avatar placeholder for ${name}`}
-      className={`w-full h-full rounded-[0.85rem] bg-muted/0.18 border border-foreground/0.22 overflow-hidden dark:bg-muted/0.26 dark:border-foreground/0.32 ${className}`}
+      className={`h-full w-full overflow-hidden rounded-[0.85rem] bg-muted/0.18 shadow-sm dark:bg-muted/0.26 ${className}`}
     >
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-[-1rem] rotate-[-15deg] origin-bottom-left bg-[#fff4e7] dark:bg-muted/30 rounded-[3rem]" />

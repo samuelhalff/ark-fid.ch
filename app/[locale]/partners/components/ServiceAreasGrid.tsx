@@ -42,7 +42,7 @@ const ServiceAreasGrid = ({ serviceAreas }: ServiceAreasGridProps) => {
         return (
           <div
             key={index}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg hover:shadow-blue-100 dark:hover:shadow-blue-900/20 transition-all duration-300 p-6 border border-gray-100 dark:border-gray-700 hover:border-blue-200 dark:hover:border-primary-800"
+            className="rounded-xl bg-white p-6 shadow-md transition-colors duration-200 hover:bg-surface-warm dark:bg-gray-800 dark:hover:bg-card"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="flex-shrink-0">

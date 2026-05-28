@@ -11,9 +11,15 @@ import ContactSection from "../ressources/articles/components/ContactSection";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { headers } from "next/headers";
-import { teamMembers, getMemberSlug } from "@/src/lib/team";
+import {
+  teamMembers,
+  getMemberSlug,
+  getTeamMembersSortedByLastName,
+} from "@/src/lib/team";
 import { teamImageMap } from "@/src/lib/teamImages";
 import teamBlurData from "@/src/lib/teamBlurData.json";
+import PageHero from "@/src/components/site/page-hero";
+import Reveal from "@/src/components/motion/reveal";
 
 export const revalidate = false;
 
@@ -46,9 +52,12 @@ export default async function TeamPage(
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params?.locale ? `/${params.locale}` : "/fr";
 
-  const title = (t("Title") as string) || "Our team";
+  const title = locale === "fr" ? "L'équipe" : (t("Title") as string) || "Our team";
   const subtitle =
-    (t("Subtitle") as string) || "A team of complementary talents";
+    locale === "fr"
+      ? "Une équipe de talents complémentaires."
+      : (t("Subtitle") as string) || "A team of complementary talents";
+  const orderedTeamMembers = getTeamMembersSortedByLastName(teamMembers);
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -68,20 +77,43 @@ export default async function TeamPage(
       },
     ],
   } as const;
+  const teamItemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${baseUrl}${localePrefix}/team/#team`,
+    name: title,
+    itemListElement: orderedTeamMembers.map((member, index) => {
+      const slug = getMemberSlug(member);
+      return {
+        "@type": "ListItem",
+        position: index + 1,
+        url: `${baseUrl}${localePrefix}/team/${slug}/`,
+        name: member.name,
+      };
+    }),
+  } as const;
 
   return (
-    <div className="container mx-auto px-4 py-15 mt-20 max-w-[var(--breakpoint-xl)]">
+    <div className="mx-auto w-full max-w-[1240px] px-5 py-10 sm:px-8 sm:py-12">
       <link
         rel="preload"
         as="image"
         href={
-          teamMembers[0]?.profilePic || "/assets/abstract-background-light.webp"
+          orderedTeamMembers[0]?.profilePic ||
+          "/assets/abstract-background-light.webp"
         }
       />
       <script
         type="application/ld+json"
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        nonce={nonce}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(teamItemListJsonLd),
+        }}
       />
       <nav aria-label="Breadcrumb" className="px-0 mt-2 mb-6">
         <ol className="flex items-center gap-1 text-sm text-muted-foreground justify-center">
@@ -98,37 +130,37 @@ export default async function TeamPage(
           </li>
         </ol>
       </nav>
-      <div className="text-center mb-12 animate-in fade-in duration-900">
-        <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.2]! tracking-tight">
-          {title}
-        </h1>
-        <p className="mt-2">{subtitle}</p>
-      </div>
+      <Reveal className="mb-12">
+        <PageHero
+          eyebrow={title}
+          title={subtitle}
+          description={
+            locale === "fr"
+              ? "Une équipe expérimentée à Genève et à Lausanne au service des entreprises en Suisse romande et à l'international."
+              : undefined
+          }
+        />
+      </Reveal>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-25 animate-in slide-in-from-bottom-7 duration-500">
-        {teamMembers
-          .sort((a, b) =>
-            a.name
-              .split(" ")[1]
-              .localeCompare(b.name.split(" ")[1], undefined, {
-                sensitivity: "base",
-              })
-          )
-          .map((member) => {
-            const slug = getMemberSlug(member);
-            return (
+      <div className="mb-24 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {orderedTeamMembers.map((member, index) => {
+          const slug = getMemberSlug(member);
+          return (
+            <Reveal key={member.name} delay={Math.min(index * 0.05, 0.25)}>
               <Link
                 href={`${localePrefix}/team/${slug}/`}
-                key={member.name}
-                className="block"
+                className="block h-full"
               >
                 <Card
                   className={
-                    "animate-in fade-in duration-250 text-center shadow-none hover:shadow-lg transition-shadow gap-2 py-3 border-0 hover:brightness-[1.15]"
+                    "group h-full min-h-[620px] gap-3 rounded-[28px] bg-surface-warm py-4 text-left shadow-sm transition-colors duration-200 hover:bg-card dark:bg-card dark:hover:bg-surface-warm"
                   }
                 >
                   <CardHeader className="px-3 sm:px-4">
-                    <div className="relative aspect-4/5 w-full rounded-md overflow-hidden mb-4 h-80">
+                    <div
+                      className="relative mb-4 h-[360px] w-full shrink-0 overflow-hidden rounded-[22px] bg-muted/45"
+                      style={{ height: 360 }}
+                    >
                       <ImageWithFallback
                         src={
                           (teamImageMap as Record<string, any>)[
@@ -136,7 +168,7 @@ export default async function TeamPage(
                           ] || member.profilePic
                         }
                         alt={`Portrait of ${member.name}`}
-                        className="w-full h-full object-cover object-top"
+                        className="h-full w-full object-cover object-top"
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
                         loading="lazy"
@@ -156,21 +188,49 @@ export default async function TeamPage(
                           ]
                         }
                       />
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 bg-foreground/0 transition-colors duration-500 group-hover:bg-foreground/[0.04] dark:group-hover:bg-white/[0.05]"
+                      />
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute bottom-0 left-0 h-1 w-0 bg-brand transition-[width] duration-500 ease-out group-hover:w-full"
+                      />
                     </div>
                   </CardHeader>
-                  <CardContent className="text-left h-12 px-4">
-                    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-                      {member.name}
-                    </h3>
-                    <h2>
-                      {(t(`Role.${member.role}`) as string) || member.role}
-                    </h2>
+                  <CardContent className="space-y-3 px-4 pb-2">
+                    <div>
+                      <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+                        {member.name}
+                      </h3>
+                      <p className="mt-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-brand-hover">
+                        {(t(`Role.${member.role}`) as string) || member.role}
+                      </p>
+                    </div>
+                    {member.bioShort ? (
+                      <p className="text-sm leading-6 text-muted-foreground">
+                        {member.bioShort}
+                      </p>
+                    ) : null}
+                    {member.languages?.length ? (
+                      <div className="flex flex-wrap gap-2">
+                        {member.languages.slice(0, 3).map((language) => (
+                          <span
+                            key={language}
+                            className="rounded-full bg-background/80 px-2.5 py-1 text-[0.7rem] font-medium uppercase tracking-[0.16em] text-muted-foreground"
+                          >
+                            {language}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
                   </CardContent>
                   <CardFooter className="flex justify-center"></CardFooter>
                 </Card>
               </Link>
-            );
-          })}
+            </Reveal>
+          );
+        })}
       </div>
 
       <ContactSection

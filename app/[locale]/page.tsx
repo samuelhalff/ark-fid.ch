@@ -6,15 +6,13 @@ import Services from "@/app/[locale]/home/components/services";
 import About from "@/app/[locale]/home/components/about";
 import FAQ from "@/app/[locale]/home/components/faq";
 import Testimonials from "@/app/[locale]/home/components/testimonials";
-import Link from "next/link";
-import { Button } from "@/src/components/ui/button";
-import { Card, CardContent } from "@/src/components/ui/card";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import Defer from "@/src/components/Defer";
 import StructuredData from "@/src/components/seo/StructuredData";
 import { buildFAQPage, buildLocalBusiness } from "@/src/lib/structuredData";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 import type { FAQEntry } from "@/src/lib/structuredData";
+import { CtaBanner } from "@/src/components/ui/surface";
 
 export async function generateMetadata(
   props: {
@@ -43,7 +41,6 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
   const homeT = await getTranslations(activeLocale, "home");
   const agentT = await getTranslations(activeLocale, "agent");
   const heroTranslations = {
-    "Hero.Badge": homeT("Hero.Badge"),
     "Hero.Title": homeT("Hero.Title"),
     "Hero.Description": homeT("Hero.Description"),
     "Hero.CTA": homeT("Hero.CTA"),
@@ -144,8 +141,24 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
     },
   } as const;
 
+  const trustItems = [
+    {
+      title: homeT("Trust.Sofit.Title") as string,
+      description: homeT("Trust.Sofit.Description") as string,
+      featured: true,
+    },
+    {
+      title: homeT("Trust.Odoo.Title") as string,
+      description: homeT("Trust.Odoo.Description") as string,
+    },
+    {
+      title: homeT("Trust.Gaap.Title") as string,
+      description: homeT("Trust.Gaap.Description") as string,
+    },
+  ];
+
   return (
-    <div className="max-w-[var(--breakpoint-xl)] mx-auto w-full pb-4 xs:py-20 md:px-6">
+    <div className="mx-auto w-full pb-4">
       <StructuredData nonce={nonce} data={[faqJsonLd, localBusinessJsonLd]} />
       <section id="hero">
         <Hero
@@ -154,35 +167,88 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           translations={heroTranslations}
         />
       </section>
+      <section
+        id="affiliations"
+        className="mx-auto w-full max-w-[1240px] px-5 pb-10 sm:px-8"
+        aria-labelledby="affiliations-title"
+      >
+        <div className="grid gap-2 rounded-2xl bg-surface-warm p-2.5 sm:grid-cols-[auto_repeat(3,1fr)] sm:items-center sm:gap-2.5 sm:p-3 dark:bg-card">
+          <div className="flex items-center px-4 py-4 sm:py-5">
+            <p
+              id="affiliations-title"
+              className="font-mono text-[10.5px] uppercase leading-5 tracking-[0.14em] text-muted-foreground/80"
+            >
+              {homeT("Trust.Eyebrow") as string}
+            </p>
+          </div>
+          <ul className="contents">
+            {trustItems.map((item) => (
+              <li
+                key={item.title}
+                className={`rounded-xl px-4 py-4 sm:py-5 ${
+                  item.featured
+                    ? "bg-brand/[0.09] ring-1 ring-inset ring-brand/20 dark:bg-brand/[0.12]"
+                    : "bg-background/70 ring-1 ring-inset ring-foreground/[0.06] dark:bg-background/[0.08]"
+                }`}
+              >
+                <p
+                  className={`text-[15px] font-semibold tracking-[-0.01em] ${
+                    item.featured
+                      ? "text-brand-hover dark:text-brand"
+                      : "text-foreground"
+                  }`}
+                >
+                  {item.title}
+                </p>
+                <p className="mt-1 text-[12px] leading-5 text-muted-foreground">
+                  {item.description}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
       <section id="services">
         <Services locale={activeLocale} />
       </section>
-      <section id="instant-quote" className="px-6 md:px-0">
-        <Card className="mt-10 border-border/60 bg-muted/20">
-          <CardContent className="flex flex-col gap-6 p-6 md:p-8 md:flex-row md:items-center md:justify-between">
-            <div className="space-y-2">
-              <h2 className="text-2xl font-semibold">
-                {agentT("Title") as string}
-              </h2>
-              <p className="text-muted-foreground">
-                {agentT("Subtitle") as string}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {agentT("Intro") as string}
-              </p>
-            </div>
-            <Button asChild>
-              <Link href={`${localePrefix}/agent/`} prefetch={false}>
-                {agentT("Lead.Button") as string}
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+      <section
+        id="instant-quote"
+        className="mx-auto w-full max-w-[900px] px-5 py-10 sm:px-8"
+      >
+        <CtaBanner
+          variant="warm"
+          className="rounded-[28px] p-6 sm:p-8"
+          eyebrow={agentT("Title") as string}
+          title={agentT("Lead.Title") as string}
+          description={`${agentT("Subtitle") as string} ${
+            agentT("Intro") as string
+          }`}
+          icon={
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+              <svg
+                viewBox="0 0 24 24"
+                className="size-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z" />
+              </svg>
+            </span>
+          }
+          primary={{
+            href: `${localePrefix}/agent/`,
+            label: agentT("Lead.Button") as string,
+          }}
+        />
       </section>
       <section id="about">
         <Defer
           rootMargin="300px"
           idle={200}
+          maxDelay={1200}
           placeholder={<div className="h-40 w-full rounded-lg bg-muted/40" />}
         >
           <About />
@@ -192,6 +258,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
         <Defer
           rootMargin="300px"
           idle={200}
+          maxDelay={1200}
           placeholder={<div className="h-40 w-full rounded-lg bg-muted/40" />}
         >
           <FAQ />
@@ -201,15 +268,17 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
         <Defer
           rootMargin="400px"
           idle={300}
+          maxDelay={1400}
           placeholder={<div className="h-64 w-full rounded-lg bg-muted/40" />}
         >
           <Testimonials />
         </Defer>
       </section>
-      <section id="contact">
+      <section id="contact" className="px-5 py-10 sm:px-8">
         <Defer
           rootMargin="300px"
           idle={200}
+          maxDelay={1400}
           placeholder={<div className="h-64 w-full rounded-lg bg-muted/40" />}
         >
           <ContactForm strings={contactStrings} redirectPath={`${localePrefix}/`} />

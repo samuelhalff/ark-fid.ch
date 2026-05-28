@@ -9,6 +9,10 @@ import { notFound } from "next/navigation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 import { buildInternalUrl } from "@/src/lib/paths";
+import PageHero from "@/src/components/site/page-hero";
+import SectionHeading from "@/src/components/site/section-heading";
+import Reveal from "@/src/components/motion/reveal";
+import type { ResourceCategoryLabels } from "@/src/lib/resourceCategories";
 
 type ArticlesSearchParams = Record<string, string | string[] | undefined>;
 
@@ -40,12 +44,14 @@ interface RessourcesData {
   IntroTitle?: string;
   IntroText?: string;
   IntroShort?: string;
+  ArticlesShort?: string;
   ArticlesTitle?: string;
   LoadMoreArticles?: string;
   ShowAllArticles?: string;
   ReadArticle?: string;
   By?: string;
   Published?: string;
+  Categories?: ResourceCategoryLabels;
   Articles: RessourceArticle[];
   FAQ?: FAQContent;
   Links?: RessourcesLinks;
@@ -95,12 +101,14 @@ async function loadRessources(locale: Locale): Promise<RessourcesData> {
       IntroTitle: data.IntroTitle,
       IntroText: data.IntroText,
       IntroShort: data.IntroShort,
+      ArticlesShort: data.ArticlesShort,
       ArticlesTitle: data.ArticlesTitle,
       LoadMoreArticles: data.LoadMoreArticles,
       ShowAllArticles: data.ShowAllArticles,
       ReadArticle: data.ReadArticle,
       By: data.By,
       Published: data.Published,
+      Categories: data.Categories,
       Articles: normalizeArticles(data.Articles),
       FAQ: normalizeFaq(data.FAQ),
       Links: data.Links,
@@ -148,11 +156,21 @@ export default async function RessourcesPage(
     By: ressources.By || "By",
     Published: ressources.Published || "Published on",
   };
+  const categoryLabels: ResourceCategoryLabels = ressources.Categories || {
+    all: locale === "fr" ? "Tous" : "All",
+    accounting: locale === "fr" ? "Comptabilité" : "Accounting",
+    tax: locale === "fr" ? "Fiscalité" : "Tax",
+    payroll: locale === "fr" ? "Paie" : "Payroll",
+    corporate: locale === "fr" ? "Sociétés" : "Corporate",
+    international: "International",
+    digital: "Digital",
+  };
 
   const links = ressources.Links || {};
+  const resourcesLabel = (tNav("Ressources") as string) || "Resources";
 
   return (
-    <main className="max-w-[1200px] mx-auto px-4 md:px-6 py-10">
+    <main className="mx-auto max-w-[1240px] px-5 py-10 sm:px-8">
       <script
         type="application/ld+json"
         nonce={nonce}
@@ -170,7 +188,7 @@ export default async function RessourcesPage(
               {
                 "@type": "ListItem",
                 position: 2,
-                name: "Ressources",
+                name: resourcesLabel,
                 item: `https://ark-fid.ch/${locale}/ressources/`,
               },
             ],
@@ -190,52 +208,53 @@ export default async function RessourcesPage(
           <li className="flex items-center gap-1">
             <span className="text-muted-foreground/60">/</span>
             <span aria-current="page" className="font-medium text-foreground">
-              Ressources
+              {resourcesLabel}
             </span>
           </li>
         </ol>
       </nav>
-      <section className="mb-16 relative py-8 px-6 md:px-8">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 dark:from-primary/10 dark:to-primary/10 rounded-3xl -z-10" />
-
-        <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold mb-5 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
-          {ressources.IntroTitle || "Resources"}
-        </h1>
-        <p className="text-lg text-muted-foreground">
-          {ressources.IntroText || "Helpful resources and documents"}
-        </p>
-        <p className="text-sm mt-5 text-muted-foreground/80 leading-relaxed">
-          {[
-            {
-              label: links.Accounting || "accounting",
-              href: buildInternalUrl("/services/accounting", locale),
-            },
-            {
-              label: links.Tax || "tax",
-              href: buildInternalUrl("/services/taxes", locale),
-            },
-            {
-              label: links.Payroll || "payroll",
-              href: buildInternalUrl("/services/payroll", locale),
-            },
-          ].map((item, index) => (
-            <span key={item.href}>
-              {index > 0 && <span className="mx-1">·</span>}
-              <a href={item.href} className="underline hover:no-underline">
+      <Reveal className="mb-16">
+        <PageHero
+          eyebrow={ressources.IntroShort || "Ressources"}
+          title={ressources.IntroTitle || "Resources"}
+          description={ressources.IntroText || "Helpful resources and documents"}
+        >
+          <div className="flex flex-wrap gap-2">
+            {[
+              {
+                label: links.Accounting || "accounting",
+                href: buildInternalUrl("/services/accounting", locale),
+              },
+              {
+                label: links.Tax || "tax",
+                href: buildInternalUrl("/services/taxes", locale),
+              },
+              {
+                label: links.Payroll || "payroll",
+                href: buildInternalUrl("/services/payroll", locale),
+              },
+            ].map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="inline-flex items-center rounded-full bg-surface-warm px-3 py-1.5 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground shadow-sm transition-colors hover:text-brand-hover"
+              >
                 {item.label}
               </a>
-            </span>
-          ))}
-        </p>
-      </section>
+            ))}
+          </div>
+        </PageHero>
+      </Reveal>
 
       <section id="articles" className="mb-20">
-        <div className="flex items-center gap-4 mb-8">
-          <h2 className="text-2xl font-semibold">
-            {ressources.ArticlesTitle || "Articles"}
-          </h2>
-          <div className="flex-1 h-px bg-gradient-to-r from-border to-transparent" />
-        </div>
+        <Reveal className="mb-8 max-w-3xl">
+          <SectionHeading
+            eyebrow={ressources.ArticlesShort || "Articles"}
+            title={ressources.ArticlesTitle || "Articles"}
+            align="left"
+            titleClassName="text-3xl sm:text-4xl"
+          />
+        </Reveal>
         <Suspense
           fallback={
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-8">
@@ -249,6 +268,7 @@ export default async function RessourcesPage(
             articles={articlesCanonical}
             locale={locale}
             labels={labels}
+            categoryLabels={categoryLabels}
             step={12}
             loadMoreLabel={ressources.LoadMoreArticles || "Load more articles"}
             showAllLabel={ressources.ShowAllArticles || "Show all"}

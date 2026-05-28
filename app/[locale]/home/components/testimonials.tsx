@@ -2,6 +2,8 @@ import dynamic from "next/dynamic";
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
+import SectionHeading from "@/src/components/site/section-heading";
+import Reveal from "@/src/components/motion/reveal";
 
 // Dynamic import to avoid blocking first paint
 const TestimonialsCarousel = dynamic(() => import("./testimonials-carousel"), {
@@ -173,10 +175,10 @@ export default async function Testimonials() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      <div className="max-w-[var(--breakpoint-xl)] mx-auto px-6">
+      <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
         {/* Rating badge */}
-        <div className="flex justify-center mb-4">
-          <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+        <Reveal className="flex justify-center mb-4">
+          <div className="inline-flex items-center gap-2 rounded-full bg-surface-warm px-3 py-1.5 text-sm text-muted-foreground shadow-sm">
             <svg
               className="w-4 h-4 text-amber-500"
               viewBox="0 0 24 24"
@@ -187,28 +189,28 @@ export default async function Testimonials() {
             </svg>
             <span>{ratingBadge}</span>
           </div>
-        </div>
+        </Reveal>
 
-        <h2
-          id="testimonials-heading"
-          className="text-center text-3xl xs:text-4xl md:text-5xl leading-[1.15]! font-bold tracking-tighter max-w-4xl mx-auto mb-4"
-        >
-          {tidyTitle(title)}
-        </h2>
-        <p className="text-center text-muted-foreground text-lg max-w-2xl mx-auto mb-12">
-          {subtitle}
-        </p>
+        <Reveal className="mb-12 max-w-4xl mx-auto" delay={0.04}>
+          <SectionHeading
+            eyebrow="Avis de nos clients"
+            title={tidyTitle(title)}
+            description={subtitle}
+          />
+        </Reveal>
       </div>
 
-      <TestimonialsCarousel
-        testimonials={testimonials}
-        anonymousLabel={anonymousLabel}
-      />
+      <Reveal delay={0.08}>
+        <TestimonialsCarousel
+          testimonials={testimonials}
+          anonymousLabel={anonymousLabel}
+        />
+      </Reveal>
 
       {/* Google Reviews badge — social proof */}
-      <div className="flex justify-center mt-8">
+      <Reveal className="flex justify-center mt-8" delay={0.1}>
         <GoogleReviewsBadge locale={locale} />
-      </div>
+      </Reveal>
     </section>
   );
 }

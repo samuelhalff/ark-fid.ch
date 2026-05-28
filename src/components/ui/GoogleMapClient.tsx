@@ -24,7 +24,7 @@ const GoogleMapClient: React.FC<ClientProps> = ({
   } = labels;
   return (
     <figure
-      className={`group rounded-xl border border-slate-200 dark:border-slate-700/70 overflow-hidden shadow-sm bg-white dark:bg-slate-900 ${className}`}
+      className={`group overflow-hidden rounded-xl bg-card shadow-sm ${className}`}
     >
       <div
         className="relative w-full"
@@ -41,14 +41,14 @@ const GoogleMapClient: React.FC<ClientProps> = ({
             src={mapSrc}
           />
         ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900">
-            <p className="text-sm text-slate-600 dark:text-slate-300 max-w-md">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-surface-warm p-6 text-center dark:bg-card">
+            <p className="max-w-md text-sm text-muted-foreground">
               {placeholderNotice}
             </p>
             <button
               type="button"
               onClick={() => setConsented(true)}
-              className="rounded-md bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 shadow focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500"
+              className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background shadow hover:bg-brand-hover focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-1 dark:bg-brand dark:text-foreground"
             >
               {loadMap}
             </button>
@@ -56,22 +56,22 @@ const GoogleMapClient: React.FC<ClientProps> = ({
               href={`https://maps.google.com/?cid=${cid}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-blue-600 dark:text-blue-400 underline"
+              className="text-xs text-brand-hover underline dark:text-brand"
             >
               {openInGoogle}
             </a>
           </div>
         )}
       </div>
-      <figcaption className="flex items-center justify-between px-4 py-3 text-sm bg-slate-50 dark:bg-slate-800/60 border-t border-slate-200 dark:border-slate-700/60">
-        <span className="font-medium text-slate-700 dark:text-slate-200">
+      <figcaption className="flex items-center justify-between gap-4 bg-muted/40 px-4 py-3 text-sm">
+        <span className="font-medium text-foreground">
           {title}
         </span>
         <a
           href={`https://maps.google.com/?cid=${cid}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 dark:text-blue-400 hover:underline"
+          className="text-brand-hover hover:underline dark:text-brand"
         >
           {openInGoogle}
         </a>

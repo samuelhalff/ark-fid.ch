@@ -839,9 +839,9 @@ export default function AgentChat({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex min-h-[65svh] flex-col">
       <div
-        className="px-4 md:px-6 space-y-5"
+        className="space-y-5 px-4 py-5 md:px-6 md:py-6"
         role="log"
         aria-live="polite"
         style={{ paddingBottom: keyboardOffset ? keyboardOffset + 12 : 12 }}
@@ -856,10 +856,10 @@ export default function AgentChat({
           >
             <div
               className={cn(
-                "rounded-2xl px-4 py-3 text-sm leading-relaxed max-w-[75%]",
+                "max-w-[85%] rounded-[24px] px-4 py-3 text-sm leading-relaxed shadow-sm sm:max-w-[75%]",
                 message.role === "user"
-                  ? "bg-primary text-primary-foreground whitespace-pre-wrap dark:bg-primary/75"
-                  : "bg-foreground/6 text-foreground dark:bg-muted/70",
+                  ? "bg-foreground text-background whitespace-pre-wrap dark:bg-primary dark:text-primary-foreground"
+                  : "bg-surface-warm text-foreground dark:bg-card",
               )}
             >
               {message.role === "assistant" ? (
@@ -876,7 +876,7 @@ export default function AgentChat({
         ))}
         {sending && (
           <div className="flex justify-start">
-            <div className="rounded-2xl px-4 py-3 text-sm bg-muted/60 text-muted-foreground">
+            <div className="rounded-[24px] bg-surface-warm px-4 py-3 text-sm text-muted-foreground shadow-sm dark:bg-card">
               <span className="sr-only">{strings.chat.thinking}</span>
               <span className="typing-dots" aria-hidden="true">
                 <span className="typing-dot" />
@@ -889,7 +889,7 @@ export default function AgentChat({
         <div ref={endRef} />
       </div>
       <div
-        className="sticky bottom-0 z-10 px-4 pb-5 pt-3 md:px-6 bg-background"
+        className="sticky bottom-0 z-10 bg-background/95 px-4 pb-5 pt-3 shadow-[0_-16px_32px_rgba(20,16,14,0.06)] backdrop-blur-sm md:px-6 dark:shadow-[0_-18px_34px_rgba(0,0,0,0.28)]"
         style={{
           transform: keyboardOffset
             ? `translateY(-${keyboardOffset}px)`
@@ -910,7 +910,7 @@ export default function AgentChat({
                     key={item}
                     type="button"
                     onClick={() => void sendMessage(item)}
-                    className="rounded-full border border-foreground/10 bg-background/80 px-3 py-1 text-xs text-muted-foreground hover:text-foreground hover:border-foreground/30 hover:bg-foreground/5 transition-colors"
+                    className="rounded-full bg-[#f7ebe5] px-3 py-1 text-xs text-[#8c4f39] shadow-sm transition-colors hover:bg-[#f3ddd4] hover:text-[#663628] dark:bg-[#34221c] dark:text-[#f2b294] dark:hover:bg-[#412721] dark:hover:text-[#f7c8b2]"
                     disabled={sending}
                   >
                     {item}
@@ -954,7 +954,7 @@ export default function AgentChat({
         )}
         <div
           className={cn(
-            "mx-auto flex items-end gap-3 bg-background px-4 py-2 shadow-[0_14px_30px_rgba(0,0,0,0.28)] max-w-3xl border border-input/40",
+            "mx-auto flex max-w-3xl items-end gap-3 bg-background px-4 py-2 shadow-[0_12px_28px_rgba(0,0,0,0.12)] dark:shadow-[0_18px_32px_rgba(0,0,0,0.34)]",
             isMultiline ? "rounded-[10px]" : "rounded-[18px]",
           )}
         >
@@ -974,7 +974,7 @@ export default function AgentChat({
             onClick={() => void sendMessage()}
             disabled={!canChat || sending || !input.trim()}
             aria-label={strings.chat.send}
-            className="self-center !rounded-full bg-foreground text-background shadow-sm hover:bg-foreground/90"
+            className="self-center !rounded-full bg-[#1f1b19] text-white shadow-sm hover:bg-[#2b2521] dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
           >
             <span className="sr-only">{strings.chat.send}</span>
             <svg
@@ -1002,10 +1002,10 @@ export default function AgentChat({
           aria-labelledby="lead-modal-title"
         >
           <div
-            className="w-full max-w-[420px] rounded-[26px] bg-white/5 p-[12px] shadow-xl backdrop-blur-sm"
+            className="w-full max-w-[420px] rounded-[26px] bg-white/8 p-[12px] shadow-xl backdrop-blur-sm"
             ref={modalRef}
           >
-            <div className="rounded-[16px] bg-background p-5">
+            <div className="rounded-[20px] bg-surface-warm p-5 shadow-sm dark:bg-card">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p id="lead-modal-title" className="text-base font-semibold">
@@ -1034,7 +1034,7 @@ export default function AgentChat({
                     placeholder={strings.lead.placeholders.email}
                     type="email"
                     required
-                    className="!border-foreground/35 !border-opacity-100 bg-transparent focus-visible:!border-foreground/55 focus-visible:ring-0"
+                    className="bg-background/80 focus-visible:ring-0"
                   />
                 </label>
                 <label className="grid gap-1.5 text-sm font-medium">
@@ -1050,7 +1050,7 @@ export default function AgentChat({
                     onKeyDown={handleLeadKeyDown}
                     placeholder={strings.lead.placeholders.name}
                     required
-                    className="!border-foreground/35 !border-opacity-100 bg-transparent focus-visible:!border-foreground/55 focus-visible:ring-0"
+                    className="bg-background/80 focus-visible:ring-0"
                   />
                 </label>
               </div>

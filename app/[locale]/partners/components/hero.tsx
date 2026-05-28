@@ -1,7 +1,5 @@
 import React from "react";
 import { Button } from "@/src/components/ui/button";
-import { Badge } from "@/src/components/ui/badge";
-import Image from "next/image";
 import ResponsiveImage from "@/src/components/media/ResponsiveImage";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import heroBlurData from "@/src/lib/heroBlurData.json";
@@ -60,66 +58,56 @@ const PartnersHero = async ({ locale }: PartnersHeroProps) => {
   const t = await getTranslations(currentLocale, "partners");
   const localePrefix = locale ? `/${locale}` : "/fr";
 
-  // Randomly pick a service hero image per request (same pool as home hero)
-  const serviceHeroes = [
-    "/assets/hero/services/accounting-hero.optimized.avif",
-    "/assets/hero/services/corporate-hero.optimized.avif",
-    "/assets/hero/services/domiciliation-hero.optimized.avif",
-    "/assets/hero/services/home-hero.avif",
-    "/assets/hero/services/odoo-hero.optimized.avif",
-    "/assets/hero/services/outsourcing-hero.optimized.avif",
-    "/assets/hero/services/payroll-hero.optimized.avif",
-    "/assets/hero/services/taxes-hero.optimized.avif",
-  ];
-  const pick = Math.floor(Math.random() * serviceHeroes.length);
-  const heroSrc = serviceHeroes[pick];
+  const heroSrc = "/assets/hero/services/corporate-hero.optimized.avif";
   const heroMobileSrc = heroSrc; // If/when mobile variants exist, swap here
   const blur = (heroBlurData as Record<string, string>)[heroSrc];
 
   return (
-    <div className="relative min-h-[calc(100vh-4rem)] max-w-[var(--breakpoint-xl)] w-full flex items-center justify-center overflow-hidden border-b border-accent mx-auto px-6 pb-24">
-      <div className="max-w-[var(--breakpoint-xl)] w-full flex flex-col lg:flex-row mx-auto items-center justify-between gap-20 px-6 py-12 lg:py-0">
-        <div className="max-w-2xl text-center animate-in fade-in duration-800">
-          <div className="gap-2 flex justify-center items-center mb-6">
-            <Badge className="rounded-full py-1 border-none bg-blue-100 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+    <section className="relative w-full bg-background px-5 py-12 sm:px-8 sm:py-16 lg:py-20">
+      <div className="mx-auto grid w-full max-w-[1240px] gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.8fr)] lg:items-center">
+        <div className="min-w-0 max-w-3xl">
+          <div className="mb-7 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center rounded-full bg-brand-soft px-3 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-brand-hover shadow-sm dark:bg-brand/10 dark:text-brand">
               <IconHandshake className="w-4 h-4 mr-1" />
               {t("Hero.Badge")}
-            </Badge>
+            </span>
           </div>
-          <h1 className="text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+          <h1 className="max-w-[14ch] text-balance text-5xl font-semibold leading-[0.98] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
             {t("IntroTitle")}
           </h1>
-          <p className="text-lg xs:text-xl leading-relaxed mb-8">
+          <p className="mt-7 max-w-[58ch] text-base leading-8 text-muted-foreground sm:text-lg">
             {t("IntroText")}
           </p>
-          <div className="w-full flex flex-col sm:flex-row items-center gap-4 justify-center">
+          <div className="mt-10 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center">
             <a href={`${localePrefix}/contact/`} className="w-full sm:w-auto">
               <Button
                 size="lg"
-                className="w-full sm:w-auto rounded-full text-base transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
+                className="btn-main-cta w-full rounded-full bg-foreground px-6 text-base text-background transition-colors hover:text-white sm:w-auto"
                 style={{ cursor: "pointer" }}
               >
-                {t("Hero.CTA")} <IconHandshake className="h-5 w-5 ml-2" />
+                <span>{t("Hero.CTA")}</span>
+                <IconHandshake className="h-5 w-5 ml-2" />
               </Button>
             </a>
             <a href={`${localePrefix}/team/`} className="w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="lg"
-                className="w-full sm:w-auto rounded-full text-base shadow-none transition-transform hover:scale-105 hover:shadow-lg focus-visible:scale-105 focus-visible:shadow-lg"
+                className="btn-secondary-cta w-full rounded-full px-6 text-base sm:w-auto"
                 style={{ cursor: "pointer" }}
               >
-                <IconUsers className="h-5 w-5 mr-2" /> {t("Hero.SecondaryCTA")}
+                <IconUsers className="h-5 w-5 mr-2" />
+                <span>{t("Hero.SecondaryCTA")}</span>
               </Button>
             </a>
           </div>
         </div>
-        <div className="relative lg:max-w-lg xl:max-w-xl w-full bg-accent rounded-xl aspect-square animate-in slide-in-from-right-10 duration-500">
+        <div className="relative min-h-[320px] w-full overflow-hidden rounded-[28px] bg-muted/30 shadow-sm sm:min-h-[420px] lg:min-h-[520px]">
           <ResponsiveImage
             mobileSrc={heroMobileSrc}
             desktopSrc={heroSrc}
             alt={t("Hero.ImageAlt")}
-            className="object-cover rounded-xl"
+            className="object-cover"
             sizes="(min-width:1280px) 560px, (min-width:1024px) 480px, 92vw"
             quality={60}
             priority
@@ -133,7 +121,7 @@ const PartnersHero = async ({ locale }: PartnersHeroProps) => {
           />
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

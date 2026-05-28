@@ -1,6 +1,5 @@
-import Link from "next/link";
-import { Button } from "@/src/components/ui/button";
 import { type Locale } from "@/src/lib/i18n";
+import { CtaBanner } from "@/src/components/ui/surface";
 
 /**
  * Contextual call-to-action banner injected within blog articles.
@@ -31,44 +30,28 @@ const ArticleContextualCTA = ({
   const resolvedSecondaryHref = secondaryHref || `${localePrefix}/agent/`;
 
   return (
-    <aside
-      className="my-10 rounded-xl border border-primary/20 bg-primary/5 px-6 py-8 not-prose"
-      role="complementary"
-      aria-label={title}
-    >
-      <div className="mx-auto max-w-xl text-center space-y-3">
-        <p className="text-lg font-semibold text-foreground">{title}</p>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          {description}
-        </p>
-        <div className="flex flex-col items-center justify-center gap-2 pt-1 sm:flex-row">
-          <Link
-            href={resolvedPrimaryHref}
-            locale={activeLocale}
-            prefetch={false}
-          >
-            <Button size="default" className="rounded-full text-sm">
-              {primaryText}
-            </Button>
-          </Link>
-          {secondaryText && (
-            <Link
-              href={resolvedSecondaryHref}
-              locale={activeLocale}
-              prefetch={false}
-            >
-              <Button
-                size="default"
-                variant="ghost"
-                className="rounded-full text-sm"
-              >
-                {secondaryText}
-              </Button>
-            </Link>
-          )}
-        </div>
-      </div>
-    </aside>
+    <CtaBanner
+      className="not-prose my-12 px-6 py-8 sm:px-10 sm:py-10"
+      variant="warm"
+      eyebrow="Ark Fiduciaire"
+      title={title}
+      titleClassName="text-xl sm:text-2xl"
+      description={description}
+      primary={{
+        href: resolvedPrimaryHref,
+        label: primaryText,
+        locale: activeLocale,
+      }}
+      secondary={
+        secondaryText
+          ? {
+              href: resolvedSecondaryHref,
+              label: secondaryText,
+              locale: activeLocale,
+            }
+          : undefined
+      }
+    />
   );
 };
 

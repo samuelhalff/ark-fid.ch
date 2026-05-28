@@ -78,6 +78,27 @@ The validation now checks these critical keys across all 5 locales (en, fr, de, 
 **Navigation (4 keys):**
 
 - `navbar:Home`
+
+**Resources categories (7 keys):**
+
+- `ressources:Categories.all`
+- `ressources:Categories.accounting`
+- `ressources:Categories.tax`
+- `ressources:Categories.payroll`
+- `ressources:Categories.corporate`
+- `ressources:Categories.international`
+- `ressources:Categories.digital`
+
+**Resources share controls (7 keys):**
+
+- `ressources:Share.Article`
+- `ressources:Share.LinkedIn`
+- `ressources:Share.X`
+- `ressources:Share.WhatsApp`
+- `ressources:Share.Email`
+- `ressources:Share.CopyLink`
+- `ressources:Share.Copied`
+
 - `navbar:Services`
 - `navbar:About`
 - `navbar:Contact`
@@ -217,6 +238,18 @@ Added global service banner copy in the `services` namespace for all locales:
 
 - `services:ScrollHint`
 
+## New Home Trust Strip Keys (May 2026)
+
+Added a compact landing-page trust strip for SO-FIT / OAR / SRO, Odoo and Swiss GAAP FER. Ensure all locales include:
+
+- `home:Trust.Eyebrow`
+- `home:Trust.Sofit.Title`
+- `home:Trust.Sofit.Description`
+- `home:Trust.Odoo.Title`
+- `home:Trust.Odoo.Description`
+- `home:Trust.Gaap.Title`
+- `home:Trust.Gaap.Description`
+
 ## New Ressources Reference Keys (Feb 2026 - ANobAG)
 
 Added for the ANobAG immigration article references. Ensure all locales include:
@@ -247,6 +280,8 @@ All service namespaces now include long-form copy for SEO and must be present ac
 Added to the `home` namespace `Hero` object for floating scroll badge on the home page:
 
 - `home:Hero.ScrollHint`
+- `home:Services.Eyebrow`
+- `home:About.Eyebrow`
 
 ### CTA Secondary Buttons
 

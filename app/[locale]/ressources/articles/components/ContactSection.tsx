@@ -1,6 +1,5 @@
 import React from "react";
-import { Button } from "@/src/components/ui/button";
-import Link from "next/link";
+import { CtaBanner } from "@/src/components/ui/surface";
 // Server-provided texts via ArticleContent props; no client translation needed
 
 function MessageCircleIcon({
@@ -47,35 +46,32 @@ const ContactSection = ({
   const localePrefix = locale ? `/${locale}` : "/fr";
 
   return (
-    <section className="bg-muted/50 rounded-xl p-8 text-center mt-12">
-      <div className="max-w-2xl mx-auto">
-        <MessageCircleIcon className="w-12 h-12 text-primary mx-auto mb-4" />
-        <h3 className="text-xl font-semibold mb-4">{title}</h3>
-        <p className="mb-6">{description}</p>
-        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link
-            href={`${localePrefix}/contact/`}
-            locale={locale}
-            prefetch={false}
-          >
-            <Button size="lg" className="rounded-full">
-              {buttonText}
-            </Button>
-          </Link>
-          {secondaryButtonText && (
-            <Link
-              href={`${localePrefix}/agent/`}
-              locale={locale}
-              prefetch={false}
-            >
-              <Button size="lg" variant="secondary" className="rounded-full">
-                {secondaryButtonText}
-              </Button>
-            </Link>
-          )}
-        </div>
-      </div>
-    </section>
+    <CtaBanner
+      className="mt-16"
+      variant="contrast"
+      eyebrow="Parlons-en"
+      title={title}
+      description={description}
+      icon={
+        <span className="flex size-14 items-center justify-center rounded-full bg-background/10 text-brand-onDark dark:bg-[#1f1b19]/10 dark:text-brand-hover">
+          <MessageCircleIcon className="h-7 w-7" />
+        </span>
+      }
+      primary={{
+        href: `${localePrefix}/contact/`,
+        label: buttonText,
+        locale,
+      }}
+      secondary={
+        secondaryButtonText
+          ? {
+              href: `${localePrefix}/agent/`,
+              label: secondaryButtonText,
+              locale,
+            }
+          : undefined
+      }
+    />
   );
 };
 

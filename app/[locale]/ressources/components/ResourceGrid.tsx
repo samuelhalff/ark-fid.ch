@@ -1,5 +1,9 @@
 import React from "react";
 import ResourceCard from "./ResourceCard";
+import type {
+  ResourceCategoryId,
+  ResourceCategoryLabels,
+} from "@/src/lib/resourceCategories";
 
 interface ArticleResource {
   slug: string;
@@ -13,6 +17,8 @@ interface ResourceGridProps {
   articles: ArticleResource[];
   locale?: string;
   visibleCount?: number;
+  categoryBySlug?: Record<string, ResourceCategoryId>;
+  categoryLabels?: ResourceCategoryLabels;
   labels?: {
     ReadArticle?: string;
     By?: string;
@@ -24,13 +30,15 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
   articles,
   locale,
   visibleCount = articles.length,
+  categoryBySlug,
+  categoryLabels,
   labels,
 }) => {
   const prefix = locale ? `/${locale}` : "";
 
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-8">
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
         {articles.map((article, index) => (
           <div
             key={article.slug}
@@ -42,6 +50,12 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
               href={`${prefix}/ressources/articles/${article.slug}/`}
               author={article.author}
               date={article.date}
+              category={
+                categoryBySlug?.[article.slug] && categoryLabels
+                  ? categoryLabels[categoryBySlug[article.slug]]
+                  : undefined
+              }
+              locale={locale}
               labels={labels}
               colorIndex={index}
             />

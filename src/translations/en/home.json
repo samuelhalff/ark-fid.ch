@@ -8,7 +8,7 @@
         "Description": "Expert fiduciary support that blends Swiss precision with digital efficiency, covering accounting, tax, payroll and corporate governance from launch to expansion.",
         "CTA": "Get in touch",
         "SecondaryCTA": "Get an instant quote",
-        "Badge": "Swiss made",
+        "Badge": "Genève · Lausanne",
         "BadgeTwo": "AI powered",
         "OdooBadge": "Digital & ERP solutions",
         "OdooPartnerBadge": "Official Odoo partner",
@@ -16,16 +16,33 @@
         "ScrollHint": "Discover more"
     },
     "Services": {
+        "Eyebrow": "Services",
         "Title": "Our services",
         "Subtitle": "Comprehensive fiduciary, accounting, and tax programmes tailored to every stage of your business. We combine on-demand expertise, proven Swiss processes, and secure digital tooling to support SMEs, scale-ups, and international groups."
     },
+    "Trust": {
+        "Eyebrow": "Affiliations and frameworks",
+        "Sofit": {
+            "Title": "SO-FIT",
+            "Description": "SRO / OAR member under Swiss AMLA. KYC procedures for sensitive domiciliation, escrow mandates, payment flows and documented structures."
+        },
+        "Odoo": {
+            "Title": "Odoo",
+            "Description": "Official partner for accounting, automation and reporting."
+        },
+        "Gaap": {
+            "Title": "Swiss GAAP FER",
+            "Description": "Readable, consistent and audit-ready financial statements."
+        }
+    },
     "About": {
+        "Eyebrow": "About us",
         "Title": "Why choose Ark Fiduciaire?",
         "Content": [
             "Ark Fiduciaire leverages deep local expertise and cutting-edge technological tools to support entrepreneurs, family businesses, NGOs, and international groups in securing their Swiss accounting and compliance. We act as an integrated fiduciary team that understands the operational realities of Romandie while coordinating stakeholders abroad.",
             "Our multidisciplinary specialists cover accounting, taxation, payroll, HR administration, governance, and corporate secretariat. You benefit from certified accountants, tax advisors, and consultants who transform complex rules into pragmatic action plans for your organization.",
             "Each mandate begins with an analysis phase during which we map your objectives, internal processes, and risk appetite. We then design an evolving service plan, from company formation and accounting maintenance to consolidated reporting, VAT strategy, or HR outsourcing.",
-            "The Swiss regulatory framework evolves rapidly. We track updates from FINMA, AVS, and cantons, implement required adjustments, and document all controls so you remain audit-ready. Our clients rely on us to anticipate deadlines, avoid penalties, and maintain impeccable documentation.",
+            "The Swiss regulatory framework evolves rapidly. We track updates from Swiss authorities, AVS, and cantons, implement required adjustments, and document all controls so you remain audit-ready. Our clients rely on us to anticipate deadlines, avoid penalties, and maintain impeccable documentation.",
             "Technology is at the heart of our model. By combining AI-assisted document processing and Odoo ERP integrations, we shorten closing times, automate repetitive reconciliations, and produce dashboards to drive your decisions in real time, without compromising data security.",
             "Anchored in Geneva and Lausanne, we regularly coordinate with lawyers, auditors, and tax advisors in Switzerland, Europe, and the Americas. Multilingual support in French, English, German, Spanish, and Portuguese ensures smooth communication for distributed teams.",
             "Our clients appreciate our transparent pricing, dedicated contacts, and clarity of deliverables. You always know the person responsible for each task, the status of ongoing processes, and upcoming compliance deadlines on the calendar.",

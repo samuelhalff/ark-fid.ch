@@ -28,7 +28,7 @@ const PartnerLogo = ({ logo, title }: PartnerLogoProps) => {
   if (!logo) {
     return (
       <div className="w-12 h-12 p-3 bg-white dark:bg-gray-900/50 rounded-lg flex items-center justify-center">
-        <UsersIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+        <UsersIcon className="w-6 h-6 text-brand-hover dark:text-brand" />
       </div>
     );
   }
@@ -37,8 +37,7 @@ const PartnerLogo = ({ logo, title }: PartnerLogoProps) => {
   const isWide = normalizedLogo.endsWith(".svg");
 
   const baseSizeClass = isWide ? "min-w-[5rem] max-w-[9rem] px-3 py-2" : "p-3";
-  const backgroundClass =
-    "bg-slate-30 dark:bg-gray-100 border border-slate-200/80 dark:border-slate-200/60";
+  const backgroundClass = "bg-white shadow-sm dark:bg-gray-100";
 
   return (
     <div

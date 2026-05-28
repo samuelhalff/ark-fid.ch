@@ -41,7 +41,7 @@ export default function ArticleContent({ slug, locale }: ArticleContentProps) {
   const readingStats = estimateReadingTime(article.content || "");
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-12">
+    <main className="max-w-3xl mx-auto px-5 py-12 sm:px-8">
       <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
         {article.title}
       </h1>

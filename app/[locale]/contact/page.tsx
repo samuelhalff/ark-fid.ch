@@ -15,10 +15,13 @@ import {
   WHATSAPP_URL,
 } from "@/src/lib/whatsapp";
 import { headers } from "next/headers";
+import PageHero from "@/src/components/site/page-hero";
+import Reveal from "@/src/components/motion/reveal";
+import services from "@/app/[locale]/home/components/services-items";
+import { ActionCard } from "@/src/components/ui/surface";
 
 const BOOKING_URL =
   "https://outlook.office.com/bookwithme/user/a21b46e2d9a540cca4c290a48c40119e@ark-fid.ch/meetingtype/GHNs6ESvEUWN2gUat7rePg2?anonymous&ismsaljsauthenabled&ep=mlink";
-const CONTACT_CARD_MIN_HEIGHT_CLASS = "min-h-[220px]";
 
 const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
   loading: () => (
@@ -63,6 +66,7 @@ export default async function ContactPage(
   const locale = (params?.locale as Locale) || ("fr" as Locale);
   const t = await getTranslations(locale, "contact");
   const tNav = await getTranslations(locale, "navbar");
+  const tServices = await getTranslations(locale, "servicesItems");
   const nonce = (await headers()).get("x-nonce") || undefined;
   const baseUrl = "https://ark-fid.ch";
   const localePrefix = params?.locale ? `/${params.locale}` : "/fr";
@@ -100,7 +104,7 @@ export default async function ContactPage(
       postalCode: "1204",
       addressCountry: "CH",
     },
-  } as const;
+  };
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -145,6 +149,7 @@ export default async function ContactPage(
       companyName:
         (t("Form.CompanyName") as string) || "Company Name (Optional)",
       phone: (t("Form.Phone") as string) || "Phone Number (Optional)",
+      subject: locale === "fr" ? "Sujet" : "Subject",
       email: (t("Form.Email") as string) || "Email",
       message: (t("Form.Message") as string) || "Message",
       consent: (t("Form.Consent") as string) || "I consent to being contacted",
@@ -156,6 +161,7 @@ export default async function ContactPage(
       companyName:
         (t("Form.Placeholders.CompanyName") as string) || "Company name",
       phone: (t("Form.Placeholders.Phone") as string) || "Phone number",
+      subject: locale === "fr" ? "Choisir un sujet" : "Choose a subject",
       email: (t("Form.Placeholders.Email") as string) || "email@example.com",
       message: (t("Form.Placeholders.Message") as string) || "How can we help?",
     },
@@ -171,14 +177,13 @@ export default async function ContactPage(
         (t("Form.Success") as string) || "Thanks! We'll get back to you soon.",
       error: (t("Form.Error") as string) || "Something went wrong.",
     },
+    subjects: services.map((service) => ({
+      label: tServices(service.titleKey) as string,
+      value: service.href.replace("/services/", ""),
+    })),
   } as const;
-  const cardBaseClasses =
-    `group flex ${CONTACT_CARD_MIN_HEIGHT_CLASS} flex-col items-center rounded-[24px] px-6 py-7 text-center shadow-sm transition-all duration-200`;
-  const iconWrapClasses =
-    "flex size-12 items-center justify-center rounded-full";
-
   return (
-    <div className="mx-auto w-full max-w-[var(--breakpoint-xl)] px-6 py-12 space-y-14">
+    <div className="mx-auto w-full max-w-[1240px] px-5 py-8 sm:px-8 sm:py-10">
       <script
         type="application/ld+json"
         nonce={nonce}
@@ -189,11 +194,8 @@ export default async function ContactPage(
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-[2.75rem] xl:text-5xl font-bold leading-[1.2]! tracking-tight text-center">
-        {strings.title}
-      </h1>
-      <nav aria-label="Breadcrumb" className="px-0 mt-2 mb-6">
-        <ol className="flex items-center gap-1 text-sm text-muted-foreground justify-center">
+      <nav aria-label="Breadcrumb" className="mb-3 px-0">
+        <ol className="flex items-center gap-1 text-sm text-muted-foreground">
           <li>
             <a href={`${localePrefix}/`} className="hover:underline">
               {(tNav("Home") as string) || "Home"}
@@ -207,114 +209,88 @@ export default async function ContactPage(
           </li>
         </ol>
       </nav>
-      {strings.subtitle ? (
-        <p className="mx-auto -mt-8 max-w-2xl text-center text-base leading-7 text-muted-foreground sm:text-lg">
-          {strings.subtitle}
-        </p>
-      ) : null}
-      <section className="mx-auto max-w-6xl rounded-[28px] bg-muted/40 p-4 shadow-sm sm:p-6 lg:p-7">
-        <div className="grid gap-4 lg:grid-cols-3">
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`${cardBaseClasses} bg-blue-700 text-white hover:-translate-y-1 hover:bg-blue-800 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2`}
-          >
-            <span className={`${iconWrapClasses} bg-white/14`}>
-              <CalendarIcon className="size-5" />
-            </span>
-            <span className="mt-6 flex flex-1 flex-col items-center">
-              <span className="block text-lg font-semibold">
-                {strings.bookingButton}
-              </span>
-              <span className="mt-2 block max-w-xs text-sm leading-6 text-white/80">
-                {strings.bookingDescription}
-              </span>
-              <span
-                aria-hidden="true"
-                className="mt-auto inline-flex size-10 items-center justify-center rounded-full bg-white/12 text-lg transition-transform duration-200 group-hover:translate-x-0.5"
-              >
-                →
-              </span>
-            </span>
-          </a>
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${strings.whatsapp.cta} ${WHATSAPP_NUMBER}`}
-            className={`${cardBaseClasses} bg-background text-foreground hover:-translate-y-1 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/40 focus-visible:ring-offset-2`}
-          >
-            <span className={`${iconWrapClasses} bg-[#25D366]/10 text-[#1f9d55]`}>
-              <WhatsAppIcon className="size-5" />
-            </span>
-            <span className="mt-6 flex flex-1 flex-col items-center">
-              <span className="block text-lg font-semibold">
-                {strings.whatsapp.badge}
-              </span>
-              <span className="mt-2 block max-w-xs text-sm leading-6 text-muted-foreground">
-                {strings.whatsapp.description}
-              </span>
-              <span className="mt-auto inline-flex items-center rounded-full bg-[#25D366]/10 px-4 py-2 text-sm font-medium text-foreground">
-                {WHATSAPP_NUMBER}
-              </span>
-            </span>
-          </a>
-          <div className={`${cardBaseClasses} bg-background text-foreground`}>
-            <span className={`${iconWrapClasses} bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300`}>
-              <PhoneIcon className="size-5" />
-            </span>
-            <span className="mt-6 flex flex-1 flex-col items-center">
-              <span className="block text-lg font-semibold">
-                {strings.callLabel}
-              </span>
-              <span className="mt-2 block max-w-xs text-sm leading-6 text-muted-foreground">
-                {strings.callDescription}
-              </span>
-              <a
-                href="tel:+41225125050"
-                className="mt-auto inline-flex items-center rounded-full bg-muted/60 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                aria-label={`${strings.callLabel} +41 22 512 50 50`}
-              >
-                +41 22 512 50 50
-              </a>
-            </span>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto w-full max-w-3xl space-y-4">
-        <div className="text-center">
-          <p className="text-sm font-medium tracking-[0.16em] uppercase text-muted-foreground">
-            {strings.orContactUs}
-          </p>
-        </div>
-        <ContactForm
-          showTitle={false}
-          showSubtitle={false}
-          strings={strings}
-          redirectPath={`${localePrefix}/`}
-          cardClassName="border-0 shadow-none bg-transparent"
+      <Reveal className="mb-20 sm:mb-24">
+        <PageHero
+          eyebrow={(tNav("Contact") as string) || strings.title}
+          title={strings.title}
+          className="pb-0 pt-8 sm:pb-0 sm:pt-10"
         />
-      </section>
-      <section className="mt-8 space-y-6">
-        <Defer
-          rootMargin="200px"
-          idle={200}
-          placeholder={
-            <div className="h-[300px] w-full rounded-lg bg-muted/40" />
-          }
-        >
-          <GoogleMap
-            className="w-full"
-            privacyMode={false}
-            labels={{
-              loadMap: t("MapLoadButton") as string,
-              openInGoogle: t("MapOpenExternal") as string,
-              placeholderNotice: t("MapPrivacyPlaceholder") as string,
+        {strings.subtitle ? (
+          <p
+            data-contact-response-note
+            className="mt-6 max-w-[58ch] text-base leading-8 text-muted-foreground sm:text-lg"
+          >
+            {strings.subtitle}
+          </p>
+        ) : null}
+      </Reveal>
+      <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_390px] lg:items-start">
+        <Reveal className="min-w-0" delay={0.06}>
+          <ContactForm
+            showTitle={true}
+            showSubtitle={false}
+            strings={{
+              ...strings,
+              title: locale === "fr" ? "Écrivez-nous" : strings.orContactUs,
             }}
+            redirectPath={`${localePrefix}/`}
+            cardClassName="rounded-[24px] bg-card shadow-sm"
           />
-        </Defer>
+        </Reveal>
+
+        <Reveal className="space-y-4" delay={0.1}>
+          <div className="grid gap-3">
+            <ActionCard
+              href={BOOKING_URL}
+              external
+              variant="contrast"
+              icon={<CalendarIcon className="size-5" />}
+              title={strings.bookingButton}
+              description={strings.bookingDescription}
+            />
+            <ActionCard
+              href={WHATSAPP_URL}
+              aria-label={`${strings.whatsapp.cta} ${WHATSAPP_NUMBER}`}
+              external
+              variant="whatsapp"
+              icon={<WhatsAppIcon className="size-5" />}
+              title={strings.whatsapp.badge}
+              description={WHATSAPP_NUMBER}
+              className="focus-visible:ring-[#25D366]/40"
+            />
+            <ActionCard
+              variant="plain"
+              icon={<PhoneIcon className="size-5" />}
+              title={strings.callLabel}
+              description={
+                <a
+                  href="tel:+41225125050"
+                  className="transition-colors hover:text-foreground"
+                  aria-label={`${strings.callLabel} +41 22 512 50 50`}
+                >
+                  +41 22 512 50 50
+                </a>
+              }
+            />
+          </div>
+          <Defer
+            rootMargin="200px"
+            idle={200}
+            placeholder={
+              <div className="h-[280px] w-full rounded-[22px] bg-muted/40" />
+            }
+          >
+            <GoogleMap
+              className="w-full rounded-[22px]"
+              privacyMode={false}
+              labels={{
+                loadMap: t("MapLoadButton") as string,
+                openInGoogle: t("MapOpenExternal") as string,
+                placeholderNotice: t("MapPrivacyPlaceholder") as string,
+              }}
+            />
+          </Defer>
+        </Reveal>
       </section>
     </div>
   );

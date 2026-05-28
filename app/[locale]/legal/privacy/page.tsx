@@ -40,7 +40,7 @@ export default async function PrivacyPage(
   const r = (key: string, fallback: string) => (t(key) as string) || fallback;
 
   return (
-    <div className="container mx-auto px-4 py-16 max-w-[var(--breakpoint-xl)]">
+    <div className="mx-auto px-5 py-16 sm:px-8 max-w-[var(--breakpoint-xl)]">
       <div className="mb-12">
         <h1 className="text-4xl font-bold mb-4">
           {r("Privacy.Title", "Privacy Policy")}
@@ -669,7 +669,7 @@ export default async function PrivacyPage(
               <p>
                 <a
                   href="tel:+41225125050"
-                  className="text-blue-700 dark:text-blue-400 hover:underline"
+                  className="text-brand-hover dark:text-brand hover:underline"
                   aria-label="Call us at +41 22 512 50 50"
                 >
                   +41 22 512 50 50

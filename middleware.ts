@@ -3,13 +3,13 @@ import { locales } from "./src/lib/i18n-locales";
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
-  // Generate a per-request nonce for CSP
-  const nonce = (
-    globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`
-  )
-    .replace(/[^a-zA-Z0-9]/g, "")
-    .slice(0, 32);
   const isProd = process.env.NODE_ENV === "production";
+  // Generate a per-request nonce for CSP
+  const nonce = isProd
+    ? (globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`)
+        .replace(/[^a-zA-Z0-9]/g, "")
+        .slice(0, 32)
+    : "";
   const host = request.headers.get("host") || "";
   const shouldNoIndex =
     request.nextUrl.search.length > 0 ||

@@ -14,7 +14,7 @@ export const revalidate = false; // fully static; updates on redeploy
 const ContactForm = dynamic(() => import("@/src/components/ui/contact-form"), {
   loading: () => (
     <div className="mx-auto w-full max-w-3xl">
-      <div className="animate-pulse rounded-2xl border border-border/40 bg-muted/30 p-6 sm:p-8">
+      <div className="animate-pulse rounded-2xl bg-muted/30 p-6 shadow-sm sm:p-8">
         <div className="h-6 w-40 rounded bg-foreground/10" />
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           <div className="h-11 rounded bg-foreground/5" />
@@ -121,16 +121,16 @@ export default async function ServicesPage(
 
   return (
     <main
-      className="max-w-[var(--breakpoint-xl)] mx-auto w-full pt-10 md:pt-14 pb-12 md:px-6"
+      className="mx-auto w-full max-w-[1240px] px-5 pb-12 pt-10 sm:px-8 md:pt-14"
       role="main"
     >
       <StructuredData nonce={nonce} data={[breadcrumbJsonLd, faqJsonLd]} />
-      <header className="px-6">
-        <h1 className="text-3xl xs:text-4xl md:text-5xl md:leading-14 font-bold tracking-tight max-w-4xl mx-auto text-center mb-4">
+      <header>
+        <h1 className="mb-4 max-w-[14ch] text-balance text-5xl font-semibold leading-[0.98] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
           {(tHome("Services.Title") as string) || "Services"}
         </h1>
-        <nav aria-label="Breadcrumb" className="px-6 md:px-0 mt-2 mb-6">
-          <ol className="flex items-center gap-1 text-sm text-muted-foreground justify-center">
+        <nav aria-label="Breadcrumb" className="mb-6 mt-2">
+          <ol className="flex items-center gap-1 text-sm text-muted-foreground">
             <li>
               <a href={`${localePrefix}/`} className="hover:underline">
                 {(tNav("Home") as string) || "Home"}
@@ -146,7 +146,7 @@ export default async function ServicesPage(
         </nav>
       </header>
       <Service showSubtitle={true} showHeading={false} locale={locale} />
-      <div className="max-w-[var(--breakpoint-xl)] mx-auto px-6 mt-8 text-sm text-muted-foreground">
+      <div className="mt-8 max-w-3xl text-sm leading-6 text-muted-foreground">
         <p>
           {locale === "fr"
             ? "Ressources utiles : "
