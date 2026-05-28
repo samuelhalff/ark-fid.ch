@@ -389,7 +389,6 @@
 
   /* Agent page: force dark mode on entire viewport (navbar, footer, chat) */
   body:has(.agent-page) {
-    overflow: hidden;
     --background: 0.145 0 0;
     --foreground: 0.985 0 0;
     --card: 0.205 0 0;
@@ -406,6 +405,12 @@
     --input: 1 0 0 / 0.15;
     --surface-warm: 0.245 0.008 70;
     --ring: 0.738 0.099 50;
+  }
+
+  /* Give the layout's main a defined height so flex-1 children can fill it */
+  body:has(.agent-page) #main-content {
+    height: 100svh;
+    overflow: hidden;
   }
 
   body:has(.agent-page) footer {
