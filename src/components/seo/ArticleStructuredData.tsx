@@ -25,6 +25,14 @@ export default function ArticleStructuredData({
   locale,
   nonce,
 }: ArticleStructuredDataProps) {
+  const breadcrumbLabels: Record<string, { home: string; resources: string }> = {
+    fr: { home: "Accueil", resources: "Ressources" },
+    en: { home: "Home", resources: "Resources" },
+    de: { home: "Startseite", resources: "Ressourcen" },
+    es: { home: "Inicio", resources: "Recursos" },
+    pt: { home: "Início", resources: "Recursos" },
+  };
+  const labels = breadcrumbLabels[locale] || breadcrumbLabels.en;
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -97,13 +105,13 @@ export default function ArticleStructuredData({
       {
         "@type": "ListItem",
         position: 1,
-        name: "Accueil",
+        name: labels.home,
         item: `https://ark-fid.ch/${locale}/`,
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "Ressources",
+        name: labels.resources,
         item: `https://ark-fid.ch/${locale}/ressources/`,
       },
       {

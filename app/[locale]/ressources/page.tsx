@@ -155,6 +155,7 @@ export default async function RessourcesPage(
   };
 
   const links = ressources.Links || {};
+  const resourcesLabel = (tNav("Ressources") as string) || "Resources";
 
   return (
     <main className="mx-auto max-w-[1240px] px-5 py-10 sm:px-8">
@@ -175,7 +176,7 @@ export default async function RessourcesPage(
               {
                 "@type": "ListItem",
                 position: 2,
-                name: "Ressources",
+                name: resourcesLabel,
                 item: `https://ark-fid.ch/${locale}/ressources/`,
               },
             ],
@@ -195,7 +196,7 @@ export default async function RessourcesPage(
           <li className="flex items-center gap-1">
             <span className="text-muted-foreground/60">/</span>
             <span aria-current="page" className="font-medium text-foreground">
-              Ressources
+              {resourcesLabel}
             </span>
           </li>
         </ol>

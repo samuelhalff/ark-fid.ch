@@ -16,6 +16,7 @@
         "ScrollHint": "Mehr entdecken"
     },
     "Services": {
+        "Eyebrow": "Dienstleistungen",
         "Title": "Unsere Dienstleistungen",
         "Subtitle": "Umfassende Treuhand-, Buchhaltungs- und Steuerprogramme für jede Wachstumsphase. Wir kombinieren Expertise auf Abruf, bewährte Schweizer Prozesse und sichere digitale Werkzeuge für KMU, Scale-ups und internationale Gruppen."
     },
@@ -35,6 +36,7 @@
         }
     },
     "About": {
+        "Eyebrow": "Über uns",
         "Title": "Warum Ark Fiduciaire?",
         "Content": [
             "Ark Fiduciaire stützt sich auf tiefgreifende lokale Expertise und modernste technologische Werkzeuge, um Unternehmer, Familienunternehmen, NGOs und internationale Gruppen bei der Sicherung ihrer Schweizer Buchhaltung und Compliance zu unterstützen. Wir agieren als integriertes Treuhandteam, das die operativen Realitäten der Romandie versteht und gleichzeitig Stakeholder im Ausland koordiniert.",

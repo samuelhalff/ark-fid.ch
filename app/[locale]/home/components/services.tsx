@@ -46,7 +46,7 @@ const Services = async ({
         {showHeading && (
           <Reveal className="grid gap-6 md:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.7fr)] md:items-end">
             <SectionHeading
-              eyebrow="Nos services"
+              eyebrow={(tHome("Services.Eyebrow") as string) || (tHome("Services.Title") as string)}
               title={
                 currentLocale === "fr"
                   ? "Tout ce dont une entreprise a besoin — sous un seul toit."

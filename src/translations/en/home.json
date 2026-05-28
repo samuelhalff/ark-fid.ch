@@ -16,6 +16,7 @@
         "ScrollHint": "Discover more"
     },
     "Services": {
+        "Eyebrow": "Services",
         "Title": "Our services",
         "Subtitle": "Comprehensive fiduciary, accounting, and tax programmes tailored to every stage of your business. We combine on-demand expertise, proven Swiss processes, and secure digital tooling to support SMEs, scale-ups, and international groups."
     },
@@ -35,6 +36,7 @@
         }
     },
     "About": {
+        "Eyebrow": "About us",
         "Title": "Why choose Ark Fiduciaire?",
         "Content": [
             "Ark Fiduciaire leverages deep local expertise and cutting-edge technological tools to support entrepreneurs, family businesses, NGOs, and international groups in securing their Swiss accounting and compliance. We act as an integrated fiduciary team that understands the operational realities of Romandie while coordinating stakeholders abroad.",

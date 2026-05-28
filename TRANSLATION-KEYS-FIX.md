@@ -259,6 +259,8 @@ All service namespaces now include long-form copy for SEO and must be present ac
 Added to the `home` namespace `Hero` object for floating scroll badge on the home page:
 
 - `home:Hero.ScrollHint`
+- `home:Services.Eyebrow`
+- `home:About.Eyebrow`
 
 ### CTA Secondary Buttons
 

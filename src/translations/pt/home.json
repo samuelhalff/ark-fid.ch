@@ -16,6 +16,7 @@
         "ScrollHint": "Descobrir mais"
     },
     "Services": {
+        "Eyebrow": "Serviços",
         "Title": "Os nossos serviços",
         "Subtitle": "Programas fiduciários, contabilísticos e fiscais completos para cada etapa de crescimento. Combinamos experiência sob medida, processos suíços comprovados e ferramentas digitais seguras para PME, scale-ups e grupos internacionais."
     },
@@ -35,6 +36,7 @@
         }
     },
     "About": {
+        "Eyebrow": "Sobre nós",
         "Title": "Por que escolher a Ark Fiduciaire?",
         "Content": [
             "A Ark Fiduciaire baseia-se numa profunda experiência local e ferramentas tecnológicas de ponta para apoiar empreendedores, empresas familiares, ONGs e grupos internacionais na segurança da sua contabilidade e conformidade suíça. Atuamos como uma equipa fiduciária integrada que compreende as realidades operacionais da Romandie enquanto coordena com as partes interessadas no estrangeiro.",

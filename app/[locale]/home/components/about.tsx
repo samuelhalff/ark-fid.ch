@@ -16,7 +16,7 @@ export default async function About() {
       <div className="w-full max-w-[1240px]">
         <Reveal className="mb-10 max-w-3xl">
           <SectionHeading
-            eyebrow="À propos"
+            eyebrow={(t("About.Eyebrow") as string) || (t("About.Title") as string)}
             title={tidyTitle(t("About.Title") as string)}
             align="left"
           />
