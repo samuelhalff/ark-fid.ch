@@ -159,7 +159,7 @@ export default async function AgentPage(
   } as const;
 
   return (
-    <main className="agent-page flex h-[100svh] flex-col overflow-hidden">
+    <main className="agent-page dark flex h-[100svh] flex-col overflow-hidden">
       <div className="agent-page-dim" aria-hidden="true" />
       <div className="agent-page-content flex flex-1 flex-col overflow-hidden">
         <StructuredData nonce={nonce} data={[breadcrumbJsonLd, softwareAppJsonLd, serviceJsonLd]} />

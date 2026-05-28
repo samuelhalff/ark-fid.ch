@@ -1,7 +1,6 @@
 // "use client";
 import React from "react";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
-import ServiceContactForm from "@/src/components/ui/service-contact-form";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
 import ServiceLongForm from "@/src/components/ui/service-longform";
 import { CtaBanner } from "@/src/components/ui/surface";
@@ -248,7 +247,6 @@ const FamilyOfficePresentation = ({
             label: t("Presentation.CalloutCTA"),
           }}
         />
-        <ServiceContactForm locale={locale} />
         <div className="flex justify-center">
           <GoogleReviewsBadge locale={locale} />
         </div>

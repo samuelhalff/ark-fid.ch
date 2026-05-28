@@ -841,10 +841,11 @@ export default function AgentChat({
   return (
     <div className="flex h-full flex-col">
       <div
-        className="flex-1 overflow-y-auto space-y-5 px-4 py-5 md:px-6 md:py-6"
+        className="flex-1 overflow-y-auto"
         role="log"
         aria-live="polite"
       >
+        <div className="mx-auto max-w-3xl space-y-5 px-4 py-5 md:px-6 md:py-6">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -885,7 +886,8 @@ export default function AgentChat({
             </div>
           </div>
         )}
-        <div ref={endRef} />
+          <div ref={endRef} />
+        </div>
       </div>
       <div
         className="shrink-0 bg-background/95 px-4 pt-3 shadow-[0_-16px_32px_rgba(20,16,14,0.06)] backdrop-blur-sm md:px-6 dark:shadow-[0_-18px_34px_rgba(0,0,0,0.28)]"

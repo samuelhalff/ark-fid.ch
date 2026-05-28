@@ -11,7 +11,6 @@ import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import ServiceLongForm from "@/src/components/ui/service-longform";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
-import ServiceContactForm from "@/src/components/ui/service-contact-form";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
 const ServicesListServer = dynamic(
   () => import("@/src/components/ui/services-list-server"),
@@ -114,7 +113,6 @@ const CorporatePresentation = async () => {
               </Suspense>
             </section>
             <ServiceLongForm t={t} locale={locale} />
-            <ServiceContactForm locale={locale} />
             <div className="flex justify-center">
               <GoogleReviewsBadge locale={locale} />
             </div>
