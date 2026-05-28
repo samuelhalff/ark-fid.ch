@@ -7,13 +7,20 @@ import Link from "next/link";
 import { splitTitle } from "@/src/lib/typography";
 import Reveal from "@/src/components/motion/reveal";
 
+interface HeroFact {
+  label: string;
+  value: string;
+  sub: string;
+}
+
 interface HeroProps {
   locale?: string;
   heroIndex?: number; // kept for caller compatibility
   translations?: Record<string, string>; // server-provided translations to avoid hydration mismatch
+  facts?: HeroFact[];
 }
 
-const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
+const Hero = ({ locale, heroIndex, translations, facts }: HeroProps) => {
   const currentLocale = (locale || "fr") as string;
   // const { t } = useTranslation("home");
   const t = (key: string) => translations?.[key] || key; // fallback to key if translation missing
@@ -70,6 +77,24 @@ const Hero = ({ locale, heroIndex, translations }: HeroProps) => {
               </Button>
             </Link>
           </div>
+
+          {facts && facts.length > 0 && (
+            <div className="mt-16 border-t border-border/50 pt-10 grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-10">
+              {facts.map((fact) => (
+                <div key={fact.label} className="flex flex-col gap-2">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/60">
+                    {fact.label}
+                  </p>
+                  <p className="text-[28px] font-semibold leading-none tracking-[-0.025em] text-foreground sm:text-[32px]">
+                    {fact.value}
+                  </p>
+                  <p className="text-[13.5px] leading-[1.55] text-muted-foreground">
+                    {fact.sub}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </Reveal>
       </div>
     </section>

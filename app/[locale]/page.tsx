@@ -50,6 +50,23 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
     "Hero.OdooBadge": homeT("Hero.OdooBadge"),
     "Hero.ScrollHint": homeT("Hero.ScrollHint"),
   };
+  const heroFacts = [
+    {
+      label: homeT("Hero.Facts.Implantation.Label") as string,
+      value: homeT("Hero.Facts.Implantation.Value") as string,
+      sub: homeT("Hero.Facts.Implantation.Sub") as string,
+    },
+    {
+      label: homeT("Hero.Facts.Expertises.Label") as string,
+      value: homeT("Hero.Facts.Expertises.Value") as string,
+      sub: homeT("Hero.Facts.Expertises.Sub") as string,
+    },
+    {
+      label: homeT("Hero.Facts.Solutions.Label") as string,
+      value: homeT("Hero.Facts.Solutions.Value") as string,
+      sub: homeT("Hero.Facts.Solutions.Sub") as string,
+    },
+  ];
   const localePrefix = `/${activeLocale}`;
   // Load FAQ texts for JSON-LD
   const loadFaq = async (locale: Locale) => {
@@ -150,6 +167,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
     {
       title: homeT("Trust.Odoo.Title") as string,
       description: homeT("Trust.Odoo.Description") as string,
+      odoo: true,
     },
     {
       title: homeT("Trust.Gaap.Title") as string,
@@ -165,42 +183,35 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           locale={activeLocale}
           heroIndex={heroIndex}
           translations={heroTranslations}
+          facts={heroFacts}
         />
       </section>
       <section
         id="affiliations"
-        className="mx-auto w-full max-w-[1240px] px-5 pb-10 sm:px-8"
+        className="mx-auto w-full max-w-[1240px] border-y border-border/50 px-5 py-8 sm:px-8 sm:py-10"
         aria-labelledby="affiliations-title"
       >
-        <div className="grid gap-2 rounded-2xl bg-surface-warm p-2.5 sm:grid-cols-[auto_repeat(3,1fr)] sm:items-center sm:gap-2.5 sm:p-3 dark:bg-card">
-          <div className="flex items-center px-4 py-4 sm:py-5">
-            <p
-              id="affiliations-title"
-              className="font-mono text-[10.5px] uppercase leading-5 tracking-[0.14em] text-muted-foreground/80"
-            >
-              {homeT("Trust.Eyebrow") as string}
-            </p>
-          </div>
-          <ul className="contents">
+        <div className="grid items-start gap-8 sm:grid-cols-[auto_repeat(3,1fr)] sm:items-center sm:gap-10">
+          <p
+            id="affiliations-title"
+            className="font-mono text-[10px] uppercase leading-5 tracking-[0.14em] text-muted-foreground/70 sm:max-w-[100px]"
+          >
+            {homeT("Trust.Eyebrow") as string}
+          </p>
+          <ul className="col-span-3 grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-8">
             {trustItems.map((item) => (
-              <li
-                key={item.title}
-                className={`rounded-xl px-4 py-4 sm:py-5 ${
-                  item.featured
-                    ? "bg-brand/[0.09] ring-1 ring-inset ring-brand/20 dark:bg-brand/[0.12]"
-                    : "bg-background/70 ring-1 ring-inset ring-foreground/[0.06] dark:bg-background/[0.08]"
-                }`}
-              >
+              <li key={item.title} className="flex flex-col gap-1.5">
                 <p
-                  className={`text-[15px] font-semibold tracking-[-0.01em] ${
+                  className={`text-[17px] font-semibold tracking-[-0.02em] leading-tight ${
                     item.featured
                       ? "text-brand-hover dark:text-brand"
                       : "text-foreground"
                   }`}
+                  style={item.odoo ? { color: "#714B67" } : undefined}
                 >
                   {item.title}
                 </p>
-                <p className="mt-1 text-[12px] leading-5 text-muted-foreground">
+                <p className="text-[13px] leading-[1.55] text-muted-foreground">
                   {item.description}
                 </p>
               </li>

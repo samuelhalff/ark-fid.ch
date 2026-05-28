@@ -13,7 +13,24 @@
         "OdooBadge": "Solutions digitales & ERP",
         "OdooPartnerBadge": "Partenaire Odoo officiel",
         "ImageAlt": "Experts d'Ark Fiduciaire en accompagnement comptable, fiscal et fiduciaire pour entreprises suisses",
-        "ScrollHint": "Découvrir plus"
+        "ScrollHint": "Découvrir plus",
+        "Facts": {
+            "Implantation": {
+                "Label": "// Implantation",
+                "Value": "Genève · Lausanne",
+                "Sub": "Présence en Suisse romande pour les PME suisses et entreprises internationales."
+            },
+            "Expertises": {
+                "Label": "// Expertises",
+                "Value": "Compta · Tax · RH",
+                "Sub": "Comptabilité, fiscalité, salaires, corporate, domiciliation et ERP."
+            },
+            "Solutions": {
+                "Label": "// Solutions",
+                "Value": "Odoo · IA",
+                "Sub": "Partenaire Odoo officiel et outils numériques pour accélérer l'exécution sans perdre en précision."
+            }
+        }
     },
     "Services": {
         "Eyebrow": "Nos services",

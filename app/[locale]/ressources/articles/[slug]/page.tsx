@@ -517,6 +517,9 @@ export default async function ArticlePage(props: Params) {
           not flat dotted keys. */}
       <ContactSection
         locale={locale}
+        eyebrow={
+          (tRessources("Contact.Eyebrow") as string) || "Let's talk"
+        }
         title={
           (tRessources("Contact.Title") as string) ||
           "Questions about this article?"

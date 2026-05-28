@@ -13,7 +13,24 @@
         "OdooBadge": "Soluciones digitales y ERP",
         "OdooPartnerBadge": "Partner oficial de Odoo",
         "ImageAlt": "Profesionales de Ark Fiduciaire que ofrecen servicios fiduciarios, contables y fiscales a empresas suizas",
-        "ScrollHint": "Descubrir más"
+        "ScrollHint": "Descubrir más",
+        "Facts": {
+            "Implantation": {
+                "Label": "// Ubicación",
+                "Value": "Ginebra · Lausana",
+                "Sub": "Presencia en la Suiza francófona para pymes suizas y empresas internacionales."
+            },
+            "Expertises": {
+                "Label": "// Servicios",
+                "Value": "Contab. · Fiscal · RRHH",
+                "Sub": "Contabilidad, fiscalidad, nóminas, corporate, domiciliación y ERP."
+            },
+            "Solutions": {
+                "Label": "// Tecnología",
+                "Value": "Odoo · IA",
+                "Sub": "Socio oficial de Odoo y herramientas digitales para acelerar la ejecución con precisión."
+            }
+        }
     },
     "Services": {
         "Eyebrow": "Servicios",

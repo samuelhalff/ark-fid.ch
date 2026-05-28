@@ -13,7 +13,24 @@
         "OdooBadge": "Digitale & ERP-Lösungen",
         "OdooPartnerBadge": "Offizieller Odoo-Partner",
         "ImageAlt": "Ark Fiduciaire Fachleute unterstützen Schweizer Unternehmen mit Treuhand-, Buchhaltungs- und Steuerleistungen",
-        "ScrollHint": "Mehr entdecken"
+        "ScrollHint": "Mehr entdecken",
+        "Facts": {
+            "Implantation": {
+                "Label": "// Standort",
+                "Value": "Genf · Lausanne",
+                "Sub": "In der Romandie verankert — für Schweizer KMU und internationale Unternehmen."
+            },
+            "Expertises": {
+                "Label": "// Fachgebiete",
+                "Value": "Buchhaltung · Steuern · HR",
+                "Sub": "Buchhaltung, Steuern, Lohn, Corporate Services, Domizilierung und ERP."
+            },
+            "Solutions": {
+                "Label": "// Lösungen",
+                "Value": "Odoo · KI",
+                "Sub": "Offizieller Odoo-Partner und digitale Tools für präzise, schnelle Ausführung."
+            }
+        }
     },
     "Services": {
         "Eyebrow": "Dienstleistungen",

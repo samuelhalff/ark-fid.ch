@@ -92,70 +92,12 @@ export default async function Testimonials() {
   const locale: Locale = await getCurrentLocale();
   const t = await getTranslations(locale, "testimonials");
 
+  const eyebrow = (t("Eyebrow") as string) || "Client reviews";
   const title = (t("SectionTitle") as string) || "Testimonials";
   const subtitle = (t("Subtitle") as string) || "";
   const ratingBadge =
     (t("RatingBadge") as string) || "Rated 5 stars by clients";
-  const testimonials: Testimonial[] = [
-    {
-      name: "Julien Roques",
-      company: "Florissant 1928 Sàrl",
-      service: "Odoo & ERP",
-      testimonial:
-        "Ark s'est montrée très disponible et nous a permis en quelques jours de mettre en place notre comptabilité sur Odoo.",
-    },
-    {
-      name: "Antoine Fortis",
-      company: "Pargo Sàrl",
-      service: "Comptabilité",
-      testimonial:
-        "Je souhaitais être autonome tout en ayant un support ponctuel pour ma comptabilité et mes salaires; chez Ark j'ai pu compter sur une équipe compétente et dynamique.",
-    },
-    {
-      name: "Armands Bush",
-      company: "Austrenis Capital SA",
-      service: "Comptabilité",
-      testimonial:
-        "Nous nous reposons sur Ark pour l'ensemble de notre comptabilité, salaires et notre fiscalité. L'équipe de Ark est toujours disponible et réactive. Nous pouvons nous concentrer pleinement sur notre activité et être confiants que ces tâches sont gérées parfaitement.",
-    },
-    {
-      name: "Pierre Saouter",
-      company: "Principles Analytics Sàrl",
-      service: "Comptabilité & Fiscalité",
-      testimonial:
-        "Ark gère notre comptabilité et nos affaires fiscales avec un professionnalisme remarquable. Leur expertise nous donne une tranquillité d'esprit totale, nous permettant de nous concentrer entièrement sur le développement de notre activité.",
-    },
-    {
-      service: "Comptabilité",
-      testimonial:
-        "Notre comptabilité est désormais parfaitement structurée grâce à Ark. Les clôtures mensuelles sont livrées dans les délais et la qualité des rapports nous permet de prendre des décisions éclairées.",
-    },
-    {
-      service: "Salaires & RH",
-      testimonial:
-        "La gestion de notre paie est devenue un jeu d'enfant. Fiches de salaire précises, déclarations sociales conformes, et un support toujours disponible pour répondre à nos questions.",
-    },
-    {
-      service: "Fiscalité",
-      testimonial:
-        "Grâce à leur expertise fiscale, nous avons optimisé notre situation tout en restant parfaitement conformes. Un accompagnement professionnel et rassurant.",
-    },
-    {
-      service: "Fusions & Acquisitions",
-      testimonial:
-        "L'équipe nous a accompagnés tout au long de notre acquisition. Due diligence rigoureuse, valorisation précise et conseils stratégiques qui ont fait la différence.",
-    },
-    {
-      service: "Family Office",
-      testimonial:
-        "Une approche sur mesure pour la gestion de notre patrimoine familial. Discrétion, expertise et un suivi personnalisé qui répond à toutes nos attentes.",
-    },
-    {
-      service: "Odoo & ERP",
-      testimonial:
-        "L'implémentation d'Odoo a transformé notre façon de travailler. Processus automatisés, données centralisées et une visibilité en temps réel sur notre activité.",
-    },
-  ];
+  const testimonials: Testimonial[] = (t("List") as Testimonial[]) || [];
   const anonymousLabel = (t("Anonymous") as string) || "Anonymous";
 
   const structuredData = generateReviewsStructuredData(
@@ -193,7 +135,7 @@ export default async function Testimonials() {
 
         <Reveal className="mb-12 max-w-4xl mx-auto" delay={0.04}>
           <SectionHeading
-            eyebrow="Avis de nos clients"
+            eyebrow={eyebrow}
             title={tidyTitle(title)}
             description={subtitle}
           />

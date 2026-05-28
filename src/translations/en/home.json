@@ -13,7 +13,24 @@
         "OdooBadge": "Digital & ERP solutions",
         "OdooPartnerBadge": "Official Odoo partner",
         "ImageAlt": "Ark Fiduciaire experts providing fiduciary, accounting and tax services for Swiss companies",
-        "ScrollHint": "Discover more"
+        "ScrollHint": "Discover more",
+        "Facts": {
+            "Implantation": {
+                "Label": "// Location",
+                "Value": "Geneva · Lausanne",
+                "Sub": "Based in French-speaking Switzerland, serving Swiss SMEs and international companies."
+            },
+            "Expertises": {
+                "Label": "// Expertise",
+                "Value": "Accounting · Tax · HR",
+                "Sub": "Accounting, taxation, payroll, corporate services, domiciliation and ERP."
+            },
+            "Solutions": {
+                "Label": "// Technology",
+                "Value": "Odoo · AI",
+                "Sub": "Official Odoo partner and digital tools to accelerate execution without losing precision."
+            }
+        }
     },
     "Services": {
         "Eyebrow": "Services",

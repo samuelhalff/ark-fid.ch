@@ -31,12 +31,14 @@ function MessageCircleIcon({
 
 const ContactSection = ({
   locale,
+  eyebrow,
   title,
   description,
   buttonText,
   secondaryButtonText,
 }: {
   locale?: string;
+  eyebrow?: string;
   title: string;
   description: string;
   buttonText: string;
@@ -49,7 +51,7 @@ const ContactSection = ({
     <CtaBanner
       className="mt-16"
       variant="contrast"
-      eyebrow="Parlons-en"
+      eyebrow={eyebrow}
       title={title}
       description={description}
       icon={

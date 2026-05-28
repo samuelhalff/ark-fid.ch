@@ -76,6 +76,7 @@ export default function ArticleContent({ slug, locale }: ArticleContentProps) {
           which resolves to /fr in the localePrefix calculation. */}
       <ContactSection
         locale={locale}
+        eyebrow={(t("Contact.Eyebrow") as string) || "Let's talk"}
         title={(t("Contact.Title") as string) || "Questions about this article?"}
         description={
           (t("Contact.Description") as string) ||
