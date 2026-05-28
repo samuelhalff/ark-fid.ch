@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact Ark Fiduciaire Genève | Fiduciaire Multilingue</title>
+<meta name="description" content="Contactez Ark Fiduciaire à Genève pour la comptabilité, fiscalité, paie, corporate et domiciliation. Conseillers francophones, anglophones et germanophones." />
+<link rel="canonical" href="https://ark-fid.ch/fr/contact/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Contact Ark Fiduciaire Genève | Fiduciaire Multilingue" />
+<meta property="og:description" content="Contactez Ark Fiduciaire à Genève pour la comptabilité, fiscalité, paie, corporate et domiciliation." />
+<meta property="og:url" content="https://ark-fid.ch/fr/contact/" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="stylesheet" href="shared.css?v=20260518">
+<style>
+  /* ============= CONTACT ============= */
+
+  .contact-hero { padding: 64px 0 32px; }
+  .contact-hero h1 {
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    max-width: 14ch;
+    margin: 24px 0 24px;
+  }
+  .contact-hero h1 .accent {
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-on-dark) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .contact-hero .lede {
+    font-size: 18px; color: var(--ink-2);
+    max-width: 56ch; line-height: 1.55;
+  }
+  @media (max-width: 640px) {
+    .contact-hero { padding: 44px 0 24px; }
+    .contact-hero h1 { font-size: clamp(34px, 12vw, 48px); max-width: none; margin: 20px 0 18px; }
+    .contact-hero .lede { font-size: 16px; }
+  }
+
+  /* Main layout: form + info */
+  .contact-layout {
+    padding: 48px 0 96px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 64px;
+  }
+  @media (max-width: 980px) {
+    .contact-layout { grid-template-columns: 1fr; gap: 48px; }
+  }
+  @media (max-width: 640px) {
+    .contact-layout { padding: 32px 0 72px; gap: 28px; }
+  }
+
+  /* Form card */
+  .form-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 40px;
+  }
+  .form-card h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .form-card .form-intro {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin-bottom: 28px;
+    line-height: 1.55;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .form-grid .field-full { grid-column: span 2; }
+  .form-actions {
+    margin-top: 28px;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  .form-actions .submit-note {
+    font-size: 12px;
+    color: var(--ink-3);
+    max-width: 32ch;
+    line-height: 1.4;
+  }
+  @media (max-width: 560px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid .field-full { grid-column: 1; }
+    .form-card { padding: 28px; }
+  }
+  @media (max-width: 640px) {
+    .form-card { padding: 24px; border-radius: 20px; }
+    .form-actions { flex-direction: column; align-items: stretch; }
+    .form-actions .submit-note { max-width: none; }
+    .form-actions .btn { width: 100%; justify-content: center; }
+  }
+
+  /* Info column */
+  .info-col { display: flex; flex-direction: column; gap: 32px; }
+  .info-block {
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+  }
+  .info-block .info-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .info-block .info-label .icon { color: var(--brand-hover); }
+  .info-block .info-value {
+    font-size: 17px; font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  .info-block .info-value a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--brand);
+    transition: color .15s;
+  }
+  .info-block .info-value a:hover { color: var(--brand); }
+  .info-block .info-sub {
+    font-size: 13px; color: var(--ink-2);
+    margin-top: 6px; line-height: 1.5;
+  }
+
+  /* Office card with map illustration */
+  .office-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .office-map {
+    aspect-ratio: 16 / 10;
+    background:
+      radial-gradient(circle at 76% 18%, rgba(209,122,79,0.20), transparent 26%),
+      linear-gradient(180deg, #f4efe8 0%, #ece6dd 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .office-map .grid {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,0.26) 0 1px, transparent 1px 68px),
+      linear-gradient(rgba(255,255,255,0.24) 0 1px, transparent 1px 68px);
+    opacity: 0.7;
+  }
+  .office-map .road {
+    position: absolute;
+    background: rgba(255,255,255,0.96);
+    box-shadow: 0 0 0 1px rgba(190,182,170,0.58);
+    border-radius: 999px;
+  }
+  .office-map .road.road-a {
+    width: 132%;
+    height: 18px;
+    left: -18%;
+    top: 42%;
+    transform: rotate(-28deg);
+  }
+  .office-map .road.road-b {
+    width: 116%;
+    height: 14px;
+    left: -8%;
+    top: 62%;
+    transform: rotate(14deg);
+  }
+  .office-map .road.road-c {
+    width: 14px;
+    height: 84%;
+    left: 59%;
+    top: 8%;
+    transform: rotate(7deg);
+  }
+  .office-map .map-chip {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(78,68,60,0.82);
+    background: rgba(255,255,255,0.82);
+    padding: 4px 7px;
+    border-radius: 999px;
+    border: 1px solid rgba(190,182,170,0.75);
+  }
+  .office-map .map-chip.main { top: 40%; left: 18%; }
+  .office-map .map-chip.area { top: 18%; right: 14%; }
+  .office-map .pin {
+    position: absolute;
+    top: 52%; left: 58%;
+    width: 32px; height: 32px;
+    background: var(--brand);
+    border-radius: 50% 50% 50% 0;
+    transform-origin: center bottom;
+    transform: translate(-50%, -100%) rotate(-45deg);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+  }
+  .office-map .pin::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    background: white;
+    border-radius: 50%;
+  }
+  .office-body { padding: 22px 24px; }
+  .office-body .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 10px;
+  }
+  .office-body h3 { font-size: 18px; font-weight: 600; letter-spacing: -0.015em; margin-bottom: 8px; }
+  .office-body p { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+  .office-body a { color: var(--ink); border-bottom: 1px solid var(--brand); margin-top: 12px; display: inline-flex; align-items: center; gap: 6px; }
+  .office-body a:hover { color: var(--brand); }
+  @media (max-width: 640px) {
+    .info-col { gap: 20px; }
+    .info-block { padding: 22px; }
+    .office-body { padding: 18px 20px; }
+  }
+
+  /* Quick CTAs strip */
+  .quick-ctas {
+    background: var(--bg-warm);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 80px 0;
+  }
+  .quick-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .quick-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: transform .2s, border-color .15s;
+    display: flex; flex-direction: column;
+    gap: 16px;
+  }
+  .quick-card:hover { transform: translateY(-2px); border-color: var(--ink); }
+  .quick-card .q-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--brand-soft);
+    color: var(--brand-hover);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .quick-card h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; }
+  .quick-card p { font-size: 13px; color: var(--ink-2); line-height: 1.55; flex: 1; }
+  .quick-card .q-link {
+    font-size: 13px; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--ink-2);
+    transition: color .15s, gap .15s;
+  }
+  .quick-card:hover .q-link { color: var(--brand); gap: 10px; }
+  @media (max-width: 880px) { .quick-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) {
+    .quick-ctas { padding: 64px 0; }
+    .quick-grid { margin-top: 32px; }
+    .quick-card { padding: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============= SVG SYMBOL DEFS ============= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="logo-ark" viewBox="0 0 769 186">
+      <g transform="translate(-2.65,-4.47)">
+        <path d="m 439.23,1497.6 v -199.69 c 0,-121.31 -98.351,-219.66 -219.66,-219.66 H 19.8789 V 918.5 H 219.57 c 209.539,0 379.41,169.87 379.41,379.41 V 1497.6 H 439.23" fill="currentColor" transform="matrix(0.13333333,0,0,-0.13333333,0,253.44)"/>
+        <path d="m 598.98,499.16 v 199.692 c 0,121.308 98.34,219.648 219.649,219.648 h 199.691 v 159.75 H 818.629 C 609.09,1078.25 439.23,908.391 439.23,698.852 V 499.16 h 159.75" fill="currentColor" transform="matrix(0.13333333,0,0,-0.13333333,0,253.44)"/>
+        <path d="m 545.70931,69.418671 h 18.36 V 42.980005 c 0,-23.990666 13.464,-32.802666 28.152,-32.802666 3.91734,0 8.568,0.244 11.99467,0.734667 v 9.792 h -10.036 c -14.688,0 -18.84933,7.344 -18.84933,22.275999 v 26.438666 h 27.66133 v 9.792 H 575.33065 V 186.9228 H 564.06931 V 79.210671 h -18.36 v -9.792" fill="#D79171"/>
+        <path d="m 629.99331,33.433339 c -5.63066,0 -10.28133,-4.652 -10.28133,-10.037333 0,-5.630667 4.65067,-10.526667 10.28133,-10.526667 5.38534,0 10.28134,4.896 10.28134,10.526667 0,5.385333 -4.896,10.037333 -10.28134,10.037333 z M 624.36265,186.9228 V 69.418671 h 11.26133 V 186.9228 h -11.26133" fill="#D79171"/>
+        <path d="m 714.75331,189.85973 c -34.51733,0 -54.10133,-26.92759 -54.10133,-61.68906 0,-34.761333 19.584,-61.689332 54.10133,-61.689332 20.808,0 36.96533,9.302666 45.53333,28.395999 V 10.177339 h 11.26 V 186.9228 h -9.05733 l -1.71333,-26.43906 c -8.81334,20.07346 -25.704,29.37599 -46.02267,29.37599 z m 1.224,-10.28119 c 28.152,0 44.064,-21.54267 44.064,-51.40787 0,-29.621333 -15.912,-51.407999 -44.064,-51.407999 -27.90667,0 -43.81867,21.786666 -43.81867,51.407999 0,29.8652 15.912,51.40787 43.81867,51.40787" fill="#D79171"/>
+        <path d="m 234.328,189.976 c 19.592,0 36.208,-8.68 42.408,-22.568 l 2.48,19.592 h 19.84 v -76.136 c 0,-32.736 -20.336,-48.608 -50.344,-48.608 -31.248,0 -52.08,16.616 -52.08,41.912 h 20.336 c 0,-14.632 11.16,-23.312 30.752,-23.312 16.368,0 28.52,7.192 28.52,27.528 v 3.472 l -38.192,2.976 c -28.52,2.232 -45.136,16.12 -45.136,38.44 0,22.072 15.376,36.704 41.416,36.704 z m 6.696,-18.104 c -15.128,0 -24.552,-6.448 -24.552,-19.344 0,-11.904 8.432,-19.84 29.016,-21.824 l 31,-2.48 v 6.448 c 0,22.816 -13.392,37.2 -35.464,37.2 z M 400.7361,64.736 c -4.712,-0.992 -8.184,-1.488 -12.4,-1.488 -16.616,0 -28.768,8.432 -33.728,21.08 l -1.488,-18.352 h -21.824 V 187 h 23.312 v -64.232 c 0,-23.312 13.64,-36.704 35.712,-36.704 h 10.416 z M 446.36811,187 v -34.472 l 20.584,-21.576 35.464,56.048 h 26.784 l -46.128,-72.912 46.376,-48.36 h -29.264 l -53.816,57.04 V 4.472 h -23.312 V 187 Z" fill="currentColor"/>
+      </g>
+    </symbol>
+    <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+    <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3-2 7H2l6 4-2 7 6-4 6 4-2-7 6-4h-8z"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============= NAV ============= -->
+<nav class="nav" aria-label="Navigation principale">
+  <div class="nav-inner" style="position: relative;">
+    <a href="home.html" class="nav-brand" aria-label="Ark Fiduciaire — accueil">
+      <svg class="logo-svg"><use href="#logo-ark"/></svg>
+    </a>
+    <div class="nav-links">
+      <a href="home.html#services">Services</a>
+      <a href="ressources.html">Ressources</a>
+      <a href="about.html">Équipe</a>
+      <a href="contact.html" class="is-active">Contact</a>
+    </div>
+    <a href="agent.html" class="nav-cta">
+      Devis instantané
+      <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+    </a>
+    <input type="checkbox" id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu">
+    <label for="navToggle" class="nav-burger" aria-hidden="true">
+      <svg class="icon"><use href="#i-menu"/></svg>
+    </label>
+    <div class="nav-mobile">
+      <div class="nav-mobile-meta">
+        <div class="nav-mobile-row">
+          <span class="nav-mobile-label">Thème</span>
+          <div class="nav-mobile-chips">
+            <button class="nav-mobile-chip is-active" type="button">Auto</button>
+            <button class="nav-mobile-chip" type="button">Clair</button>
+            <button class="nav-mobile-chip" type="button">Sombre</button>
+          </div>
+        </div>
+        <div class="nav-mobile-row">
+          <span class="nav-mobile-label">Langue</span>
+          <div class="nav-mobile-langs">
+            <a class="is-active" href="#">FR</a>
+            <a href="#">DE</a>
+            <a href="#">ES</a>
+            <a href="#">PT</a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-mobile-contact" href="contact.html">Contact</a>
+      <div class="nav-mobile-main">
+        <a href="home.html">Accueil</a>
+        <a href="agent.html">Devis instantané</a>
+        <a href="about.html">Équipe</a>
+        <a href="ressources.html">Ressources</a>
+      </div>
+      <div class="nav-mobile-services">
+        <div class="nav-mobile-label">Services</div>
+        <div class="nav-mobile-services-list">
+          <a href="service-detail.html"><span>Comptabilité</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Fiscalité</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Paie &amp; RH</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Externalisation</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Corporate</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Odoo</span><span aria-hidden="true">›</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="floating-ui" aria-label="Actions persistantes">
+  <a class="wa-btn" href="https://wa.me/41225125050" target="_blank" rel="noopener">WhatsApp</a>
+  <button class="cookie-btn" type="button" aria-label="Paramètres des cookies">CK</button>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://ark-fid.ch/fr/" },
+        { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://ark-fid.ch/fr/contact/" }
+      ]
+    },
+    {
+      "@type": "LocalBusiness",
+      "name": "Ark Fiduciaire SA",
+      "url": "https://ark-fid.ch",
+      "telephone": "+41225125050",
+      "email": "info@ark-fid.ch",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "26 Boulevard Georges Favon",
+        "postalCode": "1204",
+        "addressLocality": "Genève",
+        "addressCountry": "CH"
+      }
+    }
+  ]
+}
+</script>
+
+<!-- ============= HERO ============= -->
+<section class="contact-hero">
+  <div class="wrap">
+    <div class="crumbs">
+      <a href="home.html">Accueil</a>
+      <span class="sep">/</span>
+      <span class="current">Contact</span>
+    </div>
+    <span class="eyebrow">Contact</span>
+    <h1>Contactez-<span class="accent">nous.</span></h1>
+    <p class="lede">Nous répondons généralement dans les 24 heures.</p>
+  </div>
+</section>
+
+<!-- ============= MAIN LAYOUT ============= -->
+<section>
+  <div class="wrap">
+    <div class="contact-layout">
+
+      <!-- Form -->
+      <div class="form-card">
+        <h2>Écrivez-nous</h2>
+        <p class="form-intro">Remplissez le formulaire, ou si vous préférez parler directement, utilisez l'un des canaux à droite. Aucun champ requis hors nom, email et message.</p>
+
+        <form class="form-grid" onsubmit="event.preventDefault(); alert('Maquette uniquement — sera connectée à la route /api/contact existante.');">
+          <div class="field">
+            <label for="f-name">Nom <span class="hint">Requis</span></label>
+            <input id="f-name" type="text" placeholder="Votre nom" required>
+          </div>
+          <div class="field">
+            <label for="f-company">Société <span class="hint">Optionnel</span></label>
+            <input id="f-company" type="text" placeholder="Nom de votre société">
+          </div>
+          <div class="field">
+            <label for="f-email">Email <span class="hint">Requis</span></label>
+            <input id="f-email" type="email" placeholder="vous@example.ch" required>
+          </div>
+          <div class="field">
+            <label for="f-phone">Téléphone <span class="hint">Optionnel</span></label>
+            <input id="f-phone" type="tel" placeholder="+41 22 …">
+          </div>
+          <div class="field field-full">
+            <label for="f-topic">Sujet</label>
+            <div class="select-shell">
+              <select id="f-topic">
+                <option>Demande générale</option>
+                <option>Comptabilité &amp; fiscalité</option>
+                <option>Paie &amp; RH</option>
+                <option>Intermédiaire financier (LBA)</option>
+                <option>Family office</option>
+                <option>Implémentation Odoo</option>
+                <option>Constitution / domiciliation</option>
+                <option>Autre</option>
+              </select>
+              <svg class="icon select-icon" aria-hidden="true"><use href="#i-chevron-d"/></svg>
+            </div>
+          </div>
+          <div class="field field-full">
+            <label for="f-msg">Message <span class="hint">Requis</span></label>
+            <textarea id="f-msg" placeholder="Décrivez brièvement votre situation, votre secteur, ou la question que vous nous posez." required></textarea>
+          </div>
+          <div class="field field-full">
+            <div class="checkbox-row">
+              <input id="f-consent" type="checkbox" required>
+              <label for="f-consent" style="display: block;">J'accepte d'être contacté concernant ma demande, conformément à la <a href="#">politique de confidentialité</a>.</label>
+            </div>
+          </div>
+          <div class="field field-full form-actions">
+            <p class="submit-note">Réponse sous 24h ouvrées. Vos données ne sont jamais partagées avec un tiers.</p>
+            <button class="btn btn-primary" type="submit">
+              Envoyer
+              <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Info column -->
+      <aside class="info-col">
+        <div class="info-block">
+          <div class="info-label">
+            <svg class="icon icon-sm"><use href="#i-phone"/></svg>
+            Téléphone
+          </div>
+          <div class="info-value"><a href="tel:+41225125050">+41 22 512 50 50</a></div>
+          <div class="info-sub">Lundi au vendredi, 09:00 — 18:00</div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-label">
+            <svg class="icon icon-sm"><use href="#i-mail"/></svg>
+            Email
+          </div>
+          <div class="info-value"><a href="mailto:info@ark-fid.ch">info@ark-fid.ch</a></div>
+          <div class="info-sub">Réponse sous 24h ouvrées. Aucun message ignoré.</div>
+        </div>
+
+        <div class="office-card">
+          <div class="office-map" aria-label="Localisation du bureau sur la carte">
+            <span class="grid" aria-hidden="true"></span>
+            <span class="road road-a" aria-hidden="true"></span>
+            <span class="road road-b" aria-hidden="true"></span>
+            <span class="road road-c" aria-hidden="true"></span>
+            <span class="map-chip main" aria-hidden="true">Bd Georges-Favon</span>
+            <span class="map-chip area" aria-hidden="true">Plainpalais</span>
+            <span class="pin"></span>
+          </div>
+          <div class="office-body">
+            <div class="label">// Bureau</div>
+            <h3>Genève — Plainpalais</h3>
+            <p>26 Bd Georges Favon<br>1204 Genève, Suisse</p>
+            <a href="https://maps.google.com/?cid=14946625157719331801" target="_blank" rel="noopener">
+              Ouvrir dans Google Maps
+              <svg class="icon icon-sm"><use href="#i-arrow-ur"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-label">
+            <svg class="icon icon-sm"><use href="#i-clock"/></svg>
+            Horaires
+          </div>
+          <div class="info-value">Lundi — vendredi</div>
+          <div class="info-sub">09:00 — 18:00 · Sur rendez-vous en dehors de ces horaires.</div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============= QUICK CTAS ============= -->
+<section class="quick-ctas">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Autres façons d'avancer</span>
+        <h2 style="margin-top: 16px;">Pas besoin d'un email pour démarrer.</h2>
+      </div>
+    </div>
+    <div class="quick-grid">
+
+      <a href="agent.html" class="quick-card">
+        <div class="q-icon"><svg class="icon icon-md"><use href="#i-spark"/></svg></div>
+        <h3>Devis instantané</h3>
+        <p>Notre agent IA collecte les informations clés et vous propose une estimation chiffrée en moins de 60 secondes.</p>
+        <span class="q-link">Lancer l'agent <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+      </a>
+
+      <a href="#" class="quick-card">
+        <div class="q-icon"><svg class="icon icon-md"><use href="#i-calendar"/></svg></div>
+        <h3>Prendre rendez-vous</h3>
+        <p>30 minutes d'échange avec un associé pour cadrer votre besoin. Visioconférence ou présentiel à Genève.</p>
+        <span class="q-link">Réserver un créneau <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+      </a>
+
+      <a href="https://www.linkedin.com/company/ark-fiduciaire/" target="_blank" rel="noopener" class="quick-card">
+        <div class="q-icon"><svg class="icon icon-md"><use href="#i-message"/></svg></div>
+        <h3>LinkedIn</h3>
+        <p>Suivez nos publications sur la fiscalité suisse, l'actualité régulatoire et nos retours d'expérience client.</p>
+        <span class="q-link">Voir le profil <svg class="icon icon-sm"><use href="#i-arrow-ur"/></svg></span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============= FOOTER ============= -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <svg class="logo-svg"><use href="#logo-ark"/></svg>
+        <p>Fiduciaire genevoise spécialisée en comptabilité, fiscalité et conseil pour PME, entrepreneurs et familles. Membre SO-FIT, partenaire officiel Odoo.</p>
+      </div>
+      <div class="footer-col">
+        <h4>// Services</h4>
+        <ul>
+          <li><a href="service-detail.html">Comptabilité</a></li>
+          <li><a href="service-detail.html">Fiscalité</a></li>
+          <li><a href="service-detail.html">Paie &amp; RH</a></li>
+          <li><a href="service-detail.html">Intermédiaire financier</a></li>
+          <li><a href="service-detail.html">Family office</a></li>
+          <li><a href="service-detail.html">Odoo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// Cabinet</h4>
+        <ul>
+          <li><a href="about.html">À propos</a></li>
+          <li><a href="about.html#team">Équipe</a></li>
+          <li><a href="ressources.html">Ressources</a></li>
+          <li><a href="https://www.linkedin.com/company/ark-fiduciaire/" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// Contact</h4>
+        <ul>
+          <li><a href="tel:+41225125050">+41 22 512 50 50</a></li>
+          <li><a href="mailto:info@ark-fid.ch">info@ark-fid.ch</a></li>
+          <li>26 Bd Georges Favon<br>1204 Genève, CH</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Ark Fiduciaire SA — Membre SO-FIT</span>
+      <div class="footer-legal">
+        <a href="#">Mentions légales</a>
+        <a href="#">Confidentialité</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Intermédiaire financier — Ark Fiduciaire</title>
+<link rel="stylesheet" href="shared.css?v=20260518">
+<style>
+  /* ============= SERVICE DETAIL ============= */
+
+  /* Hero */
+  .svc-hero { padding: 64px 0 56px; }
+  .svc-hero .head-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-top: 32px;
+  }
+  .svc-hero h1 {
+    font-size: clamp(40px, 6.5vw, 88px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 0.96;
+    max-width: 14ch;
+  }
+  .svc-hero h1 .accent {
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-on-dark) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .svc-hero .summary {
+    font-size: 17px; color: var(--ink-2);
+    line-height: 1.55;
+    max-width: 44ch;
+    padding-bottom: 12px;
+  }
+  .svc-hero .summary p + p { margin-top: 12px; }
+  @media (max-width: 900px) {
+    .svc-hero .head-row { grid-template-columns: 1fr; gap: 28px; }
+  }
+
+  /* Two-column meta band: regulator + first-CTA */
+  .svc-meta {
+    margin-top: 56px;
+    padding: 24px 28px;
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+  }
+  .svc-meta .regulator {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .svc-meta .reg-icon {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--brand-soft);
+    color: var(--brand-hover);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .svc-meta .reg-text .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink-3);
+  }
+  .svc-meta .reg-text .value {
+    font-weight: 500; font-size: 15px; letter-spacing: -0.01em;
+    margin-top: 2px;
+  }
+  .svc-meta .reg-text .value a { border-bottom: 1px solid var(--brand); transition: color .15s; }
+  .svc-meta .reg-text .value a:hover { color: var(--brand); }
+  @media (max-width: 720px) {
+    .svc-meta { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+  }
+
+  /* Deliverables grid */
+  .deliverables { padding: 96px 0; }
+  .delv-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .delv {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 20px;
+    padding: 24px;
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    transition: border-color .15s, background .15s;
+  }
+  .delv:hover { border-color: var(--ink); }
+  .delv .check-circle {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .delv h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .delv p { font-size: 14px; color: var(--ink-2); line-height: 1.55; }
+  .delv.is-wide { grid-column: span 2; }
+  @media (max-width: 720px) {
+    .delv-grid { grid-template-columns: 1fr; }
+    .delv {
+      grid-template-columns: 36px 1fr;
+      gap: 16px;
+      padding: 20px;
+    }
+    .delv.is-wide { grid-column: 1; }
+  }
+
+  /* For whom */
+  .for-whom { padding: 96px 0; background: var(--bg-warm); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .personas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .persona {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+  }
+  .persona .p-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--brand-hover);
+    margin-bottom: 14px;
+  }
+  .persona h3 { font-size: 19px; font-weight: 600; letter-spacing: -0.015em; margin-bottom: 12px; }
+  .persona p { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+  @media (max-width: 900px) { .personas { grid-template-columns: 1fr; } }
+
+  /* Process */
+  .svc-process { padding: 96px 0; }
+  .svc-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 48px;
+  }
+  .svc-step {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    background: white;
+    position: relative;
+  }
+  .svc-step .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--brand-hover); margin-bottom: 14px;
+  }
+  .svc-step h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .svc-step p { font-size: 14px; color: var(--ink-2); line-height: 1.55; }
+  @media (max-width: 900px) { .svc-steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 540px) { .svc-steps { grid-template-columns: 1fr; } }
+
+  /* Engagement / pricing */
+  .engagement { padding: 96px 0; background: var(--bg-warm); border-top: 1px solid var(--line); }
+  .eng-card {
+    margin-top: 48px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .eng-card h3 {
+    font-size: 24px; font-weight: 600;
+    letter-spacing: -0.02em; margin-bottom: 16px;
+  }
+  .eng-card .eng-desc {
+    font-size: 15px; color: var(--ink-2); line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .eng-card .eng-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .eng-card .eng-list li {
+    font-size: 14px; line-height: 1.55;
+    display: grid; grid-template-columns: 20px 1fr; gap: 12px;
+    align-items: start;
+  }
+  .eng-card .eng-list .check {
+    color: var(--brand); flex-shrink: 0; margin-top: 2px;
+  }
+  .eng-card .right {
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+  }
+  .eng-card .right .price-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 10px;
+  }
+  .eng-card .right .price-value {
+    font-size: 32px; font-weight: 600; letter-spacing: -0.025em;
+    line-height: 1;
+  }
+  .eng-card .right .price-sub {
+    font-size: 13px; color: var(--ink-2); margin-top: 8px; line-height: 1.5;
+  }
+  .eng-card .right .price-cta { margin-top: 24px; }
+  .eng-card .disclaimer {
+    grid-column: span 2;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+  @media (max-width: 820px) {
+    .eng-card { grid-template-columns: 1fr; gap: 24px; padding: 28px; }
+    .eng-card .disclaimer { grid-column: 1; }
+  }
+
+  /* Related services */
+  .related-services { padding: 96px 0; }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 48px;
+  }
+  .related-tile {
+    display: flex; flex-direction: column; justify-content: space-between;
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    min-height: 180px;
+    transition: transform .2s, border-color .2s;
+  }
+  .related-tile:hover { transform: translateY(-2px); border-color: var(--ink); }
+  .related-tile .r-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .related-tile h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.015em; margin-top: 24px; }
+  .related-tile .r-arrow {
+    margin-top: 16px;
+    color: var(--ink-2);
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px;
+    transition: color .15s, gap .15s;
+  }
+  .related-tile:hover .r-arrow { color: var(--brand); gap: 10px; }
+  @media (max-width: 720px) { .related-grid { grid-template-columns: 1fr; } }
+
+  /* FAQ (compact, similar to home) */
+  .svc-faq { padding: 96px 0; background: var(--bg-warm); border-top: 1px solid var(--line); }
+  .svc-faq-list { max-width: 800px; margin: 48px auto 0; }
+  .svc-faq-item { border-top: 1px solid var(--line); }
+  .svc-faq-item:last-child { border-bottom: 1px solid var(--line); }
+  .svc-faq-item summary {
+    list-style: none; cursor: pointer; padding: 22px 0;
+    display: flex; justify-content: space-between; align-items: center; gap: 20px;
+    font-size: 17px; font-weight: 500; letter-spacing: -0.015em;
+  }
+  .svc-faq-item summary::-webkit-details-marker { display: none; }
+  .svc-faq-item summary:hover { color: var(--brand-hover); }
+  .svc-faq-item summary .toggle {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 1px solid var(--line); background: white;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-2); transition: background .15s, transform .25s, color .15s;
+    flex-shrink: 0;
+  }
+  .svc-faq-item[open] summary .toggle { background: var(--brand); border-color: var(--brand); color: white; transform: rotate(45deg); }
+  .svc-faq-item .answer { padding: 0 0 22px; color: var(--ink-2); font-size: 14px; line-height: 1.6; max-width: 68ch; }
+
+  .final-cta { padding: 96px 0; }
+</style>
+</head>
+<body>
+
+<!-- ============= SVG SYMBOL DEFS ============= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="logo-ark" viewBox="0 0 769 186">
+      <g transform="translate(-2.65,-4.47)">
+        <path d="m 439.23,1497.6 v -199.69 c 0,-121.31 -98.351,-219.66 -219.66,-219.66 H 19.8789 V 918.5 H 219.57 c 209.539,0 379.41,169.87 379.41,379.41 V 1497.6 H 439.23" fill="currentColor" transform="matrix(0.13333333,0,0,-0.13333333,0,253.44)"/>
+        <path d="m 598.98,499.16 v 199.692 c 0,121.308 98.34,219.648 219.649,219.648 h 199.691 v 159.75 H 818.629 C 609.09,1078.25 439.23,908.391 439.23,698.852 V 499.16 h 159.75" fill="currentColor" transform="matrix(0.13333333,0,0,-0.13333333,0,253.44)"/>
+        <path d="m 545.70931,69.418671 h 18.36 V 42.980005 c 0,-23.990666 13.464,-32.802666 28.152,-32.802666 3.91734,0 8.568,0.244 11.99467,0.734667 v 9.792 h -10.036 c -14.688,0 -18.84933,7.344 -18.84933,22.275999 v 26.438666 h 27.66133 v 9.792 H 575.33065 V 186.9228 H 564.06931 V 79.210671 h -18.36 v -9.792" fill="#D79171"/>
+        <path d="m 629.99331,33.433339 c -5.63066,0 -10.28133,-4.652 -10.28133,-10.037333 0,-5.630667 4.65067,-10.526667 10.28133,-10.526667 5.38534,0 10.28134,4.896 10.28134,10.526667 0,5.385333 -4.896,10.037333 -10.28134,10.037333 z M 624.36265,186.9228 V 69.418671 h 11.26133 V 186.9228 h -11.26133" fill="#D79171"/>
+        <path d="m 714.75331,189.85973 c -34.51733,0 -54.10133,-26.92759 -54.10133,-61.68906 0,-34.761333 19.584,-61.689332 54.10133,-61.689332 20.808,0 36.96533,9.302666 45.53333,28.395999 V 10.177339 h 11.26 V 186.9228 h -9.05733 l -1.71333,-26.43906 c -8.81334,20.07346 -25.704,29.37599 -46.02267,29.37599 z m 1.224,-10.28119 c 28.152,0 44.064,-21.54267 44.064,-51.40787 0,-29.621333 -15.912,-51.407999 -44.064,-51.407999 -27.90667,0 -43.81867,21.786666 -43.81867,51.407999 0,29.8652 15.912,51.40787 43.81867,51.40787" fill="#D79171"/>
+        <path d="m 234.328,189.976 c 19.592,0 36.208,-8.68 42.408,-22.568 l 2.48,19.592 h 19.84 v -76.136 c 0,-32.736 -20.336,-48.608 -50.344,-48.608 -31.248,0 -52.08,16.616 -52.08,41.912 h 20.336 c 0,-14.632 11.16,-23.312 30.752,-23.312 16.368,0 28.52,7.192 28.52,27.528 v 3.472 l -38.192,2.976 c -28.52,2.232 -45.136,16.12 -45.136,38.44 0,22.072 15.376,36.704 41.416,36.704 z m 6.696,-18.104 c -15.128,0 -24.552,-6.448 -24.552,-19.344 0,-11.904 8.432,-19.84 29.016,-21.824 l 31,-2.48 v 6.448 c 0,22.816 -13.392,37.2 -35.464,37.2 z M 400.7361,64.736 c -4.712,-0.992 -8.184,-1.488 -12.4,-1.488 -16.616,0 -28.768,8.432 -33.728,21.08 l -1.488,-18.352 h -21.824 V 187 h 23.312 v -64.232 c 0,-23.312 13.64,-36.704 35.712,-36.704 h 10.416 z M 446.36811,187 v -34.472 l 20.584,-21.576 35.464,56.048 h 26.784 l -46.128,-72.912 46.376,-48.36 h -29.264 l -53.816,57.04 V 4.472 h -23.312 V 187 Z" fill="currentColor"/>
+      </g>
+    </symbol>
+    <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></symbol>
+    <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></symbol>
+    <symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============= NAV ============= -->
+<nav class="nav" aria-label="Navigation principale">
+  <div class="nav-inner" style="position: relative;">
+    <a href="home.html" class="nav-brand" aria-label="Ark Fiduciaire — accueil">
+      <svg class="logo-svg"><use href="#logo-ark"/></svg>
+    </a>
+    <div class="nav-links">
+      <a href="home.html#services" class="is-active">Services</a>
+      <a href="ressources.html">Ressources</a>
+      <a href="about.html">Équipe</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a href="agent.html" class="nav-cta">
+      Devis instantané
+      <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+    </a>
+    <input type="checkbox" id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu">
+    <label for="navToggle" class="nav-burger" aria-hidden="true">
+      <svg class="icon"><use href="#i-menu"/></svg>
+    </label>
+    <div class="nav-mobile">
+      <div class="nav-mobile-meta">
+        <div class="nav-mobile-row">
+          <span class="nav-mobile-label">Thème</span>
+          <div class="nav-mobile-chips">
+            <button class="nav-mobile-chip is-active" type="button">Auto</button>
+            <button class="nav-mobile-chip" type="button">Clair</button>
+            <button class="nav-mobile-chip" type="button">Sombre</button>
+          </div>
+        </div>
+        <div class="nav-mobile-row">
+          <span class="nav-mobile-label">Langue</span>
+          <div class="nav-mobile-langs">
+            <a class="is-active" href="#">FR</a>
+            <a href="#">DE</a>
+            <a href="#">ES</a>
+            <a href="#">PT</a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-mobile-contact" href="contact.html">Contact</a>
+      <div class="nav-mobile-main">
+        <a href="home.html">Accueil</a>
+        <a href="agent.html">Devis instantané</a>
+        <a href="about.html">Équipe</a>
+        <a href="ressources.html">Ressources</a>
+      </div>
+      <div class="nav-mobile-services">
+        <div class="nav-mobile-label">Services</div>
+        <div class="nav-mobile-services-list">
+          <a href="service-detail.html"><span>Comptabilité</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Fiscalité</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Paie &amp; RH</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Externalisation</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Corporate</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Odoo</span><span aria-hidden="true">›</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="floating-ui" aria-label="Actions persistantes">
+  <a class="wa-btn" href="https://wa.me/41225125050" target="_blank" rel="noopener">WhatsApp</a>
+  <button class="cookie-btn" type="button" aria-label="Paramètres des cookies">CK</button>
+</div>
+
+<!-- ============= HERO ============= -->
+<section class="svc-hero">
+  <div class="wrap">
+    <div class="crumbs">
+      <a href="home.html">Accueil</a>
+      <span class="sep">/</span>
+      <a href="home.html#services">Services</a>
+      <span class="sep">/</span>
+      <span class="current">Intermédiaire financier</span>
+    </div>
+
+    <span class="eyebrow">Services régulés · LBA</span>
+
+    <div class="head-row">
+      <h1>Intermédiaire <span class="accent">financier.</span></h1>
+      <div class="summary">
+        <p>Tiers séquestre, gestion de paiements, détention fiduciaire d'actifs. Une fiduciaire régulée pour les opérations qui exigent un cadre légal — pas seulement un comptable.</p>
+        <p>Membre SO-FIT, organisme d'autorégulation (OAR / SRO) pour la surveillance des intermédiaires financiers au sens de la LBA.</p>
+      </div>
+    </div>
+
+    <div class="svc-meta">
+      <div class="regulator">
+        <div class="reg-icon">
+          <svg class="icon icon-md"><use href="#i-shield-check"/></svg>
+        </div>
+        <div class="reg-text">
+          <div class="label">Cadre régulatoire</div>
+          <div class="value">Membre <a href="https://www.so-fit.ch" target="_blank" rel="noopener">SO-FIT</a> · OAR / SRO · art. 2 al. 3 LBA</div>
+        </div>
+      </div>
+      <a href="agent.html" class="btn btn-primary">
+        Demander un devis
+        <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============= DELIVERABLES ============= -->
+<section class="deliverables">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Ce que nous livrons</span>
+        <h2 style="margin-top: 16px;">Cinq prestations, un cadre légal.</h2>
+      </div>
+      <p class="lede">Toutes les opérations sont effectuées dans le périmètre de notre adhésion SO-FIT, avec procédures KYC, journalisation et reporting régulé.</p>
+    </div>
+
+    <div class="delv-grid">
+      <div class="delv">
+        <div class="check-circle"><svg class="icon icon-sm"><use href="#i-check"/></svg></div>
+        <div>
+          <h3>Tiers séquestre (escrow)</h3>
+          <p>Détention de fonds en compte séquestre pour transactions M&amp;A, immobilier, ou tout closing nécessitant un tiers de confiance neutre.</p>
+        </div>
+      </div>
+      <div class="delv">
+        <div class="check-circle"><svg class="icon icon-sm"><use href="#i-check"/></svg></div>
+        <div>
+          <h3>Gestion de paiements</h3>
+          <p>Exécution de paiements pour le compte de clients (fournisseurs, salaires, distributions), avec contrôles LBA systématiques.</p>
+        </div>
+      </div>
+      <div class="delv">
+        <div class="check-circle"><svg class="icon icon-sm"><use href="#i-check"/></svg></div>
+        <div>
+          <h3>Détention fiduciaire d'actifs</h3>
+          <p>Détention de titres, parts sociales ou actifs financiers en fiducie, dans un cadre fiscal et juridique documenté.</p>
+        </div>
+      </div>
+      <div class="delv">
+        <div class="check-circle"><svg class="icon icon-sm"><use href="#i-check"/></svg></div>
+        <div>
+          <h3>Compliance LBA &amp; KYC</h3>
+          <p>Procédures d'identification, vérification de la provenance des fonds, screening sanctions et PEP, conservation des pièces.</p>
+        </div>
+      </div>
+      <div class="delv is-wide">
+        <div class="check-circle"><svg class="icon icon-sm"><use href="#i-check"/></svg></div>
+        <div>
+          <h3>Reporting régulé &amp; audits SO-FIT</h3>
+          <p>Documentation conforme aux exigences de l'organisme d'autorégulation, accompagnement lors des audits annuels, mises à jour réglementaires intégrées au workflow client.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FOR WHOM ============= -->
+<section class="for-whom">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Pour qui</span>
+        <h2 style="margin-top: 16px;">Trois contextes où le statut LBA fait la différence.</h2>
+      </div>
+    </div>
+    <div class="personas">
+      <div class="persona">
+        <div class="p-label">→ Transactionnel</div>
+        <h3>Opérations M&amp;A &amp; immobilier</h3>
+        <p>Closing avec séquestre, paiement échelonné, libération conditionnée. Un tiers neutre régulé évite les disputes et accélère la transaction.</p>
+      </div>
+      <div class="persona">
+        <div class="p-label">→ Patrimonial</div>
+        <h3>Structures familiales internationales</h3>
+        <p>Holdings, trusts, family office. Détention d'actifs et flux administratifs sous un seul interlocuteur, avec la traçabilité exigée par les banques.</p>
+      </div>
+      <div class="persona">
+        <div class="p-label">→ Opérationnel</div>
+        <h3>Sociétés sans présence locale</h3>
+        <p>Une entité étrangère qui doit payer fournisseurs ou salaires en CHF sans ouvrir de structure suisse. Nous opérons les flux pour son compte.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= PROCESS ============= -->
+<section class="svc-process">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Comment ça se passe</span>
+        <h2 style="margin-top: 16px;">Du premier appel au mandat actif.</h2>
+      </div>
+      <p class="lede">Le délai d'onboarding moyen pour un mandat d'intermédiation financière est de 7 à 15 jours ouvrés, selon la complexité KYC.</p>
+    </div>
+    <div class="svc-steps">
+      <div class="svc-step">
+        <div class="num">01 · Cadrage</div>
+        <h4>Appel de cadrage</h4>
+        <p>30 minutes. Nature de l'opération, montants, parties prenantes, calendrier. Nous identifions si SO-FIT est la bonne structure pour vous.</p>
+      </div>
+      <div class="svc-step">
+        <div class="num">02 · KYC</div>
+        <h4>Procédures d'identification</h4>
+        <p>Collecte des pièces, vérification de l'ayant droit économique, screening sanctions/PEP. Documenté et conservé conformément à la LBA.</p>
+      </div>
+      <div class="svc-step">
+        <div class="num">03 · Convention</div>
+        <h4>Convention sur mesure</h4>
+        <p>Convention de mandat précisant le périmètre, les conditions de libération des fonds, la responsabilité, le tarif et les délais.</p>
+      </div>
+      <div class="svc-step">
+        <div class="num">04 · Exécution</div>
+        <h4>Mise en œuvre</h4>
+        <p>Compte séquestre ouvert, fonds reçus, exécution selon convention. Agent dédié joignable du lundi au vendredi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= ENGAGEMENT / PRICING ============= -->
+<section class="engagement">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Engagement type</span>
+        <h2 style="margin-top: 16px;">À quoi ressemble un mandat.</h2>
+      </div>
+      <p class="lede">Chaque mandat est unique. La maquette ne doit pas ancrer de cas type chiffré ni de montant d'honoraires non validé. Le devis se construit sur votre situation réelle.</p>
+    </div>
+
+    <div class="eng-card">
+      <div>
+        <h3>Un périmètre défini sur votre cas</h3>
+        <p class="eng-desc">Le mandat final dépend du contexte transactionnel, du nombre de parties, des exigences KYC, de la durée du séquestre et du niveau de reporting attendu. La maquette doit rester prudente et renvoyer les estimations au parcours de devis existant.</p>
+        <ul class="eng-list">
+          <li><span class="check"><svg class="icon icon-sm"><use href="#i-check"/></svg></span>Analyse du besoin, des parties prenantes et du cadre documentaire</li>
+          <li><span class="check"><svg class="icon icon-sm"><use href="#i-check"/></svg></span>Contrôles KYC et vérifications LBA adaptés au dossier</li>
+          <li><span class="check"><svg class="icon icon-sm"><use href="#i-check"/></svg></span>Convention de mandat et modalités de libération documentées</li>
+          <li><span class="check"><svg class="icon icon-sm"><use href="#i-check"/></svg></span>Suivi opérationnel et reporting selon le périmètre retenu</li>
+        </ul>
+      </div>
+      <div class="right">
+        <div class="price-label">// Devis</div>
+        <div class="price-value" style="font-size: 22px; line-height: 1.2;">Évaluation sur dossier</div>
+        <div class="price-sub">Le montant et le périmètre sont communiqués dans le parcours de devis et validés humainement, pas fixés dans la maquette.</div>
+        <a href="agent.html" class="btn btn-primary price-cta" style="width: 100%; justify-content: center;">
+          Devis sur votre cas
+          <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+        </a>
+      </div>
+      <p class="disclaimer">Le cadrage final dépend de la complexité KYC, des flux concernés, de la durée et du nombre de parties. Le devis ferme est communiqué dans le parcours existant après revue du dossier.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============= RELATED SERVICES ============= -->
+<section class="related-services">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Services liés</span>
+        <h2 style="margin-top: 16px;">Souvent demandés ensemble.</h2>
+      </div>
+    </div>
+    <div class="related-grid">
+      <a href="service-detail.html" class="related-tile">
+        <div>
+          <div class="r-num">→ Family office</div>
+          <h3>Gouvernance et administration patrimoniale</h3>
+        </div>
+        <span class="r-arrow">Découvrir <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+      </a>
+      <a href="service-detail.html" class="related-tile">
+        <div>
+          <div class="r-num">→ Fusions &amp; acquisitions</div>
+          <h3>Buy-side, sell-side, valorisations</h3>
+        </div>
+        <span class="r-arrow">Découvrir <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+      </a>
+      <a href="service-detail.html" class="related-tile">
+        <div>
+          <div class="r-num">→ Services corporatifs</div>
+          <h3>Gouvernance et conformité statutaire</h3>
+        </div>
+        <span class="r-arrow">Découvrir <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FAQ SPECIFIC ============= -->
+<section class="svc-faq">
+  <div class="wrap">
+    <div class="section-head" style="grid-template-columns: 1fr;">
+      <div>
+        <span class="eyebrow">Questions sur ce service</span>
+        <h2 style="margin-top: 16px;">Ce qui revient le plus souvent.</h2>
+      </div>
+    </div>
+    <div class="svc-faq-list">
+      <details class="svc-faq-item" open>
+        <summary>
+          Quelle différence entre un séquestre bancaire et un séquestre fiduciaire ?
+          <span class="toggle"><svg class="icon icon-sm"><use href="#i-plus"/></svg></span>
+        </summary>
+        <div class="answer">
+          Une banque exécute des instructions mais ne juge pas leur opportunité ; un séquestre fiduciaire opère sous convention, peut interpréter les conditions de libération, conserver l'historique du dossier et arbitrer entre les parties. C'est utile dès qu'une condition contractuelle exige une appréciation (par exemple, vérification que des garanties ont été honorées).
+        </div>
+      </details>
+      <details class="svc-faq-item">
+        <summary>
+          Sommes-nous couverts en cas de défaillance ?
+          <span class="toggle"><svg class="icon icon-sm"><use href="#i-plus"/></svg></span>
+        </summary>
+        <div class="answer">
+          Les fonds séquestrés sont déposés sur des comptes bancaires ségrégués au nom du mandat, jamais dans le bilan d'Ark Fiduciaire. Notre responsabilité civile professionnelle couvre les éventuelles erreurs de gestion. SO-FIT vérifie annuellement nos procédures.
+        </div>
+      </details>
+      <details class="svc-faq-item">
+        <summary>
+          Pouvez-vous agir en tant que trustee d'un trust étranger ?
+          <span class="toggle"><svg class="icon icon-sm"><use href="#i-plus"/></svg></span>
+        </summary>
+        <div class="answer">
+          Non — la fonction de trustee professionnel requiert un cadre d'autorisation spécifique. Nous intervenons en revanche fréquemment en tant qu'agent administratif d'un trustee professionnel, pour la comptabilité, la fiscalité ou la coordination opérationnelle d'un trust suisse ou étranger.
+        </div>
+      </details>
+      <details class="svc-faq-item">
+        <summary>
+          Le KYC est-il à votre charge ou à la nôtre ?
+          <span class="toggle"><svg class="icon icon-sm"><use href="#i-plus"/></svg></span>
+        </summary>
+        <div class="answer">
+          Nous menons le KYC. Vous nous fournissez les pièces (pièces d'identité, structures de propriété, source des fonds) et nous prenons en charge la vérification, le screening et la documentation. Tarif inclus dans les frais d'établissement du mandat.
+        </div>
+      </details>
+      <details class="svc-faq-item">
+        <summary>
+          Travaillez-vous avec des étrangers résidant hors Suisse ?
+          <span class="toggle"><svg class="icon icon-sm"><use href="#i-plus"/></svg></span>
+        </summary>
+        <div class="answer">
+          Oui. La majorité de nos mandats LBA impliquent au moins une partie non résidente. Nous gérons la documentation multilingue (FR / EN / DE) et les exigences KYC pour les juridictions usuelles (UE, UK, US, Moyen-Orient). Certaines juridictions (sanctionnées ou à haut risque) sont écartées.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FINAL CTA ============= -->
+<section class="final-cta">
+  <div class="wrap">
+    <div class="cta-banner">
+      <h2>Une opération en vue ? Parlons-en.</h2>
+      <p>Premier appel de cadrage de 30 minutes, sans engagement, sous 48h ouvrées.</p>
+      <div class="actions">
+        <a href="agent.html" class="btn btn-on-dark">
+          Devis instantané
+          <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+        </a>
+        <a href="contact.html" class="btn btn-on-dark-ghost">Prendre rendez-vous</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FOOTER ============= -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <svg class="logo-svg"><use href="#logo-ark"/></svg>
+        <p>Fiduciaire genevoise spécialisée en comptabilité, fiscalité et conseil pour PME, entrepreneurs et familles. Membre SO-FIT, partenaire officiel Odoo.</p>
+      </div>
+      <div class="footer-col">
+        <h4>// Services</h4>
+        <ul>
+          <li><a href="service-detail.html">Comptabilité</a></li>
+          <li><a href="service-detail.html">Fiscalité</a></li>
+          <li><a href="service-detail.html">Paie &amp; RH</a></li>
+          <li><a href="service-detail.html">Intermédiaire financier</a></li>
+          <li><a href="service-detail.html">Family office</a></li>
+          <li><a href="service-detail.html">Odoo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// Cabinet</h4>
+        <ul>
+          <li><a href="about.html">À propos</a></li>
+          <li><a href="about.html#team">Équipe</a></li>
+          <li><a href="ressources.html">Ressources</a></li>
+          <li><a href="https://www.linkedin.com/company/ark-fiduciaire/" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// Contact</h4>
+        <ul>
+          <li><a href="tel:+41225125050">+41 22 512 50 50</a></li>
+          <li><a href="mailto:info@ark-fid.ch">info@ark-fid.ch</a></li>
+          <li>26 Bd Georges Favon<br>1204 Genève, CH</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Ark Fiduciaire SA — Membre SO-FIT</span>
+      <div class="footer-legal">
+        <a href="#">Mentions légales</a>
+        <a href="#">Confidentialité</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

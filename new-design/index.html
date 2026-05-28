@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ark Fiduciaire — Refonte / 3 directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #14130F;
+    --ink-2: #5B584F;
+    --line: #DCD8CD;
+    --accent: #B9461C;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 40px; }
+
+  header { padding: 80px 0 60px; border-bottom: 1px solid var(--line); }
+  .eyebrow {
+    font-size: 12px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    max-width: 16ch;
+    margin-bottom: 24px;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .intro {
+    font-size: 18px; color: var(--ink-2);
+    max-width: 60ch; line-height: 1.55;
+  }
+  .intro strong { color: var(--ink); font-weight: 500; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    padding: 60px 0 100px;
+  }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+    background: white;
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+    text-decoration: none;
+    color: inherit;
+    display: flex; flex-direction: column;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.06);
+    border-color: var(--ink);
+  }
+  .preview {
+    aspect-ratio: 4 / 3;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* V1 preview — Swiss Editorial */
+  .preview.v1 {
+    background: #F7F5F0;
+    padding: 28px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .preview.v1 .mini-h {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px; line-height: 0.95;
+    letter-spacing: -0.02em;
+    max-width: 9ch;
+  }
+  .preview.v1 .mini-h em { font-style: italic; color: var(--accent); }
+  .preview.v1 .mini-list {
+    border-top: 1px solid #14130F;
+  }
+  .preview.v1 .mini-list .ml-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+    font-family: 'Instrument Serif', serif;
+    font-size: 14px;
+  }
+
+  /* V2 preview — Bento */
+  .preview.v2 {
+    background: white;
+    padding: 20px;
+  }
+  .preview.v2 .b-hero {
+    background: #0A0A0A; color: white;
+    border-radius: 10px;
+    padding: 14px; margin-bottom: 8px;
+    font-size: 14px; font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .preview.v2 .b-hero .acc {
+    background: linear-gradient(135deg, #D17A4F, #E8A079);
+    -webkit-background-clip: text; color: transparent;
+  }
+  .preview.v2 .b-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .preview.v2 .b-grid > div {
+    background: #F4F4F2;
+    border: 1px solid #E8E8E6;
+    border-radius: 8px;
+    height: 36px;
+  }
+  .preview.v2 .b-grid > div.feat {
+    background: #E8EEFF;
+    border-color: #C7D5FF;
+    grid-column: span 2;
+  }
+  .preview.v2 .b-grid > div.dark { background: #0A0A0A; }
+
+  /* V3 preview — Dark */
+  .preview.v3 {
+    background: #0E0D0B; color: #F4EFE6;
+    padding: 24px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .preview.v3::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 50% at 80% -20%, rgba(232,184,111,0.18), transparent 60%);
+  }
+  .preview.v3 .mini-h {
+    font-family: 'Instrument Serif', serif;
+    font-size: 30px; line-height: 0.95;
+    letter-spacing: -0.02em;
+    max-width: 10ch;
+    position: relative;
+  }
+  .preview.v3 .mini-h em { font-style: italic; color: #E8B86F; }
+  .preview.v3 .mini-tabs {
+    display: flex; gap: 6px; margin-top: 16px;
+    border-top: 1px solid #2A2722; padding-top: 12px;
+    position: relative;
+  }
+  .preview.v3 .mini-tabs span {
+    font-size: 11px; color: #7B7468;
+    padding: 4px 8px; border-radius: 4px;
+  }
+  .preview.v3 .mini-tabs span.on {
+    color: #E8B86F;
+    border-bottom: 1px solid #E8B86F;
+  }
+
+  .card-body { padding: 24px; flex: 1; }
+  .card-label {
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent); margin-bottom: 8px;
+  }
+  .card-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px; letter-spacing: -0.015em;
+    line-height: 1.05; margin-bottom: 12px;
+  }
+  .card-desc { font-size: 14px; color: var(--ink-2); line-height: 1.55; }
+  .card-footer {
+    padding: 16px 24px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px;
+  }
+  .card-tags { color: var(--ink-2); }
+  .card-open {
+    display: flex; align-items: center; gap: 6px;
+    font-weight: 500;
+    transition: gap .2s, color .2s;
+  }
+  .card:hover .card-open { gap: 10px; color: var(--accent); }
+
+  /* Notes */
+  .notes {
+    padding: 60px 0 100px;
+    border-top: 1px solid var(--line);
+  }
+  .notes h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 36px; letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .notes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 32px;
+  }
+  .note h3 {
+    font-size: 14px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 12px; color: var(--ink-2);
+  }
+  .note ul { list-style: none; }
+  .note li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+    display: flex; gap: 12px;
+  }
+  .note li::before {
+    content: '→';
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  @media (max-width: 760px) { .notes-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Refonte ark-fid.ch · 3 directions minimalistes</div>
+    <h1>Trois pistes pour repenser <em>le site.</em></h1>
+    <p class="intro">
+      Trois directions distinctes, toutes minimalistes, toutes Swiss-friendly.
+      Aucune n'utilise les "service cards" classiques — chacune propose une alternative plus
+      éditoriale, plus dense, ou plus interactive. <strong>Cliquez sur une carte pour ouvrir la maquette complète.</strong>
+    </p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="grid">
+
+      <a class="card" href="v1-editorial.html">
+        <div class="preview v1">
+          <div class="mini-h">La fiduciaire que votre <em>entreprise</em> mérite.</div>
+          <div class="mini-list">
+            <div class="ml-row"><span>01 Comptabilité</span><span>→</span></div>
+            <div class="ml-row"><span>02 Fiscalité</span><span>→</span></div>
+            <div class="ml-row"><span>03 Paie & RH</span><span>→</span></div>
+            <div class="ml-row"><span>04 Family office</span><span>→</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-label">V1 · Swiss Editorial</div>
+          <div class="card-name">Le journal suisse, calme et précis.</div>
+          <div class="card-desc">Off-white, serif éditorial (Instrument Serif), services en liste typographique numérotée — pas de cartes. Inspirée de Mercury Bank, Stripe et la presse suisse de qualité.</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-tags">Serif · Off-white · Rust accent</span>
+          <span class="card-open">Ouvrir →</span>
+        </div>
+      </a>
+
+      <a class="card" href="v2-bento.html">
+        <div class="preview v2">
+          <div class="b-hero">Comptabilité, fiscalité, <span class="acc">tranquillité.</span></div>
+          <div class="b-grid">
+            <div class="dark"></div><div class="dark"></div>
+            <div class="feat" style="background:#FAEEE5; border-color:#EED5C2;"></div>
+            <div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-label">V2 · Bento Modern</div>
+          <div class="card-name">La grille bento, varied & dense.</div>
+          <div class="card-desc">Sans-serif net (Inter), grille bento à tailles variées — un service "phare" plus grand, les autres en équilibre. Inspirée de Linear, Apple, et le bento japonais. Bleu électrique comme accent.</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-tags">Sans-serif · Bento · Electric blue</span>
+          <span class="card-open">Ouvrir →</span>
+        </div>
+      </a>
+
+      <a class="card" href="v3-precision.html">
+        <div class="preview v3">
+          <div class="mini-h">Précision suisse, <em>vitesse numérique.</em></div>
+          <div class="mini-tabs">
+            <span class="on">Tout</span>
+            <span>Compta</span>
+            <span>Conseil</span>
+            <span>Digital</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-label">V3 · Precision Dark</div>
+          <div class="card-name">Le cabinet privé, après l'heure.</div>
+          <div class="card-desc">Fond chaud sombre, doré champagne, serif Fraunces. Services organisés en annuaire avec onglets (Compta, Conseil, Création, Digital). Inspirée d'Anthropic, Brex, Cal.com.</div>
+        </div>
+        <div class="card-footer">
+          <span class="card-tags">Dark · Champagne · Tabs</span>
+          <span class="card-open">Ouvrir →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section class="notes">
+  <div class="wrap">
+    <h2>Ce qui change vs. le site actuel.</h2>
+    <div class="notes-grid">
+      <div class="note">
+        <h3>Le problème "service cards"</h3>
+        <ul>
+          <li><strong>V1</strong> remplace les cartes par une liste éditoriale (style annuaire) avec survol — vu sur Mercury, Vercel, Linear.</li>
+          <li><strong>V2</strong> les remplace par une grille bento à tailles variées : un service "phare" domine, les autres respirent.</li>
+          <li><strong>V3</strong> remplace les cartes par un tableau filtré par onglets — densité d'information, élégance d'annuaire.</li>
+          <li>Aucune des trois n'aligne 11 cartes identiques sur la home. Trop répétitif, trop "template".</li>
+        </ul>
+      </div>
+      <div class="note">
+        <h3>Le wow factor</h3>
+        <ul>
+          <li><strong>Typographie maximaliste</strong> : titres XXL, contraste serif/sans, italique pour l'accent — la même technique qu'Anthropic, Mercury, NYT.</li>
+          <li><strong>Whitespace radical</strong> : on ne cherche plus à tout caser au-dessus de la ligne de flottaison.</li>
+          <li><strong>Palette resserrée</strong> : un seul accent (rust, blue, ou gold). Plus de couleurs partout.</li>
+          <li><strong>Micro-interactions</strong> : hover qui révèle, onglets qui filtrent, marquee discret. Subtil, jamais clinquant.</li>
+        </ul>
+      </div>
+      <div class="note">
+        <h3>Direction de hero recommandée</h3>
+        <ul>
+          <li>"<em>La fiduciaire que votre entreprise mérite</em>" — V1, ton confiant, ancré.</li>
+          <li>"<em>Comptabilité, fiscalité, tranquillité</em>" — V2, énumération rythmée.</li>
+          <li>"<em>Précision suisse, vitesse numérique</em>" — V3, garde votre positionnement actuel mais le rend lapidaire.</li>
+        </ul>
+      </div>
+      <div class="note">
+        <h3>Prochaines étapes</h3>
+        <ul>
+          <li>Choisir 1 direction (ou un hybride — V1 + tabs de V3, par ex).</li>
+          <li>Tester la maquette mobile dédiée (les trois sont responsive).</li>
+          <li>Ajouter de vraies photos de l'équipe — toutes les directions le permettent en section dédiée.</li>
+          <li>Définir le mot final sur le logo : actuellement un cercle générique, à remplacer par votre vraie identité.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

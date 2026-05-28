@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Devis instantané – Assistant Ark Fiduciaire</title>
+<meta name="description" content="Obtenez une estimation indicative pour votre besoin en comptabilité, fiscalité, paie ou corporate avant un échange avec l'équipe Ark Fiduciaire." />
+<meta name="robots" content="noindex,follow" />
+<link rel="stylesheet" href="shared.css?v=20260518">
+<style>
+  /* ============= AGENT PAGE ============= */
+
+  /* HERO */
+  .agent-hero { padding: 56px 0 32px; }
+  .agent-hero h1 {
+    font-size: clamp(40px, 6.5vw, 88px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    max-width: 16ch;
+    margin: 28px 0 24px;
+  }
+  .agent-hero h1 .accent {
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-on-dark) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .agent-hero .lede {
+    font-size: 18px; color: var(--ink-2);
+    max-width: 60ch; line-height: 1.55;
+    margin-bottom: 28px;
+  }
+  .agent-hero .privacy-row {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-top: 16px;
+  }
+  .agent-hero .privacy-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px;
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 12px; color: var(--ink-2);
+  }
+  .agent-hero .privacy-tag .icon { color: var(--brand-hover); }
+
+  /* CHAT SECTION */
+  .chat-section { padding: 56px 0 96px; }
+  .chat-shell {
+    max-width: 760px; margin: 0 auto;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .chat-bar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 18px 24px;
+    background: var(--bg-warm);
+    border-bottom: 1px solid var(--line);
+  }
+  .chat-bar .avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-hover) 100%);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 14px;
+  }
+  .chat-bar .who { display: flex; flex-direction: column; gap: 2px; }
+  .chat-bar .name { font-weight: 600; font-size: 14px; letter-spacing: -0.01em; }
+  .chat-bar .status {
+    font-size: 12px; color: var(--ink-2);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .chat-bar .status .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #10B981;
+    box-shadow: 0 0 0 3px rgba(16,185,129,0.20);
+  }
+  .chat-bar .actions { margin-left: auto; display: flex; gap: 8px; }
+
+  .chat-thread {
+    padding: 28px;
+    display: flex; flex-direction: column; gap: 16px;
+    background: var(--bg);
+    max-height: 480px;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  }
+  .msg {
+    display: flex; gap: 12px;
+    max-width: 78%;
+    animation: msgIn 0.4s ease-out backwards;
+  }
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .msg.agent { align-self: flex-start; }
+  .msg.user { align-self: flex-end; flex-direction: row-reverse; }
+
+  .msg .ava {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600;
+  }
+  .msg.agent .ava { background: var(--brand-soft); color: var(--brand-hover); }
+  .msg.user .ava { background: var(--ink); color: white; }
+
+  .msg .bubble {
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+  .msg.agent .bubble {
+    background: var(--bg-warm);
+    color: var(--ink);
+    border-bottom-left-radius: 4px;
+  }
+  .msg.user .bubble {
+    background: var(--ink);
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+  .msg .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-3);
+    margin-top: 6px;
+    letter-spacing: 0.06em;
+  }
+  .msg.user .meta { text-align: right; }
+
+  .msg.agent.typing .bubble {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 14px 16px;
+  }
+  .msg.agent.typing .bubble .dot {
+    width: 6px; height: 6px;
+    background: var(--ink-3);
+    border-radius: 50%;
+    animation: typing 1.4s infinite;
+  }
+  .msg.agent.typing .bubble .dot:nth-child(2) { animation-delay: 0.2s; }
+  .msg.agent.typing .bubble .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-3px); opacity: 1; }
+  }
+
+  /* Quote card inside chat */
+  .quote-card {
+    margin-top: 4px;
+    background: white;
+    border: 1px solid rgba(209,122,79,0.30);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-card::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 180px; height: 180px;
+    background: var(--brand);
+    opacity: 0.08;
+    filter: blur(40px);
+    border-radius: 50%;
+  }
+  .quote-card .qc-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--brand-hover); margin-bottom: 14px;
+  }
+  .quote-card .qc-rows {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 16px;
+    margin-bottom: 16px;
+  }
+  .quote-card .qc-rows .k { font-size: 13px; color: var(--ink-2); }
+  .quote-card .qc-rows .v { font-size: 13px; font-weight: 500; text-align: right; }
+  .quote-card .qc-price {
+    border-top: 1px dashed var(--line);
+    padding-top: 14px;
+    display: flex; justify-content: space-between; align-items: end;
+  }
+  .quote-card .qc-price .k { font-size: 13px; color: var(--ink-2); }
+  .quote-card .qc-price .v {
+    font-size: 24px; font-weight: 600; letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .quote-card .qc-price .v small {
+    font-size: 13px; color: var(--ink-3); font-weight: 400; margin-left: 4px;
+  }
+  .quote-card .qc-actions {
+    margin-top: 18px;
+    display: flex; gap: 8px; flex-wrap: wrap;
+    position: relative;
+  }
+
+  /* Chat input */
+  .chat-input {
+    display: flex; gap: 8px; align-items: center;
+    padding: 14px 18px;
+    border-top: 1px solid var(--line);
+    background: white;
+  }
+  .chat-input input {
+    flex: 1;
+    border: 0;
+    background: var(--bg-warm);
+    padding: 12px 16px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 14.5px;
+    color: var(--ink);
+    outline: none;
+    transition: box-shadow .15s, background .15s;
+  }
+  .chat-input input:focus {
+    background: white;
+    box-shadow: 0 0 0 4px var(--brand-soft);
+  }
+  .chat-input .send {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--ink); color: white;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+    flex-shrink: 0;
+  }
+  .chat-input .send:hover { background: var(--brand); }
+
+  /* HOW IT WORKS */
+  .how-it-works { padding: 96px 0; background: var(--bg-warm); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .how-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .how-step {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .how-step .hs-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--brand-soft);
+    color: var(--brand-hover);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 8px;
+  }
+  .how-step .hs-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .how-step h3 { font-size: 18px; font-weight: 600; letter-spacing: -0.015em; }
+  .how-step p { font-size: 14px; color: var(--ink-2); line-height: 1.55; }
+  @media (max-width: 880px) { .how-steps { grid-template-columns: 1fr; } }
+
+  /* PRIVACY DETAILS */
+  .privacy { padding: 96px 0; }
+  .privacy-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .privacy-card {
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 20px;
+  }
+  .privacy-card .pc-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .privacy-card h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .privacy-card p { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+  @media (max-width: 720px) { .privacy-grid { grid-template-columns: 1fr; } }
+
+  /* FALLBACK CTA — prefer human */
+  .fallback { padding: 0 0 96px; }
+  .fallback-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: center;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    padding: 40px;
+  }
+  .fallback-card h2 {
+    font-size: clamp(22px, 2.6vw, 32px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    max-width: 20ch;
+  }
+  .fallback-card p {
+    font-size: 15px;
+    color: var(--ink-2);
+    line-height: 1.6;
+    margin-top: 10px;
+  }
+  .fallback-card .right {
+    display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap;
+  }
+  @media (max-width: 720px) {
+    .fallback-card { grid-template-columns: 1fr; padding: 28px; }
+    .fallback-card .right { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============= SVG SYMBOL DEFS ============= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="logo-ark" viewBox="0 0 769 186">
+      <g transform="translate(-2.65,-4.47)">
+        <path d="m 439.23,1497.6 v -199.69 c 0,-121.31 -98.351,-219.66 -219.66,-219.66 H 19.8789 V 918.5 H 219.57 c 209.539,0 379.41,169.87 379.41,379.41 V 1497.6 H 439.23" fill="currentColor" transform="matrix(0.13333333,0,0,-0.13333333,0,253.44)"/>
+        <path d="m 598.98,499.16 v 199.692 c 0,121.308 98.34,219.648 219.649,219.648 h 199.691 v 159.75 H 818.629 C 609.09,1078.25 439.23,908.391 439.23,698.852 V 499.16 h 159.75" fill="currentColor" transform="matrix(0.13333333,0,0,-0.13333333,0,253.44)"/>
+        <path d="m 545.70931,69.418671 h 18.36 V 42.980005 c 0,-23.990666 13.464,-32.802666 28.152,-32.802666 3.91734,0 8.568,0.244 11.99467,0.734667 v 9.792 h -10.036 c -14.688,0 -18.84933,7.344 -18.84933,22.275999 v 26.438666 h 27.66133 v 9.792 H 575.33065 V 186.9228 H 564.06931 V 79.210671 h -18.36 v -9.792" fill="#D79171"/>
+        <path d="m 629.99331,33.433339 c -5.63066,0 -10.28133,-4.652 -10.28133,-10.037333 0,-5.630667 4.65067,-10.526667 10.28133,-10.526667 5.38534,0 10.28134,4.896 10.28134,10.526667 0,5.385333 -4.896,10.037333 -10.28134,10.037333 z M 624.36265,186.9228 V 69.418671 h 11.26133 V 186.9228 h -11.26133" fill="#D79171"/>
+        <path d="m 714.75331,189.85973 c -34.51733,0 -54.10133,-26.92759 -54.10133,-61.68906 0,-34.761333 19.584,-61.689332 54.10133,-61.689332 20.808,0 36.96533,9.302666 45.53333,28.395999 V 10.177339 h 11.26 V 186.9228 h -9.05733 l -1.71333,-26.43906 c -8.81334,20.07346 -25.704,29.37599 -46.02267,29.37599 z m 1.224,-10.28119 c 28.152,0 44.064,-21.54267 44.064,-51.40787 0,-29.621333 -15.912,-51.407999 -44.064,-51.407999 -27.90667,0 -43.81867,21.786666 -43.81867,51.407999 0,29.8652 15.912,51.40787 43.81867,51.40787" fill="#D79171"/>
+        <path d="m 234.328,189.976 c 19.592,0 36.208,-8.68 42.408,-22.568 l 2.48,19.592 h 19.84 v -76.136 c 0,-32.736 -20.336,-48.608 -50.344,-48.608 -31.248,0 -52.08,16.616 -52.08,41.912 h 20.336 c 0,-14.632 11.16,-23.312 30.752,-23.312 16.368,0 28.52,7.192 28.52,27.528 v 3.472 l -38.192,2.976 c -28.52,2.232 -45.136,16.12 -45.136,38.44 0,22.072 15.376,36.704 41.416,36.704 z m 6.696,-18.104 c -15.128,0 -24.552,-6.448 -24.552,-19.344 0,-11.904 8.432,-19.84 29.016,-21.824 l 31,-2.48 v 6.448 c 0,22.816 -13.392,37.2 -35.464,37.2 z M 400.7361,64.736 c -4.712,-0.992 -8.184,-1.488 -12.4,-1.488 -16.616,0 -28.768,8.432 -33.728,21.08 l -1.488,-18.352 h -21.824 V 187 h 23.312 v -64.232 c 0,-23.312 13.64,-36.704 35.712,-36.704 h 10.416 z M 446.36811,187 v -34.472 l 20.584,-21.576 35.464,56.048 h 26.784 l -46.128,-72.912 46.376,-48.36 h -29.264 l -53.816,57.04 V 4.472 h -23.312 V 187 Z" fill="currentColor"/>
+      </g>
+    </symbol>
+    <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3-2 7H2l6 4-2 7 6-4 6 4-2-7 6-4h-8z"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.8"/><path d="M16 3.2a4 4 0 0 1 0 7.6"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4M4 4a4 4 0 0 1 4-4h12l-2 4 2 4H8a4 4 0 0 1-4-4z"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============= NAV ============= -->
+<nav class="nav" aria-label="Navigation principale">
+  <div class="nav-inner" style="position: relative;">
+    <a href="home.html" class="nav-brand" aria-label="Ark Fiduciaire — accueil">
+      <svg class="logo-svg"><use href="#logo-ark"/></svg>
+    </a>
+    <div class="nav-links">
+      <a href="home.html#services">Services</a>
+      <a href="ressources.html">Ressources</a>
+      <a href="about.html">Équipe</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a href="agent.html" class="nav-cta" style="background: var(--brand);">
+      <svg class="icon icon-sm"><use href="#i-spark"/></svg>
+      Devis instantané
+    </a>
+    <input type="checkbox" id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu">
+    <label for="navToggle" class="nav-burger" aria-hidden="true">
+      <svg class="icon"><use href="#i-menu"/></svg>
+    </label>
+    <div class="nav-mobile">
+      <div class="nav-mobile-meta">
+        <div class="nav-mobile-row">
+          <span class="nav-mobile-label">Thème</span>
+          <div class="nav-mobile-chips">
+            <button class="nav-mobile-chip is-active" type="button">Auto</button>
+            <button class="nav-mobile-chip" type="button">Clair</button>
+            <button class="nav-mobile-chip" type="button">Sombre</button>
+          </div>
+        </div>
+        <div class="nav-mobile-row">
+          <span class="nav-mobile-label">Langue</span>
+          <div class="nav-mobile-langs">
+            <a class="is-active" href="#">FR</a>
+            <a href="#">DE</a>
+            <a href="#">ES</a>
+            <a href="#">PT</a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-mobile-contact" href="contact.html">Contact</a>
+      <div class="nav-mobile-main">
+        <a href="home.html">Accueil</a>
+        <a href="agent.html">Devis instantané</a>
+        <a href="about.html">Équipe</a>
+        <a href="ressources.html">Ressources</a>
+      </div>
+      <div class="nav-mobile-services">
+        <div class="nav-mobile-label">Services</div>
+        <div class="nav-mobile-services-list">
+          <a href="service-detail.html"><span>Comptabilité</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Fiscalité</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Paie &amp; RH</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Externalisation</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Corporate</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Odoo</span><span aria-hidden="true">›</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="floating-ui" aria-label="Actions persistantes">
+  <a class="wa-btn" href="https://wa.me/41225125050" target="_blank" rel="noopener">WhatsApp</a>
+</div>
+
+<!-- ============= HERO ============= -->
+<section class="agent-hero">
+  <div class="wrap">
+    <div class="crumbs">
+      <a href="home.html">Accueil</a>
+      <span class="sep">/</span>
+      <span class="current">Devis instantané</span>
+    </div>
+    <span class="eyebrow">Agent Ark · propulsé par IA</span>
+    <h1>Une estimation rapide, <span class="accent">puis une validation humaine.</span></h1>
+    <p class="lede">Quelques questions de cadrage, une estimation indicative, puis un échange avec l'équipe si vous souhaitez aller plus loin. Le bon message produit ici n'est pas "automatique à tout prix", mais "utile sans surpromesse".</p>
+    <div class="privacy-row">
+      <span class="privacy-tag"><svg class="icon icon-sm"><use href="#i-shield"/></svg>Sans engagement</span>
+      <span class="privacy-tag"><svg class="icon icon-sm"><use href="#i-lock"/></svg>Cadre confidentiel</span>
+      <span class="privacy-tag"><svg class="icon icon-sm"><use href="#i-check"/></svg>Estimation indicative</span>
+      <span class="privacy-tag"><svg class="icon icon-sm"><use href="#i-flag"/></svg>Validation humaine</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============= CHAT ============= -->
+<section class="chat-section">
+  <div class="wrap">
+    <div class="chat-shell">
+      <div class="chat-bar">
+        <div class="avatar">A</div>
+        <div class="who">
+          <div class="name">Agent Ark</div>
+          <div class="status"><span class="dot"></span>En ligne · répond généralement en quelques secondes</div>
+        </div>
+      </div>
+
+      <div class="chat-thread">
+        <div class="msg agent" style="animation-delay: 0s;">
+          <div class="ava">A</div>
+          <div>
+            <div class="bubble">Bonjour 👋 — je suis l'assistant d'Ark Fiduciaire. Je vais vous poser quelques questions pour vous proposer une estimation en moins d'une minute. On commence ?</div>
+            <div class="meta">Agent Ark · 14:32</div>
+          </div>
+        </div>
+
+        <div class="msg user" style="animation-delay: 0.3s;">
+          <div class="ava">V</div>
+          <div>
+            <div class="bubble">Oui, allons-y.</div>
+            <div class="meta">Vous · 14:32</div>
+          </div>
+        </div>
+
+        <div class="msg agent" style="animation-delay: 0.6s;">
+          <div class="ava">A</div>
+          <div>
+            <div class="bubble">Quel est le service principal qui vous intéresse ?</div>
+            <div class="meta">Agent Ark · 14:32</div>
+          </div>
+        </div>
+
+        <div class="msg user" style="animation-delay: 0.9s;">
+          <div class="ava">V</div>
+          <div>
+            <div class="bubble">Comptabilité mensuelle pour une PME en conseil B2B.</div>
+            <div class="meta">Vous · 14:33</div>
+          </div>
+        </div>
+
+        <div class="msg agent" style="animation-delay: 1.2s;">
+          <div class="ava">A</div>
+          <div>
+            <div class="bubble">Compris. Combien d'écritures par mois environ ? (Si vous ne savez pas, un ordre de grandeur suffit.)</div>
+            <div class="meta">Agent Ark · 14:33</div>
+          </div>
+        </div>
+
+        <div class="msg user" style="animation-delay: 1.5s;">
+          <div class="ava">V</div>
+          <div>
+            <div class="bubble">Une 80aine, on a 12 employés et une douzaine de fournisseurs.</div>
+            <div class="meta">Vous · 14:34</div>
+          </div>
+        </div>
+
+        <div class="msg agent" style="animation-delay: 1.8s;">
+          <div class="ava">A</div>
+          <div>
+            <div class="bubble">Parfait. Souhaitez-vous inclure la paie et la TVA dans la prestation ?</div>
+            <div class="meta">Agent Ark · 14:34</div>
+          </div>
+        </div>
+
+        <div class="msg user" style="animation-delay: 2.1s;">
+          <div class="ava">V</div>
+          <div>
+            <div class="bubble">Oui pour les deux.</div>
+            <div class="meta">Vous · 14:35</div>
+          </div>
+        </div>
+
+        <div class="msg agent" style="animation-delay: 2.4s;">
+          <div class="ava">A</div>
+          <div>
+            <div class="bubble">Voici une estimation indicative basée sur votre profil 👇</div>
+            <div class="quote-card" style="margin-top: 10px;">
+              <div class="qc-label">// Estimation indicative</div>
+              <div class="qc-rows">
+                <div class="k">Service</div><div class="v">Comptabilité PME + paie + TVA</div>
+                <div class="k">Volume mensuel</div><div class="v">~80 écritures, 12 salariés</div>
+                <div class="k">Logiciel</div><div class="v">Odoo (inclus si souhaité)</div>
+                <div class="k">Onboarding</div><div class="v">5 à 10 jours ouvrés</div>
+              </div>
+              <div class="qc-price">
+                <div>
+                  <div class="k">Suite du parcours</div>
+                </div>
+                <div class="v" style="font-size: 18px; line-height: 1.25; text-align: right;">Validation humaine et devis final</div>
+              </div>
+              <div class="qc-actions">
+                <button class="btn btn-primary btn-sm">
+                  Verrouiller ce devis
+                  <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+                </button>
+                <button class="btn btn-secondary btn-sm">Affiner</button>
+              </div>
+            </div>
+            <div class="meta">Agent Ark · 14:35</div>
+          </div>
+        </div>
+
+        <div class="msg agent typing" style="animation-delay: 2.7s;">
+          <div class="ava">A</div>
+          <div>
+            <div class="bubble">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form class="chat-input" onsubmit="event.preventDefault(); alert('Maquette uniquement');">
+        <input type="text" placeholder="Tapez votre réponse…" aria-label="Votre message">
+        <button class="send" aria-label="Envoyer">
+          <svg class="icon icon-sm"><use href="#i-send"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============= HOW IT WORKS ============= -->
+<section class="how-it-works">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Comment ça marche</span>
+        <h2 style="margin-top: 16px;">Trois étapes, soixante secondes.</h2>
+      </div>
+      <p class="lede">L'agent IA collecte uniquement ce qu'il faut pour préparer un devis réaliste. Vous gardez la main à chaque étape.</p>
+    </div>
+
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="hs-icon"><svg class="icon icon-md"><use href="#i-spark"/></svg></div>
+        <div class="hs-label">01 · Cadrage</div>
+        <h3>Décrivez votre besoin</h3>
+        <p>L'agent vous pose 5 à 8 questions courtes : service, volume, secteur, calendrier. Aucun jargon, aucune obligation de réponse.</p>
+      </div>
+      <div class="how-step">
+        <div class="hs-icon"><svg class="icon icon-md"><use href="#i-check"/></svg></div>
+        <div class="hs-label">02 · Estimation</div>
+        <h3>Recevez un premier cadrage</h3>
+        <p>L'agent prépare une première estimation de périmètre et un délai d'onboarding, puis le dossier est validé humainement dans le parcours réel.</p>
+      </div>
+      <div class="how-step">
+        <div class="hs-icon"><svg class="icon icon-md"><use href="#i-user"/></svg></div>
+        <div class="hs-label">03 · Validation humaine</div>
+        <h3>Confirmez avec un humain</h3>
+        <p>Si l'estimation vous convient, vous pouvez réserver un appel avec un associé. Sinon, nous archivons et vous ne recevez rien.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= PRIVACY ============= -->
+<section class="privacy">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Vos données</span>
+        <h2 style="margin-top: 16px;">Ce que nous faisons, et surtout ce que nous ne faisons pas.</h2>
+      </div>
+      <p class="lede">L'agent est utile parce qu'il est rapide — mais il doit aussi être digne de confiance. Voici notre engagement explicite.</p>
+    </div>
+
+    <div class="privacy-grid">
+      <div class="privacy-card">
+        <div class="pc-icon"><svg class="icon icon-sm"><use href="#i-shield"/></svg></div>
+        <div>
+          <h3>Hébergement en Suisse</h3>
+          <p>Toutes les conversations sont traitées et stockées sur des infrastructures localisées en Suisse, conformément à la LPD révisée.</p>
+        </div>
+      </div>
+      <div class="privacy-card">
+        <div class="pc-icon"><svg class="icon icon-sm"><use href="#i-lock"/></svg></div>
+        <div>
+          <h3>Chiffrement bout-en-bout</h3>
+          <p>Les échanges sont chiffrés en transit (TLS 1.3) et au repos (AES-256). Personne d'autre que l'équipe Ark n'y accède.</p>
+        </div>
+      </div>
+      <div class="privacy-card">
+        <div class="pc-icon"><svg class="icon icon-sm"><use href="#i-check"/></svg></div>
+        <div>
+          <h3>Aucun partage tiers</h3>
+          <p>Vos données ne sont jamais transmises à des partenaires marketing, fournisseurs publicitaires ou plateformes d'analyse externes.</p>
+        </div>
+      </div>
+      <div class="privacy-card">
+        <div class="pc-icon"><svg class="icon icon-sm"><use href="#i-user"/></svg></div>
+        <div>
+          <h3>Effacement à la demande</h3>
+          <p>Un email à <a href="mailto:info@ark-fid.ch" style="color: inherit; border-bottom: 1px solid var(--brand);">info@ark-fid.ch</a> suffit pour supprimer définitivement votre échange, sans justification.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FALLBACK CTA ============= -->
+<section class="fallback">
+  <div class="wrap">
+    <div class="fallback-card">
+      <div>
+        <span class="eyebrow">Préférez parler à un humain ?</span>
+        <h2 style="margin-top: 16px;">Aucun problème — un agent vous répond directement.</h2>
+        <p>Si vous préférez sauter l'étape IA et discuter directement avec un associé, c'est ici. Réponse sous 24h ouvrées, premier appel sans engagement.</p>
+      </div>
+      <div class="right">
+        <a href="contact.html" class="btn btn-primary">
+          Écrire à un agent
+          <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+        </a>
+        <a href="tel:+41225125050" class="btn btn-secondary">+41 22 512 50 50</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FOOTER ============= -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <svg class="logo-svg"><use href="#logo-ark"/></svg>
+        <p>Fiduciaire genevoise spécialisée en comptabilité, fiscalité et conseil pour PME, entrepreneurs et familles. Membre SO-FIT, partenaire officiel Odoo.</p>
+      </div>
+      <div class="footer-col">
+        <h4>// Services</h4>
+        <ul>
+          <li><a href="service-detail.html">Comptabilité</a></li>
+          <li><a href="service-detail.html">Fiscalité</a></li>
+          <li><a href="service-detail.html">Paie &amp; RH</a></li>
+          <li><a href="service-detail.html">Intermédiaire financier</a></li>
+          <li><a href="service-detail.html">Family office</a></li>
+          <li><a href="service-detail.html">Odoo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// Cabinet</h4>
+        <ul>
+          <li><a href="about.html">À propos</a></li>
+          <li><a href="about.html#team">Équipe</a></li>
+          <li><a href="ressources.html">Ressources</a></li>
+          <li><a href="https://www.linkedin.com/company/ark-fiduciaire/" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// Contact</h4>
+        <ul>
+          <li><a href="tel:+41225125050">+41 22 512 50 50</a></li>
+          <li><a href="mailto:info@ark-fid.ch">info@ark-fid.ch</a></li>
+          <li>26 Bd Georges Favon<br>1204 Genève, CH</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Ark Fiduciaire SA — Membre SO-FIT</span>
+      <div class="footer-legal">
+        <a href="#">Mentions légales</a>
+        <a href="#">Confidentialité</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

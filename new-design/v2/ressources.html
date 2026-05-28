@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ressources – Suisse romande | Ark Fiduciaire</title>
+<meta name="description" content="Guides et articles sur la comptabilité, la fiscalité et la paie en Suisse romande, avec des perspectives ancrées à Genève, Lausanne et au contexte fédéral suisse." />
+<link rel="canonical" href="https://ark-fid.ch/fr/ressources/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Ressources – Suisse romande | Ark Fiduciaire" />
+<meta property="og:description" content="Guides et articles sur la comptabilité, la fiscalité et la paie en Suisse romande." />
+<meta property="og:url" content="https://ark-fid.ch/fr/ressources/" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="stylesheet" href="shared.css?v=20260518">
+<style>
+  /* ============= RESSOURCES LISTING ============= */
+
+  .res-hero { padding: 72px 0 48px; }
+  .res-hero .head {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  .res-hero h1 {
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+    max-width: 14ch;
+    margin-top: 24px;
+  }
+  .res-hero h1 .accent {
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-on-dark) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .res-hero p.intro {
+    font-size: 16px; color: var(--ink-2); line-height: 1.6;
+    max-width: 48ch;
+  }
+  @media (max-width: 900px) {
+    .res-hero .head { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  /* Filter tabs */
+  .filters {
+    margin-top: 56px;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0;
+  }
+  .filter-tab {
+    background: none;
+    border: 0;
+    color: var(--ink-3);
+    font-family: inherit;
+    font-size: 14px;
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color .15s, border-color .15s;
+    white-space: nowrap;
+  }
+  .filter-tab:hover { color: var(--ink-2); }
+  .filter-tab.active {
+    color: var(--ink);
+    border-color: var(--brand);
+  }
+  .filter-tab .count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-left: 6px;
+  }
+  .filter-tab.active .count { color: var(--brand-hover); }
+  .filter-target.is-hidden { display: none !important; }
+
+  /* Featured article */
+  .featured { padding: 56px 0 32px; }
+  .featured-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    transition: border-color .15s, transform .2s;
+  }
+  .featured-card:hover { border-color: var(--ink); }
+  .featured-card .image {
+    aspect-ratio: 4 / 3;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(232,160,121,0.6), transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(10,10,10,0.85), transparent 50%),
+      linear-gradient(135deg, #2a2622 0%, #1a1815 100%);
+    position: relative;
+  }
+  .featured-card .image .meta-pill {
+    position: absolute; top: 20px; left: 20px;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(8px);
+    color: var(--ink);
+    font-size: 12px; font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .featured-card .image .meta-pill .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--brand);
+  }
+  .featured-card .body {
+    padding: 40px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+  }
+  .featured-card .article-meta {
+    display: flex; gap: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink-3);
+    margin-bottom: 16px;
+  }
+  .featured-card h2 {
+    font-size: clamp(24px, 2.8vw, 36px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  .featured-card p {
+    font-size: 15px; color: var(--ink-2);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .featured-card .read-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 500;
+    color: var(--ink);
+    transition: gap .15s, color .15s;
+  }
+  .featured-card:hover .read-link { color: var(--brand); gap: 12px; }
+  @media (max-width: 880px) {
+    .featured-card { grid-template-columns: 1fr; }
+    .featured-card .body { padding: 28px; }
+  }
+
+  /* Article grid */
+  .articles { padding: 56px 0; }
+  .article-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .article-card {
+    display: flex; flex-direction: column;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 18px 18px 20px;
+    transition: border-color .15s, background-color .15s;
+  }
+  .article-card:hover { border-color: color-mix(in srgb, var(--brand) 28%, var(--line)); background: var(--bg-warm); }
+  .article-card .body { display: flex; flex-direction: column; flex: 1; gap: 10px; min-height: 100%; }
+  .article-card .topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .article-card .cat-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid currentColor;
+  }
+  .article-card .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.10em;
+    color: var(--ink-3);
+    display: flex; gap: 10px;
+    flex-wrap: wrap;
+  }
+  .article-card h3 {
+    font-size: 17px; font-weight: 600;
+    letter-spacing: -0.015em; line-height: 1.22;
+  }
+  .article-card p {
+    font-size: 13px; color: var(--ink-2); line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .article-card .read-link {
+    margin-top: auto; padding-top: 4px;
+    font-size: 12px; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--ink-2);
+    transition: color .15s, gap .15s;
+  }
+  .article-card:hover .read-link { color: var(--brand); gap: 10px; }
+
+  .tag-compta { color: #8f4e2e; background: #f8ede5; }
+  .tag-fisca  { color: #574c42; background: #efede8; }
+  .tag-lba    { color: #68412a; background: #f7e6dc; }
+  .tag-paie   { color: #6a5c4f; background: #f1ede7; }
+  .tag-mna    { color: #9c4f2e; background: #fae8df; }
+  .tag-odoo   { color: #a1552f; background: #fff2e6; }
+  .tag-family { color: #5c5148; background: #efebe6; }
+  .tag-corp   { color: #4f4943; background: #f1efeb; }
+  .tag-imm    { color: #7d4429; background: #f8e8df; }
+
+  @media (max-width: 900px) { .article-grid { grid-template-columns: 1fr 1fr; gap: 12px; } }
+  @media (max-width: 600px) {
+    .article-grid { grid-template-columns: 1fr; }
+    .article-card { padding: 16px 16px 18px; }
+    .article-card .topline { align-items: flex-start; }
+  }
+
+  /* Pagination */
+  .pagination { padding: 24px 0 96px; display: flex; justify-content: center; }
+
+  /* Newsletter strip */
+  .newsletter {
+    background: var(--bg-warm);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 72px 0;
+  }
+  .newsletter-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .newsletter-card h2 {
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    max-width: 16ch;
+  }
+  .newsletter-card .nl-desc {
+    font-size: 15px; color: var(--ink-2);
+    margin-top: 12px;
+    max-width: 48ch;
+    line-height: 1.55;
+  }
+  .nl-form {
+    display: flex; gap: 8px;
+    background: white;
+    padding: 8px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm);
+  }
+  .nl-form input {
+    flex: 1;
+    border: 0; background: transparent;
+    padding: 10px 16px;
+    font: inherit;
+    color: var(--ink);
+    outline: none;
+  }
+  .nl-form .btn { padding: 10px 18px; }
+  .nl-tos { font-size: 12px; color: var(--ink-3); margin-top: 12px; }
+  .nl-tos a { color: var(--ink-2); border-bottom: 1px solid var(--brand); }
+  @media (max-width: 800px) {
+    .newsletter-card { grid-template-columns: 1fr; gap: 28px; }
+  }
+
+  /* FAQ — same look as service detail */
+  .res-faq { padding: 96px 0; }
+  .res-faq-list { max-width: 800px; margin: 48px auto 0; }
+  .res-faq-item { border-top: 1px solid var(--line); }
+  .res-faq-item:last-child { border-bottom: 1px solid var(--line); }
+  .res-faq-item summary {
+    list-style: none; cursor: pointer; padding: 22px 0;
+    display: flex; justify-content: space-between; align-items: center; gap: 20px;
+    font-size: 17px; font-weight: 500; letter-spacing: -0.015em;
+  }
+  .res-faq-item summary::-webkit-details-marker { display: none; }
+  .res-faq-item summary:hover { color: var(--brand-hover); }
+  .res-faq-item summary .toggle {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 1px solid var(--line); background: white;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-2); transition: background .15s, transform .25s, color .15s;
+    flex-shrink: 0;
+  }
+  .res-faq-item[open] summary .toggle { background: var(--brand); border-color: var(--brand); color: white; transform: rotate(45deg); }
+  .res-faq-item .answer { padding: 0 0 22px; color: var(--ink-2); font-size: 14px; line-height: 1.6; max-width: 68ch; }
+
+  .final-cta { padding: 0 0 96px; }
+</style>
+</head>
+<body>
+
+<!-- ============= SVG SYMBOL DEFS ============= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="logo-ark" viewBox="0 0 769 186">
+      <g transform="translate(-2.65,-4.47)">
+        <path d="m 439.23,1497.6 v -199.69 c 0,-121.31 -98.351,-219.66 -219.66,-219.66 H 19.8789 V 918.5 H 219.57 c 209.539,0 379.41,169.87 379.41,379.41 V 1497.6 H 439.23" fill="currentColor" transform="matrix(0.13333333,0,0,-0.13333333,0,253.44)"/>
+        <path d="m 598.98,499.16 v 199.692 c 0,121.308 98.34,219.648 219.649,219.648 h 199.691 v 159.75 H 818.629 C 609.09,1078.25 439.23,908.391 439.23,698.852 V 499.16 h 159.75" fill="currentColor" transform="matrix(0.13333333,0,0,-0.13333333,0,253.44)"/>
+        <path d="m 545.70931,69.418671 h 18.36 V 42.980005 c 0,-23.990666 13.464,-32.802666 28.152,-32.802666 3.91734,0 8.568,0.244 11.99467,0.734667 v 9.792 h -10.036 c -14.688,0 -18.84933,7.344 -18.84933,22.275999 v 26.438666 h 27.66133 v 9.792 H 575.33065 V 186.9228 H 564.06931 V 79.210671 h -18.36 v -9.792" fill="#D79171"/>
+        <path d="m 629.99331,33.433339 c -5.63066,0 -10.28133,-4.652 -10.28133,-10.037333 0,-5.630667 4.65067,-10.526667 10.28133,-10.526667 5.38534,0 10.28134,4.896 10.28134,10.526667 0,5.385333 -4.896,10.037333 -10.28134,10.037333 z M 624.36265,186.9228 V 69.418671 h 11.26133 V 186.9228 h -11.26133" fill="#D79171"/>
+        <path d="m 714.75331,189.85973 c -34.51733,0 -54.10133,-26.92759 -54.10133,-61.68906 0,-34.761333 19.584,-61.689332 54.10133,-61.689332 20.808,0 36.96533,9.302666 45.53333,28.395999 V 10.177339 h 11.26 V 186.9228 h -9.05733 l -1.71333,-26.43906 c -8.81334,20.07346 -25.704,29.37599 -46.02267,29.37599 z m 1.224,-10.28119 c 28.152,0 44.064,-21.54267 44.064,-51.40787 0,-29.621333 -15.912,-51.407999 -44.064,-51.407999 -27.90667,0 -43.81867,21.786666 -43.81867,51.407999 0,29.8652 15.912,51.40787 43.81867,51.40787" fill="#D79171"/>
+        <path d="m 234.328,189.976 c 19.592,0 36.208,-8.68 42.408,-22.568 l 2.48,19.592 h 19.84 v -76.136 c 0,-32.736 -20.336,-48.608 -50.344,-48.608 -31.248,0 -52.08,16.616 -52.08,41.912 h 20.336 c 0,-14.632 11.16,-23.312 30.752,-23.312 16.368,0 28.52,7.192 28.52,27.528 v 3.472 l -38.192,2.976 c -28.52,2.232 -45.136,16.12 -45.136,38.44 0,22.072 15.376,36.704 41.416,36.704 z m 6.696,-18.104 c -15.128,0 -24.552,-6.448 -24.552,-19.344 0,-11.904 8.432,-19.84 29.016,-21.824 l 31,-2.48 v 6.448 c 0,22.816 -13.392,37.2 -35.464,37.2 z M 400.7361,64.736 c -4.712,-0.992 -8.184,-1.488 -12.4,-1.488 -16.616,0 -28.768,8.432 -33.728,21.08 l -1.488,-18.352 h -21.824 V 187 h 23.312 v -64.232 c 0,-23.312 13.64,-36.704 35.712,-36.704 h 10.416 z M 446.36811,187 v -34.472 l 20.584,-21.576 35.464,56.048 h 26.784 l -46.128,-72.912 46.376,-48.36 h -29.264 l -53.816,57.04 V 4.472 h -23.312 V 187 Z" fill="currentColor"/>
+      </g>
+    </symbol>
+    <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></symbol>
+    <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============= NAV ============= -->
+<nav class="nav" aria-label="Navigation principale">
+  <div class="nav-inner" style="position: relative;">
+    <a href="home.html" class="nav-brand" aria-label="Ark Fiduciaire — accueil">
+      <svg class="logo-svg"><use href="#logo-ark"/></svg>
+    </a>
+    <div class="nav-links">
+      <a href="home.html#services">Services</a>
+      <a href="ressources.html" class="is-active">Ressources</a>
+      <a href="about.html">Équipe</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a href="agent.html" class="nav-cta">
+      Devis instantané
+      <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+    </a>
+    <input type="checkbox" id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu">
+    <label for="navToggle" class="nav-burger" aria-hidden="true">
+      <svg class="icon"><use href="#i-menu"/></svg>
+    </label>
+    <div class="nav-mobile">
+      <div class="nav-mobile-meta">
+        <div class="nav-mobile-row">
+          <span class="nav-mobile-label">Thème</span>
+          <div class="nav-mobile-chips">
+            <button class="nav-mobile-chip is-active" type="button">Auto</button>
+            <button class="nav-mobile-chip" type="button">Clair</button>
+            <button class="nav-mobile-chip" type="button">Sombre</button>
+          </div>
+        </div>
+        <div class="nav-mobile-row">
+          <span class="nav-mobile-label">Langue</span>
+          <div class="nav-mobile-langs">
+            <a class="is-active" href="#">FR</a>
+            <a href="#">DE</a>
+            <a href="#">ES</a>
+            <a href="#">PT</a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-mobile-contact" href="contact.html">Contact</a>
+      <div class="nav-mobile-main">
+        <a href="home.html">Accueil</a>
+        <a href="agent.html">Devis instantané</a>
+        <a href="about.html">Équipe</a>
+        <a href="ressources.html">Ressources</a>
+      </div>
+      <div class="nav-mobile-services">
+        <div class="nav-mobile-label">Services</div>
+        <div class="nav-mobile-services-list">
+          <a href="service-detail.html"><span>Comptabilité</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Fiscalité</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Paie &amp; RH</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Externalisation</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Corporate</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Odoo</span><span aria-hidden="true">›</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="floating-ui" aria-label="Actions persistantes">
+  <a class="wa-btn" href="https://wa.me/41225125050" target="_blank" rel="noopener">WhatsApp</a>
+  <button class="cookie-btn" type="button" aria-label="Paramètres des cookies">CK</button>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://ark-fid.ch/fr/" },
+        { "@type": "ListItem", "position": 2, "name": "Ressources", "item": "https://ark-fid.ch/fr/ressources/" }
+      ]
+    },
+    {
+      "@type": "CollectionPage",
+      "name": "Ressources Ark Fiduciaire",
+      "url": "https://ark-fid.ch/fr/ressources/",
+      "about": ["comptabilité suisse", "fiscalité suisse", "paie suisse", "Suisse romande"]
+    }
+  ]
+}
+</script>
+
+<!-- ============= HERO ============= -->
+<section class="res-hero">
+  <div class="wrap">
+    <div class="crumbs">
+      <a href="home.html">Accueil</a>
+      <span class="sep">/</span>
+      <span class="current">Ressources</span>
+    </div>
+
+    <div class="head">
+      <div>
+        <span class="eyebrow">Ressources d'experts</span>
+        <h1>Ressources fiscales et comptables <span class="accent">pour la Suisse romande.</span></h1>
+      </div>
+      <p class="intro">
+        Basées à Genève et actives dans toute la Suisse romande, nos équipes publient ici des articles pratiques sur la comptabilité, la fiscalité, la paie et les sujets administratifs suisses. Ces ressources servent de repère général et ne remplacent pas un conseil personnalisé.
+      </p>
+    </div>
+
+    <div class="filters" role="tablist" aria-label="Filtrer les ressources par thème">
+      <button class="filter-tab active" role="tab" aria-selected="true" data-filter="all">Tous</button>
+      <button class="filter-tab" role="tab" aria-selected="false" data-filter="compta">Comptabilité</button>
+      <button class="filter-tab" role="tab" aria-selected="false" data-filter="fisca">Fiscalité</button>
+      <button class="filter-tab" role="tab" aria-selected="false" data-filter="paie">Paie &amp; RH</button>
+      <button class="filter-tab" role="tab" aria-selected="false" data-filter="mna-corp">M&amp;A &amp; corporatif</button>
+      <button class="filter-tab" role="tab" aria-selected="false" data-filter="lba-regule">LBA &amp; régulé</button>
+      <button class="filter-tab" role="tab" aria-selected="false" data-filter="odoo-digital">Odoo &amp; digital</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FEATURED ============= -->
+<section class="featured filter-target" data-category="compta">
+  <div class="wrap">
+    <a href="article.html" class="featured-card">
+      <div class="image">
+        <span class="meta-pill"><span class="dot"></span>À la une — Comptabilité</span>
+      </div>
+      <div class="body">
+        <div class="article-meta">
+          <span>11 fév. 2026</span>
+          <span>· 12 min de lecture</span>
+        </div>
+        <h2>Plan comptable suisse PME : tendances 2026, plan analytique et pilotage Odoo</h2>
+        <p>Le plan comptable suisse PME devient un outil de pilotage data-driven. Tendances 2026, exemples de plans analytiques par activité, et la mise en place sur Odoo en moins de deux semaines.</p>
+        <span class="read-link">Lire l'article <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ============= ARTICLE GRID ============= -->
+<section class="articles">
+  <div class="wrap">
+    <div class="article-grid">
+
+      <a href="article.html" class="article-card filter-target" data-category="lba-regule">
+        <div class="body">
+          <div class="topline">
+            <span class="cat-pill tag-lba">LBA &amp; régulé</span>
+            <div class="meta">
+              <span>06 fév. 2026</span>
+              <span>9 min</span>
+            </div>
+          </div>
+          <h3>ANobAG : permis de travail et cotisations sociales en Suisse</h3>
+          <p>Cadre légal de l'employé sans employeur soumis à cotisations, démarches AVS, articulation avec un employeur étranger.</p>
+          <span class="read-link">Lire <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+        </div>
+      </a>
+
+      <a href="article.html" class="article-card filter-target" data-category="fisca">
+        <div class="body">
+          <div class="topline">
+            <span class="cat-pill tag-fisca">Fiscalité</span>
+            <div class="meta">
+              <span>02 fév. 2026</span>
+              <span>7 min</span>
+            </div>
+          </div>
+          <h3>TVA suisse 2026 : seuils, taux et déclarations pour PME</h3>
+          <p>Nouveaux seuils d'assujettissement, taux applicables, calendrier de déclaration et erreurs fréquentes à éviter.</p>
+          <span class="read-link">Lire <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+        </div>
+      </a>
+
+      <a href="article.html" class="article-card filter-target" data-category="paie">
+        <div class="body">
+          <div class="topline">
+            <span class="cat-pill tag-paie">Paie &amp; RH</span>
+            <div class="meta">
+              <span>28 jan. 2026</span>
+              <span>10 min</span>
+            </div>
+          </div>
+          <h3>Embauche du premier collaborateur : checklist complète pour une PME genevoise</h3>
+          <p>Contrat de travail, affiliation aux caisses sociales, déclarations à l'Office cantonal, premier bulletin de salaire.</p>
+          <span class="read-link">Lire <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+        </div>
+      </a>
+
+      <a href="article.html" class="article-card filter-target" data-category="mna-corp">
+        <div class="body">
+          <div class="topline">
+            <span class="cat-pill tag-mna">M&amp;A</span>
+            <div class="meta">
+              <span>22 jan. 2026</span>
+              <span>14 min</span>
+            </div>
+          </div>
+          <h3>Vente de PME en Suisse romande : étapes, valorisations et fiscalité</h3>
+          <p>De la lettre d'intention au closing : méthodes de valorisation usuelles, fiscalité des plus-values et structuration de la transaction.</p>
+          <span class="read-link">Lire <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+        </div>
+      </a>
+
+      <a href="article.html" class="article-card filter-target" data-category="odoo-digital compta">
+        <div class="body">
+          <div class="topline">
+            <span class="cat-pill tag-odoo">Odoo &amp; digital</span>
+            <div class="meta">
+              <span>18 jan. 2026</span>
+              <span>8 min</span>
+            </div>
+          </div>
+          <h3>QR-facture et e-banking : automatiser le rapprochement bancaire dans Odoo</h3>
+          <p>Configuration des journaux, connexion au compte bancaire, règles d'automatisation et contrôle de cohérence.</p>
+          <span class="read-link">Lire <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+        </div>
+      </a>
+
+      <a href="article.html" class="article-card filter-target" data-category="family-office">
+        <div class="body">
+          <div class="topline">
+            <span class="cat-pill tag-family">Family office</span>
+            <div class="meta">
+              <span>14 jan. 2026</span>
+              <span>11 min</span>
+            </div>
+          </div>
+          <h3>Gouvernance familiale : charte, conseil, et rôle du family office suisse</h3>
+          <p>Structurer la gouvernance d'un patrimoine familial multi-générationnel basé en Suisse — outils, instances, et rôle du family office.</p>
+          <span class="read-link">Lire <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+        </div>
+      </a>
+
+      <a href="article.html" class="article-card filter-target" data-category="compta">
+        <div class="body">
+          <div class="topline">
+            <span class="cat-pill tag-compta">Comptabilité</span>
+            <div class="meta">
+              <span>09 jan. 2026</span>
+              <span>6 min</span>
+            </div>
+          </div>
+          <h3>Clôture annuelle PME : checklist pour boucler en 6 jours</h3>
+          <p>Bonnes pratiques de pré-clôture, ordre des écritures, contrôles de cohérence, et préparation des documents pour le réviseur.</p>
+          <span class="read-link">Lire <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+        </div>
+      </a>
+
+      <a href="article.html" class="article-card filter-target" data-category="mna-corp">
+        <div class="body">
+          <div class="topline">
+            <span class="cat-pill tag-corp">Corporatif</span>
+            <div class="meta">
+              <span>05 jan. 2026</span>
+              <span>9 min</span>
+            </div>
+          </div>
+          <h3>Sàrl ou SA en Suisse : critères de choix pour une nouvelle entreprise</h3>
+          <p>Capital, gouvernance, fiscalité, distribution. Comparatif clair pour choisir entre Sàrl et SA selon votre situation.</p>
+          <span class="read-link">Lire <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+        </div>
+      </a>
+
+      <a href="article.html" class="article-card filter-target" data-category="immigration">
+        <div class="body">
+          <div class="topline">
+            <span class="cat-pill tag-imm">Immigration</span>
+            <div class="meta">
+              <span>30 déc. 2025</span>
+              <span>7 min</span>
+            </div>
+          </div>
+          <h3>Permis B, C, L et G : guide pratique pour les employeurs genevois</h3>
+          <p>Quelle catégorie pour quel collaborateur, contingents 2026, démarches à l'Office cantonal de la population et des migrations.</p>
+          <span class="read-link">Lire <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============= PAGINATION ============= -->
+<div class="pagination">
+  <button class="btn btn-secondary">Afficher plus d'articles</button>
+</div>
+
+<!-- ============= NEWSLETTER ============= -->
+<section class="newsletter">
+  <div class="wrap">
+    <div class="newsletter-card">
+      <div>
+        <span class="eyebrow">Newsletter mensuelle</span>
+        <h2 style="margin-top: 16px;">Un email par mois, jamais plus.</h2>
+        <p class="nl-desc">Les nouvelles règles suisses qui affectent les PME, expliquées en 5 minutes. Pas de promo, pas de revente d'adresse.</p>
+      </div>
+      <div>
+        <form class="nl-form" onsubmit="event.preventDefault(); alert('Maquette uniquement');">
+          <input type="email" placeholder="votre@email.ch" aria-label="Votre email" required>
+          <button class="btn btn-primary" type="submit">
+            S'inscrire
+            <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+          </button>
+        </form>
+        <p class="nl-tos">En vous inscrivant, vous acceptez notre <a href="#">politique de confidentialité</a>. Désinscription en un clic.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FAQ ============= -->
+<section class="res-faq">
+  <div class="wrap">
+    <div class="section-head" style="grid-template-columns: 1fr;">
+      <div>
+        <span class="eyebrow">FAQ ressources</span>
+        <h2 style="margin-top: 16px;">À propos de ces articles.</h2>
+      </div>
+    </div>
+    <div class="res-faq-list">
+      <details class="res-faq-item" open>
+        <summary>
+          Ces articles constituent-ils un conseil personnalisé ?
+          <span class="toggle"><svg class="icon icon-sm"><use href="#i-plus"/></svg></span>
+        </summary>
+        <div class="answer">
+          Non. Ces ressources sont fournies à titre informatif et reflètent l'état du droit et de la pratique au moment de leur rédaction. Pour une analyse spécifique à votre situation, contactez-nous — la première discussion est sans engagement.
+        </div>
+      </details>
+      <details class="res-faq-item">
+        <summary>
+          À quelle fréquence sont-ils mis à jour ?
+          <span class="toggle"><svg class="icon icon-sm"><use href="#i-plus"/></svg></span>
+        </summary>
+        <div class="answer">
+          Les articles principaux sont revus annuellement, et plus fréquemment en cas de changement législatif majeur. La date de dernière mise à jour est indiquée en tête de chaque article.
+        </div>
+      </details>
+      <details class="res-faq-item">
+        <summary>
+          Puis-je suggérer un sujet d'article ?
+          <span class="toggle"><svg class="icon icon-sm"><use href="#i-plus"/></svg></span>
+        </summary>
+        <div class="answer">
+          Volontiers. Écrivez-nous à info@ark-fid.ch avec votre suggestion. Nous priorisons les sujets pratiques et fréquemment posés par nos clients.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FINAL CTA ============= -->
+<section class="final-cta">
+  <div class="wrap">
+    <div class="cta-banner">
+      <h2>Une question concrète sur votre cas ?</h2>
+      <p>Un article n'est jamais aussi précis qu'une conversation avec un agent. Premier échange gratuit, sans engagement.</p>
+      <div class="actions">
+        <a href="contact.html" class="btn btn-on-dark">
+          Nous écrire
+          <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+        </a>
+        <a href="agent.html" class="btn btn-on-dark-ghost">Devis instantané</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FOOTER ============= -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <svg class="logo-svg"><use href="#logo-ark"/></svg>
+        <p>Fiduciaire genevoise spécialisée en comptabilité, fiscalité et conseil pour PME, entrepreneurs et familles. Membre SO-FIT, partenaire officiel Odoo.</p>
+      </div>
+      <div class="footer-col">
+        <h4>// Services</h4>
+        <ul>
+          <li><a href="service-detail.html">Comptabilité</a></li>
+          <li><a href="service-detail.html">Fiscalité</a></li>
+          <li><a href="service-detail.html">Paie &amp; RH</a></li>
+          <li><a href="service-detail.html">Intermédiaire financier</a></li>
+          <li><a href="service-detail.html">Family office</a></li>
+          <li><a href="service-detail.html">Odoo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// Cabinet</h4>
+        <ul>
+          <li><a href="about.html">À propos</a></li>
+          <li><a href="about.html#team">Équipe</a></li>
+          <li><a href="ressources.html">Ressources</a></li>
+          <li><a href="https://www.linkedin.com/company/ark-fiduciaire/" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// Contact</h4>
+        <ul>
+          <li><a href="tel:+41225125050">+41 22 512 50 50</a></li>
+          <li><a href="mailto:info@ark-fid.ch">info@ark-fid.ch</a></li>
+          <li>26 Bd Georges Favon<br>1204 Genève, CH</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Ark Fiduciaire SA — Membre SO-FIT</span>
+      <div class="footer-legal">
+        <a href="#">Mentions légales</a>
+        <a href="#">Confidentialité</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    const tabs = Array.from(document.querySelectorAll('.filter-tab[data-filter]'));
+    const targets = Array.from(document.querySelectorAll('.filter-target[data-category]'));
+
+    if (!tabs.length || !targets.length) return;
+
+    function applyFilter(filter) {
+      tabs.forEach((tab) => {
+        const isActive = tab.dataset.filter === filter;
+        tab.classList.toggle('active', isActive);
+        tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      targets.forEach((target) => {
+        const categories = (target.dataset.category || '').split(/\s+/).filter(Boolean);
+        const shouldShow = filter === 'all' || categories.includes(filter);
+        target.classList.toggle('is-hidden', !shouldShow);
+      });
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => applyFilter(tab.dataset.filter || 'all'));
+    });
+  })();
+</script>
+
+</body>
+</html>

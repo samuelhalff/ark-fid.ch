@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Plan comptable suisse PME 2026 – Ark Fiduciaire</title>
+<meta name="description" content="Tendances 2026 du plan comptable suisse PME : structure, Swiss GAAP FER, digitalisation, exemples de plans analytiques, KPI et mise en place flexible sur Odoo." />
+<link rel="canonical" href="https://ark-fid.ch/fr/ressources/articles/plan-comptable-suisse-pme-tendances-2026/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Plan comptable suisse PME 2026 – Ark Fiduciaire" />
+<meta property="og:description" content="Tendances 2026 du plan comptable suisse PME : structure, digitalisation, analytique et mise en place sur Odoo." />
+<meta property="og:url" content="https://ark-fid.ch/fr/ressources/articles/plan-comptable-suisse-pme-tendances-2026/" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="stylesheet" href="shared.css?v=20260518">
+<style>
+  /* ============= ARTICLE ============= */
+
+  /* Reading progress bar */
+  .reading-progress {
+    position: fixed; top: 0; left: 0;
+    height: 3px;
+    background: var(--brand);
+    width: var(--progress, 0%);
+    z-index: 200;
+    transition: width .1s linear;
+  }
+
+  /* Article header */
+  .art-head { padding: 48px 0 32px; }
+  .art-head .crumbs { margin-bottom: 28px; }
+  .art-head .category {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--brand-hover); margin-bottom: 24px;
+  }
+  .art-head h1 {
+    font-size: clamp(36px, 5.5vw, 64px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.04;
+    margin-bottom: 24px;
+    max-width: 22ch;
+  }
+  .art-head .description {
+    font-size: 19px; color: var(--ink-2);
+    line-height: 1.5;
+    max-width: 62ch;
+    margin-bottom: 32px;
+  }
+  .art-meta {
+    display: flex; flex-wrap: wrap; gap: 24px;
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .art-meta .meta-item {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .art-meta .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink-3);
+  }
+  .art-meta .value { font-size: 14px; font-weight: 500; }
+  .art-meta .share {
+    margin-left: auto;
+    display: flex; gap: 6px;
+    align-items: center;
+  }
+  .share-btn {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink-2);
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .share-btn:hover { background: var(--ink); color: white; border-color: var(--ink); }
+  @media (max-width: 720px) { .art-meta { gap: 16px; } .art-meta .share { margin-left: 0; width: 100%; padding-top: 12px; border-top: 1px dashed var(--line); } }
+
+  /* Prose body */
+  .article-body {
+    padding: 48px 0;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .prose {
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.75;
+    letter-spacing: 0;
+  }
+  .prose p { margin-bottom: 1.4em; }
+  .prose p:first-child { font-size: 19px; color: var(--ink-2); line-height: 1.6; }
+  .prose strong { color: var(--ink); font-weight: 600; }
+  .prose em { font-style: italic; }
+
+  /* Headings with brand peach indicator */
+  .prose h2 {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 56px 0 20px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .prose h2::before {
+    content: '';
+    display: inline-block;
+    width: 28px; height: 4px;
+    background: var(--brand);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .prose h3 {
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin: 36px 0 12px;
+  }
+
+  /* Lists */
+  .prose ul, .prose ol { margin: 16px 0 1.4em; padding-left: 0; list-style: none; }
+  .prose ul li, .prose ol li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  .prose ul li::before {
+    content: '';
+    position: absolute; left: 0; top: 0.8em;
+    width: 14px; height: 1.5px;
+    background: var(--brand);
+    border-radius: 2px;
+  }
+  .prose ol { counter-reset: olc; }
+  .prose ol li { counter-increment: olc; }
+  .prose ol li::before {
+    content: counter(olc);
+    position: absolute; left: 0; top: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--brand-hover);
+    font-weight: 500;
+  }
+
+  /* Links */
+  .prose a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--brand);
+    transition: color .15s, background .15s;
+    padding: 0 1px;
+  }
+  .prose a:hover { color: var(--brand); background: var(--brand-soft); }
+
+  /* Blockquote */
+  .prose blockquote {
+    margin: 36px 0;
+    padding: 20px 24px;
+    background: var(--brand-soft);
+    border-left: 4px solid var(--brand);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-style: normal;
+    color: var(--ink);
+  }
+  .prose blockquote p:first-child { font-size: 17px; color: var(--ink); }
+
+  /* Table */
+  .prose .table-wrap {
+    overflow-x: auto;
+    margin: 32px 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .prose th, .prose td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+  }
+  .prose th {
+    background: var(--bg-warm);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+  }
+  .prose tr:last-child td { border-bottom: 0; }
+
+  /* References */
+  .article-refs {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 0;
+    border-top: 1px solid var(--line);
+  }
+  .article-refs h3 {
+    font-size: 14px; font-weight: 500;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 18px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .article-refs ol {
+    list-style: none;
+    counter-reset: ref;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .article-refs li {
+    counter-increment: ref;
+    font-size: 14px;
+    color: var(--ink-2);
+    padding-left: 28px;
+    position: relative;
+  }
+  .article-refs li::before {
+    content: '[' counter(ref) ']';
+    position: absolute; left: 0; top: 0;
+    color: var(--brand-hover);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .article-refs a { color: var(--ink); border-bottom: 1px solid var(--brand); }
+  .article-refs a:hover { color: var(--brand); }
+
+  /* Related articles */
+  .related-articles { padding: 80px 0; background: var(--bg-warm); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .related-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    transition: transform .2s, border-color .15s;
+  }
+  .related-card:hover { transform: translateY(-2px); border-color: var(--ink); }
+  .related-card .cat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.10em;
+    color: var(--brand-hover); margin-bottom: 14px;
+  }
+  .related-card h4 {
+    font-size: 17px; font-weight: 600;
+    letter-spacing: -0.015em; line-height: 1.25;
+    margin-bottom: 12px;
+  }
+  .related-card .read-link {
+    font-size: 13px; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--ink-2);
+  }
+  .related-card:hover .read-link { color: var(--brand); }
+  @media (max-width: 880px) { .related-grid { grid-template-columns: 1fr; } }
+
+  /* Back to top floating */
+  .back-to-top {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: white;
+    border: 0;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+    transition: transform .15s, background .15s;
+    z-index: 90;
+  }
+  .back-to-top:hover { background: var(--brand); transform: translateY(-2px); }
+  .back-to-top .icon { transform: rotate(-90deg); }
+</style>
+</head>
+<body>
+
+<div class="reading-progress" id="readingProgress"></div>
+
+<!-- ============= SVG SYMBOL DEFS ============= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="logo-ark" viewBox="0 0 769 186">
+      <g transform="translate(-2.65,-4.47)">
+        <path d="m 439.23,1497.6 v -199.69 c 0,-121.31 -98.351,-219.66 -219.66,-219.66 H 19.8789 V 918.5 H 219.57 c 209.539,0 379.41,169.87 379.41,379.41 V 1497.6 H 439.23" fill="currentColor" transform="matrix(0.13333333,0,0,-0.13333333,0,253.44)"/>
+        <path d="m 598.98,499.16 v 199.692 c 0,121.308 98.34,219.648 219.649,219.648 h 199.691 v 159.75 H 818.629 C 609.09,1078.25 439.23,908.391 439.23,698.852 V 499.16 h 159.75" fill="currentColor" transform="matrix(0.13333333,0,0,-0.13333333,0,253.44)"/>
+        <path d="m 545.70931,69.418671 h 18.36 V 42.980005 c 0,-23.990666 13.464,-32.802666 28.152,-32.802666 3.91734,0 8.568,0.244 11.99467,0.734667 v 9.792 h -10.036 c -14.688,0 -18.84933,7.344 -18.84933,22.275999 v 26.438666 h 27.66133 v 9.792 H 575.33065 V 186.9228 H 564.06931 V 79.210671 h -18.36 v -9.792" fill="#D79171"/>
+        <path d="m 629.99331,33.433339 c -5.63066,0 -10.28133,-4.652 -10.28133,-10.037333 0,-5.630667 4.65067,-10.526667 10.28133,-10.526667 5.38534,0 10.28134,4.896 10.28134,10.526667 0,5.385333 -4.896,10.037333 -10.28134,10.037333 z M 624.36265,186.9228 V 69.418671 h 11.26133 V 186.9228 h -11.26133" fill="#D79171"/>
+        <path d="m 714.75331,189.85973 c -34.51733,0 -54.10133,-26.92759 -54.10133,-61.68906 0,-34.761333 19.584,-61.689332 54.10133,-61.689332 20.808,0 36.96533,9.302666 45.53333,28.395999 V 10.177339 h 11.26 V 186.9228 h -9.05733 l -1.71333,-26.43906 c -8.81334,20.07346 -25.704,29.37599 -46.02267,29.37599 z m 1.224,-10.28119 c 28.152,0 44.064,-21.54267 44.064,-51.40787 0,-29.621333 -15.912,-51.407999 -44.064,-51.407999 -27.90667,0 -43.81867,21.786666 -43.81867,51.407999 0,29.8652 15.912,51.40787 43.81867,51.40787" fill="#D79171"/>
+        <path d="m 234.328,189.976 c 19.592,0 36.208,-8.68 42.408,-22.568 l 2.48,19.592 h 19.84 v -76.136 c 0,-32.736 -20.336,-48.608 -50.344,-48.608 -31.248,0 -52.08,16.616 -52.08,41.912 h 20.336 c 0,-14.632 11.16,-23.312 30.752,-23.312 16.368,0 28.52,7.192 28.52,27.528 v 3.472 l -38.192,2.976 c -28.52,2.232 -45.136,16.12 -45.136,38.44 0,22.072 15.376,36.704 41.416,36.704 z m 6.696,-18.104 c -15.128,0 -24.552,-6.448 -24.552,-19.344 0,-11.904 8.432,-19.84 29.016,-21.824 l 31,-2.48 v 6.448 c 0,22.816 -13.392,37.2 -35.464,37.2 z M 400.7361,64.736 c -4.712,-0.992 -8.184,-1.488 -12.4,-1.488 -16.616,0 -28.768,8.432 -33.728,21.08 l -1.488,-18.352 h -21.824 V 187 h 23.312 v -64.232 c 0,-23.312 13.64,-36.704 35.712,-36.704 h 10.416 z M 446.36811,187 v -34.472 l 20.584,-21.576 35.464,56.048 h 26.784 l -46.128,-72.912 46.376,-48.36 h -29.264 l -53.816,57.04 V 4.472 h -23.312 V 187 Z" fill="currentColor"/>
+      </g>
+    </symbol>
+    <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></symbol>
+    <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============= NAV ============= -->
+<nav class="nav" aria-label="Navigation principale">
+  <div class="nav-inner" style="position: relative;">
+    <a href="home.html" class="nav-brand" aria-label="Ark Fiduciaire — accueil">
+      <svg class="logo-svg"><use href="#logo-ark"/></svg>
+    </a>
+    <div class="nav-links">
+      <a href="home.html#services">Services</a>
+      <a href="ressources.html" class="is-active">Ressources</a>
+      <a href="about.html">Équipe</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a href="agent.html" class="nav-cta">
+      Devis instantané
+      <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+    </a>
+    <input type="checkbox" id="navToggle" class="nav-toggle" aria-label="Ouvrir le menu">
+    <label for="navToggle" class="nav-burger" aria-hidden="true">
+      <svg class="icon"><use href="#i-menu"/></svg>
+    </label>
+    <div class="nav-mobile">
+      <div class="nav-mobile-meta">
+        <div class="nav-mobile-row">
+          <span class="nav-mobile-label">Thème</span>
+          <div class="nav-mobile-chips">
+            <button class="nav-mobile-chip is-active" type="button">Auto</button>
+            <button class="nav-mobile-chip" type="button">Clair</button>
+            <button class="nav-mobile-chip" type="button">Sombre</button>
+          </div>
+        </div>
+        <div class="nav-mobile-row">
+          <span class="nav-mobile-label">Langue</span>
+          <div class="nav-mobile-langs">
+            <a class="is-active" href="#">FR</a>
+            <a href="#">DE</a>
+            <a href="#">ES</a>
+            <a href="#">PT</a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-mobile-contact" href="contact.html">Contact</a>
+      <div class="nav-mobile-main">
+        <a href="home.html">Accueil</a>
+        <a href="agent.html">Devis instantané</a>
+        <a href="about.html">Équipe</a>
+        <a href="ressources.html">Ressources</a>
+      </div>
+      <div class="nav-mobile-services">
+        <div class="nav-mobile-label">Services</div>
+        <div class="nav-mobile-services-list">
+          <a href="service-detail.html"><span>Comptabilité</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Fiscalité</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Paie &amp; RH</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Externalisation</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Corporate</span><span aria-hidden="true">›</span></a>
+          <a href="service-detail.html"><span>Odoo</span><span aria-hidden="true">›</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="floating-ui" aria-label="Actions persistantes">
+  <a class="wa-btn" href="https://wa.me/41225125050" target="_blank" rel="noopener">WhatsApp</a>
+  <button class="cookie-btn" type="button" aria-label="Paramètres des cookies">CK</button>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://ark-fid.ch/fr/" },
+        { "@type": "ListItem", "position": 2, "name": "Ressources", "item": "https://ark-fid.ch/fr/ressources/" },
+        { "@type": "ListItem", "position": 3, "name": "Plan comptable suisse PME : tendances 2026, plan analytique et pilotage Odoo", "item": "https://ark-fid.ch/fr/ressources/articles/plan-comptable-suisse-pme-tendances-2026/" }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Plan comptable suisse PME : tendances 2026, plan analytique et pilotage Odoo",
+      "datePublished": "2026-02-11",
+      "author": {
+        "@type": "Organization",
+        "name": "Ark Fiduciaire"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Ark Fiduciaire SA",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ark-fid.ch/assets/arkfid--color.svg"
+        }
+      },
+      "description": "Tendances 2026 du plan comptable suisse PME : structure, Swiss GAAP FER, digitalisation, exemples de plans analytiques, KPI et mise en place flexible sur Odoo."
+    }
+  ]
+}
+</script>
+
+<!-- ============= ARTICLE HEADER ============= -->
+<header class="art-head">
+  <div class="wrap" style="max-width: 880px;">
+    <div class="crumbs">
+      <a href="home.html">Accueil</a>
+      <span class="sep">/</span>
+      <a href="ressources.html">Ressources</a>
+      <span class="sep">/</span>
+      <span class="current">Plan comptable suisse PME</span>
+    </div>
+    <span class="category">Comptabilité</span>
+    <h1>Plan comptable suisse PME : tendances 2026, plan analytique et pilotage Odoo</h1>
+    <p class="description">
+      Le plan comptable suisse PME devient un outil de pilotage data-driven. Tendances 2026, exemples de plans analytiques par activité, et la mise en place sur Odoo en moins de deux semaines.
+    </p>
+    <div class="art-meta">
+      <div class="meta-item"><span class="label">Auteur</span><span class="value">Ark Fiduciaire</span></div>
+      <div class="meta-item"><span class="label">Publié</span><span class="value">11 février 2026</span></div>
+      <div class="meta-item"><span class="label">Mis à jour</span><span class="value">11 février 2026</span></div>
+      <div class="meta-item"><span class="label">Lecture</span><span class="value">12 min</span></div>
+      <div class="share">
+        <a href="#" class="share-btn" aria-label="Partager sur LinkedIn"><svg class="icon icon-sm"><use href="#i-linkedin"/></svg></a>
+        <a href="#" class="share-btn" aria-label="Partager sur X"><svg class="icon icon-sm"><use href="#i-x"/></svg></a>
+        <button class="share-btn" aria-label="Copier le lien"><svg class="icon icon-sm"><use href="#i-link"/></svg></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============= ARTICLE BODY ============= -->
+<section class="article-body">
+  <div class="wrap" style="max-width: 720px;">
+    <div class="prose">
+
+      <p>Le plan comptable suisse PME n'est plus seulement un tableau de comptes. En 2026, il devient un <strong>outil de pilotage data-driven</strong> qui relie conformité, trésorerie, marge et indicateurs opérationnels. Les PME romandes demandent des plans plus flexibles pour absorber la digitalisation, l'automatisation et la facturation électronique tout en gardant une lecture claire pour le réviseur et les autorités.</p>
+
+      <p>Dans cet article, nous détaillons un plan comptable suisse PME moderne, les tendances qui accélèrent sa refonte, des exemples concrets de plans analytiques, et la manière dont <a href="service-detail.html">Odoo</a> permet une mise en place rapide et personnalisée.</p>
+
+      <h2>Pourquoi le plan comptable revient au centre en 2026</h2>
+
+      <p>Le marché suisse voit une accélération des sujets liés à la <strong>comptabilité temps réel</strong>, à l'<strong>IA comptable</strong>, et à la <strong>facturation électronique</strong>. Les dirigeants veulent des dashboards clairs et une visibilité immédiate sur la rentabilité — pas un tableau Excel trimestriel.</p>
+
+      <h3>Signaux marché et besoins terrain</h3>
+
+      <ul>
+        <li>Hausse des demandes de <strong>reporting mensuel</strong> en moins de 10 jours</li>
+        <li>Adoption massive de la <strong>QR-facture</strong> et des flux e-banking automatisés</li>
+        <li>Besoin de <strong>segmentation par activité</strong> pour piloter les marges</li>
+        <li>Exigences de transparence accrues pour les banques et investisseurs</li>
+      </ul>
+
+      <h2>Structure, classes et logique du plan</h2>
+
+      <p>Le plan comptable suisse PME repose sur une logique claire : une structure standard pour rester conforme, avec des sous-comptes personnalisés pour refléter la réalité métier. La flexibilité est autorisée tant que la lisibilité et la cohérence sont conservées.</p>
+
+      <blockquote>
+        <p>Un plan comptable bien conçu transforme la clôture annuelle en routine de 6 jours plutôt qu'en marathon de trois semaines — c'est l'expérience que nous avons documentée sur plus de 40 mandats PME.</p>
+      </blockquote>
+
+      <h3>Rappel rapide des classes</h3>
+
+      <ul>
+        <li><strong>1 Actifs</strong> — banque, clients, immobilisations</li>
+        <li><strong>2 Passifs</strong> — dettes, provisions, capitaux</li>
+        <li><strong>3 Produits</strong> — ventes, prestations, subventions</li>
+        <li><strong>4 Charges</strong> — achats, salaires, loyers</li>
+        <li><strong>5 à 9</strong> — annexes, centres, statistiques et analytique selon les besoins</li>
+      </ul>
+    </div>
+
+    <!-- ============= MID-ARTICLE CTA ============= -->
+    <aside class="cta-inline">
+      <span class="eyebrow no-line">Ark Fiduciaire</span>
+      <h3>Besoin d'aide sur votre plan comptable ?</h3>
+      <p>Nos experts construisent un plan comptable suisse PME adapté à vos objectifs, paramètrent Odoo, et forment vos équipes. Premier appel gratuit, sans engagement.</p>
+      <div class="actions">
+        <a href="contact.html" class="btn btn-primary btn-sm">
+          Nous contacter
+          <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+        </a>
+        <a href="agent.html" class="btn btn-secondary btn-sm">Devis instantané</a>
+      </div>
+    </aside>
+
+    <div class="prose">
+
+      <h2>Tendances 2026 : digitalisation, IA comptable, e-facturation</h2>
+
+      <p>Les outils de capture OCR, l'automatisation des écritures et la connexion bancaire directe deviennent la norme. Les PME attendent un plan comptable suisse PME qui s'intègre aux flux digitaux, réduit la saisie manuelle et permet des analyses instantanées.</p>
+
+      <h3>Pratiques qui montent</h3>
+
+      <ul>
+        <li><strong>E-facturation</strong> et QR-facture</li>
+        <li><strong>Automatisation des écritures</strong> via règles de validation</li>
+        <li><strong>IA comptable</strong> pour détecter anomalies et doublons</li>
+        <li><strong>Reporting temps réel</strong> avec KPI et marge par activité</li>
+        <li><strong>ESG light</strong> — suivi des dépenses énergétiques et mobilité</li>
+      </ul>
+
+      <h2>Exemple : plan analytique multi-activités (services + négoce)</h2>
+
+      <p>Pour une PME romande mêlant conseil et négoce, un plan analytique à quatre axes suffit à piloter finement les marges, le ROI marketing et la performance régionale :</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Axe analytique</th><th>Objectif de pilotage</th><th>Exemple de segments</th><th>KPI principal</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Activité</td><td>Comparer marges</td><td>Conseil, Négoce, Support</td><td>Marge brute %</td></tr>
+            <tr><td>Projet</td><td>Suivi client</td><td>Projet A, Projet B</td><td>Résultat par projet</td></tr>
+            <tr><td>Canal</td><td>ROI marketing</td><td>Web, Partenaires, Direct</td><td>CAC / lead</td></tr>
+            <tr><td>Région</td><td>Déploiement</td><td>Genève, Vaud, Romandie</td><td>CA par région</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Mettre en place dans Odoo en 6 étapes</h2>
+
+      <ol>
+        <li><strong>Importer le plan comptable suisse</strong> de base et activer les journaux nécessaires</li>
+        <li><strong>Créer les comptes spécifiques</strong> (immobilisations, provisions, refacturations)</li>
+        <li><strong>Définir les axes analytiques</strong> (centres de coûts, projets, canaux)</li>
+        <li><strong>Configurer les règles d'automatisation</strong> TVA et écritures récurrentes</li>
+        <li><strong>Connecter la banque</strong> pour le rapprochement automatique</li>
+        <li><strong>Activer les tableaux de bord</strong> et alertes KPI en temps réel</li>
+      </ol>
+
+      <h2>Cas pratique chiffré : PME romande multi-activités</h2>
+
+      <p>Une PME de 12 collaborateurs (conseil + négoce) réalise <strong>2,4 M CHF</strong> de chiffre d'affaires. Après refonte du plan comptable et mise en place d'un plan analytique dans Odoo :</p>
+
+      <ul>
+        <li>Création de 3 centres de profit et 4 centres de coûts</li>
+        <li>Automatisation de 65 % des écritures récurrentes</li>
+        <li>Réduction du délai de clôture de <strong>12 jours à 6 jours</strong></li>
+        <li>Amélioration de la marge brute de <strong>3,2 %</strong> grâce au suivi analytique</li>
+      </ul>
+
+      <h2>Erreurs fréquentes et corrections rapides</h2>
+
+      <ul>
+        <li><strong>Trop de comptes</strong> — regrouper pour améliorer la lisibilité</li>
+        <li><strong>Analytique non utilisé</strong> — limiter aux axes réellement suivis</li>
+        <li><strong>TVA éclatée</strong> — centraliser TVA due/déductible pour un contrôle rapide</li>
+        <li><strong>Absence de mapping</strong> — relier chaque compte à un objectif de reporting</li>
+        <li><strong>Manque de gouvernance</strong> — définir un responsable et un calendrier de revue</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============= REFERENCES ============= -->
+<section class="article-refs">
+  <div class="wrap" style="max-width: 720px;">
+    <h3>Références</h3>
+    <ol>
+      <li><a href="https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr" target="_blank" rel="noopener">Code des obligations (CO) — Fedlex</a></li>
+      <li><a href="https://www.estv.admin.ch/fr/taxe-sur-la-valeur-ajoutee" target="_blank" rel="noopener">TVA en Suisse — Administration fédérale des contributions</a></li>
+      <li><a href="https://www.kmu.admin.ch/kmu/fr/home.html" target="_blank" rel="noopener">Portail PME — KMU.admin.ch</a></li>
+      <li><a href="https://www.fer.ch/fr/" target="_blank" rel="noopener">Swiss GAAP FER — Fondation FER</a></li>
+      <li><a href="https://www.odoo.com/documentation/17.0/applications/finance/accounting.html" target="_blank" rel="noopener">Odoo Accounting Documentation</a></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============= END-OF-ARTICLE CTA ============= -->
+<section style="padding: 64px 0 0;">
+  <div class="wrap" style="max-width: 880px;">
+    <div class="cta-banner">
+      <h2>Une question sur votre plan comptable ?</h2>
+      <p>Nos experts sont disponibles pour analyser votre situation et répondre concrètement. Premier échange sans engagement.</p>
+      <div class="actions">
+        <a href="contact.html" class="btn btn-on-dark">
+          Contacter notre équipe
+          <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg>
+        </a>
+        <a href="agent.html" class="btn btn-on-dark-ghost">Devis instantané</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= RELATED ARTICLES ============= -->
+<section class="related-articles">
+  <div class="wrap">
+    <div class="section-head" style="grid-template-columns: 1fr;">
+      <div>
+        <span class="eyebrow">À lire aussi</span>
+        <h2 style="margin-top: 16px; font-size: clamp(28px, 3.5vw, 42px);">Sur le même sujet.</h2>
+      </div>
+    </div>
+    <div class="related-grid">
+      <a href="article.html" class="related-card">
+        <div class="cat">Comptabilité</div>
+        <h4>Clôture annuelle PME : checklist pour boucler en 6 jours</h4>
+        <span class="read-link">Lire <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+      </a>
+      <a href="article.html" class="related-card">
+        <div class="cat">Odoo &amp; digital</div>
+        <h4>QR-facture et e-banking : automatiser le rapprochement dans Odoo</h4>
+        <span class="read-link">Lire <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+      </a>
+      <a href="article.html" class="related-card">
+        <div class="cat">Fiscalité</div>
+        <h4>TVA suisse 2026 : seuils, taux et déclarations pour PME</h4>
+        <span class="read-link">Lire <svg class="icon icon-sm"><use href="#i-arrow-r"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FOOTER ============= -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <svg class="logo-svg"><use href="#logo-ark"/></svg>
+        <p>Fiduciaire genevoise spécialisée en comptabilité, fiscalité et conseil pour PME, entrepreneurs et familles. Membre SO-FIT, partenaire officiel Odoo.</p>
+      </div>
+      <div class="footer-col">
+        <h4>// Services</h4>
+        <ul>
+          <li><a href="service-detail.html">Comptabilité</a></li>
+          <li><a href="service-detail.html">Fiscalité</a></li>
+          <li><a href="service-detail.html">Paie &amp; RH</a></li>
+          <li><a href="service-detail.html">Intermédiaire financier</a></li>
+          <li><a href="service-detail.html">Family office</a></li>
+          <li><a href="service-detail.html">Odoo</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// Cabinet</h4>
+        <ul>
+          <li><a href="about.html">À propos</a></li>
+          <li><a href="about.html#team">Équipe</a></li>
+          <li><a href="ressources.html">Ressources</a></li>
+          <li><a href="https://www.linkedin.com/company/ark-fiduciaire/" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// Contact</h4>
+        <ul>
+          <li><a href="tel:+41225125050">+41 22 512 50 50</a></li>
+          <li><a href="mailto:info@ark-fid.ch">info@ark-fid.ch</a></li>
+          <li>26 Bd Georges Favon<br>1204 Genève, CH</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Ark Fiduciaire SA — Membre SO-FIT</span>
+      <div class="footer-legal">
+        <a href="#">Mentions légales</a>
+        <a href="#">Confidentialité</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Back to top -->
+<button class="back-to-top" id="backToTop" aria-label="Retour en haut">
+  <svg class="icon icon-md"><use href="#i-arrow-r"/></svg>
+</button>
+
+<script>
+  // Reading progress
+  const progress = document.getElementById('readingProgress');
+  function updateProgress() {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const max = h.scrollHeight - h.clientHeight;
+    progress.style.setProperty('--progress', (scrolled / max * 100) + '%');
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // Back to top
+  document.getElementById('backToTop').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>
