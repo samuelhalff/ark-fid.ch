@@ -2048,6 +2048,28 @@
           "url": "https://expertsuisse.ch/fr/produits/pub-5-revaktr/brochure-droit-revise-de-la-societe-anonyme"
         }
       ]
+    },
+    {
+      "slug": "modifications-tva-2025-changements-commerces-entreprises",
+      "title": "Modifications TVA dès 2025 : Ce que les commerces et entreprises doivent savoir",
+      "description": "Tout savoir sur les changements TVA en Suisse dès 2025 : taux, méthodes de décompte, et nouvelles obligations pour les entreprises.",
+      "content": "## Nouveaux taux de TVA dès 2025 : Ce qui change\n\nÀ partir du 1er janvier 2025, certaines nouveautés concernant la TVA entreront en vigueur en Suisse, affectant fortement les entreprises. Si vous êtes un entrepreneur ou que vous gérez une PME, voici ce que vous devez savoir pour éviter des erreurs coûteuses et vous conformer aux nouvelles exigences de l'Administration fédérale des contributions (AFC).\n\n---\n\n## Les principaux taux de TVA maintenus pour 2025\n\nRappelons d'abord les actuels taux de TVA en vigueur depuis le 1er janvier 2024 (et qui restent inchangés pour 2025) :\n\n- **Taux normal** : 8,1 % sur la plupart des biens et services.\n- **Taux réduit** : 2,6 % pour les denrées alimentaires, boissons sans alcool, livres, journaux, etc.\n- **Taux spécial hébergement** : 3,8 % pour les prestations liées à l’hébergement.\n\n👉 **Conseil pratique** : Assurez-vous que vos systèmes comptables, logiciels de caisse et ERP intégrés soient configurés pour appliquer ces taux correctement.\n\n---\n\n## Introduction de l'obligation de décompte en ligne\n\nAutre changement majeur : dès 2025, toutes les déclarations de TVA devront être soumises en ligne via le **Portail AFC**. Cette numérisation vise à simplifier et à sécuriser les démarches administratives, mais elle implique plusieurs ajustements pour les entreprises.\n\n### Que devez-vous faire ?\n\n1. **Créer un compte sur le Portail AFC** : Si ce n'est pas encore fait, enregistrez votre entreprise et familiarisez-vous avec le module « Décompte TVA Pro ».\n2. **Former vos équipes** : Votre personnel chargé de la comptabilité doit être à l’aise avec ce nouvel outil.\n3. **Mettre à jour vos systèmes** : Assurez-vous que vos outils comptables actuels permettent l’intégration et l’envoi des décomptes en ligne.\n\n💡 **Astuce pratique** : Planifiez des simulations avant le passage à cette nouvelle méthode pour anticiper d'éventuels problèmes techniques.\n\n---\n\n## Changements pour les taux de la dette fiscale nette (TDFN)\n\nLes modifications prévues au 1er janvier 2025 impactent aussi les taux « simplifiés » de décompte, particulièrement utilisés dans certains secteurs comme les services ou l'artisanat.\n\n### Ce qui change à partir de 2025\n\n- **Plus de flexibilité** : Les entreprises peuvent désormais appliquer plus de deux TDFN si elles fournissent des prestations dans plusieurs branches.\n- **Nouvelle règle pour les prestations mixtes** : Chaque activité sera soumise au taux correspondant si elle représente plus de 10 % du chiffre d'affaires total imposable.\n\n👉 **Exemple concret** : Si vous gérez un restaurant proposant également des produits à emporter, ces deux activités devront être comptabilisées avec des TDFN distincts.\n\n---\n\n## Simplifications et opportunités\n\nCertaines actions entreprises par l’AFC visent à alléger les procédures fiscales : \n\n- **Suppression des branches mixtes** : Cela simplifie le processus pour les entreprises proposant plusieurs types de prestations.\n- **Réduction des démarches papier** : De plus en plus de formulaires devront être soumis exclusivement en ligne.\n\n➡️ Vous pouvez ainsi optimiser vos processus administratifs et potentiellement réduire vos coûts de gestion.\n\n---\n\n## Les pièges à éviter\n\n### 1. **Oublier une inscription au portail AFC**\nLes entreprises non enregistrées pour le décompte en ligne risquent d'importantes amendes.\n\n### 2. **Ne pas réviser les outils comptables**\nUn logiciel obsolète pourrait mal appliquer les nouveaux TDFN ou gérer incorrectement le décompte en ligne.\n\n### 3. **Confondre TDFN et taux effectifs**\nLe choix erroné d'une méthode de décompte peut engendrer des redressements fiscaux importants.\n\n---\n\n## Conclusion : préparez-vous dès aujourd'hui\n\nPour éviter toute surprise, commencez à adapter vos pratiques dès maintenant : mettez à jour vos systèmes et anticipez ces changements. Chez Ark Fiduciaire, nous accompagnons de nombreuses entreprises de Suisse romande dans leur transition. Besoin d’un coup de pouce pour préparer votre décompte TVA ou pour revoir vos processus administratifs ? **Contactez-nous dès aujourd’hui et laissez-nous simplifier vos démarches.**\n\n---\n### Références\n- [Loi sur la TVA avec modifications à partir de 2025](https://www.admin.ch/fr/nsb?id=99511)\n- [La nouvelle LTVA est entrée en vigueur](https://www.efd.admin.ch/fr/nsb?id=103714)\n- [Administration fédérale des contributions - Taxe sur la valeur ajoutée](https://www.estv.admin.ch/fr/taxe-sur-la-valeur-ajoutee)\n",
+      "author": "Ark Fiduciaire",
+      "date": "2026-05-29",
+      "references": [
+        {
+          "labelKey": "Loi sur la TVA avec modifications à partir de 2025",
+          "url": "https://www.admin.ch/fr/nsb?id=99511"
+        },
+        {
+          "labelKey": "La nouvelle LTVA est entrée en vigueur",
+          "url": "https://www.efd.admin.ch/fr/nsb?id=103714"
+        },
+        {
+          "labelKey": "Administration fédérale des contributions - Taxe sur la valeur ajoutée",
+          "url": "https://www.estv.admin.ch/fr/taxe-sur-la-valeur-ajoutee"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -2060,7 +2082,7 @@
   "ReadMore": "Lire plus →",
   "SwissVATOffice": "Office fédéral de la TVA (AFC)",
   "Contact": {
-        "Eyebrow": "Parlons-en",
+    "Eyebrow": "Parlons-en",
     "Title": "Nous contacter",
     "Description": "Nos experts sont là pour vous aider à comprendre les détails et implications pour votre entreprise. Obtenez des conseils personnalisés adaptés à votre situation.",
     "ButtonText": "Contacter notre équipe",
@@ -2481,5 +2503,9 @@
     "corporate": "Sociétés",
     "international": "International",
     "digital": "Digital"
-  }
+  },
+  "Administration fédérale des contributions - Taxe sur la valeur ajoutée": "Administration fédérale des contributions - Taxe sur la valeur ajoutée",
+  "Taux de la TVA en Suisse": "Taux de la TVA en Suisse",
+  "Révision partielle de la loi sur la TVA": "Révision partielle de la loi sur la TVA",
+  "Portail AFC - Informations sur la TVA": "Portail AFC - Informations sur la TVA"
 }

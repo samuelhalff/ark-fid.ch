@@ -2024,6 +2024,28 @@
           "url": "https://expertsuisse.ch/fr/produits/pub-5-revaktr/brochure-droit-revise-de-la-societe-anonyme"
         }
       ]
+    },
+    {
+      "slug": "modifications-tva-2025-changements-commerces-entreprises",
+      "title": "VAT Changes from 2025: What Shops and Businesses Need to Know",
+      "description": "Everything you need to know about VAT changes in Switzerland from 2025: rates, accounting methods, and new obligations for businesses.",
+      "content": "## New VAT Rates from 2025: What’s Changing\n\nStarting January 1, 2025, several new VAT regulations will come into effect in Switzerland, significantly impacting businesses. If you are an entrepreneur or manage an SME, here’s what you need to know to avoid costly mistakes and comply with the new requirements from the Federal Tax Administration (FTA).\n\n---\n\n## Main VAT Rates Maintained for 2025\n\nLet’s first recall the current VAT rates in effect since January 1, 2024 (which remain unchanged for 2025):\n\n- **Standard rate**: 8.1% on most goods and services.\n- **Reduced rate**: 2.6% for foodstuffs, non-alcoholic beverages, books, newspapers, etc.\n- **Special accommodation rate**: 3.8% for accommodation services.\n\n👉 **Practical tip**: Make sure your accounting systems, cash register software, and integrated ERPs are configured to apply these rates correctly.\n\n---\n\n## Introduction of Mandatory Online VAT Filing\n\nAnother major change: from 2025, all VAT returns must be submitted online via the **FTA Portal**. This digitalization aims to simplify and secure administrative procedures, but it requires several adjustments for businesses.\n\n### What do you need to do?\n\n1. **Create an account on the FTA Portal**: If you haven’t already, register your business and get familiar with the “VAT Pro Return” module.\n2. **Train your teams**: Your accounting staff should be comfortable with this new tool.\n3. **Update your systems**: Ensure your current accounting tools allow for integration and online submission of returns.\n\n💡 **Practical tip**: Plan simulations before switching to this new method to anticipate potential technical issues.\n\n---\n\n## Changes to Net Tax Debt Rates (NTDR)\n\nThe changes planned for January 1, 2025, also affect the “simplified” accounting rates, particularly used in sectors like services or crafts.\n\n### What’s changing from 2025\n\n- **More flexibility**: Businesses can now apply more than two NTDRs if they provide services in several sectors.\n- **New rule for mixed services**: Each activity will be subject to the corresponding rate if it represents more than 10% of total taxable turnover.\n\n👉 **Concrete example**: If you run a restaurant that also offers take-away products, these two activities must be accounted for with separate NTDRs.\n\n---\n\n## Simplifications and Opportunities\n\nSome actions taken by the FTA aim to lighten tax procedures:\n\n- **Abolition of mixed branches**: This simplifies the process for businesses offering several types of services.\n- **Reduction of paper procedures**: More and more forms must be submitted exclusively online.\n\n➡️ You can thus optimize your administrative processes and potentially reduce your management costs.\n\n---\n\n## Pitfalls to Avoid\n\n### 1. **Forgetting to register on the FTA portal**\nBusinesses not registered for online filing risk significant fines.\n\n### 2. **Not updating accounting tools**\nOutdated software could incorrectly apply the new NTDRs or mishandle online filing.\n\n### 3. **Confusing NTDR and effective rates**\nChoosing the wrong accounting method can lead to significant tax adjustments.\n\n---\n\n## Conclusion: Prepare Today\n\nTo avoid surprises, start adapting your practices now: update your systems and anticipate these changes. At Ark Fiduciaire, we support many businesses in French-speaking Switzerland through their transition. Need a helping hand to prepare your VAT return or review your administrative processes? **Contact us today and let us simplify your procedures.**\n\n---\n### References\n- [VAT Act with amendments from 2025](https://www.admin.ch/fr/nsb?id=99511)\n- [The new VAT Act has come into force](https://www.efd.admin.ch/fr/nsb?id=103714)\n- [Federal Tax Administration – Value Added Tax](https://www.estv.admin.ch/fr/taxe-sur-la-valeur-ajoutee)\n",
+      "author": "Ark Fiduciaire",
+      "date": "2026-05-29",
+      "references": [
+        {
+          "labelKey": "Loi sur la TVA avec modifications à partir de 2025",
+          "url": "https://www.admin.ch/fr/nsb?id=99511"
+        },
+        {
+          "labelKey": "La nouvelle LTVA est entrée en vigueur",
+          "url": "https://www.efd.admin.ch/fr/nsb?id=103714"
+        },
+        {
+          "labelKey": "Administration fédérale des contributions - Taxe sur la valeur ajoutée",
+          "url": "https://www.estv.admin.ch/fr/taxe-sur-la-valeur-ajoutee"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Swiss taxes 2025 – Overview (FDF)",
@@ -2036,7 +2058,7 @@
   "ReadMore": "Read more →",
   "SwissVATOffice": "Swiss VAT Office (FTA)",
   "Contact": {
-        "Eyebrow": "Let's talk",
+    "Eyebrow": "Let's talk",
     "Title": "Get in touch",
     "Description": "Our experts can help you understand the details and implications for your business. Get personalised advice tailored to your situation.",
     "ButtonText": "Contact our team",
@@ -2489,5 +2511,9 @@
     "corporate": "Corporate",
     "international": "International",
     "digital": "Digital"
-  }
+  },
+  "Administration fédérale des contributions - Taxe sur la valeur ajoutée": "Federal Tax Administration – Value Added Tax",
+  "Taux de la TVA en Suisse": "VAT Rates in Switzerland",
+  "Révision partielle de la loi sur la TVA": "Partial Revision of the VAT Act",
+  "Portail AFC - Informations sur la TVA": "FTA Portal – VAT Information"
 }

@@ -7,6 +7,7 @@ import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
 import { getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { Suspense } from "react";
 import ServicesListServer from "@/src/components/ui/services-list-server";
+import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
 const AccountingPresentation = async ({ t }: { t: (key: string) => string }) => {
   const locale: Locale = await getCurrentLocale();
   return (
@@ -100,21 +101,7 @@ const AccountingPresentation = async ({ t }: { t: (key: string) => string }) => 
                       key={index}
                       className="flex items-start gap-4 px-6 py-4 rounded-lg bg-primary/5 mb-4"
                     >
-                      <svg
-                        className="ui-icon text-brand mt-1 min-w-[20px]"
-                        width={20}
-                        height={20}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M9 12l2 2 4-4" />
-                        <circle cx="12" cy="12" r="9" />
-                      </svg>
+                      <CheckCircle className="ui-icon mt-1 min-w-[20px] text-brand" size={20} aria-hidden="true" />
                       <div>
                         <span className="font-semibold block text-lg mb-2">
                           {item.Title}

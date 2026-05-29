@@ -4,6 +4,7 @@ import { tidyTitle } from "@/src/lib/typography";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
 import SectionHeading from "@/src/components/site/section-heading";
 import Reveal from "@/src/components/motion/reveal";
+import { Lightning } from "@phosphor-icons/react/dist/ssr";
 
 // Dynamic import to avoid blocking first paint
 const TestimonialsCarousel = dynamic(() => import("./testimonials-carousel"), {
@@ -121,14 +122,7 @@ export default async function Testimonials() {
         {/* Rating badge */}
         <Reveal className="flex justify-center mb-4">
           <div className="inline-flex items-center gap-2 rounded-full bg-surface-warm px-3 py-1.5 text-sm text-muted-foreground shadow-sm">
-            <svg
-              className="w-4 h-4 text-amber-500"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
+            <Lightning className="h-4 w-4 text-amber-500" weight="fill" aria-hidden="true" />
             <span>{ratingBadge}</span>
           </div>
         </Reveal>

@@ -16,6 +16,7 @@ import Link from "next/link";
 import { cn } from "@/src/lib/utils";
 import { MessageIcon } from "@/src/components/icons/MessageIcon";
 import type { NavData } from "@/src/components/navigation/types";
+import { List, X } from "@phosphor-icons/react";
 
 const MobileMenuToggleIcon = ({
   open,
@@ -24,32 +25,11 @@ const MobileMenuToggleIcon = ({
   open: boolean;
   className?: string;
 }) => (
-  <span
-    aria-hidden
-    className={cn(
-      "pointer-events-none relative flex h-4 w-6 items-center justify-center",
-      className,
-    )}
-  >
-    <span
-      className={cn(
-        "absolute block h-[2px] w-6 rounded-full bg-current transition-colors duration-300 ease-in-out",
-        open ? "translate-y-0 rotate-45" : "-translate-y-[6px] rotate-0",
-      )}
-    />
-    <span
-      className={cn(
-        "absolute block h-[2px] w-6 rounded-full bg-current transition-colors duration-200 ease-in-out",
-        open ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100",
-      )}
-    />
-    <span
-      className={cn(
-        "absolute block h-[2px] w-6 rounded-full bg-current transition-colors duration-300 ease-in-out",
-        open ? "translate-y-0 -rotate-45" : "translate-y-[6px] rotate-0",
-      )}
-    />
-  </span>
+  open ? (
+    <X aria-hidden className={cn("h-6 w-6", className)} />
+  ) : (
+    <List aria-hidden className={cn("h-6 w-6", className)} />
+  )
 );
 
 const MobileMenu = ({

@@ -2,25 +2,7 @@ import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
 import SectionHeading from "@/src/components/site/section-heading";
 import Reveal from "@/src/components/motion/reveal";
-
-// Inline Plus icon to eliminate lucide-react dependency
-const PlusIcon = ({ className }: { className?: string }) => (
-  <svg
-    className={className}
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M5 12h14" />
-    <path d="M12 5v14" />
-  </svg>
-);
+import { Plus as PlusIcon } from "@phosphor-icons/react/dist/ssr";
 
 const faq = Array.from({ length: 16 }).map((_, i) => ({
   questionKey: `Question${i + 1}`,

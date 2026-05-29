@@ -5,24 +5,7 @@ import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
 import SectionHeading from "@/src/components/site/section-heading";
 import Reveal from "@/src/components/motion/reveal";
-
-const ArrowUpRightIcon = ({ className }: { className?: string }) => (
-  <svg
-    viewBox="0 0 24 24"
-    width="16"
-    height="16"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-    aria-hidden="true"
-  >
-    <path d="M7 17 17 7" />
-    <polyline points="7 7 17 7 17 17" />
-  </svg>
-);
+import { ArrowUpRight as ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
 
 interface ServicesProps {
   showSubtitle?: boolean;

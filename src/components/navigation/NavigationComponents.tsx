@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import { cva } from "class-variance-authority";
-// Inline chevron to avoid pulling lucide-react in shared bundles
+import { CaretDown } from "@phosphor-icons/react";
 
 import { cn } from "@/src/lib/utils";
 
@@ -74,18 +74,10 @@ function NavigationMenuTrigger({
       {...props}
     >
       {children}{" "}
-      <svg
+      <CaretDown
         className="relative top-px ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
         aria-hidden="true"
-      >
-        <path d="m6 9 6 6 6-6" />
-      </svg>
+      />
     </NavigationMenuPrimitive.Trigger>
   );
 }

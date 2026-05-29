@@ -7,6 +7,7 @@ import { Input } from "@/src/components/ui/input";
 import { Textarea } from "@/src/components/ui/textarea";
 import { Button } from "@/src/components/ui/button";
 import { cn } from "@/src/lib/utils";
+import { ArrowUp, CircleNotch } from "@phosphor-icons/react";
 
 type Role = "user" | "assistant";
 
@@ -976,19 +977,7 @@ export default function AgentChat({
               className="self-center !rounded-full bg-[#1f1b19] text-white shadow-sm hover:bg-[#2b2521] dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
             >
               <span className="sr-only">{strings.chat.send}</span>
-              <svg
-                viewBox="0 0 24 24"
-                aria-hidden
-                className="size-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M12 19V5" />
-                <path d="M5 12l7-7 7 7" />
-              </svg>
+              <ArrowUp className="size-4" aria-hidden />
             </Button>
           </div>
         </div>
@@ -1103,26 +1092,7 @@ export default function AgentChat({
                 >
                   {leadSubmitting ? (
                     <span className="inline-flex items-center gap-2">
-                      <svg
-                        className="animate-spin size-4"
-                        viewBox="0 0 24 24"
-                        aria-hidden
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                          fill="none"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                        />
-                      </svg>
+                      <CircleNotch className="size-4 animate-spin" aria-hidden />
                       {strings.chat.thinking}
                     </span>
                   ) : (

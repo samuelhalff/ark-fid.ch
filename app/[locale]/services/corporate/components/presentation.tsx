@@ -1,11 +1,4 @@
-const Check = (props: any) => (
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`ui-icon ${props?.className || ""}`}
-    {...props}
-  >
-    <path d="M9 12l2 2 4-4" />
-    <circle cx="12" cy="12" r="9" />
-  </svg>
-);
+import { CheckCircle as Check } from "@phosphor-icons/react/dist/ssr";
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useCallback, type FocusEvent } from "react";
+import { CaretDown } from "@phosphor-icons/react";
 
 import type { NavData } from "@/src/components/navigation/types";
 
@@ -51,20 +52,12 @@ export default function ServicesDropdown({
         onClick={close}
       >
         {navData.labels.services}
-        <svg
+        <CaretDown
           className={`relative top-px ml-1 size-3 transition duration-300 ${
             open ? "rotate-180" : ""
           }`}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
           aria-hidden="true"
-        >
-          <path d="m6 9 6 6 6-6" />
-        </svg>
+        />
       </Link>
       <div
         className={`absolute left-0 top-full z-50 w-[min(92vw,720px)] rounded-md bg-background pt-2 shadow-xl transition-opacity duration-150 ${

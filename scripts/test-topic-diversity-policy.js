@@ -11,6 +11,11 @@ const {
   guessCategoryFromText,
   pickOutlineForCategory,
 } = require("./lib/trends");
+const {
+  buildTopicGuidanceForAgent,
+  getAvailableTopics,
+  validateArticleTopicAgainstAvailable,
+} = require("./lib/topicSelector");
 
 const treasuryArticle = {
   slug: "tresorerie-pme-2026-franc-fort-retards-paiement",
@@ -71,5 +76,40 @@ for (const slug of requiredLeadGenTopics) {
     `evergreen rotation should include ${slug}`,
   );
 }
+
+const rotationFixture = {
+  Articles: [
+    {
+      slug: "revision-comptes-pme-controle-ordinaire-restreint",
+      title: "Révision des comptes en Suisse: contrôle ordinaire ou restreint pour PME",
+      date: "2026-05-01",
+    },
+    {
+      slug: "paie-salaires-cotisations-avs-lpp-laa",
+      title: "Paie et salaires: cotisations AVS, LPP et LAA",
+      date: "2026-05-02",
+    },
+  ],
+};
+const availableTopics = getAvailableTopics(rotationFixture, ["audit"], 2);
+assert.ok(
+  !availableTopics.availableTopics.some((topic) => topic.topic === "audit"),
+  "topic selector should exclude topics already in the rotation window",
+);
+assert.ok(
+  buildTopicGuidanceForAgent(availableTopics).includes("THÈMES DISPONIBLES"),
+  "topic guidance should show the agent the valid topic pool",
+);
+assert.equal(
+  validateArticleTopicAgainstAvailable(
+    {
+      slug: "audit-revision-pme-geneve",
+      title: "Audit et révision des PME genevoises",
+    },
+    availableTopics,
+  ).valid,
+  false,
+  "topic validator should reject generated articles outside the valid topic pool",
+);
 
 console.log("Topic diversity policy tests passed");

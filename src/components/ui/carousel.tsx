@@ -2,16 +2,7 @@ import * as React from "react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
-const ArrowLeft = (props: any) => (
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M15 18l-6-6 6-6" />
-  </svg>
-);
-const ArrowRight = (props: any) => (
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M9 6l6 6-6 6" />
-  </svg>
-);
+import { CaretLeft as ArrowLeft, CaretRight as ArrowRight } from "@phosphor-icons/react";
 
 import { cn } from "@/src/lib/utils";
 import { Button } from "@/src/components/ui/button";

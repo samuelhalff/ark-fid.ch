@@ -1,33 +1,7 @@
 import React from "react";
 import { CtaBanner } from "@/src/components/ui/surface";
+import { ChatCircleText as MessageCircleIcon } from "@phosphor-icons/react/dist/ssr";
 // Server-provided texts via ArticleContent props; no client translation needed
-
-function MessageCircleIcon({
-  className = "",
-  size = 48,
-}: {
-  className?: string;
-  size?: number;
-}) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden
-      focusable="false"
-    >
-      <path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
-    </svg>
-  );
-}
 
 const ContactSection = ({
   locale,

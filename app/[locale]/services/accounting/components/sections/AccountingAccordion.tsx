@@ -1,4 +1,5 @@
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
+import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
 
 export default async function AccountingAccordion() {
   const locale: Locale = await getCurrentLocale();
@@ -31,10 +32,7 @@ export default async function AccountingAccordion() {
           {generalList.map((item, index) => (
             <div key={index} className="flex items-start gap-3">
               <div className="mt-0.5 flex-shrink-0">
-                <svg className="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M9 12l2 2 4-4" />
-                  <circle cx="12" cy="12" r="9" />
-                </svg>
+                <CheckCircle className="h-4 w-4 text-primary" aria-hidden="true" />
               </div>
               <p className="text-muted-foreground">{(t(item.key) as string) || item.fallbackText}</p>
             </div>
@@ -64,10 +62,7 @@ export default async function AccountingAccordion() {
           {periodicList.map((item, index) => (
             <div key={index} className="flex items-start gap-3">
               <div className="mt-0.5 flex-shrink-0">
-                <svg className="w-4 h-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M9 12l2 2 4-4" />
-                  <circle cx="12" cy="12" r="9" />
-                </svg>
+                <CheckCircle className="h-4 w-4 text-primary" aria-hidden="true" />
               </div>
               <p className="text-muted-foreground">{(t(item.key) as string) || item.fallbackText}</p>
             </div>

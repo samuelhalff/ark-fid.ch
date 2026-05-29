@@ -2028,6 +2028,28 @@
           "url": "https://expertsuisse.ch/fr/produits/pub-5-revaktr/brochure-droit-revise-de-la-societe-anonyme"
         }
       ]
+    },
+    {
+      "slug": "modifications-tva-2025-changements-commerces-entreprises",
+      "title": "Cambios en el IVA desde 2025: Lo que comercios y empresas deben saber",
+      "description": "Todo sobre los cambios del IVA en Suiza a partir de 2025: tasas, métodos de declaración y nuevas obligaciones para las empresas.",
+      "content": "## Nuevas tasas de IVA desde 2025: Qué cambia\n\nA partir del 1 de enero de 2025, entrarán en vigor en Suiza varias novedades sobre el IVA que afectarán considerablemente a las empresas. Si eres empresario o gestionas una PYME, esto es lo que debes saber para evitar errores costosos y cumplir con los nuevos requisitos de la Administración Federal de Contribuciones (AFC).\n\n---\n\n## Principales tasas de IVA mantenidas para 2025\n\nRecordemos primero las tasas de IVA vigentes desde el 1 de enero de 2024 (que permanecen sin cambios para 2025):\n\n- **Tasa normal**: 8,1 % sobre la mayoría de bienes y servicios.\n- **Tasa reducida**: 2,6 % para alimentos, bebidas sin alcohol, libros, periódicos, etc.\n- **Tasa especial de alojamiento**: 3,8 % para servicios de alojamiento.\n\n👉 **Consejo práctico**: Asegúrate de que tus sistemas contables, software de caja y ERP estén configurados para aplicar correctamente estas tasas.\n\n---\n\n## Introducción de la obligación de declaración en línea\n\nOtro cambio importante: desde 2025, todas las declaraciones de IVA deberán presentarse en línea a través del **Portal AFC**. Esta digitalización busca simplificar y asegurar los trámites administrativos, pero implica varios ajustes para las empresas.\n\n### ¿Qué debes hacer?\n\n1. **Crear una cuenta en el Portal AFC**: Si aún no lo has hecho, registra tu empresa y familiarízate con el módulo «Declaración IVA Pro».\n2. **Formar a tu equipo**: El personal encargado de la contabilidad debe estar cómodo con esta nueva herramienta.\n3. **Actualizar tus sistemas**: Asegúrate de que tus herramientas contables actuales permitan la integración y el envío de declaraciones en línea.\n\n💡 **Consejo útil**: Planifica simulaciones antes de la transición a este nuevo método para anticipar posibles problemas técnicos.\n\n---\n\n## Cambios en las tasas del saldo neto del impuesto (TSNI)\n\nLas modificaciones previstas para el 1 de enero de 2025 también afectan a las tasas «simplificadas» de declaración, especialmente utilizadas en sectores como los servicios o la artesanía.\n\n### Qué cambia a partir de 2025\n\n- **Más flexibilidad**: Las empresas podrán aplicar ahora más de dos TSNI si ofrecen servicios en varios sectores.\n- **Nueva regla para prestaciones mixtas**: Cada actividad estará sujeta a la tasa correspondiente si representa más del 10 % de la facturación total imponible.\n\n👉 **Ejemplo concreto**: Si gestionas un restaurante que también ofrece productos para llevar, estas dos actividades deberán contabilizarse con TSNI distintos.\n\n---\n\n## Simplificaciones y oportunidades\n\nAlgunas acciones de la AFC buscan aligerar los procedimientos fiscales:\n\n- **Supresión de ramas mixtas**: Esto simplifica el proceso para las empresas que ofrecen varios tipos de servicios.\n- **Reducción de trámites en papel**: Cada vez más formularios deberán presentarse exclusivamente en línea.\n\n➡️ Así podrás optimizar tus procesos administrativos y potencialmente reducir tus costes de gestión.\n\n---\n\n## Errores a evitar\n\n### 1. **Olvidar el registro en el portal AFC**\nLas empresas no registradas para la declaración en línea se arriesgan a importantes multas.\n\n### 2. **No actualizar las herramientas contables**\nUn software obsoleto podría aplicar incorrectamente los nuevos TSNI o gestionar mal la declaración en línea.\n\n### 3. **Confundir TSNI y tasas efectivas**\nElegir un método de declaración erróneo puede acarrear importantes ajustes fiscales.\n\n---\n\n## Conclusión: prepárate desde hoy\n\nPara evitar sorpresas, comienza a adaptar tus prácticas desde ahora: actualiza tus sistemas y anticipa estos cambios. En Ark Fiduciaire acompañamos a muchas empresas de Suiza francófona en su transición. ¿Necesitas ayuda para preparar tu declaración de IVA o revisar tus procesos administrativos? **Contáctanos hoy mismo y deja que simplifiquemos tus trámites.**\n\n---\n### Referencias\n- [Ley del IVA con modificaciones a partir de 2025](https://www.admin.ch/fr/nsb?id=99511)\n- [La nueva Ley del IVA ha entrado en vigor](https://www.efd.admin.ch/fr/nsb?id=103714)\n- [Administración Federal de Contribuciones – Impuesto al Valor Agregado](https://www.estv.admin.ch/fr/taxe-sur-la-valeur-ajoutee)\n",
+      "author": "Ark Fiduciaire",
+      "date": "2026-05-29",
+      "references": [
+        {
+          "labelKey": "Loi sur la TVA avec modifications à partir de 2025",
+          "url": "https://www.admin.ch/fr/nsb?id=99511"
+        },
+        {
+          "labelKey": "La nouvelle LTVA est entrée en vigueur",
+          "url": "https://www.efd.admin.ch/fr/nsb?id=103714"
+        },
+        {
+          "labelKey": "Administration fédérale des contributions - Taxe sur la valeur ajoutée",
+          "url": "https://www.estv.admin.ch/fr/taxe-sur-la-valeur-ajoutee"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -2040,7 +2062,7 @@
   "ReadMore": "Leer más →",
   "SwissVATOffice": "Office fédéral de la TVA (AFC)",
   "Contact": {
-        "Eyebrow": "Hablemos",
+    "Eyebrow": "Hablemos",
     "Title": "Póngase en contacto",
     "Description": "Nuestros expertos pueden ayudarle a comprender los detalles e implicaciones para su empresa. Obtenga asesoramiento personalizado adaptado a su situación.",
     "ButtonText": "Contactar con nuestro equipo",
@@ -2466,5 +2488,9 @@
     "corporate": "Sociedades",
     "international": "Internacional",
     "digital": "Digital"
-  }
+  },
+  "Administration fédérale des contributions - Taxe sur la valeur ajoutée": "Administración Federal de Contribuciones – Impuesto al Valor Agregado",
+  "Taux de la TVA en Suisse": "Tasas del IVA en Suiza",
+  "Révision partielle de la loi sur la TVA": "Revisión parcial de la Ley del IVA",
+  "Portail AFC - Informations sur la TVA": "Portal AFC – Información sobre el IVA"
 }

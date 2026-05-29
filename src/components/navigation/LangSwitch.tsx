@@ -10,6 +10,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { withTrailingSlash } from "@/src/lib/paths";
 // Use plain <a> for full document reload on language change
 import type { Locale } from "@/src/lib/i18n";
+import { Globe as GlobeIcon } from "@phosphor-icons/react";
 
 const VALID_LOCALES = ["en", "fr", "de", "es", "pt"] as const;
 
@@ -87,26 +88,5 @@ export default function LangSwitch(): React.ReactElement {
         })}
       </NavigationMenuContent>
     </NavigationMenuItem>
-  );
-}
-
-function GlobeIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-      <path d="M2 12h20" />
-    </svg>
   );
 }

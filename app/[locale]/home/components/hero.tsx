@@ -1,5 +1,4 @@
 // Server component: no client hooks, translations provided by server
-// Inline a tiny arrow icon to avoid loading lucide-react in shared chunk
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
 // import { useTranslation } from "react-i18next";

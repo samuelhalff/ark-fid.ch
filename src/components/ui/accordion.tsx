@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
+import { CaretDown } from "@phosphor-icons/react";
 
 import { cn } from "@/src/lib/utils";
 
@@ -38,18 +39,10 @@ function AccordionTrigger({
         {...props}
       >
         {children}
-        <svg
+        <CaretDown
           className="pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
           aria-hidden="true"
-        >
-          <path d="m6 9 6 6 6-6" />
-        </svg>
+        />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );

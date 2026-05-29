@@ -7,25 +7,9 @@ import { tidyTitle } from "@/src/lib/typography";
 import ServiceLongForm from "@/src/components/ui/service-longform";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
+import { CheckCircle as Check } from "@phosphor-icons/react/dist/ssr";
 const ServicesListServer = dynamic(
   () => import("@/src/components/ui/services-list-server"),
-);
-const Check = (props: { className?: string }) => (
-  <svg
-    viewBox="0 0 24 24"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={`ui-icon ${props?.className || ""}`}
-    {...props}
-  >
-    <path d="M9 12l2 2 4-4" />
-    <circle cx="12" cy="12" r="9" />
-  </svg>
 );
 const MAPresentation = async () => {
   const locale: Locale = await getCurrentLocale();

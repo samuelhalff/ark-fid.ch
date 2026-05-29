@@ -13,6 +13,7 @@ import { buildFAQPage, buildLocalBusiness } from "@/src/lib/structuredData";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 import type { FAQEntry } from "@/src/lib/structuredData";
 import { CtaBanner } from "@/src/components/ui/surface";
+import { Lightning } from "@phosphor-icons/react/dist/ssr";
 
 export async function generateMetadata(
   props: {
@@ -236,17 +237,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           }`}
           icon={
             <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
-              <svg
-                viewBox="0 0 24 24"
-                className="size-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z" />
-              </svg>
+              <Lightning className="size-4" weight="fill" aria-hidden="true" />
             </span>
           }
           primary={{

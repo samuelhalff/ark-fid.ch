@@ -3,55 +3,12 @@ import { Button } from "@/src/components/ui/button";
 import ResponsiveImage from "@/src/components/media/ResponsiveImage";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import heroBlurData from "@/src/lib/heroBlurData.json";
+import { Handshake as IconHandshake, Users as IconUsers } from "@phosphor-icons/react/dist/ssr";
 
 interface PartnersHeroProps {
   locale?: string;
 }
 
-// Lightweight inline icons to avoid pulling lucide-react into the shared chunk
-const IconHandshake = ({
-  className = "w-4 h-4",
-  ...props
-}: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={`ui-icon ${className}`}
-    aria-hidden
-    {...props}
-  >
-    <path d="M12 13.5l2.5 2.5a2 2 0 0 0 2.8 0l3.2-3.2a2 2 0 0 0 0-2.8L18.5 8.5" />
-    <path d="M12 13.5l-2.5 2.5a2 2 0 0 1-2.8 0L3.5 12.8a2 2 0 0 1 0-2.8L7 6.5" />
-    <path d="M7 6.5l5 5 6.5-6.5" />
-    <path d="M9.5 14.5l2 2" />
-  </svg>
-);
-
-const IconUsers = ({
-  className = "w-5 h-5",
-  ...props
-}: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={2}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={`ui-icon ${className}`}
-    aria-hidden
-    {...props}
-  >
-    <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-    <circle cx="9" cy="7" r="4" />
-    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-  </svg>
-);
 
 const PartnersHero = async ({ locale }: PartnersHeroProps) => {
   const currentLocale = (locale as Locale) || ("fr" as Locale);

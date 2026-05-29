@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ArrowDown } from "@phosphor-icons/react";
 
 /**
  * Floating scroll-down hint badge.
@@ -78,18 +79,7 @@ const ServiceScrollHint = ({
         }`}
       >
         <span>{label}</span>
-        <svg
-          className="h-4 w-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M12 5v14" />
-          <path d="M19 12l-7 7-7-7" />
-        </svg>
+        <ArrowDown className="h-4 w-4" aria-hidden="true" />
       </div>
     </div>
   );

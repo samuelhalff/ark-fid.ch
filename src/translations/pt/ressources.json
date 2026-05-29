@@ -2032,6 +2032,28 @@
           "url": "https://expertsuisse.ch/fr/produits/pub-5-revaktr/brochure-droit-revise-de-la-societe-anonyme"
         }
       ]
+    },
+    {
+      "slug": "modifications-tva-2025-changements-commerces-entreprises",
+      "title": "Alterações do IVA a partir de 2025: O que lojas e empresas precisam saber",
+      "description": "Tudo sobre as mudanças do IVA na Suíça a partir de 2025: taxas, métodos de apuração e novas obrigações para as empresas.",
+      "content": "## Novas taxas de IVA a partir de 2025: O que muda\n\nA partir de 1º de janeiro de 2025, algumas novidades relativas ao IVA entrarão em vigor na Suíça, impactando fortemente as empresas. Se você é empreendedor ou administra uma PME, veja o que precisa saber para evitar erros custosos e cumprir as novas exigências da Administração Federal de Contribuições (AFC).\n\n---\n\n## Principais taxas de IVA mantidas para 2025\n\nPrimeiro, vamos relembrar as taxas de IVA em vigor desde 1º de janeiro de 2024 (e que permanecem inalteradas para 2025):\n\n- **Taxa normal**: 8,1% sobre a maioria dos bens e serviços.\n- **Taxa reduzida**: 2,6% para alimentos, bebidas não alcoólicas, livros, jornais, etc.\n- **Taxa especial de alojamento**: 3,8% para serviços de hospedagem.\n\n👉 **Dica prática**: Certifique-se de que seus sistemas contábeis, softwares de caixa e ERPs estejam configurados para aplicar corretamente essas taxas.\n\n---\n\n## Introdução da obrigatoriedade de declaração online\n\nOutra mudança importante: a partir de 2025, todas as declarações de IVA deverão ser enviadas online pelo **Portal AFC**. Essa digitalização visa simplificar e tornar mais seguro o processo administrativo, mas exige alguns ajustes das empresas.\n\n### O que você deve fazer?\n\n1. **Criar uma conta no Portal AFC**: Se ainda não fez, registre sua empresa e familiarize-se com o módulo «Declaração IVA Pro».\n2. **Treinar sua equipe**: O pessoal responsável pela contabilidade deve estar confortável com a nova ferramenta.\n3. **Atualizar seus sistemas**: Certifique-se de que suas ferramentas contábeis atuais permitem a integração e o envio das declarações online.\n\n💡 **Dica útil**: Planeje simulações antes da transição para antecipar possíveis problemas técnicos.\n\n---\n\n## Mudanças nas taxas do saldo devedor líquido do imposto (TDLI)\n\nAs alterações previstas para 1º de janeiro de 2025 também impactam as taxas «simplificadas» de apuração, especialmente utilizadas em setores como serviços ou artesanato.\n\n### O que muda a partir de 2025\n\n- **Mais flexibilidade**: As empresas poderão agora aplicar mais de duas TDLI se prestarem serviços em vários setores.\n- **Nova regra para atividades mistas**: Cada atividade estará sujeita à taxa correspondente se representar mais de 10% do faturamento tributável total.\n\n👉 **Exemplo prático**: Se você administra um restaurante que também oferece produtos para viagem, essas duas atividades deverão ser contabilizadas com TDLI distintas.\n\n---\n\n## Simplificações e oportunidades\n\nAlgumas ações da AFC visam simplificar os procedimentos fiscais:\n\n- **Eliminação dos setores mistos**: Isso simplifica o processo para empresas que oferecem vários tipos de serviços.\n- **Redução dos processos em papel**: Cada vez mais formulários deverão ser enviados exclusivamente online.\n\n➡️ Assim, você pode otimizar seus processos administrativos e potencialmente reduzir seus custos de gestão.\n\n---\n\n## Armadilhas a evitar\n\n### 1. **Esquecer o cadastro no portal AFC**\nEmpresas não registradas para a declaração online correm o risco de multas significativas.\n\n### 2. **Não atualizar os sistemas contábeis**\nUm software desatualizado pode aplicar incorretamente as novas TDLI ou gerenciar mal a declaração online.\n\n### 3. **Confundir TDLI e taxas efetivas**\nA escolha errada do método de apuração pode resultar em grandes ajustes fiscais.\n\n---\n\n## Conclusão: prepare-se desde já\n\nPara evitar surpresas, comece a adaptar suas práticas agora: atualize seus sistemas e antecipe essas mudanças. Na Ark Fiduciaire, acompanhamos muitas empresas da Suíça francófona em sua transição. Precisa de ajuda para preparar sua declaração de IVA ou revisar seus processos administrativos? **Entre em contato conosco hoje mesmo e deixe-nos simplificar seus procedimentos.**\n\n---\n### Referências\n- [Lei do IVA com alterações a partir de 2025](https://www.admin.ch/fr/nsb?id=99511)\n- [A nova Lei do IVA entrou em vigor](https://www.efd.admin.ch/fr/nsb?id=103714)\n- [Administração Federal de Contribuições – Imposto sobre o Valor Acrescentado](https://www.estv.admin.ch/fr/taxe-sur-la-valeur-ajoutee)\n",
+      "author": "Ark Fiduciaire",
+      "date": "2026-05-29",
+      "references": [
+        {
+          "labelKey": "Loi sur la TVA avec modifications à partir de 2025",
+          "url": "https://www.admin.ch/fr/nsb?id=99511"
+        },
+        {
+          "labelKey": "La nouvelle LTVA est entrée en vigueur",
+          "url": "https://www.efd.admin.ch/fr/nsb?id=103714"
+        },
+        {
+          "labelKey": "Administration fédérale des contributions - Taxe sur la valeur ajoutée",
+          "url": "https://www.estv.admin.ch/fr/taxe-sur-la-valeur-ajoutee"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Impôts en Suisse 2025 – Aperçu (DFF)",
@@ -2044,7 +2066,7 @@
   "ReadMore": "Ler mais →",
   "SwissVATOffice": "Office fédéral de la TVA (AFC)",
   "Contact": {
-        "Eyebrow": "Vamos conversar",
+    "Eyebrow": "Vamos conversar",
     "Title": "Entrar em contato",
     "Description": "Nossos especialistas podem ajudá-lo a entender os detalhes e implicações para sua empresa. Obtenha consultoria personalizada adaptada à sua situação.",
     "ButtonText": "Contactar nossa equipe",
@@ -2470,5 +2492,9 @@
     "corporate": "Sociedades",
     "international": "Internacional",
     "digital": "Digital"
-  }
+  },
+  "Administration fédérale des contributions - Taxe sur la valeur ajoutée": "Administração Federal de Contribuições – Imposto sobre o Valor Acrescentado",
+  "Taux de la TVA en Suisse": "Taxas do IVA na Suíça",
+  "Révision partielle de la loi sur la TVA": "Revisão parcial da Lei do IVA",
+  "Portail AFC - Informations sur la TVA": "Portal AFC – Informações sobre o IVA"
 }
