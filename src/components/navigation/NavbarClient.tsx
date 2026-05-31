@@ -2,21 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import Defer from "@/src/components/Defer";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import ServicesDropdown from "@/src/components/navigation/ServicesDropdown";
 import type { NavData } from "@/src/components/navigation/types";
-
-const HeaderControls = dynamic(
-  () => import("@/src/components/navigation/HeaderControls"),
-  { ssr: false, loading: () => null },
-);
-const MobileMenuIsland = dynamic(
-  () => import("@/src/components/navigation/MobileMenuIsland"),
-  { ssr: false, loading: () => null },
-);
+import HeaderControls from "@/src/components/navigation/HeaderControls";
+import MobileMenuIsland from "@/src/components/navigation/MobileMenuIsland";
 
 export default function NavbarClient({
   locale,
