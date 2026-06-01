@@ -101,6 +101,10 @@
         {
           "labelKey": "Registre du commerce - Canton de Genève",
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -241,6 +245,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -331,6 +339,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -367,6 +379,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ]
     },
@@ -385,6 +401,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ]
     },
@@ -399,6 +419,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -417,6 +441,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -435,6 +463,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ]
     },
@@ -449,6 +481,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -463,6 +499,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -481,6 +521,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ]
     },
@@ -495,6 +539,10 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -509,6 +557,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -527,6 +579,10 @@
         {
           "labelKey": "Registre du commerce - Canton de Genève",
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -563,6 +619,10 @@
         {
           "labelKey": "Code des obligations - Comptabilité",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Code des obligations - Comptabilité",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
         }
       ]
     },
@@ -599,6 +659,10 @@
         {
           "labelKey": "Code des obligations - Comptabilité",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Code des obligations - Comptabilité",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
         }
       ]
     },
@@ -613,6 +677,10 @@
         {
           "labelKey": "Loi sur la fusion, la scission, la transformation et le transfert de patrimoine (LFus)",
           "url": "https://www.fedlex.admin.ch/eli/cc/2003/218/fr"
+        },
+        {
+          "labelKey": "Code des obligations (CO)",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
     },
@@ -627,6 +695,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -645,6 +717,10 @@
         {
           "labelKey": "Code des obligations - Comptabilité",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Code des obligations - Comptabilité",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
         }
       ]
     },
@@ -663,6 +739,10 @@
         {
           "labelKey": "Loi sur le blanchiment d'argent (LBA)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
+        },
+        {
+          "labelKey": "FINMA - Autorité fédérale de surveillance",
+          "url": "https://www.finma.ch/fr/"
         }
       ]
     },
@@ -681,6 +761,10 @@
         {
           "labelKey": "Code des obligations - Comptabilité",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Code des obligations - Comptabilité",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
         }
       ]
     },
@@ -731,6 +815,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -763,6 +851,10 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -795,6 +887,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -813,6 +909,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ]
     },
@@ -899,6 +999,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -967,6 +1071,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -981,6 +1089,10 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
@@ -995,6 +1107,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ]
     },
@@ -1219,6 +1335,10 @@
         {
           "labelKey": "Code des obligations - Comptabilité",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Swiss GAAP FER",
+          "url": "https://www.fer.ch/fr/"
         }
       ]
     },
@@ -1281,6 +1401,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ]
     },
@@ -1332,10 +1456,6 @@
         },
         {
           "labelKey": "Site officiel Schweizer Behörden - Surveillance de la conservation des cryptoactifs",
-          "url": "https://www.estv.admin.ch/estv/fr/accueil/impot-federal-direct/informations-specialisees-ifd/cryptomonnaies.html"
-        },
-        {
-          "labelKey": "Site officiel ESTV - Impôts sur les cryptoactifs",
           "url": "https://www.estv.admin.ch/fr/cryptomonnaies-fiscalite"
         }
       ]
@@ -1673,10 +1793,6 @@
         {
           "labelKey": "L'inscription au registre du commerce et IDE (ESTV)",
           "url": "https://www.estv.admin.ch/fr/inscription-a-la-tva"
-        },
-        {
-          "labelKey": "Informations sur les modifications de statuts (Schweizer Behörden)",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/creation-pme/registre-commerce.html"
         }
       ]
     },
@@ -1815,10 +1931,6 @@
         {
           "labelKey": "LBA/AML en fiduciaire - Ark Fiduciaire",
           "url": "https://ark-fid.ch/fr/ressources/articles/lba-aml-obligations-kyc-risques-fiduciaire-suisse/"
-        },
-        {
-          "labelKey": "Bases légales de la lutte contre le blanchiment d'argent (Schweizer Behörden)",
-          "url": "https://www.sif.admin.ch/fr/loi-sur-le-blanchiment-dargent"
         }
       ]
     },
@@ -1835,6 +1947,10 @@
         {
           "labelKey": "Registre du commerce (Zefix)",
           "url": "https://www.zefix.ch/fr/search/entity/welcome"
+        },
+        {
+          "labelKey": "Code des obligations (CO) - Société anonyme",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#book_2/tit_26/ch_2"
         }
       ],
       "title": "AML/GwG in der Schweiz: Domizilierung, Unterstützung bei der Firmengründung und warum wir bei SO-FIT angeschlossen sind",
@@ -1979,7 +2095,7 @@
         },
         {
           "labelKey": "Module de contrôle des ventes, achats et stocks sous Odoo",
-          "url": "https://www.odoo.com/fr_FR/page/sales"
+          "url": "https://www.odoo.com/app/sales"
         }
       ]
     },
@@ -2125,11 +2241,11 @@
         },
         {
           "labelKey": "CO art. 960a : Principe de la valorisation des actifs (stocks inclus)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_960a"
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
           "labelKey": "ERP et gestion des stocks avec Odoo",
-          "url": "https://www.odoo.com/fr_FR/slides/slide/gestion-de-stock-dans-odoo-86"
+          "url": "https://www.odoo.com/slides?invite_error=no_rights"
         }
       ]
     }
