@@ -5,7 +5,7 @@
  * Uses the shared referenceValidator module for consistent validation.
  *
  * Usage:
- *   node scripts/clean-bad-article-refs.js [--locale fr] [--all-locales] [--dry-run]
+ *   node scripts/clean-bad-article-refs.js [--locale fr] [--all-locales] [--dry-run] [--max-refs 50]
  */
 const fs = require("fs");
 const path = require("path");
@@ -27,6 +27,7 @@ const allLocales = flag("--all-locales");
 const dryRun = flag("--dry-run");
 const timeoutMs = parseInt(value("--timeout-ms", "8000"), 10);
 const minBytes = parseInt(value("--min-bytes", "600"), 10);
+const maxRefs = Math.max(0, parseInt(value("--max-refs", "0"), 10) || 0);
 
 if (typeof fetch !== "function") {
   console.error("❌ This script requires Node 18+ (global fetch)");
@@ -86,11 +87,22 @@ async function cleanLocale(locale) {
   let totalRemoved = 0;
   let totalChecked = 0;
   let totalDeduplicated = 0;
+  let budgetLogged = false;
 
   console.log(`\n🔍 Checking locale: ${locale}`);
 
   for (const article of articles) {
     if (!article || !Array.isArray(article.references)) continue;
+
+    if (maxRefs > 0 && totalChecked >= maxRefs) {
+      if (!budgetLogged) {
+        console.log(
+          `  ⏱️  Reached --max-refs ${maxRefs}; leaving remaining references unchanged`
+        );
+        budgetLogged = true;
+      }
+      continue;
+    }
 
     const originalCount = article.references.length;
     
@@ -119,6 +131,17 @@ async function cleanLocale(locale) {
         );
         totalRemoved++;
         totalChecked++;
+        continue;
+      }
+
+      if (maxRefs > 0 && totalChecked >= maxRefs) {
+        if (!budgetLogged) {
+          console.log(
+            `  ⏱️  Reached --max-refs ${maxRefs}; leaving remaining references unchanged`
+          );
+          budgetLogged = true;
+        }
+        cleanRefs.push(ref);
         continue;
       }
 

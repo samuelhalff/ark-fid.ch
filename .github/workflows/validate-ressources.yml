@@ -76,7 +76,7 @@ jobs:
       - name: Clean up bad article references
         continue-on-error: true
         timeout-minutes: 5
-        run: timeout -k 30s 5m node scripts/clean-bad-article-refs.js --all-locales || echo "⚠️ Reference cleanup had issues"
+        run: timeout -k 30s 5m node scripts/clean-bad-article-refs.js --all-locales --timeout-ms 1200 --max-refs 25 || echo "⚠️ Reference cleanup had issues"
 
       - name: Validate curated reference source policy
         timeout-minutes: 5
