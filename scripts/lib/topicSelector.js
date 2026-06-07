@@ -125,7 +125,7 @@ function validateArticleTopicAgainstAvailable(article, analysis) {
     return {
       valid: false,
       detectedTopic,
-      error: `Article topic "${describeTopic(detectedTopic)}" is in the avoided list (rotation constraint). Available topics: ${analysis.avoidedTopicsLabels.map(describeTopic).join(", ")}`,
+      error: `Article topic "${describeTopic(detectedTopic)}" is in the avoided list (rotation constraint). Available topics: ${analysis.availableTopics.map((topic) => topic.label).join(", ")}`,
     };
   }
 

@@ -4,7 +4,18 @@ const TOPIC_KEYWORDS = [
   {
     topic: "odoo",
     label: "Odoo / ERP",
-    patterns: [/odoo/i, /\berp\b/i, /erp 17/i, /erp 18/i],
+    patterns: [
+      /odoo/i,
+      /\berp\b/i,
+      /erp 17/i,
+      /erp 18/i,
+      /odoo[\s\S]{0,80}comptabil/i,
+      /comptabil[\s\S]{0,80}odoo/i,
+      /odoo[\s\S]{0,80}\bTVA\b/i,
+      /\bTVA\b[\s\S]{0,80}odoo/i,
+      /plan comptable[\s\S]{0,80}odoo/i,
+      /odoo[\s\S]{0,80}plan comptable/i,
+    ],
   },
   {
     topic: "payroll",
@@ -56,6 +67,10 @@ const TOPIC_KEYWORDS = [
       /reporting/i,
       /bilan/i,
       /FER/i,
+      /contr[oô]le interne/i,
+      /s[ée]paration des t[âa]ches/i,
+      /acc[èe]s bancaires/i,
+      /matrice d.?acc[èe]s/i,
     ],
   },
   {
@@ -68,6 +83,12 @@ const TOPIC_KEYWORDS = [
       /\bAG\b/i,
       /PV/i,
       /conseil d'administration/i,
+      /ayant[s]? droit[s]? [ée]conomique[s]?/i,
+      /registre des actions/i,
+      /registre des parts/i,
+      /transparence/i,
+      /\bSA\b.*\bS[àa]rl\b/i,
+      /\bS[àa]rl\b.*\bSA\b/i,
     ],
   },
   {
@@ -91,6 +112,9 @@ const TOPIC_KEYWORDS = [
     patterns: [
       /family.?office/i,
       /patrimoine/i,
+      /succession/i,
+      /h[ée]rit/i,
+      /gouvernance familiale/i,
       /\bHNI\b/i,
       /fortune/i,
       /wealth/i,
@@ -221,6 +245,9 @@ const TITLE_TOKEN_STOP_WORDS = new Set([
   "votre",
 ]);
 
+const SAME_TOPIC_DUPLICATE_MIN_SCORE = 0.12;
+const SAME_TOPIC_DUPLICATE_MIN_OVERLAP = 4;
+
 function normalizeGuardrailText(input) {
   return String(input || "")
     .normalize("NFD")
@@ -241,12 +268,19 @@ function detectTopic(article) {
   const base = `${article.slug || ""} ${article.title || ""} ${
     article.description || ""
   }`.toLowerCase();
+  let bestTopic = "general";
+  let bestScore = 0;
   for (const entry of TOPIC_KEYWORDS) {
-    if (entry.patterns.some((rx) => rx.test(base))) {
-      return entry.topic;
+    const score = entry.patterns.reduce(
+      (count, rx) => count + (rx.test(base) ? 1 : 0),
+      0,
+    );
+    if (score > bestScore) {
+      bestTopic = entry.topic;
+      bestScore = score;
     }
   }
-  return "general";
+  return bestTopic;
 }
 
 function describeTopic(topic) {
@@ -365,17 +399,24 @@ function findRecentTopicConflict(articles, newArticle, options = {}) {
   for (const article of candidates) {
     if (!article || article.slug === newArticle?.slug) continue;
     const articleTopic = detectTopic(article);
+    const details = getTopicSimilarityDetails(nextTokens, getTopicTokens(article));
 
     if (nextTopic !== "general" && articleTopic === nextTopic) {
-      return {
-        code: "TOPIC_DUPLICATE",
-        previousSlug: article.slug,
-        previousTitle: article.title,
-        topic: nextTopic,
-      };
+      if (
+        details.score >= SAME_TOPIC_DUPLICATE_MIN_SCORE &&
+        details.overlap >= SAME_TOPIC_DUPLICATE_MIN_OVERLAP
+      ) {
+        return {
+          code: "TOPIC_DUPLICATE",
+          previousSlug: article.slug,
+          previousTitle: article.title,
+          topic: nextTopic,
+          similarity: details.score,
+        };
+      }
+      continue;
     }
 
-    const details = getTopicSimilarityDetails(nextTokens, getTopicTokens(article));
     if (details.score >= 0.5 && details.overlap >= 3) {
       return {
         code: "TOPIC_SIMILAR",
