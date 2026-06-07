@@ -114,19 +114,19 @@ jobs:
           SEO_MIN_WORDS: "1500"
           SEO_MAX_WORDS: "4000"
         run: |
-          timeout 30m node scripts/ai-ressources-update.js --apply --translate-existing
+          timeout -k 30s 30m node scripts/ai-ressources-update.js --apply --translate-existing
 
       - name: Fix malformed internal markdown links
         timeout-minutes: 3
-        run: timeout 3m node scripts/fix-article-internal-links.js --apply
+        run: timeout -k 30s 3m node scripts/fix-article-internal-links.js --apply
 
       - name: Validate curated reference source policy
         timeout-minutes: 5
-        run: timeout 5m npm run validate:reference-sources
+        run: timeout -k 30s 5m npm run validate:reference-sources
 
       - name: Validate latest article guardrails
         timeout-minutes: 3
-        run: timeout 3m node scripts/validate-latest-article-guardrails.js
+        run: timeout -k 30s 3m node scripts/validate-latest-article-guardrails.js
 
       - name: Detect new article for LinkedIn notification
         id: detect-article
@@ -176,7 +176,7 @@ jobs:
       - name: Ping sitemaps
         continue-on-error: true
         timeout-minutes: 3
-        run: timeout 3m node scripts/ping-sitemaps.js
+        run: timeout -k 30s 3m node scripts/ping-sitemaps.js
 
       - name: Notify Zapier webhook (LinkedIn publication)
         if: steps.detect-article.outputs.has_new == 'true'
@@ -188,7 +188,7 @@ jobs:
           ARTICLE_DESCRIPTION: ${{ steps.detect-article.outputs.description }}
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
         run: |
-          timeout 3m python3 - <<'PY'
+          timeout -k 30s 3m python3 - <<'PY'
           import json, os, urllib.request, urllib.error
           title = os.environ.get('ARTICLE_TITLE', '')
           slug = os.environ.get('ARTICLE_SLUG', '')
