@@ -29,6 +29,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     permissions:
       contents: write
     steps:
@@ -67,6 +68,7 @@ jobs:
           PY
 
       - name: Run AI update (FR + translations via Azure OpenAI)
+        timeout-minutes: 30
         env:
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
           AZURE_AGENT_NAME: ${{ vars.AZURE_AGENT_NAME || 'web-deep-search:6' }}
@@ -115,12 +117,15 @@ jobs:
           node scripts/ai-ressources-update.js --apply --translate-existing
 
       - name: Fix malformed internal markdown links
+        timeout-minutes: 3
         run: node scripts/fix-article-internal-links.js --apply
 
       - name: Validate curated reference source policy
+        timeout-minutes: 5
         run: npm run validate:reference-sources
 
       - name: Validate latest article guardrails
+        timeout-minutes: 3
         run: node scripts/validate-latest-article-guardrails.js
 
       - name: Detect new article for LinkedIn notification
@@ -170,11 +175,13 @@ jobs:
 
       - name: Ping sitemaps
         continue-on-error: true
+        timeout-minutes: 3
         run: node scripts/ping-sitemaps.js
 
       - name: Notify Zapier webhook (LinkedIn publication)
         if: steps.detect-article.outputs.has_new == 'true'
         continue-on-error: true
+        timeout-minutes: 3
         env:
           ARTICLE_TITLE: ${{ steps.detect-article.outputs.title }}
           ARTICLE_SLUG: ${{ steps.detect-article.outputs.slug }}

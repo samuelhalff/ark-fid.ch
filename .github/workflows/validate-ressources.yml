@@ -12,6 +12,7 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 35
     permissions:
       contents: write
     steps:
@@ -39,10 +40,12 @@ jobs:
 
       - name: Check SEO suggest drift
         continue-on-error: true
+        timeout-minutes: 5
         run: node scripts/check-seo-suggest-drift.js
 
       - name: Update service SEO from suggestions
         continue-on-error: true
+        timeout-minutes: 8
         env:
           AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT || 'https://pbmch8303697696.cognitiveservices.azure.com/' }}
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
@@ -72,13 +75,16 @@ jobs:
 
       - name: Clean up bad article references
         continue-on-error: true
+        timeout-minutes: 5
         run: node scripts/clean-bad-article-refs.js --all-locales || echo "⚠️ Reference cleanup had issues"
 
       - name: Validate curated reference source policy
+        timeout-minutes: 5
         run: npm run validate:reference-sources
 
       - name: Check resource links
         continue-on-error: true
+        timeout-minutes: 8
         run: node scripts/check-ressources-links.js --all-locales || echo "⚠️ Some references missing"
 
       - name: Commit fixes (if any)
@@ -97,6 +103,7 @@ jobs:
 
       - name: Health check
         continue-on-error: true
+        timeout-minutes: 3
         run: |
           echo "🏥 Checking site health..."
           for locale in fr en de es pt; do
