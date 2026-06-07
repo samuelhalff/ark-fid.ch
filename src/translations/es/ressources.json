@@ -29,18 +29,6 @@
           "url": "https://www.sva-bl.ch/de/ausgleichskasse/beitragspflicht-ahv/iv/eo/internationales/arbeitnehmende-ohne-beitragspflichtigen-arbeitgeber-anobag"
         },
         {
-          "labelKey": "AKNW – anobag",
-          "url": "https://www.aknw.ch/dienstleistungen/weitere-dienstleistungen/internationales/anobag"
-        },
-        {
-          "labelKey": "AKSO – anobag",
-          "url": "https://www.akso.ch/dienstleistungen/weitere-dienstleistungen/internationales/anobag"
-        },
-        {
-          "labelKey": "SVA Schwyz – anobag",
-          "url": "https://www.sva-sz.ch/dienstleistungen/ahv-beitraege/anobag"
-        },
-        {
           "labelKey": "SVA Schaffhouse – anobag",
           "url": "https://www.svash.ch/ahv/ihre-beitraege-beitragspflicht/anobag/"
         },
@@ -101,10 +89,6 @@
         {
           "labelKey": "Registre du commerce - Canton de Genève",
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
-        },
-        {
-          "labelKey": "Registre du commerce - Canton de Genève",
-          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ]
     },
