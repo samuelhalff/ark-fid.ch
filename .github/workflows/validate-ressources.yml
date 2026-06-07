@@ -41,7 +41,7 @@ jobs:
       - name: Check SEO suggest drift
         continue-on-error: true
         timeout-minutes: 5
-        run: node scripts/check-seo-suggest-drift.js
+        run: timeout 5m node scripts/check-seo-suggest-drift.js
 
       - name: Update service SEO from suggestions
         continue-on-error: true
@@ -53,7 +53,7 @@ jobs:
           AZURE_OPENAI_DEPLOYMENT: "gpt-4.1"
           SEO_SUGGEST_DRIFT_RATIO: ${{ vars.SEO_SUGGEST_DRIFT_RATIO || '0.4' }}
           SEO_SUGGEST_MAX_UPDATES: ${{ vars.SEO_SUGGEST_MAX_UPDATES || '6' }}
-        run: node scripts/ai-update-service-seo.js --apply
+        run: timeout 8m node scripts/ai-update-service-seo.js --apply
 
       - name: Refresh SEO suggest baseline
         run: |
@@ -76,16 +76,16 @@ jobs:
       - name: Clean up bad article references
         continue-on-error: true
         timeout-minutes: 5
-        run: node scripts/clean-bad-article-refs.js --all-locales || echo "⚠️ Reference cleanup had issues"
+        run: timeout 5m node scripts/clean-bad-article-refs.js --all-locales || echo "⚠️ Reference cleanup had issues"
 
       - name: Validate curated reference source policy
         timeout-minutes: 5
-        run: npm run validate:reference-sources
+        run: timeout 5m npm run validate:reference-sources
 
       - name: Check resource links
         continue-on-error: true
         timeout-minutes: 8
-        run: node scripts/check-ressources-links.js --all-locales || echo "⚠️ Some references missing"
+        run: timeout 8m node scripts/check-ressources-links.js --all-locales || echo "⚠️ Some references missing"
 
       - name: Commit fixes (if any)
         run: |
@@ -105,6 +105,7 @@ jobs:
         continue-on-error: true
         timeout-minutes: 3
         run: |
+          timeout 3m bash <<'EOF'
           echo "🏥 Checking site health..."
           for locale in fr en de es pt; do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://ark-fid.ch/${locale}/")
@@ -114,3 +115,4 @@ jobs:
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://ark-fid.ch/fr/ressources/")
           if [ "$STATUS" = "200" ]; then echo "✅ Resources: OK"
           else echo "::warning::❌ Resources: HTTP $STATUS"; fi
+          EOF
