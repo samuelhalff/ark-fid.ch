@@ -10,6 +10,11 @@ const locales = ["en", "fr", "de", "es", "pt"] as const;
 type Locale = (typeof locales)[number];
 const isLocale = (value: string): value is Locale =>
   locales.includes(value as Locale);
+const Navbar = nextDynamic(
+  () => import("@/src/components/navigation/NavbarClient"),
+  { ssr: true }
+);
+const Footer = nextDynamic(() => import("@/app/[locale]/shared/footer"));
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -43,12 +48,6 @@ export default async function LocaleLayout(
   // NOTE: Root layout (`app/layout.tsx`) is responsible for <html> and <body>.
   // Nested layouts must NOT render html/body. Keep this layout minimal so
   // providers (ThemeProvider) and NavBar remain singletons in the root.
-  const Navbar = nextDynamic(
-    () => import("@/src/components/navigation/NavbarClient"),
-    { ssr: true }
-  );
-  const Footer = nextDynamic(() => import("@/app/[locale]/shared/footer"));
-
   // Prepare server-side translated navigation labels and services list to avoid SSR key leakage
   const tNavbar = await getTranslations(activeLocale, "navbar");
   const tServices = await getTranslations(activeLocale, "servicesItems");

@@ -21,7 +21,7 @@ import {
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+    process.env.NEXT_PUBLIC_SITE_URL || "https://ark-fid.ch"
   ),
   title: {
     template: "%s - Ark Fiduciaire SA",
@@ -112,8 +112,7 @@ export default async function RootLayout({
       lang={currentLocale}
       className={inter.variable}
     >
-      {/* ✅ add nonce to <head> so Next’s internal scripts use it */}
-      <head nonce={nonce}>
+      <head>
         {nonce ? <meta name="csp-nonce" content={nonce} /> : null}
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
         <link
