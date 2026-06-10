@@ -18,29 +18,20 @@ export const revalidate = 0;
  */
 export async function POST(request: NextRequest) {
   try {
-    console.log('[KILL] POST request received');
-    console.log('[KILL] Headers:', Object.fromEntries(request.headers.entries()));
-    console.log('[KILL] NODE_ENV:', process.env.NODE_ENV);
-    console.log('[KILL] RESTART_ALLOW_IN_DEV:', process.env.RESTART_ALLOW_IN_DEV);
-    
     // Get the authorization header
     const authHeader = request.headers.get('authorization');
-    console.log('[KILL] Auth header present:', !!authHeader);
     
     const token = (() => {
       if (!authHeader) return null;
       const match = authHeader.match(/^Bearer\s+(.+)$/i);
       return match ? match[1].trim() : null;
     })();
-    console.log('[KILL] Token extracted:', !!token);
 
     // Get the secret from environment
     const restartSecret = process.env.RESTART_SECRET_TOKEN;
-    console.log('[KILL] Secret configured:', !!restartSecret);
 
     // Validate secret token
     if (!restartSecret) {
-      console.error('[KILL] RESTART_SECRET_TOKEN not configured');
       return NextResponse.json(
         { error: 'Kill endpoint not configured' },
         { status: 500 }
@@ -49,28 +40,20 @@ export async function POST(request: NextRequest) {
 
     // Optional safety: disable in non-production unless explicitly allowed
     if (process.env.NODE_ENV !== 'production' && process.env.RESTART_ALLOW_IN_DEV !== 'true') {
-      console.warn('[KILL] Kill blocked in non-production environment');
-      console.warn('[KILL] NODE_ENV:', process.env.NODE_ENV);
-      console.warn('[KILL] RESTART_ALLOW_IN_DEV:', process.env.RESTART_ALLOW_IN_DEV);
+      console.warn('[KILL] Unauthorized kill attempt');
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-
-    console.log('[KILL] Environment check passed');
 
     // Constant-time compare using SHA-256 digests
     const valid = (() => {
       if (!token) {
-        console.log('[KILL] No token provided');
         return false;
       }
       try {
         const a = crypto.createHash('sha256').update(token).digest();
         const b = crypto.createHash('sha256').update(restartSecret).digest();
-        const result = crypto.timingSafeEqual(a, b);
-        console.log('[KILL] Token validation result:', result);
-        return result;
-      } catch (err) {
-        console.error('[KILL] Token validation error:', err);
+        return crypto.timingSafeEqual(a, b);
+      } catch {
         return false;
       }
     })();
@@ -85,7 +68,6 @@ export async function POST(request: NextRequest) {
 
     // Log the kill
     console.log('[KILL] Authorized kill requested. Terminating process and supervisor loop if present...');
-    console.log('[KILL] Deployment script will start new process with updated code.');
 
     // Send response before exiting
     const response = NextResponse.json({
@@ -103,9 +85,7 @@ export async function POST(request: NextRequest) {
         setTimeout(() => {
           try {
             process.kill(ppid, 'SIGTERM');
-            console.log('[KILL] Sent SIGTERM to parent process', ppid);
-          } catch (e) {
-            console.warn('[KILL] Could not SIGTERM parent process:', e);
+          } catch {
           }
         }, 50);
 
@@ -115,28 +95,22 @@ export async function POST(request: NextRequest) {
             // probe: signal 0 throws if process is gone
             process.kill(ppid, 0 as any);
             process.kill(ppid, 'SIGKILL');
-            console.log('[KILL] Parent process still alive; sent SIGKILL to', ppid);
           } catch {
             // already gone
           }
         }, 450);
-      } else {
-        console.log('[KILL] No valid parent to kill (ppid=', ppid, ')');
       }
-    } catch (err) {
-      console.warn('[KILL] Error attempting to terminate parent process:', err);
+    } catch {
     }
 
     // Trigger the exit after a short delay to allow response and parent kill attempt
     setTimeout(() => {
-      console.log('[KILL] Exiting process now...');
       process.exit(0);
     }, 800);
 
     return response;
 
-  } catch (error) {
-    console.error('[KILL] Error in kill endpoint:', error);
+  } catch {
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

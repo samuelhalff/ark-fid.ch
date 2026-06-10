@@ -1,6 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
 import { locales } from "./src/lib/i18n-locales";
 
+type SecurityHeaderOptions = {
+  nonce: string;
+  csp: string;
+  isProd: boolean;
+  noIndex: boolean;
+};
+
+function applySecurityHeaders(
+  response: NextResponse,
+  { nonce, csp, isProd, noIndex }: SecurityHeaderOptions,
+) {
+  response.headers.set("x-nonce", nonce);
+  response.headers.set("Content-Security-Policy", csp);
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("X-Frame-Options", "SAMEORIGIN");
+  response.headers.set("X-DNS-Prefetch-Control", "on");
+  response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  response.headers.set(
+    "Permissions-Policy",
+    "geolocation=(), microphone=(), camera=()",
+  );
+  if (isProd) {
+    response.headers.set(
+      "Strict-Transport-Security",
+      "max-age=63072000; includeSubDomains; preload",
+    );
+  }
+  if (noIndex) {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
+  return response;
+}
+
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const isProd = process.env.NODE_ENV === "production";
@@ -40,7 +74,7 @@ export function middleware(request: NextRequest) {
       ? [
           `default-src 'self'`,
           // Nonce-based inline scripts
-          `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://maps.googleapis.com https://maps.gstatic.com https:`,
+          `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://maps.googleapis.com https://maps.gstatic.com`,
           `script-src-attr 'none'`,
           // Allow inline styles for Tailwind and Next styles
           `style-src 'self' 'unsafe-inline'`,
@@ -99,27 +133,8 @@ export function middleware(request: NextRequest) {
       const redirectUrl = new URL(targetPath, request.url);
       redirectUrl.search = request.nextUrl.search;
       const response = NextResponse.redirect(redirectUrl, 308);
-      response.headers.set("x-nonce", nonce);
       response.headers.set("x-pathname", pathname);
-      response.headers.set("Content-Security-Policy", csp);
-      response.headers.set("Referrer-Policy", "no-referrer-when-downgrade");
-      response.headers.set("X-Content-Type-Options", "nosniff");
-      response.headers.set("X-Frame-Options", "SAMEORIGIN");
-      response.headers.set("X-DNS-Prefetch-Control", "on");
-      response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
-      response.headers.set(
-        "Permissions-Policy",
-        "geolocation=(), microphone=(), camera=()",
-      );
-      if (isProd) {
-        response.headers.set(
-          "Strict-Transport-Security",
-          "max-age=63072000; includeSubDomains; preload",
-        );
-      }
-      if (shouldNoIndex) {
-        response.headers.set("X-Robots-Tag", "noindex, nofollow");
-      }
+      applySecurityHeaders(response, { nonce, csp, isProd, noIndex: shouldNoIndex });
       // Always noindex redirects to avoid "Page with redirect" indexing noise.
       if (!response.headers.has("X-Robots-Tag")) {
         response.headers.set("X-Robots-Tag", "noindex, nofollow");
@@ -129,24 +144,8 @@ export function middleware(request: NextRequest) {
 
     const goneWithHeaders = () => {
       const response = new NextResponse("Gone", { status: 410 });
-      response.headers.set("x-nonce", nonce);
       response.headers.set("x-pathname", pathname);
-      response.headers.set("Content-Security-Policy", csp);
-      response.headers.set("Referrer-Policy", "no-referrer-when-downgrade");
-      response.headers.set("X-Content-Type-Options", "nosniff");
-      response.headers.set("X-Frame-Options", "SAMEORIGIN");
-      response.headers.set("X-DNS-Prefetch-Control", "on");
-      response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
-      response.headers.set(
-        "Permissions-Policy",
-        "geolocation=(), microphone=(), camera=()",
-      );
-      if (isProd) {
-        response.headers.set(
-          "Strict-Transport-Security",
-          "max-age=63072000; includeSubDomains; preload",
-        );
-      }
+      applySecurityHeaders(response, { nonce, csp, isProd, noIndex: false });
       response.headers.set("Cache-Control", "public, max-age=0, must-revalidate");
       response.headers.set("X-Robots-Tag", "noindex, nofollow");
       return response;
@@ -201,26 +200,7 @@ export function middleware(request: NextRequest) {
       const redirectUrl = new URL(targetPath, request.url);
       redirectUrl.search = request.nextUrl.search;
       const response = NextResponse.redirect(redirectUrl, 308);
-      response.headers.set("x-nonce", nonce);
-      response.headers.set("Content-Security-Policy", csp);
-      response.headers.set("Referrer-Policy", "no-referrer-when-downgrade");
-      response.headers.set("X-Content-Type-Options", "nosniff");
-      response.headers.set("X-Frame-Options", "SAMEORIGIN");
-      response.headers.set("X-DNS-Prefetch-Control", "on");
-      response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
-      response.headers.set(
-        "Permissions-Policy",
-        "geolocation=(), microphone=(), camera=()",
-      );
-      if (isProd) {
-        response.headers.set(
-          "Strict-Transport-Security",
-          "max-age=63072000; includeSubDomains; preload",
-        );
-      }
-      if (shouldNoIndex) {
-        response.headers.set("X-Robots-Tag", "noindex, nofollow");
-      }
+      applySecurityHeaders(response, { nonce, csp, isProd, noIndex: shouldNoIndex });
       if (!response.headers.has("X-Robots-Tag")) {
         response.headers.set("X-Robots-Tag", "noindex, nofollow");
       }
@@ -240,27 +220,7 @@ export function middleware(request: NextRequest) {
     // Expose the pathname to server components for active nav styling
     response.headers.set("x-pathname", pathname);
     // Security headers
-    response.headers.set("x-nonce", nonce);
-    response.headers.set("Referrer-Policy", "no-referrer-when-downgrade");
-    response.headers.set("X-Content-Type-Options", "nosniff");
-    response.headers.set("X-Frame-Options", "SAMEORIGIN");
-    response.headers.set("X-DNS-Prefetch-Control", "on");
-    response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
-    response.headers.set(
-      "Permissions-Policy",
-      "geolocation=(), microphone=(), camera=()",
-    );
-    // Append Trusted Types enforcement
-    response.headers.set("Content-Security-Policy", csp);
-    if (isProd) {
-      response.headers.set(
-        "Strict-Transport-Security",
-        "max-age=63072000; includeSubDomains; preload",
-      );
-    }
-    if (shouldNoIndex) {
-      response.headers.set("X-Robots-Tag", "noindex, nofollow");
-    }
+    applySecurityHeaders(response, { nonce, csp, isProd, noIndex: shouldNoIndex });
     return response;
   }
 
@@ -277,28 +237,10 @@ export function middleware(request: NextRequest) {
   redirectUrl.search = request.nextUrl.search;
   // Use 308 permanent redirect for SEO - tells search engines not to index non-locale URLs
   const response = NextResponse.redirect(redirectUrl, 308);
-  response.headers.set("x-nonce", nonce);
   response.headers.set("x-pathname", pathname);
-  response.headers.set("Content-Security-Policy", csp);
-  response.headers.set("Referrer-Policy", "no-referrer-when-downgrade");
-  response.headers.set("X-Content-Type-Options", "nosniff");
-  response.headers.set("X-Frame-Options", "SAMEORIGIN");
-  response.headers.set("X-DNS-Prefetch-Control", "on");
-  response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
-  response.headers.set(
-    "Permissions-Policy",
-    "geolocation=(), microphone=(), camera=()",
-  );
+  response.headers.set("Vary", "Accept-Language");
+  applySecurityHeaders(response, { nonce, csp, isProd, noIndex: shouldNoIndex });
   // Removed report-only header
-  if (isProd) {
-    response.headers.set(
-      "Strict-Transport-Security",
-      "max-age=63072000; includeSubDomains; preload",
-    );
-  }
-  if (shouldNoIndex) {
-    response.headers.set("X-Robots-Tag", "noindex, nofollow");
-  }
   if (!response.headers.has("X-Robots-Tag")) {
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
   }
