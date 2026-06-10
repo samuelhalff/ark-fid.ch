@@ -212,6 +212,9 @@ export async function getPageMetadata(
         },
         alternateUrls
       ),
+      types: {
+        "application/rss+xml": `https://ark-fid.ch/${locale}/feed.xml/`,
+      },
     },
   };
 

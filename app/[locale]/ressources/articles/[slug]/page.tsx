@@ -13,8 +13,18 @@ import { estimateReadingTime } from "@/src/lib/readingTime";
 import dynamicImport from "next/dynamic";
 import Defer from "@/src/components/Defer";
 import { normalizeInternalHref } from "@/src/lib/paths";
+import {
+  getArticle,
+  getValidLocalesForSlug,
+  isGenuineTranslation,
+  type ResourceArticle,
+} from "@/src/lib/articles";
+import {
+  fallbackCategoryLabel,
+  type ResourceCategoryLabels,
+} from "@/src/lib/resourceCategories";
 
-// Force dynamic rendering to speed up build times
+// Dynamic because the page reads the per-request CSP nonce from headers().
 export const dynamic = "force-dynamic";
 
 const ShareButtons = dynamicImport(
@@ -32,26 +42,10 @@ const BackToTop = dynamicImport(
 
 type Params = { params: Promise<{ slug: string; locale: string }> };
 
-type ArticleReference = {
-  labelKey: string;
-  url: string;
-};
-
-type ResourceArticle = {
-  slug: string;
-  title: string;
-  description?: string;
-  content?: string;
-  date?: string;
-  updated?: string;
-  author?: string;
-  authorUrl?: string;
-  image?: string;
-  references?: ArticleReference[];
-};
-
 interface RessourcesDictionary {
   Articles: ResourceArticle[];
+  ArticleUiLabels?: ArticleUiLabels;
+  Categories?: ResourceCategoryLabels;
   IntroTitle?: string;
   IntroShort?: string;
   ArticlesTitle?: string;
@@ -84,93 +78,29 @@ const buildMarkdownComponents = (locale: Locale): Components => ({
   },
 });
 
-const articleUiLabels: Record<
-  Locale,
-  {
-    relatedServices: string;
-    contactUs: string;
-    services: Record<string, string>;
-  }
-> = {
-  fr: {
-    relatedServices: "Services liés",
-    contactUs: "Nous contacter",
-    services: {
-      "Accounting Services": "Comptabilité",
-      "Tax Services": "Fiscalité",
-      "Payroll Services": "Paie et RH",
-      "Domiciliation Services": "Domiciliation",
-      "Company Incorporation": "Constitution d'entreprise",
-      "Corporate Services": "Services corporatifs",
-      "Outsourcing Services": "Externalisation",
-      "Immigration & permits": "Immigration et permis",
-      "Odoo Integration": "Intégration Odoo",
-      "Our Team": "Notre équipe",
-    },
-  },
-  en: {
-    relatedServices: "Related services",
-    contactUs: "Contact us",
-    services: {},
-  },
-  de: {
-    relatedServices: "Verwandte Dienstleistungen",
-    contactUs: "Kontakt aufnehmen",
-    services: {
-      "Accounting Services": "Buchhaltung",
-      "Tax Services": "Steuern",
-      "Payroll Services": "Lohn & HR",
-      "Domiciliation Services": "Domizilierung",
-      "Company Incorporation": "Firmengründung",
-      "Corporate Services": "Unternehmensdienstleistungen",
-      "Outsourcing Services": "Outsourcing",
-      "Immigration & permits": "Immigration und Bewilligungen",
-      "Odoo Integration": "Odoo-Integration",
-      "Our Team": "Unser Team",
-    },
-  },
-  es: {
-    relatedServices: "Servicios relacionados",
-    contactUs: "Contactar",
-    services: {
-      "Accounting Services": "Contabilidad",
-      "Tax Services": "Fiscalidad",
-      "Payroll Services": "Nómina y RR. HH.",
-      "Domiciliation Services": "Domiciliación",
-      "Company Incorporation": "Constitución de empresa",
-      "Corporate Services": "Servicios corporativos",
-      "Outsourcing Services": "Externalización",
-      "Immigration & permits": "Inmigración y permisos",
-      "Odoo Integration": "Integración Odoo",
-      "Our Team": "Nuestro equipo",
-    },
-  },
-  pt: {
-    relatedServices: "Serviços relacionados",
-    contactUs: "Contactar",
-    services: {
-      "Accounting Services": "Contabilidade",
-      "Tax Services": "Fiscalidade",
-      "Payroll Services": "Salários e RH",
-      "Domiciliation Services": "Domiciliação",
-      "Company Incorporation": "Constituição de empresa",
-      "Corporate Services": "Serviços corporativos",
-      "Outsourcing Services": "Externalização",
-      "Immigration & permits": "Imigração e autorizações",
-      "Odoo Integration": "Integração Odoo",
-      "Our Team": "A nossa equipa",
-    },
-  },
+type ArticleUiLabels = {
+  relatedServices?: string;
+  contactUs?: string;
+  services?: Record<string, string>;
 };
 
-function normalizeArticleUiLabels(content: string, locale: Locale) {
-  const labels = articleUiLabels[locale];
+function normalizeArticleUiLabels(content: string, labels?: ArticleUiLabels) {
+  if (!labels) return content;
   let normalized = content
-    .replace(/^### Related Services$/gim, `### ${labels.relatedServices}`)
-    .replace(/^## Related Services$/gim, `## ${labels.relatedServices}`)
-    .replace(/\[Contact Us\]\(\/contact\)/g, `[${labels.contactUs}](/contact)`);
+    .replace(
+      /^### Related Services$/gim,
+      `### ${labels.relatedServices || "Related services"}`,
+    )
+    .replace(
+      /^## Related Services$/gim,
+      `## ${labels.relatedServices || "Related services"}`,
+    )
+    .replace(
+      /\[Contact Us\]\(\/contact\)/g,
+      `[${labels.contactUs || "Contact us"}](/contact)`,
+    );
 
-  for (const [source, target] of Object.entries(labels.services)) {
+  for (const [source, target] of Object.entries(labels.services || {})) {
     normalized = normalized.replace(
       new RegExp(`\\[${source.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\]`, "g"),
       `[${target}]`,
@@ -178,6 +108,28 @@ function normalizeArticleUiLabels(content: string, locale: Locale) {
   }
 
   return normalized;
+}
+
+function getArticleImageUrl(article: ResourceArticle, locale: Locale) {
+  if (article.image) {
+    const image = article.image.startsWith("/")
+      ? article.image
+      : `/assets/${article.image}`;
+    return `https://ark-fid.ch${image}`;
+  }
+  return `https://ark-fid.ch/assets/og/og-${locale}.webp`;
+}
+
+function getArticleSection(
+  article: ResourceArticle,
+  labels?: ResourceCategoryLabels,
+) {
+  const category = article.category;
+  if (!category) return labels?.general || fallbackCategoryLabel("general");
+  return (
+    labels?.[category as keyof ResourceCategoryLabels] ||
+    fallbackCategoryLabel(category)
+  );
 }
 
 async function loadRessources(locale: Locale): Promise<RessourcesDictionary> {
@@ -203,13 +155,8 @@ export default async function ArticlePage(props: Params) {
   // so nested keys resolve correctly to the active locale.
   const tRessources = await getTranslations(locale, "ressources");
 
-  // Load canonical FR to compare and/or fallback
-  const fr = locale === "fr" ? ressources : await loadRessources("fr");
-
-  const localArticle = ressources.Articles.find(
-    (article) => article.slug === params.slug
-  );
-  const frArticle = fr.Articles.find((article) => article.slug === params.slug);
+  const localArticle = getArticle(locale, params.slug);
+  const frArticle = getArticle("fr", params.slug);
 
   // If slug doesn't exist at all in this locale, return 404
   if (locale !== "fr" && !localArticle && !frArticle) return notFound();
@@ -219,13 +166,8 @@ export default async function ArticlePage(props: Params) {
 
   // If the locale article is just a copy of the FR version (not genuinely translated),
   // return 404 to avoid "Crawled - currently not indexed" and "Soft 404" in GSC
-  if (locale !== "fr" && localArticle && frArticle) {
-    const sameTitle = (localArticle.title || "") === (frArticle.title || "");
-    const sameDesc = (localArticle.description || "") === (frArticle.description || "");
-    const sameContent = (localArticle.content || "") === (frArticle.content || "");
-    if (sameTitle && sameDesc && sameContent) {
-      return notFound();
-    }
+  if (locale !== "fr" && localArticle && frArticle && !isGenuineTranslation(locale, params.slug)) {
+    return notFound();
   }
 
   const baseUrl = "https://ark-fid.ch";
@@ -260,9 +202,11 @@ export default async function ArticlePage(props: Params) {
       },
     ],
   } as const;
-  // Use relative path for local public assets to avoid Next/Image remote domain restrictions
-  const imageUrl = article.image ? `/assets/${article.image}` : undefined; // used for JSON-LD only; image hidden in UI
-  const fullContent = normalizeArticleUiLabels(article.content ?? "", locale);
+  const imageUrl = getArticleImageUrl(article, locale);
+  const fullContent = normalizeArticleUiLabels(
+    article.content ?? "",
+    ressources.ArticleUiLabels,
+  );
   const reading = estimateReadingTime(fullContent);
 
   // Split content roughly at the midpoint (at a heading boundary) so we can
@@ -327,54 +271,14 @@ export default async function ArticlePage(props: Params) {
         "https://maps.google.com/?cid=14946625157719331801",
       ],
     },
-    ...(article.updated ? { dateModified: article.updated } : {}),
+    dateModified: article.updated ?? article.date,
     ...(reading ? { timeRequired: reading.timeRequiredISO } : {}),
-    ...(imageUrl
-      ? {
-          image: {
-            "@type": "ImageObject",
-            url: imageUrl,
-          },
-        }
-      : {}),
-    about: [
-      {
-        "@type": "Thing",
-        name:
-          locale === "fr"
-            ? "Fiscalité Suisse"
-            : locale === "de"
-            ? "Schweizer Steuerwesen"
-            : locale === "es"
-            ? "Fiscalidad Suiza"
-            : locale === "pt"
-            ? "Fiscalidade Suíça"
-            : "Swiss Taxation",
-      },
-      {
-        "@type": "Thing",
-        name:
-          locale === "fr"
-            ? "Comptabilité"
-            : locale === "de"
-            ? "Buchhaltung"
-            : locale === "es"
-            ? "Contabilidad"
-            : locale === "pt"
-            ? "Contabilidade"
-            : "Accounting",
-      },
-    ],
-    articleSection:
-      locale === "fr"
-        ? "Ressources fiscales"
-        : locale === "de"
-        ? "Steuerliche Ressourcen"
-        : locale === "es"
-        ? "Recursos fiscales"
-        : locale === "pt"
-        ? "Recursos fiscais"
-        : "Tax Resources",
+    image: {
+      "@type": "ImageObject",
+      url: imageUrl,
+    },
+    keywords: Array.isArray(article.tags) ? article.tags.join(", ") : undefined,
+    articleSection: getArticleSection(article, ressources.Categories),
   } as const;
 
   return (
@@ -395,26 +299,24 @@ export default async function ArticlePage(props: Params) {
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
-      <Defer rootMargin="200px" idle={150}>
-        <Breadcrumbs
-          className="mb-6"
-          baseLabel={ressources.IntroShort || "Resources"}
-          rootLabel={(tNav("Home") as string) || "Home"}
-          segments={[
-            {
-              segment: "ressources",
-              label: ressources.IntroShort || "Resources",
-            },
-            {
-              segment: "articles",
-              label: ressources.ArticlesShort || "Articles",
-            },
-            { segment: params.slug, label: article.title },
-          ]}
-          maxLabelChars={56}
-          hideRootWhenDuplicate={false}
-        />
-      </Defer>
+      <Breadcrumbs
+        className="mb-6"
+        baseLabel={ressources.IntroShort || "Resources"}
+        rootLabel={(tNav("Home") as string) || "Home"}
+        segments={[
+          {
+            segment: "ressources",
+            label: ressources.IntroShort || "Resources",
+          },
+          {
+            segment: "articles",
+            label: ressources.ArticlesShort || "Articles",
+          },
+          { segment: params.slug, label: article.title },
+        ]}
+        maxLabelChars={56}
+        hideRootWhenDuplicate={false}
+      />
       <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
         {article.title}
       </h1>
@@ -439,6 +341,18 @@ export default async function ArticlePage(props: Params) {
             {ressources.ReadingTime}: {reading.minutes}
             {ressources.Minutes} ({reading.words} words)
           </p>
+        )}
+        {Array.isArray(article.tags) && article.tags.length > 0 && (
+          <div className="flex flex-wrap justify-center gap-2 pt-3">
+            {article.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full bg-surface-warm px-3 py-1 text-xs font-medium text-muted-foreground"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         )}
       </div>
 
@@ -540,74 +454,14 @@ export default async function ArticlePage(props: Params) {
   );
 }
 
-// Enumerate slugs from the canonical French source at build-time (FR is canonical across tooling).
-export async function generateStaticParams() {
-  const ressources = await loadRessources("fr");
-  return ressources.Articles.map((article) => ({ slug: article.slug }));
-}
-
 export async function generateMetadata(props: Params) {
   const params = await props.params;
   const locale: Locale = isValidLocale(params.locale) ? params.locale : "fr";
-  const ressources = await loadRessources(locale);
-
-  const article =
-    ressources.Articles.find((article) => article.slug === params.slug) ??
-    (locale === "fr"
-      ? undefined
-      : (await loadRessources("fr")).Articles.find(
-          (frArticle) => frArticle.slug === params.slug
-        ));
+  const article = getArticle(locale, params.slug) ?? getArticle("fr", params.slug);
   // If article not found, the page component returns notFound() so no metadata needed
   if (!article) return {};
 
-  // Determine which locales have this article (and it's not a duplicate)
-  const { locales: allLocales } = await import("@/src/lib/i18n");
-  const validLocales: Locale[] = [];
-
-  // Load French resources once for comparison
-  const frRessources = await loadRessources("fr");
-  const isDuplicateOfFr = (
-    candidate: ResourceArticle,
-    candidateLocale: Locale
-  ) => {
-    if (candidateLocale === "fr") return false;
-    const frArticle = frRessources.Articles.find(
-      (a) => a.slug === candidate.slug
-    );
-    if (!frArticle) return false;
-    const sameTitle = (candidate.title || "") === (frArticle.title || "");
-    const sameDesc =
-      (candidate.description || "") === (frArticle.description || "");
-    const sameContent =
-      (candidate.content || "") === (frArticle.content || "");
-    return sameTitle && sameDesc && sameContent;
-  };
-
-  for (const loc of allLocales) {
-    try {
-      const locRessources = await loadRessources(loc);
-      const locArticle = locRessources.Articles.find(
-        (a) => a.slug === params.slug
-      );
-
-      if (!locArticle) {
-        // Article doesn't exist in this locale
-        continue;
-      }
-
-      if (isDuplicateOfFr(locArticle, loc)) {
-        // This is a duplicate - skip this locale
-        continue;
-      }
-
-      // Article exists and is not a duplicate
-      validLocales.push(loc);
-    } catch (error) {
-      // Locale might not have ressources.json - skip it
-      continue;
-    }
-  }
+  const validLocales = getValidLocalesForSlug(params.slug);
 
   const reading = article.content ? estimateReadingTime(article.content) : null;
   const meta = await generateMetadataForArticle(
@@ -621,7 +475,7 @@ export async function generateMetadata(props: Params) {
     meta && typeof meta.robots === "object" && meta.robots !== null
       ? (meta.robots as Record<string, unknown>)
       : {};
-  const shouldIndex = locale === "fr" || !isDuplicateOfFr(article, locale);
+  const shouldIndex = locale === "fr" || isGenuineTranslation(locale, params.slug);
   return {
     ...meta,
     robots: {

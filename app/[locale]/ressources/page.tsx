@@ -12,7 +12,12 @@ import { buildInternalUrl } from "@/src/lib/paths";
 import PageHero from "@/src/components/site/page-hero";
 import SectionHeading from "@/src/components/site/section-heading";
 import Reveal from "@/src/components/motion/reveal";
-import type { ResourceCategoryLabels } from "@/src/lib/resourceCategories";
+import {
+  buildResourceCategories,
+  fallbackCategoryLabel,
+  type ResourceCategoryId,
+  type ResourceCategoryLabels,
+} from "@/src/lib/resourceCategories";
 
 type ArticlesSearchParams = Record<string, string | string[] | undefined>;
 
@@ -22,6 +27,8 @@ interface RessourceArticle {
   description: string;
   author?: string;
   date?: string;
+  category?: string;
+  tags?: string[];
 }
 
 interface FAQEntry {
@@ -60,6 +67,16 @@ interface RessourcesData {
     Description?: string;
     ButtonText?: string;
   };
+}
+
+function stripMarkdown(input: string) {
+  return input
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[*_#>~-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 async function loadRessources(locale: Locale): Promise<RessourcesData> {
@@ -168,6 +185,19 @@ export default async function RessourcesPage(
 
   const links = ressources.Links || {};
   const resourcesLabel = (tNav("Ressources") as string) || "Resources";
+  const articleCategories = buildResourceCategories(
+    articlesCanonical,
+    categoryLabels,
+  );
+  const articlesByCategory = articleCategories.items
+    .map((category) => ({
+      ...category,
+      articles: articlesCanonical.filter(
+        (article) => articleCategories.bySlug[article.slug] === category.id,
+      ),
+    }))
+    .filter((category) => category.articles.length > 0);
+  const faqItems = ressources.FAQ?.Items || [];
 
   return (
     <main className="mx-auto max-w-[1240px] px-5 py-10 sm:px-8">
@@ -195,6 +225,26 @@ export default async function RessourcesPage(
           }),
         }}
       />
+      {faqItems.length > 0 && (
+        <script
+          type="application/ld+json"
+          nonce={nonce}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: faqItems.map((item) => ({
+                "@type": "Question",
+                name: stripMarkdown(item.q),
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: stripMarkdown(item.a),
+                },
+              })),
+            }),
+          }}
+        />
+      )}
       <nav aria-label="Breadcrumb" className="mt-8 mb-8">
         <ol className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
           <li>
@@ -274,6 +324,37 @@ export default async function RessourcesPage(
             showAllLabel={ressources.ShowAllArticles || "Show all"}
           />
         </Suspense>
+        <nav
+          aria-label={`${resourcesLabel} articles`}
+          className="mt-12 border-t border-border/70 pt-8 text-sm"
+        >
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {articlesByCategory.map((category) => (
+              <div key={category.id}>
+                <h3 className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  {category.label ||
+                    categoryLabels[category.id as ResourceCategoryId] ||
+                    fallbackCategoryLabel(category.id)}
+                </h3>
+                <ul className="space-y-2">
+                  {category.articles.map((article) => (
+                    <li key={article.slug}>
+                      <a
+                        href={buildInternalUrl(
+                          `/ressources/articles/${article.slug}`,
+                          locale,
+                        )}
+                        className="text-foreground underline-offset-4 hover:underline"
+                      >
+                        {article.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </nav>
       </section>
       <FAQSection faq={ressources.FAQ || {}} locale={locale} nonce={nonce} />
 
