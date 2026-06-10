@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * Lint metadata content across locales:
- * - titles present and <= 65 chars (soft)
- * - descriptions present and <= 160 chars (soft)
+ * - titles present and <= 60 chars (soft for existing content)
+ * - descriptions present and 70-165 chars (soft for existing content)
  * - keywords present and non-trivial
  * - pages coverage consistent across locales
  * Exits with code 1 only if run with CI_STRICT_METADATA=1 and errors found; otherwise prints warnings.
@@ -11,8 +11,9 @@ const fs = require('fs');
 const path = require('path');
 
 const LOCALES = ['fr','en','de','es','pt'];
-const MAX_TITLE = 65;
-const MAX_DESC = 160;
+const MAX_TITLE = 60;
+const MIN_DESC = 70;
+const MAX_DESC = 165;
 
 function loadJson(p) {
   return JSON.parse(fs.readFileSync(p, 'utf8'));
@@ -42,11 +43,15 @@ function report() {
   let errors = 0;
   let warnings = 0;
 
-  function checkText(kind, value, max, locale, page) {
+  function checkText(kind, value, max, locale, page, min = 0) {
     if (!value || typeof value !== 'string' || !value.trim()) {
       console.log(`[${locale}] ${page} missing ${kind}`);
       errors++;
       return;
+    }
+    if (min && value.length < min) {
+      console.log(`[${locale}] ${page} ${kind} too short (${value.length}<${min}): "${value}"`);
+      warnings++;
     }
     if (value.length > max) {
       console.log(`[${locale}] ${page} ${kind} too long (${value.length}>${max}): "${value.slice(0, max+20)}…"`);
@@ -66,8 +71,8 @@ function report() {
       errors++;
       continue;
     }
-    checkText('default.title', conf.default.title, MAX_TITLE+15, locale, '<default>');
-    checkText('default.description', conf.default.description, MAX_DESC+40, locale, '<default>');
+    checkText('default.title', conf.default.title, MAX_TITLE, locale, '<default>');
+    checkText('default.description', conf.default.description, MAX_DESC, locale, '<default>', MIN_DESC);
     if (!conf.default.keywords || conf.default.keywords.split(',').length < 3) {
       console.log(`[${locale}] default.keywords too short or missing`);
       warnings++;
@@ -82,12 +87,42 @@ function report() {
         continue;
       }
       checkText('title', p.title, MAX_TITLE, locale, page);
-      checkText('description', p.description, MAX_DESC, locale, page);
+      checkText('description', p.description, MAX_DESC, locale, page, MIN_DESC);
       if (!p.keywords || p.keywords.length < 10) {
         console.log(`[${locale}] ${page} keywords missing/short`);
         warnings++;
       }
     }
+  }
+
+  const frRessourcesPath = path.join(base, 'fr', 'ressources.json');
+  let existingArticleViolations = 0;
+  if (fs.existsSync(frRessourcesPath)) {
+    const ressources = loadJson(frRessourcesPath);
+    const articles = Array.isArray(ressources.Articles) ? ressources.Articles : [];
+    const sorted = [...articles].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    const newestSlug = sorted[0]?.slug;
+    for (const article of articles) {
+      const issues = [];
+      if (!article.title || article.title.length > MAX_TITLE) {
+        issues.push(`title length ${article.title ? article.title.length : 0}>${MAX_TITLE}`);
+      }
+      const descLength = article.description ? article.description.length : 0;
+      if (!article.description || descLength < MIN_DESC || descLength > MAX_DESC) {
+        issues.push(`description length ${descLength} outside ${MIN_DESC}-${MAX_DESC}`);
+      }
+      if (!issues.length) continue;
+      if (article.slug === newestSlug) {
+        console.log(`[fr] newest article ${article.slug} metadata invalid: ${issues.join('; ')}`);
+        errors++;
+      } else {
+        existingArticleViolations++;
+      }
+    }
+  }
+  if (existingArticleViolations) {
+    console.log(`Existing FR article metadata warnings: ${existingArticleViolations}`);
+    warnings += existingArticleViolations;
   }
 
   // Cross-locale page set parity
