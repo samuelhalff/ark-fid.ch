@@ -55,6 +55,7 @@ const ResourceGrid: React.FC<ResourceGridProps> = ({
                   ? categoryLabels[categoryBySlug[article.slug]]
                   : undefined
               }
+              categoryId={categoryBySlug?.[article.slug]}
               locale={locale}
               labels={labels}
               colorIndex={index}

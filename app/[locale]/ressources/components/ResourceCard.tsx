@@ -8,32 +8,39 @@ interface Labels {
   Published?: string;
 }
 
-// Color palette for visual variety
-const cardColors = [
-  {
-    badge:
-      "bg-brand-soft text-brand-hover dark:bg-brand/15 dark:text-brand",
-  },
-  {
-    badge:
-      "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
-  },
-  {
-    badge:
-      "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300",
-  },
-  {
-    badge:
-      "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
-  },
-  {
-    badge: "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300",
-  },
-  {
-    badge:
-      "bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-200",
-  },
-];
+// Badge styles keyed by name so each category always renders the same color
+const badgeStyles = {
+  brand: "bg-brand-soft text-brand-hover dark:bg-brand/15 dark:text-brand",
+  emerald:
+    "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
+  violet:
+    "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300",
+  amber:
+    "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300",
+  rose: "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300",
+  stone: "bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-200",
+} as const;
+
+type BadgeStyle = keyof typeof badgeStyles;
+
+// Deterministic category -> color mapping (ResourceCategoryId values)
+const categoryBadgeStyle: Record<string, BadgeStyle> = {
+  accounting: "brand",
+  tax: "amber",
+  payroll: "emerald",
+  odoo: "violet",
+  audit: "rose",
+  corporate: "stone",
+  domiciliation: "brand",
+  outsourcing: "emerald",
+  ma: "violet",
+  "family-office": "amber",
+  incorporation: "rose",
+  immigration: "stone",
+  finance: "emerald",
+  regulatory: "amber",
+  general: "stone",
+};
 
 interface ResourceCardProps {
   title: string;
@@ -42,8 +49,10 @@ interface ResourceCardProps {
   date?: string;
   author?: string;
   category?: string;
+  categoryId?: string;
   locale?: string;
   labels?: Labels;
+  /** Position in the grid, used only to stagger the reveal animation. */
   colorIndex?: number;
 }
 
@@ -53,11 +62,13 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   href,
   date,
   category,
+  categoryId,
   locale,
   labels,
   colorIndex = 0,
 }) => {
-  const colors = cardColors[colorIndex % cardColors.length];
+  const badgeClass =
+    badgeStyles[(categoryId && categoryBadgeStyle[categoryId]) || "stone"];
   const formattedDate = formatResourceDate(date, locale);
 
   return (
@@ -68,7 +79,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
     >
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         {category ? (
-          <span className={`w-fit rounded-full px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] ${colors.badge}`}>
+          <span className={`w-fit rounded-full px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] ${badgeClass}`}>
             {category}
           </span>
         ) : (
