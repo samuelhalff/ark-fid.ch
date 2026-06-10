@@ -39,6 +39,26 @@ const sorted = [...articles].sort((a, b) => (b.date || "").localeCompare(a.date 
 const latest = sorted[0];
 const recent = sorted.slice(1, TOPIC_ROTATION_WINDOW + 1);
 
+function countWords(text) {
+  if (typeof text !== "string") return 0;
+  const trimmed = text.trim();
+  if (!trimmed) return 0;
+  return trimmed.split(/\s+/).filter(Boolean).length;
+}
+
+if (!latest.category || !Array.isArray(latest.tags) || latest.tags.length < 3) {
+  fail(
+    `Latest article lacks required taxonomy: category and at least 3 tags are required (${latest.slug})`,
+  );
+}
+
+const latestWords = countWords(latest.content || "");
+if (latestWords < 700) {
+  fail(
+    `Latest article is too short: ${latestWords} words (minimum: 700) (${latest.slug})`,
+  );
+}
+
 const titleConflict = findRecentTitleConflict(recent, latest, {
   windowSize: TOPIC_ROTATION_WINDOW,
 });
@@ -65,5 +85,5 @@ if (topicConflict) {
 }
 
 console.log(
-  `✅ Latest FR article passes duplicate-title and recent-topic guardrails (${TOPIC_ROTATION_WINDOW}-article window)`,
+  `✅ Latest FR article passes taxonomy, length, duplicate-title and recent-topic guardrails (${TOPIC_ROTATION_WINDOW}-article window)`,
 );

@@ -187,6 +187,24 @@ const SERVICES = [
   "conformité réglementaire (SRO/OAR, LBA/AML, FINMA)",
 ];
 
+const TOPIC_TAGS = {
+  odoo: ["odoo", "erp", "comptabilite", "tva", "automatisation", "reporting"],
+  payroll: ["paie", "salaires", "avs", "lpp", "laa", "swissdec"],
+  tax: ["fiscalite", "impot", "tva", "ifd", "tax", "declaration"],
+  audit: ["audit", "revision", "controle", "rapport", "seuils", "gouvernance"],
+  accounting: ["comptabilite", "comptable", "bilan", "reporting", "cloture", "fer"],
+  corporate: ["corporate", "gouvernance", "assemblee", "registre", "transparence", "sa"],
+  domiciliation: ["domiciliation", "siege", "adresse", "courrier", "substance", "aml"],
+  outsourcing: ["outsourcing", "externalisation", "bpo", "processus", "finance", "reporting"],
+  ma: ["fusion", "acquisition", "due", "diligence", "transmission", "valorisation"],
+  "family-office": ["patrimoine", "succession", "family", "office", "fortune", "gouvernance"],
+  incorporation: ["constitution", "creation", "registre", "capital", "statuts", "succursale"],
+  immigration: ["immigration", "permis", "anobag", "mobilite", "expatrie", "avs"],
+  finance: ["tresorerie", "finance", "cash", "budget", "forecast", "paiement"],
+  regulatory: ["conformite", "reglementaire", "oar", "lba", "aml", "finma"],
+  general: ["pme", "suisse", "geneve", "fiduciaire", "conseil", "entreprise"],
+};
+
 function loadJSON(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
@@ -212,6 +230,75 @@ function hasUnnecessaryCaps(input) {
     }
   }
   return false;
+}
+
+function normalizeTag(input) {
+  return String(input || "")
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function ensureArticleTaxonomy(article, preferredCategory = "") {
+  const category = preferredCategory || article.category || detectTopic(article) || "general";
+  article.category = category;
+
+  const corpus = normalizeTag(
+    `${article.content || ""} ${article.title || ""} ${article.description || ""}`,
+  ).replace(/-/g, " ");
+  const candidates = [
+    ...(FORCE_TOPIC_KEYWORDS || []),
+    ...((TOPIC_TAGS[category] || TOPIC_TAGS.general) || []),
+    ...TOPIC_TAGS.general,
+  ]
+    .map(normalizeTag)
+    .filter(Boolean);
+
+  const tags = [];
+  for (const tag of candidates) {
+    if (tags.length >= 6) break;
+    if (!tags.includes(tag) && corpus.includes(tag.replace(/-/g, " "))) {
+      tags.push(tag);
+    }
+  }
+  for (const tag of candidates) {
+    if (tags.length >= 3) break;
+    if (!tags.includes(tag)) tags.push(tag);
+  }
+  article.tags = tags.slice(0, 6);
+  return article;
+}
+
+function normalizeArticleUiLabels(content, labels) {
+  if (typeof content !== "string" || !labels) return content;
+  let normalized = content
+    .replace(
+      /^### Related Services$/gim,
+      `### ${labels.relatedServices || "Related services"}`,
+    )
+    .replace(
+      /^## Related Services$/gim,
+      `## ${labels.relatedServices || "Related services"}`,
+    )
+    .replace(
+      /\[Contact Us\]\(\/contact\)/g,
+      `[${labels.contactUs || "Contact us"}](/contact)`,
+    );
+
+  for (const [source, target] of Object.entries(labels.services || {})) {
+    normalized = normalized.replace(
+      new RegExp(`\\[${source.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\]`, "g"),
+      `[${target}]`,
+    );
+  }
+  return normalized;
+}
+
+function normalizeArticleUiLabelsInPlace(article, labels) {
+  if (!article || typeof article.content !== "string") return;
+  article.content = normalizeArticleUiLabels(article.content, labels);
 }
 
 /**
@@ -438,6 +525,8 @@ function buildSystemPrompt(frJson, trendData = null, topicAnalysis = null) {
     '    "content": "<contenu FR complet (Markdown autorisé)>",',
     '    "author": "Ark Fiduciaire",',
     '    "date": "YYYY-MM-DD",',
+    '    "category": "<topic slug: odoo|payroll|tax|audit|accounting|corporate|domiciliation|outsourcing|ma|family-office|incorporation|immigration|finance|regulatory|general>",',
+    '    "tags": ["<tag-slug-1>", "<tag-slug-2>", "<tag-slug-3>"],',
     '    "references": [ { "labelKey": "Libellé FR", "url": "https://..." }, ... ]',
     "  },",
     '  "newLabels": {',
@@ -644,6 +733,8 @@ function buildDraftPromptFromResearch(research, validatedReferences) {
     '    "content": "<contenu FR complet en Markdown (sans URLs)>",',
     '    "author": "Ark Fiduciaire",',
     '    "date": "YYYY-MM-DD",',
+    '    "category": "<topic slug>",',
+    '    "tags": ["<tag-slug-1>", "<tag-slug-2>", "<tag-slug-3>"],',
     '    "references": [ { "labelKey": "Libellé FR", "url": "https://..." }, ... ]',
     "  },",
     '  "newLabels": {',
@@ -1863,6 +1954,13 @@ function validateNewArticle(frData, article) {
     console.warn("[validateNewArticle] references field missing or not an array; defaulting to empty");
     article.references = [];
   }
+
+  ensureArticleTaxonomy(article);
+  if (!article.category || !Array.isArray(article.tags) || article.tags.length < 3) {
+    const err = new Error("Article taxonomy missing: category and at least 3 tags are required");
+    err.code = "MISSING_TAXONOMY";
+    throw err;
+  }
   for (const ref of article.references) {
     if (
       !ref ||
@@ -1893,15 +1991,16 @@ function validateNewArticle(frData, article) {
   }
 
   const minWords = parseInt(process.env.SEO_MIN_WORDS || "0", 10);
-  if (minWords > 0) {
+  const enforcedMinWords = Math.max(700, minWords);
+  if (enforcedMinWords > 0) {
     const words = countWords(article.content || "");
-    if (words < minWords) {
+    if (words < enforcedMinWords) {
       const err = new Error(
-        `Article trop court: ${words} mots (min: ${minWords})`,
+        `Article trop court: ${words} mots (min: ${enforcedMinWords})`,
       );
       err.code = "TOO_SHORT";
       err.words = words;
-      err.minWords = minWords;
+      err.minWords = enforcedMinWords;
       throw err;
     }
   }
@@ -2879,10 +2978,12 @@ async function main() {
   // Detect the article category for reference fallback
   const articleCategory =
     seoSuggestions?.category || detectTopic(newArticle) || "general";
+  ensureArticleTaxonomy(newArticle, articleCategory);
   await repairReferences(newArticle, articleCategory);
   syncContentReferencesSection(newArticle);
   sanitizeContentExternalLinks(newArticle);
   normalizeMarkdownHeadings(newArticle);
+  normalizeArticleUiLabelsInPlace(newArticle, frData.ArticleUiLabels);
   normalizeArticleDates(newArticle);
   logArticleMetrics(newArticle, "FR");
 
@@ -2944,8 +3045,11 @@ async function main() {
       content: articleTr.content,
       author: newArticle.author,
       date: newArticle.date,
+      category: newArticle.category,
+      tags: newArticle.tags,
       references: newArticle.references,
     };
+    normalizeArticleUiLabelsInPlace(localizedArticle, data.ArticleUiLabels);
 
     if (
       REQUIRE_TRANSLATIONS &&

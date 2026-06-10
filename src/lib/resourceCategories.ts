@@ -1,26 +1,47 @@
 export type ResourceCategoryId =
+  | "odoo"
   | "accounting"
   | "tax"
   | "payroll"
+  | "audit"
   | "corporate"
-  | "international"
-  | "digital";
+  | "domiciliation"
+  | "outsourcing"
+  | "ma"
+  | "family-office"
+  | "incorporation"
+  | "immigration"
+  | "finance"
+  | "regulatory"
+  | "general";
 
-export type ResourceCategoryLabels = Record<ResourceCategoryId | "all", string>;
+export type ResourceCategoryLabels = Partial<
+  Record<ResourceCategoryId | "all" | "international" | "digital", string>
+> & { all: string };
 
 export type ResourceCategoryArticle = {
   slug: string;
   title: string;
   description?: string;
+  category?: string;
 };
 
 const categoryOrder: ResourceCategoryId[] = [
+  "odoo",
   "accounting",
   "tax",
   "payroll",
+  "audit",
   "corporate",
-  "international",
-  "digital",
+  "domiciliation",
+  "outsourcing",
+  "ma",
+  "family-office",
+  "incorporation",
+  "immigration",
+  "finance",
+  "regulatory",
+  "general",
 ];
 
 export function buildResourceCategories(
@@ -35,7 +56,7 @@ export function buildResourceCategories(
 
   const items = categoryOrder
     .filter((id) => articles.some((article) => bySlug[article.slug] === id))
-    .map((id) => ({ id, label: labels[id] }));
+    .map((id) => ({ id, label: labels[id] || fallbackCategoryLabel(id) }));
 
   return { bySlug, items };
 }
@@ -43,6 +64,10 @@ export function buildResourceCategories(
 function detectResourceCategory(
   article: ResourceCategoryArticle,
 ): ResourceCategoryId {
+  if (article.category && isResourceCategoryId(article.category)) {
+    return article.category;
+  }
+
   const haystack =
     `${article.slug} ${article.title} ${article.description || ""}`.toLowerCase();
 
@@ -57,7 +82,7 @@ function detectResourceCategory(
     return "payroll";
   }
   if (/(odoo|digital|ia|ai|microsoft|automatisation|automation)/i.test(haystack)) {
-    return "digital";
+    return "odoo";
   }
   if (/(compt|account|buchhaltung|plan comptable|bilan|audit)/i.test(haystack)) {
     return "accounting";
@@ -70,8 +95,19 @@ function detectResourceCategory(
     return "corporate";
   }
   if (/(suisse|swiss|international|[ée]tranger|foreign|frontali)/i.test(haystack)) {
-    return "international";
+    return "immigration";
   }
 
-  return "corporate";
+  return "general";
+}
+
+function isResourceCategoryId(value: string): value is ResourceCategoryId {
+  return (categoryOrder as readonly string[]).includes(value);
+}
+
+export function fallbackCategoryLabel(id: ResourceCategoryId | string) {
+  return id
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
 }
