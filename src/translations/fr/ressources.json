@@ -1157,6 +1157,10 @@
         {
           "labelKey": "Loi sur le blanchiment d'argent (LBA)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
+        },
+        {
+          "labelKey": "FINMA - Autorité fédérale de surveillance",
+          "url": "https://www.finma.ch/fr/"
         }
       ],
       "category": "accounting",
@@ -1674,10 +1678,6 @@
           "url": "https://www.estv2.admin.ch/dvs/rundschreiben/dbst-rs-2-211-d-2024-fr.pdf"
         },
         {
-          "labelKey": "Obligations de l'employeur - Droit des assurances sociales",
-          "url": "https://www.seco.admin.ch/seco/fr/home/Arbeit/Personenfreizugigkeit_Arbeitsbeziehungen/schwarzarbeit/Arbeit_korrekt_melden/vereinfachte_abrechnungsverfahren/Abrechnung.html"
-        },
-        {
           "labelKey": "Swissdec – Normes de déclaration salariale",
           "url": "https://www.swissdec.ch/"
         },
@@ -1773,10 +1773,6 @@
       "author": "Ark Fiduciaire",
       "date": "2026-02-20",
       "references": [
-        {
-          "labelKey": "Financement des PME – SECO",
-          "url": "https://www.seco.admin.ch/seco/fr/home/Standortfoerderung/KMU-Politik/Finanzierung_der_KMU.html"
-        },
         {
           "labelKey": "les autorités suisses RS 2018/3 Outsourcing – les autorités suisses",
           "url": "https://www.sif.admin.ch/fr/loi-sur-le-blanchiment-dargent"
@@ -1926,10 +1922,6 @@
           "url": "https://www.ch.ch/fr/travail/independance-professionnelle/"
         },
         {
-          "labelKey": "Nouvelle réglementation de la gouvernance d'entreprise en Suisse",
-          "url": "https://www.seco.admin.ch/seco/fr/home/Aussenwirtschaftspolitik_Wirtschaftliche_Zusammenarbeit/Wirtschaftsbeziehungen/grundsaetze_der_unternehmensfuehrung.html"
-        },
-        {
           "labelKey": "Droit de la Sàrl (Code des Obligations, art. 772-827)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
@@ -1998,10 +1990,6 @@
           "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/gestion-risques/bases-normes-legales.html"
         },
         {
-          "labelKey": "Loi fédérale concernant la lutte contre le blanchiment d'argent et le financement du terrorisme (Parliament)",
-          "url": "https://www.bk.admin.ch/ch/f/pore/rf/cr/2021/20210837.html"
-        },
-        {
           "labelKey": "Lutte contre le blanchiment d'argent (Secrétariat d'État aux questions financières internationales, SFI)",
           "url": "https://www.sif.admin.ch/fr/loi-sur-le-blanchiment-dargent"
         }
@@ -2058,10 +2046,6 @@
       "date": "2026-03-10",
       "references": [
         {
-          "labelKey": "Régulation des investissements étrangers critiques (SECO)",
-          "url": "https://www.seco.admin.ch/seco/en/home/Aussenwirtschaftspolitik_Wirtschaftliche_Zusammenarbeit/Wirtschaftsbeziehungen/Internationale_Investitionen/Auslandsinvestitionen/Investitionskontrollen.html"
-        },
-        {
           "labelKey": "Augmentation des fusions/acquisitions en 2025 (kmu.admin.ch)",
           "url": "https://www.kmu.admin.ch/kmu/fr/home/actuel/news/2025/industrie-dope-fusions-acquisitions-suisses.html"
         },
@@ -2099,7 +2083,7 @@
         },
         {
           "labelKey": "Certificat de travail (seco)",
-          "url": "https://www.seco.admin.ch/seco/fr/home/Arbeit/Personenfreizugigkeit_Arbeitsbeziehungen/Arbeitsrecht/FAQ_zum_privaten_Arbeitsrecht/arbeitszeugnis.html"
+          "url": "https://www.seco.admin.ch/fr/faq-certificat-de-travail"
         },
         {
           "labelKey": "Actualisation 2025 : certificats de salaire (admin.ch)",
@@ -2178,7 +2162,7 @@
         },
         {
           "labelKey": "Feuille officielle du commerce (FOSC) | SECO",
-          "url": "https://www.seco.admin.ch/seco/fr/home/Publikationen_Dienstleistungen/Publikationen_und_Formulare/handelsamtsblatt.html"
+          "url": "https://www.seco.admin.ch/fr/direction-de-la-politique-economique"
         },
         {
           "labelKey": "Inscrire son entreprise - SECO",
@@ -2208,10 +2192,6 @@
         {
           "labelKey": "Guide sur la gestion des risques et bases légales pour les entreprises",
           "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/gestion-risques/bases-normes-legales.html"
-        },
-        {
-          "labelKey": "Responsabilité sociétale des entreprises (RSE) - Suisse",
-          "url": "https://www.seco.admin.ch/seco/fr/home/Aussenwirtschaftspolitik_Wirtschaftliche_Zusammenarbeit/Wirtschaftsbeziehungen/nachhaltigkeit_unternehmen/gesellschaftliche_verantwortung_der_unternehmen.html"
         },
         {
           "labelKey": "Éléments à prendre en compte pour le siège social et la domiciliation",
@@ -2387,7 +2367,7 @@
         },
         {
           "labelKey": "Feuille officielle suisse du commerce (SECO)",
-          "url": "https://www.seco.admin.ch/seco/fr/home/Publikationen_Dienstleistungen/Publikationen_und_Formulare/handelsamtsblatt.html"
+          "url": "https://www.seco.admin.ch/fr/direction-de-la-politique-economique"
         },
         {
           "labelKey": "Règles sur les inscriptions dans les répertoires publics (Fedlex)",
@@ -2534,7 +2514,7 @@
         },
         {
           "labelKey": "Feuille officielle suisse du commerce (FOSC)",
-          "url": "https://www.seco.admin.ch/seco/fr/home/Publikationen_Dienstleistungen/Publikationen_und_Formulare/handelsamtsblatt.html"
+          "url": "https://www.seco.admin.ch/fr/direction-de-la-politique-economique"
         },
         {
           "labelKey": "Registre du commerce - Portail officiel PME SECO",
@@ -2823,10 +2803,6 @@
           "url": "https://www.bj.admin.ch/bj/fr/home/wirtschaft/handelsregister.html"
         },
         {
-          "labelKey": "Loi fédérale sur la transparence des personnes morales et l’identification des ayants droit économiques (LTPM)",
-          "url": "https://www.bk.admin.ch/ch/f/pore/rf/cr/2025/20253432.html"
-        },
-        {
           "labelKey": "Loi fédérale sur la transparence des personnes morales (LTPM), consultation officielle",
           "url": "https://www.efd.admin.ch/fr/newnsb/p4lGLqowAyTAweIiDLtxs"
         },
@@ -2883,14 +2859,6 @@
         {
           "labelKey": "FAQ officiels sur le registre du commerce (ch.ch)",
           "url": "https://www.ch.ch/fr/entreprises/fonctionnement/registre-commerce/"
-        },
-        {
-          "labelKey": "Introduction d’un registre fédéral des ayants droit économiques (SECO)",
-          "url": "https://www.seco.admin.ch/seco/fr/home/Publikationen_Dienstleistungen/Publikationen_und_Formulare/Regulierung/regulierungsfolgenabschaetzung/beispiele-rfa/transparenzregister.html"
-        },
-        {
-          "labelKey": "Loi fédérale sur la transparence des personnes morales et l’identification des ayants droit économiques (LTPM)",
-          "url": "https://www.bk.admin.ch/ch/f/pore/rf/cr/2025/20253432.html"
         },
         {
           "labelKey": "Fonctions et explications sur le registre du commerce (kmu.admin.ch)",
@@ -3090,7 +3058,7 @@
         },
         {
           "labelKey": "Représentation légale et obligations (SA/Sàrl)",
-          "url": "https://admin.ch/opc/fr/classified-compilation/20021526/index.html"
+          "url": "https://www.fedlex.admin.ch/eli/cc/2002/456/fr"
         }
       ]
     }
