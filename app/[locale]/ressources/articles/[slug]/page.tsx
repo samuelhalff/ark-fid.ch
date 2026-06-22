@@ -23,6 +23,7 @@ import {
   fallbackCategoryLabel,
   type ResourceCategoryLabels,
 } from "@/src/lib/resourceCategories";
+import { buildArticleSchema, buildBreadcrumbList } from "@/src/lib/structuredData";
 
 // Dynamic because the page reads the per-request CSP nonce from headers().
 export const dynamic = "force-dynamic";
@@ -172,36 +173,24 @@ export default async function ArticlePage(props: Params) {
 
   const baseUrl = "https://ark-fid.ch";
   const articleUrl = `${baseUrl}/${locale}/ressources/articles/${params.slug}/`;
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: (tNav("Home") as string) || "Home",
-        item: `${baseUrl}/${locale}/`,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: ressources.IntroTitle || "Resources",
-        item: `${baseUrl}/${locale}/ressources/`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: ressources.ArticlesTitle || "Articles",
-        item: `${baseUrl}/${locale}/ressources/articles/`,
-      },
-      {
-        "@type": "ListItem",
-        position: 4,
-        name: article.title,
-        item: articleUrl,
-      },
-    ],
-  } as const;
+  const breadcrumbJsonLd = buildBreadcrumbList([
+    {
+      name: (tNav("Home") as string) || "Home",
+      item: `${baseUrl}/${locale}/`,
+    },
+    {
+      name: ressources.IntroTitle || "Resources",
+      item: `${baseUrl}/${locale}/ressources/`,
+    },
+    {
+      name: ressources.ArticlesTitle || "Articles",
+      item: `${baseUrl}/${locale}/ressources/articles/`,
+    },
+    {
+      name: article.title,
+      item: articleUrl,
+    },
+  ]);
   const imageUrl = getArticleImageUrl(article, locale);
   const fullContent = normalizeArticleUiLabels(
     article.content ?? "",
@@ -239,47 +228,20 @@ export default async function ArticlePage(props: Params) {
     }
   }
 
-  const articleJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
+  const articleJsonLd = buildArticleSchema({
     headline: article.title,
     description: article.description,
-    author: {
-      "@type": "Person",
-      name: article.author,
-      ...(article.authorUrl ? { url: article.authorUrl } : {}),
-    },
+    author: article.author,
+    authorUrl: article.authorUrl,
     datePublished: article.date,
-    url: articleUrl,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": articleUrl,
-    },
-    inLanguage: locale,
-    publisher: {
-      "@type": "Organization",
-      name: "Ark Fiduciaire SA",
-      logo: {
-        "@type": "ImageObject",
-        url: `${baseUrl}/assets/arkfid--color.svg`,
-        width: 512,
-        height: 512,
-      },
-      url: baseUrl,
-      sameAs: [
-        "https://www.linkedin.com/company/ark-fiduciaire/",
-        "https://maps.google.com/?cid=14946625157719331801",
-      ],
-    },
     dateModified: article.updated ?? article.date,
-    ...(reading ? { timeRequired: reading.timeRequiredISO } : {}),
-    image: {
-      "@type": "ImageObject",
-      url: imageUrl,
-    },
-    keywords: Array.isArray(article.tags) ? article.tags.join(", ") : undefined,
-    articleSection: getArticleSection(article, ressources.Categories),
-  } as const;
+    url: articleUrl,
+    locale,
+    image: imageUrl,
+    keywords: article.tags,
+    section: getArticleSection(article, ressources.Categories),
+    timeRequired: reading?.timeRequiredISO,
+  });
 
   return (
     <main className="max-w-3xl mx-auto px-5 py-12 mt-8 sm:px-8">

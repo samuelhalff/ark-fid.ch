@@ -1,111 +1,83 @@
 {
-    "ImageAlt": "Paysage des Alpes suisses avec propriété familiale, Suisse",
-    "Hero": {
-        "Badge": "Excellence suisse",
-        "BadgeTwo": "Patrimoine familial",
-        "Title": "Family office administratif en Suisse romande",
-        "Description": "Family office pour familles et entrepreneurs à fort patrimoine : gouvernance, coordination administrative, reporting consolidé et projets philanthropiques depuis la Suisse.",
-        "CTA": "Sécurisez votre héritage",
-        "SecondaryCTA": "En savoir plus"
-    },
-    "Breadcrumb": {
-        "Label": "Family office"
-    },
-    "Presentation": {
-        "Title": "Family office administratif et gouvernance familiale",
-        "Subtitle": "Un partenaire administratif et de gouvernance, sans gestion d'actifs",
-        "Intro": [
-            "Ark Fiduciaire accompagne les familles et entrepreneurs qui souhaitent un point de coordination en Suisse pour la gouvernance, la fiscalité, le juridique et le reporting.",
-            "Nous ne proposons pas de gestion d'actifs : notre rôle est administratif et de coordination avec les banques, gérants externes, juristes et fiscalistes, avec des workflows sécurisés."
-        ],
-        "HighlightsTitle": "Nos atouts en family office",
-        "Highlights": [
-            {
-                "Title": "Coordination indépendante",
-                "Desc": "Pilotage administratif des banques et prestataires, sans conseil en investissement."
-            },
-            {
-                "Title": "Coordination 360°",
-                "Desc": "Un interlocuteur unique gère administration, fiscalité, juridique, reporting et demandes lifestyle."
-            },
-            {
-                "Title": "Gouvernance & succession",
-                "Desc": "Chartes familiales, pactes d'actionnaires, programmes nextgen et planification successorale."
-            },
-            {
-                "Title": "Philanthropie & impact",
-                "Desc": "Création et administration de fondations, suivi des dons et reporting d'impact."
-            }
-        ],
-        "ServicesTitle": "Services phares de family office",
-        "Services": [
-            "Structuration patrimoniale · consolidation des participations et tableaux de flux",
-            "Coordination fiscale & juridique internationale · interface avec conseillers suisses et étrangers",
-            "Gouvernance familiale · chartes, conseils de famille, programmes éducatifs",
-            "Support administratif & paiements · préparation des virements, documentation, suivi des dossiers",
-            "Administration philanthropique & lifestyle · fondations, art, immobilier, conciergerie"
-        ],
-        "CalloutTitle": "Construisons votre feuille de route patrimoniale",
-        "CalloutText": "Planifions un entretien confidentiel à Genève ou Lausanne pour aligner vos priorités et définir une gouvernance adaptée à votre famille.",
-        "CalloutCTA": "Parler à un conseiller family office",
-        "LongFormTitle": "Approche détaillée et livrables pour la coordination administrative et la gouvernance familiale",
-        "LongFormSections": [
-            {
-                "Title": "Cadre, objectifs et priorités",
-                "Body": [
-                    "Notre accompagnement en la coordination administrative et la gouvernance familiale s'appuie sur une lecture précise de vos flux et de votre organisation, afin de fixer un périmètre clair, un calendrier réaliste et des priorités utiles. À Genève, Lausanne et la Suisse romande, nous travaillons avec familles, entrepreneurs, family businesses et actionnaires qui veulent sécuriser le family office administratif sans alourdir leur structure interne ni perdre de visibilité sur les décisions clés. Le cœur de nos livrables couvre gouvernance, reporting patrimonial et coordination fiscale, avec une attention constante à la qualité des données et à la traçabilité des décisions. Nous intégrons les exigences de cadre légal suisse et obligations administratives sans gestion d’actifs dès le départ pour éviter les corrections tardives et les risques de non-conformité. Selon votre situation, nous organisons la collecte de statuts, pactes familiaux, budgets et procès-verbaux et mettons en place des routines simples pour garder les dossiers complets.",
-                    "Nous utilisons reporting, calendriers de décision et suivi opérationnel lorsque cela apporte de la clarté, tout en restant compatibles avec vos outils actuels si vous préférez un modèle hybride. Chaque mission débute par un diagnostic court qui clarifie les enjeux, les contraintes et les gains attendus, puis se traduit par un plan d'action écrit. Nous privilégions une communication directe et des points d'avancement réguliers pour que les arbitrages restent lisibles et que les délais soient tenus. Nos méthodes s'adaptent aux cycles d'activité, aux pics opérationnels et aux contraintes cantonales, avec un suivi qui reste pragmatique. L'objectif est d'obtenir clarté, continuité et pilotage, tout en réduisant la charge administrative pour vos équipes.",
-                    "Quand des parties prenantes externes sont impliquées, nous coordonnons les échanges et préparons les éléments de synthèse attendus. Nous expliquons clairement les options, les impacts et les compromis, afin que vos décisions restent alignées avec votre stratégie. Les coûts sont pilotés par la complexité, le volume d'opérations et le niveau de coordination requis; nous clarifions ces facteurs dès le début. Nous proposons des formats de reporting adaptés à votre gouvernance, avec des indicateurs concrets et des recommandations actionnables. Lorsque le contexte change (croissance, financement, restructuration), nous ajustons le dispositif sans repartir de zéro.",
-                    "La mission reste centrée sur vos priorités: conformité, efficacité et une exécution fiable au quotidien. Nous travaillons avec une logique de documentation claire, pour que chaque choix soit justifiable et que la continuité soit assurée. Enfin, nous préparons les prochaines étapes pour que l'après-mission soit fluide et que les améliorations soient durables. Notre accompagnement en la coordination administrative et la gouvernance familiale s'appuie sur une lecture précise de vos flux et de votre organisation, afin de fixer un périmètre clair, un calendrier réaliste et des priorités utiles. À Genève, Lausanne et la Suisse romande, nous travaillons avec familles, entrepreneurs, family businesses et actionnaires qui veulent sécuriser le family office administratif sans alourdir leur structure interne ni perdre de visibilité sur les décisions clés.",
-                    "Le cœur de nos livrables couvre gouvernance, reporting patrimonial et coordination fiscale, avec une attention constante à la qualité des données et à la traçabilité des décisions. Nous intégrons les exigences de cadre légal suisse et obligations administratives sans gestion d’actifs dès le départ pour éviter les corrections tardives et les risques de non-conformité. Selon votre situation, nous organisons la collecte de statuts, pactes familiaux, budgets et procès-verbaux et mettons en place des routines simples pour garder les dossiers complets. Nous utilisons reporting, calendriers de décision et suivi opérationnel lorsque cela apporte de la clarté, tout en restant compatibles avec vos outils actuels si vous préférez un modèle hybride. Chaque mission débute par un diagnostic court qui clarifie les enjeux, les contraintes et les gains attendus, puis se traduit par un plan d'action écrit.",
-                    "Nous privilégions une communication directe et des points d'avancement réguliers pour que les arbitrages restent lisibles et que les délais soient tenus. Nos méthodes s'adaptent aux cycles d'activité, aux pics opérationnels et aux contraintes cantonales, avec un suivi qui reste pragmatique. L'objectif est d'obtenir clarté, continuité et pilotage, tout en réduisant la charge administrative pour vos équipes. Quand des parties prenantes externes sont impliquées, nous coordonnons les échanges et préparons les éléments de synthèse attendus. Nous expliquons clairement les options, les impacts et les compromis, afin que vos décisions restent alignées avec votre stratégie.",
-                    "Les coûts sont pilotés par la complexité, le volume d'opérations et le niveau de coordination requis; nous clarifions ces facteurs dès le début. Nous proposons des formats de reporting adaptés à votre gouvernance, avec des indicateurs concrets et des recommandations actionnables. Lorsque le contexte change (croissance, financement, restructuration), nous ajustons le dispositif sans repartir de zéro. La mission reste centrée sur vos priorités: conformité, efficacité et une exécution fiable au quotidien. Nous travaillons avec une logique de documentation claire, pour que chaque choix soit justifiable et que la continuité soit assurée.",
-                    "Enfin, nous préparons les prochaines étapes pour que l'après-mission soit fluide et que les améliorations soient durables. Notre accompagnement en la coordination administrative et la gouvernance familiale s'appuie sur une lecture précise de vos flux et de votre organisation, afin de fixer un périmètre clair, un calendrier réaliste et des priorités utiles. À Genève, Lausanne et la Suisse romande, nous travaillons avec familles, entrepreneurs, family businesses et actionnaires qui veulent sécuriser le family office administratif sans alourdir leur structure interne ni perdre de visibilité sur les décisions clés. Le cœur de nos livrables couvre gouvernance, reporting patrimonial et coordination fiscale, avec une attention constante à la qualité des données et à la traçabilité des décisions. Nous intégrons les exigences de cadre légal suisse et obligations administratives sans gestion d’actifs dès le départ pour éviter les corrections tardives et les risques de non-conformité.",
-                    "Selon votre situation, nous organisons la collecte de statuts, pactes familiaux, budgets et procès-verbaux et mettons en place des routines simples pour garder les dossiers complets. Nous utilisons reporting, calendriers de décision et suivi opérationnel lorsque cela apporte de la clarté, tout en restant compatibles avec vos outils actuels si vous préférez un modèle hybride. Chaque mission débute par un diagnostic court qui clarifie les enjeux, les contraintes et les gains attendus, puis se traduit par un plan d'action écrit. Nous privilégions une communication directe et des points d'avancement réguliers pour que les arbitrages restent lisibles et que les délais soient tenus. Nos méthodes s'adaptent aux cycles d'activité, aux pics opérationnels et aux contraintes cantonales, avec un suivi qui reste pragmatique."
-                ]
-            },
-            {
-                "Title": "Livrables, processus et données",
-                "Body": [
-                    "L'objectif est d'obtenir clarté, continuité et pilotage, tout en réduisant la charge administrative pour vos équipes. Quand des parties prenantes externes sont impliquées, nous coordonnons les échanges et préparons les éléments de synthèse attendus. Nous expliquons clairement les options, les impacts et les compromis, afin que vos décisions restent alignées avec votre stratégie. Les coûts sont pilotés par la complexité, le volume d'opérations et le niveau de coordination requis; nous clarifions ces facteurs dès le début. Nous proposons des formats de reporting adaptés à votre gouvernance, avec des indicateurs concrets et des recommandations actionnables.",
-                    "Lorsque le contexte change (croissance, financement, restructuration), nous ajustons le dispositif sans repartir de zéro. La mission reste centrée sur vos priorités: conformité, efficacité et une exécution fiable au quotidien. Nous travaillons avec une logique de documentation claire, pour que chaque choix soit justifiable et que la continuité soit assurée. Enfin, nous préparons les prochaines étapes pour que l'après-mission soit fluide et que les améliorations soient durables. Notre accompagnement en la coordination administrative et la gouvernance familiale s'appuie sur une lecture précise de vos flux et de votre organisation, afin de fixer un périmètre clair, un calendrier réaliste et des priorités utiles.",
-                    "À Genève, Lausanne et la Suisse romande, nous travaillons avec familles, entrepreneurs, family businesses et actionnaires qui veulent sécuriser le family office administratif sans alourdir leur structure interne ni perdre de visibilité sur les décisions clés. Le cœur de nos livrables couvre gouvernance, reporting patrimonial et coordination fiscale, avec une attention constante à la qualité des données et à la traçabilité des décisions. Nous intégrons les exigences de cadre légal suisse et obligations administratives sans gestion d’actifs dès le départ pour éviter les corrections tardives et les risques de non-conformité. Selon votre situation, nous organisons la collecte de statuts, pactes familiaux, budgets et procès-verbaux et mettons en place des routines simples pour garder les dossiers complets. Nous utilisons reporting, calendriers de décision et suivi opérationnel lorsque cela apporte de la clarté, tout en restant compatibles avec vos outils actuels si vous préférez un modèle hybride.",
-                    "Chaque mission débute par un diagnostic court qui clarifie les enjeux, les contraintes et les gains attendus, puis se traduit par un plan d'action écrit. Nous privilégions une communication directe et des points d'avancement réguliers pour que les arbitrages restent lisibles et que les délais soient tenus. Nos méthodes s'adaptent aux cycles d'activité, aux pics opérationnels et aux contraintes cantonales, avec un suivi qui reste pragmatique. L'objectif est d'obtenir clarté, continuité et pilotage, tout en réduisant la charge administrative pour vos équipes. Quand des parties prenantes externes sont impliquées, nous coordonnons les échanges et préparons les éléments de synthèse attendus.",
-                    "Nous expliquons clairement les options, les impacts et les compromis, afin que vos décisions restent alignées avec votre stratégie. Les coûts sont pilotés par la complexité, le volume d'opérations et le niveau de coordination requis; nous clarifions ces facteurs dès le début. Nous proposons des formats de reporting adaptés à votre gouvernance, avec des indicateurs concrets et des recommandations actionnables. Lorsque le contexte change (croissance, financement, restructuration), nous ajustons le dispositif sans repartir de zéro. La mission reste centrée sur vos priorités: conformité, efficacité et une exécution fiable au quotidien.",
-                    "Nous travaillons avec une logique de documentation claire, pour que chaque choix soit justifiable et que la continuité soit assurée. Enfin, nous préparons les prochaines étapes pour que l'après-mission soit fluide et que les améliorations soient durables. Notre accompagnement en la coordination administrative et la gouvernance familiale s'appuie sur une lecture précise de vos flux et de votre organisation, afin de fixer un périmètre clair, un calendrier réaliste et des priorités utiles. À Genève, Lausanne et la Suisse romande, nous travaillons avec familles, entrepreneurs, family businesses et actionnaires qui veulent sécuriser le family office administratif sans alourdir leur structure interne ni perdre de visibilité sur les décisions clés. Le cœur de nos livrables couvre gouvernance, reporting patrimonial et coordination fiscale, avec une attention constante à la qualité des données et à la traçabilité des décisions.",
-                    "Nous intégrons les exigences de cadre légal suisse et obligations administratives sans gestion d’actifs dès le départ pour éviter les corrections tardives et les risques de non-conformité. Selon votre situation, nous organisons la collecte de statuts, pactes familiaux, budgets et procès-verbaux et mettons en place des routines simples pour garder les dossiers complets. Nous utilisons reporting, calendriers de décision et suivi opérationnel lorsque cela apporte de la clarté, tout en restant compatibles avec vos outils actuels si vous préférez un modèle hybride. Chaque mission débute par un diagnostic court qui clarifie les enjeux, les contraintes et les gains attendus, puis se traduit par un plan d'action écrit. Nous privilégions une communication directe et des points d'avancement réguliers pour que les arbitrages restent lisibles et que les délais soient tenus.",
-                    "Nos méthodes s'adaptent aux cycles d'activité, aux pics opérationnels et aux contraintes cantonales, avec un suivi qui reste pragmatique. L'objectif est d'obtenir clarté, continuité et pilotage, tout en réduisant la charge administrative pour vos équipes. Quand des parties prenantes externes sont impliquées, nous coordonnons les échanges et préparons les éléments de synthèse attendus. Nous expliquons clairement les options, les impacts et les compromis, afin que vos décisions restent alignées avec votre stratégie. Les coûts sont pilotés par la complexité, le volume d'opérations et le niveau de coordination requis; nous clarifions ces facteurs dès le début.",
-                    "Nous proposons des formats de reporting adaptés à votre gouvernance, avec des indicateurs concrets et des recommandations actionnables. Lorsque le contexte change (croissance, financement, restructuration), nous ajustons le dispositif sans repartir de zéro. La mission reste centrée sur vos priorités: conformité, efficacité et une exécution fiable au quotidien. Nous travaillons avec une logique de documentation claire, pour que chaque choix soit justifiable et que la continuité soit assurée. Enfin, nous préparons les prochaines étapes pour que l'après-mission soit fluide et que les améliorations soient durables."
-                ]
-            },
-            {
-                "Title": "Coordination, conformité et parties prenantes",
-                "Body": [
-                    "Notre accompagnement en la coordination administrative et la gouvernance familiale s'appuie sur une lecture précise de vos flux et de votre organisation, afin de fixer un périmètre clair, un calendrier réaliste et des priorités utiles. À Genève, Lausanne et la Suisse romande, nous travaillons avec familles, entrepreneurs, family businesses et actionnaires qui veulent sécuriser le family office administratif sans alourdir leur structure interne ni perdre de visibilité sur les décisions clés. Le cœur de nos livrables couvre gouvernance, reporting patrimonial et coordination fiscale, avec une attention constante à la qualité des données et à la traçabilité des décisions. Nous intégrons les exigences de cadre légal suisse et obligations administratives sans gestion d’actifs dès le départ pour éviter les corrections tardives et les risques de non-conformité. Selon votre situation, nous organisons la collecte de statuts, pactes familiaux, budgets et procès-verbaux et mettons en place des routines simples pour garder les dossiers complets.",
-                    "Nous utilisons reporting, calendriers de décision et suivi opérationnel lorsque cela apporte de la clarté, tout en restant compatibles avec vos outils actuels si vous préférez un modèle hybride. Chaque mission débute par un diagnostic court qui clarifie les enjeux, les contraintes et les gains attendus, puis se traduit par un plan d'action écrit. Nous privilégions une communication directe et des points d'avancement réguliers pour que les arbitrages restent lisibles et que les délais soient tenus. Nos méthodes s'adaptent aux cycles d'activité, aux pics opérationnels et aux contraintes cantonales, avec un suivi qui reste pragmatique. L'objectif est d'obtenir clarté, continuité et pilotage, tout en réduisant la charge administrative pour vos équipes.",
-                    "Quand des parties prenantes externes sont impliquées, nous coordonnons les échanges et préparons les éléments de synthèse attendus. Nous expliquons clairement les options, les impacts et les compromis, afin que vos décisions restent alignées avec votre stratégie. Les coûts sont pilotés par la complexité, le volume d'opérations et le niveau de coordination requis; nous clarifions ces facteurs dès le début. Nous proposons des formats de reporting adaptés à votre gouvernance, avec des indicateurs concrets et des recommandations actionnables. Lorsque le contexte change (croissance, financement, restructuration), nous ajustons le dispositif sans repartir de zéro.",
-                    "La mission reste centrée sur vos priorités: conformité, efficacité et une exécution fiable au quotidien. Nous travaillons avec une logique de documentation claire, pour que chaque choix soit justifiable et que la continuité soit assurée. Enfin, nous préparons les prochaines étapes pour que l'après-mission soit fluide et que les améliorations soient durables. Notre accompagnement en la coordination administrative et la gouvernance familiale s'appuie sur une lecture précise de vos flux et de votre organisation, afin de fixer un périmètre clair, un calendrier réaliste et des priorités utiles. À Genève, Lausanne et la Suisse romande, nous travaillons avec familles, entrepreneurs, family businesses et actionnaires qui veulent sécuriser le family office administratif sans alourdir leur structure interne ni perdre de visibilité sur les décisions clés.",
-                    "Le cœur de nos livrables couvre gouvernance, reporting patrimonial et coordination fiscale, avec une attention constante à la qualité des données et à la traçabilité des décisions. Nous intégrons les exigences de cadre légal suisse et obligations administratives sans gestion d’actifs dès le départ pour éviter les corrections tardives et les risques de non-conformité. Selon votre situation, nous organisons la collecte de statuts, pactes familiaux, budgets et procès-verbaux et mettons en place des routines simples pour garder les dossiers complets. Nous utilisons reporting, calendriers de décision et suivi opérationnel lorsque cela apporte de la clarté, tout en restant compatibles avec vos outils actuels si vous préférez un modèle hybride. Chaque mission débute par un diagnostic court qui clarifie les enjeux, les contraintes et les gains attendus, puis se traduit par un plan d'action écrit.",
-                    "Nous privilégions une communication directe et des points d'avancement réguliers pour que les arbitrages restent lisibles et que les délais soient tenus. Nos méthodes s'adaptent aux cycles d'activité, aux pics opérationnels et aux contraintes cantonales, avec un suivi qui reste pragmatique. L'objectif est d'obtenir clarté, continuité et pilotage, tout en réduisant la charge administrative pour vos équipes. Quand des parties prenantes externes sont impliquées, nous coordonnons les échanges et préparons les éléments de synthèse attendus. Nous expliquons clairement les options, les impacts et les compromis, afin que vos décisions restent alignées avec votre stratégie.",
-                    "Les coûts sont pilotés par la complexité, le volume d'opérations et le niveau de coordination requis; nous clarifions ces facteurs dès le début. Nous proposons des formats de reporting adaptés à votre gouvernance, avec des indicateurs concrets et des recommandations actionnables. Lorsque le contexte change (croissance, financement, restructuration), nous ajustons le dispositif sans repartir de zéro. La mission reste centrée sur vos priorités: conformité, efficacité et une exécution fiable au quotidien. Nous travaillons avec une logique de documentation claire, pour que chaque choix soit justifiable et que la continuité soit assurée.",
-                    "Enfin, nous préparons les prochaines étapes pour que l'après-mission soit fluide et que les améliorations soient durables. Notre accompagnement en la coordination administrative et la gouvernance familiale s'appuie sur une lecture précise de vos flux et de votre organisation, afin de fixer un périmètre clair, un calendrier réaliste et des priorités utiles. À Genève, Lausanne et la Suisse romande, nous travaillons avec familles, entrepreneurs, family businesses et actionnaires qui veulent sécuriser le family office administratif sans alourdir leur structure interne ni perdre de visibilité sur les décisions clés. Le cœur de nos livrables couvre gouvernance, reporting patrimonial et coordination fiscale, avec une attention constante à la qualité des données et à la traçabilité des décisions. Nous intégrons les exigences de cadre légal suisse et obligations administratives sans gestion d’actifs dès le départ pour éviter les corrections tardives et les risques de non-conformité.",
-                    "Selon votre situation, nous organisons la collecte de statuts, pactes familiaux, budgets et procès-verbaux et mettons en place des routines simples pour garder les dossiers complets. Nous utilisons reporting, calendriers de décision et suivi opérationnel lorsque cela apporte de la clarté, tout en restant compatibles avec vos outils actuels si vous préférez un modèle hybride. Chaque mission débute par un diagnostic court qui clarifie les enjeux, les contraintes et les gains attendus, puis se traduit par un plan d'action écrit. Nous privilégions une communication directe et des points d'avancement réguliers pour que les arbitrages restent lisibles et que les délais soient tenus. Nos méthodes s'adaptent aux cycles d'activité, aux pics opérationnels et aux contraintes cantonales, avec un suivi qui reste pragmatique."
-                ]
-            },
-            {
-                "Title": "Pilotage, coûts et continuité",
-                "Body": [
-                    "L'objectif est d'obtenir clarté, continuité et pilotage, tout en réduisant la charge administrative pour vos équipes. Quand des parties prenantes externes sont impliquées, nous coordonnons les échanges et préparons les éléments de synthèse attendus. Nous expliquons clairement les options, les impacts et les compromis, afin que vos décisions restent alignées avec votre stratégie. Les coûts sont pilotés par la complexité, le volume d'opérations et le niveau de coordination requis; nous clarifions ces facteurs dès le début. Nous proposons des formats de reporting adaptés à votre gouvernance, avec des indicateurs concrets et des recommandations actionnables.",
-                    "Lorsque le contexte change (croissance, financement, restructuration), nous ajustons le dispositif sans repartir de zéro. La mission reste centrée sur vos priorités: conformité, efficacité et une exécution fiable au quotidien. Nous travaillons avec une logique de documentation claire, pour que chaque choix soit justifiable et que la continuité soit assurée. Enfin, nous préparons les prochaines étapes pour que l'après-mission soit fluide et que les améliorations soient durables. Notre accompagnement en la coordination administrative et la gouvernance familiale s'appuie sur une lecture précise de vos flux et de votre organisation, afin de fixer un périmètre clair, un calendrier réaliste et des priorités utiles.",
-                    "À Genève, Lausanne et la Suisse romande, nous travaillons avec familles, entrepreneurs, family businesses et actionnaires qui veulent sécuriser le family office administratif sans alourdir leur structure interne ni perdre de visibilité sur les décisions clés. Le cœur de nos livrables couvre gouvernance, reporting patrimonial et coordination fiscale, avec une attention constante à la qualité des données et à la traçabilité des décisions. Nous intégrons les exigences de cadre légal suisse et obligations administratives sans gestion d’actifs dès le départ pour éviter les corrections tardives et les risques de non-conformité. Selon votre situation, nous organisons la collecte de statuts, pactes familiaux, budgets et procès-verbaux et mettons en place des routines simples pour garder les dossiers complets. Nous utilisons reporting, calendriers de décision et suivi opérationnel lorsque cela apporte de la clarté, tout en restant compatibles avec vos outils actuels si vous préférez un modèle hybride.",
-                    "Chaque mission débute par un diagnostic court qui clarifie les enjeux, les contraintes et les gains attendus, puis se traduit par un plan d'action écrit. Nous privilégions une communication directe et des points d'avancement réguliers pour que les arbitrages restent lisibles et que les délais soient tenus. Nos méthodes s'adaptent aux cycles d'activité, aux pics opérationnels et aux contraintes cantonales, avec un suivi qui reste pragmatique. L'objectif est d'obtenir clarté, continuité et pilotage, tout en réduisant la charge administrative pour vos équipes. Quand des parties prenantes externes sont impliquées, nous coordonnons les échanges et préparons les éléments de synthèse attendus.",
-                    "Nous expliquons clairement les options, les impacts et les compromis, afin que vos décisions restent alignées avec votre stratégie. Les coûts sont pilotés par la complexité, le volume d'opérations et le niveau de coordination requis; nous clarifions ces facteurs dès le début. Nous proposons des formats de reporting adaptés à votre gouvernance, avec des indicateurs concrets et des recommandations actionnables. Lorsque le contexte change (croissance, financement, restructuration), nous ajustons le dispositif sans repartir de zéro. La mission reste centrée sur vos priorités: conformité, efficacité et une exécution fiable au quotidien.",
-                    "Nous travaillons avec une logique de documentation claire, pour que chaque choix soit justifiable et que la continuité soit assurée. Enfin, nous préparons les prochaines étapes pour que l'après-mission soit fluide et que les améliorations soient durables. Notre accompagnement en la coordination administrative et la gouvernance familiale s'appuie sur une lecture précise de vos flux et de votre organisation, afin de fixer un périmètre clair, un calendrier réaliste et des priorités utiles. À Genève, Lausanne et la Suisse romande, nous travaillons avec familles, entrepreneurs, family businesses et actionnaires qui veulent sécuriser le family office administratif sans alourdir leur structure interne ni perdre de visibilité sur les décisions clés. Le cœur de nos livrables couvre gouvernance, reporting patrimonial et coordination fiscale, avec une attention constante à la qualité des données et à la traçabilité des décisions.",
-                    "Nous intégrons les exigences de cadre légal suisse et obligations administratives sans gestion d’actifs dès le départ pour éviter les corrections tardives et les risques de non-conformité. Selon votre situation, nous organisons la collecte de statuts, pactes familiaux, budgets et procès-verbaux et mettons en place des routines simples pour garder les dossiers complets. Nous utilisons reporting, calendriers de décision et suivi opérationnel lorsque cela apporte de la clarté, tout en restant compatibles avec vos outils actuels si vous préférez un modèle hybride. Chaque mission débute par un diagnostic court qui clarifie les enjeux, les contraintes et les gains attendus, puis se traduit par un plan d'action écrit. Nous privilégions une communication directe et des points d'avancement réguliers pour que les arbitrages restent lisibles et que les délais soient tenus.",
-                    "Nos méthodes s'adaptent aux cycles d'activité, aux pics opérationnels et aux contraintes cantonales, avec un suivi qui reste pragmatique. L'objectif est d'obtenir clarté, continuité et pilotage, tout en réduisant la charge administrative pour vos équipes. Quand des parties prenantes externes sont impliquées, nous coordonnons les échanges et préparons les éléments de synthèse attendus. Nous expliquons clairement les options, les impacts et les compromis, afin que vos décisions restent alignées avec votre stratégie. Les coûts sont pilotés par la complexité, le volume d'opérations et le niveau de coordination requis; nous clarifions ces facteurs dès le début.",
-                    "Nous proposons des formats de reporting adaptés à votre gouvernance, avec des indicateurs concrets et des recommandations actionnables. Lorsque le contexte change (croissance, financement, restructuration), nous ajustons le dispositif sans repartir de zéro. La mission reste centrée sur vos priorités: conformité, efficacité et une exécution fiable au quotidien. Nous travaillons avec une logique de documentation claire, pour que chaque choix soit justifiable et que la continuité soit assurée. Enfin, nous préparons les prochaines étapes pour que l'après-mission soit fluide et que les améliorations soient durables."
-                ]
-            }
+  "ImageAlt": "Paysage des Alpes suisses avec propriété familiale, Suisse",
+  "Hero": {
+    "Badge": "Excellence suisse",
+    "BadgeTwo": "Patrimoine familial",
+    "Title": "Family office administratif en Suisse romande",
+    "Description": "Family office pour familles et entrepreneurs à fort patrimoine : gouvernance, coordination administrative, reporting consolidé et projets philanthropiques depuis la Suisse.",
+    "CTA": "Sécurisez votre héritage",
+    "SecondaryCTA": "En savoir plus"
+  },
+  "Breadcrumb": {
+    "Label": "Family office"
+  },
+  "Presentation": {
+    "Title": "Family office administratif et gouvernance familiale",
+    "Subtitle": "Un partenaire administratif et de gouvernance, sans gestion d'actifs",
+    "Intro": [
+      "Ark Fiduciaire accompagne les familles et entrepreneurs qui souhaitent un point de coordination en Suisse pour la gouvernance, la fiscalité, le juridique et le reporting.",
+      "Nous ne proposons pas de gestion d'actifs : notre rôle est administratif et de coordination avec les banques, gérants externes, juristes et fiscalistes, avec des workflows sécurisés."
+    ],
+    "HighlightsTitle": "Nos atouts en family office",
+    "Highlights": [
+      {
+        "Title": "Coordination indépendante",
+        "Desc": "Pilotage administratif des banques et prestataires, sans conseil en investissement."
+      },
+      {
+        "Title": "Coordination 360°",
+        "Desc": "Un interlocuteur unique gère administration, fiscalité, juridique, reporting et demandes lifestyle."
+      },
+      {
+        "Title": "Gouvernance & succession",
+        "Desc": "Chartes familiales, pactes d'actionnaires, programmes nextgen et planification successorale."
+      },
+      {
+        "Title": "Philanthropie & impact",
+        "Desc": "Création et administration de fondations, suivi des dons et reporting d'impact."
+      }
+    ],
+    "ServicesTitle": "Services phares de family office",
+    "Services": [
+      "Structuration patrimoniale · consolidation des participations et tableaux de flux",
+      "Coordination fiscale & juridique internationale · interface avec conseillers suisses et étrangers",
+      "Gouvernance familiale · chartes, conseils de famille, programmes éducatifs",
+      "Support administratif & paiements · préparation des virements, documentation, suivi des dossiers",
+      "Administration philanthropique & lifestyle · fondations, art, immobilier, conciergerie"
+    ],
+    "CalloutTitle": "Construisons votre feuille de route patrimoniale",
+    "CalloutText": "Planifions un entretien confidentiel à Genève ou Lausanne pour aligner vos priorités et définir une gouvernance adaptée à votre famille.",
+    "CalloutCTA": "Parler à un conseiller family office",
+    "LongFormTitle": "Coordination administrative pour familles et structures patrimoniales",
+    "LongFormSections": [
+      {
+        "Title": "Pour qui",
+        "Body": [
+          "Familles, entrepreneurs et structures familiales qui ont besoin d’un point de coordination administratif en Suisse romande.",
+          "Le service porte sur la gouvernance, la documentation, le reporting, la fiscalité et la coordination des intervenants."
         ]
-    }
+      },
+      {
+        "Title": "Ce que nous coordonnons",
+        "Body": [
+          "Calendriers de décisions, documents de gouvernance, synthèses administratives, suivi fiscal, coordination avec banques, gérants externes, avocats et notaires.",
+          "Nous aidons à rendre les informations exploitables sans remplacer les spécialistes mandatés sur leurs domaines respectifs."
+        ]
+      },
+      {
+        "Title": "Limite essentielle",
+        "Body": [
+          "Ark Fiduciaire ne fournit pas de gestion discrétionnaire d’actifs dans ce cadre.",
+          "Les décisions d’investissement, mandats de gestion et recommandations financières restent du ressort des banques, gérants ou conseillers autorisés concernés."
+        ]
+      },
+      {
+        "Title": "Coûts et continuité",
+        "Body": [
+          "Les coûts dépendent du nombre d’entités, d’intervenants, de pays, de réunions, de reportings et de documents à coordonner.",
+          "La valeur du mandat tient à la continuité: dossiers rangés, décisions traçables et responsabilités clairement réparties."
+        ]
+      }
+    ]
+  }
 }

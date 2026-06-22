@@ -110,5 +110,28 @@
                 ]
             }
         ]
-    }
+      },
+      {
+        "Title": "Ce que nous suivons",
+        "Body": [
+          "Secrétariat corporate, tenue de registres, préparation de décisions, coordination de signatures, suivi des obligations et lien avec notaires ou avocats.",
+          "Les documents sont organisés pour être retrouvés rapidement lors d’un audit, d’une transaction ou d’un contrôle bancaire."
+        ]
+      },
+      {
+        "Title": "Méthode",
+        "Body": [
+          "Nous établissons un calendrier des décisions récurrentes, des échéances légales et des validations nécessaires.",
+          "Chaque intervention précise le responsable, la pièce attendue, le délai et la preuve de décision."
+        ]
+      },
+      {
+        "Title": "Limites et coûts",
+        "Body": [
+          "Les coûts varient selon le nombre d’entités, la fréquence des changements, les documents à préparer et les tiers à coordonner.",
+          "Lorsque le sujet relève d’un avis juridique spécifique, nous coordonnons avec les conseils compétents plutôt que de le présenter comme une formalité."
+        ]
+      }
+    ]
+  }
 }

@@ -16,6 +16,7 @@ import {
 } from "@/src/lib/team";
 import { getPageMetadata } from "@/src/lib/metadata";
 import { Card, CardContent } from "@/src/components/ui/card";
+import { buildBreadcrumbList, buildPersonSchema } from "@/src/lib/structuredData";
 
 type Params = { locale: string; slug: string };
 
@@ -106,30 +107,20 @@ export default async function TeamMemberPage(props: { params: Promise<Params> })
     rawShort && rawShort !== bioShortKey ? rawShort : member.bioShort;
   const bioLong = rawLong && rawLong !== bioLongKey ? rawLong : member.bioLong;
 
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: `${baseUrl}${localePrefix}/`,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Team",
-        item: `${baseUrl}${localePrefix}/team/`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: title,
-        item: `${baseUrl}${localePrefix}/team/${params.slug}/`,
-      },
-    ],
-  } as const;
+  const breadcrumbJsonLd = buildBreadcrumbList([
+    {
+      name: (tNav("Home") as string) || "Home",
+      item: `${baseUrl}${localePrefix}/`,
+    },
+    {
+      name: (t("Title") as string) || "Team",
+      item: `${baseUrl}${localePrefix}/team/`,
+    },
+    {
+      name: title,
+      item: `${baseUrl}${localePrefix}/team/${params.slug}/`,
+    },
+  ]);
 
   // Localized details with fallback to member fields
   const getArray = (key: string, fallback?: string[]) => {
@@ -160,34 +151,22 @@ export default async function TeamMemberPage(props: { params: Promise<Params> })
   const absoluteProfileImage = profileImageSrc.startsWith("http")
     ? profileImageSrc
     : `${baseUrl}${profileImageSrc}`;
-  const personJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "@id": `${baseUrl}${localePrefix}/team/${params.slug}/#person`,
+  const personJsonLd = buildPersonSchema({
+    id: `${baseUrl}${localePrefix}/team/${params.slug}/#person`,
     name: member.name,
     jobTitle: roleLabel,
     description: bioShort,
     image: absoluteProfileImage,
     url: `${baseUrl}${localePrefix}/team/${params.slug}/`,
-    worksFor: {
-      "@type": "Organization",
-      name: "Ark Fiduciaire SA",
-      url: baseUrl,
-    },
     sameAs: [
       member.social.linkedin,
       ...(member.pbmUrl ? [member.pbmUrl] : []),
     ].filter(Boolean),
     knowsLanguage: languages,
-    alumniOf: education.map((name) => ({
-      "@type": "EducationalOrganization",
-      name,
-    })),
-    memberOf: memberships.map((name) => ({
-      "@type": "Organization",
-      name,
-    })),
-  } as const;
+    alumniOf: education,
+    memberOf: memberships,
+    knowsAbout: credentials,
+  });
 
   return (
     <div className="mx-auto px-5 py-15 mt-20 mb-20 sm:px-8 max-w-[var(--breakpoint-xl)]">

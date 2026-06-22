@@ -268,15 +268,10 @@ export function generateOrganizationStructuredData() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Ark Fiduciaire",
+    "name": "Ark Fiduciaire SA",
     "description": "Fiduciary, accounting, payroll and tax compliance services based in Geneva and active across French-speaking Switzerland (Romandy) and Switzerland",
     "url": "https://ark-fid.ch",
     "logo": "https://ark-fid.ch/assets/arkfid--color.svg",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "5.0",
-      "reviewCount": 6
-    },
     "contactPoint": [
       {
         "@type": "ContactPoint",

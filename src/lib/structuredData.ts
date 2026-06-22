@@ -107,28 +107,223 @@ export function buildBreadcrumbList(items: BreadcrumbItem[]) {
   } as const;
 }
 
-export interface OrganizationAggregateRatingConfig {
-  name: string;
-  url: string;
-  ratingValue: string;
-  reviewCount: number;
-  logo?: string;
-}
+export const arkOrganization = {
+  name: "Ark Fiduciaire SA",
+  url: "https://ark-fid.ch",
+  logo: "https://ark-fid.ch/assets/arkfid--color.svg",
+  telephone: "+41 22 512 50 50",
+  email: "info@ark-fid.ch",
+  address: {
+    streetAddress: "26 Boulevard Georges Favon",
+    postalCode: "1204",
+    addressLocality: "Genève",
+    addressRegion: "GE",
+    addressCountry: "CH",
+  },
+  areaServed: ["Geneva", "Lausanne", "Suisse romande", "Switzerland"],
+  sameAs: [
+    "https://www.linkedin.com/company/ark-fiduciaire/",
+    "https://maps.google.com/?cid=14946625157719331801",
+  ],
+  languages: ["fr", "en", "de", "es", "pt"],
+} as const;
 
-export function buildOrganizationAggregateRating(
-  cfg: OrganizationAggregateRatingConfig
-) {
+export function buildOrganizationGraph(locale: string = "fr") {
+  const serviceNames =
+    locale === "fr"
+      ? [
+          "Comptabilité",
+          "Fiscalité",
+          "Gestion des salaires",
+          "Domiciliation",
+          "Création de société",
+          "Administration corporate",
+          "Externalisation back-office",
+          "Implémentation Odoo",
+          "Family office administratif",
+          "M&A",
+          "Immigration et permis",
+        ]
+      : [
+          "Accounting",
+          "Tax",
+          "Payroll",
+          "Business domiciliation",
+          "Company incorporation",
+          "Corporate administration",
+          "Back-office outsourcing",
+          "Odoo implementation",
+          "Administrative family office",
+          "M&A",
+          "Immigration and permits",
+        ];
+
+  const organizationId = `${arkOrganization.url}/#organization`;
   return {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@graph": [
+      {
+        "@type": ["Organization", "ProfessionalService", "AccountingService"],
+        "@id": organizationId,
+        name: arkOrganization.name,
+        url: arkOrganization.url,
+        logo: arkOrganization.logo,
+        image: arkOrganization.logo,
+        telephone: arkOrganization.telephone,
+        email: arkOrganization.email,
+        address: {
+          "@type": "PostalAddress",
+          ...arkOrganization.address,
+        },
+        areaServed: arkOrganization.areaServed.map((name) => ({
+          "@type": name === "Switzerland" ? "Country" : "Place",
+          name,
+        })),
+        sameAs: arkOrganization.sameAs,
+        knowsLanguage: arkOrganization.languages,
+        description:
+          locale === "fr"
+            ? "Ark Fiduciaire SA est une fiduciaire basée à Genève pour PME suisses, entrepreneurs, familles et sociétés internationales."
+            : "Ark Fiduciaire SA is a Geneva-based fiduciary firm for Swiss SMEs, entrepreneurs, families and international companies.",
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name:
+            locale === "fr"
+              ? "Services fiduciaires Ark Fiduciaire"
+              : "Ark Fiduciaire services",
+          itemListElement: serviceNames.map((name) => ({
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              name,
+              provider: { "@id": organizationId },
+            },
+          })),
+        },
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${arkOrganization.url}/#website`,
+        url: arkOrganization.url,
+        name: arkOrganization.name,
+        publisher: { "@id": organizationId },
+        inLanguage: locale,
+      },
+    ],
+  } as const;
+}
+
+export interface PersonSchemaConfig {
+  id: string;
+  name: string;
+  jobTitle?: string;
+  description?: string;
+  image?: string;
+  url: string;
+  sameAs?: string[];
+  knowsLanguage?: string[];
+  alumniOf?: string[];
+  memberOf?: string[];
+  knowsAbout?: string[];
+}
+
+export function buildPersonSchema(cfg: PersonSchemaConfig) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": cfg.id,
     name: cfg.name,
+    ...(cfg.jobTitle ? { jobTitle: cfg.jobTitle } : {}),
+    ...(cfg.description ? { description: cfg.description } : {}),
+    ...(cfg.image ? { image: cfg.image } : {}),
     url: cfg.url,
-    ...(cfg.logo ? { logo: cfg.logo } : {}),
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: cfg.ratingValue,
-      reviewCount: cfg.reviewCount,
+    worksFor: {
+      "@type": "Organization",
+      "@id": `${arkOrganization.url}/#organization`,
+      name: arkOrganization.name,
+      url: arkOrganization.url,
     },
+    ...(cfg.sameAs?.length ? { sameAs: cfg.sameAs } : {}),
+    ...(cfg.knowsLanguage?.length ? { knowsLanguage: cfg.knowsLanguage } : {}),
+    ...(cfg.knowsAbout?.length ? { knowsAbout: cfg.knowsAbout } : {}),
+    ...(cfg.alumniOf?.length
+      ? {
+          alumniOf: cfg.alumniOf.map((name) => ({
+            "@type": "EducationalOrganization",
+            name,
+          })),
+        }
+      : {}),
+    ...(cfg.memberOf?.length
+      ? {
+          memberOf: cfg.memberOf.map((name) => ({
+            "@type": "Organization",
+            name,
+          })),
+        }
+      : {}),
+  } as const;
+}
+
+export interface ArticleSchemaConfig {
+  headline: string;
+  description?: string;
+  datePublished?: string;
+  dateModified?: string;
+  author?: string;
+  authorUrl?: string;
+  publisherName?: string;
+  image?: string;
+  url: string;
+  locale: string;
+  section?: string;
+  keywords?: string[];
+  timeRequired?: string;
+}
+
+export function buildArticleSchema(cfg: ArticleSchemaConfig) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: cfg.headline,
+    ...(cfg.description ? { description: cfg.description } : {}),
+    ...(cfg.author
+      ? {
+          author: {
+            "@type": cfg.authorUrl ? "Person" : "Organization",
+            name: cfg.author,
+            ...(cfg.authorUrl ? { url: cfg.authorUrl } : {}),
+          },
+        }
+      : {}),
+    publisher: {
+      "@type": "Organization",
+      "@id": `${arkOrganization.url}/#organization`,
+      name: cfg.publisherName || arkOrganization.name,
+      logo: {
+        "@type": "ImageObject",
+        url: arkOrganization.logo,
+      },
+    },
+    ...(cfg.datePublished ? { datePublished: cfg.datePublished } : {}),
+    dateModified: cfg.dateModified || cfg.datePublished,
+    url: cfg.url,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": cfg.url,
+    },
+    inLanguage: cfg.locale,
+    ...(cfg.image
+      ? {
+          image: {
+            "@type": "ImageObject",
+            url: cfg.image,
+          },
+        }
+      : {}),
+    ...(cfg.section ? { articleSection: cfg.section } : {}),
+    ...(cfg.keywords?.length ? { keywords: cfg.keywords.join(", ") } : {}),
+    ...(cfg.timeRequired ? { timeRequired: cfg.timeRequired } : {}),
   } as const;
 }
 
@@ -314,10 +509,6 @@ export interface SoftwareApplicationConfig {
     price: string;
     priceCurrency: string;
   };
-  aggregateRating?: {
-    ratingValue: string;
-    reviewCount: number;
-  };
   author?: {
     name: string;
     url?: string;
@@ -341,15 +532,6 @@ export function buildSoftwareApplication(cfg: SoftwareApplicationConfig) {
           },
         }
       : {}),
-    ...(cfg.aggregateRating
-      ? {
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: cfg.aggregateRating.ratingValue,
-            reviewCount: cfg.aggregateRating.reviewCount,
-          },
-        }
-      : {}),
     ...(cfg.author
       ? {
           author: {
@@ -361,4 +543,3 @@ export function buildSoftwareApplication(cfg: SoftwareApplicationConfig) {
       : {}),
   } as const;
 }
-

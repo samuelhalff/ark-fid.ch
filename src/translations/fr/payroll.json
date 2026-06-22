@@ -1,130 +1,106 @@
 {
-    "ImageAlt": "Tramway bleu historique sur des rails enneigés sous ciel d'hiver clair, Suisse",
-    "Hero": {
-        "Badge": "Services de paie",
-        "BadgeTwo": "Assisté par l'IA",
-        "Title": "Gestion des salaires et paie en Suisse romande",
-        "Description": "Ark Fiduciaire gère votre paie et administration RH avec précision et confidentialité. Nous assurons la conformité avec le droit du travail suisse et fournissons un soutien pour tous vos besoins RH.",
-        "CTA": "Obtenir un soutien paie",
-        "SecondaryCTA": "Rencontrer l'équipe"
+  "ImageAlt": "Tramway bleu historique sur des rails enneigés sous ciel d'hiver clair, Suisse",
+  "Hero": {
+    "Badge": "Services de paie",
+    "BadgeTwo": "Assisté par l'IA",
+    "Title": "Gestion des salaires et paie en Suisse romande",
+    "Description": "Ark Fiduciaire gère votre paie et administration RH avec précision et confidentialité. Nous assurons la conformité avec le droit du travail suisse et fournissons un soutien pour tous vos besoins RH.",
+    "CTA": "Obtenir un soutien paie",
+    "SecondaryCTA": "Rencontrer l'équipe"
+  },
+  "Presentation": {
+    "Title": "Paie suisse et charges sociales pour employeurs",
+    "Subtitle": "Vos employés, notre priorité",
+    "Intro": [
+      "Nous nous occupons de toutes les tâches administratives de paie et RH, des calculs de salaire aux déclarations d'assurances sociales.",
+      "Nos experts assurent la conformité et fournissent des conseils pour une gestion RH optimale.",
+      "Nous livrons des sorties compatibles swissdec et des fiches de paie claires, avec une checklist mensuelle pour les RH."
+    ],
+    "ServicesTitle": "Nos Services Paie et RH",
+    "Services": [
+      "Traitement de la Paie : Calculs complets de salaires, déductions d'assurances sociales et gestion des paiements",
+      "Administration RH : Gestion des dossiers employés, préparation de contrats et support administratif",
+      "Assurances Sociales : Inscription, déclarations et conformité avec les systèmes de sécurité sociale suisses",
+      "Droit du Travail : Services de conseil sur le droit du travail suisse et conformité réglementaire"
+    ],
+    "StrengthsTitle": "Nos forces pour vos besoins RH",
+    "Strengths": [
+      {
+        "Title": "Confidentialité et sécurité",
+        "Desc": "Nous garantissons la confidentialité de vos données et la conformité avec toutes les exigences légales."
+      },
+      {
+        "Title": "Expertise en droit du travail suisse",
+        "Desc": "Nos spécialistes maîtrisent le cadre juridique et assurent que votre gestion RH soit toujours conforme."
+      },
+      {
+        "Title": "Accompagnement personnalisé",
+        "Desc": "Une personne de contact dédiée vous accompagne, vous et vos employés, à chaque étape."
+      },
+      {
+        "Title": "Efficacité administrative",
+        "Desc": "Nous nous occupons de toutes les formalités administratives, vous permettant de vous concentrer sur votre cœur de métier."
+      }
+    ],
+    "CommonQuestions": {
+      "Title": "Questions fréquentes sur les services de paie et RH en Suisse",
+      "Questions": [
+        {
+          "Question": "Quels sont les coûts d'externalisation de la paie pour une startup en Suisse ?",
+          "Answer": "Les coûts d'externalisation de la paie en Suisse varient généralement de CHF 80 à CHF 150 par employé par mois, selon la complexité et le nombre d'employés. Pour les startups de 5-10 employés, comptez des frais mensuels entre CHF 400-1'000 incluant le traitement des salaires, les déclarations d'assurances sociales et la génération des bulletins de paie. Des services supplémentaires comme les certificats de salaire annuels, l'intégration d'employés et la préparation de contrats peuvent entraîner des frais supplémentaires. Nous offrons une tarification transparente sans frais cachés, fournissant aux startups des coûts prévisibles tout en éliminant le besoin de personnel de paie interne coûteux et de logiciels. Nos solutions évolutives grandissent avec votre entreprise, réduisant les coûts par employé à mesure que votre équipe s'étend."
+        },
+        {
+          "Question": "Quelles sont les obligations d'assurances sociales pour les employeurs suisses (AVS, LPP, LAA) ?",
+          "Answer": "Les employeurs suisses doivent gérer plusieurs cotisations d'assurances sociales obligatoires : AVS (assurance-vieillesse et survivants) à environ 10,6% répartis entre employeur et employé, LPP (prévoyance professionnelle) requise pour les salaires supérieurs à CHF 22'050 annuellement avec des cotisations variant selon l'âge et le plan, LAA (assurance-accidents) couvrant les accidents professionnels et non professionnels avec des taux dépendant du risque sectoriel, APG (allocations pour perte de gain), et allocations familiales variant selon le canton. Les employeurs genevois paient aussi des cotisations de solidarité et autres prélèvements cantonaux. Nous gérons tous les calculs, inscriptions auprès des caisses de compensation, déclarations mensuelles et assurons des taux de cotisation corrects lors des changements réglementaires. Nos systèmes génèrent automatiquement des décomptes de salaires conformes et maintiennent une documentation prête pour les audits."
+        },
+        {
+          "Question": "Comment fonctionne la conformité Swissdec et quelles sont les exigences de distribution électronique des bulletins ?",
+          "Answer": "Swissdec est la norme suisse pour l'échange électronique de données entre les logiciels de paie et les institutions d'assurances sociales, autorités fiscales et assureurs-accidents. La conformité nécessite l'utilisation d'un logiciel de paie certifié générant des fichiers XML standardisés pour les déclarations salariales trimestrielles et annuelles. La distribution électronique des bulletins de paie est de plus en plus courante, nécessitant des portails employés sécurisés ou une distribution par email crypté avec pistes d'audit. Nous utilisons des systèmes certifiés Swissdec assurant que toutes vos déclarations salariales soient transmises électroniquement, réduisant les temps de traitement et les erreurs. Les employés reçoivent des bulletins de paie électroniques professionnels via des canaux sécurisés, avec des copies archivées disponibles pour les demandes de prêt hypothécaire, renouvellements de visa et autres besoins officiels. Notre plateforme fournit un accès employé 24/7 aux bulletins actuels et historiques, certificats et documents fiscaux."
+        },
+        {
+          "Question": "Comment gérez-vous la paie des travailleurs frontaliers qui font la navette depuis la France vers la Suisse ?",
+          "Answer": "Les travailleurs frontaliers (frontaliers) de France travaillant à Genève sont soumis à des réglementations spéciales incluant l'impôt à la source, des exemptions spécifiques d'assurances sociales selon les accords bilatéraux, et des exigences de soins de santé coordonnées. Les employeurs doivent s'inscrire pour l'impôt à la source des travailleurs frontaliers, appliquer des taux corrects basés sur la résidence et la situation familiale, soumettre des déclarations mensuelles aux autorités fiscales genevoises, et émettre des attestations annuelles pour les déclarations fiscales françaises. Les assurances sociales suivent les règles du pays de travail, ce qui signifie que les cotisations suisses s'appliquent malgré la résidence française. Nous gérons toutes les complexités de paie transfrontalière incluant les calculs de retenue d'impôt, la préparation d'attestations, la coordination avec la sécurité sociale française si nécessaire, et assurant la conformité avec les exigences de documentation suisses et françaises applicables pour vos employés frontaliers."
+        },
+        {
+          "Question": "Qu'implique la paie pour les employés à temps partiel et les freelances indépendants ?",
+          "Answer": "Les employés à temps partiel en Suisse nécessitent le même traitement de paie que le personnel à plein temps, avec des cotisations et avantages d'assurances sociales proportionnels. Les seuils d'assurances sociales s'appliquent toujours : les cotisations AVS sont obligatoires dès le premier franc, tandis que la LPP (prévoyance professionnelle) ne s'applique que si le salaire annuel dépasse CHF 22'050. Les freelances indépendants (travailleurs indépendants) facturent généralement votre entreprise directement et gèrent leurs propres assurances sociales en tant qu'indépendants, mais des risques de mauvaise classification existent. Les autorités suisses scrutent attentivement les relations d'emploi, examinant le contrôle, l'exclusivité et la dépendance économique. Nous aidons à structurer correctement l'emploi, traitons la paie pour le personnel à temps partiel avec des calculs horaires ou basés sur pourcentage précis, conseillons sur la classification entrepreneur versus employé, et assurons que vous évitez les pénalités des autorités d'assurances sociales pour catégorisation incorrecte des travailleurs."
+        },
+        {
+          "Question": "Comment préparez-vous les certificats de salaire de fin d'année (certificat de salaire) pour les employés ?",
+          "Answer": "Les certificats de salaire de fin d'année sont des documents obligatoires en Suisse, requis au 31 janvier suivant l'année fiscale, détaillant toute rémunération, cotisations d'assurances sociales, indemnités de frais et avantages à des fins de déclaration fiscale. Ces certificats doivent suivre des formats cantonaux stricts, refléter avec précision les revenus bruts et nets, montrer toutes les déductions, et inclure les attestations de l'employeur. Genève et Vaud ont des exigences de format spécifiques. Nous préparons des certificats de salaire complets pour tous vos employés automatiquement à partir des données de paie, assurant l'exactitude et la conformité avec les normes cantonales. Les certificats sont livrés électroniquement et en version imprimée, avec des explications pour les employés sur les questions courantes. Nous maintenons des archives sécurisées pendant sept ans et pouvons régénérer des certificats pour les employés qui perdent les originaux ou ont besoin de copies pour des prêts hypothécaires, demandes de visa ou réclamations d'allocations familiales."
+        }
+      ]
     },
-    "Presentation": {
-        "Title": "Paie suisse et charges sociales pour employeurs",
-        "Subtitle": "Vos employés, notre priorité",
-        "Intro": [
-            "Nous nous occupons de toutes les tâches administratives de paie et RH, des calculs de salaire aux déclarations d'assurances sociales.",
-            "Nos experts assurent la conformité et fournissent des conseils pour une gestion RH optimale.",
-            "Nous livrons des sorties compatibles swissdec et des fiches de paie claires, avec une checklist mensuelle pour les RH."
-        ],
-        "ServicesTitle": "Nos Services Paie et RH",
-        "Services": [
-            "Traitement de la Paie : Calculs complets de salaires, déductions d'assurances sociales et gestion des paiements",
-            "Administration RH : Gestion des dossiers employés, préparation de contrats et support administratif",
-            "Assurances Sociales : Inscription, déclarations et conformité avec les systèmes de sécurité sociale suisses",
-            "Droit du Travail : Services de conseil sur le droit du travail suisse et conformité réglementaire"
-        ],
-        "StrengthsTitle": "Nos forces pour vos besoins RH",
-        "Strengths": [
-            {
-                "Title": "Confidentialité et sécurité",
-                "Desc": "Nous garantissons la confidentialité de vos données et la conformité avec toutes les exigences légales."
-            },
-            {
-                "Title": "Expertise en droit du travail suisse",
-                "Desc": "Nos spécialistes maîtrisent le cadre juridique et assurent que votre gestion RH soit toujours conforme."
-            },
-            {
-                "Title": "Accompagnement personnalisé",
-                "Desc": "Une personne de contact dédiée vous accompagne, vous et vos employés, à chaque étape."
-            },
-            {
-                "Title": "Efficacité administrative",
-                "Desc": "Nous nous occupons de toutes les formalités administratives, vous permettant de vous concentrer sur votre cœur de métier."
-            }
-        ],
-        "CommonQuestions": {
-            "Title": "Questions fréquentes sur les services de paie et RH en Suisse",
-            "Questions": [
-                {
-                    "Question": "Quels sont les coûts d'externalisation de la paie pour une startup en Suisse ?",
-                    "Answer": "Les coûts d'externalisation de la paie en Suisse varient généralement de CHF 80 à CHF 150 par employé par mois, selon la complexité et le nombre d'employés. Pour les startups de 5-10 employés, comptez des frais mensuels entre CHF 400-1'000 incluant le traitement des salaires, les déclarations d'assurances sociales et la génération des bulletins de paie. Des services supplémentaires comme les certificats de salaire annuels, l'intégration d'employés et la préparation de contrats peuvent entraîner des frais supplémentaires. Nous offrons une tarification transparente sans frais cachés, fournissant aux startups des coûts prévisibles tout en éliminant le besoin de personnel de paie interne coûteux et de logiciels. Nos solutions évolutives grandissent avec votre entreprise, réduisant les coûts par employé à mesure que votre équipe s'étend."
-                },
-                {
-                    "Question": "Quelles sont les obligations d'assurances sociales pour les employeurs suisses (AVS, LPP, LAA) ?",
-                    "Answer": "Les employeurs suisses doivent gérer plusieurs cotisations d'assurances sociales obligatoires : AVS (assurance-vieillesse et survivants) à environ 10,6% répartis entre employeur et employé, LPP (prévoyance professionnelle) requise pour les salaires supérieurs à CHF 22'050 annuellement avec des cotisations variant selon l'âge et le plan, LAA (assurance-accidents) couvrant les accidents professionnels et non professionnels avec des taux dépendant du risque sectoriel, APG (allocations pour perte de gain), et allocations familiales variant selon le canton. Les employeurs genevois paient aussi des cotisations de solidarité et autres prélèvements cantonaux. Nous gérons tous les calculs, inscriptions auprès des caisses de compensation, déclarations mensuelles et assurons des taux de cotisation corrects lors des changements réglementaires. Nos systèmes génèrent automatiquement des décomptes de salaires conformes et maintiennent une documentation prête pour les audits."
-                },
-                {
-                    "Question": "Comment fonctionne la conformité Swissdec et quelles sont les exigences de distribution électronique des bulletins ?",
-                    "Answer": "Swissdec est la norme suisse pour l'échange électronique de données entre les logiciels de paie et les institutions d'assurances sociales, autorités fiscales et assureurs-accidents. La conformité nécessite l'utilisation d'un logiciel de paie certifié générant des fichiers XML standardisés pour les déclarations salariales trimestrielles et annuelles. La distribution électronique des bulletins de paie est de plus en plus courante, nécessitant des portails employés sécurisés ou une distribution par email crypté avec pistes d'audit. Nous utilisons des systèmes certifiés Swissdec assurant que toutes vos déclarations salariales soient transmises électroniquement, réduisant les temps de traitement et les erreurs. Les employés reçoivent des bulletins de paie électroniques professionnels via des canaux sécurisés, avec des copies archivées disponibles pour les demandes de prêt hypothécaire, renouvellements de visa et autres besoins officiels. Notre plateforme fournit un accès employé 24/7 aux bulletins actuels et historiques, certificats et documents fiscaux."
-                },
-                {
-                    "Question": "Comment gérez-vous la paie des travailleurs frontaliers qui font la navette depuis la France vers la Suisse ?",
-                    "Answer": "Les travailleurs frontaliers (frontaliers) de France travaillant à Genève sont soumis à des réglementations spéciales incluant l'impôt à la source, des exemptions spécifiques d'assurances sociales selon les accords bilatéraux, et des exigences de soins de santé coordonnées. Les employeurs doivent s'inscrire pour l'impôt à la source des travailleurs frontaliers, appliquer des taux corrects basés sur la résidence et la situation familiale, soumettre des déclarations mensuelles aux autorités fiscales genevoises, et émettre des attestations annuelles pour les déclarations fiscales françaises. Les assurances sociales suivent les règles du pays de travail, ce qui signifie que les cotisations suisses s'appliquent malgré la résidence française. Nous gérons toutes les complexités de paie transfrontalière incluant les calculs de retenue d'impôt, la préparation d'attestations, la coordination avec la sécurité sociale française si nécessaire, et assurant la conformité avec les exigences de documentation suisses et françaises applicables pour vos employés frontaliers."
-                },
-                {
-                    "Question": "Qu'implique la paie pour les employés à temps partiel et les freelances indépendants ?",
-                    "Answer": "Les employés à temps partiel en Suisse nécessitent le même traitement de paie que le personnel à plein temps, avec des cotisations et avantages d'assurances sociales proportionnels. Les seuils d'assurances sociales s'appliquent toujours : les cotisations AVS sont obligatoires dès le premier franc, tandis que la LPP (prévoyance professionnelle) ne s'applique que si le salaire annuel dépasse CHF 22'050. Les freelances indépendants (travailleurs indépendants) facturent généralement votre entreprise directement et gèrent leurs propres assurances sociales en tant qu'indépendants, mais des risques de mauvaise classification existent. Les autorités suisses scrutent attentivement les relations d'emploi, examinant le contrôle, l'exclusivité et la dépendance économique. Nous aidons à structurer correctement l'emploi, traitons la paie pour le personnel à temps partiel avec des calculs horaires ou basés sur pourcentage précis, conseillons sur la classification entrepreneur versus employé, et assurons que vous évitez les pénalités des autorités d'assurances sociales pour catégorisation incorrecte des travailleurs."
-                },
-                {
-                    "Question": "Comment préparez-vous les certificats de salaire de fin d'année (certificat de salaire) pour les employés ?",
-                    "Answer": "Les certificats de salaire de fin d'année sont des documents obligatoires en Suisse, requis au 31 janvier suivant l'année fiscale, détaillant toute rémunération, cotisations d'assurances sociales, indemnités de frais et avantages à des fins de déclaration fiscale. Ces certificats doivent suivre des formats cantonaux stricts, refléter avec précision les revenus bruts et nets, montrer toutes les déductions, et inclure les attestations de l'employeur. Genève et Vaud ont des exigences de format spécifiques. Nous préparons des certificats de salaire complets pour tous vos employés automatiquement à partir des données de paie, assurant l'exactitude et la conformité avec les normes cantonales. Les certificats sont livrés électroniquement et en version imprimée, avec des explications pour les employés sur les questions courantes. Nous maintenons des archives sécurisées pendant sept ans et pouvons régénérer des certificats pour les employés qui perdent les originaux ou ont besoin de copies pour des prêts hypothécaires, demandes de visa ou réclamations d'allocations familiales."
-                }
-            ]
+    "WhoThisIsFor": {
+      "Title": "Qui bénéficie de nos services de paie et RH ?",
+      "Description": "Nos services de paie sont conçus pour les entreprises de toutes tailles qui souhaitent assurer un traitement salarial précis, conforme et efficace tout en se concentrant sur leurs activités principales.",
+      "TargetClients": [
+        "Startups technologiques passant de 5 à 50 employés nécessitant une infrastructure de paie fiable",
+        "Entreprises de commerce de détail et d'hôtellerie gérant des fluctuations de main-d'œuvre saisonnière",
+        "Entreprises internationales établissant des filiales à Genève avec travailleurs frontaliers de France",
+        "Entreprises de services professionnels nécessitant une paie complexe avec bonus et structures de commission variables",
+        "PME sans personnel RH dédié recherchant une gestion complète de la paie et des assurances sociales"
+      ]
+    },
+    "ProcessTimeline": {
+      "Title": "Comment fonctionne notre traitement de paie",
+      "Description": "Nous fournissons des services de paie mensuels complets avec des calendriers cohérents et des livrables clairs, assurant que vos employés soient payés avec précision et à temps.",
+      "Steps": [
+        {
+          "Title": "Configuration initiale et intégration des employés (Semaines 1-2)",
+          "Description": "Nous commençons par configurer votre système de paie avec les détails de l'entreprise, les structures salariales et les plans d'avantages. Pour chaque employé, nous collectons les informations nécessaires incluant les contrats, numéros d'assurances sociales, coordonnées bancaires, statut d'impôt à la source et inscription au plan de prévoyance. Nous inscrivons votre entreprise auprès des institutions d'assurances sociales pertinentes (AVS/LPP/LAA) et autorités fiscales si ce n'est pas déjà fait. Notre équipe configure les profils individuels des employés dans notre logiciel de paie certifié Swissdec, configure les composants salariaux récurrents, allocations et déductions. Nous établissons des protocoles d'échange de données sécurisés, mettons en place la distribution électronique des bulletins de paie, et fournissons aux employés un accès au portail. Cette fondation assure un traitement mensuel fluide dès le premier jour."
         },
-        "WhoThisIsFor": {
-            "Title": "Qui bénéficie de nos services de paie et RH ?",
-            "Description": "Nos services de paie sont conçus pour les entreprises de toutes tailles qui souhaitent assurer un traitement salarial précis, conforme et efficace tout en se concentrant sur leurs activités principales.",
-            "TargetClients": [
-                "Startups technologiques passant de 5 à 50 employés nécessitant une infrastructure de paie fiable",
-                "Entreprises de commerce de détail et d'hôtellerie gérant des fluctuations de main-d'œuvre saisonnière",
-                "Entreprises internationales établissant des filiales à Genève avec travailleurs frontaliers de France",
-                "Entreprises de services professionnels nécessitant une paie complexe avec bonus et structures de commission variables",
-                "PME sans personnel RH dédié recherchant une gestion complète de la paie et des assurances sociales"
-            ]
+        {
+          "Title": "Collecte mensuelle des données (20-25 de chaque mois)",
+          "Description": "Avant chaque cycle de paie, nous collectons les données variables pour la période : registres de présence, heures supplémentaires, congés maladie, jours de vacances pris, bonus, remboursements de frais et tout changement de salaire. Pour les employés horaires, nous recevons les feuilles de temps validées. Vous soumettez ces informations via notre portail sécurisé, email ou systèmes de suivi du temps intégrés. Notre équipe valide les données soumises pour l'exhaustivité et signale les anomalies ou informations manquantes. Nous confirmons les jours fériés, vérifions les changements de taux d'assurances sociales et assurons que toutes les mises à jour réglementaires sont incorporées. Cette fenêtre de collecte permet un temps adéquat pour le traitement tout en maintenant les calendriers de paiement des salaires. Pour les travailleurs frontaliers, nous vérifions le statut de résidence continu et les changements d'impôt à la source."
         },
-        "ProcessTimeline": {
-            "Title": "Comment fonctionne notre traitement de paie",
-            "Description": "Nous fournissons des services de paie mensuels complets avec des calendriers cohérents et des livrables clairs, assurant que vos employés soient payés avec précision et à temps.",
-            "Steps": [
-                {
-                    "Title": "Configuration initiale et intégration des employés (Semaines 1-2)",
-                    "Description": "Nous commençons par configurer votre système de paie avec les détails de l'entreprise, les structures salariales et les plans d'avantages. Pour chaque employé, nous collectons les informations nécessaires incluant les contrats, numéros d'assurances sociales, coordonnées bancaires, statut d'impôt à la source et inscription au plan de prévoyance. Nous inscrivons votre entreprise auprès des institutions d'assurances sociales pertinentes (AVS/LPP/LAA) et autorités fiscales si ce n'est pas déjà fait. Notre équipe configure les profils individuels des employés dans notre logiciel de paie certifié Swissdec, configure les composants salariaux récurrents, allocations et déductions. Nous établissons des protocoles d'échange de données sécurisés, mettons en place la distribution électronique des bulletins de paie, et fournissons aux employés un accès au portail. Cette fondation assure un traitement mensuel fluide dès le premier jour."
-                },
-                {
-                    "Title": "Collecte mensuelle des données (20-25 de chaque mois)",
-                    "Description": "Avant chaque cycle de paie, nous collectons les données variables pour la période : registres de présence, heures supplémentaires, congés maladie, jours de vacances pris, bonus, remboursements de frais et tout changement de salaire. Pour les employés horaires, nous recevons les feuilles de temps validées. Vous soumettez ces informations via notre portail sécurisé, email ou systèmes de suivi du temps intégrés. Notre équipe valide les données soumises pour l'exhaustivité et signale les anomalies ou informations manquantes. Nous confirmons les jours fériés, vérifions les changements de taux d'assurances sociales et assurons que toutes les mises à jour réglementaires sont incorporées. Cette fenêtre de collecte permet un temps adéquat pour le traitement tout en maintenant les calendriers de paiement des salaires. Pour les travailleurs frontaliers, nous vérifions le statut de résidence continu et les changements d'impôt à la source."
-                },
-                {
-                    "Title": "Calcul et validation de la paie (26-28 de chaque mois)",
-                    "Description": "Nos spécialistes de la paie traitent les calculs salariaux en utilisant les données validées et les taux actuels. Le système calcule les salaires bruts, applique toutes les déductions d'assurances sociales (AVS, LPP, LAA, APG, allocations familiales), calcule les impôts à la source pour les employés applicables, traite les remboursements de frais et détermine les montants nets. Nous effectuons des contrôles qualité multi-niveaux incluant la comparaison des résultats actuels avec les mois précédents, la validation des changements inhabituels, la vérification des calculs d'assurances sociales et l'assurance de conformité avec les contrats de travail. Vous recevez un rapport récapitulatif montrant les coûts salariaux totaux, cotisations patronales et décomptes salariaux individuels. Une fois que vous approuvez le calcul final, nous préparons les fichiers de paiement et générons des bulletins de paie professionnels pour distribution électronique."
-                },
-                {
-                    "Title": "Paiement des salaires et communication avec les employés (Dernier jour ouvrable du mois)",
-                    "Description": "Nous exécutons les paiements de salaires en transmettant les fichiers de paiement approuvés à votre banque pour traitement, assurant que les employés reçoivent les salaires à la date convenue. Les bulletins de paie électroniques sont distribués via notre portail employé sécurisé avec notifications par email. Chaque bulletin de paie montre clairement le salaire brut, toutes les déductions avec explications, cotisations patronales, paiement net et totaux cumulés annuels. Les employés peuvent accéder aux bulletins actuels et historiques à tout moment pour les dossiers personnels, demandes de prêt ou besoins officiels. Notre équipe reste disponible tout au long de la journée de paiement pour gérer les questions des employés sur les déductions, assurances sociales, impôt à la source ou détails du bulletin. Nous maintenons une confidentialité complète tout en fournissant un support réactif."
-                },
-                {
-                    "Title": "Rapports et soumissions de conformité (En cours)",
-                    "Description": "Au-delà du traitement mensuel des salaires, nous gérons tous les rapports obligatoires : déclarations mensuelles d'impôt à la source pour les autorités de Genève/Vaud, rapports trimestriels d'assurances sociales via Swissdec aux institutions AVS/LPP/LAA, préparation des certificats de salaire annuels au 31 janvier pour tous les employés, et réconciliations de fin d'année avec les fournisseurs d'assurances sociales. Nous maintenons des archives numériques et physiques organisées respectant les exigences légales suisses de conservation de sept ans. Les checklists RH mensuelles mettent en évidence les échéances réglementaires à venir, renouvellements de contrats, fins de périodes d'essai et fenêtres d'inscription aux avantages. Nous vous informons proactivement des changements législatifs affectant la paie, mises à jour de taux d'assurances sociales ou ajustements d'impôt à la source, mettant en œuvre les modifications nécessaires pour maintenir une conformité continue."
-                }
-            ]
+        {
+          "Title": "Calcul et validation de la paie (26-28 de chaque mois)",
+          "Description": "Nos spécialistes de la paie traitent les calculs salariaux en utilisant les données validées et les taux actuels. Le système calcule les salaires bruts, applique toutes les déductions d'assurances sociales (AVS, LPP, LAA, APG, allocations familiales), calcule les impôts à la source pour les employés applicables, traite les remboursements de frais et détermine les montants nets. Nous effectuons des contrôles qualité multi-niveaux incluant la comparaison des résultats actuels avec les mois précédents, la validation des changements inhabituels, la vérification des calculs d'assurances sociales et l'assurance de conformité avec les contrats de travail. Vous recevez un rapport récapitulatif montrant les coûts salariaux totaux, cotisations patronales et décomptes salariaux individuels. Une fois que vous approuvez le calcul final, nous préparons les fichiers de paiement et générons des bulletins de paie professionnels pour distribution électronique."
         },
-        "UseCases": {
-            "Title": "Comment nous aidons les entreprises avec la paie et l'administration RH",
-            "Description": "Exemples réels démontrant comment nos services de paie ont aidé les entreprises de la région genevoise et lausannoise à gérer efficacement leur administration du personnel.",
-            "Cases": [
-                {
-                    "Title": "Startup tech passant de 5 à 25 employés en 18 mois",
-                    "Description": "Une startup de développement logiciel dans le pôle technologique de Genève a commencé avec cinq fondateurs gérant la paie manuellement avec des feuilles de calcul. Lors de leur financement Série A et du début d'embauche agressive, la complexité de la paie a submergé leurs ressources. Défi : Gérer une croissance rapide avec de fréquentes nouvelles embauches, structures salariales diverses incluant la rémunération en actions, recrutement international amenant des travailleurs frontaliers, et assurer la conformité tout en grandissant. Notre solution : Nous avons mis en place un traitement de paie complet avec des workflows d'intégration simplifiés, configuré les calculs d'actions et bonus, établi des processus séparés pour les employés suisses et frontaliers, et fourni des rapports en temps réel sur les coûts totaux d'emploi pour les rapports aux investisseurs. Résultat : La startup a grandi à 25 employés sans embaucher de personnel de paie dédié, réduit les frais administratifs de 15 heures par mois, éliminé les erreurs de paie causant l'insatisfaction des employés, et maintenu une conformité parfaite pendant deux ans de croissance rapide. Les fondateurs ont pu se concentrer sur le développement produit et la collecte de fonds plutôt que sur l'administration de la paie."
-                },
-                {
-                    "Title": "Commerce de détail gérant les fluctuations de main-d'œuvre saisonnière",
-                    "Description": "Une chaîne de commerce de détail genevoise avec quatre emplacements employait 20 employés permanents et jusqu'à 40 travailleurs saisonniers pendant les périodes de pointe (saison des fêtes, soldes d'été). Défi : Les fluctuations d'effectifs rendaient les coûts de paie imprévisibles, le roulement élevé nécessitait des intégrations et départs fréquents, les employés horaires avec horaires variables compliquaient les calculs, et les contrats saisonniers nécessitaient une gestion spéciale pour les assurances sociales à court terme. Notre solution : Nous avons mis en place un traitement de paie flexible accommodant les changements d'effectifs, créé une intégration simplifiée pour les employés saisonniers avec collecte de documents numériques, intégré des systèmes de feuilles de temps pour des calculs horaires précis, et établi des processus pour les exigences d'assurances sociales des contrats à court terme. Résultat : Le détaillant a réduit le temps d'intégration des employés saisonniers de 3 jours à 4 heures, obtenu des coûts de paie variables précis pour la budgétisation, éliminé les erreurs de bulletins de paie dues à la transcription manuelle des feuilles de temps, et assuré la conformité avec les réglementations suisses sur l'emploi temporaire. Les coûts de paie par employé ont diminué de 35% par rapport au prestataire de paie précédent."
-                },
-                {
-                    "Title": "Entreprise internationale établissant une filiale genevoise avec main-d'œuvre mixte",
-                    "Description": "Une entreprise de services professionnels basée au Royaume-Uni a ouvert un bureau à Genève avec une équipe de 12 employés : huit résidents locaux suisses, trois travailleurs frontaliers de France voisine et un expatrié britannique en mission. Défi : Différents traitements fiscaux et d'assurances sociales pour chaque catégorie d'employés, comprendre les exigences du droit du travail suisse venant des pratiques RH britanniques, coordonner avec le siège britannique pour les rapports de groupe, et assurer la conformité pour les contrats fractionnés de l'expatrié britannique et la sécurité sociale. Notre solution : Nous avons configuré des flux de paie ségrégués pour les résidents suisses, frontaliers avec impôt à la source, et l'expatrié britannique avec certificat de sécurité sociale A1. Nous avons éduqué les RH britanniques sur les différences du droit du travail suisse, établi des formats de rapports compatibles avec leurs systèmes mondiaux, et coordonné avec leur prestataire de paie britannique pour les obligations du pays d'origine de l'expatrié. Résultat : La filiale genevoise a atteint une conformité complète de la paie suisse dès le premier jour, évité des pénalités coûteuses de mauvaise classification, fourni des rapports clairs au siège britannique, et établi des processus évolutifs soutenant l'expansion régionale vers Zurich et Bâle avec 30 employés supplémentaires sur deux ans."
-                }
-            ]
+        {
+          "Title": "Paiement des salaires et communication avec les employés (Dernier jour ouvrable du mois)",
+          "Description": "Nous exécutons les paiements de salaires en transmettant les fichiers de paiement approuvés à votre banque pour traitement, assurant que les employés reçoivent les salaires à la date convenue. Les bulletins de paie électroniques sont distribués via notre portail employé sécurisé avec notifications par email. Chaque bulletin de paie montre clairement le salaire brut, toutes les déductions avec explications, cotisations patronales, paiement net et totaux cumulés annuels. Les employés peuvent accéder aux bulletins actuels et historiques à tout moment pour les dossiers personnels, demandes de prêt ou besoins officiels. Notre équipe reste disponible tout au long de la journée de paiement pour gérer les questions des employés sur les déductions, assurances sociales, impôt à la source ou détails du bulletin. Nous maintenons une confidentialité complète tout en fournissant un support réactif."
         },
         "LongFormTitle": "Approche détaillée et livrables pour la gestion des salaires et charges sociales",
         "LongFormSections": [
@@ -194,5 +170,7 @@
                 ]
             }
         ]
-    }
+      }
+    ]
+  }
 }

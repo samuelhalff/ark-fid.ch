@@ -20,8 +20,8 @@
   },
   "pages": {
     "/": {
-      "title": "Fiduciary & Accounting Services in Geneva | Ark Fiduciaire",
-      "description": "Ark Fiduciaire in Geneva provides accounting, tax, payroll and company incorporation services for SMEs and entrepreneurs. Book a free strategy session today.",
+      "title": "Fiduciary Services in Geneva for SMEs, Tax, Accounting and Odoo | Ark Fiduciaire",
+      "description": "Geneva fiduciary firm for Swiss SMEs, entrepreneurs, families and international companies: accounting, tax, payroll, domiciliation, corporate and Odoo.",
       "keywords": "fiduciary geneva, accounting geneva, tax services geneva, company incorporation, SME services"
     },
     "/about": {
@@ -55,18 +55,18 @@
       "keywords": "instant quote fiduciary, ai quote assistant, online accounting quote geneva, instant tax estimate, payroll quote switzerland, business services quote lausanne, fiduciary cost estimate"
     },
     "/services": {
-      "title": "Fiduciary Services Geneva | Tax & Accounting for SMEs",
-      "description": "Explore our fiduciary services in Geneva: accounting, tax, payroll, domiciliation and company incorporation for SMEs and scale-ups. Free consultation.",
+      "title": "Fiduciary Services in Geneva | Accounting, Tax, Payroll, Domiciliation",
+      "description": "Fiduciary services in Geneva for SMEs and entrepreneurs: accounting, tax, payroll, domiciliation, incorporation, corporate administration and Odoo.",
       "keywords": "fiduciary services geneva, accounting services, tax advisory geneva, SME accounting"
     },
     "/services/family-office": {
-      "title": "Family office administration in Romandy | Ark Fiduciaire",
-      "description": "Family office administration in french-speaking switzerland. We support families needing a Swiss coordination desk for governance, tax, legal and reporting.",
+      "title": "Administrative Family Office in Switzerland | Ark Fiduciaire",
+      "description": "Administrative family office in Switzerland: coordination, governance, reporting and family administration without discretionary asset management.",
       "keywords": "family office switzerland, family office romandy, multi family office switzerland, family governance switzerland, family office geneva"
     },
     "/services/accounting": {
-      "title": "Accounting in geneva and lausanne for SMEs | Ark Fiduciaire",
-      "description": "Accounting in geneva and lausanne for SMEs. Comprehensive and personalized solutions designed to address every facet of your financial and accounting needs.",
+      "title": "Accounting in Geneva for Swiss SMEs | Ark Fiduciaire",
+      "description": "Accounting in Geneva for Swiss SMEs: bookkeeping, VAT, closings, reporting, dashboards and coordination with finance teams.",
       "keywords": "accounting geneva, fiduciary geneva, SME accounting geneva, chartered accountant geneva, accounting lausanne"
     },
     "/services/corporate": {
@@ -75,8 +75,8 @@
       "keywords": "corporate administration switzerland, company secretarial switzerland, corporate governance switzerland, company administration geneva, commercial register switzerland"
     },
     "/services/domiciliation": {
-      "title": "Business domiciliation Geneva & Lausanne | Ark Fiduciaire",
-      "description": "Business domiciliation in geneva and lausanne. We provide a registered office address for your company, along with mail management and administrative support.",
+      "title": "Business Domiciliation in Geneva | Ark Fiduciaire",
+      "description": "Business domiciliation in Geneva: registered office address, mail handling, administrative coordination and substance obligations for Swiss companies.",
       "keywords": "domiciliation geneva, company domiciliation switzerland, registered address geneva, business address lausanne, domiciliation switzerland",
       "topics": [
         "domiciliation geneva",
@@ -85,8 +85,8 @@
       ]
     },
     "/services/odoo": {
-      "title": "Odoo implementation in geneva for SMEs | Ark Fiduciaire",
-      "description": "Odoo implementation in geneva for swiss SMEs. A modular, flexible ERP solution ideal for digitizing and optimizing your business. Ark Fiduciaire guides you.",
+      "title": "Odoo Accounting Implementation in Switzerland | Ark Fiduciaire",
+      "description": "Odoo accounting implementation in Switzerland: scope, Swiss chart of accounts, VAT, QR invoicing, migration, training and support for SMEs.",
       "keywords": "odoo geneva, odoo implementation switzerland, odoo integrator geneva, odoo for swiss SMEs, odoo accounting switzerland"
     },
     "/services/outsourcing": {
@@ -100,8 +100,8 @@
       "keywords": "m&a switzerland, m&a advisory switzerland, company valuation switzerland, due diligence switzerland, SME succession switzerland"
     },
     "/services/payroll": {
-      "title": "Payroll management in Romandy | Ark Fiduciaire",
-      "description": "Payroll management in french-speaking switzerland. We handle all payroll and HR tasks, from salary calculations to social insurance declarations.",
+      "title": "Swiss Payroll Services in Romandy | Ark Fiduciaire",
+      "description": "Swiss payroll services in Romandy: salary calculations, social security, salary certificates, insurance coordination and HR administration.",
       "keywords": "payroll switzerland, payroll geneva, salary payslip switzerland, payroll management geneva, social contributions switzerland"
     },
     "/services/taxes": {
@@ -110,8 +110,8 @@
       "keywords": "tax advice geneva, tax advisor geneva, tax return geneva, swiss tax advisor, expat tax geneva, corporate tax geneva, tax advisor geneva switzerland, tax filing geneva, tax planning geneva, tax consultant geneva, business tax geneva, tax declaration geneva, tax services geneva, personal tax geneva, tax support geneva, tax solutions geneva, tax help geneva"
     },
     "/services/incorporation": {
-      "title": "Company incorporation in geneva (sàrl/sa) | Ark Fiduciaire",
-      "description": "Company incorporation in geneva (sàrl/sa). We help you set up your business quickly. Choose a company type, submit documents and we handle registration.",
+      "title": "Company Incorporation in Geneva, SA or Sàrl | Ark Fiduciaire",
+      "description": "Company incorporation in Geneva for SA or Sàrl: structure choice, documents, capital deposit, commercial register, VAT and administrative follow-up.",
       "keywords": "company incorporation geneva, sàrl formation switzerland, sa company formation, open company geneva, company formation switzerland",
       "topics": [
         "start a company geneva",
@@ -138,6 +138,11 @@
       "title": "Cookie policy - Ark Fiduciaire",
       "description": "Information about how Ark Fiduciaire uses cookies and similar technologies on our website for improved user experience.",
       "keywords": "cookie policy, website cookies, privacy settings, user experience"
+    },
+    "/ai-profile": {
+      "title": "Ark Fiduciaire SA Profile for AI Assistants and Search Engines",
+      "description": "Factual profile of Ark Fiduciaire SA: identity, Geneva address, services, regions served, affiliations and family office limitations.",
+      "keywords": "Ark Fiduciaire SA, Geneva fiduciary profile, AI assistants, accounting Geneva, tax Geneva"
     }
   },
   "dynamic": {

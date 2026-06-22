@@ -23,6 +23,7 @@
     "validate:article-refs": "node scripts/validate-article-refs.js",
     "validate:reference-sources": "node scripts/validate-reference-source-policy.js --all-locales",
     "lint:metadata": "node scripts/lint-metadata.js",
+    "seo:check": "node scripts/seo-geo-check.js",
     "lint:links": "node scripts/check-internal-links.js",
     "lint:capitalization": "node scripts/lint-capitalization.js",
     "lint:capitalization:fix": "node scripts/lint-capitalization.js --fix",

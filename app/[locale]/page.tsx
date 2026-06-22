@@ -9,11 +9,12 @@ import Testimonials from "@/app/[locale]/home/components/testimonials";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import Defer from "@/src/components/Defer";
 import StructuredData from "@/src/components/seo/StructuredData";
-import { buildFAQPage, buildLocalBusiness } from "@/src/lib/structuredData";
+import { buildFAQPage, buildOrganizationGraph } from "@/src/lib/structuredData";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 import type { FAQEntry } from "@/src/lib/structuredData";
 import { CtaBanner } from "@/src/components/ui/surface";
 import { Lightning } from "@phosphor-icons/react/dist/ssr";
+import { TrustSignals } from "@/src/components/seo/TrustBlocks";
 
 export async function generateMetadata(
   props: {
@@ -97,31 +98,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
     .reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
   const heroIndex = indexSeed % 9; // there are 9 service hero images
 
-  // LocalBusiness schema for home page
-  const localBusinessJsonLd = buildLocalBusiness({
-    name: "Ark Fiduciaire SA",
-    description: homeT("Hero.Description"),
-    url: "https://ark-fid.ch",
-    logo: "https://ark-fid.ch/assets/arkfid--color.svg",
-    telephone: "+41225125050",
-    email: "info@ark-fid.ch",
-    address: {
-      streetAddress: "26 Boulevard Georges Favon",
-      postalCode: "1204",
-      addressLocality: "Genève",
-      addressCountry: "CH",
-    },
-    geo: {
-      latitude: 46.2021,
-      longitude: 6.1419,
-    },
-    openingHours: ["Mo-Fr 09:00-18:00"],
-    areaServed: ["Geneva", "Switzerland", "Genève", "Suisse"],
-    sameAs: [
-      "https://www.linkedin.com/company/ark-fiduciaire/",
-      "https://maps.google.com/?cid=14946625157719331801",
-    ],
-  });
+  const organizationGraphJsonLd = buildOrganizationGraph(activeLocale);
 
   const contactStrings = {
     title: (t("Title") as string) || "Get in Touch",
@@ -175,10 +152,32 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
       description: homeT("Trust.Gaap.Description") as string,
     },
   ];
+  const entitySummary =
+    activeLocale === "fr"
+      ? "Ark Fiduciaire SA est une fiduciaire basée à Genève qui accompagne PME suisses, entrepreneurs, sociétés internationales et familles dans la comptabilité, la fiscalité, les salaires, la domiciliation, l’administration corporate, l’implémentation Odoo et la coordination administrative."
+      : "Ark Fiduciaire SA is a Geneva-based fiduciary firm supporting Swiss SMEs, entrepreneurs, international companies and families with accounting, tax, payroll, domiciliation, corporate administration, Odoo implementation and administrative coordination.";
+  const entityFacts =
+    activeLocale === "fr"
+      ? [
+          { title: "Genève", description: "26 Boulevard Georges Favon" },
+          { title: "SO-FIT / OAR-SRO LBA", description: "Affiliation indiquée sur le site" },
+          { title: "Partenaire Odoo", description: "Positionnement Odoo publié" },
+          { title: "Expertises", description: "Comptabilité, fiscalité, salaires, corporate, domiciliation, Odoo" },
+          { title: "Clients", description: "PME suisses et entreprises internationales" },
+          { title: "Équipe", description: "Profils pluridisciplinaires publiés" },
+        ]
+      : [
+          { title: "Geneva", description: "26 Boulevard Georges Favon" },
+          { title: "SO-FIT / OAR-SRO LBA", description: "Affiliation stated on the site" },
+          { title: "Odoo partner", description: "Published Odoo positioning" },
+          { title: "Expertise", description: "Accounting, tax, payroll, corporate, domiciliation, Odoo" },
+          { title: "Clients", description: "Swiss SMEs and international companies" },
+          { title: "Team", description: "Published multidisciplinary profiles" },
+        ];
 
   return (
     <div className="mx-auto w-full pb-4">
-      <StructuredData nonce={nonce} data={[faqJsonLd, localBusinessJsonLd]} />
+      <StructuredData nonce={nonce} data={[faqJsonLd, organizationGraphJsonLd]} />
       <section id="hero">
         <Hero
           locale={activeLocale}
@@ -186,6 +185,31 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           translations={heroTranslations}
           facts={heroFacts}
         />
+      </section>
+      <section
+        id="entity-clarity"
+        className="mx-auto w-full max-w-[1240px] px-5 py-8 sm:px-8 sm:py-10"
+        aria-labelledby="entity-clarity-title"
+      >
+        <div className="grid gap-6 border-b border-border/50 pb-8 md:grid-cols-[minmax(0,1.1fr)_minmax(280px,0.9fr)] md:items-start">
+          <div className="space-y-3">
+            <p className="font-mono text-[10px] uppercase leading-5 tracking-[0.14em] text-muted-foreground/70">
+              {activeLocale === "fr" ? "Pourquoi Ark Fiduciaire" : "Why Ark Fiduciaire"}
+            </p>
+            <h2
+              id="entity-clarity-title"
+              className="max-w-[16ch] text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl"
+            >
+              {activeLocale === "fr"
+                ? "Fiduciaire à Genève pour décisions concrètes"
+                : "A Geneva fiduciary firm for practical decisions"}
+            </h2>
+            <p className="max-w-3xl text-base leading-7 text-muted-foreground">
+              {entitySummary}
+            </p>
+          </div>
+          <TrustSignals items={entityFacts} />
+        </div>
       </section>
       <section
         id="affiliations"
