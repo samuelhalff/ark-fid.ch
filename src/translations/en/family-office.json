@@ -1,119 +1,83 @@
 {
-    "ImageAlt": "Swiss Alps landscape with family estate, Switzerland",
-    "Hero": {
-        "Badge": "Swiss excellence",
-        "BadgeTwo": "Family legacy",
-        "Title": "Family office administration in french-speaking switzerland",
-        "Description": "Family office support for high-net-worth families and entrepreneurs: governance, administrative coordination, consolidated reporting and philanthropy projects from Switzerland.",
-        "CTA": "Secure your legacy",
-        "SecondaryCTA": "Learn more"
-    },
-    "Breadcrumb": {
-        "Label": "Family office"
-    },
-    "Presentation": {
-        "Title": "Administrative family office and family governance",
-        "Subtitle": "An administrative and governance partner, no asset management",
-        "Intro": [
-            "Ark Fiduciaire supports families and entrepreneurs who need a Swiss coordination desk for governance, tax, legal and reporting.",
-            "We do not provide asset management: our role is administrative and coordination with banks, external asset managers, lawyers and tax advisers, using secure workflows."
-        ],
-        "HighlightsTitle": "What sets our family office apart",
-        "Highlights": [
-            {
-                "Title": "Independent coordination",
-                "Desc": "Administrative oversight of banks and providers, without investment advice."
-            },
-            {
-                "Title": "360° coordination",
-                "Desc": "One lead contact handles administration, tax, legal, reporting and lifestyle requests."
-            },
-            {
-                "Title": "Governance & succession",
-                "Desc": "Family charters, shareholder agreements, next-gen programmes and succession planning."
-            },
-            {
-                "Title": "Philanthropy & impact",
-                "Desc": "Foundation setup and administration, donation tracking and impact reporting."
-            }
-        ],
-        "ServicesTitle": "Flagship family office services",
-        "Services": [
-            "Ownership structure review · consolidated holdings and cash-flow dashboards",
-            "Cross-border tax and legal coordination · liaison with Swiss and international advisers",
-            "Family governance facilitation · charters, councils and education workshops",
-            "Administrative support & payments · payment preparation, documentation, case follow-up",
-            "Philanthropy and lifestyle administration · foundations, art, property and concierge oversight"
-        ],
-        "CalloutTitle": "Secure your family legacy from Switzerland",
-        "CalloutText": "Schedule a confidential strategy session with our Geneva or Lausanne team to map your priorities and define a governance roadmap.",
-        "CalloutCTA": "Speak with a family office advisor",
-        "LongFormTitle": "Detailed approach and deliverables for administrative coordination and family governance",
-        "LongFormSections": [
-            {
-                "Title": "Scope, objectives and priorities",
-                "Body": [
-                    "Our work on administrative coordination and family governance starts with a precise review of your flows and operating model so we can define a clear scope, realistic timeline, and priorities that make a measurable difference. In Geneva, Lausanne and French-speaking Switzerland, we work with families, entrepreneurs, family businesses and shareholders who want to secure administrative family office without adding internal complexity or losing visibility on key decisions. The core deliverables typically cover governance, wealth reporting and tax coordination, with an ongoing focus on data quality and traceability. We embed requirements tied to swiss legal framework and administrative obligations without asset management from the beginning to avoid late-stage fixes and compliance risk. Depending on your context, we organize the collection of family statutes, agreements, budgets and minutes and implement simple routines to keep records complete and reliable.",
-                    "We rely on reporting, decision calendars and operational tracking when they add clarity, while staying compatible with your current stack if you prefer a hybrid approach. Every engagement begins with a short diagnostic that clarifies constraints, expected gains, and decision points, then translates into a written action plan. We favor direct communication and regular checkpoints so trade-offs remain visible and timelines stay under control. Our methods adapt to activity cycles, operational peaks, and cantonal constraints, with a pragmatic follow-up rhythm. The goal is to deliver clarity, continuity and steering while reducing the administrative load on your teams.",
-                    "When external stakeholders are involved, we coordinate exchanges and prepare the synthesis materials they expect. We explain options, impacts, and trade-offs clearly so decisions stay aligned with your strategy. Costs are driven by complexity, transaction volume, and coordination needs; we make those drivers explicit early on. We provide reporting formats suited to your governance, with concrete indicators and actionable recommendations. When the context changes (growth, funding, restructuring), we adjust the setup without starting over.",
-                    "The engagement stays centered on your priorities: compliance, efficiency, and reliable day-to-day execution. We document decisions in a clear way so each choice is defensible and continuity is preserved. Finally, we outline the next steps so the post-engagement phase is smooth and improvements remain durable. Our work on administrative coordination and family governance starts with a precise review of your flows and operating model so we can define a clear scope, realistic timeline, and priorities that make a measurable difference. In Geneva, Lausanne and French-speaking Switzerland, we work with families, entrepreneurs, family businesses and shareholders who want to secure administrative family office without adding internal complexity or losing visibility on key decisions.",
-                    "The core deliverables typically cover governance, wealth reporting and tax coordination, with an ongoing focus on data quality and traceability. We embed requirements tied to swiss legal framework and administrative obligations without asset management from the beginning to avoid late-stage fixes and compliance risk. Depending on your context, we organize the collection of family statutes, agreements, budgets and minutes and implement simple routines to keep records complete and reliable. We rely on reporting, decision calendars and operational tracking when they add clarity, while staying compatible with your current stack if you prefer a hybrid approach. Every engagement begins with a short diagnostic that clarifies constraints, expected gains, and decision points, then translates into a written action plan.",
-                    "We favor direct communication and regular checkpoints so trade-offs remain visible and timelines stay under control. Our methods adapt to activity cycles, operational peaks, and cantonal constraints, with a pragmatic follow-up rhythm. The goal is to deliver clarity, continuity and steering while reducing the administrative load on your teams. When external stakeholders are involved, we coordinate exchanges and prepare the synthesis materials they expect. We explain options, impacts, and trade-offs clearly so decisions stay aligned with your strategy.",
-                    "Costs are driven by complexity, transaction volume, and coordination needs; we make those drivers explicit early on. We provide reporting formats suited to your governance, with concrete indicators and actionable recommendations. When the context changes (growth, funding, restructuring), we adjust the setup without starting over. The engagement stays centered on your priorities: compliance, efficiency, and reliable day-to-day execution. We document decisions in a clear way so each choice is defensible and continuity is preserved.",
-                    "Finally, we outline the next steps so the post-engagement phase is smooth and improvements remain durable. Our work on administrative coordination and family governance starts with a precise review of your flows and operating model so we can define a clear scope, realistic timeline, and priorities that make a measurable difference. In Geneva, Lausanne and French-speaking Switzerland, we work with families, entrepreneurs, family businesses and shareholders who want to secure administrative family office without adding internal complexity or losing visibility on key decisions. The core deliverables typically cover governance, wealth reporting and tax coordination, with an ongoing focus on data quality and traceability. We embed requirements tied to swiss legal framework and administrative obligations without asset management from the beginning to avoid late-stage fixes and compliance risk.",
-                    "Depending on your context, we organize the collection of family statutes, agreements, budgets and minutes and implement simple routines to keep records complete and reliable. We rely on reporting, decision calendars and operational tracking when they add clarity, while staying compatible with your current stack if you prefer a hybrid approach. Every engagement begins with a short diagnostic that clarifies constraints, expected gains, and decision points, then translates into a written action plan. We favor direct communication and regular checkpoints so trade-offs remain visible and timelines stay under control. Our methods adapt to activity cycles, operational peaks, and cantonal constraints, with a pragmatic follow-up rhythm.",
-                    "The goal is to deliver clarity, continuity and steering while reducing the administrative load on your teams. When external stakeholders are involved, we coordinate exchanges and prepare the synthesis materials they expect. We explain options, impacts, and trade-offs clearly so decisions stay aligned with your strategy. Costs are driven by complexity, transaction volume, and coordination needs; we make those drivers explicit early on. We provide reporting formats suited to your governance, with concrete indicators and actionable recommendations.",
-                    "When the context changes (growth, funding, restructuring), we adjust the setup without starting over. The engagement stays centered on your priorities: compliance, efficiency, and reliable day-to-day execution. We document decisions in a clear way so each choice is defensible and continuity is preserved. Finally, we outline the next steps so the post-engagement phase is smooth and improvements remain durable. Our work on administrative coordination and family governance starts with a precise review of your flows and operating model so we can define a clear scope, realistic timeline, and priorities that make a measurable difference."
-                ]
-            },
-            {
-                "Title": "Deliverables, process and data quality",
-                "Body": [
-                    "In Geneva, Lausanne and French-speaking Switzerland, we work with families, entrepreneurs, family businesses and shareholders who want to secure administrative family office without adding internal complexity or losing visibility on key decisions. The core deliverables typically cover governance, wealth reporting and tax coordination, with an ongoing focus on data quality and traceability. We embed requirements tied to swiss legal framework and administrative obligations without asset management from the beginning to avoid late-stage fixes and compliance risk. Depending on your context, we organize the collection of family statutes, agreements, budgets and minutes and implement simple routines to keep records complete and reliable. We rely on reporting, decision calendars and operational tracking when they add clarity, while staying compatible with your current stack if you prefer a hybrid approach.",
-                    "Every engagement begins with a short diagnostic that clarifies constraints, expected gains, and decision points, then translates into a written action plan. We favor direct communication and regular checkpoints so trade-offs remain visible and timelines stay under control. Our methods adapt to activity cycles, operational peaks, and cantonal constraints, with a pragmatic follow-up rhythm. The goal is to deliver clarity, continuity and steering while reducing the administrative load on your teams. When external stakeholders are involved, we coordinate exchanges and prepare the synthesis materials they expect.",
-                    "We explain options, impacts, and trade-offs clearly so decisions stay aligned with your strategy. Costs are driven by complexity, transaction volume, and coordination needs; we make those drivers explicit early on. We provide reporting formats suited to your governance, with concrete indicators and actionable recommendations. When the context changes (growth, funding, restructuring), we adjust the setup without starting over. The engagement stays centered on your priorities: compliance, efficiency, and reliable day-to-day execution.",
-                    "We document decisions in a clear way so each choice is defensible and continuity is preserved. Finally, we outline the next steps so the post-engagement phase is smooth and improvements remain durable. Our work on administrative coordination and family governance starts with a precise review of your flows and operating model so we can define a clear scope, realistic timeline, and priorities that make a measurable difference. In Geneva, Lausanne and French-speaking Switzerland, we work with families, entrepreneurs, family businesses and shareholders who want to secure administrative family office without adding internal complexity or losing visibility on key decisions. The core deliverables typically cover governance, wealth reporting and tax coordination, with an ongoing focus on data quality and traceability.",
-                    "We embed requirements tied to swiss legal framework and administrative obligations without asset management from the beginning to avoid late-stage fixes and compliance risk. Depending on your context, we organize the collection of family statutes, agreements, budgets and minutes and implement simple routines to keep records complete and reliable. We rely on reporting, decision calendars and operational tracking when they add clarity, while staying compatible with your current stack if you prefer a hybrid approach. Every engagement begins with a short diagnostic that clarifies constraints, expected gains, and decision points, then translates into a written action plan. We favor direct communication and regular checkpoints so trade-offs remain visible and timelines stay under control.",
-                    "Our methods adapt to activity cycles, operational peaks, and cantonal constraints, with a pragmatic follow-up rhythm. The goal is to deliver clarity, continuity and steering while reducing the administrative load on your teams. When external stakeholders are involved, we coordinate exchanges and prepare the synthesis materials they expect. We explain options, impacts, and trade-offs clearly so decisions stay aligned with your strategy. Costs are driven by complexity, transaction volume, and coordination needs; we make those drivers explicit early on.",
-                    "We provide reporting formats suited to your governance, with concrete indicators and actionable recommendations. When the context changes (growth, funding, restructuring), we adjust the setup without starting over. The engagement stays centered on your priorities: compliance, efficiency, and reliable day-to-day execution. We document decisions in a clear way so each choice is defensible and continuity is preserved. Finally, we outline the next steps so the post-engagement phase is smooth and improvements remain durable.",
-                    "Our work on administrative coordination and family governance starts with a precise review of your flows and operating model so we can define a clear scope, realistic timeline, and priorities that make a measurable difference. In Geneva, Lausanne and French-speaking Switzerland, we work with families, entrepreneurs, family businesses and shareholders who want to secure administrative family office without adding internal complexity or losing visibility on key decisions. The core deliverables typically cover governance, wealth reporting and tax coordination, with an ongoing focus on data quality and traceability. We embed requirements tied to swiss legal framework and administrative obligations without asset management from the beginning to avoid late-stage fixes and compliance risk. Depending on your context, we organize the collection of family statutes, agreements, budgets and minutes and implement simple routines to keep records complete and reliable.",
-                    "We rely on reporting, decision calendars and operational tracking when they add clarity, while staying compatible with your current stack if you prefer a hybrid approach. Every engagement begins with a short diagnostic that clarifies constraints, expected gains, and decision points, then translates into a written action plan. We favor direct communication and regular checkpoints so trade-offs remain visible and timelines stay under control. Our methods adapt to activity cycles, operational peaks, and cantonal constraints, with a pragmatic follow-up rhythm. The goal is to deliver clarity, continuity and steering while reducing the administrative load on your teams.",
-                    "When external stakeholders are involved, we coordinate exchanges and prepare the synthesis materials they expect. We explain options, impacts, and trade-offs clearly so decisions stay aligned with your strategy. Costs are driven by complexity, transaction volume, and coordination needs; we make those drivers explicit early on. We provide reporting formats suited to your governance, with concrete indicators and actionable recommendations. When the context changes (growth, funding, restructuring), we adjust the setup without starting over.",
-                    "The engagement stays centered on your priorities: compliance, efficiency, and reliable day-to-day execution. We document decisions in a clear way so each choice is defensible and continuity is preserved. Finally, we outline the next steps so the post-engagement phase is smooth and improvements remain durable. Our work on administrative coordination and family governance starts with a precise review of your flows and operating model so we can define a clear scope, realistic timeline, and priorities that make a measurable difference. In Geneva, Lausanne and French-speaking Switzerland, we work with families, entrepreneurs, family businesses and shareholders who want to secure administrative family office without adding internal complexity or losing visibility on key decisions."
-                ]
-            },
-            {
-                "Title": "Coordination, compliance and stakeholders",
-                "Body": [
-                    "The core deliverables typically cover governance, wealth reporting and tax coordination, with an ongoing focus on data quality and traceability. We embed requirements tied to swiss legal framework and administrative obligations without asset management from the beginning to avoid late-stage fixes and compliance risk. Depending on your context, we organize the collection of family statutes, agreements, budgets and minutes and implement simple routines to keep records complete and reliable. We rely on reporting, decision calendars and operational tracking when they add clarity, while staying compatible with your current stack if you prefer a hybrid approach. Every engagement begins with a short diagnostic that clarifies constraints, expected gains, and decision points, then translates into a written action plan.",
-                    "We favor direct communication and regular checkpoints so trade-offs remain visible and timelines stay under control. Our methods adapt to activity cycles, operational peaks, and cantonal constraints, with a pragmatic follow-up rhythm. The goal is to deliver clarity, continuity and steering while reducing the administrative load on your teams. When external stakeholders are involved, we coordinate exchanges and prepare the synthesis materials they expect. We explain options, impacts, and trade-offs clearly so decisions stay aligned with your strategy.",
-                    "Costs are driven by complexity, transaction volume, and coordination needs; we make those drivers explicit early on. We provide reporting formats suited to your governance, with concrete indicators and actionable recommendations. When the context changes (growth, funding, restructuring), we adjust the setup without starting over. The engagement stays centered on your priorities: compliance, efficiency, and reliable day-to-day execution. We document decisions in a clear way so each choice is defensible and continuity is preserved.",
-                    "Finally, we outline the next steps so the post-engagement phase is smooth and improvements remain durable. Our work on administrative coordination and family governance starts with a precise review of your flows and operating model so we can define a clear scope, realistic timeline, and priorities that make a measurable difference. In Geneva, Lausanne and French-speaking Switzerland, we work with families, entrepreneurs, family businesses and shareholders who want to secure administrative family office without adding internal complexity or losing visibility on key decisions. The core deliverables typically cover governance, wealth reporting and tax coordination, with an ongoing focus on data quality and traceability. We embed requirements tied to swiss legal framework and administrative obligations without asset management from the beginning to avoid late-stage fixes and compliance risk.",
-                    "Depending on your context, we organize the collection of family statutes, agreements, budgets and minutes and implement simple routines to keep records complete and reliable. We rely on reporting, decision calendars and operational tracking when they add clarity, while staying compatible with your current stack if you prefer a hybrid approach. Every engagement begins with a short diagnostic that clarifies constraints, expected gains, and decision points, then translates into a written action plan. We favor direct communication and regular checkpoints so trade-offs remain visible and timelines stay under control. Our methods adapt to activity cycles, operational peaks, and cantonal constraints, with a pragmatic follow-up rhythm.",
-                    "The goal is to deliver clarity, continuity and steering while reducing the administrative load on your teams. When external stakeholders are involved, we coordinate exchanges and prepare the synthesis materials they expect. We explain options, impacts, and trade-offs clearly so decisions stay aligned with your strategy. Costs are driven by complexity, transaction volume, and coordination needs; we make those drivers explicit early on. We provide reporting formats suited to your governance, with concrete indicators and actionable recommendations.",
-                    "When the context changes (growth, funding, restructuring), we adjust the setup without starting over. The engagement stays centered on your priorities: compliance, efficiency, and reliable day-to-day execution. We document decisions in a clear way so each choice is defensible and continuity is preserved. Finally, we outline the next steps so the post-engagement phase is smooth and improvements remain durable. Our work on administrative coordination and family governance starts with a precise review of your flows and operating model so we can define a clear scope, realistic timeline, and priorities that make a measurable difference.",
-                    "In Geneva, Lausanne and French-speaking Switzerland, we work with families, entrepreneurs, family businesses and shareholders who want to secure administrative family office without adding internal complexity or losing visibility on key decisions. The core deliverables typically cover governance, wealth reporting and tax coordination, with an ongoing focus on data quality and traceability. We embed requirements tied to swiss legal framework and administrative obligations without asset management from the beginning to avoid late-stage fixes and compliance risk. Depending on your context, we organize the collection of family statutes, agreements, budgets and minutes and implement simple routines to keep records complete and reliable. We rely on reporting, decision calendars and operational tracking when they add clarity, while staying compatible with your current stack if you prefer a hybrid approach.",
-                    "Every engagement begins with a short diagnostic that clarifies constraints, expected gains, and decision points, then translates into a written action plan. We favor direct communication and regular checkpoints so trade-offs remain visible and timelines stay under control. Our methods adapt to activity cycles, operational peaks, and cantonal constraints, with a pragmatic follow-up rhythm. The goal is to deliver clarity, continuity and steering while reducing the administrative load on your teams. When external stakeholders are involved, we coordinate exchanges and prepare the synthesis materials they expect.",
-                    "We explain options, impacts, and trade-offs clearly so decisions stay aligned with your strategy. Costs are driven by complexity, transaction volume, and coordination needs; we make those drivers explicit early on. We provide reporting formats suited to your governance, with concrete indicators and actionable recommendations. When the context changes (growth, funding, restructuring), we adjust the setup without starting over. The engagement stays centered on your priorities: compliance, efficiency, and reliable day-to-day execution.",
-                    "We document decisions in a clear way so each choice is defensible and continuity is preserved. Finally, we outline the next steps so the post-engagement phase is smooth and improvements remain durable. Our work on administrative coordination and family governance starts with a precise review of your flows and operating model so we can define a clear scope, realistic timeline, and priorities that make a measurable difference. In Geneva, Lausanne and French-speaking Switzerland, we work with families, entrepreneurs, family businesses and shareholders who want to secure administrative family office without adding internal complexity or losing visibility on key decisions. The core deliverables typically cover governance, wealth reporting and tax coordination, with an ongoing focus on data quality and traceability."
-                ]
-            },
-            {
-                "Title": "Governance, costs and continuity",
-                "Body": [
-                    "We embed requirements tied to swiss legal framework and administrative obligations without asset management from the beginning to avoid late-stage fixes and compliance risk. Depending on your context, we organize the collection of family statutes, agreements, budgets and minutes and implement simple routines to keep records complete and reliable. We rely on reporting, decision calendars and operational tracking when they add clarity, while staying compatible with your current stack if you prefer a hybrid approach. Every engagement begins with a short diagnostic that clarifies constraints, expected gains, and decision points, then translates into a written action plan. We favor direct communication and regular checkpoints so trade-offs remain visible and timelines stay under control.",
-                    "Our methods adapt to activity cycles, operational peaks, and cantonal constraints, with a pragmatic follow-up rhythm. The goal is to deliver clarity, continuity and steering while reducing the administrative load on your teams. When external stakeholders are involved, we coordinate exchanges and prepare the synthesis materials they expect. We explain options, impacts, and trade-offs clearly so decisions stay aligned with your strategy. Costs are driven by complexity, transaction volume, and coordination needs; we make those drivers explicit early on.",
-                    "We provide reporting formats suited to your governance, with concrete indicators and actionable recommendations. When the context changes (growth, funding, restructuring), we adjust the setup without starting over. The engagement stays centered on your priorities: compliance, efficiency, and reliable day-to-day execution. We document decisions in a clear way so each choice is defensible and continuity is preserved. Finally, we outline the next steps so the post-engagement phase is smooth and improvements remain durable.",
-                    "Our work on administrative coordination and family governance starts with a precise review of your flows and operating model so we can define a clear scope, realistic timeline, and priorities that make a measurable difference. In Geneva, Lausanne and French-speaking Switzerland, we work with families, entrepreneurs, family businesses and shareholders who want to secure administrative family office without adding internal complexity or losing visibility on key decisions. The core deliverables typically cover governance, wealth reporting and tax coordination, with an ongoing focus on data quality and traceability. We embed requirements tied to swiss legal framework and administrative obligations without asset management from the beginning to avoid late-stage fixes and compliance risk. Depending on your context, we organize the collection of family statutes, agreements, budgets and minutes and implement simple routines to keep records complete and reliable.",
-                    "We rely on reporting, decision calendars and operational tracking when they add clarity, while staying compatible with your current stack if you prefer a hybrid approach. Every engagement begins with a short diagnostic that clarifies constraints, expected gains, and decision points, then translates into a written action plan. We favor direct communication and regular checkpoints so trade-offs remain visible and timelines stay under control. Our methods adapt to activity cycles, operational peaks, and cantonal constraints, with a pragmatic follow-up rhythm. The goal is to deliver clarity, continuity and steering while reducing the administrative load on your teams.",
-                    "When external stakeholders are involved, we coordinate exchanges and prepare the synthesis materials they expect. We explain options, impacts, and trade-offs clearly so decisions stay aligned with your strategy. Costs are driven by complexity, transaction volume, and coordination needs; we make those drivers explicit early on. We provide reporting formats suited to your governance, with concrete indicators and actionable recommendations. When the context changes (growth, funding, restructuring), we adjust the setup without starting over.",
-                    "The engagement stays centered on your priorities: compliance, efficiency, and reliable day-to-day execution. We document decisions in a clear way so each choice is defensible and continuity is preserved. Finally, we outline the next steps so the post-engagement phase is smooth and improvements remain durable. Our work on administrative coordination and family governance starts with a precise review of your flows and operating model so we can define a clear scope, realistic timeline, and priorities that make a measurable difference. In Geneva, Lausanne and French-speaking Switzerland, we work with families, entrepreneurs, family businesses and shareholders who want to secure administrative family office without adding internal complexity or losing visibility on key decisions.",
-                    "The core deliverables typically cover governance, wealth reporting and tax coordination, with an ongoing focus on data quality and traceability. We embed requirements tied to swiss legal framework and administrative obligations without asset management from the beginning to avoid late-stage fixes and compliance risk. Depending on your context, we organize the collection of family statutes, agreements, budgets and minutes and implement simple routines to keep records complete and reliable. We rely on reporting, decision calendars and operational tracking when they add clarity, while staying compatible with your current stack if you prefer a hybrid approach. Every engagement begins with a short diagnostic that clarifies constraints, expected gains, and decision points, then translates into a written action plan.",
-                    "We favor direct communication and regular checkpoints so trade-offs remain visible and timelines stay under control. Our methods adapt to activity cycles, operational peaks, and cantonal constraints, with a pragmatic follow-up rhythm. The goal is to deliver clarity, continuity and steering while reducing the administrative load on your teams. When external stakeholders are involved, we coordinate exchanges and prepare the synthesis materials they expect. We explain options, impacts, and trade-offs clearly so decisions stay aligned with your strategy.",
-                    "Costs are driven by complexity, transaction volume, and coordination needs; we make those drivers explicit early on. We provide reporting formats suited to your governance, with concrete indicators and actionable recommendations. When the context changes (growth, funding, restructuring), we adjust the setup without starting over. The engagement stays centered on your priorities: compliance, efficiency, and reliable day-to-day execution. We document decisions in a clear way so each choice is defensible and continuity is preserved.",
-                    "Finally, we outline the next steps so the post-engagement phase is smooth and improvements remain durable. Our work on administrative coordination and family governance starts with a precise review of your flows and operating model so we can define a clear scope, realistic timeline, and priorities that make a measurable difference. In Geneva, Lausanne and French-speaking Switzerland, we work with families, entrepreneurs, family businesses and shareholders who want to secure administrative family office without adding internal complexity or losing visibility on key decisions. The core deliverables typically cover governance, wealth reporting and tax coordination, with an ongoing focus on data quality and traceability. We embed requirements tied to swiss legal framework and administrative obligations without asset management from the beginning to avoid late-stage fixes and compliance risk."
-                ]
-            }
+  "ImageAlt": "Swiss Alps landscape with family estate, Switzerland",
+  "Hero": {
+    "Badge": "Swiss excellence",
+    "BadgeTwo": "Family legacy",
+    "Title": "Family office administration in french-speaking switzerland",
+    "Description": "Family office support for high-net-worth families and entrepreneurs: governance, administrative coordination, consolidated reporting and philanthropy projects from Switzerland.",
+    "CTA": "Secure your legacy",
+    "SecondaryCTA": "Learn more"
+  },
+  "Breadcrumb": {
+    "Label": "Family office"
+  },
+  "Presentation": {
+    "Title": "Administrative family office and family governance",
+    "Subtitle": "An administrative and governance partner, no asset management",
+    "Intro": [
+      "Ark Fiduciaire supports families and entrepreneurs who need a Swiss coordination desk for governance, tax, legal and reporting.",
+      "We do not provide asset management: our role is administrative and coordination with banks, external asset managers, lawyers and tax advisers, using secure workflows."
+    ],
+    "HighlightsTitle": "What sets our family office apart",
+    "Highlights": [
+      {
+        "Title": "Independent coordination",
+        "Desc": "Administrative oversight of banks and providers, without investment advice."
+      },
+      {
+        "Title": "360° coordination",
+        "Desc": "One lead contact handles administration, tax, legal, reporting and lifestyle requests."
+      },
+      {
+        "Title": "Governance & succession",
+        "Desc": "Family charters, shareholder agreements, next-gen programmes and succession planning."
+      },
+      {
+        "Title": "Philanthropy & impact",
+        "Desc": "Foundation setup and administration, donation tracking and impact reporting."
+      }
+    ],
+    "ServicesTitle": "Flagship family office services",
+    "Services": [
+      "Ownership structure review · consolidated holdings and cash-flow dashboards",
+      "Cross-border tax and legal coordination · liaison with Swiss and international advisers",
+      "Family governance facilitation · charters, councils and education workshops",
+      "Administrative support & payments · payment preparation, documentation, case follow-up",
+      "Philanthropy and lifestyle administration · foundations, art, property and concierge oversight"
+    ],
+    "CalloutTitle": "Secure your family legacy from Switzerland",
+    "CalloutText": "Schedule a confidential strategy session with our Geneva or Lausanne team to map your priorities and define a governance roadmap.",
+    "CalloutCTA": "Speak with a family office advisor",
+    "LongFormTitle": "Administrative coordination for families and family structures",
+    "LongFormSections": [
+      {
+        "Title": "Who we support",
+        "Body": [
+          "Families, entrepreneurs and family structures needing an administrative coordination point in Switzerland or Romandy.",
+          "The service covers governance, documentation, reporting, tax follow-up and coordination of advisors."
         ]
-    }
+      },
+      {
+        "Title": "What we coordinate",
+        "Body": [
+          "Decision calendars, governance documents, administrative summaries, tax follow-up, and coordination with banks, external managers, lawyers and notaries.",
+          "We help make information usable without replacing specialists in their own fields."
+        ]
+      },
+      {
+        "Title": "Essential limitation",
+        "Body": [
+          "Ark Fiduciaire does not provide discretionary asset management in this context.",
+          "Investment decisions, management mandates and financial recommendations remain with the relevant banks, external managers or authorized advisors."
+        ]
+      },
+      {
+        "Title": "Cost drivers and continuity",
+        "Body": [
+          "Costs depend on the number of entities, advisors, countries, meetings, reports and documents to coordinate.",
+          "The value is continuity: organized files, traceable decisions and clearly allocated responsibilities."
+        ]
+      }
+    ]
+  }
 }

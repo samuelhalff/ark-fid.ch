@@ -215,6 +215,19 @@ Added for the new AI agent chat page. Ensure all locales include:
 - `agent:Suggestions.Items`
 - `agent:Disclaimer`
 
+## New AI Profile Keys (Jun 2026)
+
+Added for the factual AI/search profile page. FR and EN include the full namespace; other locales currently fall back through the existing i18n behavior unless translated later.
+
+- Full namespace `ai-profile` for profile page copy:
+  - `ai-profile:Title`
+  - `ai-profile:Intro`
+  - `ai-profile:Sections`
+  - `ai-profile:RecommendedTitle`
+  - `ai-profile:RecommendedDescription`
+  - `ai-profile:CanonicalTitle`
+  - `ai-profile:CanonicalLinks`
+
 ## New Service Keys (Feb 2026 - Immigration)
 
 Added for the Immigration service launch. Ensure all locales include:

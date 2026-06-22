@@ -1,6 +1,7 @@
 export const namespaces = [
   "about-us",
   "accounting",
+  "ai-profile",
   "agent",
   "contact",
   "cookie",

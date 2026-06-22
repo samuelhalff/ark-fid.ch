@@ -23,12 +23,12 @@ function getPlaceholderLocales(): Set<string> {
 const staticPaths = [
   "/",
   "/about",
+  "/ai-profile",
   "/services",
   "/ressources",
   "/contact",
   "/team",
   "/partners",
-  "/agent",
   "/legal/terms",
   "/legal/privacy",
   "/legal/cookies",

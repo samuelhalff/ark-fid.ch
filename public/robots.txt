@@ -1,41 +1,13 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
 
-# Disallow internal/API routes
 Disallow: /api/
+Disallow: /admin/
 Disallow: /_next/
-Disallow: /assets/
-Disallow: /_next/static/
-Disallow: /_next/image
-
-# Block query string variants to avoid duplicate indexing
-Disallow: /*?*
-
-# Block OpenGraph image routes (these are for social media crawlers, not search indexing)
-# Fixes "Crawled - currently not indexed" issues for opengraph-image paths
+Disallow: /private/
 Disallow: /*/opengraph-image
 Disallow: /*/opengraph-image/
 Disallow: /*/twitter-image
 Disallow: /*/twitter-image/
 
-# Block non-locale root paths that redirect to locale versions
-# These cause "Page with redirect" issues
-# The canonical URLs always have locale prefixes (e.g., /fr/, /en/)
-Disallow: /about
-Disallow: /about/
-Disallow: /contact
-Disallow: /contact/
-Disallow: /team
-Disallow: /team/
-Disallow: /services
-Disallow: /services/
-Disallow: /ressources
-Disallow: /ressources/
-Disallow: /partners
-Disallow: /partners/
-Disallow: /legal
-Disallow: /legal/
-
-# Sitemap
 Sitemap: https://ark-fid.ch/sitemap.xml
