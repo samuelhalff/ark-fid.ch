@@ -33,10 +33,6 @@
           "url": "https://www.svash.ch/ahv/ihre-beitraege-beitragspflicht/anobag/"
         },
         {
-          "labelKey": "SEM – travailler en Suisse",
-          "url": "https://www.sem.admin.ch/sem/fr/home/overview-arbeit.html"
-        },
-        {
           "labelKey": "ch.ch – travailler en Suisse (étrangers)",
           "url": "https://www.ch.ch/fr/etrangers-en-suisse/travailler-en-suisse/"
         }
@@ -64,10 +60,6 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
-        },
-        {
-          "labelKey": "Portail PME de la Confédération",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -106,10 +98,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "corporate",
@@ -131,10 +119,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -156,10 +140,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -180,10 +160,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -206,10 +182,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -232,10 +204,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -258,10 +226,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -282,10 +246,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -306,10 +266,6 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr/"
         }
       ],
       "category": "payroll",
@@ -332,10 +288,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
