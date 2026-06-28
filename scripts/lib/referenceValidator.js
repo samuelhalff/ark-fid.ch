@@ -100,6 +100,7 @@ const ALLOWED_REFERENCE_DOMAINS = [
   // Academic / educational
   "controledegestion.org",
   "he-arc.ch",
+  "houle.ai",
   // Self-reference
   "ark-fid.ch",
 ];
@@ -110,7 +111,6 @@ const DISALLOWED_FIRM_SOURCE_DOMAINS = [
   "fidflow.ch",
   "gaapex.ch",
   "hoop.swiss",
-  "houle.ai",
   "niris.ch",
   "open-net.ch",
 ];

@@ -20,6 +20,7 @@ const allowedExamples = [
   "https://www.swissmem.ch/fr/",
   "https://entscheidsuche.ch/view/CH_BGer_009_9C-606-2025_2026-02-24",
   "https://www.swissdec.ch/fr/",
+  "https://houle.ai/",
 ];
 
 const firmDomains = [
@@ -27,7 +28,6 @@ const firmDomains = [
   "ficops.ch",
   "fidflow.ch",
   "hoop.swiss",
-  "houle.ai",
   "niris.ch",
   "open-net.ch",
 ];
