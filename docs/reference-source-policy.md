@@ -18,13 +18,13 @@ npm run validate:reference-sources
 - Professional and industry associations: `amsuisse.ch`, `ccig.ch`, `economiesuisse.ch`, `fer.ch`, `swissaccounting.org`, `veb.ch`.
 - International and reference sources: `europa.eu`, `francophonie.org`, `oecd.org`, `wikipedia.org`.
 - Recognized software/vendor documentation: `github.com`, `odoo.com`.
-- Academic or educational sources: `controledegestion.org`, `he-arc.ch`.
+- Academic, educational, or approved partner sources: `controledegestion.org`, `he-arc.ch`, `houle.ai`.
 - Self-reference when relevant: `ark-fid.ch`.
 
 ## Excluded sources
 
 Do not publish links to fiduciaries, accounting firms, Treuhand firms, law firms, notaries, consulting firms, Odoo integrators, Big 4 firms, or other competitors.
 
-The built-in blocklist currently includes known previously generated firm sources: `cobalt-it.ch`, `ficops.ch`, `fidflow.ch`, `gaapex.ch`, `hoop.swiss`, `houle.ai`, `niris.ch`, `open-net.ch`.
+The built-in blocklist currently includes known previously generated firm sources: `cobalt-it.ch`, `ficops.ch`, `fidflow.ch`, `gaapex.ch`, `hoop.swiss`, `niris.ch`, `open-net.ch`.
 
 `REFERENCE_ALLOWED_DOMAINS` can add recognized domains at runtime, but the built-in firm blocklist still wins. Use `REFERENCE_BLOCKED_DOMAINS` for emergency removals.

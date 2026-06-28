@@ -101,7 +101,9 @@
         {
           "Title": "Ongoing compliance and filing (Monthly/Quarterly/Annual)",
           "Description": "We manage all recurring tax obligations according to Swiss regulatory calendars. This includes preparing and filing VAT returns quarterly or semi-annually, submitting monthly withholding tax declarations, making advance tax payments, and preparing annual corporate and individual tax returns. Our team monitors legislative changes affecting your tax position, proactively identifies additional optimization opportunities, and maintains organized records for potential audits. You receive regular updates on your tax position, upcoming deadlines, and any actions required to maintain compliance."
-        },
+        }
+      ]
+    },
         "LongFormTitle": "Detailed approach and deliverables for tax advisory and tax return services",
         "LongFormSections": [
             {
@@ -178,7 +180,5 @@
                 ]
             }
         ]
-      }
-    ]
   }
 }

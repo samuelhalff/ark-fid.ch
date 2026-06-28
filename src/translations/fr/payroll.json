@@ -101,7 +101,9 @@
         {
           "Title": "Paiement des salaires et communication avec les employés (Dernier jour ouvrable du mois)",
           "Description": "Nous exécutons les paiements de salaires en transmettant les fichiers de paiement approuvés à votre banque pour traitement, assurant que les employés reçoivent les salaires à la date convenue. Les bulletins de paie électroniques sont distribués via notre portail employé sécurisé avec notifications par email. Chaque bulletin de paie montre clairement le salaire brut, toutes les déductions avec explications, cotisations patronales, paiement net et totaux cumulés annuels. Les employés peuvent accéder aux bulletins actuels et historiques à tout moment pour les dossiers personnels, demandes de prêt ou besoins officiels. Notre équipe reste disponible tout au long de la journée de paiement pour gérer les questions des employés sur les déductions, assurances sociales, impôt à la source ou détails du bulletin. Nous maintenons une confidentialité complète tout en fournissant un support réactif."
-        },
+        }
+      ]
+    },
         "LongFormTitle": "Approche détaillée et livrables pour la gestion des salaires et charges sociales",
         "LongFormSections": [
             {
@@ -170,7 +172,5 @@
                 ]
             }
         ]
-      }
-    ]
   }
 }

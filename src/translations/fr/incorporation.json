@@ -64,7 +64,9 @@
         {
           "Question": "Les étrangers peuvent-ils créer une société en Suisse et quelles sont les exigences particulières ?",
           "Answer": "Oui, les étrangers peuvent créer des sociétés en Suisse, mais les exigences varient selon le statut de résidence et la nationalité. Les citoyens UE/AELE bénéficient de procédures simplifiées similaires aux ressortissants suisses. Les citoyens non-UE font face à des exigences supplémentaires : au moins un administrateur doit être résident suisse ou UE/AELE avec autorisation de travail suisse, sauf si la société obtient une dispense rarement accordée. La propriété des actions est illimitée pour les SA et Sàrl. Les documents requis incluent des pièces d'identité apostillées, une preuve d'adresse, et potentiellement des lettres de référence bancaire. Les permis de travail pour les administrateurs étrangers relèvent de questions d'immigration distinctes traitées par les autorités cantonales. Nous conseillons sur la structure optimale pour les entrepreneurs étrangers, fournissons des services d'administrateur prête-nom si nécessaire, coordonnons avec les conseillers en immigration pour les permis de résidence, et assurons la conformité avec les réglementations suisses sur la propriété et le contrôle."
-        },
+        }
+      ]
+    },
         "LongFormTitle": "Approche détaillée et livrables pour la constitution de société (sàrl/sa)",
         "LongFormSections": [
             {
@@ -132,8 +134,7 @@
                     "Enfin, de nombreuses recherches portent sur les avantages de créer une société en Suisse romande, et plus particulièrement à Genève. Les entrepreneurs veulent comprendre les spécificités locales, les opportunités économiques et les facilités offertes par la région. Ils s’informent sur les démarches simplifiées, les aides disponibles et les réseaux d’accompagnement. L’objectif est de s’installer dans un environnement favorable à la croissance et à la pérennité de leur entreprise."
                 ]
             }
-        ]
-    },
+        ],
     "UseCases": {
       "Title": "Histoires de réussite réelles de constitution depuis notre cabinet genevois",
       "Description": "Découvrez comment nous avons aidé divers clients à créer et structurer avec succès leurs sociétés suisses, en naviguant la complexité avec expertise et efficacité.",
