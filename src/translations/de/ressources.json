@@ -25,10 +25,6 @@
       "date": "2026-02-11",
       "references": [
         {
-          "labelKey": "SVA Bâle-Campagne – anobag",
-          "url": "https://www.sva-bl.ch/de/ausgleichskasse/beitragspflicht-ahv/iv/eo/internationales/arbeitnehmende-ohne-beitragspflichtigen-arbeitgeber-anobag"
-        },
-        {
           "labelKey": "SVA Schaffhouse – anobag",
           "url": "https://www.svash.ch/ahv/ihre-beitraege-beitragspflicht/anobag/"
         },
@@ -309,10 +305,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -330,10 +322,6 @@
       "author": "Ark Fiduciaire",
       "date": "2025-09-17",
       "references": [
-        {
-          "labelKey": "Checklist AFC e-TVA",
-          "url": "https://www.amsuisse.ch/fileadmin/forum_archiv/pdf/2024/06/2024_06_F_120_Modification_TVA.pdf"
-        },
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
@@ -385,10 +373,6 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr/"
         }
       ],
       "category": "payroll",
@@ -438,10 +422,6 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation"
         }
       ],
       "category": "odoo",

@@ -103,33 +103,33 @@
             {
                 "Title": "Intentions de recherche",
                 "Body": [
-                    "Les entreprises en Suisse recherchent souvent des solutions fiables pour la gestion administrative et la conformité légale. L’administration corporate permet d’assurer le bon fonctionnement de la société, de la tenue des registres à la préparation des rapports annuels. Les dirigeants souhaitent déléguer ces tâches à des experts afin de se concentrer sur le développement de leur activité. Un accompagnement professionnel garantit le respect des obligations légales et la sécurité des opérations courantes.",
-                    "Le secrétariat juridique suisse joue un rôle clé dans la gestion documentaire et la préparation des assemblées générales. Les entreprises cherchent des services qui facilitent la rédaction des procès-verbaux, la gestion des registres d’actionnaires et le suivi des décisions importantes. Un secrétariat efficace permet d’éviter les erreurs administratives et d’assurer une traçabilité complète des actions menées au sein de la société.",
-                    "La gouvernance d’entreprise suisse est un enjeu majeur pour les sociétés souhaitant renforcer leur organisation interne. Les dirigeants recherchent des conseils en structuration d’entreprise et en gestion des risques pour optimiser leur gouvernance. Un accompagnement personnalisé aide à mettre en place des procédures claires, à anticiper les évolutions réglementaires et à garantir la transparence dans la prise de décision.",
-                    "L’optimisation administrative suisse est essentielle pour les PME et les grandes entreprises qui veulent gagner en efficacité. Les solutions de support administratif permettent d’alléger la charge de travail interne et d’assurer un suivi rigoureux des obligations légales. Les sociétés apprécient l’expertise locale pour la domiciliation, la gestion des documents légaux et l’accompagnement dans l’organisation des réunions d’entreprise."
+                    "Les entreprises suisses recherchent souvent un accompagnement fiable pour assurer la conformité et la bonne gestion de leurs obligations légales. L’administration corporate et le secrétariat juridique jouent un rôle clé dans la structuration et l’organisation des sociétés. Les dirigeants souhaitent s’appuyer sur des experts pour la gestion des registres, la préparation des assemblées générales et la rédaction des procès-verbaux. Ce soutien permet de sécuriser le fonctionnement quotidien de l’entreprise et de répondre sereinement aux exigences réglementaires.",
+                    "La gouvernance d’entreprise en Suisse implique une attention particulière à la gestion documentaire et au respect des obligations statutaires. Les clients cherchent des solutions pour optimiser leur organisation interne, tout en garantissant la transparence et la traçabilité des décisions. L’accompagnement dans la préparation des rapports annuels et le suivi des obligations légales est essentiel pour éviter les risques de non-conformité. Un support administratif adapté contribue à la pérennité et à la crédibilité de l’entreprise auprès de ses partenaires.",
+                    "Les PME suisses ont des besoins spécifiques en matière de support administratif et de conseil en structuration d’entreprise. Elles recherchent des services flexibles, capables de s’adapter à leur taille et à leur secteur d’activité. L’assistance à la création d’entreprise, la gestion des documents légaux et le conseil en organisation sont des attentes fréquentes. Un accompagnement personnalisé facilite la croissance de l’entreprise et lui permet de se concentrer sur son cœur de métier, tout en respectant les normes suisses.",
+                    "La digitalisation des processus administratifs est devenue une priorité pour de nombreuses entreprises à Genève et en Suisse. Les dirigeants souhaitent bénéficier d’outils modernes pour la gestion documentaire, l’optimisation administrative et le suivi des registres d’actionnaires. Un secrétariat juridique efficace doit proposer des solutions innovantes pour simplifier les démarches et garantir la sécurité des informations. L’objectif est de gagner en efficacité tout en assurant la conformité avec la législation suisse en vigueur."
                 ]
             },
-      {
-        "Title": "Ce que nous suivons",
-        "Body": [
-          "Secrétariat corporate, tenue de registres, préparation de décisions, coordination de signatures, suivi des obligations et lien avec notaires ou avocats.",
-          "Les documents sont organisés pour être retrouvés rapidement lors d’un audit, d’une transaction ou d’un contrôle bancaire."
+            {
+                "Title": "Ce que nous suivons",
+                "Body": [
+                    "Secrétariat corporate, tenue de registres, préparation de décisions, coordination de signatures, suivi des obligations et lien avec notaires ou avocats.",
+                    "Les documents sont organisés pour être retrouvés rapidement lors d’un audit, d’une transaction ou d’un contrôle bancaire."
+                ]
+            },
+            {
+                "Title": "Méthode",
+                "Body": [
+                    "Nous établissons un calendrier des décisions récurrentes, des échéances légales et des validations nécessaires.",
+                    "Chaque intervention précise le responsable, la pièce attendue, le délai et la preuve de décision."
+                ]
+            },
+            {
+                "Title": "Limites et coûts",
+                "Body": [
+                    "Les coûts varient selon le nombre d’entités, la fréquence des changements, les documents à préparer et les tiers à coordonner.",
+                    "Lorsque le sujet relève d’un avis juridique spécifique, nous coordonnons avec les conseils compétents plutôt que de le présenter comme une formalité."
+                ]
+            }
         ]
-      },
-      {
-        "Title": "Méthode",
-        "Body": [
-          "Nous établissons un calendrier des décisions récurrentes, des échéances légales et des validations nécessaires.",
-          "Chaque intervention précise le responsable, la pièce attendue, le délai et la preuve de décision."
-        ]
-      },
-      {
-        "Title": "Limites et coûts",
-        "Body": [
-          "Les coûts varient selon le nombre d’entités, la fréquence des changements, les documents à préparer et les tiers à coordonner.",
-          "Lorsque le sujet relève d’un avis juridique spécifique, nous coordonnons avec les conseils compétents plutôt que de le présenter comme une formalité."
-        ]
-      }
-    ]
-  }
+    }
 }
