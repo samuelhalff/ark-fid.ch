@@ -304,10 +304,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
