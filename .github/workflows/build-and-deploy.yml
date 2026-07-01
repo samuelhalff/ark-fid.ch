@@ -323,7 +323,7 @@ jobs:
           TOKEN="${{ secrets.RESTART_SECRET_TOKEN }}"
 
           echo "[restart] Killing old process..."
-          curl -X POST "https://ark-fid.ch/api/kill/" -H "Authorization: Bearer $TOKEN" -s -o /dev/null -w "[restart] Kill request status: %{http_code}\n" || echo "[restart] Kill request failed or no process to kill"
+          curl --connect-timeout 5 --max-time 20 -X POST "https://ark-fid.ch/api/kill/" -H "Authorization: Bearer $TOKEN" -s -o /dev/null -w "[restart] Kill request status: %{http_code}\n" || echo "[restart] Kill request failed or no process to kill"
 
           echo "[restart] Waiting for process to terminate..."
           sleep 30
@@ -339,9 +339,10 @@ jobs:
 
       - name: Health check and warmup
         run: |
+          CURL_TIMEOUTS=(--connect-timeout 5 --max-time 20)
           ATTEMPTS=40; SLEEP=3; OK=0
           for i in $(seq 1 $ATTEMPTS); do
-            STATUS=$(curl -o /dev/null -s -w "%{http_code}" -L "https://ark-fid.ch/fr/")
+            STATUS=$(curl "${CURL_TIMEOUTS[@]}" -o /dev/null -s -w "%{http_code}" -L "https://ark-fid.ch/fr/")
             if [ "$STATUS" -eq 200 ]; then
               echo "✅ Health check OK"
               OK=1
@@ -354,7 +355,7 @@ jobs:
 
           echo "[deploy] Warming up paths..."
           for path in "/" "/en/" "/fr/" "/de/" "/es/" "/pt/"; do
-            curl -fsSL "https://ark-fid.ch$path" >/dev/null 2>&1 || true
+            curl "${CURL_TIMEOUTS[@]}" -fsSL "https://ark-fid.ch$path" >/dev/null 2>&1 || true
           done
 
           echo "[deploy] Warmup next/image cache across key pages (non-blocking)"
@@ -364,12 +365,12 @@ jobs:
           }
           BASE_PATHS=("/" "/en/" "/fr/" "/de/" "/es/" "/pt/")
           for path in "${BASE_PATHS[@]}"; do
-            HTML=$(curl -fsSL "https://ark-fid.ch$path" || true)
+            HTML=$(curl "${CURL_TIMEOUTS[@]}" -fsSL "https://ark-fid.ch$path" || true)
             collect_images "$HTML"
           done
           # Warm service listing pages
           for locale in en fr de es pt; do
-            HTML=$(curl -fsSL "https://ark-fid.ch/$locale/services/" || true)
+            HTML=$(curl "${CURL_TIMEOUTS[@]}" -fsSL "https://ark-fid.ch/$locale/services/" || true)
             collect_images "$HTML"
           done
           # Warm service detail pages (localized FR slugs + EN slugs for other locales)
@@ -400,12 +401,12 @@ jobs:
             "/services/immigration/"
           )
           for path in "${FR_SERVICES[@]}"; do
-            HTML=$(curl -fsSL "https://ark-fid.ch$path" || true)
+            HTML=$(curl "${CURL_TIMEOUTS[@]}" -fsSL "https://ark-fid.ch$path" || true)
             collect_images "$HTML"
           done
           for locale in en de es pt; do
             for svc in "${EN_SERVICES[@]}"; do
-              HTML=$(curl -fsSL "https://ark-fid.ch/$locale$svc" || true)
+              HTML=$(curl "${CURL_TIMEOUTS[@]}" -fsSL "https://ark-fid.ch/$locale$svc" || true)
               collect_images "$HTML"
             done
           done
@@ -413,7 +414,7 @@ jobs:
           warm_images() {
             local accept="$1"
             while read -r u; do
-              curl -fsSL -H "Accept: $accept" "https://ark-fid.ch$u" >/dev/null 2>&1 || true
+              curl "${CURL_TIMEOUTS[@]}" -fsSL -H "Accept: $accept" "https://ark-fid.ch$u" >/dev/null 2>&1 || true
             done < "$TMP.list"
           }
           # Warm modern formats explicitly to populate the image optimizer cache.
@@ -429,9 +430,9 @@ jobs:
         continue-on-error: true
         run: |
           echo "Checking sitemap format..."
-          curl -s "https://ark-fid.ch/sitemap.xml" | head -50
+          curl --connect-timeout 5 --max-time 20 -s "https://ark-fid.ch/sitemap.xml" | head -50
           # Check if URLs have trailing slashes by looking for paths ending with / before </loc>
-          if curl -s "https://ark-fid.ch/sitemap.xml" | grep -E '<loc>https://[^<]+/</loc>' | head -1; then
+          if curl --connect-timeout 5 --max-time 20 -s "https://ark-fid.ch/sitemap.xml" | grep -E '<loc>https://[^<]+/</loc>' | head -1; then
             echo "✅ Sitemap URLs have trailing slashes"
           else
             echo "⚠️ WARNING: Sitemap URLs may be missing trailing slashes"
