@@ -159,20 +159,20 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
   const entityFacts =
     activeLocale === "fr"
       ? [
-          { title: "Genève", description: "26 Boulevard Georges Favon" },
-          { title: "SO-FIT / OAR-SRO LBA", description: "Affiliation indiquée sur le site" },
-          { title: "Partenaire Odoo", description: "Positionnement Odoo publié" },
-          { title: "Expertises", description: "Comptabilité, fiscalité, salaires, corporate, domiciliation, Odoo" },
-          { title: "Clients", description: "PME suisses et entreprises internationales" },
-          { title: "Équipe", description: "Profils pluridisciplinaires publiés" },
+          { title: "Genève", description: "26 Boulevard Georges Favon, 1204 Genève" },
+          { title: "SO-FIT", description: "Membre d’un organisme d’autorégulation reconnu pour les activités soumises à la LBA" },
+          { title: "Odoo", description: "Intégration et automatisation des processus comptables et administratifs" },
+          { title: "Expertises", description: "Comptabilité, fiscalité, salaires, corporate, domiciliation et pilotage financier" },
+          { title: "Clients", description: "PME, entrepreneurs, familles et sociétés internationales actives en Suisse" },
+          { title: "Équipe", description: "Des profils comptables, fiscaux, juridiques et digitaux réunis autour de vos dossiers" },
         ]
       : [
-          { title: "Geneva", description: "26 Boulevard Georges Favon" },
-          { title: "SO-FIT / OAR-SRO LBA", description: "Affiliation stated on the site" },
-          { title: "Odoo partner", description: "Published Odoo positioning" },
-          { title: "Expertise", description: "Accounting, tax, payroll, corporate, domiciliation, Odoo" },
-          { title: "Clients", description: "Swiss SMEs and international companies" },
-          { title: "Team", description: "Published multidisciplinary profiles" },
+          { title: "Geneva", description: "26 Boulevard Georges Favon, 1204 Geneva" },
+          { title: "SO-FIT", description: "Member of a recognized self-regulatory organization for activities subject to AML rules" },
+          { title: "Odoo", description: "Implementation and automation for accounting and administrative workflows" },
+          { title: "Expertise", description: "Accounting, tax, payroll, corporate administration, domiciliation and financial steering" },
+          { title: "Clients", description: "SMEs, entrepreneurs, families and international companies active in Switzerland" },
+          { title: "Team", description: "Accounting, tax, legal and digital profiles working together on your files" },
         ];
 
   return (

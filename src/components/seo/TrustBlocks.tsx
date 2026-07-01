@@ -9,9 +9,9 @@ export type TrustSignal = {
 
 export function TrustSignals({ items }: { items: TrustSignal[] }) {
   return (
-    <ul className="grid gap-3 text-sm leading-6 text-muted-foreground sm:grid-cols-2">
+    <ul className="grid gap-x-8 gap-y-5 text-sm leading-6 text-muted-foreground sm:grid-cols-2">
       {items.map((item) => (
-        <li key={item.title} className="rounded-lg border border-border/60 p-4">
+        <li key={item.title}>
           <p className="font-semibold text-foreground">{item.title}</p>
           {item.description ? <p className="mt-1">{item.description}</p> : null}
         </li>
