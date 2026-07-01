@@ -336,6 +336,7 @@ jobs:
           '
 
       - name: Restart Node.js server
+        timeout-minutes: 3
         run: |
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
           USER="${{ secrets.DEPLOY_SSH_USER }}"
@@ -353,7 +354,7 @@ jobs:
           sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes "$USER@$HOST" '
             set -e
             # Supervisor loop: re-enter current symlink on every iteration so new releases apply
-            nohup bash -lc "while true; do cd /srv/customer/sites/ark-fid.ch/current && node server.js >> server.out 2>&1; echo \"Node crashed, restarting...\" >> server.out; sleep 1; done" &
+            nohup bash -lc "while true; do cd /srv/customer/sites/ark-fid.ch/current && node server.js >> server.out 2>&1; echo \"Node crashed, restarting...\" >> server.out; sleep 1; done" >/dev/null 2>&1 </dev/null &
           ' || echo "[restart] SSH command completed"
 
           sleep 30
