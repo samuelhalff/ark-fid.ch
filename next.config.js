@@ -14,7 +14,6 @@ const baseConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react", "react-hook-form", "sonner"],
     optimizeCss: true,
-    nextScriptWorkers: true,
     swcPlugins: [
       // Configure SWC to skip polyfills for modern browsers
     ],
