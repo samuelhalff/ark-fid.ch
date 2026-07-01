@@ -359,11 +359,12 @@ jobs:
           sleep 30
 
       - name: Health check and warmup
+        timeout-minutes: 5
         run: |
-          CURL_TIMEOUTS=(--connect-timeout 5 --max-time 20)
+          CURL_TIMEOUTS=(--connect-timeout 5 --max-time 8)
           ATTEMPTS=40; SLEEP=3; OK=0
           for i in $(seq 1 $ATTEMPTS); do
-            STATUS=$(curl "${CURL_TIMEOUTS[@]}" -o /dev/null -s -w "%{http_code}" -L "https://ark-fid.ch/fr/")
+            STATUS=$(curl "${CURL_TIMEOUTS[@]}" -o /dev/null -s -w "%{http_code}" -L "https://ark-fid.ch/fr/" || echo "000")
             if [ "$STATUS" -eq 200 ]; then
               echo "✅ Health check OK"
               OK=1
@@ -379,7 +380,7 @@ jobs:
             curl "${CURL_TIMEOUTS[@]}" -fsSL "https://ark-fid.ch$path" >/dev/null 2>&1 || true
           done
 
-          echo "[deploy] Warmup next/image cache across key pages (non-blocking)"
+          echo "[deploy] Warmup next/image cache from locale home pages (non-blocking)"
           TMP=$(mktemp)
           collect_images() {
             echo "$1" | grep -Eo '/_next/image/\?url=[^" ]+' | sed 's/&amp;/\&/g' >> "$TMP"
@@ -389,59 +390,15 @@ jobs:
             HTML=$(curl "${CURL_TIMEOUTS[@]}" -fsSL "https://ark-fid.ch$path" || true)
             collect_images "$HTML"
           done
-          # Warm service listing pages
-          for locale in en fr de es pt; do
-            HTML=$(curl "${CURL_TIMEOUTS[@]}" -fsSL "https://ark-fid.ch/$locale/services/" || true)
-            collect_images "$HTML"
-          done
-          # Warm service detail pages (localized FR slugs + EN slugs for other locales)
-          FR_SERVICES=(
-            "/fr/services/comptabilite/"
-            "/fr/services/fiscalite/"
-            "/fr/services/paie/"
-            "/fr/services/externalisation/"
-            "/fr/services/fusions-acquisitions/"
-            "/fr/services/services-corporatifs/"
-            "/fr/services/constitution-entreprise/"
-            "/fr/services/domiciliation/"
-            "/fr/services/odoo/"
-            "/fr/services/family-office/"
-            "/fr/services/immigration/"
-          )
-          EN_SERVICES=(
-            "/services/accounting/"
-            "/services/taxes/"
-            "/services/payroll/"
-            "/services/outsourcing/"
-            "/services/mergers-acquisitions/"
-            "/services/corporate/"
-            "/services/incorporation/"
-            "/services/domiciliation/"
-            "/services/odoo/"
-            "/services/family-office/"
-            "/services/immigration/"
-          )
-          for path in "${FR_SERVICES[@]}"; do
-            HTML=$(curl "${CURL_TIMEOUTS[@]}" -fsSL "https://ark-fid.ch$path" || true)
-            collect_images "$HTML"
-          done
-          for locale in en de es pt; do
-            for svc in "${EN_SERVICES[@]}"; do
-              HTML=$(curl "${CURL_TIMEOUTS[@]}" -fsSL "https://ark-fid.ch/$locale$svc" || true)
-              collect_images "$HTML"
-            done
-          done
-          sort -u "$TMP" | head -n 220 > "$TMP.list"
+          sort -u "$TMP" | head -n 40 > "$TMP.list"
           warm_images() {
             local accept="$1"
             while read -r u; do
               curl "${CURL_TIMEOUTS[@]}" -fsSL -H "Accept: $accept" "https://ark-fid.ch$u" >/dev/null 2>&1 || true
             done < "$TMP.list"
           }
-          # Warm modern formats explicitly to populate the image optimizer cache.
-          warm_images "image/avif,image/webp,*/*"
+          # Keep this bounded: CI should verify deployment, not exhaustively prime caches.
           warm_images "image/webp,*/*"
-          warm_images "*/*"
           rm -f "$TMP.list"
           rm -f "$TMP"
 
