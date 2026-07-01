@@ -31,6 +31,10 @@
         {
           "labelKey": "ch.ch – travailler en Suisse (étrangers)",
           "url": "https://www.ch.ch/fr/etrangers-en-suisse/travailler-en-suisse/"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "title": "ANobAG in der Schweiz: Voraussetzungen, Schritte und Bewilligungen für Mitarbeitende ausländischer Arbeitgeber (2026)",
@@ -56,6 +60,10 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -94,6 +102,14 @@
         {
           "labelKey": "Registre du commerce - Canton de Genève",
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
+        },
+        {
+          "labelKey": "Code des obligations (CO)",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ],
       "category": "corporate",
@@ -115,6 +131,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -136,6 +156,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -156,6 +180,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -178,6 +206,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -200,6 +232,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -222,6 +258,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -242,6 +282,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -262,6 +306,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ],
       "category": "payroll",
@@ -284,6 +332,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -305,6 +357,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -373,6 +429,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ],
       "category": "payroll",
@@ -422,6 +482,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ],
       "category": "odoo",
@@ -491,7 +555,7 @@
       "references": [
         {
           "labelKey": "Directives LPP 2025",
-          "url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
+          "url": "https://www.oak-bv.admin.ch/fr/directives-d-01-2025"
         },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
@@ -1063,6 +1127,10 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
         },
         {
           "labelKey": "Registre du commerce - Canton de Genève",
@@ -1699,7 +1767,7 @@
         },
         {
           "labelKey": "Code des obligations - Comptabilité",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ],
       "category": "corporate",
@@ -2315,10 +2383,6 @@
           "url": "https://www.ch.ch/fr/"
         },
         {
-          "labelKey": "Lutte contre l'abus du droit de faillite",
-          "url": "https://www.e-doc.admin.ch/dam/bj/fr/data/wirtschaft/gesetzgebung/archiv/konkursmissbrauch/vo-aenderungen/erlaeuterungen-vo.pdf.download.pdf/erlaeuterungen-vo-f.pdf"
-        },
-        {
           "labelKey": "Règlement sur le commerce extérieur",
           "url": "https://www.bazg.admin.ch/dam/fr/sd-web/Hz62MtyMRHPD/R-25%20Statistique%20du%20commerce%20exterieur-20260401.pdf"
         },
@@ -2531,10 +2595,6 @@
           "url": "https://www.admin.ch/fr/newnsb/2-YfSCkZSpHqbXoscreMT"
         },
         {
-          "labelKey": "OFJ : poursuite pour dettes et faillite",
-          "url": "https://www.bj.admin.ch/bj/fr/home/wirtschaft/schkg.html"
-        },
-        {
           "labelKey": "OFS : hausse du nombre de faillites en 2024",
           "url": "https://dam-api.bfs.admin.ch/hub/api/dam/assets/34887815/master"
         }
@@ -2709,10 +2769,6 @@
         {
           "labelKey": "Loi sur le blanchiment d’argent : obligations complémentaires (OFJ)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
-        },
-        {
-          "labelKey": "Registre du commerce, Zefix® et Regix - admin.ch",
-          "url": "https://www.bj.admin.ch/bj/fr/home/wirtschaft/handelsregister.html"
         },
         {
           "labelKey": "Loi fédérale sur la transparence des personnes morales (LTPM), consultation officielle",
@@ -2935,10 +2991,6 @@
         {
           "labelKey": "Registre du Commerce Suisse (inscription et publication)",
           "url": "https://zefix.ch/"
-        },
-        {
-          "labelKey": "Représentation légale et obligations (SA/Sàrl)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/2002/456/fr"
         }
       ]
     },

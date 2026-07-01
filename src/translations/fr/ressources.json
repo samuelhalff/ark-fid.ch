@@ -31,6 +31,10 @@
         {
           "labelKey": "Odoo Accounting Documentation",
           "url": "https://www.odoo.com/documentation/17.0/applications/finance/accounting.html"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ],
       "title": "Plan comptable suisse PME : tendances 2026, plan analytique et pilotage Odoo",
@@ -83,6 +87,10 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "incorporation",
@@ -106,6 +114,10 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -128,6 +140,10 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "incorporation",
@@ -149,6 +165,10 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -187,6 +207,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "corporate",
@@ -208,6 +232,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -233,6 +261,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -379,6 +411,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ],
       "category": "payroll",
@@ -612,7 +648,7 @@
         },
         {
           "labelKey": "Commission de haute surveillance LPP",
-          "url": "https://www.oak-bv.admin.ch/fr/commission-de-haute-surveillance-de-la-prevoyance-professionnelle-chs-pp"
+          "url": "https://www.oak-bv.admin.ch/fr"
         },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
@@ -2351,10 +2387,6 @@
           "url": "https://www.ch.ch/fr/"
         },
         {
-          "labelKey": "Lutte contre l'abus du droit de faillite",
-          "url": "https://www.e-doc.admin.ch/dam/bj/fr/data/wirtschaft/gesetzgebung/archiv/konkursmissbrauch/vo-aenderungen/erlaeuterungen-vo.pdf.download.pdf/erlaeuterungen-vo-f.pdf"
-        },
-        {
           "labelKey": "Règlement sur le commerce extérieur",
           "url": "https://www.bazg.admin.ch/dam/fr/sd-web/Hz62MtyMRHPD/R-25%20Statistique%20du%20commerce%20exterieur-20260401.pdf"
         },
@@ -2567,10 +2599,6 @@
           "url": "https://www.admin.ch/fr/newnsb/2-YfSCkZSpHqbXoscreMT"
         },
         {
-          "labelKey": "OFJ : poursuite pour dettes et faillite",
-          "url": "https://www.bj.admin.ch/bj/fr/home/wirtschaft/schkg.html"
-        },
-        {
           "labelKey": "OFS : hausse du nombre de faillites en 2024",
           "url": "https://dam-api.bfs.admin.ch/hub/api/dam/assets/34887815/master"
         }
@@ -2745,10 +2773,6 @@
         {
           "labelKey": "Loi sur le blanchiment d’argent : obligations complémentaires (OFJ)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
-        },
-        {
-          "labelKey": "Registre du commerce, Zefix® et Regix - admin.ch",
-          "url": "https://www.bj.admin.ch/bj/fr/home/wirtschaft/handelsregister.html"
         },
         {
           "labelKey": "Loi fédérale sur la transparence des personnes morales (LTPM), consultation officielle",
@@ -2971,10 +2995,6 @@
         {
           "labelKey": "Registre du Commerce Suisse (inscription et publication)",
           "url": "https://zefix.ch/"
-        },
-        {
-          "labelKey": "Représentation légale et obligations (SA/Sàrl)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/2002/456/fr"
         }
       ]
     },

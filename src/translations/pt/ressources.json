@@ -60,6 +60,10 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -94,7 +98,16 @@
       "image": "abstract-background-dark.avif",
       "date": "2025-10-22",
       "content": "Criar a sua empresa na Suíça (GmbH/Sàrl, AG/SA ou empresa individual) requer algumas decisões essenciais. Este guia explica, de forma simples, como criar uma empresa na Suíça: escolha da forma jurídica, inscrição no Registo do Comércio, [IVA](/services/taxes), banca e custos iniciais.\n\nExpressões de pesquisa (integradas naturalmente): criar empresa, criar a sua empresa, criar uma Sàrl, criar uma SA, constituição de empresa na Suíça.\n\n## 1) Escolher a forma jurídica: GmbH, AG ou empresa individual\n\n- **GmbH (Sàrl)**\n - Capital: **CHF 20.000** (recomendável libertação total).\n - Responsabilidade limitada.\n - Governação simples, adequada a PME e vários fundadores.\n\n- **AG (SA)**\n - Capital: **CHF 100.000** (mín. CHF 50.000 libertados).\n - Imagem mais corporativa, ações transmissíveis, governação mais formal (Conselho).\n - Indicada para captação de investimento e projetos com maior exposição.\n\n- **Empresa individual**\n - Sem capital mínimo, **responsabilidade ilimitada**.\n - Trâmite simples; inscrição no Registo Comercial normalmente a partir de **CHF 100.000** de volume anual (ou antes consoante atividade/banco).\n\n> Dica rápida: para arrancar depressa com responsabilidade limitada, a **GmbH/Sàrl** é a opção mais comum.\n\n## 2) Passos para criar a sociedade (checklist)\n\n1. **Nome, objeto e sede**: verificar disponibilidade e definir o objeto.\n2. **Domicílio**: arrendamento, espaço de parceiro ou **[domiciliação](/services/domiciliation)** profissional.\n3. **Estatutos**: capital, estrutura de ações/quotas, governação, cláusulas de transmissão/assinatura.\n4. **Banco & capital**: abrir conta de **bloqueio** do capital (atestado).\n5. **Escritura pública (GmbH/AG)**: notário.\n6. **Dossiê Registo Comercial**: estatutos assinados, certidões, formulários e documentos de identidade.\n7. **[IVA](/services/taxes)**: avaliar **sujeição** (limiar CHF 100.000 de faturação global) e registar se aplicável.\n8. **Segurança social**: AVS/AI/APG, LAA e fundo de pensões (LPP) se houver empregados.\n9. **Contabilidade & ferramentas**: plano de contas, faturação, controlos internos.\n\n## 3) Prazos habituais\n\n- Preparação de estatutos/dossiê: **2–7 dias úteis**.\n- Notário e atestado bancário: **2–5 dias**.\n- Registo Comercial (após entrega completa): **3–10 dias**.\n- IVA/segurança social: **alguns dias** conforme portal/período.\n\nNo total, a constituição costuma levar **1–3 semanas**.\n\n## 4) Custos e valores de partida (indicativos)\n\nValores **indicativos**, variáveis por cantão, notário, banco, complexidade e prazos.\n\n- **Pack de constituição GmbH/Sàrl** (estatutos, dossiê RC, coordenação notário, formalidades IVA/AVS se aplicáveis): **desde CHF 1.250–1.900 + IVA**.\n- **Pack de constituição AG/SA**: **desde CHF 1.800–2.800 + IVA**.\n- **Domiciliação** (Genebra/Romandia): **desde CHF 90–180 + IVA/mês**.\n- **Arranque contabilístico** (plano de contas, primeiras automatizações): **desde CHF 450–900 + IVA**.\n\nCustos de terceiros (típicos):\n\n- **Notário**: aprox. **CHF 600–2.500**.\n- **Taxas do Registo Comercial**: aprox. **CHF 120–600**.\n- **Atestado de bloqueio (banco)**: aprox. **CHF 100–300**.\n\n> Pacotes transparentes e flexíveis; orçamento detalhado antes do arranque.\n\n## 5) IVA: quando registar?\n\n- Limiar de **CHF 100.000** de faturação (global, CH + exterior) em 12 meses móveis.\n- Registo voluntário possível abaixo do limiar (para recuperar IVA suportado).\n- **Método efetivo** ou **taxa líquida** conforme dimensão/setor.\n\n## 6) Erros frequentes a evitar\n\n- Desvalorizar a **redação dos estatutos** (direitos/obrigações, lock‑up, cláusulas de saída).\n- Omitir **afiliações sociais** ao contratar.\n- Tratar o banco tardiamente (é necessário **atestado de bloqueio** antes da escritura).\n- Adiar a **[contabilidade](/services/accounting)** (faturação e IVA desde o primeiro dia).\n\n## 7) FAQ – criar empresa na Suíça\n\n- **Quanto tempo para uma GmbH?** Normalmente 1–2 semanas com dossiê completo.\n- **Notário é obrigatório?** Sim para GmbH/AG. Não para empresa individual.\n- **Posso constituir sem capital libertado?** Não: depósito em conta bloqueada antes da escritura (GmbH/AG).\n- **Quando registar no IVA?** A partir de CHF 100.000 (ou por opção).\n\n### Serviços Ark Fiduciaire\n\nApoiamos a **constituição de empresas** (GmbH/AG/individual) em Genebra e Romandia: estatutos, Registo Comercial, IVA, bancos, **[domiciliação](/services/domiciliation)** e depois [contabilidade](/services/accounting) e [payroll](/services/payroll).\n\nPara um arranque tranquilo, **contacte a nossa [equipa](/team)** para orçamento e calendário à medida.\n\n### Serviços relacionados\n\n- [Constituição de empresa](/services/incorporation)\n- [Domiciliação](/services/domiciliation)\n- [Contabilidade](/services/accounting)\n- [Contactar](/contact)",
-      "references": [],
+      "references": [
+        {
+          "labelKey": "Code des obligations (CO)",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
+        }
+      ],
       "category": "corporate",
       "tags": [
         "corporate",
@@ -114,6 +127,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -135,6 +152,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -155,6 +176,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -177,6 +202,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -199,6 +228,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -221,6 +254,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -241,6 +278,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -261,6 +302,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ],
       "category": "payroll",
@@ -283,6 +328,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -376,6 +425,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ],
       "category": "payroll",
@@ -425,6 +478,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ],
       "category": "odoo",
@@ -498,7 +555,7 @@
       "references": [
         {
           "labelKey": "Directives LPP 2025",
-          "url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
+          "url": "https://www.oak-bv.admin.ch/fr/directives-d-01-2025"
         },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
@@ -2326,10 +2383,6 @@
           "url": "https://www.ch.ch/fr/"
         },
         {
-          "labelKey": "Lutte contre l'abus du droit de faillite",
-          "url": "https://www.e-doc.admin.ch/dam/bj/fr/data/wirtschaft/gesetzgebung/archiv/konkursmissbrauch/vo-aenderungen/erlaeuterungen-vo.pdf.download.pdf/erlaeuterungen-vo-f.pdf"
-        },
-        {
           "labelKey": "Règlement sur le commerce extérieur",
           "url": "https://www.bazg.admin.ch/dam/fr/sd-web/Hz62MtyMRHPD/R-25%20Statistique%20du%20commerce%20exterieur-20260401.pdf"
         },
@@ -2542,10 +2595,6 @@
           "url": "https://www.admin.ch/fr/newnsb/2-YfSCkZSpHqbXoscreMT"
         },
         {
-          "labelKey": "OFJ : poursuite pour dettes et faillite",
-          "url": "https://www.bj.admin.ch/bj/fr/home/wirtschaft/schkg.html"
-        },
-        {
           "labelKey": "OFS : hausse du nombre de faillites en 2024",
           "url": "https://dam-api.bfs.admin.ch/hub/api/dam/assets/34887815/master"
         }
@@ -2720,10 +2769,6 @@
         {
           "labelKey": "Loi sur le blanchiment d’argent : obligations complémentaires (OFJ)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
-        },
-        {
-          "labelKey": "Registre du commerce, Zefix® et Regix - admin.ch",
-          "url": "https://www.bj.admin.ch/bj/fr/home/wirtschaft/handelsregister.html"
         },
         {
           "labelKey": "Loi fédérale sur la transparence des personnes morales (LTPM), consultation officielle",
@@ -2946,10 +2991,6 @@
         {
           "labelKey": "Registre du Commerce Suisse (inscription et publication)",
           "url": "https://zefix.ch/"
-        },
-        {
-          "labelKey": "Représentation légale et obligations (SA/Sàrl)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/2002/456/fr"
         }
       ]
     },

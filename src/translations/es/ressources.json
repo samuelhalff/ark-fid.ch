@@ -60,6 +60,10 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -94,7 +98,16 @@
       "image": "abstract-background-dark.avif",
       "date": "2025-10-22",
       "content": "Crear su empresa en Suiza (GmbH/Sàrl, AG/SA o empresa individual) exige algunas decisiones clave. Esta guía explica de forma sencilla cómo crear una empresa en Suiza: elección de forma jurídica, inscripción en el Registro Mercantil, [IVA](/services/taxes), banca y costes iniciales.\n\nFrases de búsqueda (integradas de forma natural): crear empresa, crear su empresa, crear una Sàrl, crear una SA, constitución de empresa en Suiza.\n\n## 1) Elegir la forma jurídica: GmbH, AG o empresa individual\n\n- **GmbH (Sàrl)**\n - Capital: **CHF 20.000** (recomendable liberación total).\n - Responsabilidad limitada.\n - Gobernanza sencilla, adecuada para PYMES y varios fundadores.\n\n- **AG (SA)**\n - Capital: **CHF 100.000** (mín. CHF 50.000 liberados).\n - Imagen más corporativa, acciones transmisibles, gobernanza más formal (Consejo).\n - Idónea para rondas de financiación o proyectos con mayor exposición.\n\n- **Empresa individual**\n - Sin capital mínimo, **responsabilidad ilimitada**.\n - Tramitación simple; inscripción en el Registro Mercantil normalmente desde **CHF 100.000** de facturación anual (o antes según actividad/banco).\n\n> Recomendación: para empezar rápido con responsabilidad limitada, la **GmbH/Sàrl** es la opción más común.\n\n## 2) Pasos para crear una sociedad (checklist)\n\n1. **Nombre, objeto y domicilio**: comprobar disponibilidad y definir objeto social.\n2. **Domicilio social**: alquiler, oficina de un socio o **[domiciliación](/services/domiciliation)** profesional.\n3. **Estatutos**: capital, reparto de acciones/participaciones, gobernanza, cláusulas de transmisión/firma.\n4. **Banco y capital**: abrir cuenta de **bloqueo** del capital (certificado).\n5. **Escritura pública (GmbH/AG)**: notaría.\n6. **Expediente Registro Mercantil**: estatutos firmados, certificados, formularios y documentos de identidad.\n7. **[IVA](/services/taxes)**: evaluar el **sujeción** (umbral CHF 100.000 de volumen global) y registrarse si procede.\n8. **Seguros sociales**: AVS/AI/APG, LAA y fondo de pensiones (LPP) si hay empleados.\n9. **Contabilidad y herramientas**: plan contable, facturación, controles internos.\n\n## 3) Plazos habituales\n\n- Preparación de estatutos/expediente: **2–7 días laborables**.\n- Notaría y certificado bancario: **2–5 días**.\n- Registro Mercantil (una vez completo): **3–10 días**.\n- IVA/seguros sociales: **unos días** según portal y periodos.\n\nEn total, la constitución suele requerir **1–3 semanas**.\n\n## 4) Costes y tarifas (orientativas)\n\nImportes **orientativos**: varían por cantón, notario, banco, complejidad y plazos.\n\n- **Pack constitución GmbH/Sàrl** (estatutos, expediente, coordinación notario, formalidades IVA/AVS si aplican): **desde CHF 1.250–1.900 + IVA**.\n- **Pack constitución AG/SA**: **desde CHF 1.800–2.800 + IVA**.\n- **Domiciliación** (Ginebra/Romandía): **desde CHF 90–180 + IVA/mes**.\n- **Puesta en marcha contable** (plan contable, primeras automatizaciones): **desde CHF 450–900 + IVA**.\n\nCostes de terceros (típicos):\n\n- **Notaría**: aprox. **CHF 600–2.500**.\n- **Tasas Registro Mercantil**: aprox. **CHF 120–600**.\n- **Certificado de bloqueo (banco)**: aprox. **CHF 100–300**.\n\n> Paquetes transparentes y flexibles; presupuesto detallado antes del inicio.\n\n## 5) IVA: ¿cuándo registrarse?\n\n- Umbral **CHF 100.000** de facturación (global, Suiza + exterior) en 12 meses móviles.\n- Posible registro voluntario por debajo del umbral (para recuperar IVA soportado).\n- **Método efectivo** o **tasa neta del impuesto** según tamaño/sector.\n\n## 6) Errores frecuentes a evitar\n\n- Infravalorar la **redacción de estatutos** (derechos/obligaciones, bloqueo, cláusulas de salida).\n- Omitir **afiliaciones sociales** al contratar.\n- Abrir la cuenta bancaria demasiado tarde (el **certificado de bloqueo** es previo a la constitución).\n- Retrasar la **[contabilidad](/services/accounting)** (facturación e IVA desde el primer día).\n\n## 7) FAQ – crear empresa en Suiza\n\n- **¿Cuánto tarda una GmbH?** Suele ser 1–2 semanas con expediente completo.\n- **¿Es obligatoria la notaría?** Sí para GmbH/AG. No para empresa individual.\n- **¿Puedo constituir sin liberar capital?** No: ingreso en cuenta bloqueada antes de la escritura (GmbH/AG).\n- **¿Cuándo debo registrarme en el IVA?** Desde CHF 100.000 de facturación (o por opción).\n\n### Servicios Ark Fiduciaire\n\nAcompañamos la **constitución de empresas** (GmbH/AG/individual) en Ginebra y Romandía: estatutos, Registro Mercantil, IVA, bancos, **[domiciliación](/services/domiciliation)**, y después [contabilidad](/services/accounting) y [nóminas](/services/payroll).\n\nPara un inicio sin fricciones, **contáctenos** para presupuesto y calendario adaptados.\n\n### Servicios relacionados\n\n- [Constitución de empresa](/services/incorporation)\n- [Domiciliación](/services/domiciliation)\n- [Contabilidad](/services/accounting)\n- [Contactar](/contact)",
-      "references": [],
+      "references": [
+        {
+          "labelKey": "Code des obligations (CO)",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
+        }
+      ],
       "category": "corporate",
       "tags": [
         "corporate",
@@ -114,6 +127,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -135,6 +152,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -155,6 +176,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -177,6 +202,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -199,6 +228,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -221,6 +254,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -241,6 +278,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -261,6 +302,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ],
       "category": "payroll",
@@ -283,6 +328,10 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
+        },
+        {
+          "labelKey": "Portail PME - Fiscalité",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home/savoir-pratique/finances/impots.html"
         }
       ],
       "category": "tax",
@@ -376,6 +425,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ],
       "category": "payroll",
@@ -425,6 +478,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ],
       "category": "odoo",
@@ -494,7 +551,7 @@
       "references": [
         {
           "labelKey": "Directives LPP 2025",
-          "url": "https://www.oak-bv.admin.ch/inhalte/Regulierung/Weisungen/fr/Directives_D_01_2025_CHS_PP.pdf"
+          "url": "https://www.oak-bv.admin.ch/fr/directives-d-01-2025"
         },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
@@ -1702,7 +1759,7 @@
         },
         {
           "labelKey": "Code des obligations - Comptabilité",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ],
       "category": "corporate",
@@ -2318,10 +2375,6 @@
           "url": "https://www.ch.ch/fr/"
         },
         {
-          "labelKey": "Lutte contre l'abus du droit de faillite",
-          "url": "https://www.e-doc.admin.ch/dam/bj/fr/data/wirtschaft/gesetzgebung/archiv/konkursmissbrauch/vo-aenderungen/erlaeuterungen-vo.pdf.download.pdf/erlaeuterungen-vo-f.pdf"
-        },
-        {
           "labelKey": "Règlement sur le commerce extérieur",
           "url": "https://www.bazg.admin.ch/dam/fr/sd-web/Hz62MtyMRHPD/R-25%20Statistique%20du%20commerce%20exterieur-20260401.pdf"
         },
@@ -2534,10 +2587,6 @@
           "url": "https://www.admin.ch/fr/newnsb/2-YfSCkZSpHqbXoscreMT"
         },
         {
-          "labelKey": "OFJ : poursuite pour dettes et faillite",
-          "url": "https://www.bj.admin.ch/bj/fr/home/wirtschaft/schkg.html"
-        },
-        {
           "labelKey": "OFS : hausse du nombre de faillites en 2024",
           "url": "https://dam-api.bfs.admin.ch/hub/api/dam/assets/34887815/master"
         }
@@ -2712,10 +2761,6 @@
         {
           "labelKey": "Loi sur le blanchiment d’argent : obligations complémentaires (OFJ)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
-        },
-        {
-          "labelKey": "Registre du commerce, Zefix® et Regix - admin.ch",
-          "url": "https://www.bj.admin.ch/bj/fr/home/wirtschaft/handelsregister.html"
         },
         {
           "labelKey": "Loi fédérale sur la transparence des personnes morales (LTPM), consultation officielle",
@@ -2938,10 +2983,6 @@
         {
           "labelKey": "Registre du Commerce Suisse (inscription et publication)",
           "url": "https://zefix.ch/"
-        },
-        {
-          "labelKey": "Représentation légale et obligations (SA/Sàrl)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/2002/456/fr"
         }
       ]
     },
