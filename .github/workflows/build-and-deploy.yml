@@ -31,6 +31,15 @@ concurrency:
   group: production-deploy
   cancel-in-progress: false
 
+permissions:
+  actions: read
+  contents: read
+
+env:
+  GIT_CONFIG_COUNT: "1"
+  GIT_CONFIG_KEY_0: init.defaultBranch
+  GIT_CONFIG_VALUE_0: main
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -101,13 +110,25 @@ jobs:
           fetch-depth: 1
 
       - name: Install deploy tools
-        run: sudo apt-get update && sudo apt-get install -y sshpass curl
+        run: sudo apt-get update && sudo apt-get install -y sshpass curl unzip
 
       - name: Download artifact
-        uses: actions/download-artifact@v7
-        with:
-          name: next-standalone
-          path: ./artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p artifact
+          ARTIFACT_ID=$(curl -fsSL \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" \
+            | python3 -c 'import json,sys; data=json.load(sys.stdin); print(next(a["id"] for a in data["artifacts"] if a["name"] == "next-standalone"))')
+          curl -fsSL \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -o artifact.zip \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${ARTIFACT_ID}/zip"
+          unzip -q artifact.zip -d artifact
 
       - name: Prepare partial artifact
         run: cp artifact/next-standalone.tar.gz artifact/next-standalone.tar.gz.part
@@ -120,7 +141,7 @@ jobs:
           PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
 
           sshpass -p "$PASS" rsync -av \
-            -e "ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -p $PORT" \
+            -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -p $PORT" \
             artifact/next-standalone.tar.gz.part \
             "$USER@$HOST:/srv/customer/sites/ark-fid.ch/artifact/"
 
@@ -223,7 +244,7 @@ jobs:
             exit 0
           fi
 
-          sshpass -p "$PASS" ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -p "$PORT" "$USER@$HOST" bash -lc '
+          sshpass -p "$PASS" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -p "$PORT" "$USER@$HOST" bash -lc '
             set -euo pipefail
             ENV_FILE="/srv/customer/sites/ark-fid.ch/shared/.env"
             TMP_FILE="/tmp/arkfid_env_sync"
@@ -252,13 +273,13 @@ jobs:
 
           echo "[deploy] Testing SSH connectivity to $HOST:$PORT as $USER"
           # Probe is best-effort: some servers may have different auth preferences
-          if sshpass -p "$PASS" ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -o ConnectTimeout=10 -p "$PORT" "$USER@$HOST" 'echo "SSH probe successful"' 2>/dev/null; then
+          if sshpass -p "$PASS" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -o ConnectTimeout=10 -p "$PORT" "$USER@$HOST" 'echo "SSH probe successful"' 2>/dev/null; then
             echo "[deploy] SSH probe successful"
           else
             echo "[deploy] SSH probe failed (this is normal for some server configurations); proceeding with deployment"
           fi
 
-          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes "$USER@$HOST" bash -lc '
+          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes "$USER@$HOST" bash -lc '
             set -euo pipefail
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
             RELEASES_DIR="$BASE_DIR/releases"
@@ -329,7 +350,7 @@ jobs:
           sleep 30
 
           echo "[restart] Starting new process (refreshing symlink each restart)..."
-          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes "$USER@$HOST" '
+          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes "$USER@$HOST" '
             set -e
             # Supervisor loop: re-enter current symlink on every iteration so new releases apply
             nohup bash -lc "while true; do cd /srv/customer/sites/ark-fid.ch/current && node server.js >> server.out 2>&1; echo \"Node crashed, restarting...\" >> server.out; sleep 1; done" &
@@ -432,8 +453,8 @@ jobs:
           echo "Checking sitemap format..."
           curl --connect-timeout 5 --max-time 20 -s "https://ark-fid.ch/sitemap.xml" | head -50
           # Check if URLs have trailing slashes by looking for paths ending with / before </loc>
-          if curl --connect-timeout 5 --max-time 20 -s "https://ark-fid.ch/sitemap.xml" | grep -E '<loc>https://[^<]+/</loc>' | head -1; then
+          if curl --connect-timeout 5 --max-time 20 -s "https://ark-fid.ch/sitemap.xml" | grep -m 1 -E '<loc>https://[^<]+/</loc>'; then
             echo "✅ Sitemap URLs have trailing slashes"
           else
-            echo "⚠️ WARNING: Sitemap URLs may be missing trailing slashes"
+            echo "Notice: Sitemap URLs may be missing trailing slashes"
           fi
