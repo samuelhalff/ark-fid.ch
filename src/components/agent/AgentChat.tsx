@@ -25,6 +25,7 @@ type ContactInfo = {
 type LeadMeta = {
   id: string;
   token: string;
+  odooLeadId?: number;
 };
 
 type TurnstileInstance = {
@@ -158,6 +159,7 @@ export default function AgentChat({
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const turnstileRef = useRef<HTMLDivElement | null>(null);
   const lastSavedRef = useRef<string | null>(null);
+  const sendingRef = useRef(false);
 
   const TEXTAREA_MIN_HEIGHT = 40;
   const FALLBACK_TEXTAREA_MAX_HEIGHT = 360;
@@ -231,6 +233,7 @@ export default function AgentChat({
         confirmedEmail?: string;
         leadId?: string;
         leadToken?: string;
+        odooLeadId?: number;
         sessionId?: string;
         savedAt?: number;
       };
@@ -258,6 +261,10 @@ export default function AgentChat({
       const savedLeadId = typeof saved.leadId === "string" ? saved.leadId : "";
       const savedLeadToken =
         typeof saved.leadToken === "string" ? saved.leadToken : "";
+      const savedOdooLeadId =
+        typeof saved.odooLeadId === "number" && Number.isFinite(saved.odooLeadId)
+          ? saved.odooLeadId
+          : undefined;
       const savedSessionId =
         typeof saved.sessionId === "string" ? saved.sessionId : "";
 
@@ -269,7 +276,11 @@ export default function AgentChat({
       ) {
         setLeadConfirmed(true);
         setConfirmedEmail(normalizedEmail);
-        setLeadMeta({ id: savedLeadId, token: savedLeadToken });
+        setLeadMeta({
+          id: savedLeadId,
+          token: savedLeadToken,
+          ...(savedOdooLeadId ? { odooLeadId: savedOdooLeadId } : {}),
+        });
         if (saved.contact?.email && saved.contact.email !== normalizedEmail) {
           setContact((prev) => ({ ...prev, email: normalizedEmail }));
         }
@@ -298,6 +309,7 @@ export default function AgentChat({
       confirmedEmail,
       leadId: leadMeta.id,
       leadToken: leadMeta.token,
+      odooLeadId: leadMeta.odooLeadId,
       sessionId,
     };
     try {
@@ -314,6 +326,7 @@ export default function AgentChat({
     contact,
     confirmedEmail,
     leadMeta.id,
+    leadMeta.odooLeadId,
     leadMeta.token,
     messages,
     leadConfirmed,
@@ -546,8 +559,11 @@ export default function AgentChat({
     setReconnectAvailable(false);
     setLeadSubmitting(true);
 
+    let requestUsedTurnstile = false;
+    let connected = false;
     try {
       const { pageUrl, referrer, utm } = getRequestContext();
+      requestUsedTurnstile = Boolean(turnstileToken);
       const res = await fetchWithTimeout(
         "/api/agent/chat/",
         {
@@ -573,6 +589,7 @@ export default function AgentChat({
         error?: string;
         leadId?: string;
         leadToken?: string;
+        odooLeadId?: number;
       };
 
       if (!res.ok) {
@@ -603,10 +620,15 @@ export default function AgentChat({
 
       setLeadConfirmed(true);
       setConfirmedEmail(normalizedEmail);
-      setLeadMeta({ id: payload.leadId, token: payload.leadToken });
+      setLeadMeta({
+        id: payload.leadId,
+        token: payload.leadToken,
+        ...(payload.odooLeadId ? { odooLeadId: payload.odooLeadId } : {}),
+      });
       setLeadModalOpen(false);
       setModalError(null);
       setReconnectAvailable(false);
+      connected = true;
       inputRef.current?.focus();
       return true;
     } catch {
@@ -614,6 +636,9 @@ export default function AgentChat({
       setModalError(strings.chat.error);
       return false;
     } finally {
+      if (turnstileEnabled && requestUsedTurnstile && !connected) {
+        resetTurnstile();
+      }
       setLeadSubmitting(false);
     }
   };
@@ -685,18 +710,30 @@ export default function AgentChat({
     await requestLeadAccess();
   };
 
-  const handleReconnect = async () => {
+  const handleReconnect = async ({
+    forceNewLead = false,
+  }: {
+    forceNewLead?: boolean;
+  } = {}) => {
     if (reconnecting) return;
 
     setReconnecting(true);
     setRateLimited(false);
     setChatError(null);
     setModalError(null);
-    setLeadConfirmed(false);
-    setConfirmedEmail("");
-    setLeadMeta({ id: "", token: "" });
 
     try {
+      if (!forceNewLead && leadReady) {
+        setReconnectAvailable(false);
+        setLeadModalOpen(false);
+        inputRef.current?.focus();
+        return;
+      }
+
+      setLeadConfirmed(false);
+      setConfirmedEmail("");
+      setLeadMeta({ id: "", token: "" });
+
       if (turnstileEnabled) {
         const nextSessionId = createSessionId();
         setSessionId(nextSessionId);
@@ -716,7 +753,7 @@ export default function AgentChat({
 
   const sendMessage = async (messageText?: string) => {
     const trimmed = (messageText ?? input).trim();
-    if (!trimmed || sending) return;
+    if (!trimmed || sending || sendingRef.current) return;
     if (!canChat) {
       setChatError(
         domainInvalid
@@ -725,6 +762,7 @@ export default function AgentChat({
       );
       return;
     }
+    sendingRef.current = true;
     const resolvedSessionId = ensureSessionId();
 
     setChatError(null);
@@ -760,6 +798,7 @@ export default function AgentChat({
             email: normalizedEmail,
             leadId: leadMeta.id,
             leadToken: leadMeta.token,
+            odooLeadId: leadMeta.odooLeadId,
             sessionId: resolvedSessionId,
             pageUrl,
             referrer,
@@ -803,7 +842,7 @@ export default function AgentChat({
           resetTurnstile();
           setLeadModalOpen(true);
         } else {
-          void handleReconnect();
+          void handleReconnect({ forceNewLead: true });
         }
         return;
       }
@@ -820,6 +859,7 @@ export default function AgentChat({
       setReconnectAvailable(true);
       setChatError(strings.chat.error);
     } finally {
+      sendingRef.current = false;
       setSending(false);
     }
   };

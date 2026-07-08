@@ -1,47 +1,35 @@
-# Agent Lead Capture (SharePoint)
+# Website Lead Capture
 
-This project stores AI chat leads in SharePoint via Microsoft Graph. Azure AI Foundry runs in the permagest/pbm tenant, while lead storage lives in the ark tenant.
+Website leads are captured in Odoo first. SharePoint remains a minimal token store for the instant-quote chat retry flow.
 
-## Tenants
+## Systems
 
 - **Azure AI Foundry (chat):** permagest/pbm tenant (`AZURE_*` env vars)
-- **Lead storage (SharePoint):** ark tenant (`MSGRAPH_*` env vars)
+- **Odoo lead handoff:** ark-fid Odoo (`ODOO_*` env vars)
+- **Minimal chat token storage:** ark tenant SharePoint (`MSGRAPH_*` and `SP_*` env vars)
 
-Use the **crm-dev** app from the ark tenant for Microsoft Graph access.
+The Odoo token must stay server-side. Contact forms submit to `/api/contact`; the browser never receives Odoo or Formspark credentials.
 
-The chat agent runs on Azure AI Foundry (permagest/pbm) using `AZURE_*` credentials. Lead storage uses Microsoft Graph with `MSGRAPH_*` credentials (ark tenant). The Foundry service principal needs data-plane access on the Cognitive Services account/project (e.g. **Azure AI Project Manager** role).
+## Odoo Mapping
 
-## Required SharePoint Setup
+- Model: `crm.lead`
+- Owner: user matched by `ODOO_LEAD_DEFAULT_USER`, default `samuel`
+- Source: native Odoo `source_id`, resolved from `ODOO_LEAD_SOURCE_NAME` (`ark-fid.ch` by default) when that `utm.source` exists
+- Detail: `instant_quote` or `contact_form` is included in the description
+- Handoff: form/chat context in `description`
+- Follow-up: successful quote-agent exchanges are appended to the Odoo lead chatter via `message_post`
+
+## Minimal SharePoint Setup
 
 - **Site:** `https://arkfiduciaire.sharepoint.com/sites/CRM`
 - **List:** `Prospects`
 - **Required columns (internal names):**
   - `Title`
   - `Email`
-  - `LeadTokenHash` (single line text)
-  - `Messages` (multiline text)
-- **Added lead columns (internal names):**
-  - `LeadName`
-  - `LeadCompany`
-  - `LeadPhone`
-  - `LeadStatus`
-  - `LeadSource`
-  - `LeadSessionId`
-  - `LeadPageUrl`
-  - `LeadReferrer`
-  - `LeadUtmSource`
-  - `LeadUtmMedium`
-  - `LeadUtmCampaign`
-  - `LeadUtmTerm`
-  - `LeadUtmContent`
-  - `LeadLastMessageAt`
-  - `LeadLastUserMessage`
-  - `LeadLastAssistantMessage`
-  - `LeadInitialMessage`
+  - `LeadTokenHash`
+  - `Messages`
 
-`LeadTokenHash` was created programmatically; `Email` already existed on the Prospects list. The lead columns above were created to capture attribution, status, and last-message context.
-
-Optional columns can be mapped via env vars if they exist.
+The app write path now keeps SharePoint readable by writing only the core token/status fields. Older attribution columns can remain in the list, but they are no longer required by the app.
 
 ## Environment Variables
 
@@ -54,7 +42,15 @@ AZURE_CLIENT_ID=
 AZURE_CLIENT_SECRET=
 AZURE_CREDENTIALS=
 
-# SharePoint lead capture (ark tenant)
+# Odoo lead capture
+ODOO_OWN_URL=
+ODOO_OWN_DB=
+ODOO_OWN_TOKEN=
+ODOO_LEAD_DEFAULT_USER=samuel
+ODOO_LEAD_SOURCE_NAME=ark-fid.ch
+ODOO_CAPTURE_INTERNAL_LEADS=0
+
+# SharePoint token storage (ark tenant)
 MSGRAPH_TENANT_ID=
 MSGRAPH_CLIENT_ID=
 MSGRAPH_CLIENT_SECRET=
@@ -65,11 +61,14 @@ SP_LEADS_LIST_NAME=Prospects
 SP_LEADS_FIELD_EMAIL=Email
 SP_LEADS_FIELD_TOKEN_HASH=LeadTokenHash
 SP_LEADS_FIELD_TRANSCRIPT=Messages
+
+# Optional fallback/contact copy
+FORMSPARK_ACTION_URL=
 ```
 
-## Permissions
+## SharePoint Permissions
 
-Grant the crm-dev app **Microsoft Graph** permissions:
+Grant the crm-dev app Microsoft Graph permissions:
 
 - Recommended: `Sites.Selected` with access granted to the CRM site
 - Alternative: `Sites.ReadWrite.All`

@@ -12,6 +12,11 @@ import {
   resolveFoundryAgentReference,
   type FoundryAgentReferenceCacheEntry,
 } from "@/src/lib/ai/foundryAgent";
+import { isFreshCacheEntry, runWithTimeout } from "@/src/lib/agent/resilience";
+import {
+  createOdooWebsiteLead,
+  postOdooLeadNote,
+} from "@/src/lib/odoo/leads";
 
 export const runtime = "nodejs";
 export const revalidate = 0;
@@ -70,6 +75,7 @@ const requestSchema = z
     leadMessage: optionalTrimmedString(240),
     leadId: optionalTrimmedString(120),
     leadToken: optionalTrimmedString(240),
+    odooLeadId: z.number().int().positive().optional(),
     sessionId: optionalTrimmedString(160),
     pageUrl: optionalTrimmedString(600),
     referrer: optionalTrimmedString(600),
@@ -182,6 +188,14 @@ const DOMAIN_VALIDATION_TTL_MS = 12 * 60 * 60 * 1000;
 const DOMAIN_VALIDATION_TIMEOUT_MS = 3500;
 const DOMAIN_VALIDATION_MAX_ENTRIES = 400;
 const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY;
+const TURNSTILE_TIMEOUT_MS = Number.parseInt(
+  process.env.TURNSTILE_TIMEOUT_MS || "6500",
+  10
+);
+const FORMSPARK_TIMEOUT_MS = Number.parseInt(
+  process.env.FORMSPARK_TIMEOUT_MS || "5000",
+  10
+);
 const INVALID_EMAIL_DOMAINS = (
   process.env.INVALID_EMAIL_DOMAINS ||
   "example.com,example.org,example.net,test.com,test.ch,invalid,localhost"
@@ -498,18 +512,8 @@ const buildLeadCreateFields = (
   setLeadField(fields, leadFieldMap.title, `Lead - ${payload.email}`);
   setLeadField(fields, leadFieldMap.email, payload.email);
   setLeadField(fields, leadFieldMap.name, payload.name);
-  setLeadField(fields, leadFieldMap.companyName, payload.companyName);
-  setLeadField(fields, leadFieldMap.phone, payload.phone);
   setLeadField(fields, leadFieldMap.status, "new");
   setLeadField(fields, leadFieldMap.source, "AI agent chat");
-  setLeadField(fields, leadFieldMap.sessionId, payload.sessionId);
-  setLeadField(fields, leadFieldMap.pageUrl, payload.pageUrl);
-  setLeadField(fields, leadFieldMap.referrer, payload.referrer);
-  setLeadField(fields, leadFieldMap.utmSource, payload.utm?.source);
-  setLeadField(fields, leadFieldMap.utmMedium, payload.utm?.medium);
-  setLeadField(fields, leadFieldMap.utmCampaign, payload.utm?.campaign);
-  setLeadField(fields, leadFieldMap.utmTerm, payload.utm?.term);
-  setLeadField(fields, leadFieldMap.utmContent, payload.utm?.content);
   setLeadField(fields, leadFieldMap.initialMessage, payload.leadMessage);
   setLeadField(fields, leadFieldMap.tokenHash, leadTokenHash);
   return fields;
@@ -652,8 +656,7 @@ const withTimeout = async <T>(promise: Promise<T>, timeoutMs: number) => {
 const validateEmailDomain = async (domain: string) => {
   if (isLikelyInvalidDomain(domain)) return false;
   const cached = domainValidationCache.get(domain);
-  if (cached && Date.now() - cached.checkedAt < DOMAIN_VALIDATION_TTL_MS) {
-    cached.checkedAt = Date.now();
+  if (isFreshCacheEntry(cached, Date.now(), DOMAIN_VALIDATION_TTL_MS)) {
     return cached.valid;
   }
   const lookup = async (
@@ -721,15 +724,18 @@ const verifyTurnstile = async (token: string, ip?: string) => {
   if (ip && ip !== "unknown") {
     body.append("remoteip", ip);
   }
-  const res = await fetch(
-    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body,
-    }
+  const res = await runWithTimeout(
+    (signal) =>
+      fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body,
+        signal,
+      }),
+    TURNSTILE_TIMEOUT_MS,
+    "turnstile_verify"
   );
   if (!res.ok) {
     if (DEBUG_VALIDATION) {
@@ -739,6 +745,29 @@ const verifyTurnstile = async (token: string, ip?: string) => {
   }
   const payload = (await res.json()) as { success?: boolean };
   return payload.success === true;
+};
+
+const createOdooLeadSafe = async (
+  payload: z.infer<typeof requestSchema>,
+  message: string,
+) => {
+  try {
+    return await createOdooWebsiteLead({
+      name: payload.name,
+      email: payload.email,
+      companyName: payload.companyName,
+      phone: payload.phone,
+      message,
+      sourceDetail: "instant_quote",
+      pageUrl: payload.pageUrl,
+      referrer: payload.referrer,
+    });
+  } catch (error) {
+    if (DEBUG_VALIDATION) {
+      console.warn("[agent] Odoo lead creation failed", error);
+    }
+    return null;
+  }
 };
 
 const submitLead = async (
@@ -756,14 +785,20 @@ const submitLead = async (
     message: message || "",
     source: "AI agent chat",
   };
-  const res = await fetch(FORMSPARK_ACTION_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(body),
-  });
+  const res = await runWithTimeout(
+    (signal) =>
+      fetch(FORMSPARK_ACTION_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(body),
+        signal,
+      }),
+    FORMSPARK_TIMEOUT_MS,
+    "formspark_submit"
+  );
   if (!res.ok) {
     const detail = await res.text();
     if (DEBUG_VALIDATION) {
@@ -840,7 +875,7 @@ export async function POST(request: Request) {
     getEnv("AZURE_AGENT_CHAT_RESPONSES_API_VERSION") ||
     getEnv("AZURE_AGENT_RESPONSES_API_VERSION", "2025-11-15-preview");
   const timeoutMs = Number.parseInt(
-    getEnv("AZURE_AGENT_RESPONSES_TIMEOUT_MS", "180000"),
+    getEnv("AZURE_AGENT_RESPONSES_TIMEOUT_MS", "45000"),
     10
   );
   const maxOutputTokens = Number.parseInt(
@@ -884,14 +919,21 @@ export async function POST(request: Request) {
       !isMessagesListConfigured() && !leadFieldMap.transcript;
 
     if (payload.leadOnly) {
+      let odooLeadId: number | null = null;
       // Internal company domains (ark-fid.ch, pbm.law) can use the chat
       // but must NOT create prospect records or send Formspark messages.
       // Return synthetic tokens so the rest of the chat flow works normally.
       if (isInternalEmail(payload.email)) {
+        odooLeadId = await createOdooLeadSafe(payload, leadMessage);
         const syntheticId = `internal-${Date.now()}`;
         const syntheticToken = randomBytes(24).toString("hex");
         return NextResponse.json(
-          { ok: true, leadId: syntheticId, leadToken: syntheticToken },
+          {
+            ok: true,
+            leadId: syntheticId,
+            leadToken: syntheticToken,
+            ...(odooLeadId ? { odooLeadId } : {}),
+          },
           {
             headers: {
               "Cache-Control": "no-store, no-cache, must-revalidate",
@@ -937,6 +979,7 @@ export async function POST(request: Request) {
         }
       }
       const lead = await createSharePointLead(payload);
+      odooLeadId = await createOdooLeadSafe(payload, leadMessage);
       if (FORMSPARK_ACTION_URL) {
         try {
           await submitLead(payload, leadMessage);
@@ -947,7 +990,12 @@ export async function POST(request: Request) {
         }
       }
       return NextResponse.json(
-        { ok: true, leadId: lead.leadId, leadToken: lead.leadToken },
+        {
+          ok: true,
+          leadId: lead.leadId,
+          leadToken: lead.leadToken,
+          ...(odooLeadId ? { odooLeadId } : {}),
+        },
         {
           headers: {
             "Cache-Control": "no-store, no-cache, must-revalidate",
@@ -1071,16 +1119,22 @@ export async function POST(request: Request) {
     // Log user message (skip for internal users – no SharePoint record exists)
     let updatedTranscript: string | undefined;
     if (!internalUser) {
-      updatedTranscript = await logLeadMessage({
-        leadId: payload.leadId || "",
-        role: "user",
-        content: lastUserMessage,
-        sessionId: payload.sessionId || "",
-        email: payload.email,
-        existingTranscript: includeTranscript
-          ? (leadFields?.[leadFieldMap.transcript] as string | undefined)
-          : undefined,
-      });
+      try {
+        updatedTranscript = await logLeadMessage({
+          leadId: payload.leadId || "",
+          role: "user",
+          content: lastUserMessage,
+          sessionId: payload.sessionId || "",
+          email: payload.email,
+          existingTranscript: includeTranscript
+            ? (leadFields?.[leadFieldMap.transcript] as string | undefined)
+            : undefined,
+        });
+      } catch (error) {
+        if (DEBUG_VALIDATION) {
+          console.warn("[agent] Failed to log user message", error);
+        }
+      }
     }
 
     const conversation = await postJson(
@@ -1125,6 +1179,18 @@ export async function POST(request: Request) {
           console.warn("[agent] Failed to log assistant reply", error);
         }
       }
+    }
+    if (payload.odooLeadId) {
+      void postOdooLeadNote(
+        payload.odooLeadId,
+        [
+          "Instant quote conversation update",
+          "",
+          `User: ${lastUserMessage}`,
+          "",
+          `Assistant: ${reply}`,
+        ].join("\n"),
+      );
     }
 
     return NextResponse.json(

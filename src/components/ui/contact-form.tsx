@@ -58,15 +58,6 @@ const createFormSchema = (errors: {
     }),
   });
 
-const FORMSPARK_ACTION_URL = "https://api.formspark.io/1e26cwX66";
-
-/**
- * Internal company domains. Submissions from these emails skip the
- * Formspark request to avoid polluting the prospect list, but the form
- * still shows a success message so internal testers see the normal flow.
- */
-const INTERNAL_DOMAINS = new Set(["ark-fid.ch", "pbm.law"]);
-
 interface ContactFormProps {
   showTitle?: boolean;
   showSubtitle?: boolean;
@@ -138,26 +129,19 @@ const ContactForm: FC<ContactFormProps> = ({
       router.push(redirectPath);
     };
     try {
-      // Skip Formspark submission for internal company domains to avoid
-      // polluting the prospect list. The form still shows the success
-      // message so internal testers see the normal user experience.
-      const emailDomain = (data.email || "")
-        .split("@")[1]
-        ?.toLowerCase()
-        .trim();
-      const isInternal = emailDomain && INTERNAL_DOMAINS.has(emailDomain);
-
-      if (!isInternal) {
-        const res = await fetch(FORMSPARK_ACTION_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(data),
-        });
-        if (!res.ok) throw new Error("Network response was not ok");
-      }
+      const res = await fetch("/api/contact/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+          pageUrl: window.location.href,
+          referrer: document.referrer || "",
+        }),
+      });
+      if (!res.ok) throw new Error("Network response was not ok");
       form.reset(defaultValues);
       toast.success(strings.toasts.success, {
         action: { label: "Close", onClick: () => toast.dismiss },
