@@ -95,14 +95,15 @@ export function buildOdooLeadValues(
 ) {
   const name = trim(input.name);
   const email = trim(input.email);
-  const leadTitle = name || email;
+  const companyName = trim(input.companyName);
+  const leadTitle = name || companyName || email;
   const values: Record<string, unknown> = {
     name: leadTitle || "Website lead",
     type: "opportunity",
     contact_name: name || undefined,
     email_from: trim(input.email),
     phone: trim(input.phone) || undefined,
-    partner_name: trim(input.companyName) || undefined,
+    partner_name: companyName || undefined,
     description: formatLeadDescription(input),
   };
 

@@ -14,6 +14,10 @@ import {
 } from "@/src/lib/ai/foundryAgent";
 import { isFreshCacheEntry, runWithTimeout } from "@/src/lib/agent/resilience";
 import {
+  buildSyntheticLeadSession,
+  shouldBypassLeadPersistence,
+} from "@/src/lib/lead-session";
+import {
   createOdooWebsiteLead,
   postOdooLeadNote,
 } from "@/src/lib/odoo/leads";
@@ -925,13 +929,12 @@ export async function POST(request: Request) {
       // Return synthetic tokens so the rest of the chat flow works normally.
       if (isInternalEmail(payload.email)) {
         odooLeadId = await createOdooLeadSafe(payload, leadMessage);
-        const syntheticId = `internal-${Date.now()}`;
-        const syntheticToken = randomBytes(24).toString("hex");
+        const syntheticLead = buildSyntheticLeadSession();
         return NextResponse.json(
           {
             ok: true,
-            leadId: syntheticId,
-            leadToken: syntheticToken,
+            leadId: syntheticLead.leadId,
+            leadToken: syntheticLead.leadToken,
             ...(odooLeadId ? { odooLeadId } : {}),
           },
           {
@@ -942,16 +945,11 @@ export async function POST(request: Request) {
         );
       }
 
-      if (!sharePointEnabled) {
+      odooLeadId = await createOdooLeadSafe(payload, leadMessage);
+      if (!odooLeadId) {
         return NextResponse.json(
-          { error: "missing_configuration" },
-          { status: 500 }
-        );
-      }
-      if (missingLeadTokenField) {
-        return NextResponse.json(
-          { error: "missing_configuration" },
-          { status: 500 }
+          { error: "crm_unavailable" },
+          { status: 502 }
         );
       }
       if (payload.turnstileToken && !TURNSTILE_SECRET_KEY) {
@@ -978,8 +976,16 @@ export async function POST(request: Request) {
           );
         }
       }
-      const lead = await createSharePointLead(payload);
-      odooLeadId = await createOdooLeadSafe(payload, leadMessage);
+      let lead = buildSyntheticLeadSession(odooLeadId);
+      if (sharePointEnabled && !missingLeadTokenField) {
+        try {
+          lead = await createSharePointLead(payload);
+        } catch (error) {
+          if (DEBUG_VALIDATION) {
+            console.warn("[agent] SharePoint lead creation failed", error);
+          }
+        }
+      }
       if (FORMSPARK_ACTION_URL) {
         try {
           await submitLead(payload, leadMessage);
@@ -1007,9 +1013,12 @@ export async function POST(request: Request) {
     // Internal company emails skip SharePoint verification and message logging
     // but still use the AI agent for chat. This ensures internal testers can
     // try the chat without polluting the prospect list.
-    const internalUser = isInternalEmail(payload.email);
+    const bypassLeadPersistence = shouldBypassLeadPersistence({
+      internalUser: isInternalEmail(payload.email),
+      leadId: payload.leadId,
+    });
 
-    if (!internalUser) {
+    if (!bypassLeadPersistence) {
       if (!sharePointEnabled) {
         return NextResponse.json(
           { error: "missing_configuration" },
@@ -1081,7 +1090,7 @@ export async function POST(request: Request) {
     const includeTranscript = !isMessagesListConfigured();
     let leadFields: Record<string, unknown> = {};
     // Internal users have synthetic lead IDs – skip SharePoint lead lookup
-    if (!internalUser) {
+    if (!bypassLeadPersistence) {
       try {
         leadFields = await fetchLeadFields(
           payload.leadId || "",
@@ -1118,7 +1127,7 @@ export async function POST(request: Request) {
 
     // Log user message (skip for internal users – no SharePoint record exists)
     let updatedTranscript: string | undefined;
-    if (!internalUser) {
+    if (!bypassLeadPersistence) {
       try {
         updatedTranscript = await logLeadMessage({
           leadId: payload.leadId || "",
@@ -1164,7 +1173,7 @@ export async function POST(request: Request) {
     }
 
     // Log assistant reply (skip for internal users – no SharePoint record)
-    if (!internalUser) {
+    if (!bypassLeadPersistence) {
       try {
         await logLeadMessage({
           leadId: payload.leadId || "",

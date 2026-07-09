@@ -60,26 +60,29 @@ export async function POST(request: Request) {
 
   try {
     const internal = INTERNAL_DOMAINS.has(getEmailDomain(payload.email));
-    try {
-      await createOdooWebsiteLead({
-        name: payload.firstName,
-        email: payload.email,
-        companyName: payload.companyName || undefined,
-        phone: payload.phone || undefined,
-        subject: payload.subject || "Contact form",
-        message: payload.message,
-        sourceDetail: "contact_form",
-        pageUrl: payload.pageUrl,
-        referrer: payload.referrer,
-      });
-    } catch (error) {
-      if (DEBUG_VALIDATION) {
-        console.warn("[contact] Odoo lead creation failed", error);
-      }
+    const odooLeadId = await createOdooWebsiteLead({
+      name: payload.firstName,
+      email: payload.email,
+      companyName: payload.companyName || undefined,
+      phone: payload.phone || undefined,
+      subject: payload.subject || "Contact form",
+      message: payload.message,
+      sourceDetail: "contact_form",
+      pageUrl: payload.pageUrl,
+      referrer: payload.referrer,
+    });
+    if (!internal && !odooLeadId) {
+      throw new Error("odoo_lead_missing");
     }
 
     if (!internal) {
-      await submitFormspark(payload);
+      try {
+        await submitFormspark(payload);
+      } catch (error) {
+        if (DEBUG_VALIDATION) {
+          console.warn("[contact] Formspark submission failed", error);
+        }
+      }
     }
 
     return NextResponse.json(
@@ -94,6 +97,6 @@ export async function POST(request: Request) {
     if (DEBUG_VALIDATION) {
       console.warn("[contact] submission failed", error);
     }
-    return NextResponse.json({ error: "submission_failed" }, { status: 502 });
+    return NextResponse.json({ error: "crm_unavailable" }, { status: 502 });
   }
 }
