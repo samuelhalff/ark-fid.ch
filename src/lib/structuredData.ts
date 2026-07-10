@@ -9,6 +9,8 @@ export interface FAQEntry {
   answer: string;
 }
 
+type JsonLdNode = Record<string, unknown>;
+
 export function buildFAQPage(entries: FAQEntry[], limit?: number) {
   const list = entries
     .filter((e) => e.question && e.answer)
@@ -109,10 +111,14 @@ export function buildBreadcrumbList(items: BreadcrumbItem[]) {
 
 export const arkOrganization = {
   name: "Ark Fiduciaire SA",
+  legalName: "Ark Fiduciaire SA",
+  alternateName: ["AX-Fiduciaire"],
   url: "https://ark-fid.ch",
   logo: "https://ark-fid.ch/assets/arkfid--color.svg",
   telephone: "+41 22 512 50 50",
   email: "info@ark-fid.ch",
+  taxID: "CHE-193.650.350",
+  uidUrl: "https://www.uid.admin.ch/Detail.aspx?lang=fr&uid_id=CHE-193.650.350",
   address: {
     streetAddress: "26 Boulevard Georges Favon",
     postalCode: "1204",
@@ -120,13 +126,184 @@ export const arkOrganization = {
     addressRegion: "GE",
     addressCountry: "CH",
   },
-  areaServed: ["Geneva", "Lausanne", "Suisse romande", "Switzerland"],
+  geo: {
+    latitude: 46.2021556,
+    longitude: 6.1399595,
+  },
+  openingHours: {
+    opens: "09:00",
+    closes: "17:30",
+    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+  },
   sameAs: [
     "https://www.linkedin.com/company/ark-fiduciaire/",
+    "https://www.odoo.com/accounting-firms/ark-fiduciaire-sa-11606819",
+    "https://www.google.com/maps/place/Ark+Fiduciaire+SA/",
     "https://maps.google.com/?cid=14946625157719331801",
   ],
   languages: ["fr", "en", "de", "es", "pt"],
+  knowsAbout: [
+    "Odoo ERP",
+    "Swiss Plan Comptable",
+    "Geneva Cantonal Tax Law",
+    "VAT/TVA Compliance",
+    "LBA/AML Regulations",
+    "Swiss Social Charges",
+    "QR invoicing",
+    "Swissdec payroll workflows",
+    "Company incorporation in Switzerland",
+    "SME accounting and reporting",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer service",
+    telephone: "+41 22 512 50 50",
+    email: "info@ark-fid.ch",
+    availableLanguage: ["fr", "en", "de", "es", "pt"],
+  },
 } as const;
+
+export const arkEntityIds = {
+  graph: `${arkOrganization.url}/#graph`,
+  organization: `${arkOrganization.url}/#organization`,
+  website: `${arkOrganization.url}/#website`,
+  place: `${arkOrganization.url}/#place-geneva-office`,
+  areaGeneva: `${arkOrganization.url}/#area-geneve`,
+  offerIncorporation: `${arkOrganization.url}/#offer-pack-creation-sarl-sa`,
+  offerAccounting: `${arkOrganization.url}/#offer-monthly-accounting-subscription`,
+  serviceAccounting: `${arkOrganization.url}/#service-accounting`,
+  serviceOdoo: `${arkOrganization.url}/#service-odoo`,
+  serviceIncorporation: `${arkOrganization.url}/#service-incorporation`,
+} as const;
+
+function buildAdministrativeAreaGeneva() {
+  return {
+    "@type": "AdministrativeArea",
+    "@id": arkEntityIds.areaGeneva,
+    name: "Genève",
+    containedInPlace: {
+      "@type": "Country",
+      name: "Switzerland",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: arkOrganization.geo.latitude,
+      longitude: arkOrganization.geo.longitude,
+    },
+  } as const;
+}
+
+function buildArkOfferNodes(locale: string) {
+  const incorporationDescription =
+    locale === "fr"
+      ? "Pack de création de société pour Sàrl et SA avec cadrage, coordination notariale et dépôt au registre du commerce."
+      : "Company formation package for Sàrl and SA structures with scoping, notary coordination, and commercial register filing.";
+  const accountingDescription =
+    locale === "fr"
+      ? "Abonnement mensuel de comptabilité pour PME avec tenue comptable, TVA, reporting et coordination digitale."
+      : "Monthly accounting subscription for SMEs with bookkeeping, VAT, reporting, and digital workflow coordination.";
+
+  return [
+    {
+      "@type": "Offer",
+      "@id": arkEntityIds.offerIncorporation,
+      name: locale === "fr" ? "Pack Création Sàrl/SA" : "Pack Creation Sàrl/SA",
+      description: incorporationDescription,
+      price: "2500",
+      priceCurrency: "CHF",
+      category: locale === "fr" ? "Constitution d'entreprise" : "Company incorporation",
+      itemOffered: {
+        "@id": arkEntityIds.serviceIncorporation,
+      },
+      seller: {
+        "@id": arkEntityIds.organization,
+      },
+      url: `${arkOrganization.url}/${locale}/services/incorporation/`,
+    },
+    {
+      "@type": "Offer",
+      "@id": arkEntityIds.offerAccounting,
+      name:
+        locale === "fr"
+          ? "Abonnement mensuel comptabilité"
+          : "Monthly Accounting Subscription",
+      description: accountingDescription,
+      price: "149",
+      priceCurrency: "CHF",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: "149",
+        priceCurrency: "CHF",
+        unitText: "month",
+      },
+      category: locale === "fr" ? "Comptabilité PME" : "SME accounting",
+      itemOffered: {
+        "@id": arkEntityIds.serviceAccounting,
+      },
+      seller: {
+        "@id": arkEntityIds.organization,
+      },
+      url: `${arkOrganization.url}/${locale}/services/accounting/`,
+    },
+  ] as const;
+}
+
+function buildArkServiceNodes(locale: string) {
+  const baseLocaleUrl = `${arkOrganization.url}/${locale}`;
+  const areaServed = [{ "@id": arkEntityIds.areaGeneva }, { "@type": "Country", name: "Switzerland" }];
+
+  return [
+    {
+      "@type": "AccountingService",
+      "@id": arkEntityIds.serviceAccounting,
+      name: locale === "fr" ? "Comptabilité PME" : "SME accounting",
+      serviceType:
+        locale === "fr"
+          ? "Comptabilité, TVA et reporting pour PME"
+          : "Accounting, VAT, and reporting for SMEs",
+      areaServed,
+      provider: { "@id": arkEntityIds.organization },
+      offers: { "@id": arkEntityIds.offerAccounting },
+      url: `${baseLocaleUrl}/services/accounting/`,
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": arkEntityIds.serviceOdoo,
+      name: locale === "fr" ? "Expertise Odoo" : "Odoo expertise",
+      serviceType:
+        locale === "fr"
+          ? "Implémentation Odoo pour la comptabilité suisse"
+          : "Odoo implementation for Swiss accounting",
+      areaServed,
+      provider: { "@id": arkEntityIds.organization },
+      url: `${baseLocaleUrl}/services/odoo/`,
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": arkEntityIds.serviceIncorporation,
+      name:
+        locale === "fr"
+          ? "Création de société en Suisse"
+          : "Company incorporation in Switzerland",
+      serviceType:
+        locale === "fr"
+          ? "Constitution de Sàrl et SA"
+          : "Sàrl and SA incorporation",
+      areaServed,
+      provider: { "@id": arkEntityIds.organization },
+      offers: { "@id": arkEntityIds.offerIncorporation },
+      url: `${baseLocaleUrl}/services/incorporation/`,
+    },
+  ] as const;
+}
+
+export function getArkServiceEntityId(
+  key: "accounting" | "odoo" | "incorporation",
+) {
+  if (key === "odoo") return arkEntityIds.serviceOdoo;
+  if (key === "incorporation") return arkEntityIds.serviceIncorporation;
+  return arkEntityIds.serviceAccounting;
+}
 
 export function buildOrganizationGraph(locale: string = "fr") {
   const serviceNames =
@@ -157,34 +334,84 @@ export function buildOrganizationGraph(locale: string = "fr") {
           "M&A",
           "Immigration and permits",
         ];
-
-  const organizationId = `${arkOrganization.url}/#organization`;
+  const offerNodes = buildArkOfferNodes(locale);
+  const serviceNodes = buildArkServiceNodes(locale);
   return {
     "@context": "https://schema.org",
     "@graph": [
+      buildAdministrativeAreaGeneva(),
       {
-        "@type": ["Organization", "ProfessionalService", "AccountingService"],
-        "@id": organizationId,
+        "@type": "Place",
+        "@id": arkEntityIds.place,
+        name:
+          locale === "fr"
+            ? "Bureau Ark Fiduciaire Genève"
+            : "Ark Fiduciaire Geneva office",
+        address: {
+          "@type": "PostalAddress",
+          ...arkOrganization.address,
+        },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: arkOrganization.geo.latitude,
+          longitude: arkOrganization.geo.longitude,
+        },
+      },
+      {
+        "@type": ["ProfessionalService", "AccountingService"],
+        "@id": arkEntityIds.organization,
         name: arkOrganization.name,
+        legalName: arkOrganization.legalName,
+        alternateName: arkOrganization.alternateName,
         url: arkOrganization.url,
         logo: arkOrganization.logo,
         image: arkOrganization.logo,
         telephone: arkOrganization.telephone,
         email: arkOrganization.email,
+        contactPoint: arkOrganization.contactPoint,
+        taxID: arkOrganization.taxID,
+        identifier: {
+          "@type": "PropertyValue",
+          propertyID: "CHE",
+          value: arkOrganization.taxID,
+          url: arkOrganization.uidUrl,
+        },
+        foundingLocation: {
+          "@id": arkEntityIds.place,
+        },
+        location: {
+          "@id": arkEntityIds.place,
+        },
         address: {
           "@type": "PostalAddress",
           ...arkOrganization.address,
         },
-        areaServed: arkOrganization.areaServed.map((name) => ({
-          "@type": name === "Switzerland" ? "Country" : "Place",
-          name,
-        })),
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: arkOrganization.geo.latitude,
+          longitude: arkOrganization.geo.longitude,
+        },
+        openingHoursSpecification: {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: arkOrganization.openingHours.dayOfWeek,
+          opens: arkOrganization.openingHours.opens,
+          closes: arkOrganization.openingHours.closes,
+        },
+        areaServed: [
+          { "@id": arkEntityIds.areaGeneva },
+          { "@type": "Country", name: "Switzerland" },
+        ],
+        knowsAbout: arkOrganization.knowsAbout,
+        priceRange: "$$",
         sameAs: arkOrganization.sameAs,
         knowsLanguage: arkOrganization.languages,
         description:
           locale === "fr"
             ? "Ark Fiduciaire SA est une fiduciaire basée à Genève pour PME suisses, entrepreneurs, familles et sociétés internationales."
             : "Ark Fiduciaire SA is a Geneva-based fiduciary firm for Swiss SMEs, entrepreneurs, families and international companies.",
+        makesOffer: offerNodes.map((offer) => ({
+          "@id": offer["@id"] as string,
+        })),
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name:
@@ -196,19 +423,27 @@ export function buildOrganizationGraph(locale: string = "fr") {
             itemOffered: {
               "@type": "Service",
               name,
-              provider: { "@id": organizationId },
+              provider: { "@id": arkEntityIds.organization },
             },
           })),
         },
       },
       {
         "@type": "WebSite",
-        "@id": `${arkOrganization.url}/#website`,
+        "@id": arkEntityIds.website,
         url: arkOrganization.url,
         name: arkOrganization.name,
-        publisher: { "@id": organizationId },
+        publisher: { "@id": arkEntityIds.organization },
         inLanguage: locale,
+        about: [
+          { "@id": arkEntityIds.organization },
+          { "@id": arkEntityIds.serviceAccounting },
+          { "@id": arkEntityIds.serviceOdoo },
+          { "@id": arkEntityIds.serviceIncorporation },
+        ],
       },
+      ...offerNodes,
+      ...serviceNodes,
     ],
   } as const;
 }
@@ -266,6 +501,7 @@ export function buildPersonSchema(cfg: PersonSchemaConfig) {
 }
 
 export interface ArticleSchemaConfig {
+  schemaType?: "Article" | "BlogPosting" | "TechArticle";
   headline: string;
   description?: string;
   datePublished?: string;
@@ -279,12 +515,14 @@ export interface ArticleSchemaConfig {
   section?: string;
   keywords?: string[];
   timeRequired?: string;
+  about?: Array<Record<string, unknown>>;
+  isPartOf?: Record<string, unknown>;
 }
 
 export function buildArticleSchema(cfg: ArticleSchemaConfig) {
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": cfg.schemaType || "Article",
     headline: cfg.headline,
     ...(cfg.description ? { description: cfg.description } : {}),
     ...(cfg.author
@@ -324,6 +562,8 @@ export function buildArticleSchema(cfg: ArticleSchemaConfig) {
     ...(cfg.section ? { articleSection: cfg.section } : {}),
     ...(cfg.keywords?.length ? { keywords: cfg.keywords.join(", ") } : {}),
     ...(cfg.timeRequired ? { timeRequired: cfg.timeRequired } : {}),
+    ...(cfg.about?.length ? { about: cfg.about } : {}),
+    ...(cfg.isPartOf ? { isPartOf: cfg.isPartOf } : {}),
   } as const;
 }
 
@@ -342,18 +582,24 @@ export function buildWebSiteSearchAction(siteUrl: string) {
 }
 
 export interface ServiceSchemaConfig {
+  id?: string;
   name: string;
   description: string;
   serviceType?: string;
   url: string; // absolute URL
-  areaServed?: string[];
-  provider?: { name: string; url?: string; logo?: string };
+  areaServed?: Array<string | JsonLdNode>;
+  provider?:
+    | { "@id": string }
+    | { name: string; url?: string; logo?: string };
+  offers?: JsonLdNode | JsonLdNode[];
+  schemaType?: "Service" | "ProfessionalService" | "AccountingService";
 }
 
 export function buildServiceSchema(cfg: ServiceSchemaConfig) {
   return {
     "@context": "https://schema.org",
-    "@type": "Service",
+    "@type": cfg.schemaType || "Service",
+    ...(cfg.id ? { "@id": cfg.id } : {}),
     name: cfg.name,
     description: cfg.description,
     ...(cfg.serviceType ? { serviceType: cfg.serviceType } : {}),
@@ -361,12 +607,20 @@ export function buildServiceSchema(cfg: ServiceSchemaConfig) {
     ...(cfg.areaServed ? { areaServed: cfg.areaServed } : {}),
     ...(cfg.provider
       ? {
-          provider: {
-            "@type": "Organization",
-            name: cfg.provider.name,
-            ...(cfg.provider.url ? { url: cfg.provider.url } : {}),
-            ...(cfg.provider.logo ? { logo: cfg.provider.logo } : {}),
-          },
+          provider:
+            "@id" in cfg.provider
+              ? cfg.provider
+              : {
+                  "@type": "Organization",
+                  name: cfg.provider.name,
+                  ...(cfg.provider.url ? { url: cfg.provider.url } : {}),
+                  ...(cfg.provider.logo ? { logo: cfg.provider.logo } : {}),
+                },
+        }
+      : {}),
+    ...(cfg.offers
+      ? {
+          offers: cfg.offers,
         }
       : {}),
   } as const;
@@ -456,7 +710,7 @@ export interface AccountingServiceConfig {
 export function buildAccountingService(cfg: AccountingServiceConfig) {
   return {
     "@context": "https://schema.org",
-    "@type": "FinancialService",
+    "@type": "AccountingService",
     serviceType: cfg.serviceType,
     name: cfg.name,
     description: cfg.description,

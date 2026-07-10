@@ -12,7 +12,7 @@ import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 import { estimateReadingTime } from "@/src/lib/readingTime";
 import dynamicImport from "next/dynamic";
 import Defer from "@/src/components/Defer";
-import { normalizeInternalHref } from "@/src/lib/paths";
+import { localizePath, normalizeInternalHref } from "@/src/lib/paths";
 import {
   getArticle,
   getValidLocalesForSlug,
@@ -23,7 +23,11 @@ import {
   fallbackCategoryLabel,
   type ResourceCategoryLabels,
 } from "@/src/lib/resourceCategories";
-import { buildArticleSchema, buildBreadcrumbList } from "@/src/lib/structuredData";
+import {
+  buildArticleSchema,
+  buildBreadcrumbList,
+  getArkServiceEntityId,
+} from "@/src/lib/structuredData";
 
 // Dynamic because the page reads the per-request CSP nonce from headers().
 export const dynamic = "force-dynamic";
@@ -133,6 +137,61 @@ function getArticleSection(
   );
 }
 
+function getArticleStructuredDataContext(
+  article: ResourceArticle,
+  locale: Locale,
+) {
+  const serviceLocaleUrl = (path: string) =>
+    `https://ark-fid.ch/${locale}${localizePath(path, locale)}/`;
+
+  if (article.category === "odoo") {
+    return {
+      schemaType: "TechArticle" as const,
+      about: [
+        { "@id": getArkServiceEntityId("odoo") },
+        { "@type": "Thing", name: "Odoo ERP" },
+        { "@type": "Thing", name: "Swiss accounting" },
+      ],
+      isPartOf: {
+        "@type": "WebPage",
+        "@id": serviceLocaleUrl("/services/odoo"),
+      },
+    };
+  }
+
+  if (
+    article.category === "accounting" ||
+    article.category === "tax" ||
+    article.category === "payroll"
+  ) {
+    return {
+      schemaType: "BlogPosting" as const,
+      about: [{ "@id": getArkServiceEntityId("accounting") }],
+      isPartOf: {
+        "@type": "WebPage",
+        "@id": serviceLocaleUrl("/services/accounting"),
+      },
+    };
+  }
+
+  if (article.category === "incorporation" || article.category === "corporate") {
+    return {
+      schemaType: "BlogPosting" as const,
+      about: [{ "@id": getArkServiceEntityId("incorporation") }],
+      isPartOf: {
+        "@type": "WebPage",
+        "@id": serviceLocaleUrl("/services/incorporation"),
+      },
+    };
+  }
+
+  return {
+    schemaType: "BlogPosting" as const,
+    about: [],
+    isPartOf: undefined,
+  };
+}
+
 async function loadRessources(locale: Locale): Promise<RessourcesDictionary> {
   const ressourcesModule = await import(
     `@/src/translations/${locale}/ressources.json`
@@ -229,6 +288,7 @@ export default async function ArticlePage(props: Params) {
   }
 
   const articleJsonLd = buildArticleSchema({
+    ...getArticleStructuredDataContext(article, locale),
     headline: article.title,
     description: article.description,
     author: article.author,

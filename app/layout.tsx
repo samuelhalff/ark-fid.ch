@@ -1,10 +1,7 @@
 // app/layout.tsx
 import { Providers } from "@/src/components/providers";
 import { Metadata, Viewport } from "next";
-import {
-  generateOrganizationStructuredData,
-  generateLocalBusinessStructuredData,
-} from "@/src/lib/metadata";
+import { buildOrganizationGraph } from "@/src/lib/structuredData";
 import { inter } from "./fonts";
 import { headers } from "next/headers";
 import Defer from "@/src/components/Defer";
@@ -103,8 +100,7 @@ export default async function RootLayout({
     cta: (tContact("WhatsApp.Open") as string) || WHATSAPP_CTA_FALLBACK,
   } as const;
 
-  const orgJsonLd = generateOrganizationStructuredData();
-  const localBizJsonLd = generateLocalBusinessStructuredData();
+  const organizationGraphJsonLd = buildOrganizationGraph(currentLocale);
 
   return (
     <html
@@ -163,12 +159,9 @@ export default async function RootLayout({
         <script
           type="application/ld+json"
           nonce={nonce}
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          nonce={nonce}
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBizJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationGraphJsonLd),
+          }}
         />
 
         <Providers nonce={nonce}>

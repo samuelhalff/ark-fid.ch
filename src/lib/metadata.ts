@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import { Locale, locales } from "./i18n";
 import { localizePath } from "./paths";
 import { hreflangFor } from "./hreflang";
-import { WHATSAPP_PHONE_E164, WHATSAPP_URL } from "./whatsapp";
 import fs from 'fs';
 import { join as pathJoin } from 'path';
 
@@ -261,103 +260,4 @@ export async function generateMetadataForArticle(
       validLocales,
     });
   }
-}
-
-// Generate structured data for organization
-export function generateOrganizationStructuredData() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Ark Fiduciaire SA",
-    "description": "Fiduciary, accounting, payroll and tax compliance services based in Geneva and active across French-speaking Switzerland (Romandy) and Switzerland",
-    "url": "https://ark-fid.ch",
-    "logo": "https://ark-fid.ch/assets/arkfid--color.svg",
-    "contactPoint": [
-      {
-        "@type": "ContactPoint",
-        "contactType": "customer service",
-        "telephone": WHATSAPP_PHONE_E164,
-        "url": WHATSAPP_URL,
-        "availableLanguage": ["English", "French", "German", "Spanish", "Portuguese"]
-      }
-    ],
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "26 Boulevard Georges Favon",
-      "addressLocality": "Genève",
-      "postalCode": "1204",
-      "addressCountry": "CH"
-    },
-    "sameAs": [
-      // Populate with real profiles when available
-      "https://www.linkedin.com/company/ark-fiduciaire/",
-      "https://maps.google.com/?cid=14946625157719331801",
-      WHATSAPP_URL
-    ],
-    "areaServed": ["Geneva", "Romandy", "Switzerland", "International"],
-    "knowsAbout": [
-      "Swiss accounting",
-      "payroll Geneva",
-      "tax compliance Switzerland",
-      "domiciliation Geneva",
-      "outsourced CFO Switzerland",
-      "accounting services Geneva",
-      "fiduciary services Romandy",
-      "tax advisory Switzerland",
-      "corporate services Geneva",
-      "financial reporting Switzerland",
-      "tax declarations Geneva",
-      "company creation Switzerland"
-    ]
-  };
-}
-
-// Local SEO: specify presence in Romandy with offices in Geneva and Lausanne
-export function generateLocalBusinessStructuredData() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Ark Fiduciaire",
-    "image": "https://ark-fid.ch/assets/arkfid--color.svg",
-    "url": "https://ark-fid.ch",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "26 Boulevard Georges Favon",
-      "addressLocality": "Genève",
-      "postalCode": "1204",
-      "addressRegion": "GE",
-      "addressCountry": "CH"
-    },
-    "areaServed": ["Geneva", "Lausanne", "Romandy", "Suisse romande", "French-speaking Switzerland", "Switzerland", "International"],
-    "serviceArea": [
-      {
-        "@type": "Place",
-        "name": "Geneva"
-      },
-      {
-        "@type": "Place",
-        "name": "Romandy"
-      },
-      {
-        "@type": "Country",
-        "name": "Switzerland"
-      }
-    ],
-    "sameAs": [
-      "https://www.linkedin.com/company/ark-fiduciaire",
-      "https://maps.google.com/?cid=14946625157719331801",
-      WHATSAPP_URL
-    ],
-    "priceRange": "$$",
-    "telephone": WHATSAPP_PHONE_E164,
-    "contactPoint": [
-      {
-        "@type": "ContactPoint",
-        "contactType": "customer service",
-        "telephone": WHATSAPP_PHONE_E164,
-        "url": WHATSAPP_URL,
-        "availableLanguage": ["English", "French", "German", "Spanish", "Portuguese"]
-      }
-    ]
-  };
 }

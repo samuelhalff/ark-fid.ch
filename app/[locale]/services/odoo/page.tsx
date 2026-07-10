@@ -6,7 +6,11 @@ import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { localizePath } from "@/src/lib/paths";
 import StructuredData from "@/src/components/seo/StructuredData";
-import { buildServiceSchema } from "@/src/lib/structuredData";
+import {
+  arkEntityIds,
+  buildServiceSchema,
+  getArkServiceEntityId,
+} from "@/src/lib/structuredData";
 
 export const runtime = "nodejs";
 export const revalidate = false;
@@ -54,6 +58,7 @@ const Odoo = async (props: { params: Promise<{ locale: string }> }) => {
   } as const;
   const tService = await getTranslations(params.locale as Locale, "odoo");
   const serviceJsonLd = buildServiceSchema({
+    id: getArkServiceEntityId("odoo"),
     name: (tService("Hero.Title") as string) || "Odoo",
     description:
       (tService("Hero.Description") as string) ||
@@ -63,11 +68,13 @@ const Odoo = async (props: { params: Promise<{ locale: string }> }) => {
       "/services/odoo",
       params.locale as Locale
     )}/`,
-    areaServed: ["Geneva", "Lausanne", "Romandy", "Switzerland"],
+    schemaType: "ProfessionalService",
+    areaServed: [
+      { "@id": arkEntityIds.areaGeneva },
+      { "@type": "Country", name: "Switzerland" },
+    ],
     provider: {
-      name: "Ark Fiduciaire",
-      url: baseUrl,
-      logo: `${baseUrl}/assets/arkfid--color.svg`,
+      "@id": arkEntityIds.organization,
     },
   });
 

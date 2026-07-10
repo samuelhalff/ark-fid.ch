@@ -6,7 +6,12 @@ import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { localizePath } from "@/src/lib/paths";
 import StructuredData from "@/src/components/seo/StructuredData";
-import { buildHowTo, buildServiceSchema } from "@/src/lib/structuredData";
+import {
+  arkEntityIds,
+  buildHowTo,
+  buildServiceSchema,
+  getArkServiceEntityId,
+} from "@/src/lib/structuredData";
 
 export const revalidate = false;
 
@@ -109,6 +114,7 @@ const Incorporation = async (props: { params: Promise<{ locale: string }> }) => 
   });
 
   const serviceJsonLd = buildServiceSchema({
+    id: getArkServiceEntityId("incorporation"),
     name:
       (tService("Hero.Title") as string) ||
       (tNav("Incorporation.Title") as string) ||
@@ -121,11 +127,13 @@ const Incorporation = async (props: { params: Promise<{ locale: string }> }) => 
       "/services/incorporation",
       params.locale as Locale
     )}/`,
-    areaServed: ["Geneva", "Lausanne", "Romandy", "Switzerland"],
+    schemaType: "ProfessionalService",
+    areaServed: [
+      { "@id": arkEntityIds.areaGeneva },
+      { "@type": "Country", name: "Switzerland" },
+    ],
     provider: {
-      name: "Ark Fiduciaire",
-      url: baseUrl,
-      logo: `${baseUrl}/assets/arkfid--color.svg`,
+      "@id": arkEntityIds.organization,
     },
   });
 

@@ -9,7 +9,7 @@ import Testimonials from "@/app/[locale]/home/components/testimonials";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import Defer from "@/src/components/Defer";
 import StructuredData from "@/src/components/seo/StructuredData";
-import { buildFAQPage, buildOrganizationGraph } from "@/src/lib/structuredData";
+import { buildFAQPage } from "@/src/lib/structuredData";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 import type { FAQEntry } from "@/src/lib/structuredData";
 import { CtaBanner } from "@/src/components/ui/surface";
@@ -98,8 +98,6 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
     .reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
   const heroIndex = indexSeed % 9; // there are 9 service hero images
 
-  const organizationGraphJsonLd = buildOrganizationGraph(activeLocale);
-
   const contactStrings = {
     title: (t("Title") as string) || "Get in Touch",
     subtitle: (t("Subtitle") as string) || "",
@@ -177,7 +175,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
 
   return (
     <div className="mx-auto w-full pb-4">
-      <StructuredData nonce={nonce} data={[faqJsonLd, organizationGraphJsonLd]} />
+      <StructuredData nonce={nonce} data={faqJsonLd} />
       <section id="hero">
         <Hero
           locale={activeLocale}

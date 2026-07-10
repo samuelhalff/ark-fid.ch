@@ -5,7 +5,11 @@ import Presentation from "./components/presentation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import StructuredData from "@/src/components/seo/StructuredData";
-import { buildServiceSchema } from "@/src/lib/structuredData";
+import {
+  arkEntityIds,
+  buildServiceSchema,
+  getArkServiceEntityId,
+} from "@/src/lib/structuredData";
 import { localizePath } from "@/src/lib/paths";
 
 export const runtime = "nodejs";
@@ -57,6 +61,7 @@ const Accounting = async (props: { params: Promise<{ locale: string }> }) => {
     ],
   } as const;
   const serviceJsonLd = buildServiceSchema({
+    id: getArkServiceEntityId("accounting"),
     name:
       (tService("Hero.Title") as string) ||
       (tNav("Accounting.Title") as string) ||
@@ -69,11 +74,13 @@ const Accounting = async (props: { params: Promise<{ locale: string }> }) => {
       "/services/accounting",
       params.locale as Locale
     )}/`,
-    areaServed: ["Geneva", "Lausanne", "Romandy", "Switzerland"],
+    schemaType: "AccountingService",
+    areaServed: [
+      { "@id": arkEntityIds.areaGeneva },
+      { "@type": "Country", name: "Switzerland" },
+    ],
     provider: {
-      name: "Ark Fiduciaire",
-      url: baseUrl,
-      logo: `${baseUrl}/assets/arkfid--color.svg`,
+      "@id": arkEntityIds.organization,
     },
   });
 

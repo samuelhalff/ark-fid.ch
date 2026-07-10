@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import StructuredData from "@/src/components/seo/StructuredData";
 import { getTranslations, isValidLocale, type Locale } from "@/src/lib/i18n";
 import { generateMetadataForPage } from "@/src/lib/metadata";
-import { buildBreadcrumbList, buildOrganizationGraph } from "@/src/lib/structuredData";
+import { buildBreadcrumbList } from "@/src/lib/structuredData";
 import { buildInternalUrl } from "@/src/lib/paths";
 
 type ProfileSection = {
@@ -60,7 +60,7 @@ export default async function AiProfilePage(
     <main className="mx-auto w-full max-w-[980px] px-5 py-12 sm:px-8 md:py-16">
       <StructuredData
         nonce={nonce}
-        data={[buildOrganizationGraph(locale), breadcrumbJsonLd]}
+        data={breadcrumbJsonLd}
       />
       <nav aria-label="Breadcrumb" className="mb-8">
         <ol className="flex items-center gap-1 text-sm text-muted-foreground">
