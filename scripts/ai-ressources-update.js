@@ -1211,6 +1211,39 @@ function getRetryAfterMsFromError(error) {
   return null;
 }
 
+function isRetryableAzureOpenAIFetchError(error) {
+  const codes = [
+    error?.code,
+    error?.cause?.code,
+    error?.errno,
+    error?.cause?.errno,
+  ].filter(Boolean);
+  const retryableCodes = new Set([
+    "UND_ERR_HEADERS_TIMEOUT",
+    "UND_ERR_CONNECT_TIMEOUT",
+    "UND_ERR_SOCKET",
+    "ECONNRESET",
+    "ETIMEDOUT",
+    "ECONNREFUSED",
+    "EAI_AGAIN",
+  ]);
+  if (codes.some((code) => retryableCodes.has(code))) return true;
+
+  const message = String(error?.message || "").toLowerCase();
+  return (
+    message.includes("fetch failed") ||
+    message.includes("headers timeout") ||
+    message.includes("socket hang up") ||
+    message.includes("connection reset")
+  );
+}
+
+function computeAzureOpenAIRetryDelayMs(attempt, serverDelayMs = null) {
+  const expBackoffMs = Math.min(30000, 2000 * Math.pow(2, attempt - 1));
+  const jitterMs = Math.floor(Math.random() * 400);
+  return Math.max(serverDelayMs || 0, expBackoffMs + jitterMs);
+}
+
 function ensureHttpsUrl(input) {
   const raw = String(input || "").trim();
   if (!raw) return raw;
@@ -1423,6 +1456,15 @@ async function azureOpenAIJson(prompt, options = {}) {
       if (cause?.address) details.push(`address=${cause.address}`);
       if (cause?.port) details.push(`port=${cause.port}`);
       const detailSuffix = details.length ? ` (${details.join(", ")})` : "";
+      if (isRetryableAzureOpenAIFetchError(error) && attempt <= maxRetries) {
+        const retryAfterMs = getRetryAfterMsFromError(error);
+        const delay = computeAzureOpenAIRetryDelayMs(attempt, retryAfterMs);
+        console.warn(
+          `[WARN] Azure OpenAI fetch error (attempt ${attempt}/${maxRetries}) retrying in ${delay}ms: ${error?.message || "unknown error"}${detailSuffix}`,
+        );
+        await sleep(delay);
+        continue;
+      }
       throw new Error(
         `Azure OpenAI fetch failed: ${error?.message || "unknown error"}${detailSuffix}`,
       );
@@ -1459,9 +1501,7 @@ async function azureOpenAIJson(prompt, options = {}) {
         : Number.isFinite(retryAfterSeconds)
           ? Math.max(0, retryAfterSeconds) * 1000
           : null;
-      const expBackoffMs = Math.min(30000, 2000 * Math.pow(2, attempt - 1));
-      const jitterMs = Math.floor(Math.random() * 400);
-      const delay = Math.max(serverDelayMs || 0, expBackoffMs + jitterMs);
+      const delay = computeAzureOpenAIRetryDelayMs(attempt, serverDelayMs);
       console.warn(
         `[WARN] Azure OpenAI HTTP ${res.status} (attempt ${attempt}/${maxRetries}) retrying in ${delay}ms`,
       );
@@ -2876,6 +2916,11 @@ async function main() {
       .map((topic) => topic.label)
       .join(", ")}`,
   );
+  if (SKIP_TOPIC_ROTATION) {
+    console.log(
+      `\n🟡 Topic rotation guardrails disabled${FORCE_TOPIC ? " (forced topic)" : " (workflow/input override)"}.`,
+    );
+  }
 
   let trendData;
   if (FORCE_TOPIC) {
@@ -3106,7 +3151,15 @@ async function main() {
   console.log("Done.");
 }
 
-main().catch((error) => {
-  console.error(error.message || error);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(error.message || error);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  computeAzureOpenAIRetryDelayMs,
+  getRetryAfterMsFromError,
+  isRetryableAzureOpenAIFetchError,
+};

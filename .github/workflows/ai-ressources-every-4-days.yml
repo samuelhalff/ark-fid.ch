@@ -95,7 +95,7 @@ jobs:
           FORCE_TOPIC: ${{ inputs.force_topic }}
           FORCE_TOPIC_KEYWORDS: ${{ inputs.force_topic_keywords }}
           FORCE_TOPIC_CATEGORY: ${{ inputs.force_topic_category }}
-          SKIP_TOPIC_ROTATION: ${{ inputs.skip_topic_rotation == 'true' && '1' || '' }}
+          SKIP_TOPIC_ROTATION: ${{ inputs.skip_topic_rotation && '1' || '' }}
           TRENDS_PROVIDER: ${{ vars.TRENDS_PROVIDER || 'hybrid' }}
           TRENDS_GEO: ${{ vars.TRENDS_GEO }}
           TRENDS_LANGUAGE: ${{ vars.TRENDS_LANGUAGE }}
