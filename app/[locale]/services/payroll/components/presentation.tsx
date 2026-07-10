@@ -6,6 +6,8 @@ import dynamic from "next/dynamic";
 import ServiceLongForm from "@/src/components/ui/service-longform";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
+import CaseStudiesSection from "@/src/components/site/case-studies-section";
+import { getPayrollCaseStudies } from "../caseStudies";
 const ServicesListServer = dynamic(
   () => import("@/src/components/ui/services-list-server"),
 );
@@ -29,6 +31,7 @@ const PayrollPresentation = async () => {
     "Service 3: Description",
     "Service 4: Description",
   ];
+  const caseStudies = getPayrollCaseStudies(locale);
   return (
     <section data-service-content className="w-full px-5 py-12 sm:px-8 lg:py-16">
       <div className="mx-auto w-full max-w-[1240px]">
@@ -80,6 +83,12 @@ const PayrollPresentation = async () => {
               </Suspense>
             </section>
             <ServiceLongForm t={t} locale={locale} />
+            <CaseStudiesSection
+              title={caseStudies.title}
+              intro={caseStudies.intro}
+              locale={locale}
+              cases={caseStudies.cases}
+            />
             <div className="flex justify-center">
               <GoogleReviewsBadge locale={locale} />
             </div>

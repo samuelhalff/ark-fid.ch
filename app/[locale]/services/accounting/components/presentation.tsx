@@ -8,8 +8,11 @@ import { getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { Suspense } from "react";
 import ServicesListServer from "@/src/components/ui/services-list-server";
 import { CheckCircle } from "@phosphor-icons/react/dist/ssr";
+import CaseStudiesSection from "@/src/components/site/case-studies-section";
+import { getAccountingCaseStudies } from "../caseStudies";
 const AccountingPresentation = async ({ t }: { t: (key: string) => string }) => {
   const locale: Locale = await getCurrentLocale();
+  const caseStudies = getAccountingCaseStudies(locale);
   return (
     <section data-service-content className="w-full px-5 py-12 sm:px-8 lg:py-16">
       <div className="mx-auto w-full max-w-[1240px]">
@@ -128,6 +131,12 @@ const AccountingPresentation = async ({ t }: { t: (key: string) => string }) => 
               </Defer>
             </section>
             <ServiceLongForm t={t} locale={locale} />
+            <CaseStudiesSection
+              title={caseStudies.title}
+              intro={caseStudies.intro}
+              locale={locale}
+              cases={caseStudies.cases}
+            />
             <div className="flex justify-center">
               <GoogleReviewsBadge locale={locale} />
             </div>
