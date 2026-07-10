@@ -5,8 +5,9 @@ import Presentation from "./components/presentation";
 import { generateMetadataForPage } from "@/src/lib/metadata";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import StructuredData from "@/src/components/seo/StructuredData";
-import { buildServiceSchema } from "@/src/lib/structuredData";
+import { buildFAQPage, buildServiceSchema } from "@/src/lib/structuredData";
 import { localizePath } from "@/src/lib/paths";
+import { getInternationalTaxFaq } from "./internationalTaxFaq";
 
 export const runtime = "nodejs";
 export const revalidate = false;
@@ -32,6 +33,7 @@ const Taxes = async (props: { params: Promise<{ locale: string }> }) => {
   const localePrefix = params.locale ? `/${params.locale}` : "";
   const tNav = await getTranslations(params.locale as Locale, "navbar");
   const tService = await getTranslations(params.locale as Locale, "taxes");
+  const internationalTaxFaq = getInternationalTaxFaq(params.locale as Locale);
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -73,10 +75,14 @@ const Taxes = async (props: { params: Promise<{ locale: string }> }) => {
       logo: `${baseUrl}/assets/arkfid--color.svg`,
     },
   });
+  const faqJsonLd = buildFAQPage(internationalTaxFaq.entries);
 
   return (
     <div>
-      <StructuredData nonce={nonce} data={[breadcrumbJsonLd, serviceJsonLd]} />
+      <StructuredData
+        nonce={nonce}
+        data={[breadcrumbJsonLd, serviceJsonLd, faqJsonLd]}
+      />
       <Hero params={params} />
       <nav
         aria-label="Breadcrumb"

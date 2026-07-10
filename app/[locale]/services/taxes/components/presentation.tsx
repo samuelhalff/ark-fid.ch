@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import ServiceLongForm from "@/src/components/ui/service-longform";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
+import { getInternationalTaxFaq } from "../internationalTaxFaq";
 const ServicesListServer = dynamic(
   () => import("@/src/components/ui/services-list-server"),
 );
@@ -28,6 +29,7 @@ const Presentation = async () => {
     "Service 3: Description",
     "Service 4: Description",
   ];
+  const internationalTaxFaq = getInternationalTaxFaq(locale);
   return (
     <section data-service-content className="w-full px-5 py-12 sm:px-8 lg:py-16">
       <div className="mx-auto w-full max-w-[1240px]">
@@ -79,6 +81,34 @@ const Presentation = async () => {
               </Suspense>
             </section>
             <ServiceLongForm t={t} locale={locale} />
+            <section>
+              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-4 md:leading-[2rem] tracking-tight">
+                {tidyTitle(internationalTaxFaq.title)}
+              </h3>
+              <p className="mb-8 max-w-3xl text-base leading-8 text-muted-foreground sm:text-lg">
+                {internationalTaxFaq.intro}
+              </p>
+              <div className="space-y-4 max-w-4xl">
+                {internationalTaxFaq.entries.map((entry) => (
+                  <details
+                    key={entry.question}
+                    className="group rounded-[22px] bg-surface-warm px-5 py-4 shadow-sm transition-shadow open:shadow-md dark:bg-card"
+                  >
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-1 pr-2">
+                      <span className="font-semibold tracking-tight text-lg leading-snug">
+                        {entry.question}
+                      </span>
+                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-foreground/10 text-muted-foreground transition-colors group-open:bg-foreground/15 group-open:text-foreground/90">
+                        +
+                      </span>
+                    </summary>
+                    <p className="mt-2 pb-2 text-[15px] leading-7 text-muted-foreground">
+                      {entry.answer}
+                    </p>
+                  </details>
+                ))}
+              </div>
+            </section>
             <div className="flex justify-center">
               <GoogleReviewsBadge locale={locale} />
             </div>

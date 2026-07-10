@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import ServiceLongForm from "@/src/components/ui/service-longform";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
+import { getImmigrationCaseStudies } from "../caseStudies";
 const ServicesListServer = dynamic(
   () => import("@/src/components/ui/services-list-server"),
 );
@@ -44,6 +45,7 @@ const ImmigrationPresentation = async () => {
     "Dossiers ANobAG et affiliation aux assurances sociales",
     "Création de société et contrat de travail",
   ];
+  const caseStudies = getImmigrationCaseStudies(locale);
   return (
     <section data-service-content className="w-full px-5 py-12 sm:px-8 lg:py-16">
       <div className="mx-auto w-full max-w-[1240px]">
@@ -113,6 +115,43 @@ const ImmigrationPresentation = async () => {
               </Suspense>
             </section>
             <ServiceLongForm t={t} locale={locale} />
+            <section>
+              <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-4 md:leading-[2rem] tracking-tight">
+                {tidyTitle(caseStudies.title)}
+              </h3>
+              <p className="mb-3 max-w-3xl text-base leading-8 text-muted-foreground sm:text-lg">
+                {caseStudies.intro}
+              </p>
+              <p className="mb-8 max-w-3xl text-sm leading-7 text-muted-foreground/80">
+                {locale === "fr"
+                  ? "Ces situations sont anonymisées et représentatives. Les résultats dépendent toujours du contexte, des faits et du calendrier."
+                  : locale === "de"
+                    ? "Diese Situationen sind anonymisiert und repräsentativ. Ergebnisse hängen immer vom Kontext, den Fakten und dem Zeitplan ab."
+                    : locale === "es"
+                      ? "Estas situaciones son anónimas y representativas. Los resultados dependen siempre del contexto, los hechos y el calendario."
+                      : locale === "pt"
+                        ? "Estas situações são anónimas e representativas. Os resultados dependem sempre do contexto, dos factos e do calendário."
+                        : "These situations are anonymized and representative. Outcomes always depend on context, facts, and timing."}
+              </p>
+              <div className="grid gap-6 lg:grid-cols-3">
+                {caseStudies.cases.map((item) => (
+                  <article
+                    key={item.slug}
+                    className="rounded-[24px] border border-border/60 bg-surface-warm p-6 dark:bg-card"
+                  >
+                    <h4 className="text-lg font-semibold tracking-tight text-foreground">
+                      {item.title}
+                    </h4>
+                    <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                      {item.description}
+                    </p>
+                    <p className="mt-4 text-sm leading-7 text-foreground/85">
+                      {item.outcome}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </section>
             <div className="flex justify-center">
               <GoogleReviewsBadge locale={locale} />
             </div>
