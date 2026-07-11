@@ -211,7 +211,7 @@ const Footer = async ({ locale }: { locale?: string }) => {
                     </CookieSettingsLink>
                   ) : (
                     <Link
-                      href={`${localePrefix}${href}`}
+                      href={buildInternalUrl(href, currentLocale)}
                       className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                       locale={locale}
                       prefetch={false}

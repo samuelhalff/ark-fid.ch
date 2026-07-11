@@ -1,5 +1,7 @@
 "use client";
 import ServicesElements from "@/app/[locale]/navigation";
+import { buildInternalUrl } from "@/src/lib/paths";
+import type { Locale } from "@/src/lib/i18n-locales";
 import Link from "next/link";
 
 interface ServicesMobileProps {
@@ -16,7 +18,7 @@ export default function ServicesMobile({
   services?: Array<{ href: string; title: string }>;
   label?: string;
 }) {
-  const localePrefix = locale ? `/${locale}` : "/fr";
+  const currentLocale = (locale || "fr") as Locale;
   const items = (
     services && services.length
       ? services
@@ -42,7 +44,11 @@ export default function ServicesMobile({
         {items.map((service) => (
           <Link
             key={service.href}
-            href={`${localePrefix}${normalizeHref(service.href)}`}
+            href={
+              service.href.startsWith(`/${currentLocale}/`)
+                ? normalizeHref(service.href)
+                : buildInternalUrl(normalizeHref(service.href), currentLocale)
+            }
             prefetch={false}
             onClick={onLinkClick}
             locale={locale}

@@ -1,6 +1,6 @@
 import services from "@/app/[locale]/home/components/services-items";
 import Link from "next/link";
-import { localizePath } from "@/src/lib/paths";
+import { buildInternalUrl } from "@/src/lib/paths";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { tidyTitle } from "@/src/lib/typography";
 import SectionHeading from "@/src/components/site/section-heading";
@@ -19,8 +19,6 @@ const Services = async ({
   locale,
 }: ServicesProps) => {
   const currentLocale = (locale || "fr") as Locale;
-  const localePrefix = currentLocale ? `/${currentLocale}` : "/fr";
-
   const tHome = await getTranslations(currentLocale, "home");
   const tItems = await getTranslations(currentLocale, "servicesItems");
   return (
@@ -51,10 +49,7 @@ const Services = async ({
               /\./g,
               "-",
             )}`;
-            const serviceHref = `${localePrefix}${localizePath(
-              service.href,
-              currentLocale,
-            )}`;
+            const serviceHref = buildInternalUrl(service.href, currentLocale);
             const isHero = index === 0;
             const isHighlighted =
               service.titleKey === "OdooImplementation.Title";

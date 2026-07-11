@@ -155,7 +155,7 @@ const baseConfig = {
       // Redirect old FR English-slugged URLs to localized French slugs
       {
         source: "/fr/services/accounting",
-        destination: "/fr/services/comptabilite",
+        destination: "/fr/services/comptabilite/",
         permanent: true,
       },
       {
@@ -165,7 +165,7 @@ const baseConfig = {
       },
       {
         source: "/fr/services/taxes",
-        destination: "/fr/services/fiscalite",
+        destination: "/fr/services/fiscalite/",
         permanent: true,
       },
       {
@@ -175,7 +175,7 @@ const baseConfig = {
       },
       {
         source: "/fr/services/payroll",
-        destination: "/fr/services/paie",
+        destination: "/fr/services/paie/",
         permanent: true,
       },
       {
@@ -185,7 +185,7 @@ const baseConfig = {
       },
       {
         source: "/fr/services/outsourcing",
-        destination: "/fr/services/externalisation",
+        destination: "/fr/services/externalisation/",
         permanent: true,
       },
       {
@@ -195,7 +195,7 @@ const baseConfig = {
       },
       {
         source: "/fr/services/mergers-acquisitions",
-        destination: "/fr/services/fusions-acquisitions",
+        destination: "/fr/services/fusions-acquisitions/",
         permanent: true,
       },
       {
@@ -205,7 +205,7 @@ const baseConfig = {
       },
       {
         source: "/fr/services/corporate",
-        destination: "/fr/services/services-corporatifs",
+        destination: "/fr/services/services-corporatifs/",
         permanent: true,
       },
       {
@@ -215,7 +215,7 @@ const baseConfig = {
       },
       {
         source: "/fr/services/incorporation",
-        destination: "/fr/services/constitution-entreprise",
+        destination: "/fr/services/constitution-entreprise/",
         permanent: true,
       },
       {

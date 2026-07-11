@@ -296,3 +296,17 @@ Add dedicated FAQ components to each service page:
 ---
 
 **Note**: This document should be updated quarterly with progress, new findings, and adjusted strategies based on actual search performance data.
+# Search Console indexation policy (July 2026)
+
+The excluded-page total is not a defect count. The following exclusions are intentional and should be monitored rather than forced into the index:
+
+- permanent redirects for retired, legacy, non-locale, or slashless URLs;
+- generated Open Graph and Twitter images blocked by `robots.txt`;
+- API and framework routes blocked by `robots.txt`;
+- query/filter states carrying `X-Robots-Tag: noindex`;
+- malformed crawl-junk URLs returning `410`;
+- translations excluded by the genuine-translation or configured placeholder-locale policy.
+
+Actionable defects are sitemap URLs that redirect or fail, canonical/hreflang targets that disagree or are not direct `200` responses, unexpected `404`/`5xx` responses, internal links that emit legacy paths, and useful eligible pages that remain crawled-not-indexed after their canonical and content signals have been reprocessed.
+
+The July 2026 remediation keeps all genuine multilingual content and lead routes indexable. It does not introduce locale-wide `noindex`, serve slash duplicates as `200`, or block query strings before crawlers can observe their `noindex` response.

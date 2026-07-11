@@ -69,7 +69,7 @@ export default function ServicesDropdown({
             {navData.services.map((item) => (
               <li key={item.href} className="min-w-0">
                 <Link
-                  href={`${localePrefix}${item.href}`}
+                  href={item.href}
                   prefetch={false}
                   locale={locale}
                   className="block rounded-md p-3 transition-colors hover:bg-surface-warm/70 focus:bg-surface-warm/70 focus:outline-none focus:ring-2 focus:ring-foreground/15 dark:hover:bg-white/[0.06] dark:focus:bg-white/[0.06]"

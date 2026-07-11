@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { buildInternalUrl } from "@/src/lib/paths";
 import { Suspense, type ReactNode } from "react";
 import ServicesElements from "@/app/[locale]/navigation";
 import { getTranslations } from "@/src/lib/i18n";
@@ -64,6 +65,7 @@ export default async function LocaleLayout(
     },
     services: ServicesElements.map((service) => ({
       ...service,
+      href: buildInternalUrl(service.href, activeLocale),
       title: tServices(service.titleKey),
       description: tServices(service.descriptionKey),
     })),

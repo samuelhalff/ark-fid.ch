@@ -4,6 +4,9 @@
  * All functions return POJOs ready to be stringified.
  */
 
+import type { Locale } from "./i18n-locales";
+import { localizePath } from "./paths";
+
 export interface FAQEntry {
   question: string;
   answer: string;
@@ -218,7 +221,7 @@ function buildArkOfferNodes(locale: string) {
       seller: {
         "@id": arkEntityIds.organization,
       },
-      url: `${arkOrganization.url}/${locale}/services/incorporation/`,
+      url: `${arkOrganization.url}/${locale}${localizePath("/services/incorporation", locale as Locale)}/`,
     },
     {
       "@type": "Offer",
@@ -243,7 +246,7 @@ function buildArkOfferNodes(locale: string) {
       seller: {
         "@id": arkEntityIds.organization,
       },
-      url: `${arkOrganization.url}/${locale}/services/accounting/`,
+      url: `${arkOrganization.url}/${locale}${localizePath("/services/accounting", locale as Locale)}/`,
     },
   ] as const;
 }
@@ -264,7 +267,7 @@ function buildArkServiceNodes(locale: string) {
       areaServed,
       provider: { "@id": arkEntityIds.organization },
       offers: { "@id": arkEntityIds.offerAccounting },
-      url: `${baseLocaleUrl}/services/accounting/`,
+      url: `${baseLocaleUrl}${localizePath("/services/accounting", locale as Locale)}/`,
     },
     {
       "@type": "ProfessionalService",
@@ -276,7 +279,7 @@ function buildArkServiceNodes(locale: string) {
           : "Odoo implementation for Swiss accounting",
       areaServed,
       provider: { "@id": arkEntityIds.organization },
-      url: `${baseLocaleUrl}/services/odoo/`,
+      url: `${baseLocaleUrl}${localizePath("/services/odoo", locale as Locale)}/`,
     },
     {
       "@type": "ProfessionalService",
@@ -292,7 +295,7 @@ function buildArkServiceNodes(locale: string) {
       areaServed,
       provider: { "@id": arkEntityIds.organization },
       offers: { "@id": arkEntityIds.offerIncorporation },
-      url: `${baseLocaleUrl}/services/incorporation/`,
+      url: `${baseLocaleUrl}${localizePath("/services/incorporation", locale as Locale)}/`,
     },
   ] as const;
 }
