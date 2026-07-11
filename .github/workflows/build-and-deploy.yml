@@ -45,26 +45,63 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
+    outputs:
+      only_translations: ${{ steps.detect.outputs.only_translations }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          # Need full history for diff against previous commit
+          fetch-depth: 2
+
+      - name: Detect changed files
+        id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "only_translations=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          CHANGED=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" 2>/dev/null || echo "")
+          if [ -z "$CHANGED" ]; then
+            echo "only_translations=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          ONLY_TRANSLATIONS=true
+          for f in $CHANGED; do
+            case "$f" in
+              src/translations/*) ;;
+              *)
+                ONLY_TRANSLATIONS=false
+                break
+                ;;
+            esac
+          done
+          echo "only_translations=$ONLY_TRANSLATIONS" >> "$GITHUB_OUTPUT"
+          if [ "$ONLY_TRANSLATIONS" = "true" ]; then
+            echo "→ Only translations changed — skipping full build"
+          fi
 
       - name: Setup Node.js 20
+        if: steps.detect.outputs.only_translations != 'true'
         uses: actions/setup-node@v6
         with:
           node-version: "20.x"
           cache: "npm"
 
       - name: Install dependencies
+        if: steps.detect.outputs.only_translations != 'true'
         run: npm ci --prefer-offline --no-audit --no-fund
 
       - name: TypeScript type check
+        if: steps.detect.outputs.only_translations != 'true'
         run: npm run typecheck
 
       - name: Check malformed internal markdown links (blocking)
+        if: steps.detect.outputs.only_translations != 'true'
         run: node scripts/fix-article-internal-links.js --check
 
       - name: Validate Turnstile config
+        if: steps.detect.outputs.only_translations != 'true'
         run: |
           if [ -z "${NEXT_PUBLIC_TURNSTILE_SITE_KEY:-}" ]; then
             echo "Missing NEXT_PUBLIC_TURNSTILE_SITE_KEY in GitHub Secrets"
@@ -72,25 +109,31 @@ jobs:
           fi
 
       - name: Restore Next.js build cache
+        if: steps.detect.outputs.only_translations != 'true'
         uses: actions/cache@v5
         with:
           path: .next/cache
-          key: next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('src/**', 'app/**') }}
+          # Only invalidate cache on config/dep changes — .next/cache tracks module-level changes internally
+          key: next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.js', 'tsconfig.json') }}
           restore-keys: |
-            next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-
+            next-cache-${{ runner.os }}-
 
       - name: Build
+        if: steps.detect.outputs.only_translations != 'true'
         env:
           NODE_OPTIONS: --max_old_space_size=4096
         run: npm run build
 
       - name: Prepare artifact
+        if: steps.detect.outputs.only_translations != 'true'
         run: bash scripts/prepare-artifact.sh
 
       - name: Archive artifact
+        if: steps.detect.outputs.only_translations != 'true'
         run: tar -czf next-standalone.tar.gz -C dist .
 
       - name: Upload artifact
+        if: steps.detect.outputs.only_translations != 'true'
         uses: actions/upload-artifact@v7
         with:
           name: next-standalone
@@ -112,7 +155,24 @@ jobs:
       - name: Install deploy tools
         run: sudo apt-get update && sudo apt-get install -y sshpass curl unzip
 
-      - name: Download artifact
+      # ─── Translation-only path: rsync JSONs + restart ───
+      - name: Rsync translations (only if no code changed)
+        if: needs.build.outputs.only_translations == 'true'
+        env:
+          HOST: ${{ secrets.DEPLOY_SSH_HOST }}
+          USER: ${{ secrets.DEPLOY_SSH_USER }}
+          PASS: ${{ secrets.DEPLOY_SSH_PASSWORD }}
+          PORT: ${{ secrets.DEPLOY_SSH_PORT }}
+        run: |
+          PORT="${PORT:-22}"
+          sshpass -p "$PASS" rsync -av \
+            -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -p $PORT" \
+            src/translations/ \
+            "$USER@$HOST:/srv/customer/sites/ark-fid.ch/current/src/translations/"
+
+      # ─── Full deploy path: artifact → server ───
+      - name: Download artifact (full deploy)
+        if: needs.build.outputs.only_translations != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -130,10 +190,12 @@ jobs:
             "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${ARTIFACT_ID}/zip"
           unzip -q artifact.zip -d artifact
 
-      - name: Prepare partial artifact
+      - name: Prepare partial artifact (full deploy)
+        if: needs.build.outputs.only_translations != 'true'
         run: cp artifact/next-standalone.tar.gz artifact/next-standalone.tar.gz.part
 
-      - name: Upload release to server (rsync)
+      - name: Upload release to server (full deploy)
+        if: needs.build.outputs.only_translations != 'true'
         run: |
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
           USER="${{ secrets.DEPLOY_SSH_USER }}"
@@ -264,7 +326,9 @@ jobs:
             rm -f "$TMP_FILE"
           '
 
+      # ─── Extract, symlink and cleanup (full deploy only) ───
       - name: Extract, symlink and cleanup releases
+        if: needs.build.outputs.only_translations != 'true'
         run: |
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
           USER="${{ secrets.DEPLOY_SSH_USER }}"
@@ -272,7 +336,6 @@ jobs:
           PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
 
           echo "[deploy] Testing SSH connectivity to $HOST:$PORT as $USER"
-          # Probe is best-effort: some servers may have different auth preferences
           if sshpass -p "$PASS" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -o ConnectTimeout=10 -p "$PORT" "$USER@$HOST" 'echo "SSH probe successful"' 2>/dev/null; then
             echo "[deploy] SSH probe successful"
           else
@@ -335,6 +398,7 @@ jobs:
             echo "[deploy] Cleanup completed, keeping last $KEEP releases" >> "$LOG"
           '
 
+      # ─── Restart server (always runs) ───
       - name: Restart Node.js server
         timeout-minutes: 3
         run: |
@@ -350,15 +414,15 @@ jobs:
           echo "[restart] Waiting for process to terminate..."
           sleep 30
 
-          echo "[restart] Starting new process (refreshing symlink each restart)..."
+          echo "[restart] Starting new process..."
           sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes "$USER@$HOST" '
             set -e
-            # Supervisor loop: re-enter current symlink on every iteration so new releases apply
             nohup bash -lc "while true; do cd /srv/customer/sites/ark-fid.ch/current && node server.js >> server.out 2>&1; echo \"Node crashed, restarting...\" >> server.out; sleep 1; done" >/dev/null 2>&1 </dev/null &
           ' || echo "[restart] SSH command completed"
 
           sleep 30
 
+      # ─── Health check (always runs) ───
       - name: Health check and warmup
         timeout-minutes: 5
         run: |
@@ -398,7 +462,6 @@ jobs:
               curl "${CURL_TIMEOUTS[@]}" -fsSL -H "Accept: $accept" "https://ark-fid.ch$u" >/dev/null 2>&1 || true
             done < "$TMP.list"
           }
-          # Keep this bounded: CI should verify deployment, not exhaustively prime caches.
           warm_images "image/webp,*/*"
           rm -f "$TMP.list"
           rm -f "$TMP"
@@ -410,7 +473,6 @@ jobs:
         run: |
           echo "Checking sitemap format..."
           curl --connect-timeout 5 --max-time 20 -s "https://ark-fid.ch/sitemap.xml" | head -50
-          # Check if URLs have trailing slashes by looking for paths ending with / before </loc>
           if curl --connect-timeout 5 --max-time 20 -s "https://ark-fid.ch/sitemap.xml" | grep -m 1 -E '<loc>https://[^<]+/</loc>'; then
             echo "✅ Sitemap URLs have trailing slashes"
           else
