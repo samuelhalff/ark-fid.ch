@@ -18,6 +18,7 @@ import {
   type ResourceCategoryId,
   type ResourceCategoryLabels,
 } from "@/src/lib/resourceCategories";
+import { loadRessourcesData } from "@/src/lib/ressources";
 
 type ArticlesSearchParams = Record<string, string | string[] | undefined>;
 
@@ -81,13 +82,10 @@ function stripMarkdown(input: string) {
 
 async function loadRessources(locale: Locale): Promise<RessourcesData> {
   try {
-    const ressourcesModule: {
-      default: Partial<RessourcesData> & {
-        Files?: unknown;
-        Articles?: unknown;
-      };
-    } = await import(`@/src/translations/${locale}/ressources.json`);
-    const data = ressourcesModule.default;
+    const data = loadRessourcesData(locale) as Partial<RessourcesData> & {
+      Files?: unknown;
+      Articles?: unknown;
+    };
     const normalizeArticles = (input: unknown): RessourceArticle[] => {
       if (!Array.isArray(input)) return [];
       return input.filter((article): article is RessourceArticle => {

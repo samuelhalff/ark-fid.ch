@@ -19,6 +19,7 @@ import {
   isGenuineTranslation,
   type ResourceArticle,
 } from "@/src/lib/articles";
+import { loadRessourcesData } from "@/src/lib/ressources";
 import {
   fallbackCategoryLabel,
   type ResourceCategoryLabels,
@@ -193,10 +194,7 @@ function getArticleStructuredDataContext(
 }
 
 async function loadRessources(locale: Locale): Promise<RessourcesDictionary> {
-  const ressourcesModule = await import(
-    `@/src/translations/${locale}/ressources.json`
-  );
-  const data = ressourcesModule.default as Partial<RessourcesDictionary>;
+  const data = loadRessourcesData(locale) as Partial<RessourcesDictionary>;
   const { Articles, ...rest } = data;
   return {
     Articles: Array.isArray(Articles) ? Articles : [],

@@ -8,6 +8,7 @@ import {
   isValidLocale,
   type Locale,
 } from "@/src/lib/i18n";
+import { loadRessourcesData } from "@/src/lib/ressources";
 
 type ArticlesSearchParams = Record<string, string | string[] | undefined>;
 
@@ -30,10 +31,7 @@ type RessourcesContent = {
 
 async function loadRessources(locale: Locale): Promise<RessourcesContent> {
   try {
-    const ressourcesModule: { default: Partial<RessourcesContent> } = await import(
-      `@/src/translations/${locale}/ressources.json`
-    );
-    const data = ressourcesModule.default;
+    const data = loadRessourcesData(locale) as Partial<RessourcesContent>;
     const {
       Articles = [],
       IntroTitle,

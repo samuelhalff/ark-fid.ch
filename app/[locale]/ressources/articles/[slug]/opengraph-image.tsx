@@ -1,5 +1,7 @@
 import { ImageResponse } from "next/og";
 import { notFound } from "next/navigation";
+import { isValidLocale, type Locale } from "@/src/lib/i18n";
+import { loadRessourcesData } from "@/src/lib/ressources";
 
 // Route Segment Config
 export const runtime = "nodejs";
@@ -47,13 +49,11 @@ export default async function Image({
 }: {
   params: { slug: string; locale: string };
 }) {
-  const { slug, locale } = params;
+  const { slug } = params;
+  const locale: Locale = isValidLocale(params.locale) ? params.locale : "fr";
   
   // Load locale-specific translations
-  const translationsModule = await import(
-    `@/src/translations/${locale}/ressources.json`
-  );
-  const ressources = translationsModule.default as RessourcesData;
+  const ressources = loadRessourcesData(locale) as RessourcesData;
   const article = ressources.Articles?.find((entry) => entry.slug === slug);
   
   // If article doesn't exist in this locale, return 404
@@ -64,8 +64,7 @@ export default async function Image({
   // For non-French locales, check if it's a genuine translation
   if (locale !== "fr") {
     try {
-      const frModule = await import(`@/src/translations/fr/ressources.json`);
-      const frRessources = frModule.default as RessourcesData;
+      const frRessources = loadRessourcesData("fr") as RessourcesData;
       const frArticle = frRessources.Articles?.find((a) => a.slug === slug);
       
       // If we can compare to FR and it's a duplicate, return 404
