@@ -511,6 +511,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ],
       "category": "odoo",
@@ -1472,6 +1476,10 @@
         },
         {
           "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
           "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ],
@@ -1878,10 +1886,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
       "category": "corporate",
@@ -3173,7 +3177,7 @@
         },
         {
           "labelKey": "Guide anti-blanchiment et registre ayants droit économiques (admin.ch)",
-          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-100620.html"
+          "url": "https://www.admin.ch/fr/nsb?id=100620"
         },
         {
           "labelKey": "Prises de position 2026 (news EXPERTsuisse)",
@@ -3224,7 +3228,7 @@
         },
         {
           "labelKey": "admin.ch – Pratique fédérale sur garantie des vices lors de cession (Loi sur le CO)",
-          "url": "https://www.admin.ch/opc/fr/classified-compilation/19110009/index.html"
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
     },
@@ -3302,7 +3306,7 @@
         },
         {
           "labelKey": "Exceptions et exonérations de TVA – Guide officiel",
-          "url": "https://www.eda.admin.ch/missions/mission-onu-geneve/fr/home/manual-regime-privileges-and-immunities/introduction/manual-taxation/value-added-tax.html"
+          "url": "https://www.mission-geneve.dfae.admin.ch/fr"
         }
       ]
     },
@@ -3337,7 +3341,7 @@
         },
         {
           "labelKey": "Organisation appropriée du contrôle interne pour SA/Sàrl : obligations légales et art. 716a & 961 CO",
-          "url": "https://www.admin.ch/opc/fr/classified-compilation/18870066/index.html"
+          "url": "https://www.fedlex.admin.ch/fr/cc/internal-law/18870066"
         }
       ]
     },
@@ -3407,7 +3411,7 @@
         },
         {
           "labelKey": "Outils reporting Odoo PME (documentation officielle)",
-          "url": "https://www.odoo.com/fr_FR/page/accounting"
+          "url": "https://www.odoo.com/app/accounting"
         },
         {
           "labelKey": "Statistique financière suisse (données et tableaux de bord officiels)",
@@ -3415,7 +3419,7 @@
         },
         {
           "labelKey": "Swissdec : reporting et normes pour paie / gestion financière",
-          "url": "https://www.swissdec.ch/fr/"
+          "url": "https://www.swissdec.ch/fr"
         }
       ]
     }
