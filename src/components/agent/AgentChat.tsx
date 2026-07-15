@@ -73,6 +73,7 @@ export type AgentChatStrings = {
     rateLimit: string;
     startHint: string;
     invalidEmailDomain: string;
+    payloadTooLarge: string;
     readyHint: string;
     reconnect: string;
     clearHistory: string;
@@ -85,6 +86,7 @@ export type AgentChatStrings = {
 
 const STORAGE_KEY = "ark-agent-chat";
 const MAX_MESSAGES = 12;
+const AGENT_CHAT_MESSAGE_MAX_LENGTH = 2000;
 /** Storage data is considered stale and cleared after 24 hours */
 const STORAGE_TTL_MS = 24 * 60 * 60 * 1000;
 const LEAD_REQUEST_TIMEOUT_MS = 30_000;
@@ -179,6 +181,7 @@ export default function AgentChat({
 
   const normalizedEmail = useMemo(() => contact.email.trim(), [contact.email]);
   const normalizedName = useMemo(() => contact.name.trim(), [contact.name]);
+  const inputTooLarge = input.trim().length > AGENT_CHAT_MESSAGE_MAX_LENGTH;
 
   const canConfirmLead = useMemo(() => {
     return (
@@ -754,6 +757,10 @@ export default function AgentChat({
   const sendMessage = async (messageText?: string) => {
     const trimmed = (messageText ?? input).trim();
     if (!trimmed || sending || sendingRef.current) return;
+    if (trimmed.length > AGENT_CHAT_MESSAGE_MAX_LENGTH) {
+      setChatError(strings.chat.payloadTooLarge);
+      return;
+    }
     if (!canChat) {
       setChatError(
         domainInvalid
@@ -824,6 +831,11 @@ export default function AgentChat({
         restoreDraft();
         setDomainInvalid(true);
         setChatError(strings.chat.invalidEmailDomain);
+        return;
+      }
+      if (payload.error === "payload_too_large") {
+        restoreDraft();
+        setChatError(strings.chat.payloadTooLarge);
         return;
       }
       if (
@@ -1001,7 +1013,17 @@ export default function AgentChat({
             <Textarea
               ref={inputRef}
               value={input}
-              onChange={(event) => setInput(event.target.value)}
+              onChange={(event) => {
+                setInput(event.target.value);
+                if (
+                  event.target.value.trim().length >
+                  AGENT_CHAT_MESSAGE_MAX_LENGTH
+                ) {
+                  setChatError(strings.chat.payloadTooLarge);
+                } else if (chatError === strings.chat.payloadTooLarge) {
+                  setChatError(null);
+                }
+              }}
               onKeyDown={handleKeyDown}
               placeholder={strings.chat.placeholder}
               rows={1}
@@ -1012,7 +1034,7 @@ export default function AgentChat({
               type="button"
               size="icon"
               onClick={() => void sendMessage()}
-              disabled={!canChat || sending || !input.trim()}
+              disabled={!canChat || sending || !input.trim() || inputTooLarge}
               aria-label={strings.chat.send}
               className="self-center !rounded-full bg-[#1f1b19] text-white shadow-sm hover:bg-[#2b2521] dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
             >

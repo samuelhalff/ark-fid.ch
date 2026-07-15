@@ -27,6 +27,7 @@
         "RateLimit": "Zu viele Anfragen. Bitte kurz warten.",
         "StartHint": "Geben Sie Ihre E-Mail ein, um zu starten.",
         "InvalidEmailDomain": "Bitte verwenden Sie eine gültige geschäftliche E-Mail-Domain.",
+        "PayloadTooLarge": "Bitte kürzen Sie Ihre Nachricht vor dem Senden.",
         "ReadyHint": "Chat bereit. Sie können unten losschreiben.",
         "ClearHistory": "Ein Fehler ist aufgetreten. Verlauf löschen.",
         "Reconnect": "Erneut verbinden"

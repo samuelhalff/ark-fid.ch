@@ -139,6 +139,10 @@ export default async function AgentPage(
         "Chat.InvalidEmailDomain",
         "Please use a valid business email domain.",
       ),
+      payloadTooLarge: text(
+        "Chat.PayloadTooLarge",
+        "Please shorten your message before sending.",
+      ),
       readyHint: text(
         "Chat.ReadyHint",
         "Chat ready. You can start typing below.",

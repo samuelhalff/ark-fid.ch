@@ -27,6 +27,7 @@
         "RateLimit": "Too many requests. Please wait a moment.",
         "StartHint": "Enter your email to start.",
         "InvalidEmailDomain": "Please use a valid business email domain.",
+        "PayloadTooLarge": "Please shorten your message before sending.",
         "ReadyHint": "Chat ready. You can start typing below.",
         "ClearHistory": "An error occurred. Clear history.",
         "Reconnect": "Reconnect"

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { ClientSecretCredential } from "@azure/identity";
 import { createHash, randomBytes, timingSafeEqual } from "crypto";
-import { z } from "zod";
 import { promises as dns } from "dns";
 import {
   extractResponseText,
@@ -13,6 +12,11 @@ import {
   type FoundryAgentReferenceCacheEntry,
 } from "@/src/lib/ai/foundryAgent";
 import { isFreshCacheEntry, runWithTimeout } from "@/src/lib/agent/resilience";
+import {
+  parseAgentChatRequest,
+  type AgentChatMessage,
+  type AgentChatRequest,
+} from "@/src/lib/agent/request-validation";
 import {
   buildSyntheticLeadSession,
   shouldBypassLeadPersistence,
@@ -38,76 +42,6 @@ const RATE_LIMIT_MAX = Number.parseInt(
 
 const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
 const agentReferenceCache = new Map<string, FoundryAgentReferenceCacheEntry>();
-
-const emptyToUndefined = (value: unknown) => {
-  if (typeof value === "string" && value.trim() === "") return undefined;
-  return value;
-};
-
-const optionalTrimmedString = (max: number) =>
-  z.preprocess(emptyToUndefined, z.string().trim().max(max).optional());
-
-const trimmedEmail = () =>
-  z.preprocess(
-    (value) => (typeof value === "string" ? value.trim() : value),
-    z.string().email()
-  );
-
-const utmSchema = z
-  .object({
-    source: optionalTrimmedString(160),
-    medium: optionalTrimmedString(160),
-    campaign: optionalTrimmedString(200),
-    term: optionalTrimmedString(160),
-    content: optionalTrimmedString(200),
-  })
-  .optional();
-
-const messageSchema = z.object({
-  role: z.enum(["user", "assistant"]),
-  content: z.string().trim().min(1).max(2000),
-});
-
-const requestSchema = z
-  .object({
-    email: trimmedEmail(),
-    name: optionalTrimmedString(120),
-    companyName: optionalTrimmedString(160),
-    phone: optionalTrimmedString(80),
-    messages: z.array(messageSchema).max(12).optional(),
-    leadOnly: z.boolean().optional(),
-    leadMessage: optionalTrimmedString(240),
-    leadId: optionalTrimmedString(120),
-    leadToken: optionalTrimmedString(240),
-    odooLeadId: z.number().int().positive().optional(),
-    sessionId: optionalTrimmedString(160),
-    pageUrl: optionalTrimmedString(600),
-    referrer: optionalTrimmedString(600),
-    utm: utmSchema,
-    turnstileToken: z.preprocess(
-      emptyToUndefined,
-      z.string().trim().min(1).optional()
-    ),
-  })
-  .superRefine((value, ctx) => {
-    const messages = value.messages ?? [];
-    if (!value.leadOnly && messages.length < 1) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: "messages must include at least one item",
-        path: ["messages"],
-      });
-    }
-    if (!value.leadOnly) {
-      if (!value.leadId || !value.leadToken) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "leadId and leadToken required",
-          path: ["leadId"],
-        });
-      }
-    }
-  });
 
 const getEnv = (key: string, fallback?: string) =>
   process.env[key] || fallback || "";
@@ -273,7 +207,7 @@ const graphTokenCache: GraphTokenCache = { token: "", expiresAt: 0 };
 const graphSiteCache = { id: "", expiresAt: 0 };
 const graphListCache = new Map<string, { id: string; expiresAt: number }>();
 
-const buildSystemPrompt = (data: z.infer<typeof requestSchema>) => {
+const buildSystemPrompt = (data: AgentChatRequest) => {
   const profile = [
     data.name ? `Name: ${data.name}` : null,
     data.email ? `Email: ${data.email}` : null,
@@ -294,8 +228,8 @@ const buildSystemPrompt = (data: z.infer<typeof requestSchema>) => {
 };
 
 const buildConversationItems = (
-  data: z.infer<typeof requestSchema>,
-  messages: z.infer<typeof messageSchema>[]
+  data: AgentChatRequest,
+  messages: AgentChatMessage[]
 ) => {
   const systemPrompt = buildSystemPrompt(data);
   return [
@@ -509,7 +443,7 @@ const appendTranscript = (current: string, entry: string) => {
 };
 
 const buildLeadCreateFields = (
-  payload: z.infer<typeof requestSchema>,
+  payload: AgentChatRequest,
   leadTokenHash: string
 ) => {
   const fields: Record<string, unknown> = {};
@@ -523,7 +457,7 @@ const buildLeadCreateFields = (
   return fields;
 };
 
-const createSharePointLead = async (payload: z.infer<typeof requestSchema>) => {
+const createSharePointLead = async (payload: AgentChatRequest) => {
   if (!leadFieldMap.tokenHash) {
     throw new Error("missing_sharepoint_lead_token_field");
   }
@@ -752,7 +686,7 @@ const verifyTurnstile = async (token: string, ip?: string) => {
 };
 
 const createOdooLeadSafe = async (
-  payload: z.infer<typeof requestSchema>,
+  payload: AgentChatRequest,
   message: string,
 ) => {
   try {
@@ -775,7 +709,7 @@ const createOdooLeadSafe = async (
 };
 
 const submitLead = async (
-  payload: z.infer<typeof requestSchema>,
+  payload: AgentChatRequest,
   message?: string
 ) => {
   if (!FORMSPARK_ACTION_URL) {
@@ -887,9 +821,16 @@ export async function POST(request: Request) {
     10
   );
 
-  let payload: z.infer<typeof requestSchema>;
+  let payload: AgentChatRequest;
   try {
-    payload = requestSchema.parse(await request.json());
+    const validation = parseAgentChatRequest(await request.json());
+    if (!validation.success) {
+      return NextResponse.json(
+        { error: validation.error },
+        { status: validation.status },
+      );
+    }
+    payload = validation.data;
   } catch (error) {
     return NextResponse.json(
       { error: "invalid_request" },
