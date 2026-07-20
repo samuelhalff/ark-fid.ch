@@ -9,13 +9,14 @@ import {
 const validBasePayload = {
   email: "client@example.com",
   leadId: "lead-1",
-  leadToken: "token-1",
+  leadToken: "t".repeat(64),
 };
 
-test("parseAgentChatRequest reports oversized chat prompts as payload_too_large", () => {
+test("parseAgentChatRequest reports oversized last user message as payload_too_large", () => {
   const result = parseAgentChatRequest({
     ...validBasePayload,
     messages: [
+      { role: "user", content: "hello" },
       {
         role: "user",
         content: "x".repeat(AGENT_CHAT_MESSAGE_MAX_LENGTH + 1),
@@ -26,6 +27,21 @@ test("parseAgentChatRequest reports oversized chat prompts as payload_too_large"
   assert.equal(result.success, false);
   assert.equal(result.error, "payload_too_large");
   assert.equal(result.status, 413);
+});
+
+test("parseAgentChatRequest accepts oversized assistant messages in history", () => {
+  const result = parseAgentChatRequest({
+    ...validBasePayload,
+    messages: [
+      {
+        role: "assistant",
+        content: "x".repeat(AGENT_CHAT_MESSAGE_MAX_LENGTH * 2),
+      },
+      { role: "user", content: "short reply" },
+    ],
+  });
+
+  assert.equal(result.success, true);
 });
 
 test("parseAgentChatRequest accepts messages up to the configured chat limit", () => {

@@ -14,7 +14,6 @@ import {
 import { isFreshCacheEntry, runWithTimeout } from "@/src/lib/agent/resilience";
 import {
   parseAgentChatRequest,
-  AGENT_CHAT_MESSAGE_MAX_LENGTH,
   type AgentChatMessage,
   type AgentChatRequest,
 } from "@/src/lib/agent/request-validation";
@@ -1109,7 +1108,7 @@ export async function POST(request: Request) {
       timeoutMs
     );
 
-    const reply = extractResponseText(response).slice(0, AGENT_CHAT_MESSAGE_MAX_LENGTH);
+    const reply = extractResponseText(response);
     if (!reply) {
       throw new Error("Empty response from agent");
     }

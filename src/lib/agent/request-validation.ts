@@ -30,7 +30,7 @@ const utmSchema = z
 
 export const agentChatMessageSchema = z.object({
   role: z.enum(["user", "assistant"]),
-  content: z.string().trim().min(1).max(AGENT_CHAT_MESSAGE_MAX_LENGTH),
+  content: z.string().trim().min(1),
 });
 
 export const agentChatRequestSchema = z
@@ -88,10 +88,6 @@ export type AgentChatRequestValidationResult =
       status: 400 | 401 | 413;
     };
 
-const isPayloadTooLargeIssue = (issue: z.ZodIssue) =>
-  issue.code === z.ZodIssueCode.too_big &&
-  (issue.path.includes("messages") || issue.path.includes("leadMessage"));
-
 const isLeadRequiredIssue = (issue: z.ZodIssue) =>
   issue.code === z.ZodIssueCode.custom && issue.path.includes("leadId");
 
@@ -99,29 +95,22 @@ export function parseAgentChatRequest(
   value: unknown,
 ): AgentChatRequestValidationResult {
   const result = agentChatRequestSchema.safeParse(value);
-  if (result.success) return { success: true, data: result.data };
-
-  const payloadTooLarge = result.error.issues.some(isPayloadTooLargeIssue);
-  if (payloadTooLarge) {
-    return {
-      success: false,
-      error: "payload_too_large",
-      status: 413,
-    };
+  if (!result.success) {
+    const leadRequired = result.error.issues.some(isLeadRequiredIssue);
+    if (leadRequired) {
+      return { success: false, error: "lead_required", status: 401 };
+    }
+    return { success: false, error: "invalid_request", status: 400 };
   }
 
-  const leadRequired = result.error.issues.some(isLeadRequiredIssue);
-  if (leadRequired) {
-    return {
-      success: false,
-      error: "lead_required",
-      status: 401,
-    };
+  // Only validate the latest user message for length — not the full history.
+  // Previous assistant responses and historical messages can be arbitrarily
+  // long (the Foundry API itself enforces a 1.5M-char per-message limit).
+  const messages = result.data.messages ?? [];
+  const lastUser = [...messages].reverse().find((m) => m.role === "user");
+  if (lastUser && lastUser.content.length > AGENT_CHAT_MESSAGE_MAX_LENGTH) {
+    return { success: false, error: "payload_too_large", status: 413 };
   }
 
-  return {
-    success: false,
-    error: "invalid_request",
-    status: 400,
-  };
+  return { success: true, data: result.data };
 }
