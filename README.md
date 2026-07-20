@@ -118,8 +118,8 @@ Environment (API key or Entra ID / DefaultAzureCredential):
 ```
 # Required
 AZURE_AGENT_ENDPOINT=...
-# Use the quote agent for chat. You can optionally pin a version (e.g. ark-quote-agent:20).
-AZURE_AGENT_CHAT_NAME=ark-quote-agent:20
+# Use the quote agent for chat. You can optionally pin a version (e.g. ark-quote-agent:21).
+AZURE_AGENT_CHAT_NAME=ark-quote-agent:21
 
 # Auth (one of):
 # - API key (preferred for Foundry endpoints):
