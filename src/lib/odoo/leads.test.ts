@@ -29,3 +29,55 @@ test("buildOdooLeadValues falls back to company name before email", () => {
 
   assert.equal(values.name, "Sender SA");
 });
+
+test("postOdooLeadNote retries once and reports failures", async (t) => {
+  process.env.ODOO_URL = "https://odoo.test";
+  process.env.ODOO_DB = "testdb";
+  process.env.ODOO_TOKEN = "token";
+  t.after(() => {
+    delete process.env.ODOO_URL;
+    delete process.env.ODOO_DB;
+    delete process.env.ODOO_TOKEN;
+  });
+  const errorLog = t.mock.method(console, "error", () => {});
+  let calls = 0;
+  const fetchMock = t.mock.method(globalThis, "fetch", async () => {
+    calls += 1;
+    return new Response('{"error":"boom"}', { status: 500 });
+  });
+
+  const { postOdooLeadNote } = await import("./leads.ts");
+  const ok = await postOdooLeadNote(42, "hello");
+
+  assert.equal(ok, false);
+  assert.equal(calls, 2);
+  assert.equal(errorLog.mock.callCount(), 2);
+  const [firstLogLine] = errorLog.mock.calls[0].arguments;
+  assert.match(String(firstLogLine), /lead 42/);
+  fetchMock.mock.restore();
+});
+
+test("postOdooLeadNote succeeds on retry after transient failure", async (t) => {
+  process.env.ODOO_URL = "https://odoo.test";
+  process.env.ODOO_DB = "testdb";
+  process.env.ODOO_TOKEN = "token";
+  t.after(() => {
+    delete process.env.ODOO_URL;
+    delete process.env.ODOO_DB;
+    delete process.env.ODOO_TOKEN;
+  });
+  t.mock.method(console, "error", () => {});
+  let calls = 0;
+  const fetchMock = t.mock.method(globalThis, "fetch", async () => {
+    calls += 1;
+    if (calls === 1) return new Response("oops", { status: 502 });
+    return new Response("[101]", { status: 200 });
+  });
+
+  const { postOdooLeadNote } = await import("./leads.ts");
+  const ok = await postOdooLeadNote(43, "hello again");
+
+  assert.equal(ok, true);
+  assert.equal(calls, 2);
+  fetchMock.mock.restore();
+});

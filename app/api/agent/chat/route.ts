@@ -701,9 +701,12 @@ const createOdooLeadSafe = async (
       referrer: payload.referrer,
     });
   } catch (error) {
-    if (DEBUG_VALIDATION) {
-      console.warn("[agent] Odoo lead creation failed", error);
-    }
+    // A failed create can cost the lead entirely (crm_unavailable below), so
+    // it must always be visible in logs — message only, no contact data.
+    console.error(
+      "[agent] Odoo lead creation failed:",
+      error instanceof Error ? error.message : String(error),
+    );
     return null;
   }
 };
@@ -888,6 +891,9 @@ export async function POST(request: Request) {
 
       odooLeadId = await createOdooLeadSafe(payload, leadMessage);
       if (!odooLeadId) {
+        console.error(
+          "[agent] Lead lost: CRM unavailable during lead-only confirmation",
+        );
         return NextResponse.json(
           { error: "crm_unavailable" },
           { status: 502 }

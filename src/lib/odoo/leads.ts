@@ -175,7 +175,10 @@ const odooJson2 = async (
   );
   const text = await res.text();
   if (!res.ok) {
-    throw new Error(`Odoo ${model}.${method} failed (${res.status})`);
+    // Response body is needed to diagnose API failures; cap it and strip
+    // newlines so it stays a single sanitized log line.
+    const detail = text.replace(/\s+/g, " ").slice(0, 300);
+    throw new Error(`Odoo ${model}.${method} failed (${res.status}) ${detail}`);
   }
   return text ? JSON.parse(text) : {};
 };
@@ -285,18 +288,28 @@ export async function createOdooWebsiteLead(input: WebsiteLeadInput) {
 export async function postOdooLeadNote(
   leadId: number | undefined,
   note: string,
+  { retries = 1 }: { retries?: number } = {},
 ) {
   const config = getOdooConfig();
   if (!config || !leadId || !Number.isFinite(leadId)) return false;
 
-  try {
-    await odooJson2(config, "crm.lead", "message_post", {
-      ids: [leadId],
-      body: plainTextToHtml(note),
-      subtype_xmlid: "mail.mt_note",
-    });
-    return true;
-  } catch {
-    return false;
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    try {
+      await odooJson2(config, "crm.lead", "message_post", {
+        ids: [leadId],
+        body: plainTextToHtml(note),
+        subtype_xmlid: "mail.mt_note",
+      });
+      return true;
+    } catch (error) {
+      // Conversation context is lost for good if this note never lands, so
+      // failures must be visible in server logs (message only — no note body,
+      // no contact data).
+      console.error(
+        `[odoo] message_post failed for lead ${leadId} (attempt ${attempt + 1}/${retries + 1}):`,
+        error instanceof Error ? error.message : String(error),
+      );
+    }
   }
+  return false;
 }
