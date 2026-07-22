@@ -12,8 +12,8 @@
     "Title": "Administrative and finance outsourcing for SMEs",
     "Subtitle": "Delegate, focus, grow",
     "Intro": [
-      "We take care of your accounting, payroll, and administrative management, allowing you to concentrate on your business development.",
-      "Our outsourcing solutions are flexible and tailored to your needs, ensuring efficiency and cost control.",
+      "With a fiduciary you can outsource your entire back office: bookkeeping and accounting, payroll and social insurance administration, invoicing, VAT and day-to-day admin. The benefit is twofold: you gain specialised expertise without hiring, and you turn fixed overhead into a service that scales with your actual activity.",
+      "From Geneva, Ark Fiduciaire supports SMEs, entrepreneurs and group subsidiaries in Geneva, Lausanne, the canton of Vaud and across French-speaking Switzerland, with flexible solutions that keep efficiency high and costs under control.",
       "We set simple SLAs and send a monthly status so you always know what is done."
     ],
     "ServicesTitle": "Our outsourcing services",
@@ -59,6 +59,24 @@
         ]
       },
       {
+        "Title": "Payroll outsourcing in Switzerland: Geneva, Lausanne and Romandy",
+        "Body": [
+          "Payroll outsourcing with a fiduciary covers the full salary cycle: monthly payslips, social insurance declarations (AVS/OASI, LPP/BVG occupational pensions, LAA/UVG accident insurance, family allowances), withholding tax administration, annual salary certificates and electronic filings through Swissdec-certified software. We also handle employee arrivals and departures, employer attestations and correspondence with the compensation funds.",
+          "This model suits SMEs that do not want to build an internal payroll function, scale-ups whose headcount changes quickly, and international groups looking for a local partner who masters Swiss specifics, including cross-border workers.",
+          "Outsourcing payroll keeps salary data confidential from internal teams, secures lasting compliance with social and tax rules that change every year, and guarantees continuity of processing during absences or departures: your employees are paid accurately and on time, every month.",
+          "Our payroll team operates from our Geneva office and serves employers based in Lausanne, throughout the canton of Vaud and elsewhere in French-speaking Switzerland, working remotely through secure channels or on site when needed."
+        ]
+      },
+      {
+        "Title": "Accounting outsourcing in Geneva and French-speaking Switzerland",
+        "Body": [
+          "Accounting outsourcing includes bookkeeping and data entry, supplier invoice and expense processing, bank reconciliations, VAT returns, monthly or quarterly closings and the preparation of annual financial statements under the Swiss Code of Obligations.",
+          "We work primarily on Odoo, where Ark Fiduciaire is a recognised specialist: digitised documents, automated invoice recognition, connected bank feeds and dashboards you can consult in real time. If you already use another tool, we can work directly in your existing environment.",
+          "The transition follows clear steps: review of the current setup, takeover of balances and history, chart of accounts configuration, definition of document flows, then a short parallel run before the full handover. You remain the owner of your data and can access it at any time.",
+          "The result: up-to-date books, reliable figures to steer your business and a single point of contact who coordinates with your auditor, your bank or the tax administration whenever needed."
+        ]
+      },
+      {
         "Title": "Operating model",
         "Body": [
           "We define channels, deadlines, approvals, reporting formats and escalation rules from the start.",
@@ -66,9 +84,10 @@
         ]
       },
       {
-        "Title": "Cost drivers and control",
+        "Title": "Costs, quotes and control",
         "Body": [
           "Costs depend on transaction volume, number of contacts, tools, reporting frequency and coordination depth.",
+          "For an immediate, no-obligation estimate, use our instant online quote or contact us to discuss your situation; we then confirm the scope and fee in a written proposal.",
           "You keep visibility on processed tasks, blockers and decisions required."
         ]
       }
