@@ -106,10 +106,6 @@
         {
           "labelKey": "Registre du commerce - Canton de Genève",
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
-        },
-        {
-          "labelKey": "Registre du commerce - Canton de Genève",
-          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ],
       "category": "corporate",
@@ -306,10 +302,6 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr/"
         }
       ],
       "category": "payroll",
