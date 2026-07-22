@@ -2,6 +2,7 @@
 
 import { FC, useMemo } from "react";
 import { cn } from "@/src/lib/utils";
+import { trackEvent } from "@/src/lib/analytics";
 import { Card, CardContent } from "@/src/components/ui/card";
 import {
   Form,
@@ -123,8 +124,16 @@ const ContactForm: FC<ContactFormProps> = ({
     mode: "onTouched",
   });
 
+  const formStartTracked = React.useRef(false);
+  const handleFormFocus = () => {
+    if (formStartTracked.current) return;
+    formStartTracked.current = true;
+    trackEvent("contact_form_start", { form_id: "contact" });
+  };
+
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setSending(true);
+    let errorType = "network";
     const goHome = () => {
       router.push(redirectPath);
     };
@@ -141,7 +150,11 @@ const ContactForm: FC<ContactFormProps> = ({
           referrer: document.referrer || "",
         }),
       });
-      if (!res.ok) throw new Error("Network response was not ok");
+      if (!res.ok) {
+        errorType = res.status >= 500 ? "http_5xx" : "http_4xx";
+        throw new Error("Network response was not ok");
+      }
+      trackEvent("generate_lead", { method: "contact_form", form_id: "contact" });
       form.reset(defaultValues);
       toast.success(strings.toasts.success, {
         action: { label: "Close", onClick: () => toast.dismiss },
@@ -150,6 +163,7 @@ const ContactForm: FC<ContactFormProps> = ({
         onDismiss: goHome,
       });
     } catch (e) {
+      trackEvent("form_submit_error", { form_id: "contact", error_type: errorType });
       toast.error(strings.toasts.error || "Something went wrong.");
     } finally {
       setSending(false);
@@ -186,6 +200,7 @@ const ContactForm: FC<ContactFormProps> = ({
                 className="flex flex-col gap-6"
                 id="contact-form"
                 onSubmit={form.handleSubmit(onSubmit)}
+                onFocusCapture={handleFormFocus}
                 aria-busy={sending}
               >
                 <div className="flex flex-col md:flex-row justify-between gap-4">

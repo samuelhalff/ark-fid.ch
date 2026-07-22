@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { WhatsAppIcon } from "@/src/components/icons/WhatsAppIcon";
 import { cn } from "@/src/lib/utils";
+import { trackEvent } from "@/src/lib/analytics";
 import {
   WHATSAPP_NUMBER,
   WHATSAPP_URL,
@@ -105,6 +106,12 @@ export default function WhatsAppLink({
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`${ctaLabel} ${WHATSAPP_NUMBER}`}
+        onClick={() =>
+          trackEvent("contact_channel_click", {
+            channel: "whatsapp",
+            placement: "badge",
+          })
+        }
         className={cn(
           "group inline-flex max-w-full items-center gap-2.5 text-left text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-md",
           className
@@ -133,6 +140,12 @@ export default function WhatsAppLink({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={`${ctaLabel} ${WHATSAPP_NUMBER}`}
+      onClick={() =>
+        trackEvent("contact_channel_click", {
+          channel: "whatsapp",
+          placement: "floating",
+        })
+      }
       style={floatingBottom ? { bottom: floatingBottom } : undefined}
       className={cn(
         "whatsapp-float-entry group fixed right-4 z-40 bottom-[var(--floating-secondary-bottom)] flex size-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-md transition-colors duration-200 hover:bg-[#1da851] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366]/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:right-6",

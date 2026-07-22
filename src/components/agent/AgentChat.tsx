@@ -7,6 +7,7 @@ import { Input } from "@/src/components/ui/input";
 import { Textarea } from "@/src/components/ui/textarea";
 import { Button } from "@/src/components/ui/button";
 import { cn } from "@/src/lib/utils";
+import { trackEvent } from "@/src/lib/analytics";
 import { ArrowUp, CircleNotch } from "@phosphor-icons/react";
 
 type Role = "user" | "assistant";
@@ -623,6 +624,7 @@ export default function AgentChat({
 
       setLeadConfirmed(true);
       setConfirmedEmail(normalizedEmail);
+      trackEvent("generate_lead", { method: "instant_quote", form_id: "agent_lead" });
       setLeadMeta({
         id: payload.leadId,
         token: payload.leadToken,
@@ -754,6 +756,13 @@ export default function AgentChat({
     }
   };
 
+  const agentOpenTracked = useRef(false);
+  useEffect(() => {
+    if (agentOpenTracked.current) return;
+    agentOpenTracked.current = true;
+    trackEvent("agent_open");
+  }, []);
+
   const sendMessage = async (messageText?: string) => {
     const trimmed = (messageText ?? input).trim();
     if (!trimmed || sending || sendingRef.current) return;
@@ -861,6 +870,9 @@ export default function AgentChat({
       const reply = payload.reply ?? "";
       if (!res.ok || !reply) {
         throw new Error("Agent response invalid");
+      }
+      if (!nextMessages.some((message) => message.role === "assistant")) {
+        trackEvent("agent_first_message");
       }
       setMessages((prev) => [
         ...prev,
