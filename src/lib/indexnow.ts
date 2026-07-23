@@ -36,6 +36,9 @@ export function parseIndexNowUrls(
   const out = new Set<string>();
   for (const entry of value) {
     if (typeof entry !== "string" || entry.length > 2048) return { success: false };
+    // Reject raw markers URL normalization would hide: any explicit port
+    // (":<digits>" after the host), an "@" (credentials), or a "#" fragment.
+    if (/#/.test(entry) || /@/.test(entry)) return { success: false };
     let url: URL;
     try {
       url = new URL(entry);
@@ -48,7 +51,10 @@ export function parseIndexNowUrls(
       url.port !== "" ||
       url.username !== "" ||
       url.password !== "" ||
-      url.hash !== ""
+      url.hash !== "" ||
+      // Reject an explicit ":<port>" even when it equals the default (443),
+      // which URL normalizes away.
+      new RegExp(`^https://${INDEXNOW_HOST}:`).test(entry)
     ) {
       return { success: false };
     }

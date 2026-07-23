@@ -889,8 +889,16 @@ export async function POST(request: Request) {
       // Return synthetic tokens so the rest of the chat flow works normally.
       if (isInternalEmail(payload.email)) {
         // Turnstile-gate internal minting too, so an @ark-fid.ch claim is not
-        // a free path to a signed session / the paid LLM.
-        if (TURNSTILE_SECRET_KEY) {
+        // a free path to a signed session / the paid LLM. Fail closed in
+        // production: if Turnstile isn't configured, do not mint a session.
+        if (!TURNSTILE_SECRET_KEY) {
+          if (process.env.NODE_ENV === "production") {
+            return NextResponse.json(
+              { error: "missing_configuration" },
+              { status: 500 }
+            );
+          }
+        } else {
           if (!payload.turnstileToken) {
             return NextResponse.json({ error: "turnstile_required" }, { status: 400 });
           }
@@ -1037,47 +1045,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const apiKey = getEnv("AZURE_AGENT_API_KEY");
-    let accessToken: string | undefined;
-    let authHeaders: Record<string, string> | undefined;
-    try {
-      const credential = getAzureCredentialFromEnv();
-      accessToken = await getFoundryAccessToken(credential);
-      authHeaders = { Authorization: `Bearer ${accessToken}` };
-    } catch (error) {
-      if (!apiKey) {
-        throw error;
-      }
-      if (DEBUG_VALIDATION) {
-        console.warn("[agent] Azure token acquisition failed; using API key");
-      }
-      authHeaders = { "api-key": apiKey };
-    }
-    if (!authHeaders) {
-      return NextResponse.json(
-        { error: "missing_configuration" },
-        { status: 500 }
-      );
-    }
-
-    const baseUrl = `${azureEndpoint.replace(/\/+$/, "")}/openai`;
-    let agentRef;
-    try {
-      agentRef = await resolveFoundryAgentReference({
-        endpoint: azureEndpoint,
-        agentName,
-        apiVersion,
-        token: accessToken,
-        headers: authHeaders,
-        cache: agentReferenceCache,
-      });
-    } catch (error) {
-      if (DEBUG_VALIDATION) {
-        console.warn("[agent] Agent metadata lookup failed; using name-only ref");
-      }
-      agentRef = parseAgentReference(agentName);
-    }
-
+    // Authenticate the lead session BEFORE any Azure/Foundry call, so a forged
+    // request cannot trigger paid-backend auth/metadata traffic on its way to
+    // a 401.
     const includeTranscript = !isMessagesListConfigured();
     let leadFields: Record<string, unknown> = {};
     if (syntheticSession) {
@@ -1142,6 +1112,47 @@ export async function POST(request: Request) {
         { error: "invalid_request" },
         { status: 400 }
       );
+    }
+
+    const apiKey = getEnv("AZURE_AGENT_API_KEY");
+    let accessToken: string | undefined;
+    let authHeaders: Record<string, string> | undefined;
+    try {
+      const credential = getAzureCredentialFromEnv();
+      accessToken = await getFoundryAccessToken(credential);
+      authHeaders = { Authorization: `Bearer ${accessToken}` };
+    } catch (error) {
+      if (!apiKey) {
+        throw error;
+      }
+      if (DEBUG_VALIDATION) {
+        console.warn("[agent] Azure token acquisition failed; using API key");
+      }
+      authHeaders = { "api-key": apiKey };
+    }
+    if (!authHeaders) {
+      return NextResponse.json(
+        { error: "missing_configuration" },
+        { status: 500 }
+      );
+    }
+
+    const baseUrl = `${azureEndpoint.replace(/\/+$/, "")}/openai`;
+    let agentRef;
+    try {
+      agentRef = await resolveFoundryAgentReference({
+        endpoint: azureEndpoint,
+        agentName,
+        apiVersion,
+        token: accessToken,
+        headers: authHeaders,
+        cache: agentReferenceCache,
+      });
+    } catch (error) {
+      if (DEBUG_VALIDATION) {
+        console.warn("[agent] Agent metadata lookup failed; using name-only ref");
+      }
+      agentRef = parseAgentReference(agentName);
     }
 
     // Log user message (skip for internal users – no SharePoint record exists)
