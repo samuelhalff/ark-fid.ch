@@ -396,7 +396,6 @@ function buildSystemPrompt(frJson, trendData = null, topicAnalysis = null) {
         ]
       : [];
   const recentSlugs = (Array.isArray(frJson.Articles) ? frJson.Articles : [])
-    .slice(-12)
     .map((a) => a.slug)
     .filter(Boolean);
 
@@ -513,7 +512,7 @@ function buildSystemPrompt(frJson, trendData = null, topicAnalysis = null) {
     "- Inspiration privée autorisée: tu peux lire des concurrents pour comprendre le sujet, mais tu ne dois jamais publier leur URL comme source.",
     "- INTERDIT: ne JAMAIS citer de sites concurrents ou de cabinets (fiduciaires, treuhand, avocats, notaires, comptables, experts-comptables, consultants, intégrateurs Odoo, steuerberater, kanzlei, Big 4, etc.). Aucun lien vers un cabinet concurrent.",
     "- Chaque domaine ne doit être représenté qu'une seule fois dans les références (pas de doublons de domaine).",
-    `Slugs récents à éviter: ${recentSlugs.join(", ") || "aucun"}.`,
+    `Slugs existants — INTERDIT de proposer un sujet recouvrant substantiellement un slug existant (un contrôle de similarité sur tous les articles fera échouer la publication) : ${recentSlugs.join(", ") || "aucun"}.`,
     `Services à promouvoir: ${SERVICES.join(", ")}.`,
     "",
     "Format de sortie STRICT (application/json):",
@@ -570,7 +569,6 @@ function buildResearchPrompt(
   })();
 
   const recentSlugs = (Array.isArray(frJson.Articles) ? frJson.Articles : [])
-    .slice(-12)
     .map((a) => a.slug)
     .filter(Boolean);
 
@@ -635,7 +633,7 @@ function buildResearchPrompt(
     "- Inspiration privée autorisée: tu peux lire des concurrents pour comprendre le sujet, mais tu ne dois jamais publier leur URL comme source.",
     "- INTERDIT: ne JAMAIS citer de sites concurrents ou de cabinets (fiduciaires, treuhand, avocats, notaires, comptables, experts-comptables, consultants, intégrateurs Odoo, steuerberater, kanzlei, Big 4, etc.). Aucun lien vers un cabinet concurrent.",
     "- STRICT: chaque référence doit provenir d'un domaine différent (1 domaine = 1 lien). Si tu donnes 12 références, ce sont 12 domaines distincts, sinon la réponse est rejetée.",
-    `Slugs récents à éviter: ${recentSlugs.join(", ") || "aucun"}.`,
+    `Slugs existants — INTERDIT de proposer un sujet recouvrant substantiellement un slug existant (un contrôle de similarité sur tous les articles fera échouer la publication) : ${recentSlugs.join(", ") || "aucun"}.`,
     `Services à promouvoir: ${SERVICES.join(", ")}.`,
     "",
     seoSuggestions?.primaryKeyword
@@ -2115,7 +2113,6 @@ function normalizeArticleDates(article) {
 
 function buildRetryPrompt(basePrompt, error, frData) {
   const recentSlugs = (Array.isArray(frData.Articles) ? frData.Articles : [])
-    .slice(-12)
     .map((a) => a.slug)
     .filter(Boolean);
   let hint = `⚠️ Correction requise (${error.message}). Génère un nouvel article en respectant les contraintes précédentes.`;
@@ -2123,7 +2120,7 @@ function buildRetryPrompt(basePrompt, error, frData) {
   if (error.code === "DUPLICATE_SLUG") {
     hint =
       `⚠️ Le slug "${error.slug}" existe déjà. Choisis un nouveau sujet et un slug unique.\n` +
-      `Slugs récents à éviter: ${recentSlugs.join(", ") || "aucun"}.`;
+      `Slugs existants — INTERDIT de proposer un sujet recouvrant substantiellement un slug existant (un contrôle de similarité sur tous les articles fera échouer la publication) : ${recentSlugs.join(", ") || "aucun"}.`;
   } else if (error.code === "DUPLICATE_TITLE") {
     hint =
       `⚠️ Le titre proposé duplique un article récent (${error.previousTitle}).\n` +

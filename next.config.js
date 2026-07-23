@@ -225,6 +225,20 @@ const baseConfig = {
       },
       // Consolidated article redirects — avoid 404s for merged content
       {
+        source:
+          "/:locale/ressources/articles/succession-entrepreneur-preparer-patrimoine-societe-fiscalite-suisse-2026/",
+        destination:
+          "/:locale/ressources/articles/succession-entrepreneur-suisse-preparer-patrimoine-societe-fiscalite-2026/",
+        permanent: true,
+      },
+      {
+        source:
+          "/:locale/ressources/articles/succession-entrepreneur-preparer-patrimoine-societe-fiscalite-suisse-2026",
+        destination:
+          "/:locale/ressources/articles/succession-entrepreneur-suisse-preparer-patrimoine-societe-fiscalite-2026/",
+        permanent: true,
+      },
+      {
         source: "/:locale/ressources/articles/preparer-pme-independants-tva-2026/",
         destination:
           "/:locale/ressources/articles/optimiser-declaration-tva-suisse-2026-erreurs-courantes-et-guides-concrets-pme-independants/",

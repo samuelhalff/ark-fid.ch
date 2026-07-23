@@ -430,10 +430,71 @@ function findRecentTopicConflict(articles, newArticle, options = {}) {
   return null;
 }
 
+/**
+ * All-time near-duplicate gate. The windowed checks above only look at the
+ * last N articles, which let "domiciliation substance risques" clones slip
+ * through months apart (Feb/Jun/Jul 2026). This compares the new article
+ * against the ENTIRE corpus.
+ *
+ * Thresholds are calibrated on measured corpus pairs: true duplicates score
+ * title overlap 5–7 at ratio 0.83–1.00; distinct same-family articles (e.g.
+ * "Odoo TVA setup" vs "Odoo 18 release notes") sit at exactly 3/0.75 with LOW
+ * topic-token similarity (≤0.14), while borderline true duplicates at 3/0.75
+ * show HIGH topic similarity (≥0.43). Hence: a strong title match alone, or a
+ * weaker title match backed by topic similarity.
+ */
+function findAllTimeNearDuplicate(articles, newArticle) {
+  const pool = Array.isArray(articles) ? articles : [];
+  const nextFingerprint = getTitleFingerprint(newArticle);
+  const nextTokens = getTopicTokens(newArticle);
+
+  for (const article of pool) {
+    if (!article || article.slug === newArticle?.slug) continue;
+
+    const titleDetails = getTitleSimilarityDetails(
+      nextFingerprint,
+      getTitleFingerprint(article),
+    );
+    const topicDetails = getTopicSimilarityDetails(
+      nextTokens,
+      getTopicTokens(article),
+    );
+
+    const strongTitleMatch =
+      titleDetails.overlap >= 4 && titleDetails.overlapRatio >= 0.8;
+    const supportedTitleMatch =
+      titleDetails.overlap >= 3 &&
+      titleDetails.overlapRatio >= 0.75 &&
+      topicDetails.score >= 0.3;
+    if (strongTitleMatch || supportedTitleMatch) {
+      return {
+        code: "ALL_TIME_TITLE_DUPLICATE",
+        previousSlug: article.slug,
+        previousTitle: article.title,
+        overlap: titleDetails.overlap,
+        overlapRatio: titleDetails.overlapRatio,
+        topicScore: topicDetails.score,
+      };
+    }
+
+    if (topicDetails.score >= 0.55 && topicDetails.overlap >= 6) {
+      return {
+        code: "ALL_TIME_TOPIC_DUPLICATE",
+        previousSlug: article.slug,
+        previousTitle: article.title,
+        similarity: topicDetails.score,
+      };
+    }
+  }
+
+  return null;
+}
+
 module.exports = {
   TOPIC_KEYWORDS,
   describeTopic,
   detectTopic,
+  findAllTimeNearDuplicate,
   findRecentTitleConflict,
   findRecentTopicConflict,
   getTitleFingerprint,

@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const {
   describeTopic,
+  findAllTimeNearDuplicate,
   findRecentTitleConflict,
   findRecentTopicConflict,
 } = require("./lib/articleTopicGuardrails");
@@ -84,6 +85,15 @@ if (topicConflict) {
   );
 }
 
+// The windowed checks above miss duplicates published months apart (the
+// rotation window rolls past them). Compare against the whole corpus too.
+const allTimeDuplicate = findAllTimeNearDuplicate(sorted.slice(1), latest);
+if (allTimeDuplicate) {
+  fail(
+    `Latest article near-duplicates existing content (all-time check, ${allTimeDuplicate.code}): "${latest.title}" vs "${allTimeDuplicate.previousTitle}" (${allTimeDuplicate.previousSlug})`,
+  );
+}
+
 console.log(
-  `✅ Latest FR article passes taxonomy, length, duplicate-title and recent-topic guardrails (${TOPIC_ROTATION_WINDOW}-article window)`,
+  `✅ Latest FR article passes taxonomy, length, duplicate-title, recent-topic and all-time near-duplicate guardrails (${TOPIC_ROTATION_WINDOW}-article window + full corpus)`,
 );
