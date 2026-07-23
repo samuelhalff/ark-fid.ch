@@ -245,7 +245,12 @@ const TITLE_TOKEN_STOP_WORDS = new Set([
   "votre",
 ]);
 
-const SAME_TOPIC_DUPLICATE_MIN_SCORE = 0.12;
+// Measured corpus pairs: genuinely different articles in the same topic
+// family (e.g. Odoo QR-invoice/bank reconciliation vs Odoo access control)
+// score ≤0.15; every confirmed duplicate scores ≥0.20. True clones are also
+// caught independently by findAllTimeNearDuplicate below, so this windowed
+// heuristic no longer needs to be aggressive.
+const SAME_TOPIC_DUPLICATE_MIN_SCORE = 0.18;
 const SAME_TOPIC_DUPLICATE_MIN_OVERLAP = 4;
 
 function normalizeGuardrailText(input) {

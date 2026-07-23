@@ -225,6 +225,186 @@ const baseConfig = {
       },
       // Consolidated article redirects — avoid 404s for merged content
       {
+        source: "/:locale/ressources/articles/odoo-18-nouveautes-comptabilite-fiduciaire-geneve/",
+        destination: "/:locale/services/odoo/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/odoo-18-nouveautes-comptabilite-fiduciaire-geneve",
+        destination: "/:locale/services/odoo/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/odoo-18-nouveautes-pour-gestion-comptable-et-paie-geneve-2025/",
+        destination: "/:locale/services/odoo/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/odoo-18-nouveautes-pour-gestion-comptable-et-paie-geneve-2025",
+        destination: "/:locale/services/odoo/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/odoo-18-paie-comptabilite-nouveautes-geneve-2025/",
+        destination: "/:locale/services/odoo/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/odoo-18-paie-comptabilite-nouveautes-geneve-2025",
+        destination: "/:locale/services/odoo/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/optimiser-les-charges-sociales-en-suisse-romande-2026-erreurs-frequentes-pour-pme-independants/",
+        destination: "/:locale/ressources/articles/optimisation-charges-sociales-suisse-romande-guide-independants-pme-2025/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/optimiser-les-charges-sociales-en-suisse-romande-2026-erreurs-frequentes-pour-pme-independants",
+        destination: "/:locale/ressources/articles/optimisation-charges-sociales-suisse-romande-guide-independants-pme-2025/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/creer-sarl-ou-sa-geneve-differences-couts-gouvernance-fiscalite/",
+        destination: "/:locale/ressources/articles/creer-sarl-sa-geneve-criteres-capital-fiscalite-gouvernance-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/creer-sarl-ou-sa-geneve-differences-couts-gouvernance-fiscalite",
+        destination: "/:locale/ressources/articles/creer-sarl-sa-geneve-criteres-capital-fiscalite-gouvernance-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/creer-une-sarl-ou-une-sa-geneve-criteres-couts-gouvernance-fiscalite/",
+        destination: "/:locale/ressources/articles/creer-sarl-sa-geneve-criteres-capital-fiscalite-gouvernance-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/creer-une-sarl-ou-une-sa-geneve-criteres-couts-gouvernance-fiscalite",
+        destination: "/:locale/ressources/articles/creer-sarl-sa-geneve-criteres-capital-fiscalite-gouvernance-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/lba-fiduciaire-obligations-kyc-mros-2026/",
+        destination: "/:locale/ressources/articles/lba-aml-obligations-kyc-risques-fiduciaire-suisse/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/lba-fiduciaire-obligations-kyc-mros-2026",
+        destination: "/:locale/ressources/articles/lba-aml-obligations-kyc-risques-fiduciaire-suisse/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/odoo-suisse-comptabilite-parametrage-tva/",
+        destination: "/:locale/ressources/articles/odoo-comptabilite-tva-suisse-parametrage-controles/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/odoo-suisse-comptabilite-parametrage-tva",
+        destination: "/:locale/ressources/articles/odoo-comptabilite-tva-suisse-parametrage-controles/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/odoo-suisse-parametrage-comptabilite-tva-erreurs/",
+        destination: "/:locale/ressources/articles/odoo-comptabilite-tva-suisse-parametrage-controles/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/odoo-suisse-parametrage-comptabilite-tva-erreurs",
+        destination: "/:locale/ressources/articles/odoo-comptabilite-tva-suisse-parametrage-controles/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/odoo-suisse-parametrage-tva-erreurs/",
+        destination: "/:locale/ressources/articles/odoo-comptabilite-tva-suisse-parametrage-controles/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/odoo-suisse-parametrage-tva-erreurs",
+        destination: "/:locale/ressources/articles/odoo-comptabilite-tva-suisse-parametrage-controles/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/registre-commerce-suisse-documents-delais-erreurs-couts/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/registre-commerce-suisse-documents-delais-erreurs-couts",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/registre-commerce-suisse-guide-inscription-documents-delais-erreurs-couts-2026/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/registre-commerce-suisse-guide-inscription-documents-delais-erreurs-couts-2026",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/registre-commerce-suisse-inscription-guide-pratique/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/registre-commerce-suisse-inscription-guide-pratique",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/domiciliation-suisse-entreprise-verifications-substance-risques-2026/",
+        destination: "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/domiciliation-suisse-entreprise-verifications-substance-risques-2026",
+        destination: "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/domiciliation-suisse-risques-substance-contrats/",
+        destination: "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/domiciliation-suisse-risques-substance-contrats",
+        destination: "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/registre-transparence-ayants-droit-economiques-2026-sa-sarl-obligations-controle/",
+        destination: "/:locale/ressources/articles/ayants-droit-economiques-registre-actions-sa-sarl-obligations-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/registre-transparence-ayants-droit-economiques-2026-sa-sarl-obligations-controle",
+        destination: "/:locale/ressources/articles/ayants-droit-economiques-registre-actions-sa-sarl-obligations-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/certificat-de-salaire-erreurs-controle-bonnes-pratiques-2026/",
+        destination: "/:locale/ressources/articles/certificat-salaire-erreurs-controles/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/certificat-de-salaire-erreurs-controle-bonnes-pratiques-2026",
+        destination: "/:locale/ressources/articles/certificat-salaire-erreurs-controles/",
+        permanent: true,
+      },
+      {
         source:
           "/:locale/ressources/articles/succession-entrepreneur-preparer-patrimoine-societe-fiscalite-suisse-2026/",
         destination:
@@ -294,32 +474,32 @@ const baseConfig = {
       },
       {
         source: "/:locale/ressources/articles/registre-commerce-suisse-guide-2026/",
-        destination: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
         permanent: true,
       },
       {
         source: "/:locale/ressources/articles/registre-commerce-suisse-guide-2026",
-        destination: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
         permanent: true,
       },
       {
         source: "/:locale/ressources/articles/guide-registre-commerce-suisse-documents-delais-erreurs-couts/",
-        destination: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
         permanent: true,
       },
       {
         source: "/:locale/ressources/articles/guide-registre-commerce-suisse-documents-delais-erreurs-couts",
-        destination: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
         permanent: true,
       },
       {
         source: "/:locale/ressources/articles/guide-pratique-registre-commerce-suisse/",
-        destination: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
         permanent: true,
       },
       {
         source: "/:locale/ressources/articles/guide-pratique-registre-commerce-suisse",
-        destination: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
+        destination: "/:locale/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
         permanent: true,
       },
       {
