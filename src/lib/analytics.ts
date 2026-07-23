@@ -33,6 +33,23 @@ export function trackEvent(name: string, params?: AnalyticsParams) {
 export function getGaClientId(): string | undefined {
   try {
     if (typeof document === "undefined") return undefined;
+    // A leftover _ga cookie does not prove current consent: the user may have
+    // downgraded to "minimal" after accepting. Only forward the id while full
+    // analytics consent is active (same key/values as CookieConsent).
+    let consent: string | null = null;
+    try {
+      consent = window.localStorage.getItem("cookieConsent");
+    } catch {
+      consent = null;
+    }
+    if (!consent) {
+      consent =
+        document.cookie
+          .split("; ")
+          .find((entry) => entry.startsWith("cookieConsent="))
+          ?.slice("cookieConsent=".length) ?? null;
+    }
+    if (consent !== "accepted") return undefined;
     const raw = document.cookie
       .split("; ")
       .find((entry) => entry.startsWith("_ga="))

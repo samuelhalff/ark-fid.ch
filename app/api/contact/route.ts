@@ -84,7 +84,9 @@ export async function POST(request: Request) {
 
     if (!internal) {
       try {
-        await submitFormspark(payload);
+        // Attribution ids are for Odoo/GA matching only — never disclose them
+        // to Formspark.
+        await submitFormspark({ ...payload, gaClientId: undefined });
       } catch (error) {
         if (DEBUG_VALIDATION) {
           console.warn("[contact] Formspark submission failed", error);

@@ -73,11 +73,17 @@ export function plainTextToHtml(text: string) {
     .replace(/\n/g, "<br>");
 }
 
+// UTM values come straight from the URL (attacker-controlled): strip markup
+// and control characters so they cannot inject formatting or forge labels in
+// the Odoo description.
+const sanitizeAttributionValue = (value?: string) =>
+  trim(value).replace(/[<>"'\r\n\t]/g, "");
+
 function formatUtmLine(utm?: LeadUtmParams) {
   if (!utm) return null;
   const parts = (["source", "medium", "campaign", "term", "content"] as const)
-    .filter((key) => trim(utm[key]))
-    .map((key) => `${key}=${trim(utm[key])}`);
+    .filter((key) => sanitizeAttributionValue(utm[key]))
+    .map((key) => `${key}=${sanitizeAttributionValue(utm[key])}`);
   return parts.length ? `UTM: ${parts.join(" ")}` : null;
 }
 
