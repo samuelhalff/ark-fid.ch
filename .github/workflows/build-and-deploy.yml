@@ -146,10 +146,28 @@ jobs:
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
 
-          sshpass -p "$PASS" rsync -av \
-            -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -p $PORT" \
-            artifact/next-standalone.tar.gz.part \
-            "$USER@$HOST:/srv/customer/sites/ark-fid.ch/artifact/"
+          # Transient SSH drops ("broken pipe") have killed single-attempt
+          # uploads mid-transfer. Retry up to 3 times; --partial keeps the
+          # interrupted destination file so retries resume via delta-sync
+          # instead of resending the whole artifact; --checksum makes rsync
+          # compare full content (never the size+mtime quick skip), so a
+          # successful exit is an end-to-end integrity guarantee within the
+          # same connection (this host throttles rapid follow-up ssh
+          # sessions, so no separate hash round-trip). --timeout and
+          # ConnectTimeout turn stalls into fast failures the loop can retry.
+          for attempt in 1 2 3; do
+            if sshpass -p "$PASS" rsync -av --partial --checksum --timeout=60 \
+              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -o ConnectTimeout=15 -p $PORT" \
+              artifact/next-standalone.tar.gz.part \
+              "$USER@$HOST:/srv/customer/sites/ark-fid.ch/artifact/"; then
+              echo "Upload verified on attempt $attempt (rsync checksum)"
+              exit 0
+            fi
+            echo "Upload attempt $attempt failed"
+            [ "$attempt" -lt 3 ] && sleep $((attempt * 15))
+          done
+          echo "Upload failed after 3 attempts"
+          exit 1
 
       - name: Sync shared env (secrets -> prod)
         env:
@@ -305,12 +323,15 @@ jobs:
             echo "[deploy] Created directories" >> "$LOG"
 
             [ -f "$PART" ] && mv "$PART" "$ARTIFACT" && echo "[deploy] Moved partial artifact to final location" >> "$LOG"
-            cp "$ARTIFACT" "$TMP/artifact.tar.gz"
+            cp "$ARTIFACT" "$TMP/artifact.tar.gz" || { echo "[deploy] ERROR: artifact copy failed" >> "$LOG"; exit 1; }
             echo "[deploy] Copied artifact to temp directory" >> "$LOG"
 
             echo "[deploy] Extracting artifact..." >> "$LOG"
-            gzip -cd "$TMP/artifact.tar.gz" > "$TMP/.payload.tar"
-            tar -xf "$TMP/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP"
+            # Explicit guards: the ssh argument-flattening means `set -euo
+            # pipefail` above does not reliably govern this body, and a
+            # truncated artifact must never be promoted to a release.
+            gzip -cd "$TMP/artifact.tar.gz" > "$TMP/.payload.tar" || { echo "[deploy] ERROR: artifact is corrupt (gzip failed)" >> "$LOG"; exit 1; }
+            tar -xf "$TMP/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP" || { echo "[deploy] ERROR: artifact extraction failed (tar)" >> "$LOG"; exit 1; }
             rm -f "$TMP/.payload.tar"
             echo "[deploy] Artifact extracted successfully" >> "$LOG"
 
