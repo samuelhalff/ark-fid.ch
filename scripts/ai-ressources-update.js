@@ -242,7 +242,9 @@ function normalizeTag(input) {
 }
 
 function ensureArticleTaxonomy(article, preferredCategory = "") {
-  const category = preferredCategory || article.category || detectTopic(article) || "general";
+  const asString = (value) => (typeof value === "string" ? value : "");
+  const category =
+    asString(preferredCategory) || asString(article.category) || detectTopic(article) || "general";
   article.category = category;
 
   const corpus = normalizeTag(
@@ -3018,8 +3020,15 @@ async function main() {
   }
 
   // Detect the article category for reference fallback
+  const rawSuggestedCategory = seoSuggestions?.category;
+  // seo-suggestions data has carried a classifier OBJECT here before, which
+  // then shipped as article.category and 500'd the article pages.
   const articleCategory =
-    seoSuggestions?.category || detectTopic(newArticle) || "general";
+    (typeof rawSuggestedCategory === "string"
+      ? rawSuggestedCategory
+      : rawSuggestedCategory?.category) ||
+    detectTopic(newArticle) ||
+    "general";
   ensureArticleTaxonomy(newArticle, articleCategory);
   await repairReferences(newArticle, articleCategory);
   syncContentReferencesSection(newArticle);

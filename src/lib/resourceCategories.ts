@@ -106,7 +106,11 @@ function isResourceCategoryId(value: string): value is ResourceCategoryId {
 }
 
 export function fallbackCategoryLabel(id: ResourceCategoryId | string) {
-  return id
+  // Malformed article data has shipped a non-string category before (an
+  // object from the AI pipeline's classifier) and 500'd every locale of the
+  // article — never let bad taxonomy take a page down.
+  const value = typeof id === "string" && id ? id : "general";
+  return value
     .split("-")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");

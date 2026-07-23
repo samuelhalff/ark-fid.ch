@@ -47,9 +47,14 @@ function countWords(text) {
   return trimmed.split(/\s+/).filter(Boolean).length;
 }
 
-if (!latest.category || !Array.isArray(latest.tags) || latest.tags.length < 3) {
+if (
+  !latest.category ||
+  typeof latest.category !== "string" ||
+  !Array.isArray(latest.tags) ||
+  latest.tags.length < 3
+) {
   fail(
-    `Latest article lacks required taxonomy: category and at least 3 tags are required (${latest.slug})`,
+    `Latest article lacks required taxonomy: category must be a non-empty STRING (an object shipped once and 500'd the article) and at least 3 tags are required (${latest.slug})`,
   );
 }
 
