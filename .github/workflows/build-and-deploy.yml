@@ -29,9 +29,12 @@ on:
       - ".github/workflows/build-and-deploy.yml"
   workflow_dispatch:
 
+# PR builds get their own concurrency group (cancellable) so they never queue
+# behind or delay a production deploy; production runs stay serialized and
+# uncancellable (killing a run mid-extract/symlink/restart is unsafe).
 concurrency:
-  group: production-deploy
-  cancel-in-progress: false
+  group: ${{ github.event_name == 'pull_request' && format('build-pr-{0}', github.event.pull_request.number) || 'production-deploy' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   actions: read
@@ -62,8 +65,12 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --no-fund
 
-      - name: TypeScript type check
-        run: npm run typecheck
+      # No standalone tsc: `next build` type-checks (typescript.ignoreBuildErrors
+      # is not set), so a separate pass duplicated ~9s of work.
+      # Only the plain-JS guardrails tests run here: test:unit uses .ts test
+      # files via Node type-stripping, which needs Node >=22 (CI is Node 20).
+      - name: Fast safety checks (article guardrails)
+        run: npm run test:guardrails
 
       - name: Check malformed internal markdown links (blocking)
         run: node scripts/fix-article-internal-links.js --check
@@ -79,9 +86,13 @@ jobs:
         uses: actions/cache@v5
         with:
           path: .next/cache
-          # Only invalidate cache on config/dep changes — .next/cache tracks module-level changes internally
-          key: next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('next.config.js', 'tsconfig.json') }}
+          # github.sha in the key makes every run save its warmed cache (an
+          # exact-key hit never re-saves, which froze the cache at the first
+          # build after each lock/config change); restore-keys still pulls
+          # the latest compatible entry.
+          key: next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json', 'next.config.js', 'tsconfig.json') }}-${{ github.sha }}
           restore-keys: |
+            next-cache-${{ runner.os }}-${{ hashFiles('**/package-lock.json', 'next.config.js', 'tsconfig.json') }}-
             next-cache-${{ runner.os }}-
 
       - name: Build
@@ -95,51 +106,20 @@ jobs:
       - name: Archive artifact
         run: tar -czf next-standalone.tar.gz -C dist .
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: next-standalone
-          path: next-standalone.tar.gz
-          compression-level: 0
-          retention-days: 1
-          if-no-files-found: error
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
+      # ─── Deploy (same job: skips a second runner, checkout, apt-get and
+      # the GitHub artifact upload/download round-trip on the critical path;
+      # the artifact is retained at the end, after production is healthy) ───
 
       - name: Install deploy tools
-        run: sudo apt-get update && sudo apt-get install -y sshpass curl unzip
-
-      # ─── Download artifact ───
-      - name: Download artifact
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          mkdir -p artifact
-          ARTIFACT_ID=$(curl -fsSL \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" \
-            | python3 -c 'import json,sys; data=json.load(sys.stdin); print(next(a["id"] for a in data["artifacts"] if a["name"] == "next-standalone"))')
-          curl -fsSL \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            -o artifact.zip \
-            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${ARTIFACT_ID}/zip"
-          unzip -q artifact.zip -d artifact
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: command -v sshpass >/dev/null || { sudo apt-get update && sudo apt-get install -y sshpass; }
 
       - name: Prepare partial artifact
-        run: cp artifact/next-standalone.tar.gz artifact/next-standalone.tar.gz.part
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: mkdir -p artifact && cp next-standalone.tar.gz artifact/next-standalone.tar.gz.part
 
       - name: Upload release to server
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
           USER="${{ secrets.DEPLOY_SSH_USER }}"
@@ -170,6 +150,7 @@ jobs:
           exit 1
 
       - name: Sync shared env (secrets -> prod)
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         env:
           NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
           TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
@@ -290,6 +271,7 @@ jobs:
 
       # ─── Extract, symlink and cleanup ───
       - name: Extract, symlink and cleanup releases
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
           USER="${{ secrets.DEPLOY_SSH_USER }}"
@@ -312,35 +294,34 @@ jobs:
             PART="$BASE_DIR/artifact/next-standalone.tar.gz.part"
             TS=$(date +%Y%m%d%H%M%S)
             REL_DIR="$RELEASES_DIR/$TS"
-            TMP="/tmp/ark-fid-release-$TS"
+            STAGE_DIR="$RELEASES_DIR/.staging-$TS"
             LOG="$BASE_DIR/deploy.extract.log"
 
             echo "[deploy] Starting deployment at $(date)" >> "$LOG"
             echo "[deploy] Release timestamp: $TS" >> "$LOG"
             echo "[deploy] Target directory: $REL_DIR" >> "$LOG"
 
-            mkdir -p "$RELEASES_DIR" "$TMP"
+            # Stage inside releases/ (same filesystem): the final promotion
+            # is a single atomic mv, and extraction happens in one pass
+            # instead of copy + gunzip + tar (three reads of a 60MB file).
+            mkdir -p "$RELEASES_DIR" "$STAGE_DIR"
             echo "[deploy] Created directories" >> "$LOG"
 
             [ -f "$PART" ] && mv "$PART" "$ARTIFACT" && echo "[deploy] Moved partial artifact to final location" >> "$LOG"
-            cp "$ARTIFACT" "$TMP/artifact.tar.gz" || { echo "[deploy] ERROR: artifact copy failed" >> "$LOG"; exit 1; }
-            echo "[deploy] Copied artifact to temp directory" >> "$LOG"
 
             echo "[deploy] Extracting artifact..." >> "$LOG"
-            # Explicit guards: the ssh argument-flattening means `set -euo
+            # Explicit guard: the ssh argument-flattening means `set -euo
             # pipefail` above does not reliably govern this body, and a
             # truncated artifact must never be promoted to a release.
-            gzip -cd "$TMP/artifact.tar.gz" > "$TMP/.payload.tar" || { echo "[deploy] ERROR: artifact is corrupt (gzip failed)" >> "$LOG"; exit 1; }
-            tar -xf "$TMP/.payload.tar" --no-same-owner --no-same-permissions -C "$TMP" || { echo "[deploy] ERROR: artifact extraction failed (tar)" >> "$LOG"; exit 1; }
-            rm -f "$TMP/.payload.tar"
+            tar -xzf "$ARTIFACT" --no-same-owner --no-same-permissions -C "$STAGE_DIR" || { echo "[deploy] ERROR: artifact is corrupt or unextractable" >> "$LOG"; rm -rf "$STAGE_DIR"; exit 1; }
             echo "[deploy] Artifact extracted successfully" >> "$LOG"
 
             for f in server.js .next/BUILD_ID .next/static; do
-              [ -e "$TMP/$f" ] || { echo "[deploy] ERROR: Missing required file: $f" >> "$LOG"; exit 1; }
+              [ -e "$STAGE_DIR/$f" ] || { echo "[deploy] ERROR: Missing required file: $f" >> "$LOG"; rm -rf "$STAGE_DIR"; exit 1; }
             done
             echo "[deploy] All required files present" >> "$LOG"
 
-            mv "$TMP" "$REL_DIR" || { cp -r "$TMP"/* "$REL_DIR"/ && rm -rf "$TMP"; }
+            mv "$STAGE_DIR" "$REL_DIR" || { echo "[deploy] ERROR: release promotion failed" >> "$LOG"; rm -rf "$STAGE_DIR"; exit 1; }
             echo "[deploy] Moved to releases directory: $REL_DIR" >> "$LOG"
 
             mkdir -p "$BASE_DIR/shared"
@@ -362,8 +343,9 @@ jobs:
             echo "[deploy] Cleanup completed, keeping last $KEEP releases" >> "$LOG"
           '
 
-      # ─── Restart server (always runs) ───
+      # ─── Restart server ───
       - name: Restart Node.js server
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         timeout-minutes: 3
         run: |
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
@@ -376,7 +358,10 @@ jobs:
           curl --connect-timeout 5 --max-time 20 -X POST "https://ark-fid.ch/api/kill/" -H "Authorization: Bearer $TOKEN" -s -o /dev/null -w "[restart] Kill request status: %{http_code}\n" || echo "[restart] Kill request failed or no process to kill"
 
           echo "[restart] Waiting for process to terminate..."
-          sleep 30
+          # Short fixed wait is enough: if the port is still held when the new
+          # process starts, its supervisor loop retries every second until it
+          # binds, and the health check step polls up to 2 minutes.
+          sleep 10
 
           echo "[restart] Starting new process..."
           sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes "$USER@$HOST" '
@@ -384,10 +369,12 @@ jobs:
             nohup bash -lc "while true; do cd /srv/customer/sites/ark-fid.ch/current && node server.js >> server.out 2>&1; echo \"Node crashed, restarting...\" >> server.out; sleep 1; done" >/dev/null 2>&1 </dev/null &
           ' || echo "[restart] SSH command completed"
 
-          sleep 30
+          # Brief settle only — the health check step does the real waiting.
+          sleep 5
 
-      # ─── Health check (always runs) ───
+      # ─── Health check ───
       - name: Health check and warmup
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         timeout-minutes: 5
         run: |
           CURL_TIMEOUTS=(--connect-timeout 5 --max-time 8)
@@ -442,3 +429,17 @@ jobs:
           else
             echo "Notice: Sitemap URLs may be missing trailing slashes"
           fi
+
+      # Retained for manual/emergency access (nothing downloads it in CI:
+      # the merged job deploys the local tarball directly). Runs last so the
+      # upload cost is off the push→live critical path; always() keeps it
+      # available for debugging failed deploys too.
+      - name: Retain deployable artifact
+        if: always() && hashFiles('next-standalone.tar.gz') != ''
+        uses: actions/upload-artifact@v7
+        with:
+          name: next-standalone
+          path: next-standalone.tar.gz
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
