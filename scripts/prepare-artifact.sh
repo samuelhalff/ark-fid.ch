@@ -88,6 +88,12 @@ if [ -f "$ROOT_DIR/scripts/load-env.js" ]; then
   cp "$ROOT_DIR/scripts/load-env.js" "$DIST_DIR/scripts/load-env.js"
 fi
 
+# Ship the managed restart script with the release; the deploy extract step
+# installs it to shared/ so the restart step can invoke it over ssh.
+if [ -f "$ROOT_DIR/scripts/server/restart-server.sh" ]; then
+  cp "$ROOT_DIR/scripts/server/restart-server.sh" "$DIST_DIR/restart-server.sh"
+fi
+
 # Also include required server-side manifests under .next/server to avoid ENOENT
 mkdir -p "$DIST_DIR/.next/server" "$DIST_DIR/.next/server/chunks"
 cp -R "$BUILD_DIR/standalone/.next/server/"* "$DIST_DIR/.next/server/" || true

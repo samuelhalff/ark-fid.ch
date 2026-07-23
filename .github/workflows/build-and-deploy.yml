@@ -330,6 +330,11 @@ jobs:
               echo "[deploy] Linked .env file" >> "$LOG"
             fi
 
+            if [ -f "$REL_DIR/restart-server.sh" ]; then
+              cp "$REL_DIR/restart-server.sh" "$BASE_DIR/shared/restart-server.sh" && chmod +x "$BASE_DIR/shared/restart-server.sh"
+              echo "[deploy] Installed restart-server.sh to shared/" >> "$LOG"
+            fi
+
             ln -sfn "$REL_DIR" "$CURRENT_LINK"
             echo "$TS" > "$BASE_DIR/last_release_ts"
             echo "[deploy] Updated current symlink to $REL_DIR" >> "$LOG"
@@ -352,25 +357,54 @@ jobs:
           USER="${{ secrets.DEPLOY_SSH_USER }}"
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
-          TOKEN="${{ secrets.RESTART_SECRET_TOKEN }}"
 
-          echo "[restart] Killing old process..."
-          curl --connect-timeout 5 --max-time 20 -X POST "https://ark-fid.ch/api/kill/" -H "Authorization: Bearer $TOKEN" -s -o /dev/null -w "[restart] Kill request status: %{http_code}\n" || echo "[restart] Kill request failed or no process to kill"
+          # Managed restart: the server-side script (shipped in the artifact,
+          # installed to shared/ by the extract step this same run) stops the
+          # supervisor by pidfile, frees the port, starts exactly one new
+          # supervisor and waits until the port answers locally — replacing
+          # the kill-endpoint + fixed-sleep sequence. Invoked as a single ssh
+          # command string (the only reliable exec channel on this host),
+          # with retries because the host throttles rapid ssh sessions.
+          BUILD_ID=$(cat dist/.next/BUILD_ID)
+          echo "[restart] Expecting build $BUILD_ID"
+          RESTART_OK=0
+          for attempt in 1 2 3; do
+            if OUT=$(sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=15 "$USER@$HOST" "bash /srv/customer/sites/ark-fid.ch/shared/restart-server.sh" 2>&1); then
+              echo "[restart] $OUT"
+              RESTART_OK=1
+              break
+            fi
+            echo "[restart] ssh attempt $attempt failed: $OUT"
+            [ "$attempt" -lt 3 ] && sleep 10
+          done
+          if [ "$RESTART_OK" -ne 1 ]; then
+            # Fallback: the legacy sequence that shipped 30+ deploys — kill
+            # endpoint + fresh supervisor — so a script problem on the first
+            # managed-restart runs cannot leave the site down.
+            echo "[restart] ⚠ Managed restart failed; falling back to legacy sequence"
+            TOKEN="${{ secrets.RESTART_SECRET_TOKEN }}"
+            curl --connect-timeout 5 --max-time 20 -X POST "https://ark-fid.ch/api/kill/" -H "Authorization: Bearer $TOKEN" -s -o /dev/null -w "[restart] Kill request status: %{http_code}\n" || echo "[restart] Kill request failed"
+            sleep 10
+            sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=15 "$USER@$HOST" '
+              nohup bash -lc "while true; do cd /srv/customer/sites/ark-fid.ch/current && node server.js >> server.out 2>&1; echo \"Node crashed, restarting...\" >> server.out; sleep 1; done" >/dev/null 2>&1 </dev/null &
+            ' || echo "[restart] Legacy start command sent"
+            sleep 5
+          fi
 
-          echo "[restart] Waiting for process to terminate..."
-          # Short fixed wait is enough: if the port is still held when the new
-          # process starts, its supervisor loop retries every second until it
-          # binds, and the health check step polls up to 2 minutes.
-          sleep 10
-
-          echo "[restart] Starting new process..."
-          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes "$USER@$HOST" '
-            set -e
-            nohup bash -lc "while true; do cd /srv/customer/sites/ark-fid.ch/current && node server.js >> server.out 2>&1; echo \"Node crashed, restarting...\" >> server.out; sleep 1; done" >/dev/null 2>&1 </dev/null &
-          ' || echo "[restart] SSH command completed"
-
-          # Brief settle only — the health check step does the real waiting.
-          sleep 5
+          # Verify the NEW release is the one answering: a plain 200 cannot
+          # prove which build served it, so compare /api/health buildId.
+          echo "[restart] Verifying build $BUILD_ID is live..."
+          LIVE=""
+          for i in $(seq 1 45); do
+            LIVE=$(curl -s --max-time 4 "https://ark-fid.ch/api/health/?d=${GITHUB_RUN_ID}-${i}" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("buildId",""))' 2>/dev/null || true)
+            if [ "$LIVE" = "$BUILD_ID" ]; then
+              echo "[restart] ✅ Build $BUILD_ID confirmed live (check $i)"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "[restart] ❌ Live buildId '${LIVE:-none}' never matched expected '$BUILD_ID'"
+          exit 1
 
       # ─── Health check ───
       - name: Health check and warmup
