@@ -175,15 +175,21 @@ const odooJson2 = async (
   );
   const text = await res.text();
   if (!res.ok) {
-    // The response body is needed to diagnose API failures, but Odoo error
-    // payloads can echo submitted values — redact email/phone-like tokens
-    // before the body can reach any log line.
-    const detail = text
-      .replace(/\s+/g, " ")
-      .replace(/\S+@\S+/g, "[email]")
-      .replace(/\+?\d[\d ().-]{6,}\d/g, "[num]")
-      .slice(0, 300);
-    throw new Error(`Odoo ${model}.${method} failed (${res.status}) ${detail}`);
+    // Odoo error payloads echo submitted values (names, messages, …), so the
+    // body must never reach a log line. Allowlist only the exception class
+    // name, which is a code identifier, never user input.
+    let errorName = "";
+    try {
+      const parsed = JSON.parse(text) as { name?: unknown };
+      if (typeof parsed.name === "string") {
+        errorName = parsed.name.replace(/[^\w.]/g, "").slice(0, 120);
+      }
+    } catch {
+      // Non-JSON body (proxy error page, …): log status only.
+    }
+    throw new Error(
+      `Odoo ${model}.${method} failed (${res.status})${errorName ? ` ${errorName}` : ""}`,
+    );
   }
   return text ? JSON.parse(text) : {};
 };
