@@ -529,35 +529,6 @@
       ]
     },
     {
-      "slug": "odoo-18-nouveautes-comptabilite-suisse-2025",
-      "title": "Odoo 18 : les nouveautés comptabilité et gestion pour PME suisses en 2025",
-      "description": "Tour d'horizon concret et détaillé des nouveautés Odoo 18, version 2025, dédiées à la gestion comptable et financière des PME et indépendants en Suisse romande : consolidation, budget analytique, multi-sociétés, mobilité, avantages et pièges à éviter.",
-      "content": "Odoo 18, disponible début 2025, inaugure une vague d’innovations taillées pour les entreprises suisses. Cette édition capitalise sur l’automatisation, l’analyse budgétaire approfondie et la gestion multi-sociétés adaptée aux réalités romandes, en mettant l’accent sur la mobilité et l’intégration administrative.\n\nParmi les nouveautés phares : la création de budgets analytiques sophistiqués, la consolidation multi-entreprises sur un plan comptable unifié, et la gestion multi-devises dans les rapports financiers. Les flux de gestion sont simplifiés grâce à des tableaux de bord interactifs et une navigation repensée. Le module Banque renforce la personnalisation des méthodes de paiements et la gestion des échéances, tandis que la mobilité (PWA, refonte mobile) assure un accès fluide à toutes les fonctions pour les équipes en déplacement.\n\nCes retours d’intégrateurs suisses pointent un bénéfice immédiat pour la centralisation financière des groupes et holdings suisses, mais exigent une attention particulière à l’accompagnement des équipes pour faire face aux changements fonctionnels et éviter une courbe d’apprentissage trop dure.\n\nLe passage à Odoo 18 représente une opportunité de moderniser l’outillage administratif, fiabiliser la chaîne comptable, automatiser les process et renforcer la conformité avec les exigences Swiss GAAP FER, LPP, TVA et fiscalité 2025 tout en restant agiles face à la croissance. Pour réussir votre projet Odoo, privilégiez l’accompagnement par une fiduciaire locale qui maîtrise la réalité fiscale romande et peut anticiper vos besoins évolutifs.\n\nPour approfondir, consultez la documentation officielle Odoo 18.\n\n### Services liés\n\n- [Odoo Implementation](/services/odoo)\n- [Nous contacter](/contact)",
-      "author": "Ark Fiduciaire",
-      "date": "2025-10-01",
-      "references": [
-        {
-          "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation/19.0/"
-        },
-        {
-          "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation"
-        }
-      ],
-      "category": "odoo",
-      "tags": [
-        "odoo",
-        "comptabilite",
-        "tva",
-        "automatisation"
-      ]
-    },
-    {
       "slug": "cotisations-lpp-geneve-2025-changements-impacts-pme",
       "title": "Cotisations LPP 2025 à Genève : changements, calculs et impacts pour PME et salariés",
       "description": "Synthèse des nouveaux seuils, taux, et modalités LPP applicables dès 2025 à Genève. Guide concret pour les employeurs et salariés sur les incidences pratiques en paie, fiscalité et projection retraite. Conseils d’optimisation pour PME, indépendants et frontaliers.",

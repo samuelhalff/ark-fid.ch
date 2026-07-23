@@ -409,35 +409,6 @@
       ]
     },
     {
-      "slug": "odoo-18-nouveautes-comptabilite-suisse-2025",
-      "title": "Odoo 18: novedades en contabilidad y gestión para PYMES suizas en 2025",
-      "description": "Repaso concreto y detallado de las novedades de Odoo 18, versión 2025, dedicadas a la gestión contable y financiera de PYMES y autónomos en la Suiza francófona: consolidación, presupuesto analítico, multiempresas, movilidad, ventajas y trampas a evitar.",
-      "content": "Odoo 18, disponible a principios de 2025, inaugura una ola de innovaciones adaptadas a las empresas suizas. Esta edición se apoya en la automatización, el análisis presupuestario en profundidad y la gestión multiempresas adaptada a la realidad de la Suiza francófona, haciendo hincapié en la movilidad y la integración administrativa.\n\nEntre las novedades más destacadas: la creación de presupuestos analíticos sofisticados, la consolidación multiempresa en un único plan contable y la gestión multidivisa en los informes financieros. Los flujos de gestión se simplifican con paneles interactivos y navegación renovada. El módulo Banco refuerza la personalización de los métodos de pago y la gestión de vencimientos, mientras que la movilidad (PWA, rediseño móvil) garantiza un acceso fluido a todas las funciones para los equipos en movimiento.\n\nLos comentarios de integradores suizos señalan un beneficio inmediato para la centralización financiera de grupos y holdings suizos, pero exigen una atención particular al acompañamiento de los equipos para afrontar los cambios funcionales y evitar una curva de aprendizaje demasiado dura.\n\nEl paso a Odoo 18 representa una oportunidad para modernizar las herramientas administrativas, asegurar la cadena contable, automatizar procesos y reforzar el cumplimiento con Swiss GAAP FER, LPP, [IVA](/services/taxes) y fiscalidad 2025, manteniendo agilidad frente al crecimiento. Para tener éxito en su proyecto Odoo, priorice el acompañamiento de una fiduciaria local que domine la realidad fiscal de la Suiza francófona y pueda anticipar sus necesidades futuras.\n\nPalabras clave: Odoo 18, novedades 2025, finanzas PYMES Ginebra, presupuesto analítico Odoo, multiempresas, consolidación, Swiss GAAP FER, automatización contable, SaaS ERP Suiza, gestión administrativa romanda, movilidad ERP.\n\nPara profundizar: consulte la presentación detallada de los módulos en la documentación oficial de Odoo.com/documentation/18.0/).\n\n### Servicios relacionados\n\n- [Odoo Implementation](/services/odoo)\n- [Contactar](/contact)",
-      "author": "Ark Fiduciaire",
-      "date": "2025-10-01",
-      "references": [
-        {
-          "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation/19.0/"
-        },
-        {
-          "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation"
-        }
-      ],
-      "category": "odoo",
-      "tags": [
-        "odoo",
-        "comptabilite",
-        "tva",
-        "automatisation"
-      ]
-    },
-    {
       "slug": "cotisations-lpp-geneve-2025-changements-impacts-pme",
       "title": "Cotizaciones LPP 2025 en Ginebra: cambios, cálculos e impactos para PYMES y asalariados",
       "description": "Resumen de los nuevos umbrales, tasas y modalidades LPP aplicables desde 2025 en Ginebra. Guía práctica para empleadores y asalariados sobre los impactos en nómina, fiscalidad y previsión jubilatoria. Consejos de optimización para PYMES, autónomos y fronterizos.",

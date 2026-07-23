@@ -225,6 +225,16 @@ const baseConfig = {
       },
       // Consolidated article redirects — avoid 404s for merged content
       {
+        source: "/:locale/ressources/articles/odoo-18-nouveautes-comptabilite-suisse-2025/",
+        destination: "/:locale/services/odoo/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/odoo-18-nouveautes-comptabilite-suisse-2025",
+        destination: "/:locale/services/odoo/",
+        permanent: true,
+      },
+      {
         source: "/:locale/ressources/articles/odoo-18-nouveautes-comptabilite-fiduciaire-geneve/",
         destination: "/:locale/services/odoo/",
         permanent: true,

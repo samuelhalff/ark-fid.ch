@@ -417,35 +417,6 @@
       ]
     },
     {
-      "slug": "odoo-18-nouveautes-comptabilite-suisse-2025",
-      "title": "Odoo 18: what’s new in accounting and management for Swiss SMEs in 2025",
-      "description": "A concrete and detailed overview of what’s new in Odoo 18, 2025 edition, for accounting and financial management of SMEs and self-employed in French-speaking Switzerland: consolidation, analytic budgets, multi-companies, mobility, advantages and pitfalls to avoid.",
-      "content": "Odoo 18, available early 2025, brings a wave of innovations tailored for Swiss businesses. This edition builds on automation, in-depth budget analysis, and multi-company management adapted to French-speaking Switzerland, focusing on mobility and administrative integration.\n\nKey highlights include sophisticated analytic budget creation, multi-company consolidation on a unified [accounting](/services/accounting) plan, and multi-currency management in financial reports. Management flows are simplified with interactive dashboards and reimagined navigation. The Bank module enhances payment method customization and deadline management, while mobility (PWA, mobile overhaul) ensures smooth access to all functions for on-the-go teams.\n\nFeedback from Swiss integrators points to immediate benefits for centralized financial management of Swiss groups and holdings, but requires dedicated [team](/team) support to face functional changes and avoid a steep learning curve.\n\nMoving to Odoo 18 is an opportunity to modernize administrative tools, secure the accounting chain, automate processes, and strengthen compliance with Swiss GAAP FER, LPP, VAT, and 2025 tax requirements, while remaining agile for growth. For a successful Odoo project, favor support from a local fiduciary familiar with the French-speaking Swiss tax landscape who can anticipate your evolving needs.\n\nKeywords: Odoo 18, new in 2025, SME finance Geneva, analytic budget Odoo, multi-company, consolidation, Swiss GAAP FER, accounting automation, SaaS ERP Switzerland, French-speaking administrative management, ERP mobility.\n\nFor more information, please refer to the official Odoo 18 documentation.\n\n### Related services\n\n- [Odoo Implementation](/services/odoo)\n- [Contact us](/contact)",
-      "author": "Ark Fiduciaire",
-      "date": "2025-10-01",
-      "references": [
-        {
-          "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation/19.0/"
-        },
-        {
-          "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation"
-        }
-      ],
-      "category": "odoo",
-      "tags": [
-        "odoo",
-        "comptabilite",
-        "tva",
-        "automatisation"
-      ]
-    },
-    {
       "slug": "cotisations-lpp-geneve-2025-changements-impacts-pme",
       "title": "LPP contributions 2025 in Geneva: changes, calculations, and impacts for SMEs and employees",
       "description": "Summary of new LPP thresholds, rates, and rules applicable from 2025 in Geneva. Practical guide for employers and employees on payroll, tax, and pension implications. Optimization tips for SMEs, self-employed, and cross-border workers.",

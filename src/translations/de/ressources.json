@@ -409,35 +409,6 @@
       ]
     },
     {
-      "slug": "odoo-18-nouveautes-comptabilite-suisse-2025",
-      "title": "Odoo 18: Neuerungen Buchhaltung und Verwaltung für Schweizer KMU 2025",
-      "description": "Konkreter und detaillierter Überblick über die Neuerungen von Odoo 18, Version 2025, für die Buchhaltungs- und Finanzverwaltung von KMU und Selbständigen in der Westschweiz: Konsolidierung, Budget-Controlling, Multi-Gesellschaften, Mobilität, Vorteile und Fallstricke.",
-      "content": "Odoo 18, verfügbar Anfang 2025, bringt eine Welle von Innovationen für Schweizer Unternehmen. Diese Version setzt auf Automatisierung, vertiefte Budgetanalysen und Multi-Gesellschafts-Management, das auf die Westschweizer Realität zugeschnitten ist, mit Fokus auf Mobilität und administrative Integration.\n\nZu den wichtigsten Neuerungen gehören die Erstellung komplexer Analysenbudgets, die Konsolidierung mehrerer Unternehmen auf einem einheitlichen Kontenplan und die Verwaltung mehrerer Währungen in Finanzberichten. Arbeitsabläufe werden durch interaktive Dashboards und eine überarbeitete Navigation vereinfacht. Das Bankmodul verbessert die individuelle Anpassung von Zahlungsmethoden sowie das Fristenmanagement, während die Mobilität (PWA, mobile Überarbeitung) einen reibungslosen Zugang zu allen Funktionen für unterwegs sicherstellt.\n\nRückmeldungen von Schweizer Integratoren zeigen einen unmittelbaren Mehrwert für die finanzielle Zentralisierung von Gruppen und Holdings, erfordern jedoch eine gezielte Betreuung der Teams, um Funktionalitätsänderungen zu bewältigen und eine steile Lernkurve zu vermeiden.\n\nDer Wechsel zu Odoo 18 bietet die Chance, die administrativen Tools zu modernisieren, die [Buchhaltung](/services/accounting) zu sichern, Prozesse zu automatisieren und die Einhaltung von Swiss GAAP FER, BVG, MwSt und Steueranforderungen 2025 zu stärken, bei gleichzeitig hoher Agilität im Wachstum. Für ein erfolgreiches Odoo-Projekt empfiehlt sich die Begleitung durch eine lokale Treuhand, die die Westschweizer Steuerrealität kennt und Ihre zukünftigen Bedürfnisse antizipieren kann.\n\nStichworte: Odoo 18, Neuheiten 2025, KMU-Finanzen Genf, Analytisches Budget Odoo, Multi-Gesellschaften, Konsolidierung, Swiss GAAP FER, Buchhaltungsautomatisierung, SaaS ERP Schweiz, Westschweizer Verwaltung, ERP-Mobilität.\n\nMehr dazu: Siehe die ausführliche Modulpräsentation in der offiziellen Odoo-Dokumentation.com/documentation/18.0/).\n\n### Verwandte Dienstleistungen\n\n- [Odoo Implementation](/services/odoo)\n- [Kontakt aufnehmen](/contact)",
-      "author": "Ark Fiduciaire",
-      "date": "2025-10-01",
-      "references": [
-        {
-          "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation/19.0/"
-        },
-        {
-          "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation"
-        }
-      ],
-      "category": "odoo",
-      "tags": [
-        "odoo",
-        "comptabilite",
-        "tva",
-        "automatisation"
-      ]
-    },
-    {
       "slug": "cotisations-lpp-geneve-2025-changements-impacts-pme",
       "title": "LPP-Beiträge 2025 in Genf: Änderungen, Berechnung und Auswirkungen für KMU und Arbeitnehmende",
       "description": "Zusammenfassung der neuen Schwellenwerte, Sätze und Regelungen der LPP ab 2025 in Genf. Praktischer Leitfaden für Arbeitgeber und Mitarbeitende zu Lohnabrechnung, Steuern und Rentenprojektionen. Optimierungstipps für KMU, Selbstständige und Grenzgänger.",
