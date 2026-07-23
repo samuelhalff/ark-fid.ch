@@ -358,52 +358,53 @@ jobs:
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
 
-          # Managed restart: the server-side script (shipped in the artifact,
-          # installed to shared/ by the extract step this same run) stops the
-          # supervisor by pidfile, frees the port, starts exactly one new
-          # supervisor and waits until the port answers locally — replacing
-          # the kill-endpoint + fixed-sleep sequence. Invoked as a single ssh
-          # command string (the only reliable exec channel on this host),
-          # with retries because the host throttles rapid ssh sessions.
+          # HTTPS-first restart. Observed in production (run 30006…): the ssh
+          # session for the restart step is the 3rd+ of the run and the host's
+          # session throttle kills it — while the supervisor loop happily
+          # respawns node inside the NEW current/ after the kill endpoint
+          # fires. So the normal path uses no ssh at all: kill over HTTPS,
+          # then verify the new BUILD_ID answers. The managed server-side
+          # script (installed to shared/ by the extract step) is only invoked
+          # as recovery if the supervisor itself is gone.
           BUILD_ID=$(cat dist/.next/BUILD_ID)
+          TOKEN="${{ secrets.RESTART_SECRET_TOKEN }}"
           echo "[restart] Expecting build $BUILD_ID"
-          RESTART_OK=0
+
+          verify_build() {
+            local checks=$1
+            local i live
+            for i in $(seq 1 "$checks"); do
+              live=$(curl -s --max-time 4 "https://ark-fid.ch/api/health/?d=${GITHUB_RUN_ID}-${RANDOM}" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("buildId",""))' 2>/dev/null || true)
+              if [ "$live" = "$BUILD_ID" ]; then
+                echo "[restart] ✅ Build $BUILD_ID confirmed live (check $i)"
+                return 0
+              fi
+              sleep 2
+            done
+            echo "[restart] Live buildId '${live:-none}' != expected '$BUILD_ID'"
+            return 1
+          }
+
+          echo "[restart] Requesting process restart via kill endpoint..."
+          curl --connect-timeout 5 --max-time 20 -X POST "https://ark-fid.ch/api/kill/" -H "Authorization: Bearer $TOKEN" -s -o /dev/null -w "[restart] Kill request status: %{http_code}\n" || echo "[restart] Kill request failed"
+
+          # Supervisor respawn typically brings the new build up in seconds.
+          if verify_build 30; then exit 0; fi
+
+          # Recovery: supervisor likely dead — run the managed restart script
+          # over ssh (session may be throttled; retry with spacing).
+          echo "[restart] ⚠ Supervisor respawn did not deliver the new build; invoking managed restart"
           for attempt in 1 2 3; do
             if OUT=$(sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=15 "$USER@$HOST" "bash /srv/customer/sites/ark-fid.ch/shared/restart-server.sh" 2>&1); then
-              echo "[restart] $OUT"
-              RESTART_OK=1
+              echo "[restart] managed restart: $OUT"
               break
             fi
-            echo "[restart] ssh attempt $attempt failed: $OUT"
-            [ "$attempt" -lt 3 ] && sleep 10
+            echo "[restart] ssh attempt $attempt failed"
+            [ "$attempt" -lt 3 ] && sleep 20
           done
-          if [ "$RESTART_OK" -ne 1 ]; then
-            # Fallback: the legacy sequence that shipped 30+ deploys — kill
-            # endpoint + fresh supervisor — so a script problem on the first
-            # managed-restart runs cannot leave the site down.
-            echo "[restart] ⚠ Managed restart failed; falling back to legacy sequence"
-            TOKEN="${{ secrets.RESTART_SECRET_TOKEN }}"
-            curl --connect-timeout 5 --max-time 20 -X POST "https://ark-fid.ch/api/kill/" -H "Authorization: Bearer $TOKEN" -s -o /dev/null -w "[restart] Kill request status: %{http_code}\n" || echo "[restart] Kill request failed"
-            sleep 10
-            sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=15 "$USER@$HOST" '
-              nohup bash -lc "while true; do cd /srv/customer/sites/ark-fid.ch/current && node server.js >> server.out 2>&1; echo \"Node crashed, restarting...\" >> server.out; sleep 1; done" >/dev/null 2>&1 </dev/null &
-            ' || echo "[restart] Legacy start command sent"
-            sleep 5
-          fi
 
-          # Verify the NEW release is the one answering: a plain 200 cannot
-          # prove which build served it, so compare /api/health buildId.
-          echo "[restart] Verifying build $BUILD_ID is live..."
-          LIVE=""
-          for i in $(seq 1 45); do
-            LIVE=$(curl -s --max-time 4 "https://ark-fid.ch/api/health/?d=${GITHUB_RUN_ID}-${i}" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("buildId",""))' 2>/dev/null || true)
-            if [ "$LIVE" = "$BUILD_ID" ]; then
-              echo "[restart] ✅ Build $BUILD_ID confirmed live (check $i)"
-              exit 0
-            fi
-            sleep 2
-          done
-          echo "[restart] ❌ Live buildId '${LIVE:-none}' never matched expected '$BUILD_ID'"
+          if verify_build 30; then exit 0; fi
+          echo "[restart] ❌ Could not confirm build $BUILD_ID live"
           exit 1
 
       # ─── Health check ───
