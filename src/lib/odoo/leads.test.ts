@@ -81,3 +81,27 @@ test("postOdooLeadNote succeeds on retry after transient failure", async (t) => 
   assert.equal(calls, 2);
   fetchMock.mock.restore();
 });
+
+test("postOdooLeadNote does not retry after a timeout (duplicate-note risk)", async (t) => {
+  process.env.ODOO_URL = "https://odoo.test";
+  process.env.ODOO_DB = "testdb";
+  process.env.ODOO_TOKEN = "token";
+  t.after(() => {
+    delete process.env.ODOO_URL;
+    delete process.env.ODOO_DB;
+    delete process.env.ODOO_TOKEN;
+  });
+  t.mock.method(console, "error", () => {});
+  let calls = 0;
+  const fetchMock = t.mock.method(globalThis, "fetch", async () => {
+    calls += 1;
+    throw new Error("odoo_crm.lead_message_post_timeout");
+  });
+
+  const { postOdooLeadNote } = await import("./leads.ts");
+  const ok = await postOdooLeadNote(44, "maybe committed");
+
+  assert.equal(ok, false);
+  assert.equal(calls, 1);
+  fetchMock.mock.restore();
+});

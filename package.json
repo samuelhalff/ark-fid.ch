@@ -36,7 +36,8 @@
     "images:hero-blur": "node scripts/generate-hero-blur-data.js",
     "images:prepare": "npm run optimize:images && npm run images:hero-blur",
     "lint:hero-blur": "node scripts/check-hero-blur.js",
-    "assets:pdfs": "node scripts/download-missing-pdfs.js --locale fr"
+    "assets:pdfs": "node scripts/download-missing-pdfs.js --locale fr",
+    "test:unit": "node --test src/lib/odoo/leads.test.ts src/lib/lead-session.test.ts src/lib/agent/request-validation.test.ts"
   },
   "dependencies": {
     "@azure/ai-projects": "^1.0.1",

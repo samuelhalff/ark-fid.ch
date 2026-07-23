@@ -175,9 +175,14 @@ const odooJson2 = async (
   );
   const text = await res.text();
   if (!res.ok) {
-    // Response body is needed to diagnose API failures; cap it and strip
-    // newlines so it stays a single sanitized log line.
-    const detail = text.replace(/\s+/g, " ").slice(0, 300);
+    // The response body is needed to diagnose API failures, but Odoo error
+    // payloads can echo submitted values — redact email/phone-like tokens
+    // before the body can reach any log line.
+    const detail = text
+      .replace(/\s+/g, " ")
+      .replace(/\S+@\S+/g, "[email]")
+      .replace(/\+?\d[\d ().-]{6,}\d/g, "[num]")
+      .slice(0, 300);
     throw new Error(`Odoo ${model}.${method} failed (${res.status}) ${detail}`);
   }
   return text ? JSON.parse(text) : {};
@@ -303,12 +308,18 @@ export async function postOdooLeadNote(
       return true;
     } catch (error) {
       // Conversation context is lost for good if this note never lands, so
-      // failures must be visible in server logs (message only — no note body,
-      // no contact data).
+      // failures must be visible in server logs (error message only, with
+      // email/phone-like tokens already redacted upstream).
+      const message = error instanceof Error ? error.message : String(error);
       console.error(
         `[odoo] message_post failed for lead ${leadId} (attempt ${attempt + 1}/${retries + 1}):`,
-        error instanceof Error ? error.message : String(error),
+        message,
       );
+      // A timeout is ambiguous — Odoo may have committed the note before the
+      // abort fired. Retrying would risk a duplicate chatter note, so only
+      // retry failures where Odoo answered with an error (transaction rolled
+      // back).
+      if (message.includes("_timeout")) return false;
     }
   }
   return false;
