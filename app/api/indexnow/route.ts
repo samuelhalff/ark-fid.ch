@@ -1,24 +1,12 @@
 import { NextResponse } from 'next/server';
-import {
-  checkIndexNowSecret,
-  parseIndexNowUrls,
-  submitToIndexNow,
-} from '@/src/lib/indexnow';
+import { parseIndexNowUrls, submitToIndexNow } from '@/src/lib/indexnow';
 
 export async function POST(req: Request) {
   try {
-    // Authenticate before reading the body.
-    const auth = checkIndexNowSecret(
-      req.headers.get('x-indexnow-secret'),
-      process.env.INDEXNOW_SECRET,
-    );
-    if (auth === 'misconfigured') {
-      return NextResponse.json({ error: 'missing_configuration' }, { status: 500 });
-    }
-    if (auth === 'unauthorized') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
+    // No auth: the IndexNow key is public by protocol (served at
+    // /<key>.txt), so anyone can already submit ark-fid.ch URLs to the
+    // search engines directly. We only restrict submissions to our own host
+    // so the endpoint can't relay arbitrary URLs.
     const body = await req.json().catch(() => ({}));
     const parsed = parseIndexNowUrls((body as { urls?: unknown })?.urls);
     if (!parsed.success) {

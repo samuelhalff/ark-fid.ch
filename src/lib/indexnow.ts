@@ -1,31 +1,9 @@
-import { createHash, timingSafeEqual } from "crypto";
-
 const INDEXNOW_HOST = "ark-fid.ch";
-const INDEXNOW_MIN_SECRET_BYTES = 32;
-
-export type IndexNowAuthResult = "authorized" | "unauthorized" | "misconfigured";
-
-/**
- * Constant-time secret check. Never falls back to a hardcoded value — the old
- * hardcoded 'arkfid2025' is in git history and is considered compromised.
- */
-export function checkIndexNowSecret(
-  provided: string | null,
-  configured: string | undefined,
-): IndexNowAuthResult {
-  const secret = (configured || "").trim();
-  if (Buffer.byteLength(secret, "utf8") < INDEXNOW_MIN_SECRET_BYTES) {
-    return "misconfigured";
-  }
-  if (!provided) return "unauthorized";
-  const a = createHash("sha256").update(provided).digest();
-  const b = createHash("sha256").update(secret).digest();
-  return timingSafeEqual(a, b) ? "authorized" : "unauthorized";
-}
 
 /**
  * Accept only canonical https URLs on the ark-fid.ch host. Rejects the whole
- * batch on any invalid entry so the endpoint can't be used as an open relay.
+ * batch on any invalid entry so the endpoint can't be used as an open relay
+ * for arbitrary URLs.
  */
 export function parseIndexNowUrls(
   value: unknown,

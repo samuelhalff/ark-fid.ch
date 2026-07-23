@@ -1,18 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { locales } from '@/src/lib/i18n';
-import { checkIndexNowSecret, submitToIndexNow } from '@/src/lib/indexnow';
+import { submitToIndexNow } from '@/src/lib/indexnow';
 
-export async function POST(req: NextRequest) {
-  const auth = checkIndexNowSecret(
-    req.headers.get('x-indexnow-secret'),
-    process.env.INDEXNOW_SECRET,
-  );
-  if (auth === 'misconfigured') {
-    return NextResponse.json({ error: 'missing_configuration' }, { status: 500 });
-  }
-  if (auth !== 'authorized') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+export async function POST() {
+  // No auth: this only ever resubmits our own fixed set of ark-fid.ch URLs,
+  // which anyone can already submit via the public IndexNow key.
 
   const base = 'https://ark-fid.ch';
   const corePaths = ['/', '/about', '/services', '/ressources', '/contact', '/team'];
