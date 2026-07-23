@@ -3,6 +3,14 @@ export type LeadTranscriptMessage = {
   content: string;
 };
 
+export type LeadUtmParams = {
+  source?: string;
+  medium?: string;
+  campaign?: string;
+  term?: string;
+  content?: string;
+};
+
 export type WebsiteLeadInput = {
   name?: string;
   email: string;
@@ -13,6 +21,8 @@ export type WebsiteLeadInput = {
   sourceDetail: string;
   pageUrl?: string;
   referrer?: string;
+  gaClientId?: string;
+  utm?: LeadUtmParams;
   transcript?: LeadTranscriptMessage[];
   assignedUserId?: number;
   sourceId?: number;
@@ -63,6 +73,14 @@ export function plainTextToHtml(text: string) {
     .replace(/\n/g, "<br>");
 }
 
+function formatUtmLine(utm?: LeadUtmParams) {
+  if (!utm) return null;
+  const parts = (["source", "medium", "campaign", "term", "content"] as const)
+    .filter((key) => trim(utm[key]))
+    .map((key) => `${key}=${trim(utm[key])}`);
+  return parts.length ? `UTM: ${parts.join(" ")}` : null;
+}
+
 export function formatLeadDescription(input: WebsiteLeadInput) {
   const lines = [
     `Source: ${WEBSITE_SOURCE}`,
@@ -74,6 +92,9 @@ export function formatLeadDescription(input: WebsiteLeadInput) {
     input.subject ? `Subject: ${input.subject}` : null,
     input.pageUrl ? `Page: ${input.pageUrl}` : null,
     input.referrer ? `Referrer: ${input.referrer}` : null,
+    // Joins this lead to GA acquisition data for offline conversion import.
+    input.gaClientId ? `GA Client ID: ${input.gaClientId}` : null,
+    formatUtmLine(input.utm),
     input.message ? `Message:\n${input.message}` : null,
   ].filter(Boolean);
 

@@ -699,6 +699,8 @@ const createOdooLeadSafe = async (
       sourceDetail: "instant_quote",
       pageUrl: payload.pageUrl,
       referrer: payload.referrer,
+      gaClientId: payload.gaClientId,
+      utm: payload.utm,
     });
   } catch (error) {
     // A failed create can cost the lead entirely (crm_unavailable below), so

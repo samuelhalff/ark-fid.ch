@@ -23,3 +23,26 @@ export function trackEvent(name: string, params?: AnalyticsParams) {
     // Analytics must never surface errors to users.
   }
 }
+
+/**
+ * GA client id from the first-party `_ga` cookie ("GA1.1.<a>.<b>" → "<a>.<b>").
+ * Only exists once the user accepted analytics cookies, so sending it to the
+ * CRM is inherently consent-gated. Used to join CRM lead outcomes back to GA
+ * acquisition data (offline conversion import).
+ */
+export function getGaClientId(): string | undefined {
+  try {
+    if (typeof document === "undefined") return undefined;
+    const raw = document.cookie
+      .split("; ")
+      .find((entry) => entry.startsWith("_ga="))
+      ?.slice("_ga=".length);
+    if (!raw) return undefined;
+    const parts = raw.split(".");
+    if (parts.length < 4) return undefined;
+    const clientId = parts.slice(-2).join(".");
+    return /^\d+\.\d+$/.test(clientId) ? clientId : undefined;
+  } catch {
+    return undefined;
+  }
+}

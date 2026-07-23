@@ -24,6 +24,12 @@ const contactSchema = z.object({
   subject: z.string().trim().max(160).optional().or(z.literal("")),
   pageUrl: z.string().trim().max(600).optional().or(z.literal("")),
   referrer: z.string().trim().max(600).optional().or(z.literal("")),
+  gaClientId: z
+    .string()
+    .trim()
+    .regex(/^\d{1,20}\.\d{1,20}$/)
+    .optional()
+    .or(z.literal("")),
 });
 
 const getEmailDomain = (email: string) =>
@@ -70,6 +76,7 @@ export async function POST(request: Request) {
       sourceDetail: "contact_form",
       pageUrl: payload.pageUrl,
       referrer: payload.referrer,
+      gaClientId: payload.gaClientId || undefined,
     });
     if (!internal && !odooLeadId) {
       throw new Error("odoo_lead_missing");

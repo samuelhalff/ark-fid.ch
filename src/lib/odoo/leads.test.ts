@@ -105,3 +105,26 @@ test("postOdooLeadNote does not retry after a timeout (duplicate-note risk)", as
   assert.equal(calls, 1);
   fetchMock.mock.restore();
 });
+
+test("formatLeadDescription includes GA client id and UTM attribution", async () => {
+  const { formatLeadDescription } = await import("./leads.ts");
+  const description = formatLeadDescription({
+    email: "lead@example.com",
+    sourceDetail: "contact_form",
+    gaClientId: "1194917214.1689149133",
+    utm: { source: "google", medium: "cpc", campaign: "brand", term: "", content: undefined },
+  });
+  assert.match(description, /GA Client ID: 1194917214\.1689149133/);
+  assert.match(description, /UTM: source=google medium=cpc campaign=brand/);
+  assert.doesNotMatch(description, /term=/);
+});
+
+test("formatLeadDescription omits attribution lines when absent", async () => {
+  const { formatLeadDescription } = await import("./leads.ts");
+  const description = formatLeadDescription({
+    email: "lead@example.com",
+    sourceDetail: "contact_form",
+  });
+  assert.doesNotMatch(description, /GA Client ID/);
+  assert.doesNotMatch(description, /UTM:/);
+});

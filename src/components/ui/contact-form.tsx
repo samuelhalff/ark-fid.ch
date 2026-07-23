@@ -2,7 +2,7 @@
 
 import { FC, useMemo } from "react";
 import { cn } from "@/src/lib/utils";
-import { trackEvent } from "@/src/lib/analytics";
+import { getGaClientId, trackEvent } from "@/src/lib/analytics";
 import { Card, CardContent } from "@/src/components/ui/card";
 import {
   Form,
@@ -148,6 +148,7 @@ const ContactForm: FC<ContactFormProps> = ({
           ...data,
           pageUrl: window.location.href,
           referrer: document.referrer || "",
+          gaClientId: getGaClientId() || "",
         }),
       });
       if (!res.ok) {

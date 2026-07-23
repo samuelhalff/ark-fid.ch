@@ -52,6 +52,14 @@ export const agentChatRequestSchema = z
     pageUrl: optionalTrimmedString(600),
     referrer: optionalTrimmedString(600),
     utm: utmSchema,
+    gaClientId: z.preprocess(
+      emptyToUndefined,
+      z
+        .string()
+        .trim()
+        .regex(/^\d{1,20}\.\d{1,20}$/)
+        .optional(),
+    ),
     turnstileToken: z.preprocess(
       emptyToUndefined,
       z.string().trim().min(1).optional(),

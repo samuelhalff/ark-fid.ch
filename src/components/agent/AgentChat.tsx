@@ -7,7 +7,7 @@ import { Input } from "@/src/components/ui/input";
 import { Textarea } from "@/src/components/ui/textarea";
 import { Button } from "@/src/components/ui/button";
 import { cn } from "@/src/lib/utils";
-import { trackEvent } from "@/src/lib/analytics";
+import { getGaClientId, trackEvent } from "@/src/lib/analytics";
 import { ArrowUp, CircleNotch } from "@phosphor-icons/react";
 
 type Role = "user" | "assistant";
@@ -584,6 +584,7 @@ export default function AgentChat({
             pageUrl,
             referrer,
             utm,
+            ...(getGaClientId() ? { gaClientId: getGaClientId() } : {}),
             ...(turnstileToken ? { turnstileToken } : {}),
           }),
         },
