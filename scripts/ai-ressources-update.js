@@ -506,7 +506,7 @@ function buildSystemPrompt(frJson, trendData = null, topicAnalysis = null) {
     lengthGuidance,
     ...longFormRequirements,
     "- Titres: utilise la syntaxe Markdown (## pour H2, ### pour H3) sans écrire « H2 » ou « H3 » dans le texte.",
-    "- Style professionnel, humain, sans capitales superflues.",
+    "- Style professionnel, humain, avec une casse standard : majuscule en début de phrase et aux noms propres ; jamais de titre ou de texte tout en minuscules.",
     "- Références: fournis 4 à 6 liens vérifiables (HTTP 200, pas de login), sans URL inventée.",
     "- Références: inclure au moins 1 source officielle (admin.ch / fedlex.admin.ch / bsv.admin.ch / estv.admin.ch / seco.admin.ch / finma.ch, etc.).",
     "- Références: compléter uniquement avec des sources institutionnelles, associations professionnelles, institutions académiques, registres officiels, documentation officielle Odoo ou sites reconnus de cette liste.",

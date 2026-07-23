@@ -185,7 +185,9 @@ function buildTranslatePrompt(locale, frArticle) {
     "Tu es un traducteur professionnel. Traduis le contenu français vers la langue cible.",
     "Contraintes:",
     "- Ne modifie PAS le slug ni les URLs.",
-    "- Pas de capitales superflues (initiale, acronymes, noms propres).",
+    // NOTE: an earlier wording ("pas de capitales superflues") made the model
+    // lowercase entire articles. Be explicit about standard casing instead.
+    "- Casse standard de la langue cible : majuscule en début de phrase, aux noms propres, marques et acronymes. Ne mets JAMAIS un titre ou un texte entièrement en minuscules ; évite seulement le Title Case à l'anglaise dans les langues qui ne l'utilisent pas.",
     "- Préserve la structure markdown.",
     "- Réponds UNIQUEMENT avec un objet JSON (aucun texte additionnel).",
     "Langue cible: " + locale,
