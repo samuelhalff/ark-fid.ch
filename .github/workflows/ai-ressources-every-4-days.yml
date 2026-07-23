@@ -176,6 +176,7 @@ jobs:
         timeout-minutes: 3
         env:
           ARTICLE_SLUG: ${{ steps.detect-article.outputs.slug }}
+          INDEXNOW_SECRET: ${{ secrets.INDEXNOW_SECRET }}
         run: |
           timeout -k 30s 3m node - <<'NODE'
           const https = require('https');
@@ -189,6 +190,7 @@ jobs:
             headers: {
               'Content-Type': 'application/json',
               'Content-Length': Buffer.byteLength(body),
+              'x-indexnow-secret': process.env.INDEXNOW_SECRET || '',
             },
           }, (res) => {
             let data = '';

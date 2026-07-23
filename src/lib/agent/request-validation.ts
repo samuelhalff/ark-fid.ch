@@ -48,6 +48,7 @@ export const agentChatRequestSchema = z
     leadId: optionalTrimmedString(120),
     leadToken: optionalTrimmedString(240),
     odooLeadId: z.number().int().positive().optional(),
+    odooLeadToken: optionalTrimmedString(128),
     sessionId: optionalTrimmedString(160),
     pageUrl: optionalTrimmedString(600),
     referrer: optionalTrimmedString(600),

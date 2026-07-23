@@ -1,14 +1,30 @@
 import { NextResponse } from 'next/server';
-import { submitToIndexNow } from '@/src/lib/indexnow';
+import {
+  checkIndexNowSecret,
+  parseIndexNowUrls,
+  submitToIndexNow,
+} from '@/src/lib/indexnow';
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json().catch(() => ({}));
-    const urls: string[] = Array.isArray(body?.urls) ? body.urls : [];
-    if (!urls.length) {
-      return NextResponse.json({ error: 'Missing urls[]' }, { status: 400 });
+    // Authenticate before reading the body.
+    const auth = checkIndexNowSecret(
+      req.headers.get('x-indexnow-secret'),
+      process.env.INDEXNOW_SECRET,
+    );
+    if (auth === 'misconfigured') {
+      return NextResponse.json({ error: 'missing_configuration' }, { status: 500 });
     }
-    await submitToIndexNow(urls);
+    if (auth === 'unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body = await req.json().catch(() => ({}));
+    const parsed = parseIndexNowUrls((body as { urls?: unknown })?.urls);
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'invalid_urls' }, { status: 400 });
+    }
+    await submitToIndexNow(parsed.urls);
     return NextResponse.json({ ok: true });
   } catch (e: any) {
     return NextResponse.json({ error: e?.message || 'IndexNow error' }, { status: 500 });

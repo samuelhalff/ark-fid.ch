@@ -19,7 +19,11 @@ import {
 } from "@/src/lib/agent/request-validation";
 import {
   buildSyntheticLeadSession,
-  shouldBypassLeadPersistence,
+  isSyntheticLeadId,
+  isUsableLeadTokenSecret,
+  signOdooLeadToken,
+  verifyOdooLeadToken,
+  verifySyntheticLeadToken,
 } from "@/src/lib/lead-session";
 import {
   createOdooWebsiteLead,
@@ -858,6 +862,16 @@ export async function POST(request: Request) {
       );
     }
 
+    // Stateless synthetic sessions and Odoo note bindings are HMAC-signed, so
+    // a usable secret is mandatory. Fail closed at request time (not module
+    // load — prod env may be absent during the Next.js build).
+    if (!isUsableLeadTokenSecret(LEAD_TOKEN_SECRET)) {
+      return NextResponse.json(
+        { error: "missing_configuration" },
+        { status: 500 }
+      );
+    }
+
     const messages = payload.messages ?? [];
     const lastUserMessage = messages
       .filter((message) => message.role === "user")
@@ -874,14 +888,33 @@ export async function POST(request: Request) {
       // but must NOT create prospect records or send Formspark messages.
       // Return synthetic tokens so the rest of the chat flow works normally.
       if (isInternalEmail(payload.email)) {
+        // Turnstile-gate internal minting too, so an @ark-fid.ch claim is not
+        // a free path to a signed session / the paid LLM.
+        if (TURNSTILE_SECRET_KEY) {
+          if (!payload.turnstileToken) {
+            return NextResponse.json({ error: "turnstile_required" }, { status: 400 });
+          }
+          if (!(await verifyTurnstile(payload.turnstileToken, rateKey))) {
+            return NextResponse.json({ error: "turnstile_failed" }, { status: 400 });
+          }
+        }
         odooLeadId = await createOdooLeadSafe(payload, leadMessage);
-        const syntheticLead = buildSyntheticLeadSession();
+        const syntheticLead = buildSyntheticLeadSession(LEAD_TOKEN_SECRET);
         return NextResponse.json(
           {
             ok: true,
             leadId: syntheticLead.leadId,
             leadToken: syntheticLead.leadToken,
-            ...(odooLeadId ? { odooLeadId } : {}),
+            ...(odooLeadId
+              ? {
+                  odooLeadId,
+                  odooLeadToken: signOdooLeadToken(
+                    LEAD_TOKEN_SECRET,
+                    syntheticLead.leadId,
+                    odooLeadId,
+                  ),
+                }
+              : {}),
           },
           {
             headers: {
@@ -925,7 +958,7 @@ export async function POST(request: Request) {
           );
         }
       }
-      let lead = buildSyntheticLeadSession(odooLeadId);
+      let lead = buildSyntheticLeadSession(LEAD_TOKEN_SECRET);
       if (sharePointEnabled && !missingLeadTokenField) {
         try {
           lead = await createSharePointLead(payload);
@@ -949,7 +982,18 @@ export async function POST(request: Request) {
           ok: true,
           leadId: lead.leadId,
           leadToken: lead.leadToken,
-          ...(odooLeadId ? { odooLeadId } : {}),
+          // Sign the Odoo binding against the FINAL leadId (SharePoint or
+          // synthetic), so the client can later authorize notes to this lead.
+          ...(odooLeadId
+            ? {
+                odooLeadId,
+                odooLeadToken: signOdooLeadToken(
+                  LEAD_TOKEN_SECRET,
+                  lead.leadId,
+                  odooLeadId,
+                ),
+              }
+            : {}),
         },
         {
           headers: {
@@ -959,15 +1003,13 @@ export async function POST(request: Request) {
       );
     }
 
-    // Internal company emails skip SharePoint verification and message logging
-    // but still use the AI agent for chat. This ensures internal testers can
-    // try the chat without polluting the prospect list.
-    const bypassLeadPersistence = shouldBypassLeadPersistence({
-      internalUser: isInternalEmail(payload.email),
-      leadId: payload.leadId,
-    });
+    // Synthetic sessions (SharePoint unavailable, or internal testers) skip
+    // SharePoint persistence but are NOT trusted on the leadId prefix alone —
+    // the signed leadToken is verified below. Only the "synthetic-"/"odoo-"
+    // prefix selects the verification path (never authorizes by itself).
+    const syntheticSession = isSyntheticLeadId(payload.leadId);
 
-    if (!bypassLeadPersistence) {
+    if (!syntheticSession) {
       if (!sharePointEnabled) {
         return NextResponse.json(
           { error: "missing_configuration" },
@@ -1038,8 +1080,22 @@ export async function POST(request: Request) {
 
     const includeTranscript = !isMessagesListConfigured();
     let leadFields: Record<string, unknown> = {};
-    // Internal users have synthetic lead IDs – skip SharePoint lead lookup
-    if (!bypassLeadPersistence) {
+    if (syntheticSession) {
+      // Verify the HMAC-signed synthetic token: the prefix is not proof of a
+      // server-issued session. A forged "synthetic-1" + arbitrary token fails.
+      if (
+        !verifySyntheticLeadToken(
+          LEAD_TOKEN_SECRET,
+          payload.leadId || "",
+          payload.leadToken || "",
+        )
+      ) {
+        return NextResponse.json(
+          { error: "lead_invalid" },
+          { status: 401 }
+        );
+      }
+    } else {
       try {
         leadFields = await fetchLeadFields(
           payload.leadId || "",
@@ -1067,6 +1123,20 @@ export async function POST(request: Request) {
         );
       }
     }
+
+    // Odoo note posting is authorized independently of the chat session: only
+    // an odooLeadId whose HMAC binding (odooLeadToken) matches THIS leadId is
+    // trusted. Prevents posting chatter notes to arbitrary lead IDs.
+    const boundOdooLeadId =
+      payload.odooLeadId &&
+      verifyOdooLeadToken(
+        LEAD_TOKEN_SECRET,
+        payload.leadId || "",
+        payload.odooLeadId,
+        payload.odooLeadToken,
+      )
+        ? payload.odooLeadId
+        : undefined;
     if (!lastUserMessage) {
       return NextResponse.json(
         { error: "invalid_request" },
@@ -1076,7 +1146,7 @@ export async function POST(request: Request) {
 
     // Log user message (skip for internal users – no SharePoint record exists)
     let updatedTranscript: string | undefined;
-    if (!bypassLeadPersistence) {
+    if (!syntheticSession) {
       try {
         updatedTranscript = await logLeadMessage({
           leadId: payload.leadId || "",
@@ -1122,7 +1192,7 @@ export async function POST(request: Request) {
     }
 
     // Log assistant reply (skip for internal users – no SharePoint record)
-    if (!bypassLeadPersistence) {
+    if (!syntheticSession) {
       try {
         await logLeadMessage({
           leadId: payload.leadId || "",
@@ -1138,9 +1208,9 @@ export async function POST(request: Request) {
         }
       }
     }
-    if (payload.odooLeadId) {
+    if (boundOdooLeadId) {
       void postOdooLeadNote(
-        payload.odooLeadId,
+        boundOdooLeadId,
         [
           "Instant quote conversation update",
           "",

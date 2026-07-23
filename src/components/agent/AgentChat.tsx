@@ -27,6 +27,7 @@ type LeadMeta = {
   id: string;
   token: string;
   odooLeadId?: number;
+  odooLeadToken?: string;
 };
 
 type TurnstileInstance = {
@@ -238,6 +239,7 @@ export default function AgentChat({
         leadId?: string;
         leadToken?: string;
         odooLeadId?: number;
+        odooLeadToken?: string;
         sessionId?: string;
         savedAt?: number;
       };
@@ -265,8 +267,13 @@ export default function AgentChat({
       const savedLeadId = typeof saved.leadId === "string" ? saved.leadId : "";
       const savedLeadToken =
         typeof saved.leadToken === "string" ? saved.leadToken : "";
+      const savedOdooLeadToken =
+        typeof saved.odooLeadToken === "string" ? saved.odooLeadToken : undefined;
+      // The odooLeadId is only usable with its signature; restore them as a pair.
       const savedOdooLeadId =
-        typeof saved.odooLeadId === "number" && Number.isFinite(saved.odooLeadId)
+        typeof saved.odooLeadId === "number" &&
+        Number.isFinite(saved.odooLeadId) &&
+        savedOdooLeadToken
           ? saved.odooLeadId
           : undefined;
       const savedSessionId =
@@ -283,7 +290,9 @@ export default function AgentChat({
         setLeadMeta({
           id: savedLeadId,
           token: savedLeadToken,
-          ...(savedOdooLeadId ? { odooLeadId: savedOdooLeadId } : {}),
+          ...(savedOdooLeadId && savedOdooLeadToken
+            ? { odooLeadId: savedOdooLeadId, odooLeadToken: savedOdooLeadToken }
+            : {}),
         });
         if (saved.contact?.email && saved.contact.email !== normalizedEmail) {
           setContact((prev) => ({ ...prev, email: normalizedEmail }));
@@ -314,6 +323,7 @@ export default function AgentChat({
       leadId: leadMeta.id,
       leadToken: leadMeta.token,
       odooLeadId: leadMeta.odooLeadId,
+      odooLeadToken: leadMeta.odooLeadToken,
       sessionId,
     };
     try {
@@ -331,6 +341,7 @@ export default function AgentChat({
     confirmedEmail,
     leadMeta.id,
     leadMeta.odooLeadId,
+    leadMeta.odooLeadToken,
     leadMeta.token,
     messages,
     leadConfirmed,
@@ -595,6 +606,7 @@ export default function AgentChat({
         leadId?: string;
         leadToken?: string;
         odooLeadId?: number;
+        odooLeadToken?: string;
       };
 
       if (!res.ok) {
@@ -629,7 +641,9 @@ export default function AgentChat({
       setLeadMeta({
         id: payload.leadId,
         token: payload.leadToken,
-        ...(payload.odooLeadId ? { odooLeadId: payload.odooLeadId } : {}),
+        ...(payload.odooLeadId && payload.odooLeadToken
+          ? { odooLeadId: payload.odooLeadId, odooLeadToken: payload.odooLeadToken }
+          : {}),
       });
       setLeadModalOpen(false);
       setModalError(null);
@@ -816,6 +830,7 @@ export default function AgentChat({
             leadId: leadMeta.id,
             leadToken: leadMeta.token,
             odooLeadId: leadMeta.odooLeadId,
+            odooLeadToken: leadMeta.odooLeadToken,
             sessionId: resolvedSessionId,
             pageUrl,
             referrer,
