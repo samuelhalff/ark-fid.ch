@@ -225,6 +225,60 @@ const baseConfig = {
       },
       // Consolidated article redirects — avoid 404s for merged content
       {
+        source: "/:locale/ressources/articles/preparer-pme-independants-tva-2026/",
+        destination:
+          "/:locale/ressources/articles/optimiser-declaration-tva-suisse-2026-erreurs-courantes-et-guides-concrets-pme-independants/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/preparer-pme-independants-tva-2026",
+        destination:
+          "/:locale/ressources/articles/optimiser-declaration-tva-suisse-2026-erreurs-courantes-et-guides-concrets-pme-independants/",
+        permanent: true,
+      },
+      {
+        source:
+          "/:locale/ressources/articles/anticiper-tva-geneve-fin-2025-preparer-2026/",
+        destination:
+          "/:locale/ressources/articles/optimiser-declaration-tva-suisse-2026-erreurs-courantes-et-guides-concrets-pme-independants/",
+        permanent: true,
+      },
+      {
+        source:
+          "/:locale/ressources/articles/anticiper-tva-geneve-fin-2025-preparer-2026",
+        destination:
+          "/:locale/ressources/articles/optimiser-declaration-tva-suisse-2026-erreurs-courantes-et-guides-concrets-pme-independants/",
+        permanent: true,
+      },
+      {
+        source:
+          "/:locale/ressources/articles/domiciliation-suisse-entreprise-contrat-substance-risques-2026/",
+        destination:
+          "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
+        permanent: true,
+      },
+      {
+        source:
+          "/:locale/ressources/articles/domiciliation-suisse-entreprise-contrat-substance-risques-2026",
+        destination:
+          "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
+        permanent: true,
+      },
+      {
+        source:
+          "/:locale/ressources/articles/domiciliation-suisse-entreprises-controles-substance-risques-2026/",
+        destination:
+          "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
+        permanent: true,
+      },
+      {
+        source:
+          "/:locale/ressources/articles/domiciliation-suisse-entreprises-controles-substance-risques-2026",
+        destination:
+          "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
+        permanent: true,
+      },
+      {
         source: "/:locale/ressources/articles/registre-commerce-suisse-guide-2026/",
         destination: "/:locale/ressources/articles/registre-commerce-suisse-guide-pratique-documents-delais-erreurs/",
         permanent: true,
