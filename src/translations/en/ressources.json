@@ -2852,6 +2852,38 @@
           "url": "https://www.admin.ch/opc/fr/classified-compilation/19110010/index.html#a957"
         }
       ]
+    },
+    {
+      "slug": "correspondance-formelle-courrier-recommande-suisse-pme-guide",
+      "title": "Formal correspondence and registered mail in Switzerland: what SMEs need to master",
+      "description": "Written form, proof of notification, deadlines: when a simple e-mail is not enough. A practical guide to formal correspondence for SMEs and self-employed professionals in Switzerland, and ways to digitalise it.",
+      "content": "# Formal correspondence and registered mail in Switzerland: what SMEs need to master\n\nIn the life of a Swiss company, some messages are not merely sent: they must be proven. Terminating a contract, serving a formal notice on a debtor, filing an objection to a payment order, contesting a tax assessment decision — in all these situations, the question is not only \"what did I write?\" but \"can I demonstrate when and to whom I sent it?\". This guide reviews the cases where formal correspondence is required, the most common deadline traps and ways to professionalise this process without making it cumbersome.\n\n## When is written form required?\n\nSwiss contract law is built on the principle of freedom of form: a contract can arise from a simple oral agreement. But this principle has many exceptions, whether statutory or contractual. The law requires written form for certain acts; above all, countless contracts — commercial leases, employment contracts, insurance policies, subscriptions, maintenance contracts — contain a clause requiring that termination or amendment be communicated in writing.\n\nIn practice, three questions arise before every sensitive mailing: is written form required (by law or by contract)? Is a signature necessary? And above all, how can notification and its date be proven?\n\n## Proof: why registered mail remains the benchmark\n\nFor declarations between private parties, it is in principle receipt that counts: a termination takes effect when it reaches the recipient's sphere of control. Vis-à-vis an authority, it is often the date of posting that is decisive for meeting a deadline. In both cases, the sender bears the burden of proof.\n\nThis is what makes registered mail the instrument of reference: it establishes the date of dispatch and documents delivery. An e-mail, even with a read receipt, remains fragile if contested; an ordinary mailing proves nothing at all.\n\n## High-risk situations for SMEs\n\nA few examples we regularly encounter when supporting our clients:\n\n- **Formal notice to a debtor**: the starting point for default interest and the logical preliminary step before debt enforcement. Without proof of notification, the chronology becomes contestable.\n- **Objection to a payment order**: the deadline is very short (ten days); the objection can be filed directly with the notifying officer or in writing with the debt enforcement office.\n- **Objection to a tax or social contribution decision**: objection and appeal deadlines are strict; a late or unproven mailing often amounts to a final decision.\n- **Termination of commercial contracts**: premises lease, leasing, insurance, IT contracts — termination windows are short and formal requirements frequent.\n- **Communications to corporate bodies and authorities**: notices of general meetings, filings with the commercial register, correspondence with compensation offices.\n\n## Organising formal correspondence: best practices\n\nFormal correspondence should be managed like tax deadlines: with a calendar and clear responsibilities. Our recommendations:\n\n1. **Take stock of contracts and their termination windows**, with a reminder set early enough to decide calmly.\n2. **Standardise templates** (formal notice, termination, objection) so you do not have to reinvent the structure under pressure.\n3. **Choose the right channel**: registered mail for anything that triggers or meets a deadline; registered mail with acknowledgement of receipt when the delivery date matters.\n4. **Archive the proof together with the letter**: the posting receipt and the delivery tracking should be filed with the copy of the letter, not in a separate box.\n5. **Anticipate the recipient's absence**: an uncollected letter is, in many cases, deemed notified at the end of the retention period — and this works both ways.\n\n## Going digital without losing evidentiary value\n\nFor a long time, \"formal mail\" meant a printer, an envelope and a trip to the post office counter — a real obstacle when the deadline expires the same day. The Swiss ecosystem has evolved: recent online services such as [Episto](https://episto.ch/) allow you to describe the situation, obtain a properly structured letter and then have it dispatched by physical post without leaving your desk. For an SME without a dedicated secretariat, this type of tool above all reduces the risk of letting a deadline slip for purely logistical reasons.\n\nDigitalisation does not, however, dispense with legal analysis: the right channel, the right recipient and the right content remain decisive. The tool speeds up execution; it does not replace the analysis.\n\n## Frequently asked questions\n\n### Can an e-mail replace registered mail?\n\nSometimes — when neither the law nor the contract requires written form and the recipient does not dispute receipt. But as soon as a deadline or a dispute is at stake, the evidentiary value of an e-mail is considerably weaker. For important acts, registered mail remains the safe route.\n\n### What should you do if the recipient does not collect the letter?\n\nDo not resend the same letter over and over: document the initial mailing, keep the postal tracking and, depending on what is at stake, follow up with a copy by ordinary mail or e-mail referring to the registered mailing. The analysis depends on the legal context of the act being notified.\n\n### Who may sign a company's formal correspondence?\n\nThe persons registered in the commercial register with signing authority, within the limits of their powers (individual or joint signature). For sensitive acts, checking the signature requirements before sending avoids unnecessary disputes.\n\n### Can a fiduciary manage this process?\n\nYes: monitoring contractual deadlines, preparing sensitive letters and archiving them are part of the [legal secretariat and corporate services](/services/corporate) we provide for our clients, in coordination with accounting and payroll management.",
+      "author": "Ark Fiduciaire",
+      "date": "2026-07-23",
+      "category": "regulatory",
+      "tags": [
+        "registered mail",
+        "written form",
+        "formal notice",
+        "contract termination",
+        "legal deadlines",
+        "digitalisation",
+        "Swiss SME"
+      ],
+      "references": [
+        {
+          "labelKey": "Code of Obligations (CO) — Swiss Confederation",
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "ch.ch — Debt enforcement and objection",
+          "url": "https://www.ch.ch/fr/"
+        },
+        {
+          "labelKey": "Commercial register — Zefix",
+          "url": "https://www.zefix.ch/fr/search"
+        }
+      ]
     }
   ],
   "suisse-impots-2025": "Swiss taxes 2025 – Overview (FDF)",
