@@ -20,6 +20,7 @@ const {
   TOPIC_KEYWORDS,
   describeTopic,
   detectTopic,
+  findAllTimeNearDuplicate,
   findRecentTitleConflict,
   findRecentTopicConflict,
   getTopicSimilarityDetails,
@@ -2079,6 +2080,21 @@ function enforceTopicRotation(frData, newArticle, topicAnalysis = null) {
     }
   }
 
+  // Same all-time near-duplicate gate the CI runs as a blocking step. Checking
+  // it here lets the generation loop RETRY with avoidance guidance instead of
+  // failing the whole workflow (the generator is prone to re-picking heavily
+  // covered topics like cotisations sociales).
+  const allTimeDup = findAllTimeNearDuplicate(articles, newArticle);
+  if (allTimeDup) {
+    const err = new Error(
+      `Cet article recouvre un article existant (contrôle tous-articles): "${allTimeDup.previousTitle}" (${allTimeDup.previousSlug}). Choisis un sujet nettement différent.`,
+    );
+    err.code = allTimeDup.code;
+    err.previousTitle = allTimeDup.previousTitle;
+    err.previousSlug = allTimeDup.previousSlug;
+    throw err;
+  }
+
   const conflict = findRecentTopicConflict(articles, newArticle, {
     windowSize: TOPIC_ROTATION_WINDOW,
   });
@@ -2123,6 +2139,14 @@ function buildRetryPrompt(basePrompt, error, frData) {
     hint =
       `⚠️ Le slug "${error.slug}" existe déjà. Choisis un nouveau sujet et un slug unique.\n` +
       `Slugs existants — INTERDIT de proposer un sujet recouvrant substantiellement un slug existant (un contrôle de similarité sur tous les articles fera échouer la publication) : ${recentSlugs.join(", ") || "aucun"}.`;
+  } else if (
+    error.code === "ALL_TIME_TITLE_DUPLICATE" ||
+    error.code === "ALL_TIME_TOPIC_DUPLICATE"
+  ) {
+    hint =
+      `⚠️ Le sujet proposé recouvre un article DÉJÀ publié (${error.previousTitle}).\n` +
+      "Change complètement d'angle et de thème — n'écris PAS une nouvelle variante de ce sujet. " +
+      `Sujets à ne PAS reprendre car déjà couverts : ${recentSlugs.slice(0, 60).join(", ") || "aucun"}.`;
   } else if (error.code === "DUPLICATE_TITLE") {
     hint =
       `⚠️ Le titre proposé duplique un article récent (${error.previousTitle}).\n` +
