@@ -101,8 +101,9 @@ const ALLOWED_REFERENCE_DOMAINS = [
   "controledegestion.org",
   "he-arc.ch",
   "houle.ai",
-  // Self-reference
+  // Self-reference and sibling properties (same owner)
   "ark-fid.ch",
+  "episto.ch",
 ];
 
 const DISALLOWED_FIRM_SOURCE_DOMAINS = [
