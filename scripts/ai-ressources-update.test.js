@@ -4,8 +4,21 @@ const assert = require("node:assert/strict");
 const {
   computeAzureOpenAIRetryDelayMs,
   getRetryAfterMsFromError,
+  isResearchRegenerationError,
   isRetryableAzureOpenAIFetchError,
 } = require("./ai-ressources-update");
+
+test("regenerates research when the drafted article is an all-time duplicate", () => {
+  assert.equal(
+    isResearchRegenerationError({ code: "ALL_TIME_TITLE_DUPLICATE" }),
+    true,
+  );
+  assert.equal(
+    isResearchRegenerationError({ code: "ALL_TIME_TOPIC_DUPLICATE" }),
+    true,
+  );
+  assert.equal(isResearchRegenerationError({ code: "TOO_SHORT" }), false);
+});
 
 test("treats undici headers timeout as retryable", () => {
   const error = new Error("fetch failed");

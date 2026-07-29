@@ -2184,6 +2184,13 @@ function buildRetryPrompt(basePrompt, error, frData) {
   return `${basePrompt}\n\n${hint}`;
 }
 
+function isResearchRegenerationError(error) {
+  return (
+    error?.code === "ALL_TIME_TITLE_DUPLICATE" ||
+    error?.code === "ALL_TIME_TOPIC_DUPLICATE"
+  );
+}
+
 async function httpOk(
   url,
   timeoutMs = parseInt(process.env.LINK_CHECK_TIMEOUT_MS || "10000", 10),
@@ -2698,6 +2705,7 @@ async function generateResearchWithRetries(
   trendData,
   seoSuggestions,
   topicAnalysis = null,
+  retryHint = "",
 ) {
   const basePrompt = buildResearchPrompt(
     frData,
@@ -2705,7 +2713,7 @@ async function generateResearchWithRetries(
     seoSuggestions,
     topicAnalysis,
   );
-  let prompt = basePrompt;
+  let prompt = retryHint ? `${basePrompt}\n\n${retryHint}` : basePrompt;
   let lastError = null;
 
   for (let attempt = 1; attempt <= attempts; attempt++) {
@@ -2871,6 +2879,12 @@ async function draftArticleFromResearch(
       normalizeArticleDates(draftArticle);
       return { newArticle: draftArticle, newLabels: accumulatedLabels };
     } catch (error) {
+      if (isResearchRegenerationError(error)) {
+        // A duplicate is a property of the research topic, not of the prose.
+        // Do not spend the remaining draft attempts rewriting the same topic;
+        // let the two-step caller request fresh research instead.
+        throw error;
+      }
       const currentWords = countWords(draftArticle?.content || "");
       const metricsSuffix = error?.code && attemptMetrics
         ? ` [words=${currentWords} finish_reason=${attemptMetrics.finishReason || "unknown"} completion_tokens=${attemptMetrics.completionTokens ?? "?"} requested_max_tokens=${attemptMetrics.requestedMaxTokens ?? "default"}]`
@@ -3005,33 +3019,63 @@ async function main() {
     if (!MOCK_DATA) {
       ensureOpenAIEnv();
     }
-    const { research } = await generateResearchWithRetries(
-      frData,
-      parseInt(process.env.AI_RESEARCH_RETRIES || "2", 10),
-      trendData,
-      seoSuggestions,
-      availableTopicsAnalysis,
+    const maxResearchRegenerations = parseInt(
+      process.env.AI_ARTICLE_RETRIES || "3",
+      10,
     );
+    let retryHint = "";
+    let lastResearchError = null;
+    for (let attempt = 1; attempt <= maxResearchRegenerations; attempt++) {
+      try {
+        const { research } = await generateResearchWithRetries(
+          frData,
+          parseInt(process.env.AI_RESEARCH_RETRIES || "2", 10),
+          trendData,
+          seoSuggestions,
+          availableTopicsAnalysis,
+          retryHint,
+        );
 
-    const refCarrier = {
-      title: research.title,
-      slug: research.slug,
-      content: "",
-      references: Array.isArray(research.references) ? research.references : [],
-    };
-    await repairReferences(refCarrier, research.category || "general");
-    const validatedReferences = Array.isArray(refCarrier.references)
-      ? refCarrier.references
-      : [];
+        const refCarrier = {
+          title: research.title,
+          slug: research.slug,
+          content: "",
+          references: Array.isArray(research.references)
+            ? research.references
+            : [],
+        };
+        await repairReferences(refCarrier, research.category || "general");
+        const validatedReferences = Array.isArray(refCarrier.references)
+          ? refCarrier.references
+          : [];
 
-    const drafted = await draftArticleFromResearch(
-      frData,
-      research,
-      validatedReferences,
-      availableTopicsAnalysis,
-    );
-    newArticle = drafted.newArticle;
-    newLabels = drafted.newLabels || {};
+        const drafted = await draftArticleFromResearch(
+          frData,
+          research,
+          validatedReferences,
+          availableTopicsAnalysis,
+        );
+        newArticle = drafted.newArticle;
+        newLabels = drafted.newLabels || {};
+        break;
+      } catch (error) {
+        lastResearchError = error;
+        if (!isResearchRegenerationError(error) || attempt === maxResearchRegenerations) {
+          throw error;
+        }
+        retryHint = [
+          "⚠️ La recherche précédente a produit un sujet déjà couvert.",
+          `Ne reprends pas le sujet ni l'angle de l'article « ${error.previousTitle || "déjà publié"} ».`,
+          "Choisis un thème disponible nettement différent et retourne un nouveau slug.",
+        ].join(" ");
+        console.warn(
+          `Research topic duplicated; regenerating research (attempt ${attempt + 1}/${maxResearchRegenerations})`,
+        );
+      }
+    }
+    if (!newArticle) {
+      throw lastResearchError || new Error("Échec génération research/draft");
+    }
   } else {
     const drafted = await generateArticleWithRetries(
       frData,
@@ -3191,5 +3235,6 @@ if (require.main === module) {
 module.exports = {
   computeAzureOpenAIRetryDelayMs,
   getRetryAfterMsFromError,
+  isResearchRegenerationError,
   isRetryableAzureOpenAIFetchError,
 };
