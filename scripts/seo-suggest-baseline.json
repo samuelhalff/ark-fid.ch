@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-22T06:56:40.714Z",
+  "generatedAt": "2026-08-01T08:20:38.246Z",
   "config": {
     "maxSuggestions": 10,
     "driftRatio": 0.4,
@@ -198,7 +198,6 @@
             "finance genève",
             "stage comptabilité genève",
             "formation comptabilité genève",
-            "emploi comptabilité genève",
             "comptabilité pme genève sàrl",
             "répétiteur comptabilité genève"
           ],
@@ -248,9 +247,9 @@
             "domiciliation particulier genève",
             "domiciliation entreprise genève prix",
             "domiciliation fiscale genève",
+            "domiciliation indépendant genève",
             "domiciliation association genève",
-            "domiciliation avocat genève",
-            "domiciliation indépendant genève"
+            "domiciliation avocat genève"
           ],
           "bing": [
             "domiciliation genève"
@@ -287,7 +286,8 @@
           "google": [
             "odoo genève",
             "fiduciaire odoo genève",
-            "formation odoo genève"
+            "odoo formation genève",
+            "odoo business show genève"
           ],
           "bing": [
             "odoo genève"
@@ -301,11 +301,11 @@
             "family office suisse liste",
             "family office suisse romande",
             "family office swiss",
+            "family office switzerland",
             "family office switzerland list",
-            "family office switzerland bern",
-            "family office switzerland job",
             "palms family office suisse sa",
             "multi family office suisse",
+            "salaire family office suisse",
             "emploi family office suisse"
           ],
           "bing": [
@@ -323,10 +323,10 @@
             "immigration suisse 2026",
             "immigration suisse site officiel",
             "immigration suisse 2026 inscription",
-            "immigration suisse statistique",
             "immigration suisse par nationalité",
-            "immigration suisse 2025",
+            "immigration suisse statistique",
             "immigration suisse en france",
+            "immigration suisse 2025",
             "immigration suisse pourcentage",
             "immigration suisse en argentine"
           ],
@@ -339,8 +339,8 @@
             "immigration suisse 2024",
             "immigration suisse en alsace",
             "immigration suisse en france",
-            "immigration en suisse 2026",
-            "immigration en suisse pour travailler"
+            "immigration en suisse",
+            "immigration en suisse 2026"
           ]
         }
       }
@@ -357,8 +357,8 @@
             "accountants geneva ny",
             "geneva accounting jobs",
             "geneva accounting system training pdf",
-            "accountant geneva il",
-            "accountant geneva al"
+            "accountant geneva al",
+            "accountant geneva il"
           ],
           "bing": [
             "accountant geneva il",
@@ -368,8 +368,8 @@
             "accounting generalist job description",
             "accounting general entries",
             "accounting general ledger template",
-            "accounting general journal template",
             "accounting general ledger debits and credits",
+            "accounting general journal template",
             "accounting generalist salary"
           ]
         }
@@ -400,13 +400,13 @@
           ],
           "bing": [
             "payroll switzerland",
-            "switzerland payroll services",
             "numeriq payroll switzerland",
+            "switzerland payroll services",
             "payroll companies in switzerland",
             "switzerland payroll in sap",
             "payroll calculator switzerland",
-            "payroll software switzerland",
-            "helvetic payroll switzerland"
+            "helvetic payroll switzerland",
+            "shadow switzerland payroll"
           ]
         }
       },
@@ -430,7 +430,7 @@
       "/services/incorporation": {
         "company incorporation geneva": {
           "google": [
-            "company registration geneva",
+            "geneva company registration",
             "company formation geneva",
             "companies in geneva",
             "what is company incorporation date"
@@ -490,12 +490,12 @@
             "family office switzerland",
             "family office switzerland list",
             "family office switzerland jobs",
-            "family office switzerland bern",
             "family foundation switzerland",
             "tomlinson family office switzerland",
             "single family office switzerland",
-            "freemont family office switzerland",
             "multi family office switzerland",
+            "freemont family office switzerland",
+            "jacobs family office switzerland",
             "m v family office switzerland"
           ],
           "bing": [
@@ -512,15 +512,15 @@
         "swiss immigration": {
           "google": [
             "swiss immigration",
-            "swiss immigration policy",
             "swiss immigration referendum",
-            "swiss immigration to the us",
+            "swiss immigration policy",
             "swiss immigration referendum 2026",
-            "swiss immigration cap",
+            "swiss immigration to the us",
             "swiss immigration law",
+            "swiss immigration cap",
             "swiss immigration vote",
-            "swiss immigration lawyer",
-            "swiss immigration requirements"
+            "swiss immigration problems",
+            "swiss immigration lawyer"
           ],
           "bing": [
             "swiss immigration",
@@ -532,7 +532,7 @@
             "swiss immigration for students",
             "swiss immigration requirements",
             "swiss immigration referendum",
-            "swiss immigration consulting"
+            "swiss immigration law"
           ]
         }
       }
@@ -543,8 +543,8 @@
           "google": [],
           "bing": [
             "buchhaltung generalumkehr",
-            "buchhaltung agenda",
             "buchhaltung genossenschaften besonderheiten",
+            "buchhaltung agenda",
             "buchhaltung gif",
             "buchhaltung gienger",
             "buchhaltung englisch",
@@ -564,11 +564,11 @@
             "steuerberatung gansen",
             "steuerberatung englisch",
             "steuerberatung gansen dillingen",
+            "steuerberatung grenchen",
+            "steuerberatung enge",
             "steuerberatung english",
             "steuerberatung jentsch",
-            "steuerberatung engel",
-            "steuerberatung jenni dornbirn",
-            "steuerberatung grenchen"
+            "steuerberatung jennifer zehe"
           ]
         }
       },
@@ -576,8 +576,8 @@
         "lohnbuchhaltung schweiz": {
           "google": [
             "lohnbuchhaltung schweiz",
-            "lohnbuchhaltung schweiz software",
             "lohnbuchhaltung schweiz kostenlos",
+            "lohnbuchhaltung schweiz software",
             "lohnbuchhaltung schweiz excel",
             "lohnbuchhaltung schweiz einfach erklärt",
             "lohnbuchhaltung schweiz buch",
@@ -630,9 +630,9 @@
             "m&a praktikum schweiz",
             "m&a boutique schweiz",
             "m&a internship schweiz",
-            "m&a berater schweiz",
-            "m&a stellen schweiz",
-            "m&a analyst schweiz"
+            "m&a beratung schweiz",
+            "m&a analyst schweiz",
+            "m&a advisory schweiz"
           ],
           "bing": [
             "m&a schweiz",
@@ -651,10 +651,10 @@
             "odoo genz",
             "odoo generico github",
             "odoo generate_thumbnails",
-            "odoo agenda",
-            "odoo generate leads",
             "odoo general ledger",
-            "odoo general atlantic"
+            "odoo agenda",
+            "odoo general atlantic",
+            "odoo gandhinagar"
           ]
         }
       },
@@ -683,8 +683,8 @@
         "schweiz immigration": {
           "google": [
             "schweiz migration",
-            "schweiz migrationsanteil",
             "schweiz migrationspolitik",
+            "schweiz migrationsanteil",
             "schweiz migrationshintergrund",
             "schweiz migration statistik",
             "schweiz migration abstimmung",
@@ -707,13 +707,13 @@
             "contabilidad general",
             "contabilidad general pdf",
             "contabilidad general libro",
+            "contabilidad general 1",
             "contabilidad general y contabilidad de costos",
             "contabilidad general concepto",
-            "contabilidad general alenro pdf",
-            "contabilidad general 1",
+            "contabilidad general buap",
             "contabilidad general 2",
-            "contabilidad general pedro zapata pdf",
-            "contabilidad general libro pdf"
+            "contabilidad general alenro pdf",
+            "contabilidad general pedro zapata pdf"
           ]
         }
       },
@@ -759,7 +759,7 @@
             "m suiza"
           ],
           "bing": [
-            "massa"
+            "m&a suez"
           ]
         }
       },
@@ -770,7 +770,6 @@
             "odoo generate report",
             "odoo general settings",
             "odoo generate_thumbnails",
-            "odoo generate leads",
             "odoo general ledger",
             "odoo general atlantic",
             "odoo girardin"
@@ -801,8 +800,8 @@
             "inmigración suiza 2025",
             "inmigración suiza en colombia",
             "inmigración suiza en brasil",
-            "inmigración suiza 2024",
             "inmigración suiza en paraguay",
+            "inmigración suiza 2024",
             "suiza inmigración musulmana"
           ],
           "bing": [
@@ -878,10 +877,10 @@
             "m&a socal",
             "m&a summit",
             "m&a supply company inc",
-            "m&a support services",
             "m&a socal 2026",
-            "m&a socal acg",
-            "m&a summit 2026"
+            "m&a support services",
+            "m&a summit 2026",
+            "m&a socal acg"
           ]
         }
       },
@@ -892,7 +891,6 @@
             "odoo generate report",
             "odoo general settings",
             "odoo generate_thumbnails",
-            "odoo generate leads",
             "odoo general ledger",
             "odoo general atlantic",
             "odoo generic modules",
@@ -909,19 +907,19 @@
             "family office scam",
             "family office su lin",
             "family office summit",
-            "family office summit dubai",
             "family office support",
+            "family office summit dubai",
             "family office summit 2026",
-            "family office sur paris",
-            "family office summit 2025"
+            "family office summit abu dhabi",
+            "family office summit dubai 2026"
           ]
         }
       },
       "/services/immigration": {
         "imigração suíça": {
           "google": [
-            "imigração suiça no brasil",
             "imigração suiça",
+            "imigração suiça no brasil",
             "imigração suíça no rio de janeiro",
             "imigração suíça no espírito santo",
             "imigração suíça aeroporto",

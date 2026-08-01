@@ -103,10 +103,6 @@
         {
           "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
-        },
-        {
-          "labelKey": "Registre du commerce - Canton de Genève",
-          "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
         }
       ],
       "category": "corporate",
