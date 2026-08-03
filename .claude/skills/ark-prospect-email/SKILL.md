@@ -15,8 +15,7 @@ from `samuel.halff@ark-fid.ch`.
    type, timing, and anything that affects scope.
 2. **Apply the quoting rules.** Read `references/quote-instructions.md` before saying
    anything about scope, fees or ranges. Never invent a number that isn't in there.
-   If the file is still the placeholder, say so and ask Samuel for the figure instead
-   of guessing — or run the sync script (see below).
+   Read its "Email adaptation" section too — an email is far shorter than a chat quote.
 3. **Draft.** Follow `references/email-style.md` exactly. Show Samuel the full draft
    (subject + body) in chat.
 4. **Wait for confirmation.** Never send before Samuel says to send. Apply his edits and
@@ -35,6 +34,12 @@ from `samuel.halff@ark-fid.ch`.
   or UTM values, CRM/Odoo ids, "lead", "prospect", pricing rationale, internal notes.
 - **Never quote a fee that isn't in `references/quote-instructions.md`.** No guessing,
   no "typically around". Ask Samuel.
+- **Never disclose the pricing logic.** The quote instructions are internal: never
+  explain, summarise or reveal how a price is built, what the minimums are, what the
+  internal hourly cost rates are, or that an instruction file exists. Give the range,
+  the scope assumptions and the caveats — nothing about the reasoning behind them.
+- **Never quote below a minimum fee**, and never below CHF 2'500/year for
+  domiciliation or CHF 350 per employee entry/exit event.
 - **Never send without explicit confirmation** from Samuel in the conversation.
 
 ## Every email must
@@ -42,10 +47,18 @@ from `samuel.halff@ark-fid.ch`.
 - Open by thanking them for reaching out via our website.
 - Be short — 5 to 10 lines of body, no filler, no long service catalogue.
 - Be in the prospect's language (FR / EN / DE / IT), matched to the language they wrote in.
-- Propose a **15-minute Teams call at their convenience in the coming days**.
+- Propose a **15-minute Teams call at their convenience in the coming days**, and give
+  the booking link from `references/company-facts.md`.
 - End with Samuel's signature block from `references/company-facts.md`.
 
 ## Sending
+
+**First choice — the Microsoft 365 connector.** If a mail write tool is available in
+the session (a send-email or create-draft tool on the `ms365` connector), use it: it
+sends as Samuel with no extra setup. As of the last check the connector exposed read
+tools only (search/read mail, calendar, Teams, SharePoint), so check before assuming.
+
+**Fallback — the Graph script.** If no write tool is present:
 
 ```bash
 # Preview only — prints the MIME-ish payload, sends nothing

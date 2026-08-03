@@ -11,6 +11,8 @@ number), ask Samuel rather than inventing it.
 - **Website:** https://ark-fid.ch
 - **General inbox:** info@ark-fid.ch
 - **Sender for these emails:** samuel.halff@ark-fid.ch
+- **Booking link (15-min call):**
+  https://outlook.office.com/bookwithme/user/a21b46e2d9a540cca4c290a48c40119e@ark-fid.ch/meetingtype/GHNs6ESvEUWN2gUat7rePg2?anonymous&ismsaljsauthenabled&ep=mlink
 
 ## Services we can reference
 
@@ -43,3 +45,5 @@ Adapt the address line to the email's language (Genève / Geneva / Genf / Ginevr
 - Any fiduciary/accounting brand other than Ark Fiduciaire SA
 - CRM internals: Odoo lead ids, SharePoint lists, lead scores, UTM/campaign values,
   "instant_quote" / "contact_form" source tags, chat transcripts
+- Any explanation of how our pricing is built: minimum fees, internal hourly rates,
+  scaling bands, or the existence of internal quoting instructions

@@ -14,9 +14,11 @@ Subject: <short, concrete, in the prospect's language — their topic, not "Your
 <One or two lines showing we understood what they need — restate their situation, not ours.>
 
 <One or two lines: what we'd do / what we need to know to be precise. Fees only if
- references/quote-instructions.md covers the case.>
+ references/quote-instructions.md covers the case — a range, never a single figure,
+ followed by the VAT note in the prospect's language.>
 
-<Offer a 15-minute Teams call at their convenience in the coming days.>
+<Offer a 15-minute Teams call at their convenience in the coming days, with the
+ booking link.>
 
 <Sign-off>
 <Signature block>
@@ -48,6 +50,23 @@ Subject: <short, concrete, in the prospect's language — their topic, not "Your
 - IT: «Avrebbe 15 minuti per una call Teams nei prossimi giorni? Mi dica pure cosa le è più comodo.»
 
 Do not propose specific slots unless Samuel asks for it. Let them name the time.
+Add the booking link (see `company-facts.md`) on its own line, right after the call
+sentence, with the link text in the prospect's language:
+
+- FR: [Réserver un appel](lien) — EN: [Book a call](link)
+- DE: [Termin buchen](Link) — IT: [Prenotare una call](link)
+
+## If the email contains figures
+
+- Ranges only, never a single figure (except the fixed hourly rates).
+- Monthly first, annual equivalent in parentheses, where applicable.
+- Close the figures with the VAT note in the prospect's language:
+  - FR: Prix hors TVA; le périmètre final et la revue KYC/complexité peuvent ajuster le devis.
+  - EN: Prices excl. VAT; final scope and KYC/complexity review may adjust the final quote.
+  - DE: Preise exkl. MwSt.; endgültiger Umfang und KYC-/Komplexitätsprüfung können das Angebot anpassen.
+  - IT: Prezzi IVA esclusa; perimetro finale e revisione KYC/complessità possono adeguare il preventivo.
+- No summary table in a first email. One or two service lines at most.
+- Never explain how the price was built.
 
 ## Sign-offs
 
