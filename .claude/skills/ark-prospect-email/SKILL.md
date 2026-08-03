@@ -45,11 +45,16 @@ from `samuel.halff@ark-fid.ch`.
 ## Every email must
 
 - Open by thanking them for reaching out via our website.
-- Be short — 5 to 10 lines of body, no filler, no long service catalogue.
+- Be short — 5 to 10 short paragraphs, one sentence each, no filler, no service catalogue.
+- Carry one or two concrete Swiss-specific points that show the case was understood
+  (e.g. the Swiss-resident director requirement, notary fees depending on company form).
+- Default to no figures: "our fees will vary depending on the activity and scope (…)".
 - Be in the prospect's language (FR / EN / DE / IT), matched to the language they wrote in.
-- Propose a **15-minute Teams call at their convenience in the coming days**, and give
-  the booking link from `references/company-facts.md`.
-- End with Samuel's signature block from `references/company-facts.md`.
+- Propose a **15-minute Teams call in the coming days** and ask them to name the
+  day/time that suits them. The booking link is optional — see `email-style.md`.
+- End with "Kind regards," (or its equivalent) and "Samuel". Append the full signature
+  block from `references/company-facts.md` only when sending via the Graph script,
+  which does not add Outlook's signature.
 
 ## Sending
 
