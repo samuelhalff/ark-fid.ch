@@ -64,6 +64,10 @@
         {
           "labelKey": "Portail PME de la Confédération",
           "url": "https://www.kmu.admin.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -300,6 +304,10 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ],
       "category": "payroll",
@@ -636,8 +644,8 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Code des obligations - Comptabilité",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
+          "labelKey": "Portail PME de la Confédération (PME)",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "outsourcing",
@@ -824,8 +832,8 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Code des obligations - Comptabilité",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
+          "labelKey": "Portail PME de la Confédération (PME)",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "outsourcing",
@@ -852,6 +860,10 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "accounting",
@@ -1113,6 +1125,10 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -1320,6 +1336,10 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "tax",
@@ -1345,6 +1365,10 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "incorporation",
@@ -1373,6 +1397,10 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -1400,6 +1428,10 @@
         {
           "labelKey": "Economiesuisse",
           "url": "https://www.economiesuisse.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "incorporation",
@@ -2544,10 +2576,6 @@
         {
           "labelKey": "Ark Fiduciaire – Fusions & acquisitions en Suisse romande",
           "url": "https://ark-fid.ch/fr/ressources/articles/fusion-et-acquisition-en-suisse-romande-2025-etapes-defis-et-opportunites-pour-les-pme/"
-        },
-        {
-          "labelKey": "admin.ch – Pratique fédérale sur garantie des vices lors de cession (Loi sur le CO)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
     },
@@ -2765,7 +2793,7 @@
         },
         {
           "labelKey": "Société à responsabilité limitée en Suisse – Dispositions légales (CO art. 772 ss)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_772"
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
           "labelKey": "Vérification du nom de la société sur Zefix (registre fédéral officiel)",
@@ -2836,11 +2864,11 @@
         },
         {
           "labelKey": "Swissdec — Standard suisse pour la gestion des salaires et paiements",
-          "url": "https://www.swissdec.ch/fr/"
+          "url": "https://www.swissdec.ch/fr"
         },
         {
           "labelKey": "Code des obligations : obligations comptables PME — admin.ch",
-          "url": "https://www.admin.ch/opc/fr/classified-compilation/19110010/index.html#a957"
+          "url": "https://www.fedlex.admin.ch/fr/cc/internal-law/19110010"
         }
       ]
     },
@@ -2903,7 +2931,7 @@
         },
         {
           "labelKey": "Registre du commerce suisse : informations officielles entreprises",
-          "url": "https://www.zefix.ch"
+          "url": "https://www.zefix.ch/"
         },
         {
           "labelKey": "Code des obligations suisse – Exigence de siège et inscription",
@@ -2942,7 +2970,7 @@
         },
         {
           "labelKey": "Accord multilatéral sur la sécurité sociale des frontaliers (A1, ALCP, seuils) – admin.ch",
-          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-96594.html"
+          "url": "https://www.admin.ch/fr/nsb?id=96594"
         },
         {
           "labelKey": "Entrée en vigueur de l'avenant à la convention franco-suisse",
@@ -3016,7 +3044,7 @@
         },
         {
           "labelKey": "Code des obligations suisse (art. 727a et ss.)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#art_727a"
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
     },
