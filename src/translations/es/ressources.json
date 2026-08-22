@@ -64,10 +64,6 @@
         {
           "labelKey": "Portail PME de la Confédération",
           "url": "https://www.kmu.admin.ch/fr"
-        },
-        {
-          "labelKey": "Portail PME de la Confédération",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -129,10 +125,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
       "category": "tax",
@@ -304,10 +296,6 @@
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr"
-        },
-        {
-          "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr/"
         }
       ],
       "category": "payroll",
@@ -330,10 +318,6 @@
         {
           "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
           "url": "https://www.ch.ch/fr/impots/"
-        },
-        {
-          "labelKey": "Portail PME - Fiscalité",
-          "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
       "category": "tax",
