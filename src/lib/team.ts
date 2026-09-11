@@ -4,7 +4,8 @@ export type TeamMember = {
     | "Partner"
     | "ManagingPartner"
     | "Tax"
-    | "OfficeProjectManager"
+    | "ProjectManager"
+    | "OfficeManager"
     | "SeniorAccountant"
     | "Associate";
   profilePic: string;
@@ -119,13 +120,13 @@ export const teamMembers: TeamMember[] = [
   },
   {
     name: "Celeste Leal",
-    role: "OfficeProjectManager",
+    role: "ProjectManager",
     profilePic: "/assets/team/cl.avif",
     social: {
       linkedin: "https://www.linkedin.com/in/c%C3%A9lesteleal",
     },
     bioShort:
-      "Leads office operations and projects, ensuring smooth onboarding and efficient internal processes.",
+      "Project manager driving client and internal projects, ensuring smooth onboarding and efficient processes.",
     pbmUrl: "https://pbm.law/fr/team/celeste-leal",
   },
   {
@@ -150,13 +151,13 @@ export const teamMembers: TeamMember[] = [
   },
   {
     name: "Dima Ukbabe",
-    role: "Associate",
+    role: "OfficeManager",
     profilePic: "",
     social: {
       linkedin: "",
     },
     bioShort:
-      "In charge of admin and accounting; supports day‑to‑day client operations.",
+      "Office manager in charge of admin and accounting; supports day‑to‑day client operations.",
   },
 ];
 

@@ -5,7 +5,8 @@
         "Partner": "Associé",
         "ManagingPartner": "Associé Gérant",
         "Tax": "Fiscalité",
-        "OfficeProjectManager": "Office & Project Manager",
+        "ProjectManager": "Project Manager",
+        "OfficeManager": "Office Manager",
         "SeniorAccountant": "Comptable Senior",
         "Associate": "Collaboratrice"
     },

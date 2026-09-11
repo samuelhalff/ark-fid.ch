@@ -5,7 +5,8 @@
         "Partner": "Socio",
         "ManagingPartner": "Socio Gerente",
         "Tax": "Impuestos",
-        "OfficeProjectManager": "Office & Project Manager",
+        "ProjectManager": "Project Manager",
+        "OfficeManager": "Office Manager",
         "SeniorAccountant": "Contador Senior",
         "Associate": "Asociado"
     },

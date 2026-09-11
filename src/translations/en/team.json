@@ -5,7 +5,8 @@
         "Partner": "Partner",
         "ManagingPartner": "Managing Partner",
         "Tax": "Tax",
-        "OfficeProjectManager": "Office & Project Manager",
+        "ProjectManager": "Project Manager",
+        "OfficeManager": "Office Manager",
         "SeniorAccountant": "Senior Accountant",
         "Associate": "Associate"
     },
