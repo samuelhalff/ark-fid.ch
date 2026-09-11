@@ -66,7 +66,19 @@ async function main() {
             return;
           }
           const r = await checkRef(ref.url);
-          const ok = r.ok && r.status >= 200 && r.status < 400 && r.bodySize >= minBytesArg;
+          // Unverifiable SPA domains skip the network check entirely (no
+          // status/body), so the status/size gates below must not apply.
+          // Binary assets (PDFs) checked via HEAD report bodySize 0, so the
+          // min-bytes gate only makes sense for textual content.
+          const isBinary =
+            r.contentType && !/text|html|json|xml/i.test(r.contentType);
+          const ok =
+            r.reason === 'unverifiable-spa'
+              ? r.ok
+              : r.ok &&
+                r.status >= 200 &&
+                r.status < 400 &&
+                (isBinary || r.bodySize >= minBytesArg);
           results.push({ locale: loc, slug: a.slug, labelKey: ref.labelKey, url: ref.url, ok, status: r.status, bodySize: r.bodySize, contentType: r.contentType, error: r.error, reason: r.reason });
         });
       }
@@ -85,10 +97,14 @@ async function main() {
   const bad = results.filter((r) => !r.ok);
   const warnings = bad.filter((r) => TRANSIENT_ERROR_REASONS.has(r.reason));
   const fatals = bad.filter((r) => !TRANSIENT_ERROR_REASONS.has(r.reason));
+  const unverifiable = results.filter(
+    (r) => r.ok && r.reason === 'unverifiable-spa'
+  );
   const summary = {
     checked: results.length,
     failures: fatals.length,
     warnings: warnings.length,
+    unverifiable: unverifiable.length,
   };
   if (fatals.length) {
     console.log('✗ Invalid/weak references found (status/body too small/invalid URL):');
@@ -103,6 +119,13 @@ async function main() {
     for (const r of warnings) {
       console.log(`- [${r.locale}] ${r.slug} :: ${r.labelKey || ''} -> ${r.url} (status: ${r.status || 'n/a'}, size: ${r.bodySize || 0}, reason: ${r.reason || r.error || 'transient-error'})`);
     }
+  }
+  if (unverifiable.length) {
+    const urls = [...new Set(unverifiable.map((r) => r.url))];
+    console.log(
+      `ℹ️ ${unverifiable.length} reference(s) on SPA domains that cannot be verified over HTTP (kept; spot-check manually in a browser):`
+    );
+    for (const u of urls) console.log(`- ${u}`);
   }
   console.log(`Ref check summary: ${JSON.stringify(summary)}`);
   if (!NO_FAIL && fatals.length) process.exit(1);

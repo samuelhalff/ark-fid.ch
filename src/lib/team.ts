@@ -149,14 +149,14 @@ export const teamMembers: TeamMember[] = [
       "Supports administrative and accounting operations for day-to-day client needs.",
   },
   {
-    name: "Sixtine Dumas",
+    name: "Dima Ukbabe",
     role: "Associate",
     profilePic: "",
     social: {
       linkedin: "",
     },
     bioShort:
-      "In charge of admin and accounting; law student supporting day‑to‑day client operations.",
+      "In charge of admin and accounting; supports day‑to‑day client operations.",
   },
 ];
 

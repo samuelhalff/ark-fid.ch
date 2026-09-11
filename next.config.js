@@ -523,6 +523,36 @@ const baseConfig = {
         permanent: true,
       },
       {
+        source: "/:locale/ressources/articles/lba-aml-obligations-fiduciaire-kyc-risques/",
+        destination: "/:locale/ressources/articles/lba-aml-obligations-kyc-risques-fiduciaire-suisse/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/lba-aml-obligations-fiduciaire-kyc-risques",
+        destination: "/:locale/ressources/articles/lba-aml-obligations-kyc-risques-fiduciaire-suisse/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/regles-pv-assemblee-generale-suisse-2026-guide-pratique-pme-independants/",
+        destination: "/:locale/ressources/articles/proces-verbal-assemblee-generale-obligations-redaction-suisse-2025/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/regles-pv-assemblee-generale-suisse-2026-guide-pratique-pme-independants",
+        destination: "/:locale/ressources/articles/proces-verbal-assemblee-generale-obligations-redaction-suisse-2025/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/cotisations-sociales-suisse-guide-2026-employeur-exemples-erreurs-faq/",
+        destination: "/:locale/ressources/articles/guide-cotisations-sociales-employeurs-suisse-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/cotisations-sociales-suisse-guide-2026-employeur-exemples-erreurs-faq",
+        destination: "/:locale/ressources/articles/guide-cotisations-sociales-employeurs-suisse-2026/",
+        permanent: true,
+      },
+      {
         source: "/:locale/ressources/articles/cloture-comptable-pme-checklist-delais-controle-qualite/",
         destination: "/:locale/ressources/articles/cloture-comptable-pme-delais-controle-interne-et-erreurs-courantes/",
         permanent: true,

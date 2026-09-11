@@ -29,6 +29,16 @@ const timeoutMs = parseInt(value("--timeout-ms", "8000"), 10);
 const minBytes = parseInt(value("--min-bytes", "600"), 10);
 const maxRefs = Math.max(0, parseInt(value("--max-refs", "0"), 10) || 0);
 
+// Reasons that do not prove a link is dead: flaky networks, slow servers and
+// bot-blocking WAFs (admin.ch, expertsuisse.ch return 403/5xx to non-browser
+// clients while serving fine in browsers). Never delete references for these.
+const TRANSIENT_KEEP_REASONS = new Set([
+  "timeout",
+  "network-error",
+  "server-error",
+  "http-error",
+]);
+
 if (typeof fetch !== "function") {
   console.error("❌ This script requires Node 18+ (global fetch)");
   process.exit(1);
@@ -149,6 +159,13 @@ async function cleanLocale(locale) {
       const result = await checkUrl(ref.url);
 
       if (result.ok) {
+        cleanRefs.push(ref);
+      } else if (TRANSIENT_KEEP_REASONS.has(result.reason)) {
+        // A flaky timeout or a bot-blocking WAF (403/5xx) is not proof the
+        // link is dead — keep the reference instead of churning the corpus.
+        console.log(
+          `  ⏳ [${article.slug}] Keeping reference despite transient error (${result.reason}): ${ref.url}`
+        );
         cleanRefs.push(ref);
       } else {
         console.log(

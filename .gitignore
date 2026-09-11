@@ -37,3 +37,4 @@ quick-deploy.tar.gz
 *.out
 .server_pid*
 scripts/seo-suggest-latest.json
+tmp/

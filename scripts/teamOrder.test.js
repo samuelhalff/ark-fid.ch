@@ -12,12 +12,12 @@ test("team members are ordered by last name", async () => {
       "Hassan Barbir",
       "Catia Cardoso",
       "Lassana Dioum",
-      "Sixtine Dumas",
       "Sébastien Gallié",
       "Samuel Halff",
       "Celeste Leal",
       "Rodrigue Sperisen",
       "Anthony Touboul",
+      "Dima Ukbabe",
     ],
   );
 });

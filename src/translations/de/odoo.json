@@ -3,17 +3,17 @@
     "Hero": {
         "Badge": "Odoo-Implementierung",
         "BadgeTwo": "Digitalisierung & ERP",
-        "Title": "Odoo-implementierung in genf für schweizer KMU",
-        "Description": "Ark Fiduciaire unterstützt Sie bei der Integration, Anpassung und Weiterentwicklung Ihrer Odoo-Lösung. Optimieren Sie Ihre Prozesse, automatisieren Sie Aufgaben und verwalten Sie Ihr Unternehmen mit einem vollständigen und skalierbaren ERP.",
+        "Title": "Odoo-Integrator in Genf: Implementierung für Schweizer KMU",
+        "Description": "Ark Fiduciaire, Treuhand und Odoo-Integrator in Genf, unterstützt Sie bei der Integration, Anpassung und Weiterentwicklung Ihrer Odoo-Lösung. Optimieren Sie Ihre Prozesse, automatisieren Sie Aufgaben und verwalten Sie Ihr Unternehmen mit einem vollständigen und skalierbaren ERP.",
         "CTA": "Mein Odoo-Projekt beschleunigen",
         "SecondaryCTA": "Team kennenlernen",
         "OdooPartnerBadge": "Offizieller Odoo-Partner"
     },
     "Presentation": {
         "Title": "Odoo in der schweiz: implementierung und module",
-        "Subtitle": "Eine vollständige und skalierbare ERP-Lösung",
+        "Subtitle": "Eine vollständige und skalierbare ERP-Lösung, implementiert von Ihrer Treuhand",
         "Intro": [
-            "Odoo ist eine modulare und flexible ERP-Lösung, ideal für die Digitalisierung und Optimierung Ihrer Unternehmensverwaltung. Ark Fiduciaire unterstützt Sie bei der Integration, Anpassung und Weiterentwicklung Ihres Odoo-Systems.",
+            "Odoo ist eine modulare und flexible ERP-Lösung, ideal für die Digitalisierung und Optimierung Ihrer Unternehmensverwaltung. Ark Fiduciaire, Treuhand und Odoo-Integrator in Genf, unterstützt Sie bei der Integration, Anpassung und Weiterentwicklung Ihres Odoo-Systems.",
             "Wir analysieren Ihre Bedürfnisse, konfigurieren die richtigen Module und schulen Ihre Teams, um eine schnelle und effektive Einführung zu gewährleisten. Unser technischer Support gewährleistet die Kontinuität und Sicherheit Ihrer Odoo-Umgebung.",
             "Ihr Team bleibt autonom: Routineaufgaben automatisieren, Daten aus Rechnungen und Belegen automatisch auslesen und einfache Auswertungen ohne IT erstellen."
         ],

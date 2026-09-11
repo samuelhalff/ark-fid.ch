@@ -209,6 +209,23 @@ function isBlockedDomain(url, extraBlocked = []) {
   }
 }
 
+// Domains that serve an identical 200 SPA shell for every path (even dead
+// ones), making link liveness impossible to verify over plain HTTP. Confirmed
+// for www.ch.ch on 2026-09-11: dead and live paths return byte-identical HTML
+// to non-browser clients; only a JS-rendering client sees the real 404.
+const UNVERIFIABLE_SPA_DOMAINS = ["ch.ch"];
+
+function isUnverifiableSpaDomain(url) {
+  try {
+    const host = new URL(url).hostname.toLowerCase();
+    return UNVERIFIABLE_SPA_DOMAINS.some(
+      (d) => host === d || host.endsWith(`.${d}`),
+    );
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Check if a domain is in the trusted list
  * @param {string} url - URL to check
@@ -339,6 +356,21 @@ async function validateUrl(url, options = {}) {
   if (isBlockedDomain(url)) {
     result.error = "Domain is blocked";
     result.reason = "blocked-domain";
+    return result;
+  }
+
+  // Client-rendered SPA domains serve the same 200 shell for every path
+  // (including dead ones), so their links cannot be verified over HTTP from CI.
+  // Default: give existing references the benefit of the doubt (valid, but
+  // flagged) so cleanup jobs never delete them on a false signal. With
+  // strictUnverifiable (used when the AI pipeline accepts NEW references),
+  // reject them so unverifiable citations don't enter the corpus.
+  if (isUnverifiableSpaDomain(url)) {
+    result.reason = "unverifiable-spa";
+    result.valid = !options.strictUnverifiable;
+    result.error = options.strictUnverifiable
+      ? "SPA domain cannot be verified over HTTP; not accepted for new references"
+      : null;
     return result;
   }
 
@@ -529,7 +561,13 @@ async function validateReferences(references, options = {}) {
         });
         continue;
       }
-      const result = await validateUrl(ref.url, validateOptions);
+      // validateReferences gates NEW references entering the corpus, so
+      // unverifiable SPA domains are rejected here (strict) while existing
+      // references checked via validateUrl directly keep the benefit of the doubt.
+      const result = await validateUrl(ref.url, {
+        strictUnverifiable: true,
+        ...validateOptions,
+      });
       results.push({ ref, result });
     }
   });
@@ -661,6 +699,7 @@ module.exports = {
   extractDomain,
   isTrustedDomain,
   isBlockedDomain,
+  isUnverifiableSpaDomain,
   getFallbackReferences,
   VERIFIED_FALLBACK_REFS,
   ALLOWED_REFERENCE_DOMAINS,

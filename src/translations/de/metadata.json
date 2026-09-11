@@ -68,7 +68,7 @@
       "keywords": "domizilierung genf, domizilierung lausanne, geschäftsadresse genf, domizilierung schweiz, domizilierung firma genf"
     },
     "/services/odoo": {
-      "title": "Odoo-Implementierung für KMU Genf | Ark Fiduciaire",
+      "title": "Odoo-Integrator Genf: Implementierung für Schweizer KMU | Ark Fiduciaire",
       "description": "Odoo-Implementierung in Genf für Schweizer KMU. Modulare ERP-Lösung für die Digitalisierung und Optimierung Ihrer Unternehmensverwaltung.",
       "keywords": "odoo genf, odoo implementierung schweiz, odoo integrator genf, odoo für KMU schweiz, odoo buchhaltung schweiz"
     },
@@ -83,8 +83,8 @@
       "keywords": "m&a schweiz, m&a beratung schweiz, unternehmensbewertung schweiz, due diligence schweiz, nachfolge KMU schweiz"
     },
     "/services/payroll": {
-      "title": "Lohnbuchhaltung und payroll in der romandie | Ark Fiduciaire",
-      "description": "Lohnbuchhaltung in der Romandie. Wir übernehmen Ihre Lohn- und HR-Verwaltung, von Gehaltsberechnungen bis Sozialversicherungserklärungen.",
+      "title": "Lohnbuchhaltung und ANOBAG-Abwicklung in der Romandie | Ark Fiduciaire",
+      "description": "Lohnbuchhaltung in der Romandie. Wir übernehmen Ihre Lohn- und HR-Verwaltung, von Gehaltsberechnungen bis Sozialversicherungserklärungen, inkl. ANOBAG für ausländische Arbeitgeber.",
       "keywords": "lohnbuchhaltung schweiz, payroll genf, lohnabrechnung schweiz, lohnadministration genf, sozialabgaben schweiz"
     },
     "/services/taxes": {

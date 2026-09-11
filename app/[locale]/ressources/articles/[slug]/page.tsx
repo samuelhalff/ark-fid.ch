@@ -12,7 +12,12 @@ import Breadcrumbs from "@/src/components/navigation/Breadcrumbs";
 import { estimateReadingTime } from "@/src/lib/readingTime";
 import dynamicImport from "next/dynamic";
 import Defer from "@/src/components/Defer";
-import { localizePath, normalizeInternalHref } from "@/src/lib/paths";
+import {
+  buildInternalUrl,
+  localizePath,
+  normalizeInternalHref,
+} from "@/src/lib/paths";
+import { getCategoryServicePath } from "@/src/lib/articleCta";
 import {
   getArticle,
   getValidLocalesForSlug,
@@ -409,28 +414,51 @@ export default async function ArticlePage(props: Params) {
           {articleFirstHalf}
         </ReactMarkdown>
 
-        {/* Mid-article contextual CTA — lead magnet touchpoint */}
-        {articleSecondHalf && (
-          <ArticleContextualCTA
-            locale={locale}
-            title={
-              (tRessources("ContextualCTA.Title") as string) ||
-              "Need help with this topic?"
-            }
-            description={
-              (tRessources("ContextualCTA.Description") as string) ||
-              "Our experts are available for personalised guidance. First consultation free, no commitment."
-            }
-            primaryText={
-              (tRessources("ContextualCTA.PrimaryCTA") as string) ||
-              "Contact us"
-            }
-            secondaryText={
-              (tRessources("ContextualCTA.SecondaryCTA") as string) ||
-              "Instant quote"
-            }
-          />
-        )}
+        {/* Mid-article contextual CTA — lead magnet touchpoint.
+            Category-specific copy + a link to the matching service page;
+            falls back to the generic contact/quote pair. */}
+        {articleSecondHalf &&
+          (() => {
+            const ctaCategory = article.category || "";
+            const servicePath = getCategoryServicePath(ctaCategory);
+            const catKey = (field: string) =>
+              `ContextualCTA.Categories.${ctaCategory}.${field}`;
+            const catText = (field: string): string | null => {
+              const key = catKey(field);
+              const value = tRessources(key) as string;
+              return value && value !== key ? value : null;
+            };
+            const categoryTitle = servicePath ? catText("Title") : null;
+            const serviceCtaLabel = servicePath ? catText("ServiceCTA") : null;
+            return (
+              <ArticleContextualCTA
+                locale={locale}
+                title={
+                  categoryTitle ||
+                  (tRessources("ContextualCTA.Title") as string) ||
+                  "Need help with this topic?"
+                }
+                description={
+                  (tRessources("ContextualCTA.Description") as string) ||
+                  "Our experts are available for personalised guidance. First consultation free, no commitment."
+                }
+                primaryText={
+                  (tRessources("ContextualCTA.PrimaryCTA") as string) ||
+                  "Contact us"
+                }
+                secondaryText={
+                  (servicePath && serviceCtaLabel) ||
+                  (tRessources("ContextualCTA.SecondaryCTA") as string) ||
+                  "Instant quote"
+                }
+                secondaryHref={
+                  servicePath && serviceCtaLabel
+                    ? buildInternalUrl(servicePath, locale)
+                    : undefined
+                }
+              />
+            );
+          })()}
 
         {articleSecondHalf && (
           <ReactMarkdown
