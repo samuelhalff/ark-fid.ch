@@ -119,6 +119,14 @@
         {
           "Question": "Do you provide accounting services for non-profit organizations in Switzerland?",
           "Answer": "Yes, we provide specialized accounting for Swiss non-profit organizations including foundations, associations, and public benefit entities. Non-profit accounting requires specific expertise in fund accounting, grant management, restricted vs unrestricted fund tracking, and compliance with Swiss foundation law. Our services include maintaining separate accounting for different funds and projects, preparing financial statements according to Swiss GAAP FER 21 (the standard for non-profits), handling donor reporting requirements, managing grant compliance and documentation, preparing annual reports for foundation supervision authorities, and ensuring tax-exempt status compliance. We understand Geneva's foundation oversight requirements and prepare documentation for cantonal supervision. For international NGOs based in Geneva, we coordinate multi-country financial consolidation and reporting. Our non-profit expertise ensures your organization maintains transparency, accountability, and compliance while focusing on mission delivery."
+        },
+        {
+          "Question": "Do you provide accounting services outside Geneva?",
+          "Answer": "Yes. Bookkeeping, VAT and closings are handled remotely through Odoo and standard Swiss banking interfaces, so we serve companies in any canton; deliverables meet the requirements of each cantonal authority."
+        },
+        {
+          "Question": "Can you take over accounting mid-year from another fiduciary?",
+          "Answer": "Yes. We review the opening balances, reconcile VAT and social-insurance positions, and document any corrections before continuing the books — a fixed-scope onboarding, agreed in advance."
         }
       ]
     },
@@ -212,6 +220,20 @@
         "Body": [
           "While our team is based in Geneva, we provide accounting services to companies across Switzerland: bookkeeping, VAT returns, payroll coordination, closings and reporting are handled remotely through Odoo and standard Swiss banking and tax interfaces.",
           "English-speaking founders and foreign-owned subsidiaries work with us in English, with deliverables that satisfy Swiss requirements in any canton."
+        ]
+      },
+      {
+        "Title": "Swiss accounting standards and obligations",
+        "Body": [
+          "Swiss bookkeeping follows the Code of Obligations (art. 957 ff. CO): companies above CHF 500,000 revenue keep full double-entry accounts, prepare annual financial statements and retain records for ten years.",
+          "We keep your chart of accounts aligned with the Swiss SME standard, handle VAT returns on the effective or net-tax-rate method, and prepare statements that satisfy your auditor, your bank and the tax administration."
+        ]
+      },
+      {
+        "Title": "English-speaking accounting support",
+        "Body": [
+          "Founders and finance teams work with us entirely in English: monthly closings, management reports and board packs are delivered in English while filings stay compliant in the languages required by each authority.",
+          "This matters for foreign-owned subsidiaries and international founders in Geneva — deadlines and Swiss specifics (withholding tax, VAT, social insurance) are explained without translation overhead."
         ]
       }
     ]

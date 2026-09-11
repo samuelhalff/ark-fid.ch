@@ -28,6 +28,7 @@ try { require("dotenv").config(); } catch {}
 
 const fs = require("fs");
 const path = require("path");
+const { translateLabels } = require("./translate-reference-labels");
 
 const args = new Set(process.argv.slice(2).filter(a => !a.includes('=')));
 const getArg = (k, d) => {
@@ -243,11 +244,27 @@ async function main() {
       }
 
       const merged = {
-        ...frA, // preserve slug, author, date, image, references
+        ...frA, // preserve slug, author, date, image
         title,
         description,
         content
       };
+
+      // Translate reference labels too (URLs untouched). Falls back to the
+      // French labels on any error rather than blocking the article.
+      try {
+        const labels = (frA.references || []).map((r) => r && r.labelKey).filter(Boolean);
+        if (labels.length) {
+          const labelMap = await translateLabels(locale, labels);
+          merged.references = (frA.references || []).map((r) =>
+            r && r.labelKey && labelMap[r.labelKey]
+              ? { ...r, labelKey: labelMap[r.labelKey] }
+              : r,
+          );
+        }
+      } catch (e) {
+        console.warn(`[WARN] ${locale}:${frA.slug} reference-label translation failed: ${e.message}`);
+      }
 
       // If article exists, replace it; otherwise push
       if (locA) {

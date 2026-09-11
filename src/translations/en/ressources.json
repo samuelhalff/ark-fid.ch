@@ -25,15 +25,15 @@
       "date": "2026-02-11",
       "references": [
         {
-          "labelKey": "SVA Bâle-Campagne – anobag",
+          "labelKey": "SVA Basel-Landschaft – anobag",
           "url": "https://www.sva-bl.ch/de/ausgleichskasse/beitragspflicht-ahv/iv/eo/internationales/arbeitnehmende-ohne-beitragspflichtigen-arbeitgeber-anobag"
         },
         {
-          "labelKey": "SVA Schaffhouse – anobag",
+          "labelKey": "SVA Schaffhausen – anobag",
           "url": "https://www.svash.ch/ahv/ihre-beitraege-beitragspflicht/anobag/"
         },
         {
-          "labelKey": "ch.ch – travailler en Suisse (étrangers)",
+          "labelKey": "ch.ch – working in Switzerland (foreigners)",
           "url": "https://www.ch.ch/fr/etrangers-en-suisse/travailler-en-suisse/"
         }
       ],
@@ -62,7 +62,7 @@
           "url": "https://www.economiesuisse.ch/fr"
         },
         {
-          "labelKey": "Portail PME de la Confédération",
+          "labelKey": "SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr"
         }
       ],
@@ -101,11 +101,11 @@
       "content": "Company formation in Switzerland (GmbH/Sàrl, AG/SA or sole proprietorship) requires a few key decisions. This practical guide explains how to create a company in Switzerland – from choosing the right legal form to filing with the Commercial Register, handling VAT, banking and initial costs.\n\nRelevant search phrases (naturally embedded): company formation Switzerland, create a company, incorporate a GmbH, set up an AG, start a business in Switzerland.\n\n## 1) Choose the legal form: GmbH, AG or Sole proprietorship\n\n- **GmbH (Sàrl)**\n - Share capital: **CHF 20,000** (full payment recommended).\n - Limited liability.\n - Simple governance, suited for SMEs and multiple founders.\n\n- **AG (SA)**\n - Share capital: **CHF 100,000** (min. CHF 50,000 paid in).\n - More [corporate](/services/corporate) image, transferable shares, formal governance (Board).\n - Often preferred for fundraising or higher‑exposure projects.\n\n- **Sole proprietorship**\n - No minimum capital, **unlimited personal liability**.\n - Simple to start; Commercial Register entry typically required from CHF 100,000 annual turnover (or earlier depending on activity/bank).\n\n> Quick take: for a fast start with limited liability, a **GmbH/Sàrl** is the most common choice.\n\n## 2) Key steps to create a company (checklist)\n\n1. **Name, purpose, registered office**: check name availability and define the purpose.\n2. **Registered address**: lease, partner’s office or professional **[domiciliation](/services/domiciliation)**.\n3. **Articles of association**: capital, share/participation structure, governance, transfer/signature clauses.\n4. **Bank & capital**: open a **capital deposit** account (blocking certificate).\n5. **Notarial deed (for GmbH/AG)**: notarize the [incorporation](/services/incorporation).\n6. **Commercial Register file**: signed articles, certificates, forms, IDs; file electronically or physically.\n7. **VAT**: assess **liability** (CHF 100,000 threshold on global turnover) and register if needed.\n8. **Social insurances**: AVS/AI/APG, LAA, and pension fund (LPP) if employees.\n9. **Accounting & tools**: chart of accounts, invoicing, basic internal controls.\n\n## 3) Typical timelines\n\n- Preparation of articles/file: **2–7 business days**.\n- Notary and bank certificate: **2–5 days**.\n- Commercial Register (once complete): **3–10 days**.\n- VAT/social registrations: **a few days** depending on portal/period.\n\nOverall, incorporation often takes **1–3 weeks** end‑to‑end.\n\n## 4) Costs and (indicative) starting rates\n\nAmounts below are **indicative** and vary by canton, notary, bank, complexity and timelines.\n\n- **GmbH/Sàrl formation pack** (articles, registry file, notary coordination, VAT/AVS formalities if applicable): **from CHF 1,250–1,900 excl. VAT**.\n- **AG/SA formation pack**: **from CHF 1,800–2,800 excl. VAT**.\n- **Registered office / domiciliation** (Geneva/Romandy): **from CHF 90–180 excl. VAT per month**.\n- **[Initial bookkeeping setup](/services/accounting)** (chart of accounts, first automations): **from CHF 450–900 excl. VAT**.\n\nLikely third‑party costs:\n\n- **Notary**: approx. **CHF 600–2,500**.\n- **Commercial Register fees**: approx. **CHF 120–600**.\n- **Capital deposit certificate (bank)**: approx. **CHF 100–300**.\n\n> We provide transparent, flexible packages. A detailed quote is issued before kick‑off.\n\n## 5) VAT: when to register?\n\n- **CHF 100,000** turnover threshold (global, Swiss + foreign) over any rolling 12‑month period.\n- Voluntary registration possible below the threshold (to recover input VAT where relevant).\n- Choose **effective method** or **net tax rate** depending on size/sector.\n\n## 6) Common pitfalls to avoid\n\n- Underestimating **articles drafting** (rights/obligations, lock‑up, exit clauses).\n- Skipping **social insurance** affiliations when hiring.\n- Delaying the bank step (capital **blocking certificate** is needed before notarization).\n- Postponing **accounting** setup (billing and VAT must be handled from day one).\n\n## 7) FAQ – company formation Switzerland\n\n- **How long to form a GmbH?** Often 1–2 weeks with a complete file.\n- **Is a notary required?** Yes for GmbH/AG. Not for sole proprietorships.\n- **Can I incorporate without paying in capital?** No. Funds must be paid into a blocked account first (GmbH/AG).\n- **When must I register for VAT?** From CHF 100,000 turnover (or opt voluntarily).\n\n### Ark Fiduciaire services\n\nWe support **company formation** (GmbH/AG/sole prop) in Geneva and Romandy: articles, Commercial Register, VAT, banks, **domiciliation**, then accounting and [payroll](/services/payroll).\n\nFor a smooth start, **[contact](/contact) our [team](/team)** for a tailored quote and timeline.\n\n### Related services\n\n- [Company Incorporation](/services/incorporation)\n- [Domiciliation Services](/services/domiciliation)\n- [Accounting Services](/services/accounting)\n- [Contact us](/contact)",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -127,11 +127,11 @@
       "date": "2025-08-25",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -152,11 +152,11 @@
       "content": "In November 2024, Genevans overwhelmingly approved a historic reduction in cantonal and communal [taxes](/services/taxes), the first since 1999. This major reform, approved by more than 61%, brings significant changes for all Geneva taxpayers from the 2025 tax year.\n\n### A differentiated decrease according to income\n\nThe Geneva reform does not benefit all taxpayers uniformly. The decreases vary according to income brackets:\n\n- **Middle class (75,000–150,000 CHF)**: reduction of up to 11.4%.\n- **Modest incomes (<75,000 CHF)**: average reduction of 8.8% (approximately CHF 870 saved for CHF 50,000 of income).\n- **High incomes (>200,000 CHF)**: 5.3% reduction.\n\n### Transition to 12 monthly installments\n\nFrom 2025, the payment of installments will increase from 10 to 12 monthly installments, improving the distribution of expenses.\n\n### Impacts for businesses\n\n- **Increased purchasing power** boosts local consumption.\n- **Strengthened competitiveness** in the war for talent.\n\n### Practical advice\n\n- Adjust your installments via the online calculator.\n- Anticipate 2026 by optimizing your deductions.\n\n(1,850-word article detailing each point with examples, case studies, and numerical simulations.)\n\n### Related services\n\n- [Tax Services](/services/taxes)\n- [Contact us](/contact)",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -176,11 +176,11 @@
       "content": "Switzerland has established itself as a global leader in cryptocurrency regulation. With a clear legal framework and a pragmatic approach, the Swiss authorities offer a favorable environment while maintaining strict compliance.\n\n#### Token Classification (Swiss authorities)\n- **Payment Tokens**: Exempt from private capital gains but included in wealth.\n- **Utility Tokens**: Variable status depending on usage.\n- **Security Tokens**: Treatment aligned with securities.\n\n#### Tax Obligations\n- **Wealth Tax**: Mandatory declaration as of Dec 31.\n- **Capital Gains**: Exempt for private investors, taxable if speculative activities.\n- **VAT**: Treated as barter, subject to CHF value.\n\n#### Declarations\n- Mining obligations (activity income)\n- Staking, DeFi, NFTs: specific taxations\n\n#### Optimization Strategies\n- Timing of disposals\n- Family structuring\n- Favorable domicile\n\n(1,900-word article with practical examples from Geneva and French-speaking Switzerland.)\n\n### Related services\n\n- [Tax Services](/services/taxes)\n- [Contact us](/contact)",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -202,11 +202,11 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -228,11 +228,11 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -254,11 +254,11 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -278,11 +278,11 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -302,7 +302,7 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         }
       ],
@@ -324,11 +324,11 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -349,11 +349,11 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Checklist AFC e-TVA",
+          "labelKey": "AFC e-VAT Checklist",
           "url": "https://www.amsuisse.ch/fileadmin/forum_archiv/pdf/2024/06/2024_06_F_120_Modification_TVA.pdf"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         }
       ],
@@ -373,11 +373,11 @@
       "date": "2025-09-17",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -397,11 +397,11 @@
       "date": "2025-09-19",
       "references": [
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -421,11 +421,11 @@
       "date": "2025-10-03",
       "references": [
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -445,15 +445,15 @@
       "date": "2025-10-05",
       "references": [
         {
-          "labelKey": "Directives LPP 2025",
+          "labelKey": "LPP Guidelines 2025",
           "url": "https://www.oak-bv.admin.ch/fr/directives-d-01-2025"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -475,11 +475,11 @@
       "date": "2025-10-09",
       "references": [
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -502,11 +502,11 @@
       "date": "2025-10-11",
       "references": [
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -526,11 +526,11 @@
       "date": "2025-10-21",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -551,11 +551,11 @@
       "date": "2025-10-21",
       "references": [
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -578,11 +578,11 @@
       "date": "2025-10-24",
       "references": [
         {
-          "labelKey": "Code des obligations (CO)",
+          "labelKey": "Obligationenrecht (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Registre du commerce - Canton de Genève",
+          "labelKey": "Commercial Register - Canton of Geneva",
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
         }
       ],
@@ -603,11 +603,11 @@
       "date": "2025-10-29",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -628,15 +628,15 @@
       "date": "2025-11-01",
       "references": [
         {
-          "labelKey": "Portail PME de la Confédération (PME)",
+          "labelKey": "SME Portal of the Confederation (SME)",
           "url": "https://www.kmu.admin.ch/fr"
         },
         {
-          "labelKey": "Code des obligations - Comptabilité",
+          "labelKey": "Obligationenrecht - Accounting",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Portail PME de la Confédération (PME)",
+          "labelKey": "SME Portal of the Confederation (SME)",
           "url": "https://www.kmu.admin.ch/fr"
         }
       ],
@@ -657,11 +657,11 @@
       "date": "2025-11-05",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -685,11 +685,11 @@
           "url": "https://www.fer.ch/fr/"
         },
         {
-          "labelKey": "Code des obligations - Comptabilité",
+          "labelKey": "Obligationenrecht - Accounting",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Code des obligations - Comptabilité",
+          "labelKey": "Obligationenrecht - Accounting",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
         }
       ],
@@ -710,11 +710,11 @@
       "date": "2025-11-09",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -735,11 +735,11 @@
       "date": "2025-11-11",
       "references": [
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -761,11 +761,11 @@
       "date": "2025-11-13",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -785,15 +785,15 @@
       "date": "2025-11-17",
       "references": [
         {
-          "labelKey": "Swiss authorities - Autorité fédérale de surveillance",
+          "labelKey": "Swiss authorities - Federal Supervisory Authority",
           "url": "https://www.sif.admin.ch/fr/loi-sur-le-blanchiment-dargent"
         },
         {
-          "labelKey": "Loi sur le blanchiment d'argent (LBA)",
+          "labelKey": "Anti-Money Laundering Act (AMLA)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
         },
         {
-          "labelKey": "FINMA - Autorité fédérale de surveillance",
+          "labelKey": "FINMA - Federal Supervisory Authority",
           "url": "https://www.finma.ch/fr/"
         }
       ],
@@ -816,15 +816,15 @@
       "date": "2025-11-20",
       "references": [
         {
-          "labelKey": "Portail PME de la Confédération (PME)",
+          "labelKey": "SME Portal of the Confederation (SME)",
           "url": "https://www.kmu.admin.ch/fr"
         },
         {
-          "labelKey": "Code des obligations - Comptabilité",
+          "labelKey": "Obligationenrecht - Accounting",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Portail PME de la Confédération (PME)",
+          "labelKey": "SME Portal of the Confederation (SME)",
           "url": "https://www.kmu.admin.ch/fr"
         }
       ],
@@ -846,7 +846,7 @@
       "date": "2025-11-21",
       "references": [
         {
-          "labelKey": "Portail PME de la Confédération",
+          "labelKey": "SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr"
         },
         {
@@ -854,7 +854,7 @@
           "url": "https://www.economiesuisse.ch/fr"
         },
         {
-          "labelKey": "Portail PME de la Confédération",
+          "labelKey": "SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr"
         }
       ],
@@ -874,11 +874,11 @@
       "date": "2025-11-25",
       "references": [
         {
-          "labelKey": "Créer une entreprise - Portail PME",
+          "labelKey": "Starting a Business - SME Portal",
           "url": "https://www.kmu.admin.ch/fr/creer-son-entreprise-conseils-prealables-et-services-daide"
         },
         {
-          "labelKey": "Registre du commerce - Guide fédéral",
+          "labelKey": "Commercial Register - Federal Guide",
           "url": "https://www.zefix.ch/en/search/entity/welcome"
         }
       ],
@@ -900,11 +900,11 @@
       "date": "2025-11-25",
       "references": [
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -925,11 +925,11 @@
       "date": "2025-11-29",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -949,15 +949,15 @@
       "date": "2025-12-01",
       "references": [
         {
-          "labelKey": "Code des obligations (CO)",
+          "labelKey": "Obligationenrecht (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Registre du commerce - Canton de Genève",
+          "labelKey": "Commercial Register - Canton of Geneva",
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
         },
         {
-          "labelKey": "Registre du commerce - Canton de Genève",
+          "labelKey": "Commercial Register - Canton of Geneva",
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
         }
       ],
@@ -977,11 +977,11 @@
       "date": "2025-12-05",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -1001,11 +1001,11 @@
       "date": "2025-12-09",
       "references": [
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -1028,15 +1028,15 @@
       "date": "2025-12-13",
       "references": [
         {
-          "labelKey": "Odoo - Documentation officielle",
+          "labelKey": "Odoo - Official Documentation",
           "url": "https://www.odoo.com/documentation/19.0/"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Odoo - Documentation officielle",
+          "labelKey": "Odoo - Official Documentation",
           "url": "https://www.odoo.com/documentation"
         }
       ],
@@ -1059,11 +1059,11 @@
       "date": "2025-12-17",
       "references": [
         {
-          "labelKey": "Loi sur la fusion, la scission, la transformation et le transfert de patrimoine (LFus)",
+          "labelKey": "Merger, Demerger, Transformation and Transfer of Assets Act (LFus)",
           "url": "https://www.fedlex.admin.ch/eli/cc/2003/218/fr"
         },
         {
-          "labelKey": "Code des obligations (CO)",
+          "labelKey": "Obligationenrecht (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ],
@@ -1086,11 +1086,11 @@
       "date": "2025-12-21",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -1111,7 +1111,7 @@
       "date": "2025-12-25",
       "references": [
         {
-          "labelKey": "Portail PME de la Confédération",
+          "labelKey": "SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr"
         },
         {
@@ -1119,7 +1119,7 @@
           "url": "https://www.economiesuisse.ch/fr"
         },
         {
-          "labelKey": "Portail PME de la Confédération",
+          "labelKey": "SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr"
         }
       ],
@@ -1141,11 +1141,11 @@
       "date": "2025-12-29",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -1166,11 +1166,11 @@
       "date": "2026-01-01",
       "references": [
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -1193,11 +1193,11 @@
       "date": "2026-01-05",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -1218,11 +1218,11 @@
       "date": "2026-01-13",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -1243,11 +1243,11 @@
       "date": "2026-01-17",
       "references": [
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -1269,11 +1269,11 @@
       "date": "2026-01-25",
       "references": [
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -1295,11 +1295,11 @@
       "date": "2026-02-01",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         }
       ],
@@ -1320,7 +1320,7 @@
       "content": "Creating a branch office (Zweigniederlassung, branch office) in Switzerland is a strategic solution for foreign companies wishing to enter the Swiss market without setting up an independent subsidiary. This detailed guide presents all the requirements, administrative steps, and practical considerations for 2026.\n\n## what is a Swiss branch office?\n\nA branch office is a **legally dependent** establishment of its foreign parent company, physically present in Switzerland. Unlike a subsidiary (SA or Sàrl), the branch office does not have a separate legal personality:\n\n- **liability**: all debts and obligations of the branch office are directly binding on the parent company\n- **capital**: no minimum share capital is required\n- **activity**: can conduct business operations, sign contracts, and employ staff in Switzerland\n\n## legal framework and regulations\n\nSetting up and operating a branch office in Switzerland is governed by the **Swiss code of obligations** (art. 935 et seq.), as well as specific laws of the canton of establishment.\n\n### main requirements:\n\n1. **representative in Switzerland**: at least one person domiciled in Switzerland must be authorized to represent the branch office\n2. **physical address**: the branch office must have a registered office address in the chosen canton\n3. **registration with the commercial register**: mandatory registration with the cantonal register at the place of business\n\n## steps to create a branch office\n\n### 1. choosing the canton and location\n\nThe choice of canton affects:\n- taxation (variable cantonal and municipal tax rates)\n- administrative formalities\n- access to infrastructure and the labor pool\n\n**popular cantons**: Zurich, Zug, Geneva, Vaud depending on the company's strategic and tax needs.\n\n### 2. required documentation\n\nTo register with the cantonal commercial register, you generally need to provide:\n\n- **extract from the commercial register** of the parent company's country of origin (certified, apostilled or legalized)\n- **articles of association** of the parent company and any amendments (translated by a sworn translator)\n- **minutes** or board resolution authorizing the creation of the Swiss branch office\n- **list of directors** of the parent company with full contact details\n- **statement of activity** specifying the commercial purpose in Switzerland\n- **appointment of the representative** in Switzerland (with proof of Swiss domicile)\n- **proof of address** of the branch office's registered office in Switzerland\n\n**important**: all foreign documents must be translated into the official language of the canton (German, French or Italian) and notarized if necessary.\n\n### 3. naming the branch office\n\nThe name must include:\n- the name of the parent company\n- an explicit mention that it is a branch office (e.g. \"xyz ltd, London, succursale de Genève\")\n- the location of the parent company's registered office\n\nThis requirement ensures transparency to third parties regarding legal dependence.\n\n### 4. registration with the cantonal commercial register\n\nRegistration is done with the **office of the commercial register** (Handelsregisteramt) of the chosen canton. This registration:\n\n- **confers legal capacity** to act in Switzerland on behalf of the parent company\n- **makes essential information public** (representatives, address, activity)\n- **enables VAT registration** if turnover exceeds CHF 100,000\n\n**processing time**: generally 1 to 2 weeks after submission of the complete file.\n\n### 5. publication in the Swiss official gazette of commerce (FOSC)\n\nRegistration is published in the **Swiss official gazette of commerce** (FOSC), accessible to the public. This publication notifies potential creditors and business partners.\n\n## tax and accounting obligations\n\n### taxation\n\nThe branch office is taxed in Switzerland on **profits attributable** to Swiss activities:\n\n- **direct federal tax** (IFD): around 8.5%\n- **cantonal and municipal tax**: varies by canton (generally 12-24% combined)\n- **VAT**: mandatory if annual turnover exceeds CHF 100,000\n\n**double taxation treaty**: Switzerland has agreements with many countries to avoid double taxation.\n\n### accounting\n\nThe branch office must:\n\n- keep **local accounts** for Swiss activities\n- file the **parent company's annual accounts** with the commercial register each year\n- comply with Swiss accounting standards\n\n## social insurance\n\nIf the branch office employs staff:\n\n- mandatory affiliation to **AVS/AI/APG** (social insurance)\n- **accident insurance** (LAA)\n- **occupational pension** (LPP) according to legal thresholds\n\n## advantages and disadvantages\n\n### advantages:\n\n- **no minimum capital** required\n- **legal simplicity**: no creation of a separate entity\n- **access to tax treaties** between Switzerland and the country of origin\n- **benefit from Swiss image** and stability\n\n### disadvantages:\n\n- **unlimited liability** of the parent company for all debts\n- **administrative complexity**: double reporting obligation (country of origin and Switzerland)\n- **bank account opening** sometimes difficult for foreign entities\n\n## estimated costs\n\n- **commercial register fees**: around CHF 2,000 (varies by canton)\n- **translations and legalizations**: CHF 1,000 – 3,000\n- **fiduciary services** (file preparation, coordination): from CHF 2,500\n- **annual domiciliation**: CHF 90 – 180 excl. VAT / month\n- **notary fees**: depending on required acts\n\n> costs may vary significantly depending on the complexity of the file and cantonal specifics.\n\n## overall timelines\n\nFrom initial decision to effective registration:\n\n- **preparation and translation**: 2 to 4 weeks\n- **commercial register registration**: 1 to 2 weeks after submission\n- **bank account opening**: 2 to 11 weeks (sometimes longer)\n\n**total estimate**: 6 to 15 weeks for an operational branch office.\n\n## practical tips\n\n1. **anticipate banking needs**: prepare the kyc (know your customer) file early\n2. **choose a local fiduciary**: to facilitate administrative and tax procedures\n3. **check tax treaties**: ensure tax optimization before setting up\n4. **plan representation**: recruit or appoint a person domiciled in switzerland well in advance\n\n## ark fiduciaire services\n\nwe support foreign companies in the **creation of branch offices** in switzerland:\n\n- complete preparation of the registration file\n- coordination with cantonal authorities\n- [domiciliation](/services/domiciliation) and administrative services\n- bank account opening\n- [accounting](/services/accounting), [vat](/services/taxes), [payroll](/services/payroll) and compliance\n\ncontact our [team](/team) for personalized support.\n\n### Related services\n\n- [company incorporation](/services/incorporation)\n- [domiciliation services](/services/domiciliation)\n- [accounting services](/services/accounting)\n- [contact us](/contact)",
       "references": [
         {
-          "labelKey": "Portail PME de la Confédération",
+          "labelKey": "SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr"
         },
         {
@@ -1328,7 +1328,7 @@
           "url": "https://www.economiesuisse.ch/fr"
         },
         {
-          "labelKey": "Portail PME de la Confédération",
+          "labelKey": "SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr"
         }
       ],
@@ -1352,7 +1352,7 @@
       "content": "The liability of directors of Swiss companies in the event of financial difficulties and bankruptcy is governed by the **Swiss Code of Obligations** (CO), notably articles 725 to 726, revised in 2023. This guide outlines directors' duties, the risks involved, and essential preventive measures for 2026.\n\n## legal framework: key articles of the code of obligations\n\n### article 725 co: monitoring solvency\n\nDirectors are required to:\n\n- **continuously monitor** the company's financial situation\n- **act immediately** in case of capital loss (equity < 50% of share capital + legal reserves)\n- **convene the general meeting** and propose restructuring measures\n\n### article 725a co: capital loss\n\nIn case of capital loss, directors must:\n\n- **immediately convene** an extraordinary general meeting\n- inform shareholders of the situation\n- propose restructuring measures (capital injection, capital reduction, liquidation)\n\n### article 725b co: over-indebtedness (2023 revision)\n\nIf the company is **over-indebted** (liabilities > assets) and no realistic prospect of restructuring exists:\n\n- directors must **immediately notify the court** (bankruptcy judge)\n- **exception**: if creditors subordinate their claims sufficiently to eliminate accounting over-indebtedness\n\n### article 726 co: equal treatment of creditors\n\nIn financial distress, directors must not **favor certain creditors** to the detriment of others.\n\n### article 754 co: civil liability\n\nDirectors, managers, and even **de facto managers** can be held personally liable for:\n\n- **intentional or negligent** breach of their duties\n- damage caused to the company, shareholders, or creditors\n\n## risks for directors\n\n### 1. civil liability\n\nDirectors may face civil lawsuits if:\n\n- they delayed responding to signs of financial difficulties\n- they continued operations when the company was insolvent\n- they failed to inform the court of over-indebtedness\n\n**consequences:**\n- obligation to **compensate for damages** (damages)\n- **joint liability** among several culpable directors\n\n### 2. criminal liability\n\nIn cases of serious misconduct, directors face criminal prosecution for:\n\n- **fraudulent bankruptcy** (Swiss Penal Code, art. 163)\n- **dishonest management** (art. 158 PC)\n- **forgery of documents** (presentation of inaccurate accounts)\n\n**consequences:**\n- significant fines\n- **possible custodial sentence**\n- prohibition from holding management positions\n\n### 3. tax and social liability\n\nDirectors may be personally liable for:\n\n- **unpaid taxes** (VAT, withholding tax) if non-payment results from negligence\n- **unpaid social contributions** (AVS, LPP, LAA)\n\n### 4. professional ban\n\nIn case of serious misconduct, the court may impose a **temporary ban** on acting as a director.\n\n## directors' duty of care\n\nTo avoid liability, directors must:\n\n### 1. active financial monitoring\n\n- **implement a regular financial reporting system**\n- **analyze monthly** cash flows, balance sheet, and income statement\n- **anticipate difficulties** through cash-flow forecasting\n\n### 2. rapid response in case of difficulty\n\n- **immediately convene** the general meeting when equity < 50% of capital\n- **document all decisions** taken (detailed minutes)\n- **consult experts** (lawyers, fiduciaries, restructuring specialists)\n\n### 3. equal treatment of creditors\n\n- **do not selectively repay** certain creditors close to insolvency\n- **respect legal priority rules** in case of liquidation\n\n### 4. declaration of over-indebtedness\n\n- **notify the court without delay** upon finding irreversible over-indebtedness\n- **do not delay** notification to avoid personal liability\n\n## essential preventive measures\n\n### 1. robust internal control system\n\n- **clear procedures** for financial management\n- **regular checks** by independent third parties (auditors, fiduciaries)\n- **performance indicators** (KPI) monitored monthly\n\n### 2. ongoing training and information\n\n- stay informed about **legal developments** (CO reforms, case law)\n- attend **training** on corporate governance\n\n### 3. directors and officers liability insurance (d&o)\n\n- take out **D&O insurance** (directors and officers liability insurance)\n- **note**: insurance generally does not cover intentional misconduct or gross negligence\n\n### 4. rigorous documentation\n\n- **detailed minutes** of all board meetings\n- **retention** of all financial documents (minimum 10 years)\n- **transparency** with shareholders and authorities\n\n### 5. early legal advice\n\nAt the first signs of difficulty:\n\n- consult a **specialized corporate lawyer**\n- engage a **business restructuring expert**\n- explore **restructuring options** (capital injection, asset sale, reorganization)\n\n## consequences of bankruptcy\n\nIf the company is declared bankrupt:\n\n- **initiation of proceedings** by the bankruptcy court\n- **appointment of a liquidator** to realize assets and pay creditors\n- **investigation** of directors' management by the liquidator\n- **possible liability action** if misconduct is discovered\n\n## summary table\n\n| duty | risk if breached | preventive measure |\n|--------------------------------------|--------------------------------------|-----------------------------------------|\n| monitoring solvency | civil/criminal liability | monthly financial reporting |\n| response to capital loss | civil liability action | immediate convening of gm |\n| declaration of over-indebtedness | civil and criminal liability | immediate notification to court |\n| equality of creditors | civil liability | documented payment policy |\n| keeping accurate accounts | criminal liability | rigorous audit and internal control |\n\n## conclusion\n\nDirectors' liability in bankruptcy is a serious legal reality in Switzerland. The 2023 reforms have strengthened diligence obligations and the risks involved. To protect themselves:\n\n- **anticipate** difficulties through active financial monitoring\n- **react quickly** at the first warning signs\n- **document** all decisions\n- **consult experts** at the slightest doubt\n\n### ark fiduciaire services\n\nwe support companies and their bodies in:\n\n- **financial monitoring** and regular reporting\n- **crisis management** and restructuring\n- preparation of **compliant minutes**\n- [accounting](/services/accounting), [vat](/services/taxes), and management control\n\ncontact our [team](/team) for secure support.\n\n### Related services\n\n- [accounting services](/services/accounting)\n- [tax services](/services/taxes)\n- [corporate services](/services/corporate)\n- [contact us](/contact)",
       "references": [
         {
-          "labelKey": "Portail PME de la Confédération",
+          "labelKey": "SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr"
         },
         {
@@ -1360,7 +1360,7 @@
           "url": "https://www.economiesuisse.ch/fr"
         },
         {
-          "labelKey": "Portail PME de la Confédération",
+          "labelKey": "SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr"
         }
       ],
@@ -1383,7 +1383,7 @@
       "content": "The liquidation of a company in switzerland (sa or sàrl) is a structured legal process that allows a business to be dissolved in an orderly manner. This guide presents the steps, deadlines, legal obligations, and practical considerations for 2026.\n\n## Legal framework and types of liquidation\n\nLiquidation is governed by the **swiss code of obligations** (articles 736 to 747) and the **ordinance on the commercial register**.\n\n### Types of liquidation:\n\n1. **Ordinary voluntary liquidation**: decided by shareholders/partners, solvent company\n2. **Judicial liquidation**: ordered by the court in case of over-indebtedness or insolvency\n\nThis guide focuses on **ordinary voluntary liquidation**.\n\n## Step 1: Decision to liquidate\n\n### Decision-making body\n\nDissolution is decided by the **general meeting** of shareholders (sa) or partners (sàrl).\n\n- **Required majority**: generally qualified (2/3 or 3/4 depending on the articles)\n- **Formalism**: the decision must be **notarized** (authentic deed)\n\n### Content of the decision:\n\n- Dissolution of the company\n- Appointment of one or more **liquidators** (often current directors or an external fiduciary)\n- Acceptance of the mandate by the liquidators (written signature)\n\n## Step 2: Appointment and role of liquidators\n\n### Who can be a liquidator?\n\n- **Current directors**: often appointed to ensure continuity\n- **External fiduciaries**: recommended to ensure independence and expertise\n- At least **one person domiciled in switzerland**\n\n### Role of the liquidator:\n\n- **Realize assets**: sell property, collect receivables\n- **Settle debts**: pay creditors, settle tax and social obligations\n- **Prepare accounts**: interim and liquidation balance sheets\n- **Represent the company**: sign legal documents\n\n### Responsibility:\n\nLiquidators have **personal liability** (art. 754 co) in case of fault in the exercise of their functions.\n\n## Step 3: Registration in the commercial register\n\n### \"in liquidation\" mention\n\nFrom the dissolution decision:\n\n- The company is registered in the **commercial register** with the mention **\"in liquidation\"**\n- Names of the liquidators are published\n- The company name becomes: \"company xy sa in liquidation\"\n\n**Deadline**: 1 to 2 weeks after submission of the complete file.\n\n## step 4: call to creditors\n\n### Mandatory publication\n\nThe liquidator must publish **a single call to creditors** in the **swiss official gazette of commerce (fosc)** and, depending on the canton, in a local newspaper.\n\n### Content of the call:\n\n- Invitation to creditors to declare their claims\n- Deadline for submitting claims\n- Contact details of the liquidator\n\n### Deadlines:\n\n- **Standard deadline**: one year after publication of the call to creditors\n- **Reduced deadline**: three months if an **approved auditor** certifies that all debts are settled and no claims are expected\n\n## Step 5: Inventory and realization of assets\n\n### Inventory:\n\nThe liquidator prepares a **complete inventory**:\n\n- Assets (real estate, furniture, receivables, stocks, cash)\n- Liabilities (debts, provisions, accrued expenses)\n\n### Realization:\n\n- **Sale of assets**: transfer of movable and immovable property\n- **Collection of receivables**: collection of amounts owed to the company\n- **Termination of contracts**: leases, insurance, subscriptions, employment contracts\n\n## Step 6: Settlement of debts and obligations\n\n### Order of priority:\n\n1. **Liquidation costs** (liquidator's fees, rc fees, publications)\n2. **Preferred creditors**: social charges (avs, lpp), taxes\n3. **Ordinary creditors**: suppliers, banks\n4. **Shareholders/partners**: only after full payment of claims\n\n### Tax obligations:\n\n- **Final tax returns**: vat, cantonal/communal tax, direct federal tax\n- **Clearance certificates**: obtain tax clearance certificates from all authorities (canton, commune, confederation)\n\n**Important**: without tax clearance, removal from the rc is impossible.\n\n### Social charges:\n\n- **Balance avs/ai/apg, laa, lpp**\n- Clearance certificates from compensation funds\n\n## Step 7: Liquidation balance sheet and distribution\n\n### Liquidation balance sheet:\n\nThe liquidator prepares a **final liquidation balance sheet**:\n\n- Statement of all assets realized\n- Settlement of all debts\n- Balance available for distribution\n\n### Approval:\n\nThe balance sheet is submitted to the **general meeting** for formal approval.\n\n### Distribution of the balance:\n\nIf an **excess remains** after payment of all debts:\n\n- Distribution to shareholders/partners according to their statutory rights\n- Generally proportional to capital participation\n\n## Step 8: Removal from the commercial register\n\n### Conditions:\n\n- All creditors paid\n- Tax and social clearance obtained\n- Liquidation balance sheet approved\n- Waiting period elapsed (1 year or 3 months)\n\n### Request for removal:\n\nThe liquidator submits a **request for removal** to the commercial register with:\n\n- Approved liquidation balance sheet\n- Tax and social certificates\n- Minutes of the general meeting approving the liquidation\n\n**Deadline**: generally 2 to 4 weeks after submission.\n\n### Final dissolution:\n\nOnce removed, the company is **dissolved** and ceases to exist legally.\n\n## Step 9: Retention of documents\n\n### Legal obligation:\n\nAccounting and legal documents must be kept for **at least 10 years** (20 years for real estate transactions):\n\n- Accounting books\n- Invoices\n- Contracts\n- Minutes\n\n**Responsible**: generally the former liquidator or a designated partner.\n\n## Overall deadlines\n\n| Step | Indicative deadline |\n|--------------------------------|-------------------------------|\n| Decision and appointment | Immediate |\n| RC registration \"in liquidation\" | 1-2 weeks |\n| Call to creditors | 1 year or 3 months (with audit)|\n| Asset realization and settlement| Variable (6-12 months) |\n| Obtaining tax clearances | 2-6 months |\n| RC removal | 2-4 weeks |\n| **Total** | **12-18 months minimum** |\n\n## Estimated costs\n\n- **Notary fees**: chf 500 – 1,500\n- **RC registration**: chf 120 – 600 (depending on canton)\n- **FOSC publication**: per the official tariff\n- **Liquidator's fees**: chf 3,000 – 10,000+ (depending on complexity)\n- **Fiduciary services**: chf 2,000 – 8,000 (final accounting, tax returns)\n\n## Common mistakes to avoid\n\n1. **Incorrect publication of calls**: risk of extended deadlines\n2. **Forgetting creditors**: personal liability of the liquidator\n3. **Premature distribution of assets**: before full payment of debts\n4. **Neglecting tax clearances**: removal impossible\n5. **Failure to retain documents**: legal obligation for 10 years\n\n## Accelerated liquidation (3 months)\n\n### Conditions:\n\n- The company must be **solvent**\n- No outstanding debts\n- Audit by an **approved auditor** certifying:\n - All debts are settled\n - No further claims are expected\n\n### Advantages:\n\n- **Time saving**: 3 months instead of at least 12 months\n- Reduced management costs\n\n### Additional cost:\n\n- **Audit fees**: chf 2,000 – 5,000\n\n## Judicial liquidation (for information)\n\nIn case of **over-indebtedness** (liabilities > assets), ordinary liquidation is not possible. Directors must:\n\n- **Notify the bankruptcy court**\n- The court opens a **bankruptcy procedure**\n- An **official liquidator** is appointed\n- Longer and more complex procedure\n\n## Advice and support\n\nThe liquidation of a company, although structured, involves many legal, tax, and accounting aspects. An error can lead to delays, additional costs, and even personal liability.\n\n### Ark fiduciaire services\n\nWe support companies in their **complete liquidation**:\n\n- Appointment as liquidator\n- Preparation of all legal documents\n- Management of calls to creditors and publications\n- [Accounting](/services/accounting) for liquidation and balance sheets\n- Obtaining [tax](/services/taxes) and social clearances\n- Representation before the commercial register\n\nContact our [team](/team) for professional and secure support.\n\n### Related services\n\n- [Accounting services](/services/accounting)\n- [Tax services](/services/taxes)\n- [Corporate services](/services/corporate)\n- [Contact us](/contact)",
       "references": [
         {
-          "labelKey": "Portail PME de la Confédération",
+          "labelKey": "SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr"
         },
         {
@@ -1391,7 +1391,7 @@
           "url": "https://www.economiesuisse.ch/fr"
         },
         {
-          "labelKey": "Portail PME de la Confédération",
+          "labelKey": "SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr"
         }
       ],
@@ -1412,15 +1412,15 @@
       "date": "2026-02-08",
       "references": [
         {
-          "labelKey": "Barèmes 2025 de l’impôt à la source",
+          "labelKey": "2025 Withholding Tax Rates",
           "url": "https://www.estv2.admin.ch/dvs/rundschreiben/dbst-rs-2-211-d-2024-fr.pdf"
         },
         {
-          "labelKey": "Swissdec – Normes de déclaration salariale",
+          "labelKey": "Swissdec – Salary Reporting Standards",
           "url": "https://www.swissdec.ch/"
         },
         {
-          "labelKey": "Aperçu des cotisations aux assurances sociales",
+          "labelKey": "Overview of Social Insurance Contributions",
           "url": "https://www.bsv.admin.ch/fr/cotisations-apercu"
         }
       ],
@@ -1444,23 +1444,23 @@
       "date": "2026-02-16",
       "references": [
         {
-          "labelKey": "Comptabilité et révision – portail PME de la Confédération (SECO)",
+          "labelKey": "Accounting and Auditing – SME Portal of the Confederation (SECO)",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
-          "labelKey": "L'importance du plan comptable en PME",
+          "labelKey": "The Importance of the Chart of Accounts in SMEs",
           "url": "https://swissaccounting.org/"
         },
         {
-          "labelKey": "Code des obligations: obligations comptables",
+          "labelKey": "Obligationenrecht: Accounting Obligations",
           "url": "https://www.fedlex.admin.ch/"
         },
         {
-          "labelKey": "Clôture d’exercice financier : les dates importantes",
+          "labelKey": "Financial Year-End: Key Dates",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
-          "labelKey": "Demande de délai pour déclaration des sociétés | Canton de Genève",
+          "labelKey": "Extension Request for Company Tax Return | Canton of Geneva",
           "url": "https://ge.ch/afcaelp1dddpublic/gestion.do?type=PM"
         }
       ],
@@ -1480,19 +1480,19 @@
       "date": "2026-02-11",
       "references": [
         {
-          "labelKey": "Code des obligations (CO) – Fedlex",
+          "labelKey": "Obligationenrecht (CO) – Fedlex",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "TVA en Suisse – ESTV",
+          "labelKey": "VAT in Switzerland – ESTV",
           "url": "https://www.estv.admin.ch/fr/taxe-sur-la-valeur-ajoutee"
         },
         {
-          "labelKey": "Portail PME – KMU.admin.ch",
+          "labelKey": "SME Portal – KMU.admin.ch",
           "url": "https://www.kmu.admin.ch/fr"
         },
         {
-          "labelKey": "Swiss GAAP FER – Fondation FER",
+          "labelKey": "Swiss GAAP FER – FER Foundation",
           "url": "https://www.fer.ch/fr/"
         },
         {
@@ -1525,11 +1525,11 @@
           "url": "https://www.sif.admin.ch/fr/loi-sur-le-blanchiment-dargent"
         },
         {
-          "labelKey": "Portail PME – KMU.admin.ch",
+          "labelKey": "SME Portal – KMU.admin.ch",
           "url": "https://www.kmu.admin.ch/fr"
         },
         {
-          "labelKey": "Code des obligations - Comptabilité",
+          "labelKey": "Obligationenrecht - Accounting",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ],
@@ -1549,11 +1549,11 @@
       "date": "2026-02-13",
       "references": [
         {
-          "labelKey": "FER framework advantages",
+          "labelKey": "FER Framework Advantages",
           "url": "https://www.fer.ch/fr/le-concept/avantages/"
         },
         {
-          "labelKey": "Code des obligations - Comptabilité",
+          "labelKey": "Obligationenrecht - Accounting",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
@@ -1578,15 +1578,15 @@
       "date": "2026-02-23",
       "references": [
         {
-          "labelKey": "Domiciliation et gestion des risques - KMU.admin.ch",
+          "labelKey": "Domiciliation and Risk Management - KMU.admin.ch",
           "url": "https://www.kmu.admin.ch/fr/la-gestion-des-risques-strategiques-et-operationnels"
         },
         {
-          "labelKey": "Registre du commerce (Zefix)",
+          "labelKey": "Commercial Register (Zefix)",
           "url": "https://www.zefix.ch/en/search/entity/welcome"
         },
         {
-          "labelKey": "Code des obligations (CO) - Société anonyme",
+          "labelKey": "Obligationenrecht (CO) - Public Limited Company",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ],
@@ -1607,15 +1607,15 @@
       "date": "2026-02-26",
       "references": [
         {
-          "labelKey": "Dividende ou salaire : tout est question de proportionnalité",
+          "labelKey": "Dividend or Salary: All About Proportionality",
           "url": "https://www.he-arc.ch/chroniques-ilce/salaire-vs-dividende-tout-est-question-de-proportionnalite/"
         },
         {
-          "labelKey": "Optimisation fiscale des dividendes",
+          "labelKey": "Tax Optimization of Dividends",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         },
         {
-          "labelKey": "Swissdec - Standard de transmission salariale",
+          "labelKey": "Swissdec - Salary Transmission Standard",
           "url": "https://www.swissdec.ch/fr"
         }
       ],
@@ -1635,15 +1635,15 @@
       "date": "2026-02-26",
       "references": [
         {
-          "labelKey": "Obligations d’inscription au registre du commerce en Suisse",
+          "labelKey": "Commercial Register Registration Requirements in Switzerland",
           "url": "https://www.ch.ch/fr/travail/independance-professionnelle/"
         },
         {
-          "labelKey": "Droit de la Sàrl (Code des Obligations, art. 772-827)",
+          "labelKey": "Sàrl Law (Obligationenrecht, Art. 772-827)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Assujettissement à la TVA pour les entreprises suisses",
+          "labelKey": "Swiss VAT Liability for Businesses",
           "url": "https://www.estv.admin.ch/fr/assujettissement-a-la-tva"
         }
       ],
@@ -1665,19 +1665,19 @@
       "date": "2026-02-27",
       "references": [
         {
-          "labelKey": "Mise en œuvre de l’échange automatique des crypto-actifs dès 2026",
+          "labelKey": "Implementation of Automatic Exchange of Crypto Assets from 2026",
           "url": "https://www.admin.ch/fr/nsb?id=98545"
         },
         {
-          "labelKey": "Clôture d’exercice des entreprises suisses",
+          "labelKey": "Year-End Closing for Swiss Businesses",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
-          "labelKey": "Directive suisse sur les normes fiscales internationales",
+          "labelKey": "Swiss Directive on International Tax Standards",
           "url": "https://www.sif.admin.ch/fr/echange-automatique-renseignements-ear"
         },
         {
-          "labelKey": "Site officiel ESTV - Impôts sur les cryptoactifs",
+          "labelKey": "Official ESTV Site – Cryptoasset Taxes",
           "url": "https://www.estv.admin.ch/fr/cryptomonnaies-fiscalite"
         }
       ],
@@ -1699,15 +1699,15 @@
       "date": "2026-02-28",
       "references": [
         {
-          "labelKey": "Loi sur le blanchiment d'argent (LBA)",
+          "labelKey": "Anti-Money Laundering Act (AMLA)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
         },
         {
-          "labelKey": "Portail PME - Gestion des risques LBA",
+          "labelKey": "SME Portal – AML Risk Management",
           "url": "https://www.kmu.admin.ch/fr/la-gestion-des-risques-strategiques-et-operationnels"
         },
         {
-          "labelKey": "Lutte contre le blanchiment d'argent (Secrétariat d'État aux questions financières internationales, SFI)",
+          "labelKey": "Combating Money Laundering (State Secretariat for International Financial Matters, SIF)",
           "url": "https://www.sif.admin.ch/fr/loi-sur-le-blanchiment-dargent"
         }
       ],
@@ -1729,19 +1729,19 @@
       "date": "2026-03-07",
       "references": [
         {
-          "labelKey": "Documentation Odoo - Localisation Suisse",
+          "labelKey": "Odoo Documentation – Switzerland Localization",
           "url": "https://www.odoo.com/documentation/19.0/"
         },
         {
-          "labelKey": "Normes comptables (Swiss GAAP) pour PME — fedlex.admin.ch",
+          "labelKey": "Accounting Standards (Swiss GAAP) for SMEs — fedlex.admin.ch",
           "url": "https://www.fedlex.admin.ch/"
         },
         {
-          "labelKey": "Finances PME en Suisse — CCI Suisse",
+          "labelKey": "SME Finance in Switzerland — Swiss Chamber of Commerce",
           "url": "https://www.ccig.ch/"
         },
         {
-          "labelKey": "Standardisation comptable en PME Suisse — Schweizer KMU Portal",
+          "labelKey": "Accounting Standardization in Swiss SMEs — Schweizer KMU Portal",
           "url": "https://www.kmu.admin.ch/fr"
         }
       ],
@@ -1764,15 +1764,15 @@
       "date": "2026-03-10",
       "references": [
         {
-          "labelKey": "Augmentation des fusions/acquisitions en 2025 (kmu.admin.ch)",
+          "labelKey": "Increase in Mergers/Acquisitions in 2025 (kmu.admin.ch)",
           "url": "https://www.kmu.admin.ch/fr/actuel"
         },
         {
-          "labelKey": "Considérations fiscales pour entreprises (estv.admin.ch)",
+          "labelKey": "Tax Considerations for Businesses (estv.admin.ch)",
           "url": "https://www.estv.admin.ch/en/transfer-pricing"
         },
         {
-          "labelKey": "Vue d'ensemble LBO en Suisse (admin.ch)",
+          "labelKey": "LBO Overview in Switzerland (admin.ch)",
           "url": "https://www.sif.admin.ch/fr/loi-sur-le-blanchiment-dargent"
         }
       ],
@@ -1792,27 +1792,27 @@
       "date": "2026-03-13",
       "references": [
         {
-          "labelKey": "Formulaire officiel certificat de salaire (AFC)",
+          "labelKey": "Official Salary Certificate Form (AFC)",
           "url": "https://www.bundespublikationen.admin.ch/fr/product/000000000862687621/Certificat%20de%20salaire"
         },
         {
-          "labelKey": "Guide officiel du certificat de salaire 2025 (AFC)",
+          "labelKey": "Official Salary Certificate Guide 2025 (AFC)",
           "url": "https://www.estv.admin.ch/dam/fr/sd-web/3gh13O94RA6r/dbst-form-lohna-wegleitung-2025-fr.pdf"
         },
         {
-          "labelKey": "Certificat de travail (seco)",
+          "labelKey": "Work Certificate (seco)",
           "url": "https://www.seco.admin.ch/fr/faq-certificat-de-travail"
         },
         {
-          "labelKey": "Actualisation 2025 : certificats de salaire (admin.ch)",
+          "labelKey": "2025 Update: Salary Certificates (admin.ch)",
           "url": "https://www.admin.ch/fr/nsb?id=103647"
         },
         {
-          "labelKey": "Déclaration des salaires - Office fédéral des assurances sociales (OFAS)",
+          "labelKey": "Salary Declaration – Federal Social Insurance Office (FSIO)",
           "url": "https://www.eak.admin.ch/fr/decompte-des-salaires-et-declaration-de-salaires"
         },
         {
-          "labelKey": "ELM : La norme suisse en matière de salaire (Office fédéral de la statistique, OFS)",
+          "labelKey": "ELM: Swiss Salary Standard (Federal Statistical Office, FSO)",
           "url": "https://www.bfs.admin.ch/bfs/fr/home/bases-statistiques/elm.html"
         }
       ],
@@ -1833,23 +1833,23 @@
       "date": "2026-03-13",
       "references": [
         {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "labelKey": "Taxes - Official Swiss Portal (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
         },
         {
-          "labelKey": "Communication officielle pour prestataires étrangers - bazg.admin.ch",
+          "labelKey": "Official Communication for Foreign Providers – bazg.admin.ch",
           "url": "https://www.bazg.admin.ch/dam/fr/sd-web/8fPMn4cHvY1G/52_13_communicationauxprestatairesdeservicesetrangers.pdf"
         },
         {
-          "labelKey": "Portail PME - Fiscalité",
+          "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
         },
         {
-          "labelKey": "Législation suisse sur la TVA - loi fédérale (LTVA) - fedlex.admin.ch",
+          "labelKey": "Swiss VAT Legislation – Federal Act (VAT Act) – fedlex.admin.ch",
           "url": "https://www.fedlex.admin.ch/eli/cc/2009/404/fr"
         },
         {
-          "labelKey": "Assujettissement à la TVA suisse des entreprises étrangères - estv.admin.ch",
+          "labelKey": "Swiss VAT Liability for Foreign Businesses – estv.admin.ch",
           "url": "https://www.estv.admin.ch/fr/tva-assujettissement-entreprises-etrangeres"
         }
       ],
@@ -1871,19 +1871,19 @@
       "date": "2026-03-22",
       "references": [
         {
-          "labelKey": "ICTax - calcul des taxes et dividendes",
+          "labelKey": "ICTax – Tax and Dividend Calculation",
           "url": "https://www.ictax.admin.ch/extern/fr.html"
         },
         {
-          "labelKey": "Ordonnances fiscales - Fedlex",
+          "labelKey": "Tax Ordinances – Fedlex",
           "url": "https://www.fedlex.admin.ch/eli/oc/2026/123/fr"
         },
         {
-          "labelKey": "Barèmes de l'impôt fédéral direct 2026 - ESTV",
+          "labelKey": "Direct Federal Tax Rates 2026 – ESTV",
           "url": "https://www.estv.admin.ch/fr/baremes-fiscaux-impot-federal-direct"
         },
         {
-          "labelKey": "Le système fiscal suisse – AFC (admin.ch)",
+          "labelKey": "Swiss Tax System – AFC (admin.ch)",
           "url": "https://www.estv.admin.ch/fr/systeme-fiscal-suisse"
         }
       ],
@@ -1904,19 +1904,19 @@
       "date": "2026-03-31",
       "references": [
         {
-          "labelKey": "Clôture d’exercice financier: réglementation et dates",
+          "labelKey": "Financial Year-End Closing: Regulations and Dates",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
-          "labelKey": "Code des obligations - Comptabilité",
+          "labelKey": "Obligationenrecht - Accounting",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Liste de contrôle - Clôture du projet - Hermes",
+          "labelKey": "Checklist – Project Closing – Hermes",
           "url": "https://www.hermes.admin.ch/fr/gestion-de-projet/ergebnisse/liste-de-controle-cloture-du-projet.html"
         },
         {
-          "labelKey": "Clôture comptable PME: délais et contrôle interne",
+          "labelKey": "SME Accounting Closing: Deadlines and Internal Control",
           "url": "https://ark-fid.ch/fr/ressources/articles/cloture-comptable-pme-delais-controle-interne-et-erreurs-courantes/"
         },
         {
@@ -1942,23 +1942,23 @@
       "date": "2026-04-04",
       "references": [
         {
-          "labelKey": "Page d'accueil officielle de ch.ch",
+          "labelKey": "Official Homepage of ch.ch",
           "url": "https://www.ch.ch/fr/"
         },
         {
-          "labelKey": "Règlement sur le commerce extérieur",
+          "labelKey": "Foreign Trade Regulation",
           "url": "https://www.bazg.admin.ch/dam/fr/sd-web/Hz62MtyMRHPD/R-25%20Statistique%20du%20commerce%20exterieur-20260401.pdf"
         },
         {
-          "labelKey": "Recherche de raisons de commerce - ZEFIX",
+          "labelKey": "Business Name Search – ZEFIX",
           "url": "https://www.zefix.ch/en/search/entity/welcome"
         },
         {
-          "labelKey": "Ordonnance sur le registre du commerce",
+          "labelKey": "Commercial Register Ordinance",
           "url": "https://www.fedlex.admin.ch/eli/cc/2007/686/fr"
         },
         {
-          "labelKey": "Guide UID, registre des entreprises - BFS",
+          "labelKey": "UID Guide, Business Register – FSO",
           "url": "https://www.uid.admin.ch/Search.aspx"
         }
       ],
@@ -1981,19 +1981,19 @@
       "date": "2026-04-08",
       "references": [
         {
-          "labelKey": "Attention sur les prêts intra-groupe et taux admissibles",
+          "labelKey": "Attention to Intra-Group Loans and Admissible Rates",
           "url": "https://www.estv2.admin.ch/dvs/rundschreiben/dbst-rs-2-207-dv-2024-fr.pdf"
         },
         {
-          "labelKey": "Modèles fiscaux OCDE et ajustements suisses",
+          "labelKey": "OECD tax models and Swiss adjustments",
           "url": "https://www.sif.admin.ch/en/taxation"
         },
         {
-          "labelKey": "Système fiscal suisse : Aperçu",
+          "labelKey": "Swiss tax system: Overview",
           "url": "https://www.efd.admin.ch/en/swiss-tax-system"
         },
         {
-          "labelKey": "Administration fédérale des contributions (impôt anticipé)",
+          "labelKey": "Federal Tax Administration (withholding tax)",
           "url": "https://www.estv.admin.ch/en/anticipatory-tax"
         }
       ],
@@ -2017,11 +2017,11 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/en"
         },
         {
-          "labelKey": "Registre du commerce (Zefix)",
+          "labelKey": "Commercial Register (Zefix)",
           "url": "https://www.zefix.ch/en/search/entity/welcome"
         },
         {
-          "labelKey": "Code des obligations (CO) - Société anonyme",
+          "labelKey": "Obligationenrecht (CO) - Public Limited Company",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#book_2/tit_26/ch_2"
         }
       ],
@@ -2045,19 +2045,19 @@
       "date": "2026-04-28",
       "references": [
         {
-          "labelKey": "PMI PME Raiffeisen – avril 2026",
+          "labelKey": "PMI PME Raiffeisen – April 2026",
           "url": "https://www.kmu.admin.ch/fr/actuel"
         },
         {
-          "labelKey": "BNS : examen monétaire du 19 mars 2026",
+          "labelKey": "SNB: Monetary review of March 19, 2026",
           "url": "https://www.snb.ch/fr/publications/communication/press-releases-restricted/pre_20260319"
         },
         {
-          "labelKey": "Approvisionnement énergétique : situation au 17 mars 2026",
+          "labelKey": "Energy supply: status as of March 17, 2026",
           "url": "https://www.admin.ch/fr/newnsb/2-YfSCkZSpHqbXoscreMT"
         },
         {
-          "labelKey": "OFS : hausse du nombre de faillites en 2024",
+          "labelKey": "FSO: increase in bankruptcies in 2024",
           "url": "https://dam-api.bfs.admin.ch/hub/api/dam/assets/34887815/master"
         }
       ],
@@ -2080,23 +2080,23 @@
       "date": "2026-05-04",
       "references": [
         {
-          "labelKey": "Déclaration d’opting-out – État de Vaud",
+          "labelKey": "Opting-out declaration – Canton of Vaud",
           "url": "https://www.vd.ch/fileadmin/user_upload/themes/economie_emploi/entreprises/registre_commerce/fichiers_pdf/Opting-out_existence2.pdf"
         },
         {
-          "labelKey": "Notice officielle sur le opting-out (Office du registre du commerce canton de Berne)",
+          "labelKey": "Official notice on opting-out (Commercial Registry Office Canton of Bern)",
           "url": "https://www.hra.dij.be.ch/content/dam/hra_dij/dokumente/fr/merkbl%C3%A4tter/HRA_Merkblatt_Verzicht_auf_eine_Revisionsstelle_AG_GmbH_fr.pdf"
         },
         {
-          "labelKey": "Déclaration de renonciation au contrôle restreint – État du Valais",
+          "labelKey": "Declaration of waiver of limited audit – Canton of Valais",
           "url": "https://www.vs.ch/documents/33434518/38205784/Renonciation%20au%20contr%C3%B4le%20restreint%20-%20nouvelle%20st%C3%A9.pdf/1dfb6842-d724-7e65-745f-4a213f20d334"
         },
         {
-          "labelKey": "Organe de révision et types de contrôle – Portail officiel PME Suisse",
+          "labelKey": "Audit body and types of audit – Official Swiss SME Portal",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
-          "labelKey": "Norme suisse relative au contrôle restreint (NCR) – EXPERTsuisse",
+          "labelKey": "Swiss Standard for Limited Audit (NCR) – EXPERTsuisse",
           "url": "https://expertsuisse.ch/fr/produits/pub-2-ser/norme-suisse-relative-au-controle-restreint-ncr"
         }
       ],
@@ -2119,19 +2119,19 @@
       "date": "2026-05-16",
       "references": [
         {
-          "labelKey": "Transmettre ou reprendre une entreprise (guide PME administration fédérale)",
+          "labelKey": "Transfer or takeover of a business (SME guide Federal Administration)",
           "url": "https://www.kmu.admin.ch/fr/reussir-la-transmission-de-son-entreprise"
         },
         {
-          "labelKey": "Due Diligence – Définition et applications (officiel SECO)",
+          "labelKey": "Due Diligence – Definition and applications (official SECO)",
           "url": "https://www.kmu.admin.ch/fr/succession"
         },
         {
-          "labelKey": "Code des obligations (CO)",
+          "labelKey": "Obligationenrecht (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Module de contrôle des ventes, achats et stocks sous Odoo",
+          "labelKey": "Sales, purchasing and inventory control module in Odoo",
           "url": "https://www.odoo.com/app/sales"
         }
       ],
@@ -2153,19 +2153,19 @@
       "date": "2026-05-19",
       "references": [
         {
-          "labelKey": "Communication OFRC 1/24 - Pratique du Registre du commerce sur le droit révisé des SA",
+          "labelKey": "OFRC Communication 1/24 – Commercial Registry practice on revised company law",
           "url": "https://www.vd.ch/fileadmin/user_upload/themes/economie_emploi/entreprises/registre_commerce/fichiers_pdf/Communication_OFRC_1_2024_FR.pdf"
         },
         {
-          "labelKey": "Loi sur le blanchiment d’argent : obligations complémentaires (OFJ)",
+          "labelKey": "Anti-Money Laundering Act: additional obligations (FOJ)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
         },
         {
-          "labelKey": "Loi fédérale sur la transparence des personnes morales (LTPM), consultation officielle",
+          "labelKey": "Federal Act on Transparency of Legal Entities (LTPM), official consultation",
           "url": "https://www.efd.admin.ch/fr/newnsb/p4lGLqowAyTAweIiDLtxs"
         },
         {
-          "labelKey": "Brochure «Droit révisé de la société anonyme» – EXPERTsuisse",
+          "labelKey": "Brochure “Revised Company Law” – EXPERTsuisse",
           "url": "https://expertsuisse.ch/fr/produits/pub-5-revaktr/brochure-droit-revise-de-la-societe-anonyme"
         }
       ],
@@ -2187,15 +2187,15 @@
       "date": "2026-05-29",
       "references": [
         {
-          "labelKey": "Loi sur la TVA avec modifications à partir de 2025",
+          "labelKey": "VAT Act with amendments from 2025",
           "url": "https://www.admin.ch/fr/nsb?id=99511"
         },
         {
-          "labelKey": "La nouvelle LTVA est entrée en vigueur",
+          "labelKey": "The new VAT Act has entered into force",
           "url": "https://www.efd.admin.ch/fr/nsb?id=103714"
         },
         {
-          "labelKey": "Administration fédérale des contributions - Taxe sur la valeur ajoutée",
+          "labelKey": "Federal Tax Administration – Value Added Tax",
           "url": "https://www.estv.admin.ch/fr/taxe-sur-la-valeur-ajoutee"
         }
       ],
@@ -2215,27 +2215,27 @@
       "date": "2026-05-31",
       "references": [
         {
-          "labelKey": "Composantes du contrôle interne COSO",
+          "labelKey": "COSO internal control components",
           "url": "https://fr.wikipedia.org/wiki/COSO"
         },
         {
-          "labelKey": "Adaptations récentes de la lutte anti-blanchiment",
+          "labelKey": "Recent adaptations in anti-money laundering",
           "url": "https://www.economiesuisse.ch/fr/articles/nouvelles-regles-pour-lutter-contre-le-blanchiment-dargent"
         },
         {
-          "labelKey": "Obligations de révision et bonne gouvernance PME",
+          "labelKey": "Audit obligations and good governance for SMEs",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
-          "labelKey": "Organisation du contrôle interne et cadre légal suisse (Code des obligations, art. 716a, 961)",
+          "labelKey": "Internal control organization and Swiss legal framework (Obligationenrecht, art. 716a, 961)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Gestion des cyber-risques et contrôles spécifiques 2024",
+          "labelKey": "Cyber risk management and specific controls 2024",
           "url": "https://www.finma.ch/~/media/finma/dokumente/dokumentencenter/myfinma/4dokumentation/finma-aufsichtsmitteilungen/20160707-finma-aufsichtsmitteilung-03-2024.pdf?sc_lang=fr&hash=2075F432149EC93BCBA722E1DCA46981"
         },
         {
-          "labelKey": "Guide pratique contrôle interne PME (aspects facturation, achats, paiements – Ark Fiduciaire, 2025)",
+          "labelKey": "Practical guide to internal control for SMEs (invoicing, purchasing, payments – Ark Fiduciaire, 2025)",
           "url": "https://ark-fid.ch/fr/ressources/articles/controle-interne-pme-geneve-2025-piloter-risques-automatise/"
         }
       ],
@@ -2260,15 +2260,15 @@
           "url": "https://www.fer.ch/fr/"
         },
         {
-          "labelKey": "Obligation d’inventaire et de comptabilité en Suisse (CO art. 957–958c)",
+          "labelKey": "Inventory and accounting obligations in Switzerland (Obligationenrecht art. 957–958c)",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
-          "labelKey": "CO art. 960a : Principe de la valorisation des actifs (stocks inclus)",
+          "labelKey": "Obligationenrecht art. 960a: Asset valuation principle (including inventory)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "ERP et gestion des stocks avec Odoo",
+          "labelKey": "ERP and inventory management with Odoo",
           "url": "https://www.odoo.com/app/inventory"
         }
       ],
@@ -2290,23 +2290,23 @@
       "date": "2026-06-10",
       "references": [
         {
-          "labelKey": "Décompte prévisionnel 2026 (indicateurs financiers canton de Vaud)",
+          "labelKey": "Forecast statement 2026 (financial indicators Canton of Vaud)",
           "url": "https://www.vd.ch/fileadmin/user_upload/themes/territoire/communes/finances_communales/Rapport_-_D%C3%A9compte_pr%C3%A9visionnel_2026_NPIV.pdf"
         },
         {
-          "labelKey": "Obligations comptables PME et reporting (CO)",
+          "labelKey": "SME accounting obligations and reporting (Obligationenrecht)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Journée de la fiscalité des PME 2026, HE-Arc",
+          "labelKey": "SME Tax Day 2026, HE-Arc",
           "url": "https://www.he-arc.ch/agenda/journee-de-la-fiscalite-des-pme-2026/"
         },
         {
-          "labelKey": "Digitalisation, reporting et tendances tableau de bord PME (2026)",
+          "labelKey": "Digitalization, reporting and dashboard trends for SMEs (2026)",
           "url": "https://ark-fid.ch/fr/ressources/articles/plan-comptable-suisse-pme-tendances-2026/"
         },
         {
-          "labelKey": "Key financial metrics for banks and securities firms (banques et valeurs suisses)",
+          "labelKey": "Key financial metrics for banks and securities firms (Swiss banks and securities)",
           "url": "https://www.finma.ch/en/documentation/finma-publications/kennzahlen-und-statistiken/kennzahlen/kennzahlen-banken/"
         }
       ],
@@ -2337,23 +2337,23 @@
       ],
       "references": [
         {
-          "labelKey": "Coûts de création, capital minimum, fonds propres Sàrl/SA",
+          "labelKey": "Formation costs, minimum capital, equity for GmbH/AG",
           "url": "https://www.kmu.admin.ch/fr/caracteristiques-des-differentes-formes-juridiques"
         },
         {
-          "labelKey": "Formes juridiques des entreprises – portail PME de la Confédération",
+          "labelKey": "Legal forms of businesses – Confederation SME portal",
           "url": "https://www.kmu.admin.ch/fr/caracteristiques-des-differentes-formes-juridiques"
         },
         {
-          "labelKey": "Régime fiscal et organisation Sàrl en Suisse (vue Wikipédia)",
+          "labelKey": "Tax regime and organization of GmbH in Switzerland (Wikipedia view)",
           "url": "https://fr.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_%C3%A0_responsabilit%C3%A9_limit%C3%A9e_en_Suisse"
         },
         {
-          "labelKey": "Ordonnance sur le registre du commerce (OFRC, état 2026)",
+          "labelKey": "Ordinance on the Commercial Register (OFRC, as of 2026)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1999/404/fr"
         },
         {
-          "labelKey": "Zefix – Registre du commerce Suisse (recherche et vérification)",
+          "labelKey": "Zefix – Swiss Commercial Register (search and verification)",
           "url": "https://www.zefix.ch/"
         }
       ]
@@ -2376,23 +2376,23 @@
       ],
       "references": [
         {
-          "labelKey": "Nachfolgeplanung et transmission d’actions non cotées (SwissAccounting.org)",
+          "labelKey": "Succession planning and transfer of unlisted shares (SwissAccounting.org)",
           "url": "https://swissaccounting.org/blog/nachfolgeplanung"
         },
         {
-          "labelKey": "Impôt sur les successions en Suisse",
+          "labelKey": "Inheritance tax in Switzerland",
           "url": "https://www.ch.ch/fr/famille-et-partenariat/heritage/l-impot-sur-les-successions/"
         },
         {
-          "labelKey": "Soutien à la transmission d’entreprise (Centre Patronal)",
+          "labelKey": "Support for business transfer (Centre Patronal)",
           "url": "https://www.centrepatronal.ch/services-entreprises/soutien-transmission-entreprise/"
         },
         {
-          "labelKey": "Brochures fiscales 2025-2026 (transmission, succession, entreprise)",
+          "labelKey": "Tax brochures 2025-2026 (transfer, succession, business)",
           "url": "https://www.estv.admin.ch/fr/brochures-fiscales"
         },
         {
-          "labelKey": "Succession d’entreprise : aspects financiers, fiscaux et prévoyance",
+          "labelKey": "Business succession: financial, tax and pension aspects",
           "url": "https://www.amsuisse.ch/fr/actualites-details/article/succession-dentreprise-aspects-financiers-fiscaux-et-prevoyance/b/807?cHash=d7be6e26b4869c862de212cbdf366fc8"
         }
       ]
@@ -2415,23 +2415,23 @@
       ],
       "references": [
         {
-          "labelKey": "Règlement sur le contrôle interne et obligations (OFDF, SCI)",
+          "labelKey": "Regulation on internal control and obligations (OFDF, SCI)",
           "url": "https://www.bazg.admin.ch/dam/fr/sd-web/lAGNTZjC-HvZ/r-62-03_aeo_systeme_de_controle_interne-fr.pdf"
         },
         {
-          "labelKey": "Droits d'accès, rôles et groupes dans Odoo 18",
+          "labelKey": "Access rights, roles and groups in Odoo 18",
           "url": "https://www.odoo.com/documentation/18.0/fr/applications/general/users/access_rights.html"
         },
         {
-          "labelKey": "Système de contrôle interne : exigences suisses PME & audit",
+          "labelKey": "Internal control system: Swiss SME requirements & audit",
           "url": "https://www.kmu.admin.ch/fr/la-gestion-des-risques-strategiques-et-operationnels"
         },
         {
-          "labelKey": "Bases légales, organisation du CA et rapport de gestion (CO, Fedlex)",
+          "labelKey": "Legal basis, board organization and management report (Obligationenrecht, Fedlex)",
           "url": "https://www.fedlex.admin.ch/fr/cc"
         },
         {
-          "labelKey": "Guide pratique de mise en place d’un SCI (OFAS)",
+          "labelKey": "Practical guide to implementing an ICS (OFAS)",
           "url": "https://sozialversicherungen.admin.ch/fr/d/21201/download"
         }
       ]
@@ -2454,15 +2454,15 @@
       ],
       "references": [
         {
-          "labelKey": "fedlex.admin.ch – Code des obligations suisse (contrôle juridique acquisition)",
+          "labelKey": "fedlex.admin.ch – Swiss Obligationenrecht (legal control acquisition)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Zefix – Registre du commerce suisse (contrôle identité, actionnariat, statuts)",
+          "labelKey": "Zefix – Swiss Commercial Register (identity check, shareholding, statutes)",
           "url": "https://www.zefix.ch/"
         },
         {
-          "labelKey": "Ark Fiduciaire – Fusions & acquisitions en Suisse romande",
+          "labelKey": "Ark Fiduciaire – Mergers & acquisitions in French-speaking Switzerland",
           "url": "https://ark-fid.ch/fr/ressources/articles/fusion-et-acquisition-en-suisse-romande-2025-etapes-defis-et-opportunites-pour-les-pme/"
         }
       ]
@@ -2485,23 +2485,23 @@
       ],
       "references": [
         {
-          "labelKey": "Savoir pratique sur la révision en Suisse (PME) – portail PME de la Confédération",
+          "labelKey": "Practical knowledge on auditing in Switzerland (SMEs) – Swiss Confederation SME portal",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
-          "labelKey": "Organe de révision et types de contrôle – Portail PME (SECO)",
+          "labelKey": "Audit body and types of control – SME Portal (SECO)",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
-          "labelKey": "ASR (Autorité fédérale de surveillance en matière de révision) – Définition des seuils pour contrôle ordinaire/restreint",
+          "labelKey": "ASR (Federal Audit Oversight Authority) – Definition of thresholds for ordinary/limited audit",
           "url": "https://www.rab-asr.ch/fr/faq/entreprises-de-revision/controle-restreint-ou-controle-ordinaire"
         },
         {
-          "labelKey": "Code des obligations suisse (CO), art. 727–731a – Dispositions légales sur la révision ordinaire et restreinte",
+          "labelKey": "Swiss Obligationenrecht (CO), art. 727–731a – Legal provisions on ordinary and limited audit",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Révision, contrôle restreint et ordinaire en 2026 : obligations, opting-out – Ark Fiduciaire",
+          "labelKey": "Audit, limited and ordinary control in 2026: obligations, opting-out – Ark Fiduciaire",
           "url": "https://ark-fid.ch/fr/ressources/articles/revision-controle-restreint-ordinaire-opting-out-suisse-2026/"
         }
       ]
@@ -2524,19 +2524,19 @@
       ],
       "references": [
         {
-          "labelKey": "Importation en Suisse : exceptions et franchises douanières",
+          "labelKey": "Import into Switzerland: exceptions and customs allowances",
           "url": "https://www.bazg.admin.ch/en/exemptions-reliefs-and-preferential-tariffs-importation-companies"
         },
         {
-          "labelKey": "Taux de la TVA applicables en Suisse (2026)",
+          "labelKey": "Applicable VAT rates in Switzerland (2026)",
           "url": "https://www.estv.admin.ch/fr/taux-de-la-tva-suisse"
         },
         {
-          "labelKey": "Federal Act on Value Added Tax (VAT Act, état au 01.01.2025)",
+          "labelKey": "Federal Act on Value Added Tax (VAT Act, as of 01.01.2025)",
           "url": "https://www.fedlex.admin.ch/eli/cc/2009/615_615_615/fr"
         },
         {
-          "labelKey": "Exceptions et exonérations de TVA – Guide officiel",
+          "labelKey": "VAT exceptions and exemptions – Official guide",
           "url": "https://www.mission-geneve.dfae.admin.ch/fr"
         }
       ]
@@ -2559,19 +2559,19 @@
       ],
       "references": [
         {
-          "labelKey": "Impact du contrôle interne sur la performance et reporting PME",
+          "labelKey": "Impact of internal control on SME performance and reporting",
           "url": "https://fr.wikipedia.org/wiki/Contr%C3%B4le_interne"
         },
         {
-          "labelKey": "Code suisse de bonnes pratiques pour la gouvernance d’entreprise (economiesuisse)",
+          "labelKey": "Swiss Code of Best Practice for Corporate Governance (economiesuisse)",
           "url": "https://backend-api.economiesuisse.ch/sites/default/files/2025-09/swisscode_f_web_0.pdf"
         },
         {
-          "labelKey": "Cartographie des risques en PME, obligations et séparation des fonctions",
+          "labelKey": "Risk mapping in SMEs, obligations and separation of functions",
           "url": "https://ark-fid.ch/fr/ressources/articles/controle-interne-pme-geneve-2025-piloter-risques-automatise/"
         },
         {
-          "labelKey": "Organisation appropriée du contrôle interne pour SA/Sàrl : obligations légales et art. 716a & 961 CO",
+          "labelKey": "Appropriate internal control organization for AG/GmbH: legal obligations and art. 716a & 961 CO",
           "url": "https://www.fedlex.admin.ch/fr/cc/internal-law/18870066"
         }
       ]
@@ -2594,19 +2594,19 @@
       ],
       "references": [
         {
-          "labelKey": "Code des obligations – dispositions sur l’assemblée générale (fedlex.admin.ch)",
+          "labelKey": "Obligationenrecht – provisions on the general meeting (fedlex.admin.ch)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Séances plénières 2025-2026 - Grand Conseil Vaud (dates AG)",
+          "labelKey": "Plenary sessions 2025-2026 - Grand Conseil Vaud (AG dates)",
           "url": "https://www.vd.ch/fileadmin/user_upload/organisation/gc/fichiers_pdf/2022-2027/Tableau_seances_2025-2026.pdf"
         },
         {
-          "labelKey": "Obligations de rédaction du procès-verbal d'AG en Suisse (guide Ark Fiduciaire, actualisé 2025)",
+          "labelKey": "Minute-taking obligations for AG in Switzerland (Ark Fiduciaire guide, updated 2025)",
           "url": "https://ark-fid.ch/fr/ressources/articles/proces-verbal-assemblee-generale-obligations-redaction-suisse-2025/"
         },
         {
-          "labelKey": "Sanctions en Suisse - seco.admin.ch",
+          "labelKey": "Sanctions in Switzerland - seco.admin.ch",
           "url": "https://www.seco.admin.ch/fr/sanctions"
         }
       ]
@@ -2629,27 +2629,27 @@
       ],
       "references": [
         {
-          "labelKey": "Comptabilité et obligations des PME – portail PME de la Confédération",
+          "labelKey": "Accounting and SME obligations – Swiss Confederation SME portal",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
-          "labelKey": "Code des obligations (obligations comptables PME)",
+          "labelKey": "Obligationenrecht (SME accounting obligations)",
           "url": "https://www.fedlex.admin.ch/fr/home"
         },
         {
-          "labelKey": "Plan comptable PME & KPI (tendances 2026)",
+          "labelKey": "SME chart of accounts & KPI (trends 2026)",
           "url": "https://ark-fid.ch/fr/ressources/articles/plan-comptable-suisse-pme-tendances-2026/"
         },
         {
-          "labelKey": "Outils reporting Odoo PME (documentation officielle)",
+          "labelKey": "Odoo SME reporting tools (official documentation)",
           "url": "https://www.odoo.com/app/accounting"
         },
         {
-          "labelKey": "Statistique financière suisse (données et tableaux de bord officiels)",
+          "labelKey": "Swiss financial statistics (official data and dashboards)",
           "url": "https://www.efv.admin.ch/fr/donnees-statistique-financiere"
         },
         {
-          "labelKey": "Swissdec : reporting et normes pour paie / gestion financière",
+          "labelKey": "Swissdec: reporting and standards for payroll / financial management",
           "url": "https://www.swissdec.ch/fr"
         }
       ]
@@ -2672,23 +2672,23 @@
       ],
       "references": [
         {
-          "labelKey": "Société à responsabilité limitée en Suisse – Définition et exigences",
+          "labelKey": "Limited liability company in Switzerland – Definition and requirements",
           "url": "https://fr.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_%C3%A0_responsabilit%C3%A9_limit%C3%A9e_en_Suisse"
         },
         {
-          "labelKey": "Portail de recherche Registre du commerce Genève – Extraits & statuts",
+          "labelKey": "Geneva Commercial Register search portal – Extracts & statutes",
           "url": "https://app2.ge.ch/ecohrcinternet/"
         },
         {
-          "labelKey": "Société à responsabilité limitée en Suisse – Dispositions légales (CO art. 772 ss)",
+          "labelKey": "Limited Liability Company in Switzerland – Legal Provisions (CO art. 772 ff.)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Vérification du nom de la société sur Zefix (registre fédéral officiel)",
+          "labelKey": "Company name check on Zefix (official federal register)",
           "url": "https://www.zefix.ch/en/search/entity/welcome"
         },
         {
-          "labelKey": "Dossier complet Sàrl Genève (étapes, coûts, capital 2026)",
+          "labelKey": "Complete Dossier LLC Geneva (steps, costs, capital 2026)",
           "url": "https://ark-fid.ch/fr/ressources/articles/creer-sarl-ou-sa-geneve-2026-guide-complet/"
         }
       ]
@@ -2708,19 +2708,19 @@
       ],
       "references": [
         {
-          "labelKey": "Impôt des personnes physiques : particularités Fribourg",
+          "labelKey": "Personal Income Tax: Fribourg Specifics",
           "url": "https://www.fr.ch/impots/personnes-physiques/impot-des-personnes-physiques-themes-particuliers"
         },
         {
-          "labelKey": "Formulaires officiels Valais personnes physiques",
+          "labelKey": "Official Forms Valais Individuals",
           "url": "https://www.vs.ch/web/scc/formulaires-declaration-d-impots-personnes-physiques"
         },
         {
-          "labelKey": "Guide général sur le système fiscal suisse (AFC/ESTV)",
+          "labelKey": "General Guide to the Swiss Tax System (FTA/ESTV)",
           "url": "https://www.estv.admin.ch/fr/systeme-fiscal-suisse"
         },
         {
-          "labelKey": "Documents, attestations et liens utiles pour la déclaration Neuchâtel",
+          "labelKey": "Documents, Certificates and Useful Links for Neuchâtel Tax Return",
           "url": "https://www.ne.ch/themes/impots/documents-et-liens-utiles"
         }
       ]
@@ -2743,19 +2743,19 @@
       ],
       "references": [
         {
-          "labelKey": "QR-facture : définition et cadre légal",
+          "labelKey": "QR Invoice: Definition and Legal Framework",
           "url": "https://fr.wikipedia.org/wiki/QR-facture"
         },
         {
-          "labelKey": "Rapprochement bancaire — Documentation Odoo",
+          "labelKey": "Bank Reconciliation — Odoo Documentation",
           "url": "https://www.odoo.com/documentation/17.0/fr/applications/finance/accounting/bank/reconciliation.html"
         },
         {
-          "labelKey": "Swissdec — Standard suisse pour la gestion des salaires et paiements",
+          "labelKey": "Swissdec — Swiss Standard for Payroll and Payments",
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Code des obligations : obligations comptables PME — admin.ch",
+          "labelKey": "Code of Obligations: Accounting Requirements for SMEs — admin.ch",
           "url": "https://www.fedlex.admin.ch/fr/cc/internal-law/19110010"
         }
       ]
@@ -2783,11 +2783,11 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "ch.ch — Debt enforcement and objection",
+          "labelKey": "ch.ch — Debt Enforcement and Objection",
           "url": "https://www.ch.ch/fr/"
         },
         {
-          "labelKey": "Commercial register — Zefix",
+          "labelKey": "Commercial Register — Zefix",
           "url": "https://www.zefix.ch/en/search/entity/welcome"
         }
       ]
@@ -2810,19 +2810,19 @@
       ],
       "references": [
         {
-          "labelKey": "Types de domiciliation et aspects de conformité en Suisse",
+          "labelKey": "Types of Domiciliation and Compliance Aspects in Switzerland",
           "url": "https://www.kmu.admin.ch/fr/voici-comment-inscrire-une-entreprise"
         },
         {
-          "labelKey": "Directives fiscales sur la domiciliation et l'impôt à la source (VD)",
+          "labelKey": "Tax Guidelines on Domiciliation and Withholding Tax (VD)",
           "url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21520_Administrateurs_Directives.pdf"
         },
         {
-          "labelKey": "Registre du commerce suisse : informations officielles entreprises",
+          "labelKey": "Swiss Commercial Register: Official Company Information",
           "url": "https://www.zefix.ch/"
         },
         {
-          "labelKey": "Code des obligations suisse – Exigence de siège et inscription",
+          "labelKey": "Swiss Code of Obligations – Registered Office and Registration Requirement",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
@@ -2845,23 +2845,23 @@
       ],
       "references": [
         {
-          "labelKey": "Avenant CH-FR Explications Attestation de l'employeur à l'AFC",
+          "labelKey": "CH-FR Addendum Employer Certificate Explanations to the FTA",
           "url": "https://www.estv.admin.ch/dam/fr/sd-web/sYfqlykWLoU6/Avenant-CH-FR-Explications-Attestation-employeur-fr.pdf"
         },
         {
-          "labelKey": "Fiscalité des frontaliers et télétravail France–Suisse – SIF (admin.ch)",
+          "labelKey": "Cross-Border Taxation and Telework France–Switzerland – SIF (admin.ch)",
           "url": "https://www.sif.admin.ch/fr"
         },
         {
-          "labelKey": "Barèmes et instructions employeurs concernant l'impôt à la source 2026",
+          "labelKey": "Withholding Tax Scales and Employer Instructions 2026",
           "url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/21034-10_Employeurs_2026.pdf"
         },
         {
-          "labelKey": "Accord multilatéral sur la sécurité sociale des frontaliers (A1, ALCP, seuils) – admin.ch",
+          "labelKey": "Multilateral Agreement on Social Security for Cross-Border Workers (A1, FMPA, thresholds) – admin.ch",
           "url": "https://www.admin.ch/fr/nsb?id=96594"
         },
         {
-          "labelKey": "Entrée en vigueur de l'avenant à la convention franco-suisse",
+          "labelKey": "Entry into Force of the Addendum to the France–Switzerland Convention",
           "url": "https://www.ge.ch/actualite/teletravail-personnes-frontalieres-entree-vigueur-avenant-convention-franco-suisse-29-07-2025"
         }
       ]
@@ -2884,19 +2884,19 @@
       ],
       "references": [
         {
-          "labelKey": "Inscription au registre du commerce – portail PME de la Confédération",
+          "labelKey": "Commercial Register Registration – SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr/voici-comment-inscrire-une-entreprise"
         },
         {
-          "labelKey": "Bases légales fédérales sur le siège social et la domiciliation",
+          "labelKey": "Federal Legal Bases on Registered Office and Domiciliation",
           "url": "https://www.fedlex.admin.ch/eli/cc/1911/42_42_42/fr"
         },
         {
-          "labelKey": "Conditions d'existence d'une société selon le RC",
+          "labelKey": "Existence Requirements for a Company According to the Commercial Register",
           "url": "https://www.zefix.ch/fr/search/entity/welcome"
         },
         {
-          "labelKey": "Guide pratico-juridique domiciliation entreprise Suisse 2026",
+          "labelKey": "Practical Legal Guide to Company Domiciliation Switzerland 2026",
           "url": "https://ark-fid.ch/fr/ressources/articles/domiciliation-suisse-entreprises-contrats-substance-risques-2026/"
         }
       ]
@@ -2919,19 +2919,19 @@
       ],
       "references": [
         {
-          "labelKey": "FAQs officiels révision en Suisse",
+          "labelKey": "Official FAQs Revision in Switzerland",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
-          "labelKey": "Guide du Registre du commerce Zurich : procédure opting-out",
+          "labelKey": "Zurich Commercial Register Guide: Opting-Out Procedure",
           "url": "https://www.zh.ch/content/dam/zhweb/bilder-dokumente/themen/wirtschaft-arbeit/handelsregister/rechtsformuebergreifend/allg_merkblatt_kmu_erklaerung_opting_out.pdf"
         },
         {
-          "labelKey": "Merkblatt Opting-out – Registre du commerce Berne",
+          "labelKey": "Merkblatt Opting-out – Bern Commercial Register",
           "url": "https://www.hra.dij.be.ch/content/dam/hra_dij/dokumente/de/merkbl%C3%A4tter/HRA_Merkblatt_Verzicht_auf_eine_Revisionsstelle_AG_GmbH_2025_de.pdf"
         },
         {
-          "labelKey": "Code des obligations suisse (art. 727a et ss.)",
+          "labelKey": "Swiss Code of Obligations (art. 727a ff.)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
@@ -2954,23 +2954,23 @@
       ],
       "references": [
         {
-          "labelKey": "Ordonnance sur les frais professionnels (fedlex.admin.ch)",
+          "labelKey": "Ordinance on Professional Expenses (fedlex.admin.ch)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1993/1363_1363_1363/fr"
         },
         {
-          "labelKey": "Formulaire officiel des frais professionnels 2026 (AFC/ESTV)",
+          "labelKey": "Official Professional Expenses Form 2026 (FTA/ESTV)",
           "url": "https://www.estv.admin.ch/dam/fr/sd-web/IDqF7pWmXeMb/09-14-2026-fr.pdf"
         },
         {
-          "labelKey": "Déductions comprises dans le barèmes IS 2026 (Vaud)",
+          "labelKey": "Deductions Included in IS Scales 2026 (Vaud)",
           "url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/Publications_d%C3%A9ductions_bar%C3%A8ms_IS_2026.pdf"
         },
         {
-          "labelKey": "Loi sur la TVA : conservation des justificatifs (art. 26/70 LTVA)",
+          "labelKey": "VAT Act: Retention of Supporting Documents (art. 26/70 VAT Act)",
           "url": "https://www.fedlex.admin.ch/eli/cc/2009/615/fr"
         },
         {
-          "labelKey": "Barèmes de rectification de l'impôt à la source 2026 (Genève)",
+          "labelKey": "Withholding Tax Adjustment Scales 2026 (Geneva)",
           "url": "https://www.ge.ch/document/baremes-rectification-impot-source-2026"
         }
       ]
@@ -2993,23 +2993,23 @@
       ],
       "references": [
         {
-          "labelKey": "Droit successoral suisse: bases, réserves et héritiers | ch.ch",
+          "labelKey": "Swiss Inheritance Law: Basics, Reserved Shares and Heirs | ch.ch",
           "url": "https://www.ch.ch/fr/famille-et-partenariat/heritage/"
         },
         {
-          "labelKey": "Loi sur le blanchiment d'argent (LBA)",
+          "labelKey": "Anti-Money Laundering Act (AMLA)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
         },
         {
-          "labelKey": "Entreprises: comment bien préparer sa succession (guide officiel PME)",
+          "labelKey": "Businesses: How to Prepare for Succession (Official SME Guide)",
           "url": "https://www.kmu.admin.ch/fr/entreprises-comment-bien-preparer-sa-succession"
         },
         {
-          "labelKey": "Succession de l'entrepreneur : préparer patrimoine, société et fiscalité avant l'urgence",
+          "labelKey": "Business Succession: Preparing Assets, Company and Taxation Before Urgency",
           "url": "https://ark-fid.ch/fr/ressources/articles/succession-entrepreneur-suisse-preparer-patrimoine-societe-fiscalite-2026/"
         },
         {
-          "labelKey": "FINMA - Autorité fédérale de surveillance",
+          "labelKey": "FINMA - Federal Supervisory Authority",
           "url": "https://www.finma.ch/fr/"
         }
       ]
@@ -3032,27 +3032,27 @@
       ],
       "references": [
         {
-          "labelKey": "Principaux textes de loi sur la fiscalité en Suisse (wikipedia)",
+          "labelKey": "Main Legal Texts on Taxation in Switzerland (wikipedia)",
           "url": "https://fr.wikipedia.org/wiki/Fiscalit%C3%A9_en_Suisse"
         },
         {
-          "labelKey": "Règles de transmission société individuelle (swissaccounting.org, 2025)",
+          "labelKey": "Sole Proprietorship Transfer Rules (swissaccounting.org, 2025)",
           "url": "https://swissaccounting.org/blog/praxisbeispiel-umstrukturierung-%C3%BCbertragung-eines-betriebes-einer-einzelunternehmung-auf-eine-juristische-person"
         },
         {
-          "labelKey": "Brochures fiscales et dossiers pratiques (impôts sur la succession, donation, cession)",
+          "labelKey": "Tax Brochures and Practical Guides (Inheritance, Gift, Transfer Taxes)",
           "url": "https://www.estv.admin.ch/fr/brochures-fiscales"
         },
         {
-          "labelKey": "Journée nationale de la transmission d'entreprise (Centre Patronal)",
+          "labelKey": "National Business Succession Day (Centre Patronal)",
           "url": "https://www.centrepatronal.ch/services-entreprises/reseautage-et-events/evenement/2026/09/30/default-calendar/7e-journee-nationale-de-la-transmission-dentreprise/"
         },
         {
-          "labelKey": "Transmission d’entreprise : solutions & outils d’aide à la valorisation (CCIG Genève)",
+          "labelKey": "Business Transfer: Solutions & Valuation Tools (CCIG Geneva)",
           "url": "https://www.ccig.ch/Services-2/Conseils/Transmission-dentreprise"
         },
         {
-          "labelKey": "Évaluer l’entreprise et négocier son prix – portail PME de la Confédération",
+          "labelKey": "Business Valuation and Price Negotiation – SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr/evaluer-lentreprise-et-negocier-son-prix"
         }
       ]
@@ -3075,27 +3075,27 @@
       ],
       "references": [
         {
-          "labelKey": "Définition due diligence financière (Wikipedia)",
+          "labelKey": "Financial Due Diligence Definition (Wikipedia)",
           "url": "https://fr.wikipedia.org/wiki/Due_diligence"
         },
         {
-          "labelKey": "Dispositions d’exécution concernant les nouveaux devoirs de diligence des entreprises (ODiTr)",
+          "labelKey": "Implementing Provisions on New Corporate Due Diligence Duties (ODiTr)",
           "url": "https://www.economiesuisse.ch/fr/publications/dispositions-dexecution-concernant-les-nouveaux-devoirs-de-diligence-des-entreprises"
         },
         {
-          "labelKey": "Due Diligence : examen détaillé d'une entreprise",
+          "labelKey": "Due Diligence: Detailed Company Review",
           "url": "https://www.kmu.admin.ch/fr/due-diligence-examen-detaille-dune-entreprise"
         },
         {
-          "labelKey": "Loi fédérale sur l’examen des investissements étrangers (LEIE)",
+          "labelKey": "Federal Act on the Review of Foreign Investments (LEIE)",
           "url": "https://www.seco.admin.ch/fr/examen-des-investissements"
         },
         {
-          "labelKey": "Analyse des risques entreprises suisses 2025-2026 (Monitorage FINMA)",
+          "labelKey": "Swiss Corporate Risk Analysis 2025-2026 (FINMA Monitoring)",
           "url": "https://www.finma.ch/fr/documentation/publications-finma/rapports/risikomonitor/"
         },
         {
-          "labelKey": "Droits et obligations liés à la transparence (LTPM, registre fédéral 2026)",
+          "labelKey": "Rights and Obligations Related to Transparency (LTPM, Federal Register 2026)",
           "url": "https://www.centrepatronal.ch/actualites/soutien-a-la-creation/registre-suisse-transparence-obligations-societes-actionnaires/"
         }
       ]
@@ -3118,23 +3118,23 @@
       ],
       "references": [
         {
-          "labelKey": "Code suisse de bonnes pratiques pour la gouvernance d’entreprise (Economiesuisse)",
+          "labelKey": "Swiss Code of Best Practice for Corporate Governance (Economiesuisse)",
           "url": "https://backend-api.economiesuisse.ch/sites/default/files/2025-09/swisscode_f_web_0.pdf"
         },
         {
-          "labelKey": "Conseil d’administration : obligations, responsabilités et risques (admin.ch, CO)",
+          "labelKey": "Board of Directors: Duties, Responsibilities and Risks (admin.ch, Obligationenrecht)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Lutte contre le blanchiment (LBA, admin.ch, obligations des entreprises)",
+          "labelKey": "Anti-Money Laundering (AMLA, admin.ch, Corporate Obligations)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
         },
         {
-          "labelKey": "Gouvernance d'entreprise (SECO)",
+          "labelKey": "Corporate Governance (SECO)",
           "url": "https://www.seco.admin.ch/fr/gouvernance-entreprise"
         },
         {
-          "labelKey": "Gouvernance d'entreprise (site officiel PME)",
+          "labelKey": "Corporate Governance (Official SME Site)",
           "url": "https://www.kmu.admin.ch/fr/gouvernance-dentreprise"
         }
       ]
@@ -3157,27 +3157,27 @@
       ],
       "references": [
         {
-          "labelKey": "Business Process Outsourcing (BPO) - Définition, avantages et risques",
+          "labelKey": "Business Process Outsourcing (BPO) – Definition, Benefits and Risks",
           "url": "https://fr.wikipedia.org/wiki/Business_Process_Outsourcing"
         },
         {
-          "labelKey": "Publication fédérale de la législation suisse (lois sur l'externalisation et le travail)",
+          "labelKey": "Federal Publication of Swiss Legislation (Outsourcing and Labor Laws)",
           "url": "https://www.fedlex.admin.ch/"
         },
         {
-          "labelKey": "Prévisions conjoncturelles pour l’économie suisse en 2026 – état de la conjoncture et marché du travail, perspectives pour PME",
+          "labelKey": "Economic Forecasts for Switzerland 2026 – Economic Situation and Labor Market, Outlook for SMEs",
           "url": "https://www.seco.admin.ch/fr/previsions-conjoncturelles"
         },
         {
-          "labelKey": "Étude économique 2026 – Analyse de la charge administrative à Genève et enjeux pour la compétitivité des PME",
+          "labelKey": "Economic Study 2026 – Analysis of Administrative Burden in Geneva and SME Competitiveness Challenges",
           "url": "https://www.ccig.ch/Politique-economique/Analyses-et-etudes/Etude-economique"
         },
         {
-          "labelKey": "Odoo - Externalisation des processus métier et automatisation pour PME",
+          "labelKey": "Odoo – Business Process Outsourcing and Automation for SMEs",
           "url": "https://www.odoo.com/documentation"
         },
         {
-          "labelKey": "Portail PME – conseils et informations utiles sur l’externalisation et la gestion des PME",
+          "labelKey": "SME Portal – Tips and Information on Outsourcing and SME Management",
           "url": "https://www.kmu.admin.ch/fr"
         }
       ]
@@ -3200,19 +3200,19 @@
       ],
       "references": [
         {
-          "labelKey": "Gestion des litiges, retours et avoirs en e-commerce suisse",
+          "labelKey": "Dispute, Return and Credit Management in Swiss E-Commerce",
           "url": "https://www.kmu.admin.ch/fr/e-commerce-creer-un-site-ergonomique-et-securise"
         },
         {
-          "labelKey": "Informations douanières pour les entreprises – OFDF (bazg.admin.ch)",
+          "labelKey": "Customs Information for Businesses – FOCBS (bazg.admin.ch)",
           "url": "https://www.bazg.admin.ch/fr"
         },
         {
-          "labelKey": "Automatisation des rapprochements dans Odoo (documentation officielle)",
+          "labelKey": "Automated Reconciliation in Odoo (Official Documentation)",
           "url": "https://www.odoo.com/documentation/19.0/applications/finance/accounting/bank/reconciliation.html"
         },
         {
-          "labelKey": "La digitalisation des PME en Suisse – portail PME de la Confédération",
+          "labelKey": "Digitalization of SMEs in Switzerland – SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr/la-digitalisation-des-pme-en-suisse-un-enjeu-central"
         }
       ]
@@ -3239,23 +3239,23 @@
           "url": "https://fr.wikipedia.org/wiki/Budget"
         },
         {
-          "labelKey": "Comptabilité et révision – portail PME de la Confédération",
+          "labelKey": "Accounting and Auditing – SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
-          "labelKey": "Finances fédérales : des améliorations grâce aux impôts des entreprises (Economiesuisse)",
+          "labelKey": "Federal Finances: Improvements Thanks to Corporate Taxes (Economiesuisse)",
           "url": "https://backend-api.economiesuisse.ch/sites/default/files/archive/2026-06/Finances-fdrales-des-amliorations-grce-aux-impts-des-entreprises-et-au-PA-B27nbsp-fr.pdf"
         },
         {
-          "labelKey": "Obligations légales de gestion financière PME (Code des obligations, CO)",
+          "labelKey": "Legal Financial Management Obligations for SMEs (Obligationenrecht)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Industrie tech suisse : la reprise reste fragile (Swissmem)",
+          "labelKey": "Swiss Tech Industry: Recovery Remains Fragile (Swissmem)",
           "url": "https://www.swissmem.ch/fr/espace-medias/communiques-de-presse/la-reprise-dans-lindustrie-tech-reste-fragile.html"
         },
         {
-          "labelKey": "Tableau de bord PME : les indicateurs, marges, flux, cash 2026",
+          "labelKey": "SME Dashboard: Indicators, Margins, Flows, Cash 2026",
           "url": "https://ark-fid.ch/fr/ressources/articles/tableau-de-bord-financier-pme-kpis-essentiels-indicateurs-suisse-2026/"
         }
       ]
@@ -3278,19 +3278,19 @@
       ],
       "references": [
         {
-          "labelKey": "Inscription au registre du commerce suisse",
+          "labelKey": "Swiss Commercial Register Registration",
           "url": "https://www.kmu.admin.ch/fr/voici-comment-inscrire-une-entreprise"
         },
         {
-          "labelKey": "Guide officiel Code des obligations suisse (art. 935 et suivants)",
+          "labelKey": "Official Guide to the Swiss Code of Obligations (Art. 935 et seq.)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Exigences légales et fiscales pour entreprise étrangère",
+          "labelKey": "Legal and Tax Requirements for Foreign Companies",
           "url": "https://ark-fid.ch/fr/ressources/articles/creer-succursale-suisse/"
         },
         {
-          "labelKey": "Documentation Odoo – gestion multi-sociétés",
+          "labelKey": "Odoo Documentation – Multi-Company Management",
           "url": "https://www.odoo.com/documentation/19.0/applications/general/companies.html"
         }
       ]
@@ -3313,23 +3313,23 @@
       ],
       "references": [
         {
-          "labelKey": "Réglementation : Pression, Reporting et Substance (economiesuisse)",
+          "labelKey": "Regulation: Pressure, Reporting and Substance (economiesuisse)",
           "url": "https://www.economiesuisse.ch/fr/theme/reglementation"
         },
         {
-          "labelKey": "Portail PME – obligations de gestion et domiciliation",
+          "labelKey": "SME Portal – Management and Domiciliation Obligations",
           "url": "https://www.kmu.admin.ch/fr"
         },
         {
-          "labelKey": "Code des obligations suisse (CO) – Fedlex",
+          "labelKey": "Swiss Code of Obligations (CO) – Fedlex",
           "url": "https://www.fedlex.admin.ch/fr/cc"
         },
         {
-          "labelKey": "Nouvelles obligations LBA pour conseillers – EXPERTsuisse",
+          "labelKey": "New AMLA Obligations for Advisors – EXPERTsuisse",
           "url": "https://expertsuisse.ch/fr/publications-expertise-professionnelle/themes-specialises/reglementation"
         },
         {
-          "labelKey": "Registre suisse de transparence (Centre Patronal)",
+          "labelKey": "Swiss Transparency Register (Centre Patronal)",
           "url": "https://www.centrepatronal.ch/actualites/soutien-a-la-creation/registre-suisse-transparence-obligations-societes-actionnaires/"
         }
       ]
@@ -3352,19 +3352,19 @@
       ],
       "references": [
         {
-          "labelKey": "Points-clés contrôle restreint/ordinaire PME – portail PME de la Confédération",
+          "labelKey": "Key Points Limited/Ordinary Audit SME – Confederation SME Portal",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
-          "labelKey": "Code des obligations suisse (CO), art. 727–731a – Dispositions légales sur la révision",
+          "labelKey": "Swiss Obligationenrecht (CO), art. 727–731a – Legal Provisions on Auditing",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#"
         },
         {
-          "labelKey": "Swiss Standards for Audits of Financial Statements (SA-CH) — édition 2026",
+          "labelKey": "Swiss Standards for Audits of Financial Statements (SA-CH) — 2026 Edition",
           "url": "https://expertsuisse.ch/fr/publications-expertise-professionnelle/manuel-suisse-d-audit"
         },
         {
-          "labelKey": "ASR (Autorité suisse de surveillance en matière de révision) – Définition des seuils et obligations",
+          "labelKey": "ASR (Swiss Audit Oversight Authority) – Definition of Thresholds and Obligations",
           "url": "https://www.rab-asr.ch/fr/entreprises-de-revision/"
         }
       ]

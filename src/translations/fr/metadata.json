@@ -15,7 +15,7 @@
   },
   "pages": {
     "/": {
-      "title": "Fiduciaire à Genève pour PME, fiscalité, comptabilité et Odoo | Ark Fiduciaire",
+      "title": "Fiduciaire à Genève : PME, fiscalité, comptabilité, Odoo",
       "description": "Fiduciaire à Genève pour PME, entrepreneurs, familles et sociétés internationales: comptabilité, fiscalité, salaires, domiciliation, corporate et Odoo.",
       "keywords": "fiduciaire genève, comptabilité genève, fiscalité genève, création entreprise, services PME"
     },
@@ -50,12 +50,12 @@
       "keywords": "devis instantané fiduciaire, assistant devis ia, devis comptabilité genève, estimation fiscale suisse, devis salaires lausanne, estimation services entreprise, coût fiduciaire"
     },
     "/services": {
-      "title": "Services fiduciaires à Genève | Comptabilité, fiscalité, paie, domiciliation",
+      "title": "Services fiduciaires à Genève | Comptabilité et fiscalité",
       "description": "Services fiduciaires à Genève pour PME et entrepreneurs: comptabilité, fiscalité, salaires, domiciliation, création de société, corporate et Odoo.",
       "keywords": "services fiduciaires genève, comptabilité, conseil fiscal genève, comptabilité PME"
     },
     "/services/family-office": {
-      "title": "Family office administratif en Suisse romande | Ark Fiduciaire",
+      "title": "Family office administratif en Suisse romande",
       "description": "Family office administratif en Suisse romande: coordination, gouvernance, reporting et administration familiale, sans gestion discrétionnaire d’actifs.",
       "keywords": "family office suisse, family office suisse romande, multi family office suisse, gouvernance familiale suisse, family office genève"
     },
@@ -80,7 +80,7 @@
       ]
     },
     "/services/odoo": {
-      "title": "Intégrateur Odoo Genève : implémentation comptable suisse | Ark Fiduciaire",
+      "title": "Intégrateur Odoo Genève : implémentation comptable suisse",
       "description": "Implémentation Odoo comptable en Suisse: cadrage, plan comptable suisse, TVA, QR-facture, migration, formation et support pour PME.",
       "keywords": "odoo genève, intégrateur odoo genève, implémentation odoo suisse, odoo PME suisse, fiduciaire odoo, odoo formation genève, fiduciaire odoo genève, consultant odoo suisse, odoo gestion entreprise, odoo support genève"
     },
@@ -100,7 +100,7 @@
       "keywords": "gestion salaires suisse, paie genève, externalisation paie suisse, logiciel paie suisse, gestion paie suisse, controleur gestion salaire suisse, conseils charges sociales suisse, conformité paie suisse, déclaration charges sociales suisse, service paie suisse, optimisation paie suisse, gestion bulletin de salaire, automatisation paie suisse, paie PME suisse, obligations légales paie suisse, gestion salaire suisse, gestion patrimoine salaire suisse, externalisation gestion paie, conseils paie suisse, gestion paie PME suisse, conseils fiscalité suisse, suivi paie suisse, audit paie suisse, assistance paie suisse, gestion salaire suisse romande, solutions paie suisse, sécurité paie suisse, simplification paie suisse, conseils gestion paie suisse, gestion paie entreprise suisse, gestion salaires PME suisse, calcul charges sociales suisse, externalisation paie romande, conformité légale paie suisse, conseils RH suisse"
     },
     "/services/taxes": {
-      "title": "Fiscalité à Genève pour sociétés et entrepreneurs | Ark Fiduciaire",
+      "title": "Fiscalité à Genève pour sociétés et entrepreneurs",
       "description": "Fiscalité à Genève pour sociétés et entrepreneurs: déclarations, TVA, fiscalité internationale, planification et coordination avec les obligations suisses.",
       "keywords": "fiscalité genève, déclaration impôts genève, conseil fiscal suisse, fiduciaire genève impôts, tva suisse"
     },
@@ -135,7 +135,7 @@
       "keywords": "politique cookies, cookies site web, paramètres confidentialité, expérience utilisateur"
     },
     "/ai-profile": {
-      "title": "Profil Ark Fiduciaire SA pour assistants IA et moteurs de recherche",
+      "title": "Profil Ark Fiduciaire SA pour assistants IA",
       "description": "Profil factuel d’Ark Fiduciaire SA: identité, adresse à Genève, services, régions servies, affiliations et limites des services family office.",
       "keywords": "Ark Fiduciaire SA, profil fiduciaire genève, assistants IA, comptabilité genève, fiscalité genève"
     }
