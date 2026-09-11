@@ -139,7 +139,9 @@ export default function AgentChat({
   const [leadMeta, setLeadMeta] = useState<LeadMeta>({ id: "", token: "" });
   const [sessionId, setSessionId] = useState("");
   const [leadSubmitting, setLeadSubmitting] = useState(false);
-  const [leadModalOpen, setLeadModalOpen] = useState(true);
+  // Deferred lead capture: the modal opens on the first send attempt rather
+  // than ambushing visitors on page load.
+  const [leadModalOpen, setLeadModalOpen] = useState(false);
   const [turnstileReady, setTurnstileReady] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileWidgetId, setTurnstileWidgetId] = useState<string | null>(
@@ -164,6 +166,8 @@ export default function AgentChat({
   const turnstileRef = useRef<HTMLDivElement | null>(null);
   const lastSavedRef = useRef<string | null>(null);
   const sendingRef = useRef(false);
+  // Message typed before the lead form was completed; auto-sent once ready.
+  const pendingAutoSendRef = useRef<string | null>(null);
 
   const TEXTAREA_MIN_HEIGHT = 40;
   const FALLBACK_TEXTAREA_MAX_HEIGHT = 360;
@@ -382,9 +386,7 @@ export default function AgentChat({
   useEffect(() => {
     if (leadReady) {
       setLeadModalOpen(false);
-      return;
     }
-    setLeadModalOpen(true);
   }, [leadReady]);
 
   useEffect(() => {
@@ -664,6 +666,7 @@ export default function AgentChat({
   };
 
   const handleClearHistory = () => {
+    pendingAutoSendRef.current = null;
     setContact({ ...defaultContact });
     setLeadConfirmed(false);
     setConfirmedEmail("");
@@ -786,11 +789,15 @@ export default function AgentChat({
       return;
     }
     if (!canChat) {
-      setChatError(
-        domainInvalid
-          ? strings.chat.invalidEmailDomain
-          : strings.chat.startHint,
-      );
+      if (domainInvalid) {
+        setChatError(strings.chat.invalidEmailDomain);
+        return;
+      }
+      // Lead form not completed yet: stash the message, open the modal and
+      // auto-send once the visitor finishes it.
+      pendingAutoSendRef.current = trimmed;
+      setChatError(null);
+      setLeadModalOpen(true);
       return;
     }
     sendingRef.current = true;
@@ -904,6 +911,18 @@ export default function AgentChat({
     }
   };
 
+  // Auto-send the message stashed by a pre-lead send attempt once the lead
+  // form has been completed.
+  useEffect(() => {
+    if (!canChat) return;
+    const pending = pendingAutoSendRef.current;
+    if (!pending) return;
+    pendingAutoSendRef.current = null;
+    setInput("");
+    void sendMessage(pending);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [canChat]);
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
@@ -976,7 +995,9 @@ export default function AgentChat({
         style={{ paddingBottom: keyboardOffset ? keyboardOffset + 20 : 20 }}
       >
         <div className="mx-auto max-w-4xl">
-          {canChat &&
+          {/* Suggestions show pre-lead too: clicking one stashes the message
+              and opens the lead modal via the deferred-capture flow. */}
+          {!domainInvalid &&
             suggestions.length > 0 &&
             messages.length === 0 &&
             !input.trim() && (
@@ -1056,13 +1077,13 @@ export default function AgentChat({
               placeholder={strings.chat.placeholder}
               rows={1}
               className="resize-none overflow-hidden min-h-[40px] border-0 bg-background px-1 py-2 text-base leading-6 text-foreground placeholder:text-foreground/60 shadow-none !outline-none !ring-0 !ring-offset-0 !shadow-none focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none focus-visible:!outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0 focus-visible:!shadow-none"
-              disabled={!canChat || sending}
+              disabled={sending}
             />
             <Button
               type="button"
               size="icon"
               onClick={() => void sendMessage()}
-              disabled={!canChat || sending || !input.trim() || inputTooLarge}
+              disabled={sending || !input.trim() || inputTooLarge}
               aria-label={strings.chat.send}
               className="self-center !rounded-full bg-[#1f1b19] text-white shadow-sm hover:bg-[#2b2521] dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90"
             >
