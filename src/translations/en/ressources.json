@@ -592,7 +592,7 @@
         "assemblee",
         "sa"
       ],
-      "updated": "2026-07-22"
+      "updated": "2026-09-11"
     },
     {
       "slug": "beps-2-0-impacts-pme-suisse-nouvelles-obligations-fiscales",
@@ -1432,7 +1432,8 @@
         "lpp",
         "laa",
         "swissdec"
-      ]
+      ],
+      "updated": "2026-09-11"
     },
     {
       "slug": "cloture-comptable-pme-delais-controle-interne-et-erreurs-courantes",
@@ -1716,7 +1717,8 @@
         "reglementaire",
         "lba",
         "aml"
-      ]
+      ],
+      "updated": "2026-09-11"
     },
     {
       "slug": "odoo-comptabilite-tva-suisse-parametrage-controles",
@@ -1967,7 +1969,8 @@
         "registre",
         "capital",
         "statuts"
-      ]
+      ],
+      "updated": "2026-09-11"
     },
     {
       "slug": "deductibilite-interets-lbo-requalification-suisse",
