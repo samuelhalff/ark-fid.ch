@@ -470,6 +470,39 @@ export default async function ArticlePage(props: Params) {
         )}
       </article>
 
+      {/* Sources list from the references array. Roughly half the corpus
+          embeds a "### Références" section inside the markdown content —
+          only render the array when the content doesn't, to avoid a
+          duplicate list. Visible, linked citations also help AI engines
+          assess the article's sourcing. */}
+      {(() => {
+        const refs = (article.references || []).filter(
+          (r, i, arr) =>
+            r?.url &&
+            r?.labelKey &&
+            arr.findIndex((o) => o.url === r.url) === i,
+        );
+        const contentHasRefs =
+          /^#{2,3}\s+(Références|References|Referenzen|Referencias|Referências)\b/im.test(
+            fullContent,
+          );
+        if (!refs.length || contentHasRefs) return null;
+        return (
+          <section className="mt-10 prose prose-lg dark:prose-invert max-w-none">
+            <h3>{(tRessources("References") as string) || "Références"}</h3>
+            <ul>
+              {refs.map((r) => (
+                <li key={r.url}>
+                  <a href={r.url} target="_blank" rel="noopener noreferrer">
+                    {r.labelKey}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })()}
+
       <RelatedArticles currentSlug={params.slug} locale={locale} />
 
       {/* Use tRessources (getTranslations) for dot-notation key resolution

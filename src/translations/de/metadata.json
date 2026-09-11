@@ -116,6 +116,11 @@
       "title": "Cookie-Richtlinie - Ark Fiduciaire",
       "description": "Informationen darüber, wie Ark Fiduciaire Cookies und ähnliche Technologien auf unserer Website für eine verbesserte Benutzererfahrung verwendet.",
       "keywords": "cookie richtlinie, website cookies, datenschutzeinstellungen, benutzererfahrung"
+    },
+    "/ai-profile": {
+      "title": "Ark Fiduciaire SA Profil für KI-Assistenten und Suchmaschinen",
+      "description": "Faktenprofil der Ark Fiduciaire SA: Identität, Genfer Adresse, Dienstleistungen, bediente Regionen, Mitgliedschaften und Family-Office-Einschränkungen.",
+      "keywords": "Ark Fiduciaire SA, Geneva fiduciary profile, AI assistants, accounting Geneva, tax Geneva"
     }
   },
   "dynamic": {

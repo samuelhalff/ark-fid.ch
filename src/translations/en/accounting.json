@@ -206,6 +206,13 @@
           "Costs depend on transaction volume, number of entities, reporting depth, tools used and the need for external coordination.",
           "When the business changes, we adjust the setup without replacing habits that already work."
         ]
+      },
+      {
+        "Title": "Accounting services across Switzerland",
+        "Body": [
+          "While our team is based in Geneva, we provide accounting services to companies across Switzerland: bookkeeping, VAT returns, payroll coordination, closings and reporting are handled remotely through Odoo and standard Swiss banking and tax interfaces.",
+          "English-speaking founders and foreign-owned subsidiaries work with us in English, with deliverables that satisfy Swiss requirements in any canton."
+        ]
       }
     ]
   }
