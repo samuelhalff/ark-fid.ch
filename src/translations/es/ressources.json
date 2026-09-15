@@ -64,6 +64,10 @@
         {
           "labelKey": "Portal PYME de la Confederación",
           "url": "https://www.kmu.admin.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -125,6 +129,10 @@
         {
           "labelKey": "Impuestos - Portal oficial suizo (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -150,6 +158,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -174,6 +186,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -200,6 +216,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -226,6 +246,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -252,6 +276,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -276,6 +304,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -296,6 +328,10 @@
         {
           "labelKey": "Swissdec - Estándar de transmisión salarial",
           "url": "https://www.swissdec.ch/fr"
+        },
+        {
+          "labelKey": "Swissdec - Standard de transmission salariale",
+          "url": "https://www.swissdec.ch/fr/"
         }
       ],
       "category": "payroll",
@@ -318,6 +354,10 @@
         {
           "labelKey": "Impuestos - Portal oficial suizo (ch.ch)",
           "url": "https://www.ch.ch/fr/impots-et-finances/"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -343,6 +383,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -367,6 +411,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -389,7 +437,7 @@
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Estándar de transmisión salarial",
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -413,7 +461,7 @@
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Estándar de transmisión salarial",
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -441,7 +489,7 @@
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Estándar de transmisión salarial",
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -467,7 +515,7 @@
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Estándar de transmisión salarial",
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -494,7 +542,7 @@
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Estándar de transmisión salarial",
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -520,6 +568,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "corporate",
@@ -543,7 +595,7 @@
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Estándar de transmisión salarial",
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -574,8 +626,8 @@
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
         },
         {
-          "labelKey": "Registro Mercantil - Cantón de Ginebra",
-          "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ],
       "category": "corporate",
@@ -601,6 +653,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -628,8 +684,8 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Portal PYME de la Confederación (PYME)",
-          "url": "https://www.kmu.admin.ch/fr"
+          "labelKey": "Portail PME de la Confédération (PME)",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "outsourcing",
@@ -655,6 +711,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -681,7 +741,7 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Código de Obligaciones - Contabilidad",
+          "labelKey": "Code des obligations - Comptabilité",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
         }
       ],
@@ -708,6 +768,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -731,7 +795,7 @@
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Estándar de transmisión salarial",
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -759,6 +823,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -816,8 +884,8 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Portal PYME de la Confederación (PYME)",
-          "url": "https://www.kmu.admin.ch/fr"
+          "labelKey": "Portail PME de la Confédération (PME)",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "outsourcing",
@@ -846,8 +914,8 @@
           "url": "https://www.economiesuisse.ch/fr"
         },
         {
-          "labelKey": "Portal PYME de la Confederación",
-          "url": "https://www.kmu.admin.ch/fr"
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "accounting",
@@ -872,6 +940,10 @@
         {
           "labelKey": "Registro Mercantil - Guía federal",
           "url": "https://www.zefix.ch/en/search/entity/welcome"
+        },
+        {
+          "labelKey": "Registre du commerce - Guide fédéral",
+          "url": "https://www.zefix.ch/fr/search/entity/welcome"
         }
       ],
       "category": "incorporation",
@@ -896,7 +968,7 @@
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Estándar de transmisión salarial",
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -923,6 +995,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -949,8 +1025,8 @@
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
         },
         {
-          "labelKey": "Registro Mercantil - Cantón de Ginebra",
-          "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ],
       "category": "corporate",
@@ -975,6 +1051,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -997,7 +1077,7 @@
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Estándar de transmisión salarial",
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -1028,7 +1108,7 @@
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Odoo - Documentación oficial",
+          "labelKey": "Odoo - Documentation officielle",
           "url": "https://www.odoo.com/documentation"
         }
       ],
@@ -1055,7 +1135,7 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/2003/218/fr"
         },
         {
-          "labelKey": "Código de Obligaciones (CO)",
+          "labelKey": "Code des obligations (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ],
@@ -1084,6 +1164,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -1111,8 +1195,8 @@
           "url": "https://www.economiesuisse.ch/fr"
         },
         {
-          "labelKey": "Portal PYME de la Confederación",
-          "url": "https://www.kmu.admin.ch/fr"
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -1139,6 +1223,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -1162,7 +1250,7 @@
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Estándar de transmisión salarial",
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -1191,6 +1279,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -1215,6 +1307,10 @@
         {
           "labelKey": "Portal PYME - Fiscalidad",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -1238,7 +1334,7 @@
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Estándar de transmisión salarial",
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -1264,7 +1360,7 @@
           "url": "https://www.swissdec.ch/fr"
         },
         {
-          "labelKey": "Swissdec - Estándar de transmisión salarial",
+          "labelKey": "Swissdec - Standard de transmission salariale",
           "url": "https://www.swissdec.ch/fr/"
         }
       ],
@@ -1294,8 +1390,8 @@
           "url": "https://www.economiesuisse.ch/fr"
         },
         {
-          "labelKey": "Portal PYME de la Confederación",
-          "url": "https://www.kmu.admin.ch/fr"
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "tax",
@@ -1323,8 +1419,8 @@
           "url": "https://www.economiesuisse.ch/fr"
         },
         {
-          "labelKey": "Portal PYME de la Confederación",
-          "url": "https://www.kmu.admin.ch/fr"
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "incorporation",
@@ -1355,8 +1451,8 @@
           "url": "https://www.economiesuisse.ch/fr"
         },
         {
-          "labelKey": "Portal PYME de la Confederación",
-          "url": "https://www.kmu.admin.ch/fr"
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -1386,8 +1482,8 @@
           "url": "https://www.economiesuisse.ch/fr"
         },
         {
-          "labelKey": "Portal PYME de la Confederación",
-          "url": "https://www.kmu.admin.ch/fr"
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "incorporation",
@@ -1449,10 +1545,6 @@
         {
           "labelKey": "Código de Obligaciones: obligaciones contables",
           "url": "https://www.fedlex.admin.ch/"
-        },
-        {
-          "labelKey": "Cierre del ejercicio financiero: fechas importantes",
-          "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
           "labelKey": "Solicitud de prórroga para declaración de sociedades | Cantón de Ginebra",
@@ -1876,10 +1968,6 @@
         {
           "labelKey": "Tarifas del impuesto federal directo 2026 - ESTV",
           "url": "https://www.estv.admin.ch/fr/baremes-fiscaux-impot-federal-direct"
-        },
-        {
-          "labelKey": "El sistema fiscal suizo – AFC (admin.ch)",
-          "url": "https://www.estv.admin.ch/fr/systeme-fiscal-suisse"
         }
       ],
       "category": "tax",
@@ -2016,8 +2104,8 @@
           "url": "https://www.zefix.ch/en/search/entity/welcome"
         },
         {
-          "labelKey": "Código de Obligaciones (CO) - Sociedad anónima",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#book_2/tit_26/ch_2"
+          "labelKey": "Registre du commerce (Zefix)",
+          "url": "https://www.zefix.ch/fr/search/entity/welcome"
         }
       ],
       "title": "AML/LBA en Suiza: domiciliación, apoyo a la creación de sociedades y por qué estamos afiliados a SO-FIT",
@@ -2116,10 +2204,6 @@
         {
           "labelKey": "Transmitir o asumir una empresa (guía PYME administración federal)",
           "url": "https://www.kmu.admin.ch/fr/reussir-la-transmission-de-son-entreprise"
-        },
-        {
-          "labelKey": "Due Diligence – Definición y aplicaciones (oficial SECO)",
-          "url": "https://www.kmu.admin.ch/fr/succession"
         },
         {
           "labelKey": "Código de Obligaciones (CO)",
@@ -2336,10 +2420,6 @@
           "url": "https://www.kmu.admin.ch/fr/caracteristiques-des-differentes-formes-juridiques"
         },
         {
-          "labelKey": "Formas jurídicas de empresas – portal PYME de la Confederación",
-          "url": "https://www.kmu.admin.ch/fr/caracteristiques-des-differentes-formes-juridiques"
-        },
-        {
           "labelKey": "Régimen fiscal y organización Sàrl en Suiza (vista Wikipedia)",
           "url": "https://fr.wikipedia.org/wiki/Soci%C3%A9t%C3%A9_%C3%A0_responsabilit%C3%A9_limit%C3%A9e_en_Suisse"
         },
@@ -2481,10 +2561,6 @@
       "references": [
         {
           "labelKey": "Conocimientos prácticos sobre auditoría en Suiza (PYME) – portal PYME de la Confederación",
-          "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
-        },
-        {
-          "labelKey": "Órgano de auditoría y tipos de control – Portal PYME (SECO)",
           "url": "https://www.kmu.admin.ch/fr/comptabilite-et-revision-tout-savoir-les-finances-et-le-controlling"
         },
         {
@@ -2961,10 +3037,6 @@
           "url": "https://www.vd.ch/fileadmin/user_upload/organisation/dfin/aci/fichiers_pdf/Publications_d%C3%A9ductions_bar%C3%A8ms_IS_2026.pdf"
         },
         {
-          "labelKey": "Ley del IVA: conservación de justificantes (art. 26/70 LIVA)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/2009/615/fr"
-        },
-        {
           "labelKey": "Tablas de rectificación del impuesto en la fuente 2026 (Ginebra)",
           "url": "https://www.ge.ch/document/baremes-rectification-impot-source-2026"
         }
@@ -3121,10 +3193,6 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
-          "labelKey": "Lucha contra el blanqueo de capitales (LBA, admin.ch, obligaciones de las empresas)",
-          "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
-        },
-        {
           "labelKey": "Gobernanza empresarial (SECO)",
           "url": "https://www.seco.admin.ch/fr/gouvernance-entreprise"
         },
@@ -3169,7 +3237,7 @@
         },
         {
           "labelKey": "Odoo - Externalización de procesos empresariales y automatización para PYME",
-          "url": "https://www.odoo.com/documentation"
+          "url": "https://www.odoo.com/documentation/19.0/"
         },
         {
           "labelKey": "Portal PYME – consejos e información útil sobre externalización y gestión de PYME",
@@ -3205,10 +3273,6 @@
         {
           "labelKey": "Automatización de conciliaciones en Odoo (documentación oficial)",
           "url": "https://www.odoo.com/documentation/19.0/applications/finance/accounting/bank/reconciliation.html"
-        },
-        {
-          "labelKey": "La digitalización de las PYME en Suiza – portal PYME de la Confederación",
-          "url": "https://www.kmu.admin.ch/fr/la-digitalisation-des-pme-en-suisse-un-enjeu-central"
         }
       ]
     },
@@ -3352,7 +3416,7 @@
         },
         {
           "labelKey": "Código de Obligaciones suizo (CO), art. 727–731a – Disposiciones legales sobre la auditoría",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#"
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         },
         {
           "labelKey": "Normas suizas para auditorías de estados financieros (SA-CH) — edición 2026",
@@ -3360,7 +3424,7 @@
         },
         {
           "labelKey": "ASR (Autoridad Suiza de Supervisión en materia de Auditoría) – Definición de umbrales y obligaciones",
-          "url": "https://www.rab-asr.ch/fr/entreprises-de-revision/"
+          "url": "https://www.rab-asr.ch/fr/entreprises-de-revision"
         }
       ]
     }
