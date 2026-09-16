@@ -91,6 +91,10 @@
           "You keep visibility on processed tasks, blockers and decisions required."
         ]
       }
-    ]
+    ],
+    "PayrollCrossLink": {
+      "Text": "Looking specifically to outsource your payroll?",
+      "LinkLabel": "See our Swiss payroll service."
+    }
   }
 }

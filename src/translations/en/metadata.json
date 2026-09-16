@@ -20,7 +20,7 @@
   },
   "pages": {
     "/": {
-      "title": "Fiduciary in Geneva: SMEs, Tax, Accounting and Odoo",
+      "title": "Accounting Firm in Geneva: SME, Tax, Odoo | Ark Fiduciaire",
       "description": "Geneva fiduciary firm for Swiss SMEs, entrepreneurs, families and international companies: accounting, tax, payroll, domiciliation, corporate and Odoo.",
       "keywords": "fiduciary geneva, accounting geneva, tax services geneva, company incorporation, SME services"
     },
@@ -50,12 +50,12 @@
       "keywords": "fiduciary resources, tax guides geneva, accounting insights, swiss tax regulations, lausanne fiduciary"
     },
     "/agent": {
-      "title": "Instant Quote - AI Assistant | Fiduciary Services Geneva",
+      "title": "Instant Quote – AI Assistant | Ark Fiduciaire Geneva",
       "description": "Get an instant quote for accounting, tax, payroll and fiduciary services in Geneva and Lausanne. Our AI assistant gives immediate estimates for your business.",
       "keywords": "instant quote fiduciary, ai quote assistant, online accounting quote geneva, instant tax estimate, payroll quote switzerland, business services quote lausanne, fiduciary cost estimate"
     },
     "/services": {
-      "title": "Fiduciary Services in Geneva: Accounting, Tax, Payroll",
+      "title": "Accounting, Tax & Payroll in Geneva | Ark Fiduciaire",
       "description": "Fiduciary services in Geneva for SMEs and entrepreneurs: accounting, tax, payroll, domiciliation, incorporation, corporate administration and Odoo.",
       "keywords": "fiduciary services geneva, accounting services, tax advisory geneva, SME accounting"
     },
@@ -65,7 +65,7 @@
       "keywords": "family office switzerland, family office romandy, multi family office switzerland, family governance switzerland, family office geneva"
     },
     "/services/accounting": {
-      "title": "Accounting Services in Switzerland | Geneva SME Specialists",
+      "title": "Accounting in Switzerland for Geneva SMEs | Ark Fiduciaire",
       "description": "Accounting services in Switzerland from our Geneva team: bookkeeping, VAT, closings, reporting, dashboards and coordination with finance teams for Swiss SMEs.",
       "keywords": "accounting geneva, fiduciary geneva, SME accounting geneva, chartered accountant geneva, accounting lausanne"
     },
@@ -85,8 +85,8 @@
       ]
     },
     "/services/odoo": {
-      "title": "Odoo Integrator Geneva: Swiss Accounting Implementation",
-      "description": "Odoo accounting implementation in Switzerland: scope, Swiss chart of accounts, VAT, QR invoicing, migration, training and support for SMEs.",
+      "title": "Odoo Accounting Firm in Geneva | Ark Fiduciaire",
+      "description": "Geneva accounting firm working directly in your Odoo ERP: Swiss bookkeeping, VAT, QR-bill, payroll, data migration and outsourced accounting in Odoo.",
       "keywords": "odoo geneva, odoo implementation switzerland, odoo integrator geneva, odoo for swiss SMEs, odoo accounting switzerland"
     },
     "/services/outsourcing": {
@@ -100,12 +100,12 @@
       "keywords": "m&a switzerland, m&a advisory switzerland, company valuation switzerland, due diligence switzerland, SME succession switzerland"
     },
     "/services/payroll": {
-      "title": "Swiss Payroll Services & ANOBAG Administration",
-      "description": "Swiss payroll services in Romandy: salary calculations, social security, salary certificates, insurance coordination, HR administration and ANOBAG payroll for foreign employers.",
+      "title": "Swiss Payroll Outsourcing & ANOBAG | Ark Fiduciaire",
+      "description": "Outsource your Swiss payroll: payslips, salary certificates, social insurance, ANOBAG and Swissdec reporting — managed by a Geneva accounting firm.",
       "keywords": "payroll switzerland, payroll geneva, salary payslip switzerland, payroll management geneva, social contributions switzerland"
     },
     "/services/taxes": {
-      "title": "Tax Advice in Geneva for Companies and Entrepreneurs",
+      "title": "Tax Advice in Geneva for Companies | Ark Fiduciaire",
       "description": "Tax advice and tax returns in Geneva. Our tax specialists support you in all your tax obligations, from declarations to strategic planning.",
       "keywords": "tax advice geneva, tax advisor geneva, tax return geneva, swiss tax advisor, expat tax geneva, tax advisor geneva switzerland, tax filing geneva, corporate tax geneva, personal tax geneva, international tax geneva, tax planning services geneva, tax consultant geneva, tax optimization geneva"
     },

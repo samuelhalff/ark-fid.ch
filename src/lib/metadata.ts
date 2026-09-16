@@ -124,22 +124,20 @@ export async function getPageMetadata(
     locale === 'pt' ? 'pt_PT' :
     'en_US';
 
-  // Prefer locale-specific OG image if available under public/assets/og/og-<locale>.webp|png
-  const ogCandidates = [
-    `/assets/og/og-${locale}.webp`
-  ];
-  const ogImage = (() => {
-    for (const rel of ogCandidates) {
-      const abs = pathJoin(process.cwd(), 'public', rel.replace(/^\//, ''));
-      try {
-        if (fs.existsSync(abs)) return rel;
-      } catch {}
+  // Prefer the locale-specific OG image; fall back to the FR one if a locale's
+  // asset is missing (all five exist today, so the fallback is a safety net).
+  const ogLocaleImage = `/assets/og/og-${locale}.webp`;
+  let ogImage = "/assets/og/og-fr.webp";
+  try {
+    if (fs.existsSync(pathJoin(process.cwd(), 'public', ogLocaleImage.replace(/^\//, '')))) {
+      ogImage = ogLocaleImage;
     }
-    return "/assets/main-bg.webp";
-  })();
+  } catch {}
 
   const metadata: Metadata = {
     metadataBase: new URL('https://ark-fid.ch'),
+    // Titles in metadata.json/titleTemplate carry the brand themselves; the root
+    // layout deliberately has no title template (it would double the brand).
     title,
     description,
     keywords: pageData.keywords || config.default.keywords,

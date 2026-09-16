@@ -20,10 +20,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "https://ark-fid.ch"
   ),
-  title: {
-    template: "%s - Ark Fiduciaire SA",
-    default: "Ark Fiduciaire SA - Swiss Fiduciary Services",
-  },
+  // No title template: every page sets its full title (brand included) via
+  // src/translations/<locale>/metadata.json, so a template would double the brand.
+  title: "Ark Fiduciaire SA - Swiss Fiduciary Services",
   description:
     "Expert fiduciary, accounting, and tax services in Switzerland. Corporate services, payroll management, domiciliation, and comprehensive business solutions for SMEs and international companies in Geneva and Lausanne.",
   keywords:

@@ -91,6 +91,10 @@
                     "Sie behalten den Überblick über erledigte Aufgaben, offene Punkte und anstehende Entscheidungen."
                 ]
             }
-        ]
+        ],
+        "PayrollCrossLink": {
+            "Text": "Möchten Sie vor allem Ihre Lohnbuchhaltung auslagern?",
+            "LinkLabel": "Entdecken Sie unseren Payroll-Service."
+        }
     }
 }

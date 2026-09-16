@@ -1,5 +1,7 @@
 import { CheckCircle as Check } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
+import { buildInternalUrl } from "@/src/lib/paths";
 import { tidyTitle } from "@/src/lib/typography";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
@@ -23,6 +25,12 @@ const OutsourcingPresentation = async () => {
     { Title: "Scalable solutions", Desc: "Flexible services that grow with your business." },
     { Title: "Expert team", Desc: "Access to specialized skills and experience." },
   ];
+  const payrollCrossLinkText =
+    (t("Presentation.PayrollCrossLink.Text") as string) ||
+    "Looking specifically to outsource your payroll?";
+  const payrollCrossLinkLabel =
+    (t("Presentation.PayrollCrossLink.LinkLabel") as string) ||
+    "See our Swiss payroll service.";
   const services = (t("Presentation.Services") as unknown as string[]) || [
     "Service 1: Description",
     "Service 2: Description",
@@ -78,6 +86,16 @@ const OutsourcingPresentation = async () => {
                   locale={locale}
                 />
               </Suspense>
+              <p className="mt-8 text-base leading-8 text-muted-foreground sm:text-lg">
+                {payrollCrossLinkText}{" "}
+                <Link
+                  href={buildInternalUrl("/services/payroll", locale)}
+                  className="text-primary hover:underline font-medium"
+                  prefetch={false}
+                >
+                  {payrollCrossLinkLabel}
+                </Link>
+              </p>
             </section>
             <ServiceLongForm t={t} locale={locale} />
             <div className="flex justify-center">

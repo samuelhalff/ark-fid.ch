@@ -91,6 +91,10 @@
           "Vous gardez la visibilité sur les tâches traitées, les points bloquants et les décisions nécessaires."
         ]
       }
-    ]
+    ],
+    "PayrollCrossLink": {
+      "Text": "Vous cherchez avant tout à externaliser vos salaires ?",
+      "LinkLabel": "Découvrez notre service de gestion des salaires."
+    }
   }
 }

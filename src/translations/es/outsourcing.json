@@ -91,6 +91,10 @@
                     "Usted mantiene la visibilidad sobre las tareas tratadas, los puntos bloqueantes y las decisiones necesarias."
                 ]
             }
-        ]
+        ],
+        "PayrollCrossLink": {
+            "Text": "¿Busca sobre todo externalizar sus nóminas?",
+            "LinkLabel": "Descubra nuestro servicio de nóminas."
+        }
     }
 }

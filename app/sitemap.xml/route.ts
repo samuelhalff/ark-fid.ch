@@ -7,7 +7,9 @@ import { getArticles, getValidLocalesForSlug } from "@/src/lib/articles";
 
 const BASE = "https://ark-fid.ch";
 const canonicalLocale: Locale = "fr";
-const STATIC_LASTMOD = "2026-06-10";
+// Bump manually when static-page content changes meaningfully; a build-time
+// date would falsely mark every static URL as modified on each deploy.
+const STATIC_LASTMOD = "2026-09-16";
 
 function getPlaceholderLocales(): Set<string> {
   const raw = process.env.PLACEHOLDER_LOCALES || "";

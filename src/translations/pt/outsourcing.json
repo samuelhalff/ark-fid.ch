@@ -91,6 +91,10 @@
                     "Mantém a visibilidade sobre as tarefas tratadas, os pontos bloqueantes e as decisões necessárias."
                 ]
             }
-        ]
+        ],
+        "PayrollCrossLink": {
+            "Text": "Procura sobretudo externalizar os seus salários?",
+            "LinkLabel": "Conheça o nosso serviço de folha salarial."
+        }
     }
 }

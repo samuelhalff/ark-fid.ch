@@ -15,7 +15,7 @@
   },
   "pages": {
     "/": {
-      "title": "Fiduciaire à Genève : PME, fiscalité, comptabilité, Odoo",
+      "title": "Fiduciaire à Genève : PME, fiscalité, Odoo | Ark Fiduciaire",
       "description": "Fiduciaire à Genève pour PME, entrepreneurs, familles et sociétés internationales: comptabilité, fiscalité, salaires, domiciliation, corporate et Odoo.",
       "keywords": "fiduciaire genève, comptabilité genève, fiscalité genève, création entreprise, services PME"
     },
@@ -45,17 +45,17 @@
       "keywords": "ressources fiduciaires, suisse romande, guides fiscaux, genève, lausanne"
     },
     "/agent": {
-      "title": "Devis instantané – Assistant IA | Fiduciaire Genève",
+      "title": "Devis instantané – Assistant IA | Ark Fiduciaire Genève",
       "description": "Obtenez un devis instantané pour la comptabilité, fiscalité, salaires et services fiduciaires à Genève et Lausanne. Estimations immédiates par IA.",
       "keywords": "devis instantané fiduciaire, assistant devis ia, devis comptabilité genève, estimation fiscale suisse, devis salaires lausanne, estimation services entreprise, coût fiduciaire"
     },
     "/services": {
-      "title": "Services fiduciaires à Genève | Comptabilité et fiscalité",
+      "title": "Services fiduciaires à Genève | Ark Fiduciaire",
       "description": "Services fiduciaires à Genève pour PME et entrepreneurs: comptabilité, fiscalité, salaires, domiciliation, création de société, corporate et Odoo.",
       "keywords": "services fiduciaires genève, comptabilité, conseil fiscal genève, comptabilité PME"
     },
     "/services/family-office": {
-      "title": "Family office administratif en Suisse romande",
+      "title": "Family office administratif en Suisse | Ark Fiduciaire",
       "description": "Family office administratif en Suisse romande: coordination, gouvernance, reporting et administration familiale, sans gestion discrétionnaire d’actifs.",
       "keywords": "family office suisse, family office suisse romande, multi family office suisse, gouvernance familiale suisse, family office genève"
     },
@@ -80,8 +80,8 @@
       ]
     },
     "/services/odoo": {
-      "title": "Intégrateur Odoo Genève : implémentation comptable suisse",
-      "description": "Implémentation Odoo comptable en Suisse: cadrage, plan comptable suisse, TVA, QR-facture, migration, formation et support pour PME.",
+      "title": "Fiduciaire Odoo à Genève | Ark Fiduciaire",
+      "description": "Fiduciaire genevoise travaillant directement dans Odoo : comptabilité suisse, TVA, QR-facture, salaires, migration et externalisation comptable dans votre ERP.",
       "keywords": "odoo genève, intégrateur odoo genève, implémentation odoo suisse, odoo PME suisse, fiduciaire odoo, odoo formation genève, fiduciaire odoo genève, consultant odoo suisse, odoo gestion entreprise, odoo support genève"
     },
     "/services/outsourcing": {
@@ -95,12 +95,12 @@
       "keywords": "fusion acquisition suisse, conseil m&a suisse, valorisation entreprise suisse, due diligence suisse, accompagnement transmission entreprise, audit financier suisse, évaluation entreprise suisse, conseils transmission PME suisse, intégration post-fusion suisse, optimisation fiscale fusion acquisition, analyse risques fusion suisse, stratégie m&a suisse, accompagnement cession entreprise, audit juridique suisse, fiscalité fusion acquisition, conseil transmission entreprise, conseils transmission société suisse, accompagnement vente entreprise suisse, audit fusion acquisition suisse, conseils succession entreprise suisse, fiscalité cession entreprise suisse, conseils fusion acquisition PME, étapes fusion acquisition suisse, expertise fusion acquisition suisse, accompagnement fusion acquisition suisse, audit fusion acquisition PME, rachat entreprise suisse, conseil vente société suisse, audit cession entreprise suisse, accompagnement reprise PME suisse, conseil transmission PME suisse, fusion acquisition PME suisse, transmission entreprise suisse, accompagnement cession PME suisse, audit transmission entreprise suisse, processus fusion acquisition suisse, accompagnement négociation fusion suisse, conseil juridique m&a suisse, audit fiscal fusion acquisition suisse, évaluation risques m&a suisse, conseil fusion acquisition suisse, accompagnement rachat entreprise suisse, évaluation PME suisse, audit transmission PME suisse, conseil cession entreprise suisse, conseil transmission société suisse, conseil fusion acquisition pme, expertise m&a suisse, accompagnement valorisation entreprise, conseil transmission familiale, conseils fusion acquisition suisse, processus de vente entreprise suisse, accompagnement PME suisse, audit risques m&a suisse, conseils transmission familiale suisse, conseil fusion acquisition Genève, fusion acquisition Lausanne, cabinet m&a suisse, transmission familiale suisse, audit m&a suisse"
     },
     "/services/payroll": {
-      "title": "Gestion des salaires en Suisse romande | Ark Fiduciaire",
-      "description": "Gestion des salaires en Suisse romande. Calculs de salaire, administration de la paie, déclarations d'assurances sociales et paie ANOBAG pour employeurs étrangers.",
+      "title": "Externalisation des salaires en Suisse | Ark Fiduciaire",
+      "description": "Externalisez vos salaires en Suisse : fiches de salaire, certificats, assurances sociales, ANOBAG et Swissdec. Gestion complète par une fiduciaire genevoise.",
       "keywords": "gestion salaires suisse, paie genève, externalisation paie suisse, logiciel paie suisse, gestion paie suisse, controleur gestion salaire suisse, conseils charges sociales suisse, conformité paie suisse, déclaration charges sociales suisse, service paie suisse, optimisation paie suisse, gestion bulletin de salaire, automatisation paie suisse, paie PME suisse, obligations légales paie suisse, gestion salaire suisse, gestion patrimoine salaire suisse, externalisation gestion paie, conseils paie suisse, gestion paie PME suisse, conseils fiscalité suisse, suivi paie suisse, audit paie suisse, assistance paie suisse, gestion salaire suisse romande, solutions paie suisse, sécurité paie suisse, simplification paie suisse, conseils gestion paie suisse, gestion paie entreprise suisse, gestion salaires PME suisse, calcul charges sociales suisse, externalisation paie romande, conformité légale paie suisse, conseils RH suisse"
     },
     "/services/taxes": {
-      "title": "Fiscalité à Genève pour sociétés et entrepreneurs",
+      "title": "Fiscalité PME et entrepreneurs à Genève | Ark Fiduciaire",
       "description": "Fiscalité à Genève pour sociétés et entrepreneurs: déclarations, TVA, fiscalité internationale, planification et coordination avec les obligations suisses.",
       "keywords": "fiscalité genève, déclaration impôts genève, conseil fiscal suisse, fiduciaire genève impôts, tva suisse"
     },
