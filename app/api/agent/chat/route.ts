@@ -59,7 +59,10 @@ const getFieldKey = (key: string, fallback: string) =>
 const getRateLimitKey = (request: Request) => {
   const forwarded = request.headers.get("x-forwarded-for");
   if (forwarded) {
-    return forwarded.split(",")[0]?.trim() || "unknown";
+    // Rightmost entry is appended by our own front proxy; leftmost values are
+    // client-controlled and spoofable for rate-limit evasion.
+    const parts = forwarded.split(",");
+    return parts[parts.length - 1]?.trim() || "unknown";
   }
   return request.headers.get("x-real-ip") || "unknown";
 };
@@ -906,7 +909,31 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "turnstile_failed" }, { status: 400 });
           }
         }
-        odooLeadId = await createOdooLeadSafe(payload, leadMessage);
+        if (payload.turnstileToken && !TURNSTILE_SECRET_KEY) {
+        return NextResponse.json(
+          { error: "missing_configuration" },
+          { status: 500 }
+        );
+      }
+      if (TURNSTILE_SECRET_KEY) {
+        if (!payload.turnstileToken) {
+          return NextResponse.json(
+            { error: "turnstile_required" },
+            { status: 400 }
+          );
+        }
+        const turnstileOk = await verifyTurnstile(
+          payload.turnstileToken,
+          rateKey
+        );
+        if (!turnstileOk) {
+          return NextResponse.json(
+            { error: "turnstile_failed" },
+            { status: 400 }
+          );
+        }
+      }
+      odooLeadId = await createOdooLeadSafe(payload, leadMessage);
         const syntheticLead = buildSyntheticLeadSession(LEAD_TOKEN_SECRET);
         return NextResponse.json(
           {
@@ -932,16 +959,6 @@ export async function POST(request: Request) {
         );
       }
 
-      odooLeadId = await createOdooLeadSafe(payload, leadMessage);
-      if (!odooLeadId) {
-        console.error(
-          "[agent] Lead lost: CRM unavailable during lead-only confirmation",
-        );
-        return NextResponse.json(
-          { error: "crm_unavailable" },
-          { status: 502 }
-        );
-      }
       if (payload.turnstileToken && !TURNSTILE_SECRET_KEY) {
         return NextResponse.json(
           { error: "missing_configuration" },
@@ -965,6 +982,16 @@ export async function POST(request: Request) {
             { status: 400 }
           );
         }
+      }
+      odooLeadId = await createOdooLeadSafe(payload, leadMessage);
+      if (!odooLeadId) {
+        console.error(
+          "[agent] Lead lost: CRM unavailable during lead-only confirmation",
+        );
+        return NextResponse.json(
+          { error: "crm_unavailable" },
+          { status: 502 }
+        );
       }
       let lead = buildSyntheticLeadSession(LEAD_TOKEN_SECRET);
       if (sharePointEnabled && !missingLeadTokenField) {
