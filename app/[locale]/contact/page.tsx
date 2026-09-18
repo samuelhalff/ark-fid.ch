@@ -209,7 +209,7 @@ export default async function ContactPage(
           </li>
         </ol>
       </nav>
-      <Reveal className="mb-20 sm:mb-24">
+      <Reveal className="mb-8 sm:mb-14">
         <PageHero
           eyebrow={(tNav("Contact") as string) || strings.title}
           title={strings.title}
@@ -225,7 +225,7 @@ export default async function ContactPage(
         ) : null}
       </Reveal>
       <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_390px] lg:items-start">
-        <Reveal className="min-w-0" delay={0.06}>
+        <div className="min-w-0">
           <ContactForm
             showTitle={true}
             showSubtitle={false}
@@ -236,7 +236,7 @@ export default async function ContactPage(
             redirectPath={`${localePrefix}/`}
             cardClassName="rounded-[24px] bg-card shadow-sm"
           />
-        </Reveal>
+        </div>
 
         <Reveal className="space-y-4" delay={0.1}>
           <div className="grid gap-3">

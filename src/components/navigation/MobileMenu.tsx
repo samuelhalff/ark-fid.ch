@@ -14,7 +14,6 @@ import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/src/lib/utils";
-import { MessageIcon } from "@/src/components/icons/MessageIcon";
 import type { NavData } from "@/src/components/navigation/types";
 import { List, X } from "@phosphor-icons/react";
 
@@ -122,19 +121,6 @@ const MobileMenu = ({
             <Suspense fallback={null}>
               <LangSwitchMobile onLocaleChange={handleLinkClick} />
             </Suspense>
-            <div className="mt-3 mb-3">
-              <Link
-                href={`${localePrefix}/contact/`}
-                onClick={handleLinkClick}
-                prefetch={false}
-                locale={locale}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent/30 py-3 text-center text-lg font-semibold shadow-sm transition-colors hover:bg-accent/40"
-                style={{ letterSpacing: 0.5 }}
-              >
-                <MessageIcon size={20} className="opacity-80" />
-                <span>{navData.labels.contact}</span>
-              </Link>
-            </div>
             <div>
               <Link
                 href={`${localePrefix}/`}
@@ -195,6 +181,25 @@ const MobileMenu = ({
               >
                 <span>{navData.labels.ressources}</span>
               </Link>
+            </div>
+            {/* Contact: final entry in the private-banking register — a quiet
+                orange link over a mono email line, separated by a hairline. */}
+            <div className="mt-5 border-t border-border pt-6">
+              <Link
+                href={`${localePrefix}/contact/`}
+                onClick={handleLinkClick}
+                prefetch={false}
+                locale={locale}
+                className="flex items-center px-2 py-2 text-md font-bold text-accent transition-opacity hover:opacity-80"
+              >
+                <span>{navData.labels.contact}</span>
+              </Link>
+              <a
+                href="mailto:info@ark-fid.ch"
+                className="block px-2 pt-0.5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground"
+              >
+                info@ark-fid.ch
+              </a>
             </div>
             {/* Footer is server-rendered in layout; omit here to keep client bundle light */}
           </nav>
