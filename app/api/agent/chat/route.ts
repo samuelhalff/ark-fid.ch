@@ -886,112 +886,41 @@ export async function POST(request: Request) {
       !isMessagesListConfigured() && !leadFieldMap.transcript;
 
     if (payload.leadOnly) {
-      let odooLeadId: number | null = null;
-      // Internal company domains (ark-fid.ch, pbm.law) can use the chat
-      // but must NOT create prospect records or send Formspark messages.
-      // Return synthetic tokens so the rest of the chat flow works normally.
-      if (isInternalEmail(payload.email)) {
-        // Turnstile-gate internal minting too, so an @ark-fid.ch claim is not
-        // a free path to a signed session / the paid LLM. Fail closed in
-        // production: if Turnstile isn't configured, do not mint a session.
-        if (!TURNSTILE_SECRET_KEY) {
-          if (process.env.NODE_ENV === "production") {
-            return NextResponse.json(
-              { error: "missing_configuration" },
-              { status: 500 }
-            );
-          }
-        } else {
-          if (!payload.turnstileToken) {
-            return NextResponse.json({ error: "turnstile_required" }, { status: 400 });
-          }
-          if (!(await verifyTurnstile(payload.turnstileToken, rateKey))) {
-            return NextResponse.json({ error: "turnstile_failed" }, { status: 400 });
-          }
-        }
-        if (payload.turnstileToken && !TURNSTILE_SECRET_KEY) {
-        return NextResponse.json(
-          { error: "missing_configuration" },
-          { status: 500 }
-        );
-      }
+      // Verify Turnstile EXACTLY ONCE — tokens are single-use, so a second
+      // siteverify on the same token always fails ("timeout-or-duplicate").
+      // A duplicated check here is what looped the lead modal forever.
       if (TURNSTILE_SECRET_KEY) {
         if (!payload.turnstileToken) {
-          return NextResponse.json(
-            { error: "turnstile_required" },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: "turnstile_required" }, { status: 400 });
         }
-        const turnstileOk = await verifyTurnstile(
-          payload.turnstileToken,
-          rateKey
-        );
-        if (!turnstileOk) {
-          return NextResponse.json(
-            { error: "turnstile_failed" },
-            { status: 400 }
-          );
+        if (!(await verifyTurnstile(payload.turnstileToken, rateKey))) {
+          return NextResponse.json({ error: "turnstile_failed" }, { status: 400 });
         }
+      } else if (process.env.NODE_ENV === "production") {
+        // Fail closed: no Turnstile secret in prod = never mint a session.
+        return NextResponse.json({ error: "missing_configuration" }, { status: 500 });
       }
-      odooLeadId = await createOdooLeadSafe(payload, leadMessage);
+
+      // Internal company domains (ark-fid.ch, pbm.law) use the chat but must
+      // NOT create prospect records; return a synthetic signed session.
+      if (isInternalEmail(payload.email)) {
         const syntheticLead = buildSyntheticLeadSession(LEAD_TOKEN_SECRET);
         return NextResponse.json(
           {
             ok: true,
             leadId: syntheticLead.leadId,
             leadToken: syntheticLead.leadToken,
-            ...(odooLeadId
-              ? {
-                  odooLeadId,
-                  odooLeadToken: signOdooLeadToken(
-                    LEAD_TOKEN_SECRET,
-                    syntheticLead.leadId,
-                    odooLeadId,
-                  ),
-                }
-              : {}),
           },
-          {
-            headers: {
-              "Cache-Control": "no-store, no-cache, must-revalidate",
-            },
-          }
+          { headers: { "Cache-Control": "no-store, no-cache, must-revalidate" } }
         );
       }
 
-      if (payload.turnstileToken && !TURNSTILE_SECRET_KEY) {
-        return NextResponse.json(
-          { error: "missing_configuration" },
-          { status: 500 }
-        );
-      }
-      if (TURNSTILE_SECRET_KEY) {
-        if (!payload.turnstileToken) {
-          return NextResponse.json(
-            { error: "turnstile_required" },
-            { status: 400 }
-          );
-        }
-        const turnstileOk = await verifyTurnstile(
-          payload.turnstileToken,
-          rateKey
-        );
-        if (!turnstileOk) {
-          return NextResponse.json(
-            { error: "turnstile_failed" },
-            { status: 400 }
-          );
-        }
-      }
-      odooLeadId = await createOdooLeadSafe(payload, leadMessage);
+      const odooLeadId = await createOdooLeadSafe(payload, leadMessage);
       if (!odooLeadId) {
         console.error(
           "[agent] Lead lost: CRM unavailable during lead-only confirmation",
         );
-        return NextResponse.json(
-          { error: "crm_unavailable" },
-          { status: 502 }
-        );
+        return NextResponse.json({ error: "crm_unavailable" }, { status: 502 });
       }
       let lead = buildSyntheticLeadSession(LEAD_TOKEN_SECRET);
       if (sharePointEnabled && !missingLeadTokenField) {
@@ -1017,24 +946,14 @@ export async function POST(request: Request) {
           ok: true,
           leadId: lead.leadId,
           leadToken: lead.leadToken,
-          // Sign the Odoo binding against the FINAL leadId (SharePoint or
-          // synthetic), so the client can later authorize notes to this lead.
-          ...(odooLeadId
-            ? {
-                odooLeadId,
-                odooLeadToken: signOdooLeadToken(
-                  LEAD_TOKEN_SECRET,
-                  lead.leadId,
-                  odooLeadId,
-                ),
-              }
-            : {}),
+          odooLeadId,
+          odooLeadToken: signOdooLeadToken(
+            LEAD_TOKEN_SECRET,
+            lead.leadId,
+            odooLeadId,
+          ),
         },
-        {
-          headers: {
-            "Cache-Control": "no-store, no-cache, must-revalidate",
-          },
-        }
+        { headers: { "Cache-Control": "no-store, no-cache, must-revalidate" } }
       );
     }
 
