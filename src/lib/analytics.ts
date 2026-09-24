@@ -14,6 +14,7 @@
 export type AnalyticsParams = Record<string, string | number | boolean>;
 
 export function trackEvent(name: string, params?: AnalyticsParams) {
+  if (name === "generate_lead") trackOpenAiLead();
   try {
     if (typeof window === "undefined") return;
     const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
@@ -21,6 +22,32 @@ export function trackEvent(name: string, params?: AnalyticsParams) {
     gtag("event", name, { transport_type: "beacon", ...params });
   } catch {
     // Analytics must never surface errors to users.
+  }
+}
+
+/**
+ * ChatGPT Ads conversion: a lead (contact form or instant quote) counts as
+ * "registration_completed". window.oaiq only exists once the user accepted
+ * marketing cookies (ConsentAnalytics loads the pixel), so this is
+ * consent-gated by construction. GA4 keeps the per-channel split (method).
+ */
+function trackOpenAiLead() {
+  try {
+    if (typeof window === "undefined") return;
+    const oaiq = (window as { oaiq?: (...args: unknown[]) => void }).oaiq;
+    if (typeof oaiq !== "function") return;
+    const eventId =
+      typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    oaiq(
+      "measure",
+      "registration_completed",
+      { type: "customer_action" },
+      { event_id: eventId }
+    );
+  } catch {
+    // Ads measurement must never surface errors to users.
   }
 }
 

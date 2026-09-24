@@ -8,6 +8,7 @@ import Defer from "@/src/components/Defer";
 import ErrorBoundary from "@/src/components/ErrorBoundary";
 import { CookieConsent } from "@/src/components/ClientOnlyDynamic";
 import ConsentAnalytics from "@/src/components/ConsentAnalytics";
+import OpenAiPixel from "@/src/components/OpenAiPixel";
 import WhatsAppLink from "@/src/components/ui/whatsapp-link";
 import "./globals.css";
 import { getTranslations, getCurrentLocale } from "@/src/lib/i18n";
@@ -178,6 +179,8 @@ export default async function RootLayout({
                 locale={currentLocale}
                 labels={cookieLabels}
               />
+
+              <OpenAiPixel nonce={nonce} />
 
               <Defer rootMargin="0px" idle={200} placeholder={null}>
                 <ConsentAnalytics

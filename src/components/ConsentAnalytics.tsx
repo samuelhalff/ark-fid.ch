@@ -18,9 +18,9 @@ declare global {
 
 const CONSENT_KEY = "cookieConsent";
 
-type ConsentPref = "accepted" | "minimal" | "declined" | null;
+export type ConsentPref = "accepted" | "minimal" | "declined" | null;
 
-function getConsent(): ConsentPref {
+export function getConsent(): ConsentPref {
   if (typeof window === "undefined") return null;
   try {
     const v = localStorage.getItem(CONSENT_KEY);
