@@ -199,8 +199,17 @@ jobs:
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
 
-          ENV_SYNC_B64=$(python - <<'PY'
-          import os, base64
+          BASE="/srv/customer/sites/ark-fid.ch"
+          SFTP_OPTS=(-P "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=20)
+
+          # Secrets only ever touch 0600 files in a private temp dir that is
+          # removed on exit; nothing here prints a value (key names only).
+          umask 077
+          WORK=$(mktemp -d)
+          trap 'rm -rf "$WORK"' EXIT
+
+          python3 - "$WORK/env_values" <<'PY'
+          import os, sys
           keys = [
             "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
             "TURNSTILE_SECRET_KEY",
@@ -244,53 +253,130 @@ jobs:
             value = os.environ.get(key, "")
             if value:
               lines.append(f"{key}={value}")
-          payload = "\n".join(lines).encode()
-          print(base64.b64encode(payload).decode())
+          with open(sys.argv[1], "w", encoding="utf-8") as fh:
+            fh.write("".join(line + "\n" for line in lines))
           PY
-          )
 
-          if [ -z "$ENV_SYNC_B64" ]; then
+          if [ ! -s "$WORK/env_values" ]; then
             echo "[deploy] No env values to sync."
             exit 0
           fi
 
-          sshpass -p "$PASS" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -p "$PORT" "$USER@$HOST" bash -lc '
-            set -euo pipefail
-            ENV_FILE="/srv/customer/sites/ark-fid.ch/shared/.env"
-            TMP_FILE="/tmp/arkfid_env_sync"
-            printf "%s" "'"$ENV_SYNC_B64"'" | base64 -d > "$TMP_FILE"
-            touch "$ENV_FILE"
-            while IFS= read -r line; do
-              [ -z "$line" ] && continue
-              key=${line%%=*}
-              val=${line#*=}
-              esc=$(printf "%s" "$val" | sed -e "s/[\\\\&|]/\\\\\\\\&/g")
-              if grep -q "^${key}=" "$ENV_FILE"; then
-                sed -i "s|^${key}=.*|${key}=${esc}|" "$ENV_FILE"
-              else
-                printf "%s\n" "${key}=${val}" >> "$ENV_FILE"
+          # SFTP, not ssh exec: exec channels on these ContainerSSH hosts can
+          # fail silently or drop exit codes (seen on 57-105000, 2026-09-18),
+          # which would leave the runtime env stale while the step looks
+          # green. Same merge as before (update the keys CI owns, append new
+          # ones, leave every other line of the server file alone), but done
+          # on the runner: fetch, merge, upload, read back.
+          #
+          # The server file also holds keys CI does not own, so it is never
+          # replaced unless the current copy was read first. "Absent" is only
+          # accepted when the directory listing proves it.
+          STATE=unknown
+          for attempt in 1 2 3; do
+            rm -f "$WORK/env_remote" "$WORK/ls_out"
+            sshpass -p "$PASS" sftp "${SFTP_OPTS[@]}" "$USER@$HOST" > "$WORK/ls_out" 2>/dev/null <<SFTP || true
+          get $BASE/shared/.env $WORK/env_remote
+          ls -la $BASE/shared
+          SFTP
+            # The listing runs after the get, in the same session: its "."
+            # entry proves the session outlived the download, so a present
+            # env_remote is complete, not a truncated transfer.
+            if grep -Eq '(^|[[:space:]/])\.$' "$WORK/ls_out"; then
+              if [ -f "$WORK/env_remote" ]; then STATE=present; break; fi
+              if ! grep -Eq '(^|[[:space:]/])\.env$' "$WORK/ls_out"; then
+                STATE=absent; : > "$WORK/env_remote"; break
               fi
-            done < "$TMP_FILE"
-            rm -f "$TMP_FILE"
-          '
+            fi
+            echo "[deploy] could not read shared/.env (attempt $attempt)"
+            [ "$attempt" -lt 3 ] && sleep $((attempt * 10))
+          done
+          if [ "$STATE" = "unknown" ]; then
+            echo "::error::Could not read the server env file over SFTP; refusing to overwrite it. Production unchanged."
+            exit 1
+          fi
+
+          python3 - "$WORK/env_remote" "$WORK/env_values" "$WORK/env_merged" <<'PY'
+          import sys
+          remote_path, values_path, merged_path = sys.argv[1:4]
+          def load(path):
+            with open(path, encoding="utf-8", errors="surrogateescape", newline="") as fh:
+              lines = fh.read().split("\n")
+            if lines and lines[-1] == "":
+              lines.pop()
+            return lines
+          lines = load(remote_path)
+          changed, added, unchanged = [], [], 0
+          for entry in load(values_path):
+            key = entry.split("=", 1)[0]
+            hits = [i for i, line in enumerate(lines) if line.startswith(key + "=")]
+            if not hits:
+              lines.append(entry)
+              added.append(key)
+            elif all(lines[i] == entry for i in hits):
+              unchanged += 1
+            else:
+              for i in hits:
+                lines[i] = entry
+              changed.append(key)
+          if changed or added:
+            with open(merged_path, "w", encoding="utf-8", errors="surrogateescape", newline="") as fh:
+              fh.write("".join(line + "\n" for line in lines))
+          # Key names only, never values.
+          print(f"[deploy] env sync: {unchanged} unchanged, {len(changed)} changed, {len(added)} added")
+          if changed:
+            print("[deploy] changed keys: " + " ".join(changed))
+          if added:
+            print("[deploy] added keys: " + " ".join(added))
+          PY
+
+          if [ ! -f "$WORK/env_merged" ]; then
+            echo "[deploy] shared/.env already up to date; nothing written"
+            exit 0
+          fi
+
+          # Upload beside the target, tighten the mode, then rename over it
+          # (atomic posix-rename): the app never sees a half-written file.
+          # The previous content is kept as shared/.env.prev (0600).
+          {
+            if [ "$STATE" = "present" ]; then
+              echo "put $WORK/env_remote $BASE/shared/.env.prev"
+              echo "chmod 600 $BASE/shared/.env.prev"
+            fi
+            echo "put $WORK/env_merged $BASE/shared/.env.sync-new"
+            echo "chmod 600 $BASE/shared/.env.sync-new"
+            echo "rename $BASE/shared/.env.sync-new $BASE/shared/.env"
+            echo "get $BASE/shared/.env $WORK/env_check"
+          } > "$WORK/batch"
+
+          for attempt in 1 2 3; do
+            rm -f "$WORK/env_check"
+            sshpass -p "$PASS" sftp "${SFTP_OPTS[@]}" "$USER@$HOST" >/dev/null 2>&1 < "$WORK/batch" || true
+            if [ -f "$WORK/env_check" ] && cmp -s "$WORK/env_merged" "$WORK/env_check"; then
+              echo "[deploy] shared/.env written via sftp and read back identical"
+              exit 0
+            fi
+            echo "[deploy] env upload not confirmed (attempt $attempt)"
+            [ "$attempt" -lt 3 ] && sleep $((attempt * 10))
+          done
+          echo "::error::shared/.env could not be written and verified over SFTP; aborting before the release switch"
+          exit 1
 
       # ─── Extract, symlink and cleanup ───
       - name: Extract, symlink and cleanup releases
+        id: extract
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
           USER="${{ secrets.DEPLOY_SSH_USER }}"
           PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
           PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
+          BASE="/srv/customer/sites/ark-fid.ch"
+          BUILD_ID=$(cat dist/.next/BUILD_ID)
 
-          echo "[deploy] Testing SSH connectivity to $HOST:$PORT as $USER"
-          if sshpass -p "$PASS" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -o ConnectTimeout=10 -p "$PORT" "$USER@$HOST" 'echo "SSH probe successful"' 2>/dev/null; then
-            echo "[deploy] SSH probe successful"
-          else
-            echo "[deploy] SSH probe failed (this is normal for some server configurations); proceeding with deployment"
-          fi
-
-          sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes "$USER@$HOST" bash -lc '
+          # No separate ssh "probe" session: it gated nothing and every extra
+          # session counts against the host's exec throttle.
+          if sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -o ConnectTimeout=15 "$USER@$HOST" bash -lc '
             set -euo pipefail
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
             RELEASES_DIR="$BASE_DIR/releases"
@@ -340,6 +426,14 @@ jobs:
               echo "[deploy] Installed restart-server.sh to shared/" >> "$LOG"
             fi
 
+            # Rollback state, read back by CI over SFTP. Written BEFORE the
+            # switch so a switched release always has a recorded predecessor.
+            PREV_REL=$(readlink "$CURRENT_LINK" 2>/dev/null || true)
+            PREV_BUILD_ID=$(cat "$CURRENT_LINK/.next/BUILD_ID" 2>/dev/null || true)
+            NEW_BUILD_ID=$(cat "$REL_DIR/.next/BUILD_ID")
+            printf "TS=%s\nNEW_REL=%s\nNEW_BUILD_ID=%s\nPREV_REL=%s\nPREV_BUILD_ID=%s\n" "$TS" "$REL_DIR" "$NEW_BUILD_ID" "$PREV_REL" "$PREV_BUILD_ID" > "$BASE_DIR/deploy_state" || { echo "[deploy] ERROR: could not write deploy_state" >> "$LOG"; exit 1; }
+            echo "[deploy] Previous release: ${PREV_REL:-none} (${PREV_BUILD_ID:-?})" >> "$LOG"
+
             ln -sfn "$REL_DIR" "$CURRENT_LINK"
             echo "$TS" > "$BASE_DIR/last_release_ts"
             echo "[deploy] Updated current symlink to $REL_DIR" >> "$LOG"
@@ -350,16 +444,58 @@ jobs:
             # Only directories count as releases: a stray file as the last
             # loop item made the loop exit 1 under set -e and failed a live
             # deploy (houle.ai, 2026-09-25..30). Best-effort, never fatal.
+            # Never removes the new or the previous (rollback target) release.
             ls -1t | while read -r rel; do if [ -d "$rel" ]; then echo "$rel"; fi; done | tail -n +$((KEEP+1)) | while read -r rel; do
-              if [ "$rel" != "$TS" ]; then
+              if [ "$rel" != "$TS" ] && [ "$RELEASES_DIR/$rel" != "$PREV_REL" ]; then
                 rm -rf "${RELEASES_DIR:?}/$rel" && echo "[deploy] Cleaned up old release: $rel" >> "$LOG"
               fi
             done || echo "[deploy] WARN: release cleanup incomplete" >> "$LOG"
             echo "[deploy] Cleanup completed, keeping last $KEEP releases" >> "$LOG"
-          '
+          '; then
+            RC=0
+          else
+            RC=$?
+          fi
+          echo "[deploy] extract session exit code: $RC"
+
+          # ssh exec exit codes on these hosts are not trustworthy on their
+          # own: read the outcome back over SFTP (what current/ points at now).
+          for attempt in 1 2 3; do
+            rm -f deploy_state disk_build
+            sshpass -p "$PASS" sftp -P "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=20 "$USER@$HOST" >/dev/null <<SFTP || true
+          get $BASE/deploy_state deploy_state
+          get $BASE/current/.next/BUILD_ID disk_build
+          SFTP
+            [ -s deploy_state ] && [ -s disk_build ] && break
+            echo "[deploy] SFTP read-back attempt $attempt incomplete"
+            [ "$attempt" -lt 3 ] && sleep $((attempt * 10))
+          done
+
+          # Both tolerate a missing file: an incomplete read-back must reach
+          # the live gate (and its rollback), not abort this step.
+          DISK_BUILD=$(cat disk_build 2>/dev/null | tr -d '[:space:]' || true)
+          field() { sed -n "s/^$1=//p" deploy_state 2>/dev/null | head -n1 || true; }
+          STATE_BUILD=$(field NEW_BUILD_ID)
+          echo "[deploy] expected build $BUILD_ID; current/ on disk: ${DISK_BUILD:-unreadable}"
+
+          if [ -n "$DISK_BUILD" ] && [ "$DISK_BUILD" != "$BUILD_ID" ]; then
+            echo "::error::Release was not promoted (current/ is $DISK_BUILD, expected $BUILD_ID; ssh exit $RC). Production unchanged."
+            exit 1
+          fi
+          # Unreadable read-back: do not guess, let the live gate decide.
+          [ -n "$DISK_BUILD" ] || echo "::warning::could not read current/ over SFTP; relying on live verification"
+          if [ "$STATE_BUILD" = "$BUILD_ID" ]; then
+            echo "prev_rel=$(field PREV_REL)" >> "$GITHUB_OUTPUT"
+            echo "prev_build_id=$(field PREV_BUILD_ID)" >> "$GITHUB_OUTPUT"
+            echo "[deploy] previous release: $(field PREV_REL) ($(field PREV_BUILD_ID))"
+          else
+            echo "::warning::deploy_state does not match this build; automatic rollback unavailable"
+          fi
+          [ "$RC" -eq 0 ] || echo "::warning::ssh exec returned $RC but current/ holds the new build; continuing to live verification"
 
       # ─── Restart server ───
       - name: Restart Node.js server
+        id: restart
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         timeout-minutes: 3
         run: |
@@ -417,25 +553,151 @@ jobs:
           echo "[restart] ❌ Could not confirm build $BUILD_ID live"
           exit 1
 
-      # ─── Health check ───
-      - name: Health check and warmup
+      # ─── Gate: the new build answers and the site serves pages ───
+      - name: Verify release is live
+        id: verify
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         timeout-minutes: 5
         run: |
-          CURL_TIMEOUTS=(--connect-timeout 5 --max-time 8)
-          ATTEMPTS=40; SLEEP=3; OK=0
-          for i in $(seq 1 $ATTEMPTS); do
-            STATUS=$(curl "${CURL_TIMEOUTS[@]}" -o /dev/null -s -w "%{http_code}" -L "https://ark-fid.ch/fr/" || echo "000")
-            if [ "$STATUS" -eq 200 ]; then
-              echo "✅ Health check OK"
-              OK=1
+          BUILD_ID=$(cat dist/.next/BUILD_ID)
+          C=(--connect-timeout 5 --max-time 8 -s)
+          # A 200 alone proves nothing (Infomaniak's maintenance page is a
+          # 200, and the old process can still answer while terminating):
+          # the health endpoint must report the deployed BUILD_ID and /fr/
+          # must return 200, twice in a row.
+          PASS_N=0
+          for i in $(seq 1 40); do
+            LIVE=$(curl "${C[@]}" "https://ark-fid.ch/api/health/?d=${GITHUB_RUN_ID}-${RANDOM}" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("buildId",""))' 2>/dev/null || true)
+            STATUS=$(curl "${C[@]}" -L -o /dev/null -w '%{http_code}' "https://ark-fid.ch/fr/" || true)
+            echo "[verify] $i: build=${LIVE:-none} /fr/=${STATUS:-000}"
+            if [ "$LIVE" = "$BUILD_ID" ] && [ "$STATUS" = "200" ]; then
+              PASS_N=$((PASS_N + 1))
+              if [ "$PASS_N" -ge 2 ]; then echo "[verify] build $BUILD_ID live; /fr/ returns 200"; exit 0; fi
+            else
+              PASS_N=0
+            fi
+            sleep 3
+          done
+          echo "::error::Build $BUILD_ID not verified live on ark-fid.ch"
+          exit 1
+
+      # Runs when the restart or the live gate failed after the symlink
+      # switch. SFTP only for the switch back (the reliable channel); the job
+      # always ends red.
+      - name: Roll back to previous release
+        if: failure() && (steps.restart.outcome == 'failure' || steps.verify.outcome == 'failure')
+        timeout-minutes: 12
+        env:
+          PREV_REL: ${{ steps.extract.outputs.prev_rel }}
+          PREV_BUILD_ID: ${{ steps.extract.outputs.prev_build_id }}
+        run: |
+          HOST="${{ secrets.DEPLOY_SSH_HOST }}"
+          USER="${{ secrets.DEPLOY_SSH_USER }}"
+          PASS="${{ secrets.DEPLOY_SSH_PASSWORD }}"
+          PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
+          TOKEN="${{ secrets.RESTART_SECRET_TOKEN }}"
+          BASE="/srv/customer/sites/ark-fid.ch"
+          BUILD_ID=$(cat dist/.next/BUILD_ID)
+
+          # The extract step exports the previous release only when its SFTP
+          # read-back worked. If it did not, read deploy_state again now: it
+          # is only trusted when it describes this very build.
+          field() { sed -n "s/^$1=//p" deploy_state 2>/dev/null | head -n1 || true; }
+          if [ -z "$PREV_REL" ] || [ -z "$PREV_BUILD_ID" ]; then
+            for attempt in 1 2 3; do
+              rm -f deploy_state
+              sshpass -p "$PASS" sftp -P "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=20 "$USER@$HOST" >/dev/null <<SFTP || true
+          get $BASE/deploy_state deploy_state
+          SFTP
+              if [ -s deploy_state ]; then break; fi
+              echo "[rollback] deploy_state read attempt $attempt failed"
+              [ "$attempt" -lt 3 ] && sleep $((attempt * 10))
+            done
+            if [ "$(field NEW_BUILD_ID)" = "$BUILD_ID" ]; then
+              PREV_REL=$(field PREV_REL)
+              PREV_BUILD_ID=$(field PREV_BUILD_ID)
+              echo "[rollback] previous release read from deploy_state: ${PREV_REL:-none} (${PREV_BUILD_ID:-?})"
+            else
+              echo "[rollback] deploy_state unreadable or not about build $BUILD_ID"
+            fi
+          fi
+
+          if ! [[ "$PREV_REL" =~ ^/srv/customer/sites/ark-fid\.ch/releases/[0-9]{14}$ ]] || [ -z "$PREV_BUILD_ID" ] || [ "$PREV_BUILD_ID" = "$BUILD_ID" ]; then
+            echo "::error::No usable previous release recorded (rel='$PREV_REL' build='$PREV_BUILD_ID'); roll back manually (see docs/deploy-ci.md)"
+            exit 1
+          fi
+
+          # Atomic swap over SFTP (posix-rename of a fresh symlink onto
+          # current), then read current/.next/BUILD_ID back to prove it.
+          DONE=0
+          for attempt in 1 2 3; do
+            rm -f rb_build
+            sshpass -p "$PASS" sftp -P "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=20 "$USER@$HOST" >/dev/null <<SFTP || true
+          -rm $BASE/current.rollback
+          symlink $PREV_REL $BASE/current.rollback
+          rename $BASE/current.rollback $BASE/current
+          get $BASE/current/.next/BUILD_ID rb_build
+          SFTP
+            if [ "$(cat rb_build 2>/dev/null | tr -d '[:space:]' || true)" = "$PREV_BUILD_ID" ]; then DONE=1; break; fi
+            echo "[rollback] attempt $attempt not confirmed"
+            [ "$attempt" -lt 3 ] && sleep $((attempt * 10))
+          done
+          if [ "$DONE" -ne 1 ]; then
+            echo "::error::ROLLBACK FAILED: current/ could not be pointed back to $PREV_REL; intervene now"
+            exit 1
+          fi
+          echo "[rollback] current -> $PREV_REL ($PREV_BUILD_ID) on disk"
+
+          C=(--connect-timeout 4 --max-time 4 -s)
+          live_build() { curl "${C[@]}" "https://ark-fid.ch/api/health/?d=${GITHUB_RUN_ID}-${RANDOM}" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("buildId",""))' 2>/dev/null || true; }
+          wait_prev() {
+            local i live status
+            for i in $(seq 1 "$1"); do
+              live=$(live_build)
+              status=$(curl "${C[@]}" -L -o /dev/null -w '%{http_code}' "https://ark-fid.ch/fr/" || true)
+              echo "[rollback] $i: build=${live:-none} /fr/=${status:-000}"
+              if [ "$live" = "$PREV_BUILD_ID" ] && [ "$status" = "200" ]; then return 0; fi
+              sleep 2
+            done
+            return 1
+          }
+
+          # The supervisor loop respawns node from current/. If the previous
+          # build is still the one answering (the new one never started),
+          # there is nothing to restart; otherwise ask the running process to
+          # exit so the supervisor starts the previous release.
+          if [ "$(live_build)" != "$PREV_BUILD_ID" ]; then
+            curl --connect-timeout 5 --max-time 20 -X POST "https://ark-fid.ch/api/kill/" -H "Authorization: Bearer $TOKEN" -s -o /dev/null -w "[rollback] Kill request status: %{http_code}\n" || echo "[rollback] Kill request failed"
+          fi
+          if wait_prev 25; then
+            echo "::error::Deploy of $BUILD_ID failed verification; rolled back to $PREV_BUILD_ID (site answering)"
+            exit 1
+          fi
+
+          # Supervisor likely dead: managed restart script over ssh (the only
+          # exec-dependent path; session may be throttled, so retry spaced).
+          echo "[rollback] previous build not answering; invoking managed restart"
+          for attempt in 1 2 3; do
+            if OUT=$(sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=15 "$USER@$HOST" "bash /srv/customer/sites/ark-fid.ch/shared/restart-server.sh" 2>&1); then
+              echo "[rollback] managed restart: $OUT"
               break
             fi
-            echo "Waiting for server... ($i/$ATTEMPTS, got $STATUS)"
-            sleep $SLEEP
+            echo "[rollback] ssh attempt $attempt failed"
+            [ "$attempt" -lt 3 ] && sleep 20
           done
-          [ "$OK" -eq 1 ] || { echo "❌ Health check failed"; exit 1; }
+          if wait_prev 25; then
+            echo "::error::Deploy of $BUILD_ID failed verification; rolled back to $PREV_BUILD_ID (site answering after managed restart)"
+            exit 1
+          fi
+          echo "::error::Rolled back on disk to $PREV_BUILD_ID but the site did not recover; intervene now (see docs/deploy-ci.md)"
+          exit 1
 
+      - name: Warm up caches (non-blocking)
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        continue-on-error: true
+        timeout-minutes: 5
+        run: |
+          CURL_TIMEOUTS=(--connect-timeout 5 --max-time 8)
           echo "[deploy] Warming up paths..."
           for path in "/" "/en/" "/fr/" "/de/" "/es/" "/pt/"; do
             curl "${CURL_TIMEOUTS[@]}" -fsSL "https://ark-fid.ch$path" >/dev/null 2>&1 || true
