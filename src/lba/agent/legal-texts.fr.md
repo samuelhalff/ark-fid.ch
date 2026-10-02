@@ -538,6 +538,18 @@ b. pour les entités juridiques étrangères détenant une succursale, ordonner 
 
 4 L’ayant droit économique inscrit et l’entité peuvent exercer auprès de l’autorité de contrôle leur droit de faire modifier ou radier les données du registre de transparence les concernant. L’autorité de contrôle statue sur le maintien, la modification ou la radiation des informations contestées.
 
+### LTPM Art. 40 — Inscription au registre foncier
+
+Lien : https://www.fedlex.admin.ch/eli/cc/2026/323/fr
+
+1 La personne morale de droit étranger qui acquiert un immeuble en Suisse au sens de l’art. 4 LFAIE doit produire la preuve de son inscription au registre de transparence lorsqu’elle demande son inscription au registre foncier.
+
+2 Lorsque le conservateur du registre foncier constate que la preuve de l’inscription au registre de transparence est manquante, il suspend la procédure d’inscription au registre foncier et impartit à l’entité qui acquiert l’immeuble un délai de dix jours pour s’annoncer auprès du registre de transparence.
+
+3 Il écarte la réquisition au sens de l’art. 966 CC si l’acquéreur ne procède pas, dans ce délai, à l’annonce auprès du registre de transparence.
+
+4 Le droit de recours de l’entité est régi par l’art. 956a CC.
+
 ### LTPM Art. 41
 
 Lien : https://www.fedlex.admin.ch/eli/cc/2026/323/fr

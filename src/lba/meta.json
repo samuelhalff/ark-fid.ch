@@ -56,7 +56,13 @@
           "Je domicilie une société pour plus de 6 mois : suis-je conseiller ?",
           "Quand dois-je communiquer au MROS ?",
           "Qui doit annoncer au registre de transparence, et avant quand ?"
-        ]
+        ],
+        "emailLabel": "Votre e-mail professionnel",
+        "emailPlaceholder": "prenom.nom@etude.ch",
+        "emailHelp": "Nécessaire pour utiliser l'assistant. Nous pouvons vous recontacter au sujet de votre question.",
+        "privacyLink": "Politique de confidentialité",
+        "errorEmail": "Indiquez une adresse e-mail valide pour poser votre question.",
+        "privacyUrl": "https://ark-fid.ch/fr/legal/privacy/"
       }
     },
     "en": {
@@ -112,7 +118,13 @@
           "I provide a registered office for more than 6 months: am I an adviser?",
           "When do I have to report to MROS?",
           "Who must file with the transparency register, and by when?"
-        ]
+        ],
+        "emailLabel": "Your work email",
+        "emailPlaceholder": "first.last@firm.ch",
+        "emailHelp": "Required to use the assistant. We may contact you about your question.",
+        "privacyLink": "Privacy policy",
+        "errorEmail": "Please enter a valid email address to ask your question.",
+        "privacyUrl": "https://ark-fid.ch/en/legal/privacy/"
       }
     },
     "de": {
@@ -168,7 +180,13 @@
           "Ich domiziliere eine Gesellschaft länger als 6 Monate: Bin ich Berater?",
           "Wann muss ich der MROS Meldung erstatten?",
           "Wer muss dem Transparenzregister melden, und bis wann?"
-        ]
+        ],
+        "emailLabel": "Ihre geschäftliche E-Mail-Adresse",
+        "emailPlaceholder": "vorname.name@kanzlei.ch",
+        "emailHelp": "Erforderlich, um den Assistenten zu nutzen. Wir können Sie zu Ihrer Frage kontaktieren.",
+        "privacyLink": "Datenschutzerklärung",
+        "errorEmail": "Bitte geben Sie eine gültige E-Mail-Adresse an, um Ihre Frage zu stellen.",
+        "privacyUrl": "https://ark-fid.ch/de/legal/privacy/"
       }
     },
     "es": {
@@ -224,7 +242,13 @@
           "Domicilio una sociedad durante más de 6 meses: ¿soy asesor?",
           "¿Cuándo debo comunicar al MROS?",
           "¿Quién debe declarar al registro de transparencia y antes de cuándo?"
-        ]
+        ],
+        "emailLabel": "Su correo electrónico profesional",
+        "emailPlaceholder": "nombre.apellido@despacho.ch",
+        "emailHelp": "Necesario para utilizar el asistente. Podemos ponernos en contacto con usted sobre su pregunta.",
+        "privacyLink": "Política de privacidad",
+        "errorEmail": "Indique una dirección de correo electrónico válida para hacer su pregunta.",
+        "privacyUrl": "https://ark-fid.ch/es/legal/privacy/"
       }
     },
     "pt": {
@@ -280,7 +304,13 @@
           "Domicilio uma sociedade por mais de 6 meses: sou consultor?",
           "Quando devo comunicar ao MROS?",
           "Quem deve declarar ao registo de transparência, e até quando?"
-        ]
+        ],
+        "emailLabel": "O seu e-mail profissional",
+        "emailPlaceholder": "nome.apelido@escritorio.ch",
+        "emailHelp": "Necessário para utilizar o assistente. Podemos contactá-lo sobre a sua pergunta.",
+        "privacyLink": "Política de privacidade",
+        "errorEmail": "Indique um endereço de e-mail válido para fazer a sua pergunta.",
+        "privacyUrl": "https://ark-fid.ch/pt/legal/privacy/"
       }
     }
   }

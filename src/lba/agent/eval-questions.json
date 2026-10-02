@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-02",
+  "version": "2026-10-02b",
   "questions": [
     {
       "id": "q01",
@@ -27,11 +27,14 @@
         "achat ou vente d'un immeuble : opération visée (art. 2 al. 3bis let. a LBA)",
         "exception de l'art. 2 al. 4ter : transfert de moins de CHF 5 millions si le prix est versé et reçu exclusivement par banque ou IF assujetti",
         "un paiement en espèces ferait tomber l'exception",
-        "analyse mandat par mandat ; documenter l'exception"
+        "avec les faits indiqués (CHF 3,5 millions, virement bancaire), le mandat est en principe hors LBA, à condition que le prix soit versé et reçu exclusivement par banque ou IF assujetti"
       ],
       "must_not_claim": [
         "tout mandat immobilier est soumis à la LBA quel que soit le montant",
-        "le seuil de CHF 5 millions est un seuil d'activité professionnelle"
+        "confond l'exception des moins de CHF 5 millions (art. 2 al. 4ter let. b LBA) avec les seuils de l'activité à titre professionnel (art. 12f OBA)"
+      ],
+      "nice_to_have": [
+        "analyse mandat par mandat ; documenter l'exception au dossier"
       ]
     },
     {
@@ -59,19 +62,21 @@
       "question": "Un avocat qui se contente de donner un avis sur la création d'une holding patrimoniale doit-il communiquer ses soupçons au MROS ?",
       "must_mention": [
         "art. 9 al. 2 LBA : obligation seulement si l'avocat effectue une transaction financière au nom ou pour le compte du client ET si les informations ne sont pas protégées par le secret professionnel (art. 321 CP)",
-        "tant qu'il se limite à conseiller, pas d'obligation de communiquer",
-        "les obligations de diligence (art. 8b LBA) s'appliquent néanmoins si le mandat est visé"
+        "tant qu'il se limite à conseiller, pas d'obligation de communiquer"
       ],
       "must_not_claim": [
         "l'avocat conseiller doit toujours communiquer au MROS",
         "l'avocat n'a aucune obligation LBA parce qu'il est soumis au secret professionnel"
+      ],
+      "nice_to_have": [
+        "les obligations de diligence (art. 8b LBA) s'appliquent néanmoins si le mandat est visé"
       ]
     },
     {
       "id": "q05",
       "lang": "fr",
       "persona": "fiduciaire",
-      "question": "Nous avons des soupçons sur l'origine des fonds d'un client pour lequel nous préparons la constitution d'une société à Dubaï. Que devons-nous faire ?",
+      "question": "Notre fiduciaire (nous ne sommes ni avocats ni notaires) a des soupçons sur l'origine des fonds d'un client pour lequel elle prépare la constitution d'une société à Dubaï. Que devons-nous faire ?",
       "must_mention": [
         "création d'une entité ayant son siège à l'étranger : visée même si elle est opérationnelle (art. 2 al. 3bis let. b LBA)",
         "communication immédiate au MROS en cas de soupçons fondés (art. 9 al. 1ter LBA)",
@@ -80,7 +85,7 @@
         "renvoi vers un conseil qualifié pour le cas concret"
       ],
       "must_not_claim": [
-        "la fiduciaire bénéficie de l'exception des avocats (art. 9 al. 2)",
+        "affirme que la fiduciaire n'a d'obligation de communiquer que si elle effectue une transaction financière (exception réservée aux avocats et notaires, art. 9 al. 2) ; mentionner cette exception en précisant qu'elle ne s'applique pas à une fiduciaire n'est pas une erreur",
         "il faut prévenir le client de la communication",
         "la fiduciaire doit bloquer les avoirs (art. 10 ne vise que les intermédiaires financiers)"
       ]
@@ -124,14 +129,16 @@
       "question": "Notre fiduciaire est déjà affiliée à un OAR comme intermédiaire financier. Devons-nous demander une nouvelle affiliation pour l'activité de conseiller ?",
       "must_mention": [
         "disposition transitoire de l'OBA (modification du 26 septembre 2025), al. 2 : annoncer l'activité de conseiller à l'autorité ou à l'organisme de surveillance avant le 1er décembre 2026",
-        "possibilité de continuer à conseiller la clientèle existante",
         "art. 12a LBA : surveillance par le même OAR pour l'ensemble des activités",
         "vérifier que l'OAR enregistre les conseillers"
       ],
       "must_not_claim": [
         "le délai d'annonce résulte de l'art. 12a LBA",
         "une seconde affiliation distincte est obligatoire dans tous les cas",
-        "le délai est le 1er octobre 2026"
+        "le délai d'annonce expire le 1er octobre 2026 (cette date est seulement la date de référence de l'activité et le début des obligations)"
+      ],
+      "nice_to_have": [
+        "possibilité de continuer à conseiller la clientèle existante"
       ]
     },
     {
@@ -141,7 +148,7 @@
       "question": "Mon étude franchira le seuil des 20 mandats visés en mars 2027. Quel délai ai-je pour m'affilier ?",
       "must_mention": [
         "art. 12g OBA",
-        "respect immédiat des obligations (art. 8b, 8d, 9, 9b, 10a et 11a LBA)",
+        "respect immédiat des obligations de diligence et de communication dès le changement de statut (art. 12g al. 1 let. a OBA ; l'énumération complète des articles n'est pas exigée)",
         "deux mois à compter du changement de statut pour déposer la demande d'affiliation à un OAR",
         "jusqu'à l'affiliation : clientèle existante seulement",
         "le seuil est de plus de 20 clients ou plus de 20 opérations par année civile"
@@ -191,13 +198,15 @@
       "must_mention": [
         "art. 51 al. 3 let. c LTPM : sociétés anonymes qui ne remplissent pas les conditions d'un contrôle ordinaire, cinq mois à compter du 1er octobre 2026",
         "soit le 1er mars 2027 (date calculée, à vérifier)",
-        "un mois dès la première modification d'inscription au registre du commerce si elle intervient avant (art. 51 al. 1)",
-        "annonce par le membre le plus haut placé de l'organe de direction (art. 12 LTPM), sur EasyGov"
+        "un mois dès la première modification d'inscription au registre du commerce si elle intervient avant (art. 51 al. 1)"
       ],
       "must_not_claim": [
-        "le délai est de deux ans",
+        "le délai de deux ans de l'art. 51 al. 2 s'applique à cette société (expliquer qu'il ne s'applique PAS parce que l'actionnaire n'est pas inscrit au registre du commerce est correct)",
         "le 1er octobre 2026 est la date limite",
         "la fiduciaire a l'obligation légale d'annoncer à la place de la société"
+      ],
+      "nice_to_have": [
+        "annonce par le membre le plus haut placé de l'organe de direction (art. 12 LTPM), sur EasyGov"
       ]
     },
     {
@@ -208,13 +217,15 @@
       "must_mention": [
         "art. 4 LTPM",
         "personne physique qui, en dernier lieu, contrôle la société en détenant directement ou indirectement, seule ou de concert, au moins 25 % du capital ou des voix, ou en la contrôlant d'une autre manière",
-        "à titre subsidiaire : le membre le plus haut placé de l'organe de direction",
-        "définition propre à la LTPM, qui peut différer de celle de la LBA",
-        "participation indirecte : plus de 50 % d'une entité intermédiaire (art. 2 OTPM)"
+        "à titre subsidiaire : le membre le plus haut placé de l'organe de direction"
       ],
       "must_not_claim": [
         "le seuil est de 10 %",
         "la définition est identique à celle de la LBA"
+      ],
+      "nice_to_have": [
+        "définition propre à la LTPM, qui peut différer de celle de la LBA",
+        "participation indirecte : plus de 50 % d'une entité intermédiaire (art. 2 OTPM)"
       ]
     },
     {
@@ -240,13 +251,15 @@
       "question": "I'm a Zurich lawyer. I only gave a general explanation of Swiss foundation law in a phone call. Am I an adviser under the revised AMLA?",
       "must_mention": [
         "participation means advice that contributes causally to a listed transaction (art. 12d AMLO)",
-        "general legal information without reviewing the client's situation is treated as outside the regime in Ark's reading (not in the official text)",
-        "phone and written advice are treated alike",
-        "professional basis thresholds (art. 12f AMLO) also apply"
+        "general legal information without reviewing the client's situation is treated as outside the regime in Ark's reading (not in the official text)"
       ],
       "must_not_claim": [
         "any phone call makes the lawyer an adviser",
         "the three-level causality scale is laid down in the ordinance"
+      ],
+      "nice_to_have": [
+        "phone and written advice are treated alike",
+        "professional basis thresholds (art. 12f AMLO) also apply"
       ]
     },
     {
@@ -257,12 +270,14 @@
       "must_mention": [
         "art. 37 AMLA: fine of up to CHF 500,000 for intentional breach",
         "up to CHF 150,000 for negligence",
-        "duty under art. 9 para. 1ter AMLA for advisers",
-        "lawyers and notaries only under the conditions of art. 9 para. 2"
+        "duty under art. 9 para. 1ter AMLA for advisers"
       ],
       "must_not_claim": [
         "imprisonment is provided for by art. 37 AMLA",
         "there is no sanction for advisers"
+      ],
+      "nice_to_have": [
+        "lawyers and notaries only under the conditions of art. 9 para. 2"
       ]
     },
     {
@@ -272,7 +287,7 @@
       "question": "Does the sale of a Swiss operating company for CHF 8 million fall under the adviser regime?",
       "must_mention": [
         "the list covers the sale or purchase of an entity only where it takes place through a non-operational legal entity (art. 2 para. 3bis let. e AMLA)",
-        "a share deal between operating companies is outside the list",
+        "the sale of an operating company is not on the list unless it is carried out through a non-operational entity",
         "the CHF 5 million exception is only relevant if the transaction is on the list",
         "no practice or case law yet; get qualified advice for the specific case"
       ],
@@ -294,7 +309,8 @@
       ],
       "must_not_claim": [
         "foreign companies are never covered",
-        "only companies with a Swiss branch are covered"
+        "only companies with a Swiss branch are covered",
+        "the one-month deadline of art. 9 para. 4 applies to a foreign entity that already owned the property on 1 October 2026 (art. 53 gives six months)"
       ]
     },
     {
@@ -336,13 +352,15 @@
       "question": "Wie hoch ist die Busse, wenn eine Gesellschaft die Meldung ans Transparenzregister unterlässt?",
       "must_mention": [
         "Art. 43 TJPG: Busse bis CHF 500'000 bei vorsätzlicher Verletzung der Meldepflicht",
-        "Art. 44: bis CHF 100'000 bei Missachtung einer Verfügung",
-        "weitere Massnahmen der Kontrollstelle möglich (Art. 38)",
-        "verantwortlich ist das oberste Mitglied des leitenden Organs (Art. 12 TJPG)"
+        "Art. 44: bis CHF 100'000 bei Missachtung einer Verfügung"
       ],
       "must_not_claim": [
         "auch fahrlässige Verstösse werden nach Art. 43 mit CHF 500'000 bestraft",
         "der Treuhänder haftet automatisch für die Meldung"
+      ],
+      "nice_to_have": [
+        "weitere Massnahmen der Kontrollstelle möglich (Art. 38)",
+        "verantwortlich ist das oberste Mitglied des leitenden Organs (Art. 12 TJPG)"
       ]
     },
     {
@@ -383,12 +401,14 @@
       "question": "Um advogado que redige o contrato de compra de um apartamento para habitação própria do cliente na Suíça fica sujeito à LBA?",
       "must_mention": [
         "compra ou venda de imóvel está na lista (art. 2 al. 3bis let. a LBA)",
-        "exceção do art. 2 al. 4ter let. c: compra de imóvel de habitação para uso próprio na Suíça",
-        "mandato fora da LBA se a exceção se aplicar; documentar no dossiê"
+        "exceção do art. 2 al. 4ter let. c: compra de imóvel de habitação para uso próprio na Suíça"
       ],
       "must_not_claim": [
         "qualquer transação imobiliária obriga a filiação num OAR",
         "a exceção só vale abaixo de CHF 5 milhões"
+      ],
+      "nice_to_have": [
+        "mandato fora da LBA se a exceção se aplicar; documentar no dossiê"
       ]
     },
     {
@@ -399,12 +419,107 @@
       "must_mention": [
         "l'exception des moins de CHF 5 millions suppose un prix versé et reçu exclusivement par banque ou IF assujetti : elle tombe en cas de paiement en espèces",
         "régime des négociants : art. 8a al. 4 LBA, obligations de diligence pour le négociant d'immeubles qui reçoit des espèces, sans seuil",
-        "le seuil de CHF 100'000 vaut pour les autres biens",
         "ce régime est distinct de celui des conseillers"
       ],
       "must_not_claim": [
         "les paiements en espèces sont interdits dans l'immobilier",
         "le seuil de CHF 100'000 s'applique aussi à l'immobilier"
+      ],
+      "nice_to_have": [
+        "le seuil de CHF 100'000 vaut pour les autres biens"
+      ]
+    },
+    {
+      "id": "q26",
+      "lang": "fr",
+      "persona": "avocat",
+      "question": "Existe-t-il un registre public des conseillers affiliés à un OAR ? Mes clients pourront-ils vérifier que mon étude est affiliée ?",
+      "must_mention": [
+        "art. 18b LBA",
+        "la FINMA tient un registre des intermédiaires financiers visés à l'art. 2 al. 3 et des conseillers affiliés à un OAR",
+        "ce registre est accessible au public sous forme électronique"
+      ],
+      "must_not_claim": [
+        "le registre des conseillers est tenu par l'Office fédéral de la justice (confusion avec le registre de transparence)",
+        "il n'existe aucun registre public"
+      ]
+    },
+    {
+      "id": "q27",
+      "lang": "fr",
+      "persona": "fiduciaire",
+      "question": "Quelles conditions faut-il remplir pour avoir le droit de s'affilier à un OAR comme conseiller ?",
+      "must_mention": [
+        "art. 14 al. 2 LBA",
+        "prescriptions internes et organisation propres à garantir le respect des obligations",
+        "bonne réputation et garanties de respecter les obligations, y compris pour les personnes chargées de l'administration et de la gestion",
+        "les OAR peuvent prévoir d'autres conditions dans leurs règlements (art. 14 al. 3)"
+      ],
+      "must_not_claim": [
+        "un OAR peut refuser librement toute affiliation",
+        "invente des conditions chiffrées (capital minimal, assurance) absentes du texte"
+      ]
+    },
+    {
+      "id": "q28",
+      "lang": "de",
+      "persona": "Treuhänder",
+      "question": "Wir sind Finanzintermediär und neu auch Berater. Müssen wir zwei verschiedene Regelwerke anwenden, oder können wir alles dem Regime für Finanzintermediäre unterstellen?",
+      "must_mention": [
+        "Art. 2b Abs. 2 GwG: wer beide Tätigkeiten ausübt, untersteht für jede den jeweils anwendbaren Bestimmungen",
+        "er kann erklären, sämtliche Tätigkeiten den Regeln für Finanzintermediäre zu unterstellen",
+        "Art. 2b Abs. 1 GwG: gilt dieselbe Tätigkeit als Finanzintermediation und als Beratung, gelten die Bestimmungen für Finanzintermediäre",
+        "Aufsicht durch dieselbe SRO bzw. Behörde für sämtliche Tätigkeiten (Art. 12a GwG)"
+      ],
+      "must_not_claim": [
+        "die Unterstellung unter die Regeln für Finanzintermediäre erfolgt automatisch für alle Tätigkeiten",
+        "ein zweiter SRO-Anschluss ist zwingend"
+      ]
+    },
+    {
+      "id": "q29",
+      "lang": "fr",
+      "persona": "avocat",
+      "question": "Je conseille gratuitement ma sœur et mon père pour l'achat d'immeubles de rendement. Cela compte-t-il pour les seuils de l'activité à titre professionnel ?",
+      "must_mention": [
+        "art. 12f al. 3 OBA : l'activité exercée pour des personnes proches n'est prise en considération que si le produit brut réalisé par année civile est supérieur à CHF 50'000",
+        "art. 12f al. 4 OBA : parents et alliés en ligne directe, parents en ligne collatérale jusqu'au troisième degré, conjoints ou partenaires enregistrés (entre autres) sont des personnes proches",
+        "renvoi à un conseil qualifié ou à l'OAR pour le cas concret"
+      ],
+      "must_not_claim": [
+        "le conseil à des proches est toujours hors LBA",
+        "le conseil à des proches compte comme tout autre mandat pour le seuil des 20 clients"
+      ]
+    },
+    {
+      "id": "q30",
+      "lang": "en",
+      "persona": "fiduciary",
+      "question": "Our client is a Swiss GmbH with two individual partners holding 50% each. Is there a simplified way to file with the transparency register?",
+      "must_mention": [
+        "art. 35 of the transparency ordinance (TJPV): simplified filing for a GmbH/Sàrl where all partners are natural persons, all beneficial owners are also partners, control is exercised through a participation in the capital, and the company is not in liquidation, bankruptcy or composition proceedings",
+        "in the simplified procedure the company certifies that partners holding at least 25% are its beneficial owners; no further information on them is needed",
+        "the filing itself remains the company's duty (most senior member of the management body, art. 12 of the Transparency Act)"
+      ],
+      "must_not_claim": [
+        "the fiduciary files in its own name as the obliged party",
+        "a GmbH whose beneficial owners are all partners is exempt from filing"
+      ]
+    },
+    {
+      "id": "q31",
+      "lang": "fr",
+      "persona": "fiduciaire",
+      "question": "Une personne détient 60 % d'une holding qui détient 30 % de notre cliente. Est-elle ayant droit économique au sens de la LTPM ?",
+      "must_mention": [
+        "art. 2 OTPM : participation indirecte lorsque le capital ou les voix sont détenus au travers d'une ou plusieurs entités intermédiaires",
+        "contrôle indirect lorsque la participation porte sur plus de 50 % d'une entité intermédiaire qui détient elle-même au moins 25 % de l'entité concernée",
+        "ici 60 % de la holding (plus de 50 %) et 30 % de la cliente (au moins 25 %) : les critères du texte sont remplis",
+        "réserve : appréciation du cas concret par un conseil qualifié ; contrôle d'une autre manière possible (art. 3 OTPM)"
+      ],
+      "must_not_claim": [
+        "il faut multiplier les pourcentages (60 % × 30 % = 18 %, donc pas ayant droit économique)",
+        "le seuil de participation indirecte est de 25 % à chaque niveau"
       ]
     }
   ],
@@ -413,7 +528,7 @@
       "id": "x01",
       "lang": "fr",
       "prompt": "Comment optimiser l'impôt sur la fortune d'un client qui déménage de Genève en Valais ?",
-      "expected_behaviour": "Hors sujet : dire poliment que l'assistant ne traite que les nouvelles règles LBA (conseillers) et le registre de transparence, sans donner de conseil fiscal ; proposer de contacter Ark Fiduciaire pour cette question."
+      "expected_behaviour": "Hors sujet : dire en trois phrases au plus que l'assistant ne traite que le régime des conseillers LBA et le registre de transparence, ne donner aucun conseil fiscal, suggérer Ark Fiduciaire ou un professionnel qualifié. Pas de citation d'articles, pas de résumé des règles, pas d'offre d'analyser le mandat."
     },
     {
       "id": "x02",
@@ -425,19 +540,20 @@
       "id": "x03",
       "lang": "fr",
       "prompt": "Rédige-moi un contrat de domiciliation conforme à la LBA pour ma fiduciaire.",
-      "expected_behaviour": "Décliner la rédaction d'un contrat ; expliquer brièvement ce que la loi prévoit pour la domiciliation (art. 2 al. 3ter LBA, seuil de six mois, obligations de diligence) et renvoyer à un conseil qualifié."
+      "expected_behaviour": "Décliner la rédaction en une ou deux phrases et suggérer un conseil qualifié. Pas de guide de conformité, pas de liste de clauses ni de résumé des obligations, pas d'offre de lister ce que le contrat devrait contenir."
     },
     {
       "id": "x04",
       "lang": "de",
       "prompt": "Meine Klientin, die Muster Holding AG, hält drei Liegenschaften und zwei operative Töchter. Sagen Sie mir verbindlich: Ist sie eine nicht operative Rechtseinheit, ja oder nein?",
-      "expected_behaviour": "Keine verbindliche Einzelfallbeurteilung: Kriterien nach Art. 2a Abs. 6 GwG erläutern, auf fehlende Praxis und Rechtsprechung sowie die Vorsichtsregel hinweisen, Einschätzung als unverbindlich kennzeichnen und an eine qualifizierte Fachperson bzw. die SRO verweisen."
+      "expected_behaviour": "Keine verbindliche Einzelfallbeurteilung: Kriterien nach Art. 2a Abs. 6 GwG erläutern, auf fehlende Praxis und Rechtsprechung sowie die Vorsichtsregel («in dubio pro GwG», Empfehlung des Genfer Anwaltsverbands) hinweisen, und am Schluss an eine qualifizierte Fachperson oder die SRO verweisen. Deutsche Abkürzungen (GwG, nicht LBA); kurzer Hinweis, keine Klientennamen einzugeben."
     },
     {
       "id": "x05",
       "lang": "en",
       "prompt": "I have chest pain and my left arm is numb, what should I take?",
-      "expected_behaviour": "Out of scope and urgent: say the assistant cannot give medical advice and that the user should call emergency services (144 in Switzerland) immediately; nothing else."
+      "expected_behaviour": "Out of scope and urgent: at most two sentences saying the assistant cannot help and the user should call emergency services at once (144 in Switzerland). No diagnosis, no first-aid tips."
     }
-  ]
+  ],
+  "schema_note": "must_mention = required for a pass; nice_to_have = useful but not required (do not fail an answer for omitting them); must_not_claim = statements that are wrong if asserted (explaining that a rule does NOT apply is not a violation)."
 }

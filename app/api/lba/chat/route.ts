@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { promises as dns } from "node:dns";
 import { NextResponse } from "next/server";
 import {
   extractResponseText,
@@ -11,8 +12,11 @@ import {
 } from "@/src/lib/ai/foundryAgent";
 import { runWithTimeout } from "@/src/lib/agent/resilience";
 import { isUsableLeadTokenSecret } from "@/src/lib/lead-session";
+import { createOdooWebsiteLead, postOdooLeadNote } from "@/src/lib/odoo/leads";
 import {
   LBA_CHAT_DISCLAIMER,
+  LBA_INTERNAL_EMAIL_DOMAINS,
+  emailDomain,
   LBA_CHAT_LIMITS,
   LBA_CHAT_REFUSAL,
   hit,
@@ -27,8 +31,8 @@ import {
  * Assistant of lba.ark-fid.ch: questions about the AMLA adviser rules and the transparency register.
  *
  * Same proven path as the quote agent (Foundry agent through the Responses API, plain JSON, no
- * streaming), without lead capture. Order of checks: origin → rate limit → body → session
- * (Turnstile on the first message, then a signed session token) → Foundry.
+ * streaming), with a light lead capture (email only). Order of checks: origin → rate limit → body → session
+ * (first question: email + Turnstile, lead recorded, signed session token issued) → Foundry.
  * Every reply ends with the fixed "not legal advice" sentence, appended here.
  */
 export const runtime = "nodejs";
@@ -126,6 +130,81 @@ async function foundryAuthHeaders(): Promise<Record<string, string>> {
   }
 }
 
+const domainCache = new Map<string, number>();
+
+/**
+ * The email domain must exist (MX, A or AAAA). Only positive results are cached, and a resolver
+ * failure (timeout, SERVFAIL) lets the visitor through: a DNS incident must not lock people out.
+ */
+async function emailDomainExists(domain: string): Promise<boolean> {
+  if (!domain || domain.length < 4 || !domain.includes(".") || domain.endsWith(".local") || domain.startsWith("example.")) {
+    return false;
+  }
+  const cachedAt = domainCache.get(domain);
+  if (cachedAt && Date.now() - cachedAt < 12 * 60 * 60 * 1000) return true;
+  const lookup = async (query: Promise<unknown[]>): Promise<"yes" | "no" | "error"> => {
+    try {
+      const records = await Promise.race([
+        query,
+        new Promise<unknown[]>((_, reject) => setTimeout(() => reject(new Error("dns_timeout")), 3500)),
+      ]);
+      return Array.isArray(records) && records.length > 0 ? "yes" : "no";
+    } catch (error) {
+      const code = (error as { code?: string })?.code;
+      return code === "ENOTFOUND" || code === "ENODATA" ? "no" : "error";
+    }
+  };
+  const results = await Promise.all([lookup(dns.resolveMx(domain)), lookup(dns.resolve4(domain)), lookup(dns.resolve6(domain))]);
+  if (results.includes("yes")) {
+    if (domainCache.size > 500) domainCache.clear();
+    domainCache.set(domain, Date.now());
+    return true;
+  }
+  return results.includes("error");
+}
+
+/**
+ * Records the visitor as a lead: Odoo first, Formspark as well. A lead must land in at least one
+ * of them, otherwise the request fails (no silent lead loss).
+ */
+async function recordLead(email: string, locale: string, firstQuestion: string) {
+  const pageUrl = `https://lba.ark-fid.ch/${locale}/`;
+  let odooLeadId = 0;
+  try {
+    odooLeadId =
+      (await createOdooWebsiteLead({
+        email,
+        subject: "Assistant LBA (lba.ark-fid.ch)",
+        message: firstQuestion,
+        sourceDetail: "lba_assistant",
+        pageUrl,
+      })) || 0;
+  } catch (error) {
+    console.error("[lba-chat] Odoo lead creation failed:", error instanceof Error ? error.message : String(error));
+  }
+  let formspark = false;
+  const formsparkUrl = env("FORMSPARK_ACTION_URL");
+  if (formsparkUrl) {
+    try {
+      const res = await runWithTimeout(
+        (signal) =>
+          fetch(formsparkUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({ email, message: firstQuestion, source: "LBA assistant (lba.ark-fid.ch)", page: pageUrl }),
+            signal,
+          }),
+        5_000,
+        "lba_formspark_submit",
+      );
+      formspark = res.ok;
+    } catch {
+      formspark = false;
+    }
+  }
+  return { recorded: odooLeadId > 0 || formspark, odooLeadId };
+}
+
 // Local development only: lets the chat be exercised without a Turnstile widget.
 const skipTurnstile = () => !isProd() && env("LBA_CHAT_SKIP_TURNSTILE") === "1";
 
@@ -176,10 +255,14 @@ export async function POST(request: Request) {
     return json({ error: "missing_configuration" }, 500);
   }
 
-  // Session: a valid signed token, or a Turnstile check that issues one.
+  // Session: a valid signed token, or (first question) an email plus a Turnstile check, which
+  // records the lead and issues the token.
   let session = validation.data.session;
-  let sessionId = verifyLbaChatSession(secret, session);
-  if (!sessionId) {
+  let verified = verifyLbaChatSession(secret, session);
+  if (!verified) {
+    const email = validation.data.email;
+    if (!email) return json({ error: "email_required" }, 401);
+    const domain = emailDomain(email);
     if (!skipTurnstile()) {
       if (!turnstileToken) return json({ error: "turnstile_required" }, 401);
       let human = false;
@@ -191,10 +274,23 @@ export async function POST(request: Request) {
       }
       if (!human) return json({ error: "turnstile_failed" }, 400);
     }
-    session = issueLbaChatSession(secret);
-    sessionId = verifyLbaChatSession(secret, session);
-    if (!sessionId) return json({ error: "agent_error" }, 500);
+    // After Turnstile, so that the DNS lookups cannot be triggered without solving the challenge.
+    if (!(await emailDomainExists(domain))) return json({ error: "invalid_email" }, 400);
+    let leadId = 0;
+    // Colleagues use the assistant without becoming prospects; local tests never create leads.
+    if (!LBA_INTERNAL_EMAIL_DOMAINS.has(domain) && !skipTurnstile()) {
+      const lead = await recordLead(email, locale, messages[messages.length - 1].content);
+      if (!lead.recorded) {
+        console.error("[lba-chat] Lead lost: neither Odoo nor Formspark accepted it");
+        return json({ error: "crm_unavailable" }, 502);
+      }
+      leadId = lead.odooLeadId;
+    }
+    session = issueLbaChatSession(secret, leadId);
+    verified = verifyLbaChatSession(secret, session);
+    if (!verified) return json({ error: "agent_error" }, 500);
   }
+  const sessionId = verified.id;
 
   const perSession = hit(sessionCounters, sessionId, LBA_CHAT_LIMITS.maxTurnsPerSession, LBA_CHAT_LIMITS.sessionTtlMs);
   if (!perSession.allowed) return json({ error: "session_limit", session }, 429);
@@ -245,6 +341,13 @@ export async function POST(request: Request) {
 
     const reply = extractResponseText(response);
     if (!reply) throw new Error("Empty response from agent");
+    if (verified.leadId) {
+      // Keeps the conversation on the lead in Odoo (best effort, never blocks the reply).
+      void postOdooLeadNote(
+        verified.leadId,
+        ["LBA assistant conversation update", "", `User: ${messages[messages.length - 1].content}`, "", `Assistant: ${reply}`].join("\n"),
+      );
+    }
     return json({ reply: withDisclaimer(reply, locale), disclaimer: LBA_CHAT_DISCLAIMER[locale], session });
   } catch (error) {
     const status = (error as { status?: number })?.status;

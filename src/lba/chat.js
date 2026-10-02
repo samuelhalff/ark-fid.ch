@@ -11,9 +11,9 @@
   var sendBtn=form.querySelector('.chat-send');
   var tsBox=root.querySelector('.chat-turnstile');
   var KEY='lba-chat-v1';
-  var state={messages:[],session:''};
+  var state={messages:[],session:'',email:''};
   try{var saved=JSON.parse(sessionStorage.getItem(KEY)||'null');if(saved&&Array.isArray(saved.messages))state=saved}catch(e){}
-  var busy=false,siteKey=null,widgetId=null,tsLoading=null;
+  var busy=false,siteKey=null,widgetId=null,tsLoading=null,lastQuestion='';
 
   function save(){try{sessionStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
   function el(tag,cls,text){var n=document.createElement(tag);if(cls)n.className=cls;if(text!=null)n.textContent=text;return n}
@@ -61,12 +61,43 @@
     item.appendChild(body);log.appendChild(item);
     return item;
   }
+  // Première question : l'e-mail est demandé (une seule fois par session)
+  var EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  function emailField(){
+    var box=el('div','chat-email');
+    var label=el('label',null,cfg.emailLabel);label.htmlFor='chat-email';
+    var field=el('input');field.type='email';field.id='chat-email';field.name='email';field.required=true;
+    field.autocomplete='email';field.inputMode='email';field.placeholder=cfg.emailPlaceholder;field.maxLength=200;
+    field.value=state.email||'';
+    field.setAttribute('aria-describedby','chat-email-help');
+    field.addEventListener('input',function(){state.email=field.value.trim();save();field.removeAttribute('aria-invalid');var e=box.querySelector('.chat-email-error');if(e)e.remove()});
+    var help=el('p','chat-email-help',cfg.emailHelp+' ');help.id='chat-email-help';
+    var link=el('a',null,cfg.privacyLink);link.href=cfg.privacyUrl;link.target='_blank';link.rel='noopener';help.appendChild(link);
+    box.appendChild(label);box.appendChild(field);box.appendChild(help);
+    return box;
+  }
+  function emailOk(){
+    if(state.session)return true;
+    var email=(state.email||'').trim();
+    if(EMAIL_RE.test(email))return true;
+    emailError();return false;
+  }
+  function emailError(){
+    if(!log.querySelector('.chat-email')){
+      // La conversation a déjà commencé (session expirée) : on redemande l'e-mail en bas du fil.
+      log.appendChild(emailField());
+    }
+    var box=log.querySelector('.chat-email'),field=box.querySelector('input');
+    if(!box.querySelector('.chat-email-error')){var e=el('p','chat-email-error',cfg.errorEmail);e.setAttribute('role','alert');box.appendChild(e)}
+    field.setAttribute('aria-invalid','true');log.scrollTop=Math.max(0,box.offsetTop-log.offsetTop-10);field.focus({preventScroll:true});
+  }
   function scrollDown(){log.scrollTop=log.scrollHeight}
   function draw(){
     log.textContent='';
     if(!state.messages.length){
       var intro=el('div','chat-intro');
       intro.appendChild(el('p',null,cfg.intro));
+      if(!state.session)intro.appendChild(emailField());
       var list=el('div','chat-suggestions');
       cfg.suggestions.forEach(function(q){
         var b=el('button',null,q);b.type='button';
@@ -141,7 +172,7 @@
     var payload={locale:locale,messages:history};
     var ready=state.session?Promise.resolve(''):humanToken();
     return ready.then(function(token){
-      if(state.session)payload.session=state.session;else payload.turnstileToken=token;
+      if(state.session)payload.session=state.session;else{payload.turnstileToken=token;payload.email=(state.email||'').trim()}
       return post(payload);
     }).then(function(res){
       tsBox.hidden=true;
@@ -151,7 +182,7 @@
         state.messages.push({role:'assistant',content:d.reply,disclaimer:d.disclaimer||''});save();
         status('');bubble('assistant',d.reply,d.disclaimer||'');scrollDown();return;
       }
-      if(d.error==='turnstile_required'&&!retriedVerify){state.session='';save();return send(true)}
+      if((d.error==='turnstile_required'||d.error==='email_required')&&!retriedVerify){state.session='';save();if(!emailOk()){var ee=new Error('email');ee.code='invalid_email';throw ee}return send(true)}
       var e=new Error(d.error||'agent_error');e.code=d.error;throw e;
     });
   }
@@ -162,6 +193,7 @@
       if(code==='rate_limited'||code==='session_limit')msg=cfg.errorRate;
       else if(code==='turnstile_failed'||/^turnstile_/.test(err&&err.message||''))msg=cfg.errorVerify;
       else if(code==='payload_too_large')msg=cfg.errorLong;
+      else if(code==='invalid_email'){tsBox.hidden=true;status('');var popped=state.messages.pop();save();draw();var q=(popped&&popped.role==='user'&&popped.content)||lastQuestion;input.value=q||'';grow();emailError();return}
       tsBox.hidden=true;
       status(msg,'error',run);
     }).then(function(){setBusy(false);if(root.classList.contains('is-open'))input.focus()});
@@ -170,7 +202,10 @@
     text=(text||'').trim();
     if(!text||busy)return;
     if(text.length>1500){status(cfg.errorLong,'error');return}
+    if(!emailOk()){input.value=text;grow();return}
+    lastQuestion=text;
     var intro=log.querySelector('.chat-intro');if(intro)intro.remove();
+    var leftover=log.querySelector('.chat-email');if(leftover)leftover.remove();
     state.messages.push({role:'user',content:text});save();
     bubble('user',text);input.value='';grow();
     run();
