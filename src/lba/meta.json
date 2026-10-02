@@ -1,0 +1,35 @@
+{
+  "published": "2026-10-02",
+  "updated": "2026-10-02",
+  "defaultLocale": "fr",
+  "locales": {
+    "fr": {
+      "htmlLang": "fr-CH",
+      "ogLocale": "fr_CH",
+      "label": "FR",
+      "name": "Français",
+      "title": "Nouvelles règles LBA 2026 : conseillers et registre de transparence",
+      "description": "Règles en vigueur depuis le 1er octobre 2026 : arbres de décision pour savoir si une étude d'avocats ou une fiduciaire est conseiller au sens de la LBA, et obligations liées au registre de transparence.",
+      "about": [
+        "Loi sur le blanchiment d'argent (LBA)",
+        "Régime des conseillers",
+        "Registre de transparence (LTPM)",
+        "Avocats",
+        "Fiduciaires",
+        "Domiciliation",
+        "Constitution de sociétés"
+      ],
+      "publishedBy": "Publié par",
+      "languages": "Langues",
+      "theme": {
+        "label": "Thème",
+        "system": "automatique",
+        "light": "clair",
+        "dark": "sombre"
+      },
+      "arkUrl": "https://ark-fid.ch/fr/",
+      "city": "Genève",
+      "visitSite": "Visiter ark-fid.ch"
+    }
+  }
+}

@@ -35,11 +35,14 @@ function applySecurityHeaders(
   return response;
 }
 
-// The LBA page is static: no inline scripts, self-hosted fonts, no third parties.
+// Languages built for lba.ark-fid.ch (src/lba/content/<locale>.html); checked by the indexability test.
+const LBA_LOCALES = ["fr"] as const;
+const LBA_DEFAULT_LOCALE = "fr";
+// The LBA pages are static: no inline scripts, self-hosted fonts, no third parties.
 const LBA_PAGE_CSP = [
   `default-src 'none'`,
   `script-src 'self'`,
-  `style-src 'unsafe-inline'`,
+  `style-src 'self' 'unsafe-inline'`,
   `font-src 'self'`,
   `img-src 'self' data:`,
   `base-uri 'none'`,
@@ -71,22 +74,32 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
-  // lba.ark-fid.ch: a standalone page (public/lba/index.html) served at the root of the
-  // subdomain. Everything else on that host goes back to its root.
+  // lba.ark-fid.ch: standalone pages built by scripts/build-lba.mjs (public/lba/<locale>.html),
+  // one URL per language like the main site: / → /<locale>/, anything else back to the root.
   if (host.startsWith("lba.")) {
-    if (pathname !== "/") {
-      const rootUrl = request.nextUrl.clone();
-      rootUrl.pathname = "/";
-      rootUrl.search = "";
-      if (isProd) rootUrl.protocol = "https";
-      const response = NextResponse.redirect(rootUrl, 308);
+    const lbaRedirect = (targetPath: string, status: 307 | 308) => {
+      // Plain URL (not nextUrl.clone()): keeps the trailing slash of the target.
+      const url = new URL(targetPath, request.url);
+      if (isProd) url.protocol = "https";
+      const response = NextResponse.redirect(url, status);
       response.headers.set("X-Robots-Tag", "noindex, nofollow");
       return response;
+    };
+    const lbaLocale = pathname.match(/^\/([a-z]{2})\/?$/)?.[1];
+    if (lbaLocale && (LBA_LOCALES as readonly string[]).includes(lbaLocale)) {
+      if (!pathname.endsWith("/")) return lbaRedirect(`/${lbaLocale}/`, 308);
+      const response = NextResponse.rewrite(new URL(`/lba/${lbaLocale}.html`, request.url));
+      applySecurityHeaders(response, { nonce: "", csp: LBA_PAGE_CSP, isProd, noIndex: shouldNoIndex });
+      response.headers.delete("x-nonce");
+      response.headers.set("Cache-Control", "public, max-age=0, must-revalidate");
+      return response;
     }
-    const response = NextResponse.rewrite(new URL("/lba/index.html", request.url));
-    applySecurityHeaders(response, { nonce: "", csp: LBA_PAGE_CSP, isProd, noIndex: shouldNoIndex });
-    response.headers.delete("x-nonce");
-    response.headers.set("Cache-Control", "public, max-age=0, must-revalidate");
+    if (pathname !== "/") return lbaRedirect("/", 308);
+    // Language-dependent, so not permanent.
+    const preferred = getLocale(request);
+    const target = (LBA_LOCALES as readonly string[]).includes(preferred) ? preferred : LBA_DEFAULT_LOCALE;
+    const response = lbaRedirect(`/${target}/`, 307);
+    response.headers.set("Vary", "Accept-Language");
     return response;
   }
 

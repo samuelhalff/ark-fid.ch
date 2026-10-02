@@ -112,32 +112,49 @@ describe("lead routes", () => {
   });
 });
 
-describe("lba.ark-fid.ch standalone page", () => {
-  const page = read("public/lba/index.html");
+describe("lba.ark-fid.ch standalone pages", () => {
+  const { execFileSync } = require("node:child_process");
+  const middleware = read("middleware.ts");
+  const locales = JSON.parse(`[${middleware.match(/const LBA_LOCALES = \[([^\]]*)\]/)[1]}]`);
+  const built = fs
+    .readdirSync(path.join(ROOT, "public/lba"))
+    .map((f) => f.replace(/\.html$/, ""))
+    .sort();
 
-  it("is served at the subdomain root by the middleware, indexable", () => {
-    const middleware = read("middleware.ts");
-    assert.match(middleware, /host\.startsWith\("lba\."\)/);
-    assert.match(middleware, /NextResponse\.rewrite\(new URL\("\/lba\/index\.html"/);
-    assert.match(page, /<link rel="canonical" href="https:\/\/lba\.ark-fid\.ch\/">/);
-    assert.match(page, /<meta name="robots" content="index, follow/);
-    assert.doesNotMatch(page, /noindex/);
+  it("generated pages are up to date with src/lba", () => {
+    execFileSync("node", [path.join(ROOT, "scripts/build-lba.mjs"), "--check"], { stdio: "pipe" });
   });
 
-  it("stays compatible with its strict CSP: no inline or third-party scripts, fonts or styles", () => {
-    const scripts = [...page.matchAll(/<script\b([^>]*)>/g)].map((m) => m[1]);
-    for (const attrs of scripts) {
-      assert.ok(/type="application\/ld\+json"/.test(attrs) || /src="\/assets\/lba\//.test(attrs), attrs);
+  it("middleware serves exactly the built languages, each with its own indexable URL", () => {
+    assert.deepEqual([...locales].sort(), built);
+    assert.match(middleware, /host\.startsWith\("lba\."\)/);
+    for (const locale of locales) {
+      const page = read(`public/lba/${locale}.html`);
+      assert.ok(page.includes(`<link rel="canonical" href="https://lba.ark-fid.ch/${locale}/">`), locale);
+      for (const other of locales) {
+        assert.ok(page.includes(`hreflang="${other}" href="https://lba.ark-fid.ch/${other}/"`), `${locale} -> ${other}`);
+      }
+      assert.match(page, /<meta name="robots" content="index, follow/);
+      assert.doesNotMatch(page, /noindex/);
     }
-    assert.doesNotMatch(page, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
-    for (const [, asset] of page.matchAll(/(?:src|href)="(\/assets\/lba\/[^"]+)"/g)) {
-      assert.equal(fs.existsSync(path.join(ROOT, "public", asset)), true, asset);
+  });
+
+  it("pages stay compatible with their strict CSP: no inline or third-party scripts, fonts or styles", () => {
+    for (const locale of locales) {
+      const page = read(`public/lba/${locale}.html`);
+      for (const [, attrs] of page.matchAll(/<script\b([^>]*)>/g)) {
+        assert.ok(/type="application\/ld\+json"/.test(attrs) || /src="\/assets\/lba\//.test(attrs), attrs);
+      }
+      assert.doesNotMatch(page, /<style\b|fonts\.googleapis\.com|fonts\.gstatic\.com|\son[a-z]+="/);
+      for (const [, asset] of page.matchAll(/(?:src|href)="(\/assets\/lba\/[^"]+)"/g)) {
+        assert.equal(fs.existsSync(path.join(ROOT, "public", asset)), true, asset);
+      }
+      const jsonLd = page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+      assert.ok(jsonLd);
+      assert.doesNotThrow(() => JSON.parse(jsonLd[1]));
+      // In-page anchors must exist (notions, headings).
+      const ids = new Set([...page.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
+      for (const [, anchor] of page.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.has(anchor), `${locale}: #${anchor}`);
     }
-    for (const [, asset] of page.matchAll(/url\((\/assets\/lba\/[^)]+)\)/g)) {
-      assert.equal(fs.existsSync(path.join(ROOT, "public", asset)), true, asset);
-    }
-    const jsonLd = page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
-    assert.ok(jsonLd);
-    assert.doesNotThrow(() => JSON.parse(jsonLd[1]));
   });
 });
