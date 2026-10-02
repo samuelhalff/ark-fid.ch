@@ -8,8 +8,9 @@
       "ogLocale": "fr_CH",
       "label": "FR",
       "name": "Français",
+      "city": "Genève",
       "title": "Nouvelles règles LBA 2026 : conseillers et registre de transparence",
-      "description": "Règles en vigueur depuis le 1er octobre 2026 : arbres de décision pour savoir si une étude d'avocats ou une fiduciaire est conseiller au sens de la LBA, et obligations liées au registre de transparence.",
+      "description": "Règles en vigueur depuis le 1er octobre 2026 : arbres de décision pour savoir si une étude d'avocats ou une fiduciaire est conseiller au sens de la LBA, et registre de transparence.",
       "about": [
         "Loi sur le blanchiment d'argent (LBA)",
         "Régime des conseillers",
@@ -20,16 +21,127 @@
         "Constitution de sociétés"
       ],
       "publishedBy": "Publié par",
-      "languages": "Langues",
+      "languages": "Langue",
+      "visitSite": "Visiter ark-fid.ch",
       "theme": {
         "label": "Thème",
         "system": "automatique",
         "light": "clair",
         "dark": "sombre"
       },
-      "arkUrl": "https://ark-fid.ch/fr/",
-      "city": "Genève",
-      "visitSite": "Visiter ark-fid.ch"
+      "arkUrl": "https://ark-fid.ch/fr/"
+    },
+    "en": {
+      "htmlLang": "en",
+      "ogLocale": "en_GB",
+      "label": "EN",
+      "name": "English",
+      "city": "Geneva",
+      "title": "New Swiss AMLA rules 2026: advisers and transparency register",
+      "description": "Rules in force since 1 October 2026: decision trees to check whether a law firm or fiduciary is an adviser under the Swiss Anti-Money Laundering Act, plus the transparency register.",
+      "about": [
+        "Swiss Anti-Money Laundering Act (AMLA)",
+        "Adviser regime",
+        "Transparency register",
+        "Law firms",
+        "Fiduciaries",
+        "Domiciliation",
+        "Company formation"
+      ],
+      "publishedBy": "Published by",
+      "languages": "Language",
+      "visitSite": "Visit ark-fid.ch",
+      "theme": {
+        "label": "Theme",
+        "system": "auto",
+        "light": "light",
+        "dark": "dark"
+      },
+      "arkUrl": "https://ark-fid.ch/en/"
+    },
+    "de": {
+      "htmlLang": "de-CH",
+      "ogLocale": "de_CH",
+      "label": "DE",
+      "name": "Deutsch",
+      "city": "Genf",
+      "title": "Neue GwG-Regeln 2026: Berater und Transparenzregister",
+      "description": "Seit 1. Oktober 2026 geltende Regeln: Entscheidungsbäume zur Frage, ob eine Anwaltskanzlei oder ein Treuhänder als Berater dem GwG untersteht, sowie das Transparenzregister.",
+      "about": [
+        "Geldwäschereigesetz (GwG)",
+        "Beraterregime",
+        "Transparenzregister",
+        "Anwaltskanzleien",
+        "Treuhänder",
+        "Domizilierung",
+        "Gesellschaftsgründung"
+      ],
+      "publishedBy": "Herausgegeben von",
+      "languages": "Sprache",
+      "visitSite": "ark-fid.ch besuchen",
+      "theme": {
+        "label": "Darstellung",
+        "system": "automatisch",
+        "light": "hell",
+        "dark": "dunkel"
+      },
+      "arkUrl": "https://ark-fid.ch/de/"
+    },
+    "es": {
+      "htmlLang": "es",
+      "ogLocale": "es_ES",
+      "label": "ES",
+      "name": "Español",
+      "city": "Ginebra",
+      "title": "Nuevas normas LBA 2026 en Suiza: asesores y registro de transparencia",
+      "description": "Normas en vigor desde el 1 de octubre de 2026: árboles de decisión para saber si un despacho de abogados o una fiduciaria es asesor según la LBA suiza, y registro de transparencia.",
+      "about": [
+        "Ley suiza sobre el blanqueo de capitales (LBA)",
+        "Régimen de asesores",
+        "Registro de transparencia",
+        "Abogados",
+        "Fiduciarias",
+        "Domiciliación",
+        "Constitución de sociedades"
+      ],
+      "publishedBy": "Publicado por",
+      "languages": "Idioma",
+      "visitSite": "Visitar ark-fid.ch",
+      "theme": {
+        "label": "Tema",
+        "system": "automático",
+        "light": "claro",
+        "dark": "oscuro"
+      },
+      "arkUrl": "https://ark-fid.ch/es/"
+    },
+    "pt": {
+      "htmlLang": "pt",
+      "ogLocale": "pt_PT",
+      "label": "PT",
+      "name": "Português",
+      "city": "Genebra",
+      "title": "Novas regras LBA 2026 na Suíça: consultores e registo de transparência",
+      "description": "Regras em vigor desde 1 de outubro de 2026: árvores de decisão para saber se um escritório de advogados ou uma fiduciária é consultor nos termos da LBA suíça, e registo de transparência.",
+      "about": [
+        "Lei suíça sobre o branqueamento de capitais (LBA)",
+        "Regime dos consultores",
+        "Registo de transparência",
+        "Advogados",
+        "Fiduciárias",
+        "Domiciliação",
+        "Constituição de sociedades"
+      ],
+      "publishedBy": "Publicado por",
+      "languages": "Idioma",
+      "visitSite": "Visitar ark-fid.ch",
+      "theme": {
+        "label": "Tema",
+        "system": "automático",
+        "light": "claro",
+        "dark": "escuro"
+      },
+      "arkUrl": "https://ark-fid.ch/pt/"
     }
   }
 }

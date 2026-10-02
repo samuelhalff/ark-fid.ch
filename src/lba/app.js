@@ -4,7 +4,7 @@
   var tabs=[].slice.call(document.querySelectorAll('[role="tab"]'));
   var byHash={'#etude':'t-etude','#fiduciaire':'t-fid','#registre':'t-reg'};
   var hashOf={};Object.keys(byHash).forEach(function(k){hashOf[byHash[k]]=k});
-  var langLinks=[].slice.call(document.querySelectorAll('.langs a'));
+  var langLinks=[].slice.call(document.querySelectorAll('.lang-menu a'));
   function select(t,user){
     tabs.forEach(function(b){
       var on=b===t;
@@ -41,6 +41,13 @@
     var el=location.hash&&document.getElementById(location.hash.slice(1));
     if(el&&el.closest('[hidden]')&&tabs[0]){select(tabs[0],false);el.scrollIntoView()}
   });
+
+  // Menu des langues (<details>) : se referme au clic extérieur et avec Échap
+  var lang=document.querySelector('details.lang');
+  if(lang){
+    document.addEventListener('click',function(e){if(lang.open&&!lang.contains(e.target))lang.open=false});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lang.open){lang.open=false;lang.querySelector('summary').focus()}});
+  }
 
   // Thème : système → clair → sombre
   var btn=document.querySelector('.theme');

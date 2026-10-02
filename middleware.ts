@@ -36,7 +36,7 @@ function applySecurityHeaders(
 }
 
 // Languages built for lba.ark-fid.ch (src/lba/content/<locale>.html); checked by the indexability test.
-const LBA_LOCALES = ["fr"] as const;
+const LBA_LOCALES = ["fr", "en", "de", "es", "pt"] as const;
 const LBA_DEFAULT_LOCALE = "fr";
 // The LBA pages are static: no inline scripts, self-hosted fonts, no third parties.
 const LBA_PAGE_CSP = [
