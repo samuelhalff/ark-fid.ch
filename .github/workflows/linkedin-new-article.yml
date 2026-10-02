@@ -1,0 +1,81 @@
+name: LinkedIn post for hand-written articles
+
+# The AI article workflow notifies LinkedIn itself. Articles committed by hand never went through
+# that step, so this workflow covers them: it posts each new French article slug pushed to main,
+# once the deploy has had time to publish the page. Manual run: pass a slug.
+on:
+  push:
+    branches: [main]
+    paths: ["src/translations/fr/ressources.json"]
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Article slug to post (must exist in src/translations/fr/ressources.json)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: linkedin-new-article
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Find new article slugs
+        id: detect
+        env:
+          INPUT_SLUG: ${{ inputs.slug }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess
+          def slugs(text):
+              return [a.get('slug') for a in json.loads(text).get('Articles', []) if a.get('slug')]
+          path = 'src/translations/fr/ressources.json'
+          manual = os.environ.get('INPUT_SLUG', '').strip()
+          if manual:
+              new = [manual]
+          else:
+              before = os.environ.get('BEFORE', '')
+              try:
+                  old = set(slugs(subprocess.check_output(['git', 'show', f'{before}:{path}'], text=True)))
+              except Exception as e:
+                  print(f'Cannot read the previous version ({e}); nothing to post')
+                  old = None
+              current = slugs(open(path, encoding='utf-8').read())
+              new = [] if old is None else [s for s in current if s not in old]
+          print('New slugs:', new)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write('slugs=' + ' '.join(new[:2]) + '\n')
+          PY
+
+      - name: Wait until the article is live
+        if: steps.detect.outputs.slugs != ''
+        run: |
+          for slug in ${{ steps.detect.outputs.slugs }}; do
+            url="https://ark-fid.ch/fr/ressources/articles/$slug/"
+            for i in $(seq 1 60); do
+              code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$url" || true)
+              [ "$code" = "200" ] && { echo "live: $url"; break; }
+              [ "$i" = "60" ] && { echo "::error::$url still returns $code after 30 minutes"; exit 1; }
+              sleep 30
+            done
+          done
+
+      - name: Notify Zapier webhook (LinkedIn publication)
+        if: steps.detect.outputs.slugs != ''
+        env:
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+        run: |
+          for slug in ${{ steps.detect.outputs.slugs }}; do
+            python3 scripts/notify-linkedin.py "$slug"
+          done

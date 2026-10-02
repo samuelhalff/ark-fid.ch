@@ -23,6 +23,8 @@ const allLocales = flag("--all-locales");
 const locale = value("--locale", "fr");
 const asJson = flag("--json");
 
+const GROUP_SITE_DOMAINS = ["ridger.ch", "switzerlandresidency.ch", "houle.ai"];
+
 function normalizeUrl(raw) {
   if (typeof raw !== "string") return "";
   return raw
@@ -47,6 +49,11 @@ function recordUrl(violations, context, rawUrl) {
     violations.push({ ...context, url, domain: null, reason: "invalid-url" });
     return;
   }
+
+  // Sister sites of the group may be linked from the body of an article (never cited as a
+  // reference or file source).
+  const host = parsed.hostname.toLowerCase().replace(/^www\./, "");
+  if (context.type === "article-content" && GROUP_SITE_DOMAINS.includes(host)) return;
 
   if (isBlockedDomain(url)) {
     violations.push({

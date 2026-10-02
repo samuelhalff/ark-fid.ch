@@ -259,7 +259,7 @@ footer{margin:48px 0 0;padding:20px 0 40px;border-top:1px solid var(--rule);colo
 footer .disclaimer{margin-top:14px;padding:12px 14px;border-left:3px solid var(--ink);background:var(--sheet);color:var(--ink)}
 footer p{margin:0 0 8px;}
 
-@media (max-width:980px){
+@media (max-width:1100px){
   .branches{grid-template-columns:1fr 1fr;gap:28px 18px}
   .branches::before{left:calc(25% - 4px);right:calc(25% - 4px)}
   .track:nth-child(n+3)::before,.track:nth-child(-n+2)::after{display:none}
@@ -328,7 +328,7 @@ header{padding-top:30px}
 .lang-code{display:inline-block;min-width:26px;text-align:center}
 .menu-list{position:absolute;right:0;top:calc(100% + 6px);z-index:20;list-style:none;margin:0;padding:4px;min-width:150px;
   background:var(--sheet);border:1px solid var(--rule);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.14)}
-.menu-list a,.menu-list button{display:block;width:100%;appearance:none;border:0;background:none;cursor:pointer;font:inherit;font-size:15px;
+.menu-list a,.menu-list button{display:block;box-sizing:border-box;width:100%;appearance:none;border:0;background:none;cursor:pointer;font:inherit;font-size:15px;
   text-align:left;text-decoration:none;color:var(--ink);padding:11px 16px;border-radius:7px}
 .menu-list a:hover,.menu-list button:hover,.menu-list a:focus-visible,.menu-list button:focus-visible{background:var(--accent);outline:none}
 .menu-list button[aria-pressed="true"]{font-weight:750}
@@ -363,3 +363,19 @@ footer .refs{margin:0 0 8px;padding-left:18px}
   .legend dd,.q,.exit,.mini,.fact dd{overflow-wrap:anywhere}
   .k,.tag{white-space:normal}
 }
+/* Mots longs (allemand surtout) : rien ne sort de sa case */
+.scale div,.mini,.track h3,.track .what,.opt,.q li,.exit p,.fact dd,.burden,.notion dd,.legend dd,.verdict li{overflow-wrap:break-word;hyphens:auto}
+.scale .tag,.mini .tag,.opt .tag{white-space:normal}
+.scale div{min-width:0}
+.mini .ans{grid-template-columns:fit-content(40%) minmax(0,1fr)}
+.mini .tag{font-size:13px;padding:2px 7px}
+.mini .ans>span{min-width:0}
+/* Libellés d'onglets longs (« Transparenzregister ») : césure plutôt que débordement */
+.tabs button{overflow-wrap:anywhere;hyphens:auto}
+@media (max-width:980px){.tabs button{font-size:17px}}
+@media (max-width:720px){.tabs button{font-size:clamp(11.5px,3.3vw,13.5px);line-height:1.12}}
+.mini .k{white-space:normal}
+.step{min-width:0}
+.step>*{min-width:0}
+@media (max-width:720px){.step{grid-template-columns:minmax(0,1fr)}}
+.mini .ans .k{padding:1px 5px 2px;font-size:.84em}
