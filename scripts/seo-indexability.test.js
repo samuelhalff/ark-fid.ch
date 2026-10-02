@@ -111,3 +111,33 @@ describe("lead routes", () => {
     assert.doesNotMatch(noindexExpression[0], /contact|agent/);
   });
 });
+
+describe("lba.ark-fid.ch standalone page", () => {
+  const page = read("public/lba/index.html");
+
+  it("is served at the subdomain root by the middleware, indexable", () => {
+    const middleware = read("middleware.ts");
+    assert.match(middleware, /host\.startsWith\("lba\."\)/);
+    assert.match(middleware, /NextResponse\.rewrite\(new URL\("\/lba\/index\.html"/);
+    assert.match(page, /<link rel="canonical" href="https:\/\/lba\.ark-fid\.ch\/">/);
+    assert.match(page, /<meta name="robots" content="index, follow/);
+    assert.doesNotMatch(page, /noindex/);
+  });
+
+  it("stays compatible with its strict CSP: no inline or third-party scripts, fonts or styles", () => {
+    const scripts = [...page.matchAll(/<script\b([^>]*)>/g)].map((m) => m[1]);
+    for (const attrs of scripts) {
+      assert.ok(/type="application\/ld\+json"/.test(attrs) || /src="\/assets\/lba\//.test(attrs), attrs);
+    }
+    assert.doesNotMatch(page, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
+    for (const [, asset] of page.matchAll(/(?:src|href)="(\/assets\/lba\/[^"]+)"/g)) {
+      assert.equal(fs.existsSync(path.join(ROOT, "public", asset)), true, asset);
+    }
+    for (const [, asset] of page.matchAll(/url\((\/assets\/lba\/[^)]+)\)/g)) {
+      assert.equal(fs.existsSync(path.join(ROOT, "public", asset)), true, asset);
+    }
+    const jsonLd = page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    assert.ok(jsonLd);
+    assert.doesNotThrow(() => JSON.parse(jsonLd[1]));
+  });
+});

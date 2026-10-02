@@ -35,6 +35,18 @@ function applySecurityHeaders(
   return response;
 }
 
+// The LBA page is static: no inline scripts, self-hosted fonts, no third parties.
+const LBA_PAGE_CSP = [
+  `default-src 'none'`,
+  `script-src 'self'`,
+  `style-src 'unsafe-inline'`,
+  `font-src 'self'`,
+  `img-src 'self' data:`,
+  `base-uri 'none'`,
+  `form-action 'none'`,
+  `frame-ancestors 'none'`,
+].join("; ");
+
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const isProd = process.env.NODE_ENV === "production";
@@ -56,6 +68,24 @@ export function middleware(request: NextRequest) {
     redirectUrl.protocol = "https";
     const response = NextResponse.redirect(redirectUrl, 308);
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
+    return response;
+  }
+
+  // lba.ark-fid.ch: a standalone page (public/lba/index.html) served at the root of the
+  // subdomain. Everything else on that host goes back to its root.
+  if (host.startsWith("lba.")) {
+    if (pathname !== "/") {
+      const rootUrl = request.nextUrl.clone();
+      rootUrl.pathname = "/";
+      rootUrl.search = "";
+      const response = NextResponse.redirect(rootUrl, 308);
+      response.headers.set("X-Robots-Tag", "noindex, nofollow");
+      return response;
+    }
+    const response = NextResponse.rewrite(new URL("/lba/index.html", request.url));
+    applySecurityHeaders(response, { nonce: "", csp: LBA_PAGE_CSP, isProd, noIndex: false });
+    response.headers.delete("x-nonce");
+    response.headers.set("Cache-Control", "public, max-age=0, must-revalidate");
     return response;
   }
 
