@@ -78,12 +78,13 @@ export function middleware(request: NextRequest) {
       const rootUrl = request.nextUrl.clone();
       rootUrl.pathname = "/";
       rootUrl.search = "";
+      if (isProd) rootUrl.protocol = "https";
       const response = NextResponse.redirect(rootUrl, 308);
       response.headers.set("X-Robots-Tag", "noindex, nofollow");
       return response;
     }
     const response = NextResponse.rewrite(new URL("/lba/index.html", request.url));
-    applySecurityHeaders(response, { nonce: "", csp: LBA_PAGE_CSP, isProd, noIndex: false });
+    applySecurityHeaders(response, { nonce: "", csp: LBA_PAGE_CSP, isProd, noIndex: shouldNoIndex });
     response.headers.delete("x-nonce");
     response.headers.set("Cache-Control", "public, max-age=0, must-revalidate");
     return response;
