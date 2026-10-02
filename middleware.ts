@@ -80,6 +80,7 @@ export function middleware(request: NextRequest) {
     const lbaRedirect = (targetPath: string, status: 307 | 308) => {
       // Plain URL (not nextUrl.clone()): keeps the trailing slash of the target.
       const url = new URL(targetPath, request.url);
+      url.search = request.nextUrl.search; // keep e.g. ?utm_source=…
       if (isProd) url.protocol = "https";
       const response = NextResponse.redirect(url, status);
       response.headers.set("X-Robots-Tag", "noindex, nofollow");

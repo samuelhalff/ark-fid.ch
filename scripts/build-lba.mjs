@@ -134,6 +134,7 @@ ${alternates}
     <img class="on-dark" src="/assets/arkfid--light.svg" alt="" width="100" height="32">
   </a>
   <div class="controls">
+    <a class="home" href="${m.arkUrl}">${esc(m.home)}</a>
     <details class="menu lang">
       <summary aria-label="${esc(m.languages)}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9M12 3C9.4 5.6 8.2 8.6 8.2 12s1.2 6.4 3.8 9"/></svg>

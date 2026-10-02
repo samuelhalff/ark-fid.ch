@@ -315,6 +315,8 @@ header{padding-top:30px}
 :root[data-theme="dark"] .logo .on-dark{display:block}
 .controls{display:flex;align-items:center;gap:4px}
 /* Sélecteurs de langue et de thème, comme sur ark-fid.ch : déclencheur sans bordure, menu déroulant */
+.home{display:inline-flex;align-items:center;height:36px;padding:0 12px;border-radius:8px;font-size:14px;font-weight:500;color:var(--ink);text-decoration:none;transition:background .16s}
+.home:hover{background:var(--accent)}
 .menu{position:relative}
 .menu summary{list-style:none;cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:6px;
   height:36px;padding:0 12px;border-radius:8px;font-size:14px;font-weight:500;color:var(--ink);transition:background .16s}
@@ -337,7 +339,7 @@ header{padding-top:30px}
 }
 :root[data-theme="dark"] .theme .i-light{display:none}
 :root[data-theme="dark"] .theme .i-dark{display:block}
-.logo:focus-visible,.menu summary:focus-visible{outline:2px solid var(--lba);outline-offset:2px}
+.logo:focus-visible,.home:focus-visible,.menu summary:focus-visible{outline:2px solid var(--lba);outline-offset:2px}
 /* Avertissement en bandeau, comme un bandeau cookies ; reste aussi dans le pied de page */
 .notice{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));
   width:min(720px,calc(100% - 32px));display:flex;align-items:center;gap:14px 20px;padding:16px 18px;

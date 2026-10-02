@@ -32,7 +32,8 @@
       "notice": {
         "label": "Avertissement",
         "ok": "J'ai compris"
-      }
+      },
+      "home": "Accueil"
     },
     "en": {
       "htmlLang": "en",
@@ -63,7 +64,8 @@
       "notice": {
         "label": "Notice",
         "ok": "Got it"
-      }
+      },
+      "home": "Home"
     },
     "de": {
       "htmlLang": "de-CH",
@@ -94,7 +96,8 @@
       "notice": {
         "label": "Hinweis",
         "ok": "Verstanden"
-      }
+      },
+      "home": "Startseite"
     },
     "es": {
       "htmlLang": "es",
@@ -125,7 +128,8 @@
       "notice": {
         "label": "Aviso",
         "ok": "Entendido"
-      }
+      },
+      "home": "Inicio"
     },
     "pt": {
       "htmlLang": "pt",
@@ -156,7 +160,8 @@
       "notice": {
         "label": "Aviso",
         "ok": "Entendi"
-      }
+      },
+      "home": "Início"
     }
   }
 }
