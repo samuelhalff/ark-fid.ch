@@ -1,0 +1,78 @@
+[
+  {
+    "id": "lba",
+    "title_fr": "Loi sur le blanchiment d'argent (LBA, RS 955.0)",
+    "title_en": "Anti-Money Laundering Act (AMLA, SR 955.0)",
+    "title_de": "Geldwäschereigesetz (GwG, SR 955.0)",
+    "url_fr": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr",
+    "url_de": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/de",
+    "url_en": null,
+    "note": "No up-to-date English version on Fedlex for the provisions in force since 1 October 2026; cite the French or German text."
+  },
+  {
+    "id": "oba",
+    "title_fr": "Ordonnance sur le blanchiment d'argent (OBA, RS 955.01)",
+    "title_en": "Anti-Money Laundering Ordinance (AMLO, SR 955.01)",
+    "title_de": "Geldwäschereiverordnung (GwV, SR 955.01)",
+    "url_fr": "https://www.fedlex.admin.ch/eli/cc/2015/791/fr",
+    "url_de": "https://www.fedlex.admin.ch/eli/cc/2015/791/de",
+    "url_en": null,
+    "note": "No up-to-date English version on Fedlex for the provisions in force since 1 October 2026; cite the French or German text."
+  },
+  {
+    "id": "ltpm",
+    "title_fr": "Loi sur la transparence des personnes morales (LTPM, RS 955.3)",
+    "title_en": "Act on the Transparency of Legal Persons and the Identification of Beneficial Owners (TJPG, SR 955.3)",
+    "title_de": "Bundesgesetz über die Transparenz juristischer Personen (TJPG, SR 955.3)",
+    "url_fr": "https://www.fedlex.admin.ch/eli/cc/2026/323/fr",
+    "url_de": "https://www.fedlex.admin.ch/eli/cc/2026/323/de",
+    "url_en": null,
+    "note": "No English version on Fedlex; no official English abbreviation."
+  },
+  {
+    "id": "otpm",
+    "title_fr": "Ordonnance sur la transparence des personnes morales (OTPM, RS 955.31)",
+    "title_en": "Ordinance on the Transparency of Legal Persons and the Identification of Beneficial Owners (TJPV, SR 955.31)",
+    "title_de": "Verordnung über die Transparenz juristischer Personen (TJPV, SR 955.31)",
+    "url_fr": "https://www.fedlex.admin.ch/eli/cc/2026/364/fr",
+    "url_de": "https://www.fedlex.admin.ch/eli/cc/2026/364/de",
+    "url_en": null,
+    "note": "No English version on Fedlex; no official English abbreviation."
+  },
+  {
+    "id": "cp",
+    "title_fr": "Code pénal suisse (CP, RS 311.0)",
+    "title_en": "Swiss Criminal Code (SCC, SR 311.0)",
+    "title_de": "Schweizerisches Strafgesetzbuch (StGB, SR 311.0)",
+    "url_fr": "https://www.fedlex.admin.ch/eli/cc/54/757_781_799/fr",
+    "url_de": "https://www.fedlex.admin.ch/eli/cc/54/757_781_799/de",
+    "url_en": "https://www.fedlex.admin.ch/eli/cc/54/757_781_799/en"
+  },
+  {
+    "id": "parl-24046",
+    "title_fr": "Objet parlementaire 24.046",
+    "title_en": "Parliamentary item 24.046",
+    "title_de": "Parlamentsgeschäft 24.046",
+    "url_fr": "https://www.parlament.ch/fr/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240046",
+    "url_de": "https://www.parlament.ch/de/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240046",
+    "url_en": "https://www.parlament.ch/en/ratsbetrieb/suche-curia-vista/geschaeft?AffairId=20240046"
+  },
+  {
+    "id": "cf-release-2026-06-12",
+    "title_fr": "Communiqué du Conseil fédéral du 12 juin 2026 sur l'entrée en vigueur",
+    "title_en": "Federal Council press release of 12 June 2026 on the entry into force",
+    "title_de": "Medienmitteilung des Bundesrates vom 12. Juni 2026 zum Inkrafttreten",
+    "url_fr": "https://www.sif.admin.ch/fr/newnsb/x3sKLxCJ6S3dQJtfvy0Tb",
+    "url_de": "https://www.sif.admin.ch/de/newnsb/x3sKLxCJ6S3dQJtfvy0Tb",
+    "url_en": "https://www.sif.admin.ch/en/newnsb/x3sKLxCJ6S3dQJtfvy0Tb"
+  },
+  {
+    "id": "transpareg",
+    "title_fr": "Registre suisse de transparence (Office fédéral de la justice)",
+    "title_en": "Swiss transparency register (Federal Office of Justice)",
+    "title_de": "Schweizerisches Transparenzregister (Bundesamt für Justiz)",
+    "url_fr": "https://www.transpareg.admin.ch/fr",
+    "url_de": "https://www.transpareg.admin.ch/de",
+    "url_en": "https://www.transpareg.admin.ch/en"
+  }
+]

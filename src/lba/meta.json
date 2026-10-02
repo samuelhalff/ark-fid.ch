@@ -33,7 +33,31 @@
         "label": "Avertissement",
         "ok": "J'ai compris"
       },
-      "home": "Accueil"
+      "home": "Accueil",
+      "chat": {
+        "open": "Poser une question",
+        "title": "Assistant LBA",
+        "subtitle": "Répond à partir des textes officiels et de cette page",
+        "placeholder": "Votre question…",
+        "send": "Envoyer",
+        "close": "Fermer",
+        "reset": "Nouvelle conversation",
+        "privacy": "Ne saisissez ni nom de client ni information confidentielle.",
+        "thinking": "Recherche dans les textes…",
+        "you": "Vous",
+        "assistant": "Assistant",
+        "errorGeneric": "La réponse n'a pas pu être obtenue. Réessayez dans un instant.",
+        "errorRate": "Trop de questions en peu de temps. Réessayez dans quelques minutes.",
+        "errorVerify": "La vérification anti-robot a échoué. Réessayez.",
+        "errorLong": "Votre question est trop longue (1500 caractères au maximum).",
+        "retry": "Réessayer",
+        "intro": "Posez une question sur le régime des conseillers LBA ou sur le registre de transparence.",
+        "suggestions": [
+          "Je domicilie une société pour plus de 6 mois : suis-je conseiller ?",
+          "Quand dois-je communiquer au MROS ?",
+          "Qui doit annoncer au registre de transparence, et avant quand ?"
+        ]
+      }
     },
     "en": {
       "htmlLang": "en",
@@ -65,7 +89,31 @@
         "label": "Notice",
         "ok": "Got it"
       },
-      "home": "Home"
+      "home": "Home",
+      "chat": {
+        "open": "Ask a question",
+        "title": "AMLA assistant",
+        "subtitle": "Answers from the official texts and this page",
+        "placeholder": "Your question…",
+        "send": "Send",
+        "close": "Close",
+        "reset": "New conversation",
+        "privacy": "Do not enter client names or confidential information.",
+        "thinking": "Searching the texts…",
+        "you": "You",
+        "assistant": "Assistant",
+        "errorGeneric": "The answer could not be retrieved. Please try again in a moment.",
+        "errorRate": "Too many questions in a short time. Please try again in a few minutes.",
+        "errorVerify": "The anti-bot check failed. Please try again.",
+        "errorLong": "Your question is too long (1,500 characters at most).",
+        "retry": "Try again",
+        "intro": "Ask a question about the AMLA adviser regime or the transparency register.",
+        "suggestions": [
+          "I provide a registered office for more than 6 months: am I an adviser?",
+          "When do I have to report to MROS?",
+          "Who must file with the transparency register, and by when?"
+        ]
+      }
     },
     "de": {
       "htmlLang": "de-CH",
@@ -97,7 +145,31 @@
         "label": "Hinweis",
         "ok": "Verstanden"
       },
-      "home": "Startseite"
+      "home": "Startseite",
+      "chat": {
+        "open": "Frage stellen",
+        "title": "GwG-Assistent",
+        "subtitle": "Antwortet anhand der amtlichen Texte und dieser Seite",
+        "placeholder": "Ihre Frage…",
+        "send": "Senden",
+        "close": "Schliessen",
+        "reset": "Neues Gespräch",
+        "privacy": "Geben Sie keine Klientennamen oder vertraulichen Angaben ein.",
+        "thinking": "Suche in den Texten…",
+        "you": "Sie",
+        "assistant": "Assistent",
+        "errorGeneric": "Die Antwort konnte nicht abgerufen werden. Bitte versuchen Sie es gleich noch einmal.",
+        "errorRate": "Zu viele Fragen in kurzer Zeit. Bitte versuchen Sie es in einigen Minuten erneut.",
+        "errorVerify": "Die Bot-Prüfung ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+        "errorLong": "Ihre Frage ist zu lang (höchstens 1500 Zeichen).",
+        "retry": "Erneut versuchen",
+        "intro": "Stellen Sie eine Frage zum GwG-Beraterregime oder zum Transparenzregister.",
+        "suggestions": [
+          "Ich domiziliere eine Gesellschaft länger als 6 Monate: Bin ich Berater?",
+          "Wann muss ich der MROS Meldung erstatten?",
+          "Wer muss dem Transparenzregister melden, und bis wann?"
+        ]
+      }
     },
     "es": {
       "htmlLang": "es",
@@ -129,7 +201,31 @@
         "label": "Aviso",
         "ok": "Entendido"
       },
-      "home": "Inicio"
+      "home": "Inicio",
+      "chat": {
+        "open": "Hacer una pregunta",
+        "title": "Asistente LBA",
+        "subtitle": "Responde a partir de los textos oficiales y de esta página",
+        "placeholder": "Su pregunta…",
+        "send": "Enviar",
+        "close": "Cerrar",
+        "reset": "Nueva conversación",
+        "privacy": "No introduzca nombres de clientes ni información confidencial.",
+        "thinking": "Buscando en los textos…",
+        "you": "Usted",
+        "assistant": "Asistente",
+        "errorGeneric": "No se ha podido obtener la respuesta. Inténtelo de nuevo en un momento.",
+        "errorRate": "Demasiadas preguntas en poco tiempo. Inténtelo de nuevo en unos minutos.",
+        "errorVerify": "La verificación anti-robot ha fallado. Inténtelo de nuevo.",
+        "errorLong": "Su pregunta es demasiado larga (1500 caracteres como máximo).",
+        "retry": "Reintentar",
+        "intro": "Haga una pregunta sobre el régimen de asesores de la LBA o sobre el registro de transparencia.",
+        "suggestions": [
+          "Domicilio una sociedad durante más de 6 meses: ¿soy asesor?",
+          "¿Cuándo debo comunicar al MROS?",
+          "¿Quién debe declarar al registro de transparencia y antes de cuándo?"
+        ]
+      }
     },
     "pt": {
       "htmlLang": "pt",
@@ -161,7 +257,31 @@
         "label": "Aviso",
         "ok": "Entendi"
       },
-      "home": "Início"
+      "home": "Início",
+      "chat": {
+        "open": "Fazer uma pergunta",
+        "title": "Assistente LBA",
+        "subtitle": "Responde com base nos textos oficiais e nesta página",
+        "placeholder": "A sua pergunta…",
+        "send": "Enviar",
+        "close": "Fechar",
+        "reset": "Nova conversa",
+        "privacy": "Não introduza nomes de clientes nem informações confidenciais.",
+        "thinking": "A pesquisar nos textos…",
+        "you": "Você",
+        "assistant": "Assistente",
+        "errorGeneric": "Não foi possível obter a resposta. Tente novamente dentro de instantes.",
+        "errorRate": "Demasiadas perguntas em pouco tempo. Tente novamente dentro de alguns minutos.",
+        "errorVerify": "A verificação anti-robô falhou. Tente novamente.",
+        "errorLong": "A sua pergunta é demasiado longa (1500 caracteres no máximo).",
+        "retry": "Tentar novamente",
+        "intro": "Faça uma pergunta sobre o regime dos consultores da LBA ou sobre o registo de transparência.",
+        "suggestions": [
+          "Domicilio uma sociedade por mais de 6 meses: sou consultor?",
+          "Quando devo comunicar ao MROS?",
+          "Quem deve declarar ao registo de transparência, e até quando?"
+        ]
+      }
     }
   }
 }

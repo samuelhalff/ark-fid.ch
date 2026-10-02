@@ -38,13 +38,16 @@ function applySecurityHeaders(
 // Languages built for lba.ark-fid.ch (src/lba/content/<locale>.html); checked by the indexability test.
 const LBA_LOCALES = ["fr", "en", "de", "es", "pt"] as const;
 const LBA_DEFAULT_LOCALE = "fr";
-// The LBA pages are static: no inline scripts, self-hosted fonts, no third parties.
+// The LBA pages are static: no inline scripts, self-hosted fonts.
 const LBA_PAGE_CSP = [
   `default-src 'none'`,
-  `script-src 'self'`,
+  // Turnstile (anti-bot check of the assistant) is the only third party.
+  `script-src 'self' https://challenges.cloudflare.com`,
   `style-src 'self' 'unsafe-inline'`,
   `font-src 'self'`,
   `img-src 'self' data:`,
+  `connect-src 'self'`,
+  `frame-src https://challenges.cloudflare.com`,
   `base-uri 'none'`,
   `form-action 'none'`,
   `frame-ancestors 'none'`,

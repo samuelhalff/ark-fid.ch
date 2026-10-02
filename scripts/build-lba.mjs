@@ -34,6 +34,7 @@ const hashed = (name, ext, content) => {
 const cssUrl = hashed("lba", "css", read("styles.css"));
 const appUrl = hashed("app", "js", read("app.js"));
 const themeUrl = hashed("theme", "js", read("theme.js"));
+const chatUrl = hashed("chat", "js", read("chat.js"));
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 const text = (html) =>
@@ -169,7 +170,36 @@ ${
 </div>
 `
     : ""
-}<script src="${appUrl}" defer></script>
+}<button type="button" class="chat-open" hidden aria-expanded="false" aria-controls="chat">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>
+  <span>${esc(m.chat.open)}</span>
+</button>
+<section class="chat" id="chat" hidden aria-label="${esc(m.chat.title)}" data-chat="${esc(JSON.stringify(m.chat))}">
+  <header class="chat-head">
+    <div>
+      <h2>${esc(m.chat.title)}</h2>
+      <p>${esc(m.chat.subtitle)}</p>
+    </div>
+    <button type="button" class="chat-reset" title="${esc(m.chat.reset)}" aria-label="${esc(m.chat.reset)}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4h4"/></svg>
+    </button>
+    <button type="button" class="chat-close" title="${esc(m.chat.close)}" aria-label="${esc(m.chat.close)}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </header>
+  <div class="chat-log" role="log" aria-live="polite" tabindex="0"></div>
+  <div class="chat-turnstile" hidden></div>
+  <form class="chat-form">
+    <label class="sr" for="chat-input">${esc(m.chat.placeholder)}</label>
+    <textarea id="chat-input" rows="1" maxlength="1500" placeholder="${esc(m.chat.placeholder)}" autocomplete="off"></textarea>
+    <button type="submit" class="chat-send" aria-label="${esc(m.chat.send)}" title="${esc(m.chat.send)}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </form>
+  <p class="chat-note">${esc(m.chat.privacy)} ${notice ? notice.split(". ")[0] + "." : ""}</p>
+</section>
+<script src="${appUrl}" defer></script>
+<script src="${chatUrl}" defer></script>
 </body>
 </html>
 `;

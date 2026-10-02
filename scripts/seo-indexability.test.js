@@ -149,6 +149,13 @@ describe("lba.ark-fid.ch standalone pages", () => {
       for (const [, asset] of page.matchAll(/(?:src|href)="(\/assets\/lba\/[^"]+)"/g)) {
         assert.equal(fs.existsSync(path.join(ROOT, "public", asset)), true, asset);
       }
+      // Assistant: panel markup present, strings parse, CSP allows only Turnstile as a third party.
+      const chat = page.match(/<section class="chat" id="chat" hidden[^>]* data-chat="([^"]+)"/);
+      assert.ok(chat, `${locale}: chat panel`);
+      const chatStrings = JSON.parse(chat[1].replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&amp;/g, "&"));
+      assert.equal(chatStrings.suggestions.length, 3);
+      assert.match(middleware, /script-src 'self' https:\/\/challenges\.cloudflare\.com/);
+      assert.match(middleware, /connect-src 'self'/);
       const jsonLd = page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
       assert.ok(jsonLd);
       assert.doesNotThrow(() => JSON.parse(jsonLd[1]));
