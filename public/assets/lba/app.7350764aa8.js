@@ -42,31 +42,42 @@
     if(el&&el.closest('[hidden]')&&tabs[0]){select(tabs[0],false);el.scrollIntoView()}
   });
 
-  // Menu des langues (<details>) : se referme au clic extérieur et avec Échap
-  var lang=document.querySelector('details.lang');
-  if(lang){
-    document.addEventListener('click',function(e){if(lang.open&&!lang.contains(e.target))lang.open=false});
-    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lang.open){lang.open=false;lang.querySelector('summary').focus()}});
-  }
+  // Menus (<details>) : un seul ouvert, fermeture au clic extérieur et avec Échap
+  var menus=[].slice.call(document.querySelectorAll('details.menu'));
+  menus.forEach(function(m){m.addEventListener('toggle',function(){if(m.open)menus.forEach(function(o){if(o!==m)o.open=false})})});
+  document.addEventListener('click',function(e){menus.forEach(function(m){if(m.open&&!m.contains(e.target))m.open=false})});
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='Escape')return;
+    menus.forEach(function(m){if(m.open){m.open=false;m.querySelector('summary').focus()}});
+  });
 
-  // Thème : système → clair → sombre
-  var btn=document.querySelector('.theme');
-  if(btn){
-    var order=['system','light','dark'];
-    var label=btn.querySelector('.sr');
-    var get=function(){try{var v=localStorage.getItem('lba-theme');return order.indexOf(v)>0?v:'system'}catch(e){return 'system'}};
+  // Thème : clair / sombre / système
+  var theme=document.querySelector('details.theme');
+  if(theme){
+    var items=[].slice.call(theme.querySelectorAll('[data-theme-value]'));
+    var get=function(){try{var v=localStorage.getItem('lba-theme');return v==='light'||v==='dark'?v:'system'}catch(e){return 'system'}};
     var apply=function(v){
       if(v==='system')root.removeAttribute('data-theme');else root.setAttribute('data-theme',v);
-      btn.dataset.mode=v;
-      var text=btn.dataset.label+' : '+btn.dataset[v];
-      btn.title=text;if(label)label.textContent=text;
+      items.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.themeValue===v)});
     };
     apply(get());
-    btn.hidden=false;
-    btn.addEventListener('click',function(){
-      var v=order[(order.indexOf(get())+1)%order.length];
+    theme.hidden=false;
+    items.forEach(function(b){b.addEventListener('click',function(){
+      var v=b.dataset.themeValue;
       try{if(v==='system')localStorage.removeItem('lba-theme');else localStorage.setItem('lba-theme',v)}catch(e){}
-      apply(v);
-    });
+      apply(v);theme.open=false;theme.querySelector('summary').focus();
+    })});
+  }
+
+  // Avertissement : affiché jusqu'à ce qu'il soit fermé
+  var notice=document.querySelector('.notice');
+  if(notice){
+    var seen=false;try{seen=localStorage.getItem('lba-avis')==='1'}catch(e){}
+    if(!seen){
+      notice.hidden=false;
+      notice.querySelector('.notice-ok').addEventListener('click',function(){
+        notice.hidden=true;try{localStorage.setItem('lba-avis','1')}catch(e){}
+      });
+    }
   }
 })();

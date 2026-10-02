@@ -6,7 +6,7 @@
   --lba:#B0122C; --lba-bg:#F8E4E7;
   --out:#2C6A4D; --out-bg:#E2EFE7;
   --grey:#946A10; --grey-bg:#F6EBD3;
-  --fi:#2F4B6E; --fi-bg:#E3EAF3; --track:#DCE0E3;
+  --fi:#2F4B6E; --fi-bg:#E3EAF3; --track:#DCE0E3; --accent:#E3B79C;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
@@ -15,13 +15,13 @@
   :root:not([data-theme="light"]){
     --paper:#151B21; --sheet:#1C242C; --ink:#E6EAED; --muted:#9AA5AE; --rule:#38444F;
     --lba:#F0687C; --lba-bg:#3A1C22; --out:#6FC29A; --out-bg:#18332A;
-    --grey:#E2B653; --grey-bg:#3A2F17; --fi:#8FB2DE; --fi-bg:#1E2B3B; --track:#0F1419;
+    --grey:#E2B653; --grey-bg:#3A2F17; --fi:#8FB2DE; --fi-bg:#1E2B3B; --track:#0F1419; --accent:#7A4B33;
   }
 }
 :root[data-theme="dark"]{
   --paper:#151B21; --sheet:#1C242C; --ink:#E6EAED; --muted:#9AA5AE; --rule:#38444F;
   --lba:#F0687C; --lba-bg:#3A1C22; --out:#6FC29A; --out-bg:#18332A;
-  --grey:#E2B653; --grey-bg:#3A2F17; --fi:#8FB2DE; --fi-bg:#1E2B3B; --track:#0F1419;
+  --grey:#E2B653; --grey-bg:#3A2F17; --fi:#8FB2DE; --fi-bg:#1E2B3B; --track:#0F1419; --accent:#7A4B33;
 }
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 110px)}
@@ -76,7 +76,9 @@ h1{
 .tabs button:hover{color:var(--ink)}
 .tabs button:hover::before{background:var(--rule)}
 .tabs button:hover::after{background:var(--ink)}
-.tabs button[aria-selected="true"]{color:var(--ink);font-weight:850;box-shadow:inset 0 -3px 0 var(--ink)}
+/* Même graisse et même largeur que l'onglet soit sélectionné ou non : rien ne bouge au clic. */
+.tabs button{flex:1 1 0;min-width:0;width:auto;max-width:330px}
+.tabs button[aria-selected="true"]{color:var(--ink);box-shadow:inset 0 -3px 0 var(--ink)}
 .tabs button[aria-selected="true"]::before{background:var(--ink)}
 .tabs button[aria-selected="true"]::after{background:var(--paper)}
 .tabs button:focus-visible{outline:2px solid var(--lba);outline-offset:-2px;border-radius:6px}
@@ -286,7 +288,7 @@ footer p{margin:0 0 8px;}
   .notion{grid-template-columns:1fr}
   .tabbar{margin-top:28px}
   .tabs{gap:2px}
-  .tabs button{flex:1;width:auto;height:84px;flex-direction:column;justify-content:flex-start;gap:6px;padding:10px 2px 4px;font-size:13.5px;text-align:center}
+  .tabs button{max-width:none;height:84px;flex-direction:column;justify-content:flex-start;gap:6px;padding:10px 2px 4px;font-size:13.5px;text-align:center}
   .tabs button::before{width:36px;height:36px;border-radius:9px}
   .tabs button::after{left:50%;top:19px;margin:0 0 0 -9px;width:18px;height:18px}
 }
@@ -298,21 +300,6 @@ footer p{margin:0 0 8px;}
   .step,.track,.notion{break-inside:avoid}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
-.lang{position:relative}
-.lang summary{list-style:none}
-.lang summary::-webkit-details-marker{display:none}
-.lang-btn{cursor:pointer;display:inline-flex;align-items:center;gap:8px;
-  height:36px;padding:0 12px;border-radius:999px;border:1.5px solid var(--rule);color:var(--ink);
-  font-weight:750;font-size:14px;letter-spacing:.03em;transition:border-color .15s;user-select:none}
-.lang-btn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.lang-btn .chev{width:15px;height:15px;transition:transform .15s}
-.lang[open] .lang-btn .chev{transform:rotate(180deg)}
-.lang-btn:hover,.lang[open] .lang-btn{border-color:var(--ink)}
-.lang-btn:focus-visible{outline:2px solid var(--lba);outline-offset:2px}
-.lang-menu{position:absolute;right:0;top:calc(100% + 6px);z-index:20;list-style:none;margin:0;padding:6px;min-width:168px;
-  background:var(--ink);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.22)}
-.lang-menu a{display:block;font-weight:650;font-size:15px;padding:10px 12px;border-radius:6px;color:var(--paper);text-decoration:none}
-.lang-menu a:hover,.lang-menu a:focus-visible{background:rgba(128,128,128,.25);outline:none}
 header{padding-top:30px}
 
 /* Barre du haut, comme sur ark-fid.ch : logo, lien vers le site, langues, thème */
@@ -326,15 +313,51 @@ header{padding-top:30px}
 }
 :root[data-theme="dark"] .logo .on-light{display:none}
 :root[data-theme="dark"] .logo .on-dark{display:block}
-.controls{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;justify-content:flex-end}
-.site{font-weight:650;color:var(--muted);text-decoration:none;white-space:nowrap;padding:6px 2px}
-.site:hover{color:var(--ink)}
-.theme{appearance:none;cursor:pointer;display:grid;place-items:center;width:36px;height:36px;padding:0;color:var(--muted);background:none;border:1.5px solid var(--rule);border-radius:999px}
-.theme:hover{color:var(--ink);border-color:var(--ink)}
-.theme svg{width:18px;height:18px;display:none}
-.theme[data-mode="system"] .i-system,.theme[data-mode="light"] .i-light,.theme[data-mode="dark"] .i-dark{display:block}
-.logo:focus-visible,.site:focus-visible,.theme:focus-visible{outline:2px solid var(--lba);outline-offset:2px}
+.controls{display:flex;align-items:center;gap:4px}
+/* Sélecteurs de langue et de thème, comme sur ark-fid.ch : déclencheur sans bordure, menu déroulant */
+.menu{position:relative}
+.menu summary{list-style:none;cursor:pointer;user-select:none;display:inline-flex;align-items:center;gap:6px;
+  height:36px;padding:0 12px;border-radius:8px;font-size:14px;font-weight:500;color:var(--ink);transition:background .16s}
+.menu summary::-webkit-details-marker{display:none}
+.menu summary:hover,.menu[open] summary{background:var(--accent)}
+.menu summary svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.menu summary .chev{width:13px;height:13px;transition:transform .3s}
+.menu[open] summary .chev{transform:rotate(180deg)}
+.lang-code{display:inline-block;min-width:26px;text-align:center}
+.menu-list{position:absolute;right:0;top:calc(100% + 6px);z-index:20;list-style:none;margin:0;padding:4px;min-width:150px;
+  background:var(--sheet);border:1px solid var(--rule);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.14)}
+.menu-list a,.menu-list button{display:block;width:100%;appearance:none;border:0;background:none;cursor:pointer;font:inherit;font-size:15px;
+  text-align:left;text-decoration:none;color:var(--ink);padding:11px 16px;border-radius:7px}
+.menu-list a:hover,.menu-list button:hover,.menu-list a:focus-visible,.menu-list button:focus-visible{background:var(--accent);outline:none}
+.menu-list button[aria-pressed="true"]{font-weight:750}
+.theme .i-dark{display:none}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .theme .i-light{display:none}
+  :root:not([data-theme="light"]) .theme .i-dark{display:block}
+}
+:root[data-theme="dark"] .theme .i-light{display:none}
+:root[data-theme="dark"] .theme .i-dark{display:block}
+.logo:focus-visible,.menu summary:focus-visible{outline:2px solid var(--lba);outline-offset:2px}
+/* Avertissement en bandeau, comme un bandeau cookies ; reste aussi dans le pied de page */
+.notice{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  width:min(720px,calc(100% - 32px));display:flex;align-items:center;gap:14px 20px;padding:16px 18px;
+  background:var(--sheet);color:var(--ink);border:1px solid var(--rule);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.18);font-size:14.5px;line-height:1.45}
+.notice[hidden]{display:none}
+.notice p{margin:0;flex:1}
+.notice-ok{appearance:none;flex:none;cursor:pointer;font:inherit;font-weight:750;font-size:14px;height:40px;padding:0 18px;border:0;border-radius:999px;background:var(--ink);color:var(--paper)}
+.notice-ok:hover{background:var(--lba);color:#fff}
+.notice-ok:focus-visible{outline:2px solid var(--lba);outline-offset:2px}
+@media (max-width:560px){.notice{flex-direction:column;align-items:stretch}.notice-ok{width:100%}}
+@media print{.notice{display:none}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-@media (max-width:720px){.site{display:none}}
+footer .refs{margin:0 0 8px;padding-left:18px}
 .refs a{text-underline-offset:3px}
 @media print{.controls{display:none}.topbar{border:0}}
+/* Très petits écrans : rien ne dépasse */
+@media (max-width:360px){
+  .wrap{padding:0 14px}
+  .legend dl{grid-template-columns:minmax(0,auto) minmax(0,1fr)}
+  .legend dt{white-space:normal}
+  .legend dd,.q,.exit,.mini,.fact dd{overflow-wrap:anywhere}
+  .k,.tag{white-space:normal}
+}

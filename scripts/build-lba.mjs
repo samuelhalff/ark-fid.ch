@@ -87,6 +87,9 @@ for (const locale of locales) {
     ],
   };
 
+  // The legal notice of the footer is also shown once as a dismissible banner (like a cookie notice).
+  const notice = (body.match(/<p class="disclaimer">([\s\S]*?)<\/p>/) || [])[1];
+
   const alternates = [
     ...locales.map((l) => `<link rel="alternate" hreflang="${l}" href="${ORIGIN}/${l}/">`),
     `<link rel="alternate" hreflang="x-default" href="${ORIGIN}/${meta.defaultLocale}/">`,
@@ -131,28 +134,41 @@ ${alternates}
     <img class="on-dark" src="/assets/arkfid--light.svg" alt="" width="100" height="32">
   </a>
   <div class="controls">
-    <a class="site" href="${m.arkUrl}">${esc(m.visitSite)}</a>
-    <details class="lang">
-      <summary class="lang-btn" aria-label="${esc(m.languages)}">
+    <details class="menu lang">
+      <summary aria-label="${esc(m.languages)}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9M12 3C9.4 5.6 8.2 8.6 8.2 12s1.2 6.4 3.8 9"/></svg>
         <span class="lang-code">${m.label}</span>
         <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
       </summary>
-      <ul class="lang-menu">${langLinks}</ul>
+      <ul class="menu-list lang-menu">${langLinks}</ul>
     </details>
-    <button type="button" class="theme" hidden data-mode="system" data-label="${esc(m.theme.label)}" data-system="${esc(m.theme.system)}" data-light="${esc(m.theme.light)}" data-dark="${esc(m.theme.dark)}">
-      <svg class="i-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-      <svg class="i-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
-      <svg class="i-system" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg>
-      <span class="sr"></span>
-    </button>
+    <details class="menu theme" hidden>
+      <summary aria-label="${esc(m.theme.label)}">
+        <svg class="i-light" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="i-dark" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </summary>
+      <ul class="menu-list">
+        <li><button type="button" data-theme-value="light">${esc(m.theme.light)}</button></li>
+        <li><button type="button" data-theme-value="dark">${esc(m.theme.dark)}</button></li>
+        <li><button type="button" data-theme-value="system">${esc(m.theme.system)}</button></li>
+      </ul>
+    </details>
   </div>
 </div>
 
 ${body.replace("</footer>", `  <p>${m.publishedBy} <a href="${m.arkUrl}">Ark Fiduciaire SA</a>, ${m.city}.</p>\n</footer>`)}
 
 </div>
-<script src="${appUrl}" defer></script>
+${
+  notice
+    ? `<div class="notice" role="region" aria-label="${esc(m.notice.label)}" hidden>
+  <p>${notice}</p>
+  <button type="button" class="notice-ok">${esc(m.notice.ok)}</button>
+</div>
+`
+    : ""
+}<script src="${appUrl}" defer></script>
 </body>
 </html>
 `;

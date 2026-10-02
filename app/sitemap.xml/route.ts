@@ -4,8 +4,10 @@ import { localizePath } from "@/src/lib/paths";
 import { hreflangFor } from "@/src/lib/hreflang";
 import { teamMembers, getMemberSlug } from "@/src/lib/team";
 import { getArticles, getValidLocalesForSlug } from "@/src/lib/articles";
+import lbaMeta from "@/src/lba/meta.json";
 
 const BASE = "https://ark-fid.ch";
+const LBA_BASE = "https://lba.ark-fid.ch";
 const canonicalLocale: Locale = "fr";
 // Bump manually when static-page content changes meaningfully; a build-time
 // date would falsely mark every static URL as modified on each deploy.
@@ -90,7 +92,28 @@ function escapeXml(s: string) {
     .replace(/'/g, "&apos;");
 }
 
-export async function GET() {
+// lba.ark-fid.ch has its own small sitemap (pages built by scripts/build-lba.mjs).
+function lbaSitemap(): string {
+  const lbaLocales = Object.keys(lbaMeta.locales);
+  const alternates = [
+    ...lbaLocales.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${LBA_BASE}/${l}/"/>`),
+    `    <xhtml:link rel="alternate" hreflang="x-default" href="${LBA_BASE}/${lbaMeta.defaultLocale}/"/>`,
+  ].join("\n");
+  const urls = lbaLocales
+    .map((l) => `  <url>\n    <loc>${LBA_BASE}/${l}/</loc>\n    <lastmod>${lbaMeta.updated}</lastmod>\n${alternates}\n  </url>`)
+    .join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${urls}
+</urlset>`;
+}
+
+export async function GET(request: Request) {
+  if ((request.headers.get("host") || "").startsWith("lba.")) {
+    return new NextResponse(lbaSitemap(), {
+      headers: { "Content-Type": "application/xml", "Cache-Control": "public, max-age=3600" },
+    });
+  }
   const sitemapLocales = getSitemapLocales();
   const paths = getSitemapPaths(sitemapLocales);
 

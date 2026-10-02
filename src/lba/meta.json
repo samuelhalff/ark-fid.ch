@@ -22,14 +22,17 @@
       ],
       "publishedBy": "Publié par",
       "languages": "Langue",
-      "visitSite": "Visiter ark-fid.ch",
       "theme": {
         "label": "Thème",
-        "system": "automatique",
-        "light": "clair",
-        "dark": "sombre"
+        "system": "Système",
+        "light": "Clair",
+        "dark": "Sombre"
       },
-      "arkUrl": "https://ark-fid.ch/fr/"
+      "arkUrl": "https://ark-fid.ch/fr/",
+      "notice": {
+        "label": "Avertissement",
+        "ok": "J'ai compris"
+      }
     },
     "en": {
       "htmlLang": "en",
@@ -37,8 +40,8 @@
       "label": "EN",
       "name": "English",
       "city": "Geneva",
-      "title": "New Swiss AMLA rules 2026: advisers and transparency register",
-      "description": "Rules in force since 1 October 2026: decision trees to check whether a law firm or fiduciary is an adviser under the Swiss Anti-Money Laundering Act, plus the transparency register.",
+      "title": "New Swiss AMLA rules 2026: advisors and transparency register",
+      "description": "Rules in force since 1 October 2026: decision trees to check whether a law firm or fiduciary is an advisor under the Swiss Anti-Money Laundering Act, plus the transparency register.",
       "about": [
         "Swiss Anti-Money Laundering Act (AMLA)",
         "Adviser regime",
@@ -50,14 +53,17 @@
       ],
       "publishedBy": "Published by",
       "languages": "Language",
-      "visitSite": "Visit ark-fid.ch",
       "theme": {
         "label": "Theme",
-        "system": "auto",
-        "light": "light",
-        "dark": "dark"
+        "system": "System",
+        "light": "Light",
+        "dark": "Dark"
       },
-      "arkUrl": "https://ark-fid.ch/en/"
+      "arkUrl": "https://ark-fid.ch/en/",
+      "notice": {
+        "label": "Notice",
+        "ok": "Got it"
+      }
     },
     "de": {
       "htmlLang": "de-CH",
@@ -78,14 +84,17 @@
       ],
       "publishedBy": "Herausgegeben von",
       "languages": "Sprache",
-      "visitSite": "ark-fid.ch besuchen",
       "theme": {
         "label": "Darstellung",
-        "system": "automatisch",
-        "light": "hell",
-        "dark": "dunkel"
+        "system": "System",
+        "light": "Hell",
+        "dark": "Dunkel"
       },
-      "arkUrl": "https://ark-fid.ch/de/"
+      "arkUrl": "https://ark-fid.ch/de/",
+      "notice": {
+        "label": "Hinweis",
+        "ok": "Verstanden"
+      }
     },
     "es": {
       "htmlLang": "es",
@@ -106,14 +115,17 @@
       ],
       "publishedBy": "Publicado por",
       "languages": "Idioma",
-      "visitSite": "Visitar ark-fid.ch",
       "theme": {
         "label": "Tema",
-        "system": "automático",
-        "light": "claro",
-        "dark": "oscuro"
+        "system": "Sistema",
+        "light": "Claro",
+        "dark": "Oscuro"
       },
-      "arkUrl": "https://ark-fid.ch/es/"
+      "arkUrl": "https://ark-fid.ch/es/",
+      "notice": {
+        "label": "Aviso",
+        "ok": "Entendido"
+      }
     },
     "pt": {
       "htmlLang": "pt",
@@ -122,7 +134,7 @@
       "name": "Português",
       "city": "Genebra",
       "title": "Novas regras LBA 2026 na Suíça: consultores e registo de transparência",
-      "description": "Regras em vigor desde 1 de outubro de 2026: árvores de decisão para saber se um escritório de advogados ou uma fiduciária é consultor nos termos da LBA suíça, e registo de transparência.",
+      "description": "Regras em vigor desde 1 de outubro de 2026: árvores de decisão para saber se um escritório de advogados ou uma fiduciária é consultor segundo a LBA suíça, e registo de transparência.",
       "about": [
         "Lei suíça sobre o branqueamento de capitais (LBA)",
         "Regime dos consultores",
@@ -134,14 +146,17 @@
       ],
       "publishedBy": "Publicado por",
       "languages": "Idioma",
-      "visitSite": "Visitar ark-fid.ch",
       "theme": {
         "label": "Tema",
-        "system": "automático",
-        "light": "claro",
-        "dark": "escuro"
+        "system": "Sistema",
+        "light": "Claro",
+        "dark": "Escuro"
       },
-      "arkUrl": "https://ark-fid.ch/pt/"
+      "arkUrl": "https://ark-fid.ch/pt/",
+      "notice": {
+        "label": "Aviso",
+        "ok": "Entendi"
+      }
     }
   }
 }
