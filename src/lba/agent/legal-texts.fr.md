@@ -468,6 +468,47 @@ Lien : https://www.fedlex.admin.ch/eli/cc/2026/323/fr
 
 3 L’ayant droit économique et les tiers impliqués dans la chaîne de contrôle doivent collaborer à la vérification de l’identité de la personne annoncée et de sa qualité d’ayant droit économique, en transmettant à la société, aux actionnaires ou aux associés les informations et les pièces justificatives requises.
 
+### LTPM Art. 15 — Ayant droit économique d’un trust
+
+Lien : https://www.fedlex.admin.ch/eli/cc/2026/323/fr
+
+1 Les personnes physiques suivantes sont réputées ayants droit économiques d’un trust:
+a. le constituant;
+b. le trustee;
+c. le protecteur;
+d. le bénéficiaire;
+e. toute autre personne physique qui contrôle de manière directe, indirecte ou d’une autre manière le trust, y compris les ayants droit économiques d’une personne morale qui est partie au trust au sens des let. a à d.
+
+2 Le Conseil fédéral précise la notion de contrôle au sens de l’al. 1, let. e.
+
+### LTPM Art. 16 — Obligations du trustee
+
+Lien : https://www.fedlex.admin.ch/eli/cc/2026/323/fr
+
+1 Le trustee doit identifier l’ayant droit économique du trust. Il doit vérifier son identité et sa qualité d’ayant droit économique avec la diligence requise par les circonstances.
+
+2 Il collecte les informations suivantes sur l’ayant droit économique:
+a. nom et prénom;
+b. date de naissance;
+c. nationalité;
+d. adresse et pays de résidence;
+e. le cas échéant, les informations nécessaires sur la nature et l’étendue du contrôle exercé.
+
+3 Lorsqu’une entité juridique, une société de personnes ou un trust est partie au trust au sens de l’art. 15, al. 1, let. a à d, le trustee collecte aussi les informations suivantes sur cette entité, cette société ou ce trust:
+a. raison sociale, nom ou désignation;
+b. siège ou adresse.
+
+4 Il collecte les informations suivantes sur les intermédiaires financiers et les autres prestataires de services financiers ou de conseil qui ont une relation d’affaires avec le trust:
+a. nom ou raison sociale;
+b. siège ou adresse;
+c. type de la relation d’affaires conclue avec le trust.
+
+5 Lorsque l’acte de trust désigne des catégories de bénéficiaires, le trustee détermine les critères qui permettent d’établir la qualité de bénéficiaire.
+
+6 Le trustee doit consigner les informations visées aux al. 2 à 4. Il vérifie périodiquement qu’elles sont à jour; le cas échéant, il les actualise.
+
+7 Il doit conserver les informations pendant cinq ans après la fin de ses fonctions en veillant à ce qu’elles soient accessibles en tout temps en Suisse.
+
 ### LTPM Art. 17 — Obligations des personnes morales de droit étranger
 
 Lien : https://www.fedlex.admin.ch/eli/cc/2026/323/fr
@@ -497,15 +538,6 @@ Lien : https://www.fedlex.admin.ch/eli/cc/2026/323/fr
 Lien : https://www.fedlex.admin.ch/eli/cc/2026/323/fr
 
 Les intermédiaires financiers au sens de l’art. 2, al. 2 et 3, LBA et les conseillers au sens de l’art. 2, al. 3bis et 3ter, LBA peuvent consulter en ligne les données du registre de transparence dans la mesure où ces données sont nécessaires à l’accomplissement des obligations de diligence prévues par la LBA; sont exceptées les données radiées en application de l’art. 24 de la présente loi et les informations relatives à l’auteur d’un signalement en application de l’art. 30 ou 31 de la présente loi. L’utilisation des données est limitée à cette seule fin.
-
-### LTPM Art. 28 — Extrait du registre de transparence
-
-Lien : https://www.fedlex.admin.ch/eli/cc/2026/323/fr
-
-Toute entité juridique peut demander:
-a. une attestation d’inscription au registre de transparence;
-b. un extrait excluant les données radiées en application de l’art. 24 et les informations relatives à d’éventuels signalements en application des art. 30 et 31;
-c. un extrait complet des informations inscrites au registre de transparence.
 
 ### LTPM Art. 30 — Signalement par les intermédiaires financiers
 
@@ -679,18 +711,6 @@ c. le contrôle est exercé au moyen d’une participation dans le capital socia
 d. la société n’est ni en liquidation, ni en faillite, ni en sursis concordataire.
 
 2 Dans la procédure d’annonce simplifiée, l’entité juridique atteste dans son annonce que les associés dont la participation est d’au moins 25 % sont ses ayants droit économiques. D’autres informations sur les ayants droit économiques ne sont pas nécessaires.
-
-### OTPM Art. 36 — Procédure d’annonce simplifiée pour les sociétés anonymes unipersonnelles
-
-Lien : https://www.fedlex.admin.ch/eli/cc/2026/364/fr
-
-1 Une société anonyme de droit suisse peut annoncer ses ayants droit économiques de manière simplifiée lorsque les conditions suivantes sont réunies:
-a. elle compte un seul actionnaire, qui est une personne physique;
-b. l’actionnaire est inscrit au registre du commerce en qualité de membre unique du conseil d’administration de la société;
-c. l’actionnaire est l’unique ayant droit économique de la société;
-d. la société n’est ni en liquidation, ni en faillite, ni en sursis concordataire.
-
-2 Dans la procédure d’annonce simplifiée, la société atteste dans son annonce que son actionnaire unique est l’ayant droit économique. D’autres informations sur l’ayant droit économique ne sont pas nécessaires.
 
 ### OTPM Art. 56 — Exceptions à l’obligation de signaler les divergences
 

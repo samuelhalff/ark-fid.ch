@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-02b",
+  "version": "2026-10-03",
   "questions": [
     {
       "id": "q01",
@@ -197,7 +197,7 @@
       "question": "Une SA cliente, soumise au contrôle restreint, dont l'actionnaire unique n'est pas inscrit au registre du commerce : jusqu'à quand doit-elle s'annoncer au registre de transparence ?",
       "must_mention": [
         "art. 51 al. 3 let. c LTPM : sociétés anonymes qui ne remplissent pas les conditions d'un contrôle ordinaire, cinq mois à compter du 1er octobre 2026",
-        "soit le 1er mars 2027 (date calculée, à vérifier)",
+        "soit, selon le calcul prudent de la page, au plus tard le 28 février 2027 (date à vérifier ; mentionner le 1er mars 2027 comme simple date anniversaire n'est pas une erreur si la prudence est signalée)",
         "un mois dès la première modification d'inscription au registre du commerce si elle intervient avant (art. 51 al. 1)"
       ],
       "must_not_claim": [
@@ -303,7 +303,7 @@
       "question": "Our foreign company owns a chalet in Verbier but has no branch in Switzerland. Do we have to register in the transparency register?",
       "must_mention": [
         "art. 2 para. 1 let. b no. 3 of the transparency act: foreign legal entities that own or acquire real estate in Switzerland are covered",
-        "six months from 1 October 2026 for foreign legal entities (art. 53), i.e. about 1 April 2027",
+        "six months from 1 October 2026 for foreign legal entities (art. 53), i.e. by the page's cautious calculation at the latest 31 March 2027",
         "must designate a representative or address for service in Switzerland (art. 17)",
         "filing via EasyGov, free of charge"
       ],
