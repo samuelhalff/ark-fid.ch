@@ -247,6 +247,8 @@ Source officielle : https://www.fedlex.admin.ch/eli/cc/2015/791/fr (État le 1er
 
 Lien : https://www.fedlex.admin.ch/eli/cc/2015/791/fr
 
+1 La présente ordonnance s’applique aux intermédiaires financiers, aux négociants et aux conseillers qui exercent leur activité en Suisse ou depuis la Suisse.
+
 […]
 
 3 Ne sont pas considérés comme conseillers:

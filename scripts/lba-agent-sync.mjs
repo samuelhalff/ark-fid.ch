@@ -49,7 +49,10 @@ const instructions = [
 
 const name = (process.env.LBA_AGENT_NAME || "lba-assistant").trim();
 const model = (process.env.LBA_AGENT_MODEL || "gpt-5.2").trim();
-const definition = { kind: "prompt", model, instructions };
+// A little reasoning before answering: without it the model sometimes opened with a wrong
+// conclusion and corrected itself mid-reply (indirect-control test, eval q31).
+const effort = (process.env.LBA_AGENT_REASONING || "low").trim();
+const definition = { kind: "prompt", model, instructions, ...(effort === "none" ? {} : { reasoning: { effort } }) };
 console.log(`agent ${name} | model ${model} | instructions ${instructions.length} chars`);
 if (!apply) {
   console.log("Dry run. Pass --apply to create the new version.");

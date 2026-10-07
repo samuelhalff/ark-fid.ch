@@ -74,5 +74,15 @@
     "url_fr": "https://www.transpareg.admin.ch/fr",
     "url_de": "https://www.transpareg.admin.ch/de",
     "url_en": "https://www.transpareg.admin.ch/en"
+  },
+  {
+    "id": "dff-commentaire",
+    "title_fr": "Commentaire du DFF sur l'OTPM et l'OBA révisée (12 juin 2026, corrigendum du 11 août 2026)",
+    "title_en": "FDF commentary on the transparency ordinance and the revised AMLO (12 June 2026, corrigendum of 11 August 2026)",
+    "title_de": "Erläuterungen des EFD zur TJPV und zur revidierten GwV (12. Juni 2026, Korrigendum vom 11. August 2026)",
+    "url_fr": "https://cms.news.admin.ch/fileservice/sdweb-docs-prod-nsbcch-files/files/2026/08/11/a7550420-f647-41e4-ba83-fb5699893fd0.pdf",
+    "url_de": "https://cms.news.admin.ch/fileservice/sdweb-docs-prod-nsbcch-files/files/2026/08/11/8430e21e-39c3-4ad2-ac4a-3df707daa9bd.pdf",
+    "url_en": null,
+    "note": "Official explanatory report (PDF); no English version."
   }
 ]
