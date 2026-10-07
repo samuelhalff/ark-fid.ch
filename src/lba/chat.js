@@ -210,7 +210,13 @@
     bubble('user',text);input.value='';grow();
     run();
   }
-  function grow(){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,140)+'px'}
+  function grow(){
+    // scrollHeight ignores the border: add it back, or the box is 2px short and shows a scrollbar.
+    input.style.height='auto';
+    var border=input.offsetHeight-input.clientHeight,wanted=input.scrollHeight+border;
+    input.style.height=Math.min(wanted,140)+'px';
+    input.style.overflowY=wanted>140?'auto':'hidden';
+  }
 
   form.addEventListener('submit',function(e){e.preventDefault();ask(input.value)});
   input.addEventListener('input',grow);
