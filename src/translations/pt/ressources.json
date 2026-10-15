@@ -31,16 +31,12 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
         },
         {
-          "labelKey": "Portaria sobre o branqueamento de capitais (OBA, RS 955.01) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/2015/791/fr"
-        },
-        {
-          "labelKey": "LBA, alteração de 26 de setembro de 2025 (FF 2025 2899) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/fga/2025/2899/fr"
-        },
-        {
           "labelKey": "O Conselho Federal põe em vigor novas regras contra o branqueamento de capitais (SFI, 12 de junho de 2026, em francês)",
           "url": "https://www.sif.admin.ch/fr/newnsb/x3sKLxCJ6S3dQJtfvy0Tb"
+        },
+        {
+          "labelKey": "FINMA - Autorité fédérale de surveillance",
+          "url": "https://www.finma.ch/fr/"
         }
       ],
       "category": "regulatory",
@@ -174,6 +170,10 @@
         {
           "labelKey": "Obligationenrecht (CO)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
         },
         {
           "labelKey": "Registre du commerce - Canton de Genève",
@@ -3573,7 +3573,7 @@
         },
         {
           "labelKey": "Domiciliation et substance fiscale",
-          "url": "https://www.admin.ch/opc/fr/classified-compilation/19330002/index.html"
+          "url": "https://www.fedlex.admin.ch/fr/cc/internal-law/19330002"
         }
       ]
     },

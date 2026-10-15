@@ -31,16 +31,12 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/de"
         },
         {
-          "labelKey": "Geldwäschereiverordnung (GwV, SR 955.01) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/2015/791/de"
-        },
-        {
-          "labelKey": "GwG, Änderung vom 26. September 2025 (BBl 2025 2899) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/fga/2025/2899/de"
-        },
-        {
           "labelKey": "Bundesrat setzt neue Regeln gegen Geldwäscherei in Kraft (SIF, 12. Juni 2026)",
           "url": "https://www.sif.admin.ch/de/newnsb/x3sKLxCJ6S3dQJtfvy0Tb"
+        },
+        {
+          "labelKey": "FINMA - Autorité fédérale de surveillance",
+          "url": "https://www.finma.ch/fr/"
         }
       ],
       "category": "regulatory",
@@ -651,10 +647,6 @@
         {
           "labelKey": "Handelsregister – Kanton Genf",
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
-        },
-        {
-          "labelKey": "Registre du commerce - Canton de Genève",
-          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ],
       "category": "corporate",
@@ -707,10 +699,6 @@
         {
           "labelKey": "Handelsregister – Kanton Genf",
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
-        },
-        {
-          "labelKey": "Registre du commerce - Canton de Genève",
-          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ],
       "category": "corporate",
@@ -1102,6 +1090,10 @@
         {
           "labelKey": "Handelsregister – Kanton Genf",
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ],
       "category": "corporate",
@@ -3573,7 +3565,7 @@
         },
         {
           "labelKey": "Domiciliation et substance fiscale",
-          "url": "https://www.admin.ch/opc/fr/classified-compilation/19330002/index.html"
+          "url": "https://www.fedlex.admin.ch/fr/cc/internal-law/19330002"
         }
       ]
     },

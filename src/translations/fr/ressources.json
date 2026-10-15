@@ -31,16 +31,12 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
         },
         {
-          "labelKey": "Ordonnance sur le blanchiment d'argent (OBA, RS 955.01) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/2015/791/fr"
-        },
-        {
-          "labelKey": "LBA, modification du 26 septembre 2025 (FF 2025 2899) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/fga/2025/2899/fr"
-        },
-        {
           "labelKey": "Le Conseil fédéral met en vigueur de nouvelles règles contre le blanchiment d'argent (SFI, 12 juin 2026)",
           "url": "https://www.sif.admin.ch/fr/newnsb/x3sKLxCJ6S3dQJtfvy0Tb"
+        },
+        {
+          "labelKey": "FINMA - Autorité fédérale de surveillance",
+          "url": "https://www.finma.ch/fr/"
         }
       ],
       "category": "regulatory",
@@ -3571,7 +3567,7 @@
         },
         {
           "labelKey": "Domiciliation et substance fiscale",
-          "url": "https://www.admin.ch/opc/fr/classified-compilation/19330002/index.html"
+          "url": "https://www.fedlex.admin.ch/fr/cc/internal-law/19330002"
         }
       ]
     },
