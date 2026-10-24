@@ -99,5 +99,17 @@
         ]
       }
     ]
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Ein ausländisches Unternehmen möchte eine Tochtergesellschaft in Genf mit stabilem Sitz gründen, ohne sofort Büros zu mieten.",
+        "WhatWeDo": "Sitzadresse am Boulevard Georges-Favon 26, Entgegennahme, Digitalisierung und Weiterleitung der Post, laufende administrative Unterstützung und Einhaltung der gesetzlichen Domizilanforderungen."
+      },
+      {
+        "Situation": "Eine selbstständige Person arbeitet von zu Hause aus und möchte ihre Privatadresse nicht im Handelsregister veröffentlichen.",
+        "WhatWeDo": "Professionelle Sitzadresse im Handelsregister, Entgegennahme und Digitalisierung der Post, administrative Unterstützung und bei Bedarf Sitzungsräume zur Miete."
+      }
+    ]
   }
 }

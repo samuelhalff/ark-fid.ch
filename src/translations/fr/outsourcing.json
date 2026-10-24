@@ -96,5 +96,17 @@
       "Text": "Vous cherchez avant tout à externaliser vos salaires ?",
       "LinkLabel": "Découvrez notre service de gestion des salaires."
     }
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Le comptable interne d'une PME part à la retraite ; personne ne veut reprendre la paie et la facturation.",
+        "WhatWeDo": "Reprise progressive de la comptabilité, de la paie, de la facturation et de la TVA, avec des SLA simples et un point mensuel avec la direction."
+      },
+      {
+        "Situation": "Une société internationale a une petite présence à Genève et ne veut pas recruter une équipe administrative locale.",
+        "WhatWeDo": "Back-office externalisé : comptabilité, paie et assurances sociales, facturation, TVA et suivi administratif."
+      }
+    ]
   }
 }

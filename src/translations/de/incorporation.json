@@ -209,5 +209,17 @@
         "Description": "Fachkundige Begleitung für eine reibungslose Unternehmensgründung und Anmeldung in der Schweiz.",
         "CTA": "Gründung starten",
         "SecondaryCTA": "Mehr erfahren"
-    }
+    },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Zwei Gesellschafter möchten in Genf eine GmbH gründen und sind unsicher bei der Rechtsform und beim Kapital.",
+        "WhatWeDo": "Wahl der Rechtsform, Statuten, Kapitaleinzahlungskonto, öffentliche Urkunde, Eintragung im Handelsregister und anschliessend MWST-Anmeldung."
+      },
+      {
+        "Situation": "Ein ausländischer Unternehmer möchte in Genf eine AG gründen und kennt die Schweizer Schritte nicht.",
+        "WhatWeDo": "Wahl der Struktur, Sitz der Gesellschaft, Kapitaleinzahlungskonto, öffentliche Urkunde und Handelsregistereintrag, danach Buchhaltung und Corporate-Secretarial-Leistungen nach der Eintragung."
+      }
+    ]
+  }
 }

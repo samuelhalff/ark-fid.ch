@@ -1,8 +1,8 @@
-name: AI Resources Update (every 3 days)
+name: AI Resources Update (weekly)
 
 on:
   schedule:
-    - cron: "0 0 */3 * *"
+    - cron: "0 5 * * 2"
   workflow_dispatch:
     inputs:
       force_topic:
@@ -103,8 +103,8 @@ jobs:
           REFERENCE_MIN_TRUSTED_DOMAINS: "1"
           REFERENCE_MIN_COUNT: "4"
           REFERENCE_MAX_COUNT: "6"
-          SEO_MIN_WORDS: "1500"
-          SEO_MAX_WORDS: "4000"
+          SEO_MIN_WORDS: "1200"
+          SEO_MAX_WORDS: "2800"
         run: |
           timeout -k 30s 30m node scripts/ai-ressources-update.js --apply --translate-existing
 

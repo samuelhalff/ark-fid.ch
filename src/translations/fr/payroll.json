@@ -173,5 +173,17 @@
         ]
       }
     ]
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Une PME genevoise sans service RH gère la paie sur un tableur ; un frontalier et un apprenti compliquent les décomptes.",
+        "WhatWeDo": "Reprise de la paie avec des sorties compatibles Swissdec, déductions d'assurances sociales, déclarations aux assurances, fiches de paie claires et checklist mensuelle pour les RH."
+      },
+      {
+        "Situation": "Un groupe étranger embauche ses premiers collaborateurs en Suisse sans entité locale ni service RH.",
+        "WhatWeDo": "Paie ANOBAG pour employeurs étrangers sans entité en Suisse (accords AVS, décomptes, conformité), préparation des contrats, administration RH et personne de contact dédiée pour les collaborateurs."
+      }
+    ]
   }
 }

@@ -223,6 +223,57 @@ const baseConfig = {
         destination: "/fr/services/constitution-entreprise/",
         permanent: true,
       },
+      // Duplicate-article consolidation (Oct 2026): source removed from all locales
+      {
+        source: "/:locale/ressources/articles/domiciliation-suisse-entreprises-contrats-substance-risques-2026/",
+        destination: "/:locale/ressources/articles/domiciliation-suisse-entreprises-2026-contrat-substance-risques/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/domiciliation-suisse-entreprises-contrats-substance-risques-2026",
+        destination: "/:locale/ressources/articles/domiciliation-suisse-entreprises-2026-contrat-substance-risques/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/tva-2025-geneve-impact-pme-revision-fiscale/",
+        destination: "/:locale/ressources/articles/impacts-tva-2025-geneve-pme/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/tva-2025-geneve-impact-pme-revision-fiscale",
+        destination: "/:locale/ressources/articles/impacts-tva-2025-geneve-pme/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/teletravail-frontaliers-2025-paie-geneve/",
+        destination: "/:locale/ressources/articles/paie-frontaliers-teletravail-2026-regles-controle/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/teletravail-frontaliers-2025-paie-geneve",
+        destination: "/:locale/ressources/articles/paie-frontaliers-teletravail-2026-regles-controle/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/certificat-de-salaire-suisse-2026-erreurs-frequentes-controles-checklist-employeur/",
+        destination: "/:locale/ressources/articles/certificat-salaire-erreurs-controles/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/certificat-de-salaire-suisse-2026-erreurs-frequentes-controles-checklist-employeur",
+        destination: "/:locale/ressources/articles/certificat-salaire-erreurs-controles/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/creer-sarl-ou-sa-geneve-2026-guide-complet/",
+        destination: "/:locale/ressources/articles/creer-sarl-sa-geneve-criteres-capital-fiscalite-gouvernance-2026/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/creer-sarl-ou-sa-geneve-2026-guide-complet",
+        destination: "/:locale/ressources/articles/creer-sarl-sa-geneve-criteres-capital-fiscalite-gouvernance-2026/",
+        permanent: true,
+      },
       // Consolidated article redirects — avoid 404s for merged content
       {
         source: "/:locale/ressources/articles/odoo-18-nouveautes-comptabilite-suisse-2025/",

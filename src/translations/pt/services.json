@@ -42,7 +42,14 @@
     "SecondaryCTA": "Obtenha um orçamento instantâneo"
   },
   "ServiceRelated": {
-    "Title": "Artigos relacionados"
+    "Title": "Artigos relacionados",
+    "PillarLabel": "Guia de referência"
+  },
+  "TypicalSituations": {
+    "Title": "Situações típicas",
+    "Disclaimer": "Exemplos fictícios e simplificados de situações de que podemos tratar. Não descrevem mandatos concretos de clientes nem resultados garantidos.",
+    "SituationLabel": "Situação",
+    "WhatWeDoLabel": "O que fazemos"
   },
   "ScrollHint": "Descobrir mais",
   "InlineContact": {

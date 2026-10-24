@@ -148,9 +148,12 @@ export default async function TeamMemberPage(props: { params: Promise<Params> })
           "src" in mappedProfileImage
         ? (mappedProfileImage as any).src
         : "/assets/abstract-background-light.webp";
-  const absoluteProfileImage = profileImageSrc.startsWith("http")
-    ? profileImageSrc
-    : `${baseUrl}${profileImageSrc}`;
+  // No portrait -> no Person image (the abstract fallback is not a picture of the person).
+  const absoluteProfileImage = !member.profilePic
+    ? undefined
+    : profileImageSrc.startsWith("http")
+      ? profileImageSrc
+      : `${baseUrl}${profileImageSrc}`;
   const personJsonLd = buildPersonSchema({
     id: `${baseUrl}${localePrefix}/team/${params.slug}/#person`,
     name: member.name,

@@ -99,5 +99,17 @@
         ]
       }
     ]
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Uma sociedade estrangeira quer uma filial em Genebra com uma sede estável, sem alugar escritórios de imediato.",
+        "WhatWeDo": "Morada de sede no 26 do boulevard Georges-Favon, receção, digitalização e reenvio do correio, apoio administrativo diário e cumprimento dos requisitos legais de domiciliação."
+      },
+      {
+        "Situation": "Um trabalhador independente trabalha a partir de casa e não quer que a sua morada privada conste do registo comercial.",
+        "WhatWeDo": "Morada de sede profissional inscrita no registo comercial, receção e digitalização do correio, apoio administrativo e salas de reuniões para alugar quando necessário."
+      }
+    ]
   }
 }

@@ -240,5 +240,18 @@
                 ]
             }
         ]
-    }
+    },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Una S.à r.l. de servicios se ha retrasado en su contabilidad y en sus liquidaciones de IVA.",
+        "WhatWeDo": "Puesta al día de la contabilidad, liquidaciones de IVA, cierre anual y después seguimiento regular con un equipo dedicado."
+      },
+      {
+        "Situation": "Una start-up financiada quiere cuentas fiables e informes periódicos para sus inversores.",
+        "WhatWeDo": "Plan contable personalizado, cierres intermedios, estados financieros e informes de gestión, y cuadros de mando adaptados a la actividad."
+      }
+    ],
+    "PriceNote": "Contabilidad digital sencilla: desde CHF 149 al mes. Precio fijo cuando el encargo está bien definido."
+  }
 }

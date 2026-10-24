@@ -55,3 +55,16 @@ export const serviceArticles: Record<string, string[]> = {
     "outsourcing-finance-cfo-a-la-demande",
   ],
 };
+
+/**
+ * Reference ("pillar") article per core service, shown first and highlighted.
+ * Four services only; the article must exist in the active locale.
+ */
+export const servicePillarArticle: Record<string, string> = {
+  "/services/domiciliation": "domiciliation-suisse-substance-risques-guide-2026",
+  "/services/payroll": "guide-cotisations-sociales-employeurs-suisse-2026",
+  "/services/accounting":
+    "externalisation-comptabilite-geneve-pme-avantages-etapes-solutions-2025",
+  "/services/incorporation":
+    "creer-sarl-sa-geneve-criteres-capital-fiscalite-gouvernance-2026",
+};

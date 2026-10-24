@@ -20,6 +20,10 @@ export type RessourceArticle = {
   updated?: string;
   author?: string;
   authorUrl?: string;
+  /** Team slug of the reviewer; only shown when reviewedAt covers the current version. */
+  reviewedBy?: string;
+  /** YYYY-MM-DD */
+  reviewedAt?: string;
   image?: string;
   references?: ArticleReference[];
   category?: string;

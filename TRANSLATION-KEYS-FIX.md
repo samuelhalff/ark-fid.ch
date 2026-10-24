@@ -349,3 +349,13 @@ The article `aml-lba-domiciliation-incorporation-suisse-so-fit` (date `2026-04-2
 Added to the `services` namespace in all locales (`fr`, `en`, `de`, `es`, `pt`):
 
 - `services:ServiceRelated.Title` — heading of the related-articles list at the end of each service page (`src/components/ui/service-related-articles.tsx`, slugs mapped in `src/lib/serviceArticles.ts`).
+
+## Assistant CTA, reviewer byline, pillar label, typical situations (Oct 2026)
+
+Added in all locales (`fr`, `en`, `de`, `es`, `pt`):
+
+- `ressources:AssistantBlock.Eyebrow`, `.Title`, `.Description`, `.PrimaryCTA`, `.SecondaryCTA` — end-of-article block pointing to the assistant (`/agent/`) with contact as secondary (`app/[locale]/ressources/articles/[slug]/page.tsx`, tracked as `cta_click` `article_end_agent` / `article_end_contact`).
+- `ressources:ReviewedBy` — reviewer byline, rendered only when an article has `reviewedBy` (team slug) and a `reviewedAt` date covering its current version.
+- `services:ServiceRelated.PillarLabel` — label of the highlighted reference guide in the related-articles block (`servicePillarArticle` in `src/lib/serviceArticles.ts`).
+- `services:TypicalSituations.Title`, `.Disclaimer`, `.SituationLabel`, `.WhatWeDoLabel` — shared labels of the typical situations block (`src/components/ui/service-typical-situations.tsx`).
+- `<service>:TypicalSituations.Cases[].Situation` / `.WhatWeDo` in `domiciliation`, `payroll`, `accounting`, `incorporation`, `outsourcing` — two fictional examples per service; `accounting:TypicalSituations.PriceNote` — the only price shown (from `faq.json` Answer15).

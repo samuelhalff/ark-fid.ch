@@ -13,6 +13,7 @@ import ServicesMobile from "@/src/components/navigation/ServicesMobile";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import TrackedLink from "@/src/components/ui/tracked-link";
 import { cn } from "@/src/lib/utils";
 import type { NavData } from "@/src/components/navigation/types";
 import { List, X } from "@phosphor-icons/react";
@@ -133,7 +134,8 @@ const MobileMenu = ({
               </Link>
             </div>
             <div>
-              <Link
+              <TrackedLink
+                cta="nav_mobile_agent"
                 href={`${localePrefix}/agent/`}
                 onClick={handleLinkClick}
                 prefetch={false}
@@ -141,7 +143,7 @@ const MobileMenu = ({
                 className="flex items-center gap-3 text-md px-2 py-2 rounded hover:bg-accent transition-colors font-bold"
               >
                 <span>{navData.labels.agent}</span>
-              </Link>
+              </TrackedLink>
             </div>
             <div>
               <Link

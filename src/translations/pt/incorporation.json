@@ -117,5 +117,17 @@
         "Description": "Orientação especializada para abertura e registro empresarial sem complicações na Suíça.",
         "CTA": "Iniciar minha abertura",
         "SecondaryCTA": "Saiba mais"
-    }
+    },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Dois sócios querem constituir uma Sàrl em Genebra e têm dúvidas sobre a forma jurídica e o capital.",
+        "WhatWeDo": "Escolha da forma jurídica, estatutos, conta de consignação do capital, escritura notarial, inscrição no registo comercial e, depois, registo no IVA."
+      },
+      {
+        "Situation": "Um empresário estrangeiro quer constituir uma SA em Genebra e não conhece as etapas suíças.",
+        "WhatWeDo": "Escolha da estrutura, sede social, conta de consignação do capital, escritura notarial e inscrição no registo comercial, e depois contabilidade e secretariado jurídico após o registo."
+      }
+    ]
+  }
 }

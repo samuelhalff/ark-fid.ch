@@ -6,7 +6,10 @@ try { require("dotenv").config(); } catch {}
  * Translate FR articles to other locales (EN/DE/ES/PT) using Azure OpenAI (GPT-4.1) while preserving slugs and links.
  * - Azure ONLY (Gemini removed). Provider forced to 'azure'.
  * - Does NOT change filenames, slugs, or reference URLs.
- * - Only updates title/description/content fields for Articles.
+ * - Translates title/description/content and re-copies every other FR field (author, authorUrl, image,
+ *   reviewedBy, reviewedAt, updated, unknown fields...) onto the localized entry ({...frA, translated}).
+ *   Writes after each locale/article (not transactional): for a full refresh use
+ *   `ai-ressources-update.js --refresh=<slug>` which stages everything and writes all-or-nothing.
  * - Skips items already translated (i.e., content already diverges from FR), unless --force.
  * - Applies a light heuristic to warn about unnecessary capitals (acronyms allowed).
  *

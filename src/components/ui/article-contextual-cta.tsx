@@ -14,6 +14,8 @@ const ArticleContextualCTA = ({
   primaryHref,
   secondaryText,
   secondaryHref,
+  primaryCta,
+  secondaryCta,
 }: {
   locale: string;
   title: string;
@@ -22,6 +24,9 @@ const ArticleContextualCTA = ({
   primaryHref?: string;
   secondaryText?: string;
   secondaryHref?: string;
+  /** GA4 cta_click names; omit for untracked links. */
+  primaryCta?: string;
+  secondaryCta?: string;
 }) => {
   const activeLocale = (locale as Locale) || ("fr" as Locale);
   const localePrefix = locale ? `/${locale}` : "/fr";
@@ -41,6 +46,7 @@ const ArticleContextualCTA = ({
         href: resolvedPrimaryHref,
         label: primaryText,
         locale: activeLocale,
+        cta: primaryCta,
       }}
       secondary={
         secondaryText
@@ -48,6 +54,7 @@ const ArticleContextualCTA = ({
               href: resolvedSecondaryHref,
               label: secondaryText,
               locale: activeLocale,
+              cta: secondaryCta,
             }
           : undefined
       }

@@ -99,5 +99,17 @@
         ]
       }
     ]
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Une société étrangère veut une filiale à Genève avec un siège stable, sans louer de bureaux tout de suite.",
+        "WhatWeDo": "Adresse de siège au 26 boulevard Georges-Favon, réception, numérisation et réexpédition du courrier, appui administratif au quotidien et respect des exigences légales de domiciliation."
+      },
+      {
+        "Situation": "Un indépendant travaille depuis chez lui et ne souhaite pas publier son adresse privée au registre du commerce.",
+        "WhatWeDo": "Adresse de siège professionnelle inscrite au registre du commerce, réception et numérisation du courrier, appui administratif et salles de réunion à la location en cas de besoin."
+      }
+    ]
   }
 }

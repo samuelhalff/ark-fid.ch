@@ -503,6 +503,40 @@ export function buildPersonSchema(cfg: PersonSchemaConfig) {
   } as const;
 }
 
+export interface TeamPersonRef {
+  id: string;
+  name: string;
+  url: string;
+  jobTitle?: string;
+}
+
+/** Person @id shared by the team profile page, the team index and article schemas. */
+export function buildTeamPersonId(locale: string, slug: string) {
+  return `${arkOrganization.url}/${locale}/team/${slug}/#person`;
+}
+
+/** Person node used as ListItem.item on the team index; image only when a real portrait exists. */
+export function buildTeamListPerson(cfg: TeamPersonRef & { image?: string }) {
+  return {
+    "@type": "Person",
+    "@id": cfg.id,
+    name: cfg.name,
+    url: cfg.url,
+    ...(cfg.jobTitle ? { jobTitle: cfg.jobTitle } : {}),
+    ...(cfg.image ? { image: cfg.image } : {}),
+  } as const;
+}
+
+function toPersonNode(ref: TeamPersonRef) {
+  return {
+    "@type": "Person",
+    "@id": ref.id,
+    name: ref.name,
+    url: ref.url,
+    ...(ref.jobTitle ? { jobTitle: ref.jobTitle } : {}),
+  } as const;
+}
+
 export interface ArticleSchemaConfig {
   schemaType?: "Article" | "BlogPosting" | "TechArticle";
   headline: string;
@@ -511,6 +545,10 @@ export interface ArticleSchemaConfig {
   dateModified?: string;
   author?: string;
   authorUrl?: string;
+  /** When set, the author is emitted as this team Person (same @id as the profile page). */
+  authorPerson?: TeamPersonRef;
+  /** Only pass a verified reviewer (see isReviewCurrent); never guessed. */
+  reviewedBy?: TeamPersonRef;
   publisherName?: string;
   image?: string;
   url: string;
@@ -528,7 +566,9 @@ export function buildArticleSchema(cfg: ArticleSchemaConfig) {
     "@type": cfg.schemaType || "Article",
     headline: cfg.headline,
     ...(cfg.description ? { description: cfg.description } : {}),
-    ...(cfg.author
+    ...(cfg.authorPerson
+      ? { author: toPersonNode(cfg.authorPerson) }
+      : cfg.author
       ? {
           author: {
             "@type": cfg.authorUrl ? "Person" : "Organization",
@@ -537,6 +577,7 @@ export function buildArticleSchema(cfg: ArticleSchemaConfig) {
           },
         }
       : {}),
+    ...(cfg.reviewedBy ? { reviewedBy: toPersonNode(cfg.reviewedBy) } : {}),
     publisher: {
       "@type": "Organization",
       "@id": `${arkOrganization.url}/#organization`,

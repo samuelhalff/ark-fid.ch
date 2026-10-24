@@ -17,6 +17,10 @@ import {
   getTeamMembersSortedByLastName,
 } from "@/src/lib/team";
 import { teamImageMap } from "@/src/lib/teamImages";
+import {
+  buildTeamListPerson,
+  buildTeamPersonId,
+} from "@/src/lib/structuredData";
 import teamBlurData from "@/src/lib/teamBlurData.json";
 import PageHero from "@/src/components/site/page-hero";
 import Reveal from "@/src/components/motion/reveal";
@@ -84,11 +88,35 @@ export default async function TeamPage(
     name: title,
     itemListElement: orderedTeamMembers.map((member, index) => {
       const slug = getMemberSlug(member);
+      const roleKey = `Role.${member.role}`;
+      const roleValue = t(roleKey) as string;
+      const jobTitle = roleValue && roleValue !== roleKey ? roleValue : undefined;
+      const mappedImage = (teamImageMap as Record<string, unknown>)[
+        member.profilePic
+      ] as string | { src?: string } | undefined;
+      const imageSrc = member.profilePic
+        ? typeof mappedImage === "string"
+          ? mappedImage
+          : mappedImage?.src || member.profilePic
+        : "";
+      const image = imageSrc
+        ? imageSrc.startsWith("http")
+          ? imageSrc
+          : `${baseUrl}${imageSrc}`
+        : undefined;
+      const personUrl = `${baseUrl}${localePrefix}/team/${slug}/`;
       return {
         "@type": "ListItem",
         position: index + 1,
-        url: `${baseUrl}${localePrefix}/team/${slug}/`,
+        url: personUrl,
         name: member.name,
+        item: buildTeamListPerson({
+          id: buildTeamPersonId(locale, slug),
+          name: member.name,
+          url: personUrl,
+          jobTitle,
+          image,
+        }),
       };
     }),
   } as const;

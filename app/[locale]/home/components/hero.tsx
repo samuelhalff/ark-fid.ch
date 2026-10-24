@@ -1,6 +1,7 @@
 // Server component: no client hooks, translations provided by server
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
+import TrackedLink from "@/src/components/ui/tracked-link";
 // import { useTranslation } from "react-i18next";
 // import "@/src/i18n";
 import { splitTitle } from "@/src/lib/typography";
@@ -49,7 +50,8 @@ const Hero = ({ locale, heroIndex, translations, facts }: HeroProps) => {
           </p>
 
           <div className="mt-10 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center">
-            <Link
+            <TrackedLink
+              cta="home_hero_agent"
               href={`${localePrefix}/agent/`}
               className="w-full sm:w-auto"
               locale={locale}
@@ -61,7 +63,7 @@ const Hero = ({ locale, heroIndex, translations, facts }: HeroProps) => {
               >
                 <span>{t("Hero.SecondaryCTA")}</span>
               </Button>
-            </Link>
+            </TrackedLink>
             <Link
               href={`${localePrefix}/contact/`}
               className="w-full sm:w-auto"

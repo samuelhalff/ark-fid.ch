@@ -37,6 +37,11 @@ const {
   validateArticleTopicAgainstAvailable,
 } = require("./lib/topicSelector");
 const { buildAzureOpenAIChatBody } = require("./lib/azureOpenAIChatOptions");
+const {
+  buildEditorialRules,
+  buildRefreshResearchPrompt,
+  refreshArticles,
+} = require("./lib/articleRefresh");
 
 const rawArgs = process.argv.slice(2);
 const args = new Set(rawArgs);
@@ -44,10 +49,18 @@ const APPLY = args.has("--apply");
 const DRY = args.has("--dry-run");
 const TRANSLATE_EXISTING = args.has("--translate-existing");
 let MOCK_PATH = null;
+let REFRESH_SLUGS = [];
 
 for (const arg of rawArgs) {
   if (arg.startsWith("--mock=")) {
     MOCK_PATH = arg.slice("--mock=".length);
+  }
+  if (arg.startsWith("--refresh=")) {
+    REFRESH_SLUGS = arg
+      .slice("--refresh=".length)
+      .split(",")
+      .map((entry) => entry.trim())
+      .filter(Boolean);
   }
 }
 
@@ -389,15 +402,9 @@ function buildSystemPrompt(frJson, trendData = null, topicAnalysis = null) {
   const minWords = parseInt(process.env.SEO_MIN_WORDS || "800", 10);
   const maxWords = parseInt(process.env.SEO_MAX_WORDS || "3000", 10);
   const lengthGuidance = process.env.SEO_MIN_WORDS
-    ? `- Longueur MINIMALE: ${minWords} mots (objectif ${Math.max(minWords, 1500)} à ${Math.max(Math.max(minWords, 1500), maxWords)}). Si tu es en dessous, ajoute des sections (checklist, FAQ, exemples chiffrés, cas cantonaux, cas pratiques).`
-    : "- Article format pratique (800 à 1500 mots), structuré avec sections claires, listes, exemples chiffrés.";
-  const longFormRequirements =
-    process.env.SEO_MIN_WORDS && minWords >= 1500
-      ? [
-          "- OBLIGATOIRE (pour atteindre la longueur): au moins 10 sections H2, plusieurs H3, 2 checklists, 2 tableaux, 1 cas pratique chiffré (CHF) et une FAQ de 6 questions.",
-          "- OBLIGATOIRE: inclure une section 'processus étape-par-étape' et une section 'erreurs fréquentes + corrections'.",
-        ]
-      : [];
+    ? `- Longueur MINIMALE: ${minWords} mots (objectif ${minWords} à ${Math.max(minWords, maxWords)}). Atteins-la par la substance du sujet (démarches, autorités, délais, points de vigilance), pas par du remplissage.`
+    : "- Article format pratique (800 à 1500 mots), structuré selon le sujet.";
+  const longFormRequirements = buildEditorialRules();
   const recentSlugs = (Array.isArray(frJson.Articles) ? frJson.Articles : [])
     .map((a) => a.slug)
     .filter(Boolean);
@@ -482,7 +489,7 @@ function buildSystemPrompt(frJson, trendData = null, topicAnalysis = null) {
     "- NE COMMENCE JAMAIS par une section « Introduction ». Entre directement dans le vif du sujet.",
     "- Titres H2/H3 concrets et spécifiques, pas génériques (ex: « 3 erreurs qui coûtent cher aux Sàrl » plutôt que « Erreurs fréquentes »).",
     "- Varie la longueur des paragraphes et évite le schéma répétitif « intro → liste → conclusion » pour chaque section.",
-    "- Ajoute 1-2 observations de terrain ou anecdotes professionnelles pour ancrer le propos.",
+    "- Ancre le propos dans la pratique (autorités, délais, démarches), sans anecdote ni observation de terrain inventée.",
     "- Ose une opinion professionnelle assumée (« À notre avis, la meilleure approche… »).",
     "",
     "MOTS ET TOURNURES INTERDITS (typiques d'une IA):",
@@ -628,14 +635,14 @@ function buildResearchPrompt(
     "",
     "Contraintes:",
     topicConstraint,
-    `- L'article final fera ${Math.max(minWords, 1500)} à ${Math.max(Math.max(minWords, 1500), maxWords)} mots.`,
-    "- Références: fournir 12 à 18 liens vérifiables (HTTP 200, pas de login), sans URL inventée.",
+    `- L'article final fera ${minWords} à ${Math.max(minWords, maxWords)} mots.`,
+    "- Références: fournir 6 à 10 liens vérifiables (HTTP 200, pas de login), sans URL inventée.",
     "- Références: inclure au moins 2 sources officielles (admin.ch / fedlex.admin.ch / bsv.admin.ch / estv.admin.ch / seco.admin.ch / finma.ch, etc.).",
     "- Références: compléter uniquement avec des sources institutionnelles, associations professionnelles, institutions académiques, registres officiels, documentation officielle Odoo ou sites reconnus de cette liste.",
     ALLOWED_REFERENCE_DOMAINS_PROMPT,
     "- Inspiration privée autorisée: tu peux lire des concurrents pour comprendre le sujet, mais tu ne dois jamais publier leur URL comme source.",
     "- INTERDIT: ne JAMAIS citer de sites concurrents ou de cabinets (fiduciaires, treuhand, avocats, notaires, comptables, experts-comptables, consultants, intégrateurs Odoo, steuerberater, kanzlei, Big 4, etc.). Aucun lien vers un cabinet concurrent.",
-    "- STRICT: chaque référence doit provenir d'un domaine différent (1 domaine = 1 lien). Si tu donnes 12 références, ce sont 12 domaines distincts, sinon la réponse est rejetée.",
+    "- STRICT: chaque référence doit provenir d'un domaine différent (1 domaine = 1 lien). Si tu donnes 8 références, ce sont 8 domaines distincts, sinon la réponse est rejetée.",
     `Slugs existants — INTERDIT de proposer un sujet recouvrant substantiellement un slug existant (un contrôle de similarité sur tous les articles fera échouer la publication) : ${recentSlugs.join(", ") || "aucun"}.`,
     `Services à promouvoir: ${SERVICES.join(", ")}.`,
     "",
@@ -652,7 +659,7 @@ function buildResearchPrompt(
     '    "category": "<payroll|tax|corporate|odoo|accounting|audit|incorporation|immigration|regulatory|outsourcing|ma|family-office|domiciliation|finance|general>",',
     '    "primaryKeyword": "<mot-clé principal>",',
     '    "secondaryKeywords": ["..."],',
-    '    "outline": ["H2 ...", "H2 ...", "FAQ ..."],',
+    '    "outline": ["H2 ...", "H2 ..."],',
     '    "references": [ { "labelKey": "Libellé FR", "url": "https://..." }, ... ]',
     "  }",
     "}",
@@ -692,26 +699,24 @@ function buildDraftPromptFromResearch(research, validatedReferences) {
     "STRUCTURE ET RYTHME:",
     "- NE COMMENCE JAMAIS par une section intitulée « Introduction ». Entre directement dans le vif du sujet.",
     "- Varie la longueur des paragraphes: certains courts (1-2 phrases), d'autres plus développés.",
-    "- Mélange les formats: paragraphes narratifs, listes à puces, tableaux, exemples chiffrés — sans suivre un schéma répétitif.",
+    "- Mélange les formats seulement quand le sujet le justifie (paragraphes, listes, tableau si utile) — sans suivre un schéma répétitif.",
     "- Évite le schéma prévisible « phrase d'intro → liste à puces → phrase de conclusion » pour chaque section.",
     "- Les titres H2 et H3 doivent être concrets et spécifiques, pas génériques (« 3 erreurs qui coûtent cher aux Sàrl genevoises » plutôt que « Erreurs fréquentes »).",
     "- Ne termine pas chaque section par une phrase de transition ou un résumé. Certaines sections s'arrêtent net, d'autres enchaînent naturellement.",
     "",
     "CE QUI FAIT LA DIFFÉRENCE (un article humain vs un article IA):",
-    "- Ajoute 1 à 2 anecdotes ou observations de terrain (« En pratique, beaucoup de PME genevoises découvrent ce problème au moment du bouclement… »).",
-    "- Mentionne des spécificités locales: cantons, offices, délais réels, montants courants.",
-    "- Utilise des chiffres précis plutôt que des fourchettes vagues.",
-    "- Les exemples chiffrés doivent être réalistes et situés (entreprise type, secteur, canton).",
+    "- Mentionne des spécificités locales vérifiables: cantons, offices, délais et formulaires officiels.",
+    "- Pas d'anecdote ni d'observation de terrain inventée. Chiffres précis uniquement s'ils sont sourcés ou légaux; sinon reste qualitatif.",
     "- Permets-toi une opinion professionnelle assumée (« À notre avis, la meilleure approche reste… »).",
     "",
     "=== FAITS VÉRIFIÉS (ne pas contredire) ===",
     "- Taux de TVA suisses (depuis le 1er janvier 2024): taux normal 8,1 %, taux réduit 2,6 %, taux spécial hébergement 3,8 %. Les anciens taux (7,7 %, 2,5 %, 3,7 %) ne sont plus en vigueur.",
     "- INTERDIT ABSOLU: ne mentionne jamais les anciens taux 7,7 %, 2,5 % ou 3,7 %, même pour une comparaison historique. Si tu parles des taux, utilise uniquement 8,1 %, 2,6 % et 3,8 %.",
     "",
-    `CONTRAINTE DE LONGUEUR (STRICTE): entre ${Math.max(minWords, 1500)} et ${Math.max(maxWords, Math.max(minWords, 1500))} mots (viser ~2200).`,
-    "Si tu es en dessous du minimum, tu DOIS ajouter du contenu (plus de H2/H3, plus d'explications, plus d'exemples). Ne termine pas tôt.",
-    "Structure obligatoire: 10+ sections H2, plusieurs H3, 2 tableaux, 2 checklists, 1 cas pratique chiffré (CHF), une section étape-par-étape, une section erreurs fréquentes + corrections, et une FAQ de 6 questions.",
-    "Astuce pour atteindre la longueur: fais des sections orientées décision (risques, contrôles, documents, exemples) et des listes actionnables.",
+    `CONTRAINTE DE LONGUEUR (STRICTE): entre ${minWords} et ${Math.max(maxWords, minWords)} mots (viser ~${Math.round((minWords + Math.max(maxWords, minWords)) / 2)}).`,
+    "Si tu es en dessous du minimum, approfondis la substance du sujet (démarches, autorités, délais, points de vigilance). Pas de remplissage.",
+    "RÈGLES ÉDITORIALES:",
+    ...buildEditorialRules(),
     "IMPORTANT:",
     "- N'invente AUCUN lien ni URL.",
     "- N'inclus AUCUNE URL dans le texte (pas de http/https).",
@@ -719,7 +724,7 @@ function buildDraftPromptFromResearch(research, validatedReferences) {
     "- Titres: utilise ## pour H2 et ### pour H3, sans préfixer les titres par « H2 » ou « H3 ».",
     "- Utilise exactement le slug, titre et description fournis.",
     "",
-    "Plan à suivre:",
+    "Plan indicatif (adapte-le au sujet ; pas de FAQ si elle n'apporte rien, au plus 3 questions):",
     JSON.stringify(research.outline || [], null, 2),
     "",
     "Références disponibles (ne pas modifier, ne pas ajouter):",
@@ -1291,7 +1296,7 @@ function buildDraftRepairPromptFromExistingArticle(
   article,
   { mode, minWords, maxWords },
 ) {
-  const targetMin = Math.max(parseInt(minWords || "1500", 10) || 1500, 1500);
+  const targetMin = parseInt(minWords || "1200", 10) || 1200;
   const targetMax = Math.max(
     parseInt(maxWords || "3000", 10) || 3000,
     targetMin,
@@ -1299,8 +1304,8 @@ function buildDraftRepairPromptFromExistingArticle(
   const currentWords = countWords(article?.content || "");
   const action =
     mode === "expand"
-      ? `Allonge le contenu pour dépasser ${targetMin} mots (objectif ~2200).`
-      : `Raccourcis le contenu pour être sous ${targetMax} mots (objectif ~2200).`;
+      ? `Allonge le contenu pour dépasser ${targetMin} mots (objectif: milieu de la fourchette).`
+      : `Raccourcis le contenu pour être sous ${targetMax} mots (objectif: milieu de la fourchette).`;
 
   return [
     "Tu es un rédacteur SEO senior pour Ark Fiduciaire (Genève).",
@@ -1309,13 +1314,14 @@ function buildDraftRepairPromptFromExistingArticle(
     "- Ne change PAS le slug, le titre, la description, l'auteur, la date.",
     "- Ne change PAS les références; garde exactement la même liste.",
     "- N'inclus AUCUNE URL dans le texte (pas de http/https).",
-    "- Conserve la structure (H2/H3) et les éléments obligatoires (2 tableaux, 2 checklists, 1 cas pratique chiffré CHF, étape-par-étape, erreurs fréquentes + corrections, FAQ 6 questions).",
+    "- Conserve la structure (H2/H3) et le paragraphe « Ce que nous faisons chez Ark » avec son lien interne relatif.",
+    "- Ne crée aucune anecdote, aucun cas client ni chiffre non sourcé.",
     `- Longueur STRICTE: ${targetMin} à ${targetMax} mots. Le texte actuel fait ~${currentWords} mots.`,
     "",
     "STYLE (conserver le ton humain):",
     "- Garde un ton direct et conversationnel, pas académique.",
     "- NE RAJOUTE PAS de formules IA: « il est important de noter », « en effet », « de plus », « par ailleurs », « dans ce contexte », « en conclusion ».",
-    "- Si tu allonges, ajoute des exemples concrets chiffrés, des observations de terrain ou des cas pratiques — pas du remplissage générique.",
+    "- Si tu allonges, approfondis la substance (démarches, autorités, délais, points de vigilance) — pas de remplissage, pas d'anecdote ni de chiffre inventé.",
     "",
     "Voici l'article actuel (JSON):",
     JSON.stringify(
@@ -1368,16 +1374,16 @@ function buildDraftAppendPromptFromExistingArticle(
     `Tu es encore sous le minimum après ${appendAttempt} tentative(s) de correction. Cette fois, ajoute franchement de la matière utile, sans répéter l'existant.`,
     "IMPORTANT:",
     "- Ne modifie pas le texte existant: tu ajoutes uniquement de nouvelles sections à la fin.",
-    "- Ajoute 3 à 5 nouvelles sections H2, avec des sous-sections H3 si utile.",
-    "- Ajoute 2 checklists et au moins 1 tableau dans les nouvelles sections.",
-    "- Ajoute 4 à 6 questions de FAQ supplémentaires (si une FAQ existe déjà, continue-la).",
+    "- Ajoute les sections H2 que le sujet exige encore (H3 si utile), sans remplissage.",
+    "- Tableau ou checklist uniquement s'ils apportent une information que le texte n'exprime pas mieux. Pas de FAQ ajoutée pour faire du volume (3 questions réelles au plus au total).",
+    "- Aucune anecdote, aucun cas client, aucun chiffre qui ne soit pas sourcé (références de l'article) ou légal. Exemple chiffré seulement s'il est signalé « Exemple fictif ».",
     "- N'inclus AUCUNE URL dans le texte (pas de http/https).",
     "- Quand tu cites une source, écris seulement (source: <labelKey>) et utilise uniquement des labelKey déjà présents dans les références de l'article.",
     "",
     "STYLE (ton humain — pas de remplissage IA):",
-    "- Écris comme un expert qui parle à un client. Ton direct, exemples concrets, chiffres réalistes.",
+    "- Écris comme un expert qui parle à un client. Ton direct, précis, ancré dans les autorités et délais réels.",
     "- INTERDIT: « il est important de noter », « en effet », « de plus », « par ailleurs », « dans ce contexte », « il convient de », « en conclusion ».",
-    "- Ajoute de la substance: cas pratiques chiffrés, comparaisons cantonales, pièges réels — pas de phrases creuses ou de généralités.",
+    "- Ajoute de la substance vérifiable: démarches, autorités, délais, comparaisons cantonales sourcées — pas de phrases creuses ni d'invention.",
     "- Varie le rythme: mélange phrases courtes et développements plus longs.",
     "",
     "Article existant (à compléter):",
@@ -2169,13 +2175,13 @@ function buildRetryPrompt(basePrompt, error, frData) {
     hint = [
       `⚠️ L'article est trop court (${error.words || "?"} mots).`,
       `Vise une longueur nette de ${error.minWords || "800"}+ mots (objectif +25%).`,
-      "OBLIGATOIRE: ajoute 10+ sections H2, plusieurs H3, 2 checklists, 2 tableaux, 1 cas pratique chiffré (CHF), 1 section étape-par-étape et une FAQ de 6 questions.",
+      "Approfondis la substance du sujet (démarches, autorités, délais, points de vigilance), sans remplissage, sans anecdote ni cas client inventé, sans chiffre non sourcé.",
     ].join(" ");
   } else if (error.code === "TOO_LONG") {
     hint = [
       `⚠️ L'article est trop long (${error.words || "?"} mots).`,
       `Réduis à ${error.maxWords || "3000"} mots max sans perdre en utilité.`,
-      "Supprime le blabla, garde les tableaux/checklists/cas pratique, et condense les sections redondantes.",
+      "Supprime le blabla et condense les sections redondantes; garde le paragraphe « Ce que nous faisons chez Ark ».",
     ].join(" ");
   } else if (error.code === "MISSING_FIELD" && error.field) {
     hint = `⚠️ Le champ ${error.field} est manquant. Fournis un article complet avec ce champ rempli.`;
@@ -2831,7 +2837,7 @@ async function draftArticleFromResearch(
           isCondenseAttempt
             ? buildDraftRepairPromptFromExistingArticle(draftArticle, {
                 mode: "condense",
-                minWords: process.env.SEO_MIN_WORDS || "1500",
+                minWords: process.env.SEO_MIN_WORDS || "1200",
                 maxWords: lastError.maxWords,
               })
             : basePrompt;
@@ -2928,9 +2934,131 @@ function assertTranslationPayload(translations, locales) {
   }
 }
 
+// Service page used for the "Ce que nous faisons chez Ark" link of each refresh
+// target; other slugs fall back to their category's service page.
+const REFRESH_SERVICE_PATHS = {
+  "proces-verbal-assemblee-generale-obligations-redaction-suisse-2025": "/services/corporate",
+  "liquidation-societe-suisse": "/services/corporate",
+  "risques-faillite-administrateurs": "/services/corporate",
+  "lba-aml-obligations-kyc-risques-fiduciaire-suisse": "/services/domiciliation",
+  "guide-cotisations-sociales-employeurs-suisse-2026": "/services/payroll",
+  "anobag-suisse-permis-travail": "/services/payroll",
+  "certificat-salaire-erreurs-controles": "/services/payroll",
+  "odoo-comptabilite-tva-suisse-parametrage-controles": "/services/odoo",
+  "ayants-droit-economiques-registre-actions-sa-sarl-obligations-2026": "/services/corporate",
+  "externalisation-comptabilite-geneve-pme-avantages-etapes-solutions-2025": "/services/accounting",
+  "externalisation-paie-geneve-2025-avantages-securite-pme": "/services/outsourcing",
+};
+const CATEGORY_SERVICE_PATHS = {
+  odoo: "/services/odoo",
+  accounting: "/services/accounting",
+  tax: "/services/taxes",
+  payroll: "/services/payroll",
+  audit: "/services/accounting",
+  corporate: "/services/corporate",
+  domiciliation: "/services/domiciliation",
+  outsourcing: "/services/outsourcing",
+  ma: "/services/mergers-acquisitions",
+  "family-office": "/services/family-office",
+  incorporation: "/services/incorporation",
+  immigration: "/services/immigration",
+  finance: "/services/accounting",
+  regulatory: "/services/corporate",
+};
+
+/**
+ * Local-only, transactional refresh of existing FR articles + 4 translations.
+ * Usage: node scripts/ai-ressources-update.js --refresh=<slug>[,<slug>] [--apply] [--mock=file]
+ * Nothing is written unless --apply is given AND every step succeeded.
+ */
+async function runRefresh() {
+  const today = isoDateToday();
+  const frData = loadJSON(FR_PATH);
+  const servicePaths = {};
+  for (const slug of REFRESH_SLUGS) {
+    const art = (frData.Articles || []).find((a) => a.slug === slug);
+    servicePaths[slug] =
+      REFRESH_SERVICE_PATHS[slug] ||
+      CATEGORY_SERVICE_PATHS[art?.category] ||
+      "/services/accounting";
+  }
+  const mock = MOCK_DATA?.refresh || null;
+  const deps = {
+    research: async (article) => {
+      if (mock) return mock.references;
+      ensureAzureEnv();
+      const payload = await requestAgentJson(
+        buildRefreshResearchPrompt(article, {
+          today,
+          allowedDomainsPrompt: ALLOWED_REFERENCE_DOMAINS_PROMPT,
+        }),
+        { agentName: AZURE_AGENT_RESEARCH_NAME },
+      );
+      const carrier = {
+        title: article.title,
+        slug: article.slug,
+        content: "",
+        references: Array.isArray(payload?.references) ? payload.references : [],
+      };
+      await repairReferences(carrier, article.category || "general");
+      return carrier.references;
+    },
+    draft: async (prompt) => {
+      if (mock) return mock.draft;
+      ensureOpenAIEnv();
+      return azureOpenAIJson(prompt, {
+        endpoint: AZURE_OPENAI_DRAFT_ENDPOINT,
+        deployment: AZURE_OPENAI_DRAFT_DEPLOYMENT,
+        apiVersion: AZURE_OPENAI_DRAFT_API_VERSION,
+        temperature: 0.3,
+        topP: 0.9,
+        maxTokens: AZURE_OPENAI_DRAFT_MAX_TOKENS,
+        debugLabel: "refresh draft",
+        system: "You are an expert French writer. Output ONLY a JSON object.",
+      });
+    },
+    postProcess: async (article, data) => {
+      syncContentReferencesSection(article);
+      sanitizeContentExternalLinks(article);
+      normalizeMarkdownHeadings(article);
+      normalizeArticleUiLabelsInPlace(article, data.ArticleUiLabels);
+      const stale = extractOutdatedSwissVatRateMatches(article);
+      if (stale.length) {
+        throw new Error(
+          `refresh: ${article.slug}: taux de TVA obsolètes (${Array.from(new Set(stale.map((m) => m.rate))).join(", ")})`,
+        );
+      }
+    },
+    translate: async (article, labels) => {
+      if (mock) return mock.translations;
+      ensureOpenAIEnv();
+      return azureOpenAITranslateJson(buildTranslatePrompt(article, labels));
+    },
+  };
+  const results = await refreshArticles({
+    slugs: REFRESH_SLUGS,
+    today,
+    translationsDir: TRANSLATIONS_DIR,
+    locales: LOCALES,
+    servicePaths,
+    apply: APPLY && !DRY,
+    deps,
+  });
+  for (const r of results) {
+    console.log(`\n${r.slug}: ${r.wordsBefore} -> ${r.wordsAfter} words`);
+    for (const line of r.changeSummary) console.log(`  - ${line}`);
+  }
+  console.log(
+    "\nReview `git diff src/translations/*/ressources.json`, run the validators, then commit.",
+  );
+}
+
 async function main() {
   if (!fs.existsSync(FR_PATH)) {
     throw new Error(`Canonical FR ressources file not found: ${FR_PATH}`);
+  }
+  if (REFRESH_SLUGS.length) {
+    return runRefresh();
   }
   if (!MOCK_DATA) {
     ensureAzureEnv();
@@ -3098,6 +3226,10 @@ async function main() {
     detectTopic(newArticle) ||
     "general";
   ensureArticleTaxonomy(newArticle, articleCategory);
+  // Review/update metadata is set by humans or the refresh mode, never by the model.
+  delete newArticle.reviewedBy;
+  delete newArticle.reviewedAt;
+  delete newArticle.updated;
   await repairReferences(newArticle, articleCategory);
   syncContentReferencesSection(newArticle);
   sanitizeContentExternalLinks(newArticle);
@@ -3168,6 +3300,18 @@ async function main() {
       tags: newArticle.tags,
       references: newArticle.references,
     };
+    // Editorial metadata is owned by the FR article; mirror it when present.
+    for (const field of [
+      "authorUrl",
+      "image",
+      "updated",
+      "reviewedBy",
+      "reviewedAt",
+    ]) {
+      if (newArticle[field] !== undefined) {
+        localizedArticle[field] = newArticle[field];
+      }
+    }
     normalizeArticleUiLabelsInPlace(localizedArticle, data.ArticleUiLabels);
 
     if (
@@ -3233,6 +3377,12 @@ if (require.main === module) {
 }
 
 module.exports = {
+  buildSystemPrompt,
+  buildDraftPromptFromResearch,
+  buildDraftRepairPromptFromExistingArticle,
+  buildDraftAppendPromptFromExistingArticle,
+  buildRetryPrompt,
+  buildResearchPrompt,
   computeAzureOpenAIRetryDelayMs,
   getRetryAfterMsFromError,
   isResearchRegenerationError,

@@ -190,5 +190,17 @@
         ]
       }
     ]
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Una pyme ginebrina sin departamento de RR. HH. lleva las nóminas en una hoja de cálculo; un trabajador transfronterizo y un aprendiz complican los cálculos.",
+        "WhatWeDo": "Traspaso de las nóminas con salidas compatibles con Swissdec, deducciones de seguros sociales, declaraciones a las aseguradoras, nóminas claras y una lista de control mensual para RR. HH."
+      },
+      {
+        "Situation": "Un grupo extranjero contrata a sus primeros empleados en Suiza sin entidad local ni departamento de RR. HH.",
+        "WhatWeDo": "Nóminas ANOBAG para empleadores extranjeros sin entidad en Suiza (acuerdos AVS, liquidaciones, cumplimiento), preparación de contratos, administración de RR. HH. y una persona de contacto dedicada para los empleados."
+      }
+    ]
   }
 }

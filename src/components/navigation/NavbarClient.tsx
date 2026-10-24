@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import TrackedLink from "@/src/components/ui/tracked-link";
 import Image from "next/image";
 import Defer from "@/src/components/Defer";
 import { useEffect, useState } from "react";
@@ -101,7 +102,8 @@ export default function NavbarClient({
                   </Link>
                 </li>
                 <li>
-                  <Link
+                  <TrackedLink
+                    cta="nav_agent"
                     href={`${localePrefix}/agent/`}
                     prefetch={false}
                     locale={locale}
@@ -114,7 +116,7 @@ export default function NavbarClient({
                   >
                     <span aria-hidden="true" className="mr-1">{"\u26A1"}</span>
                     {navData.labels.agent}
-                  </Link>
+                  </TrackedLink>
                 </li>
                 <li>
                   <Link

@@ -106,5 +106,17 @@
         ]
       }
     ]
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Uma PME de Genebra sem departamento de RH faz os salários numa folha de cálculo; um trabalhador transfronteiriço e um aprendiz complicam os cálculos.",
+        "WhatWeDo": "Assunção do processamento salarial com saídas compatíveis com Swissdec, deduções de seguros sociais, declarações às seguradoras, recibos de vencimento claros e uma lista de verificação mensal para os RH."
+      },
+      {
+        "Situation": "Um grupo estrangeiro contrata os primeiros colaboradores na Suíça sem entidade local nem departamento de RH.",
+        "WhatWeDo": "Processamento salarial ANOBAG para empregadores estrangeiros sem entidade na Suíça (acordos AVS, liquidações, conformidade), preparação de contratos, administração de RH e uma pessoa de contacto dedicada para os colaboradores."
+      }
+    ]
   }
 }

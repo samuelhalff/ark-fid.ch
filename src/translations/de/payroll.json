@@ -194,5 +194,17 @@
         ]
       }
     ]
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Ein Genfer KMU ohne HR-Abteilung führt die Lohnabrechnung in einer Tabelle; ein Grenzgänger und ein Lernender erschweren die Abrechnungen.",
+        "WhatWeDo": "Übernahme der Lohnbuchhaltung mit Swissdec-konformen Lohnmeldungen, Sozialversicherungsabzügen, Meldungen an die Versicherungen, klaren Lohnabrechnungen und einer monatlichen Checkliste für die Personalabteilung."
+      },
+      {
+        "Situation": "Eine ausländische Gruppe stellt ihre ersten Mitarbeitenden in der Schweiz ein, ohne lokale Gesellschaft und ohne HR-Abteilung.",
+        "WhatWeDo": "ANOBAG-Lohnbuchhaltung für ausländische Arbeitgeber ohne Schweizer Gesellschaft (AHV-Abkommen, Abrechnungen, Compliance), Vorbereitung der Verträge, HR-Administration und eine feste Ansprechperson für die Mitarbeitenden."
+      }
+    ]
   }
 }

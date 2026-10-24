@@ -208,5 +208,18 @@
         ]
       }
     ]
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Une Sàrl de services a pris du retard dans sa comptabilité et ses décomptes TVA.",
+        "WhatWeDo": "Remise à jour comptable, décomptes TVA, clôture annuelle, puis suivi régulier avec une équipe dédiée."
+      },
+      {
+        "Situation": "Une start-up financée veut des comptes fiables et des rapports réguliers pour ses investisseurs.",
+        "WhatWeDo": "Plan comptable personnalisé, clôtures intermédiaires, états financiers et rapports de gestion, tableaux de bord adaptés à l'activité."
+      }
+    ],
+    "PriceNote": "Suivi comptable digital simple : dès CHF 149 par mois. Prix fixe lorsque la mission est bien définie."
   }
 }

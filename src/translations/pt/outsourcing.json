@@ -96,5 +96,17 @@
             "Text": "Procura sobretudo externalizar os seus salários?",
             "LinkLabel": "Conheça o nosso serviço de folha salarial."
         }
-    }
+    },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "O contabilista interno de uma PME vai reformar-se e ninguém quer assumir os salários e a faturação.",
+        "WhatWeDo": "Assunção progressiva da contabilidade, dos salários, da faturação e do IVA, com SLA simples e um ponto mensal com a direção."
+      },
+      {
+        "Situation": "Uma empresa internacional tem uma pequena presença em Genebra e não quer recrutar uma equipa administrativa local.",
+        "WhatWeDo": "Back-office externalizado: contabilidade, salários e seguros sociais, faturação, IVA e acompanhamento administrativo."
+      }
+    ]
+  }
 }

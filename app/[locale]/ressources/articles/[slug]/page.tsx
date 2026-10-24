@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -32,8 +33,15 @@ import {
 import {
   buildArticleSchema,
   buildBreadcrumbList,
+  buildTeamPersonId,
   getArkServiceEntityId,
 } from "@/src/lib/structuredData";
+import {
+  findMemberByName,
+  findMemberBySlug,
+  getMemberSlug,
+  isReviewCurrent,
+} from "@/src/lib/team";
 
 // Dynamic because the page reads the per-request CSP nonce from headers().
 export const dynamic = "force-dynamic";
@@ -290,12 +298,40 @@ export default async function ArticlePage(props: Params) {
     }
   }
 
+  // Reviewer: only when reviewedBy + reviewedAt are set, the slug resolves and the
+  // review covers the current version. Unknown slug or stale review -> nothing shown.
+  const reviewer = isReviewCurrent(article)
+    ? findMemberBySlug(article.reviewedBy as string)
+    : undefined;
+  let reviewerRoleLabel = "";
+  if (reviewer) {
+    const tTeam = await getTranslations(locale, "team");
+    const roleKey = `Role.${reviewer.role}`;
+    const roleValue = tTeam(roleKey) as string;
+    reviewerRoleLabel = roleValue && roleValue !== roleKey ? roleValue : "";
+  }
+  const teamPersonRef = (member: NonNullable<typeof reviewer>, jobTitle?: string) => {
+    const memberSlug = getMemberSlug(member);
+    return {
+      id: buildTeamPersonId(locale, memberSlug),
+      name: member.name,
+      url: `https://ark-fid.ch/${locale}/team/${memberSlug}/`,
+      ...(jobTitle ? { jobTitle } : {}),
+    };
+  };
+  // An author that exactly matches a team member name is emitted as that Person.
+  const authorMember = findMemberByName(article.author);
+
   const articleJsonLd = buildArticleSchema({
     ...getArticleStructuredDataContext(article, locale),
     headline: article.title,
     description: article.description,
     author: article.author,
     authorUrl: article.authorUrl,
+    authorPerson: authorMember ? teamPersonRef(authorMember) : undefined,
+    reviewedBy: reviewer
+      ? teamPersonRef(reviewer, reviewerRoleLabel || undefined)
+      : undefined,
     datePublished: article.date,
     dateModified: article.updated ?? article.date,
     url: articleUrl,
@@ -355,6 +391,23 @@ export default async function ArticlePage(props: Params) {
         <p>
           {ressources.Published} {formatDateDeterministic(article.date, locale)}
         </p>
+        {reviewer && (() => {
+          const reviewedLabelKey = "ReviewedBy";
+          const reviewedLabel = tRessources(reviewedLabelKey) as string;
+          if (!reviewedLabel || reviewedLabel === reviewedLabelKey) return null;
+          return (
+            <p>
+              {reviewedLabel}{" "}
+              <Link
+                href={`/${locale}/team/${getMemberSlug(reviewer)}/`}
+                className="underline underline-offset-2"
+              >
+                {reviewer.name}
+              </Link>
+              {reviewerRoleLabel ? `, ${reviewerRoleLabel}` : ""}
+            </p>
+          );
+        })()}
         {article.updated && (
           <p>
             {ressources.LastUpdated}:{" "}
@@ -456,6 +509,12 @@ export default async function ArticlePage(props: Params) {
                     ? buildInternalUrl(servicePath, locale)
                     : undefined
                 }
+                primaryCta="article_mid_contact"
+                secondaryCta={
+                  servicePath && serviceCtaLabel
+                    ? "article_mid_service"
+                    : "article_mid_agent"
+                }
               />
             );
           })()}
@@ -510,27 +569,61 @@ export default async function ArticlePage(props: Params) {
           Raw object access like ressources["Contact.Title"] returns undefined
           (falling back to English) because the JSON uses nested objects,
           not flat dotted keys. */}
-      <ContactSection
-        locale={locale}
-        eyebrow={
-          (tRessources("Contact.Eyebrow") as string) || "Let's talk"
+      {(() => {
+        const assistantText = (field: string, fallback: string) => {
+          const key = `AssistantBlock.${field}`;
+          const value = tRessources(key) as string;
+          return value && value !== key ? value : fallback;
+        };
+        const hasAssistantBlock = (() => {
+          const key = "AssistantBlock.Title";
+          const value = tRessources(key) as string;
+          return Boolean(value) && value !== key;
+        })();
+        if (!hasAssistantBlock) {
+          return (
+            <ContactSection
+              locale={locale}
+              eyebrow={(tRessources("Contact.Eyebrow") as string) || "Let's talk"}
+              title={
+                (tRessources("Contact.Title") as string) ||
+                "Questions about this article?"
+              }
+              description={
+                (tRessources("Contact.Description") as string) ||
+                "Our experts are here to help you understand the details and implications for your business. Get personalized advice tailored to your situation."
+              }
+              buttonText={
+                (tRessources("Contact.ButtonText") as string) ||
+                "Contact Our Team"
+              }
+              secondaryButtonText={
+                (tRessources("Contact.SecondaryButtonText") as string) ||
+                "Get an instant quote"
+              }
+              primaryCta="article_end_contact"
+              secondaryCta="article_end_agent"
+            />
+          );
         }
-        title={
-          (tRessources("Contact.Title") as string) ||
-          "Questions about this article?"
-        }
-        description={
-          (tRessources("Contact.Description") as string) ||
-          "Our experts are here to help you understand the details and implications for your business. Get personalized advice tailored to your situation."
-        }
-        buttonText={
-          (tRessources("Contact.ButtonText") as string) || "Contact Our Team"
-        }
-        secondaryButtonText={
-          (tRessources("Contact.SecondaryButtonText") as string) ||
-          "Get an instant quote"
-        }
-      />
+        return (
+          <ContactSection
+            locale={locale}
+            eyebrow={assistantText("Eyebrow", "Ark assistant")}
+            title={assistantText("Title", "A question about your own situation?")}
+            description={assistantText(
+              "Description",
+              "Our assistant answers right away, estimates the cost of an engagement and passes your request to the team if you want.",
+            )}
+            buttonText={assistantText("PrimaryCTA", "Ask the assistant")}
+            secondaryButtonText={assistantText("SecondaryCTA", "Write to the team")}
+            primaryHref={`/${locale}/agent/`}
+            secondaryHref={`/${locale}/contact/`}
+            primaryCta="article_end_agent"
+            secondaryCta="article_end_contact"
+          />
+        );
+      })()}
     </main>
   );
 }

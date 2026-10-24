@@ -265,6 +265,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
           primary={{
             href: `${localePrefix}/agent/`,
             label: agentT("Lead.Button") as string,
+            cta: "home_agent_banner",
           }}
         />
       </section>

@@ -40,7 +40,6 @@ const EVERGREEN_TOPICS = [
       "H2 contrôle ordinaire vs restreint",
       "H2 préparation du dossier",
       "H2 erreurs fréquentes",
-      "FAQ",
     ],
   },
   {
@@ -60,7 +59,6 @@ const EVERGREEN_TOPICS = [
       "H2 décision et documentation",
       "H2 risques bancaires et actionnaires",
       "H2 checklist avant opting-out",
-      "FAQ",
     ],
   },
   {
@@ -80,7 +78,6 @@ const EVERGREEN_TOPICS = [
       "H2 zones sensibles",
       "H2 calendrier avec la fiduciaire",
       "H2 erreurs qui ralentissent l'audit",
-      "FAQ",
     ],
   },
   {
@@ -102,9 +99,8 @@ const EVERGREEN_TOPICS = [
       "H2 AVS/AI/APG et AC: principes, taux",
       "H2 LPP: seuils, coordination, plans",
       "H2 LAA: couverture et obligations",
-      "H2 exemples chiffrés (CHF)",
+      "H2 exemple de calcul (fictif, si utile)",
       "H2 erreurs fréquentes + corrections",
-      "FAQ",
     ],
   },
   {
@@ -125,7 +121,7 @@ const EVERGREEN_TOPICS = [
       "H2 éléments imposables/non imposables",
       "H2 frais: ce qui passe / ce qui bloque",
       "H2 contrôles et risques",
-      "H2 checklist + FAQ",
+      "H2 checklist",
     ],
   },
   {
@@ -137,8 +133,8 @@ const EVERGREEN_TOPICS = [
       "H2 assujettissement et méthodes",
       "H2 délais et contrôles AFC",
       "H2 erreurs fréquentes + corrections",
-      "H2 cas pratique chiffré (CHF)",
-      "H2 checklist TVA + FAQ",
+      "H2 exemple de calcul (fictif, si utile)",
+      "H2 checklist TVA",
     ],
   },
   {
@@ -156,9 +152,8 @@ const EVERGREEN_TOPICS = [
     outline: [
       "H2 logique économique et fiscale",
       "H2 risques (requalification, charges)",
-      "H2 exemples chiffrés",
+      "H2 exemple de calcul (fictif, si utile)",
       "H2 erreurs fréquentes + corrections",
-      "FAQ",
     ],
   },
   {
@@ -178,7 +173,6 @@ const EVERGREEN_TOPICS = [
       "H2 écritures sensibles (provisions, transitoires)",
       "H2 documents à réunir",
       "H2 deux tableaux (planning + risques)",
-      "FAQ",
     ],
   },
   {
@@ -198,7 +192,6 @@ const EVERGREEN_TOPICS = [
       "H2 contrôles simples par processus",
       "H2 matrice des accès",
       "H2 signaux d'alerte",
-      "FAQ",
     ],
   },
   {
@@ -218,7 +211,6 @@ const EVERGREEN_TOPICS = [
       "H2 règles de ventilation",
       "H2 tableaux de marge",
       "H2 erreurs fréquentes",
-      "FAQ",
     ],
   },
   {
@@ -238,7 +230,6 @@ const EVERGREEN_TOPICS = [
       "H2 hypothèses à suivre",
       "H2 modèle mensuel simple",
       "H2 décisions à déclencher",
-      "FAQ",
     ],
   },
   {
@@ -246,7 +237,7 @@ const EVERGREEN_TOPICS = [
     title: "Swiss GAAP FER pour PME: quand l'adopter, avantages, coûts et points d'attention",
     keywords: ["Swiss GAAP FER", "PME", "reporting", "normes comptables", "bilan"],
     category: "accounting",
-    outline: ["H2 quand c'est pertinent", "H2 différences clés", "H2 impacts", "FAQ"],
+    outline: ["H2 quand c'est pertinent", "H2 différences clés", "H2 impacts"],
   },
   {
     topic: "sarl-ou-sa-geneve-criteres",
@@ -258,7 +249,6 @@ const EVERGREEN_TOPICS = [
       "H2 capital, organes, responsabilité",
       "H2 fiscalité et rémunération",
       "H2 procédure et délais",
-      "FAQ",
     ],
   },
   {
@@ -266,7 +256,7 @@ const EVERGREEN_TOPICS = [
     title: "Registre du commerce en Suisse: documents, délais, erreurs et coûts (guide pratique)",
     keywords: ["registre du commerce", "Suisse", "statuts", "inscription", "délais", "erreurs"],
     category: "incorporation",
-    outline: ["H2 étapes", "H2 documents", "H2 délais", "H2 erreurs", "FAQ"],
+    outline: ["H2 étapes", "H2 documents", "H2 délais", "H2 erreurs"],
   },
   {
     topic: "lba-aml-fiduciaire-kyc",
@@ -278,7 +268,6 @@ const EVERGREEN_TOPICS = [
       "H2 KYC: pièces et contrôles",
       "H2 surveillance (PEP, sanctions)",
       "H2 signalement MROS",
-      "FAQ",
     ],
   },
   {
@@ -286,21 +275,21 @@ const EVERGREEN_TOPICS = [
     title: "Domiciliation en Suisse: ce que les entreprises doivent vérifier (contrats, substance, risques)",
     keywords: ["domiciliation", "Suisse", "Genève", "substance", "siège", "risques"],
     category: "domiciliation",
-    outline: ["H2 définition", "H2 contrat", "H2 substance", "H2 cas pratique", "FAQ"],
+    outline: ["H2 définition", "H2 contrat", "H2 substance", "H2 exemple (fictif)"],
   },
   {
     topic: "outsourcing-finance-cfo-a-la-demande",
     title: "CFO à la demande / outsourcing finance: quand externaliser, coûts, KPIs et gouvernance",
     keywords: ["CFO à la demande", "outsourcing finance", "reporting", "cash-flow", "KPIs", "PME"],
     category: "outsourcing",
-    outline: ["H2 cas d'usage", "H2 périmètre", "H2 gouvernance", "H2 coûts", "FAQ"],
+    outline: ["H2 cas d'usage", "H2 périmètre", "H2 gouvernance", "H2 coûts"],
   },
   {
     topic: "odoo-comptabilite-suisse-tva",
     title: "Odoo en Suisse: comptabilité et TVA (paramétrage, contrôles, erreurs fréquentes)",
     keywords: ["Odoo Suisse", "comptabilité", "TVA", "plan comptable", "PME", "contrôle"],
     category: "odoo",
-    outline: ["H2 paramétrage", "H2 TVA", "H2 exports", "H2 erreurs", "FAQ"],
+    outline: ["H2 paramétrage", "H2 TVA", "H2 exports", "H2 erreurs"],
   },
   {
     topic: "odoo-controle-interne-droits-approbations",
@@ -319,7 +308,6 @@ const EVERGREEN_TOPICS = [
       "H2 validations achats et ventes",
       "H2 pièces et piste d'audit",
       "H2 erreurs de paramétrage",
-      "FAQ",
     ],
   },
   {
@@ -339,7 +327,6 @@ const EVERGREEN_TOPICS = [
       "H2 QR et références de paiement",
       "H2 import bancaire CAMT",
       "H2 contrôles mensuels",
-      "FAQ",
     ],
   },
   {
@@ -359,7 +346,6 @@ const EVERGREEN_TOPICS = [
       "H2 flux stock-comptabilité",
       "H2 inventaire physique",
       "H2 erreurs à corriger avant clôture",
-      "FAQ",
     ],
   },
   {
@@ -367,7 +353,7 @@ const EVERGREEN_TOPICS = [
     title: "Indépendant en Suisse: AVS, acomptes d'impôts, facturation et comptabilité (guide concret)",
     keywords: ["indépendant", "AVS indépendant", "acomptes impôts", "facturation", "comptabilité", "Suisse"],
     category: "tax",
-    outline: ["H2 statut", "H2 AVS/assurances", "H2 impôts", "H2 compta", "FAQ"],
+    outline: ["H2 statut", "H2 AVS/assurances", "H2 impôts", "H2 compta"],
   },
   {
     topic: "holding-suisse-pme-dividendes-fiscalite",
@@ -386,7 +372,6 @@ const EVERGREEN_TOPICS = [
       "H2 substance et gouvernance",
       "H2 fiscalité des participations",
       "H2 erreurs fréquentes",
-      "FAQ",
     ],
   },
   {
@@ -406,7 +391,6 @@ const EVERGREEN_TOPICS = [
       "H2 voiture et avantages privés",
       "H2 justificatifs à conserver",
       "H2 contrôles fiscaux",
-      "FAQ",
     ],
   },
   {
@@ -426,7 +410,6 @@ const EVERGREEN_TOPICS = [
       "H2 dettes et engagements cachés",
       "H2 besoin en fonds de roulement",
       "H2 red flags",
-      "FAQ",
     ],
   },
   {
@@ -446,7 +429,6 @@ const EVERGREEN_TOPICS = [
       "H2 valorisation et prix",
       "H2 fiscalité et financement",
       "H2 calendrier de transmission",
-      "FAQ",
     ],
   },
   {
@@ -466,7 +448,6 @@ const EVERGREEN_TOPICS = [
       "H2 hypothèses crédibles",
       "H2 scénarios et sensibilité",
       "H2 erreurs qui bloquent le crédit",
-      "FAQ",
     ],
   },
   {
@@ -486,7 +467,6 @@ const EVERGREEN_TOPICS = [
       "H2 fréquence de suivi",
       "H2 seuils d'alerte",
       "H2 mise en place pratique",
-      "FAQ",
     ],
   },
   {
@@ -506,7 +486,6 @@ const EVERGREEN_TOPICS = [
       "H2 TVA et export",
       "H2 frais de paiement et commissions",
       "H2 rapprochement dans Odoo",
-      "FAQ",
     ],
   },
   {
@@ -526,7 +505,6 @@ const EVERGREEN_TOPICS = [
       "H2 processus facture client",
       "H2 factures fournisseurs",
       "H2 archivage et piste d'audit",
-      "FAQ",
     ],
   },
   {
@@ -546,7 +524,6 @@ const EVERGREEN_TOPICS = [
       "H2 valorisation et obsolescence",
       "H2 écarts et corrections",
       "H2 documentation pour la révision",
-      "FAQ",
     ],
   },
   {
@@ -566,7 +543,6 @@ const EVERGREEN_TOPICS = [
       "H2 impacts paie et assurances sociales",
       "H2 fiscalité et jours de télétravail",
       "H2 contrôles employeur",
-      "FAQ",
     ],
   },
   {
@@ -586,7 +562,6 @@ const EVERGREEN_TOPICS = [
       "H2 acquisition de services et reverse charge",
       "H2 factures et preuves",
       "H2 erreurs fréquentes",
-      "FAQ",
     ],
   },
   {
@@ -606,7 +581,6 @@ const EVERGREEN_TOPICS = [
       "H2 nettoyer les données",
       "H2 reprise comptable",
       "H2 tests et bascule",
-      "FAQ",
     ],
   },
   {
@@ -626,7 +600,6 @@ const EVERGREEN_TOPICS = [
       "H2 processus de relance",
       "H2 conditions de paiement",
       "H2 indicateurs à suivre",
-      "FAQ",
     ],
   },
   {
@@ -646,7 +619,6 @@ const EVERGREEN_TOPICS = [
       "H2 formats numériques",
       "H2 accès et preuve",
       "H2 erreurs d'archivage",
-      "FAQ",
     ],
   },
   {
@@ -666,7 +638,6 @@ const EVERGREEN_TOPICS = [
       "H2 fiscalité et comptabilité",
       "H2 registre du commerce",
       "H2 coûts et gouvernance",
-      "FAQ",
     ],
   },
   {
@@ -686,7 +657,6 @@ const EVERGREEN_TOPICS = [
       "H2 registre des actions ou parts",
       "H2 documentation et contrôles",
       "H2 risques en cas d'oubli",
-      "FAQ",
     ],
   },
   {
@@ -706,7 +676,6 @@ const EVERGREEN_TOPICS = [
       "H2 préparer la société",
       "H2 fiscalité et héritiers",
       "H2 gouvernance familiale",
-      "FAQ",
     ],
   },
   {
@@ -727,7 +696,6 @@ const EVERGREEN_TOPICS = [
       "H2 étapes administratives",
       "H2 délais et coûts indicatifs",
       "H2 erreurs fréquentes + corrections",
-      "FAQ",
     ],
   },
 ];
@@ -1078,26 +1046,25 @@ function slugifyFr(input) {
 
 function pickOutlineForCategory(category) {
   const templates = {
-    payroll: ["H2 obligations employeur", "H2 taux et calcul", "H2 exemples", "H2 erreurs", "FAQ"],
-    tax: ["H2 cadre", "H2 calcul", "H2 erreurs", "H2 cas pratique", "FAQ"],
-    accounting: ["H2 objectifs", "H2 planning", "H2 écritures", "H2 contrôles", "FAQ"],
+    payroll: ["H2 obligations employeur", "H2 taux et calcul", "H2 exemples", "H2 erreurs"],
+    tax: ["H2 cadre", "H2 calcul", "H2 erreurs", "H2 exemple (fictif)"],
+    accounting: ["H2 objectifs", "H2 planning", "H2 écritures", "H2 contrôles"],
     audit: [
       "H2 seuils et obligations",
       "H2 contrôle ordinaire vs restreint",
       "H2 préparation du dossier",
       "H2 erreurs fréquentes",
-      "FAQ",
     ],
-    incorporation: ["H2 choisir la forme", "H2 étapes", "H2 coûts", "H2 erreurs", "FAQ"],
-    regulatory: ["H2 périmètre", "H2 obligations", "H2 preuves", "H2 erreurs", "FAQ"],
-    outsourcing: ["H2 cas d'usage", "H2 périmètre", "H2 gouvernance", "H2 coûts", "FAQ"],
-    domiciliation: ["H2 définition", "H2 contrat", "H2 risques", "H2 cas pratique", "FAQ"],
-    odoo: ["H2 paramétrage", "H2 TVA", "H2 flux", "H2 erreurs", "FAQ"],
-    corporate: ["H2 contexte", "H2 étapes", "H2 documents", "H2 risques", "FAQ"],
-    finance: ["H2 options", "H2 dossier", "H2 KPIs", "H2 erreurs", "FAQ"],
-    "family-office": ["H2 objectifs", "H2 gouvernance", "H2 fiscalité", "H2 risques", "FAQ"],
-    immigration: ["H2 statut", "H2 conditions", "H2 étapes", "H2 délais", "H2 erreurs", "FAQ"],
-    general: ["H2 contexte", "H2 méthode", "H2 cas pratique", "H2 erreurs", "FAQ"],
+    incorporation: ["H2 choisir la forme", "H2 étapes", "H2 coûts", "H2 erreurs"],
+    regulatory: ["H2 périmètre", "H2 obligations", "H2 preuves", "H2 erreurs"],
+    outsourcing: ["H2 cas d'usage", "H2 périmètre", "H2 gouvernance", "H2 coûts"],
+    domiciliation: ["H2 définition", "H2 contrat", "H2 risques", "H2 exemple (fictif)"],
+    odoo: ["H2 paramétrage", "H2 TVA", "H2 flux", "H2 erreurs"],
+    corporate: ["H2 contexte", "H2 étapes", "H2 documents", "H2 risques"],
+    finance: ["H2 options", "H2 dossier", "H2 KPIs", "H2 erreurs"],
+    "family-office": ["H2 objectifs", "H2 gouvernance", "H2 fiscalité", "H2 risques"],
+    immigration: ["H2 statut", "H2 conditions", "H2 étapes", "H2 délais", "H2 erreurs"],
+    general: ["H2 contexte", "H2 méthode", "H2 exemple (fictif)", "H2 erreurs"],
   };
   return templates[category] || templates.general;
 }

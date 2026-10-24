@@ -201,5 +201,17 @@
         "Description": "Asesoramiento experto para una constitución y registro empresarial sin complicaciones en Suiza.",
         "CTA": "Iniciar mi constitución",
         "SecondaryCTA": "Saber más"
-    }
+    },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Dos socios quieren constituir una S.à r.l. en Ginebra y dudan sobre la forma jurídica y el capital.",
+        "WhatWeDo": "Elección de la forma jurídica, estatutos, cuenta de consignación del capital, escritura notarial, inscripción en el registro mercantil y después alta en el IVA."
+      },
+      {
+        "Situation": "Un empresario extranjero quiere constituir una S.A. en Ginebra y no conoce los trámites suizos.",
+        "WhatWeDo": "Elección de la estructura, domicilio social, cuenta de consignación del capital, escritura notarial e inscripción en el registro mercantil, y después contabilidad y secretaría jurídica tras la inscripción."
+      }
+    ]
+  }
 }

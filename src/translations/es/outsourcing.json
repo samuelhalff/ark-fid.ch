@@ -96,5 +96,17 @@
             "Text": "¿Busca sobre todo externalizar sus nóminas?",
             "LinkLabel": "Descubra nuestro servicio de nóminas."
         }
-    }
+    },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "El contable interno de una pyme se jubila y nadie quiere asumir las nóminas y la facturación.",
+        "WhatWeDo": "Traspaso progresivo de la contabilidad, las nóminas, la facturación y el IVA, con SLA sencillos y una reunión mensual con la dirección."
+      },
+      {
+        "Situation": "Una empresa internacional tiene una pequeña presencia en Ginebra y no quiere contratar un equipo administrativo local.",
+        "WhatWeDo": "Back-office externalizado: contabilidad, nóminas y seguros sociales, facturación, IVA y seguimiento administrativo."
+      }
+    ]
+  }
 }

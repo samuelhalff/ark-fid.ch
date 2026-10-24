@@ -42,7 +42,14 @@
     "SecondaryCTA": "Obtenez un devis instantané"
   },
   "ServiceRelated": {
-    "Title": "Pour aller plus loin"
+    "Title": "Pour aller plus loin",
+    "PillarLabel": "Guide de référence"
+  },
+  "TypicalSituations": {
+    "Title": "Situations typiques",
+    "Disclaimer": "Exemples fictifs et simplifiés de situations que nous pouvons prendre en charge. Ils ne décrivent pas des mandats clients précis ni des résultats garantis.",
+    "SituationLabel": "Situation",
+    "WhatWeDoLabel": "Ce que nous faisons"
   },
   "ScrollHint": "Découvrir plus",
   "InlineContact": {

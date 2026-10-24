@@ -4,6 +4,7 @@ import { tidyTitle } from "@/src/lib/typography";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import ServiceLongForm from "@/src/components/ui/service-longform";
+import ServiceTypicalSituations from "@/src/components/ui/service-typical-situations";
 import ServiceRelatedArticles from "@/src/components/ui/service-related-articles";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
@@ -80,6 +81,7 @@ const CorporatePresentation = async () => {
                 />
               </Suspense>
             </section>
+            <ServiceTypicalSituations locale={locale} ns="incorporation" />
             <ServiceLongForm t={t} locale={locale} />
             <ServiceRelatedArticles locale={locale} servicePath="/services/incorporation" />
             <div className="flex justify-center">

@@ -9,6 +9,11 @@ const {
   findRecentTopicConflict,
 } = require("./lib/articleTopicGuardrails");
 
+const {
+  readTeamSlugs,
+  validateArticleMetadata,
+} = require("./lib/articleRefresh");
+
 const ROOT = process.cwd();
 const FR_PATH = path.join(ROOT, "src", "translations", "fr", "ressources.json");
 const TOPIC_ROTATION_WINDOW = Math.max(
@@ -31,6 +36,18 @@ if (!fs.existsSync(FR_PATH)) {
 
 const frData = loadJSON(FR_PATH);
 const articles = Array.isArray(frData.Articles) ? frData.Articles : [];
+
+// Review/update metadata (all articles: a refreshed article is rarely the latest by date).
+{
+  const teamPath = path.join(ROOT, "src", "lib", "team.ts");
+  const teamSlugs = fs.existsSync(teamPath)
+    ? readTeamSlugs(fs.readFileSync(teamPath, "utf8"))
+    : new Set();
+  const metadataErrors = validateArticleMetadata(articles, teamSlugs);
+  if (metadataErrors.length) {
+    fail(`Article metadata invalid:\n  - ${metadataErrors.join("\n  - ")}`);
+  }
+}
 if (articles.length < 2) {
   console.log("ℹ️ Not enough FR articles to validate latest-article guardrails");
   process.exit(0);

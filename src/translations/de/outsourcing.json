@@ -96,5 +96,17 @@
             "Text": "Möchten Sie vor allem Ihre Lohnbuchhaltung auslagern?",
             "LinkLabel": "Entdecken Sie unseren Payroll-Service."
         }
-    }
+    },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Der interne Buchhalter eines KMU geht in Pension; niemand möchte die Lohnabrechnung und die Fakturierung übernehmen.",
+        "WhatWeDo": "Schrittweise Übernahme von Buchhaltung, Lohnbuchhaltung, Fakturierung und MWST mit einfachen SLA und einem monatlichen Austausch mit der Geschäftsleitung."
+      },
+      {
+        "Situation": "Ein internationales Unternehmen hat eine kleine Präsenz in Genf und möchte kein lokales Verwaltungsteam einstellen.",
+        "WhatWeDo": "Ausgelagertes Back-Office: Buchhaltung, Lohnbuchhaltung und Sozialversicherungen, Fakturierung, MWST und administrative Betreuung."
+      }
+    ]
+  }
 }

@@ -10,6 +10,10 @@ const ContactSection = ({
   description,
   buttonText,
   secondaryButtonText,
+  primaryHref,
+  secondaryHref,
+  primaryCta,
+  secondaryCta,
 }: {
   locale?: string;
   eyebrow?: string;
@@ -18,6 +22,12 @@ const ContactSection = ({
   buttonText: string;
   /** Optional "Get instant quote" CTA displayed next to the primary contact button */
   secondaryButtonText?: string;
+  /** Overrides; defaults are /contact (primary) and /agent (secondary). */
+  primaryHref?: string;
+  secondaryHref?: string;
+  /** GA4 cta_click names; omit for untracked links. */
+  primaryCta?: string;
+  secondaryCta?: string;
 }) => {
   const localePrefix = locale ? `/${locale}` : "/fr";
 
@@ -34,16 +44,18 @@ const ContactSection = ({
         </span>
       }
       primary={{
-        href: `${localePrefix}/contact/`,
+        href: primaryHref ?? `${localePrefix}/contact/`,
         label: buttonText,
         locale,
+        cta: primaryCta,
       }}
       secondary={
         secondaryButtonText
           ? {
-              href: `${localePrefix}/agent/`,
+              href: secondaryHref ?? `${localePrefix}/agent/`,
               label: secondaryButtonText,
               locale,
+              cta: secondaryCta,
             }
           : undefined
       }

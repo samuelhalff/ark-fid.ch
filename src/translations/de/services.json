@@ -42,7 +42,14 @@
     "SecondaryCTA": "Sofortangebot erhalten"
   },
   "ServiceRelated": {
-    "Title": "Weiterführende Artikel"
+    "Title": "Weiterführende Artikel",
+    "PillarLabel": "Referenzleitfaden"
+  },
+  "TypicalSituations": {
+    "Title": "Typische Situationen",
+    "Disclaimer": "Fiktive, vereinfachte Beispiele für Situationen, die wir übernehmen können. Sie beschreiben weder konkrete Kundenmandate noch garantierte Ergebnisse.",
+    "SituationLabel": "Situation",
+    "WhatWeDoLabel": "Was wir tun"
   },
   "ScrollHint": "Mehr entdecken",
   "InlineContact": {

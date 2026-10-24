@@ -99,5 +99,17 @@
         ]
       }
     ]
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Una sociedad extranjera quiere una filial en Ginebra con un domicilio estable, sin alquilar oficinas de inmediato.",
+        "WhatWeDo": "Dirección de domicilio social en el 26 del boulevard Georges-Favon, recepción, digitalización y reenvío del correo, apoyo administrativo diario y cumplimiento de los requisitos legales de domiciliación."
+      },
+      {
+        "Situation": "Un autónomo trabaja desde casa y no quiere que su dirección privada figure en el registro mercantil.",
+        "WhatWeDo": "Dirección de domicilio social profesional inscrita en el registro mercantil, recepción y digitalización del correo, apoyo administrativo y salas de reuniones en alquiler cuando haga falta."
+      }
+    ]
   }
 }

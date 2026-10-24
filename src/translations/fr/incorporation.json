@@ -133,5 +133,17 @@
     "Description": "Conseils experts pour une création et un enregistrement d'entreprise sans souci en Suisse.",
     "CTA": "Lancer ma création",
     "SecondaryCTA": "En savoir plus"
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Deux associés veulent créer une Sàrl à Genève et hésitent sur la forme juridique et le capital.",
+        "WhatWeDo": "Choix de la forme juridique, statuts, compte de consignation, acte notarié, inscription au registre du commerce, puis inscription à la TVA."
+      },
+      {
+        "Situation": "Un entrepreneur étranger veut créer une SA à Genève et ne connaît pas les étapes suisses.",
+        "WhatWeDo": "Choix de la structure, domiciliation du siège, compte de consignation, acte notarié et inscription au registre du commerce, puis comptabilité et secrétariat juridique après l'immatriculation."
+      }
+    ]
   }
 }

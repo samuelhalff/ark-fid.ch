@@ -244,5 +244,18 @@
                 ]
             }
         ]
-    }
+    },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Eine Dienstleistungs-GmbH ist mit ihrer Buchhaltung und ihren MWST-Abrechnungen im Rückstand.",
+        "WhatWeDo": "Aufarbeitung der Buchhaltung, MWST-Abrechnungen, Jahresabschluss und anschliessend regelmässige Betreuung durch ein festes Team."
+      },
+      {
+        "Situation": "Ein finanziertes Start-up möchte verlässliche Abschlüsse und regelmässige Berichte für seine Investoren.",
+        "WhatWeDo": "Individueller Kontenplan, Zwischenabschlüsse, Jahresrechnung und Managementberichte sowie auf die Tätigkeit zugeschnittene Dashboards."
+      }
+    ],
+    "PriceNote": "Einfache digitale Buchhaltung: ab CHF 149 pro Monat. Festpreis, sobald der Auftrag klar umrissen ist."
+  }
 }

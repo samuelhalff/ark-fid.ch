@@ -169,5 +169,17 @@
         ]
       }
     ]
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "Two partners want to incorporate a Sàrl in Geneva and are unsure about the legal form and the capital.",
+        "WhatWeDo": "Choice of legal form, articles of association, capital deposit account, notarial deed, commercial register filing, then VAT registration."
+      },
+      {
+        "Situation": "A foreign entrepreneur wants to set up an SA in Geneva and does not know the Swiss steps.",
+        "WhatWeDo": "Choice of structure, registered office, capital deposit account, notarial deed and commercial register filing, then bookkeeping and company secretarial work after registration."
+      }
+    ]
   }
 }

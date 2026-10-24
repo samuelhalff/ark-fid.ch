@@ -42,7 +42,14 @@
     "SecondaryCTA": "Get an instant quote"
   },
   "ServiceRelated": {
-    "Title": "Related articles"
+    "Title": "Related articles",
+    "PillarLabel": "Reference guide"
+  },
+  "TypicalSituations": {
+    "Title": "Typical situations",
+    "Disclaimer": "Fictional, simplified examples of situations we can handle. They do not describe specific client engagements or guaranteed results.",
+    "SituationLabel": "Situation",
+    "WhatWeDoLabel": "What we do"
   },
   "ScrollHint": "Discover more",
   "InlineContact": {

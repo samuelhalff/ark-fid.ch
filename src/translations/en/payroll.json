@@ -158,5 +158,17 @@
         ]
       }
     ]
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "A Geneva SME without an HR team runs payroll in a spreadsheet; one cross-border worker and one apprentice complicate the calculations.",
+        "WhatWeDo": "Payroll taken over with Swissdec-compatible outputs, social insurance deductions, insurance filings, clear payslips and a monthly checklist for HR."
+      },
+      {
+        "Situation": "A foreign group hires its first employees in Switzerland without a local entity or HR team.",
+        "WhatWeDo": "ANOBAG payroll for foreign employers without a Swiss entity (AVS agreements, statements, compliance), preparation of contracts, HR administration and a dedicated contact person for the employees."
+      }
+    ]
   }
 }

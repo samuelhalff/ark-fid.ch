@@ -96,5 +96,17 @@
       "Text": "Looking specifically to outsource your payroll?",
       "LinkLabel": "See our Swiss payroll service."
     }
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "An SME's in-house accountant is retiring; nobody wants to take over payroll and invoicing.",
+        "WhatWeDo": "Gradual takeover of bookkeeping, payroll, invoicing and VAT, with simple SLAs and a monthly review with management."
+      },
+      {
+        "Situation": "An international company has a small Geneva presence and does not want to recruit a local admin team.",
+        "WhatWeDo": "Outsourced back-office: bookkeeping, payroll and social insurance, invoicing, VAT and administrative follow-up."
+      }
+    ]
   }
 }

@@ -99,5 +99,17 @@
         ]
       }
     ]
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "A foreign company wants a Geneva subsidiary with a stable registered office, without renting offices straight away.",
+        "WhatWeDo": "Registered office address at 26 boulevard Georges-Favon, mail reception, scanning and forwarding, day-to-day administrative support and compliance with the legal domiciliation requirements."
+      },
+      {
+        "Situation": "A self-employed person works from home and does not want their private address published in the commercial register.",
+        "WhatWeDo": "Professional registered office address entered in the commercial register, mail reception and scanning, administrative support and meeting rooms for rent when needed."
+      }
+    ]
   }
 }

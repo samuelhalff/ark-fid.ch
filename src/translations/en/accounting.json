@@ -237,5 +237,18 @@
         ]
       }
     ]
+  },
+  "TypicalSituations": {
+    "Cases": [
+      {
+        "Situation": "A services Sàrl has fallen behind with its bookkeeping and VAT returns.",
+        "WhatWeDo": "Catch-up bookkeeping, VAT returns, annual closing, then regular follow-up with a dedicated team."
+      },
+      {
+        "Situation": "A funded start-up wants reliable accounts and regular reports for its investors.",
+        "WhatWeDo": "Customised chart of accounts, interim closings, financial statements and management reports, dashboards adapted to the business."
+      }
+    ],
+    "PriceNote": "Simple digital bookkeeping: from CHF 149 per month. Fixed price once the scope is well defined."
   }
 }

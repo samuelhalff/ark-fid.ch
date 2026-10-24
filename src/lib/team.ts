@@ -59,8 +59,8 @@ export const teamMembers: TeamMember[] = [
       "LL.M., UCLA (University of California, Los Angeles)",
       "Master in Law, University of Geneva",
     ],
-    languages: ["French", "English"],
-    credentials: ["Admitted to the Genevabar (2013)"],
+    languages: ["French", "English", "German"],
+    credentials: ["Admitted to the Geneva bar (2013)"],
   },
   {
     name: "Rodrigue Sperisen",
@@ -186,3 +186,32 @@ export const slugify = (s: string) =>
 export const getMemberSlug = (m: TeamMember) => slugify(m.name);
 export const findMemberBySlug = (slug: string): TeamMember | undefined =>
   teamMembers.find((m) => getMemberSlug(m) === slug);
+
+/** Exact (case-insensitive, trimmed) name match; used to map an article author to a team member. */
+export const findMemberByName = (name?: string): TeamMember | undefined => {
+  const needle = (name || "").trim().toLowerCase();
+  if (!needle) return undefined;
+  return teamMembers.find((m) => m.name.trim().toLowerCase() === needle);
+};
+
+/**
+ * A review only counts when it covers the current version of the article:
+ * reviewedBy + reviewedAt must be set, reviewedAt must be a valid YYYY-MM-DD date
+ * and not older than article.updated ?? article.date.
+ */
+export const isReviewCurrent = (article: {
+  reviewedBy?: string;
+  reviewedAt?: string;
+  updated?: string;
+  date?: string;
+}): boolean => {
+  const { reviewedBy, reviewedAt } = article;
+  if (!reviewedBy || !reviewedAt) return false;
+  const iso = /^\d{4}-\d{2}-\d{2}/;
+  if (!iso.test(reviewedAt)) return false;
+  const reference = article.updated ?? article.date;
+  if (reference && iso.test(reference)) {
+    return reviewedAt.slice(0, 10) >= reference.slice(0, 10);
+  }
+  return true;
+};
