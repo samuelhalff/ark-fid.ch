@@ -3042,6 +3042,11 @@ async function runRefresh() {
     locales: LOCALES,
     servicePaths,
     apply: APPLY && !DRY,
+    // SEO_MIN_WORDS / SEO_MAX_WORDS bound the refreshed FR article (min falls back to the 700 default).
+    ...(parseInt(process.env.SEO_MIN_WORDS || "0", 10) > 0
+      ? { minWords: parseInt(process.env.SEO_MIN_WORDS, 10) }
+      : {}),
+    maxWords: parseInt(process.env.SEO_MAX_WORDS || "0", 10) || 0,
     deps,
   });
   for (const r of results) {

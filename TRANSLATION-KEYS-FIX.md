@@ -89,6 +89,10 @@ The validation now checks these critical keys across all 5 locales (en, fr, de, 
 - `ressources:Categories.international`
 - `ressources:Categories.digital`
 
+**Resources article byline (1 key):**
+
+- `ressources:PublicationResponsible` (top-level; publication-responsible line, not a review/authorship claim)
+
 **Resources share controls (7 keys):**
 
 - `ressources:Share.Article`

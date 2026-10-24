@@ -310,6 +310,20 @@ export default async function ArticlePage(props: Params) {
     const roleValue = tTeam(roleKey) as string;
     reviewerRoleLabel = roleValue && roleValue !== roleKey ? roleValue : "";
   }
+  // Publication responsible (accountability only; never a review or authorship claim).
+  const publicationResponsible = findMemberBySlug("samuel-halff");
+  let publicationLabel = "";
+  let publicationRoleLabel = "";
+  if (publicationResponsible) {
+    const tTeamPub = await getTranslations(locale, "team");
+    const labelKey = "PublicationResponsible";
+    const labelValue = tRessources(labelKey) as string;
+    publicationLabel = labelValue && labelValue !== labelKey ? labelValue : "";
+    const pubRoleKey = `Role.${publicationResponsible.role}`;
+    const pubRoleValue = tTeamPub(pubRoleKey) as string;
+    publicationRoleLabel =
+      pubRoleValue && pubRoleValue !== pubRoleKey ? pubRoleValue : "";
+  }
   const teamPersonRef = (member: NonNullable<typeof reviewer>, jobTitle?: string) => {
     const memberSlug = getMemberSlug(member);
     return {
@@ -329,6 +343,10 @@ export default async function ArticlePage(props: Params) {
     author: article.author,
     authorUrl: article.authorUrl,
     authorPerson: authorMember ? teamPersonRef(authorMember) : undefined,
+    accountablePerson:
+      publicationResponsible && publicationLabel
+        ? teamPersonRef(publicationResponsible)
+        : undefined,
     reviewedBy: reviewer
       ? teamPersonRef(reviewer, reviewerRoleLabel || undefined)
       : undefined,
@@ -391,6 +409,19 @@ export default async function ArticlePage(props: Params) {
         <p>
           {ressources.Published} {formatDateDeterministic(article.date, locale)}
         </p>
+        {publicationResponsible && publicationLabel && (
+          <p>
+            {publicationLabel}
+            {locale === "fr" ? " : " : ": "}
+            <Link
+              href={`/${locale}/team/${getMemberSlug(publicationResponsible)}/`}
+              className="underline underline-offset-2"
+            >
+              {publicationResponsible.name}
+            </Link>
+            {publicationRoleLabel ? `, ${publicationRoleLabel}` : ""}
+          </p>
+        )}
         {reviewer && (() => {
           const reviewedLabelKey = "ReviewedBy";
           const reviewedLabel = tRessources(reviewedLabelKey) as string;

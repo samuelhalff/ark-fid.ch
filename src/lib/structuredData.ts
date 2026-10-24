@@ -549,6 +549,8 @@ export interface ArticleSchemaConfig {
   authorPerson?: TeamPersonRef;
   /** Only pass a verified reviewer (see isReviewCurrent); never guessed. */
   reviewedBy?: TeamPersonRef;
+  /** Person accountable for the publication (not a review or authorship claim). */
+  accountablePerson?: TeamPersonRef;
   publisherName?: string;
   image?: string;
   url: string;
@@ -578,6 +580,9 @@ export function buildArticleSchema(cfg: ArticleSchemaConfig) {
         }
       : {}),
     ...(cfg.reviewedBy ? { reviewedBy: toPersonNode(cfg.reviewedBy) } : {}),
+    ...(cfg.accountablePerson
+      ? { accountablePerson: toPersonNode(cfg.accountablePerson) }
+      : {}),
     publisher: {
       "@type": "Organization",
       "@id": `${arkOrganization.url}/#organization`,

@@ -1,0 +1,186 @@
+name: AI Resources Refresh (existing articles)
+
+on:
+  schedule:
+    - cron: "0 7 10,25 * *"
+  workflow_dispatch:
+
+# Same group as the article workflow so they never run together.
+concurrency:
+  group: ai-content-update
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Configure git
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      # Picks the slug, bumps its attempt counter and pushes the queue, so a killed job
+      # can never retry the same slug more than twice.
+      - name: Claim next article
+        id: claim
+        timeout-minutes: 5
+        run: timeout -k 30s 5m node scripts/refresh-next-article.js --claim
+
+      - name: Refresh article (FR + translations via Azure OpenAI)
+        id: refresh
+        if: steps.claim.outputs.status == 'claimed'
+        timeout-minutes: 25
+        env:
+          AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
+          AZURE_AGENT_NAME: ${{ vars.AZURE_AGENT_NAME || 'web-deep-search:6' }}
+          AZURE_AGENT_API_KEY: ${{ secrets.AZURE_AGENT_API_KEY }}
+          AZURE_AGENT_FORCE_RESPONSES: "1"
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT || 'https://pbmch8303697696.cognitiveservices.azure.com/' }}
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_API_VERSION: "2025-01-01-preview"
+          AZURE_OPENAI_DEPLOYMENT: "gpt-4.1"
+          AZURE_OPENAI_DRAFT_DEPLOYMENT: "gpt-5.2"
+          AZURE_OPENAI_DRAFT_API_VERSION: "2025-01-01-preview"
+          AZURE_OPENAI_RESEARCH_ENDPOINT: ${{ secrets.AZURE_OPENAI_RESEARCH_ENDPOINT }}
+          AZURE_OPENAI_RESEARCH_API_KEY: ${{ secrets.AZURE_OPENAI_RESEARCH_API_KEY }}
+          AZURE_OPENAI_RESEARCH_API_VERSION: ${{ vars.AZURE_OPENAI_RESEARCH_API_VERSION || '2024-05-01-preview' }}
+          AZURE_OPENAI_RESEARCH_DEPLOYMENT: ${{ vars.AZURE_OPENAI_RESEARCH_DEPLOYMENT }}
+          AZURE_OPENAI_DRAFT_MAX_TOKENS: "8192"
+          AZURE_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
+          AZURE_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
+          AZURE_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
+          AZURE_AGENT_RUN_TIMEOUT_MS: 180000
+          AZURE_AGENT_RESPONSES_RETRIES: "8"
+          AZURE_AGENT_RESPONSES_BACKOFF_MS: "30000"
+          AZURE_AGENT_RESPONSES_BACKOFF_MAX_MS: "300000"
+          AZURE_AGENT_RESPONSES_BACKOFF_JITTER_MS: "2000"
+          AZURE_AGENT_RESPONSES_TIMEOUT_MS: "180000"
+          AZURE_AGENT_RESPONSES_COOLDOWN_MS: "15000"
+          AZURE_AGENT_RESPONSES_MAX_OUTPUT_TOKENS: "0"
+          AZURE_AGENT_FALLBACK_TO_OPENAI: "1"
+          REQUIRE_TRANSLATIONS: "1"
+          AI_TWO_STEP: "1"
+          AI_RESEARCH_RETRIES: "3"
+          REFERENCE_MIN_TRUSTED_DOMAINS: "1"
+          REFERENCE_MIN_COUNT: "4"
+          REFERENCE_MAX_COUNT: "6"
+          SEO_MIN_WORDS: "1200"
+          SEO_MAX_WORDS: "2800"
+        shell: bash
+        run: |
+          mkdir -p .refresh-logs
+          timeout -k 30s 24m node scripts/refresh-next-article.js --refresh 2>&1 | tee .refresh-logs/refresh.log
+
+      - name: Fix malformed internal markdown links (refreshed slug only)
+        id: links
+        if: steps.claim.outputs.status == 'claimed'
+        timeout-minutes: 3
+        shell: bash
+        run: |
+          mkdir -p .refresh-logs
+          timeout -k 30s 3m node scripts/fix-article-internal-links.js --apply --slug="${{ steps.claim.outputs.slug }}" 2>&1 | tee .refresh-logs/links.log
+
+      - name: Validate curated reference source policy
+        id: sources
+        if: steps.claim.outputs.status == 'claimed'
+        timeout-minutes: 5
+        shell: bash
+        run: |
+          mkdir -p .refresh-logs
+          timeout -k 30s 5m npm run validate:reference-sources 2>&1 | tee .refresh-logs/sources.log
+
+      - name: Validate article facts
+        id: facts
+        if: steps.claim.outputs.status == 'claimed'
+        timeout-minutes: 5
+        shell: bash
+        run: |
+          mkdir -p .refresh-logs
+          timeout -k 30s 3m npm run validate:article-facts 2>&1 | tee .refresh-logs/facts.log
+
+      - name: Validate refreshed article (all locales)
+        id: validate
+        if: steps.claim.outputs.status == 'claimed'
+        timeout-minutes: 3
+        env:
+          REFERENCE_MIN_TRUSTED_DOMAINS: "1"
+          REFERENCE_MIN_COUNT: "4"
+          SEO_MIN_WORDS: "1200"
+          SEO_MAX_WORDS: "2800"
+        shell: bash
+        run: |
+          mkdir -p .refresh-logs
+          timeout -k 30s 3m node scripts/validate-refreshed-article.js --slug="${{ steps.claim.outputs.slug }}" 2>&1 | tee .refresh-logs/validate.log
+
+      # Always runs: done (keep translations) when every step above succeeded, otherwise
+      # restore the touched files and mark the slug failed. Commits and pushes (bounded retries).
+      - name: Finalize queue state, commit and push
+        id: finalize
+        if: always() && steps.claim.outputs.status == 'claimed'
+        timeout-minutes: 8
+        env:
+          STEPS_JSON: ${{ toJSON(steps) }}
+          REFERENCE_MIN_TRUSTED_DOMAINS: "1"
+          REFERENCE_MIN_COUNT: "4"
+          SEO_MIN_WORDS: "1200"
+          SEO_MAX_WORDS: "2800"
+        run: timeout -k 30s 7m node scripts/refresh-next-article.js --finalize
+
+      - name: Ping sitemaps
+        if: steps.finalize.outputs.status == 'done'
+        continue-on-error: true
+        timeout-minutes: 3
+        run: timeout -k 30s 3m node scripts/ping-sitemaps.js
+
+      - name: Submit refreshed article to IndexNow
+        if: steps.finalize.outputs.status == 'done'
+        continue-on-error: true
+        timeout-minutes: 3
+        env:
+          ARTICLE_SLUG: ${{ steps.finalize.outputs.slug }}
+        run: |
+          timeout -k 30s 3m node - <<'NODE'
+          const https = require('https');
+          const slug = process.env.ARTICLE_SLUG;
+          const urls = ['fr', 'en', 'de', 'es', 'pt'].map(
+            (locale) => `https://ark-fid.ch/${locale}/ressources/articles/${slug}/`,
+          );
+          const body = JSON.stringify({ urls });
+          const req = https.request('https://ark-fid.ch/api/indexnow/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Content-Length': Buffer.byteLength(body),
+            },
+          }, (res) => {
+            let data = '';
+            res.on('data', (chunk) => { data += chunk; });
+            res.on('end', () => {
+              console.log(`IndexNow status ${res.statusCode}: ${data.slice(0, 500)}`);
+              if (res.statusCode < 200 || res.statusCode >= 300) process.exitCode = 1;
+            });
+          });
+          req.on('error', (error) => {
+            console.error(error.message);
+            process.exitCode = 1;
+          });
+          req.write(body);
+          req.end();
+          NODE

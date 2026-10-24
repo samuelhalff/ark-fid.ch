@@ -260,6 +260,7 @@ async function refreshArticles({
   locales = ["en", "de", "es", "pt"],
   servicePaths = {},
   minWords = 700,
+  maxWords = 0,
   apply = false,
   deps,
   log = console.log,
@@ -298,6 +299,9 @@ async function refreshArticles({
     const words = countWords(candidate.content);
     if (words < minWords) {
       throw new Error(`refresh: ${slug}: refreshed article too short (${words} < ${minWords} words)`);
+    }
+    if (maxWords > 0 && words > maxWords) {
+      throw new Error(`refresh: ${slug}: refreshed article too long (${words} > ${maxWords} words)`);
     }
     if (candidate.slug !== existing.slug) throw new Error(`refresh: ${slug}: slug changed`);
 
