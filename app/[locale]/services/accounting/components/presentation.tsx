@@ -2,6 +2,7 @@ import Defer from "@/src/components/Defer";
 import AccountingAccordion from "./sections/AccountingAccordion";
 import ServicesListSection from "./sections/ServicesListSection";
 import ServiceLongForm from "@/src/components/ui/service-longform";
+import ServiceRelatedArticles from "@/src/components/ui/service-related-articles";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
 import { getCurrentLocale, type Locale } from "@/src/lib/i18n";
@@ -131,6 +132,7 @@ const AccountingPresentation = async ({ t }: { t: (key: string) => string }) => 
               </Defer>
             </section>
             <ServiceLongForm t={t} locale={locale} />
+            <ServiceRelatedArticles locale={locale} servicePath="/services/accounting" />
             <CaseStudiesSection
               title={caseStudies.title}
               intro={caseStudies.intro}

@@ -343,3 +343,9 @@ Both are rendered as a single discreet italicized small-print paragraph at the b
 ### Latest article translations
 
 The article `aml-lba-domiciliation-incorporation-suisse-so-fit` (date `2026-04-21`) is now available in `fr`, `en`, `de`, `es`, `pt`, each with a small-print SO-FIT affiliation footnote at the end of the body.
+
+## Service related articles (Oct 2026)
+
+Added to the `services` namespace in all locales (`fr`, `en`, `de`, `es`, `pt`):
+
+- `services:ServiceRelated.Title` — heading of the related-articles list at the end of each service page (`src/components/ui/service-related-articles.tsx`, slugs mapped in `src/lib/serviceArticles.ts`).

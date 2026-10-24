@@ -5,6 +5,7 @@ import { getCurrentLocale, getTranslations, type Locale } from "@/src/lib/i18n";
 import { localizePath } from "@/src/lib/paths";
 import { tidyTitle } from "@/src/lib/typography";
 import ServiceLongForm from "@/src/components/ui/service-longform";
+import ServiceRelatedArticles from "@/src/components/ui/service-related-articles";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
 import { CheckCircle as Check } from "@phosphor-icons/react/dist/ssr";
@@ -131,6 +132,7 @@ const MAPresentation = async () => {
               </Suspense>
             </section>
             <ServiceLongForm t={t} locale={locale} />
+            <ServiceRelatedArticles locale={locale} servicePath="/services/mergers-acquisitions" />
             <div className="flex justify-center">
               <GoogleReviewsBadge locale={locale} />
             </div>

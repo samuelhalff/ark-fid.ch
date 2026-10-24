@@ -3,6 +3,7 @@ import { getTranslations, getCurrentLocale, type Locale } from "@/src/lib/i18n";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import ServiceLongForm from "@/src/components/ui/service-longform";
+import ServiceRelatedArticles from "@/src/components/ui/service-related-articles";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
 const ServicesListServer = dynamic(
@@ -106,6 +107,7 @@ const CorporatePresentation = async () => {
               </Suspense>
             </section>
             <ServiceLongForm t={t} locale={locale} />
+            <ServiceRelatedArticles locale={locale} servicePath="/services/corporate" />
             <div className="flex justify-center">
               <GoogleReviewsBadge locale={locale} />
             </div>

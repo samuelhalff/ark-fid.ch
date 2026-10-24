@@ -4,6 +4,7 @@ import { tidyTitle } from "@/src/lib/typography";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import ServiceLongForm from "@/src/components/ui/service-longform";
+import ServiceRelatedArticles from "@/src/components/ui/service-related-articles";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
 import CaseStudiesSection from "@/src/components/site/case-studies-section";
@@ -84,6 +85,7 @@ const Presentation = async () => {
               </Suspense>
             </section>
             <ServiceLongForm t={t} locale={locale} />
+            <ServiceRelatedArticles locale={locale} servicePath="/services/taxes" />
             <section>
               <h3 className="text-xl xs:text-2xl md:text-2xl font-bold mb-4 md:leading-[2rem] tracking-tight">
                 {tidyTitle(internationalTaxFaq.title)}

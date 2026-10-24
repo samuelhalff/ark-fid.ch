@@ -41,6 +41,9 @@
     "PrimaryCTA": "Speak to an expert",
     "SecondaryCTA": "Get an instant quote"
   },
+  "ServiceRelated": {
+    "Title": "Related articles"
+  },
   "ScrollHint": "Discover more",
   "InlineContact": {
     "Title": "Contact us",

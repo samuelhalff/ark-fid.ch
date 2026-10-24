@@ -41,6 +41,9 @@
     "PrimaryCTA": "Parler à un expert",
     "SecondaryCTA": "Obtenez un devis instantané"
   },
+  "ServiceRelated": {
+    "Title": "Pour aller plus loin"
+  },
   "ScrollHint": "Découvrir plus",
   "InlineContact": {
     "Title": "Nous contacter",

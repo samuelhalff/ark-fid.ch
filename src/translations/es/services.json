@@ -41,6 +41,9 @@
     "PrimaryCTA": "Hablar con un experto",
     "SecondaryCTA": "Obtenga un presupuesto instantáneo"
   },
+  "ServiceRelated": {
+    "Title": "Artículos relacionados"
+  },
   "ScrollHint": "Descubrir más",
   "InlineContact": {
     "Title": "Contactar",

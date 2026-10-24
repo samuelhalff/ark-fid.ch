@@ -1,6 +1,6 @@
 import { Button } from "@/src/components/ui/button";
 import Image from "next/image";
-import Link from "next/link";
+import TrackedLink from "@/src/components/ui/tracked-link";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { tidyTitle, splitTitle } from "@/src/lib/typography";
 
@@ -71,7 +71,8 @@ const ServiceHero = async ({
             {t(descriptionKey) || descriptionFallback}
           </p>
           <div className="mt-10 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center">
-            <Link
+            <TrackedLink
+              cta="service_hero_primary"
               href={`${localePrefix}/contact/`}
               className="w-full sm:w-auto"
               locale={locale}
@@ -84,8 +85,9 @@ const ServiceHero = async ({
               >
                 <span>{t(ctaKey) || ctaFallback}</span>
               </Button>
-            </Link>
-            <Link
+            </TrackedLink>
+            <TrackedLink
+              cta="service_hero_secondary"
               href={`${localePrefix}/agent/`}
               className="w-full sm:w-auto"
               locale={locale}
@@ -99,7 +101,7 @@ const ServiceHero = async ({
               >
                 <span>{instantQuote}</span>
               </Button>
-            </Link>
+            </TrackedLink>
           </div>
           {/* Inline Odoo partner branding for accounting only (reverted position) */}
           {namespace === "accounting" && (

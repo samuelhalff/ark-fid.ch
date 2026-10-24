@@ -41,6 +41,9 @@
     "PrimaryCTA": "Mit einem Experten sprechen",
     "SecondaryCTA": "Sofortangebot erhalten"
   },
+  "ServiceRelated": {
+    "Title": "Weiterführende Artikel"
+  },
   "ScrollHint": "Mehr entdecken",
   "InlineContact": {
     "Title": "Kontakt aufnehmen",

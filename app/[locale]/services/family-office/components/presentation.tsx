@@ -3,6 +3,7 @@ import React from "react";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
 import ServiceLongForm from "@/src/components/ui/service-longform";
+import ServiceRelatedArticles from "@/src/components/ui/service-related-articles";
 import { CtaBanner } from "@/src/components/ui/surface";
 import {
   Bank,
@@ -105,6 +106,7 @@ const FamilyOfficePresentation = ({
           </div>
         </section>
         <ServiceLongForm t={t} locale={locale} />
+        <ServiceRelatedArticles locale={locale} servicePath="/services/family-office" />
         <CtaBanner
           variant="warm"
           title={t("Presentation.CalloutTitle")}
@@ -112,6 +114,7 @@ const FamilyOfficePresentation = ({
           primary={{
             href: `${localePrefix}/contact/`,
             label: t("Presentation.CalloutCTA"),
+            cta: "family_office_callout",
           }}
         />
         <div className="flex justify-center">
