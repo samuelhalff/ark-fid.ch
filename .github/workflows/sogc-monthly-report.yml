@@ -104,6 +104,15 @@ jobs:
             git commit -m "chore(ressources): SOGC statistics for ${{ steps.month.outputs.month }}" --author="samuelhalff <660062+samuelhalff@users.noreply.github.com>"
             git fetch origin main
             git rebase origin/main || { git rebase --abort || true; exit 1; }
+            # main may have moved: validate the rebased tree again before pushing.
+            node --test scripts/sogc-report.test.js scripts/article-redirects.test.js
+            for slug in ${{ steps.month.outputs.slugs }}; do
+              node scripts/validate-latest-article-guardrails.js --slug="$slug"
+            done
+            node scripts/validate-latest-article-guardrails.js
+            npm run validate:reference-sources
+            REQUIRE_TRANSLATIONS=1 node scripts/validate-article-translations.js
+            npm run lint:links
             git push
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi

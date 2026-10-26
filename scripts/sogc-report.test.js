@@ -14,6 +14,7 @@ const {
   removeFromUnpublishedLocale,
   checkRendered,
   writeCsvIfDataChanged,
+  verifySnapshot,
 } = require("./sogc-monthly-report");
 const { isDataReportArticle, withoutDataReports, DATA_REPORT_SERIES } = require("./lib/articleTopicGuardrails");
 const { pickStaleSlug } = require("./refresh-next-article");
@@ -60,7 +61,8 @@ function syntheticSnapshot(month = "2026-09") {
   for (const [kind] of lib.LIST_KINDS) lists[kind] = {};
   for (const [ci, canton] of lib.CANTONS.entries()) {
     for (const [kind] of lib.LIST_KINDS) lists[kind][canton] = [];
-    for (const [mi, ym] of months.entries()) {
+    for (const ym of months) {
+      const mi = Number(ym.slice(0, 4)) * 12 + Number(ym.slice(5, 7)); // depends on the month only
       const counts = {
         hr01: 10 + ci * 3 + (mi % 4),
         hr03: 4 + ci + (mi % 3),
@@ -355,6 +357,27 @@ test("CSVs hold aggregates only and the history keeps every month", () => {
   assert.equal(lines.length, 1 + 25 * lib.CANTONS.length); // 2024-09 .. 2026-09
   assert.ok(lines.some((l) => l.startsWith("2026-09,GE,") && !l.endsWith(",,,")), "breakdown for the report month");
   assert.ok(lines.some((l) => l.startsWith("2026-08,GE,") && !l.endsWith(",,,")), "breakdown kept from the older snapshot");
+});
+
+test("history drops a breakdown that no longer matches revised totals", () => {
+  const older = syntheticSnapshot("2026-08");
+  const newer = JSON.parse(JSON.stringify(syntheticSnapshot("2026-09")));
+  newer.monthly["2026-08"].hr01.GE += 1; // later correction of August
+  newer.monthly["2026-08"].kk03.VD += 1;
+  const h = render.renderHistoryCsvs([newer, older]);
+  const row = (csv, prefix) => csv.split("\n").find((l) => l.startsWith(prefix));
+  assert.ok(row(h.creations, "2026-08,GE,").endsWith(",,,,,"), "GE legal forms blanked");
+  assert.ok(!row(h.creations, "2026-08,VD,").endsWith(",,,,,"), "VD legal forms kept");
+  assert.ok(row(h.faillites, "2026-08,VD,").endsWith(",,,,"), "VD debtors blanked");
+  assert.ok(!row(h.faillites, "2026-08,GE,").endsWith(",,,,"), "GE debtors kept");
+});
+
+test("a snapshot edited by hand is rejected", () => {
+  const s = syntheticSnapshot();
+  assert.equal(verifySnapshot(s, "2026-09"), s);
+  const edited = JSON.parse(JSON.stringify(s));
+  edited.monthly["2026-09"].hr01.GE += 1;
+  assert.throws(() => verifySnapshot(edited, "2026-09"), /checksum/);
 });
 
 test("per-month CSV is not rewritten when only the retrieval time changes", () => {

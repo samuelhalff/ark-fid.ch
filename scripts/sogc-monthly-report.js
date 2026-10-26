@@ -19,7 +19,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const { collectSnapshot, assertMonth, shiftMonth } = require("./lib/sogcReport");
+const { collectSnapshot, assertMonth, shiftMonth, checksum } = require("./lib/sogcReport");
 const {
   LOCALES,
   CSV_DIR,
@@ -146,13 +146,22 @@ function removeFromUnpublishedLocale(data) {
   return removed;
 }
 
+/** A stored snapshot is trusted only if its aggregates still match its checksum. */
+function verifySnapshot(snapshot, label) {
+  if (checksum(snapshot) !== snapshot.checksum) {
+    throw new Error(`Snapshot ${label} does not match its checksum (edited by hand?); re-fetch it`);
+  }
+  return snapshot;
+}
+
 function loadSnapshots() {
   if (!fs.existsSync(SNAPSHOT_DIR)) return [];
   return fs
     .readdirSync(SNAPSHOT_DIR)
     .filter((f) => /^\d{4}-\d{2}\.json$/.test(f))
     .map((f) => readJson(path.join(SNAPSHOT_DIR, f)))
-    .filter((s) => s.schemaVersion === SCHEMA_VERSION);
+    .filter((s) => s.schemaVersion === SCHEMA_VERSION)
+    .map((s) => verifySnapshot(s, s.reportMonth));
 }
 
 async function main() {
@@ -169,10 +178,13 @@ async function main() {
     if (previous.schemaVersion !== SCHEMA_VERSION) {
       throw new Error(`Snapshot ${month} has schema ${previous.schemaVersion}; re-fetch it (schema ${SCHEMA_VERSION} required)`);
     }
-    snapshot = previous;
+    snapshot = verifySnapshot(previous, month);
   } else {
     snapshot = await collectSnapshot({ targetMonth: month, now, log: (m) => console.log(`  ${m}`) });
-    if (previous && previous.schemaVersion === SCHEMA_VERSION && previous.checksum === snapshot.checksum) {
+    if (
+      previous && previous.schemaVersion === SCHEMA_VERSION &&
+      previous.checksum === snapshot.checksum && checksum(previous) === snapshot.checksum
+    ) {
       console.log("Aggregates unchanged since the stored snapshot; keeping it.");
       snapshot = previous;
     }
@@ -184,10 +196,15 @@ async function main() {
     ALL_LOCALES.map((l) => [l, readJson(path.join(TRANSLATIONS, l, "ressources.json"))]),
   );
   const frArticles = data.fr.Articles || [];
-  const published = frArticles.find((a) => a && a.slug === PAGES.creations.slug);
+  const pageSlugs = new Set(Object.values(PAGES).map((p) => p.slug));
+  const publishedMonth = LOCALES.flatMap((l) => data[l].Articles || [])
+    .filter((a) => a && pageSlugs.has(a.slug) && a.reportMonth)
+    .map((a) => a.reportMonth)
+    .sort()
+    .pop();
   const updatePages = !args.backfill;
-  if (updatePages && published && published.reportMonth && month < published.reportMonth) {
-    throw new Error(`Month ${month} is older than the published ${published.reportMonth}; use --backfill (snapshot and CSVs only)`);
+  if (updatePages && publishedMonth && month < publishedMonth) {
+    throw new Error(`Month ${month} is older than the published ${publishedMonth}; use --backfill (snapshot and CSVs only)`);
   }
 
   const rendered = {};
@@ -254,6 +271,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  verifySnapshot,
   writeCsvIfDataChanged,
   parseArgs,
   previousMonth,

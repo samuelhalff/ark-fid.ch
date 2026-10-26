@@ -697,7 +697,7 @@ const FAILLITES_TEXT = {
   de: {
     title: (b, L) => `Konkurse in Genf und der Romandie: ${L.month}`,
     description: (b, L) => `${L.n(b.total.count)} publizierte Konkurse in der Westschweiz im ${L.month}, davon ${L.n(b.ge.count)} in Genf. Zahlen nach Kanton, Gesellschaften, Privatpersonen und Nachlässen, gestützt auf das SHAB.`,
-    intro: (b, L) => `Im ${L.month} veröffentlichte das Schweizerische Handelsamtsblatt (SHAB) **${L.n(b.total.count)} Konkursverfahren** in den sechs Westschweizer Kantonen (Genf, Waadt, Wallis, Neuenburg, Freiburg und Jura), davon **${L.n(b.ge.count)} in Genf**. Das Total umfasst Konkurspublikationen mit Schuldenruf (${L.n(b.total.kk02)}) und Einstellungen mangels Aktiven (${L.n(b.total.kk03)}). Alle Kantone verwenden diese beiden Publikationsarten gleich, was Vergleiche erlaubt. Gezählt werden Publikationen, nicht einzelne Schuldner.\n\nDie Konkursämter publizieren oft gebündelt; die Monatszahlen können daher stark schwanken, ohne dass sich die Lage ändert. Für die Entwicklung ist die Summe über zwölf Monate verlässlicher als ein einzelner Monat. Über zwölf Monate (${L.monthOnly(b.r12First)} ${b.r12First.slice(0, 4)} bis ${L.month}) wurden in der Westschweiz ${L.n(b.total.r12)} Konkurse publiziert, gegenüber den zwölf Monaten davor ${L.trend(b.total.r12Change)}.\n\nVon den Verfahren im ${L.month} betreffen ${L.n(b.total.debtors.company)} Verfahren Gesellschaften, ${L.n(b.total.debtors.person)} Privatpersonen und ${L.n(b.total.debtors.estate)} Nachlässe. Dieses Barometer von Ark Fiduciaire wird automatisch aus den amtlichen Publikationen berechnet und monatlich aktualisiert; Methode und vollständige Zeitreihe zum Herunterladen finden sich am Ende des Artikels.`,
+    intro: (b, L) => `Im ${L.month} veröffentlichte das Schweizerische Handelsamtsblatt (SHAB) **${L.n(b.total.count)} Konkursverfahren** in den sechs Westschweizer Kantonen (Genf, Waadt, Wallis, Neuenburg, Freiburg und Jura), davon **${L.n(b.ge.count)} in Genf**. Das Total umfasst Konkurspublikationen mit Schuldenruf (${L.n(b.total.kk02)}) und Einstellungen mangels Aktiven (${L.n(b.total.kk03)}). Alle Kantone verwenden diese beiden Publikationsarten gleich, was Vergleiche erlaubt. Gezählt werden Publikationen, nicht einzelne Schuldner.\n\nDie Konkursämter publizieren oft gebündelt; die Monatszahlen können daher stark schwanken, ohne dass sich die Lage ändert. Für die Entwicklung ist die Summe über zwölf Monate verlässlicher als ein einzelner Monat. Über zwölf Monate (${L.monthOnly(b.r12First)} ${b.r12First.slice(0, 4)} bis ${L.month}) wurden in der Westschweiz ${L.n(b.total.r12)} Konkurse publiziert, gegenüber den zwölf Monaten davor ${L.trend(b.total.r12Change)}.\n\nVon den Verfahren im ${L.month} betreffen ${L.n(b.total.debtors.company)} Gesellschaften, ${L.n(b.total.debtors.person)} Privatpersonen und ${L.n(b.total.debtors.estate)} Nachlässe. Dieses Barometer von Ark Fiduciaire wird automatisch aus den amtlichen Publikationen berechnet und monatlich aktualisiert; Methode und vollständige Zeitreihe zum Herunterladen finden sich am Ende des Artikels.`,
     hKey: (b, L) => `## Die wichtigsten Zahlen für ${L.month}`,
     key: (b, L) => [
       `- **${L.n(b.total.r12)}** publizierte Konkurse in der Westschweiz über zwölf Monate, gegenüber den zwölf Monaten davor (${L.n(b.total.r12Prev)}) ${L.trend(b.total.r12Change)}.`,
@@ -875,22 +875,29 @@ function renderFaillitesCsv(snapshot) {
 function renderHistoryCsvs(snapshots) {
   const sorted = [...snapshots].sort((a, b) => a.reportMonth.localeCompare(b.reportMonth));
   const counts = new Map(); // ym -> monthly entry
-  const targets = new Map(); // ym -> target
+  const targets = new Map(); // ym -> { target, monthly entry of that snapshot }
   for (const s of sorted) {
     for (const [ym, m] of Object.entries(s.monthly)) counts.set(ym, m);
-    targets.set(s.reportMonth, s.target);
+    targets.set(s.reportMonth, { target: s.target, own: s.monthly[s.reportMonth] });
   }
+  // A breakdown is shown only when its snapshot counted the same totals as the
+  // ones published for that month and canton (a later revision blanks it).
+  const consistent = (ym, c, kinds) => {
+    const t = targets.get(ym);
+    const m = counts.get(ym);
+    return Boolean(t && t.own && kinds.every((k) => t.own[k] && m[k] && t.own[k][c] === m[k][c]));
+  };
   const months = [...counts.keys()].sort();
   const cre = [];
   const fal = [];
   for (const ym of months) {
     const m = counts.get(ym);
-    const t = targets.get(ym);
+    const t = targets.get(ym) && targets.get(ym).target;
     for (const c of CANTONS) {
-      const lf = t && t.legalForms ? t.legalForms[c] : null;
+      const lf = t && t.legalForms && consistent(ym, c, ["hr01"]) ? t.legalForms[c] : null;
       cre.push([ym, c, m.hr01[c], m.hr03[c], m.hr01[c] - m.hr03[c], ...LEGAL_FORM_KEYS.map((k) => (lf ? lf[k] : ""))]);
       if (m.kk02 && m.kk03) {
-        const d = t && t.debtors ? t.debtors[c] : null;
+        const d = t && t.debtors && consistent(ym, c, ["kk02", "kk03"]) ? t.debtors[c] : null;
         fal.push([ym, c, m.kk02[c] + m.kk03[c], m.kk02[c], m.kk03[c], ...["company", "or731b", "person", "estate"].map((k) => (d ? d[k] : ""))]);
       }
     }
