@@ -56,7 +56,7 @@ export const DOC_RULES: DocRule[] = [
   // Documents listed by Ark when preparing the case (one per row of the hidden group).
   { id: "ark-doc", category: "other", forEach: "start.arkDocs", label: t("{row}", "{row}", "{row}") },
   // ---- key documents (asked first)
-  { id: "last-return", category: "base", base: true, when: (a) => previouslyTaxed(a) && !renewalYear(a), label: t("Dernière déclaration d'impôt déposée (avec annexes)", "Last tax return filed (with schedules)", "Letzte eingereichte Steuererklärung (mit Beilagen)") },
+  { id: "last-return", category: "base", base: true, when: (a) => a["start.status"] === "filedBefore" && !renewalYear(a), label: t("Dernière déclaration d'impôt déposée (avec annexes)", "Last tax return filed (with schedules)", "Letzte eingereichte Steuererklärung (mit Beilagen)") },
   { id: "last-assessment", category: "base", base: true, when: previouslyTaxed, label: t("Dernier avis de taxation reçu", "Latest notice of assessment received", "Letzte erhaltene Veranlagungsverfügung") },
   {
     id: "access-letter",

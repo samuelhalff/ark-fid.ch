@@ -225,3 +225,10 @@ test("ended during the year: the date must be in the tax year and not in the fut
   assert.equal(at("15.12.2024"), "invalid_date");
   assert.equal(at("15.01.2026"), "invalid_date");
 });
+
+test("existing Ark client without prefill: no last return asked (Ark prepared it), assessment still asked", () => {
+  const ids = (status: string) => checklistFor({ "start.status": status } as Answers).map((i) => i.ruleId);
+  assert.ok(!ids("arkClient").includes("last-return"));
+  assert.ok(ids("arkClient").includes("last-assessment"));
+  assert.ok(ids("filedBefore").includes("last-return"));
+});
