@@ -1,15 +1,14 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "classifierVersion": 1,
-  "series": "sogc-creations-romandie",
   "reportMonth": "2026-09",
-  "publishedOn": "2026-10-26",
-  "fetchedAt": "2026-10-26T13:30:15.550Z",
+  "fetchedAt": "2026-10-26T14:29:24.749Z",
   "source": {
     "name": "Feuille officielle suisse du commerce (FOSC/SOGC/SHAB)",
     "api": "https://amtsblattportal.ch/api/v1/publications",
     "creations": "subRubrics=HR01 (nouvelles inscriptions)",
     "deletions": "subRubrics=HR03 (radiations)",
+    "bankruptcies": "subRubrics=KK02 (publication de faillite) + KK03 (suspension faute d'actif)",
     "dateBasis": "publicationDate (FOSC)",
     "cantons": [
       "GE",
@@ -21,6 +20,108 @@
     ]
   },
   "monthly": {
+    "2024-10": {
+      "hr01": {
+        "GE": 389,
+        "VD": 436,
+        "VS": 197,
+        "NE": 83,
+        "FR": 177,
+        "JU": 27
+      },
+      "hr03": {
+        "GE": 253,
+        "VD": 271,
+        "VS": 90,
+        "NE": 45,
+        "FR": 114,
+        "JU": 23
+      },
+      "kk02": {
+        "GE": 120,
+        "VD": 68,
+        "VS": 26,
+        "NE": 16,
+        "FR": 28,
+        "JU": 8
+      },
+      "kk03": {
+        "GE": 45,
+        "VD": 90,
+        "VS": 33,
+        "NE": 20,
+        "FR": 28,
+        "JU": 10
+      }
+    },
+    "2024-11": {
+      "hr01": {
+        "GE": 378,
+        "VD": 413,
+        "VS": 237,
+        "NE": 72,
+        "FR": 169,
+        "JU": 35
+      },
+      "hr03": {
+        "GE": 212,
+        "VD": 236,
+        "VS": 104,
+        "NE": 38,
+        "FR": 104,
+        "JU": 25
+      },
+      "kk02": {
+        "GE": 61,
+        "VD": 81,
+        "VS": 18,
+        "NE": 23,
+        "FR": 17,
+        "JU": 4
+      },
+      "kk03": {
+        "GE": 41,
+        "VD": 142,
+        "VS": 34,
+        "NE": 25,
+        "FR": 34,
+        "JU": 10
+      }
+    },
+    "2024-12": {
+      "hr01": {
+        "GE": 460,
+        "VD": 438,
+        "VS": 275,
+        "NE": 89,
+        "FR": 195,
+        "JU": 53
+      },
+      "hr03": {
+        "GE": 235,
+        "VD": 319,
+        "VS": 131,
+        "NE": 36,
+        "FR": 196,
+        "JU": 26
+      },
+      "kk02": {
+        "GE": 35,
+        "VD": 51,
+        "VS": 13,
+        "NE": 11,
+        "FR": 20,
+        "JU": 6
+      },
+      "kk03": {
+        "GE": 57,
+        "VD": 79,
+        "VS": 25,
+        "NE": 19,
+        "FR": 15,
+        "JU": 6
+      }
+    },
     "2025-01": {
       "hr01": {
         "GE": 303,
@@ -37,6 +138,22 @@
         "NE": 72,
         "FR": 79,
         "JU": 22
+      },
+      "kk02": {
+        "GE": 24,
+        "VD": 65,
+        "VS": 24,
+        "NE": 17,
+        "FR": 22,
+        "JU": 5
+      },
+      "kk03": {
+        "GE": 102,
+        "VD": 132,
+        "VS": 29,
+        "NE": 12,
+        "FR": 21,
+        "JU": 4
       }
     },
     "2025-02": {
@@ -55,6 +172,22 @@
         "NE": 46,
         "FR": 250,
         "JU": 25
+      },
+      "kk02": {
+        "GE": 89,
+        "VD": 53,
+        "VS": 24,
+        "NE": 15,
+        "FR": 23,
+        "JU": 8
+      },
+      "kk03": {
+        "GE": 49,
+        "VD": 121,
+        "VS": 40,
+        "NE": 16,
+        "FR": 37,
+        "JU": 8
       }
     },
     "2025-03": {
@@ -73,6 +206,22 @@
         "NE": 40,
         "FR": 163,
         "JU": 22
+      },
+      "kk02": {
+        "GE": 72,
+        "VD": 64,
+        "VS": 14,
+        "NE": 23,
+        "FR": 28,
+        "JU": 6
+      },
+      "kk03": {
+        "GE": 80,
+        "VD": 99,
+        "VS": 17,
+        "NE": 19,
+        "FR": 15,
+        "JU": 12
       }
     },
     "2025-04": {
@@ -91,6 +240,22 @@
         "NE": 51,
         "FR": 181,
         "JU": 30
+      },
+      "kk02": {
+        "GE": 44,
+        "VD": 54,
+        "VS": 13,
+        "NE": 15,
+        "FR": 14,
+        "JU": 7
+      },
+      "kk03": {
+        "GE": 35,
+        "VD": 99,
+        "VS": 25,
+        "NE": 21,
+        "FR": 33,
+        "JU": 6
       }
     },
     "2025-05": {
@@ -109,6 +274,22 @@
         "NE": 54,
         "FR": 169,
         "JU": 14
+      },
+      "kk02": {
+        "GE": 72,
+        "VD": 86,
+        "VS": 22,
+        "NE": 13,
+        "FR": 27,
+        "JU": 3
+      },
+      "kk03": {
+        "GE": 113,
+        "VD": 101,
+        "VS": 37,
+        "NE": 18,
+        "FR": 32,
+        "JU": 8
       }
     },
     "2025-06": {
@@ -127,6 +308,22 @@
         "NE": 48,
         "FR": 90,
         "JU": 23
+      },
+      "kk02": {
+        "GE": 24,
+        "VD": 58,
+        "VS": 12,
+        "NE": 20,
+        "FR": 15,
+        "JU": 4
+      },
+      "kk03": {
+        "GE": 27,
+        "VD": 111,
+        "VS": 26,
+        "NE": 23,
+        "FR": 14,
+        "JU": 7
       }
     },
     "2025-07": {
@@ -145,6 +342,22 @@
         "NE": 52,
         "FR": 96,
         "JU": 19
+      },
+      "kk02": {
+        "GE": 66,
+        "VD": 61,
+        "VS": 19,
+        "NE": 17,
+        "FR": 18,
+        "JU": 4
+      },
+      "kk03": {
+        "GE": 116,
+        "VD": 135,
+        "VS": 28,
+        "NE": 26,
+        "FR": 42,
+        "JU": 7
       }
     },
     "2025-08": {
@@ -163,6 +376,22 @@
         "NE": 30,
         "FR": 139,
         "JU": 8
+      },
+      "kk02": {
+        "GE": 58,
+        "VD": 58,
+        "VS": 19,
+        "NE": 16,
+        "FR": 35,
+        "JU": 11
+      },
+      "kk03": {
+        "GE": 80,
+        "VD": 91,
+        "VS": 55,
+        "NE": 27,
+        "FR": 52,
+        "JU": 9
       }
     },
     "2025-09": {
@@ -181,6 +410,22 @@
         "NE": 38,
         "FR": 51,
         "JU": 21
+      },
+      "kk02": {
+        "GE": 6,
+        "VD": 49,
+        "VS": 21,
+        "NE": 14,
+        "FR": 18,
+        "JU": 8
+      },
+      "kk03": {
+        "GE": 71,
+        "VD": 89,
+        "VS": 53,
+        "NE": 29,
+        "FR": 12,
+        "JU": 6
       }
     },
     "2025-10": {
@@ -199,6 +444,22 @@
         "NE": 58,
         "FR": 115,
         "JU": 21
+      },
+      "kk02": {
+        "GE": 15,
+        "VD": 70,
+        "VS": 30,
+        "NE": 11,
+        "FR": 36,
+        "JU": 11
+      },
+      "kk03": {
+        "GE": 10,
+        "VD": 141,
+        "VS": 71,
+        "NE": 28,
+        "FR": 39,
+        "JU": 9
       }
     },
     "2025-11": {
@@ -217,6 +478,22 @@
         "NE": 40,
         "FR": 95,
         "JU": 20
+      },
+      "kk02": {
+        "GE": 31,
+        "VD": 51,
+        "VS": 33,
+        "NE": 23,
+        "FR": 18,
+        "JU": 3
+      },
+      "kk03": {
+        "GE": 228,
+        "VD": 102,
+        "VS": 58,
+        "NE": 22,
+        "FR": 50,
+        "JU": 7
       }
     },
     "2025-12": {
@@ -235,6 +512,22 @@
         "NE": 53,
         "FR": 106,
         "JU": 33
+      },
+      "kk02": {
+        "GE": 187,
+        "VD": 40,
+        "VS": 18,
+        "NE": 21,
+        "FR": 28,
+        "JU": 5
+      },
+      "kk03": {
+        "GE": 61,
+        "VD": 63,
+        "VS": 37,
+        "NE": 24,
+        "FR": 43,
+        "JU": 7
       }
     },
     "2026-01": {
@@ -253,6 +546,22 @@
         "NE": 67,
         "FR": 94,
         "JU": 22
+      },
+      "kk02": {
+        "GE": 2,
+        "VD": 76,
+        "VS": 30,
+        "NE": 20,
+        "FR": 38,
+        "JU": 8
+      },
+      "kk03": {
+        "GE": 0,
+        "VD": 173,
+        "VS": 76,
+        "NE": 32,
+        "FR": 55,
+        "JU": 10
       }
     },
     "2026-02": {
@@ -271,6 +580,22 @@
         "NE": 43,
         "FR": 87,
         "JU": 22
+      },
+      "kk02": {
+        "GE": 33,
+        "VD": 80,
+        "VS": 15,
+        "NE": 13,
+        "FR": 21,
+        "JU": 7
+      },
+      "kk03": {
+        "GE": 173,
+        "VD": 136,
+        "VS": 57,
+        "NE": 28,
+        "FR": 35,
+        "JU": 7
       }
     },
     "2026-03": {
@@ -289,6 +614,22 @@
         "NE": 47,
         "FR": 127,
         "JU": 26
+      },
+      "kk02": {
+        "GE": 73,
+        "VD": 79,
+        "VS": 26,
+        "NE": 21,
+        "FR": 41,
+        "JU": 9
+      },
+      "kk03": {
+        "GE": 157,
+        "VD": 133,
+        "VS": 50,
+        "NE": 25,
+        "FR": 33,
+        "JU": 21
       }
     },
     "2026-04": {
@@ -307,6 +648,22 @@
         "NE": 37,
         "FR": 61,
         "JU": 25
+      },
+      "kk02": {
+        "GE": 178,
+        "VD": 55,
+        "VS": 19,
+        "NE": 16,
+        "FR": 21,
+        "JU": 12
+      },
+      "kk03": {
+        "GE": 103,
+        "VD": 108,
+        "VS": 45,
+        "NE": 20,
+        "FR": 38,
+        "JU": 17
       }
     },
     "2026-05": {
@@ -325,6 +682,22 @@
         "NE": 40,
         "FR": 81,
         "JU": 20
+      },
+      "kk02": {
+        "GE": 136,
+        "VD": 72,
+        "VS": 26,
+        "NE": 15,
+        "FR": 33,
+        "JU": 9
+      },
+      "kk03": {
+        "GE": 142,
+        "VD": 108,
+        "VS": 60,
+        "NE": 25,
+        "FR": 44,
+        "JU": 26
       }
     },
     "2026-06": {
@@ -343,6 +716,22 @@
         "NE": 62,
         "FR": 132,
         "JU": 30
+      },
+      "kk02": {
+        "GE": 74,
+        "VD": 84,
+        "VS": 21,
+        "NE": 18,
+        "FR": 28,
+        "JU": 9
+      },
+      "kk03": {
+        "GE": 94,
+        "VD": 169,
+        "VS": 34,
+        "NE": 18,
+        "FR": 54,
+        "JU": 14
       }
     },
     "2026-07": {
@@ -361,6 +750,22 @@
         "NE": 44,
         "FR": 108,
         "JU": 26
+      },
+      "kk02": {
+        "GE": 24,
+        "VD": 120,
+        "VS": 32,
+        "NE": 15,
+        "FR": 32,
+        "JU": 11
+      },
+      "kk03": {
+        "GE": 49,
+        "VD": 156,
+        "VS": 67,
+        "NE": 23,
+        "FR": 65,
+        "JU": 18
       }
     },
     "2026-08": {
@@ -379,6 +784,22 @@
         "NE": 34,
         "FR": 62,
         "JU": 18
+      },
+      "kk02": {
+        "GE": 86,
+        "VD": 87,
+        "VS": 15,
+        "NE": 16,
+        "FR": 33,
+        "JU": 11
+      },
+      "kk03": {
+        "GE": 170,
+        "VD": 131,
+        "VS": 37,
+        "NE": 24,
+        "FR": 42,
+        "JU": 16
       }
     },
     "2026-09": {
@@ -397,6 +818,22 @@
         "NE": 49,
         "FR": 65,
         "JU": 20
+      },
+      "kk02": {
+        "GE": 37,
+        "VD": 68,
+        "VS": 30,
+        "NE": 32,
+        "FR": 26,
+        "JU": 9
+      },
+      "kk03": {
+        "GE": 101,
+        "VD": 140,
+        "VS": 33,
+        "NE": 30,
+        "FR": 39,
+        "JU": 21
       }
     }
   },
@@ -469,6 +906,44 @@
       "education": 69,
       "consulting": 192,
       "unclassified": 172
+    },
+    "debtors": {
+      "GE": {
+        "company": 92,
+        "person": 19,
+        "estate": 27,
+        "or731b": 0
+      },
+      "VD": {
+        "company": 80,
+        "person": 35,
+        "estate": 93,
+        "or731b": 11
+      },
+      "VS": {
+        "company": 29,
+        "person": 11,
+        "estate": 23,
+        "or731b": 3
+      },
+      "NE": {
+        "company": 22,
+        "person": 8,
+        "estate": 32,
+        "or731b": 2
+      },
+      "FR": {
+        "company": 33,
+        "person": 10,
+        "estate": 22,
+        "or731b": 5
+      },
+      "JU": {
+        "company": 11,
+        "person": 7,
+        "estate": 12,
+        "or731b": 0
+      }
     }
   },
   "sectorOrder": [
@@ -486,14 +961,47 @@
     "unclassified"
   ],
   "quality": {
-    "hr01Publications": 27827,
-    "hr03Publications": 17060,
-    "multiCantonPublications": 0,
+    "hr01Publications": 31950,
+    "hr03Publications": 19518,
+    "kk02Publications": 4916,
+    "kk03Publications": 7672,
+    "multiCantonPublications": 1,
+    "crossCantonListItems": 60,
     "detailsParsed": 1200,
     "uidDuplicates": 0,
     "seatTransferMentions": 2,
     "missingPurpose": 32,
-    "unmappedLegalFormCodes": 0
+    "unmappedLegalFormCodes": 0,
+    "bankruptcyDetailsParsed": 566,
+    "bankruptcyCompanyUidDuplicates": 1,
+    "bankruptcyFreeTextQualifications": 5,
+    "kkOutOfRangeListItems": 39
   },
-  "checksum": "6c989fa47558bd9f"
+  "checksum": "f395f064a76fd45e",
+  "highlights": {
+    "fr": {
+      "GE": "Genève : 332 nouvelles inscriptions au registre du commerce en septembre 2026 (+14,1 % sur un mois, −4,3 % sur un an), 188 radiations ; 2 164 faillites publiées sur douze mois (+45,5 % par rapport aux douze mois précédents).",
+      "VD": "Vaud : 393 nouvelles inscriptions au registre du commerce en septembre 2026 (+5,6 % sur un mois, +17,0 % sur un an), 213 radiations ; 2 442 faillites publiées sur douze mois (+19,9 % par rapport aux douze mois précédents).",
+      "VS": "Valais : 209 nouvelles inscriptions au registre du commerce en septembre 2026 (−11,4 % sur un mois, +10,6 % sur un an), 128 radiations ; 920 faillites publiées sur douze mois (+46,7 % par rapport aux douze mois précédents).",
+      "NE": "Neuchâtel : 70 nouvelles inscriptions au registre du commerce en septembre 2026 (+22,8 % sur un mois, +18,6 % sur un an), 49 radiations ; 520 faillites publiées sur douze mois (+14,3 % par rapport aux douze mois précédents).",
+      "FR": "Fribourg : 163 nouvelles inscriptions au registre du commerce en septembre 2026 (+10,1 % sur un mois, +16,4 % sur un an), 65 radiations ; 892 faillites publiées sur douze mois (+48,7 % par rapport aux douze mois précédents).",
+      "JU": "Jura : 33 nouvelles inscriptions au registre du commerce en septembre 2026 (+57,1 % sur un mois, −2,9 % sur un an), 20 radiations ; 277 faillites publiées sur douze mois (+65,9 % par rapport aux douze mois précédents)."
+    },
+    "en": {
+      "GE": "Geneva: 332 new commercial register entries in September 2026 (+14.1% month on month, −4.3% year on year), 188 deletions; 2,164 bankruptcies published over twelve months (+45.5% on the previous twelve months).",
+      "VD": "Vaud: 393 new commercial register entries in September 2026 (+5.6% month on month, +17.0% year on year), 213 deletions; 2,442 bankruptcies published over twelve months (+19.9% on the previous twelve months).",
+      "VS": "Valais: 209 new commercial register entries in September 2026 (−11.4% month on month, +10.6% year on year), 128 deletions; 920 bankruptcies published over twelve months (+46.7% on the previous twelve months).",
+      "NE": "Neuchâtel: 70 new commercial register entries in September 2026 (+22.8% month on month, +18.6% year on year), 49 deletions; 520 bankruptcies published over twelve months (+14.3% on the previous twelve months).",
+      "FR": "Fribourg: 163 new commercial register entries in September 2026 (+10.1% month on month, +16.4% year on year), 65 deletions; 892 bankruptcies published over twelve months (+48.7% on the previous twelve months).",
+      "JU": "Jura: 33 new commercial register entries in September 2026 (+57.1% month on month, −2.9% year on year), 20 deletions; 277 bankruptcies published over twelve months (+65.9% on the previous twelve months)."
+    },
+    "de": {
+      "GE": "Genf: 332 Neueintragungen im Handelsregister im September 2026 (+14.1 % zum Vormonat, −4.3 % zum Vorjahr), 188 Löschungen; 2’164 publizierte Konkurse über zwölf Monate (+45.5 % zu den zwölf Monaten davor).",
+      "VD": "Waadt: 393 Neueintragungen im Handelsregister im September 2026 (+5.6 % zum Vormonat, +17.0 % zum Vorjahr), 213 Löschungen; 2’442 publizierte Konkurse über zwölf Monate (+19.9 % zu den zwölf Monaten davor).",
+      "VS": "Wallis: 209 Neueintragungen im Handelsregister im September 2026 (−11.4 % zum Vormonat, +10.6 % zum Vorjahr), 128 Löschungen; 920 publizierte Konkurse über zwölf Monate (+46.7 % zu den zwölf Monaten davor).",
+      "NE": "Neuenburg: 70 Neueintragungen im Handelsregister im September 2026 (+22.8 % zum Vormonat, +18.6 % zum Vorjahr), 49 Löschungen; 520 publizierte Konkurse über zwölf Monate (+14.3 % zu den zwölf Monaten davor).",
+      "FR": "Freiburg: 163 Neueintragungen im Handelsregister im September 2026 (+10.1 % zum Vormonat, +16.4 % zum Vorjahr), 65 Löschungen; 892 publizierte Konkurse über zwölf Monate (+48.7 % zu den zwölf Monaten davor).",
+      "JU": "Jura: 33 Neueintragungen im Handelsregister im September 2026 (+57.1 % zum Vormonat, −2.9 % zum Vorjahr), 20 Löschungen; 277 publizierte Konkurse über zwölf Monate (+65.9 % zu den zwölf Monaten davor)."
+    }
+  }
 }

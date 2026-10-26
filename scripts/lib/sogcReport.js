@@ -21,8 +21,7 @@
 
 const API_BASE = "https://amtsblattportal.ch/api/v1";
 const PORTAL_URL = "https://amtsblattportal.ch/";
-const SERIES = "sogc-creations-romandie";
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 const CLASSIFIER_VERSION = 1;
 const CANTONS = Object.freeze(["GE", "VD", "VS", "NE", "FR", "JU"]);
 const PAGE_SIZE = 2000;
@@ -101,10 +100,12 @@ function monthsBetween(from, to) {
   return out;
 }
 
-/** Months fetched for a report: January of the previous year up to the target month. */
+/**
+ * Months fetched for a report: 24 months up to the target month (rolling twelve
+ * months and the twelve before; this also covers January of the previous year).
+ */
 function reportMonths(targetMonth) {
-  const year = Number(assertMonth(targetMonth).slice(0, 4));
-  return monthsBetween(`${year - 1}-01`, targetMonth);
+  return monthsBetween(shiftMonth(assertMonth(targetMonth), -23), targetMonth);
 }
 
 function normalizeText(input) {
@@ -183,6 +184,40 @@ function parseHr01Xml(xml) {
   };
 }
 
+/**
+ * Parse a KK02/KK03 (bankruptcy) XML export: debtor category only, never names.
+ * company: <debtor><selectType>company</selectType> (with <or731b>Yes|No</or731b>);
+ * person: natural person, or estate when <addition> is legacy/refusedLegacy.
+ */
+function parseKkXml(xml) {
+  const subRubric = xmlTag(xml, "subRubric");
+  const m = /<debtor>\s*<selectType>([^<]*)<\/selectType>/.exec(xml);
+  const type = m ? m[1].trim() : "";
+  // Fail closed: any value outside the verified vocabulary aborts the run.
+  if (type === "company") {
+    const or731b = xmlTag(xml, "or731b");
+    if (or731b !== "Yes" && or731b !== "No") throw new Error(`Unexpected or731b value "${or731b}" in ${subRubric} company debtor`);
+    return { subRubric, debtor: "company", or731b: or731b === "Yes", uid: xmlTag(xml, "uid"), custom: false };
+  }
+  if (type === "person") {
+    // Schema enumeration (KK02/KK03 export 1.26): none | legacy | refusedLegacy | custom.
+    const addition = xmlTag(xml, "addition");
+    if (addition === "none") return { subRubric, debtor: "person", or731b: false, uid: null, custom: false };
+    if (addition === "legacy" || addition === "refusedLegacy") {
+      return { subRubric, debtor: "estate", or731b: false, uid: null, custom: false };
+    }
+    if (addition === "custom") {
+      // Free text, e.g. "Succession insolvable" (Neuchâtel): an estate when the
+      // text says so, otherwise counted as an individual.
+      const text = normalizeText(xmlTag(xml, "additionCustom") || "");
+      const estate = /\b(succession|hoirie|nachlass|erbschaft|eredita|successione)\b/.test(text);
+      return { subRubric, debtor: estate ? "estate" : "person", or731b: false, uid: null, custom: true };
+    }
+    throw new Error(`Unexpected addition value "${addition}" in ${subRubric} person debtor`);
+  }
+  throw new Error(`Unexpected debtor type "${type}" in ${subRubric} publication`);
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -238,14 +273,21 @@ function addDays(iso, n) {
  * single page, and ranges that do not fit are split in two. Fails closed when
  * the API returns anything outside the requested filter or fewer items than
  * its own `total`.
+ *
+ * Bankruptcy rubric (KK*, `lenient`): the API's canton and date filters also
+ * match a publication's other cantonal data (observed: a Fribourg KK02 returned
+ * for cantons=GE, a KK02 of 29 Aug returned for a range starting 1 Sep). Such
+ * items are returned as a superset: the caller queries one calendar month at a
+ * time, keeps only items whose own publicationDate is in range (counted in
+ * `skippedOutOfRange`) and attributes each item to its own canton.
  */
-async function listPublications({ subRubric, canton, start, end, fetchImpl }) {
+async function listPublications({ subRubric, canton, start, end, fetchImpl, lenient = subRubric.startsWith("KK") }) {
   const body = await fetchWithRetry(listUrl({ subRubric, canton, start, end }), { fetchImpl });
   if (!body || !Array.isArray(body.content) || typeof body.total !== "number") {
     throw new Error(`Unexpected list response for ${subRubric}/${canton} ${start}..${end}`);
   }
   if (body.total > PAGE_SIZE) {
-    if (start === end) throw new Error(`More than ${PAGE_SIZE} items on ${start} for ${subRubric}/${canton}`);
+    if (lenient || start === end) throw new Error(`More than ${PAGE_SIZE} items for ${subRubric}/${canton} ${start}..${end}`);
     const span = Math.round((Date.parse(end) - Date.parse(start)) / 86400000);
     const mid = addDays(start, Math.floor(span / 2));
     const left = await listPublications({ subRubric, canton, start, end: mid, fetchImpl });
@@ -259,28 +301,57 @@ async function listPublications({ subRubric, canton, start, end, fetchImpl }) {
     }
     return [...left, ...right];
   }
+  if (body.content.length !== body.total) {
+    throw new Error(`Fetched ${body.content.length} of ${body.total} items for ${subRubric}/${canton} ${start}..${end}`);
+  }
   const items = [];
   const seen = new Set();
+  let skippedOutOfRange = 0;
   for (const entry of body.content) {
     const meta = entry && entry.meta;
     if (!meta || !meta.id) throw new Error("List item without meta.id");
     if (meta.subRubric !== subRubric) throw new Error(`Filter leak: got ${meta.subRubric} for ${subRubric} (${meta.id})`);
-    if (!Array.isArray(meta.cantons) || !meta.cantons.includes(canton)) {
+    if (!Array.isArray(meta.cantons) || meta.cantons.length === 0) {
+      throw new Error(`Filter leak: ${meta.id} has no canton`);
+    }
+    if (!lenient && !meta.cantons.includes(canton)) {
       throw new Error(`Filter leak: ${meta.id} not in canton ${canton}`);
     }
     if (meta.publicationState !== "PUBLISHED") {
       throw new Error(`Filter leak: ${meta.id} state ${meta.publicationState}`);
     }
-    const day = String(meta.publicationDate || "").slice(0, 10);
-    if (!(day >= start && day <= end)) throw new Error(`Filter leak: ${meta.id} dated ${day} outside ${start}..${end}`);
     if (seen.has(meta.id)) throw new Error(`Duplicate id ${meta.id} in ${subRubric}/${canton}`);
     seen.add(meta.id);
+    const day = String(meta.publicationDate || "").slice(0, 10);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error(`Publication ${meta.id} has no publication date`);
+    if (!(day >= start && day <= end)) {
+      if (!lenient) throw new Error(`Filter leak: ${meta.id} dated ${day} outside ${start}..${end}`);
+      skippedOutOfRange++;
+      continue;
+    }
     items.push({ id: meta.id, day, cantons: meta.cantons.slice() });
   }
-  if (items.length !== body.total) {
-    throw new Error(`Fetched ${items.length} of ${body.total} items for ${subRubric}/${canton} ${start}..${end}`);
-  }
+  items.skippedOutOfRange = skippedOutOfRange;
   return items;
+}
+
+/** Lenient (KK) listing over a multi-month range: one query per calendar month. */
+async function listPublicationsByMonth({ subRubric, canton, months, fetchImpl }) {
+  const out = [];
+  const ids = new Set();
+  let skipped = 0;
+  for (const ym of months) {
+    const { start, end } = monthRange(ym);
+    const items = await listPublications({ subRubric, canton, start, end, fetchImpl, lenient: true });
+    skipped += items.skippedOutOfRange || 0;
+    for (const x of items) {
+      if (ids.has(x.id)) throw new Error(`Duplicate id ${x.id} across ${subRubric}/${canton} months`);
+      ids.add(x.id);
+      out.push(x);
+    }
+  }
+  out.skippedOutOfRange = skipped;
+  return out;
 }
 
 async function mapPool(items, limit, fn) {
@@ -300,40 +371,73 @@ function emptyCounts(keys) {
   return Object.fromEntries(keys.map((k) => [k, 0]));
 }
 
+/** Kinds of list counts kept per month. */
+const LIST_KINDS = Object.freeze([
+  ["hr01", "HR01"],
+  ["hr03", "HR03"],
+  ["kk02", "KK02"],
+  ["kk03", "KK03"],
+]);
+const DEBTOR_KEYS = Object.freeze(["company", "person", "estate"]);
+
 /**
  * Builds the aggregate-only snapshot. Each publication is attributed to the
  * first canton in CANTONS order (GE, VD, VS, NE, FR, JU) that it lists;
  * the number of multi-canton publications is recorded.
  */
-function buildSnapshot({ targetMonth, lists, details, fetchedAt, publishedOn }) {
+function buildSnapshot({ targetMonth, lists, details, fetchedAt }) {
   const months = reportMonths(targetMonth);
   const monthly = {};
   for (const ym of months) {
-    monthly[ym] = { hr01: emptyCounts(CANTONS), hr03: emptyCounts(CANTONS) };
+    monthly[ym] = Object.fromEntries(LIST_KINDS.map(([kind]) => [kind, emptyCounts(CANTONS)]));
   }
   const quality = {
     hr01Publications: 0,
     hr03Publications: 0,
+    kk02Publications: 0,
+    kk03Publications: 0,
     multiCantonPublications: 0,
+    crossCantonListItems: 0,
     detailsParsed: 0,
     uidDuplicates: 0,
     seatTransferMentions: 0,
     missingPurpose: 0,
     unmappedLegalFormCodes: 0,
+    bankruptcyDetailsParsed: 0,
+    bankruptcyCompanyUidDuplicates: 0,
+    bankruptcyFreeTextQualifications: 0,
   };
   const assigned = new Map(); // id -> { canton, day, kind }
-  for (const kind of ["hr01", "hr03"]) {
+  const listed = Object.fromEntries(
+    LIST_KINDS.map(([kind]) => [
+      kind,
+      Object.fromEntries(CANTONS.map((c) => [c, new Set(((lists[kind] && lists[kind][c]) || []).map((x) => x.id))])),
+    ]),
+  );
+  for (const [kind] of LIST_KINDS) {
     for (const canton of CANTONS) {
-      for (const item of lists[kind][canton] || []) {
+      for (const item of (lists[kind] && lists[kind][canton]) || []) {
         const owner = CANTONS.find((c) => item.cantons.includes(c));
+        if (!item.cantons.includes(canton)) {
+          quality.crossCantonListItems++;
+          // Returned for another canton: it must be counted by its own canton's list.
+          if (owner && !listed[kind][owner].has(item.id)) {
+            throw new Error(`${item.id} (${item.cantons.join("/")}) returned for ${canton} but missing from the ${owner} list`);
+          }
+          continue;
+        }
         if (owner !== canton) continue; // counted under its first canton
-        if (assigned.has(item.id)) continue;
+        const prior = assigned.get(item.id);
+        if (prior) {
+          if (prior.kind !== kind) throw new Error(`Publication ${item.id} listed as ${prior.kind} and ${kind}`);
+          continue;
+        }
         assigned.set(item.id, { canton, day: item.day, kind });
         if (item.cantons.length > 1) quality.multiCantonPublications++;
         const ym = item.day.slice(0, 7);
         if (!monthly[ym]) throw new Error(`Item ${item.id} outside report months (${item.day})`);
         monthly[ym][kind][canton]++;
-        quality[kind === "hr01" ? "hr01Publications" : "hr03Publications"]++;
+        quality[`${kind}Publications`]++;
       }
     }
   }
@@ -341,50 +445,78 @@ function buildSnapshot({ targetMonth, lists, details, fetchedAt, publishedOn }) 
   const legalForms = Object.fromEntries(CANTONS.map((c) => [c, emptyCounts(LEGAL_FORM_KEYS)]));
   const legalFormCodes = {};
   const sectors = emptyCounts(SECTOR_KEYS);
+  const debtors = Object.fromEntries(CANTONS.map((c) => [c, { ...emptyCounts(DEBTOR_KEYS), or731b: 0 }]));
   const uids = new Set();
-  const targetIds = [];
+  const kkUids = new Set();
   for (const [id, { canton, day, kind }] of assigned) {
-    if (kind === "hr01" && day.slice(0, 7) === targetMonth) targetIds.push([id, canton]);
-  }
-  for (const [id, canton] of targetIds) {
-    const d = details.get(id);
-    if (!d) throw new Error(`Missing HR01 detail for ${id}`);
-    if (d.subRubric !== "HR01") throw new Error(`Detail ${id} is ${d.subRubric}, expected HR01`);
-    quality.detailsParsed++;
-    const code = d.legalForm || "none";
-    legalFormCodes[code] = (legalFormCodes[code] || 0) + 1;
-    if (!LEGAL_FORM_BUCKET[code]) quality.unmappedLegalFormCodes++;
-    legalForms[canton][legalFormBucket(code)]++;
-    sectors[d.sector]++;
-    if (!d.hasPurpose) quality.missingPurpose++;
-    if (d.seatTransferMention) quality.seatTransferMentions++;
-    if (d.uid) {
-      if (uids.has(d.uid)) quality.uidDuplicates++;
-      uids.add(d.uid);
+    if (day.slice(0, 7) !== targetMonth) continue;
+    if (kind === "hr01") {
+      const d = details.get(id);
+      if (!d) throw new Error(`Missing HR01 detail for ${id}`);
+      if (d.subRubric !== "HR01") throw new Error(`Detail ${id} is ${d.subRubric}, expected HR01`);
+      quality.detailsParsed++;
+      const code = d.legalForm || "none";
+      legalFormCodes[code] = (legalFormCodes[code] || 0) + 1;
+      if (!LEGAL_FORM_BUCKET[code]) quality.unmappedLegalFormCodes++;
+      legalForms[canton][legalFormBucket(code)]++;
+      sectors[d.sector]++;
+      if (!d.hasPurpose) quality.missingPurpose++;
+      if (d.seatTransferMention) quality.seatTransferMentions++;
+      if (d.uid) {
+        if (uids.has(d.uid)) quality.uidDuplicates++;
+        uids.add(d.uid);
+      }
+    } else if (kind === "kk02" || kind === "kk03") {
+      const d = details.get(id);
+      const expected = kind.toUpperCase();
+      if (!d) throw new Error(`Missing ${expected} detail for ${id}`);
+      if (d.subRubric !== expected) throw new Error(`Detail ${id} is ${d.subRubric}, expected ${expected}`);
+      quality.bankruptcyDetailsParsed++;
+      if (d.custom) quality.bankruptcyFreeTextQualifications++;
+      if (!DEBTOR_KEYS.includes(d.debtor)) throw new Error(`Unexpected debtor category ${d.debtor} for ${id}`);
+      debtors[canton][d.debtor]++;
+      if (d.or731b) {
+        if (d.debtor !== "company") throw new Error(`art. 731b flag on a non-company debtor (${id})`);
+        debtors[canton].or731b++;
+      }
+      if (d.uid) {
+        if (kkUids.has(d.uid)) quality.bankruptcyCompanyUidDuplicates++;
+        kkUids.add(d.uid);
+      }
     }
   }
-  const targetTotal = CANTONS.reduce((s, c) => s + monthly[targetMonth].hr01[c], 0);
-  if (quality.detailsParsed !== targetTotal) {
-    throw new Error(`Parsed ${quality.detailsParsed} details but counted ${targetTotal} HR01 publications`);
+  const sumKind = (kind) => CANTONS.reduce((s, c) => s + monthly[targetMonth][kind][c], 0);
+  if (quality.detailsParsed !== sumKind("hr01")) {
+    throw new Error(`Parsed ${quality.detailsParsed} details but counted ${sumKind("hr01")} HR01 publications`);
+  }
+  for (const c of CANTONS) {
+    const d = debtors[c];
+    const expected = monthly[targetMonth].kk02[c] + monthly[targetMonth].kk03[c];
+    if (d.company + d.person + d.estate !== expected || d.or731b > d.company) {
+      throw new Error(`Bankruptcy debtor split for ${c} does not reconcile with ${expected} KK02/KK03 publications`);
+    }
+  }
+  const kkTotal = sumKind("kk02") + sumKind("kk03");
+  if (quality.bankruptcyDetailsParsed !== kkTotal) {
+    throw new Error(`Parsed ${quality.bankruptcyDetailsParsed} bankruptcy details but counted ${kkTotal} KK02/KK03 publications`);
   }
 
   const snapshot = {
     schemaVersion: SCHEMA_VERSION,
     classifierVersion: CLASSIFIER_VERSION,
-    series: SERIES,
     reportMonth: targetMonth,
-    publishedOn,
     fetchedAt,
     source: {
       name: "Feuille officielle suisse du commerce (FOSC/SOGC/SHAB)",
       api: `${API_BASE}/publications`,
       creations: "subRubrics=HR01 (nouvelles inscriptions)",
       deletions: "subRubrics=HR03 (radiations)",
+      bankruptcies: "subRubrics=KK02 (publication de faillite) + KK03 (suspension faute d'actif)",
       dateBasis: "publicationDate (FOSC)",
       cantons: CANTONS,
     },
     monthly,
-    target: { legalForms, legalFormCodes: sortKeys(legalFormCodes), sectors },
+    target: { legalForms, legalFormCodes: sortKeys(legalFormCodes), sectors, debtors },
     sectorOrder: SECTOR_KEYS,
     quality,
   };
@@ -396,52 +528,63 @@ function sortKeys(obj) {
   return Object.fromEntries(Object.keys(obj).sort().map((k) => [k, obj[k]]));
 }
 
+/** Checksum of the aggregates only (retrieval time and derived text excluded). */
 function checksum(snapshot) {
-  const { checksum: _ignored, fetchedAt: _f, publishedOn: _p, ...rest } = snapshot;
+  const { checksum: _c, fetchedAt: _f, publishedOn: _p, highlights: _h, ...rest } = snapshot;
   return require("crypto").createHash("sha256").update(JSON.stringify(rest)).digest("hex").slice(0, 16);
 }
 
+async function fetchDetails(ids, parse, fetchImpl) {
+  const parsed = await mapPool(ids, DETAIL_CONCURRENCY, async (id) => {
+    const xml = await fetchWithRetry(`${API_BASE}/publications/${id}/xml`, { fetchImpl, as: "text" });
+    return parse(xml);
+  });
+  return ids.map((id, i) => [id, parsed[i]]);
+}
+
 /** Fetches everything a report needs and returns the snapshot. */
-async function collectSnapshot({ targetMonth, fetchImpl, publishedOn, now = new Date(), log = () => {} }) {
+async function collectSnapshot({ targetMonth, fetchImpl, now = new Date(), log = () => {} }) {
   const months = reportMonths(targetMonth);
   const start = monthRange(months[0]).start;
   const end = monthRange(targetMonth).end;
   if (end >= now.toISOString().slice(0, 10)) {
     throw new Error(`Month ${targetMonth} is not complete yet (ends ${end})`);
   }
-  const lists = { hr01: {}, hr03: {} };
-  for (const [kind, subRubric] of [["hr01", "HR01"], ["hr03", "HR03"]]) {
+  const lists = {};
+  let skippedOutOfRange = 0;
+  for (const [kind, subRubric] of LIST_KINDS) {
+    lists[kind] = {};
     for (const canton of CANTONS) {
-      lists[kind][canton] = await listPublications({ subRubric, canton, start, end, fetchImpl });
+      lists[kind][canton] = subRubric.startsWith("KK")
+        ? await listPublicationsByMonth({ subRubric, canton, months, fetchImpl })
+        : await listPublications({ subRubric, canton, start, end, fetchImpl });
+      skippedOutOfRange += lists[kind][canton].skippedOutOfRange || 0;
       log(`${subRubric} ${canton} ${start}..${end}: ${lists[kind][canton].length}`);
     }
   }
-  const targetIds = new Set();
-  for (const canton of CANTONS) {
-    for (const item of lists.hr01[canton]) {
-      if (item.day.slice(0, 7) === targetMonth) targetIds.add(item.id);
+  const targetIds = (kind) => {
+    const ids = new Set();
+    for (const canton of CANTONS) {
+      for (const item of lists[kind][canton]) if (item.day.slice(0, 7) === targetMonth) ids.add(item.id);
     }
-  }
-  log(`Fetching ${targetIds.size} HR01 details for ${targetMonth}`);
-  const ids = [...targetIds];
-  const parsed = await mapPool(ids, DETAIL_CONCURRENCY, async (id) => {
-    const xml = await fetchWithRetry(`${API_BASE}/publications/${id}/xml`, { fetchImpl, as: "text" });
-    return parseHr01Xml(xml);
-  });
-  const details = new Map(ids.map((id, i) => [id, parsed[i]]));
-  return buildSnapshot({
-    targetMonth,
-    lists,
-    details,
-    fetchedAt: now.toISOString(),
-    publishedOn,
-  });
+    return [...ids];
+  };
+  const hr01Ids = targetIds("hr01");
+  const kkIds = [...new Set([...targetIds("kk02"), ...targetIds("kk03")])];
+  log(`Fetching ${hr01Ids.length} HR01 and ${kkIds.length} KK02/KK03 details for ${targetMonth}`);
+  const details = new Map([
+    ...(await fetchDetails(hr01Ids, parseHr01Xml, fetchImpl)),
+    ...(await fetchDetails(kkIds, parseKkXml, fetchImpl)),
+  ]);
+  const snapshot = buildSnapshot({ targetMonth, lists, details, fetchedAt: now.toISOString() });
+  snapshot.quality.kkOutOfRangeListItems = skippedOutOfRange;
+  snapshot.checksum = checksum(snapshot);
+  return snapshot;
 }
 
 module.exports = {
   API_BASE,
   PORTAL_URL,
-  SERIES,
   CANTONS,
   CLASSIFIER_VERSION,
   LEGAL_FORM_KEYS,
@@ -459,7 +602,11 @@ module.exports = {
   classifySector,
   legalFormBucket,
   parseHr01Xml,
+  parseKkXml,
+  DEBTOR_KEYS,
+  LIST_KINDS,
   listPublications,
+  listPublicationsByMonth,
   buildSnapshot,
   collectSnapshot,
   checksum,

@@ -1,8 +1,9 @@
-name: SOGC monthly registrations report
+name: SOGC monthly statistics (créations, faillites)
 
-# Deterministic data article: new company registrations in Geneva and
-# French-speaking Switzerland, computed from the SOGC (FOSC) public API.
-# No LLM is involved. Commits only when every validation step passes.
+# Deterministic data pages updated in place every month: new company
+# registrations and bankruptcies in Geneva and French-speaking Switzerland,
+# computed from the SOGC (FOSC) public API. No LLM is involved. Commits only
+# when every validation step passes.
 # See docs/sogc-monthly-report.md.
 
 on:
@@ -22,7 +23,7 @@ concurrency:
 jobs:
   report:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     permissions:
       contents: write
     steps:
@@ -40,7 +41,7 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --no-fund
 
-      - name: Resolve report month and slug
+      - name: Resolve report month and page slugs
         id: month
         env:
           INPUT_MONTH: ${{ inputs.month }}
@@ -48,18 +49,18 @@ jobs:
           node - <<'NODE'
           const fs = require('fs');
           const { assertMonth, shiftMonth } = require('./scripts/lib/sogcReport');
-          const { reportSlug } = require('./scripts/lib/sogcReportRender');
+          const { PAGES } = require('./scripts/lib/sogcReportRender');
           const now = new Date();
           const current = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, '0')}`;
           const month = assertMonth((process.env.INPUT_MONTH || '').trim() || shiftMonth(current, -1));
-          const slug = reportSlug(month);
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `month=${month}\nslug=${slug}\n`);
-          console.log(`Report month ${month} -> ${slug}`);
+          const slugs = Object.values(PAGES).map((p) => p.slug).join(' ');
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `month=${month}\nslugs=${slugs}\n`);
+          console.log(`Report month ${month} -> ${slugs}`);
           NODE
 
-      - name: Build report from SOGC data
-        timeout-minutes: 15
-        run: timeout -k 30s 15m node scripts/sogc-monthly-report.js --month=${{ steps.month.outputs.month }} --apply
+      - name: Update the pages from SOGC data
+        timeout-minutes: 25
+        run: timeout -k 30s 25m node scripts/sogc-monthly-report.js --month=${{ steps.month.outputs.month }} --apply
 
       - name: Unit tests (report pipeline)
         run: node --test scripts/sogc-report.test.js
@@ -68,8 +69,11 @@ jobs:
         timeout-minutes: 5
         run: timeout -k 30s 5m npm run validate:reference-sources
 
-      - name: Validate report article guardrails
-        run: node scripts/validate-latest-article-guardrails.js --slug=${{ steps.month.outputs.slug }}
+      - name: Validate data page guardrails
+        run: |
+          for slug in ${{ steps.month.outputs.slugs }}; do
+            node scripts/validate-latest-article-guardrails.js --slug="$slug"
+          done
 
       - name: Validate latest editorial article guardrails (unchanged)
         run: node scripts/validate-latest-article-guardrails.js
@@ -82,6 +86,11 @@ jobs:
           REQUIRE_TRANSLATIONS: "1"
         run: node scripts/validate-article-translations.js
 
+      - name: Redirect and internal link checks
+        run: |
+          node --test scripts/article-redirects.test.js
+          npm run lint:links
+
       - name: Commit and push changes
         id: commit
         run: |
@@ -92,26 +101,26 @@ jobs:
             echo "No changes to commit"
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
-            git commit -m "chore(ressources): SOGC registrations report ${{ steps.month.outputs.month }}" --author="samuelhalff <660062+samuelhalff@users.noreply.github.com>"
+            git commit -m "chore(ressources): SOGC statistics for ${{ steps.month.outputs.month }}" --author="samuelhalff <660062+samuelhalff@users.noreply.github.com>"
             git fetch origin main
             git rebase origin/main || { git rebase --abort || true; exit 1; }
             git push
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Submit report to IndexNow
+      - name: Submit pages to IndexNow
         if: steps.commit.outputs.pushed == 'true'
         continue-on-error: true
         timeout-minutes: 3
         env:
-          ARTICLE_SLUG: ${{ steps.month.outputs.slug }}
+          ARTICLE_SLUGS: ${{ steps.month.outputs.slugs }}
         run: |
           timeout -k 30s 3m node - <<'NODE'
           const https = require('https');
-          const slug = process.env.ARTICLE_SLUG;
-          const urls = ['fr', 'en', 'de'].map(
+          const slugs = process.env.ARTICLE_SLUGS.split(/\s+/).filter(Boolean);
+          const urls = slugs.flatMap((slug) => ['fr', 'en', 'de'].map(
             (locale) => `https://ark-fid.ch/${locale}/ressources/articles/${slug}/`,
-          );
+          ));
           const body = JSON.stringify({ urls });
           const req = https.request('https://ark-fid.ch/api/indexnow/', {
             method: 'POST',

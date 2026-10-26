@@ -295,6 +295,18 @@ const baseConfig = {
         destination: "/:locale/ressources/articles/creer-sarl-sa-geneve-criteres-capital-fiscalite-gouvernance-2026/",
         permanent: true,
       },
+      // SOGC statistics: monthly URL replaced by the evergreen page (fr/en/de only;
+      // the report was never published in es/pt). 301 as requested by the owner.
+      {
+        source: "/:locale(fr|en|de)/ressources/articles/creations-entreprises-geneve-suisse-romande-septembre-2026/",
+        destination: "/:locale/ressources/articles/creations-entreprises-geneve-suisse-romande-statistiques/",
+        statusCode: 301,
+      },
+      {
+        source: "/:locale(fr|en|de)/ressources/articles/creations-entreprises-geneve-suisse-romande-septembre-2026",
+        destination: "/:locale/ressources/articles/creations-entreprises-geneve-suisse-romande-statistiques/",
+        statusCode: 301,
+      },
       // Consolidated article redirects — avoid 404s for merged content
       {
         source: "/:locale/ressources/articles/odoo-18-nouveautes-comptabilite-suisse-2025/",

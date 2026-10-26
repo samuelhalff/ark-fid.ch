@@ -499,7 +499,7 @@ function findAllTimeNearDuplicate(articles, newArticle) {
 // LLM). They are intentionally similar month to month, so they are kept out of
 // the editorial topic rotation and duplicate checks, and no LLM step (refresh,
 // translation) may rewrite them. Only this exact reserved value is exempt.
-const DATA_REPORT_SERIES = Object.freeze(["sogc-creations-romandie"]);
+const DATA_REPORT_SERIES = Object.freeze(["sogc-creations-romandie", "sogc-faillites-romandie"]);
 // Data reports are published in these locales only; their absence elsewhere is
 // intended (translation validators must not flag it, pages must 404).
 const DATA_REPORT_LOCALES = Object.freeze(["fr", "en", "de"]);

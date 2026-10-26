@@ -1,0 +1,8 @@
+report_month,canton,bankruptcies,bankruptcies_prev_month,bankruptcies_same_month_prev_year,publication_kk02,suspension_kk03,debtor_company,debtor_company_art731b,debtor_person,debtor_estate,ytd_bankruptcies,ytd_bankruptcies_prev_year,rolling_12m_bankruptcies,rolling_12m_bankruptcies_prev,source,retrieved_at
+2026-09,GE,138,256,77,37,101,92,0,19,27,1632,1128,2164,1487,"SOGC/FOSC amtsblattportal.ch (KK02, KK03)",2026-10-26T14:29:24.749Z
+2026-09,VD,208,218,138,68,140,80,11,35,93,1975,1526,2442,2037,"SOGC/FOSC amtsblattportal.ch (KK02, KK03)",2026-10-26T14:29:24.749Z
+2026-09,VS,63,52,74,30,33,29,3,11,23,673,478,920,627,"SOGC/FOSC amtsblattportal.ch (KK02, KK03)",2026-10-26T14:29:24.749Z
+2026-09,NE,62,40,43,32,30,22,2,8,32,391,341,520,455,"SOGC/FOSC amtsblattportal.ch (KK02, KK03)",2026-10-26T14:29:24.749Z
+2026-09,FR,65,75,30,26,39,33,5,10,22,678,458,892,600,"SOGC/FOSC amtsblattportal.ch (KK02, KK03)",2026-10-26T14:29:24.749Z
+2026-09,JU,30,27,14,9,21,11,0,7,12,235,123,277,167,"SOGC/FOSC amtsblattportal.ch (KK02, KK03)",2026-10-26T14:29:24.749Z
+2026-09,ROMANDIE,566,668,376,202,364,267,21,90,209,5584,4054,7215,5373,"SOGC/FOSC amtsblattportal.ch (KK02, KK03)",2026-10-26T14:29:24.749Z

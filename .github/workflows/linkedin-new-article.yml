@@ -39,7 +39,9 @@ jobs:
           python3 - <<'PY'
           import json, os, subprocess
           def slugs(text):
-              return [a.get('slug') for a in json.loads(text).get('Articles', []) if a.get('slug')]
+              # Data-report pages (articles with a `series`) are updated in place every
+              # month; they are never auto-posted. Post one by hand via workflow_dispatch.
+              return [a.get('slug') for a in json.loads(text).get('Articles', []) if a.get('slug') and not a.get('series')]
           path = 'src/translations/fr/ressources.json'
           manual = os.environ.get('INPUT_SLUG', '').strip()
           if manual:

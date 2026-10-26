@@ -2,14 +2,16 @@
 "use strict";
 
 /**
- * Monthly report on new company registrations in Geneva and French-speaking
- * Switzerland, computed from the SOGC (FOSC/SHAB) public API.
+ * Monthly SOGC statistics for Geneva and French-speaking Switzerland: updates
+ * two evergreen pages in place (créations, faillites) from the SOGC
+ * (FOSC/SHAB) public API.
  *
- *   node scripts/sogc-monthly-report.js [--month=YYYY-MM] [--apply] [--from-snapshot]
+ *   node scripts/sogc-monthly-report.js [--month=YYYY-MM] [--apply] [--from-snapshot] [--backfill]
  *
- * --month          report month (default: previous calendar month, UTC)
- * --apply          write the snapshot, the CSV and the article (fr, en, de)
+ * --month          data month (default: previous calendar month, UTC)
+ * --apply          write the snapshot, the CSVs and the pages (fr, en, de)
  * --from-snapshot  re-render from data/sogc-reports/<month>.json (no network)
+ * --backfill       month older than the published one: write snapshot and CSVs only
  *
  * Deterministic: every number comes from the snapshot, prose is template text.
  * No LLM is involved. See docs/sogc-monthly-report.md.
@@ -17,21 +19,37 @@
 
 const fs = require("fs");
 const path = require("path");
-const { collectSnapshot, assertMonth, shiftMonth, SERIES } = require("./lib/sogcReport");
-const { LOCALES, CSV_DIR, renderArticle, renderCsv, csvFileName, reportSlug } = require("./lib/sogcReportRender");
+const { collectSnapshot, assertMonth, shiftMonth } = require("./lib/sogcReport");
+const {
+  LOCALES,
+  CSV_DIR,
+  PAGES,
+  LEGACY_MONTHLY_SLUG_RE,
+  renderCreations,
+  renderFaillites,
+  renderHighlights,
+  renderCsv,
+  renderFaillitesCsv,
+  renderHistoryCsvs,
+} = require("./lib/sogcReportRender");
 const { writeJsonFilesAtomically, countWords } = require("./lib/articleRefresh");
+const { DATA_REPORT_SERIES } = require("./lib/articleTopicGuardrails");
 
 const ROOT = process.cwd();
 const SNAPSHOT_DIR = path.join(ROOT, "data", "sogc-reports");
 const TRANSLATIONS = path.join(ROOT, "src", "translations");
+const PUBLIC_CSV_DIR = path.join(ROOT, "public", CSV_DIR);
 const MIN_WORDS = 700;
+const SCHEMA_VERSION = 2;
 const ALL_LOCALES = ["fr", "en", "de", "es", "pt"];
+const RENDERERS = { creations: renderCreations, faillites: renderFaillites };
 
 function parseArgs(argv) {
-  const args = { apply: false, fromSnapshot: false, month: null };
+  const args = { apply: false, fromSnapshot: false, backfill: false, month: null };
   for (const a of argv) {
     if (a === "--apply") args.apply = true;
     else if (a === "--from-snapshot") args.fromSnapshot = true;
+    else if (a === "--backfill") args.backfill = true;
     else if (a.startsWith("--month=")) args.month = a.slice("--month=".length).trim();
     else throw new Error(`Unknown argument: ${a}`);
   }
@@ -54,20 +72,33 @@ function writeFileAtomic(file, text) {
   fs.renameSync(tmp, file);
 }
 
-/** Checks that make a rendered article unpublishable. Returns error strings. */
+/**
+ * Per-month CSVs are published files that journalists may cite: rewrite one
+ * only when its figures change, not when only the retrieval timestamp differs.
+ */
+function writeCsvIfDataChanged(file, text) {
+  const strip = (t) => t.replace(/,\d{4}-\d{2}-\d{2}T[^,\n]*$/gm, "");
+  if (fs.existsSync(file) && strip(fs.readFileSync(file, "utf8")) === strip(text)) return false;
+  writeFileAtomic(file, text);
+  return true;
+}
+
+/** Checks that make a rendered page unpublishable. Returns error strings. */
 function checkRendered(locale, article) {
   const errors = [];
+  const id = `${locale}/${article.slug}`;
   const text = `${article.title}\n${article.description}\n${article.content}`;
-  if (/\b(undefined|NaN|null|Infinity)\b|\[object /.test(text)) errors.push(`${locale}: rendering artefact in text`);
-  if (!article.category || !Array.isArray(article.tags) || article.tags.length < 3) errors.push(`${locale}: taxonomy missing`);
-  if (!Array.isArray(article.references) || article.references.length < 3) errors.push(`${locale}: fewer than 3 references`);
+  if (/\b(undefined|NaN|null|Infinity)\b|\[object /.test(text)) errors.push(`${id}: rendering artefact in text`);
+  if (!article.category || !Array.isArray(article.tags) || article.tags.length < 3) errors.push(`${id}: taxonomy missing`);
+  if (!Array.isArray(article.references) || article.references.length < 3) errors.push(`${id}: fewer than 3 references`);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(article.date))) errors.push(`${id}: missing publication date`);
   if (locale === "fr" && countWords(article.content) < MIN_WORDS) {
-    errors.push(`fr: ${countWords(article.content)} words (< ${MIN_WORDS})`);
+    errors.push(`${id}: ${countWords(article.content)} words (< ${MIN_WORDS})`);
   }
   return errors;
 }
 
-/** Inserts or replaces the article, preserving its first publication date. */
+/** Inserts or replaces a page, preserving its first publication date. */
 function upsertArticle(data, article, today) {
   const list = Array.isArray(data.Articles) ? data.Articles : (data.Articles = []);
   const idx = list.findIndex((a) => a && a.slug === article.slug);
@@ -76,28 +107,52 @@ function upsertArticle(data, article, today) {
     return "added";
   }
   const existing = list[idx];
-  if (existing.series !== SERIES) {
-    throw new Error(`Slug ${article.slug} is already used by an article outside the ${SERIES} series`);
+  if (existing.series !== article.series) {
+    throw new Error(`Slug ${article.slug} is already used by an article outside the ${article.series} series`);
   }
   const next = { ...article, date: existing.date || article.date };
-  const same = ["title", "description", "content"].every((k) => existing[k] === next[k]) &&
+  const same = ["title", "description", "content", "reportMonth"].every((k) => existing[k] === next[k]) &&
     JSON.stringify(existing.references) === JSON.stringify(next.references);
   if (same) {
     list[idx] = { ...next, ...(existing.updated ? { updated: existing.updated } : {}) };
     return "unchanged";
   }
   if (today > next.date) next.updated = today;
+  else if (existing.updated) next.updated = existing.updated;
   list[idx] = next;
   return "updated";
 }
 
-/** Removes this report from a locale file; returns true when something was removed. */
-function removeReport(data, slug) {
+/** Removes legacy monthly créations articles; returns the removed slugs. */
+function removeLegacyMonthly(data) {
   const list = Array.isArray(data.Articles) ? data.Articles : [];
-  const kept = list.filter((a) => !(a && a.slug === slug && a.series === SERIES));
-  if (kept.length === list.length) return false;
+  const removed = [];
+  data.Articles = list.filter((a) => {
+    const legacy = a && a.series === PAGES.creations.series && LEGACY_MONTHLY_SLUG_RE.test(String(a.slug)) &&
+      a.slug !== PAGES.creations.slug;
+    if (legacy) removed.push(a.slug);
+    return !legacy;
+  });
+  return removed;
+}
+
+/** Removes evergreen pages from a locale that does not publish them. */
+function removeFromUnpublishedLocale(data) {
+  const list = Array.isArray(data.Articles) ? data.Articles : [];
+  const slugs = new Set(Object.values(PAGES).map((p) => p.slug));
+  const kept = list.filter((a) => !(a && slugs.has(a.slug) && DATA_REPORT_SERIES.includes(a.series)));
+  const removed = list.length - kept.length;
   data.Articles = kept;
-  return true;
+  return removed;
+}
+
+function loadSnapshots() {
+  if (!fs.existsSync(SNAPSHOT_DIR)) return [];
+  return fs
+    .readdirSync(SNAPSHOT_DIR)
+    .filter((f) => /^\d{4}-\d{2}\.json$/.test(f))
+    .map((f) => readJson(path.join(SNAPSHOT_DIR, f)))
+    .filter((s) => s.schemaVersion === SCHEMA_VERSION);
 }
 
 async function main() {
@@ -111,54 +166,84 @@ async function main() {
   let snapshot;
   if (args.fromSnapshot) {
     if (!previous) throw new Error(`No snapshot at ${path.relative(ROOT, snapshotFile)}`);
+    if (previous.schemaVersion !== SCHEMA_VERSION) {
+      throw new Error(`Snapshot ${month} has schema ${previous.schemaVersion}; re-fetch it (schema ${SCHEMA_VERSION} required)`);
+    }
     snapshot = previous;
   } else {
-    const frData = readJson(path.join(TRANSLATIONS, "fr", "ressources.json"));
-    const existing = (frData.Articles || []).find((a) => a && a.slug === reportSlug(month));
-    const publishedOn = previous?.publishedOn || existing?.date || today;
-    snapshot = await collectSnapshot({ targetMonth: month, publishedOn, now, log: (m) => console.log(`  ${m}`) });
-    if (previous && previous.checksum === snapshot.checksum) {
+    snapshot = await collectSnapshot({ targetMonth: month, now, log: (m) => console.log(`  ${m}`) });
+    if (previous && previous.schemaVersion === SCHEMA_VERSION && previous.checksum === snapshot.checksum) {
       console.log("Aggregates unchanged since the stored snapshot; keeping it.");
       snapshot = previous;
     }
   }
+  // Derived text is always regenerated from the aggregates, never trusted from disk.
+  snapshot = { ...snapshot, highlights: renderHighlights(snapshot) };
 
-  const articles = Object.fromEntries(LOCALES.map((l) => [l, renderArticle(l, snapshot)]));
-  const errors = LOCALES.flatMap((l) => checkRendered(l, articles[l]));
-  if (errors.length) throw new Error(`Rendered report failed checks:\n  - ${errors.join("\n  - ")}`);
-  const csv = renderCsv(snapshot);
+  const data = Object.fromEntries(
+    ALL_LOCALES.map((l) => [l, readJson(path.join(TRANSLATIONS, l, "ressources.json"))]),
+  );
+  const frArticles = data.fr.Articles || [];
+  const published = frArticles.find((a) => a && a.slug === PAGES.creations.slug);
+  const updatePages = !args.backfill;
+  if (updatePages && published && published.reportMonth && month < published.reportMonth) {
+    throw new Error(`Month ${month} is older than the published ${published.reportMonth}; use --backfill (snapshot and CSVs only)`);
+  }
 
-  const fr = articles.fr;
-  console.log(`\n${fr.title}\n${fr.description}`);
-  console.log(`slug: ${fr.slug} | words (fr): ${countWords(fr.content)} | checksum: ${snapshot.checksum}`);
-  console.log(`quality: ${JSON.stringify(snapshot.quality)}`);
+  const rendered = {};
+  if (updatePages) {
+    const legacy = frArticles
+      .filter((a) => a && a.series === PAGES.creations.series && LEGACY_MONTHLY_SLUG_RE.test(String(a.slug)))
+      .map((a) => a.date)
+      .filter(Boolean)
+      .sort();
+    for (const [key, page] of Object.entries(PAGES)) {
+      const existing = frArticles.find((a) => a && a.slug === page.slug);
+      const date = existing?.date || (key === "creations" && legacy[0]) || today;
+      rendered[key] = Object.fromEntries(LOCALES.map((l) => [l, RENDERERS[key](l, snapshot, { date })]));
+    }
+    const errors = Object.values(rendered).flatMap((byLocale) =>
+      LOCALES.flatMap((l) => checkRendered(l, byLocale[l])),
+    );
+    if (errors.length) throw new Error(`Rendered pages failed checks:\n  - ${errors.join("\n  - ")}`);
+    for (const byLocale of Object.values(rendered)) {
+      const fr = byLocale.fr;
+      console.log(`\n${fr.title} (${fr.title.length} chars)\n${fr.description}`);
+      console.log(`slug: ${fr.slug} | words (fr): ${countWords(fr.content)}`);
+    }
+  }
+  console.log(`\nchecksum: ${snapshot.checksum}\nquality: ${JSON.stringify(snapshot.quality)}`);
+  console.log(`highlights (fr):\n  ${Object.values(snapshot.highlights.fr).join("\n  ")}`);
 
   if (!args.apply) {
     console.log("\nDry run (use --apply to write).");
     return;
   }
 
-  const files = LOCALES.map((l) => {
-    const file = path.join(TRANSLATIONS, l, "ressources.json");
-    const data = readJson(file);
-    const status = upsertArticle(data, articles[l], today);
-    console.log(`${l}: ${status}`);
-    return { path: file, data };
-  });
-  // Locales outside the published set must not carry the report.
-  for (const l of ALL_LOCALES.filter((x) => !LOCALES.includes(x))) {
-    const file = path.join(TRANSLATIONS, l, "ressources.json");
-    if (!fs.existsSync(file)) continue;
-    const data = readJson(file);
-    if (removeReport(data, fr.slug)) {
-      console.log(`${l}: removed (not a published locale)`);
-      files.push({ path: file, data });
+  const files = [];
+  if (updatePages) {
+    for (const l of ALL_LOCALES) {
+      const d = data[l];
+      const removed = removeLegacyMonthly(d);
+      if (removed.length) console.log(`${l}: removed legacy ${removed.join(", ")}`);
+      if (LOCALES.includes(l)) {
+        for (const byLocale of Object.values(rendered)) {
+          console.log(`${l}: ${byLocale[l].slug} ${upsertArticle(d, byLocale[l], today)}`);
+        }
+      } else if (removeFromUnpublishedLocale(d)) {
+        console.log(`${l}: removed evergreen pages (not a published locale)`);
+      }
+      files.push({ path: path.join(TRANSLATIONS, l, "ressources.json"), data: d });
     }
   }
   writeFileAtomic(snapshotFile, JSON.stringify(snapshot, null, 2) + "\n");
-  writeFileAtomic(path.join(ROOT, "public", CSV_DIR, csvFileName(month)), csv);
-  writeJsonFilesAtomically(files);
-  console.log(`Wrote ${path.relative(ROOT, snapshotFile)}, public/${CSV_DIR}/${csvFileName(month)} and ${files.length} locale files.`);
+  writeCsvIfDataChanged(path.join(ROOT, "public", PAGES.creations.csvMonth(month).slice(1)), renderCsv(snapshot));
+  writeCsvIfDataChanged(path.join(ROOT, "public", PAGES.faillites.csvMonth(month).slice(1)), renderFaillitesCsv(snapshot));
+  const history = renderHistoryCsvs(loadSnapshots());
+  writeFileAtomic(path.join(ROOT, "public", PAGES.creations.csvHistory.slice(1)), history.creations);
+  writeFileAtomic(path.join(ROOT, "public", PAGES.faillites.csvHistory.slice(1)), history.faillites);
+  if (files.length) writeJsonFilesAtomically(files);
+  console.log(`Wrote ${path.relative(ROOT, snapshotFile)}, CSVs in ${path.relative(ROOT, PUBLIC_CSV_DIR)} and ${files.length} locale files.`);
 }
 
 if (require.main === module) {
@@ -168,4 +253,12 @@ if (require.main === module) {
   });
 }
 
-module.exports = { parseArgs, previousMonth, upsertArticle, removeReport, checkRendered };
+module.exports = {
+  writeCsvIfDataChanged,
+  parseArgs,
+  previousMonth,
+  upsertArticle,
+  removeLegacyMonthly,
+  removeFromUnpublishedLocale,
+  checkRendered,
+};
