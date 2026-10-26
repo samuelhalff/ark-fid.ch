@@ -41,7 +41,7 @@ const positive = (value: unknown) => Number(str(value).replace(/[^0-9.]/g, "")) 
 
 /** The ordinary return needs health-premium certificates etc. (not lump-sum or source tax only). */
 export const filesOrdinaryReturn = (a: Answers) =>
-  residentPartOfYear(a) && !isLumpSum(a) && (!sourceTaxedResident(a) || a["regime.over120k"] === "yes" || ["yes", "advise"].includes(str(a["regime.touWish"])));
+  residentPartOfYear(a) && !isLumpSum(a) && (!sourceTaxedResident(a) || a["regime.over120k"] === "yes" || ["tou", "advise"].includes(str(a["regime.sourceRequest"])));
 
 const benefit = (type: string, label: L): DocRule => ({
   id: `benefit-${type}`,
@@ -58,7 +58,7 @@ export const DOC_RULES: DocRule[] = [
     id: "access-letter",
     category: "base",
     base: true,
-    when: (a) => previouslyTaxed(a) && residentPartOfYear(a) && !sourceTaxedResident(a),
+    when: (a) => previouslyTaxed(a) && residentPartOfYear(a) && (!sourceTaxedResident(a) || a["regime.over120k"] === "yes"),
     label: t("Courrier de l'administration fiscale {year} avec vos codes d'accès (si reçu)", "Tax authority letter {year} with your access codes (if received)", "Schreiben der Steuerverwaltung {year} mit Ihren Zugangscodes (falls erhalten)"),
   },
   { id: "permit", category: "base", base: true, when: (a) => !!a["regime.permit"], label: t("Permis de séjour (recto-verso) ou carte de légitimation", "Residence permit (both sides) or legitimation card", "Ausländerausweis (beidseitig) oder Legitimationskarte") },
@@ -72,7 +72,14 @@ export const DOC_RULES: DocRule[] = [
   { id: "civil-change", category: "personal", when: has("civilChange"), label: t("Justificatif du changement d'état civil (acte, jugement ou convention)", "Proof of the civil status change (certificate, judgment or agreement)", "Nachweis der Zivilstandsänderung (Urkunde, Urteil oder Vereinbarung)") },
   { id: "childcare", category: "personal", forEach: "family.children", whenRow: rowYes("childcare"), label: t("Factures et preuves de paiement des frais de garde {year} – {row}", "Childcare invoices and proof of payment {year} – {row}", "Rechnungen und Zahlungsbelege Kinderbetreuung {year} – {row}") },
   { id: "child-salary", category: "personal", forEach: "family.children", whenRow: rowIn("activity", "apprenticeship", "working"), label: t("Certificat de salaire {year} de l'enfant – {row}", "Child's salary certificate {year} – {row}", "Lohnausweis {year} des Kindes – {row}") },
-  { id: "dependant", category: "personal", forEach: "family.dependants", label: t("Preuves du soutien versé en {year} – {row}", "Proof of support paid in {year} – {row}", "Belege der Unterstützung {year} – {row}") },
+  { id: "dependant", category: "personal", forEach: "family.dependants", label: t("Preuves du soutien versé en {year} et, si possible, justificatif des revenus et de la fortune de la personne – {row}", "Proof of support paid in {year} and, if possible, of the person's income and assets – {row}", "Belege der Unterstützung {year} und, wenn möglich, von Einkommen und Vermögen der Person – {row}") },
+  {
+    id: "child-studies",
+    category: "personal",
+    forEach: "family.children",
+    whenRow: (row, a) => ["studies", "apprenticeship"].includes(str(row.activity)) && Number(str(row.birthYear)) > 0 && taxYearOf(a) - Number(str(row.birthYear)) >= 18,
+    label: t("Attestation d'études ou d'apprentissage {year} – {row}", "Proof of studies or apprenticeship {year} – {row}", "Ausbildungs- oder Lehrbestätigung {year} – {row}"),
+  },
   { id: "alimony", category: "personal", forEach: "family.alimony", label: t("Jugement ou convention, et preuves des montants {year} – {row}", "Judgment or agreement, and proof of the {year} amounts – {row}", "Urteil oder Vereinbarung und Belege der Beträge {year} – {row}") },
 
   // ---- work
@@ -106,7 +113,7 @@ export const DOC_RULES: DocRule[] = [
   // ---- accounts, investments, debts
   { id: "bank", category: "wealth", forEach: "assets.banks", whenRow: (row) => row.country !== "other" || row.statement !== "no", label: t("Relevé fiscal au 31.12.{year} (soldes, revenus, impôts retenus) – {row}", "Tax statement at 31.12.{year} (balances, income, taxes withheld) – {row}", "Steuerauszug per 31.12.{year} (Saldi, Erträge, Quellensteuern) – {row}") },
   { id: "bank-statements", category: "wealth", forEach: "assets.banks", whenRow: (row) => row.country === "other" && row.statement === "no", label: t("Relevés de compte de fin d'année {year} – {row}", "Year-end account statements {year} – {row}", "Jahresend-Kontoauszüge {year} – {row}") },
-  { id: "foreign-withholding", category: "wealth", when: (a) => has("securities")(a) && a["assets.foreignWithholding"] === "yes", label: t("Détail des impôts étrangers retenus {year} (et formulaire DA-1 si votre banque l'a préparé)", "Details of foreign taxes withheld {year} (and form DA-1 if your bank prepared it)", "Aufstellung der ausländischen Quellensteuern {year} (und Formular DA-1, falls von der Bank erstellt)") },
+  { id: "foreign-withholding", category: "wealth", when: (a) => (has("securities")(a) || has("banksForeign")(a)) && a["assets.foreignWithholding"] === "yes", label: t("Détail des impôts étrangers retenus {year} (et formulaire DA-1 si votre banque l'a préparé)", "Details of foreign taxes withheld {year} (and form DA-1 if your bank prepared it)", "Aufstellung der ausländischen Quellensteuern {year} (und Formular DA-1, falls von der Bank erstellt)") },
   { id: "trading", category: "wealth", when: (a) => has("securities")(a) && a["assets.trading"] === "yes", label: t("Relevés des transactions sur titres {year}", "Securities transaction statements {year}", "Transaktionsauszüge Wertschriften {year}") },
   { id: "crypto", category: "wealth", forEach: "assets.crypto", label: t("Relevé ou export des soldes au 31.12.{year} et des revenus – {row}", "Statement or export of balances at 31.12.{year} and income – {row}", "Auszug oder Export der Bestände per 31.12.{year} und Erträge – {row}") },
   { id: "life-insurance", category: "wealth", forEach: "assets.insurances", label: t("Attestation fiscale {year} (valeur de rachat au 31.12) – {row}", "Tax certificate {year} (surrender value at 31.12) – {row}", "Steuerbescheinigung {year} (Rückkaufswert per 31.12.) – {row}") },
@@ -115,7 +122,7 @@ export const DOC_RULES: DocRule[] = [
   { id: "debt-private", category: "debts", forEach: "assets.debts", whenRow: rowIn("kind", "private"), label: t("Contrat de prêt et preuves des intérêts payés – {row}", "Loan agreement and proof of interest paid – {row}", "Darlehensvertrag und Belege der bezahlten Zinsen – {row}") },
 
   // ---- real estate (per property)
-  { id: "property-value", category: "property", forEach: "property.items", whenRow: (row) => row.where === "CH" && ["yes", "unknown"].includes(str(row.inLastAvis)), label: t("Dernier avis indiquant la valeur fiscale / locative – {row}", "Latest notice showing the tax / rental value – {row}", "Letzte Verfügung mit Steuer- / Eigenmietwert – {row}") },
+  { id: "property-value", category: "property", forEach: "property.items", whenRow: (row, a) => row.where === "CH" && (!previouslyTaxed(a) || ["yes", "unknown"].includes(str(row.inLastAvis))), label: t("Dernier avis indiquant la valeur fiscale / locative – {row}", "Latest notice showing the tax / rental value – {row}", "Letzte Verfügung mit Steuer- / Eigenmietwert – {row}") },
   { id: "property-purchase", category: "property", forEach: "property.items", whenRow: rowHas("events", "bought"), label: t("Acte d'achat et décompte du notaire – {row}", "Purchase deed and notary statement – {row}", "Kaufvertrag und Notariatsabrechnung – {row}") },
   { id: "property-sale", category: "property", forEach: "property.items", whenRow: rowHas("events", "sold"), label: t("Acte de vente, acte d'achat d'origine et factures des travaux à plus-value depuis l'achat – {row}", "Sale deed, original purchase deed and invoices for value-adding works since purchase – {row}", "Verkaufsvertrag, ursprünglicher Kaufvertrag und Rechnungen wertvermehrender Investitionen seit dem Kauf – {row}") },
   { id: "property-inherited", category: "property", forEach: "property.items", whenRow: rowHas("events", "inherited"), label: t("Certificat d'héritier, acte de partage ou de donation – {row}", "Certificate of inheritance, partition or gift deed – {row}", "Erbbescheinigung, Teilungs- oder Schenkungsvertrag – {row}") },
@@ -152,7 +159,7 @@ export const DOC_RULES: DocRule[] = [
     id: "regularisation",
     category: "other",
     when: has("regularisation"),
-    label: t("Relevés des comptes ou biens concernés pour les années à régulariser (jusqu'à 10 ans), si vous les avez", "Statements of the accounts or assets concerned for the years to regularise (up to 10 years), if you have them", "Auszüge der betroffenen Konten oder Vermögenswerte für die zu regularisierenden Jahre (bis 10 Jahre), falls vorhanden"),
+    label: t("Relevés des comptes ou biens concernés pour les années à régulariser (en général jusqu'à dix ans), si vous les avez", "Statements of the accounts or assets concerned for the years to regularise (generally up to ten years), if you have them", "Auszüge der betroffenen Konten oder Vermögenswerte für die zu regularisierenden Jahre (in der Regel bis zehn Jahre), falls vorhanden"),
   },
   { id: "trust", category: "other", when: has("trust"), label: t("Acte de trust ou statuts de la fondation, et relevés des distributions {year}", "Trust deed or foundation charter, and distribution statements {year}", "Trusturkunde oder Stiftungsstatuten und Ausschüttungsbelege {year}") },
 ];

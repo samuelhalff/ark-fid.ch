@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import TaxQuestionnaire from "@/src/components/tax-questionnaire/TaxQuestionnaire";
 import { QF_LOCALES, type QfLocale } from "@/src/lib/tax-questionnaire/types";
@@ -30,10 +29,9 @@ export default async function TaxQuestionnairePage(props: { params: Promise<{ lo
   const l = asLocale(locale);
   // The questionnaire exists in fr/en/de; other site languages get the English version.
   if (!l) redirect("/en/questionnaire-fiscal/");
-  const mode = (await headers()).get("x-tax-host") === "1" ? "tax" : "main";
   return (
     <div className="mx-auto w-full max-w-[1240px] px-5 py-8 sm:px-8 sm:py-10">
-      <TaxQuestionnaire locale={l} mode={mode} />
+      <TaxQuestionnaire locale={l} />
     </div>
   );
 }

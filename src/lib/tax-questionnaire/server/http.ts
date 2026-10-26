@@ -27,7 +27,8 @@ export const ALLOWED_ORIGINS = ["https://ark-fid.ch", "https://tax.ark-fid.ch"];
 export function originAllowed(request: Request): boolean {
   const origin = request.headers.get("origin");
   if (!isProd()) return !origin || /^https?:\/\/(localhost|127\.0\.0\.1|tax\.localhost)(:\d+)?$/.test(origin) || ALLOWED_ORIGINS.includes(origin);
-  if (!origin) return false;
+  // Browsers often omit Origin on same-origin GETs; safe methods carry no state change.
+  if (!origin) return request.method === "GET" || request.method === "HEAD";
   const extra = env("TAX_QF_ALLOWED_ORIGINS").split(",").map((v) => v.trim()).filter(Boolean);
   return [...ALLOWED_ORIGINS, ...extra].includes(origin);
 }

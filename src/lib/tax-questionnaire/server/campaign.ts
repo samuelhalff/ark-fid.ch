@@ -235,8 +235,9 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
     }
     if (month === 0) continue; // before 1 February: nothing else
 
-    // Invitation (from 1 February).
-    if (!current) {
+    // Invitation (from 1 February); also retried when a created return's invitation mail failed.
+    const pendingInvitation = current && current.state === "invited" && !current.invitedAt;
+    if (!current || pendingInvitation) {
       const stop = campaignStopDate({ canton: previous?.canton || "", regime: previous?.regime }, taxYear);
       if (utcDay(now) > utcDay(stop)) continue;
       if (!budget()) {
@@ -246,7 +247,7 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
       actions++;
       summary.invitations++;
       if (!dryRun) {
-        const record = await deps.createInvitedReturn({ clientKey: member.clientKey, email: member.email, name: member.name, language: member.language, taxYear, prefillFrom: previous });
+        const record = pendingInvitation && current ? current : await deps.createInvitedReturn({ clientKey: member.clientKey, email: member.email, name: member.name, language: member.language, taxYear, prefillFrom: previous });
         const link = await deps.issueLink({ caseId: record.caseId, emailHash: record.emailHash, scope: "edit", purpose: "invitation", ttlMs: INVITATION_TTL, origin: opts.origin, locale: member.language });
         await deps.sendMail(campaignMail("invitation", member.language, member.email, taxYear, link, await optoutLink(member)));
         await deps.tracker.upsert({ ...record, state: "invited", invitedAt: iso(now), remindersSent: 0 });

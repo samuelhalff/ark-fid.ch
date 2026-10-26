@@ -47,9 +47,11 @@ export interface DocChecklistProps {
   /** Reports whether uploads are running (leave-page guard, submit lock). */
   onBusy?: (busy: boolean) => void;
   showExtra?: boolean;
+  /** "x of y handled" bar (not on the status page). */
+  showProgress?: boolean;
 }
 
-export function DocChecklist({ items, files, docStatus, onStatus, locale, clientName, canRemove, onChanged, onBusy, showExtra = true }: DocChecklistProps) {
+export function DocChecklist({ items, files, docStatus, onStatus, locale, clientName, canRemove, onChanged, onBusy, showExtra = true, showProgress = true }: DocChecklistProps) {
   const [active, setActive] = useState<Record<string, Active[]>>({});
   const busy = Object.values(active).some((list) => list.some((a) => !a.error && a.progress < 1));
   useEffect(() => onBusy?.(busy), [busy, onBusy]);
@@ -104,7 +106,7 @@ export function DocChecklist({ items, files, docStatus, onStatus, locale, client
 
   return (
     <div className="flex flex-col gap-6">
-      {items.length > 1 ? (
+      {showProgress && items.length > 1 ? (
         <div className="flex flex-col gap-2" aria-live="polite">
           <p className="text-sm text-muted-foreground">{UI2.docsProgress[locale].replace("{done}", String(handled)).replace("{total}", String(items.length))}</p>
           <Progress value={items.length ? (handled / items.length) * 100 : 0} />

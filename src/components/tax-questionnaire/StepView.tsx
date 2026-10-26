@@ -161,7 +161,7 @@ function RouterCards({ locale, answers, aiSuggestions }: { locale: QfLocale; ans
                             <Checkbox
                               id={id}
                               checked={checked}
-                              className="mt-0.5"
+                              className="shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)] mt-0.5"
                               onCheckedChange={(next) => field.onChange(next === true ? [...current, option.value] : current.filter((v) => v !== option.value))}
                             />
                             <span className="flex flex-col gap-0.5">
@@ -209,7 +209,7 @@ function UnchangedPicker({ locale, answers, knownItems }: { locale: QfLocale; an
                 const checked = current.includes(group.id);
                 return (
                   <Label key={group.id} htmlFor={id} className={cn("flex cursor-pointer items-start gap-3 rounded-md bg-surface-warm px-3 py-2.5 font-normal dark:bg-card", checked && "ring-2 ring-ring/50")}>
-                    <Checkbox id={id} checked={checked} onCheckedChange={(next) => field.onChange(next === true ? [...current, group.id] : current.filter((v) => v !== group.id))} />
+                    <Checkbox className="shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]" id={id} checked={checked} onCheckedChange={(next) => field.onChange(next === true ? [...current, group.id] : current.filter((v) => v !== group.id))} />
                     <span className="flex flex-col">
                       <span className="font-medium">{L(group.label)} — {UI.yes[locale]}, {locale === "fr" ? "inchangé" : locale === "de" ? "unverändert" : "unchanged"}</span>
                       <span className="text-xs text-muted-foreground">{knownItems[group.id].slice(0, 6).join(" · ")}</span>

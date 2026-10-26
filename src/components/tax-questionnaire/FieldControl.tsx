@@ -49,7 +49,7 @@ export function FieldControl({ field, name, locale, answers }: Props) {
             <FormItem className={cn("flex flex-col gap-1", field.width === "half" ? "sm:col-span-1" : "sm:col-span-2")}>
               <div className="flex items-start gap-3">
                 <FormControl>
-                  <Checkbox checked={value === "yes"} onCheckedChange={(checked) => f.onChange(checked === true ? "yes" : undefined)} />
+                  <Checkbox className="shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]" checked={value === "yes"} onCheckedChange={(checked) => f.onChange(checked === true ? "yes" : undefined)} />
                 </FormControl>
                 <FormLabel className="mt-0 font-normal leading-snug hover:cursor-pointer">{L(field.label)}</FormLabel>
               </div>
@@ -74,9 +74,9 @@ export function FieldControl({ field, name, locale, answers }: Props) {
                     <Label
                       key={option.value}
                       htmlFor={id}
-                      className={cn("flex cursor-pointer items-start gap-3 rounded-md bg-surface-warm px-3 py-2.5 font-normal leading-snug dark:bg-card", checked && "ring-2 ring-ring/50")}
+                      className={cn("flex cursor-pointer items-start gap-3 rounded-md bg-surface-warm px-3 py-2.5 font-normal leading-snug shadow-[inset_0_0_0_1px_rgba(20,16,14,0.08)] dark:bg-background dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)]", checked && "ring-2 ring-ring/50")}
                     >
-                      <Checkbox
+                      <Checkbox className="shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]"
                         id={id}
                         checked={checked}
                         onCheckedChange={(next) => f.onChange(next === true ? [...current, option.value] : current.filter((v) => v !== option.value))}
@@ -126,7 +126,7 @@ export function FieldControl({ field, name, locale, answers }: Props) {
                       <Label
                         key={option.value}
                         htmlFor={id}
-                        className={cn("flex cursor-pointer items-start gap-3 rounded-md bg-surface-warm px-3 py-2.5 font-normal leading-snug dark:bg-card", value === option.value && "ring-2 ring-ring/50")}
+                        className={cn("flex cursor-pointer items-start gap-3 rounded-md bg-surface-warm px-3 py-2.5 font-normal leading-snug shadow-[inset_0_0_0_1px_rgba(20,16,14,0.08)] dark:bg-background dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)]", value === option.value && "ring-2 ring-ring/50")}
                       >
                         <RadioGroupItem id={id} value={option.value} className="mt-0.5" />
                         <span className="flex flex-col">

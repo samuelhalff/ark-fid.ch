@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { AiError, aiEnabled, aiHelp, asLocale, hasAiOptIn } from "@/src/lib/tax-questionnaire/server/ai";
+import { aiGate } from "@/src/lib/tax-questionnaire/server/service";
+import { getStorage as getQfStorage } from "@/src/lib/tax-questionnaire/server/storage";
 import { clientIp, json, originAllowed, rateLimited, readJson, requireSession, type Counter } from "@/src/lib/tax-questionnaire/server/http";
 
 /** AI help on one question (gated: TAX_QF_AI_ENABLED=1 + client opt-in). Never on the regularisation route. */
@@ -18,6 +20,9 @@ export async function POST(request: Request) {
   const session = await requireSession(request, "any");
   if (session instanceof NextResponse) return session;
   if (!hasAiOptIn(read.body)) return json({ error: "ai_consent_required" }, 403);
+  // Consent and the protected route are checked against the saved case, not the request.
+  const gate = await aiGate(getQfStorage(), session.caseId).catch(() => "ai_consent_required" as const);
+  if (gate) return json({ error: gate }, 403);
   const { stepId, fieldId, locale, question } = read.body;
   if (typeof stepId !== "string" || typeof question !== "string" || (fieldId !== undefined && typeof fieldId !== "string")) {
     return json({ error: "invalid_request" }, 400);

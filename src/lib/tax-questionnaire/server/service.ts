@@ -164,7 +164,7 @@ function baseRecord(
 }
 
 /** Creates the case after the e-mail was verified: folders and tracker rows per year, first draft. */
-export async function createCase(storage: TaxStorage, input: { identity: Identity; locale: QfLocale; answers: unknown; householdId?: string; source?: string; stepId?: string }) {
+export async function createCase(storage: TaxStorage, input: { identity: Identity; locale: QfLocale; answers: unknown; householdId?: string; source?: string; stepId?: string; clientKey?: string }) {
   const caseId = randomBytes(6).toString("hex");
   const answers = sanitizeAnswers(input.answers);
   answers["start.email"] = input.identity.email;
@@ -184,7 +184,7 @@ export async function createCase(storage: TaxStorage, input: { identity: Identit
   const records: ReturnRecord[] = [];
   for (const year of years) {
     const folder = await storage.createSubmissionFolder(year, folderName);
-    const record = baseRecord(head, year, folder, answers, { source: input.source });
+    const record = baseRecord(head, year, folder, answers, { source: input.source, ...(input.clientKey ? { clientKey: input.clientKey } : {}) });
     record.trackerId = await sharePointPorts().tracker.upsert(record);
     records.push(record);
   }
@@ -253,6 +253,42 @@ export function parseDocKey(docKey: string): { ruleId: string | null; category: 
   return { ruleId: rule.id, category: rule.category, year };
 }
 
+/**
+ * Checks every uploaded file (actual size, type, first bytes); suspicious ones are moved to
+ * "_A verifier" (never deleted). Used at submission and when documents are added afterwards.
+ */
+async function screenFiles(storage: TaxStorage, info: CaseInfo) {
+  const flagged: { file: StoredFile; reason: string }[] = [];
+  const accepted: (StoredFile & { year: number })[] = [];
+  for (const record of info.records) {
+    const files = await storage.listFiles(record.driveId, record.folderId);
+    let flaggedFolderId = "";
+    for (const file of files) {
+      if (file.folder === FLAGGED_FOLDER) {
+        flagged.push({ file, reason: "déjà signalé" });
+        continue;
+      }
+      if (!clientFiles([file]).length) continue;
+      const ext = extensionOf(file.name);
+      let reason: string | null = null;
+      if (file.size === 0) reason = "fichier vide (envoi interrompu ?)";
+      else if (file.size > UPLOAD_LIMITS.maxFileBytes) reason = "fichier plus grand que la limite";
+      else if (!ALLOWED_TYPES[ext]) reason = "type non autorisé";
+      else reason = sniffMismatch(ext, await storage.readHead(record.driveId, file.id, 1024));
+      if (!reason) {
+        accepted.push({ ...file, year: record.taxYear });
+        continue;
+      }
+      if (!flaggedFolderId) flaggedFolderId = await storage.ensureSubfolder(record.driveId, record.folderId, FLAGGED_FOLDER);
+      await storage.moveFile(record.driveId, file.id, flaggedFolderId);
+      flagged.push({ file: { ...file, folder: FLAGGED_FOLDER }, reason });
+    }
+  }
+  const total = accepted.reduce((sum, f) => sum + f.size, 0);
+  if (total > UPLOAD_LIMITS.maxTotalBytes) flagged.push({ file: { id: "-", name: "(ensemble des fichiers)", size: total, webUrl: "", folder: "" }, reason: "volume total au-delà de la limite" });
+  return { accepted, flagged };
+}
+
 /** Files uploaded by the client: in category sub-folders (system folders, versions and root files excluded). */
 const clientFiles = (files: StoredFile[]) => files.filter((f) => f.folder !== "" && !SYSTEM_FOLDERS.has(f.folder) && !f.folder.startsWith("Envoi "));
 
@@ -290,7 +326,8 @@ export async function listUploads(storage: TaxStorage, info: CaseInfo) {
 }
 
 export async function removeUpload(storage: TaxStorage, info: CaseInfo, itemId: string) {
-  if (info.main.state === "submitted") throw new ServiceError("already_submitted", 409);
+  // Files that were part of a submission stay immutable, also after "correct my answers".
+  if (info.records.some((r) => r.state === "submitted" || r.submittedAt)) throw new ServiceError("already_submitted", 409);
   const file = (await allClientFiles(storage, info)).find((f) => f.id === itemId);
   if (!file) throw new ServiceError("not_found", 404);
   const record = info.records.find((r) => r.taxYear === file.year) || info.main;
@@ -368,31 +405,7 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
   const statusInput = cleanDocStatus(input.docStatus);
 
   // Files actually in SharePoint are authoritative (never the client's claims).
-  const flagged: { file: StoredFile; reason: string }[] = [];
-  const accepted: (StoredFile & { year: number })[] = [];
-  for (const record of info.records) {
-    const files = await storage.listFiles(record.driveId, record.folderId);
-    let flaggedFolderId = "";
-    for (const file of files) {
-      if (file.folder === FLAGGED_FOLDER) {
-        flagged.push({ file, reason: "déjà signalé lors d'un envoi précédent" });
-        continue;
-      }
-      if (!clientFiles([file]).length) continue;
-      const ext = extensionOf(file.name);
-      let reason: string | null = null;
-      if (file.size === 0) reason = "fichier vide (envoi interrompu ?)";
-      else if (!ALLOWED_TYPES[ext]) reason = "type non autorisé";
-      else reason = sniffMismatch(ext, await storage.readHead(record.driveId, file.id, 1024));
-      if (!reason) {
-        accepted.push({ ...file, year: record.taxYear });
-        continue;
-      }
-      if (!flaggedFolderId) flaggedFolderId = await storage.ensureSubfolder(record.driveId, record.folderId, FLAGGED_FOLDER);
-      await storage.moveFile(record.driveId, file.id, flaggedFolderId);
-      flagged.push({ file: { ...file, folder: FLAGGED_FOLDER }, reason });
-    }
-  }
+  const { accepted, flagged } = await screenFiles(storage, info);
   const byCode = new Map<string, StoredFile[]>();
   for (const file of accepted) {
     const code = codeFromFileName(file.name);
@@ -423,8 +436,12 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
     privacyVersion: PRIVACY_VERSION,
   };
 
-  // Immutable version folder (a retry of the same attempt reuses it).
-  const versionFolder = await storage.ensureSubfolder(info.main.driveId, info.main.folderId, `Envoi ${versionStamp(now)} ${submitKey.slice(0, 6)}`);
+  // Immutable version folder per submission attempt: a retry with the same key reuses it.
+  const versionName = `Envoi ${versionStamp(now).slice(0, 10)} ${submitKey}`;
+  const versionFolder = await storage.ensureSubfolder(info.main.driveId, info.main.folderId, versionName);
+  const stateRaw = await storage.readFile(info.main.driveId, versionFolder, "etat.json");
+  const sent: { internal?: boolean; client?: boolean } = stateRaw ? JSON.parse(new TextDecoder().decode(stateRaw)) : {};
+  const saveSent = () => storage.putFile(info.main.driveId, versionFolder, "etat.json", new TextEncoder().encode(JSON.stringify(sent)), "application/json");
   const put = (name: string, bytes: Uint8Array, type: string) => storage.putFile(info.main.driveId, versionFolder, name, bytes, type);
 
   const excel = await buildWorkbook(record);
@@ -462,6 +479,14 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
     attention: attentionPoints(answers).map((p) => ({ level: p.level, text: p.text })),
   };
   const jsonItem = await put("questionnaire.json", new TextEncoder().encode(JSON.stringify(questionnaire, null, 2)), "application/json");
+  // Arrears years: each year folder gets its own copy of the submitted version.
+  for (const rec of info.records.filter((r) => r.folderId !== info.main.folderId)) {
+    const copy = await storage.ensureSubfolder(rec.driveId, rec.folderId, versionName);
+    await storage.putFile(rec.driveId, copy, excelName, excel, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    await storage.putFile(rec.driveId, copy, pdfName, pdf, "application/pdf");
+    await storage.putFile(rec.driveId, copy, "questionnaire.json", new TextEncoder().encode(JSON.stringify(questionnaire, null, 2)), "application/json");
+    await storage.putFile(rec.driveId, copy, "consent.json", new TextEncoder().encode(JSON.stringify(consent, null, 2)), "application/json");
+  }
 
   const regularisation = has("regularisation")(answers);
   const urgentSource = sourceTaxed(answers) && now.getMonth() <= 2; // until 31 March
@@ -469,20 +494,27 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
   const internal = internalMail(record, excelName, excel.byteLength <= MAX_ATTACHMENT_BYTES ? excel : null);
   internal.subject = `${prefixes ? `${prefixes} ` : ""}${internal.subject}`;
   if (pdf.byteLength <= MAX_ATTACHMENT_BYTES) internal.attachments = [...(internal.attachments || []), { name: pdfName, contentType: "application/pdf", bytes: pdf }];
-  try {
-    await storage.sendMail(internal);
-  } catch (error) {
-    console.error("[tax-qf] internal mail failed", info.caseId, error instanceof Error ? error.message : "");
-    await event(storage, info, "mail_failed", { kind: "internal" });
-    throw new ServiceError("notify_failed", 502);
+  if (!sent.internal) {
+    try {
+      await storage.sendMail(internal);
+    } catch (error) {
+      console.error("[tax-qf] internal mail failed", info.caseId, error instanceof Error ? error.message : "");
+      await event(storage, info, "mail_failed", { kind: "internal" });
+      throw new ServiceError("notify_failed", 502);
+    }
+    sent.internal = true;
+    await saveSent();
+    await event(storage, info, "mail_sent", { kind: "internal" });
   }
-  await event(storage, info, "mail_sent", { kind: "internal" });
-  let clientNotified = true;
-  try {
-    await storage.sendMail(regularisation ? regularisationClientMail(locale, info.email) : clientMail(record));
-  } catch (error) {
-    clientNotified = false;
-    console.error("[tax-qf] client mail failed", info.caseId, error instanceof Error ? error.message : "");
+  let clientNotified = sent.client === true;
+  if (!sent.client) {
+    try {
+      await storage.sendMail(regularisation ? regularisationClientMail(locale, info.email) : clientMail(record));
+      sent.client = clientNotified = true;
+      await saveSent();
+    } catch (error) {
+      console.error("[tax-qf] client mail failed", info.caseId, error instanceof Error ? error.message : "");
+    }
   }
 
   // Master registry (verified e-mail): link or create; name-only matches are left to staff.
@@ -524,6 +556,7 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
       });
     } catch (error) {
       console.error("[tax-qf] tracker update failed", info.caseId, error instanceof Error ? error.message : "");
+      throw new ServiceError("storage_unavailable", 502);
     }
   }
   if (answers["review.reminder"] === "yes") {
@@ -546,10 +579,15 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
 
 /** After submission: the client added documents from the status page and says "done". */
 export async function notifyAdditions(storage: TaxStorage, info: CaseInfo) {
+  const { flagged } = await screenFiles(storage, info);
   const files = await allClientFiles(storage, info);
   const mail = staffAlert(
     `Documents complémentaires – ${info.name} – ${info.main.taxYear}`,
-    [`Le client signale avoir ajouté des documents après son envoi (${files.length} fichier(s) au total dans le dossier).`, ...files.slice(-30).map((f) => f.name)],
+    [
+      `Le client signale avoir ajouté des documents après son envoi (${files.length} fichier(s) au total dans le dossier).`,
+      ...(flagged.length ? [`${flagged.length} fichier(s) à vérifier (sous-dossier « _A verifier »).`] : []),
+      ...files.slice(-30).map((f) => f.name),
+    ],
     info.main.folderUrl,
   );
   await storage.sendMail(mail);
@@ -650,8 +688,10 @@ export async function createInvitedReturn(input: { clientKey: string; email: str
     householdId: input.prefillFrom?.householdId,
     source: "campaign",
     stepId: "start",
+    clientKey: input.clientKey,
   });
-  const invited = { ...info.main, state: "invited" as const, invitedAt: new Date().toISOString(), remindersSent: 0 };
+  // invitedAt is written by the campaign only once the invitation e-mail has gone out.
+  const invited = { ...info.main, state: "invited" as const, remindersSent: 0 };
   invited.trackerId = await sharePointPorts().tracker.upsert(invited);
   forget(info.caseId);
   return invited;
@@ -663,7 +703,7 @@ export async function cleanupAbandonedDrafts(now = new Date(), limit = 20): Prom
   const storage = getStorage();
   const year = now.getFullYear();
   let deleted = 0;
-  for (const taxYear of [year - 2, year - 1, year]) {
+  for (let taxYear = year - 6; taxYear <= year; taxYear++) {
     for (const record of await sharePointPorts().tracker.listByYear(taxYear)) {
       if (deleted >= limit) return { deleted };
       if (record.state !== "draft" || record.submittedAt) continue;
@@ -693,4 +733,15 @@ export async function optOut(clientKeyValue: string) {
     excludedReason: "Désinscription par le client (lien e-mail)",
     noticeSentYear: current?.noticeSentYear,
   });
+}
+
+/**
+ * Server-side AI gate (never the client's word): the saved draft must carry the AI opt-in, and
+ * the protected regularisation route never reaches the model.
+ */
+export async function aiGate(storage: TaxStorage, caseId: string): Promise<null | "ai_consent_required" | "ai_not_available"> {
+  const draft = await readDraft(storage, await getCase(caseId));
+  if (!draft?.aiOptIn) return "ai_consent_required";
+  if (has("regularisation")(draft.answers)) return "ai_not_available";
+  return null;
 }

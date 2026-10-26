@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { AiError, aiEnabled, extractFromDocument, getUploadedFileReader, hasAiOptIn, setUploadedFileReader } from "@/src/lib/tax-questionnaire/server/ai";
 import { getCase, readCaseFile } from "@/src/lib/tax-questionnaire/server/service";
 import { getStorage } from "@/src/lib/tax-questionnaire/server/storage";
+import { aiGate } from "@/src/lib/tax-questionnaire/server/service";
+import { getStorage as getQfStorage } from "@/src/lib/tax-questionnaire/server/storage";
 import { clientIp, json, originAllowed, rateLimited, readJson, requireSession, type Counter } from "@/src/lib/tax-questionnaire/server/http";
 
 /** Reads the uploaded last return / notice of assessment and returns names to pre-fill (gated; client confirms). */
@@ -24,6 +26,9 @@ export async function POST(request: Request) {
   const session = await requireSession(request, "edit");
   if (session instanceof NextResponse) return session;
   if (!hasAiOptIn(read.body)) return json({ error: "ai_consent_required" }, 403);
+  // Consent and the protected route are checked against the saved case, not the request.
+  const gate = await aiGate(getQfStorage(), session.caseId).catch(() => "ai_consent_required" as const);
+  if (gate) return json({ error: gate }, 403);
   const fileId = read.body.fileId;
   if (typeof fileId !== "string" || fileId.length > 200) return json({ error: "invalid_request" }, 400);
   const reader = getUploadedFileReader();

@@ -52,6 +52,9 @@ export const left = (a: Answers) => ["left", "both"].includes(residence(a));
 export const residentPartOfYear = (a: Answers) => !!residence(a) && !livesAbroadAllYear(a);
 export const isLumpSum = (a: Answers) => residentPartOfYear(a) && a["regime.lumpSum"] === "yes";
 export const isGenevaResident = (a: Answers) => a["start.canton"] === "GE";
+/** Cantons whose return asks for the denomination (church tax). GE (voluntary contribution), VD (none) and NE (voluntary) excluded; VS/TI [uncertain]. */
+const NO_CHURCH_TAX = new Set(["GE", "VD", "NE", "ABROAD", ""]);
+export const asksChurchTax = (a: Answers) => residentPartOfYear(a) && !NO_CHURCH_TAX.has(str(a["start.canton"]));
 export const sourceTaxed = (a: Answers) => !isLumpSum(a) && a["regime.sourceTax"] === "yes";
 export const sourceTaxedResident = (a: Answers) => sourceTaxed(a) && residentPartOfYear(a);
 export const nonResidentReasons = (a: Answers) => (livesAbroadAllYear(a) ? arr(a["regime.nrReasons"]) : []);
@@ -101,17 +104,17 @@ export const ROUTER_OPTIONS: Option[] = [
   card("work", "avsNonEmployed", "Cotisations AVS sans activité lucrative", "AHV contributions as a non-employed person", "AHV-Beiträge als Nichterwerbstätige(r)", t("Retraite anticipée, études, conjoint sans activité…", "Early retirement, studies, non-working spouse…", "Frühpensionierung, Studium, nicht erwerbstätiger Ehegatte…")),
   card("work", "benefits", "Chômage, maladie, accident, maternité, APG", "Unemployment, sickness, accident, maternity, EO", "Arbeitslosigkeit, Krankheit, Unfall, Mutterschaft, EO", t("Indemnités journalières", "Daily allowances", "Taggelder")),
   card("work", "pension", "Rentes (AVS/AI, caisse de pension, étrangères)", "Pensions (AHV/IV, pension fund, foreign)", "Renten (AHV/IV, Pensionskasse, ausländische)"),
-  card("work", "capital", "Capital de prévoyance reçu", "Pension lump sum received", "Kapitalleistung aus Vorsorge", t("2e ou 3e pilier, assurance-vie", "2nd or 3rd pillar, life insurance", "2. oder 3. Säule, Lebensversicherung")),
+  card("work", "capital", "Capital reçu (prévoyance ou assurance-vie)", "Lump sum received (pension or life insurance)", "Kapitalleistung (Vorsorge oder Lebensversicherung)", t("2e pilier, 3e pilier A ou assurance-vie", "2nd pillar, pillar 3a or life insurance", "2. Säule, Säule 3a oder Lebensversicherung")),
   card("work", "severance", "Indemnité de départ", "Severance pay", "Abgangsentschädigung"),
   card("work", "foreignIncome", "Autres revenus de l'étranger", "Other foreign income", "Andere ausländische Einkünfte"),
   // Assets and debts
-  card("assets", "banksCH", "Comptes bancaires ou postaux en Suisse", "Bank or postal accounts in Switzerland", "Bank- oder Postkonten in der Schweiz"),
+  card("assets", "banksCH", "Comptes bancaires ou postaux en Suisse", "Bank or postal accounts in Switzerland", "Bank- oder Postkonten in der Schweiz", t("Y compris ceux des enfants mineurs", "Including those of minor children", "Auch jene minderjähriger Kinder")),
   card("assets", "banksForeign", "Comptes ou dépôts à l'étranger", "Accounts or portfolios abroad", "Konten oder Depots im Ausland"),
   card("assets", "securities", "Titres, fonds, portefeuille", "Securities, funds, portfolio", "Wertschriften, Fonds, Depot", t("Y compris titres étrangers", "Including foreign securities", "Auch ausländische Wertschriften")),
   card("assets", "crypto", "Cryptoactifs", "Crypto-assets", "Kryptowährungen"),
   card("assets", "lifeInsurance", "Assurance-vie avec valeur de rachat", "Life insurance with surrender value", "Lebensversicherung mit Rückkaufswert", t("Hors 3e pilier A", "Excluding pillar 3a", "Ohne Säule 3a")),
   card("assets", "vehicles", "Voiture, moto, bateau, avion", "Car, motorbike, boat, aircraft", "Auto, Motorrad, Boot, Flugzeug"),
-  card("assets", "valuables", "Objets de valeur de plus de CHF 2'000", "Valuables worth more than CHF 2,000", "Wertgegenstände über CHF 2'000", t("Or, bijoux, art, collections", "Gold, jewellery, art, collections", "Gold, Schmuck, Kunst, Sammlungen")),
+  card("assets", "valuables", "Objets de valeur", "Valuables", "Wertgegenstände", t("Or, métaux précieux, bijoux, art, collections", "Gold, precious metals, jewellery, art, collections", "Gold, Edelmetalle, Schmuck, Kunst, Sammlungen")),
   card("assets", "loansGiven", "Prêt accordé à un tiers", "Loan granted to someone", "Darlehen an Dritte"),
   card("assets", "debts", "Dettes (hors hypothèque)", "Debts (other than mortgage)", "Schulden (ohne Hypothek)", t("Crédit, leasing exclu, prêt privé…", "Loan, private loan… (not leasing)", "Kredit, Privatdarlehen… (ohne Leasing)")),
   // Property
@@ -160,7 +163,7 @@ const start: StepDef = {
       required: true,
       options: [
         { value: "single", label: t("Moi seul(e)", "Myself only", "Nur mich") },
-        { value: "couple", label: t("Notre couple (marié ou partenariat enregistré)", "Our couple (married or registered partners)", "Unser Paar (verheiratet oder eingetragene Partnerschaft)"), hint: t("Une seule déclaration commune", "One joint return", "Eine gemeinsame Erklärung") },
+        { value: "couple", label: t("Notre couple (marié ou partenariat enregistré)", "Our couple (married or registered partners)", "Unser Paar (verheiratet oder eingetragene Partnerschaft)"), hint: t("En principe une déclaration commune (deux l'année du décès d'un conjoint)", "In principle one joint return (two in the year a spouse dies)", "Grundsätzlich eine gemeinsame Erklärung (zwei im Todesjahr eines Ehegatten)") },
         { value: "cohabiting", label: t("Moi, en couple non marié", "Myself, in an unmarried couple", "Mich, in unverheirateter Partnerschaft"), hint: t("Chaque partenaire remplit son propre questionnaire", "Each partner fills in their own questionnaire", "Jede Person füllt einen eigenen Fragebogen aus") },
       ],
     }),
@@ -210,6 +213,11 @@ const regime: StepDef = {
   blocks: [
     f("regime.residence", "radio", t("Où habitiez-vous en {year} ?", "Where did you live in {year}?", "Wo wohnten Sie im Jahr {year}?"), {
       required: true,
+      help: t(
+        "Si vous vivez en Suisse la semaine et ailleurs le week-end, choisissez « En Suisse toute l'année » et précisez-le dans les remarques.",
+        "If you live in Switzerland during the week and elsewhere at weekends, choose \"In Switzerland all year\" and say so in the remarks.",
+        "Wenn Sie unter der Woche in der Schweiz und am Wochenende anderswo leben, wählen Sie «Das ganze Jahr in der Schweiz» und vermerken Sie es in den Bemerkungen.",
+      ),
       options: opts(
         ["ch", "En Suisse toute l'année", "In Switzerland all year", "Das ganze Jahr in der Schweiz"],
         ["arrived", "Arrivé(e) en Suisse en cours d'année", "Moved to Switzerland during the year", "Im Laufe des Jahres in die Schweiz gezogen"],
@@ -218,7 +226,7 @@ const regime: StepDef = {
         ["abroad", "À l'étranger toute l'année", "Abroad all year", "Das ganze Jahr im Ausland"],
       ),
     }),
-    f("regime.arrivalDate", "date", t("Date d'arrivée", "Arrival date", "Zuzugsdatum"), { width: "half", required: true, showIf: arrived }),
+    f("regime.arrivalDate", "date", t("Date d'arrivée (approximative si besoin)", "Arrival date (approximate if needed)", "Zuzugsdatum (wenn nötig ungefähr)"), { width: "half", required: true, showIf: arrived }),
     f("regime.arrivalFrom", "text", t("Pays de résidence fiscale avant l'arrivée", "Country of tax residence before arrival", "Steuerlicher Wohnsitzstaat vor dem Zuzug"), { width: "half", showIf: arrived }),
     f("regime.exitFiled", "radio", t("Une déclaration de départ a-t-elle été faite dans ce pays ?", "Was a departure (exit) return filed in that country?", "Wurde in diesem Land eine Wegzugserklärung eingereicht?"), { options: YES_NO_UNKNOWN, showIf: arrived }),
     f("regime.departureDate", "date", t("Date de départ", "Departure date", "Wegzugsdatum"), { width: "half", required: true, showIf: left }),
@@ -273,7 +281,7 @@ const regime: StepDef = {
       showIf: sourceTaxed,
       options: [
         { value: "tariff", label: t("Faire vérifier le barème appliqué (rectification)", "Have the tariff applied checked (correction)", "Den angewandten Tarif prüfen lassen (Berichtigung)"), hint: t("Ne donne pas droit à des déductions supplémentaires.", "Does not give additional deductions.", "Ergibt keine zusätzlichen Abzüge.") },
-        { value: "tou", label: t("Déposer une déclaration complète (TOU)", "File a full return (TOU)", "Eine vollständige Steuererklärung einreichen (NOV)"), hint: t("Choix définitif : il vaut aussi pour les années suivantes tant que vous êtes imposé(e) à la source.", "Final choice: it also applies to the following years as long as you are taxed at source.", "Endgültig: gilt auch für die folgenden Jahre, solange Sie quellenbesteuert sind.") },
+        { value: "tou", label: t("Déposer une déclaration complète (TOU)", "File a full return (TOU)", "Eine vollständige Steuererklärung einreichen (NOV)"), hint: t("Domicile en Suisse : choix définitif, valable aussi les années suivantes. Domicile à l'étranger : demande à renouveler chaque année.", "Resident in Switzerland: a final choice that also applies to later years. Resident abroad: the request must be renewed every year.", "Wohnsitz in der Schweiz: endgültig, gilt auch für die Folgejahre. Wohnsitz im Ausland: Antrag jedes Jahr neu stellen.") },
         { value: "advise", label: t("Je ne sais pas, conseillez-moi", "I don't know, please advise", "Ich weiss es nicht, bitte beraten Sie mich") },
       ],
     }),
@@ -281,9 +289,9 @@ const regime: StepDef = {
       options: YES_NO_UNKNOWN,
       showIf: sourceTaxedResident,
       help: t(
-        "Dès ce montant (atteint par l'un des conjoints), une déclaration est obligatoire et le reste les années suivantes. Vérifié le 26.10.2026.",
-        "From this amount (reached by either spouse), a return is mandatory and remains so in later years. Checked on 26.10.2026.",
-        "Ab diesem Betrag (von einem der Ehegatten erreicht) ist eine Steuererklärung obligatorisch, auch in den Folgejahren. Geprüft am 26.10.2026.",
+        "Pour une personne domiciliée en Suisse, une déclaration est obligatoire dès que le salaire brut annuel de l'un des conjoints atteint ce montant (les salaires ne s'additionnent pas ; ils sont annualisés en cas d'année incomplète).",
+        "For a person resident in Switzerland, a return is mandatory once either spouse's gross annual salary reaches this amount (salaries are not added together; they are annualised for a partial year).",
+        "Für in der Schweiz wohnhafte Personen ist eine Steuererklärung obligatorisch, sobald der Bruttojahreslohn eines Ehegatten diesen Betrag erreicht (Löhne werden nicht addiert; bei unvollständigem Jahr hochgerechnet).",
       ),
     }),
     f("regime.foreignHouseholdIncome", "radio", t("Avez-vous (vous ou votre conjoint) d'autres revenus hors de Suisse (loyers, rentes, salaire du conjoint…) ?", "Do you (or your spouse) have other income outside Switzerland (rents, pensions, spouse's salary…)?", "Haben Sie (oder Ihr Ehegatte) weitere Einkünfte ausserhalb der Schweiz (Mieten, Renten, Lohn des Ehegatten…)?"), {
@@ -293,9 +301,9 @@ const regime: StepDef = {
     note(
       "regime.touDeadline",
       t(
-        "Pour une demande de taxation ordinaire ultérieure ou de correction de l'impôt à la source, le délai est en principe le 31 mars de l'année suivante et ne se prolonge pas. Si cette date approche, appelez-nous.",
-        "For a request for subsequent ordinary assessment or correction of the tax at source, the deadline is in principle 31 March of the following year and cannot be extended. If that date is near, call us.",
-        "Für einen Antrag auf nachträgliche ordentliche Veranlagung oder Korrektur der Quellensteuer gilt grundsätzlich der 31. März des Folgejahres, ohne Erstreckung. Rufen Sie uns an, wenn diese Frist naht.",
+        "Pour une demande de taxation ordinaire ultérieure ou de rectification de l'imposition à la source, le délai est en principe le 31 mars de l'année suivante et ne se prolonge pas. En cas de départ de Suisse, la demande doit être faite avant l'annonce du départ. Si une de ces dates approche, appelez-nous.",
+        "For a request for subsequent ordinary assessment or rectification of the tax at source, the deadline is in principle 31 March of the following year and cannot be extended. When leaving Switzerland, the request must be made before deregistering. If one of these dates is near, call us.",
+        "Für einen Antrag auf nachträgliche ordentliche Veranlagung oder Berichtigung der Quellensteuer gilt grundsätzlich der 31. März des Folgejahres, ohne Erstreckung. Bei Wegzug muss der Antrag vor der Abmeldung gestellt werden. Rufen Sie uns an, wenn eine dieser Fristen naht.",
       ),
       { tone: "warning", showIf: sourceTaxed },
     ),
@@ -310,12 +318,13 @@ const regime: StepDef = {
     ),
     f("regime.confession", "select", t("Appartenance religieuse (impôt ecclésiastique)", "Religious affiliation (church tax)", "Konfession (Kirchensteuer)"), {
       width: "half",
-      showIf: (a) => residentPartOfYear(a) && !isGenevaResident(a) && !!a["start.canton"] && a["start.canton"] !== "ABROAD",
+      showIf: asksChurchTax,
       options: CONFESSION,
+      help: t("Demandé uniquement parce que votre canton perçoit un impôt ecclésiastique.", "Asked only because your canton levies a church tax.", "Nur gefragt, weil Ihr Kanton eine Kirchensteuer erhebt."),
     }),
     f("regime.spouseConfession", "select", t("Appartenance religieuse du conjoint", "Spouse's religious affiliation", "Konfession des Ehegatten"), {
       width: "half",
-      showIf: (a) => isCouple(a) && residentPartOfYear(a) && !isGenevaResident(a) && !!a["start.canton"] && a["start.canton"] !== "ABROAD",
+      showIf: (a) => isCouple(a) && asksChurchTax(a),
       options: CONFESSION,
     }),
   ],
@@ -484,7 +493,7 @@ const work: StepDef = {
     }),
     f("work.actualCosts", "yesno", t("Avez-vous des frais professionnels importants (long trajet, repas, formation non remboursée…) ?", "Do you have significant work expenses (long commute, meals, unreimbursed training…)?", "Haben Sie bedeutende Berufskosten (langer Arbeitsweg, Verpflegung, nicht erstattete Weiterbildung…)?"), {
       showIf: (a) => has("employed")(a) && !livesAbroadAllYear(a),
-      help: t("Sinon, les déductions forfaitaires s'appliquent et rien d'autre n'est nécessaire.", "Otherwise flat-rate deductions apply and nothing else is needed.", "Sonst gelten die Pauschalabzüge und es braucht nichts weiter."),
+      help: t("Sinon, le forfait s'applique pour les autres frais ; nous examinerons tout de même le trajet et les repas.", "Otherwise the flat rate applies to other expenses; we will still look at commuting and meals.", "Sonst gilt für übrige Kosten die Pauschale; Arbeitsweg und Verpflegung prüfen wir trotzdem."),
     }),
     f("work.commuteKm", "integer", t("Distance domicile – travail (km, aller)", "Home – work distance (km, one way)", "Distanz Wohnort – Arbeitsort (km, einfach)"), { width: "half", showIf: yes("work.actualCosts") }),
     f("work.transport", "checkboxes", t("Moyen de transport", "Means of transport", "Verkehrsmittel"), {
@@ -507,7 +516,7 @@ const work: StepDef = {
     }),
     f("work.daysAbroad", "integer", t("Jours de travail physiquement hors de Suisse en {year} (environ)", "Working days physically outside Switzerland in {year} (approx.)", "Arbeitstage physisch ausserhalb der Schweiz {year} (ca.)"), {
       width: "half",
-      showIf: (a) => (has("employed")(a) && (sourceTaxed(a) || livesAbroadAllYear(a))) || has("equity")(a),
+      showIf: (a) => (has("employed")(a) && (livesAbroadAllYear(a) || rowsOf(a, "work.employers").some((r) => !!str(r.country) && !/^(ch|suisse|switzerland|schweiz)$/i.test(str(r.country))))) || has("equity")(a),
     }),
     f("work.boardFees", "yesno", t("Honoraires d'administrateur ou jetons de présence ?", "Director's or board fees?", "Verwaltungsratshonorare oder Sitzungsgelder?"), { width: "half", showIf: hasAny("employed", "companyOwner") }),
     heading("work.equityHeading", t("Plans d'actions de l'employeur", "Employer equity plans", "Mitarbeiterbeteiligungen"), has("equity")),
@@ -676,8 +685,8 @@ const assets: StepDef = {
         f("currency", "select", t("Devise", "Currency", "Währung"), { width: "half", options: CURRENCIES, showIf: both(rowIs("country", "other"), rowNo("statement")) }),
       ],
     }),
-    f("assets.foreignWithholding", "yesno", t("Des impôts étrangers ont-ils été retenus sur des dividendes ou intérêts étrangers ?", "Were foreign taxes withheld on foreign dividends or interest?", "Wurden auf ausländischen Dividenden oder Zinsen ausländische Steuern abgezogen?"), { showIf: has("securities") }),
-    f("assets.trading", "yesno", t("Nombreuses transactions sur titres en {year}, avec crédit ou dérivés ?", "Frequent securities trading in {year}, with credit or derivatives?", "Häufiger Wertschriftenhandel {year}, mit Kredit oder Derivaten?"), { showIf: has("securities") }),
+    f("assets.foreignWithholding", "yesno", t("Des impôts étrangers ont-ils été retenus sur des dividendes ou intérêts étrangers ?", "Were foreign taxes withheld on foreign dividends or interest?", "Wurden auf ausländischen Dividenden oder Zinsen ausländische Steuern abgezogen?"), { showIf: hasAny("securities", "banksForeign") }),
+    f("assets.trading", "yesno", t("Avez-vous acheté et vendu des titres très souvent en {year}, ou utilisé un crédit ou des produits dérivés (options, CFD…) ?", "Did you buy and sell securities very often in {year}, or use credit or derivatives (options, CFDs…)?", "Haben Sie im Jahr {year} sehr oft Wertschriften gekauft und verkauft oder Kredit bzw. Derivate (Optionen, CFD…) eingesetzt?"), { showIf: has("securities") }),
     group({
       id: "assets.crypto",
       label: t("Cryptoactifs", "Crypto-assets", "Kryptowährungen"),
@@ -717,14 +726,14 @@ const assets: StepDef = {
       fields: [
         f("year", "integer", t("Année d'achat", "Year of purchase", "Kaufjahr"), { required: true, width: "half" }),
         f("price", "money", t("Prix d'achat (CHF)", "Purchase price (CHF)", "Kaufpreis (CHF)"), { required: true, width: "half" }),
-        f("model", "text", t("Véhicule (facultatif)", "Vehicle (optional)", "Fahrzeug (freiwillig)"), { width: "half" }),
+        f("model", "text", t("Véhicule", "Vehicle", "Fahrzeug"), { width: "half" }),
         f("leased", "yesno", t("En leasing ?", "Leased?", "Geleast?"), { width: "half" }),
       ],
     }),
     group({
       id: "assets.valuables",
       label: t("Objets de valeur", "Valuables", "Wertgegenstände"),
-      help: t("Le mobilier et les effets personnels usuels ne sont pas à indiquer.", "Ordinary furniture and personal effects need not be listed.", "Übliches Mobiliar und persönliche Effekten nicht angeben."),
+      help: t("Le mobilier de ménage et les effets personnels usuels ne sont pas à indiquer ; les seuils et exemptions dépendent du canton et de la nature du bien.", "Ordinary household furniture and personal effects need not be listed; thresholds and exemptions depend on the canton and the type of item.", "Übliches Mobiliar und persönliche Effekten nicht angeben; Freigrenzen hängen vom Kanton und der Art des Gegenstands ab."),
       itemLabel: t("Élément", "Item", "Position"),
       titleField: "description",
       showIf: has("valuables"),
@@ -788,8 +797,8 @@ const toOwnUse = rowHas("events", "toOwnUse");
  * the last notice, new construction / major works, or (uncertain, flagged) a change to own use.
  */
 export const needsGeValuation = (_a: Answers, row?: Row) =>
-  !!row && row.where === "CH" && row.canton === "GE" && ownUse(_a, row) && (row.inLastAvis === "no" || bought(_a, row) || works(_a, row) || toOwnUse(_a, row));
-const geBlock = (_a: Answers, row?: Row) => needsGeValuation(_a, row) && row?.geFill !== "later";
+  !!row && row.where === "CH" && row.canton === "GE" && ownUse(_a, row) && (row.inLastAvis === "no" || !previouslyTaxed(_a) || bought(_a, row) || works(_a, row) || toOwnUse(_a, row));
+const geBlock = (_a: Answers, row?: Row) => needsGeValuation(_a, row) && row?.geFill === "now";
 
 function propertyFields(): FieldDef[] {
   const h = (id: string, type: FieldType, label: L, showIf: (a: Answers, row?: Row) => boolean, extra: FieldExtra = {}) => f(id, type, label, { width: "half", ...extra, showIf });
@@ -801,7 +810,7 @@ function propertyFields(): FieldDef[] {
     h("commune", "text", t("Commune", "Municipality", "Gemeinde"), inCH, { required: true }),
     h("country", "text", t("Pays", "Country", "Land"), abroad, { required: true }),
     h("city", "text", t("Ville", "Town", "Ort"), abroad, { required: true }),
-    h("address", "text", t("Adresse (facultatif)", "Address (optional)", "Adresse (freiwillig)"), always),
+    h("address", "text", t("Adresse", "Address", "Adresse"), always),
     h("kind", "select", t("Type de bien", "Type of property", "Art der Liegenschaft"), always, {
       required: true,
       options: opts(
@@ -857,7 +866,7 @@ function propertyFields(): FieldDef[] {
     h("soldPrice", "money", t("Prix de vente (si pas encore d'acte)", "Sale price (if no deed yet)", "Verkaufspreis (falls noch kein Vertrag)"), sold),
     h("notaryFiled", "radio", t("Le notaire a-t-il déjà déposé la déclaration de gain immobilier ?", "Has the notary already filed the property gains return?", "Hat das Notariat die Grundstückgewinnsteuererklärung bereits eingereicht?"), both(inCH, sold), { options: YES_NO_UNKNOWN, width: "full" }),
     // Value
-    h("inLastAvis", "radio", t("Ce bien figure-t-il déjà sur votre dernier avis de taxation ?", "Is this property already on your last notice of assessment?", "Ist diese Liegenschaft bereits in Ihrer letzten Veranlagungsverfügung aufgeführt?"), (a, row) => inCH(a, row) && !bought(a, row), { options: YES_NO_UNKNOWN, width: "full" }),
+    h("inLastAvis", "radio", t("Ce bien figure-t-il déjà sur votre dernier avis de taxation ?", "Is this property already on your last notice of assessment?", "Ist diese Liegenschaft bereits in Ihrer letzten Veranlagungsverfügung aufgeführt?"), (a, row) => inCH(a, row) && !bought(a, row) && previouslyTaxed(a), { options: YES_NO_UNKNOWN, width: "full" }),
     h("value", "money", t("Valeur estimée au 31.12", "Estimated value at 31.12", "Geschätzter Wert am 31.12."), abroad),
     h("valueCurrency", "select", t("Devise", "Currency", "Währung"), abroad, { options: CURRENCIES }),
     h("foreignAssessment", "yesno", t("Avez-vous un avis d'impôt étranger pour ce bien ?", "Do you have a foreign tax notice for this property?", "Haben Sie eine ausländische Steuerveranlagung für diese Liegenschaft?"), abroad),
@@ -884,7 +893,7 @@ function propertyFields(): FieldDef[] {
     h("privateBalance", "money", t("Solde au 31.12", "Balance at 31.12", "Saldo am 31.12."), rowYes("privateLoan")),
     h("privateInterest", "money", t("Intérêts payés en {year}", "Interest paid in {year}", "Bezahlte Zinsen {year}"), rowYes("privateLoan")),
     // Costs
-    h("ppe", "yesno", t("Copropriété par étages avec décompte de charges ?", "Condominium with a service charge statement?", "Stockwerkeigentum mit Nebenkostenabrechnung?"), (a, row) => !rowIs("kind", "land")(a, row)),
+    h("ppe", "yesno", t("Recevez-vous un décompte annuel de charges de la copropriété ?", "Do you receive an annual service charge statement from the condominium?", "Erhalten Sie eine jährliche Nebenkostenabrechnung der Stockwerkeigentümer?"), rowIs("kind", "ppe", "parking")),
     h("invoices", "yesno", t("Avez-vous des factures de travaux ou d'entretien pour {year} ?", "Do you have invoices for works or maintenance in {year}?", "Haben Sie Rechnungen für Arbeiten oder Unterhalt {year}?"), always, {
       help: t("Sans factures, une déduction forfaitaire s'applique en général.", "Without invoices, a flat-rate deduction generally applies.", "Ohne Rechnungen gilt in der Regel ein Pauschalabzug."),
     }),
@@ -919,9 +928,9 @@ function propertyFields(): FieldDef[] {
         options: opts(["good", "Satisfaisant", "Satisfactory", "Befriedigend"], ["renovation", "Grande rénovation nécessaire", "Needs major renovation", "Grosser Sanierungsbedarf"], ["poor", "Très mauvais", "Very poor", "Sehr schlecht"]),
       }),
       g("geArea", "integer", t("Surface habitable (m²)", "Living area (m²)", "Wohnfläche (m²)"), {
-        help: t("Hauteur sous plafond > 1,5 m ; sans galetas, balcons, terrasses, caves, garages.", "Ceiling height > 1.5 m; excluding attics, balconies, terraces, cellars, garages.", "Raumhöhe > 1,5 m; ohne Estrich, Balkone, Terrassen, Keller, Garagen."),
+        help: t("Incluez les combles habitables et mansardes là où la hauteur dépasse 1,5 m ; excluez galetas et combles non habitables, balcons, terrasses, caves, garages et locaux de service.", "Include habitable attic rooms where the height exceeds 1.5 m; exclude unusable lofts, balconies, terraces, cellars, garages and utility rooms.", "Bewohnbare Dachräume ab 1,5 m Höhe einrechnen; nicht bewohnbare Estriche, Balkone, Terrassen, Keller, Garagen und Nebenräume ausschliessen."),
       }),
-      g("geRooms", "text", t("Nombre de pièces", "Number of rooms", "Anzahl Zimmer"), { maxLength: 10, help: t("Une pièce de moins de 9 m² compte pour une demi-pièce.", "A room under 9 m² counts as half.", "Ein Raum unter 9 m² zählt halb.") }),
+      g("geRooms", "text", t("Nombre de pièces", "Number of rooms", "Anzahl Zimmer"), { maxLength: 10, help: t("Comptez les pièces selon vos plans ; nous ferons le calcul.", "Count the rooms as on your plans; we will do the calculation.", "Zählen Sie die Zimmer gemäss Plänen; wir rechnen.") }),
       g("geLand", "integer", t("Surface du terrain (m², maison)", "Land area (m², house)", "Grundstücksfläche (m², Haus)")),
       g("geFloors", "integer", t("Nombre d'étages (maison)", "Floors (house)", "Geschosse (Haus)")),
       g("geType", "select", t("Type", "Type", "Typ"), {
@@ -938,28 +947,27 @@ function propertyFields(): FieldDef[] {
         width: "full",
         options: opts(
           ["insulation", "Bonne isolation thermique", "Good thermal insulation", "Gute Wärmedämmung"],
-          ["doubleGlazing", "Double vitrage", "Double glazing", "Doppelverglasung"],
           ["centralHeating", "Chauffage central", "Central heating", "Zentralheizung"],
           ["centralHotWater", "Eau chaude centrale", "Central hot water", "Zentrales Warmwasser"],
           ["kitchen", "Cuisine équipée", "Fitted kitchen", "Eingerichtete Küche"],
           ["twoBathrooms", "Deux salles de bains ou plus", "Two or more bathrooms", "Zwei oder mehr Badezimmer"],
           ["separateWc", "WC séparés", "Separate WC", "Separates WC"],
           ["fireplace", "Cheminée", "Fireplace", "Cheminée"],
-          ["garage", "Garage (un)", "Garage (one)", "Garage (eine)"],
-          ["garages", "Plusieurs garages", "Several garages", "Mehrere Garagen"],
-          ["poolOut", "Piscine extérieure", "Outdoor pool", "Aussenschwimmbad"],
-          ["poolIn", "Piscine intérieure", "Indoor pool", "Hallenbad"],
-          ["pool25", "Piscine de 25 m ou plus", "Pool 25 m or longer", "Schwimmbad 25 m oder länger"],
+          ["garage", "Une place de garage / parking intérieur", "One indoor garage / parking space", "Ein Garagen- / Innenparkplatz"],
+          ["garages", "Plus d'une place intérieure", "More than one indoor space", "Mehr als ein Innenplatz"],
+          ["poolOutSmall", "Piscine extérieure de moins de 25 m²", "Outdoor pool under 25 m²", "Aussenschwimmbad unter 25 m²"],
+          ["poolOutLarge", "Piscine extérieure de 25 m² ou plus", "Outdoor pool of 25 m² or more", "Aussenschwimmbad ab 25 m²"],
+          ["poolIn", "Piscine couverte ou intérieure", "Covered or indoor pool", "Hallen- oder gedecktes Schwimmbad"],
           ["tennis", "Court de tennis", "Tennis court", "Tennisplatz"],
         ),
       }),
       g("geNuisances", "checkboxes", t("Nuisances", "Nuisances", "Immissionen"), {
         width: "full",
         options: opts(
-          ["airport", "Zone de l'aéroport", "Airport zone", "Flughafenzone"],
-          ["rail", "Route ou train à moins de 100 m sans insonorisation", "Road or railway within 100 m, no soundproofing", "Strasse oder Bahn < 100 m ohne Schallschutz"],
-          ["junction", "Route bruyante ou carrefour à moins de 50 m sans insonorisation", "Noisy road or junction within 50 m, no soundproofing", "Lärmige Strasse oder Kreuzung < 50 m ohne Schallschutz"],
-          ["shooting", "Stand de tir à moins de 1,5 km", "Shooting range within 1.5 km", "Schiessstand < 1,5 km"],
+          ["airport", "Bruit de l'aéroport (zone de bruit)", "Airport noise (noise zone)", "Fluglärm (Lärmzone)"],
+          ["rail", "Autoroute ou voie CFF à moins de 100 m sans protection phonique", "Motorway or railway within 100 m without noise protection", "Autobahn oder SBB-Linie < 100 m ohne Lärmschutz"],
+          ["junction", "Carrefour bruyant ou route à fort trafic à moins de 50 m sans protection", "Noisy junction or busy road within 50 m without protection", "Lärmige Kreuzung oder stark befahrene Strasse < 50 m ohne Schutz"],
+          ["shooting", "Stand de tir à moins de 1,5 km sans obstacle naturel", "Shooting range within 1.5 km without natural obstacle", "Schiessstand < 1,5 km ohne natürliches Hindernis"],
           ["plant", "Usine, incinération ou épuration à moins de 1,5 km", "Factory, incinerator or treatment plant within 1.5 km", "Fabrik, Verbrennungs- oder Kläranlage < 1,5 km"],
         ),
       }),
@@ -1042,7 +1050,7 @@ const other: StepDef = {
       showIf: has("trust"),
       options: opts(["settlor", "Constituant / fondateur", "Settlor / founder", "Errichter(in) / Stifter(in)"], ["beneficiary", "Bénéficiaire", "Beneficiary", "Begünstigte(r)"], ["other", "Autre", "Other", "Andere"]),
     }),
-    f("other.lpp3years", "radio", t("Rachat dans une caisse de pension ces trois dernières années, ou retrait en capital prévu dans les trois prochaines ?", "A pension fund buy-in in the last three years, or a capital withdrawal planned in the next three?", "Pensionskasseneinkauf in den letzten drei Jahren oder Kapitalbezug in den nächsten drei Jahren geplant?"), {
+    f("other.lpp3years", "radio", t("Un retrait en capital (2e pilier) a-t-il eu lieu, ou est-il prévu, dans les trois ans qui suivent un rachat ?", "Has a pension capital withdrawal taken place, or is one planned, within three years after a buy-in?", "Erfolgte oder ist ein Kapitalbezug (2. Säule) innerhalb von drei Jahren nach einem Einkauf geplant?"), {
       options: YES_NO_UNKNOWN,
       showIf: hasAny("lppBuyin", "capital"),
     }),
@@ -1064,8 +1072,8 @@ const regularisation: StepDef = {
   blocks: [
     f("regularisation.authorityContact", "radio", t("Une autorité fiscale vous a-t-elle déjà contacté(e) à ce sujet ?", "Has a tax authority already contacted you about this?", "Hat Sie eine Steuerbehörde bereits dazu kontaktiert?"), { options: YES_NO_UNKNOWN, required: true }),
     f("regularisation.priorDisclosure", "radio", t("Avez-vous déjà fait une telle régularisation par le passé ?", "Have you ever made such a disclosure before?", "Haben Sie früher schon eine solche Selbstanzeige gemacht?"), { options: YES_NO_UNKNOWN, required: true }),
-    f("regularisation.years", "text", t("Années concernées (environ, facultatif)", "Years concerned (approx., optional)", "Betroffene Jahre (ungefähr, freiwillig)"), { width: "half" }),
-    f("regularisation.nature", "textarea", t("De quoi s'agit-il ? (facultatif, restez général si vous préférez)", "What is it about? (optional, stay general if you prefer)", "Worum geht es? (freiwillig, gerne allgemein)"), { maxLength: 1500 }),
+    f("regularisation.years", "text", t("Années concernées (environ)", "Years concerned (approx.)", "Betroffene Jahre (ungefähr)"), { width: "half" }),
+    f("regularisation.nature", "textarea", t("De quoi s'agit-il ? (restez général si vous préférez)", "What is it about? (stay general if you prefer)", "Worum geht es? (gerne allgemein)"), { maxLength: 1500 }),
   ],
 };
 
@@ -1081,7 +1089,7 @@ const lumpSum: StepDef = {
       maxLength: 2000,
       help: t("Pour le calcul de contrôle.", "For the control calculation.", "Für die Kontrollrechnung."),
     }),
-    f("lumpSum.treaty", "radio", t("Demandez-vous un allègement prévu par une convention de double imposition pour certains revenus étrangers ?", "Do you claim double tax treaty relief for some foreign income?", "Beanspruchen Sie für gewisse ausländische Einkünfte eine Entlastung aus einem Doppelbesteuerungsabkommen?"), { options: YES_NO_UNKNOWN }),
+    f("lumpSum.treaty", "radio", t("Certains revenus étrangers bénéficient-ils d'un impôt à la source réduit grâce à une convention fiscale ? Si vous ne savez pas, répondez « Je ne sais pas ».", "Do some foreign income items benefit from a reduced withholding tax under a tax treaty? If unsure, answer \"I don't know\".", "Profitieren gewisse ausländische Einkünfte dank eines Steuerabkommens von einer reduzierten Quellensteuer? Wenn unsicher: «Weiss nicht»."), { options: YES_NO_UNKNOWN }),
   ],
 };
 
@@ -1109,7 +1117,7 @@ const review: StepDef = {
       ),
     }),
     f("review.extendedTo", "date", t("Prolongation jusqu'au", "Extended until", "Erstreckt bis"), { width: "half", showIf: is("review.deadline", "extended") }),
-    f("review.comments", "textarea", t("Questions ou remarques (facultatif)", "Questions or remarks (optional)", "Fragen oder Bemerkungen (freiwillig)"), { maxLength: 4000 }),
+    f("review.comments", "textarea", t("Questions ou remarques", "Questions or remarks", "Fragen oder Bemerkungen"), { maxLength: 4000 }),
     f("other.p3aRetroInfo", "boolean", t("Je souhaite des informations sur les versements rétroactifs au 3e pilier A", "I would like information on retroactive pillar 3a contributions", "Ich wünsche Informationen zu rückwirkenden Einzahlungen in die Säule 3a"), { showIf: has("p3a") }),
     f("review.reminder", "boolean", t("Me rappeler chaque année et préremplir mon questionnaire", "Remind me every year and pre-fill my questionnaire", "Mich jedes Jahr erinnern und meinen Fragebogen vorausfüllen"), {
       help: t("Un e-mail en février avec un lien vers vos réponses de l'année précédente. Vous pouvez vous désinscrire à tout moment.", "An email in February with a link to last year's answers. You can unsubscribe at any time.", "Eine E-Mail im Februar mit einem Link zu den Antworten des Vorjahres. Abmeldung jederzeit möglich."),

@@ -43,7 +43,7 @@ test("réclamation 30 days after the notice", () => {
   const d = byId(deadlinesFor({ ...base, "start.avisReceived": "yes", "start.avisDate": "15.09.2026" }));
   assert.equal(d.reclamation.date, "15.10.2026");
   const end = byId(deadlinesFor({ ...base, "start.avisReceived": "yes", "start.avisDate": "10.12.2026" }));
-  assert.equal(end.reclamation.date, "09.01.2027");
+  assert.equal(end.reclamation.date, "11.01.2027");
 });
 
 test("staff extension overrides the ordinary deadline", () => {

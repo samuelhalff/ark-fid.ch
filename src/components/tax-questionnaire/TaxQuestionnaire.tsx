@@ -58,7 +58,10 @@ function knownItems(answers: Answers): Record<string, string[]> {
   };
 }
 
-export default function TaxQuestionnaire({ locale, mode }: { locale: QfLocale; mode: "main" | "tax" }) {
+export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
+  // tax.ark-fid.ch serves the form at /<locale>/, the main site at /<locale>/questionnaire-fiscal/.
+  const [mode, setMode] = useState<"main" | "tax">("main");
+  useEffect(() => setMode(window.location.hostname.startsWith("tax.") ? "tax" : "main"), []);
   const [phase, setPhase] = useState<Phase>("loading");
   const [config, setConfig] = useState<{ turnstileSiteKey: string; aiEnabled: boolean }>({ turnstileSiteKey: "", aiEnabled: false });
   const [caseData, setCaseData] = useState<CasePayload | null>(null);
@@ -154,15 +157,35 @@ export default function TaxQuestionnaire({ locale, mode }: { locale: QfLocale; m
   }, [phase, step.id]);
 
   // ---- autosave (server-side draft; nothing persistent in the browser) -----------------------------
-  const saveNow = useCallback(async () => {
+  // Saves are serialized: a save requested while one is running runs once afterwards with the
+  // latest values, so an older request can never overwrite newer answers.
+  const saving = useRef<Promise<void> | null>(null);
+  const savePending = useRef(false);
+  const saveNow = useCallback(async (): Promise<void> => {
     if (phase !== "form" || caseData?.scope !== "edit") return;
-    setSave({ state: "saving" });
+    if (saving.current) {
+      savePending.current = true;
+      return saving.current;
+    }
+    const run = (async () => {
+      do {
+        savePending.current = false;
+        setSave({ state: "saving" });
+        try {
+          const res = await api.caseAction<{ savedAt: string }>("save", { answers: fromForm(form.getValues()), stepId: stepRef.current?.id, docStatus, locale, aiOptIn });
+          setSave({ state: "saved", at: res.savedAt });
+        } catch (error) {
+          setSave({ state: "failed" });
+          if (error instanceof ApiError && error.status === 401) setPhase("start");
+          savePending.current = false;
+        }
+      } while (savePending.current);
+    })();
+    saving.current = run;
     try {
-      const res = await api.caseAction<{ savedAt: string }>("save", { answers: fromForm(form.getValues()), stepId: stepRef.current?.id, docStatus, locale, aiOptIn });
-      setSave({ state: "saved", at: res.savedAt });
-    } catch (error) {
-      setSave({ state: "failed" });
-      if (error instanceof ApiError && error.status === 401) setPhase("start");
+      await run;
+    } finally {
+      saving.current = null;
     }
   }, [phase, caseData?.scope, docStatus, locale, aiOptIn, form]);
   useEffect(() => {
@@ -278,6 +301,7 @@ export default function TaxQuestionnaire({ locale, mode }: { locale: QfLocale; m
       await api.caseAction("submit", { answers: fromForm(form.getValues()), docStatus, locale, privacyAccepted: true, certified: true, aiOptIn, submitKey: submitKey.current });
       trackEvent("tax_qf_submit", { result: "ok", docs: checklist.length });
       setJustSubmitted(true);
+      submitKey.current = newSubmitKey();
       await loadCase();
       window.scrollTo({ top: 0 });
     } catch (error) {
@@ -400,6 +424,7 @@ export default function TaxQuestionnaire({ locale, mode }: { locale: QfLocale; m
   if (phase === "status" && caseData) {
     return <StatusView caseData={caseData} answers={pruned} checklist={checklist} docStatus={docStatus} locale={locale} justSubmitted={justSubmitted} onChanged={refreshFiles} onReopen={async () => {
       await api.caseAction("reopen");
+      submitKey.current = newSubmitKey();
       await loadCase();
       setPhase("form");
       goTo("review");
@@ -451,14 +476,30 @@ export default function TaxQuestionnaire({ locale, mode }: { locale: QfLocale; m
               {special === "baseDocs" && caseData ? (
                 <DocChecklist items={items} files={files} docStatus={docStatus} onStatus={(key, status) => setDocStatus((prev) => { const nextStatus = { ...prev }; if (status) nextStatus[key] = status; else delete nextStatus[key]; return nextStatus; })} locale={locale} clientName={`${String(answers["start.firstName"] || "")} ${String(answers["start.lastName"] || "")}`.trim()} canRemove onChanged={refreshFiles} onBusy={setUploading} showExtra={false} />
               ) : null}
-              {step.id === "router" && config.aiEnabled && aiOptIn ? <AiSuggest locale={locale} onSuggest={(list) => setAiSuggestions(list)} /> : null}
+              {config.aiEnabled && (special === "baseDocs" || step.id === "router") && !routerItems(answers).includes("regularisation") ? (
+                <div className="flex items-start gap-3 rounded-md bg-surface-warm p-3 dark:bg-card">
+                  <Checkbox id="tqf-ai-early" checked={aiOptIn} onCheckedChange={(v) => setAiOptIn(v === true)} />
+                  <Label htmlFor="tqf-ai-early" className="font-normal leading-snug">
+                    {UI2.aiOptIn[locale]}
+                  </Label>
+                </div>
+              ) : null}
+              {special === "baseDocs" && config.aiEnabled && aiOptIn ? (
+                <AiExtract
+                  locale={locale}
+                  fileId={files.find((f) => f.code === docCode("last-return"))?.id}
+                  beforeCall={saveNow}
+                  onPrefill={(prefill) => form.reset(toForm(applyExtraction(fromForm(form.getValues()), prefill)))}
+                />
+              ) : null}
+              {step.id === "router" && config.aiEnabled && aiOptIn && !routerItems(answers).includes("regularisation") ? <AiSuggest locale={locale} onSuggest={(list) => setAiSuggestions(list)} /> : null}
               {config.aiEnabled && aiOptIn && step.id !== "regularisation" && !special ? <AiHelp locale={locale} stepId={step.id} /> : null}
 
               {phase === "start" ? (
                 <div className="flex flex-col gap-4">
                   <Separator />
                   <div className="flex items-start gap-3">
-                    <Checkbox id="tqf-privacy" checked={privacyAccepted} onCheckedChange={(v) => setPrivacyAccepted(v === true)} />
+                    <Checkbox className="shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]" id="tqf-privacy" checked={privacyAccepted} onCheckedChange={(v) => setPrivacyAccepted(v === true)} />
                     <Label htmlFor="tqf-privacy" className="font-normal leading-snug">
                       {UI.privacyAck[locale]}
                     </Label>
@@ -473,14 +514,14 @@ export default function TaxQuestionnaire({ locale, mode }: { locale: QfLocale; m
                   <Separator />
                   {config.aiEnabled ? (
                     <div className="flex items-start gap-3">
-                      <Checkbox id="tqf-ai" checked={aiOptIn} onCheckedChange={(v) => setAiOptIn(v === true)} />
+                      <Checkbox className="shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]" id="tqf-ai" checked={aiOptIn} onCheckedChange={(v) => setAiOptIn(v === true)} />
                       <Label htmlFor="tqf-ai" className="font-normal leading-snug">
                         {UI2.aiOptIn[locale]}
                       </Label>
                     </div>
                   ) : null}
                   <div className="flex items-start gap-3">
-                    <Checkbox id="tqf-certify" checked={certified} onCheckedChange={(v) => setCertified(v === true)} />
+                    <Checkbox className="shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]" id="tqf-certify" checked={certified} onCheckedChange={(v) => setCertified(v === true)} />
                     <Label htmlFor="tqf-certify" className="font-normal leading-snug">
                       {UI.certify[locale]}
                     </Label>
@@ -690,7 +731,7 @@ function StatusView({
             </CardHeader>
             <CardContent className="flex flex-col gap-4 px-5">
               {pending.length ? (
-                <DocChecklist items={pending} files={caseData.files} docStatus={docStatus} locale={locale} clientName={`${String(answers["start.firstName"] || "")} ${String(answers["start.lastName"] || "")}`.trim()} canRemove={false} onChanged={onChanged} showExtra />
+                <DocChecklist items={pending} files={caseData.files} docStatus={docStatus} locale={locale} clientName={`${String(answers["start.firstName"] || "")} ${String(answers["start.lastName"] || "")}`.trim()} canRemove={false} onChanged={onChanged} showExtra showProgress={false} />
               ) : (
                 <p className="text-sm text-muted-foreground">{UI2.todoNone[locale]}</p>
               )}
@@ -756,6 +797,80 @@ function StatusView({
         </div>
         <aside className="flex flex-col gap-4">{contact}</aside>
       </div>
+    </div>
+  );
+}
+
+interface Prefill {
+  taxNumber?: string;
+  commune?: string;
+  canton?: string;
+  householdType?: "single" | "couple";
+  childrenFirstNames: string[];
+  employers: string[];
+  banks: string[];
+  insurers: string[];
+  lenders: string[];
+  properties: { place: string; country: string }[];
+  deductionsUsed: string[];
+}
+
+/** Pre-fill from the AI reading of the last return: names only, shown for the client to confirm. */
+function applyExtraction(current: Answers, p: Prefill): Answers {
+  const next: Answers = { ...current, "base.prefilledFrom": "lecture de la dernière déclaration" };
+  const rid = () => Math.random().toString(36).slice(2, 12);
+  const items = new Set(routerItems(current));
+  if (p.taxNumber && !next["base.taxNumber"]) next["base.taxNumber"] = p.taxNumber;
+  if (p.commune && !next["start.commune"]) next["start.commune"] = p.commune;
+  if (p.childrenFirstNames.length && !rowsOf(current, "family.children").length) {
+    next["family.children"] = p.childrenFirstNames.map((firstName) => ({ _id: rid(), firstName }));
+    items.add("children");
+  }
+  if (p.employers.length && !rowsOf(current, "work.employers").length) {
+    next["work.employers"] = p.employers.map((name) => ({ _id: rid(), name }));
+    items.add("employed");
+  }
+  if (p.banks.length && !rowsOf(current, "assets.banks").length) {
+    next["assets.banks"] = p.banks.map((bank) => ({ _id: rid(), bank, country: "CH" }));
+    items.add("banksCH");
+  }
+  if (p.insurers.length && !rowsOf(current, "assets.insurances").length) {
+    next["assets.insurances"] = p.insurers.map((insurer) => ({ _id: rid(), insurer }));
+    items.add("lifeInsurance");
+  }
+  if (p.properties.length && !rowsOf(current, "property.items").length) {
+    next["property.items"] = p.properties.map((prop) =>
+      prop.country === "CH" ? { _id: rid(), where: "CH", commune: prop.place } : { _id: rid(), where: "abroad", city: prop.place, country: prop.country },
+    );
+    if (p.properties.some((x) => x.country === "CH")) items.add("propertyCH");
+    if (p.properties.some((x) => x.country !== "CH")) items.add("propertyAbroad");
+  }
+  for (const deduction of p.deductionsUsed) items.add(deduction);
+  next["router.items"] = [...items];
+  return next;
+}
+
+function AiExtract({ locale, fileId, beforeCall, onPrefill }: { locale: QfLocale; fileId?: string; beforeCall: () => Promise<void>; onPrefill: (p: Prefill) => void }) {
+  const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
+  if (!fileId) return null;
+  return (
+    <div className="flex flex-col gap-2">
+      <Button type="button" variant="outline" className="self-start" disabled={state === "loading"} onClick={async () => {
+        setState("loading");
+        try {
+          await beforeCall();
+          const res = await api.ai<{ prefill: Prefill }>("extract", { fileId });
+          onPrefill(res.prefill);
+          setState("done");
+        } catch {
+          setState("error");
+        }
+      }}>
+        {state === "loading" ? <CircleNotch className="size-4 animate-spin" /> : <Sparkle className="size-4" />}
+        {UI2.aiExtract[locale]}
+      </Button>
+      {state === "done" ? <p className="text-sm text-muted-foreground">{UI2.aiExtracted[locale]}</p> : null}
+      {state === "error" ? <p className="text-sm text-destructive">{SERVER_ERRORS.generic[locale]}</p> : null}
     </div>
   );
 }

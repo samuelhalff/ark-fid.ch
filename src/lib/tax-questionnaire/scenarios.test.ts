@@ -217,11 +217,11 @@ test("missing answers are reported on the right screens", () => {
   assert.ok(Object.keys(r.errors).some((k) => k.startsWith("work.employers")));
 });
 
-test("no figures in client-facing labels except the sourced CHF 120'000 and the 2'000 valuables card", async () => {
+test("no figures in client-facing labels except the sourced CHF 120'000 threshold", async () => {
   const { STEPS, ROUTER_OPTIONS } = await import("./schema.ts");
   const texts: string[] = [];
   for (const step of STEPS) for (const block of step.blocks) if ("label" in block && block.label) texts.push(block.label.fr);
   for (const option of ROUTER_OPTIONS) texts.push(option.label.fr);
   const withAmounts = texts.filter((s) => /CHF\s?\d/.test(s));
-  assert.deepEqual(withAmounts.sort(), ["Le salaire brut annuel (vous ou votre conjoint) a-t-il atteint CHF 120'000 en {year} ou une année précédente ?", "Objets de valeur de plus de CHF 2'000"].sort());
+  assert.deepEqual(withAmounts, ["Le salaire brut annuel (vous ou votre conjoint) a-t-il atteint CHF 120'000 en {year} ou une année précédente ?"]);
 });

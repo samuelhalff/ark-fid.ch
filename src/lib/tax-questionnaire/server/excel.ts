@@ -55,7 +55,7 @@ export function regimeSummary(a: Answers): string {
   if (a["regime.lumpSum"] === "yes") parts.push("imposition d'après la dépense");
   if (a["regime.sourceTax"] === "yes") parts.push("impôt à la source");
   if (a["regime.over120k"] === "yes") parts.push("TOU obligatoire");
-  else if (a["regime.touWish"]) parts.push(`TOU souhaitée : ${displayValue(getField("regime.touWish")!, a["regime.touWish"], "fr", a)}`);
+  else if (a["regime.sourceRequest"]) parts.push(`souhait : ${displayValue(getField("regime.sourceRequest")!, a["regime.sourceRequest"], "fr", a)}`);
   return parts.join(" · ");
 }
 

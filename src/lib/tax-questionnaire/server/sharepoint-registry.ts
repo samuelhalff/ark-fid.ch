@@ -35,6 +35,7 @@ interface CrmItem {
   actif: boolean;
   etendue: string[];
   webUrl: string;
+  hasDocumentsLink?: boolean;
 }
 
 /** Pure matching (tested): e-mail first; a name-only match is "ambiguous" and never written to. */
@@ -61,7 +62,7 @@ class SharePointClientRegistry implements ClientRegistry {
     if (!force && this.cache && Date.now() - this.cache.at < 5 * 60 * 1000) return this.cache.items;
     const graph = getGraph();
     const out: CrmItem[] = [];
-    let next: string | null = `/sites/${this.site()}/lists/${this.list()}/items?$expand=fields($select=Title,FirstName,EMail,Acquis,Actif,Etendue)&$top=500`;
+    let next: string | null = `/sites/${this.site()}/lists/${this.list()}/items?$expand=fields($select=Title,FirstName,EMail,Acquis,Actif,Etendue,LienDocuments)&$top=500`;
     for (let page = 0; next && page < 20; page++) {
       const data: Json = await graph.json(next);
       for (const item of (data.value as Json[]) || []) {
@@ -75,6 +76,7 @@ class SharePointClientRegistry implements ClientRegistry {
           actif: fields.Actif === true,
           etendue: Array.isArray(fields.Etendue) ? (fields.Etendue as string[]) : [],
           webUrl: str(item.webUrl),
+          hasDocumentsLink: !!(fields.LienDocuments && typeof fields.LienDocuments === "object" && str((fields.LienDocuments as Json).Url)),
         });
       }
       next = typeof data["@odata.nextLink"] === "string" ? (data["@odata.nextLink"] as string) : null;
@@ -95,13 +97,13 @@ class SharePointClientRegistry implements ClientRegistry {
     const result = matchCrm(await this.items(true), identity);
     if (result.status === "ambiguous") return null;
     if (result.status === "matched") {
-      if (result.isClient && !result.hasTaxScope) {
-        const item = (await this.items()).find((i) => i.id === result.id);
-        await graph.json(`${base}/${result.id}/fields`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ "Etendue@odata.type": "Collection(Edm.String)", Etendue: [...(item?.etendue || []), "Fiscal"] }),
-        });
+      const item = (await this.items()).find((i) => i.id === result.id);
+      const patch: Json = {};
+      // Only additions, never overwrites: the tax scope for clients, the documents link when empty.
+      if (result.isClient && !result.hasTaxScope) Object.assign(patch, { "Etendue@odata.type": "Collection(Edm.String)", Etendue: [...(item?.etendue || []), "Fiscal"] });
+      if (item && !item.hasDocumentsLink && documentsUrl.startsWith("https://")) patch.LienDocuments = { Url: documentsUrl, Description: "Questionnaire fiscal" };
+      if (Object.keys(patch).length) {
+        await graph.json(`${base}/${result.id}/fields`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(patch) });
         this.cache = null;
       }
       return { id: result.id, url: result.url, created: false };

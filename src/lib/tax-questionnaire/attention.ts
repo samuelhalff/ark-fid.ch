@@ -39,7 +39,7 @@ export function attentionPoints(a: Answers): AttentionPoint[] {
   const older = selectedYears(a).slice(1);
   if (older.length) add("arrears", "high", `Années en retard à traiter : ${older.join(", ")} (vérifier les sommations / taxations d'office éventuelles).`);
   if (has("regularisation")(a)) {
-    add("regularisation", "high", `Régularisation demandée (${str(a["regularisation.years"]) || "années non précisées"}) : appeler le client avant toute démarche. Autorité déjà en contact : ${str(a["regularisation.authorityContact"]) || "?"} ; régularisation antérieure : ${str(a["regularisation.priorDisclosure"]) || "?"} (l'exemption de peine n'est possible qu'une fois et si l'autorité n'a pas connaissance des faits — à vérifier).`);
+    add("regularisation", "high", `Régularisation demandée (${str(a["regularisation.years"]) || "années non précisées"}) : appeler le client avant toute démarche. Autorité déjà en contact : ${str(a["regularisation.authorityContact"]) || "?"} ; régularisation antérieure : ${str(a["regularisation.priorDisclosure"]) || "?"} (absence de peine possible pour une première dénonciation seulement, si aucune autorité fiscale ne connaît les faits, si le contribuable collabore sans réserve et s'efforce de payer le rappel d'impôt — à vérifier).`);
   }
   if (a["start.yearsChanged"] === "yes" || a["start.yearsChanged"] === "unknown") add("yearsChanged", "normal", "Plusieurs années demandées et situation possiblement différente entre elles : appeler le client.");
   if (a["start.avisReceived"] === "yes") add("avisReceived", "high", `Avis de taxation ${year} déjà reçu (daté du ${str(a["start.avisDate"]) || "?"}) : il s'agit d'une réclamation (30 jours dès la notification), pas d'une déclaration.`);
@@ -52,16 +52,40 @@ export function attentionPoints(a: Answers): AttentionPoint[] {
   if (a["regime.cantonMove"] === "yes") add("cantonMove", "normal", `Changement de canton en cours d'année (depuis ${str(a["regime.fromCanton"])}, le ${str(a["regime.cantonMoveDate"]) || "?"}) : canton compétent au 31.12, règles intercantonales pour immeubles et activité indépendante.`);
   if (sourceTaxedResident(a)) {
     const mandatory = a["regime.over120k"] === "yes";
-    add("tou", "high", `[TOU 31.03] Imposé(e) à la source (résident, canton employeur ${str(a["regime.employerCanton"]) || "?"}) : ${mandatory ? "TOU obligatoire (salaire ≥ CHF 120'000 indiqué)" : "TOU sur demande"} ; demande du client : ${str(a["regime.sourceRequest"]) || "non indiquée"}. Demande de TOU / rectification au plus tard le 31.03.${year + 1} (forclusion) — confirmer le mandat sans délai.`);
+    add(
+      "tou",
+      "high",
+      mandatory
+        ? `Imposé(e) à la source (résident, canton employeur ${str(a["regime.employerCanton"]) || "?"}) : TOU obligatoire (salaire ≥ CHF 120'000 indiqué) — d'office, pas de délai de demande.`
+        : `[TOU 31.03] Imposé(e) à la source (résident, canton employeur ${str(a["regime.employerCanton"]) || "?"}) : TOU obligatoire à vérifier (revenus non soumis à la source, fortune selon le canton), sinon sur demande ; souhait du client : ${str(a["regime.sourceRequest"]) || "non indiqué"}. Demande de TOU / rectification au plus tard le 31.03.${year + 1} (forclusion)${left(a) ? " et, en cas de départ, avant l'annonce du départ" : ""} — confirmer le mandat sans délai.`,
+    );
   }
   if (sourceTaxed(a) && worksInSwitzerlandFromAbroad(a)) {
-    add("nonResidentWorker", "high", `[TOU 31.03] Travailleur non résident (${str(a["regime.country"])}, canton de travail ${str(a["regime.workCanton"])}, retour quotidien ${str(a["regime.dailyReturn"]) || "?"}, télétravail à l'étranger ${str(a["regime.homeOfficeAbroad"]) || "?"} %) : accord frontalier applicable, quasi-résidence à examiner (au moins 90 % des revenus mondiaux du ménage imposables en Suisse ; conjoint travaille en Suisse : ${str(a["regime.spouseWorksCH"]) || "?"} ; autres revenus hors CH : ${str(a["regime.foreignHouseholdIncome"]) || "?"}). Délai du 31.03.${year + 1} (forclusion).`);
+    const workCanton = str(a["regime.workCanton"]);
+    const accord1983 = ["VD", "VS", "NE", "JU", "BE", "BS", "BL", "SO"].includes(workCanton) && /france/i.test(str(a["regime.country"]));
+    add(
+      "nonResidentWorker",
+      "high",
+      `[TOU 31.03] Travailleur non résident (${str(a["regime.country"])}, canton de travail ${workCanton}, retour quotidien ${str(a["regime.dailyReturn"]) || "?"}, télétravail à l'étranger ${str(a["regime.homeOfficeAbroad"]) || "?"} %) : ${accord1983 ? "frontalier France–canton de l'accord de 1983 : imposition au domicile en principe (attestation 2041-AS), sauf exceptions (télétravail : seuil à vérifier)" : workCanton === "GE" ? "Genève : impôt à la source ; TOU sur demande à examiner (art. 99a LIFD : en principe 90 % des revenus mondiaux bruts du ménage imposables en Suisse, situation comparable à un résident, ou droit conventionnel)" : "régime selon le canton de travail et la convention à vérifier"}. Conjoint travaille en Suisse : ${str(a["regime.spouseWorksCH"]) || "?"} ; autres revenus hors CH : ${str(a["regime.foreignHouseholdIncome"]) || "?"}. Demande à renouveler chaque année ; délai du 31.03.${year + 1} (forclusion).`,
+    );
   }
   if (livesAbroadAllYear(a) && !worksInSwitzerlandFromAbroad(a)) add("nonResident", "normal", `Non résident, rattachement économique : ${nonResidentReasons(a).join(", ") || "?"} ; répartition internationale et représentant fiscal à vérifier.`);
   if (isLumpSum(a)) add("lumpSum", "high", `Imposition d'après la dépense : calcul de contrôle (éléments suisses), ruling ${a["lumpSum.ruling"] === "yes" ? "disponible" : "non disponible"}, éventuel forfait modifié (CDI : ${str(a["lumpSum.treaty"]) || "?"}). Conditions à revérifier : nationalité suisse ${str(a["regime.swissNational"]) || "?"}, activité lucrative en Suisse ${str(a["regime.gainfulCH"]) || "?"}.`);
 
   // Family
-  if (has("civilChange")(a)) add("civilChange", "high", `Changement d'état civil (${str(a["family.changeType"])}) le ${str(a["family.changeDate"])} : effet sur l'imposition commune ou séparée de toute l'année à vérifier, pensions et enfants.`);
+  if (has("civilChange")(a)) {
+    const death = a["family.changeType"] === "death";
+    add(
+      "civilChange",
+      "high",
+      death
+        ? `Décès du conjoint le ${str(a["family.changeDate"])} : déclaration du couple jusqu'au décès (délai spécial) puis déclaration séparée du conjoint survivant ; succession.`
+        : `Changement d'état civil (${str(a["family.changeType"])}) le ${str(a["family.changeDate"])} : effet sur l'imposition commune ou séparée pour toute l'année, pensions et enfants.`,
+    );
+  }
+  if (rowsOf(a, "family.alimony").some((r) => r.forWhom === "adult" && r.direction === "paid")) add("adultAlimony", "normal", "Pension versée à un enfant majeur : en principe non déductible ; examiner la déduction pour personne à charge.");
+  if (has("dependants")(a)) add("dependants", "normal", "Personne à charge : vérifier les conditions (revenus et fortune du proche, montant du soutien, preuve du besoin si domicile à l'étranger).");
+  if ((a["start.canton"] === "ABROAD") !== livesAbroadAllYear(a) && !left(a)) add("residenceMismatch", "normal", "Incohérence entre le canton au 31.12 et le domicile pendant l'année : à clarifier avec le client.");
   if (isCouple(a) && has("alimonyReceived")(a)) add("alimonyCouple", "normal", "Couple et pension reçue : vérifier s'il s'agit d'une pension d'un ex-conjoint ou pour un enfant d'une autre union.");
   if (rowsOf(a, "family.children").some((r) => r.custody === "alternating")) add("alternating", "normal", "Garde alternée : répartition des déductions pour enfants et des frais de garde entre parents.");
 
@@ -78,13 +102,15 @@ export function attentionPoints(a: Answers): AttentionPoint[] {
     add("company", privateCosts ? "high" : "normal", `Participations : estimation des titres non cotés, ${dividends ? "dividendes (imposition partielle si participation qualifiée), " : ""}prêts actionnaire${privateCosts ? ", frais privés payés par la société (prestation appréciable en argent à examiner)" : ""}.`);
     if (rowsWhere(a, "work.companies", (r) => r.holdsProperty === "yes").length) add("companyProperty", "normal", "Bien détenu par la société et utilisé par l'actionnaire : vérifier le loyer / la prestation appréciable en argent.");
   }
-  if (has("capital")(a)) add("capital", "normal", "Capital de prévoyance : imposition séparée ; date et motif du versement ; lien avec d'éventuels rachats LPP récents.");
-  if ((has("lppBuyin")(a) && has("capital")(a)) || ["yes", "unknown"].includes(str(a["other.lpp3years"]))) add("lpp3years", "high", "Rachat LPP et retrait en capital à moins de trois ans d'intervalle (effectué ou prévu) : vérifier les conséquences sur la déduction du rachat.");
+  if (has("capital")(a)) add("capital", "normal", "Capital reçu : 2e pilier / 3e pilier A imposés séparément (date et motif du versement, lien avec des rachats LPP récents) ; assurance-vie : qualifier le contrat (exonération ou imposition du rendement selon sa nature).");
+  if (rowsOf(a, "work.pensions").some((r) => r.type === "foreign")) add("foreignPension", "normal", "Rente étrangère : selon la convention, pensions publiques souvent imposables dans l'État débiteur, rentes privées en Suisse ; vérifier la retenue étrangère.");
+  if (left(a) && arr(a["regime.keepsInSwitzerland"]).includes("pension")) add("departurePension", "normal", "Départ avec avoirs de prévoyance en Suisse : un retrait en capital ultérieur subit l'impôt à la source de l'institution, remboursement possible selon la convention.");
+  if ((has("lppBuyin")(a) && has("capital")(a)) || ["yes", "unknown"].includes(str(a["other.lpp3years"]))) add("lpp3years", "high", "Retrait en capital effectué ou prévu dans les trois ans suivant un rachat LPP : vérifier le blocage et le refus possible de la déduction du rachat ; examiner séparément un retrait antérieur au rachat.");
   if (has("severance")(a)) add("severance", "normal", "Indemnité de départ : qualifier la nature (salaire, prestation de prévoyance) pour l'imposition.");
 
   // Assets
   if (has("banksForeign")(a) || rowsOf(a, "assets.banks").some((r) => r.country === "other")) add("foreignAccounts", "normal", "Comptes à l'étranger : déclaration complète, revenus et impôts étrangers (DA-1 / remboursements).");
-  if (has("crypto")(a)) add("crypto", "normal", `Cryptoactifs : valeurs au 31.12.${year} (cours de l'AFC), revenus de staking/lending ; qualification de commerçant à vérifier si activité soutenue.`);
+  if (has("crypto")(a)) add("crypto", "normal", `Cryptoactifs : valeur au 31.12.${year} selon le cours AFC s'il existe, sinon cours de marché de fin d'année (à défaut valeur d'acquisition selon la pratique) ; revenus de staking/lending ; qualification de commerçant à vérifier si activité soutenue.`);
   if (a["assets.trading"] === "yes") add("trader", "normal", "Transactions fréquentes avec levier : vérifier la qualification de commerçant professionnel de titres.");
   if (has("usPerson")(a)) add("usPerson", "normal", "Personne US : obligations fiscales américaines en parallèle (hors mandat suisse, à signaler).");
   if (has("trust")(a)) add("trust", "normal", "Trust / fondation : qualification (révocable, discrétionnaire…) et attribution des revenus et de la fortune.");
@@ -101,7 +127,7 @@ export function attentionPoints(a: Answers): AttentionPoint[] {
     if (events.includes("works") || arr(row.workTypes).some((w) => ["improvement", "energy", "demolition", "heritage"].includes(w))) add(`works:${row._id}`, "normal", `Travaux sur ${where} : répartir entretien / plus-value / économies d'énergie / démolition / monument historique ; report éventuel des frais sur les périodes suivantes.`);
     if (needsGeValuation(a, row)) add(`geValuation:${row._id}`, "normal", `Genève, ${where} : questionnaire de valeur locative à établir ${row.geFill === "later" ? "(données à demander au client)" : "(données fournies)"}.`);
     if (row.where === "abroad") add(`foreignProperty:${row._id}`, "normal", `Bien à l'étranger (${where}) : pris en compte pour le taux ; répartition des dettes et intérêts ; impôts étrangers.`);
-    if (["usufruct", "bareOwner"].includes(str(row.ownership))) add(`usufruct:${row._id}`, "normal", `Usufruit / droit d'habitation sur ${where} : l'usufruitier déclare en général la valeur et le rendement ; à vérifier.`);
+    if (["usufruct", "bareOwner"].includes(str(row.ownership))) add(`usufruct:${row._id}`, "normal", `Usufruit ou droit d'habitation sur ${where} : usufruit — fortune et rendement en principe chez l'usufruitier ; droit d'habitation — valeur locative chez le bénéficiaire, fortune selon la pratique cantonale. Préciser lequel.`);
     if (row.ownership === "company") add(`companyHeld:${row._id}`, "normal", `${where} détenu par une société : vérifier le traitement dans les comptes de la société et l'usage privé.`);
     if (arr(row.uses).includes("relatives")) add(`relatives:${row._id}`, "normal", `${where} mis à disposition de proches : valeur locative ou loyer réduit à examiner.`);
     if (row.furnished === "yes") add(`furnished:${row._id}`, "normal", `${where} loué meublé / courte durée : revenus, taxe de séjour, frais.`);
