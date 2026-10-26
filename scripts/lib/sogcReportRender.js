@@ -181,7 +181,7 @@ function fmtPct(locale, value, { signed = true } = {}) {
   const rounded = Math.round(value * 10) / 10;
   const abs = new Intl.NumberFormat(INTL_LOCALE[locale], { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(Math.abs(rounded));
   const space = locale === "fr" || locale === "de" || locale === "es" || locale === "pt" ? " " : "";
-  const sign = !signed ? "" : rounded > 0 ? "+" : rounded < 0 ? "−" : "±";
+  const sign = !signed ? "" : value > 0 ? "+" : value < 0 ? "−" : "±";
   return `${sign}${abs}${space}%`;
 }
 
@@ -238,7 +238,7 @@ const TEXT = {
     title: (f, L) => `Créations d'entreprises à Genève et en Suisse romande : ${L.month}`,
     description: (f, L) => `${L.n(f.total.creations)} nouvelles inscriptions au registre du commerce en Suisse romande en ${L.month}, dont ${L.n(f.ge.creations)} à Genève. Chiffres par canton, formes juridiques et radiations, d'après la FOSC.`,
     trend: (v, L) => (v === null ? "sans base de comparaison" : v > 0 ? `en hausse de ${L.p(v, false)}` : v < 0 ? `en baisse de ${L.p(v, false)}` : "stable"),
-    intro: (f, L) => `En ${L.month}, la Feuille officielle suisse du commerce (FOSC) a publié **${L.n(f.total.creations)} nouvelles inscriptions** au registre du commerce dans les six cantons romands (Genève, Vaud, Valais, Neuchâtel, Fribourg et Jura), dont **${L.n(f.ge.creations)} à Genève**. Sur la même période, ${L.n(f.total.deletions)} radiations ont été publiées, soit un solde de ${L.s(f.total.net)} entités inscrites.\n\nCe baromètre mensuel d'Ark Fiduciaire est calculé automatiquement à partir des publications officielles de la FOSC. Les chiffres ne sont ni estimés ni extrapolés : ce sont des comptages de publications, détaillés par canton et par forme juridique. La méthode est décrite en fin d'article, avec les données téléchargeables.`,
+    intro: (f, L) => `En ${L.month}, la Feuille officielle suisse du commerce (FOSC) a publié **${L.n(f.total.creations)} nouvelles inscriptions** au registre du commerce dans les six cantons romands (Genève, Vaud, Valais, Neuchâtel, Fribourg et Jura), dont **${L.n(f.ge.creations)} à Genève**. Sur la même période, ${L.n(f.total.deletions)} radiations ont été publiées, soit un solde de ${L.s(f.total.net)} entités inscrites.\n\nCe baromètre mensuel d'Ark Fiduciaire est calculé automatiquement à partir des publications officielles de la FOSC. Les chiffres ne sont ni estimés ni extrapolés : ce sont des comptages de publications, détaillés par canton et par forme juridique. La méthode est décrite en fin d'article, avec les données téléchargeables.\n\nUne nouvelle inscription n'est pas toujours une nouvelle entreprise : le total comprend ${L.n(f.total.legal.branch)} succursales, et certaines inscriptions peuvent faire suite à un transfert de siège depuis un autre canton. Hors succursales, ${L.n(f.total.creations - f.total.legal.branch)} nouvelles sociétés, raisons individuelles et autres entités ont été inscrites.`,
     hKey: (f, L) => `## Les chiffres clés de ${L.month}`,
     key: (f, L) => [
       `- **${L.n(f.total.creations)}** nouvelles inscriptions en Suisse romande, ${L.trend(f.total.mom)} par rapport à ${L.prevMonth} (${L.n(f.total.prevCreations)}) et ${L.trend(f.total.yoy)} par rapport à ${L.yoyMonth} (${L.n(f.total.yoyCreations)}).`,
@@ -253,7 +253,7 @@ const TEXT = {
     cantonHead: (f, L) => ["Canton", `Inscriptions ${L.monthShort(f.T)}`, L.monthShort(f.prev), "Var. mensuelle", L.monthShort(f.yoy), "Var. annuelle", "Radiations", "Solde"],
     totalLabel: "Suisse romande",
     cantonOutro: (f, L) => `Genève représente ${L.p(f.geShare, false)} des nouvelles inscriptions romandes du mois. Les variations d'un mois à l'autre doivent être lues avec prudence dans les petits cantons, où quelques inscriptions suffisent à faire varier fortement le pourcentage.`,
-    hLegal: () => "## Formes juridiques des nouvelles entités",
+    hLegal: () => "## Formes juridiques des nouvelles inscriptions",
     legalIntro: (f, L) => `La forme juridique est lue dans le champ structuré de chaque publication. À Genève, la forme la plus fréquente ce mois est ${L.legalNoun(f.geTopLegal)} (${L.n(f.ge.legal[f.geTopLegal])} sur ${L.n(f.ge.creations)}).`,
     legalOutro: () => "La catégorie « Autres formes » regroupe notamment les sociétés en nom collectif, les associations, les fondations et les sociétés coopératives inscrites au registre du commerce. Les succursales comprennent celles d'entreprises suisses et étrangères.",
     hYtd: (f, L) => `## Depuis le début de l'année (${L.monthOnly(f.ytdFirst)} à ${L.month})`,
@@ -266,7 +266,7 @@ const TEXT = {
     sectorHead: () => ["Domaine (classement par mots-clés)", "Inscriptions", "Part"],
     hMeaning: () => "## Ce que ces chiffres signifient pour un créateur d'entreprise",
     meaning: () => [
-      "Le choix entre Sàrl et SA dépend d'abord du capital et de l'image recherchée. La Sàrl demande un capital minimum de 20 000 francs, la SA un capital-actions minimum de 100 000 francs, dont une partie peut être libérée plus tard. Les deux formes limitent la responsabilité des associés ou actionnaires au patrimoine de la société.",
+      "Le choix entre Sàrl et SA dépend d'abord du capital et de l'image recherchée. La Sàrl demande un capital minimum de 20 000 francs, la SA un capital-actions minimum de 100 000 francs, dont au moins 20 % de chaque action et au moins 50 000 francs doivent être libérés à la fondation. Les deux formes limitent la responsabilité des associés ou actionnaires au patrimoine de la société.",
       "La raison individuelle est la forme la plus simple, mais l'entrepreneur répond des dettes sur l'ensemble de ses biens. L'inscription au registre du commerce devient obligatoire dès que le chiffre d'affaires annuel atteint 100 000 francs. Beaucoup d'indépendants démarrent ainsi avant de passer à une Sàrl lorsque l'activité grandit.",
       "Une inscription n'est pas une fin en soi : TVA, assurances sociales, comptabilité et fiscalité suivent rapidement. Ark Fiduciaire accompagne les fondateurs à Genève, de la [création de la société](/services/incorporation) à la tenue de la comptabilité. Pour une question précise, [contactez-nous](/contact).",
     ].join("\n\n"),
@@ -294,7 +294,7 @@ const TEXT = {
     title: (f, L) => `New companies in Geneva and French-speaking Switzerland: ${L.month}`,
     description: (f, L) => `${L.n(f.total.creations)} new commercial register entries in French-speaking Switzerland in ${L.month}, including ${L.n(f.ge.creations)} in Geneva. Figures by canton, legal form and deletions, based on the SOGC.`,
     trend: (v, L) => (v === null ? "with no basis for comparison" : v > 0 ? `up ${L.p(v, false)}` : v < 0 ? `down ${L.p(v, false)}` : "unchanged"),
-    intro: (f, L) => `In ${L.month}, the Swiss Official Gazette of Commerce (SOGC) published **${L.n(f.total.creations)} new entries** in the commercial register across the six French-speaking cantons (Geneva, Vaud, Valais, Neuchâtel, Fribourg and Jura), including **${L.n(f.ge.creations)} in Geneva**. Over the same period, ${L.n(f.total.deletions)} deletions were published, a balance of ${L.s(f.total.net)} registered entities.\n\nThis monthly barometer by Ark Fiduciaire is computed automatically from the official SOGC publications. The figures are neither estimated nor extrapolated: they are counts of publications, broken down by canton and legal form. The method is described at the end of the article, together with the downloadable data.`,
+    intro: (f, L) => `In ${L.month}, the Swiss Official Gazette of Commerce (SOGC) published **${L.n(f.total.creations)} new entries** in the commercial register across the six French-speaking cantons (Geneva, Vaud, Valais, Neuchâtel, Fribourg and Jura), including **${L.n(f.ge.creations)} in Geneva**. Over the same period, ${L.n(f.total.deletions)} deletions were published, a balance of ${L.s(f.total.net)} registered entities.\n\nThis monthly barometer by Ark Fiduciaire is computed automatically from the official SOGC publications. The figures are neither estimated nor extrapolated: they are counts of publications, broken down by canton and legal form. The method is described at the end of the article, together with the downloadable data.\n\nA new entry is not always a new business: the total includes ${L.n(f.total.legal.branch)} branches, and some entries may follow a transfer of seat from another canton. Excluding branches, ${L.n(f.total.creations - f.total.legal.branch)} new companies, sole proprietorships and other entities were registered.`,
     hKey: (f, L) => `## Key figures for ${L.month}`,
     key: (f, L) => [
       `- **${L.n(f.total.creations)}** new entries in French-speaking Switzerland, ${L.trend(f.total.mom)} on ${L.prevMonth} (${L.n(f.total.prevCreations)}) and ${L.trend(f.total.yoy)} on ${L.yoyMonth} (${L.n(f.total.yoyCreations)}).`,
@@ -309,7 +309,7 @@ const TEXT = {
     cantonHead: (f, L) => ["Canton", `Entries ${L.monthShort(f.T)}`, L.monthShort(f.prev), "Monthly change", L.monthShort(f.yoy), "Annual change", "Deletions", "Balance"],
     totalLabel: "French-speaking Switzerland",
     cantonOutro: (f, L) => `Geneva accounts for ${L.p(f.geShare, false)} of the month's new entries in the region. Month-to-month changes should be read with care in the smaller cantons, where a handful of entries can move the percentage sharply.`,
-    hLegal: () => "## Legal forms of the new entities",
+    hLegal: () => "## Legal forms of the new entries",
     legalIntro: (f, L) => `The legal form is read from the structured field of each publication. In Geneva, the most common form this month is ${L.legalNoun(f.geTopLegal)} (${L.n(f.ge.legal[f.geTopLegal])} of ${L.n(f.ge.creations)}).`,
     legalOutro: () => "\"Other forms\" mainly covers general partnerships, associations, foundations and cooperatives entered in the commercial register. Branches include those of Swiss and foreign companies.",
     hYtd: (f, L) => `## Year to date (${L.monthOnly(f.ytdFirst)} to ${L.month})`,
@@ -322,7 +322,7 @@ const TEXT = {
     sectorHead: () => ["Field (keyword classification)", "Entries", "Share"],
     hMeaning: () => "## What these figures mean for founders",
     meaning: () => [
-      "The choice between a Sàrl (GmbH) and an SA (AG) depends first on capital and on the image you want to project. A Sàrl requires minimum capital of CHF 20,000, an SA minimum share capital of CHF 100,000, part of which can be paid in later. Both forms limit the liability of the partners or shareholders to the company's assets.",
+      "The choice between a Sàrl (GmbH) and an SA (AG) depends first on capital and on the image you want to project. A Sàrl requires minimum capital of CHF 20,000, an SA minimum share capital of CHF 100,000, of which at least 20% of each share and at least CHF 50,000 in total must be paid in at incorporation. Both forms limit the liability of the partners or shareholders to the company's assets.",
       "The sole proprietorship is the simplest form, but the owner is liable for debts with all personal assets. Registration in the commercial register becomes mandatory once annual turnover reaches CHF 100,000. Many self-employed people start this way and move to a Sàrl as the business grows.",
       "Registration is only a first step: VAT, social insurance, accounting and tax follow quickly. Ark Fiduciaire supports founders in Geneva, from [setting up the company](/services/incorporation) to keeping the books. For a specific question, [get in touch](/contact).",
     ].join("\n\n"),
@@ -350,7 +350,7 @@ const TEXT = {
     title: (f, L) => `Firmengründungen in Genf und der Westschweiz: ${L.month}`,
     description: (f, L) => `${L.n(f.total.creations)} Neueintragungen im Handelsregister der Westschweiz im ${L.month}, davon ${L.n(f.ge.creations)} in Genf. Zahlen nach Kanton, Rechtsform und Löschungen, gestützt auf das SHAB.`,
     trend: (v, L) => (v === null ? "ohne Vergleichsbasis" : v > 0 ? `ein Plus von ${L.p(v, false)}` : v < 0 ? `ein Minus von ${L.p(v, false)}` : "unverändert"),
-    intro: (f, L) => `Im ${L.month} veröffentlichte das Schweizerische Handelsamtsblatt (SHAB) **${L.n(f.total.creations)} Neueintragungen** im Handelsregister der sechs Westschweizer Kantone (Genf, Waadt, Wallis, Neuenburg, Freiburg und Jura), davon **${L.n(f.ge.creations)} in Genf**. Im gleichen Zeitraum wurden ${L.n(f.total.deletions)} Löschungen publiziert, was einen Saldo von ${L.s(f.total.net)} eingetragenen Einheiten ergibt.\n\nDieses monatliche Barometer von Ark Fiduciaire wird automatisch aus den amtlichen SHAB-Publikationen berechnet. Die Zahlen sind weder geschätzt noch hochgerechnet: Es handelt sich um gezählte Publikationen, aufgeschlüsselt nach Kanton und Rechtsform. Die Methode ist am Ende des Artikels beschrieben, zusammen mit den herunterladbaren Daten.`,
+    intro: (f, L) => `Im ${L.month} veröffentlichte das Schweizerische Handelsamtsblatt (SHAB) **${L.n(f.total.creations)} Neueintragungen** im Handelsregister der sechs Westschweizer Kantone (Genf, Waadt, Wallis, Neuenburg, Freiburg und Jura), davon **${L.n(f.ge.creations)} in Genf**. Im gleichen Zeitraum wurden ${L.n(f.total.deletions)} Löschungen publiziert, was einen Saldo von ${L.s(f.total.net)} eingetragenen Einheiten ergibt.\n\nDieses monatliche Barometer von Ark Fiduciaire wird automatisch aus den amtlichen SHAB-Publikationen berechnet. Die Zahlen sind weder geschätzt noch hochgerechnet: Es handelt sich um gezählte Publikationen, aufgeschlüsselt nach Kanton und Rechtsform. Die Methode ist am Ende des Artikels beschrieben, zusammen mit den herunterladbaren Daten.\n\nNicht jede Neueintragung ist ein neues Unternehmen: Das Total umfasst ${L.n(f.total.legal.branch)} Zweigniederlassungen, und einzelne Eintragungen können auf eine Sitzverlegung aus einem anderen Kanton zurückgehen. Ohne Zweigniederlassungen wurden ${L.n(f.total.creations - f.total.legal.branch)} neue Gesellschaften, Einzelunternehmen und andere Einheiten eingetragen.`,
     hKey: (f, L) => `## Die wichtigsten Zahlen für ${L.month}`,
     key: (f, L) => [
       `- **${L.n(f.total.creations)}** Neueintragungen in der Westschweiz, gegenüber ${L.prevMonth} (${L.n(f.total.prevCreations)}) ${L.trend(f.total.mom)} und gegenüber ${L.yoyMonth} (${L.n(f.total.yoyCreations)}) ${L.trend(f.total.yoy)}.`,
@@ -365,7 +365,7 @@ const TEXT = {
     cantonHead: (f, L) => ["Kanton", `Eintragungen ${L.monthShort(f.T)}`, L.monthShort(f.prev), "Veränderung zum Vormonat", L.monthShort(f.yoy), "Veränderung zum Vorjahr", "Löschungen", "Saldo"],
     totalLabel: "Westschweiz",
     cantonOutro: (f, L) => `Genf macht ${L.p(f.geShare, false)} der Westschweizer Neueintragungen des Monats aus. Monatliche Veränderungen sind in den kleineren Kantonen mit Vorsicht zu lesen, da dort wenige Eintragungen den Prozentsatz stark bewegen.`,
-    hLegal: () => "## Rechtsformen der neuen Einheiten",
+    hLegal: () => "## Rechtsformen der Neueintragungen",
     legalIntro: (f, L) => `Die Rechtsform wird aus dem strukturierten Feld jeder Publikation gelesen. In Genf ist die häufigste Rechtsform in diesem Monat ${L.legalNoun(f.geTopLegal)} (${L.n(f.ge.legal[f.geTopLegal])} von ${L.n(f.ge.creations)}).`,
     legalOutro: () => "„Andere Rechtsformen“ umfasst vor allem Kollektivgesellschaften, Vereine, Stiftungen und Genossenschaften, die im Handelsregister eingetragen sind. Zweigniederlassungen umfassen solche schweizerischer und ausländischer Unternehmen.",
     hYtd: (f, L) => `## Seit Jahresbeginn (${L.monthOnly(f.ytdFirst)} bis ${L.month})`,
@@ -378,7 +378,7 @@ const TEXT = {
     sectorHead: () => ["Bereich (Stichwortzuordnung)", "Eintragungen", "Anteil"],
     hMeaning: () => "## Was diese Zahlen für Gründerinnen und Gründer bedeuten",
     meaning: () => [
-      "Die Wahl zwischen GmbH und AG hängt zuerst vom Kapital und vom gewünschten Auftritt ab. Die GmbH verlangt ein Mindestkapital von 20 000 Franken, die AG ein Aktienkapital von mindestens 100 000 Franken, das teilweise später liberiert werden kann. Beide Formen beschränken die Haftung der Gesellschafter oder Aktionäre auf das Gesellschaftsvermögen.",
+      "Die Wahl zwischen GmbH und AG hängt zuerst vom Kapital und vom gewünschten Auftritt ab. Die GmbH verlangt ein Mindestkapital von 20 000 Franken, die AG ein Aktienkapital von mindestens 100 000 Franken, von dem bei der Gründung mindestens 20 % jeder Aktie und insgesamt mindestens 50 000 Franken liberiert sein müssen. Beide Formen beschränken die Haftung der Gesellschafter oder Aktionäre auf das Gesellschaftsvermögen.",
       "Das Einzelunternehmen ist die einfachste Form, der Inhaber haftet jedoch mit seinem gesamten Vermögen. Die Eintragung ins Handelsregister ist Pflicht, sobald der Jahresumsatz 100 000 Franken erreicht. Viele Selbständige beginnen so und wechseln zur GmbH, wenn das Geschäft wächst.",
       "Die Eintragung ist nur der erste Schritt: MWST, Sozialversicherungen, Buchhaltung und Steuern folgen rasch. Ark Fiduciaire begleitet Gründerinnen und Gründer in Genf, von der [Gesellschaftsgründung](/services/incorporation) bis zur Buchführung. Bei konkreten Fragen [kontaktieren Sie uns](/contact).",
     ].join("\n\n"),
@@ -406,7 +406,7 @@ const TEXT = {
     title: (f, L) => `Creación de empresas en Ginebra y la Suiza francófona: ${L.month}`,
     description: (f, L) => `${L.n(f.total.creations)} nuevas inscripciones en el registro mercantil de la Suiza francófona en ${L.month}, de ellas ${L.n(f.ge.creations)} en Ginebra. Cifras por cantón, forma jurídica y bajas, según la FOSC.`,
     trend: (v, L) => (v === null ? "sin base de comparación" : v > 0 ? `un aumento del ${L.p(v, false)}` : v < 0 ? `un descenso del ${L.p(v, false)}` : "sin cambios"),
-    intro: (f, L) => `En ${L.month}, la Hoja Oficial Suiza de Comercio (FOSC) publicó **${L.n(f.total.creations)} nuevas inscripciones** en el registro mercantil de los seis cantones francófonos (Ginebra, Vaud, Valais, Neuchâtel, Friburgo y Jura), de ellas **${L.n(f.ge.creations)} en Ginebra**. En el mismo periodo se publicaron ${L.n(f.total.deletions)} bajas, es decir, un saldo de ${L.s(f.total.net)} entidades inscritas.\n\nEste barómetro mensual de Ark Fiduciaire se calcula automáticamente a partir de las publicaciones oficiales de la FOSC. Las cifras no son estimaciones ni extrapolaciones: son recuentos de publicaciones, desglosados por cantón y por forma jurídica. El método se describe al final del artículo, junto con los datos descargables.`,
+    intro: (f, L) => `En ${L.month}, la Hoja Oficial Suiza de Comercio (FOSC) publicó **${L.n(f.total.creations)} nuevas inscripciones** en el registro mercantil de los seis cantones francófonos (Ginebra, Vaud, Valais, Neuchâtel, Friburgo y Jura), de ellas **${L.n(f.ge.creations)} en Ginebra**. En el mismo periodo se publicaron ${L.n(f.total.deletions)} bajas, es decir, un saldo de ${L.s(f.total.net)} entidades inscritas.\n\nEste barómetro mensual de Ark Fiduciaire se calcula automáticamente a partir de las publicaciones oficiales de la FOSC. Las cifras no son estimaciones ni extrapolaciones: son recuentos de publicaciones, desglosados por cantón y por forma jurídica. El método se describe al final del artículo, junto con los datos descargables.\n\nUna nueva inscripción no siempre es una nueva empresa: el total incluye ${L.n(f.total.legal.branch)} sucursales, y algunas inscripciones pueden deberse a un traslado de domicilio desde otro cantón. Sin contar las sucursales, se inscribieron ${L.n(f.total.creations - f.total.legal.branch)} nuevas sociedades, empresas individuales y otras entidades.`,
     hKey: (f, L) => `## Cifras clave de ${L.month}`,
     key: (f, L) => [
       `- **${L.n(f.total.creations)}** nuevas inscripciones en la Suiza francófona: ${L.trend(f.total.mom)} respecto a ${L.prevMonth} (${L.n(f.total.prevCreations)}) y ${L.trend(f.total.yoy)} respecto a ${L.yoyMonth} (${L.n(f.total.yoyCreations)}).`,
@@ -421,7 +421,7 @@ const TEXT = {
     cantonHead: (f, L) => ["Cantón", `Inscripciones ${L.monthShort(f.T)}`, L.monthShort(f.prev), "Var. mensual", L.monthShort(f.yoy), "Var. anual", "Bajas", "Saldo"],
     totalLabel: "Suiza francófona",
     cantonOutro: (f, L) => `Ginebra representa el ${L.p(f.geShare, false)} de las nuevas inscripciones de la región en el mes. Las variaciones mensuales deben leerse con prudencia en los cantones pequeños, donde unas pocas inscripciones bastan para mover mucho el porcentaje.`,
-    hLegal: () => "## Formas jurídicas de las nuevas entidades",
+    hLegal: () => "## Formas jurídicas de las nuevas inscripciones",
     legalIntro: (f, L) => `La forma jurídica se lee en el campo estructurado de cada publicación. En Ginebra, la forma más frecuente este mes es ${L.legalNoun(f.geTopLegal)} (${L.n(f.ge.legal[f.geTopLegal])} de ${L.n(f.ge.creations)}).`,
     legalOutro: () => "«Otras formas» agrupa sobre todo sociedades colectivas, asociaciones, fundaciones y cooperativas inscritas en el registro mercantil. Las sucursales incluyen las de empresas suizas y extranjeras.",
     hYtd: (f, L) => `## En lo que va de año (${L.monthOnly(f.ytdFirst)} a ${L.month})`,
@@ -434,7 +434,7 @@ const TEXT = {
     sectorHead: () => ["Sector (clasificación por palabras clave)", "Inscripciones", "Proporción"],
     hMeaning: () => "## Qué significan estas cifras para quien crea una empresa",
     meaning: () => [
-      "La elección entre Sàrl y SA depende ante todo del capital y de la imagen buscada. La Sàrl exige un capital mínimo de 20 000 francos y la SA un capital social mínimo de 100 000 francos, del que una parte puede desembolsarse más tarde. Ambas formas limitan la responsabilidad de los socios o accionistas al patrimonio de la sociedad.",
+      "La elección entre Sàrl y SA depende ante todo del capital y de la imagen buscada. La Sàrl exige un capital mínimo de 20 000 francos y la SA un capital social mínimo de 100 000 francos, del que al menos el 20 % de cada acción y al menos 50 000 francos en total deben desembolsarse en la constitución. Ambas formas limitan la responsabilidad de los socios o accionistas al patrimonio de la sociedad.",
       "La empresa individual es la forma más sencilla, pero el titular responde de las deudas con todo su patrimonio. La inscripción en el registro mercantil es obligatoria cuando la cifra de negocios anual alcanza 100 000 francos. Muchos autónomos empiezan así y pasan a una Sàrl cuando la actividad crece.",
       "La inscripción es solo el primer paso: IVA, seguros sociales, contabilidad e impuestos llegan enseguida. Ark Fiduciaire acompaña a los fundadores en Ginebra, desde la [constitución de la sociedad](/services/incorporation) hasta la contabilidad. Para una pregunta concreta, [contáctenos](/contact).",
     ].join("\n\n"),
@@ -462,7 +462,7 @@ const TEXT = {
     title: (f, L) => `Criação de empresas em Genebra e na Suíça francófona: ${L.month}`,
     description: (f, L) => `${L.n(f.total.creations)} novas inscrições no registo comercial da Suíça francófona em ${L.month}, das quais ${L.n(f.ge.creations)} em Genebra. Números por cantão, forma jurídica e cancelamentos, segundo a FOSC.`,
     trend: (v, L) => (v === null ? "sem base de comparação" : v > 0 ? `uma subida de ${L.p(v, false)}` : v < 0 ? `uma descida de ${L.p(v, false)}` : "sem alteração"),
-    intro: (f, L) => `Em ${L.month}, a Folha Oficial Suíça do Comércio (FOSC) publicou **${L.n(f.total.creations)} novas inscrições** no registo comercial dos seis cantões francófonos (Genebra, Vaud, Valais, Neuchâtel, Friburgo e Jura), das quais **${L.n(f.ge.creations)} em Genebra**. No mesmo período foram publicados ${L.n(f.total.deletions)} cancelamentos, ou seja, um saldo de ${L.s(f.total.net)} entidades inscritas.\n\nEste barómetro mensal da Ark Fiduciaire é calculado automaticamente a partir das publicações oficiais da FOSC. Os números não são estimados nem extrapolados: são contagens de publicações, discriminadas por cantão e por forma jurídica. O método é descrito no final do artigo, com os dados para descarregar.`,
+    intro: (f, L) => `Em ${L.month}, a Folha Oficial Suíça do Comércio (FOSC) publicou **${L.n(f.total.creations)} novas inscrições** no registo comercial dos seis cantões francófonos (Genebra, Vaud, Valais, Neuchâtel, Friburgo e Jura), das quais **${L.n(f.ge.creations)} em Genebra**. No mesmo período foram publicados ${L.n(f.total.deletions)} cancelamentos, ou seja, um saldo de ${L.s(f.total.net)} entidades inscritas.\n\nEste barómetro mensal da Ark Fiduciaire é calculado automaticamente a partir das publicações oficiais da FOSC. Os números não são estimados nem extrapolados: são contagens de publicações, discriminadas por cantão e por forma jurídica. O método é descrito no final do artigo, com os dados para descarregar.\n\nUma nova inscrição nem sempre é uma nova empresa: o total inclui ${L.n(f.total.legal.branch)} sucursais, e algumas inscrições podem resultar de uma transferência de sede a partir de outro cantão. Excluindo as sucursais, foram inscritas ${L.n(f.total.creations - f.total.legal.branch)} novas sociedades, empresas em nome individual e outras entidades.`,
     hKey: (f, L) => `## Números-chave de ${L.month}`,
     key: (f, L) => [
       `- **${L.n(f.total.creations)}** novas inscrições na Suíça francófona: ${L.trend(f.total.mom)} face a ${L.prevMonth} (${L.n(f.total.prevCreations)}) e ${L.trend(f.total.yoy)} face a ${L.yoyMonth} (${L.n(f.total.yoyCreations)}).`,
@@ -477,7 +477,7 @@ const TEXT = {
     cantonHead: (f, L) => ["Cantão", `Inscrições ${L.monthShort(f.T)}`, L.monthShort(f.prev), "Var. mensal", L.monthShort(f.yoy), "Var. anual", "Cancelamentos", "Saldo"],
     totalLabel: "Suíça francófona",
     cantonOutro: (f, L) => `Genebra representa ${L.p(f.geShare, false)} das novas inscrições da região no mês. As variações mensais devem ser lidas com prudência nos cantões mais pequenos, onde poucas inscrições bastam para alterar muito a percentagem.`,
-    hLegal: () => "## Formas jurídicas das novas entidades",
+    hLegal: () => "## Formas jurídicas das novas inscrições",
     legalIntro: (f, L) => `A forma jurídica é lida no campo estruturado de cada publicação. Em Genebra, a forma mais frequente este mês é ${L.legalNoun(f.geTopLegal)} (${L.n(f.ge.legal[f.geTopLegal])} de ${L.n(f.ge.creations)}).`,
     legalOutro: () => "«Outras formas» agrupa sobretudo sociedades em nome coletivo, associações, fundações e cooperativas inscritas no registo comercial. As sucursais incluem as de empresas suíças e estrangeiras.",
     hYtd: (f, L) => `## Desde o início do ano (${L.monthOnly(f.ytdFirst)} a ${L.month})`,
@@ -490,7 +490,7 @@ const TEXT = {
     sectorHead: () => ["Setor (classificação por palavras-chave)", "Inscrições", "Proporção"],
     hMeaning: () => "## O que estes números significam para quem cria uma empresa",
     meaning: () => [
-      "A escolha entre Sàrl e SA depende sobretudo do capital e da imagem pretendida. A Sàrl exige um capital mínimo de 20 000 francos e a SA um capital social mínimo de 100 000 francos, parte do qual pode ser realizado mais tarde. Ambas as formas limitam a responsabilidade dos sócios ou acionistas ao património da sociedade.",
+      "A escolha entre Sàrl e SA depende sobretudo do capital e da imagem pretendida. A Sàrl exige um capital mínimo de 20 000 francos e a SA um capital social mínimo de 100 000 francos, do qual pelo menos 20 % de cada ação e pelo menos 50 000 francos no total devem ser realizados na constituição. Ambas as formas limitam a responsabilidade dos sócios ou acionistas ao património da sociedade.",
       "A empresa em nome individual é a forma mais simples, mas o titular responde pelas dívidas com todo o seu património. A inscrição no registo comercial torna-se obrigatória quando o volume de negócios anual atinge 100 000 francos. Muitos independentes começam assim e passam para uma Sàrl quando a atividade cresce.",
       "A inscrição é apenas o primeiro passo: IVA, seguros sociais, contabilidade e impostos seguem-se rapidamente. A Ark Fiduciaire acompanha os fundadores em Genebra, desde a [constituição da sociedade](/services/incorporation) até à contabilidade. Para uma questão concreta, [contacte-nos](/contact).",
     ].join("\n\n"),

@@ -250,6 +250,9 @@ async function listPublications({ subRubric, canton, start, end, fetchImpl }) {
     const mid = addDays(start, Math.floor(span / 2));
     const left = await listPublications({ subRubric, canton, start, end: mid, fetchImpl });
     const right = await listPublications({ subRubric, canton, start: addDays(mid, 1), end, fetchImpl });
+    if (left.length + right.length !== body.total) {
+      throw new Error(`Split ranges returned ${left.length + right.length} of ${body.total} items for ${subRubric}/${canton} ${start}..${end}`);
+    }
     const ids = new Set(left.map((x) => x.id));
     for (const x of right) {
       if (ids.has(x.id)) throw new Error(`Duplicate id ${x.id} across ${subRubric}/${canton} ranges`);
@@ -265,7 +268,7 @@ async function listPublications({ subRubric, canton, start, end, fetchImpl }) {
     if (!Array.isArray(meta.cantons) || !meta.cantons.includes(canton)) {
       throw new Error(`Filter leak: ${meta.id} not in canton ${canton}`);
     }
-    if (meta.publicationState && meta.publicationState !== "PUBLISHED") {
+    if (meta.publicationState !== "PUBLISHED") {
       throw new Error(`Filter leak: ${meta.id} state ${meta.publicationState}`);
     }
     const day = String(meta.publicationDate || "").slice(0, 10);
@@ -299,7 +302,7 @@ function emptyCounts(keys) {
 
 /**
  * Builds the aggregate-only snapshot. Each publication is attributed to the
- * first canton of CANTONS it lists (in practice one canton per publication);
+ * first canton in CANTONS order (GE, VD, VS, NE, FR, JU) that it lists;
  * the number of multi-canton publications is recorded.
  */
 function buildSnapshot({ targetMonth, lists, details, fetchedAt, publishedOn }) {

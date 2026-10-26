@@ -40,7 +40,7 @@ The fetch fails closed: any item outside the requested sub-rubric, canton, state
 
 - New entries: SOGC heading HR01, including branches. Deletions: HR03. The balance is a flow of publications, not the change in active companies (deletions include mergers, liquidations, seat transfers).
 - Date basis: SOGC publication date, not the register entry date.
-- Each publication is counted once, under the first of the six cantons it lists.
+- Each publication is counted once; a publication listing several of the six cantons goes to the first in the order GE, VD, VS, NE, FR, JU (none in September 2026).
 - Sectors: deterministic keyword classification of the first part of the purpose (before the usual "la société peut…" boilerplate), French and German keywords, earliest keyword wins. Indicative only, not NOGA; the unclassified count is always shown. Bump `CLASSIFIER_VERSION` when the rules change.
 - No names of people or companies are published or stored.
 

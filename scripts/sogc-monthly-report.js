@@ -75,8 +75,8 @@ function upsertArticle(data, article, today) {
     return "added";
   }
   const existing = list[idx];
-  if (existing.series && existing.series !== SERIES) {
-    throw new Error(`Slug ${article.slug} belongs to another series (${existing.series})`);
+  if (existing.series !== SERIES) {
+    throw new Error(`Slug ${article.slug} is already used by an article outside the ${SERIES} series`);
   }
   const next = { ...article, date: existing.date || article.date };
   const same = ["title", "description", "content"].every((k) => existing[k] === next[k]) &&

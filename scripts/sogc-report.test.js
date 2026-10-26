@@ -111,6 +111,13 @@ test("seat transfer mentions are flagged", () => {
   assert.equal(d.seatTransferMention, true);
 });
 
+test("percent formatting keeps the direction of small changes", () => {
+  assert.equal(render.fmtPct("en", 0.04), "+0.0%");
+  assert.equal(render.fmtPct("en", -0.04), "−0.0%");
+  assert.equal(render.fmtPct("en", 0), "±0.0%");
+  assert.equal(render.fmtPct("en", null), "n/a");
+});
+
 test("month helpers", () => {
   assert.equal(lib.shiftMonth("2026-01", -1), "2025-12");
   assert.equal(lib.shiftMonth("2026-09", -12), "2025-09");
@@ -128,6 +135,7 @@ function fakeFetch(body) {
 
 test("listPublications rejects items outside the requested filter", async () => {
   const base = { id: "a", cantons: ["GE"], publicationState: "PUBLISHED", publicationDate: "2026-09-10T00:00:00.000Z" };
+  const { publicationState: _omit, ...noState } = base;
   const args = { subRubric: "HR01", canton: "GE", start: "2026-09-01", end: "2026-09-30" };
   await assert.rejects(
     lib.listPublications({ ...args, fetchImpl: fakeFetch({ total: 1, content: [{ meta: { ...base, subRubric: "HR02" } }] }) }),
@@ -140,6 +148,10 @@ test("listPublications rejects items outside the requested filter", async () => 
   await assert.rejects(
     lib.listPublications({ ...args, fetchImpl: fakeFetch({ total: 2, content: [{ meta: { ...base, subRubric: "HR01" } }] }) }),
     /Fetched 1 of 2/,
+  );
+  await assert.rejects(
+    lib.listPublications({ ...args, fetchImpl: fakeFetch({ total: 1, content: [{ meta: { ...noState, subRubric: "HR01" } }] }) }),
+    /Filter leak/,
   );
   const ok = await lib.listPublications({ ...args, fetchImpl: fakeFetch({ total: 1, content: [{ meta: { ...base, subRubric: "HR01" } }] }) });
   assert.deepEqual(ok, [{ id: "a", day: "2026-09-10", cantons: ["GE"] }]);
@@ -250,7 +262,8 @@ test("upsertArticle keeps the first publication date and marks updates", () => {
   assert.equal(upsertArticle(data, { ...article, content: `${article.content}\n` }, "2026-11-03"), "updated");
   assert.equal(data.Articles[0].date, "2026-10-26");
   assert.equal(data.Articles[0].updated, "2026-11-03");
-  assert.throws(() => upsertArticle({ Articles: [{ slug: article.slug, series: "other" }] }, article, "2026-11-03"), /another series/);
+  assert.throws(() => upsertArticle({ Articles: [{ slug: article.slug, series: "other" }] }, article, "2026-11-03"), /outside the/);
+  assert.throws(() => upsertArticle({ Articles: [{ slug: article.slug, title: "Editorial" }] }, article, "2026-11-03"), /outside the/);
 });
 
 test("only the reserved series is exempt from editorial guardrails and LLM refresh", () => {

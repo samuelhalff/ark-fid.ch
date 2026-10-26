@@ -1983,7 +1983,7 @@ function validateNewArticle(frData, article) {
   }
 
   const titleConflict = findRecentTitleConflict(
-    Array.isArray(frData.Articles) ? frData.Articles : [],
+    withoutDataReports(frData.Articles),
     article,
     { windowSize: TOPIC_ROTATION_WINDOW },
   );
@@ -2688,7 +2688,7 @@ function validateResearchPayload(frData, payload) {
   }
 
   const titleConflict = findRecentTitleConflict(
-    Array.isArray(frData.Articles) ? frData.Articles : [],
+    withoutDataReports(frData.Articles),
     research,
     { windowSize: TOPIC_ROTATION_WINDOW },
   );
