@@ -1,5 +1,7 @@
 (function(){
   var root=document.documentElement;
+  // Événements Google Analytics (aucune donnée personnelle) ; gtag est défini par consent.js
+  function track(name,params){try{if(typeof window.gtag==='function')window.gtag('event',name,params||{})}catch(e){}}
   // Onglets
   var tabs=[].slice.call(document.querySelectorAll('[role="tab"]'));
   var byHash={'#etude':'t-etude','#fiduciaire':'t-fid','#registre':'t-reg'};
@@ -17,6 +19,7 @@
     // Les liens de langue gardent l'onglet ouvert
     langLinks.forEach(function(a){a.hash=hashOf[t.id]||''});
     if(user){
+      track('lba_tab_select',{tree:(hashOf[t.id]||'').slice(1)});
       try{history.replaceState(null,'',hashOf[t.id]||location.pathname)}catch(e){}
       var tb=document.querySelector('.tabbar');
       if(tb&&tb.getBoundingClientRect().top<=1)window.scrollTo({top:tb.offsetTop,behavior:'auto'});
@@ -41,6 +44,22 @@
     var el=location.hash&&document.getElementById(location.hash.slice(1));
     if(el&&el.closest('[hidden]')&&tabs[0]){select(tabs[0],false);el.scrollIntoView()}
   });
+
+  // Fin d'un arbre : le verdict final est affiché à l'écran (une fois par arbre et par page vue)
+  if('IntersectionObserver' in window){
+    var seenTree={};
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting)return;
+        var panel=e.target.closest('[role="tabpanel"]'),tab=panel&&document.querySelector('[aria-controls="'+panel.id+'"]');
+        var tree=tab&&(hashOf[tab.id]||'').slice(1);
+        if(!tree||seenTree[tree]||panel.hidden)return;
+        seenTree[tree]=true;io.unobserve(e.target);
+        track('lba_tree_complete',{tree:tree,outcome:e.target.classList.contains('due')?'deadline':'adviser'});
+      });
+    },{threshold:0.4});
+    [].forEach.call(document.querySelectorAll('[role="tabpanel"] .verdict'),function(v){io.observe(v)});
+  }
 
   // Menus (<details>) : un seul ouvert, fermeture au clic extérieur et avec Échap
   var menus=[].slice.call(document.querySelectorAll('details.menu'));
@@ -69,15 +88,53 @@
     })});
   }
 
-  // Avertissement : affiché jusqu'à ce qu'il soit fermé
-  var notice=document.querySelector('.notice');
-  if(notice){
+  // Bandeau cookies (mêmes valeurs que ark-fid.ch : accepted / minimal), puis l'avertissement :
+  // un seul bandeau à la fois.
+  var KEY='cookieConsent';
+  var cookies=document.querySelector('.cookies');
+  var notice=document.querySelector('.disclaimer-notice');
+  function stored(){
+    var c=null;try{c=localStorage.getItem(KEY)}catch(e){}
+    if(!c){try{var m=document.cookie.match(/(?:^|; )cookieConsent=([^;]*)/);if(m)c=m[1]}catch(e){}}
+    return c==='accepted'||c==='minimal'||c==='declined'?c:null;
+  }
+  function showNotice(){
+    if(!notice)return;
     var seen=false;try{seen=localStorage.getItem('lba-avis')==='1'}catch(e){}
-    if(!seen){
-      notice.hidden=false;
-      notice.querySelector('.notice-ok').addEventListener('click',function(){
-        notice.hidden=true;try{localStorage.setItem('lba-avis','1')}catch(e){}
-      });
-    }
+    notice.hidden=seen||!!(cookies&&!cookies.hidden);
+  }
+  function update(value){
+    var v=value==='accepted'?'granted':'denied';
+    try{if(typeof window.gtag==='function')window.gtag('consent','update',{ad_storage:v,analytics_storage:v,ad_user_data:v,ad_personalization:v})}catch(e){}
+  }
+  function choose(value){
+    try{document.cookie=KEY+'='+value+'; Path=/; Max-Age=31536000; SameSite=Lax'}catch(e){}
+    try{localStorage.setItem(KEY,value)}catch(e){}
+    update(value);
+    cookies.hidden=true;showNotice();
+    // Le bouton cliqué disparaît : le focus passe au bandeau suivant s'il s'affiche
+    var next=notice&&!notice.hidden?notice.querySelector('.notice-ok'):document.querySelector('.cookie-manage');
+    if(next)next.focus({preventScroll:true});
+  }
+  if(cookies){
+    cookies.querySelector('.cookie-accept').addEventListener('click',function(){choose('accepted')});
+    cookies.querySelector('.cookie-refuse').addEventListener('click',function(){choose('minimal')});
+    if(!stored())cookies.hidden=false;
+    // Choix fait dans un autre onglet : même mise à jour ici
+    window.addEventListener('storage',function(e){
+      if(e.key!==KEY||!(e.newValue==='accepted'||e.newValue==='minimal'||e.newValue==='declined'))return;
+      update(e.newValue);cookies.hidden=true;showNotice();
+    });
+    var manage=document.querySelector('.cookie-manage');
+    if(manage)manage.addEventListener('click',function(){
+      if(notice)notice.hidden=true;
+      cookies.hidden=false;cookies.querySelector('.cookie-accept').focus();
+    });
+  }
+  if(notice){
+    notice.querySelector('.notice-ok').addEventListener('click',function(){
+      notice.hidden=true;try{localStorage.setItem('lba-avis','1')}catch(e){}
+    });
+    showNotice();
   }
 })();

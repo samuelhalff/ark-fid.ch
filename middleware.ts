@@ -39,14 +39,18 @@ function applySecurityHeaders(
 const LBA_LOCALES = ["fr", "en", "de", "es", "pt"] as const;
 const LBA_DEFAULT_LOCALE = "fr";
 // The LBA pages are static: no inline scripts, self-hosted fonts.
+// Third parties: Turnstile (anti-bot check of the assistant) and Google Analytics
+// (gtag.js loaded by the hashed consent bootstrap; same property as ark-fid.ch).
+const LBA_GA_HOSTS =
+  "https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net";
 const LBA_PAGE_CSP = [
   `default-src 'none'`,
-  // Turnstile (anti-bot check of the assistant) is the only third party.
-  `script-src 'self' https://challenges.cloudflare.com`,
+  `script-src 'self' https://challenges.cloudflare.com https://www.googletagmanager.com`,
   `style-src 'self' 'unsafe-inline'`,
   `font-src 'self'`,
-  `img-src 'self' data:`,
-  `connect-src 'self'`,
+  // Images only: Google signals pings go to the visitor's local Google domain (www.google.ch, .fr, …).
+  `img-src 'self' data: https:`,
+  `connect-src 'self' ${LBA_GA_HOSTS}`,
   `frame-src https://challenges.cloudflare.com`,
   `base-uri 'none'`,
   `form-action 'none'`,

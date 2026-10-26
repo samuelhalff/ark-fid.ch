@@ -154,7 +154,7 @@ describe("lba.ark-fid.ch standalone pages", () => {
       assert.ok(chat, `${locale}: chat panel`);
       const chatStrings = JSON.parse(chat[1].replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&amp;/g, "&"));
       assert.equal(chatStrings.suggestions.length, 3);
-      assert.match(middleware, /script-src 'self' https:\/\/challenges\.cloudflare\.com/);
+      assert.match(middleware, /`script-src 'self' https:\/\/challenges\.cloudflare\.com https:\/\/www\.googletagmanager\.com`/);
       assert.match(middleware, /connect-src 'self'/);
       const jsonLd = page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
       assert.ok(jsonLd);
@@ -162,6 +162,37 @@ describe("lba.ark-fid.ch standalone pages", () => {
       // In-page anchors must exist (notions, headings).
       const ids = new Set([...page.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
       for (const [, anchor] of page.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.has(anchor), `${locale}: #${anchor}`);
+    }
+  });
+
+  it("Google Analytics: hashed consent bootstrap runs first, same property and regions as the main site", () => {
+    const csp = middleware.match(/const LBA_PAGE_CSP = \[([\s\S]*?)\]\.join/)[1];
+    assert.doesNotMatch(csp, /`script-src[^`]*(unsafe|nonce|strict-dynamic|\*)/);
+    assert.match(csp, /`default-src 'none'`/);
+    const gaId = read("app/layout.tsx").match(/:\s*"(G-[A-Z0-9]{4,20})";/)[1];
+    const regions = JSON.parse(`[${read("src/lib/consent-mode.ts").match(/EEA_UK_REGIONS = \[([^\]]*)\]/)[1].replace(/,\s*$/, "")}]`);
+    for (const locale of locales) {
+      const page = read(`public/lba/${locale}.html`);
+      const head = page.slice(0, page.indexOf("</head>"));
+      const first = head.match(/<script\b[^>]*>/)[0];
+      const src = first.match(/src="(\/assets\/lba\/consent\.[0-9a-f]{10}\.js)"/);
+      assert.ok(src, `${locale}: consent bootstrap must be the first script`);
+      assert.doesNotMatch(first, /\b(async|defer)\b/);
+      assert.ok(head.indexOf(src[1]) < head.indexOf('rel="stylesheet"'), locale);
+      const js = read(`public${src[1]}`);
+      assert.ok(js.includes(`var ID='${gaId}'`), `${locale}: measurement id`);
+      assert.ok(js.includes(`EEA_UK=${JSON.stringify(regions)}`), `${locale}: regions`);
+      assert.doesNotMatch(js, /__GA_ID__|__EEA_UK__/);
+      // Defaults before the stored choice, choice before config, config before gtag.js.
+      const order = ["'consent','default',eea", "region=['CH']", "gtag('consent','default',granted)", "'consent','update'", "gtag('config'", "googletagmanager.com/gtag/js"];
+      const at = order.map((s) => js.indexOf(s));
+      assert.ok(at.every((i, n) => i >= 0 && (n === 0 || i > at[n - 1])), `${locale}: bootstrap order ${at}`);
+      // Consent banner: hidden until JS decides, links to the cookie policy of the main site.
+      assert.match(page, /<div class="cookies notice"[^>]*hidden>/);
+      assert.ok(page.includes(`href="https://ark-fid.ch/${locale}/legal/cookies/"`), `${locale}: cookie policy link`);
+      assert.match(page, /class="cookie-accept"/);
+      assert.match(page, /class="cookie-refuse"/);
+      assert.match(page, /class="cookie-manage"/);
     }
   });
 });

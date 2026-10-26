@@ -6,7 +6,8 @@
  * Output: public/lba/<locale>.html + content-hashed assets in public/assets/lba/.
  * The output is committed; `node scripts/build-lba.mjs --check` fails when it is out of date.
  *
- * The pages run under a strict CSP: no inline or third-party scripts, self-hosted font.
+ * The pages run under a strict CSP: no inline scripts, self-hosted font; the only third parties are
+ * Google Analytics (consent.js, same property and Consent Mode rules as ark-fid.ch) and Turnstile.
  */
 import { createHash } from "node:crypto";
 import fs from "node:fs";
@@ -35,6 +36,25 @@ const cssUrl = hashed("lba", "css", read("styles.css"));
 const appUrl = hashed("app", "js", read("app.js"));
 const themeUrl = hashed("theme", "js", read("theme.js"));
 const chatUrl = hashed("chat", "js", read("chat.js"));
+
+// Analytics bootstrap: same GA4 property and EEA + UK region list as the main site.
+const layout = fs.readFileSync(path.join(ROOT, "app/layout.tsx"), "utf8");
+const gaId = (layout.match(/:\s*"(G-[A-Z0-9]{4,20})";/) || [])[1];
+const regions = (fs.readFileSync(path.join(ROOT, "src/lib/consent-mode.ts"), "utf8").match(/EEA_UK_REGIONS = \[([^\]]*)\]/) || [])[1];
+if (!gaId || !regions) throw new Error("GA measurement id or EEA_UK_REGIONS not found");
+// The main site prefers NEXT_PUBLIC_GA_MEASUREMENT_ID / NEXT_PUBLIC_GA_ID; the committed LBA output
+// cannot follow the environment, so a different configured id must be changed here deliberately.
+for (const name of ["NEXT_PUBLIC_GA_MEASUREMENT_ID", "NEXT_PUBLIC_GA_ID"]) {
+  const configured = process.env[name];
+  if (configured && configured !== gaId) throw new Error(`${name}=${configured} differs from ${gaId} used for lba.ark-fid.ch`);
+}
+const consentSrc = read("consent.js");
+if (!consentSrc.includes("'__GA_ID__'") || !consentSrc.includes("__EEA_UK__")) throw new Error("consent.js placeholders missing");
+const consentUrl = hashed(
+  "consent",
+  "js",
+  consentSrc.replace("__GA_ID__", gaId).replace("__EEA_UK__", JSON.stringify(JSON.parse(`[${regions.replace(/,\s*$/, "")}]`))),
+);
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 const text = (html) =>
@@ -104,6 +124,7 @@ for (const locale of locales) {
 <html lang="${m.htmlLang}">
 <head>
 <meta charset="utf-8">
+<script src="${consentUrl}"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(m.title)}</title>
 <meta name="description" content="${esc(m.description)}">
@@ -159,12 +180,22 @@ ${alternates}
   </div>
 </div>
 
-${body.replace("</footer>", `  <p>${m.publishedBy} <a href="${m.arkUrl}">Ark Fiduciaire SA</a>, ${m.city}.</p>\n</footer>`)}
+${body.replace(
+  "</footer>",
+  `  <p>${m.publishedBy} <a href="${m.arkUrl}">Ark Fiduciaire SA</a>, ${m.city}. <button type="button" class="cookie-manage">${esc(m.cookies.manage)}</button></p>\n</footer>`,
+)}
 
+</div>
+<div class="cookies notice" role="region" aria-label="${esc(m.cookies.label)}" hidden>
+  <p>${esc(m.cookies.text)} <a href="https://ark-fid.ch/${locale}/legal/cookies/">${esc(m.cookies.more)}</a></p>
+  <div class="cookie-actions">
+    <button type="button" class="cookie-refuse">${esc(m.cookies.refuse)}</button>
+    <button type="button" class="cookie-accept">${esc(m.cookies.accept)}</button>
+  </div>
 </div>
 ${
   notice
-    ? `<div class="notice" role="region" aria-label="${esc(m.notice.label)}" hidden>
+    ? `<div class="notice disclaimer-notice" role="region" aria-label="${esc(m.notice.label)}" hidden>
   <p>${notice}</p>
   <button type="button" class="notice-ok">${esc(m.notice.ok)}</button>
 </div>

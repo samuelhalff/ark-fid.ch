@@ -370,7 +370,7 @@ Added in all locales (`fr`, `en`, `de`, `es`, `pt`):
 
 - `contact:Form.AttributionNotice` — one-line notice above the contact form submit button (`src/components/ui/contact-form.tsx`).
 - `agent:AttributionNotice` — same notice under the assistant start button (`src/components/agent/AgentChat.tsx`).
-- `legal:Cookies.Measurement.Title`, `legal:Cookies.Measurement.Content[0..5]` — "How we measure visits" section of the cookies policy (Consent Mode, regional defaults, cookieless pings, how to refuse).
+- `legal:Cookies.Measurement.Title`, `legal:Cookies.Measurement.Content[0..6]` — "How we measure visits" section of the cookies policy (Consent Mode, regional defaults, cookieless pings, how to refuse; [6] covers lba.ark-fid.ch).
 - `legal:Privacy.WebAnalytics.Title`, `legal:Privacy.WebAnalytics.Content[0..3]` — web analytics and lead attribution section of the privacy policy.
 - `legal:Privacy.DataCollection.WebsiteData.Items[5]` — attribution data item.
 

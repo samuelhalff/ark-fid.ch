@@ -351,6 +351,17 @@ header{padding-top:30px}
 .notice-ok:focus-visible{outline:2px solid var(--lba);outline-offset:2px}
 @media (max-width:560px){.notice{flex-direction:column;align-items:stretch}.notice-ok{width:100%}}
 @media print{.notice{display:none}}
+/* Bandeau cookies : même gabarit que l'avertissement, affiché avant lui (un seul à la fois) */
+.cookies a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.cookie-actions{display:flex;gap:8px;flex:none}
+.cookie-actions button{appearance:none;cursor:pointer;font:inherit;font-weight:750;font-size:14px;height:40px;padding:0 18px;border-radius:999px}
+.cookie-accept{border:0;background:var(--ink);color:var(--paper)}
+.cookie-refuse{border:1px solid var(--rule);background:transparent;color:var(--ink)}
+.cookie-actions button:hover{background:var(--lba);border-color:var(--lba);color:#fff}
+.cookie-actions button:focus-visible,.cookie-manage:focus-visible{outline:2px solid var(--lba);outline-offset:2px}
+@media (max-width:560px){.cookie-actions button{flex:1}}
+.cookie-manage{appearance:none;border:0;background:none;padding:0;font:inherit;color:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+@media print{.cookie-manage{display:none}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 footer .refs{margin:0 0 8px;padding-left:18px}
 .refs a{text-underline-offset:3px}

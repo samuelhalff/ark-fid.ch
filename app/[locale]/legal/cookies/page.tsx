@@ -86,7 +86,7 @@ export default async function CookiesPage(
             {r("Cookies.Measurement.Title", "How we measure visits")}
           </h2>
           <div className="space-y-4">
-            {[0, 1, 2, 3, 4, 5].map((i) => (
+            {[0, 1, 2, 3, 4, 5, 6].map((i) => (
               <p key={i}>{r(`Cookies.Measurement.Content.${i}`, "")}</p>
             ))}
           </div>

@@ -15,6 +15,8 @@
   try{var saved=JSON.parse(sessionStorage.getItem(KEY)||'null');if(saved&&Array.isArray(saved.messages))state=saved}catch(e){}
   var busy=false,siteKey=null,widgetId=null,tsLoading=null,lastQuestion='';
 
+  // Événements Google Analytics : ouverture et première question (jamais le texte ni l'e-mail)
+  function track(name){try{if(typeof window.gtag==='function')window.gtag('event',name,{locale:locale})}catch(e){}}
   function save(){try{sessionStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
   function el(tag,cls,text){var n=document.createElement(tag);if(cls)n.className=cls;if(text!=null)n.textContent=text;return n}
 
@@ -204,6 +206,7 @@
     if(text.length>1500){status(cfg.errorLong,'error');return}
     if(!emailOk()){input.value=text;grow();return}
     lastQuestion=text;
+    if(!state.messages.some(function(m){return m.role==='user'}))track('lba_chat_first_message');
     var intro=log.querySelector('.chat-intro');if(intro)intro.remove();
     var leftover=log.querySelector('.chat-email');if(leftover)leftover.remove();
     state.messages.push({role:'user',content:text});save();
@@ -238,7 +241,7 @@
       if(!restored)input.focus();
     }else launcher.focus();
   }
-  launcher.addEventListener('click',function(){open(root.hidden)});
+  launcher.addEventListener('click',function(){if(root.hidden)track('lba_chat_open');open(root.hidden)});
   root.querySelector('.chat-close').addEventListener('click',function(){open(false)});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!root.hidden&&root.contains(document.activeElement))open(false)});
   launcher.hidden=false;
