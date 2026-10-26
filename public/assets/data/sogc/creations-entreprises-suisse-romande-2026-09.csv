@@ -1,0 +1,8 @@
+report_month,canton,new_entries,new_entries_prev_month,new_entries_same_month_prev_year,deletions,balance,legal_form_sa,legal_form_sarl,legal_form_ei,legal_form_branch,legal_form_other,ytd_new_entries,ytd_new_entries_prev_year,ytd_deletions,source,retrieved_at
+2026-09,GE,332,291,347,188,144,60,142,99,4,27,3234,3376,2360,"SOGC/FOSC amtsblattportal.ch (HR01, HR03)",2026-10-26T13:30:15.550Z
+2026-09,VD,393,372,336,213,180,66,180,112,11,24,3943,3904,2473,"SOGC/FOSC amtsblattportal.ch (HR01, HR03)",2026-10-26T13:30:15.550Z
+2026-09,VS,209,236,189,128,81,28,109,51,11,10,2149,2001,1170,"SOGC/FOSC amtsblattportal.ch (HR01, HR03)",2026-10-26T13:30:15.550Z
+2026-09,NE,70,57,59,49,21,12,39,10,4,5,704,668,423,"SOGC/FOSC amtsblattportal.ch (HR01, HR03)",2026-10-26T13:30:15.550Z
+2026-09,FR,163,148,140,65,98,30,54,70,5,4,1481,1469,817,"SOGC/FOSC amtsblattportal.ch (HR01, HR03)",2026-10-26T13:30:15.550Z
+2026-09,JU,33,21,34,20,13,3,17,9,2,2,315,293,209,"SOGC/FOSC amtsblattportal.ch (HR01, HR03)",2026-10-26T13:30:15.550Z
+2026-09,ROMANDIE,1200,1125,1105,663,537,199,541,351,37,72,11826,11711,7452,"SOGC/FOSC amtsblattportal.ch (HR01, HR03)",2026-10-26T13:30:15.550Z

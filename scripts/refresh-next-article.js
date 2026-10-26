@@ -19,6 +19,7 @@
 const fs = require("fs");
 const path = require("path");
 const { spawnSync } = require("child_process");
+const { isDataReportArticle } = require("./lib/articleTopicGuardrails");
 
 const ROOT = path.resolve(__dirname, "..");
 const QUEUE_REL = "data/refresh-queue.json";
@@ -89,7 +90,7 @@ function pickStaleSlug(articles, state, now = new Date()) {
   cutoff.setUTCMonth(cutoff.getUTCMonth() - STALE_MONTHS);
   const skip = new Set([...state.queue, ...state.failed.map((f) => f.slug)]);
   const candidates = (articles || [])
-    .filter((a) => a && a.slug && !skip.has(a.slug))
+    .filter((a) => a && a.slug && !skip.has(a.slug) && !isDataReportArticle(a))
     .map((a) => ({ slug: a.slug, when: new Date(a.updated || a.date || "") }))
     .filter((a) => !Number.isNaN(a.when.getTime()) && a.when < cutoff)
     .sort((a, b) => a.when - b.when);

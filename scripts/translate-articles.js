@@ -32,6 +32,7 @@ try { require("dotenv").config(); } catch {}
 const fs = require("fs");
 const path = require("path");
 const { translateLabels } = require("./translate-reference-labels");
+const { isDataReportArticle } = require("./lib/articleTopicGuardrails");
 
 const args = new Set(process.argv.slice(2).filter(a => !a.includes('=')));
 const getArg = (k, d) => {
@@ -202,6 +203,8 @@ function buildTranslatePrompt(locale, frArticle) {
 }
 
 function needsTranslation(frA, locA) {
+  // Data reports ship all locales from deterministic templates: never LLM-translate them.
+  if (isDataReportArticle(frA)) return false;
   if (!locA) return true;
   if (FORCE) return true;
   const sameTitle = (locA.title || '') === (frA.title || '');

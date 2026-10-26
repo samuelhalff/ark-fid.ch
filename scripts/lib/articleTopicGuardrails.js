@@ -495,7 +495,30 @@ function findAllTimeNearDuplicate(articles, newArticle) {
   return null;
 }
 
+// Deterministic data reports (numbers computed from official data, never by an
+// LLM). They are intentionally similar month to month, so they are kept out of
+// the editorial topic rotation and duplicate checks, and no LLM step (refresh,
+// translation) may rewrite them. Only this exact reserved value is exempt.
+const DATA_REPORT_SERIES = Object.freeze(["sogc-creations-romandie"]);
+
+function isDataReportArticle(article) {
+  return Boolean(
+    article &&
+      typeof article.series === "string" &&
+      DATA_REPORT_SERIES.includes(article.series),
+  );
+}
+
+function withoutDataReports(articles) {
+  return (Array.isArray(articles) ? articles : []).filter(
+    (article) => !isDataReportArticle(article),
+  );
+}
+
 module.exports = {
+  DATA_REPORT_SERIES,
+  isDataReportArticle,
+  withoutDataReports,
   TOPIC_KEYWORDS,
   describeTopic,
   detectTopic,

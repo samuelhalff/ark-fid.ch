@@ -7,6 +7,7 @@ const {
   findAllTimeNearDuplicate,
   findRecentTitleConflict,
   findRecentTopicConflict,
+  withoutDataReports,
 } = require("./lib/articleTopicGuardrails");
 
 const {
@@ -16,6 +17,11 @@ const {
 
 const ROOT = process.cwd();
 const FR_PATH = path.join(ROOT, "src", "translations", "fr", "ressources.json");
+// --slug=<slug> validates that article instead of the latest editorial one
+// (used by the deterministic data-report workflow).
+const SLUG_ARG = (process.argv.find((a) => a.startsWith("--slug=")) || "")
+  .slice("--slug=".length)
+  .trim();
 const TOPIC_ROTATION_WINDOW = Math.max(
   1,
   parseInt(process.env.TOPIC_ROTATION_WINDOW || "10", 10) || 10,
@@ -53,9 +59,27 @@ if (articles.length < 2) {
   process.exit(0);
 }
 
-const sorted = [...articles].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-const latest = sorted[0];
-const recent = sorted.slice(1, TOPIC_ROTATION_WINDOW + 1);
+// Data reports (reserved series) are intentionally similar month to month:
+// they are never the "latest editorial article" and never act as comparators.
+// Filtering happens before the rotation window is taken, so reports do not
+// consume window slots either.
+const editorial = withoutDataReports(articles).sort((a, b) =>
+  (b.date || "").localeCompare(a.date || ""),
+);
+let latest;
+if (SLUG_ARG) {
+  latest = articles.find((a) => a && a.slug === SLUG_ARG);
+  if (!latest) fail(`--slug article not found in FR ressources: ${SLUG_ARG}`);
+} else {
+  latest = editorial[0];
+  if (!latest) {
+    console.log("ℹ️ No editorial FR article to validate");
+    process.exit(0);
+  }
+}
+const comparators = editorial.filter((a) => a.slug !== latest.slug);
+const sorted = [latest, ...comparators];
+const recent = comparators.slice(0, TOPIC_ROTATION_WINDOW);
 
 function countWords(text) {
   if (typeof text !== "string") return 0;

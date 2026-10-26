@@ -1,0 +1,136 @@
+name: SOGC monthly registrations report
+
+# Deterministic data article: new company registrations in Geneva and
+# French-speaking Switzerland, computed from the SOGC (FOSC) public API.
+# No LLM is involved. Commits only when every validation step passes.
+# See docs/sogc-monthly-report.md.
+
+on:
+  schedule:
+    - cron: "0 6 3 * *" # 3rd of each month, report on the previous month
+  workflow_dispatch:
+    inputs:
+      month:
+        description: "Report month YYYY-MM (default: previous month)"
+        required: false
+        type: string
+
+concurrency:
+  group: ai-content-update
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Resolve report month and slug
+        id: month
+        env:
+          INPUT_MONTH: ${{ inputs.month }}
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const { assertMonth, shiftMonth } = require('./scripts/lib/sogcReport');
+          const { reportSlug } = require('./scripts/lib/sogcReportRender');
+          const now = new Date();
+          const current = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, '0')}`;
+          const month = assertMonth((process.env.INPUT_MONTH || '').trim() || shiftMonth(current, -1));
+          const slug = reportSlug(month);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `month=${month}\nslug=${slug}\n`);
+          console.log(`Report month ${month} -> ${slug}`);
+          NODE
+
+      - name: Build report from SOGC data
+        timeout-minutes: 15
+        run: timeout -k 30s 15m node scripts/sogc-monthly-report.js --month=${{ steps.month.outputs.month }} --apply
+
+      - name: Unit tests (report pipeline)
+        run: node --test scripts/sogc-report.test.js
+
+      - name: Validate curated reference source policy
+        timeout-minutes: 5
+        run: timeout -k 30s 5m npm run validate:reference-sources
+
+      - name: Validate report article guardrails
+        run: node scripts/validate-latest-article-guardrails.js --slug=${{ steps.month.outputs.slug }}
+
+      - name: Validate latest editorial article guardrails (unchanged)
+        run: node scripts/validate-latest-article-guardrails.js
+
+      - name: Validate article facts
+        run: node scripts/validate-article-facts.js
+
+      - name: Validate article translations
+        env:
+          REQUIRE_TRANSLATIONS: "1"
+        run: node scripts/validate-article-translations.js
+
+      - name: Commit and push changes
+        id: commit
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add "src/translations/**/ressources.json" data/sogc-reports public/assets/data/sogc
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "chore(ressources): SOGC registrations report ${{ steps.month.outputs.month }}" --author="samuelhalff <660062+samuelhalff@users.noreply.github.com>"
+            git fetch origin main
+            git rebase origin/main || { git rebase --abort || true; exit 1; }
+            git push
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Submit report to IndexNow
+        if: steps.commit.outputs.pushed == 'true'
+        continue-on-error: true
+        timeout-minutes: 3
+        env:
+          ARTICLE_SLUG: ${{ steps.month.outputs.slug }}
+        run: |
+          timeout -k 30s 3m node - <<'NODE'
+          const https = require('https');
+          const slug = process.env.ARTICLE_SLUG;
+          const urls = ['fr', 'en', 'de', 'es', 'pt'].map(
+            (locale) => `https://ark-fid.ch/${locale}/ressources/articles/${slug}/`,
+          );
+          const body = JSON.stringify({ urls });
+          const req = https.request('https://ark-fid.ch/api/indexnow/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Content-Length': Buffer.byteLength(body),
+            },
+          }, (res) => {
+            let data = '';
+            res.on('data', (chunk) => { data += chunk; });
+            res.on('end', () => {
+              console.log(`IndexNow status ${res.statusCode}: ${data.slice(0, 500)}`);
+              if (res.statusCode < 200 || res.statusCode >= 300) process.exitCode = 1;
+            });
+          });
+          req.on('error', (error) => {
+            console.error(error.message);
+            process.exitCode = 1;
+          });
+          req.write(body);
+          req.end();
+          NODE

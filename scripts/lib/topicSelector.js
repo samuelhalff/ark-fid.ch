@@ -10,6 +10,7 @@ const {
   TOPIC_KEYWORDS,
   describeTopic,
   detectTopic,
+  withoutDataReports,
 } = require("./articleTopicGuardrails");
 
 /**
@@ -20,7 +21,7 @@ const {
  * @returns {Object} { availableTopics, avoidedTopics, topicCounts, analysis }
  */
 function getAvailableTopics(frData, avoidTopics = [], rotationWindow = 10) {
-  const articles = Array.isArray(frData?.Articles) ? frData.Articles : [];
+  const articles = withoutDataReports(frData?.Articles);
   const sorted = [...articles].sort((a, b) =>
     (b.date || "").localeCompare(a.date || ""),
   );

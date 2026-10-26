@@ -73,6 +73,8 @@ const ALLOWED_REFERENCE_DOMAINS = [
   "so-fit.ch",
   "swissdec.ch",
   "zefix.ch",
+  // Swiss Official Gazette of Commerce (SOGC/FOSC/SHAB) portal, run by SECO
+  "amtsblattportal.ch",
   // Swiss cantonal social insurance / compensation funds
   "aknw.ch",
   "akso.ch",
@@ -212,6 +214,7 @@ const TRUSTED_DOMAINS = [
   "swissdec.ch",
   "rab-asr.ch",
   "zefix.ch",
+  "amtsblattportal.ch",
   "fer.ch",
   "economiesuisse.ch",
   "github.com",

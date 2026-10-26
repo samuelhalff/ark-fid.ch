@@ -27,6 +27,10 @@ export type ResourceArticle = {
   references?: ArticleReference[];
   category?: string;
   tags?: string[];
+  /** Reserved data-report series (deterministic, never LLM-edited), e.g. "sogc-creations-romandie". */
+  series?: string;
+  /** Data period covered by a data report, YYYY-MM. */
+  reportMonth?: string;
 };
 
 type CachedArticles = {

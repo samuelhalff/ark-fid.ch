@@ -13,7 +13,7 @@ npm run validate:reference-sources
 - Swiss federal sources: `admin.ch` and all subdomains.
 - Swiss public portal: `ch.ch`.
 - Swiss cantons: `ag.ch`, `ai.ch`, `ar.ch`, `be.ch`, `bl.ch`, `bs.ch`, `fr.ch`, `ge.ch`, `gl.ch`, `gr.ch`, `ju.ch`, `lu.ch`, `ne.ch`, `nw.ch`, `ow.ch`, `sg.ch`, `sh.ch`, `so.ch`, `sz.ch`, `tg.ch`, `ti.ch`, `ur.ch`, `vd.ch`, `vs.ch`, `zg.ch`, `zh.ch`.
-- Official or institutional Swiss bodies: `ahv-iv.ch`, `caisseavs.ch`, `entscheidsuche.ch`, `finma.ch`, `snb.ch`, `so-fit.ch`, `swissdec.ch`, `zefix.ch`.
+- Official or institutional Swiss bodies: `ahv-iv.ch`, `caisseavs.ch`, `entscheidsuche.ch`, `finma.ch`, `snb.ch`, `so-fit.ch`, `swissdec.ch`, `zefix.ch`, `amtsblattportal.ch` (SOGC/FOSC portal).
 - Social insurance and compensation funds: `aknw.ch`, `akso.ch`, `cdas.ch`, `sva-bl.ch`, `sva-sz.ch`, `svash.ch`.
 - Professional and industry associations: `amsuisse.ch`, `ccig.ch`, `economiesuisse.ch`, `fer.ch`, `swissaccounting.org`, `veb.ch`.
 - International and reference sources: `europa.eu`, `francophonie.org`, `oecd.org`, `wikipedia.org`.
