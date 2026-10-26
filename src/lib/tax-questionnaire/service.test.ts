@@ -148,3 +148,17 @@ test("draft deletion removes folders and revokes access; arrears get their own y
   assert.ok(mem.returns.filter((r) => r.caseId === info.caseId).every((r) => r.state === "declined"));
   await assert.rejects(() => service.getCase(info.caseId), /session_expired/);
 });
+
+test("annual reminder: on by default, unticking it on submission turns the reminder off", async () => {
+  const email = "remind@example.com";
+  const base = answers(email, { "start.firstName": "Re", "start.lastName": "Mind" });
+  const info = await service.createCase(storage, { identity: { email, firstName: "Re", lastName: "Mind" }, locale: "fr", answers: base });
+  const draft = await service.readDraft(storage, info);
+  assert.equal(draft?.answers["review.reminder"], "yes");
+  const key = service.clientKey(email, "Mind", "Re");
+  await mem.ports.prefs.upsert({ clientKey: key, email, name: "MIND Re", language: "fr", optIn: true, excluded: false });
+  const off: Record<string, unknown> = { ...base };
+  delete off["review.reminder"];
+  await service.finalizeSubmission(storage, await service.getCase(info.caseId), { locale: "fr", answers: off, docStatus: allLater(off), privacyAccepted: true, certified: true, submitKey: "remindkey1" });
+  assert.equal((await mem.ports.prefs.get(key))?.optIn, false);
+});

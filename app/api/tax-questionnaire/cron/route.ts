@@ -2,7 +2,7 @@ import { createHash, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { emailHash, issueLink } from "@/src/lib/tax-questionnaire/server/access";
 import { inviteMember, isClosed, isPlanned, lang, plannedFor, previousReturn, runCampaign, type CampaignDeps, type CampaignLedger } from "@/src/lib/tax-questionnaire/server/campaign";
-import { clientKey as computeClientKey, cleanupAbandonedDrafts, createInvitedReturn } from "@/src/lib/tax-questionnaire/server/service";
+import { clientKey as computeClientKey, cleanupAbandonedDrafts, createInvitedReturn, missingDocuments } from "@/src/lib/tax-questionnaire/server/service";
 import { sharePointPorts } from "@/src/lib/tax-questionnaire/server/sharepoint-registry";
 import { DEFAULT_DRIVE_ID, getStorage, type TaxStorage } from "@/src/lib/tax-questionnaire/server/storage";
 
@@ -89,6 +89,7 @@ export async function POST(request: Request) {
       issueLink,
       hashEmail: emailHash,
       createInvitedReturn,
+      missingDocuments,
       staffRecipients: (env("TAX_QF_STAFF_ALERT_TO") || "samuel.halff@ark-fid.ch,sebastien.gallie@ark-fid.ch").split(",").map((v) => v.trim()).filter(Boolean),
       ledger,
     };

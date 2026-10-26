@@ -172,6 +172,8 @@ function baseRecord(
 export async function createCase(storage: TaxStorage, input: { identity: Identity; locale: QfLocale; answers: unknown; householdId?: string; source?: string; stepId?: string; clientKey?: string; planned?: ReturnRecord }) {
   const caseId = randomBytes(6).toString("hex");
   const answers = sanitizeAnswers(input.answers);
+  // Annual service reminder: on by default (the client can untick it; each e-mail has an opt-out).
+  if (answers["review.reminder"] === undefined) answers["review.reminder"] = "yes";
   answers["start.email"] = input.identity.email;
   answers["start.firstName"] = input.identity.firstName;
   answers["start.lastName"] = input.identity.lastName;
@@ -505,7 +507,8 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
     certification: UI.certify[locale],
     certified: true,
     aiOptIn: input.aiOptIn === true,
-    reminderOptIn: answers["review.reminder"] === "yes",
+    // Service reminder based on the client relationship, on by default, with opt-out (not a consent).
+    annualReminder: { enabled: answers["review.reminder"] === "yes", basis: "service-reminder-opt-out", recordedAt: now.toISOString() },
   };
   await put("consent.json", new TextEncoder().encode(JSON.stringify(consent, null, 2)), "application/json");
   const questionnaire = {
@@ -610,11 +613,13 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
       throw new ServiceError("storage_unavailable", 502);
     }
   }
-  if (answers["review.reminder"] === "yes") {
+  {
     try {
       const prefs = sharePointPorts().prefs;
       const current = await prefs.get(key);
-      await prefs.upsert({ clientKey: key, email: info.email, name: info.name, language: locale, optIn: true, excluded: current?.excluded || false, excludedReason: current?.excludedReason, noticeSentYear: current?.noticeSentYear });
+      const wanted = answers["review.reminder"] === "yes";
+      // Turned off in the questionnaire: the reminder stops (opt-out); otherwise it is (re)enabled.
+      if (wanted || current?.optIn) await prefs.upsert({ clientKey: key, email: info.email, name: info.name, language: locale, optIn: wanted, excluded: current?.excluded || false, excludedReason: current?.excludedReason, noticeSentYear: current?.noticeSentYear });
     } catch (error) {
       console.error("[tax-qf] preferences update failed", info.caseId, error instanceof Error ? error.message : "");
     }
@@ -664,7 +669,7 @@ export async function recordFeedback(info: CaseInfo, source: string) {
 export async function sendResumeLink(storage: TaxStorage, info: CaseInfo, origin?: string) {
   const scope = info.main.state === "submitted" ? "status" : "edit";
   const url = await issueLink({ caseId: info.caseId, emailHash: info.emailHash, scope, purpose: scope === "status" ? "status" : "resume", ttlMs: RESUME_LINK_TTL_MS, origin, locale: info.language });
-  await storage.sendMail(linkMail(info.language, info.email, url, scope === "status" ? "status" : "resume", 30));
+  await storage.sendMail(linkMail(info.language, info.email, url, scope === "status" ? "status" : "resume", 30, "", info.name));
 }
 
 /** "I already started": mails links for the cases of this e-mail. The response never says whether any exist. */
@@ -767,6 +772,20 @@ export async function createInvitedReturn(input: { clientKey: string; email: str
   invited.trackerId = await sharePointPorts().tracker.upsert(invited);
   forget(info.caseId);
   return invited;
+}
+
+/** Reminder e-mail: labels of the checklist items with neither a file nor "not applicable". */
+export async function missingDocuments(record: ReturnRecord, language: QfLocale): Promise<string[]> {
+  const { getStorage } = await import("./storage");
+  const storage = getStorage();
+  const info = await getCase(record.caseId);
+  const draft = await readDraft(storage, info);
+  if (!draft) return [];
+  const files = await allClientFiles(storage, info);
+  const codes = new Set(files.map((f) => codeFromFileName(f.name)).filter(Boolean));
+  return checklistFor(pruneHidden(draft.answers))
+    .filter((item) => !codes.has(item.code) && draft.docStatus[item.key] !== "na")
+    .map((item) => item.label[language]);
 }
 
 /** Deletes drafts never submitted and untouched for 90 days (enabled by TAX_QF_CLEANUP_ENABLED). */

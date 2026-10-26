@@ -10,14 +10,14 @@ export const CONTACT = {
 } as const;
 
 /** Bump when the privacy notice text changes (recorded with each submission). */
-export const PRIVACY_VERSION = "2026-10b";
+export const PRIVACY_VERSION = "2026-10c";
 
 export const UI = {
   pageTitle: t("Questionnaire fiscal", "Tax questionnaire", "Steuerfragebogen"),
   pageIntro: t(
-    "Répondez aux questions qui vous concernent et déposez vos documents. Nous recevons le tout de façon sécurisée pour préparer votre déclaration d'impôt.",
-    "Answer the questions that apply to you and upload your documents. We receive everything securely to prepare your tax return.",
-    "Beantworten Sie die Fragen, die Sie betreffen, und laden Sie Ihre Dokumente hoch. Wir erhalten alles sicher, um Ihre Steuererklärung vorzubereiten.",
+    "Répondez aux questions qui vous concernent et ajoutez vos documents. Nous préparons ensuite votre déclaration d'impôt.",
+    "Answer the questions that apply to you and add your documents. We then prepare your tax return.",
+    "Beantworten Sie die Fragen, die Sie betreffen, und laden Sie Ihre Dokumente hoch. Danach bereiten wir Ihre Steuererklärung vor.",
   ),
   stepOf: t("Étape {n} sur {total}", "Step {n} of {total}", "Schritt {n} von {total}"),
   back: t("Retour", "Back", "Zurück"),
@@ -78,17 +78,17 @@ export const UI = {
   submitting: t("Envoi en cours…", "Sending…", "Wird gesendet…"),
   doneTitle: t("Merci, c'est envoyé", "Thank you, it's sent", "Vielen Dank, gesendet"),
   doneText: t(
-    "Nous avons bien reçu votre questionnaire et vos documents. Une confirmation vous est envoyée par e-mail. Nous revenons vers vous rapidement.",
-    "We have received your questionnaire and documents. A confirmation is on its way by email. We will get back to you shortly.",
-    "Wir haben Ihren Fragebogen und Ihre Dokumente erhalten. Eine Bestätigung erhalten Sie per E-Mail. Wir melden uns in Kürze.",
+    "Nous avons bien reçu votre questionnaire. Vous recevez une confirmation par email. Nous revenons vers vous après examen de votre dossier.",
+    "We have received your questionnaire. You will receive a confirmation by email. We will revert once we have reviewed your file.",
+    "Wir haben Ihren Fragebogen erhalten. Sie erhalten eine Bestätigung per E-Mail. Wir melden uns nach der Prüfung Ihrer Unterlagen.",
   ),
-  donePending: t("Documents encore attendus (à nous envoyer en répondant à l'e-mail de confirmation) :", "Documents still expected (send them by replying to the confirmation email):", "Noch ausstehende Dokumente (als Antwort auf die Bestätigungs-E-Mail senden):"),
+  donePending: t("Il nous manque encore (vous pouvez répondre à l'email de confirmation) :", "We are still missing (you can reply to the confirmation email):", "Es fehlen uns noch (Sie können auf die Bestätigungs-E-Mail antworten):"),
   helpTitle: t("Besoin d'aide ?", "Need help?", "Brauchen Sie Hilfe?"),
   privacyTitle: t("Confidentialité", "Privacy", "Datenschutz"),
   privacyText: t(
-    "Vos réponses et documents sont transmis à Ark Fiduciaire SA (responsable du traitement) et conservés dans son espace Microsoft 365 à accès restreint, pour préparer votre déclaration d'impôt et le devis correspondant. Ils sont consultés par les collaborateurs chargés de votre dossier, y compris ceux de notre partenaire PBM Avocats qui y participent. Ils sont conservés pendant la durée du mandat, puis selon les obligations légales de conservation ; les brouillons jamais envoyés sont supprimés après 90 jours. Votre brouillon est enregistré dans cet espace, pas sur votre appareil. Vous pouvez demander l'accès, la rectification ou l'effacement de vos données (loi fédérale sur la protection des données) à info@ark-fid.ch.",
-    "Your answers and documents are sent to Ark Fiduciaire SA (controller) and stored in its restricted Microsoft 365 workspace, to prepare your tax return and the related quote. They are seen by the staff handling your file, including those of our partner firm PBM Avocats who take part in it. They are kept for the duration of the engagement and then as required by legal retention obligations; drafts that are never submitted are deleted after 90 days. Your draft is saved in this workspace, not on your device. You may request access, correction or deletion of your data (Swiss Federal Act on Data Protection) at info@ark-fid.ch.",
-    "Ihre Antworten und Dokumente werden an Ark Fiduciaire SA (Verantwortliche) übermittelt und in deren zugangsbeschränkter Microsoft-365-Umgebung gespeichert, um Ihre Steuererklärung und die zugehörige Offerte vorzubereiten. Einsicht haben die mit Ihrem Dossier betrauten Mitarbeitenden, einschliesslich jener unserer Partnerkanzlei PBM Avocats, die daran mitwirken. Sie werden für die Dauer des Mandats und danach gemäss den gesetzlichen Aufbewahrungspflichten aufbewahrt; nie abgesendete Entwürfe werden nach 90 Tagen gelöscht. Ihr Entwurf wird in dieser Umgebung gespeichert, nicht auf Ihrem Gerät. Auskunft, Berichtigung oder Löschung Ihrer Daten (Datenschutzgesetz) können Sie unter info@ark-fid.ch verlangen.",
+    "Vos réponses et documents sont transmis à Ark Fiduciaire SA (responsable du traitement) et conservés dans son espace Microsoft 365 à accès restreint, pour préparer votre déclaration d'impôt et le devis correspondant. Ils sont consultés par les collaborateurs chargés de votre dossier, y compris ceux de notre partenaire PBM Avocats qui y participent. Ils sont conservés pendant la durée du mandat, puis selon les obligations légales de conservation ; les brouillons jamais envoyés sont supprimés après 90 jours. Votre brouillon est enregistré dans cet espace, pas sur votre appareil. Dans le cadre de notre relation, nous vous rappelons chaque année votre déclaration (questionnaire prérempli) : vous pouvez le désactiver dans le questionnaire ou par le lien de chaque email. Vous pouvez demander l'accès, la rectification ou l'effacement de vos données (loi fédérale sur la protection des données) à info@ark-fid.ch.",
+    "Your answers and documents are sent to Ark Fiduciaire SA (controller) and stored in its restricted Microsoft 365 workspace, to prepare your tax return and the related quote. They are seen by the staff handling your file, including those of our partner firm PBM Avocats who take part in it. They are kept for the duration of the engagement and then as required by legal retention obligations; drafts that are never submitted are deleted after 90 days. Your draft is saved in this workspace, not on your device. As part of our relationship, we remind you of your return each year (pre-filled questionnaire): you can turn this off in the questionnaire or with the link in each email. You may request access, correction or deletion of your data (Swiss Federal Act on Data Protection) at info@ark-fid.ch.",
+    "Ihre Antworten und Dokumente werden an Ark Fiduciaire SA (Verantwortliche) übermittelt und in deren zugangsbeschränkter Microsoft-365-Umgebung gespeichert, um Ihre Steuererklärung und die zugehörige Offerte vorzubereiten. Einsicht haben die mit Ihrem Dossier betrauten Mitarbeitenden, einschliesslich jener unserer Partnerkanzlei PBM Avocats, die daran mitwirken. Sie werden für die Dauer des Mandats und danach gemäss den gesetzlichen Aufbewahrungspflichten aufbewahrt; nie abgesendete Entwürfe werden nach 90 Tagen gelöscht. Ihr Entwurf wird in dieser Umgebung gespeichert, nicht auf Ihrem Gerät. Im Rahmen unserer Geschäftsbeziehung erinnern wir Sie jährlich an Ihre Steuererklärung (vorausgefüllter Fragebogen); Sie können dies im Fragebogen oder über den Link in jeder E-Mail abbestellen. Auskunft, Berichtigung oder Löschung Ihrer Daten (Datenschutzgesetz) können Sie unter info@ark-fid.ch verlangen.",
   ),
   privacyLink: t("Politique de confidentialité", "Privacy policy", "Datenschutzerklärung"),
   networkError: t("Problème de connexion. Réessayez.", "Connection problem. Please try again.", "Verbindungsproblem. Bitte erneut versuchen.") as L,
@@ -118,9 +118,9 @@ export const UI2 = {
   continueLaterDone: t("Un lien pour reprendre vous a été envoyé par e-mail.", "A link to continue has been sent to you by e-mail.", "Ein Link zum Fortsetzen wurde Ihnen per E-Mail gesendet."),
   draftDeleted: t("Votre brouillon et vos fichiers ont été supprimés.", "Your draft and files have been deleted.", "Ihr Entwurf und Ihre Dateien wurden gelöscht."),
   draftStored: t(
-    "Vos réponses sont enregistrées dans l'espace sécurisé d'Ark Fiduciaire (pas sur cet appareil). Vous pouvez reprendre à tout moment avec le lien reçu par e-mail.",
-    "Your answers are saved in Ark Fiduciaire's secure workspace (not on this device). You can continue at any time with the link sent by e-mail.",
-    "Ihre Antworten werden im gesicherten Bereich von Ark Fiduciaire gespeichert (nicht auf diesem Gerät). Sie können jederzeit über den per E-Mail erhaltenen Link weitermachen.",
+    "Vos réponses sont enregistrées chez Ark Fiduciaire, pas sur cet appareil. Vous pouvez reprendre plus tard avec le lien reçu par email.",
+    "Your answers are saved at Ark Fiduciaire, not on this device. You can continue later with the link sent by email.",
+    "Ihre Antworten werden bei Ark Fiduciaire gespeichert, nicht auf diesem Gerät. Sie können später über den Link in der E-Mail weitermachen.",
   ),
   logout: t("Se déconnecter", "Sign out", "Abmelden"),
   skip: t("Plus tard", "Later", "Später"),
@@ -141,7 +141,7 @@ export const UI2 = {
   aiExtract: t("Lire ma dernière déclaration pour préremplir", "Read my last return to pre-fill", "Letzte Erklärung zum Vorausfüllen lesen"),
   aiExtracted: t("Nous avons repris ces éléments de votre document. Vérifiez-les.", "We took these items from your document. Please check them.", "Diese Angaben stammen aus Ihrem Dokument. Bitte prüfen."),
   statusTitle: t("Suivi de votre questionnaire", "Your questionnaire status", "Stand Ihres Fragebogens"),
-  statusSubmitted: t("Envoyé le {date}. Merci !", "Sent on {date}. Thank you!", "Gesendet am {date}. Vielen Dank!"),
+  statusSubmitted: t("Envoyé le {date}. Merci.", "Sent on {date}. Thank you.", "Gesendet am {date}. Vielen Dank."),
   deadlinesTitle: t("Dates importantes", "Important dates", "Wichtige Daten"),
   todoTitle: t("Documents encore attendus", "Documents still expected", "Noch ausstehende Dokumente"),
   todoNone: t("Nous n'attendons aucun document pour l'instant.", "We are not expecting any document for now.", "Wir erwarten derzeit keine Dokumente."),

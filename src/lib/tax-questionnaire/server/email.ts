@@ -16,8 +16,45 @@ export const mailConfig = () => ({
   from: env("TAX_QF_MAIL_SENDER") || "info@ark-fid.ch",
   to: list(env("TAX_QF_MAIL_TO"), ["samuel.halff@ark-fid.ch"]),
   cc: list(env("TAX_QF_MAIL_CC"), ["sebastien.gallie@ark-fid.ch", "lassana.dioum@pbm.law"]),
-  replyTo: env("TAX_QF_MAIL_REPLY_TO") || CONTACT.email,
+  // Client mails are signed by Samuel: replies go to him.
+  replyTo: env("TAX_QF_MAIL_REPLY_TO") || "samuel.halff@ark-fid.ch",
 });
+
+// ---- client mails: plain, short, in Samuel's voice (owner rule, see the e-mail style guide) ----------
+
+/** One paragraph, a link on its own line, or a hyphen list. */
+export type MailBlock = string | { link: string; label: string } | { list: string[] };
+
+const FONT = "Aptos, Calibri, 'Segoe UI', Helvetica, Arial, sans-serif";
+
+/** Plain HTML like a typed e-mail: no banner, no button, one idea per paragraph. */
+export function plainHtml(blocks: MailBlock[], footer = ""): string {
+  const p = (inner: string) => `<p style="margin:0 0 14px 0">${inner}</p>`;
+  const body = blocks
+    .map((b) => {
+      if (typeof b === "string") return p(escapeHtml(b).replace(/\n/g, "<br>"));
+      if ("link" in b) return p(`<a href="${escapeHtml(b.link)}" style="color:#0f5bd8">${escapeHtml(b.label)}</a>`);
+      return `<ul style="margin:0 0 14px 0;padding-left:20px">${b.list.map((i) => `<li>${escapeHtml(i)}</li>`).join("")}</ul>`;
+    })
+    .join("");
+  const foot = footer ? `<p style="margin:24px 0 0 0;font-size:12px;color:#6b7280">${footer}</p>` : "";
+  return `<!doctype html><html><body style="font-family:${FONT};font-size:15px;line-height:1.45;color:#1f1f1f;max-width:620px">${body}${foot}</body></html>`;
+}
+
+type ClientLocale = "fr" | "en" | "de";
+/** Greeting, availability line, closing and signature. */
+export const VOICE: Record<ClientLocale, { hello: (first: string) => string; available: string; bye: string; sign: string; open: string; codeNote: string }> = {
+  fr: { hello: (n) => (n ? `Bonjour ${n},` : "Bonjour,"), available: "A votre disposition pour toute question.", bye: "Bien à vous,", sign: "Samuel Halff\nArk Fiduciaire SA", open: "Ouvrir le questionnaire", codeNote: "Un code vous sera envoyé par email pour l'ouvrir." },
+  en: { hello: (n) => (n ? `Dear ${n},` : "Hello,"), available: "Let me know if you have any questions.", bye: "Kind regards,", sign: "Samuel Halff\nArk Fiduciaire SA", open: "Open the questionnaire", codeNote: "A code will be sent to you by email to open it." },
+  de: { hello: (n) => (n ? `Guten Tag ${n}` : "Guten Tag"), available: "Bei Fragen stehe ich gerne zur Verfügung.", bye: "Freundliche Grüsse", sign: "Samuel Halff\nArk Fiduciaire SA", open: "Fragebogen öffnen", codeNote: "Zum Öffnen erhalten Sie einen Code per E-Mail." },
+};
+
+/** First name from the CRM convention "NOM COMPOSÉ Prénom" (words not in capitals). */
+export function firstNameOf(name: string): string {
+  const words = name.trim().split(/\s+/).filter(Boolean);
+  const first = words.filter((w) => w !== w.toUpperCase());
+  return first.join(" ");
+}
 
 /**
  * Internal test or demo case (owner rule): submitter on an Ark or PBM address, or a client / case
@@ -98,42 +135,30 @@ export function internalMail(record: SubmissionRecord, excelName: string, excel:
   };
 }
 
-const CLIENT_TEXT: Record<QfLocale, { subject: string; hello: string; thanks: string; received: string; files: string; pending: string; noPending: string; howTo: string; contact: string; sign: string }> = {
+const CLIENT_TEXT: Record<QfLocale, { subject: string; thanks: string; received: string; pending: string; howTo: string; next: string }> = {
   fr: {
-    subject: "Votre questionnaire fiscal {year} – Ark Fiduciaire",
-    hello: "Bonjour {name},",
-    thanks: "Merci, nous avons bien reçu votre questionnaire fiscal {year}. Nous reviendrons vers vous rapidement.",
-    received: "Documents reçus",
-    files: "{n} fichier(s)",
-    pending: "Documents encore attendus",
-    noPending: "Nous n'attendons pas d'autre document pour le moment.",
-    howTo: "Vous pouvez nous transmettre les documents manquants en répondant à cet e-mail. Votre dossier peut nécessiter d'autres pièces : nous vous le dirons après examen.",
-    contact: "Une question ? Contactez-nous :",
-    sign: "Ark Fiduciaire SA",
+    subject: "Votre questionnaire fiscal {year}",
+    thanks: "Merci, nous avons bien reçu votre questionnaire {year}.",
+    received: "Documents reçus :",
+    pending: "Il nous manque encore :",
+    howTo: "Vous pouvez nous les envoyer en répondant à cet email, ou les ajouter dans votre questionnaire.",
+    next: "Nous revenons vers vous après examen de votre dossier.",
   },
   en: {
-    subject: "Your {year} tax questionnaire – Ark Fiduciaire",
-    hello: "Dear {name},",
-    thanks: "Thank you, we have received your {year} tax questionnaire. We will get back to you shortly.",
-    received: "Documents received",
-    files: "{n} file(s)",
-    pending: "Documents still expected",
-    noPending: "We are not expecting any other document for now.",
-    howTo: "You can send us the missing documents by replying to this email. Your file may require other documents: we will let you know after our review.",
-    contact: "Any questions? Contact us:",
-    sign: "Ark Fiduciaire SA",
+    subject: "Your {year} tax questionnaire",
+    thanks: "Thank you, we have received your {year} questionnaire.",
+    received: "Documents received:",
+    pending: "We are still missing:",
+    howTo: "You can send them by replying to this email, or add them in your questionnaire.",
+    next: "We will revert once we have reviewed your file.",
   },
   de: {
-    subject: "Ihr Steuerfragebogen {year} – Ark Fiduciaire",
-    hello: "Guten Tag {name}",
-    thanks: "Vielen Dank, wir haben Ihren Steuerfragebogen {year} erhalten. Wir melden uns in Kürze bei Ihnen.",
-    received: "Erhaltene Dokumente",
-    files: "{n} Datei(en)",
-    pending: "Noch ausstehende Dokumente",
-    noPending: "Wir erwarten derzeit keine weiteren Dokumente.",
-    howTo: "Sie können uns die fehlenden Dokumente als Antwort auf diese E-Mail zusenden. Eventuell benötigen wir weitere Unterlagen: Wir melden uns nach unserer Prüfung.",
-    contact: "Fragen? Kontaktieren Sie uns:",
-    sign: "Ark Fiduciaire SA",
+    subject: "Ihr Steuerfragebogen {year}",
+    thanks: "Vielen Dank, wir haben Ihren Fragebogen {year} erhalten.",
+    received: "Erhaltene Dokumente:",
+    pending: "Es fehlen uns noch:",
+    howTo: "Sie können sie uns als Antwort auf diese E-Mail senden oder in Ihrem Fragebogen hochladen.",
+    next: "Wir melden uns nach der Prüfung Ihrer Unterlagen.",
   },
 };
 
@@ -142,29 +167,23 @@ export function clientMail(record: SubmissionRecord): MailMessage {
   const a = record.answers;
   const cfg = mailConfig();
   const text = CLIENT_TEXT[record.locale];
+  const voice = VOICE[record.locale];
   const year = String(taxYearOf(a));
   const fill = (s: string, values: Record<string, string>) => s.replace(/\{(\w+)\}/g, (_m, k: string) => values[k] ?? "");
   const received = record.docs.filter((d) => d.status === "uploaded");
   const pending = record.docs.filter((d) => d.status === "later" || d.status === "missing");
-  const li = (items: string[]) => `<ul>${items.map((i) => `<li>${escapeHtml(i)}</li>`).join("")}</ul>`;
-  const extraLine = record.extras.length ? [`${DOC_CATEGORIES.extra.label[record.locale]} (${fill(text.files, { n: String(record.extras.length) })})`] : [];
-  const html = wrap(
-    `<p>${escapeHtml(fill(text.hello, { name: str(a["start.firstName"]) }))}</p><p>${escapeHtml(fill(text.thanks, { year }))}</p>` +
-      (received.length || extraLine.length
-        ? `<p><strong>${escapeHtml(text.received)}</strong></p>${li([
-            ...received.map((d) => `${d.item.label[record.locale]} (${fill(text.files, { n: String(d.files.length) })})`),
-            ...extraLine,
-          ])}`
-        : "") +
-      (pending.length ? `<p><strong>${escapeHtml(text.pending)}</strong></p>${li(pending.map((d) => d.item.label[record.locale]))}<p>${escapeHtml(text.howTo)}</p>` : `<p>${escapeHtml(text.noPending)}</p>`) +
-      `<p>${escapeHtml(text.contact)}<br>${escapeHtml(CONTACT.name)} · ${escapeHtml(CONTACT.phone)} · <a href="mailto:${CONTACT.email}">${CONTACT.email}</a></p><p>${escapeHtml(text.sign)}</p>`,
-  );
+  const extraLine = record.extras.length ? [DOC_CATEGORIES.extra.label[record.locale]] : [];
+  const receivedList = [...received.map((d) => d.item.label[record.locale]), ...extraLine];
+  const blocks: MailBlock[] = [voice.hello(str(a["start.firstName"])), fill(text.thanks, { year })];
+  if (receivedList.length) blocks.push(text.received, { list: receivedList });
+  if (pending.length) blocks.push(text.pending, { list: pending.map((d) => d.item.label[record.locale]) }, text.howTo);
+  blocks.push(text.next, voice.available, voice.bye, voice.sign);
   return {
     from: cfg.from,
     to: [str(a["start.email"])],
     cc: [],
     replyTo: cfg.replyTo,
     subject: fill(text.subject, { year }),
-    html,
+    html: plainHtml(blocks),
   };
 }

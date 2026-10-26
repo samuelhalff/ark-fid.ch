@@ -146,9 +146,9 @@ const start: StepDef = {
   id: "start",
   title: t("Pour commencer", "Getting started", "Zu Beginn"),
   intro: t(
-    "Quelques questions, puis vos documents. Comptez 10 à 15 minutes ; vous pouvez reprendre plus tard.",
-    "A few questions, then your documents. Allow 10 to 15 minutes; you can come back later.",
-    "Einige Fragen, dann Ihre Dokumente. Rechnen Sie mit 10 bis 15 Minuten; Sie können später weitermachen.",
+    "Quelques questions, puis vos documents. Vous pouvez vous arrêter et reprendre plus tard.",
+    "A few questions, then your documents. You can stop and continue later.",
+    "Einige Fragen, dann Ihre Dokumente. Sie können jederzeit unterbrechen und später weitermachen.",
   ),
   sheet: "Données de base",
   blocks: [
@@ -1141,8 +1141,9 @@ const review: StepDef = {
     f("review.extendedTo", "date", t("Prolongation jusqu'au", "Extended until", "Erstreckt bis"), { width: "half", showIf: is("review.deadline", "extended") }),
     f("review.comments", "textarea", t("Questions ou remarques", "Questions or remarks", "Fragen oder Bemerkungen"), { maxLength: 4000 }),
     f("other.p3aRetroInfo", "boolean", t("Je souhaite des informations sur les versements rétroactifs au 3e pilier A", "I would like information on retroactive pillar 3a contributions", "Ich wünsche Informationen zu rückwirkenden Einzahlungen in die Säule 3a"), { showIf: has("p3a") }),
-    f("review.reminder", "boolean", t("Me rappeler chaque année et préremplir mon questionnaire", "Remind me every year and pre-fill my questionnaire", "Mich jedes Jahr erinnern und meinen Fragebogen vorausfüllen"), {
-      help: t("Un e-mail en février avec un lien vers vos réponses de l'année précédente. Vous pouvez vous désinscrire à tout moment.", "An email in February with a link to last year's answers. You can unsubscribe at any time.", "Eine E-Mail im Februar mit einem Link zu den Antworten des Vorjahres. Abmeldung jederzeit möglich."),
+    // Service reminder with opt-out (owner decision): ticked by default when the case is created.
+    f("review.reminder", "boolean", t("Vous rappeler l'an prochain et préremplir votre questionnaire (désactivable à tout moment)", "Remind you next year and pre-fill your questionnaire (you can turn this off at any time)", "Sie nächstes Jahr erinnern und Ihren Fragebogen vorausfüllen (jederzeit abbestellbar)"), {
+      help: t("Un email en février avec votre questionnaire prérempli. Chaque email contient un lien pour ne plus le recevoir.", "An email in February with your pre-filled questionnaire. Each email has a link to stop receiving it.", "Eine E-Mail im Februar mit Ihrem vorausgefüllten Fragebogen. Jede E-Mail enthält einen Abmeldelink."),
     }),
   ],
 };

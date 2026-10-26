@@ -8,7 +8,7 @@
 import { createHash } from "node:crypto";
 import { campaignStopDate } from "../deadlines";
 import type { IssueLinkOptions } from "./access";
-import { escapeHtml, mailConfig, isInternalCase } from "./email";
+import { escapeHtml, firstNameOf, isInternalCase, mailConfig, plainHtml, VOICE, type MailBlock } from "./email";
 import type { ClientPreferences, ClientRegistry, PreferenceStore, ReturnRecord, ReturnTracker } from "./ports";
 import { clientKey as computeClientKey } from "./service";
 import type { MailMessage } from "./storage";
@@ -45,6 +45,8 @@ export interface CampaignDeps {
   ledger?: CampaignLedger;
   /** E-mail fingerprint used by the access store (the app passes access.emailHash, keyed). */
   hashEmail?: (email: string) => string;
+  /** Optional: labels of the documents still missing on a return (reminder e-mail). */
+  missingDocuments?: (record: ReturnRecord, language: Lang) => Promise<string[]>;
   /** Optional cleanup of abandoned drafts (cron task "cleanup"); implemented by the app. */
   cleanupAbandonedDrafts?: () => Promise<{ deleted: number }>;
 }
@@ -109,78 +111,92 @@ export function plannedFor(rows: ReturnRecord[], member: { clientKey: string; em
 
 // ---- mails --------------------------------------------------------------------------------------
 
-const TEXT: Record<Lang, Record<"notice" | "invitation" | "reminder", { subject: string; body: string }> & { cta: string; optout: string; sign: string }> = {
+/** Client campaign mails, in Samuel's voice (owner-approved French model for the invitation). */
+const TEXT: Record<Lang, { notice: { subject: string; body: string[] }; invitation: { subject: string; lead: string; fresh: string; renewal: string; prepared: string }; reminder: { subject: string; ask: string; missing: string }; courtesy: string; optout: string }> = {
   fr: {
     notice: {
-      subject: "Votre déclaration d'impôt {year} : un questionnaire en ligne",
-      body: "Bonjour,\n\nDès le 1er février, nous vous enverrons un lien vers notre questionnaire fiscal en ligne pour préparer votre déclaration {year}. Si vous ne souhaitez pas le recevoir, cliquez sur le lien de désinscription ci-dessous.",
+      subject: "Votre déclaration d'impôt {year}",
+      body: [
+        "Début février, nous vous enverrons un lien vers un questionnaire en ligne pour préparer votre déclaration d'impôt {year}.",
+        "Si vous préférez ne pas le recevoir, vous pouvez vous désinscrire ci-dessous.",
+      ],
     },
     invitation: {
-      subject: "Votre questionnaire fiscal {year}",
-      body: "Bonjour,\n\nVotre questionnaire fiscal {year} est prêt. Il ne prend que quelques minutes, et vous pouvez y déposer vos documents.",
+      subject: "Votre déclaration d'impôt {year}",
+      lead: "Nous préparons votre déclaration d'impôt {year}.",
+      fresh: "Merci de remplir votre questionnaire et d'y ajouter vos documents {year} :",
+      renewal: "Votre questionnaire reprend les informations de l'an dernier. Merci de corriger ce qui a changé et d'ajouter vos documents {year} :",
+      prepared: "Nous avons pré-rempli votre questionnaire avec les informations que vous nous avez transmises. Merci de les vérifier, de compléter ce qui manque et d'ajouter vos documents {year} :",
     },
-    reminder: {
-      subject: "Rappel : votre questionnaire fiscal {year}",
-      body: "Bonjour,\n\nPetit rappel : votre questionnaire fiscal {year} n'est pas encore envoyé. Vous pouvez le reprendre où vous l'avez laissé.",
-    },
-    cta: "Ouvrir mon questionnaire",
-    optout: "Ne plus recevoir ces messages",
-    sign: "Ark Fiduciaire SA · +41 22 512 50 50 · info@ark-fid.ch",
+    reminder: { subject: "Rappel : votre questionnaire fiscal {year}", ask: "Avez-vous pu remplir votre questionnaire {year} ?", missing: "Avez-vous pu remplir votre questionnaire {year} ? Il nous manque encore :" },
+    courtesy: "J'espère que vous allez bien.",
+    optout: "Ne plus recevoir ces emails",
   },
   en: {
     notice: {
-      subject: "Your {year} tax return: an online questionnaire",
-      body: "Hello,\n\nFrom 1 February we will send you a link to our online tax questionnaire to prepare your {year} return. If you would rather not receive it, use the unsubscribe link below.",
+      subject: "Your {year} tax return",
+      body: ["In early February we will send you a link to an online questionnaire to prepare your {year} tax return.", "If you would rather not receive it, you can unsubscribe below."],
     },
     invitation: {
       subject: "Your {year} tax questionnaire",
-      body: "Hello,\n\nYour {year} tax questionnaire is ready. It only takes a few minutes, and you can upload your documents there.",
+      lead: "We are preparing your {year} tax return.",
+      fresh: "Please fill in your questionnaire and add your {year} documents:",
+      renewal: "Your questionnaire carries over last year's information. Please correct what has changed and add your {year} documents:",
+      prepared: "We have pre-filled your questionnaire with the information you sent us. Please check it, complete what is missing and add your {year} documents:",
     },
-    reminder: {
-      subject: "Reminder: your {year} tax questionnaire",
-      body: "Hello,\n\nA quick reminder: your {year} tax questionnaire has not been sent yet. You can continue where you left off.",
-    },
-    cta: "Open my questionnaire",
-    optout: "Stop receiving these messages",
-    sign: "Ark Fiduciaire SA · +41 22 512 50 50 · info@ark-fid.ch",
+    reminder: { subject: "Reminder: your {year} tax questionnaire", ask: "Have you been able to fill in your {year} questionnaire?", missing: "Have you been able to fill in your {year} questionnaire? We are still missing:" },
+    courtesy: "I hope you are well.",
+    optout: "Stop receiving these emails",
   },
   de: {
     notice: {
-      subject: "Ihre Steuererklärung {year}: ein Online-Fragebogen",
-      body: "Guten Tag\n\nAb dem 1. Februar senden wir Ihnen einen Link zu unserem Online-Steuerfragebogen für Ihre Steuererklärung {year}. Wenn Sie ihn nicht erhalten möchten, nutzen Sie den Abmeldelink unten.",
+      subject: "Ihre Steuererklärung {year}",
+      body: ["Anfang Februar senden wir Ihnen einen Link zu einem Online-Fragebogen für Ihre Steuererklärung {year}.", "Wenn Sie ihn nicht erhalten möchten, können Sie sich unten abmelden."],
     },
     invitation: {
       subject: "Ihr Steuerfragebogen {year}",
-      body: "Guten Tag\n\nIhr Steuerfragebogen {year} ist bereit. Er dauert nur wenige Minuten, und Sie können dort Ihre Dokumente hochladen.",
+      lead: "Wir bereiten Ihre Steuererklärung {year} vor.",
+      fresh: "Bitte füllen Sie Ihren Fragebogen aus und laden Sie Ihre Dokumente {year} hoch:",
+      renewal: "Ihr Fragebogen übernimmt die Angaben des Vorjahres. Bitte korrigieren Sie, was sich geändert hat, und laden Sie Ihre Dokumente {year} hoch:",
+      prepared: "Wir haben Ihren Fragebogen mit Ihren Angaben vorausgefüllt. Bitte prüfen und ergänzen Sie ihn und laden Sie Ihre Dokumente {year} hoch:",
     },
-    reminder: {
-      subject: "Erinnerung: Ihr Steuerfragebogen {year}",
-      body: "Guten Tag\n\nEine kurze Erinnerung: Ihr Steuerfragebogen {year} wurde noch nicht gesendet. Sie können dort weitermachen, wo Sie aufgehört haben.",
-    },
-    cta: "Meinen Fragebogen öffnen",
-    optout: "Keine solchen Nachrichten mehr erhalten",
-    sign: "Ark Fiduciaire SA · +41 22 512 50 50 · info@ark-fid.ch",
+    reminder: { subject: "Erinnerung: Ihr Steuerfragebogen {year}", ask: "Konnten Sie Ihren Fragebogen {year} ausfüllen?", missing: "Konnten Sie Ihren Fragebogen {year} ausfüllen? Es fehlen uns noch:" },
+    courtesy: "Ich hoffe, es geht Ihnen gut.",
+    optout: "Keine solchen E-Mails mehr erhalten",
   },
 };
 
-const RENEWAL: Record<Lang, string> = {
-  fr: "Il reprend votre situation {prev} : vous confirmez ce qui n'a pas changé, vous complétez ce qui a changé et vous déposez vos documents {year}.",
-  en: "It carries over your {prev} situation: confirm what has not changed, update what has, and upload your {year} documents.",
-  de: "Er übernimmt Ihre Situation {prev}: Sie bestätigen, was gleich geblieben ist, ergänzen, was sich geändert hat, und laden Ihre Dokumente {year} hoch.",
-};
 
-export function campaignMail(kind: "notice" | "invitation" | "reminder", language: Lang, to: string, taxYear: number, link: string | null, optoutLink: string, renewalFrom?: number): MailMessage {
+export interface CampaignMailOptions {
+  /** Recipient's first name (greeting). */
+  firstName?: string;
+  /** Invitation: carried over from this year's return (renewal) or prepared by Ark. */
+  variant?: "fresh" | "renewal" | "prepared";
+  /** Reminder: documents still missing (labels), at most a few. */
+  missing?: string[];
+}
+
+export function campaignMail(kind: "notice" | "invitation" | "reminder", language: Lang, to: string, taxYear: number, link: string | null, optoutLink: string, options: CampaignMailOptions = {}): MailMessage {
   const text = TEXT[language];
-  const fill = (s: string) => s.replace(/\{year\}/g, String(taxYear)).replace(/\{prev\}/g, String(renewalFrom || ""));
-  const body = kind === "invitation" && renewalFrom ? `${text[kind].body}\n\n${RENEWAL[language]}` : text[kind].body;
-  const paragraphs = fill(body)
-    .split("\n\n")
-    .map((p) => `<p>${escapeHtml(p)}</p>`)
-    .join("");
-  const cta = link ? `<p><a href="${escapeHtml(link)}" style="display:inline-block;padding:10px 16px;background:#1f2a44;color:#fff;border-radius:6px;text-decoration:none">${escapeHtml(text.cta)}</a></p>` : "";
-  const html = `<!doctype html><html><body style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;color:#1f2937;max-width:640px">${paragraphs}${cta}<p>${escapeHtml(text.sign)}</p><p style="font-size:12px;color:#6b7280"><a href="${escapeHtml(optoutLink)}">${escapeHtml(text.optout)}</a></p></body></html>`;
+  const voice = VOICE[language];
+  const fill = (s: string) => s.replace(/\{year\}/g, String(taxYear));
+  const hello = voice.hello(options.firstName || "");
+  const linkBlock: MailBlock[] = link ? [{ link, label: voice.open }] : [];
+  let blocks: MailBlock[];
+  if (kind === "notice") {
+    blocks = [hello, text.courtesy, ...text.notice.body.map(fill), voice.available, voice.bye, voice.sign];
+  } else if (kind === "invitation") {
+    const variant = options.variant || "fresh";
+    blocks = [hello, text.courtesy, fill(text.invitation.lead), fill(text.invitation[variant]), ...linkBlock, voice.codeNote, voice.available, voice.bye, voice.sign];
+  } else {
+    const missing = (options.missing || []).slice(0, 8);
+    blocks = missing.length
+      ? [hello, fill(text.reminder.missing), { list: missing }, ...linkBlock, voice.bye, voice.sign]
+      : [hello, fill(text.reminder.ask), ...linkBlock, voice.bye, voice.sign];
+  }
+  const subject = kind === "notice" ? text.notice.subject : kind === "invitation" ? text.invitation.subject : text.reminder.subject;
   const cfg = mailConfig();
-  return { from: cfg.from, to: [to], cc: [], replyTo: cfg.replyTo, subject: fill(text[kind].subject), html };
+  return { from: cfg.from, to: [to], cc: [], replyTo: cfg.replyTo, subject: fill(subject), html: plainHtml(blocks, `<a href="${escapeHtml(optoutLink)}" style="color:#6b7280">${escapeHtml(text.optout)}</a>`) };
 }
 
 // ---- audience -----------------------------------------------------------------------------------
@@ -272,7 +288,8 @@ export async function inviteMember(
   const link = await deps.issueLink({ caseId: record.caseId, emailHash: record.emailHash, scope: "edit", purpose: "invitation", ttlMs: opts.ttlMs || INVITATION_TTL, origin: opts.origin, locale: member.language });
   if (opts.send !== false) {
     const optout = await deps.issueLink({ caseId: `client:${member.clientKey}`, emailHash: (deps.hashEmail || emailHashOf)(member.email), scope: "status", purpose: "optout", ttlMs: OPTOUT_TTL, origin: opts.origin, locale: member.language });
-    await deps.sendMail(campaignMail("invitation", member.language, member.email, taxYear, link, optout, opts.prefillAnswers ? undefined : opts.previous?.taxYear));
+    const variant = opts.prefillAnswers ? "prepared" : opts.previous ? "renewal" : "fresh";
+    await deps.sendMail(campaignMail("invitation", member.language, member.email, taxYear, link, optout, { firstName: firstNameOf(member.name), variant }));
   }
   if (opts.beforeMark) await opts.beforeMark(record, link);
   // invitedAt also when the link is handed over by staff: the campaign does not re-invite.
@@ -335,7 +352,7 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
         actions++;
         summary.notices++;
         if (!dryRun) {
-          await deps.sendMail(campaignMail("notice", member.language, member.email, taxYear, null, await optoutLink(member)));
+          await deps.sendMail(campaignMail("notice", member.language, member.email, taxYear, null, await optoutLink(member), { firstName: firstNameOf(member.name) }));
           await deps.prefs.upsert({
             clientKey: member.clientKey,
             email: member.email,
@@ -380,7 +397,9 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
         summary.reminders++;
         if (!dryRun) {
           const link = await deps.issueLink({ caseId: current.caseId, emailHash: current.emailHash, scope: "edit", purpose: "invitation", ttlMs: INVITATION_TTL, origin: opts.origin, locale: member.language });
-          await deps.sendMail(campaignMail("reminder", lang(current.language || member.language), current.email || member.email, taxYear, link, await optoutLink(member)));
+          const reminderLang = lang(current.language || member.language);
+          const missing = deps.missingDocuments ? await deps.missingDocuments(current, reminderLang).catch(() => []) : [];
+          await deps.sendMail(campaignMail("reminder", reminderLang, current.email || member.email, taxYear, link, await optoutLink(member), { firstName: firstNameOf(current.name || member.name), missing }));
           await deps.tracker.upsert({ ...current, remindersSent: (current.remindersSent || 0) + 1, lastReminderAt: iso(now) });
         }
       }
