@@ -170,6 +170,36 @@ test("refresh --apply merges generated fields, preserves the rest, mirrors metad
   assert.deepEqual(fs.readdirSync(path.join(dir, "fr")), ["ressources.json"]); // no temp leftovers
 });
 
+test("refresh of an FR/EN/DE-only article never creates ES/PT entries", async () => {
+  const dir = makeFixture();
+  for (const l of ["es", "pt"]) {
+    const p = path.join(dir, l, "ressources.json");
+    const data = JSON.parse(fs.readFileSync(p, "utf8"));
+    data.Articles = data.Articles.filter((a) => a.slug !== "one");
+    fs.writeFileSync(p, JSON.stringify(data, null, 2));
+  }
+  const deps = makeDeps();
+  const base = deps.translate;
+  let asked;
+  deps.translate = async (art, labels, locales) => {
+    asked = locales;
+    const t = await base(art, labels);
+    delete t.es;
+    delete t.pt;
+    return t;
+  };
+  await refreshArticles({ slugs: ["one"], today: "2026-10-24", translationsDir: dir, apply: true, deps, log: () => {} });
+  assert.deepEqual(asked, ["en", "de"]);
+  for (const l of ["es", "pt"]) {
+    const data = JSON.parse(fs.readFileSync(path.join(dir, l, "ressources.json"), "utf8"));
+    assert.equal(data.Articles.some((a) => a.slug === "one"), false, `${l} gained the article`);
+  }
+  for (const l of ["en", "de"]) {
+    const data = JSON.parse(fs.readFileSync(path.join(dir, l, "ressources.json"), "utf8"));
+    assert.equal(data.Articles.find((a) => a.slug === "one").updated, "2026-10-24");
+  }
+});
+
 test("refresh without --apply writes nothing", async () => {
   const dir = makeFixture();
   const before = snapshot(dir);

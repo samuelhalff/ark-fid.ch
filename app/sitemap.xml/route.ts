@@ -3,7 +3,7 @@ import { locales, type Locale } from "@/src/lib/i18n-locales";
 import { localizePath } from "@/src/lib/paths";
 import { hreflangFor } from "@/src/lib/hreflang";
 import { teamMembers, getMemberSlug } from "@/src/lib/team";
-import { getArticles, getValidLocalesForSlug } from "@/src/lib/articles";
+import { getArticles, getIndexableLocalesForSlug } from "@/src/lib/articles";
 import lbaMeta from "@/src/lba/meta.json";
 
 const BASE = "https://ark-fid.ch";
@@ -70,7 +70,7 @@ function getSitemapPaths(sitemapLocales: readonly Locale[]) {
   const ressourcesArticles = articles.map((article) => ({
     path: `/ressources/articles/${article.slug}`,
     date: article.updated ?? article.date,
-    locales: getValidLocalesForSlug(article.slug).filter((locale) =>
+    locales: getIndexableLocalesForSlug(article.slug).filter((locale) =>
       sitemapLocales.includes(locale),
     ),
   }));

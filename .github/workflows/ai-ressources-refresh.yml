@@ -158,10 +158,17 @@ jobs:
         run: |
           timeout -k 30s 3m node - <<'NODE'
           const https = require('https');
+          const fs = require('fs');
           const slug = process.env.ARTICLE_SLUG;
-          const urls = ['fr', 'en', 'de', 'es', 'pt'].map(
-            (locale) => `https://ark-fid.ch/${locale}/ressources/articles/${slug}/`,
-          );
+          // Only locales that carry the article and are not on the ES/PT noindex list.
+          const noindex = JSON.parse(fs.readFileSync('src/data/article-locale-noindex.json', 'utf8'));
+          const urls = ['fr', 'en', 'de', 'es', 'pt']
+            .filter((locale) => {
+              const data = JSON.parse(fs.readFileSync(`src/translations/${locale}/ressources.json`, 'utf8'));
+              const exists = (data.Articles || []).some((a) => a.slug === slug);
+              return exists && !(noindex[locale] || []).includes(slug);
+            })
+            .map((locale) => `https://ark-fid.ch/${locale}/ressources/articles/${slug}/`);
           const body = JSON.stringify({ urls });
           const req = https.request('https://ark-fid.ch/api/indexnow/', {
             method: 'POST',

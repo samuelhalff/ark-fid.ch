@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { cache } from "react";
 import { locales, type Locale } from "./i18n-locales";
+import articleLocaleNoindex from "../data/article-locale-noindex.json";
 
 export const ARTICLE_CACHE_TTL_MS = 15 * 60 * 1000;
 
@@ -112,4 +113,28 @@ export const getValidLocalesForSlug = cache((slug: string): Locale[] =>
     if (!article) return false;
     return locale === "fr" || isGenuineTranslation(locale, slug);
   }),
+);
+
+// Locale versions deliberately kept out of the index (ES/PT pages with no search
+// impressions). They still render, but are noindex and absent from the sitemap,
+// the hreflang alternates and the RSS feed.
+const noindexByLocale = new Map<string, Set<string>>(
+  Object.entries(articleLocaleNoindex as Record<string, unknown>)
+    .filter((entry): entry is [string, string[]] => Array.isArray(entry[1]))
+    .map(([locale, slugs]) => [locale, new Set(slugs)]),
+);
+
+export function isNoindexArticleLocale(locale: Locale, slug: string): boolean {
+  return noindexByLocale.get(locale)?.has(slug) ?? false;
+}
+
+/** Genuine translation (or FR) that is not on the noindex list. */
+export const isIndexableArticleLocale = cache((locale: Locale, slug: string) => {
+  if (isNoindexArticleLocale(locale, slug)) return false;
+  return locale === "fr" || isGenuineTranslation(locale, slug);
+});
+
+/** Locales to expose in the sitemap and hreflang alternates for an article. */
+export const getIndexableLocalesForSlug = cache((slug: string): Locale[] =>
+  getValidLocalesForSlug(slug).filter((locale) => !isNoindexArticleLocale(locale, slug)),
 );

@@ -84,9 +84,9 @@ describe("redirect canonicalization", () => {
 });
 
 describe("sitemap eligibility", () => {
-  it("uses localized paths and genuine article locale variants", () => {
+  it("uses localized paths and indexable article locale variants", () => {
     const source = read("app/sitemap.xml/route.ts");
-    assert.match(source, /getValidLocalesForSlug/);
+    assert.match(source, /getIndexableLocalesForSlug/);
     assert.match(source, /getPlaceholderLocales/);
     assert.match(source, /localizePath/);
     assert.match(source, /pathLocales\.map/);

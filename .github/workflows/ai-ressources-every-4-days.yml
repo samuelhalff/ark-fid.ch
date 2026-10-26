@@ -1,8 +1,9 @@
-name: AI Resources Update (weekly)
+name: AI Resources Update (twice a month)
 
 on:
   schedule:
-    - cron: "0 5 * * 2"
+    # ~2 new articles per month (2nd and 16th, 05:00 UTC). New articles are FR + EN/DE only.
+    - cron: "0 5 2,16 * *"
   workflow_dispatch:
     inputs:
       force_topic:
@@ -59,7 +60,7 @@ jobs:
           print(f"Captured {len(slugs)} existing article slugs")
           PY
 
-      - name: Run AI update (FR + translations via Azure OpenAI)
+      - name: Run AI update (FR + EN/DE translations via Azure OpenAI)
         timeout-minutes: 30
         env:
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
@@ -180,7 +181,7 @@ jobs:
           timeout -k 30s 3m node - <<'NODE'
           const https = require('https');
           const slug = process.env.ARTICLE_SLUG;
-          const urls = ['fr', 'en', 'de', 'es', 'pt'].map(
+          const urls = ['fr', 'en', 'de'].map(
             (locale) => `https://ark-fid.ch/${locale}/ressources/articles/${slug}/`,
           );
           const body = JSON.stringify({ urls });

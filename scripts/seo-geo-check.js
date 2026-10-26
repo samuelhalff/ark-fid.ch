@@ -25,7 +25,7 @@ const requiredMetadataTitles = {
     "/services/payroll": "Externalisation des salaires en Suisse | Ark Fiduciaire",
     "/services/domiciliation": "Domiciliation d’entreprise à Genève | Ark Fiduciaire",
     "/services/incorporation": "Création de SA ou Sàrl à Genève | Ark Fiduciaire",
-    "/services/odoo": "Fiduciaire Odoo à Genève | Ark Fiduciaire",
+    "/services/odoo": "Fiduciaire Odoo à Genève : votre comptabilité dans Odoo",
     "/services/family-office": "Family office administratif en Suisse | Ark Fiduciaire",
   },
   en: {

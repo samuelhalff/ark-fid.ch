@@ -8,6 +8,7 @@ const path = require("path");
 const { countWords, validateArticleMetadata } = require("./articleRefresh");
 const { extractOutdatedSwissVatRateMatches } = require("./outdatedVatValidator");
 const { isBlockedDomain, isTrustedDomain } = require("./referenceValidator");
+const { isLegacyArticleLocale } = require("./articleLocales");
 
 const LOCALES = ["fr", "en", "de", "es", "pt"];
 // Translations are shorter than the French source (EN ~-15%); only FR is held to the
@@ -107,6 +108,8 @@ function validateRefreshedArticle({ slug, today, current, head, routes, teamSlug
     const a = articleOf(current, loc);
     const tag = `${loc}`;
     if (!a) {
+      // ES/PT exist only for older articles: absent there before the refresh is fine.
+      if (isLegacyArticleLocale(loc) && !articleOf(head, loc)) continue;
       errors.push(`${tag}: article missing`);
       continue;
     }

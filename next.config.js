@@ -3,6 +3,26 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
   openAnalyzer: false,
 });
 
+// Cluster consolidation (2026-10-26): weak articles overlapping a stronger article
+// on the same queries (90-day GSC data), removed from every locale. [source, winner]
+const ARTICLE_CONSOLIDATIONS_2026_10 = [
+  ["domiciliation-suisse-entreprises-2026-contrat-substance-risques", "domiciliation-suisse-substance-risques-guide-2026"],
+  ["outsourcing-administratif-pme-geneve-solutions-avantages-2025", "externalisation-comptabilite-geneve-pme-avantages-etapes-solutions-2025"],
+  ["reformer-l-externalisation-de-la-direction-financiere-pour-les-pme-a-geneve-en-2025", "outsourcing-finance-cfo-a-la-demande"],
+  ["swissdec-5-paie-geneve-obligations-2025", "swissdec-5-0-et-salaires-geneve-2025-points-cles"],
+  ["nouveautes-paie-geneve-2025-regles-frontaliers-teletravail", "paie-frontaliers-teletravail-2026-regles-controle"],
+  ["mise-en-place-ou-amelioration-du-controle-des-proces-verbaux-et-assemblees-generales-en-pme-geneve-2025-solutions-pratiques", "proces-verbal-assemblee-generale-obligations-redaction-suisse-2025"],
+];
+const ARTICLE_PREFIX = "/:locale/ressources/articles/";
+const consolidationRedirects = (pairs) =>
+  pairs.flatMap(([source, target]) =>
+    [`${ARTICLE_PREFIX}${source}/`, `${ARTICLE_PREFIX}${source}`].map((from) => ({
+      source: from,
+      destination: `${ARTICLE_PREFIX}${target}/`,
+      permanent: true,
+    })),
+  );
+
 /** @type {import('next').NextConfig} */
 const baseConfig = {
   trailingSlash: true,
@@ -223,15 +243,16 @@ const baseConfig = {
         destination: "/fr/services/constitution-entreprise/",
         permanent: true,
       },
+      ...consolidationRedirects(ARTICLE_CONSOLIDATIONS_2026_10),
       // Duplicate-article consolidation (Oct 2026): source removed from all locales
       {
         source: "/:locale/ressources/articles/domiciliation-suisse-entreprises-contrats-substance-risques-2026/",
-        destination: "/:locale/ressources/articles/domiciliation-suisse-entreprises-2026-contrat-substance-risques/",
+        destination: "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
         permanent: true,
       },
       {
         source: "/:locale/ressources/articles/domiciliation-suisse-entreprises-contrats-substance-risques-2026",
-        destination: "/:locale/ressources/articles/domiciliation-suisse-entreprises-2026-contrat-substance-risques/",
+        destination: "/:locale/ressources/articles/domiciliation-suisse-substance-risques-guide-2026/",
         permanent: true,
       },
       {

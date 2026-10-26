@@ -44,6 +44,7 @@ const getArg = (k, d) => {
 const APPLY = args.has("--apply");
 const DRY = args.has("--dry-run") || !APPLY;
 const FORCE = args.has("--force");
+const { isLegacyArticleLocale } = require("./lib/articleLocales");
 const LOCALES = getArg("--locales", "en,de,es,pt")
   .split(",")
   .map((s) => s.trim())
@@ -230,6 +231,8 @@ async function main() {
     for (const frA of frArticles) {
       if (ONLY_SLUGS.size && !ONLY_SLUGS.has(frA.slug)) continue;
       const locA = bySlug.get(frA.slug);
+      // ES/PT are kept for existing articles only: never add a new ES/PT entry.
+      if (!locA && isLegacyArticleLocale(locale)) continue;
       if (!needsTranslation(frA, locA)) continue;
 
       processed++;

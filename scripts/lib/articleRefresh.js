@@ -9,6 +9,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { translationLocalesForSlug } = require("./articleLocales");
 
 const SERVICE_PATHS = [
   "/services/accounting",
@@ -307,9 +308,11 @@ async function refreshArticles({
 
     const labels = {};
     for (const ref of candidate.references || []) if (ref?.labelKey) labels[ref.labelKey] = ref.labelKey;
-    log(`[refresh] ${slug}: translate`);
-    const translations = await deps.translate(candidate, labels);
-    for (const locale of locales) {
+    // ES/PT are only kept for articles that already exist there (no new ES/PT entries).
+    const slugLocales = translationLocalesForSlug(slug, localeData, locales);
+    log(`[refresh] ${slug}: translate (${slugLocales.join(", ")})`);
+    const translations = await deps.translate(candidate, labels, slugLocales);
+    for (const locale of slugLocales) {
       const t = translations?.[locale]?.Article;
       if (!t || !t.title || !t.description || !t.content) {
         throw new Error(`refresh: ${slug}: incomplete ${locale} translation`);
@@ -322,7 +325,7 @@ async function refreshArticles({
     // Everything for this slug validated: finalize in memory.
     markUpdated(candidate, today);
     frData.Articles[idx] = candidate;
-    for (const locale of locales) {
+    for (const locale of slugLocales) {
       const data = localeData[locale];
       data.Articles = Array.isArray(data.Articles) ? data.Articles : [];
       const li = data.Articles.findIndex((a) => a.slug === slug);

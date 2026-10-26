@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isValidLocale, type Locale } from "@/src/lib/i18n";
-import { getArticles, isGenuineTranslation } from "@/src/lib/articles";
+import { getArticles, isIndexableArticleLocale } from "@/src/lib/articles";
 
 type Params = { params: Promise<{ locale: string }> };
 
@@ -24,7 +24,7 @@ export async function GET(_request: Request, { params }: Params) {
   const { locale: rawLocale } = await params;
   const locale: Locale = isValidLocale(rawLocale) ? rawLocale : "fr";
   const articles = getArticles(locale)
-    .filter((article) => locale === "fr" || isGenuineTranslation(locale, article.slug))
+    .filter((article) => isIndexableArticleLocale(locale, article.slug))
     .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
     .slice(0, 20);
   const lastBuildDate = toRssDate(articles[0]?.updated ?? articles[0]?.date);

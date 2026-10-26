@@ -9,6 +9,7 @@
 const fs = require("fs");
 const path = require("path");
 const { DATA_REPORT_LOCALES, isDataReportArticle } = require("./lib/articleTopicGuardrails");
+const { isLegacyArticleLocale } = require("./lib/articleLocales");
 
 const LOCALES = ["fr", "en", "de", "es", "pt"];
 const TRANSLATIONS_DIR = path.join(__dirname, "../src/translations");
@@ -61,6 +62,7 @@ function main() {
     const genuineTranslations = [];
     const duplicates = [];
     const missing = [];
+    const notPublished = [];
 
     for (const frArticle of fr.Articles) {
       const localeArticle = localeArticleMap.get(frArticle.slug);
@@ -68,7 +70,9 @@ function main() {
       if (!localeArticle) {
         // Data reports are intentionally published in DATA_REPORT_LOCALES only.
         if (isDataReportArticle(frArticle) && !DATA_REPORT_LOCALES.includes(locale)) continue;
-        missing.push(frArticle.slug);
+        // ES/PT are only kept for older articles; new ones are FR/EN/DE only.
+        if (isLegacyArticleLocale(locale)) notPublished.push(frArticle.slug);
+        else missing.push(frArticle.slug);
       } else if (isGenuineTranslation(localeArticle, frArticle)) {
         genuineTranslations.push(frArticle.slug);
       } else {
@@ -80,6 +84,7 @@ function main() {
       genuine: genuineTranslations.length,
       duplicate: duplicates.length,
       missing: missing.length,
+      notPublished: notPublished.length,
     };
 
     console.log(`\n[${locale.toUpperCase()}] Translation Status:`);
@@ -87,6 +92,9 @@ function main() {
     console.log(`  ✅ Genuine translations: ${genuineTranslations.length}`);
     console.log(`  ⚠️  Duplicates (same as FR): ${duplicates.length}`);
     console.log(`  ❌ Missing: ${missing.length}`);
+    if (notPublished.length) {
+      console.log(`  ➖ Not published in this locale (FR/EN/DE-only policy): ${notPublished.length}`);
+    }
 
     if (duplicates.length > 0 && duplicates.length <= 10) {
       console.log(`\n  Duplicate articles (will be excluded from sitemap):`);

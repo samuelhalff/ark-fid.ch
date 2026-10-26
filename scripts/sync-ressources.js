@@ -5,7 +5,7 @@
  * Features:
  *  - --apply : actually write updates (default is dry-run)
  *  - --check : exit with code 1 if any locale diverges
- *  - --locales=de,en,es,pt : override target locales
+ *  - --locales=de,en : override target locales (default en,de; ES/PT are legacy-only)
  *  - Preserves filenames, slugs, URLs exactly as they appear in FR (they are copied wholesale)
  *  - Does NOT attempt machine translation; translation is manual after sync
  *  - Provides summary of differences (counts of Files, Articles, missing keys)
@@ -30,7 +30,9 @@ const getArgValue = (key) => {
 const APPLY = hasFlag('--apply');
 const FORCE = hasFlag('--force-overwrite');
 const CHECK = hasFlag('--check');
-const localeList = (getArgValue('--locales') || 'en,de,es,pt').split(',').map(s => s.trim()).filter(Boolean);
+// ES/PT only keep older articles (FR/EN/DE-only policy, scripts/lib/articleLocales.js), so
+// article-count parity is only expected for EN/DE unless --locales says otherwise.
+const localeList = (getArgValue('--locales') || 'en,de').split(',').map(s => s.trim()).filter(Boolean);
 
 if (APPLY && !FORCE) {
   console.error(

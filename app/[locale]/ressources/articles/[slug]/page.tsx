@@ -21,8 +21,9 @@ import {
 import { getCategoryServicePath } from "@/src/lib/articleCta";
 import {
   getArticle,
-  getValidLocalesForSlug,
+  getIndexableLocalesForSlug,
   isGenuineTranslation,
+  isIndexableArticleLocale,
   type ResourceArticle,
 } from "@/src/lib/articles";
 import { loadRessourcesData } from "@/src/lib/ressources";
@@ -669,7 +670,9 @@ export async function generateMetadata(props: Params) {
   // If article not found, the page component returns notFound() so no metadata needed
   if (!article) return {};
 
-  const validLocales = getValidLocalesForSlug(params.slug);
+  // hreflang alternates list only indexable versions (ES/PT pages with no
+  // impressions are noindex and must not be advertised as alternates).
+  const validLocales = getIndexableLocalesForSlug(params.slug);
 
   const reading = article.content ? estimateReadingTime(article.content) : null;
   const meta = await generateMetadataForArticle(
@@ -683,13 +686,22 @@ export async function generateMetadata(props: Params) {
     meta && typeof meta.robots === "object" && meta.robots !== null
       ? (meta.robots as Record<string, unknown>)
       : {};
-  const shouldIndex = locale === "fr" || isGenuineTranslation(locale, params.slug);
+  const shouldIndex = isIndexableArticleLocale(locale, params.slug);
+  // Non-indexed versions (pruned ES/PT pages, FR fallbacks for articles that are not
+  // translated in this locale) stay "follow" so their links keep passing equity.
+  const shouldFollow = robotsConfig.follow !== false;
   return {
     ...meta,
     robots: {
       ...(robotsConfig as Record<string, unknown>),
       index: shouldIndex,
-      follow: shouldIndex,
+      follow: shouldFollow,
+      // Keep the googlebot meta consistent with the robots meta.
+      googleBot: {
+        ...((robotsConfig.googleBot as Record<string, unknown> | undefined) ?? {}),
+        index: shouldIndex,
+        follow: shouldFollow,
+      },
     },
     other: {
       ...(meta.other || {}),

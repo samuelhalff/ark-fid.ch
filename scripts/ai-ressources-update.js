@@ -17,6 +17,10 @@ const {
 } = require("./lib/outdatedVatValidator");
 const { buildLengthRecoveryPlan } = require("./lib/draftLengthRecovery");
 const {
+  NEW_ARTICLE_TARGET_LOCALES,
+  LEGACY_ARTICLE_LOCALES,
+} = require("./lib/articleLocales");
+const {
   TOPIC_KEYWORDS,
   describeTopic,
   detectTopic,
@@ -181,7 +185,10 @@ const AZURE_OPENAI_RESEARCH_API_KEY =
 const ROOT = process.cwd();
 const TRANSLATIONS_DIR = path.join(ROOT, "src", "translations");
 const FR_PATH = path.join(TRANSLATIONS_DIR, "fr", "ressources.json");
-const LOCALES = ["en", "de", "es", "pt"];
+// New articles: FR source + EN/DE translations only (see scripts/lib/articleLocales.js).
+const LOCALES = NEW_ARTICLE_TARGET_LOCALES;
+// Refreshes also rewrite ES/PT, but only for articles that already exist there.
+const REFRESH_LOCALES = [...NEW_ARTICLE_TARGET_LOCALES, ...LEGACY_ARTICLE_LOCALES];
 
 const SERVICES = [
   "comptabilité (PME, indépendants, Swiss GAAP FER)",
@@ -547,19 +554,21 @@ function buildSystemPrompt(frJson, trendData = null, topicAnalysis = null) {
   ].join("\n");
 }
 
-function buildTranslatePrompt(newArticle, newLabels) {
+function buildTranslatePrompt(newArticle, newLabels, locales = LOCALES) {
+  const list = locales.join(", ");
   return [
     "Tu es traducteur professionnel. Traduis les champs ci-dessous en conservant les structures, slugs, URLs et clés.",
     'Respecte les minuscules/majuscules d\'origine et garde "Ark Fiduciaire" tel quel.',
     "Fourni uniquement le JSON demandé, sans commentaire.",
-    "IMPORTANT: Chaque locale (en, de, es, pt) doit être traduite. Ne retourne jamais le texte français pour une autre langue.",
+    `IMPORTANT: Chaque locale (${list}) doit être traduite, et uniquement ces locales. Ne retourne jamais le texte français pour une autre langue.`,
     "",
     "Format attendu:",
     "{",
-    '  "en": { "Article": { "title": "...", "description": "...", "content": "..." }, "labels": { "Libellé FR": "English label" } },',
-    '  "de": { "Article": { ... }, "labels": { ... } },',
-    '  "es": { "Article": { ... }, "labels": { ... } },',
-    '  "pt": { "Article": { ... }, "labels": { ... } }',
+    ...locales.map((locale, i) =>
+      i === 0
+        ? `  "${locale}": { "Article": { "title": "...", "description": "...", "content": "..." }, "labels": { "Libellé FR": "Traduction" } }${i < locales.length - 1 ? "," : ""}`
+        : `  "${locale}": { "Article": { ... }, "labels": { ... } }${i < locales.length - 1 ? "," : ""}`,
+    ),
     "}",
     "",
     "Entrée source:",
@@ -3036,17 +3045,17 @@ async function runRefresh() {
         );
       }
     },
-    translate: async (article, labels) => {
+    translate: async (article, labels, locales) => {
       if (mock) return mock.translations;
       ensureOpenAIEnv();
-      return azureOpenAITranslateJson(buildTranslatePrompt(article, labels));
+      return azureOpenAITranslateJson(buildTranslatePrompt(article, labels, locales));
     },
   };
   const results = await refreshArticles({
     slugs: REFRESH_SLUGS,
     today,
     translationsDir: TRANSLATIONS_DIR,
-    locales: LOCALES,
+    locales: REFRESH_LOCALES,
     servicePaths,
     apply: APPLY && !DRY,
     // SEO_MIN_WORDS / SEO_MAX_WORDS bound the refreshed FR article (min falls back to the 700 default).
@@ -3266,14 +3275,14 @@ async function main() {
     console.log("FR updated with 1 Article.");
   }
 
-  console.log("Requesting Azure OpenAI translations (EN/DE/ES/PT)...");
+  console.log(`Requesting Azure OpenAI translations (${LOCALES.join("/").toUpperCase()})...`);
   let translations;
   if (MOCK_DATA?.translations) {
     translations = MOCK_DATA.translations;
   } else {
     ensureOpenAIEnv();
     translations = await azureOpenAITranslateJson(
-      buildTranslatePrompt(newArticle, newLabels),
+      buildTranslatePrompt(newArticle, newLabels, LOCALES),
     );
   }
   if (REQUIRE_TRANSLATIONS) {
