@@ -75,6 +75,8 @@ export interface TaxStorage {
   readFile(driveId: string, parentId: string, name: string): Promise<Uint8Array | null>;
   moveFile(driveId: string, itemId: string, newParentId: string): Promise<void>;
   deleteFile(driveId: string, itemId: string): Promise<void>;
+  /** Appends one immutable event file under `_events/` of a folder. */
+  appendEvent(driveId: string, folderId: string, event: Record<string, unknown>): Promise<void>;
   sendMail(message: MailMessage): Promise<void>;
   /** Creates or updates the client/year row; never touches the staff-owned Status column after creation. */
   upsertTracking(row: TrackingRow): Promise<void>;
@@ -85,6 +87,7 @@ const env = (name: string) => (process.env[name] || "").trim();
 // Dedicated SharePoint site "Questionnaires fiscaux" (sites/questionnaires-fiscaux), library "Documents".
 export const DEFAULT_DRIVE_ID = "b!5lshxwRqwUWzR-kUlUUYaZSdQ9ceAZVHldT2SsQ2PxvBKzTHRvKXR4qntxFnXi4O";
 export const DEFAULT_ROOT_FOLDER = "Questionnaires";
+export const EVENTS_FOLDER = "_events";
 export const DEFAULT_SITE_ID = "arkfiduciaire.sharepoint.com,c7215be6-6a04-45c1-b347-e91495451869,d7439d94-011e-4795-95d4-f64ac4363f1b";
 
 export class StorageError extends Error {
@@ -100,9 +103,9 @@ export class StorageError extends Error {
 const GRAPH = "https://graph.microsoft.com/v1.0";
 const TIMEOUT_MS = 20_000;
 
-type Json = Record<string, unknown>;
+export type Json = Record<string, unknown>;
 
-class GraphStorage implements TaxStorage {
+export class GraphStorage implements TaxStorage {
   readonly kind = "graph" as const;
   private token = { value: "", expiresAt: 0 };
 
@@ -143,7 +146,8 @@ class GraphStorage implements TaxStorage {
     return res;
   }
 
-  private async json(pathOrUrl: string, init: RequestInit = {}): Promise<Json> {
+  /** Graph call returning JSON (also used by the SharePoint list adapters). */
+  async json(pathOrUrl: string, init: RequestInit = {}): Promise<Json> {
     const res = await this.request(pathOrUrl, init);
     if (!res.ok) {
       const text = await res.text().catch(() => "");
@@ -277,6 +281,12 @@ class GraphStorage implements TaxStorage {
 
   async deleteFile(driveId: string, itemId: string) {
     await this.json(`/drives/${driveId}/items/${itemId}`, { method: "DELETE" });
+  }
+
+  async appendEvent(driveId: string, folderId: string, event: Record<string, unknown>) {
+    const folder = await this.ensureSubfolder(driveId, folderId, EVENTS_FOLDER);
+    const name = `${new Date().toISOString().replace(/[:.]/g, "-")}-${Math.random().toString(36).slice(2, 8)}-${String(event.type || "event").replace(/[^a-z0-9-]/gi, "")}.json`;
+    await this.putFile(driveId, folder, name, new TextEncoder().encode(JSON.stringify(event)), "application/json");
   }
 
   private listId = "";
@@ -476,7 +486,13 @@ export class MockStorage implements TaxStorage {
     await fs.rename(from, path.join(this.pathOf(newParentId), path.basename(from)));
   }
   async deleteFile(_driveId: string, itemId: string) {
-    await fs.rm(this.pathOf(itemId), { force: true });
+    await fs.rm(this.pathOf(itemId), { force: true, recursive: true });
+  }
+  readonly events: Record<string, unknown>[] = [];
+  async appendEvent(driveId: string, folderId: string, event: Record<string, unknown>) {
+    this.events.push(event);
+    const folder = await this.ensureSubfolder(driveId, folderId, EVENTS_FOLDER);
+    await this.putFile(driveId, folder, `${Date.now()}-${this.events.length}-${String(event.type || "event")}.json`, new TextEncoder().encode(JSON.stringify(event)));
   }
   async sendMail(message: MailMessage) {
     if (this.failMail) throw new StorageError("graph_403_ErrorAccessDenied", 403);
@@ -506,6 +522,14 @@ export class MockStorage implements TaxStorage {
 }
 
 let instance: TaxStorage | null = null;
+let graphInstance: GraphStorage | null = null;
+
+/** Shared Graph client (token cache) for the list adapters. */
+export function getGraph(): GraphStorage {
+  if (instance instanceof GraphStorage) return instance;
+  if (!graphInstance) graphInstance = new GraphStorage();
+  return graphInstance;
+}
 
 export const mockStorageEnabled = () => process.env.NODE_ENV !== "production" && env("TAX_QF_STORAGE") === "mock";
 

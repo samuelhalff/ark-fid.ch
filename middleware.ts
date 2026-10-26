@@ -161,6 +161,44 @@ export function middleware(request: NextRequest) {
   const trustedTypesDirective = `trusted-types nextjs#bundler goog#html 'allow-duplicates'`;
   const csp = `${cspDirectives}; ${trustedTypesDirective}`;
 
+  // tax.ark-fid.ch: the tax questionnaire (app/[locale]/questionnaire-fiscal) at /<fr|en|de>/,
+  // with the main-site layout; every other path goes back to the main site (navigation links).
+  const hostname = host.split(":")[0].toLowerCase();
+  if (hostname === "tax.ark-fid.ch" || (!isProd && hostname === "tax.localhost")) {
+    const taxRedirect = (target: string, status: 307 | 308) => {
+      const url = new URL(target, request.url);
+      url.search = request.nextUrl.search;
+      if (isProd) url.protocol = "https";
+      const response = NextResponse.redirect(url, status);
+      response.headers.set("X-Robots-Tag", "noindex, nofollow");
+      return response;
+    };
+    const taxLocale = pathname.match(/^\/(fr|en|de)(\/questionnaire-fiscal)?\/?$/);
+    if (taxLocale) {
+      if (taxLocale[2] || !pathname.endsWith("/")) return taxRedirect(`/${taxLocale[1]}/`, 308);
+      const target = `/${taxLocale[1]}/questionnaire-fiscal/`;
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("x-locale", taxLocale[1]);
+      requestHeaders.set("x-pathname", target);
+      requestHeaders.set("x-nonce", nonce);
+      requestHeaders.set("x-tax-host", "1");
+      const response = NextResponse.rewrite(new URL(target, request.url), { request: { headers: requestHeaders } });
+      applySecurityHeaders(response, { nonce, csp, isProd, noIndex: true });
+      response.headers.set("Cache-Control", "no-store");
+      return response;
+    }
+    if (pathname === "/") {
+      const preferred = getLocale(request);
+      const response = taxRedirect(`/${["fr", "en", "de"].includes(preferred) ? preferred : "fr"}/`, 307);
+      response.headers.set("Vary", "Accept-Language");
+      return response;
+    }
+    const mainUrl = new URL(`${pathname}${request.nextUrl.search}`, isProd ? "https://ark-fid.ch" : `http://localhost:${request.nextUrl.port || "3000"}`);
+    const response = NextResponse.redirect(mainUrl, 308);
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+    return response;
+  }
+
   // Guardrails for malformed URLs that have shown up in Google Search Console.
   // These mostly come from broken markdown link syntax accidentally emitted in article content.
   // Examples:

@@ -10,6 +10,7 @@ import {
   normaliseStoredConsent,
   readStoredConsentValue,
   updateConsentMode,
+  writeStoredConsent,
   type StoredConsent,
 } from "@/src/lib/consent-mode";
 
@@ -35,18 +36,8 @@ function getStoredConsent(): ConsentValue | null {
 }
 
 function setConsent(value: ConsentValue) {
-  // Set cookie first (always works)
-  const maxAge = 60 * 60 * 24 * 365; // 365 days
-  try {
-    document.cookie = `${CONSENT_KEY}=${value}; Path=/; Max-Age=${maxAge}; SameSite=Lax`;
-  } catch {}
-
-  // Try localStorage as primary storage
-  try {
-    localStorage.setItem(CONSENT_KEY, value);
-  } catch {
-    // localStorage blocked (private browsing mode) - cookie fallback is already set
-  }
+  // Shared .ark-fid.ch cookie (one choice for all sub-domains), legacy cookie and localStorage.
+  writeStoredConsent(value);
 }
 
 export default function CookieConsent({ locale = "fr", labels }: Props) {

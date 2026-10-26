@@ -6,6 +6,8 @@ import {
   EEA_UK_REGIONS,
   buildConsentBootstrap,
   pickStoredConsent,
+  buildSharedConsentCookie,
+  sharedConsentDomain,
   normaliseStoredConsent,
   gaClientIdFromCookies,
 } from "./consent-mode.ts";
@@ -153,6 +155,31 @@ test("cookie is authoritative; localStorage only counts without cookies", () => 
   // Cookies blocked: the localStorage entry is the only store.
   assert.equal(pickStoredConsent("declined", null, false), "declined");
   assert.equal(pickStoredConsent("garbage", null, false), null);
+});
+
+test("the cookie shared by all ark-fid.ch hosts wins over this host's cookie", () => {
+  assert.equal(pickStoredConsent(null, "accepted", true, "minimal"), "minimal");
+  assert.equal(pickStoredConsent(null, "accepted", true, "garbage"), "accepted");
+  assert.equal(pickStoredConsent("accepted", null, false, "declined"), "declined");
+  assert.equal(pickStoredConsent("accepted", null, true, null), null);
+});
+
+test("shared cookie is scoped to .ark-fid.ch only", () => {
+  assert.equal(sharedConsentDomain("tax.ark-fid.ch"), ".ark-fid.ch");
+  assert.equal(sharedConsentDomain("ark-fid.ch"), ".ark-fid.ch");
+  assert.equal(sharedConsentDomain("evil-ark-fid.ch"), null);
+  assert.equal(sharedConsentDomain("localhost"), null);
+  assert.match(buildSharedConsentCookie("accepted", "lba.ark-fid.ch", true), /^ark_consent=accepted; Path=\/; Max-Age=31536000; SameSite=Lax; Domain=\.ark-fid\.ch; Secure$/);
+  assert.doesNotMatch(buildSharedConsentCookie("minimal", "localhost", false), /Domain|Secure/);
+});
+
+test("bootstrap reads the shared cookie first", () => {
+  const run = runBootstrap({ cookie: "cookieConsent=accepted; ark_consent=minimal" });
+  const update = run.calls.find((c) => c[0] === "consent" && c[1] === "update");
+  assert.equal((update?.[2] as Record<string, unknown>).analytics_storage, "denied");
+  const invalid = runBootstrap({ cookie: "ark_consent=x; cookieConsent=accepted" });
+  const accepted = invalid.calls.find((c) => c[0] === "consent" && c[1] === "update");
+  assert.equal((accepted?.[2] as Record<string, unknown>).analytics_storage, "granted");
 });
 
 test("bootstrap follows the same storage rule", () => {

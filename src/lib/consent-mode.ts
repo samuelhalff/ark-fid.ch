@@ -55,17 +55,48 @@ function isStoredConsent(value: unknown): value is StoredConsent {
 }
 
 /**
- * Picks the stored choice from the cookie and the localStorage mirror.
- * The cookie carries the 12-month expiry stated in the cookies policy, so it
- * wins; the localStorage entry only counts where the browser cannot store
- * cookies at all. An expired cookie therefore means "undecided" again, and an
- * invalid localStorage value never hides a valid cookie (e.g. a refusal).
+ * Cookie shared by ark-fid.ch and its sub-domains (tax., lba.): one choice
+ * covers them all. Same values and 12-month lifetime as the host cookie
+ * CONSENT_KEY; host-only outside ark-fid.ch (localhost, previews).
+ */
+export const SHARED_CONSENT_COOKIE = "ark_consent";
+export const SHARED_CONSENT_DOMAIN = ".ark-fid.ch";
+const CONSENT_MAX_AGE = 60 * 60 * 24 * 365;
+
+/** Domain attribute for the shared cookie, or null for a host-only cookie. */
+export function sharedConsentDomain(hostname: string): string | null {
+  const host = hostname.toLowerCase();
+  return host === "ark-fid.ch" || host.endsWith(".ark-fid.ch") ? SHARED_CONSENT_DOMAIN : null;
+}
+
+/** document.cookie string for the shared consent cookie. */
+export function buildSharedConsentCookie(value: StoredConsent, hostname: string, secure: boolean): string {
+  const domain = sharedConsentDomain(hostname);
+  return [
+    `${SHARED_CONSENT_COOKIE}=${value}`,
+    "Path=/",
+    `Max-Age=${CONSENT_MAX_AGE}`,
+    "SameSite=Lax",
+    ...(domain ? [`Domain=${domain}`] : []),
+    ...(secure ? ["Secure"] : []),
+  ].join("; ");
+}
+
+/**
+ * Picks the stored choice from the cookies and the localStorage mirror.
+ * Cookies carry the 12-month expiry stated in the cookies policy, so they
+ * win: first the cookie shared by all ark-fid.ch hosts (latest choice made on
+ * any of them), then this host's cookie. The localStorage entry only counts
+ * where the browser cannot store cookies at all. An expired cookie therefore
+ * means "undecided" again, and an invalid value never hides a valid cookie.
  */
 export function pickStoredConsent(
   localValue: string | null,
   cookieValue: string | null,
-  cookiesEnabled: boolean
+  cookiesEnabled: boolean,
+  sharedCookieValue: string | null = null
 ): StoredConsent | null {
+  if (isStoredConsent(sharedCookieValue)) return sharedCookieValue;
   if (isStoredConsent(cookieValue)) return cookieValue;
   if (!cookiesEnabled && isStoredConsent(localValue)) return localValue;
   return null;
@@ -76,6 +107,7 @@ export function readStoredConsentValue(): StoredConsent | null {
   if (typeof window === "undefined") return null;
   let localValue: string | null = null;
   let cookieValue: string | null = null;
+  let sharedValue: string | null = null;
   let cookiesEnabled = true;
   try {
     localValue = window.localStorage.getItem(CONSENT_KEY);
@@ -87,6 +119,10 @@ export function readStoredConsentValue(): StoredConsent | null {
       new RegExp(`(?:^|; )${CONSENT_KEY}=([^;]*)`),
     );
     cookieValue = match ? match[1] : null;
+    const shared = document.cookie.match(
+      new RegExp(`(?:^|; )${SHARED_CONSENT_COOKIE}=([^;]*)`),
+    );
+    sharedValue = shared ? shared[1] : null;
   } catch {
     cookieValue = null;
   }
@@ -95,7 +131,32 @@ export function readStoredConsentValue(): StoredConsent | null {
   } catch {
     cookiesEnabled = true;
   }
-  return pickStoredConsent(localValue, cookieValue, cookiesEnabled);
+  const value = pickStoredConsent(localValue, cookieValue, cookiesEnabled, sharedValue);
+  // A choice made before the shared cookie existed is copied into it once.
+  if (value && isStoredConsent(cookieValue) && !isStoredConsent(sharedValue)) writeSharedCookie(value);
+  return value;
+}
+
+function writeSharedCookie(value: StoredConsent) {
+  try {
+    document.cookie = buildSharedConsentCookie(value, window.location.hostname, window.location.protocol === "https:");
+  } catch {
+    // Cookies blocked: the localStorage mirror is the fallback.
+  }
+}
+
+/** Stores a choice: shared cookie, this host's cookie (read server-side) and the localStorage mirror. */
+export function writeStoredConsent(value: StoredConsent) {
+  if (typeof window === "undefined") return;
+  writeSharedCookie(value);
+  try {
+    document.cookie = `${CONSENT_KEY}=${value}; Path=/; Max-Age=${CONSENT_MAX_AGE}; SameSite=Lax`;
+  } catch {}
+  try {
+    window.localStorage.setItem(CONSENT_KEY, value);
+  } catch {
+    // localStorage blocked (private browsing mode): the cookies are enough.
+  }
 }
 
 export function readConsentChoice(): ConsentChoice | null {
@@ -172,12 +233,12 @@ export function buildConsentBootstrap(measurementId: string): string {
     "gtag('set','ads_data_redaction',true);",
     // Same rule as pickStoredConsent: the cookie wins, localStorage only
     // counts where cookies cannot be stored.
-    "var c=null,l=null,ce=true;",
+    "var c=null,l=null,k=null,ce=true;",
     "function ok(v){return v==='accepted'||v==='minimal'||v==='declined';}",
     `try{l=window.localStorage.getItem(${key});}catch(e){}`,
-    `try{var m=document.cookie.match(/(?:^|; )${CONSENT_KEY}=([^;]*)/);if(m)c=m[1];}catch(e){}`,
+    `try{var m=document.cookie.match(/(?:^|; )${CONSENT_KEY}=([^;]*)/);if(m)c=m[1];var n=document.cookie.match(/(?:^|; )${SHARED_CONSENT_COOKIE}=([^;]*)/);if(n)k=n[1];}catch(e){}`,
     "try{ce=navigator.cookieEnabled!==false;}catch(e){}",
-    "if(!ok(c)){c=(!ce&&ok(l))?l:null;}",
+    "if(ok(k)){c=k;}else if(!ok(c)){c=(!ce&&ok(l))?l:null;}",
     `if(c==='accepted'){gtag('consent','update',${JSON.stringify(granted)});}`,
     `else if(c==='minimal'||c==='declined'){gtag('consent','update',${JSON.stringify(denied)});}`,
     "gtag('js',new Date());",

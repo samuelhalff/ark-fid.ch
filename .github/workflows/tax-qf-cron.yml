@@ -1,0 +1,62 @@
+name: Tax questionnaire daily jobs
+
+# Daily campaign (invitations, reminders, staff digest) and abandoned-draft cleanup of
+# tax.ark-fid.ch. The logic lives in the app (app/api/tax-questionnaire/cron/route.ts); this
+# workflow only calls it with a shared secret and an idempotency key (date + task).
+on:
+  schedule:
+    - cron: "15 6 * * *"
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        description: "Dry run (compute, send nothing, write nothing)"
+        required: false
+        default: true
+        type: boolean
+      task:
+        description: "Task to run"
+        required: false
+        default: campaign
+        type: choice
+        options: [campaign, cleanup]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tax-qf-cron
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      max-parallel: 1
+      matrix:
+        task: [campaign, cleanup]
+    steps:
+      - name: Call cron endpoint
+        env:
+          CRON_URL: ${{ secrets.TAX_QF_CRON_URL }}
+          CRON_SECRET: ${{ secrets.TAX_QF_CRON_SECRET }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dryRun || false }}
+          ONLY_TASK: ${{ github.event_name == 'workflow_dispatch' && inputs.task || '' }}
+          TASK: ${{ matrix.task }}
+        run: |
+          set -euo pipefail
+          if [ -n "$ONLY_TASK" ] && [ "$ONLY_TASK" != "$TASK" ]; then
+            echo "Skipping $TASK (manual run for $ONLY_TASK)"; exit 0
+          fi
+          if [ -z "$CRON_SECRET" ]; then echo "TAX_QF_CRON_SECRET is not set"; exit 1; fi
+          url="${CRON_URL:-https://tax.ark-fid.ch/api/tax-questionnaire/cron}"
+          key="$(date -u +%Y-%m-%d)-${TASK}"
+          if [ "$DRY_RUN" = "true" ]; then dry=true; key="${key}-dry-${GITHUB_RUN_ID}"; else dry=false; fi
+          body=$(printf '{"task":"%s","dryRun":%s,"idempotencyKey":"%s"}' "$TASK" "$dry" "$key")
+          status=$(curl -sS -o response.json -w '%{http_code}' -X POST "$url" \
+            -H "Content-Type: application/json" \
+            -H "x-tax-qf-cron: ${CRON_SECRET}" \
+            --data "$body")
+          echo "HTTP $status"
+          cat response.json; echo
+          if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then exit 1; fi

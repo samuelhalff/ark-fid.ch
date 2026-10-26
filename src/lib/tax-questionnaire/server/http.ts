@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { isUsableSecret, verifyToken, type SubmissionToken } from "../token";
+import { isUsableSecret } from "../token";
+import { readCookie, readSession, type SessionInfo } from "./access";
 import { ServiceError } from "./service";
 import { StorageError } from "./storage";
 
@@ -77,16 +78,6 @@ export function tokenSecret(): string | null {
   return isUsableSecret(secret) ? secret : null;
 }
 
-export function readToken(body: Record<string, unknown>): SubmissionToken | NextResponse {
-  const secret = tokenSecret();
-  if (!secret) {
-    console.error("[tax-qf] TAX_QF_TOKEN_SECRET missing or too short");
-    return json({ error: "missing_configuration" }, 500);
-  }
-  const token = verifyToken(secret, body.token);
-  return token || json({ error: "session_expired" }, 401);
-}
-
 /** Maps service and storage errors to responses (codes only, never content). */
 export function errorResponse(error: unknown, route: string): NextResponse {
   if (error instanceof ServiceError) {
@@ -100,8 +91,24 @@ export function errorResponse(error: unknown, route: string): NextResponse {
  * Session check for authenticated routes (cookie + CSRF header + origin). Returns the session or
  * an error response. IMPLEMENTATION IN PROGRESS — signature stable.
  */
-export async function requireSession(_request: Request, _scope: "edit" | "status" | "any" = "edit"): Promise<{ caseId: string; emailHash: string; scope: "edit" | "status" } | NextResponse> {
-  return json({ error: "session_expired" }, 401);
+export async function requireSession(request: Request, scope: "edit" | "status" | "any" = "edit"): Promise<{ caseId: string; emailHash: string; scope: "edit" | "status" } | NextResponse> {
+  // CSRF: every authenticated call is same-origin and carries a custom header (forces a preflight
+  // for any cross-site attempt); SameSite=Lax cookies alone are not relied upon.
+  if (!originAllowed(request)) return json({ error: "forbidden" }, 403);
+  if (request.method !== "GET" && request.headers.get("x-tqf") !== "1") return json({ error: "forbidden" }, 403);
+  if (!tokenSecret()) {
+    console.error("[tax-qf] TAX_QF_TOKEN_SECRET missing or too short");
+    return json({ error: "missing_configuration" }, 500);
+  }
+  let session: SessionInfo | null = null;
+  try {
+    session = await readSession(readCookie(request));
+  } catch (error) {
+    return errorResponse(error, "session");
+  }
+  if (!session) return json({ error: "session_expired" }, 401);
+  if (scope !== "any" && session.scope !== scope) return json({ error: "forbidden_scope" }, 403);
+  return session;
 }
 
 export const skipTurnstile =() => !isProd() && env("TAX_QF_SKIP_TURNSTILE") === "1";
