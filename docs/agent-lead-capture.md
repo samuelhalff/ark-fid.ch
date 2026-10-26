@@ -18,7 +18,7 @@ The Odoo token must stay server-side. Contact forms submit to `/api/contact`; th
 - Detail: `instant_quote` or `contact_form` is included in the description
 - Handoff: form/chat context in `description`
 - Follow-up: successful quote-agent exchanges are appended to the Odoo lead chatter via `message_post`
-- Attribution: `Page` (origin + pathname), `Referrer` (external origin only), `UTM`, `Landing page`, `GCLID`, `Pages viewed` (max 20 pathnames) come from `src/lib/attribution.ts` (first touch, in memory; sessionStorage only after cookie acceptance). `GA Client ID` is added only after an explicit "Accept". Invalid attribution is dropped server-side and never blocks a lead. Formspark never receives attribution or the GA client id.
+- Attribution: `Page` (origin + pathname), `Referrer` (external origin only), `UTM`, `Landing page`, `GCLID`, `Pages viewed` (max 20 pathnames) come from `src/lib/attribution.ts` (first touch, in memory; sessionStorage only after cookie acceptance). `GA Client ID` is added whenever a `_ga` cookie exists and the stored choice is not a refusal (so also for undecided visitors where the regional default grants analytics storage: Switzerland and rest of world; EEA/UK defaults set no `_ga` before "Accept"). Invalid attribution is dropped server-side and never blocks a lead. Formspark never receives attribution or the GA client id.
 
 ## Analytics and consent
 
