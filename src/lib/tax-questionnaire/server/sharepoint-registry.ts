@@ -88,6 +88,8 @@ class SharePointClientRegistry implements ClientRegistry {
   }
 
   async recordTaxClient(identity: ClientIdentity, documentsUrl: string, now: Date) {
+    // TAX_QF_CRM_WRITES=0: read-only (tests against the real tenant).
+    if (env("TAX_QF_CRM_WRITES") === "0") return null;
     const graph = getGraph();
     const base = `/sites/${this.site()}/lists/${this.list()}/items`;
     const result = matchCrm(await this.items(true), identity);
@@ -141,10 +143,12 @@ const bool = (name: string, displayName: string): Column => ({ name, displayName
 
 class SiteList {
   private id = "";
-  constructor(
-    private readonly displayName: string,
-    private readonly columns: Column[],
-  ) {}
+  private readonly displayName: string;
+  private readonly columns: Column[];
+  constructor(displayName: string, columns: Column[]) {
+    this.displayName = displayName;
+    this.columns = columns;
+  }
   site() {
     return env("TAX_QF_SP_SITE_ID") || DEFAULT_SITE_ID;
   }
@@ -153,13 +157,28 @@ class SiteList {
     const graph = getGraph();
     const found = await graph.json(`/sites/${this.site()}/lists?$filter=${encodeURIComponent(`displayName eq '${this.displayName}'`)}&$select=id`);
     const existing = (found.value as Json[] | undefined)?.[0];
-    if (existing) return (this.id = str(existing.id));
+    if (existing) {
+      this.id = str(existing.id);
+      await this.migrate();
+      return this.id;
+    }
     const created = await graph.json(`/sites/${this.site()}/lists`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ displayName: this.displayName, list: { template: "genericList" }, columns: this.columns }),
     });
     return (this.id = str(created.id));
+  }
+  /** Adds the columns missing from an existing list (idempotent; column types are never changed). */
+  private async migrate() {
+    const graph = getGraph();
+    const data = await graph.json(`/sites/${this.site()}/lists/${this.id}/columns?$select=id,name,text`);
+    const current = new Set(((data.value as Json[]) || []).map((c) => str(c.name)));
+    for (const column of this.columns) {
+      if (!current.has(str(column.name))) {
+        await graph.json(`/sites/${this.site()}/lists/${this.id}/columns`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(column) });
+      }
+    }
   }
   async query(filter: string, top = 200): Promise<{ id: string; fields: Json }[]> {
     const graph = getGraph();
@@ -204,7 +223,7 @@ const TRACKER_COLUMNS: Column[] = [
   text("Canton", "Canton"),
   num("TaxYear", "Année fiscale", { indexed: true }),
   { name: "EtatQuestionnaire", displayName: "État questionnaire", choice: { choices: ["Brouillon", "Envoyé", "Invité", "Abandonné"], displayAs: "dropDownMenu" } },
-  text("Regime", "Régime"),
+  text("RegimeText", "Régime", { text: { allowMultipleLines: true, textType: "plain" } }),
   bool("OptIn", "Rappel annuel"),
   bool("AiOptIn", "Assistance IA acceptée"),
   { name: "SubmittedAt", displayName: "Envoyé le", dateTime: { format: "dateTime" } },
@@ -212,12 +231,12 @@ const TRACKER_COLUMNS: Column[] = [
   num("DocsExpected", "Documents attendus"),
   text("DriveId", "Bibliothèque"),
   text("FolderId", "Dossier (id)"),
-  text("FolderUrl", "Lien dossier"),
-  text("ExcelUrl", "Lien Excel"),
-  text("PdfUrl", "Lien PDF"),
-  text("JsonUrl", "Lien JSON"),
+  text("LinkFolder", "Lien dossier", { text: { allowMultipleLines: true, textType: "plain" } }),
+  text("LinkExcel", "Lien Excel", { text: { allowMultipleLines: true, textType: "plain" } }),
+  text("LinkPdf", "Lien PDF", { text: { allowMultipleLines: true, textType: "plain" } }),
+  text("LinkJson", "Lien JSON", { text: { allowMultipleLines: true, textType: "plain" } }),
   text("CrmId", "Client CRM (id)"),
-  text("CrmUrl", "Client CRM (lien)"),
+  text("LinkCrm", "Client CRM (lien)", { text: { allowMultipleLines: true, textType: "plain" } }),
   text("CrmMatch", "Correspondance CRM"),
   text("Source", "Provenance"),
   { name: "InvitedAt", displayName: "Invité le", dateTime: { format: "dateTime" } },
@@ -246,19 +265,19 @@ function trackerFields(r: ReturnRecord): Json {
     Canton: r.canton,
     TaxYear: r.taxYear,
     EtatQuestionnaire: STATE_TO_FR[r.state],
-    Regime: r.regime,
+    RegimeText: r.regime,
     OptIn: r.optIn,
     AiOptIn: r.aiOptIn,
     DocsReceived: r.docsReceived ?? 0,
     DocsExpected: r.docsExpected ?? 0,
     DriveId: r.driveId,
     FolderId: r.folderId,
-    FolderUrl: r.folderUrl,
-    ExcelUrl: r.excelUrl || "",
-    PdfUrl: r.pdfUrl || "",
-    JsonUrl: r.jsonUrl || "",
+    LinkFolder: r.folderUrl,
+    LinkExcel: r.excelUrl || "",
+    LinkPdf: r.pdfUrl || "",
+    LinkJson: r.jsonUrl || "",
     CrmId: r.crmId || "",
-    CrmUrl: r.crmUrl || "",
+    LinkCrm: r.crmUrl || "",
     CrmMatch: r.crmMatch || "",
     Source: r.source || "",
     RemindersSent: r.remindersSent ?? 0,
@@ -282,7 +301,7 @@ function trackerRecord(id: string, f: Json): ReturnRecord {
     canton: str(f.Canton),
     taxYear: Number(f.TaxYear) || 0,
     state: FR_TO_STATE[str(f.EtatQuestionnaire)] || "draft",
-    regime: str(f.Regime),
+    regime: str(f.RegimeText),
     optIn: f.OptIn === true,
     aiOptIn: f.AiOptIn === true,
     submittedAt: isoDate(f.SubmittedAt),
@@ -290,12 +309,12 @@ function trackerRecord(id: string, f: Json): ReturnRecord {
     docsExpected: Number(f.DocsExpected) || 0,
     driveId: str(f.DriveId),
     folderId: str(f.FolderId),
-    folderUrl: str(f.FolderUrl),
-    excelUrl: str(f.ExcelUrl) || undefined,
-    pdfUrl: str(f.PdfUrl) || undefined,
-    jsonUrl: str(f.JsonUrl) || undefined,
+    folderUrl: str(f.LinkFolder),
+    excelUrl: str(f.LinkExcel) || undefined,
+    pdfUrl: str(f.LinkPdf) || undefined,
+    jsonUrl: str(f.LinkJson) || undefined,
     crmId: str(f.CrmId) || undefined,
-    crmUrl: str(f.CrmUrl) || undefined,
+    crmUrl: str(f.LinkCrm) || undefined,
     crmMatch: (str(f.CrmMatch) || undefined) as ReturnRecord["crmMatch"],
     source: str(f.Source) || undefined,
     invitedAt: isoDate(f.InvitedAt),
@@ -539,17 +558,19 @@ export function memoryPorts(seed: { crm?: MemoryCrmItem[] } = {}) {
   return { ports: { registry, tracker, prefs: prefStore, access: accessStore } as Ports, crm, returns, prefsList: prefs, access };
 }
 
-let ports: Ports | null = null;
+// Kept on globalThis: Next.js bundles each route separately, and the in-memory (mock) ports must be
+// shared by all routes of the process.
+const holder = globalThis as unknown as { __tqfPorts?: Ports | null };
 
 export function sharePointPorts(): Ports {
-  if (ports) return ports;
-  ports = mockStorageEnabled()
+  if (holder.__tqfPorts) return holder.__tqfPorts;
+  holder.__tqfPorts = mockStorageEnabled()
     ? memoryPorts({ crm: [{ id: "crm-demo", title: "EXEMPLE", firstName: "Client", email: "client@example.com", acquis: "Client", actif: true, etendue: ["Fiscal"] }] }).ports
     : { registry: new SharePointClientRegistry(), tracker: new SharePointTracker(), prefs: new SharePointPreferences(), access: new SharePointAccess() };
-  return ports;
+  return holder.__tqfPorts;
 }
 
 /** For tests: replace the singleton. */
 export function setPortsForTests(value: Ports | null) {
-  ports = value;
+  holder.__tqfPorts = value;
 }

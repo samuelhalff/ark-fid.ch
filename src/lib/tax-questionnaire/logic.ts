@@ -115,7 +115,6 @@ function sanitizeValue(field: FieldDef, raw: unknown): string | string[] | undef
   const max = field.maxLength || (field.type === "textarea" ? LIMITS.textarea : LIMITS.text);
   // Keep newlines in text areas only; drop other control characters.
   const cleaned = (field.type === "textarea" ? raw.replace(/\r\n?/g, "\n") : raw.replace(/[\r\n\t]+/g, " "))
-    // eslint-disable-next-line no-control-regex
     .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, "")
     .trim();
   return cleaned.slice(0, max + 1); // one extra char so "too_long" is still detected

@@ -39,26 +39,6 @@ export interface MailMessage {
   attachments?: MailAttachment[];
 }
 
-/** One row of the SharePoint list "Suivi questionnaires" (per client and tax year). */
-export interface TrackingRow {
-  clientKey: string;
-  name: string;
-  email: string;
-  language: string;
-  canton: string;
-  taxYear: number;
-  years: string;
-  regime: string;
-  optIn: boolean;
-  submittedAt: string; // ISO
-  docsReceived: number;
-  docsExpected: number;
-  submissionId: string;
-  excelUrl: string;
-  folderUrl: string;
-  jsonUrl: string;
-}
-
 export const TRACKING_LIST = "Suivi questionnaires";
 export const TRACKING_STATUSES = ["Nouveau", "Offre envoyée", "Mandat", "En cours", "Déposé", "Clos"];
 
@@ -78,8 +58,6 @@ export interface TaxStorage {
   /** Appends one immutable event file under `_events/` of a folder. */
   appendEvent(driveId: string, folderId: string, event: Record<string, unknown>): Promise<void>;
   sendMail(message: MailMessage): Promise<void>;
-  /** Creates or updates the client/year row; never touches the staff-owned Status column after creation. */
-  upsertTracking(row: TrackingRow): Promise<void>;
 }
 
 const env = (name: string) => (process.env[name] || "").trim();
@@ -155,7 +133,9 @@ export class GraphStorage implements TaxStorage {
       const code = /"code"\s*:\s*"([^"]+)"/.exec(text)?.[1] || "";
       throw new StorageError(`graph_${res.status}${code ? `_${code}` : ""}`, res.status);
     }
-    return res.status === 204 ? {} : ((await res.json()) as Json);
+    // 202/204 (sendMail, DELETE) have no body.
+    const text = await res.text();
+    return text ? (JSON.parse(text) as Json) : {};
   }
 
   private driveRoot() {
@@ -203,11 +183,11 @@ export class GraphStorage implements TaxStorage {
     return String((await this.childFolder(driveId, parentId, name)).id);
   }
 
-  async createUploadSession(driveId: string, parentId: string, fileName: string, size: number) {
+  async createUploadSession(driveId: string, parentId: string, fileName: string, _size: number) {
     const session = await this.json(`/drives/${driveId}/items/${parentId}:/${encodeURIComponent(fileName)}:/createUploadSession`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ item: { "@microsoft.graph.conflictBehavior": "rename", name: fileName, fileSize: size } }),
+      body: JSON.stringify({ item: { "@microsoft.graph.conflictBehavior": "rename" } }),
     });
     const uploadUrl = String(session.uploadUrl || "");
     if (!uploadUrl.startsWith("https://")) throw new StorageError("graph_upload_session_invalid");
@@ -245,7 +225,7 @@ export class GraphStorage implements TaxStorage {
   }
 
   async readHead(driveId: string, itemId: string, bytes: number): Promise<Uint8Array> {
-    const item = await this.json(`/drives/${driveId}/items/${itemId}?$select=id,@microsoft.graph.downloadUrl`);
+    const item = await this.json(`/drives/${driveId}/items/${itemId}`);
     const url = String(item["@microsoft.graph.downloadUrl"] || "");
     if (!url.startsWith("https://")) throw new StorageError("graph_download_url_missing");
     // Pre-authenticated URL: no Authorization header.
@@ -287,79 +267,6 @@ export class GraphStorage implements TaxStorage {
     const folder = await this.ensureSubfolder(driveId, folderId, EVENTS_FOLDER);
     const name = `${new Date().toISOString().replace(/[:.]/g, "-")}-${Math.random().toString(36).slice(2, 8)}-${String(event.type || "event").replace(/[^a-z0-9-]/gi, "")}.json`;
     await this.putFile(driveId, folder, name, new TextEncoder().encode(JSON.stringify(event)), "application/json");
-  }
-
-  private listId = "";
-
-  private async trackingListId(): Promise<string> {
-    if (this.listId) return this.listId;
-    const site = env("TAX_QF_SP_SITE_ID") || DEFAULT_SITE_ID;
-    const found = await this.json(`/sites/${site}/lists?$filter=displayName eq '${TRACKING_LIST}'&$select=id`);
-    const existing = (found.value as Json[] | undefined)?.[0];
-    if (existing) return (this.listId = String(existing.id));
-    const text = (name: string, displayName: string, extra: Json = {}) => ({ name, displayName, text: {}, ...extra });
-    const number = (name: string, displayName: string, extra: Json = {}) => ({ name, displayName, number: {}, ...extra });
-    const created = await this.json(`/sites/${site}/lists`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        displayName: TRACKING_LIST,
-        list: { template: "genericList" },
-        columns: [
-          text("ClientKey", "Clé client", { indexed: true }),
-          text("Email", "E-mail"),
-          text("Language", "Langue"),
-          text("Canton", "Canton"),
-          number("TaxYear", "Année fiscale", { indexed: true }),
-          text("Years", "Années"),
-          text("Regime", "Régime"),
-          { name: "OptIn", displayName: "Rappel annuel", boolean: {} },
-          { name: "SubmittedAt", displayName: "Envoyé le", dateTime: { format: "dateTime" } },
-          number("DocsReceived", "Documents reçus"),
-          number("DocsExpected", "Documents attendus"),
-          text("SubmissionId", "Référence"),
-          text("ExcelUrl", "Lien Excel"),
-          text("FolderUrl", "Lien dossier"),
-          text("JsonUrl", "Lien JSON"),
-          { name: "Status", displayName: "Statut", choice: { choices: TRACKING_STATUSES, displayAs: "dropDownMenu", allowTextEntry: false }, defaultValue: { value: "Nouveau" } },
-        ],
-      }),
-    });
-    return (this.listId = String(created.id));
-  }
-
-  async upsertTracking(row: TrackingRow) {
-    const site = env("TAX_QF_SP_SITE_ID") || DEFAULT_SITE_ID;
-    const list = await this.trackingListId();
-    const fields = {
-      Title: row.name,
-      ClientKey: row.clientKey,
-      Email: row.email,
-      Language: row.language,
-      Canton: row.canton,
-      TaxYear: row.taxYear,
-      Years: row.years,
-      Regime: row.regime,
-      OptIn: row.optIn,
-      SubmittedAt: row.submittedAt,
-      DocsReceived: row.docsReceived,
-      DocsExpected: row.docsExpected,
-      SubmissionId: row.submissionId,
-      ExcelUrl: row.excelUrl,
-      FolderUrl: row.folderUrl,
-      JsonUrl: row.jsonUrl,
-    };
-    const key = row.clientKey.replace(/'/g, "''");
-    const query = await this.json(
-      `/sites/${site}/lists/${list}/items?$expand=fields($select=ClientKey,TaxYear)&$filter=fields/ClientKey eq '${key}' and fields/TaxYear eq ${row.taxYear}&$top=1`,
-      { headers: { Prefer: "HonorNonIndexedQueriesWarningMayFailRandomly" } },
-    );
-    const existing = (query.value as Json[] | undefined)?.[0];
-    if (existing) {
-      await this.json(`/sites/${site}/lists/${list}/items/${existing.id}/fields`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(fields) });
-    } else {
-      await this.json(`/sites/${site}/lists/${list}/items`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ fields: { ...fields, Status: "Nouveau" } }) });
-    }
   }
 
   async sendMail(message: MailMessage) {
@@ -503,14 +410,6 @@ export class MockStorage implements TaxStorage {
     await fs.writeFile(path.join(outbox, `${stamp}.html`), `<!-- to: ${message.to.join(", ")} | cc: ${message.cc.join(", ")} | subject: ${message.subject} -->\n${message.html}`);
     for (const attachment of message.attachments || []) await fs.writeFile(path.join(outbox, `${stamp}-${attachment.name}`), attachment.bytes);
   }
-  readonly tracking: TrackingRow[] = [];
-  async upsertTracking(row: TrackingRow) {
-    const index = this.tracking.findIndex((r) => r.clientKey === row.clientKey && r.taxYear === row.taxYear);
-    if (index >= 0) this.tracking[index] = row;
-    else this.tracking.push(row);
-    await fs.mkdir(this.base, { recursive: true });
-    await fs.writeFile(path.join(this.base, "_tracking.json"), JSON.stringify(this.tracking, null, 2));
-  }
   /** Appends a chunk for the mock upload route (Content-Range: bytes a-b/total). */
   async appendChunk(itemId: string, start: number, chunk: Uint8Array) {
     const full = this.pathOf(itemId);
@@ -521,12 +420,12 @@ export class MockStorage implements TaxStorage {
   }
 }
 
-let instance: TaxStorage | null = null;
+const storageHolder = globalThis as unknown as { __tqfStorage?: TaxStorage | null };
 let graphInstance: GraphStorage | null = null;
 
 /** Shared Graph client (token cache) for the list adapters. */
 export function getGraph(): GraphStorage {
-  if (instance instanceof GraphStorage) return instance;
+  if (storageHolder.__tqfStorage instanceof GraphStorage) return storageHolder.__tqfStorage;
   if (!graphInstance) graphInstance = new GraphStorage();
   return graphInstance;
 }
@@ -534,6 +433,6 @@ export function getGraph(): GraphStorage {
 export const mockStorageEnabled = () => process.env.NODE_ENV !== "production" && env("TAX_QF_STORAGE") === "mock";
 
 export function getStorage(): TaxStorage {
-  if (!instance) instance = mockStorageEnabled() ? new MockStorage() : new GraphStorage();
-  return instance;
+  if (!storageHolder.__tqfStorage) storageHolder.__tqfStorage = mockStorageEnabled() ? new MockStorage() : new GraphStorage();
+  return storageHolder.__tqfStorage;
 }

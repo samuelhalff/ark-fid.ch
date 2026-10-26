@@ -96,16 +96,18 @@ export function FieldControl({ field, name, locale, answers }: Props) {
             <FormItem className={cn(field.width === "half" ? "sm:col-span-1" : "sm:col-span-2")}>
               {labelNode}
               {help}
-              <FormControl>
-                <ToggleGroup type="single" variant="outline" className="justify-start" value={typeof value === "string" ? value : ""} onValueChange={(next) => f.onChange(next || undefined)}>
-                  <ToggleGroupItem value="yes" className="min-w-20">
-                    {UI.yes[locale]}
-                  </ToggleGroupItem>
-                  <ToggleGroupItem value="no" className="min-w-20">
-                    {UI.no[locale]}
-                  </ToggleGroupItem>
-                </ToggleGroup>
-              </FormControl>
+              <div className="flex justify-start">
+                <FormControl>
+                  <ToggleGroup type="single" variant="outline" value={typeof value === "string" ? value : ""} onValueChange={(next) => f.onChange(next || undefined)}>
+                    <ToggleGroupItem value="yes" className="min-w-20">
+                      {UI.yes[locale]}
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="no" className="min-w-20">
+                      {UI.no[locale]}
+                    </ToggleGroupItem>
+                  </ToggleGroup>
+                </FormControl>
+              </div>
               <FormMessage />
             </FormItem>
           );

@@ -8,7 +8,8 @@ import { regimeSummary, STATUS_FR, type SubmissionRecord } from "./excel";
 import type { MailMessage } from "./storage";
 
 const env = (name: string) => (process.env[name] || "").trim();
-const list = (value: string, fallback: string[]) => (value ? value.split(",").map((v) => v.trim()).filter(Boolean) : fallback);
+/** Comma-separated list; "none" means an empty list (tests: no cc). */
+const list = (value: string, fallback: string[]) => (value === "none" ? [] : value ? value.split(",").map((v) => v.trim()).filter(Boolean) : fallback);
 
 /** Recipients (owner decision); overridable by env for tests. */
 export const mailConfig = () => ({

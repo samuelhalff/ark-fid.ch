@@ -101,7 +101,7 @@ export default function TaxQuestionnaire({ locale, mode }: { locale: QfLocale; m
   const L = (text: Parameters<typeof interpolate>[0]) => interpolate(text, locale, answers);
   const pruned = useMemo(() => pruneHidden(answers), [answers]);
   const checklist = useMemo(() => checklistFor(answers), [answers]);
-  const files = caseData?.files || [];
+  const files = useMemo(() => caseData?.files || [], [caseData]);
 
   // ---- loading: magic link in the fragment, else an existing session ----------------------------
   const loadCase = useCallback(async () => {
@@ -422,7 +422,7 @@ export default function TaxQuestionnaire({ locale, mode }: { locale: QfLocale; m
         }}
       >
         {header}
-        <div className="sticky top-0 z-20 -mx-5 flex flex-col gap-2 bg-background/95 px-5 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:px-0">
+        <div className="sticky top-16 z-20 -mx-5 flex flex-col gap-2 bg-background/95 px-5 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:px-0">
           <div className="flex items-center justify-between gap-3 text-sm">
             <span className="font-medium">{UI.stepOf[locale].replace("{n}", String(index + 1)).replace("{total}", String(steps.length))}</span>
             <span className="text-muted-foreground" aria-live="polite">
@@ -772,7 +772,7 @@ function AiHelp({ locale, stepId }: { locale: QfLocale; stepId: string }) {
           {UI2.aiHelp[locale]}
         </Button>
       </CollapsibleTrigger>
-      <CollapsibleContent className="mt-2 flex flex-col gap-2">
+      <CollapsibleContent className="mt-2 flex-col gap-2 data-[state=open]:flex">
         <Textarea rows={2} maxLength={500} value={question} onChange={(e) => setQuestion(e.target.value)} aria-label={UI2.aiAsk[locale]} placeholder={UI2.aiAsk[locale]} />
         <Button type="button" size="sm" className="self-start" disabled={loading || !question.trim()} onClick={async () => {
           setLoading(true);

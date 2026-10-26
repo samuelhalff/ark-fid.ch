@@ -47,7 +47,6 @@ export function checkUpload(name: string, size: number, mime: string): FileCheck
 export function safeName(input: string, max = 80): string {
   const cleaned = input
     .normalize("NFC")
-    // eslint-disable-next-line no-control-regex
     .replace(/[\u0000-\u001f\u007f"*:<>?/\\|#%~&{}+]/g, " ")
     .replace(/\s+/g, " ")
     .replace(/^[.\s_-]+|[.\s]+$/g, "")

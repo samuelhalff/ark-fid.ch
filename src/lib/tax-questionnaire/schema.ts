@@ -998,7 +998,7 @@ const other: StepDef = {
   id: "other",
   title: t("Autres situations", "Other situations", "Weitere Situationen"),
   sheet: "Autres",
-  showIf: hasAny("inheritance", "lottery", "trust", "unusual", "lppBuyin", "capital", "p3a"),
+  showIf: hasAny("inheritance", "lottery", "trust", "unusual", "lppBuyin", "capital"),
   blocks: [
     group({
       id: "other.inheritance",
@@ -1046,8 +1046,6 @@ const other: StepDef = {
       options: YES_NO_UNKNOWN,
       showIf: hasAny("lppBuyin", "capital"),
     }),
-    f("other.p3aAccounts", "integer", t("Nombre de comptes ou polices 3e pilier A", "Number of pillar 3a accounts or policies", "Anzahl Konten oder Policen Säule 3a"), { width: "half", showIf: has("p3a") }),
-    f("other.p3aRetroInfo", "boolean", t("Je souhaite des informations sur les versements rétroactifs au 3e pilier A", "I would like information on retroactive pillar 3a contributions", "Ich wünsche Informationen zu rückwirkenden Einzahlungen in die Säule 3a"), { showIf: has("p3a") }),
     f("other.unusual", "textarea", t("Décrivez la situation", "Describe the situation", "Beschreiben Sie die Situation"), { maxLength: 2000, showIf: has("unusual") }),
   ],
 };
@@ -1112,6 +1110,7 @@ const review: StepDef = {
     }),
     f("review.extendedTo", "date", t("Prolongation jusqu'au", "Extended until", "Erstreckt bis"), { width: "half", showIf: is("review.deadline", "extended") }),
     f("review.comments", "textarea", t("Questions ou remarques (facultatif)", "Questions or remarks (optional)", "Fragen oder Bemerkungen (freiwillig)"), { maxLength: 4000 }),
+    f("other.p3aRetroInfo", "boolean", t("Je souhaite des informations sur les versements rétroactifs au 3e pilier A", "I would like information on retroactive pillar 3a contributions", "Ich wünsche Informationen zu rückwirkenden Einzahlungen in die Säule 3a"), { showIf: has("p3a") }),
     f("review.reminder", "boolean", t("Me rappeler chaque année et préremplir mon questionnaire", "Remind me every year and pre-fill my questionnaire", "Mich jedes Jahr erinnern und meinen Fragebogen vorausfüllen"), {
       help: t("Un e-mail en février avec un lien vers vos réponses de l'année précédente. Vous pouvez vous désinscrire à tout moment.", "An email in February with a link to last year's answers. You can unsubscribe at any time.", "Eine E-Mail im Februar mit einem Link zu den Antworten des Vorjahres. Abmeldung jederzeit möglich."),
     }),

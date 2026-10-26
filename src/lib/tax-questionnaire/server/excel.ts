@@ -149,7 +149,8 @@ export async function buildWorkbook(record: SubmissionRecord): Promise<Uint8Arra
   kv(summary, "E-mail", str(a["start.email"]));
   kv(summary, "Téléphone", str(a["start.phone"]));
   kv(summary, "Langue des réponses", LANG_FR[record.locale]);
-  kv(summary, "Déjà imposé(e) en Suisse", fv("start.previouslyTaxed"));
+  kv(summary, "Dernière déclaration", fv("start.status"));
+  kv(summary, "Précédent mandataire", str(a["start.previousPreparer"]));
   kv(summary, "N° de contribuable", str(a["base.taxNumber"]));
   kv(summary, "Clé client", record.clientKey);
   section("Période et régime");

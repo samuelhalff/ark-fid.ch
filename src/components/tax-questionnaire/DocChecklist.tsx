@@ -201,7 +201,7 @@ function DocCard({
                 {UI2.requestTemplate[locale]}
               </Button>
             </CollapsibleTrigger>
-            <CollapsibleContent className="mt-2 flex flex-col gap-2 rounded-md bg-surface-warm p-3 text-sm dark:bg-card">
+            <CollapsibleContent className="mt-2 flex-col gap-2 data-[state=open]:flex rounded-md bg-surface-warm p-3 text-sm dark:bg-card">
               <p className="font-medium">{template.subject}</p>
               <p className="whitespace-pre-line text-muted-foreground">{template.body}</p>
               <Button

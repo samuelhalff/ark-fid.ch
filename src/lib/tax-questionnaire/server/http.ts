@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { isUsableSecret } from "../token";
 import { readCookie, readSession, type SessionInfo } from "./access";
 import { ServiceError } from "./service";
 import { StorageError } from "./storage";
@@ -71,6 +70,8 @@ export async function readJson(request: Request, maxBytes: number): Promise<{ ok
     return { ok: false, response: json({ error: "invalid_request" }, 400) };
   }
 }
+
+const isUsableSecret = (secret: string | undefined): secret is string => !!secret && secret.length >= 32;
 
 /** Dedicated secret; fails closed when missing or too short. */
 export function tokenSecret(): string | null {
