@@ -56,7 +56,7 @@ export function attentionPoints(a: Answers): AttentionPoint[] {
       "tou",
       "high",
       mandatory
-        ? `Imposé(e) à la source (résident, canton employeur ${str(a["regime.employerCanton"]) || "?"}) : TOU obligatoire (salaire ≥ CHF 120'000 indiqué), d'office — vérifier que les formulaires ont été reçus et, selon la pratique cantonale, si une annonce est requise (à défaut, les demander avant le 31.03).`
+        ? `Imposé(e) à la source (résident, canton employeur ${str(a["regime.employerCanton"]) || "?"}) : TOU obligatoire (salaire ≥ CHF 120'000 indiqué), d'office — vérifier que les formulaires ont été reçus et si la pratique cantonale demande une annonce.`
         : `[TOU 31.03] Imposé(e) à la source (résident, canton employeur ${str(a["regime.employerCanton"]) || "?"}) : TOU obligatoire à vérifier (revenus non soumis à la source, fortune selon le canton), sinon sur demande ; souhait du client : ${str(a["regime.sourceRequest"]) || "non indiqué"}. Demande de TOU / rectification au plus tard le 31.03.${year + 1} (forclusion)${left(a) ? " et, en cas de départ, au plus tard au moment de la déclaration de départ (art. 89a al. 3 LIFD)" : ""} — confirmer le mandat sans délai.`,
     );
   }

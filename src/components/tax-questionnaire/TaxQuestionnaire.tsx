@@ -863,8 +863,8 @@ function AiExtract({ locale, fileId, beforeCall, onPrefill }: { locale: QfLocale
         ...preview.employers,
         ...preview.banks,
         ...preview.insurers,
-        ...preview.lenders,
         ...preview.properties.map((p) => `${p.place} (${p.country})`),
+        ...preview.deductionsUsed.map((d) => ROUTER_OPTIONS.find((o) => o.value === d)?.label[locale] || d),
       ].filter(Boolean)
     : [];
   return (

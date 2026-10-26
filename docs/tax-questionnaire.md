@@ -217,3 +217,19 @@ Appels **sans état** (chat completions, pas d'agent ni de fil conservé), temp�
 5. **Tests** : vérifier sur un dossier TEST l'aide, les suggestions et l'extraction (PDF et photo) ; relire 10 réponses d'aide pour s'assurer qu'aucune ne donne de conseil ni de chiffre.
 
 Puis définir les variables ci-dessus sur l'hébergement et redémarrer. Pour couper : `TAX_QF_AI_ENABLED=0` (effet immédiat au redémarrage).
+
+## Limites connues (acceptées, à revoir si l'hébergement change)
+
+- **Mémoire du processus** : compteurs d'essais des codes, limites par IP et verrou d'envoi. Ils supposent une seule instance Node, comme sur Infomaniak. Un redémarrage remet ces compteurs à zéro ; un code reste de toute façon valable 10 minutes au plus et sert une seule fois par processus.
+- **Envoi** :
+  - Les e-mails internes et client sont marqués « envoyés » dans `etat.json` de la version, donc une reprise ne les renvoie pas.
+  - Si la confirmation client échoue, l'envoi est quand même clôturé : le client voit la confirmation à l'écran, l'équipe a reçu l'e-mail interne.
+- **Fichiers ajoutés après un envoi** (« corriger mes réponses ») : ils ne peuvent plus être supprimés par le client ; le bouton est masqué. Les fichiers douteux vont dans `_A verifier`.
+- **Volume total** : il est contrôlé à la création des sessions d'upload, puis à l'envoi. Un dépassement par sessions simultanées est signalé dans l'Excel, pas bloqué.
+- **Campagne** :
+  - Pour les cantons dont le délai n'est pas vérifié (hors GE et VD), les rappels s'arrêtent par défaut au 31 mars. Renseigner « Délai obtenu jusqu'au » pour prolonger.
+  - Un départ en cours d'année n'avance pas l'arrêt des rappels.
+  - La course entre deux exécutions simultanées du cron n'est pas couverte (une seule exécution par jour).
+  - Les noms des invitations de campagne sont découpés selon la convention du CRM (« NOM Prénom », mots en majuscules = nom). Les noms entièrement en majuscules doivent être vérifiés.
+- **Journal** : un fichier par événement (`_events/`), plutôt qu'un seul `events.jsonl`, pour éviter les écritures concurrentes sur un même fichier SharePoint. Les journaux du serveur contiennent l'identifiant opaque du dossier, jamais de nom, d'e-mail ni de réponse.
+- **Tests** : `npm run test:tax-qf` exige Node 22 (exécution TypeScript native), comme `test:unit`. La compilation (`npm run build`) se fait avec Node 20.

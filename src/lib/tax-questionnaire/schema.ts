@@ -798,7 +798,7 @@ const toOwnUse = rowHas("events", "toOwnUse");
  * the last notice, new construction / major works, or (uncertain, flagged) a change to own use.
  */
 export const needsGeValuation = (_a: Answers, row?: Row) =>
-  !!row && row.where === "CH" && row.canton === "GE" && ownUse(_a, row) && (row.inLastAvis === "no" || bought(_a, row) || works(_a, row) || toOwnUse(_a, row));
+  !!row && row.where === "CH" && row.canton === "GE" && ownUse(_a, row) && (row.inLastAvis === "no" || row.inLastAvis === "unknown" || bought(_a, row) || works(_a, row) || toOwnUse(_a, row));
 const geBlock = (_a: Answers, row?: Row) => needsGeValuation(_a, row) && row?.geFill === "now";
 
 function propertyFields(): FieldDef[] {

@@ -11,7 +11,7 @@ import { attentionPoints } from "../attention";
 import { DOC_CATEGORIES, docRuleById, selectedYears, taxYearOf } from "../documents";
 import { ALLOWED_TYPES, checkUpload, codeFromFileName, extensionOf, safeName, sniffMismatch, uploadFileName, UPLOAD_LIMITS } from "../files";
 import { checklistFor, pruneHidden, sanitizeAnswers, validateAll } from "../logic";
-import { has, isCouple, sourceTaxed, STEPS } from "../schema";
+import { has, isCouple, sourceTaxed, sourceTaxedResident, STEPS } from "../schema";
 import { QF_LOCALES, type Answers, type DocStatus, type QfLocale } from "../types";
 import { PRIVACY_VERSION, UI } from "../ui";
 import { emailHash, INVITATION_LINK_TTL_MS, issueLink, RESUME_LINK_TTL_MS } from "./access";
@@ -496,8 +496,10 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
   }
 
   const regularisation = has("regularisation")(answers);
-  const urgentSource = sourceTaxed(answers) && now.getMonth() <= 2; // until 31 March
-  const prefixes = [regularisation ? "[Régularisation]" : "", sourceTaxed(answers) ? "[TOU 31.03]" : "", urgentSource ? "[URGENT]" : ""].filter(Boolean).join(" ");
+  // TOU d'office (resident, salary ≥ CHF 120'000) has no 31 March request deadline.
+  const touRequest = sourceTaxed(answers) && !(sourceTaxedResident(answers) && answers["regime.over120k"] === "yes");
+  const urgentSource = touRequest && now.getMonth() <= 2; // until 31 March
+  const prefixes = [regularisation ? "[Régularisation]" : "", touRequest ? "[TOU 31.03]" : "", urgentSource ? "[URGENT]" : ""].filter(Boolean).join(" ");
   const internal = internalMail(record, excelName, excel.byteLength <= MAX_ATTACHMENT_BYTES ? excel : null);
   internal.subject = `${prefixes ? `${prefixes} ` : ""}${internal.subject}`;
   if (pdf.byteLength <= MAX_ATTACHMENT_BYTES) internal.attachments = [...(internal.attachments || []), { name: pdfName, contentType: "application/pdf", bytes: pdf }];
