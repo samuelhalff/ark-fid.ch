@@ -141,8 +141,11 @@ export const arkOrganization = {
   sameAs: [
     "https://www.linkedin.com/company/ark-fiduciaire/",
     "https://www.odoo.com/accounting-firms/ark-fiduciaire-sa-11606819",
-    "https://www.google.com/maps/place/Ark+Fiduciaire+SA/",
     "https://maps.google.com/?cid=14946625157719331801",
+    "https://www.zefix.ch/fr/search/entity/list/firm/1498936",
+    "https://www.ax-fiduciaire.ch/",
+    "https://www.facebook.com/profile.php?id=61591801622117",
+    "https://www.wikidata.org/wiki/Q141877666",
   ],
   languages: ["fr", "en", "de", "es", "pt"],
   knowsAbout: [
@@ -361,7 +364,7 @@ export function buildOrganizationGraph(locale: string = "fr") {
         },
       },
       {
-        "@type": ["ProfessionalService", "AccountingService"],
+        "@type": ["Organization", "ProfessionalService", "AccountingService"],
         "@id": arkEntityIds.organization,
         name: arkOrganization.name,
         legalName: arkOrganization.legalName,
