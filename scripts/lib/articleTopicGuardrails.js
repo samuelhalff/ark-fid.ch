@@ -500,6 +500,9 @@ function findAllTimeNearDuplicate(articles, newArticle) {
 // the editorial topic rotation and duplicate checks, and no LLM step (refresh,
 // translation) may rewrite them. Only this exact reserved value is exempt.
 const DATA_REPORT_SERIES = Object.freeze(["sogc-creations-romandie"]);
+// Data reports are published in these locales only; their absence elsewhere is
+// intended (translation validators must not flag it, pages must 404).
+const DATA_REPORT_LOCALES = Object.freeze(["fr", "en", "de"]);
 
 function isDataReportArticle(article) {
   return Boolean(
@@ -517,6 +520,7 @@ function withoutDataReports(articles) {
 
 module.exports = {
   DATA_REPORT_SERIES,
+  DATA_REPORT_LOCALES,
   isDataReportArticle,
   withoutDataReports,
   TOPIC_KEYWORDS,

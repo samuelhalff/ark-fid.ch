@@ -231,6 +231,9 @@ export default async function ArticlePage(props: Params) {
 
   // If slug doesn't exist at all in this locale, return 404
   if (locale !== "fr" && !localArticle && !frArticle) return notFound();
+  // Data reports (series) are published in selected locales only: no French
+  // fallback page for the others.
+  if (locale !== "fr" && !localArticle && frArticle?.series) return notFound();
 
   const article = localArticle ?? frArticle;
   if (!article) return notFound();

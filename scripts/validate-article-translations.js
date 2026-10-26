@@ -8,6 +8,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { DATA_REPORT_LOCALES, isDataReportArticle } = require("./lib/articleTopicGuardrails");
 
 const LOCALES = ["fr", "en", "de", "es", "pt"];
 const TRANSLATIONS_DIR = path.join(__dirname, "../src/translations");
@@ -65,6 +66,8 @@ function main() {
       const localeArticle = localeArticleMap.get(frArticle.slug);
 
       if (!localeArticle) {
+        // Data reports are intentionally published in DATA_REPORT_LOCALES only.
+        if (isDataReportArticle(frArticle) && !DATA_REPORT_LOCALES.includes(locale)) continue;
         missing.push(frArticle.slug);
       } else if (isGenuineTranslation(localeArticle, frArticle)) {
         genuineTranslations.push(frArticle.slug);

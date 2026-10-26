@@ -5,7 +5,7 @@ const assert = require("node:assert/strict");
 
 const lib = require("./lib/sogcReport");
 const render = require("./lib/sogcReportRender");
-const { upsertArticle, checkRendered } = require("./sogc-monthly-report");
+const { upsertArticle, removeReport, checkRendered } = require("./sogc-monthly-report");
 const { isDataReportArticle, withoutDataReports } = require("./lib/articleTopicGuardrails");
 const { pickStaleSlug } = require("./refresh-next-article");
 const { extractDomain, isBlockedDomain, ALLOWED_REFERENCE_DOMAINS } = require("./lib/referenceValidator");
@@ -251,6 +251,15 @@ test("snapshot checksum ignores retrieval metadata only", () => {
 });
 
 // ---------- article store integration ----------
+
+test("report is published in fr, en and de only", () => {
+  assert.deepEqual(render.LOCALES, ["fr", "en", "de"]);
+  assert.throws(() => render.renderArticle("es", syntheticSnapshot()), /Unsupported locale/);
+  const data = { Articles: [{ slug: "s", series: lib.SERIES }, { slug: "s2" }, { slug: "s", title: "editorial" }] };
+  assert.equal(removeReport(data, "s"), true);
+  assert.deepEqual(data.Articles.map((a) => a.slug), ["s2", "s"]);
+  assert.equal(removeReport(data, "s"), false);
+});
 
 test("upsertArticle keeps the first publication date and marks updates", () => {
   const s = syntheticSnapshot();

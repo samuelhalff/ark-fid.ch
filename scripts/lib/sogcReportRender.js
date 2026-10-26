@@ -7,26 +7,24 @@
  */
 
 const { CANTONS, LEGAL_FORM_KEYS, PORTAL_URL, SERIES, shiftMonth, monthsBetween } = require("./sogcReport");
+const { DATA_REPORT_LOCALES } = require("./articleTopicGuardrails");
 
 const SITE = "https://ark-fid.ch";
-const LOCALES = ["fr", "en", "de", "es", "pt"];
-const INTL_LOCALE = { fr: "fr-CH", en: "en-GB", de: "de-CH", es: "es-ES", pt: "pt-PT" };
+// Published locales (owner decision 2026-10-26: fr, en, de only).
+const LOCALES = DATA_REPORT_LOCALES;
+const INTL_LOCALE = { fr: "fr-CH", en: "en-GB", de: "de-CH" };
 const CSV_DIR = "assets/data/sogc";
 
 const CANTON_NAMES = {
   fr: { GE: "Genève", VD: "Vaud", VS: "Valais", NE: "Neuchâtel", FR: "Fribourg", JU: "Jura" },
   en: { GE: "Geneva", VD: "Vaud", VS: "Valais", NE: "Neuchâtel", FR: "Fribourg", JU: "Jura" },
   de: { GE: "Genf", VD: "Waadt", VS: "Wallis", NE: "Neuenburg", FR: "Freiburg", JU: "Jura" },
-  es: { GE: "Ginebra", VD: "Vaud", VS: "Valais", NE: "Neuchâtel", FR: "Friburgo", JU: "Jura" },
-  pt: { GE: "Genebra", VD: "Vaud", VS: "Valais", NE: "Neuchâtel", FR: "Friburgo", JU: "Jura" },
 };
 
 const LEGAL_FORM_LABELS = {
   fr: { sa: "SA", sarl: "Sàrl", ei: "Raison individuelle", branch: "Succursales", other: "Autres formes" },
   en: { sa: "SA (company limited by shares)", sarl: "Sàrl (LLC)", ei: "Sole proprietorship", branch: "Branches", other: "Other forms" },
   de: { sa: "AG", sarl: "GmbH", ei: "Einzelunternehmen", branch: "Zweigniederlassungen", other: "Andere Rechtsformen" },
-  es: { sa: "SA (sociedad anónima)", sarl: "Sàrl (sociedad limitada)", ei: "Empresa individual", branch: "Sucursales", other: "Otras formas" },
-  pt: { sa: "SA (sociedade anónima)", sarl: "Sàrl (sociedade por quotas)", ei: "Empresa em nome individual", branch: "Sucursais", other: "Outras formas" },
 };
 
 // Legal form as a noun phrase with its article, for running text.
@@ -34,8 +32,6 @@ const LEGAL_FORM_NOUNS = {
   fr: { sa: "la SA", sarl: "la Sàrl", ei: "la raison individuelle", branch: "la succursale", other: "une autre forme" },
   en: { sa: "the SA", sarl: "the Sàrl", ei: "the sole proprietorship", branch: "the branch", other: "another form" },
   de: { sa: "die AG", sarl: "die GmbH", ei: "das Einzelunternehmen", branch: "die Zweigniederlassung", other: "eine andere Rechtsform" },
-  es: { sa: "la SA", sarl: "la Sàrl", ei: "la empresa individual", branch: "la sucursal", other: "otra forma" },
-  pt: { sa: "a SA", sarl: "a Sàrl", ei: "a empresa em nome individual", branch: "a sucursal", other: "outra forma" },
 };
 
 const SECTOR_LABELS = {
@@ -56,18 +52,6 @@ const SECTOR_LABELS = {
     realestate: "Immobilien und Bau", it: "Informatik und Digitales", transport: "Transport und Logistik",
     automotive: "Autogewerbe und Garagen", health: "Gesundheit, Schönheit und Wellness", hospitality: "Gastronomie und Hotellerie",
     education: "Bildung, Kultur und Events", consulting: "Beratung und Unternehmensdienstleistungen", unclassified: "Nicht zugeordnet",
-  },
-  es: {
-    holding: "Holdings y participaciones", trade: "Comercio y trading", finance: "Finanzas, fiduciaria y seguros",
-    realestate: "Inmobiliario y construcción", it: "Informática y digital", transport: "Transporte y logística",
-    automotive: "Automoción y talleres", health: "Salud, belleza y bienestar", hospitality: "Restauración y hostelería",
-    education: "Formación, cultura y eventos", consulting: "Consultoría y servicios a empresas", unclassified: "Sin clasificar",
-  },
-  pt: {
-    holding: "Holdings e participações", trade: "Comércio e trading", finance: "Finanças, fiduciária e seguros",
-    realestate: "Imobiliário e construção", it: "Informática e digital", transport: "Transporte e logística",
-    automotive: "Automóvel e oficinas", health: "Saúde, beleza e bem-estar", hospitality: "Restauração e hotelaria",
-    education: "Formação, cultura e eventos", consulting: "Consultoria e serviços a empresas", unclassified: "Não classificado",
   },
 };
 
@@ -180,7 +164,7 @@ function fmtPct(locale, value, { signed = true } = {}) {
   if (value === null || value === undefined || !Number.isFinite(value)) return "n/a";
   const rounded = Math.round(value * 10) / 10;
   const abs = new Intl.NumberFormat(INTL_LOCALE[locale], { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(Math.abs(rounded));
-  const space = locale === "fr" || locale === "de" || locale === "es" || locale === "pt" ? " " : "";
+  const space = locale === "en" ? "" : "\u00a0";
   const sign = !signed ? "" : value > 0 ? "+" : value < 0 ? "−" : "±";
   return `${sign}${abs}${space}%`;
 }
@@ -400,118 +384,6 @@ const TEXT = {
       ["Handelsregister (Zefix)", "https://www.zefix.ch/de/search/entity/welcome"],
       ["Handelsregisterverordnung (HRegV, SR 221.411) – Fedlex", "https://www.fedlex.admin.ch/eli/cc/2007/686/de"],
       ["Obligationenrecht (OR, SR 220) – Fedlex", "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/de"],
-    ],
-  },
-  es: {
-    title: (f, L) => `Creación de empresas en Ginebra y la Suiza francófona: ${L.month}`,
-    description: (f, L) => `${L.n(f.total.creations)} nuevas inscripciones en el registro mercantil de la Suiza francófona en ${L.month}, de ellas ${L.n(f.ge.creations)} en Ginebra. Cifras por cantón, forma jurídica y bajas, según la FOSC.`,
-    trend: (v, L) => (v === null ? "sin base de comparación" : v > 0 ? `un aumento del ${L.p(v, false)}` : v < 0 ? `un descenso del ${L.p(v, false)}` : "sin cambios"),
-    intro: (f, L) => `En ${L.month}, la Hoja Oficial Suiza de Comercio (FOSC) publicó **${L.n(f.total.creations)} nuevas inscripciones** en el registro mercantil de los seis cantones francófonos (Ginebra, Vaud, Valais, Neuchâtel, Friburgo y Jura), de ellas **${L.n(f.ge.creations)} en Ginebra**. En el mismo periodo se publicaron ${L.n(f.total.deletions)} bajas, es decir, un saldo de ${L.s(f.total.net)} entidades inscritas.\n\nEste barómetro mensual de Ark Fiduciaire se calcula automáticamente a partir de las publicaciones oficiales de la FOSC. Las cifras no son estimaciones ni extrapolaciones: son recuentos de publicaciones, desglosados por cantón y por forma jurídica. El método se describe al final del artículo, junto con los datos descargables.\n\nUna nueva inscripción no siempre es una nueva empresa: el total incluye ${L.n(f.total.legal.branch)} sucursales, y algunas inscripciones pueden deberse a un traslado de domicilio desde otro cantón. Sin contar las sucursales, se inscribieron ${L.n(f.total.creations - f.total.legal.branch)} nuevas sociedades, empresas individuales y otras entidades.`,
-    hKey: (f, L) => `## Cifras clave de ${L.month}`,
-    key: (f, L) => [
-      `- **${L.n(f.total.creations)}** nuevas inscripciones en la Suiza francófona: ${L.trend(f.total.mom)} respecto a ${L.prevMonth} (${L.n(f.total.prevCreations)}) y ${L.trend(f.total.yoy)} respecto a ${L.yoyMonth} (${L.n(f.total.yoyCreations)}).`,
-      `- **${L.n(f.ge.creations)}** en Ginebra, el ${L.p(f.geShare, false)} del total regional; ${L.trend(f.ge.mom)} en un mes y ${L.trend(f.ge.yoy)} en un año.`,
-      `- El cantón más activo es ${L.canton(f.topCanton.canton)}, con ${L.n(f.topCanton.creations)} nuevas inscripciones.`,
-      `- La forma más frecuente es ${L.legalNoun(f.topLegal)} (${L.n(f.total.legal[f.topLegal])} inscripciones, ${L.p(L.share(f.total.legal[f.topLegal], f.total.creations), false)}).`,
-      `- **${L.n(f.total.deletions)}** bajas publicadas en los seis cantones, con un saldo de ${L.s(f.total.net)}.`,
-      `- Desde enero, ${L.n(f.total.ytd)} nuevas inscripciones: ${L.trend(f.total.ytdChange)} respecto al mismo periodo de ${f.year - 1} (${L.n(f.total.ytdPrev)}).`,
-    ].join("\n"),
-    hCanton: () => "## Nuevas inscripciones y bajas por cantón",
-    cantonIntro: (f, L) => `La tabla compara las nuevas inscripciones de ${L.month} con el mes anterior y con el mismo mes del año pasado. El saldo corresponde a las nuevas inscripciones menos las bajas publicadas en el mismo mes.`,
-    cantonHead: (f, L) => ["Cantón", `Inscripciones ${L.monthShort(f.T)}`, L.monthShort(f.prev), "Var. mensual", L.monthShort(f.yoy), "Var. anual", "Bajas", "Saldo"],
-    totalLabel: "Suiza francófona",
-    cantonOutro: (f, L) => `Ginebra representa el ${L.p(f.geShare, false)} de las nuevas inscripciones de la región en el mes. Las variaciones mensuales deben leerse con prudencia en los cantones pequeños, donde unas pocas inscripciones bastan para mover mucho el porcentaje.`,
-    hLegal: () => "## Formas jurídicas de las nuevas inscripciones",
-    legalIntro: (f, L) => `La forma jurídica se lee en el campo estructurado de cada publicación. En Ginebra, la forma más frecuente este mes es ${L.legalNoun(f.geTopLegal)} (${L.n(f.ge.legal[f.geTopLegal])} de ${L.n(f.ge.creations)}).`,
-    legalOutro: () => "«Otras formas» agrupa sobre todo sociedades colectivas, asociaciones, fundaciones y cooperativas inscritas en el registro mercantil. Las sucursales incluyen las de empresas suizas y extranjeras.",
-    hYtd: (f, L) => `## En lo que va de año (${L.monthOnly(f.ytdFirst)} a ${L.month})`,
-    ytdHead: (f, L) => ["Cantón", `Inscripciones ${f.year}`, `Inscripciones ${f.year - 1}`, "Variación", `Bajas ${f.year}`, `Saldo ${f.year}`],
-    hTrend: () => "## Evolución en trece meses",
-    trendIntro: () => "Nuevas inscripciones publicadas cada mes en Ginebra y en el conjunto de los seis cantones francófonos, con las bajas de la región en el mismo mes.",
-    trendHead: () => ["Mes", "Ginebra", "Suiza francófona", "Bajas (Suiza francófona)"],
-    hSector: () => "## Sectores de actividad (indicativo)",
-    sectorIntro: (f, L) => `Para dar un orden de magnitud, el objeto social de cada nueva inscripción se asigna a un sector mediante palabras clave. Esta clasificación es **aproximada**: no sigue la nomenclatura oficial NOGA, un objeto puede abarcar varias actividades y algunos no contienen ninguna palabra clave reconocida (${L.n(f.unclassified)} inscripciones sin clasificar de ${L.n(f.sectorTotal)}).`,
-    sectorHead: () => ["Sector (clasificación por palabras clave)", "Inscripciones", "Proporción"],
-    hMeaning: () => "## Qué significan estas cifras para quien crea una empresa",
-    meaning: () => [
-      "La elección entre Sàrl y SA depende ante todo del capital y de la imagen buscada. La Sàrl exige un capital mínimo de 20 000 francos y la SA un capital social mínimo de 100 000 francos, del que al menos el 20 % de cada acción y al menos 50 000 francos en total deben desembolsarse en la constitución. Ambas formas limitan la responsabilidad de los socios o accionistas al patrimonio de la sociedad.",
-      "La empresa individual es la forma más sencilla, pero el titular responde de las deudas con todo su patrimonio. La inscripción en el registro mercantil es obligatoria cuando la cifra de negocios anual alcanza 100 000 francos. Muchos autónomos empiezan así y pasan a una Sàrl cuando la actividad crece.",
-      "La inscripción es solo el primer paso: IVA, seguros sociales, contabilidad e impuestos llegan enseguida. Ark Fiduciaire acompaña a los fundadores en Ginebra, desde la [constitución de la sociedad](/services/incorporation) hasta la contabilidad. Para una pregunta concreta, [contáctenos](/contact).",
-    ].join("\n\n"),
-    hMethod: () => "## Metodología",
-    method: (f, L, S) => [
-      `- **Fuente**: publicaciones de la [Hoja Oficial Suiza de Comercio (FOSC)](${PORTAL_URL}), obtenidas a través de la interfaz pública del portal el ${L.date(S.fetchedAt)}.`,
-      "- **Nuevas inscripciones**: publicaciones de la rúbrica HR01 («nuevas inscripciones») de los registros mercantiles de Ginebra, Vaud, Valais, Neuchâtel, Friburgo y Jura. Incluyen las sucursales.",
-      "- **Bajas**: publicaciones de la rúbrica HR03. Una baja puede deberse a una liquidación, una fusión, un traslado de domicilio u otra causa; el saldo es, por tanto, un flujo de publicaciones y no la variación del número de empresas activas.",
-      "- **Fecha utilizada**: la fecha de publicación en la FOSC, no la de inscripción en el registro, que suele ser unos días anterior. Parte de las inscripciones de final de mes aparece por ello en el mes siguiente.",
-      "- **Formas jurídicas**: leídas en el campo estructurado de cada publicación. El sector es una clasificación indicativa por palabras clave del objeto social.",
-      `- **Controles**: ${L.n(S.quality.hr01Publications)} publicaciones HR01 y ${L.n(S.quality.hr03Publications)} publicaciones HR03 tratadas en el periodo cubierto; ${L.n(S.quality.detailsParsed)} publicaciones del mes leídas en detalle; ${L.n(S.quality.seatTransferMentions)} mencionan un traslado de domicilio desde otro cantón; ${L.n(S.quality.uidDuplicates)} IDE duplicado detectado.`,
-      "- **Datos personales**: el informe solo publica agregados. No se incluye ningún nombre de persona ni de empresa.",
-      "- **Revisiones**: una publicación anulada o corregida después de la extracción puede modificar ligeramente las cifras. Cada informe conserva las cifras de su fecha de extracción.",
-    ].join("\n"),
-    hCite: () => "## Citar estos datos",
-    cite: (f, L, S, slug) => `Periodistas e investigadores pueden utilizar estas cifras citando la fuente:\n\n> Ark Fiduciaire, «Creación de empresas en Ginebra y la Suiza francófona: ${L.month}», según la Hoja Oficial Suiza de Comercio (FOSC), publicado el ${L.date(S.publishedOn)}. ${articleUrl("es", slug)}\n\nDatos agregados en formato CSV: [descargar el archivo](${csvPath(f.T)}).`,
-    refs: [
-      ["Hoja Oficial Suiza de Comercio (FOSC) – portal de publicaciones", PORTAL_URL],
-      ["Registro mercantil (Zefix)", "https://www.zefix.ch/fr/search/entity/welcome"],
-      ["Ordenanza sobre el registro mercantil (ORC, RS 221.411) – Fedlex", "https://www.fedlex.admin.ch/eli/cc/2007/686/fr"],
-      ["Código de obligaciones (CO, RS 220) – Fedlex", "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"],
-    ],
-  },
-  pt: {
-    title: (f, L) => `Criação de empresas em Genebra e na Suíça francófona: ${L.month}`,
-    description: (f, L) => `${L.n(f.total.creations)} novas inscrições no registo comercial da Suíça francófona em ${L.month}, das quais ${L.n(f.ge.creations)} em Genebra. Números por cantão, forma jurídica e cancelamentos, segundo a FOSC.`,
-    trend: (v, L) => (v === null ? "sem base de comparação" : v > 0 ? `uma subida de ${L.p(v, false)}` : v < 0 ? `uma descida de ${L.p(v, false)}` : "sem alteração"),
-    intro: (f, L) => `Em ${L.month}, a Folha Oficial Suíça do Comércio (FOSC) publicou **${L.n(f.total.creations)} novas inscrições** no registo comercial dos seis cantões francófonos (Genebra, Vaud, Valais, Neuchâtel, Friburgo e Jura), das quais **${L.n(f.ge.creations)} em Genebra**. No mesmo período foram publicados ${L.n(f.total.deletions)} cancelamentos, ou seja, um saldo de ${L.s(f.total.net)} entidades inscritas.\n\nEste barómetro mensal da Ark Fiduciaire é calculado automaticamente a partir das publicações oficiais da FOSC. Os números não são estimados nem extrapolados: são contagens de publicações, discriminadas por cantão e por forma jurídica. O método é descrito no final do artigo, com os dados para descarregar.\n\nUma nova inscrição nem sempre é uma nova empresa: o total inclui ${L.n(f.total.legal.branch)} sucursais, e algumas inscrições podem resultar de uma transferência de sede a partir de outro cantão. Excluindo as sucursais, foram inscritas ${L.n(f.total.creations - f.total.legal.branch)} novas sociedades, empresas em nome individual e outras entidades.`,
-    hKey: (f, L) => `## Números-chave de ${L.month}`,
-    key: (f, L) => [
-      `- **${L.n(f.total.creations)}** novas inscrições na Suíça francófona: ${L.trend(f.total.mom)} face a ${L.prevMonth} (${L.n(f.total.prevCreations)}) e ${L.trend(f.total.yoy)} face a ${L.yoyMonth} (${L.n(f.total.yoyCreations)}).`,
-      `- **${L.n(f.ge.creations)}** em Genebra, ou seja ${L.p(f.geShare, false)} do total regional; ${L.trend(f.ge.mom)} num mês e ${L.trend(f.ge.yoy)} num ano.`,
-      `- O cantão mais ativo é ${L.canton(f.topCanton.canton)}, com ${L.n(f.topCanton.creations)} novas inscrições.`,
-      `- A forma mais frequente é ${L.legalNoun(f.topLegal)} (${L.n(f.total.legal[f.topLegal])} inscrições, ${L.p(L.share(f.total.legal[f.topLegal], f.total.creations), false)}).`,
-      `- **${L.n(f.total.deletions)}** cancelamentos publicados nos seis cantões, com um saldo de ${L.s(f.total.net)}.`,
-      `- Desde janeiro, ${L.n(f.total.ytd)} novas inscrições: ${L.trend(f.total.ytdChange)} face ao mesmo período de ${f.year - 1} (${L.n(f.total.ytdPrev)}).`,
-    ].join("\n"),
-    hCanton: () => "## Novas inscrições e cancelamentos por cantão",
-    cantonIntro: (f, L) => `A tabela compara as novas inscrições de ${L.month} com o mês anterior e com o mesmo mês do ano passado. O saldo corresponde às novas inscrições menos os cancelamentos publicados no mesmo mês.`,
-    cantonHead: (f, L) => ["Cantão", `Inscrições ${L.monthShort(f.T)}`, L.monthShort(f.prev), "Var. mensal", L.monthShort(f.yoy), "Var. anual", "Cancelamentos", "Saldo"],
-    totalLabel: "Suíça francófona",
-    cantonOutro: (f, L) => `Genebra representa ${L.p(f.geShare, false)} das novas inscrições da região no mês. As variações mensais devem ser lidas com prudência nos cantões mais pequenos, onde poucas inscrições bastam para alterar muito a percentagem.`,
-    hLegal: () => "## Formas jurídicas das novas inscrições",
-    legalIntro: (f, L) => `A forma jurídica é lida no campo estruturado de cada publicação. Em Genebra, a forma mais frequente este mês é ${L.legalNoun(f.geTopLegal)} (${L.n(f.ge.legal[f.geTopLegal])} de ${L.n(f.ge.creations)}).`,
-    legalOutro: () => "«Outras formas» agrupa sobretudo sociedades em nome coletivo, associações, fundações e cooperativas inscritas no registo comercial. As sucursais incluem as de empresas suíças e estrangeiras.",
-    hYtd: (f, L) => `## Desde o início do ano (${L.monthOnly(f.ytdFirst)} a ${L.month})`,
-    ytdHead: (f, L) => ["Cantão", `Inscrições ${f.year}`, `Inscrições ${f.year - 1}`, "Variação", `Cancelamentos ${f.year}`, `Saldo ${f.year}`],
-    hTrend: () => "## Evolução em treze meses",
-    trendIntro: () => "Novas inscrições publicadas em cada mês em Genebra e no conjunto dos seis cantões francófonos, com os cancelamentos da região no mesmo mês.",
-    trendHead: () => ["Mês", "Genebra", "Suíça francófona", "Cancelamentos (Suíça francófona)"],
-    hSector: () => "## Setores de atividade (indicativo)",
-    sectorIntro: (f, L) => `Para dar uma ordem de grandeza, o objeto social de cada nova inscrição é atribuído a um setor por palavras-chave. Esta classificação é **aproximada**: não segue a nomenclatura oficial NOGA, um objeto pode abranger várias atividades e alguns não contêm nenhuma palavra-chave reconhecida (${L.n(f.unclassified)} inscrições não classificadas em ${L.n(f.sectorTotal)}).`,
-    sectorHead: () => ["Setor (classificação por palavras-chave)", "Inscrições", "Proporção"],
-    hMeaning: () => "## O que estes números significam para quem cria uma empresa",
-    meaning: () => [
-      "A escolha entre Sàrl e SA depende sobretudo do capital e da imagem pretendida. A Sàrl exige um capital mínimo de 20 000 francos e a SA um capital social mínimo de 100 000 francos, do qual pelo menos 20 % de cada ação e pelo menos 50 000 francos no total devem ser realizados na constituição. Ambas as formas limitam a responsabilidade dos sócios ou acionistas ao património da sociedade.",
-      "A empresa em nome individual é a forma mais simples, mas o titular responde pelas dívidas com todo o seu património. A inscrição no registo comercial torna-se obrigatória quando o volume de negócios anual atinge 100 000 francos. Muitos independentes começam assim e passam para uma Sàrl quando a atividade cresce.",
-      "A inscrição é apenas o primeiro passo: IVA, seguros sociais, contabilidade e impostos seguem-se rapidamente. A Ark Fiduciaire acompanha os fundadores em Genebra, desde a [constituição da sociedade](/services/incorporation) até à contabilidade. Para uma questão concreta, [contacte-nos](/contact).",
-    ].join("\n\n"),
-    hMethod: () => "## Metodologia",
-    method: (f, L, S) => [
-      `- **Fonte**: publicações da [Folha Oficial Suíça do Comércio (FOSC)](${PORTAL_URL}), obtidas através da interface pública do portal em ${L.date(S.fetchedAt)}.`,
-      "- **Novas inscrições**: publicações da rubrica HR01 («novas inscrições») dos registos comerciais de Genebra, Vaud, Valais, Neuchâtel, Friburgo e Jura. Incluem as sucursais.",
-      "- **Cancelamentos**: publicações da rubrica HR03. Um cancelamento pode resultar de uma liquidação, de uma fusão, de uma transferência de sede ou de outra causa; o saldo é, portanto, um fluxo de publicações e não a variação do número de empresas ativas.",
-      "- **Data utilizada**: a data de publicação na FOSC, e não a data de inscrição no registo, que normalmente a precede em alguns dias. Parte das inscrições do fim do mês aparece por isso no mês seguinte.",
-      "- **Formas jurídicas**: lidas no campo estruturado de cada publicação. O setor é uma classificação indicativa por palavras-chave do objeto social.",
-      `- **Controlos**: ${L.n(S.quality.hr01Publications)} publicações HR01 e ${L.n(S.quality.hr03Publications)} publicações HR03 tratadas no período coberto; ${L.n(S.quality.detailsParsed)} publicações do mês lidas em detalhe; ${L.n(S.quality.seatTransferMentions)} mencionam uma transferência de sede a partir de outro cantão; ${L.n(S.quality.uidDuplicates)} IDE duplicado detetado.`,
-      "- **Dados pessoais**: o relatório publica apenas agregados. Não é incluído nenhum nome de pessoa ou de empresa.",
-      "- **Revisões**: uma publicação anulada ou corrigida após a extração pode alterar ligeiramente os números. Cada relatório mantém os números da sua data de extração.",
-    ].join("\n"),
-    hCite: () => "## Citar estes dados",
-    cite: (f, L, S, slug) => `Jornalistas e investigadores podem utilizar estes números citando a fonte:\n\n> Ark Fiduciaire, «Criação de empresas em Genebra e na Suíça francófona: ${L.month}», segundo a Folha Oficial Suíça do Comércio (FOSC), publicado em ${L.date(S.publishedOn)}. ${articleUrl("pt", slug)}\n\nDados agregados em formato CSV: [descarregar o ficheiro](${csvPath(f.T)}).`,
-    refs: [
-      ["Folha Oficial Suíça do Comércio (FOSC) – portal de publicações", PORTAL_URL],
-      ["Registo comercial (Zefix)", "https://www.zefix.ch/fr/search/entity/welcome"],
-      ["Portaria sobre o registo comercial (ORC, RS 221.411) – Fedlex", "https://www.fedlex.admin.ch/eli/cc/2007/686/fr"],
-      ["Código das obrigações (CO, RS 220) – Fedlex", "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"],
     ],
   },
 };

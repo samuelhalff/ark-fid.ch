@@ -8,7 +8,7 @@
  *   node scripts/sogc-monthly-report.js [--month=YYYY-MM] [--apply] [--from-snapshot]
  *
  * --month          report month (default: previous calendar month, UTC)
- * --apply          write the snapshot, the CSV and the article in all 5 locales
+ * --apply          write the snapshot, the CSV and the article (fr, en, de)
  * --from-snapshot  re-render from data/sogc-reports/<month>.json (no network)
  *
  * Deterministic: every number comes from the snapshot, prose is template text.
@@ -25,6 +25,7 @@ const ROOT = process.cwd();
 const SNAPSHOT_DIR = path.join(ROOT, "data", "sogc-reports");
 const TRANSLATIONS = path.join(ROOT, "src", "translations");
 const MIN_WORDS = 700;
+const ALL_LOCALES = ["fr", "en", "de", "es", "pt"];
 
 function parseArgs(argv) {
   const args = { apply: false, fromSnapshot: false, month: null };
@@ -90,6 +91,15 @@ function upsertArticle(data, article, today) {
   return "updated";
 }
 
+/** Removes this report from a locale file; returns true when something was removed. */
+function removeReport(data, slug) {
+  const list = Array.isArray(data.Articles) ? data.Articles : [];
+  const kept = list.filter((a) => !(a && a.slug === slug && a.series === SERIES));
+  if (kept.length === list.length) return false;
+  data.Articles = kept;
+  return true;
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const now = new Date();
@@ -135,10 +145,20 @@ async function main() {
     console.log(`${l}: ${status}`);
     return { path: file, data };
   });
+  // Locales outside the published set must not carry the report.
+  for (const l of ALL_LOCALES.filter((x) => !LOCALES.includes(x))) {
+    const file = path.join(TRANSLATIONS, l, "ressources.json");
+    if (!fs.existsSync(file)) continue;
+    const data = readJson(file);
+    if (removeReport(data, fr.slug)) {
+      console.log(`${l}: removed (not a published locale)`);
+      files.push({ path: file, data });
+    }
+  }
   writeFileAtomic(snapshotFile, JSON.stringify(snapshot, null, 2) + "\n");
   writeFileAtomic(path.join(ROOT, "public", CSV_DIR, csvFileName(month)), csv);
   writeJsonFilesAtomically(files);
-  console.log(`Wrote ${path.relative(ROOT, snapshotFile)}, public/${CSV_DIR}/${csvFileName(month)} and 5 locale files.`);
+  console.log(`Wrote ${path.relative(ROOT, snapshotFile)}, public/${CSV_DIR}/${csvFileName(month)} and ${files.length} locale files.`);
 }
 
 if (require.main === module) {
@@ -148,4 +168,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { parseArgs, previousMonth, upsertArticle, checkRendered };
+module.exports = { parseArgs, previousMonth, upsertArticle, removeReport, checkRendered };

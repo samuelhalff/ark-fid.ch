@@ -7,7 +7,7 @@ A monthly data article on new company registrations in Geneva and French-speakin
 | Piece | Role |
 | --- | --- |
 | `scripts/lib/sogcReport.js` | Fetches the public API (`https://amtsblattportal.ch/api/v1`, no auth), parses HR01 XML, builds an aggregate-only snapshot |
-| `scripts/lib/sogcReportRender.js` | Renders the article in fr/en/de/es/pt from fixed templates, and the CSV |
+| `scripts/lib/sogcReportRender.js` | Renders the article in fr/en/de from fixed templates, and the CSV |
 | `scripts/sogc-monthly-report.js` | CLI: fetch, render, check, write (`--apply`) |
 | `scripts/sogc-report.test.js` | Unit tests (part of `npm test`) |
 | `.github/workflows/sogc-monthly-report.yml` | 3rd of each month, 06:00 UTC: report on the previous month, validate, commit to main |
@@ -22,7 +22,11 @@ Outputs per month:
 
 - `data/sogc-reports/YYYY-MM.json`: snapshot (monthly counts per canton for HR01 and HR03 from January of the previous year to the report month, legal forms and sector buckets for the report month, quality counters, checksum). Aggregates only.
 - `public/assets/data/sogc/creations-entreprises-suisse-romande-YYYY-MM.csv`: aggregate table linked from the article.
-- An article with slug `creations-entreprises-geneve-suisse-romande-<mois>-<yyyy>` in all five `src/translations/<locale>/ressources.json`, with `series: "sogc-creations-romandie"` and `reportMonth`.
+- An article with slug `creations-entreprises-geneve-suisse-romande-<mois>-<yyyy>` in `src/translations/{fr,en,de}/ressources.json`, with `series: "sogc-creations-romandie"` and `reportMonth`.
+
+## Locales
+
+Published in fr, en and de only (owner decision, 2026-10-26; `DATA_REPORT_LOCALES` in `scripts/lib/articleTopicGuardrails.js`). The script removes the report from es/pt if it is ever found there. Because es/pt have no entry, the sitemap and hreflang (`getValidLocalesForSlug`) leave them out, the article page returns 404 for es/pt instead of the usual French fallback (articles with a `series`), and `validate-article-translations.js` does not count them as missing.
 
 Re-running a month keeps the first publication date. If the aggregates are unchanged, the stored snapshot is kept and nothing changes; otherwise the article gets an `updated` date.
 

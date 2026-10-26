@@ -109,7 +109,7 @@ jobs:
           timeout -k 30s 3m node - <<'NODE'
           const https = require('https');
           const slug = process.env.ARTICLE_SLUG;
-          const urls = ['fr', 'en', 'de', 'es', 'pt'].map(
+          const urls = ['fr', 'en', 'de'].map(
             (locale) => `https://ark-fid.ch/${locale}/ressources/articles/${slug}/`,
           );
           const body = JSON.stringify({ urls });
