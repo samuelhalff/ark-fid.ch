@@ -60,7 +60,14 @@ export function FieldControl({ field, name, locale, answers }: Props) {
         }
 
         if (field.type === "checkboxes" || field.type === "taxyears") {
-          const list = field.type === "taxyears" ? taxYearChoices().sort((a, b) => b - a).map((y) => ({ value: String(y), label: { fr: String(y), en: String(y), de: String(y) } })) : options;
+          const list = field.type === "taxyears" ? taxYearChoices()
+                  .sort((a, b) => b - a)
+                  .map((y) =>
+                    y === new Date().getFullYear()
+                      ? { value: String(y), label: { fr: `${y} (départ de Suisse)`, en: `${y} (leaving Switzerland)`, de: `${y} (Wegzug aus der Schweiz)` } }
+                      : { value: String(y), label: { fr: String(y), en: String(y), de: String(y) } },
+                  )
+                  .sort((a, b) => (a.label.fr.includes("(") ? 1 : 0) - (b.label.fr.includes("(") ? 1 : 0)) : options;
           const current = Array.isArray(value) ? (value as string[]) : [];
           return (
             <FormItem className="sm:col-span-2">
