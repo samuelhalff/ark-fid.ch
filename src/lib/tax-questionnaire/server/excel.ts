@@ -1,4 +1,6 @@
 import ExcelJS from "exceljs";
+import { renewalContext, renewalStatusFr } from "../renewal";
+import type { Row } from "../types";
 import { attentionPoints } from "../attention";
 import { DOC_CATEGORIES, selectedYears, taxYearOf } from "../documents";
 import { dateToUtc, nowSwiss, parseAmount, parseDate } from "../format";
@@ -230,21 +232,23 @@ export async function buildWorkbook(record: SubmissionRecord): Promise<Uint8Arra
       ws.addRow([]);
       ws.addRow([L(block.label)]).font = { bold: true };
       const columns = block.fields.filter((f) => !f.hidden && list.some((row) => isRowFieldVisible(f, a, row) && row[f.id] !== undefined));
+      // Renewal: reconduit / nouveau / terminé (date) / modifié, per item.
+      const status = renewalContext(a) ? (row: Row) => renewalStatusFr(row) : null;
       if (columns.length > 8) {
         // Wide cards (real estate): one label/value block per row, easier to read than 40 columns.
         list.forEach((row, index) => {
-          ws.addRow([`${L(block.itemLabel)} ${index + 1}`]).font = { bold: true, color: { argb: NAVY } };
+          ws.addRow([`${L(block.itemLabel)} ${index + 1}${status ? ` – ${status(row)}` : ""}`]).font = { bold: true, color: { argb: NAVY } };
           for (const f of columns) if (isRowFieldVisible(f, a, row)) kv(ws, L(f.label), cellValue(f, row[f.id], a), f);
         });
         continue;
       }
-      headerRow(ws, ["#", ...columns.map((f) => L(f.label))]);
+      headerRow(ws, ["#", ...(status ? ["Statut"] : []), ...columns.map((f) => L(f.label))]);
       list.forEach((row, index) => {
-        const excelRow = ws.addRow([index + 1, ...columns.map((f) => (isRowFieldVisible(f, a, row) ? cellValue(f, row[f.id], a) : null))]);
-        columns.forEach((f, i) => styleCell(excelRow.getCell(i + 2), f));
+        const excelRow = ws.addRow([index + 1, ...(status ? [status(row)] : []), ...columns.map((f) => (isRowFieldVisible(f, a, row) ? cellValue(f, row[f.id], a) : null))]);
+        columns.forEach((f, i) => styleCell(excelRow.getCell(i + 2 + (status ? 1 : 0)), f));
         excelRow.alignment = { vertical: "top", wrapText: true };
       });
-      for (let i = 2; i <= columns.length + 1; i++) ws.getColumn(i).width = Math.max(ws.getColumn(i).width || 0, 20);
+      for (let i = 2; i <= columns.length + 1 + (status ? 1 : 0); i++) ws.getColumn(i).width = Math.max(ws.getColumn(i).width || 0, 20);
     }
     if (!wrote) ws.addRow(["(aucune réponse)"]).font = { italic: true };
   }

@@ -4,7 +4,7 @@
  */
 import { computeChecklist, taxYearOf, withYear } from "./documents";
 import { communeByBfs } from "./communes";
-import { EMAIL_RE, parseAmount, parseDate } from "./format";
+import { EMAIL_RE, parseAmount, parseDate, dateToUtc } from "./format";
 import { STEPS } from "./schema";
 import type { Answers, Block, DocItem, FieldDef, GroupDef, L, QfLocale, Row, StepDef } from "./types";
 
@@ -67,8 +67,37 @@ const rows = (value: unknown): Row[] => (Array.isArray(value) ? (value as Row[])
  * Drops the answers of hidden steps, blocks and row fields. Repeated until stable, because a
  * predicate may depend on an answer that is itself hidden.
  */
+/**
+ * Renewal statuses applied to the answers: a carried-over property ended during the year is a
+ * sale (events + date), so the sale documents and attention points follow.
+ */
+export function applyRenewal(input: Answers): Answers {
+  const props = rows(input["property.items"]);
+  if (!props.some((r) => r.carried && r.renewal === "ended")) return input;
+  return {
+    ...input,
+    "property.items": props.map((r) => {
+      if (!(r.carried && r.renewal === "ended")) return r;
+      const events = Array.isArray(r.events) ? (r.events as string[]) : [];
+      return { ...r, events: events.includes("sold") ? events : [...events, "sold"], soldDate: r.soldDate || r.endedOn };
+    }),
+  };
+}
+
+/** Year in which a carried-over row ended (0 when not ended or no valid date). */
+export const endedYear = (row: Row) => (row.renewal === "ended" ? parseDate(String(row.endedOn || ""))?.year || 0 : 0);
+
+/** "Ended during the year": the date must fall in the tax year and not in the future. */
+function endedOnError(value: unknown, taxYear: number, now: Date): FieldError | null {
+  const d = typeof value === "string" ? parseDate(value) : null;
+  if (!d) return null; // format / required handled by validateField
+  if (d.year !== taxYear) return "invalid_date";
+  if (dateToUtc(d).getTime() > now.getTime()) return "invalid_date";
+  return null;
+}
+
 export function pruneHidden(input: Answers): Answers {
-  let current: Answers = { ...input };
+  let current: Answers = applyRenewal({ ...input });
   for (let pass = 0; pass < 6; pass++) {
     const next: Answers = {};
     for (const step of STEPS) {
@@ -235,7 +264,8 @@ export function validateStep(step: StepDef, a: Answers, now = new Date()): Error
           if (!isRowFieldVisible(field, a, row)) continue;
           const error =
             validateField(field, row[field.id], now) ||
-            (field.type === "commune" ? communeError(row[field.id], row[`${field.id}Bfs`], field.cantonField ? row[field.cantonField] : undefined) : null);
+            (field.type === "commune" ? communeError(row[field.id], row[`${field.id}Bfs`], field.cantonField ? row[field.cantonField] : undefined) : null) ||
+            (field.id === "endedOn" ? endedOnError(row[field.id], taxYearOf(a), now) : null);
           if (error) errors[rowFieldKey(block.id, row._id, field.id)] = error;
         }
       }

@@ -16,6 +16,7 @@ import {
   sourceTaxedResident,
   worksInSwitzerlandFromAbroad,
 } from "./schema";
+import { parseDate } from "./format";
 import { t, type Answers, type DocCategory, type DocItem, type DocRule, type L, type QfLocale, type Row } from "./types";
 
 export const DOC_CATEGORIES: Record<DocCategory, { folder: string; label: L }> = {
@@ -73,8 +74,8 @@ export const DOC_RULES: DocRule[] = [
 
   // ---- family
   { id: "civil-change", category: "personal", when: has("civilChange"), label: t("Justificatif du changement d'état civil (acte, jugement ou convention)", "Proof of the civil status change (certificate, judgment or agreement)", "Nachweis der Zivilstandsänderung (Urkunde, Urteil oder Vereinbarung)") },
-  { id: "childcare", category: "personal", forEach: "family.children", whenRow: rowYes("childcare"), label: t("Factures et preuves de paiement des frais de garde {year} – {row}", "Childcare invoices and proof of payment {year} – {row}", "Rechnungen und Zahlungsbelege Kinderbetreuung {year} – {row}") },
-  { id: "child-salary", category: "personal", forEach: "family.children", whenRow: rowIn("activity", "apprenticeship", "working"), label: t("Certificat de salaire {year} de l'enfant – {row}", "Child's salary certificate {year} – {row}", "Lohnausweis {year} des Kindes – {row}") },
+  { id: "childcare", category: "personal", forEach: "family.children", whenRow: rowYes("childcare"), onEnded: "skip", label: t("Factures et preuves de paiement des frais de garde {year} – {row}", "Childcare invoices and proof of payment {year} – {row}", "Rechnungen und Zahlungsbelege Kinderbetreuung {year} – {row}") },
+  { id: "child-salary", category: "personal", forEach: "family.children", whenRow: rowIn("activity", "apprenticeship", "working"), onEnded: "skip", label: t("Certificat de salaire {year} de l'enfant – {row}", "Child's salary certificate {year} – {row}", "Lohnausweis {year} des Kindes – {row}") },
   { id: "dependant", category: "personal", forEach: "family.dependants", label: t("Preuves du soutien versé en {year} et, si possible, justificatif des revenus et de la fortune de la personne – {row}", "Proof of support paid in {year} and, if possible, of the person's income and assets – {row}", "Belege der Unterstützung {year} und, wenn möglich, von Einkommen und Vermögen der Person – {row}") },
   {
     id: "child-studies",
@@ -114,15 +115,15 @@ export const DOC_RULES: DocRule[] = [
   { id: "lump-sum-swiss", category: "wealth", when: isLumpSum, label: t("Justificatifs des revenus et biens en Suisse {year} (pour le calcul de contrôle)", "Proof of Swiss income and assets {year} (for the control calculation)", "Belege der Einkünfte und Vermögen in der Schweiz {year} (Kontrollrechnung)") },
 
   // ---- accounts, investments, debts
-  { id: "bank", category: "wealth", forEach: "assets.banks", whenRow: (row) => row.country !== "other" || row.statement !== "no", label: t("Relevé fiscal au 31.12.{year} (soldes, revenus, impôts retenus) – {row}", "Tax statement at 31.12.{year} (balances, income, taxes withheld) – {row}", "Steuerauszug per 31.12.{year} (Saldi, Erträge, Quellensteuern) – {row}") },
-  { id: "bank-statements", category: "wealth", forEach: "assets.banks", whenRow: (row) => row.country === "other" && row.statement === "no", label: t("Relevés de compte de fin d'année {year} – {row}", "Year-end account statements {year} – {row}", "Jahresend-Kontoauszüge {year} – {row}") },
+  { id: "bank", category: "wealth", forEach: "assets.banks", whenRow: (row) => row.country !== "other" || row.statement !== "no", onEnded: t("Relevé de clôture {year} (solde et intérêts jusqu'à la clôture) – {row}", "Closing statement {year} (balance and interest up to closure) – {row}", "Saldierungsauszug {year} (Saldo und Zinsen bis zur Saldierung) – {row}"), label: t("Relevé fiscal au 31.12.{year} (soldes, revenus, impôts retenus) – {row}", "Tax statement at 31.12.{year} (balances, income, taxes withheld) – {row}", "Steuerauszug per 31.12.{year} (Saldi, Erträge, Quellensteuern) – {row}") },
+  { id: "bank-statements", category: "wealth", forEach: "assets.banks", whenRow: (row) => row.country === "other" && row.statement === "no", onEnded: t("Relevé de clôture {year} (solde et intérêts jusqu'à la clôture) – {row}", "Closing statement {year} (balance and interest up to closure) – {row}", "Saldierungsauszug {year} (Saldo und Zinsen bis zur Saldierung) – {row}"), label: t("Relevés de compte de fin d'année {year} – {row}", "Year-end account statements {year} – {row}", "Jahresend-Kontoauszüge {year} – {row}") },
   { id: "foreign-withholding", category: "wealth", when: (a) => (has("securities")(a) || has("banksForeign")(a)) && a["assets.foreignWithholding"] === "yes", label: t("Détail des impôts étrangers retenus {year} (et formulaire DA-1 si votre banque l'a préparé)", "Details of foreign taxes withheld {year} (and form DA-1 if your bank prepared it)", "Aufstellung der ausländischen Quellensteuern {year} (und Formular DA-1, falls von der Bank erstellt)") },
   { id: "trading", category: "wealth", when: (a) => has("securities")(a) && a["assets.trading"] === "yes", label: t("Relevés des transactions sur titres {year}", "Securities transaction statements {year}", "Transaktionsauszüge Wertschriften {year}") },
-  { id: "crypto", category: "wealth", forEach: "assets.crypto", label: t("Relevé ou export des soldes au 31.12.{year} et des revenus – {row}", "Statement or export of balances at 31.12.{year} and income – {row}", "Auszug oder Export der Bestände per 31.12.{year} und Erträge – {row}") },
-  { id: "life-insurance", category: "wealth", forEach: "assets.insurances", label: t("Attestation fiscale {year} (valeur de rachat au 31.12) – {row}", "Tax certificate {year} (surrender value at 31.12) – {row}", "Steuerbescheinigung {year} (Rückkaufswert per 31.12.) – {row}") },
-  { id: "loan-given", category: "wealth", forEach: "assets.loans", label: t("Contrat de prêt – {row}", "Loan agreement – {row}", "Darlehensvertrag – {row}") },
-  { id: "debt-bank", category: "debts", forEach: "assets.debts", whenRow: rowIn("kind", "bank"), label: t("Attestation de solde et d'intérêts {year} – {row}", "Balance and interest certificate {year} – {row}", "Saldo- und Zinsbestätigung {year} – {row}") },
-  { id: "debt-private", category: "debts", forEach: "assets.debts", whenRow: rowIn("kind", "private"), label: t("Contrat de prêt et preuves des intérêts payés – {row}", "Loan agreement and proof of interest paid – {row}", "Darlehensvertrag und Belege der bezahlten Zinsen – {row}") },
+  { id: "crypto", category: "wealth", forEach: "assets.crypto", onEnded: t("Relevé ou export jusqu'à la clôture / la vente en {year} – {row}", "Statement or export up to closure / sale in {year} – {row}", "Auszug oder Export bis zur Schliessung / zum Verkauf {year} – {row}"), label: t("Relevé ou export des soldes au 31.12.{year} et des revenus – {row}", "Statement or export of balances at 31.12.{year} and income – {row}", "Auszug oder Export der Bestände per 31.12.{year} und Erträge – {row}") },
+  { id: "life-insurance", category: "wealth", forEach: "assets.insurances", onEnded: t("Décompte de rachat ou d'échéance {year} – {row}", "Surrender or maturity statement {year} – {row}", "Rückkaufs- oder Ablaufabrechnung {year} – {row}"), label: t("Attestation fiscale {year} (valeur de rachat au 31.12) – {row}", "Tax certificate {year} (surrender value at 31.12) – {row}", "Steuerbescheinigung {year} (Rückkaufswert per 31.12.) – {row}") },
+  { id: "loan-given", category: "wealth", forEach: "assets.loans", onEnded: t("Preuve du remboursement reçu en {year} – {row}", "Proof of the repayment received in {year} – {row}", "Nachweis der {year} erhaltenen Rückzahlung – {row}"), label: t("Contrat de prêt – {row}", "Loan agreement – {row}", "Darlehensvertrag – {row}") },
+  { id: "debt-bank", category: "debts", forEach: "assets.debts", whenRow: rowIn("kind", "bank"), onEnded: t("Attestation de remboursement {year} avec les intérêts payés – {row}", "Repayment statement {year} with the interest paid – {row}", "Rückzahlungsbestätigung {year} mit den bezahlten Zinsen – {row}"), label: t("Attestation de solde et d'intérêts {year} – {row}", "Balance and interest certificate {year} – {row}", "Saldo- und Zinsbestätigung {year} – {row}") },
+  { id: "debt-private", category: "debts", forEach: "assets.debts", whenRow: rowIn("kind", "private"), onEnded: t("Preuve du remboursement et des intérêts payés en {year} – {row}", "Proof of repayment and of the interest paid in {year} – {row}", "Nachweis der Rückzahlung und der {year} bezahlten Zinsen – {row}"), label: t("Contrat de prêt et preuves des intérêts payés – {row}", "Loan agreement and proof of interest paid – {row}", "Darlehensvertrag und Belege der bezahlten Zinsen – {row}") },
 
   // ---- real estate (per property)
   { id: "property-value", category: "property", forEach: "property.items", whenRow: (row, a) => row.where === "CH" && (!previouslyTaxed(a) || ["yes", "unknown"].includes(str(row.inLastAvis))), label: t("Dernier avis indiquant la valeur fiscale / locative – {row}", "Latest notice showing the tax / rental value – {row}", "Letzte Verfügung mit Steuer- / Eigenmietwert – {row}") },
@@ -233,7 +234,13 @@ export function computeChecklist(answers: Answers, titleFields: Record<string, s
     }
     rowsOf(answers, rule.forEach).forEach((row, index) => {
       if (rule.whenRow && !rule.whenRow(row, answers)) return;
-      const label = withYear(rule.label, year);
+      // Renewal: an item ended before the tax year needs nothing; ended during the year, the
+      // year's document (or the rule's closing document) is still needed.
+      const ended = row.carried && row.renewal === "ended";
+      const endYear = ended ? parseDate(String(row.endedOn || ""))?.year || 0 : 0;
+      if (ended && endYear && endYear < year) return;
+      if (ended && rule.onEnded === "skip") return;
+      const label = withYear(ended && rule.onEnded && rule.onEnded !== "skip" ? rule.onEnded : rule.label, year);
       for (const locale of Object.keys(label) as QfLocale[]) {
         label[locale] = label[locale].replace(/\{row\}/g, rowTitle(row, titleFields[rule.forEach as string], index, locale));
       }

@@ -15,7 +15,26 @@ import { t, type Answers, type FieldDef, type FieldType, type GroupDef, type L, 
 
 type FieldExtra = Omit<Partial<FieldDef>, "kind" | "id" | "type" | "label">;
 const f = (id: string, type: FieldType, label: L, extra: FieldExtra = {}): FieldDef => ({ kind: "field", id, type, label, ...extra });
-const group = (def: Omit<GroupDef, "kind">): GroupDef => ({ kind: "group", ...def });
+/**
+ * Renewal, on every repeatable group: a row carried over from last year ("carried" = that year)
+ * gets a status for the new year: still there, ended during the year (with the date), or changed.
+ * New rows have no "carried" mark. Hidden fields: the group screen shows them as a compact choice.
+ */
+const renewalFields = (): FieldDef[] => [
+  f("carried", "text", t("Repris de", "Carried over from", "Übernommen aus"), { hidden: true, maxLength: 4 }),
+  f("renewal", "select", t("Situation en {year}", "Situation in {year}", "Situation im Jahr {year}"), {
+    hidden: true,
+    required: true,
+    showIf: (_a, row) => !!row?.carried,
+    options: [
+      { value: "kept", label: t("Toujours là", "Still there", "Weiterhin") },
+      { value: "ended", label: t("Terminé en cours d'année", "Ended during the year", "Im Laufe des Jahres beendet") },
+      { value: "changed", label: t("Modifié", "Changed", "Geändert") },
+    ],
+  }),
+  f("endedOn", "date", t("Date de fin", "End date", "Enddatum"), { hidden: true, required: true, showIf: (_a, row) => !!row?.carried && row?.renewal === "ended" }),
+];
+const group = (def: Omit<GroupDef, "kind">): GroupDef => ({ kind: "group", ...def, fields: def.hidden ? def.fields : [...def.fields, ...renewalFields()] });
 const note = (id: string, text: L, extra: Omit<Partial<NoteDef>, "kind" | "id" | "text"> = {}): NoteDef => ({ kind: "note", id, text, ...extra });
 const heading = (id: string, label: L, showIf?: (a: Answers) => boolean) => ({ kind: "heading" as const, id, label, showIf });
 export const opts = (...rows: [string, string, string, string][]): Option[] => rows.map(([value, fr, en, de]) => ({ value, label: t(fr, en, de) }));
@@ -375,16 +394,9 @@ const router: StepDef = {
   ),
   sheet: "Situation",
   blocks: [
-    f("router.unchanged", "checkboxes", t("Inchangé depuis ma dernière déclaration", "Unchanged since my last return", "Unverändert seit meiner letzten Steuererklärung"), {
-      showIf: prefilled,
-      options: ROUTER_GROUPS.map((g) => ({ value: g.id, label: g.label })),
-      help: t(
-        "Confirmez seulement si les éléments repris de l'an dernier (affichés à côté) sont toujours exacts. Les mêmes documents {year} vous seront demandés.",
-        "Only confirm if the items carried over from last year (shown alongside) are still correct. The same {year} documents will be requested.",
-        "Nur bestätigen, wenn die aus dem Vorjahr übernommenen Angaben (daneben angezeigt) noch stimmen. Dieselben Dokumente {year} werden angefordert.",
-      ),
-    }),
     f("router.items", "checkboxes", t("Ma situation en {year}", "My situation in {year}", "Meine Situation im Jahr {year}"), { options: ROUTER_OPTIONS }),
+    // Renewal: groups confirmed "everything as last year, nothing new" (comma-separated group ids).
+    f("router.sameAs", "textarea", t("Identique à l'an dernier", "Same as last year", "Wie im Vorjahr"), { hidden: true, maxLength: 600 }),
   ],
 };
 

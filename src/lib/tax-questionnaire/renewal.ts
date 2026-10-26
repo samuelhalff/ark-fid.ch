@@ -52,3 +52,20 @@ export const unchangeableGroups = (answers: Answers, locale: QfLocale = "fr") =>
   const known = knownItems(answers, locale);
   return ROUTER_GROUPS.map((g) => g.id).filter((id) => (known[id] || []).length > 0);
 };
+
+/** The answers come from last year's questionnaire (some rows are marked "carried"). */
+export const renewalContext = (a: Answers) =>
+  /^\d{4}$/.test(String(a["base.prefilledFrom"] || "")) ||
+  Object.values(a).some((v) => Array.isArray(v) && v.some((r) => r && typeof r === "object" && (r as Record<string, unknown>).carried));
+
+/** Synthèse: status of one item in a renewal. */
+export function renewalStatusFr(row: Record<string, unknown>): string {
+  if (!row.carried) return "nouveau";
+  if (row.renewal === "kept") return "reconduit";
+  if (row.renewal === "ended") return `terminé${row.endedOn ? ` le ${String(row.endedOn)}` : ""}`;
+  if (row.renewal === "changed") return "modifié";
+  return "à confirmer";
+}
+
+/** Groups confirmed "as last year, nothing new". */
+export const sameAsGroups = (a: Answers) => new Set(String(a["router.sameAs"] || "").split(/[\s,]+/).filter(Boolean));

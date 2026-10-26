@@ -87,7 +87,11 @@ export function collectIssues(errors: Record<string, unknown>, locale: QfLocale,
         if (!rowErrors || typeof rowErrors !== "object") return;
         for (const fieldId of Object.keys(rowErrors as Record<string, unknown>)) {
           const f = group.fields.find((x) => x.id === fieldId);
-          if (f) out.push({ name: `${name}.${index}.${fieldId}`, label: `${L(f.label)} (${L(group.itemLabel)} ${index + 1})` });
+          if (!f) continue;
+          // The row's own name when known ("UBS"), else "Banque 2".
+          const row = (Array.isArray(answers[id]) ? (answers[id] as Record<string, unknown>[]) : [])[index] || {};
+          const title = (group.titleField || "").split("|").map((k) => (typeof row[k] === "string" ? (row[k] as string) : "")).find(Boolean);
+          out.push({ name: `${name}.${index}.${fieldId}`, label: `${L(f.label)} (${title || `${L(group.itemLabel)} ${index + 1}`})` });
         }
       });
     }

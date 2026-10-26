@@ -145,6 +145,11 @@ export interface DocRule {
   whenRow?: (row: Row, answers: Answers) => boolean;
   /** Asked early, on the "key documents" screen. */
   base?: boolean;
+  /**
+   * Renewal: a row carried over from last year and ended during the tax year. Default: the same
+   * document is still needed for the year; "skip": nothing; a label: the closing document instead.
+   */
+  onEnded?: "skip" | L;
 }
 
 export interface DocItem {

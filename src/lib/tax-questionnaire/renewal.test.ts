@@ -2,11 +2,13 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { attentionPoints } from "./attention.ts";
-import { checklistFor, validateAll } from "./logic.ts";
-import { knownItems } from "./renewal.ts";
+import { checklistFor, pruneHidden, TITLE_FIELDS, validateAll } from "./logic.ts";
+import { knownItems, renewalStatusFr } from "./renewal.ts";
+import { computeChecklist, DOC_RULES } from "./documents.ts";
+import { STEPS } from "./schema.ts";
 import { keepServerOwned, previousAnswers } from "./server/service.ts";
 import { isInternalCase, staffRecipients } from "./server/email.ts";
-import type { Answers } from "./types.ts";
+import type { Answers, GroupDef } from "./types.ts";
 
 const row = (id: string, fields: Record<string, string | string[]>) => ({ _id: id, ...fields });
 const lastYear: Answers = {
@@ -46,7 +48,7 @@ async function renewal(): Promise<Answers> {
   return a;
 }
 
-test("renewal pre-fill: next year, Ark client, one-off events dropped, every known area unchanged", async () => {
+test("renewal pre-fill: next year, Ark client, one-off events dropped, every item carried over", async () => {
   const a = await renewal();
   assert.deepEqual(a["start.years"], ["2025"]);
   assert.equal(a["start.status"], "arkClient");
@@ -55,8 +57,96 @@ test("renewal pre-fill: next year, Ark client, one-off events dropped, every kno
   assert.equal(a["start.avisReceived"], undefined);
   assert.ok(!(a["router.items"] as string[]).includes("lottery"));
   assert.equal((a["property.items"] as Record<string, unknown>[])[0].boughtDate, undefined);
-  assert.deepEqual(a["router.unchanged"], ["family", "work", "assets", "property", "other"]);
+  assert.equal(a["router.unchanged"], undefined);
+  for (const id of ["family.children", "work.employers", "assets.banks", "property.items"]) {
+    assert.ok((a[id] as Record<string, unknown>[]).every((row) => row.carried === "2024" && row.renewal === undefined), id);
+  }
+  // The only open questions: the status of each carried item.
+  const errors = validateAll(a);
+  assert.ok(Object.keys(errors).length > 0);
+  assert.ok(Object.entries(errors).every(([key, code]) => key.endsWith(".renewal") && code === "required"), JSON.stringify(errors));
+});
+
+/** Sets the status of every carried row of a group. */
+const withStatus = (a: Answers, id: string, status: Record<string, string>) => ({
+  ...a,
+  [id]: (a[id] as Record<string, unknown>[]).map((row) => ({ ...row, ...status })),
+});
+const allKept = (a: Answers) =>
+  Object.fromEntries(Object.entries(a).map(([k, v]) => [k, Array.isArray(v) && v.length && typeof v[0] === "object" ? (v as Record<string, unknown>[]).map((r) => ({ ...r, renewal: "kept" })) : v])) as Answers;
+
+test("renewal: same banks plus a new one", async () => {
+  const a = allKept(await renewal());
+  a["assets.banks"] = [...(a["assets.banks"] as Record<string, string>[]), row("bank0002", { bank: "PostFinance", country: "CH" })];
   assert.deepEqual(validateAll(a), {});
+  const labels = checklistFor(a).map((i) => i.label.fr);
+  assert.ok(labels.some((l) => l.startsWith("Relevé fiscal au 31.12.2025") && l.endsWith("UBS")));
+  assert.ok(labels.some((l) => l.startsWith("Relevé fiscal au 31.12.2025") && l.endsWith("PostFinance")));
+});
+
+test("renewal: one account closed during the year asks for the closing statement; closed before, nothing", async () => {
+  const kept = allKept(await renewal());
+  const closed = withStatus(kept, "assets.banks", { renewal: "ended", endedOn: "30.06.2025" });
+  assert.deepEqual(validateAll(closed), {});
+  const labels = checklistFor(closed).map((i) => i.label.fr);
+  assert.ok(labels.includes("Relevé de clôture 2025 (solde et intérêts jusqu'à la clôture) – UBS"));
+  assert.ok(!labels.some((l) => l.startsWith("Relevé fiscal au 31.12.2025")));
+  const before = withStatus(kept, "assets.banks", { renewal: "ended", endedOn: "15.12.2024" });
+  assert.ok(!checklistFor(before).some((i) => i.label.fr.endsWith("UBS")));
+  // A missing end date is an open question.
+  assert.equal(validateAll(withStatus(kept, "assets.banks", { renewal: "ended" }))["assets.banks[bank0001].endedOn"], "required");
+});
+
+test("renewal: everything identical gives the new year's documents for every carried item", async () => {
+  const a = { ...allKept(await renewal()), "router.sameAs": "family, work, assets, property, other" };
+  assert.deepEqual(validateAll(a), {});
+  const labels = checklistFor(a).map((i) => i.label.fr);
+  for (const expected of ["Certificat de salaire 2025 – Acme SA", "Certificat de salaire 2025 – Beta SA"]) assert.ok(labels.includes(expected), expected);
+  assert.ok(labels.some((l) => l.startsWith("Attestation(s) hypothécaire(s) 2025")));
+});
+
+test("renewal: a property sold during the year follows the sale rules", async () => {
+  const a = withStatus(allKept(await renewal()), "property.items", { renewal: "ended", endedOn: "31.08.2025" });
+  const labels = checklistFor(a).map((i) => i.ruleId);
+  assert.ok(labels.includes("property-sale"));
+  assert.ok(attentionPoints(pruneHidden(a)).some((p) => p.id.startsWith("sale:")), "property-gains tax flagged");
+});
+
+test("every repeatable group: keep / end / change / new give the right checklist and Synthèse status", () => {
+  const groups = STEPS.flatMap((s) => s.blocks).filter((b): b is GroupDef => b.kind === "group" && !b.hidden);
+  assert.ok(groups.length >= 15);
+  // A row rich enough to satisfy most row conditions of the document rules.
+  const fixture: Record<string, string | string[]> = {
+    name: "Item", bank: "Item", insurer: "Item", lender: "Item", borrower: "Item", payer: "Item", platform: "Item", firstName: "Item", counterparty: "Item", source: "Item", description: "Item", model: "Item", institution: "Item",
+    country: "CH", statement: "yes", kind: "bank", childcare: "yes", activity: "working", dividend: "yes", loan: "toCompany", mortgage: "yes", ppe: "yes", where: "CH", canton: "GE", commune: "Genève", uses: ["main"], ownership: "sole", birthYear: "2015", inLastAvis: "yes",
+  };
+  for (const g of groups) {
+    for (const id of ["carried", "renewal", "endedOn"]) assert.ok(g.fields.some((f) => f.id === id), `${g.id} has ${id}`);
+    const rules = DOC_RULES.filter((r) => r.forEach === g.id);
+    const at = (status: Record<string, string>) => {
+      const a: Answers = { "start.years": ["2025"], [g.id]: [{ _id: "row00001", ...fixture, ...status }] };
+      return computeChecklist(a, TITLE_FIELDS).filter((i) => i.key.endsWith(":row00001"));
+    };
+    const baseline = at({});
+    const kept = at({ carried: "2024", renewal: "kept" });
+    const changed = at({ carried: "2024", renewal: "changed" });
+    const endedIn = at({ carried: "2024", renewal: "ended", endedOn: "30.06.2025" });
+    const endedBefore = at({ carried: "2024", renewal: "ended", endedOn: "31.12.2024" });
+    assert.deepEqual(kept.map((i) => i.key), baseline.map((i) => i.key), `${g.id}: kept = same documents as a new item`);
+    assert.deepEqual(changed.map((i) => i.key), baseline.map((i) => i.key), `${g.id}: changed`);
+    assert.equal(endedBefore.length, 0, `${g.id}: ended before the year → nothing`);
+    for (const item of baseline) {
+      const rule = rules.find((r) => r.id === item.ruleId)!;
+      const ended = endedIn.find((i) => i.key === item.key);
+      if (rule.onEnded === "skip") assert.equal(ended, undefined, `${g.id}/${rule.id}: skipped when ended`);
+      else assert.ok(ended, `${g.id}/${rule.id}: still asked when ended during the year`);
+      if (rule.onEnded && rule.onEnded !== "skip") assert.notEqual(ended!.label.fr, item.label.fr, `${g.id}/${rule.id}: closing document`);
+    }
+    assert.equal(renewalStatusFr({ carried: "2024", renewal: "kept" }), "reconduit");
+    assert.equal(renewalStatusFr({}), "nouveau");
+    assert.equal(renewalStatusFr({ carried: "2024", renewal: "ended", endedOn: "30.06.2025" }), "terminé le 30.06.2025");
+    assert.equal(renewalStatusFr({ carried: "2024", renewal: "changed" }), "modifié");
+  }
 });
 
 test("renewal: concrete known items per area", async () => {
@@ -117,4 +207,21 @@ test("server-owned answers: the browser cannot add, change or drop them", () => 
   assert.equal(fresh["start.arkDocs"], undefined);
   assert.equal(fresh["base.prefilledFrom"], undefined);
   assert.equal(keepServerOwned({ "base.prefilledFrom": "lecture de la dernière déclaration" }, {})["base.prefilledFrom"], "lecture de la dernière déclaration");
+});
+
+test("carried rows: the browser can neither drop them nor forge the mark", () => {
+  const stored: Answers = { "assets.banks": [row("bank0001", { bank: "UBS", carried: "2024" })] };
+  const dropped = keepServerOwned({ "assets.banks": [row("bank0009", { bank: "New", carried: "2024" })] }, stored);
+  const banks = dropped["assets.banks"] as Record<string, unknown>[];
+  assert.deepEqual(banks.map((r) => r._id).sort(), ["bank0001", "bank0009"]);
+  assert.equal(banks.find((r) => r._id === "bank0009")!.carried, undefined, "forged mark removed");
+  assert.equal(banks.find((r) => r._id === "bank0001")!.carried, "2024", "carried row restored");
+});
+
+test("ended during the year: the date must be in the tax year and not in the future", async () => {
+  const kept = allKept(await renewal());
+  const at = (date: string) => validateAll(withStatus(kept, "assets.banks", { renewal: "ended", endedOn: date }), new Date("2026-03-01"))["assets.banks[bank0001].endedOn"];
+  assert.equal(at("30.06.2025"), undefined);
+  assert.equal(at("15.12.2024"), "invalid_date");
+  assert.equal(at("15.01.2026"), "invalid_date");
 });

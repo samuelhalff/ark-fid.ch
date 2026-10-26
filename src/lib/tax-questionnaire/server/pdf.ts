@@ -1,5 +1,6 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
 import { attentionPoints } from "../attention";
+import { renewalContext, renewalStatusFr } from "../renewal";
 import { DOC_CATEGORIES, selectedYears, taxYearOf } from "../documents";
 import { nowSwiss } from "../format";
 import { displayValue, getField, isBlockVisible, isRowFieldVisible, label, visibleSteps } from "../logic";
@@ -235,7 +236,7 @@ export async function buildPdf(record: SubmissionRecord): Promise<Uint8Array> {
       else if (block.kind === "field" && !block.hidden) w.kv(L(block.label), displayValue(block, a[block.id], "fr", a));
       else if (block.kind === "group" && !block.hidden) {
         rowsOf(a, block.id).forEach((row, index) => {
-          w.subheading(`${L(block.itemLabel)} ${index + 1}`);
+          w.subheading(`${L(block.itemLabel)} ${index + 1}${renewalContext(a) ? ` – ${renewalStatusFr(row)}` : ""}`);
           for (const f of block.fields.filter((x) => !x.hidden)) {
             if (!isRowFieldVisible(f, a, row)) continue;
             w.kv(L(f.label), displayValue(f, row[f.id], "fr", a), 10);

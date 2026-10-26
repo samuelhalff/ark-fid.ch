@@ -19,9 +19,9 @@ import { Separator } from "@/src/components/ui/separator";
 import { Textarea } from "@/src/components/ui/textarea";
 import { trackEvent } from "@/src/lib/analytics";
 import { docCode } from "@/src/lib/tax-questionnaire/documents";
-import { checklistFor, displayValue, isBlockVisible, isRowFieldVisible, label as interpolate, pruneHidden, validateStep, visibleSteps } from "@/src/lib/tax-questionnaire/logic";
+import { checklistFor, displayValue, isBlockVisible, isRowFieldVisible, label as interpolate, pruneHidden, visibleSteps } from "@/src/lib/tax-questionnaire/logic";
 import { knownItems } from "@/src/lib/tax-questionnaire/renewal";
-import { GROUP_STEP, ROUTER_OPTIONS, renewalYear, routerItems, rowsOf, unchanged } from "@/src/lib/tax-questionnaire/schema";
+import { ROUTER_OPTIONS, renewalYear, routerItems, rowsOf } from "@/src/lib/tax-questionnaire/schema";
 import { CONTACT, FIELD_ERRORS, SERVER_ERRORS, UI, UI2 } from "@/src/lib/tax-questionnaire/ui";
 import { cn } from "@/src/lib/utils";
 import type { Answers, QfLocale, StepDef } from "@/src/lib/tax-questionnaire/types";
@@ -67,16 +67,9 @@ function takeCarry(): Answers | null {
 
 const defaultAnswers = (): Answers => ({ "start.years": [String(new Date().getFullYear() - 1)] });
 
-/** Steps actually shown: visible ones, minus detail screens confirmed "unchanged since last year". */
+/** Steps actually shown. Renewal: no key-documents screen (Ark has last year's file). */
 function shownSteps(answers: Answers): StepDef[] {
-  return visibleSteps(answers).filter((step) => {
-    // Renewal: last year's file is at Ark; this year's documents are asked in the checklist.
-    if (step.id === "baseDocs" && renewalYear(answers)) return false;
-    const group = Object.entries(GROUP_STEP).find(([, stepId]) => stepId === step.id)?.[0];
-    // An area confirmed unchanged keeps last year's rows (same documents requested) and skips its
-    // screen, unless something carried over is incomplete (the screen then shows, to be fixed).
-    return !group || !unchanged(group)(answers) || Object.keys(validateStep(step, answers)).length > 0;
-  });
+  return visibleSteps(answers).filter((step) => !(step.id === "baseDocs" && renewalYear(answers)));
 }
 
 

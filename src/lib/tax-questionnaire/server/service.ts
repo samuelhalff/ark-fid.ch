@@ -11,9 +11,8 @@ import { attentionPoints } from "../attention";
 import { DOC_CATEGORIES, docRuleById, selectedYears, taxYearOf } from "../documents";
 import { ALLOWED_TYPES, checkUpload, codeFromFileName, extensionOf, safeName, sniffMismatch, uploadFileName, UPLOAD_LIMITS } from "../files";
 import { checklistFor, pruneHidden, sanitizeAnswers, validateAll } from "../logic";
-import { unchangeableGroups } from "../renewal";
 import { has, isCouple, sourceTaxed, sourceTaxedResident, STEPS } from "../schema";
-import { QF_LOCALES, type Answers, type DocStatus, type QfLocale } from "../types";
+import { QF_LOCALES, type Answers, type DocStatus, type QfLocale, type Row } from "../types";
 import { PRIVACY_VERSION, UI } from "../ui";
 import { emailHash, INVITATION_LINK_TTL_MS, issueLink, RESUME_LINK_TTL_MS } from "./access";
 import { clientMail, internalMail, isInternalCase } from "./email";
@@ -238,6 +237,26 @@ export function keepServerOwned(answers: Answers, stored: Answers | undefined): 
     if (stored && stored[key] !== undefined) out[key] = stored[key];
     else delete out[key];
   }
+  // Carried-over rows (renewal): the "carried" mark is the server's, and such a row cannot be
+  // removed by the browser (the client marks it "ended" instead).
+  for (const [id, value] of Object.entries(stored || {})) {
+    if (!Array.isArray(value) || !value.length || typeof value[0] !== "object") continue;
+    const storedRows = value as Row[];
+    const carried = new Map(storedRows.filter((r) => r.carried).map((r) => [r._id, r]));
+    const incoming = Array.isArray(out[id]) ? (out[id] as Row[]) : [];
+    const kept = incoming.map((r) => {
+      const next: Row = { ...r };
+      if (carried.has(r._id)) next.carried = carried.get(r._id)!.carried;
+      else delete next.carried;
+      return next;
+    });
+    for (const [rowId, row] of carried) if (!kept.some((r) => r._id === rowId)) kept.push(row);
+    if (carried.size || incoming.length) out[id] = kept;
+  }
+  for (const [id, value] of Object.entries(out)) {
+    if (stored?.[id] !== undefined || !Array.isArray(value)) continue;
+    out[id] = (value as Row[]).map((r) => (typeof r === "object" && r && r.carried ? (({ carried: _c, ...rest }) => rest as Row)(r) : r)) as Answers[string];
+  }
   const storedMarker = str(stored?.["base.prefilledFrom"]);
   if (storedMarker) out["base.prefilledFrom"] = storedMarker;
   else if (/^\d{4}$/.test(str(out["base.prefilledFrom"]))) delete out["base.prefilledFrom"];
@@ -427,6 +446,15 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
   raw["start.email"] = info.email;
   const answers = pruneHidden(raw);
   const errors = validateAll(answers, now);
+  // Every item carried over from last year must still be on a visible screen (with its status).
+  for (const [id, value] of Object.entries(raw)) {
+    if (!Array.isArray(value)) continue;
+    for (const row of value as Row[]) {
+      if (typeof row !== "object" || !row || !row.carried) continue;
+      const visible = Array.isArray(answers[id]) && (answers[id] as Row[]).some((r) => r._id === row._id);
+      if (!visible) errors[`router.items`] = "required";
+    }
+  }
   if (Object.keys(errors).length > 0) {
     const steps = new Set<string>();
     for (const key of Object.keys(errors)) {
@@ -729,9 +757,22 @@ export async function previousAnswers(storage: TaxStorage, record: ReturnRecord,
     answers["start.status"] = "arkClient";
     if (taxNumber !== undefined) answers["base.taxNumber"] = taxNumber;
     answers["base.prefilledFrom"] = String(record.taxYear);
-    // Every area with concrete items from last year starts as "unchanged": the client unticks
-    // only what changed (its screen then opens, pre-filled). The documents are still requested.
-    answers["router.unchanged"] = unchangeableGroups(answers);
+    // Every item of last year comes back marked "carried": the client says, item by item, whether
+    // it is still there, ended during the year or changed, and adds the new ones. Items that ended
+    // last year are not carried over.
+    for (const [id, value] of Object.entries(answers)) {
+      if (!Array.isArray(value) || !value.length || typeof value[0] !== "object" || id === "start.arkDocs") continue;
+      answers[id] = (value as Row[])
+        .filter((row) => row.renewal !== "ended")
+        .map((row) => {
+          const next: Row = { ...row, carried: String(record.taxYear) };
+          delete next.renewal;
+          delete next.endedOn;
+          return next;
+        });
+    }
+    delete answers["router.unchanged"];
+    delete answers["router.sameAs"];
     return answers;
   } catch {
     return null;
