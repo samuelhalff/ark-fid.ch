@@ -145,3 +145,18 @@ test("rows without a case that are not from the inventory are ignored", async ()
   await addPlanned(mem, plannedRow("Ancienne Ligne", { email: "old@example.ch", source: "" }), "Nouveau");
   assert.equal((await runCampaign(deps, { now: feb })).invitations, 0);
 });
+
+test("two planned rows on one e-mail (one person handles both returns): each invited on its own row", async () => {
+  const { mem, deps, sent, created } = setup();
+  const a = await addPlanned(mem, plannedRow("Anders Granath", { email: "family@example.ch" }), "Nouveau");
+  const b = await addPlanned(mem, plannedRow("Rogers Piper", { email: "family@example.ch" }), "Nouveau");
+  const summary = await runCampaign(deps, { now: feb });
+  assert.equal(summary.invitations, 2);
+  assert.deepEqual(created.map((c) => c.planned?.trackerId).sort(), [a, b].sort());
+  assert.equal(mem.returns.length, 2, "no duplicate row");
+  assert.equal(sent.filter((m) => m.to.includes("family@example.ch")).length, 2);
+  const again = await runCampaign(deps, { now: new Date("2027-02-02T06:15:00Z") });
+  assert.equal(again.invitations, 0);
+  const reminders = await runCampaign(deps, { now: new Date("2027-02-16T06:15:00Z") });
+  assert.equal(reminders.reminders, 2, "both returns keep their reminders");
+});
