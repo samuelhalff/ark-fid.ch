@@ -160,6 +160,10 @@ export default async function AgentPage(
       "Disclaimer",
       "Responses are indicative and will be confirmed by a specialist.",
     ),
+    attributionNotice: text(
+      "AttributionNotice",
+      "With your request we also record how you found our site (referring site, campaign, pages viewed during this visit). See our privacy policy.",
+    ),
   } as const;
 
   return (

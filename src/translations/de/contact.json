@@ -28,7 +28,8 @@
         "Submit": "Nachricht senden",
         "Sending": "Senden",
         "Success": "Nachricht erfolgreich gesendet!",
-        "Error": "Fehler beim Senden der Nachricht. Bitte versuchen Sie es erneut."
+        "Error": "Fehler beim Senden der Nachricht. Bitte versuchen Sie es erneut.",
+        "AttributionNotice": "Mit Ihrer Nachricht übermitteln wir auch, wie Sie auf unsere Website gekommen sind (verweisende Website, Kampagne, während dieses Besuchs angesehene Seiten). Details in unserer Datenschutzerklärung."
     },
     "Errors": {
         "Required": "Dieses Feld ist erforderlich",

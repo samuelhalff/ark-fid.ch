@@ -128,3 +128,17 @@ test("formatLeadDescription omits attribution lines when absent", async () => {
   assert.doesNotMatch(description, /GA Client ID/);
   assert.doesNotMatch(description, /UTM:/);
 });
+
+test("formatLeadDescription includes first-party attribution lines", async () => {
+  const { formatLeadDescription } = await import("./leads.ts");
+  const description = formatLeadDescription({
+    email: "lead@example.com",
+    sourceDetail: "contact_form",
+    landingPage: "/fr/services/",
+    gclid: "abc<script>",
+    pagesViewed: ["/fr/services/", "/fr/contact/"],
+  });
+  assert.match(description, /Landing page: \/fr\/services\//);
+  assert.match(description, /GCLID: abcscript/);
+  assert.match(description, /Pages viewed: \/fr\/services\/ > \/fr\/contact\//);
+});

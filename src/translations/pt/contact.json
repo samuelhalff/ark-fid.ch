@@ -28,7 +28,8 @@
         "Submit": "Enviar mensagem",
         "Sending": "Enviando",
         "Success": "Mensagem enviada com sucesso!",
-        "Error": "Falha ao enviar mensagem. Tente novamente."
+        "Error": "Falha ao enviar mensagem. Tente novamente.",
+        "AttributionNotice": "Junto com sua mensagem, enviamos também como você chegou ao nosso site (site de origem, campanha, páginas vistas durante esta visita). Detalhes na nossa política de privacidade."
     },
     "Errors": {
         "Required": "Este campo é obrigatório",

@@ -28,7 +28,8 @@
         "Submit": "Send message",
         "Sending": "Sending",
         "Success": "Message sent successfully!",
-        "Error": "Failed to send message. Please try again."
+        "Error": "Failed to send message. Please try again.",
+        "AttributionNotice": "With your message we also send how you found our site (referring site, campaign, pages viewed during this visit). Details in our privacy policy."
     },
     "Contact": {
         "CompanyName": "Ark Fiduciaire SA",

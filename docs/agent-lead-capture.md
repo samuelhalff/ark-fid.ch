@@ -18,6 +18,13 @@ The Odoo token must stay server-side. Contact forms submit to `/api/contact`; th
 - Detail: `instant_quote` or `contact_form` is included in the description
 - Handoff: form/chat context in `description`
 - Follow-up: successful quote-agent exchanges are appended to the Odoo lead chatter via `message_post`
+- Attribution: `Page` (origin + pathname), `Referrer` (external origin only), `UTM`, `Landing page`, `GCLID`, `Pages viewed` (max 20 pathnames) come from `src/lib/attribution.ts` (first touch, in memory; sessionStorage only after cookie acceptance). `GA Client ID` is added only after an explicit "Accept". Invalid attribution is dropped server-side and never blocks a lead. Formspark never receives attribution or the GA client id.
+
+## Analytics and consent
+
+- `app/layout.tsx` inlines the Consent Mode v2 bootstrap from `src/lib/consent-mode.ts` (nonced): defaults denied for EEA+UK, analytics granted / ad signals denied for CH, all granted elsewhere, then the stored choice (`cookieConsent`) as an update, then gtag.js.
+- `CookieConsent` only stores the choice and sends `consent update` for all four keys. GTM (`GTM-P6QT792D`) and the OpenAI pixel load only after "Accept"; GTM uses its own dataLayer (`gtmDataLayer`) and receives `generate_lead` via `trackEvent`.
+- Unit tests: `npm run test:unit` (`src/lib/consent-mode.test.ts`, `src/lib/attribution.test.ts`).
 
 ## Minimal SharePoint Setup
 

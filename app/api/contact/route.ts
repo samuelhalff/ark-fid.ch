@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { runWithTimeout } from "@/src/lib/agent/resilience";
 import { createOdooWebsiteLead } from "@/src/lib/odoo/leads";
+import { attributionSchema } from "@/src/lib/agent/request-validation";
 
 export const runtime = "nodejs";
 export const revalidate = 0;
@@ -30,6 +31,7 @@ const contactSchema = z.object({
     .regex(/^\d{1,20}\.\d{1,20}$/)
     .optional()
     .or(z.literal("")),
+  attribution: attributionSchema,
 });
 
 const getEmailDomain = (email: string) =>
@@ -77,6 +79,10 @@ export async function POST(request: Request) {
       pageUrl: payload.pageUrl,
       referrer: payload.referrer,
       gaClientId: payload.gaClientId || undefined,
+      utm: payload.attribution?.utm,
+      landingPage: payload.attribution?.landingPage || undefined,
+      gclid: payload.attribution?.gclid || undefined,
+      pagesViewed: payload.attribution?.pages,
     });
     if (!internal && !odooLeadId) {
       throw new Error("odoo_lead_missing");
@@ -86,7 +92,11 @@ export async function POST(request: Request) {
       try {
         // Attribution ids are for Odoo/GA matching only — never disclose them
         // to Formspark.
-        await submitFormspark({ ...payload, gaClientId: undefined });
+        await submitFormspark({
+          ...payload,
+          gaClientId: undefined,
+          attribution: undefined,
+        });
       } catch (error) {
         if (DEBUG_VALIDATION) {
           console.warn("[contact] Formspark submission failed", error);

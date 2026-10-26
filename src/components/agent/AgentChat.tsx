@@ -7,6 +7,7 @@ import { Input } from "@/src/components/ui/input";
 import { Textarea } from "@/src/components/ui/textarea";
 import { Button } from "@/src/components/ui/button";
 import { cn } from "@/src/lib/utils";
+import { currentPageUrl, getAttributionPayload } from "@/src/lib/attribution";
 import { getGaClientId, trackEvent } from "@/src/lib/analytics";
 import { ArrowUp, CircleNotch } from "@phosphor-icons/react";
 
@@ -84,6 +85,8 @@ export type AgentChatStrings = {
     title: string;
   };
   disclaimer: string;
+  /** One-line notice about the attribution sent with the lead. */
+  attributionNotice?: string;
 };
 
 const STORAGE_KEY = "ark-agent-chat";
@@ -579,7 +582,7 @@ export default function AgentChat({
     let requestUsedTurnstile = false;
     let connected = false;
     try {
-      const { pageUrl, referrer, utm } = getRequestContext();
+      const { pageUrl, referrer, utm, attribution } = getRequestContext();
       requestUsedTurnstile = Boolean(turnstileToken);
       const res = await fetchWithTimeout(
         "/api/agent/chat/",
@@ -597,6 +600,7 @@ export default function AgentChat({
             pageUrl,
             referrer,
             utm,
+            attribution,
             ...(getGaClientId() ? { gaClientId: getGaClientId() } : {}),
             ...(turnstileToken ? { turnstileToken } : {}),
           }),
@@ -701,31 +705,13 @@ export default function AgentChat({
   };
 
   const getRequestContext = () => {
-    if (typeof window === "undefined") {
-      return {
-        pageUrl: "",
-        referrer: "",
-        utm: {
-          source: "",
-          medium: "",
-          campaign: "",
-          term: "",
-          content: "",
-        },
-      };
-    }
-    const pageUrl = window.location.href;
-    const url = new URL(pageUrl);
+    // First-touch attribution (pathnames/origins only, see lib/attribution).
+    const attribution = getAttributionPayload();
     return {
-      pageUrl,
-      referrer: document.referrer || "",
-      utm: {
-        source: url.searchParams.get("utm_source") || "",
-        medium: url.searchParams.get("utm_medium") || "",
-        campaign: url.searchParams.get("utm_campaign") || "",
-        term: url.searchParams.get("utm_term") || "",
-        content: url.searchParams.get("utm_content") || "",
-      },
+      pageUrl: currentPageUrl(),
+      referrer: attribution.referrer,
+      utm: attribution.utm,
+      attribution,
     };
   };
 
@@ -823,7 +809,7 @@ export default function AgentChat({
     setInput("");
 
     try {
-      const { pageUrl, referrer, utm } = getRequestContext();
+      const { pageUrl, referrer, utm, attribution } = getRequestContext();
       const res = await fetchWithTimeout(
         "/api/agent/chat/",
         {
@@ -842,6 +828,7 @@ export default function AgentChat({
             pageUrl,
             referrer,
             utm,
+            attribution,
             messages: nextMessages.map((message) => ({
               role: message.role,
               content: message.content,
@@ -1213,6 +1200,11 @@ export default function AgentChat({
                 <p className="text-xs text-muted-foreground text-center">
                   {strings.disclaimer}
                 </p>
+                {strings.attributionNotice ? (
+                  <p className="text-xs text-muted-foreground text-center">
+                    {strings.attributionNotice}
+                  </p>
+                ) : null}
               </div>
             </div>
           </div>

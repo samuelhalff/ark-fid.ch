@@ -23,6 +23,10 @@ export type WebsiteLeadInput = {
   referrer?: string;
   gaClientId?: string;
   utm?: LeadUtmParams;
+  /** First-party attribution (pathnames only, see src/lib/attribution.ts). */
+  landingPage?: string;
+  gclid?: string;
+  pagesViewed?: string[];
   transcript?: LeadTranscriptMessage[];
   assignedUserId?: number;
   sourceId?: number;
@@ -101,6 +105,18 @@ export function formatLeadDescription(input: WebsiteLeadInput) {
     // Joins this lead to GA acquisition data for offline conversion import.
     input.gaClientId ? `GA Client ID: ${input.gaClientId}` : null,
     formatUtmLine(input.utm),
+    sanitizeAttributionValue(input.landingPage)
+      ? `Landing page: ${sanitizeAttributionValue(input.landingPage)}`
+      : null,
+    sanitizeAttributionValue(input.gclid)
+      ? `GCLID: ${sanitizeAttributionValue(input.gclid)}`
+      : null,
+    input.pagesViewed?.length
+      ? `Pages viewed: ${input.pagesViewed
+          .map((page) => sanitizeAttributionValue(page))
+          .filter(Boolean)
+          .join(" > ")}`
+      : null,
     input.message ? `Message:\n${input.message}` : null,
   ].filter(Boolean);
 

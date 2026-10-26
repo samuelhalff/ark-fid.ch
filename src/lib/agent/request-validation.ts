@@ -28,6 +28,46 @@ const utmSchema = z
   })
   .optional();
 
+/**
+ * Server-side validation for the first-party attribution sent with lead
+ * submissions (see src/lib/attribution.ts). Values are attacker-controlled:
+ * bounded lengths, pathnames only, and the lead formatter strips markup.
+ * Invalid attribution is dropped (`.catch`) so it can never cost a lead.
+ */
+const attributionString = (max: number) =>
+  z.preprocess(
+    (value) => (typeof value === "string" ? value.trim() : value),
+    z.string().max(max).optional().or(z.literal("")),
+  );
+
+const attributionPathname = z
+  .string()
+  .trim()
+  .max(200)
+  .regex(/^\/[^\s?#]*$/);
+
+export const attributionSchema = z
+  .object({
+    landingPage: attributionPathname.optional().or(z.literal("")),
+    referrer: attributionString(150),
+    utm: z
+      .object({
+        source: attributionString(150),
+        medium: attributionString(150),
+        campaign: attributionString(150),
+        term: attributionString(150),
+        content: attributionString(150),
+      })
+      .partial()
+      .optional(),
+    gclid: attributionString(200),
+    pages: z.array(attributionPathname).max(20).optional(),
+  })
+  .optional()
+  .catch(undefined);
+
+export type AttributionInput = z.infer<typeof attributionSchema>;
+
 export const agentChatMessageSchema = z.object({
   role: z.enum(["user", "assistant"]),
   content: z.string().trim().min(1),
@@ -53,6 +93,7 @@ export const agentChatRequestSchema = z
     pageUrl: optionalTrimmedString(600),
     referrer: optionalTrimmedString(600),
     utm: utmSchema,
+    attribution: attributionSchema,
     gaClientId: z.preprocess(
       emptyToUndefined,
       z

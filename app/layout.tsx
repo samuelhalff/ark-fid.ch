@@ -9,6 +9,11 @@ import ErrorBoundary from "@/src/components/ErrorBoundary";
 import { CookieConsent } from "@/src/components/ClientOnlyDynamic";
 import ConsentAnalytics from "@/src/components/ConsentAnalytics";
 import OpenAiPixel from "@/src/components/OpenAiPixel";
+import AttributionTracker from "@/src/components/AttributionTracker";
+import {
+  buildConsentBootstrap,
+  isValidMeasurementId,
+} from "@/src/lib/consent-mode";
 import WhatsAppLink from "@/src/components/ui/whatsapp-link";
 import "./globals.css";
 import { getTranslations, getCurrentLocale } from "@/src/lib/i18n";
@@ -73,15 +78,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // ✅ read nonce and UA headers from the middleware
+  // ✅ read nonce from the middleware
   const nonce = (await headers()).get("x-nonce") || undefined;
-  const userAgent = (await headers()).get("user-agent") || "";
-  const isIOS = /iPad|iPhone|iPod/.test(userAgent);
-  const isAndroid = /Android/.test(userAgent);
-  const gaId = isIOS
-    ? "G-6YG8R7QMN7"
-    : isAndroid
-    ? "G-PBFJ9TQ7NR"
+  const configuredGaId =
+    process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || process.env.NEXT_PUBLIC_GA_ID;
+  const gaId = isValidMeasurementId(configuredGaId)
+    ? configuredGaId
     : "G-BXZ54E31FL";
   const currentLocale = await getCurrentLocale();
 
@@ -109,6 +111,12 @@ export default async function RootLayout({
       className={inter.variable}
     >
       <head>
+        {/* Consent Mode v2 bootstrap: regional defaults + stored choice, then
+            gtag.js. Must run before any other gtag call. */}
+        <script
+          nonce={nonce}
+          dangerouslySetInnerHTML={{ __html: buildConsentBootstrap(gaId) }}
+        />
         {nonce ? <meta name="csp-nonce" content={nonce} /> : null}
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
         <link
@@ -181,10 +189,10 @@ export default async function RootLayout({
               />
 
               <OpenAiPixel nonce={nonce} />
+              <AttributionTracker />
 
               <Defer rootMargin="0px" idle={200} placeholder={null}>
                 <ConsentAnalytics
-                  gaId={gaId}
                   gtmId="GTM-P6QT792D"
                   nonce={nonce}
                 />
