@@ -112,6 +112,7 @@ jobs:
             node scripts/validate-latest-article-guardrails.js
             npm run validate:reference-sources
             REQUIRE_TRANSLATIONS=1 node scripts/validate-article-translations.js
+            node scripts/validate-article-facts.js
             npm run lint:links
             git push
             echo "pushed=true" >> "$GITHUB_OUTPUT"
