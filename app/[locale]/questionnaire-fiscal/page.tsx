@@ -27,8 +27,8 @@ export async function generateMetadata(props: { params: Promise<{ locale: string
 export default async function TaxQuestionnairePage(props: { params: Promise<{ locale: string }> }) {
   const { locale } = await props.params;
   const l = asLocale(locale);
-  // The questionnaire exists in fr/en/de; other site languages get the English version.
-  if (!l) redirect("/en/questionnaire-fiscal/");
+  // The questionnaire exists in fr/en/de; other site languages get the English version with a note.
+  if (!l) redirect(locale === "es" || locale === "pt" ? `/en/questionnaire-fiscal/?lang=${locale}` : "/en/questionnaire-fiscal/");
   return (
     <div className="mx-auto w-full max-w-[1240px] px-5 py-8 sm:px-8 sm:py-10">
       <TaxQuestionnaire locale={l} />

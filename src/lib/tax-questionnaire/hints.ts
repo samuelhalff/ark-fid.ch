@@ -83,6 +83,7 @@ const RULE_HINTS: Record<string, L> = {
   winnings: t("Attestation de gain de la loterie ou du casino ; pour un site en ligne, relevé du compte joueur.", "Win certificate from the lottery or casino; for an online site, the player account statement.", "Gewinnbestätigung der Lotterie oder des Casinos; bei Online-Seiten der Spielerkontoauszug."),
   regularisation: t("Rassemblez ce que vous avez ; nous verrons ensemble ce qui manque.", "Gather what you have; we will see together what is missing.", "Sammeln Sie, was Sie haben; wir klären gemeinsam, was fehlt."),
   trust: t("Acte de trust ou statuts, et lettre annuelle du trustee ou relevés des distributions.", "Trust deed or charter, and the trustee's annual letter or distribution statements.", "Trusturkunde oder Statuten sowie Jahresbrief des Trustees oder Ausschüttungsbelege."),
+  "ark-doc": t("Document demandé par Ark à partir de nos échanges ; en cas de doute, appelez-nous.", "Document requested by Ark from our exchanges; if in doubt, call us.", "Von Ark aufgrund unseres Austauschs angefordertes Dokument; rufen Sie uns im Zweifel an."),
   "older-years": t("Les mêmes documents que pour l'année principale, pour l'année indiquée.", "The same documents as for the main year, for the year shown.", "Dieselben Dokumente wie für das Hauptjahr, für das angegebene Jahr."),
 };
 

@@ -8,7 +8,7 @@
 import { createHash } from "node:crypto";
 import { campaignStopDate } from "../deadlines";
 import type { IssueLinkOptions } from "./access";
-import { escapeHtml, mailConfig } from "./email";
+import { escapeHtml, mailConfig, isInternalCase } from "./email";
 import type { ClientPreferences, ClientRegistry, PreferenceStore, ReturnRecord, ReturnTracker } from "./ports";
 import { clientKey as computeClientKey } from "./service";
 import type { MailMessage } from "./storage";
@@ -25,6 +25,10 @@ export interface InvitedReturnInput {
   language: string;
   taxYear: number;
   prefillFrom?: ReturnRecord;
+  /** Case prepared by Ark (staff invitation): answers to start from, instead of last year's. */
+  prefillAnswers?: Record<string, unknown>;
+  /** Staff notes for the preparer (kept server-side, in the case folder). */
+  notes?: string[];
 }
 
 export interface CampaignDeps {
@@ -59,7 +63,7 @@ const OPTOUT_TTL = 120 * DAY;
 export const STOP_STATUSES = ["Déposé", "Clos"];
 
 type Lang = "fr" | "en" | "de";
-const lang = (value: string | undefined): Lang => (value === "en" || value === "de" ? value : "fr");
+export const lang = (value: string | undefined): Lang => (value === "en" || value === "de" ? value : "fr");
 
 /** Fallback fingerprint (tests); production passes the keyed access.emailHash via deps.hashEmail. */
 export const emailHashOf = (email: string) =>
@@ -69,7 +73,7 @@ const utcDay = (d: Date) => Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getU
 const daysBetween = (from: Date, to: Date) => Math.round((utcDay(to) - utcDay(from)) / DAY);
 const iso = (d: Date) => d.toISOString();
 
-interface Member {
+export interface Member {
   clientKey: string;
   email: string;
   name: string;
@@ -133,10 +137,17 @@ const TEXT: Record<Lang, Record<"notice" | "invitation" | "reminder", { subject:
   },
 };
 
-export function campaignMail(kind: "notice" | "invitation" | "reminder", language: Lang, to: string, taxYear: number, link: string | null, optoutLink: string): MailMessage {
+const RENEWAL: Record<Lang, string> = {
+  fr: "Il reprend votre situation {prev} : vous confirmez ce qui n'a pas changé, vous complétez ce qui a changé et vous déposez vos documents {year}.",
+  en: "It carries over your {prev} situation: confirm what has not changed, update what has, and upload your {year} documents.",
+  de: "Er übernimmt Ihre Situation {prev}: Sie bestätigen, was gleich geblieben ist, ergänzen, was sich geändert hat, und laden Ihre Dokumente {year} hoch.",
+};
+
+export function campaignMail(kind: "notice" | "invitation" | "reminder", language: Lang, to: string, taxYear: number, link: string | null, optoutLink: string, renewalFrom?: number): MailMessage {
   const text = TEXT[language];
-  const fill = (s: string) => s.replace(/\{year\}/g, String(taxYear));
-  const paragraphs = fill(text[kind].body)
+  const fill = (s: string) => s.replace(/\{year\}/g, String(taxYear)).replace(/\{prev\}/g, String(renewalFrom || ""));
+  const body = kind === "invitation" && renewalFrom ? `${text[kind].body}\n\n${RENEWAL[language]}` : text[kind].body;
+  const paragraphs = fill(body)
     .split("\n\n")
     .map((p) => `<p>${escapeHtml(p)}</p>`)
     .join("");
@@ -187,6 +198,48 @@ export function dueReminder(record: ReturnRecord, stop: Date, now: Date): Remind
 export const isClosed = (record: ReturnRecord) =>
   record.state === "submitted" || record.state === "declined" || (!!record.staffStatus && STOP_STATUSES.includes(record.staffStatus));
 
+/**
+ * Invitation for one client and tax year (campaign from 1 February, or a manual invitation by
+ * staff): creates the year's return pre-filled from the latest submitted one (unless retrying a
+ * return whose e-mail failed), issues the link and sends the e-mail.
+ */
+export async function inviteMember(
+  deps: CampaignDeps,
+  member: Member,
+  taxYear: number,
+  opts: {
+    now: Date;
+    origin?: string;
+    previous?: ReturnRecord;
+    existing?: ReturnRecord;
+    /** false: no e-mail, the link is returned for staff to hand over (still opened with a code). */
+    send?: boolean;
+    prefillAnswers?: Record<string, unknown>;
+    notes?: string[];
+    ttlMs?: number;
+    /** Runs before the return is marked invited (e.g. staff hand-over file): a failure leaves it retryable. */
+    beforeMark?: (record: ReturnRecord, link: string) => Promise<void>;
+  },
+): Promise<{ record: ReturnRecord; link: string }> {
+  const record =
+    opts.existing ||
+    (await deps.createInvitedReturn({ clientKey: member.clientKey, email: member.email, name: member.name, language: member.language, taxYear, prefillFrom: opts.prefillAnswers ? undefined : opts.previous, prefillAnswers: opts.prefillAnswers, notes: opts.notes }));
+  const link = await deps.issueLink({ caseId: record.caseId, emailHash: record.emailHash, scope: "edit", purpose: "invitation", ttlMs: opts.ttlMs || INVITATION_TTL, origin: opts.origin, locale: member.language });
+  if (opts.send !== false) {
+    const optout = await deps.issueLink({ caseId: `client:${member.clientKey}`, emailHash: (deps.hashEmail || emailHashOf)(member.email), scope: "status", purpose: "optout", ttlMs: OPTOUT_TTL, origin: opts.origin, locale: member.language });
+    await deps.sendMail(campaignMail("invitation", member.language, member.email, taxYear, link, optout, opts.prefillAnswers ? undefined : opts.previous?.taxYear));
+  }
+  if (opts.beforeMark) await opts.beforeMark(record, link);
+  // invitedAt also when the link is handed over by staff: the campaign does not re-invite.
+  const invited = { ...record, state: "invited" as const, invitedAt: iso(opts.now), remindersSent: 0 };
+  await deps.tracker.upsert(invited);
+  return { record: invited, link };
+}
+
+/** Latest submitted return before a tax year (the renewal source). */
+export const previousReturn = (returns: ReturnRecord[], taxYear: number) =>
+  returns.filter((r) => r.state === "submitted" && r.taxYear < taxYear).sort((x, y) => y.taxYear - x.taxYear)[0];
+
 export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?: boolean; maxActions?: number; origin?: string }): Promise<CampaignSummary> {
   const { now } = opts;
   const dryRun = !!opts.dryRun;
@@ -198,6 +251,7 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
   let actions = 0;
   const budget = () => actions < maxActions;
   const escalate: string[] = [];
+  const escalateInternal = new Set<string>();
 
   const optoutLink = (member: Member) =>
     deps.issueLink({ caseId: `client:${member.clientKey}`, emailHash: (deps.hashEmail || emailHashOf)(member.email), scope: "status", purpose: "optout", ttlMs: OPTOUT_TTL, origin: opts.origin, locale: member.language });
@@ -205,9 +259,12 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
   for (const member of await audience(deps)) {
     const returns = await deps.tracker.findByClientKey(member.clientKey);
     const current = returns.find((r) => r.taxYear === taxYear);
-    const previous = returns
-      .filter((r) => r.state === "submitted" && r.taxYear < taxYear)
-      .sort((x, y) => y.taxYear - x.taxYear)[0];
+    // Staff exclusion on any of the client's tracker rows ("Exclure de la campagne").
+    if (returns.some((r) => r.excludedFromCampaign)) {
+      summary.skipped++;
+      continue;
+    }
+    const previous = previousReturn(returns, taxYear);
 
     // Advance notice (January, first year only: never used the questionnaire).
     if (month === 0 && now.getUTCDate() >= 5) {
@@ -246,12 +303,7 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
       }
       actions++;
       summary.invitations++;
-      if (!dryRun) {
-        const record = pendingInvitation && current ? current : await deps.createInvitedReturn({ clientKey: member.clientKey, email: member.email, name: member.name, language: member.language, taxYear, prefillFrom: previous });
-        const link = await deps.issueLink({ caseId: record.caseId, emailHash: record.emailHash, scope: "edit", purpose: "invitation", ttlMs: INVITATION_TTL, origin: opts.origin, locale: member.language });
-        await deps.sendMail(campaignMail("invitation", member.language, member.email, taxYear, link, await optoutLink(member)));
-        await deps.tracker.upsert({ ...record, state: "invited", invitedAt: iso(now), remindersSent: 0 });
-      }
+      if (!dryRun) await inviteMember(deps, member, taxYear, { now, origin: opts.origin, previous, existing: pendingInvitation && current ? current : undefined });
       continue;
     }
 
@@ -275,8 +327,10 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
       }
     }
     const unanswered = (current.remindersSent || 0) + (due && !dryRun ? 1 : 0);
+    const before = escalate.length;
     if (daysLeft === 30 || daysLeft === 10) escalate.push(`${current.name} – ${taxYear} – J-${daysLeft} (${current.state})`);
     else if (unanswered >= 2 && due) escalate.push(`${current.name} – ${taxYear} – ${unanswered} rappels sans réponse`);
+    if (escalate.length > before && isInternalCase({ email: current.email || member.email, name: current.name })) escalate.slice(before).forEach((line) => escalateInternal.add(line));
   }
 
   // One staff digest per run (and per day when a ledger is available).
@@ -287,13 +341,19 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
       summary.escalations = escalate.length;
       if (!dryRun) {
         const cfg = mailConfig();
-        await deps.sendMail({
-          from: cfg.from,
-          to: deps.staffRecipients,
-          cc: [],
-          subject: `Questionnaires fiscaux ${taxYear} – suivi des relances (${escalate.length})`,
-          html: `<!doctype html><html><body style="font-family:Arial,Helvetica,sans-serif;font-size:14px"><p>Questionnaires à suivre :</p><ul>${escalate.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul><p>Détail dans la liste « Suivi questionnaires ».</p></body></html>`,
-        });
+        const digest = (to: string[], lines: string[]) =>
+          deps.sendMail({
+            from: cfg.from,
+            to,
+            cc: [],
+            subject: `Questionnaires fiscaux ${taxYear} – suivi des relances (${lines.length})`,
+            html: `<!doctype html><html><body style="font-family:Arial,Helvetica,sans-serif;font-size:14px"><p>Questionnaires à suivre :</p><ul>${lines.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul><p>Détail dans la liste « Suivi questionnaires ».</p></body></html>`,
+          });
+        // Owner rule: real clients to the staff list; test / demo cases to the main recipient only.
+        const real = escalate.filter((line) => !escalateInternal.has(line));
+        const internal = escalate.filter((line) => escalateInternal.has(line));
+        if (real.length) await digest(deps.staffRecipients, real);
+        if (internal.length) await digest(cfg.to, internal);
         await deps.ledger?.add(key);
       }
     }

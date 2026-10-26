@@ -3,6 +3,7 @@
  * with it, the server re-runs it on the whole submission (never trusting the client).
  */
 import { computeChecklist, taxYearOf, withYear } from "./documents";
+import { communeByBfs } from "./communes";
 import { EMAIL_RE, parseAmount, parseDate } from "./format";
 import { STEPS } from "./schema";
 import type { Answers, Block, DocItem, FieldDef, GroupDef, L, QfLocale, Row, StepDef } from "./types";
@@ -203,6 +204,18 @@ export function validateField(field: FieldDef, value: unknown, now = new Date())
 
 export const rowFieldKey = (groupId: string, rowId: string, fieldId: string) => `${groupId}[${rowId}].${fieldId}`;
 
+/**
+ * Commune: either an entry of the official list (BFS number in "<id>Bfs", name and canton must
+ * match) or the free-text fallback ("not in the list": no BFS number).
+ */
+export function communeError(value: unknown, bfs: unknown, canton: unknown): FieldError | null {
+  if (bfs === undefined || bfs === null || bfs === "") return null;
+  const commune = communeByBfs(bfs);
+  if (!commune || commune.name !== value) return "invalid_option";
+  if (typeof canton === "string" && canton && canton !== "ABROAD" && commune.canton !== canton) return "invalid_option";
+  return null;
+}
+
 /** Validates the visible blocks of one step. */
 export function validateStep(step: StepDef, a: Answers, now = new Date()): Errors {
   const errors: Errors = {};
@@ -210,7 +223,9 @@ export function validateStep(step: StepDef, a: Answers, now = new Date()): Error
   for (const block of step.blocks) {
     if (!isBlockVisible(block, a)) continue;
     if (block.kind === "field") {
-      const error = validateField(block, a[block.id], now);
+      const error =
+        validateField(block, a[block.id], now) ||
+        (block.type === "commune" ? communeError(a[block.id], a[`${block.id}Bfs`], block.cantonField ? a[block.cantonField] : undefined) : null);
       if (error) errors[block.id] = error;
     } else if (block.kind === "group") {
       const list = rows(a[block.id]);
@@ -218,7 +233,9 @@ export function validateStep(step: StepDef, a: Answers, now = new Date()): Error
       for (const row of list) {
         for (const field of block.fields) {
           if (!isRowFieldVisible(field, a, row)) continue;
-          const error = validateField(field, row[field.id], now);
+          const error =
+            validateField(field, row[field.id], now) ||
+            (field.type === "commune" ? communeError(row[field.id], row[`${field.id}Bfs`], field.cantonField ? row[field.cantonField] : undefined) : null);
           if (error) errors[rowFieldKey(block.id, row._id, field.id)] = error;
         }
       }

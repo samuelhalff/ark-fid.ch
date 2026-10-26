@@ -19,55 +19,78 @@ import { Separator } from "@/src/components/ui/separator";
 import { Textarea } from "@/src/components/ui/textarea";
 import { trackEvent } from "@/src/lib/analytics";
 import { docCode } from "@/src/lib/tax-questionnaire/documents";
-import { checklistFor, displayValue, isBlockVisible, isRowFieldVisible, label as interpolate, pruneHidden, visibleSteps } from "@/src/lib/tax-questionnaire/logic";
-import { GROUP_STEP, ROUTER_OPTIONS, routerItems, rowsOf, unchanged } from "@/src/lib/tax-questionnaire/schema";
-import { CONTACT, SERVER_ERRORS, UI, UI2 } from "@/src/lib/tax-questionnaire/ui";
+import { checklistFor, displayValue, isBlockVisible, isRowFieldVisible, label as interpolate, pruneHidden, validateStep, visibleSteps } from "@/src/lib/tax-questionnaire/logic";
+import { knownItems } from "@/src/lib/tax-questionnaire/renewal";
+import { GROUP_STEP, ROUTER_OPTIONS, renewalYear, routerItems, rowsOf, unchanged } from "@/src/lib/tax-questionnaire/schema";
+import { CONTACT, FIELD_ERRORS, SERVER_ERRORS, UI, UI2 } from "@/src/lib/tax-questionnaire/ui";
+import { cn } from "@/src/lib/utils";
 import type { Answers, QfLocale, StepDef } from "@/src/lib/tax-questionnaire/types";
 import { ApiError, api, newSubmitKey, type CasePayload } from "./api";
 import { DocChecklist } from "./DocChecklist";
-import { fromForm, stepSchema, toForm, toName, type FormValues } from "./form-model";
+import { collectIssues, focusField, fromForm, stepSchema, toForm, toName, type FormValues, type Issue } from "./form-model";
 import { StepView } from "./StepView";
 import { Turnstile } from "./Turnstile";
 
 type Phase = "loading" | "start" | "code" | "form" | "status" | "optedOut";
 
 const err = (code: string, locale: QfLocale) => (SERVER_ERRORS[code] || SERVER_ERRORS.generic)[locale];
+const CONSENT_LABELS = {
+  privacy: { fr: "Accord à la notice de confidentialité", en: "Agreement to the privacy notice", de: "Zustimmung zum Datenschutzhinweis" },
+  certify: { fr: "Confirmation que les réponses sont complètes et exactes", en: "Confirmation that the answers are complete and correct", de: "Bestätigung, dass die Angaben vollständig und richtig sind" },
+} as const;
+
+const OTHER_LANGUAGE_NOTE = {
+  es: "El cuestionario está disponible en francés, inglés y alemán. / The questionnaire is available in French, English and German.",
+  pt: "O questionário está disponível em francês, inglês e alemão. / The questionnaire is available in French, English and German.",
+} as const;
+
+/** One-navigation carry of the (not yet saved) start screen across a language switch. */
+const CARRY_KEY = "tqf-carry";
+function putCarry(answers: Answers) {
+  try {
+    sessionStorage.setItem(CARRY_KEY, JSON.stringify({ at: Date.now(), answers }));
+  } catch {
+    /* storage unavailable: the start screen is simply empty after the switch */
+  }
+}
+function takeCarry(): Answers | null {
+  try {
+    const raw = sessionStorage.getItem(CARRY_KEY);
+    sessionStorage.removeItem(CARRY_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { at?: number; answers?: Answers };
+    return parsed.at && Date.now() - parsed.at < 10 * 60 * 1000 && parsed.answers ? parsed.answers : null;
+  } catch {
+    return null;
+  }
+}
+
 const defaultAnswers = (): Answers => ({ "start.years": [String(new Date().getFullYear() - 1)] });
 
 /** Steps actually shown: visible ones, minus detail screens confirmed "unchanged since last year". */
 function shownSteps(answers: Answers): StepDef[] {
   return visibleSteps(answers).filter((step) => {
+    // Renewal: last year's file is at Ark; this year's documents are asked in the checklist.
+    if (step.id === "baseDocs" && renewalYear(answers)) return false;
     const group = Object.entries(GROUP_STEP).find(([, stepId]) => stepId === step.id)?.[0];
-    // An area confirmed unchanged keeps last year's rows (same documents requested) and skips its screen.
-    return !group || !unchanged(group)(answers);
+    // An area confirmed unchanged keeps last year's rows (same documents requested) and skips its
+    // screen, unless something carried over is incomplete (the screen then shows, to be fixed).
+    return !group || !unchanged(group)(answers) || Object.keys(validateStep(step, answers)).length > 0;
   });
 }
 
-/** Names carried over from last year, per router group (shown next to "unchanged"). */
-function knownItems(answers: Answers): Record<string, string[]> {
-  if (!answers["base.prefilledFrom"]) return {};
-  const names = (groupId: string, field: string) => rowsOf(answers, groupId).map((r) => (typeof r[field] === "string" ? (r[field] as string) : "")).filter(Boolean);
-  const items = routerItems(answers);
-  const label = (value: string) => ROUTER_OPTIONS.find((o) => o.value === value)?.label.fr || value;
-  return {
-    family: [...names("family.children", "firstName"), ...items.filter((i) => ROUTER_OPTIONS.find((o) => o.value === i)?.group === "family").map(label)],
-    work: [...names("work.employers", "name"), ...names("work.pensions", "payer"), ...names("work.companies", "name")],
-    assets: [...names("assets.banks", "bank"), ...names("assets.insurances", "insurer"), ...names("assets.debts", "lender")],
-    property: [...names("property.items", "commune"), ...names("property.items", "city")],
-    other: items.filter((i) => ROUTER_OPTIONS.find((o) => o.value === i)?.group === "other").map(label),
-  };
-}
 
 export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
-  // tax.ark-fid.ch serves the form at /<locale>/, the main site at /<locale>/questionnaire-fiscal/.
-  const [mode, setMode] = useState<"main" | "tax">("main");
-  useEffect(() => setMode(window.location.hostname.startsWith("tax.") ? "tax" : "main"), []);
+  // Site languages without a questionnaire (es, pt) land here on the English form with a note.
+  const [otherLanguage, setOtherLanguage] = useState<"es" | "pt" | null>(null);
   const [phase, setPhase] = useState<Phase>("loading");
   const [config, setConfig] = useState<{ turnstileSiteKey: string; aiEnabled: boolean }>({ turnstileSiteKey: "", aiEnabled: false });
   const [caseData, setCaseData] = useState<CasePayload | null>(null);
   const [stepId, setStepId] = useState("start");
   const [docStatus, setDocStatus] = useState<Record<string, "later" | "na">>({});
   const [notice, setNotice] = useState<{ tone: "info" | "error"; text: string } | null>(null);
+  const [issues, setIssues] = useState<Issue[]>([]);
+  const hasIssue = (name: string) => issues.some((i) => i.name === name);
   const [busy, setBusy] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [save, setSave] = useState<{ state: "idle" | "saving" | "saved" | "failed"; at?: string }>({ state: "idle" });
@@ -123,6 +146,11 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
 
   useEffect(() => {
     void api.config().then(setConfig, () => undefined);
+    const fromLanguage = new URLSearchParams(window.location.search).get("lang");
+    if (fromLanguage === "es" || fromLanguage === "pt") {
+      setOtherLanguage(fromLanguage);
+      window.history.replaceState(null, "", window.location.pathname + window.location.hash);
+    }
     const hash = typeof window !== "undefined" ? window.location.hash : "";
     const token = /acces=([A-Za-z0-9_-]+)/.exec(hash)?.[1];
     if (token) {
@@ -142,8 +170,15 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
         });
       return;
     }
-    loadCase().catch(() => setPhase("start"));
-  }, [loadCase, locale]);
+    loadCase()
+      .then(() => takeCarry())
+      .catch(() => {
+        // No session yet: restore the start screen typed before a language switch (same tab only).
+        const carried = takeCarry();
+        if (carried) form.reset(toForm({ ...defaultAnswers(), ...carried }));
+        setPhase("start");
+      });
+  }, [loadCase, locale, form]);
 
   // ---- analytics: step views, abandonment -----------------------------------------------------------
   useEffect(() => {
@@ -195,6 +230,27 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
     return () => clearTimeout(timer);
   }, [values, docStatus, phase, saveNow]);
 
+  // Language switch in the site header (plain <a hreflang> links, full page load): the draft is
+  // saved first (with the current step) so the client continues where he was in the new language;
+  // before sign-in, the start screen is carried in sessionStorage for this one navigation.
+  useEffect(() => {
+    const onClick = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = (event.target instanceof Element ? event.target.closest("a[hreflang]") : null) as HTMLAnchorElement | null;
+      if (!link || link.origin !== window.location.origin) return;
+      if (phase !== "form" && phase !== "start") return;
+      event.preventDefault();
+      const go = () => window.location.assign(link.href);
+      if (phase === "start") {
+        putCarry(fromForm(form.getValues()));
+        return go();
+      }
+      void saveNow().finally(go);
+    };
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
+  }, [phase, saveNow, form]);
+
   // Last return uploaded → "unchanged" shortcuts may use the extracted / carried-over items.
   useEffect(() => {
     const lastReturn = files.some((f) => f.code === docCode("last-return"));
@@ -217,14 +273,27 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
   };
 
   // ---- navigation ------------------------------------------------------------------------------------
+  /** Shows the error summary (each field a link) and moves to the first invalid control. */
+  const fail = (list: Issue[]) => {
+    setIssues(list);
+    setNotice({ tone: "error", text: UI.errorSummary[locale] });
+    requestAnimationFrame(() => focusField(list[0]?.name));
+  };
+  const missingDocs = (list: typeof checklist) => list.filter((item) => !files.some((f) => f.code === item.code) && !docStatus[item.key]);
+  const stepIssues = async (): Promise<Issue[]> => {
+    const valid = await form.trigger();
+    // The render-time formState snapshot is stale right after trigger(): read the live errors.
+    const list = valid ? [] : collectIssues(form.control._formState.errors as Record<string, unknown>, locale, answers);
+    if (phase === "start" && !privacyAccepted) list.push({ name: "consent.privacy", label: CONSENT_LABELS.privacy[locale] });
+    if (step.special === "documents") for (const item of missingDocs(checklist)) list.push({ name: `doc:${item.key}`, label: item.label[locale] });
+    return list;
+  };
+
   const next = async () => {
     setNotice(null);
-    const valid = await form.trigger();
-    if (!valid) {
-      setNotice({ tone: "error", text: UI.errorSummary[locale] });
-      requestAnimationFrame(() => document.querySelector<HTMLElement>("[aria-invalid='true']")?.focus());
-      return;
-    }
+    const list = await stepIssues();
+    if (list.length) return fail(list);
+    setIssues([]);
     trackEvent("tax_qf_step_complete", { step: step.id });
     if (step.id === "router") {
       const flags = Object.fromEntries(routerItems(answers).slice(0, 24).map((item) => [`r_${item}`, true]));
@@ -244,7 +313,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
 
   // ---- access ----------------------------------------------------------------------------------------
   const startAccess = async () => {
-    if (!privacyAccepted) return setNotice({ tone: "error", text: SERVER_ERRORS.consent_required[locale] });
+    if (!privacyAccepted) return fail([{ name: "consent.privacy", label: CONSENT_LABELS.privacy[locale] }]);
     if (config.turnstileSiteKey && !turnstileToken) return setNotice({ tone: "error", text: UI.humanCheck[locale] });
     setBusy(true);
     try {
@@ -292,9 +361,10 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
   // ---- submission ------------------------------------------------------------------------------------
   const submit = async () => {
     setNotice(null);
-    const valid = await form.trigger();
-    if (!valid) return setNotice({ tone: "error", text: UI.errorSummary[locale] });
-    if (!certified) return setNotice({ tone: "error", text: SERVER_ERRORS.consent_required[locale] });
+    const list = await stepIssues();
+    if (!certified) list.push({ name: "consent.certify", label: CONSENT_LABELS.certify[locale] });
+    if (list.length) return fail(list);
+    setIssues([]);
     if (uploading) return setNotice({ tone: "error", text: UI.uploadsBusy[locale] });
     setBusy(true);
     try {
@@ -309,6 +379,11 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
       const codeName = error instanceof ApiError ? error.code : "generic";
       trackEvent("tax_qf_submit", { result: codeName });
       if (codeName === "invalid_answers" && error instanceof ApiError && Array.isArray(error.detail.steps) && error.detail.steps[0]) goTo(String(error.detail.steps[0]));
+      if (codeName === "documents_incomplete" && error instanceof ApiError && Array.isArray(error.detail.keys)) {
+        const keys = new Set((error.detail.keys as unknown[]).map(String));
+        goTo("documents");
+        return fail(checklist.filter((item) => keys.has(item.key)).map((item) => ({ name: `doc:${item.key}`, label: item.label[locale] })));
+      }
       setNotice({ tone: "error", text: err(codeName, locale) });
     } finally {
       setBusy(false);
@@ -316,19 +391,16 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
   };
 
   // ---- rendering -------------------------------------------------------------------------------------
-  const languageLinks = (["fr", "en", "de"] as const).map((l) => ({ l, href: mode === "tax" ? `/${l}/` : `/${l}/questionnaire-fiscal/` }));
   const header = (
     <div className="flex flex-col gap-3">
-      <div className="flex items-center justify-between gap-3">
+      <div>
         <Badge variant="secondary">{UI2.eyebrow[locale]}</Badge>
-        <nav aria-label="Langue" className="flex gap-1 text-sm">
-          {languageLinks.map(({ l, href }) => (
-            <a key={l} href={href} hrefLang={l} aria-current={l === locale ? "true" : undefined} className={l === locale ? "rounded-md bg-surface-warm px-2 py-1 font-semibold dark:bg-card" : "rounded-md px-2 py-1 text-muted-foreground hover:text-foreground"}>
-              {l.toUpperCase()}
-            </a>
-          ))}
-        </nav>
       </div>
+      {otherLanguage ? (
+        <Alert>
+          <AlertDescription>{OTHER_LANGUAGE_NOTE[otherLanguage]}</AlertDescription>
+        </Alert>
+      ) : null}
       <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">{UI.pageTitle[locale]}</h1>
       <p className="max-w-[60ch] text-base leading-7 text-muted-foreground">{UI.pageIntro[locale]}</p>
     </div>
@@ -336,7 +408,20 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
 
   const noticeBox = notice ? (
     <Alert variant={notice.tone === "error" ? "destructive" : "default"} aria-live="assertive">
-      <AlertDescription>{notice.text}</AlertDescription>
+      <AlertDescription>
+        <p>{notice.text}</p>
+        {notice.tone === "error" && issues.length ? (
+          <ul className="mt-2 list-disc pl-5">
+            {issues.map((issue) => (
+              <li key={issue.name}>
+                <button type="button" className="text-left underline underline-offset-2" onClick={() => focusField(issue.name)}>
+                  {issue.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </AlertDescription>
     </Alert>
   ) : null;
 
@@ -468,12 +553,12 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
               {special === "documents" ? (
                 <>
                   <p className="text-sm text-muted-foreground">{UI.docsIntro[locale]}</p>
-                  <DocChecklist items={items} files={files} docStatus={docStatus} onStatus={(key, status) => setDocStatus((prev) => { const nextStatus = { ...prev }; if (status) nextStatus[key] = status; else delete nextStatus[key]; return nextStatus; })} locale={locale} clientName={`${String(answers["start.firstName"] || "")} ${String(answers["start.lastName"] || "")}`.trim()} canRemove={!caseData?.submittedAt} onChanged={refreshFiles} onBusy={setUploading} />
+                  <DocChecklist items={items} files={files} docStatus={docStatus} onStatus={(key, status) => setDocStatus((prev) => { const nextStatus = { ...prev }; if (status) nextStatus[key] = status; else delete nextStatus[key]; return nextStatus; })} locale={locale} clientName={`${String(answers["start.firstName"] || "")} ${String(answers["start.lastName"] || "")}`.trim()} canRemove={!caseData?.submittedAt} onChanged={refreshFiles} onBusy={setUploading} missing={new Set(issues.filter((i) => i.name.startsWith("doc:")).map((i) => i.name.slice(4)))} />
                 </>
               ) : special === "review" ? (
                 <ReviewSummary answers={pruned} locale={locale} onEdit={goTo} />
               ) : null}
-              {special !== "documents" ? <StepView step={step} locale={locale} answers={answers} knownItems={knownItems(answers)} aiSuggestions={aiSuggestions} /> : null}
+              {special !== "documents" ? <StepView step={step} locale={locale} answers={answers} knownItems={knownItems(answers, locale)} aiSuggestions={aiSuggestions} /> : null}
               {special === "baseDocs" && caseData ? (
                 <DocChecklist items={items} files={files} docStatus={docStatus} onStatus={(key, status) => setDocStatus((prev) => { const nextStatus = { ...prev }; if (status) nextStatus[key] = status; else delete nextStatus[key]; return nextStatus; })} locale={locale} clientName={`${String(answers["start.firstName"] || "")} ${String(answers["start.lastName"] || "")}`.trim()} canRemove={!caseData?.submittedAt} onChanged={refreshFiles} onBusy={setUploading} showExtra={false} />
               ) : null}
@@ -499,11 +584,28 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
               {phase === "start" ? (
                 <div className="flex flex-col gap-4">
                   <Separator />
-                  <div className="flex items-start gap-3">
-                    <Checkbox className="shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]" id="tqf-privacy" checked={privacyAccepted} onCheckedChange={(v) => setPrivacyAccepted(v === true)} />
-                    <Label htmlFor="tqf-privacy" className="font-normal leading-snug">
-                      {UI.privacyAck[locale]}
-                    </Label>
+                  <div data-field="consent.privacy" className="flex flex-col gap-1">
+                    <div className="flex items-start gap-3">
+                      <Checkbox
+                        className={cn("shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]", hasIssue("consent.privacy") && "ring-2 ring-destructive/60")}
+                        id="tqf-privacy"
+                        aria-invalid={hasIssue("consent.privacy") || undefined}
+                        aria-describedby={hasIssue("consent.privacy") ? "tqf-privacy-error" : undefined}
+                        checked={privacyAccepted}
+                        onCheckedChange={(v) => {
+                          setPrivacyAccepted(v === true);
+                          if (v === true) setIssues((list) => list.filter((i) => i.name !== "consent.privacy"));
+                        }}
+                      />
+                      <Label htmlFor="tqf-privacy" className="font-normal leading-snug">
+                        {UI.privacyAck[locale]}
+                      </Label>
+                    </div>
+                    {hasIssue("consent.privacy") ? (
+                      <p id="tqf-privacy-error" className="pl-7 text-sm font-medium text-destructive">
+                        {FIELD_ERRORS.required[locale]}
+                      </p>
+                    ) : null}
                   </div>
                   {privacy}
                   <Turnstile siteKey={config.turnstileSiteKey} onToken={setTurnstileToken} />
@@ -521,11 +623,28 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                       </Label>
                     </div>
                   ) : null}
-                  <div className="flex items-start gap-3">
-                    <Checkbox className="shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]" id="tqf-certify" checked={certified} onCheckedChange={(v) => setCertified(v === true)} />
-                    <Label htmlFor="tqf-certify" className="font-normal leading-snug">
-                      {UI.certify[locale]}
-                    </Label>
+                  <div data-field="consent.certify" className="flex flex-col gap-1">
+                    <div className="flex items-start gap-3">
+                      <Checkbox
+                        className={cn("shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]", hasIssue("consent.certify") && "ring-2 ring-destructive/60")}
+                        id="tqf-certify"
+                        aria-invalid={hasIssue("consent.certify") || undefined}
+                        aria-describedby={hasIssue("consent.certify") ? "tqf-certify-error" : undefined}
+                        checked={certified}
+                        onCheckedChange={(v) => {
+                          setCertified(v === true);
+                          if (v === true) setIssues((list) => list.filter((i) => i.name !== "consent.certify"));
+                        }}
+                      />
+                      <Label htmlFor="tqf-certify" className="font-normal leading-snug">
+                        {UI.certify[locale]}
+                      </Label>
+                    </div>
+                    {hasIssue("consent.certify") ? (
+                      <p id="tqf-certify-error" className="pl-7 text-sm font-medium text-destructive">
+                        {FIELD_ERRORS.required[locale]}
+                      </p>
+                    ) : null}
                   </div>
                   {privacy}
                 </div>
@@ -634,7 +753,7 @@ function ReviewSummary({ answers, locale, onEdit }: { answers: Answers; locale: 
             const value = displayValue(block, answers[block.id], locale, answers);
             if (value) rows.push({ label: L(block.label), value: value.length > 160 ? `${value.slice(0, 157)}…` : value });
           }
-          if (block.kind === "group") {
+          if (block.kind === "group" && !block.hidden) {
             const list = rowsOf(answers, block.id);
             if (list.length) {
               const titles = list.map((row, i) => {

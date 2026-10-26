@@ -167,12 +167,16 @@ export function middleware(request: NextRequest) {
   if (hostname === "tax.ark-fid.ch" || (!isProd && hostname === "tax.localhost")) {
     const taxRedirect = (target: string, status: 307 | 308) => {
       const url = new URL(target, request.url);
-      url.search = request.nextUrl.search;
+      if (!target.includes("?")) url.search = request.nextUrl.search;
       if (isProd) url.protocol = "https";
       const response = NextResponse.redirect(url, status);
       response.headers.set("X-Robots-Tag", "noindex, nofollow");
       return response;
     };
+    // Site languages without a questionnaire (header switch): English form with a note, same host
+    // (the session cookie is host-only, so leaving tax.ark-fid.ch would lose the session).
+    const otherLocale = pathname.match(/^\/(es|pt)(\/questionnaire-fiscal)?\/?$/);
+    if (otherLocale) return taxRedirect(`/en/?lang=${otherLocale[1]}`, 307);
     const taxLocale = pathname.match(/^\/(fr|en|de)(\/questionnaire-fiscal)?\/?$/);
     if (taxLocale) {
       if (taxLocale[2] || !pathname.endsWith("/")) return taxRedirect(`/${taxLocale[1]}/`, 308);

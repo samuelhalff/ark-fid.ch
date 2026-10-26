@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { FIELD_ERRORS } from "@/src/lib/tax-questionnaire/ui";
-import { validateStep, type FieldError } from "@/src/lib/tax-questionnaire/logic";
+import { getField, getGroup, label as interpolate, validateStep, type FieldError } from "@/src/lib/tax-questionnaire/logic";
 import type { Answers, QfLocale, Row, StepDef } from "@/src/lib/tax-questionnaire/types";
 
 /**
@@ -56,4 +56,51 @@ export function stepSchema(step: StepDef, locale: QfLocale) {
       }
     }
   });
+}
+
+export interface Issue {
+  /** react-hook-form name, "consent.<x>" or "doc:<key>": also the [data-field] of the control. */
+  name: string;
+  label: string;
+}
+
+type ErrorNode = { message?: string; root?: { message?: string } } & Record<string, unknown>;
+
+/** Flattens react-hook-form errors into a list of fields (schema order is kept by the caller's step). */
+export function collectIssues(errors: Record<string, unknown>, locale: QfLocale, answers: Answers): Issue[] {
+  const L = (text: Parameters<typeof interpolate>[0]) => interpolate(text, locale, answers);
+  const out: Issue[] = [];
+  for (const [name, node] of Object.entries(errors || {})) {
+    if (!node || typeof node !== "object") continue;
+    const id = toId(name);
+    const field = getField(id);
+    if (field) {
+      out.push({ name, label: L(field.label) });
+      continue;
+    }
+    const group = getGroup(id);
+    if (!group) continue;
+    const n = node as ErrorNode;
+    if (n.message || n.root?.message) out.push({ name, label: L(group.label) });
+    if (Array.isArray(node)) {
+      node.forEach((rowErrors, index) => {
+        if (!rowErrors || typeof rowErrors !== "object") return;
+        for (const fieldId of Object.keys(rowErrors as Record<string, unknown>)) {
+          const f = group.fields.find((x) => x.id === fieldId);
+          if (f) out.push({ name: `${name}.${index}.${fieldId}`, label: `${L(f.label)} (${L(group.itemLabel)} ${index + 1})` });
+        }
+      });
+    }
+  }
+  return out;
+}
+
+/** Scrolls to a control (by its [data-field]) and focuses its first focusable element. */
+export function focusField(name: string | undefined) {
+  if (!name || typeof document === "undefined") return;
+  const container = document.querySelector<HTMLElement>(`[data-field="${CSS.escape(name)}"]`);
+  if (!container) return;
+  container.scrollIntoView({ behavior: "smooth", block: "center" });
+  const target = container.querySelector<HTMLElement>("input:not([type=hidden]), textarea, button, [role=combobox], [role=radio], [role=checkbox], [tabindex]");
+  (target || container).focus({ preventScroll: true });
 }

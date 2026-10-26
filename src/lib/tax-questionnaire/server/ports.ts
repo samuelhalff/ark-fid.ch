@@ -69,6 +69,8 @@ export interface ReturnRecord {
   staffStatus?: string;
   extendedTo?: string;
   pbmInvolved?: boolean;
+  /** Staff-owned: "Exclure de la campagne" (no notice, invitation or reminder for this client). */
+  excludedFromCampaign?: boolean;
   /** Item id in the tracker (opaque). */
   trackerId?: string;
 }

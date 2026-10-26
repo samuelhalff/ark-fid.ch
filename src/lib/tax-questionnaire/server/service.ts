@@ -11,11 +11,12 @@ import { attentionPoints } from "../attention";
 import { DOC_CATEGORIES, docRuleById, selectedYears, taxYearOf } from "../documents";
 import { ALLOWED_TYPES, checkUpload, codeFromFileName, extensionOf, safeName, sniffMismatch, uploadFileName, UPLOAD_LIMITS } from "../files";
 import { checklistFor, pruneHidden, sanitizeAnswers, validateAll } from "../logic";
+import { unchangeableGroups } from "../renewal";
 import { has, isCouple, sourceTaxed, sourceTaxedResident, STEPS } from "../schema";
 import { QF_LOCALES, type Answers, type DocStatus, type QfLocale } from "../types";
 import { PRIVACY_VERSION, UI } from "../ui";
 import { emailHash, INVITATION_LINK_TTL_MS, issueLink, RESUME_LINK_TTL_MS } from "./access";
-import { clientMail, internalMail } from "./email";
+import { clientMail, internalMail, isInternalCase } from "./email";
 import { buildWorkbook, excelFileName, regimeSummary, type DocResult, type SubmissionRecord } from "./excel";
 import { linkMail, regularisationClientMail, staffAlert } from "./mails";
 import { buildPdf, pdfFileName } from "./pdf";
@@ -81,6 +82,8 @@ const caseCache = new Map<string, { info: CaseInfo; at: number }>();
 const forget = (caseId: string) => caseCache.delete(caseId);
 
 export async function getCase(caseId: string): Promise<CaseInfo> {
+  // Rows without a case (staff inventory) never resolve to a case.
+  if (!caseId) throw new ServiceError("session_expired", 401);
   const cached = caseCache.get(caseId);
   if (cached && Date.now() - cached.at < 60_000) return cached.info;
   const records = (await sharePointPorts().tracker.findByCase(caseId)).filter((r) => r.state !== "declined").sort((x, y) => y.taxYear - x.taxYear);
@@ -211,9 +214,27 @@ async function ensureYears(storage: TaxStorage, info: CaseInfo, answers: Answers
   return getCase(info.caseId);
 }
 
+/**
+ * Answers owned by the server (set when Ark prepares or renews a case): the browser's version is
+ * ignored, the stored one is kept. The free-text pre-fill marker of the AI reading (not a year)
+ * may still be set by the client while none is stored.
+ */
+const SERVER_OWNED = ["start.arkPrefilled", "start.arkDocs"];
+export function keepServerOwned(answers: Answers, stored: Answers | undefined): Answers {
+  const out = { ...answers };
+  for (const key of SERVER_OWNED) {
+    if (stored && stored[key] !== undefined) out[key] = stored[key];
+    else delete out[key];
+  }
+  const storedMarker = str(stored?.["base.prefilledFrom"]);
+  if (storedMarker) out["base.prefilledFrom"] = storedMarker;
+  else if (/^\d{4}$/.test(str(out["base.prefilledFrom"]))) delete out["base.prefilledFrom"];
+  return out;
+}
+
 export async function saveDraft(storage: TaxStorage, info: CaseInfo, body: { answers: unknown; stepId: unknown; docStatus: unknown; locale: unknown; aiOptIn?: unknown; submitKey?: unknown }) {
   if (info.main.state === "submitted") throw new ServiceError("already_submitted", 409);
-  const answers = sanitizeAnswers(body.answers);
+  const answers = keepServerOwned(sanitizeAnswers(body.answers), (await readDraft(storage, info))?.answers);
   // The identity stays the verified one.
   answers["start.email"] = info.email;
   const stepId = STEPS.some((s) => s.id === body.stepId) ? String(body.stepId) : "start";
@@ -390,7 +411,7 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
   const submitKey = typeof input.submitKey === "string" && /^[a-z0-9]{8,32}$/.test(input.submitKey) ? input.submitKey : null;
   if (!submitKey) throw new ServiceError("invalid_request");
 
-  const raw = sanitizeAnswers(input.answers);
+  const raw = keepServerOwned(sanitizeAnswers(input.answers), (await readDraft(storage, info))?.answers);
   raw["start.email"] = info.email;
   const answers = pruneHidden(raw);
   const errors = validateAll(answers, now);
@@ -404,6 +425,10 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
     throw new ServiceError("invalid_answers", 422, { steps: [...steps] });
   }
   info = await ensureYears(storage, info, answers);
+
+  // Prepared by Ark: the staff notes join the preparer's attention points (Excel, PDF, staff mail).
+  const arkNotes = await storage.readFile(info.main.driveId, info.main.folderId, ARK_NOTES_FILE).catch(() => null);
+  if (arkNotes) answers["_arkNotes"] = new TextDecoder().decode(arkNotes).split("\n").map((l) => l.replace(/^-\s*/, "").trim()).filter(Boolean).slice(0, 60);
 
   const checklist = checklistFor(answers);
   const statusInput = cleanDocStatus(input.docStatus);
@@ -424,6 +449,11 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
     return { item, status, files };
   });
   const extras = accepted.filter((f) => !used.has(f.id));
+  // Every document needs a file or a status ("later" / "not applicable"); a file set aside for
+  // checking counts as given (the client did send one).
+  const flaggedCodes = new Set(flagged.map((f) => codeFromFileName(f.file.name)).filter(Boolean));
+  const unresolved = docs.filter((d) => d.status === "missing" && !flaggedCodes.has(d.item.code));
+  if (unresolved.length) throw new ServiceError("documents_incomplete", 422, { keys: unresolved.map((d) => d.item.key) });
 
   const key = clientKey(info.email, str(answers["start.lastName"]), str(answers["start.firstName"]));
   const record: SubmissionRecord = {
@@ -600,6 +630,7 @@ export async function notifyAdditions(storage: TaxStorage, info: CaseInfo) {
       ...files.slice(-30).map((f) => f.name),
     ],
     info.main.folderUrl,
+    isInternalCase({ email: info.email, name: info.name, folderName: decodeURIComponent(info.main.folderUrl.split("/").pop() || "") }),
   );
   await storage.sendMail(mail);
   await event(storage, info, "additions_notified", { files: files.length });
@@ -658,7 +689,7 @@ export async function invitePartner(storage: TaxStorage, info: CaseInfo, partner
 
 /** Events of last year that do not repeat: they are not carried into the new year's pre-fill. */
 const ONE_OFF_ITEMS = new Set(["civilChange", "capital", "severance", "inheritance", "lottery", "regularisation", "unusual"]);
-const ONE_OFF_PREFIXES = ["review.", "regularisation.", "start.avis", "regime.arrival", "regime.departure", "regime.exitFiled", "regime.keepsInSwitzerland", "regime.cantonMove", "regime.fromCanton", "family.change", "base."];
+const ONE_OFF_PREFIXES = ["review.", "regularisation.", "start.avis", "start.previous", "start.yearsChanged", "regime.arrival", "regime.departure", "regime.exitFiled", "regime.keepsInSwitzerland", "regime.cantonMove", "regime.fromCanton", "family.change", "base."];
 
 /** Last year's submitted answers, prepared as this year's pre-fill (the client confirms everything). */
 export async function previousAnswers(storage: TaxStorage, record: ReturnRecord, taxYear: number): Promise<Answers | null> {
@@ -668,6 +699,7 @@ export async function previousAnswers(storage: TaxStorage, record: ReturnRecord,
   try {
     const parsed = JSON.parse(new TextDecoder().decode(await storage.readHead(record.driveId, latest.id, Math.max(latest.size, 1)))) as { answers?: unknown };
     const answers = sanitizeAnswers(parsed.answers);
+    const taxNumber = answers["base.taxNumber"];
     for (const key of Object.keys(answers)) if (ONE_OFF_PREFIXES.some((p) => key.startsWith(p))) delete answers[key];
     answers["router.items"] = (Array.isArray(answers["router.items"]) ? (answers["router.items"] as string[]) : []).filter((v) => !ONE_OFF_ITEMS.has(v));
     for (const row of Array.isArray(answers["property.items"]) ? (answers["property.items"] as Record<string, unknown>[]) : []) {
@@ -678,7 +710,12 @@ export async function previousAnswers(storage: TaxStorage, record: ReturnRecord,
       delete row.notaryFiled;
     }
     answers["start.years"] = [String(taxYear)];
+    answers["start.status"] = "arkClient";
+    if (taxNumber !== undefined) answers["base.taxNumber"] = taxNumber;
     answers["base.prefilledFrom"] = String(record.taxYear);
+    // Every area with concrete items from last year starts as "unchanged": the client unticks
+    // only what changed (its screen then opens, pre-filled). The documents are still requested.
+    answers["router.unchanged"] = unchangeableGroups(answers);
     return answers;
   } catch {
     return null;
@@ -686,7 +723,10 @@ export async function previousAnswers(storage: TaxStorage, record: ReturnRecord,
 }
 
 /** Campaign: creates the new year's case (state "invited"), pre-filled from last year when possible. */
-export async function createInvitedReturn(input: { clientKey: string; email: string; name: string; language: string; taxYear: number; prefillFrom?: ReturnRecord }): Promise<ReturnRecord> {
+/** Staff notes of a case prepared by Ark (root of the case folder, never listed to the client). */
+export const ARK_NOTES_FILE = "Points d'attention (Ark).txt";
+
+export async function createInvitedReturn(input: { clientKey: string; email: string; name: string; language: string; taxYear: number; prefillFrom?: ReturnRecord; prefillAnswers?: Record<string, unknown>; notes?: string[] }): Promise<ReturnRecord> {
   const { getStorage } = await import("./storage");
   const storage = getStorage();
   // CRM convention "NOM COMPOSÉ Prénom": the leading upper-case words form the last name.
@@ -694,16 +734,22 @@ export async function createInvitedReturn(input: { clientKey: string; email: str
   let split = words.findIndex((w) => w !== w.toUpperCase());
   if (split <= 0) split = 1;
   const identity = { email: input.email, lastName: words.slice(0, split).join(" ") || input.name, firstName: words.slice(split).join(" ") };
-  const prefill = input.prefillFrom ? await previousAnswers(storage, input.prefillFrom, input.taxYear) : null;
+  const prefill = input.prefillAnswers
+    ? { ...sanitizeAnswers(input.prefillAnswers), "start.years": [String(input.taxYear)] }
+    : input.prefillFrom
+      ? await previousAnswers(storage, input.prefillFrom, input.taxYear)
+      : null;
   const info = await createCase(storage, {
     identity,
     locale: asLocale(input.language),
     answers: prefill || { "start.years": [String(input.taxYear)] },
     householdId: input.prefillFrom?.householdId,
-    source: "campaign",
+    source: input.prefillAnswers ? "ark" : "campaign",
     stepId: "start",
     clientKey: input.clientKey,
   });
+  const notes = (input.notes || []).map((n) => n.trim()).filter(Boolean).slice(0, 60);
+  if (notes.length) await storage.putFile(info.main.driveId, info.main.folderId, ARK_NOTES_FILE, new TextEncoder().encode(notes.map((n) => `- ${n}`).join("\n") + "\n"), "text/plain");
   // invitedAt is written by the campaign only once the invitation e-mail has gone out.
   const invited = { ...info.main, state: "invited" as const, remindersSent: 0 };
   invited.trackerId = await sharePointPorts().tracker.upsert(invited);

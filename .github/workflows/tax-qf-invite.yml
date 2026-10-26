@@ -1,0 +1,69 @@
+name: Tax questionnaire manual invitation
+
+# One invitation to the tax questionnaire (staff), through the same path as the February campaign
+# (scripts/tax-qf-invite.mjs → POST /api/tax-questionnaire/cron, task "invite").
+on:
+  workflow_dispatch:
+    inputs:
+      client:
+        description: "Client key (column ClientKey of « Suivi questionnaires »); empty with a pre-fill ref"
+        required: false
+        type: string
+      year:
+        description: "Tax year"
+        required: true
+        type: string
+      email:
+        description: "Address to invite (empty: the client's address on record)"
+        required: false
+        type: string
+      prefillRef:
+        description: "Case prepared by Ark: ref of _system/staff-prefill/<ref>.json"
+        required: false
+        type: string
+      noEmail:
+        description: "No e-mail to the client (link written to _system/staff-prefill/<ref>.result.json)"
+        required: false
+        default: false
+        type: boolean
+      dryRun:
+        description: "Dry run (check only, send nothing)"
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tax-qf-cron
+  cancel-in-progress: false
+
+jobs:
+  invite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Send the invitation
+        env:
+          TAX_QF_CRON_URL: ${{ secrets.TAX_QF_CRON_URL }}
+          TAX_QF_CRON_SECRET: ${{ secrets.TAX_QF_CRON_SECRET }}
+          CLIENT: ${{ inputs.client }}
+          YEAR: ${{ inputs.year }}
+          EMAIL: ${{ inputs.email }}
+          DRY_RUN: ${{ inputs.dryRun }}
+          PREFILL_REF: ${{ inputs.prefillRef }}
+          NO_EMAIL: ${{ inputs.noEmail }}
+        run: |
+          set -euo pipefail
+          extra=()
+          if [ -n "$CLIENT" ]; then extra+=(--client "$CLIENT"); fi
+          if [ -n "$PREFILL_REF" ]; then extra+=(--prefill-ref "$PREFILL_REF"); fi
+          if [ "$NO_EMAIL" = "true" ]; then extra+=(--no-email); fi
+          if [ -n "$EMAIL" ]; then extra+=(--email "$EMAIL"); fi
+          if [ "$DRY_RUN" = "true" ]; then extra+=(--dry-run); fi
+          node scripts/tax-qf-invite.mjs --year "$YEAR" "${extra[@]}"

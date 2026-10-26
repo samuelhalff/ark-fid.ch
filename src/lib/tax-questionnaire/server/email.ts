@@ -19,6 +19,22 @@ export const mailConfig = () => ({
   replyTo: env("TAX_QF_MAIL_REPLY_TO") || CONTACT.email,
 });
 
+/**
+ * Internal test or demo case (owner rule): submitter on an Ark or PBM address, or a client / case
+ * name starting with TEST or DÉMO/DEMO. Those notify the main recipient only, never the cc list.
+ */
+export function isInternalCase(input: { email?: string; name?: string; folderName?: string }): boolean {
+  if (/@(ark-fid\.ch|pbm\.law)$/i.test((input.email || "").trim())) return true;
+  const fold = (s?: string) => (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toUpperCase();
+  return [input.name, input.folderName].some((v) => /^(TEST|DEMO)\b/.test(fold(v)));
+}
+
+/** Staff recipients for a case: everyone for a real client, the main recipient only for tests. */
+export function staffRecipients(internal: boolean): { to: string[]; cc: string[] } {
+  const cfg = mailConfig();
+  return { to: cfg.to, cc: internal ? [] : cfg.cc };
+}
+
 export const escapeHtml = (value: string) =>
   value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
 
@@ -68,10 +84,11 @@ export function internalMail(record: SubmissionRecord, excelName: string, excel:
         : ""
     }<p>Le détail complet (réponses, liste des fichiers par document) est dans le fichier Excel joint${excel ? "" : " (non joint : trop volumineux, voir le dossier)"}.</p>`,
   );
+  const recipients = staffRecipients(isInternalCase({ email: str(a["start.email"]), name, folderName: record.folderName }));
   return {
     from: cfg.from,
-    to: cfg.to,
-    cc: cfg.cc,
+    to: recipients.to,
+    cc: recipients.cc,
     replyTo: str(a["start.email"]) || undefined,
     subject: `Questionnaire fiscal ${year} – ${name} (${str(a["start.canton"])}) – ${record.sid}`,
     html,

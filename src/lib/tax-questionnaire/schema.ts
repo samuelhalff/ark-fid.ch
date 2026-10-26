@@ -64,6 +64,8 @@ export const previouslyTaxed = is("start.status", "filedBefore", "arkClient");
 export const lastReturnUploaded = yes("base.lastReturnUploaded");
 /** Answers pre-filled from last year's questionnaire (renewal) or from the AI reading of the last return. */
 export const prefilled = (a: Answers) => !!str(a["base.prefilledFrom"]);
+/** Renewal from last year's questionnaire (annual campaign): the year it was carried over from. */
+export const renewalYear = (a: Answers) => (/^\d{4}$/.test(str(a["base.prefilledFrom"])) ? str(a["base.prefilledFrom"]) : "");
 /**
  * "Unchanged since last year" is offered only next to concrete items known from last year
  * (prefill), never as a blind switch. An unchanged area keeps its pre-filled rows (so the same
@@ -176,7 +178,20 @@ const start: StepDef = {
         { value: "ABROAD", label: t("Pas domicilié(e) en Suisse au 31.12", "Not resident in Switzerland at 31.12", "Am 31.12. kein Wohnsitz in der Schweiz") },
       ],
     }),
-    f("start.commune", "text", t("Commune", "Municipality", "Gemeinde"), { required: true, width: "half", showIf: (a) => !!a["start.canton"] && a["start.canton"] !== "ABROAD" }),
+    f("start.commune", "commune", t("Commune", "Municipality", "Gemeinde"), { required: true, width: "half", cantonField: "start.canton", showIf: (a) => !!a["start.canton"] && a["start.canton"] !== "ABROAD" }),
+    f("start.communeBfs", "text", t("N° OFS de la commune", "Municipality BFS number", "BFS-Gemeindenummer"), { hidden: true, maxLength: 6, showIf: (a) => !!a["start.canton"] && a["start.canton"] !== "ABROAD" }),
+    // Case prepared by Ark from the client's own information (staff invitation with a pre-fill):
+    // ids of the pre-filled questions (shown "pre-filled by Ark — to check") and extra documents.
+    f("start.arkPrefilled", "textarea", t("Réponses pré-remplies par Ark", "Answers pre-filled by Ark", "Von Ark vorausgefüllte Antworten"), { hidden: true, maxLength: 4000 }),
+    group({
+      id: "start.arkDocs",
+      label: t("Documents demandés par Ark", "Documents requested by Ark", "Von Ark angeforderte Dokumente"),
+      itemLabel: t("Document", "Document", "Dokument"),
+      titleField: "label",
+      hidden: true,
+      maxRows: 40,
+      fields: [f("label", "text", t("Document", "Document", "Dokument"), { maxLength: 200 })],
+    }),
     heading("start.contactHeading", t("Vos coordonnées", "Your contact details", "Ihre Kontaktdaten")),
     f("start.firstName", "text", t("Prénom", "First name", "Vorname"), { required: true, width: "half", maxLength: 100 }),
     f("start.lastName", "text", t("Nom", "Last name", "Name"), { required: true, width: "half", maxLength: 100 }),
@@ -340,6 +355,8 @@ const baseDocs: StepDef = {
   ),
   sheet: "Documents de base",
   special: "baseDocs",
+  // Renewal: the screen is skipped by the app (Ark has last year's file) but stays "visible" so
+  // its hidden fields (pre-fill marker, taxpayer number) are kept.
   showIf: (a) => previouslyTaxed(a) || arrived(a) || !!a["regime.permit"],
   blocks: [
     f("base.lastReturnUploaded", "yesno", t("Dernière déclaration déposée", "Last return uploaded", "Letzte Steuererklärung hochgeladen"), { hidden: true }),
@@ -808,7 +825,8 @@ function propertyFields(): FieldDef[] {
     // Location and type
     f("where", "select", t("Situation", "Location", "Lage"), { required: true, width: "half", options: opts(["CH", "En Suisse", "In Switzerland", "In der Schweiz"], ["abroad", "À l'étranger", "Abroad", "Im Ausland"]) }),
     h("canton", "select", t("Canton", "Canton", "Kanton"), inCH, { options: CANTONS, required: true }),
-    h("commune", "text", t("Commune", "Municipality", "Gemeinde"), inCH, { required: true }),
+    h("commune", "commune", t("Commune", "Municipality", "Gemeinde"), inCH, { required: true, cantonField: "canton" }),
+    h("communeBfs", "text", t("N° OFS de la commune", "Municipality BFS number", "BFS-Gemeindenummer"), inCH, { hidden: true, maxLength: 6 }),
     h("country", "text", t("Pays", "Country", "Land"), abroad, { required: true }),
     h("city", "text", t("Ville", "Town", "Ort"), abroad, { required: true }),
     h("address", "text", t("Adresse", "Address", "Adresse"), always),

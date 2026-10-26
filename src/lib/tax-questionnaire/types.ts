@@ -38,7 +38,8 @@ export type FieldType =
   | "radio"
   | "checkboxes"
   | "taxyears" // checkboxes of tax years (latest selected = main year)
-  | "boolean"; // single checkbox: "yes" or absent
+  | "boolean" // single checkbox: "yes" or absent
+  | "commune"; // Swiss commune (official BFS list) or free text; BFS number in the "<id>Bfs" sibling
 
 export interface Option {
   value: string;
@@ -67,6 +68,8 @@ export interface FieldDef {
   width?: "full" | "half";
   /** Set by the app, not shown as a question (e.g. "last return uploaded"). */
   hidden?: boolean;
+  /** commune fields: id of the canton field that filters the list (top-level id, or row field id). */
+  cantonField?: string;
 }
 
 export interface GroupDef {
@@ -83,6 +86,8 @@ export interface GroupDef {
   /** At least this many rows when the group is visible (0 by default). */
   minRows?: number;
   showIf?: Predicate;
+  /** Set by Ark (prepared case), not shown as a question. */
+  hidden?: boolean;
 }
 
 export interface NoteDef {

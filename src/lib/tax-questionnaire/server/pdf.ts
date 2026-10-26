@@ -226,17 +226,17 @@ export async function buildPdf(record: SubmissionRecord): Promise<Uint8Array> {
     if (step.id === "start" || step.id === "router" || step.special === "documents") continue;
     const blocks = step.blocks.filter((b) => isBlockVisible(b, a));
     const hasContent = blocks.some(
-      (b) => (b.kind === "field" && !b.hidden && displayValue(b, a[b.id], "fr", a)) || (b.kind === "group" && rowsOf(a, b.id).length > 0),
+      (b) => (b.kind === "field" && !b.hidden && displayValue(b, a[b.id], "fr", a)) || (b.kind === "group" && !b.hidden && rowsOf(a, b.id).length > 0),
     );
     if (!hasContent) continue;
     w.heading(L(step.title));
     for (const block of blocks) {
       if (block.kind === "heading") w.subheading(L(block.label));
       else if (block.kind === "field" && !block.hidden) w.kv(L(block.label), displayValue(block, a[block.id], "fr", a));
-      else if (block.kind === "group") {
+      else if (block.kind === "group" && !block.hidden) {
         rowsOf(a, block.id).forEach((row, index) => {
           w.subheading(`${L(block.itemLabel)} ${index + 1}`);
-          for (const f of block.fields) {
+          for (const f of block.fields.filter((x) => !x.hidden)) {
             if (!isRowFieldVisible(f, a, row)) continue;
             w.kv(L(f.label), displayValue(f, row[f.id], "fr", a), 10);
           }

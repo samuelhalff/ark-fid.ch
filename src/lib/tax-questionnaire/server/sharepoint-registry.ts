@@ -174,11 +174,24 @@ class SiteList {
   /** Adds the columns missing from an existing list (idempotent; column types are never changed). */
   private async migrate() {
     const graph = getGraph();
-    const data = await graph.json(`/sites/${this.site()}/lists/${this.id}/columns?$select=id,name,text`);
-    const current = new Set(((data.value as Json[]) || []).map((c) => str(c.name)));
+    const data = await graph.json(`/sites/${this.site()}/lists/${this.id}/columns?$select=id,name,text,choice`);
+    const existing = new Map(((data.value as Json[]) || []).map((c) => [str(c.name), c]));
     for (const column of this.columns) {
-      if (!current.has(str(column.name))) {
+      const found = existing.get(str(column.name));
+      if (!found) {
         await graph.json(`/sites/${this.site()}/lists/${this.id}/columns`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(column) });
+        continue;
+      }
+      // Choice columns: new choices are appended (existing ones and the type are never changed).
+      const wanted = ((column.choice as Json | undefined)?.choices as string[] | undefined) || [];
+      const have = (((found.choice as Json | undefined)?.choices as string[] | undefined) || []).map(String);
+      const missing = wanted.filter((c) => !have.includes(c));
+      if (found.choice && missing.length) {
+        await graph.json(`/sites/${this.site()}/lists/${this.id}/columns/${str(found.id)}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ choice: { ...(found.choice as Json), choices: [...have, ...missing] } }),
+        });
       }
     }
   }
@@ -249,6 +262,10 @@ const TRACKER_COLUMNS: Column[] = [
   { name: "DelaiObtenu", displayName: "Délai obtenu jusqu'au", dateTime: { format: "dateOnly" } },
   bool("PBM", "PBM impliqué"),
   text("DocumentsADemander", "Documents à demander (staff)", { text: { allowMultipleLines: true } }),
+  text("Responsable", "Responsable (staff)"),
+  bool("ExclureCampagne", "Exclure de la campagne"),
+  text("NoteStaff", "Note (staff)", { text: { allowMultipleLines: true } }),
+  text("PrefillTax", "Préremplissage .tax disponible"),
 ];
 
 const STATE_TO_FR: Record<ReturnRecord["state"], string> = { draft: "Brouillon", submitted: "Envoyé", invited: "Invité", declined: "Abandonné" };
@@ -325,6 +342,7 @@ function trackerRecord(id: string, f: Json): ReturnRecord {
     staffStatus: str(f.Status) || undefined,
     extendedTo: isoDate(f.DelaiObtenu),
     pbmInvolved: f.PBM === true,
+    excludedFromCampaign: f.ExclureCampagne === true,
   };
 }
 

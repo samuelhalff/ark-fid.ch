@@ -36,6 +36,9 @@ export function attentionPoints(a: Answers): AttentionPoint[] {
   const out: AttentionPoint[] = [];
   const add = (id: string, level: AttentionPoint["level"], text: string) => out.push({ id, level, text });
 
+  // Prepared by Ark: the staff notes (server-side file, never sent to the browser) come first.
+  for (const note of Array.isArray(a["_arkNotes"]) ? (a["_arkNotes"] as unknown[]) : []) if (typeof note === "string" && note.trim()) add("ark-note", "high", `Ark : ${note.trim()}`);
+  if (str(a["start.arkPrefilled"])) add("ark-prefilled", "normal", "Questionnaire pré-rempli par Ark : vérifier que le client a bien confirmé ou corrigé les valeurs pré-remplies.");
   const older = selectedYears(a).slice(1);
   if (older.length) add("arrears", "high", `Années en retard à traiter : ${older.join(", ")} (vérifier les sommations / taxations d'office éventuelles).`);
   if (has("regularisation")(a)) {

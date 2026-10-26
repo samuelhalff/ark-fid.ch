@@ -13,6 +13,9 @@ const { memoryPorts, setPortsForTests, matchCrm } = await import("./server/share
 const service = await import("./server/service.ts");
 const access = await import("./server/access.ts");
 const { docCode } = await import("./documents.ts");
+const { checklistFor } = await import("./logic.ts");
+/** Every checklist item answered "later" (the server requires a file or a status per document). */
+const allLater = (a: Record<string, unknown>) => Object.fromEntries(checklistFor(a).map((i) => [i.key, "later"]));
 
 const YEAR = String(new Date().getFullYear() - 1);
 const storage = getStorage() as InstanceType<typeof MockStorage>;
@@ -106,7 +109,9 @@ test("full case: create, upload, submit (Excel, PDF, JSON, consent), CRM prospec
 test("internal mail failure keeps the submission retryable", async () => {
   const info = await service.createCase(storage, { identity: { email: "retry@example.com", firstName: "Re", lastName: "Try" }, locale: "en", answers: answers("retry@example.com", { "start.firstName": "Re", "start.lastName": "Try" }) });
   storage.failMail = true;
-  const input = { locale: "en", answers: answers("retry@example.com", { "start.firstName": "Re", "start.lastName": "Try" }), docStatus: {}, privacyAccepted: true, certified: true, submitKey: "retrykey01" };
+  const retryAnswers = answers("retry@example.com", { "start.firstName": "Re", "start.lastName": "Try" });
+  await assert.rejects(async () => service.finalizeSubmission(storage, await service.getCase(info.caseId), { locale: "en", answers: retryAnswers, docStatus: {}, privacyAccepted: true, certified: true, submitKey: "retrykey00" }), /documents_incomplete/);
+  const input = { locale: "en", answers: retryAnswers, docStatus: allLater(retryAnswers), privacyAccepted: true, certified: true, submitKey: "retrykey01" };
   await assert.rejects(async () => service.finalizeSubmission(storage, await service.getCase(info.caseId), input), /notify_failed/);
   storage.failMail = false;
   await service.finalizeSubmission(storage, await service.getCase(info.caseId), input);
@@ -118,7 +123,7 @@ test("regularisation route: minimal client e-mail, alert prefix for staff", asyn
   const extra = { "router.items": ["regularisation"], "regularisation.authorityContact": "no", "regularisation.priorDisclosure": "no", "start.firstName": "Reg", "start.lastName": "Ul" };
   const info = await service.createCase(storage, { identity: { email: "reg@example.com", firstName: "Reg", lastName: "Ul" }, locale: "fr", answers: answers("reg@example.com", extra) });
   storage.sent.length = 0;
-  await service.finalizeSubmission(storage, await service.getCase(info.caseId), { locale: "fr", answers: answers("reg@example.com", extra), docStatus: {}, privacyAccepted: true, certified: true, submitKey: "regkey0001" });
+  await service.finalizeSubmission(storage, await service.getCase(info.caseId), { locale: "fr", answers: answers("reg@example.com", extra), docStatus: allLater(answers("reg@example.com", extra)), privacyAccepted: true, certified: true, submitKey: "regkey0001" });
   const client = storage.sent.find((m) => m.to.includes("reg@example.com"))!;
   assert.ok(!/document|régularis/i.test(client.html.replace(/<[^>]+>/g, "")) || /reçu votre demande/.test(client.html));
   assert.ok(storage.sent.some((m) => m.subject.startsWith("[Régularisation]")));

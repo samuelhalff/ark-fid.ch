@@ -223,13 +223,13 @@ export async function buildWorkbook(record: SubmissionRecord): Promise<Uint8Arra
         }
         continue;
       }
-      if (block.kind !== "group") continue;
+      if (block.kind !== "group" || block.hidden) continue;
       const list = rowsOf(a, block.id);
       if (list.length === 0) continue;
       wrote = true;
       ws.addRow([]);
       ws.addRow([L(block.label)]).font = { bold: true };
-      const columns = block.fields.filter((f) => list.some((row) => isRowFieldVisible(f, a, row) && row[f.id] !== undefined));
+      const columns = block.fields.filter((f) => !f.hidden && list.some((row) => isRowFieldVisible(f, a, row) && row[f.id] !== undefined));
       if (columns.length > 8) {
         // Wide cards (real estate): one label/value block per row, easier to read than 40 columns.
         list.forEach((row, index) => {

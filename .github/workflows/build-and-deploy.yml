@@ -212,8 +212,11 @@ jobs:
           WORK=$(mktemp -d)
           trap 'rm -rf "$WORK"' EXIT
 
-          python3 - "$WORK/env_values" <<'PY'
+          python3 - "$WORK/env_values" "$WORK/env_remove" <<'PY'
           import os, sys
+          # Optional overrides owned by CI: when the secret is deleted, the line is removed from
+          # the server file too (otherwise a stale value, e.g. TAX_QF_MAIL_CC=none, would stay).
+          removable = ["TAX_QF_MAIL_TO", "TAX_QF_MAIL_CC"]
           keys = [
             "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
             "TURNSTILE_SECRET_KEY",
@@ -263,9 +266,11 @@ jobs:
               lines.append(f"{key}={value}")
           with open(sys.argv[1], "w", encoding="utf-8") as fh:
             fh.write("".join(line + "\n" for line in lines))
+          with open(sys.argv[2], "w", encoding="utf-8") as fh:
+            fh.write("".join(key + "\n" for key in removable if not os.environ.get(key, "")))
           PY
 
-          if [ ! -s "$WORK/env_values" ]; then
+          if [ ! -s "$WORK/env_values" ] && [ ! -s "$WORK/env_remove" ]; then
             echo "[deploy] No env values to sync."
             exit 0
           fi
@@ -304,9 +309,9 @@ jobs:
             exit 1
           fi
 
-          python3 - "$WORK/env_remote" "$WORK/env_values" "$WORK/env_merged" <<'PY'
+          python3 - "$WORK/env_remote" "$WORK/env_values" "$WORK/env_merged" "$WORK/env_remove" <<'PY'
           import sys
-          remote_path, values_path, merged_path = sys.argv[1:4]
+          remote_path, values_path, merged_path, remove_path = sys.argv[1:5]
           def load(path):
             with open(path, encoding="utf-8", errors="surrogateescape", newline="") as fh:
               lines = fh.read().split("\n")
@@ -327,7 +332,13 @@ jobs:
               for i in hits:
                 lines[i] = entry
               changed.append(key)
-          if changed or added:
+          removed = []
+          for key in load(remove_path):
+            key = key.strip()
+            if key and any(line.startswith(key + "=") for line in lines):
+              lines = [line for line in lines if not line.startswith(key + "=")]
+              removed.append(key)
+          if changed or added or removed:
             with open(merged_path, "w", encoding="utf-8", errors="surrogateescape", newline="") as fh:
               fh.write("".join(line + "\n" for line in lines))
           # Key names only, never values.
@@ -336,6 +347,8 @@ jobs:
             print("[deploy] changed keys: " + " ".join(changed))
           if added:
             print("[deploy] added keys: " + " ".join(added))
+          if removed:
+            print("[deploy] removed keys (secret deleted): " + " ".join(removed))
           PY
 
           if [ ! -f "$WORK/env_merged" ]; then

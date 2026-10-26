@@ -62,6 +62,7 @@ Le formulaire, l'Excel, le PDF et la campagne ne passent que par les interfaces 
   - l'Excel et le PDF sont joints, avec le lien du dossier et les points d'attention ;
   - l'objet est préfixé `[TOU 31.03]`, `[URGENT]` (impôt à la source jusqu'au 31 mars) ou `[Régularisation]` selon le cas.
 - **Client** : contient les documents reçus et attendus (libellés seulement, jamais les noms de fichiers) et le contact. Sur la route de régularisation, il dit seulement « demande reçue ».
+- **Cas de test ou de démonstration** : si l'adresse du client est en @ark-fid.ch ou @pbm.law, ou si le nom du client ou du dossier commence par TEST ou DÉMO/DEMO, les e-mails internes (envoi, documents complémentaires, relances groupées) partent au seul destinataire principal, sans copie (`isInternalCase` dans `server/email.ts`).
 - Si l'e-mail interne échoue, l'envoi reste enregistré et peut être relancé : la même version est réutilisée et rien n'est dupliqué.
 - L'Excel liste chaque fichier par document. Il se suffit donc à lui-même pour les destinataires hors du tenant.
 
@@ -73,7 +74,7 @@ Le formulaire, l'Excel, le PDF et la campagne ne passent que par les interfaces 
 | `MSGRAPH_TENANT_ID` / `MSGRAPH_CLIENT_ID` / `MSGRAPH_CLIENT_SECRET` | application Graph existante (crm-dev). Une application dédiée peut la remplacer via `TAX_QF_GRAPH_*`. |
 | `TAX_QF_SP_DRIVE_ID`, `TAX_QF_SP_SITE_ID`, `TAX_QF_SP_ROOT_FOLDER` | valeurs par défaut : le site « Questionnaires fiscaux », la bibliothèque Documents et le dossier `Questionnaires`. |
 | `TAX_QF_CRM_SITE_ID`, `TAX_QF_CRM_LIST_ID` | valeurs par défaut : liste CRM « Clients ». |
-| `TAX_QF_MAIL_SENDER`, `TAX_QF_MAIL_TO`, `TAX_QF_MAIL_CC` | valeurs par défaut : info@, Samuel, Sébastien + Lassana. `none` donne une liste vide. |
+| `TAX_QF_MAIL_SENDER`, `TAX_QF_MAIL_TO`, `TAX_QF_MAIL_CC` | valeurs par défaut : info@, Samuel, Sébastien + Lassana. `none` donne une liste vide. Supprimer le secret GitHub retire aussi la ligne du `.env` du serveur au déploiement suivant. |
 | `TAX_QF_PUBLIC_ORIGIN` | origine des liens envoyés par e-mail. |
 | `TAX_QF_ALLOWED_ORIGINS` | origines supplémentaires (préproduction). |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | déjà utilisées par le site. |
@@ -184,6 +185,22 @@ curl -sS -X POST http://localhost:3000/api/tax-questionnaire/cron \
   -H "Content-Type: application/json" -H "x-tax-qf-cron: $TAX_QF_CRON_SECRET" \
   -d '{"task":"campaign","dryRun":true,"idempotencyKey":"test-dry-1"}'
 ```
+
+### Renouvellement (client existant)
+
+L'invitation de février reprend le dernier questionnaire envoyé (`previousAnswers`) : l'écran de départ est prérempli (le client confirme ses coordonnées et l'année), chaque rubrique avec des éléments connus (enfants, employeurs, banques, bien et prêteur…) est cochée « Inchangé depuis {année} » sur l'écran de tri et son écran de détail est sauté, sauf si une donnée reprise est incomplète. Le client décoche seulement ce qui a changé. La liste de documents est celle de la nouvelle année (certificats de salaire par employeur, relevés par banque, etc.). L'écran « documents de base » n'est pas montré (Ark a le dossier de l'an dernier).
+
+### Invitation manuelle (staff)
+
+GitHub → Actions → « Tax questionnaire manual invitation » (ou `scripts/tax-qf-invite.mjs` avec `TAX_QF_CRON_SECRET`) : même chemin que la campagne (dossier de l'année prérempli, lien, e-mail).
+
+- `client` : la clé client (colonne « Clé client » du suivi) ; `email` : l'adresse à inviter si elle diffère.
+- **Cas préparé par Ark** : déposer `_system/staff-prefill/<ref>.json` dans la bibliothèque des questionnaires (`{ identity: { email, firstName, lastName }, language, answers, notes }`) puis lancer avec `prefillRef=<ref>`. Les réponses sont marquées « pré-rempli par Ark — à vérifier » (`start.arkPrefilled`), les documents supplémentaires vont dans `start.arkDocs` ; les notes restent côté serveur (« Points d'attention (Ark).txt » dans le dossier) et rejoignent les points d'attention à l'envoi. Ces valeurs ne peuvent pas être modifiées par le navigateur.
+- `noEmail` : aucun e-mail au client ; le lien est écrit dans `_system/staff-prefill/<ref>.result.json` (jamais dans les journaux) pour être transmis par le staff. À l'ouverture, le code part toujours à l'adresse du client.
+
+### Colonnes du staff dans « Suivi questionnaires »
+
+Statut (dont « À valider »), délai obtenu, PBM impliqué, documents à demander, responsable, note, préremplissage .tax disponible, et « Exclure de la campagne » (aucun avis, invitation ni rappel pour ce client).
 
 ## Assistance IA (désactivée par défaut)
 

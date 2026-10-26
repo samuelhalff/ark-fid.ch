@@ -15,6 +15,7 @@ import { ALLOWED_TYPES, UPLOAD_LIMITS } from "@/src/lib/tax-questionnaire/files"
 import { requestTemplate, whereToFind } from "@/src/lib/tax-questionnaire/hints";
 import { SERVER_ERRORS, UI, UI2 } from "@/src/lib/tax-questionnaire/ui";
 import type { DocItem, QfLocale } from "@/src/lib/tax-questionnaire/types";
+import { cn } from "@/src/lib/utils";
 import { ApiError, api, uploadFile, type CaseFile, type UploadHandle } from "./api";
 
 const ACCEPT: Record<string, string[]> = Object.fromEntries(
@@ -49,9 +50,11 @@ export interface DocChecklistProps {
   showExtra?: boolean;
   /** "x of y handled" bar (not on the status page). */
   showProgress?: boolean;
+  /** Keys of items still without a file or a status after "Continue" (shown in error). */
+  missing?: Set<string>;
 }
 
-export function DocChecklist({ items, files, docStatus, onStatus, locale, clientName, canRemove, onChanged, onBusy, showExtra = true, showProgress = true }: DocChecklistProps) {
+export function DocChecklist({ items, files, docStatus, onStatus, locale, clientName, canRemove, onChanged, onBusy, showExtra = true, showProgress = true, missing }: DocChecklistProps) {
   const [active, setActive] = useState<Record<string, Active[]>>({});
   const busy = Object.values(active).some((list) => list.some((a) => !a.error && a.progress < 1));
   useEffect(() => onBusy?.(busy), [busy, onBusy]);
@@ -127,6 +130,7 @@ export function DocChecklist({ items, files, docStatus, onStatus, locale, client
               onRemove={canRemove ? remove : undefined}
               locale={locale}
               clientName={clientName}
+              missing={!!missing?.has(item.key) && filesFor(item).length === 0 && !docStatus[item.key]}
             />
           ))}
         </section>
@@ -154,7 +158,9 @@ function DocCard({
   onRemove,
   locale,
   clientName,
+  missing,
 }: {
+  missing?: boolean;
   item: DocItem;
   files: CaseFile[];
   active: Active[];
@@ -169,7 +175,7 @@ function DocCard({
   const template = requestTemplate(item, locale, clientName);
   const received = files.length > 0;
   return (
-    <Card className="gap-3 py-4">
+    <Card data-field={`doc:${item.key}`} className={cn("gap-3 py-4", missing && "ring-2 ring-destructive/60")}>
       <CardHeader className="flex flex-row items-start justify-between gap-3 px-4">
         <CardTitle className="text-base font-medium leading-snug">{item.label[locale]}</CardTitle>
         {received ? (
@@ -188,6 +194,11 @@ function DocCard({
         <FileList files={files} onRemove={onRemove} locale={locale} />
         <ActiveList list={active} locale={locale} />
         <UploadZone locale={locale} onFiles={onFiles} compact={received} />
+        {missing ? (
+          <p className="text-sm font-medium text-destructive" role="alert">
+            {UI.docsMissingStatus[locale]}
+          </p>
+        ) : null}
         <div className="flex flex-wrap items-center justify-between gap-2">
           {!received && onStatus ? (
             <ToggleGroup type="single" variant="outline" size="sm" value={status || ""} onValueChange={(v) => onStatus(item.key, v === "later" || v === "na" ? v : null)}>

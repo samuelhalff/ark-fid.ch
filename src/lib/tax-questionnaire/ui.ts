@@ -172,6 +172,7 @@ export const SERVER_ERRORS: Record<string, L> = {
   file_size: t("Fichier trop volumineux (50 Mo max.).", "File too large (max. 50 MB).", "Datei zu gross (max. 50 MB)."),
   file_empty: t("Le fichier est vide.", "The file is empty.", "Die Datei ist leer."),
   too_many_files: t("Nombre ou volume maximal de fichiers atteint.", "Maximum number or size of files reached.", "Maximale Anzahl oder Grösse der Dateien erreicht."),
+  documents_incomplete: t("Pour chaque document, déposez le fichier ou indiquez « plus tard » ou « ne me concerne pas ».", "For each document, upload the file or choose “later” or “not applicable”.", "Laden Sie für jedes Dokument die Datei hoch oder wählen Sie „später“ oder „betrifft mich nicht“."),
   invalid_answers: t("Certaines réponses sont incomplètes. Vérifiez les étapes signalées.", "Some answers are incomplete. Check the flagged steps.", "Einige Antworten sind unvollständig. Prüfen Sie die markierten Schritte."),
   notify_failed: t(
     "Vos réponses et documents sont enregistrés, mais la confirmation n'a pas pu partir. Réessayez dans un instant ou appelez-nous.",

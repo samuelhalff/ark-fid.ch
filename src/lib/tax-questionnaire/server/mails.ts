@@ -1,7 +1,7 @@
 /** Short transactional e-mails (codes, links, staff alerts). Plain, no figures, no answers. */
 import type { QfLocale } from "../types";
 import { CONTACT } from "../ui";
-import { escapeHtml, mailConfig } from "./email";
+import { escapeHtml, mailConfig, staffRecipients } from "./email";
 import type { MailMessage } from "./storage";
 
 const wrap = (body: string) =>
@@ -67,12 +67,13 @@ export function regularisationClientMail(locale: QfLocale, to: string): MailMess
 }
 
 /** Immediate staff alert (regularisation request, source-taxed submission near 31 March…). */
-export function staffAlert(subject: string, lines: string[], folderUrl: string): MailMessage {
+export function staffAlert(subject: string, lines: string[], folderUrl: string, internal = false): MailMessage {
   const cfg = mailConfig();
+  const recipients = staffRecipients(internal);
   return {
     from: cfg.from,
-    to: cfg.to,
-    cc: cfg.cc,
+    to: recipients.to,
+    cc: recipients.cc,
     subject,
     html: wrap(`${lines.map((l) => `<p>${escapeHtml(l)}</p>`).join("")}${folderUrl.startsWith("https://") ? `<p><a href="${escapeHtml(folderUrl)}">Dossier SharePoint</a></p>` : ""}`),
   };
