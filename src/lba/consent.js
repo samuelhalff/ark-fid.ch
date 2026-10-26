@@ -13,10 +13,15 @@
   ch.region=['CH'];gtag('consent','default',ch);
   gtag('consent','default',granted);
   gtag('set','ads_data_redaction',true);
-  // A saved choice (same key and values as the main site banner) overrides the regional default.
-  var c=null;
-  try{c=localStorage.getItem(KEY)}catch(e){}
-  if(!c){try{var m=document.cookie.match(/(?:^|; )cookieConsent=([^;]*)/);if(m)c=m[1]}catch(e){}}
+  // A saved choice overrides the regional default. Same rule as the main site (pickStoredConsent):
+  // the cookie shared by all ark-fid.ch hosts (ark_consent) wins, then this host's cookie; the
+  // localStorage mirror only counts where cookies cannot be stored.
+  function ok(v){return v==='accepted'||v==='minimal'||v==='declined'}
+  var c=null,k=null,l=null,ce=true;
+  try{var n=document.cookie.match(/(?:^|; )ark_consent=([^;]*)/);if(n)k=n[1];var m=document.cookie.match(/(?:^|; )cookieConsent=([^;]*)/);if(m)c=m[1]}catch(e){}
+  try{l=localStorage.getItem(KEY)}catch(e){}
+  try{ce=navigator.cookieEnabled!==false}catch(e){}
+  if(ok(k))c=k;else if(!ok(c))c=(!ce&&ok(l))?l:null;
   if(c==='accepted')gtag('consent','update',granted);
   else if(c==='minimal'||c==='declined')gtag('consent','update',denied);
   gtag('js',new Date());

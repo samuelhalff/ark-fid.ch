@@ -93,10 +93,21 @@
   var KEY='cookieConsent';
   var cookies=document.querySelector('.cookies');
   var notice=document.querySelector('.disclaimer-notice');
+  // Même règle que ark-fid.ch : le cookie partagé .ark-fid.ch (ark_consent) d'abord, puis le cookie
+  // de ce domaine ; le localStorage seulement si les cookies sont bloqués.
+  function ok(v){return v==='accepted'||v==='minimal'||v==='declined'}
+  function sharedCookie(value){
+    var h=location.hostname,d=(h==='ark-fid.ch'||/\.ark-fid\.ch$/.test(h))?'; Domain=.ark-fid.ch':'';
+    return 'ark_consent='+value+'; Path=/; Max-Age=31536000; SameSite=Lax'+d+(location.protocol==='https:'?'; Secure':'');
+  }
   function stored(){
-    var c=null;try{c=localStorage.getItem(KEY)}catch(e){}
-    if(!c){try{var m=document.cookie.match(/(?:^|; )cookieConsent=([^;]*)/);if(m)c=m[1]}catch(e){}}
-    return c==='accepted'||c==='minimal'||c==='declined'?c:null;
+    var c=null,k=null,l=null,ce=true;
+    try{var n=document.cookie.match(/(?:^|; )ark_consent=([^;]*)/);if(n)k=n[1];var m=document.cookie.match(/(?:^|; )cookieConsent=([^;]*)/);if(m)c=m[1]}catch(e){}
+    try{l=localStorage.getItem(KEY)}catch(e){}
+    try{ce=navigator.cookieEnabled!==false}catch(e){}
+    if(ok(k))return k;
+    if(ok(c)){try{document.cookie=sharedCookie(c)}catch(e){}return c}
+    return !ce&&ok(l)?l:null;
   }
   function showNotice(){
     if(!notice)return;
@@ -108,6 +119,7 @@
     try{if(typeof window.gtag==='function')window.gtag('consent','update',{ad_storage:v,analytics_storage:v,ad_user_data:v,ad_personalization:v})}catch(e){}
   }
   function choose(value){
+    try{document.cookie=sharedCookie(value)}catch(e){}
     try{document.cookie=KEY+'='+value+'; Path=/; Max-Age=31536000; SameSite=Lax'}catch(e){}
     try{localStorage.setItem(KEY,value)}catch(e){}
     update(value);
