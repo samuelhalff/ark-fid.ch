@@ -109,6 +109,8 @@ export interface Draft {
   docStatus: Record<string, "later" | "na">;
   locale: QfLocale;
   aiOptIn?: boolean;
+  /** Key of the pending submission attempt (survives a reload: a retry reuses the same version). */
+  submitKey?: string;
 }
 
 export function cleanDocStatus(raw: unknown): Record<string, "later" | "na"> {
@@ -209,14 +211,15 @@ async function ensureYears(storage: TaxStorage, info: CaseInfo, answers: Answers
   return getCase(info.caseId);
 }
 
-export async function saveDraft(storage: TaxStorage, info: CaseInfo, body: { answers: unknown; stepId: unknown; docStatus: unknown; locale: unknown; aiOptIn?: unknown }) {
+export async function saveDraft(storage: TaxStorage, info: CaseInfo, body: { answers: unknown; stepId: unknown; docStatus: unknown; locale: unknown; aiOptIn?: unknown; submitKey?: unknown }) {
   if (info.main.state === "submitted") throw new ServiceError("already_submitted", 409);
   const answers = sanitizeAnswers(body.answers);
   // The identity stays the verified one.
   answers["start.email"] = info.email;
   const stepId = STEPS.some((s) => s.id === body.stepId) ? String(body.stepId) : "start";
   const updated = await ensureYears(storage, info, answers);
-  const draft: Draft = { version: 1, savedAt: new Date().toISOString(), stepId, answers, docStatus: cleanDocStatus(body.docStatus), locale: asLocale(body.locale), aiOptIn: body.aiOptIn === true };
+  const submitKey = typeof body.submitKey === "string" && /^[a-z0-9]{8,32}$/.test(body.submitKey) ? body.submitKey : undefined;
+  const draft: Draft = { version: 1, savedAt: new Date().toISOString(), stepId, answers, docStatus: cleanDocStatus(body.docStatus), locale: asLocale(body.locale), aiOptIn: body.aiOptIn === true, submitKey };
   await writeDraft(storage, updated, draft);
   return { savedAt: draft.savedAt };
 }
@@ -328,6 +331,7 @@ export async function listUploads(storage: TaxStorage, info: CaseInfo) {
 export async function removeUpload(storage: TaxStorage, info: CaseInfo, itemId: string) {
   // Files that were part of a submission stay immutable, also after "correct my answers".
   if (info.records.some((r) => r.state === "submitted" || r.submittedAt)) throw new ServiceError("already_submitted", 409);
+  // (The UI hides the remove button as soon as a submission exists.)
   const file = (await allClientFiles(storage, info)).find((f) => f.id === itemId);
   if (!file) throw new ServiceError("not_found", 404);
   const record = info.records.find((r) => r.taxYear === file.year) || info.main;
@@ -437,7 +441,8 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
   };
 
   // Immutable version folder per submission attempt: a retry with the same key reuses it.
-  const versionName = `Envoi ${versionStamp(now).slice(0, 10)} ${submitKey}`;
+  const keyDate = /^(\d{4})(\d{2})(\d{2})/.exec(submitKey);
+  const versionName = `Envoi ${keyDate ? `${keyDate[1]}-${keyDate[2]}-${keyDate[3]}` : versionStamp(now).slice(0, 10)} ${submitKey}`;
   const versionFolder = await storage.ensureSubfolder(info.main.driveId, info.main.folderId, versionName);
   const stateRaw = await storage.readFile(info.main.driveId, versionFolder, "etat.json");
   const sent: { internal?: boolean; client?: boolean } = stateRaw ? JSON.parse(new TextDecoder().decode(stateRaw)) : {};
@@ -480,11 +485,13 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
   };
   const jsonItem = await put("questionnaire.json", new TextEncoder().encode(JSON.stringify(questionnaire, null, 2)), "application/json");
   // Arrears years: each year folder gets its own copy of the submitted version.
+  const yearCopies = new Map<number, { excel: string; pdf: string; json: string }>();
   for (const rec of info.records.filter((r) => r.folderId !== info.main.folderId)) {
     const copy = await storage.ensureSubfolder(rec.driveId, rec.folderId, versionName);
-    await storage.putFile(rec.driveId, copy, excelName, excel, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-    await storage.putFile(rec.driveId, copy, pdfName, pdf, "application/pdf");
-    await storage.putFile(rec.driveId, copy, "questionnaire.json", new TextEncoder().encode(JSON.stringify(questionnaire, null, 2)), "application/json");
+    const x = await storage.putFile(rec.driveId, copy, excelName, excel, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    const pd = await storage.putFile(rec.driveId, copy, pdfName, pdf, "application/pdf");
+    const js = await storage.putFile(rec.driveId, copy, "questionnaire.json", new TextEncoder().encode(JSON.stringify(questionnaire, null, 2)), "application/json");
+    yearCopies.set(rec.taxYear, { excel: x.webUrl, pdf: pd.webUrl, json: js.webUrl });
     await storage.putFile(rec.driveId, copy, "consent.json", new TextEncoder().encode(JSON.stringify(consent, null, 2)), "application/json");
   }
 
@@ -533,7 +540,9 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
   }
 
   const received = docs.filter((d) => d.status === "uploaded").length;
-  for (const rec of info.records) {
+  // The main year is marked submitted last, so a partial failure leaves the case retryable.
+  const ordered = [...info.records.filter((r) => r.folderId !== info.main.folderId), info.main];
+  for (const rec of ordered) {
     try {
       await sharePointPorts().tracker.upsert({
         ...rec,
@@ -547,9 +556,9 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
         submittedAt: now.toISOString(),
         docsReceived: rec.taxYear === info.main.taxYear ? received : rec.docsReceived,
         docsExpected: rec.taxYear === info.main.taxYear ? docs.length : rec.docsExpected,
-        excelUrl: excelItem.webUrl,
-        pdfUrl: pdfItem.webUrl,
-        jsonUrl: jsonItem.webUrl,
+        excelUrl: yearCopies.get(rec.taxYear)?.excel || excelItem.webUrl,
+        pdfUrl: yearCopies.get(rec.taxYear)?.pdf || pdfItem.webUrl,
+        jsonUrl: yearCopies.get(rec.taxYear)?.json || jsonItem.webUrl,
         crmId: crm?.id || rec.crmId,
         crmUrl: crm?.url || rec.crmUrl,
         crmMatch,
@@ -678,8 +687,11 @@ export async function previousAnswers(storage: TaxStorage, record: ReturnRecord,
 export async function createInvitedReturn(input: { clientKey: string; email: string; name: string; language: string; taxYear: number; prefillFrom?: ReturnRecord }): Promise<ReturnRecord> {
   const { getStorage } = await import("./storage");
   const storage = getStorage();
-  const [lastName, ...rest] = input.name.trim().split(/\s+/);
-  const identity = { email: input.email, lastName: lastName || input.name, firstName: rest.join(" ") };
+  // CRM convention "NOM COMPOSÉ Prénom": the leading upper-case words form the last name.
+  const words = input.name.trim().split(/\s+/);
+  let split = words.findIndex((w) => w !== w.toUpperCase());
+  if (split <= 0) split = 1;
+  const identity = { email: input.email, lastName: words.slice(0, split).join(" ") || input.name, firstName: words.slice(split).join(" ") };
   const prefill = input.prefillFrom ? await previousAnswers(storage, input.prefillFrom, input.taxYear) : null;
   const info = await createCase(storage, {
     identity,

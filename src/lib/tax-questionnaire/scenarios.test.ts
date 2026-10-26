@@ -87,7 +87,10 @@ test("3. permit B taxed at source, salary over CHF 120'000, arrived in March", (
   assert.deepEqual(r.errors, {});
   for (const id of ["permit", "arrival", "salary", "source-tax"]) assert.ok(r.docs.includes(id), id);
   assert.ok(r.attention.includes("tou") && r.attention.includes("arrival"));
-  assert.ok(deadlinesFor(r.clean).some((d) => d.id === "tou" && d.date === `31.03.${Number(YEAR) + 1}`));
+  // Salary ≥ CHF 120'000: TOU d'office, no request deadline; below it the 31 March request deadline applies.
+  assert.ok(!deadlinesFor(r.clean).some((d) => d.id === "tou"));
+  const below = pruneHidden(sanitizeAnswers({ ...r.clean, "regime.over120k": "no", "regime.sourceRequest": "tou" }));
+  assert.ok(deadlinesFor(below).some((d) => d.id === "tou" && d.date === `31.03.${Number(YEAR) + 1}`));
 });
 
 test("4. French cross-border worker (quasi-resident facts only)", () => {

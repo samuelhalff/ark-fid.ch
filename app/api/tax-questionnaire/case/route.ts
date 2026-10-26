@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     if (!info || !session) return json({ error: "session_expired" }, 401);
     switch (action) {
       case "save":
-        return json(await saveDraft(storage, info, { answers: body.answers, stepId: body.stepId, docStatus: body.docStatus, locale: body.locale, aiOptIn: body.aiOptIn }));
+        return json(await saveDraft(storage, info, { answers: body.answers, stepId: body.stepId, docStatus: body.docStatus, locale: body.locale, aiOptIn: body.aiOptIn, submitKey: body.submitKey }));
       case "delete":
         await deleteDraft(storage, info);
         return json({ ok: true });

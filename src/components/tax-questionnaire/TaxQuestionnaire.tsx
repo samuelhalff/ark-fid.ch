@@ -114,6 +114,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
       form.reset(toForm({ ...defaultAnswers(), ...(data.draft.answers as Answers) }));
       setDocStatus(data.draft.docStatus || {});
       setAiOptIn(data.draft.aiOptIn === true);
+      if (data.draft.submitKey) submitKey.current = data.draft.submitKey;
       if (data.draft.stepId && data.draft.stepId !== "start") setStepId(data.draft.stepId);
     }
     setPhase(data.state === "submitted" ? "status" : "form");
@@ -172,7 +173,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
         savePending.current = false;
         setSave({ state: "saving" });
         try {
-          const res = await api.caseAction<{ savedAt: string }>("save", { answers: fromForm(form.getValues()), stepId: stepRef.current?.id, docStatus, locale, aiOptIn });
+          const res = await api.caseAction<{ savedAt: string }>("save", { answers: fromForm(form.getValues()), stepId: stepRef.current?.id, docStatus, locale, aiOptIn, submitKey: submitKey.current });
           setSave({ state: "saved", at: res.savedAt });
         } catch (error) {
           setSave({ state: "failed" });
@@ -467,14 +468,14 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
               {special === "documents" ? (
                 <>
                   <p className="text-sm text-muted-foreground">{UI.docsIntro[locale]}</p>
-                  <DocChecklist items={items} files={files} docStatus={docStatus} onStatus={(key, status) => setDocStatus((prev) => { const nextStatus = { ...prev }; if (status) nextStatus[key] = status; else delete nextStatus[key]; return nextStatus; })} locale={locale} clientName={`${String(answers["start.firstName"] || "")} ${String(answers["start.lastName"] || "")}`.trim()} canRemove onChanged={refreshFiles} onBusy={setUploading} />
+                  <DocChecklist items={items} files={files} docStatus={docStatus} onStatus={(key, status) => setDocStatus((prev) => { const nextStatus = { ...prev }; if (status) nextStatus[key] = status; else delete nextStatus[key]; return nextStatus; })} locale={locale} clientName={`${String(answers["start.firstName"] || "")} ${String(answers["start.lastName"] || "")}`.trim()} canRemove={!caseData?.submittedAt} onChanged={refreshFiles} onBusy={setUploading} />
                 </>
               ) : special === "review" ? (
                 <ReviewSummary answers={pruned} locale={locale} onEdit={goTo} />
               ) : null}
               {special !== "documents" ? <StepView step={step} locale={locale} answers={answers} knownItems={knownItems(answers)} aiSuggestions={aiSuggestions} /> : null}
               {special === "baseDocs" && caseData ? (
-                <DocChecklist items={items} files={files} docStatus={docStatus} onStatus={(key, status) => setDocStatus((prev) => { const nextStatus = { ...prev }; if (status) nextStatus[key] = status; else delete nextStatus[key]; return nextStatus; })} locale={locale} clientName={`${String(answers["start.firstName"] || "")} ${String(answers["start.lastName"] || "")}`.trim()} canRemove onChanged={refreshFiles} onBusy={setUploading} showExtra={false} />
+                <DocChecklist items={items} files={files} docStatus={docStatus} onStatus={(key, status) => setDocStatus((prev) => { const nextStatus = { ...prev }; if (status) nextStatus[key] = status; else delete nextStatus[key]; return nextStatus; })} locale={locale} clientName={`${String(answers["start.firstName"] || "")} ${String(answers["start.lastName"] || "")}`.trim()} canRemove={!caseData?.submittedAt} onChanged={refreshFiles} onBusy={setUploading} showExtra={false} />
               ) : null}
               {config.aiEnabled && (special === "baseDocs" || step.id === "router") && !routerItems(answers).includes("regularisation") ? (
                 <div className="flex items-start gap-3 rounded-md bg-surface-warm p-3 dark:bg-card">
@@ -851,8 +852,21 @@ function applyExtraction(current: Answers, p: Prefill): Answers {
 }
 
 function AiExtract({ locale, fileId, beforeCall, onPrefill }: { locale: QfLocale; fileId?: string; beforeCall: () => Promise<void>; onPrefill: (p: Prefill) => void }) {
-  const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [state, setState] = useState<"idle" | "loading" | "preview" | "done" | "error">("idle");
+  const [preview, setPreview] = useState<Prefill | null>(null);
   if (!fileId) return null;
+  const lines = preview
+    ? [
+        preview.taxNumber ? `N° : ${preview.taxNumber}` : "",
+        preview.commune ? `${preview.commune}${preview.canton ? ` (${preview.canton})` : ""}` : "",
+        ...preview.childrenFirstNames,
+        ...preview.employers,
+        ...preview.banks,
+        ...preview.insurers,
+        ...preview.lenders,
+        ...preview.properties.map((p) => `${p.place} (${p.country})`),
+      ].filter(Boolean)
+    : [];
   return (
     <div className="flex flex-col gap-2">
       <Button type="button" variant="outline" className="self-start" disabled={state === "loading"} onClick={async () => {
@@ -860,8 +874,8 @@ function AiExtract({ locale, fileId, beforeCall, onPrefill }: { locale: QfLocale
         try {
           await beforeCall();
           const res = await api.ai<{ prefill: Prefill }>("extract", { fileId });
-          onPrefill(res.prefill);
-          setState("done");
+          setPreview(res.prefill);
+          setState("preview");
         } catch {
           setState("error");
         }
@@ -869,7 +883,16 @@ function AiExtract({ locale, fileId, beforeCall, onPrefill }: { locale: QfLocale
         {state === "loading" ? <CircleNotch className="size-4 animate-spin" /> : <Sparkle className="size-4" />}
         {UI2.aiExtract[locale]}
       </Button>
-      {state === "done" ? <p className="text-sm text-muted-foreground">{UI2.aiExtracted[locale]}</p> : null}
+      {state === "preview" && preview ? (
+        <div className="flex flex-col gap-2 rounded-md bg-surface-warm p-3 text-sm dark:bg-card">
+          <p>{UI2.aiExtracted[locale]}</p>
+          <ul className="list-disc pl-5 text-muted-foreground">{lines.map((line, i) => <li key={i}>{line}</li>)}</ul>
+          <div className="flex gap-2">
+            <Button type="button" size="sm" onClick={() => { onPrefill(preview); setState("done"); }}>{UI.yes[locale]}</Button>
+            <Button type="button" size="sm" variant="ghost" onClick={() => { setPreview(null); setState("idle"); }}>{UI.no[locale]}</Button>
+          </div>
+        </div>
+      ) : null}
       {state === "error" ? <p className="text-sm text-destructive">{SERVER_ERRORS.generic[locale]}</p> : null}
     </div>
   );

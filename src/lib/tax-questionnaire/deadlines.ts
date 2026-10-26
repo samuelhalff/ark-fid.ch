@@ -6,7 +6,7 @@
  */
 import { taxYearOf } from "./documents";
 import { formatDate, parseDate } from "./format";
-import { has, left, livesAbroadAllYear, sourceTaxed } from "./schema";
+import { has, left, livesAbroadAllYear, sourceTaxed, sourceTaxedResident } from "./schema";
 import { t, type Answers, type L } from "./types";
 
 export interface CantonDeadline {
@@ -25,9 +25,9 @@ export const CANTON_DEADLINES: CantonDeadline[] = [
     canton: "GE",
     ordinary: "03-31",
     extension: t(
-      "Une prolongation (payante) peut être demandée en ligne jusqu'au 30 octobre ; le délai n'est prolongé qu'après confirmation de l'administration. Ensuite, demande motivée par courrier.",
-      "An extension (for a fee) can be requested online until 30 October; the deadline is only extended once the tax authority confirms. After that, a reasoned request by letter.",
-      "Eine (kostenpflichtige) Fristerstreckung kann bis 30. Oktober online beantragt werden; sie gilt erst nach Bestätigung der Steuerverwaltung. Danach begründetes Gesuch per Post.",
+      "Une prolongation (payante, selon la durée) peut être demandée en ligne du 1er janvier au 31 octobre ; elle ne vaut qu'une fois confirmée par l'administration. Du 1er novembre au 31 décembre, demande motivée par courrier.",
+      "An extension (fee depending on its length) can be requested online from 1 January to 31 October; it only applies once the tax authority confirms it. From 1 November to 31 December, a reasoned request by letter.",
+      "Eine Fristerstreckung (Gebühr je nach Dauer) kann vom 1. Januar bis 31. Oktober online beantragt werden; sie gilt erst nach Bestätigung der Steuerverwaltung. Vom 1. November bis 31. Dezember begründetes Gesuch per Post.",
     ),
     source: "https://www.ge.ch/lc/delai-decla",
     verifiedOn: VERIFIED_ON,
@@ -36,11 +36,11 @@ export const CANTON_DEADLINES: CantonDeadline[] = [
     canton: "VD",
     ordinary: "03-15",
     extension: t(
-      "Assujettissement illimité : tolérance jusqu'au 30 juin ; une demande gratuite déposée au plus tard le 30 juin peut être accordée jusqu'au 30 septembre. D'autres délais s'appliquent dans les autres cas.",
-      "Unlimited tax liability: tolerance until 30 June; a free request filed by 30 June may be granted until 30 September. Other deadlines apply in other cases.",
-      "Unbeschränkte Steuerpflicht: Toleranz bis 30. Juni; ein bis 30. Juni gestelltes kostenloses Gesuch kann bis 30. September bewilligt werden. In anderen Fällen gelten andere Fristen.",
+      "Assujettissement illimité : tolérance jusqu'au 30 juin ; une demande gratuite, déposée en ligne entre le 16 mai et le 30 juin, peut être accordée jusqu'au 30 septembre. Assujettissement limité : tolérance jusqu'au 30 novembre. Départ ou forfait : demande par courrier.",
+      "Unlimited tax liability: tolerance until 30 June; a free online request filed between 16 May and 30 June may be granted until 30 September. Limited liability: tolerance until 30 November. Departure or lump-sum: request by letter.",
+      "Unbeschränkte Steuerpflicht: Toleranz bis 30. Juni; ein kostenloses Online-Gesuch zwischen 16. Mai und 30. Juni kann bis 30. September bewilligt werden. Beschränkte Steuerpflicht: Toleranz bis 30. November. Wegzug oder Pauschalbesteuerung: Gesuch per Post.",
     ),
-    source: "https://www.vd.ch/prestation/demander-un-delai-pour-le-depot-de-la-declaration-dimpot-pour-les-individus-personnes-physiques-et-les-societes-morales",
+    source: "https://www.vd.ch/prestation/demander-un-delai-pour-le-depot-de-la-declaration-dimpot-pour-les-individus-personnes-physiques-et-les-societes-personnes-morales",
     verifiedOn: VERIFIED_ON,
   },
 ];
@@ -86,7 +86,9 @@ export function deadlinesFor(a: Answers, opts: { extendedTo?: string; now?: Date
   const canton = str(a["start.canton"]);
   const out: Deadline[] = [];
 
-  if (sourceTaxed(a)) {
+  // TOU d'office (resident, salary ≥ CHF 120'000): no request to file, so no 31 March request deadline.
+  const touOffice = sourceTaxedResident(a) && a["regime.over120k"] === "yes";
+  if (sourceTaxed(a) && !touOffice) {
     out.push({
       id: "tou",
       label: t(
@@ -97,7 +99,7 @@ export function deadlinesFor(a: Answers, opts: { extendedTo?: string; now?: Date
       date: `31.03.${year + 1}`,
       level: "high",
       note: left(a)
-        ? t("Non prolongeable. En cas de départ de Suisse, la demande doit être faite avant l'annonce du départ.", "Cannot be extended. When leaving Switzerland, the request must be made before deregistering.", "Nicht erstreckbar. Bei Wegzug muss der Antrag vor der Abmeldung gestellt werden.")
+        ? t("Non prolongeable. En cas de départ de Suisse, au plus tard au moment de l'annonce du départ.", "Cannot be extended. When leaving Switzerland, at the latest when you deregister.", "Nicht erstreckbar. Bei Wegzug spätestens mit der Abmeldung.")
         : t("Non prolongeable.", "Cannot be extended.", "Nicht erstreckbar."),
     });
   }
@@ -110,9 +112,9 @@ export function deadlinesFor(a: Answers, opts: { extendedTo?: string; now?: Date
       date,
       level: "high",
       note: t(
-        "30 jours dès le lendemain de la réception de l'avis ; reporté au jour ouvrable suivant si le dernier jour tombe un week-end ou un jour férié. Conservez l'enveloppe.",
-        "30 days from the day after you received the notice; moved to the next working day if the last day is a weekend or public holiday. Keep the envelope.",
-        "30 Tage ab dem Tag nach Erhalt der Verfügung; fällt der letzte Tag auf ein Wochenende oder einen Feiertag, auf den nächsten Werktag verschoben. Bewahren Sie den Umschlag auf.",
+        "30 jours dès le lendemain de la réception de l'avis ; reporté au lundi si le dernier jour tombe un samedi ou un dimanche (jours fériés : à vérifier). Conservez l'enveloppe.",
+        "30 days from the day after you received the notice; moved to Monday if the last day is a Saturday or Sunday (public holidays: to be checked). Keep the envelope.",
+        "30 Tage ab dem Tag nach Erhalt der Verfügung; fällt der letzte Tag auf einen Samstag oder Sonntag, auf den Montag verschoben (Feiertage: zu prüfen). Bewahren Sie den Umschlag auf.",
       ),
     });
   }
@@ -158,7 +160,9 @@ export function campaignStopDate(input: Answers | { canton: string; regime?: str
   const plain = typeof (input as { canton?: unknown }).canton === "string";
   const canton = plain ? (input as { canton: string }).canton : str((input as Answers)["start.canton"]);
   // Tracker regime text comes from regimeSummary() ("… impôt à la source …").
-  const source = plain ? /source/i.test((input as { regime?: string }).regime || "") : sourceTaxed(input as Answers);
+  const source = plain
+    ? /source/i.test((input as { regime?: string }).regime || "") && !/TOU obligatoire/i.test((input as { regime?: string }).regime || "")
+    : sourceTaxed(input as Answers) && !(sourceTaxedResident(input as Answers) && (input as Answers)["regime.over120k"] === "yes");
   // The TOU / rectification deadline is never extended by an ordinary filing extension.
   if (source) return new Date(Date.UTC(taxYear + 1, 2, 31));
   if (extended) return extended;

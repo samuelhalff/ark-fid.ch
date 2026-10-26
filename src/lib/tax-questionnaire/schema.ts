@@ -201,7 +201,7 @@ const start: StepDef = {
     f("start.avisReceived", "yesno", t("Avez-vous déjà reçu un avis de taxation pour {year} ?", "Have you already received a notice of assessment for {year}?", "Haben Sie für {year} bereits eine Veranlagungsverfügung erhalten?"), {
       help: t("Par exemple une taxation d'office. Le délai pour la contester est court.", "For example an assessment made without a return. The deadline to contest it is short.", "Zum Beispiel eine Ermessensveranlagung. Die Frist für eine Einsprache ist kurz."),
     }),
-    f("start.avisDate", "date", t("Date de l'avis", "Date of the notice", "Datum der Verfügung"), { width: "half", required: true, showIf: yes("start.avisReceived") }),
+    f("start.avisDate", "date", t("Date à laquelle vous avez reçu l'avis (conservez l'enveloppe)", "Date you received the notice (keep the envelope)", "Datum des Erhalts der Verfügung (Umschlag aufbewahren)"), { width: "half", required: true, showIf: yes("start.avisReceived") }),
   ],
 };
 
@@ -214,9 +214,9 @@ const regime: StepDef = {
     f("regime.residence", "radio", t("Où habitiez-vous en {year} ?", "Where did you live in {year}?", "Wo wohnten Sie im Jahr {year}?"), {
       required: true,
       help: t(
-        "Si vous vivez en Suisse la semaine et ailleurs le week-end, choisissez « En Suisse toute l'année » et précisez-le dans les remarques.",
-        "If you live in Switzerland during the week and elsewhere at weekends, choose \"In Switzerland all year\" and say so in the remarks.",
-        "Wenn Sie unter der Woche in der Schweiz und am Wochenende anderswo leben, wählen Sie «Das ganze Jahr in der Schweiz» und vermerken Sie es in den Bemerkungen.",
+        "Si vous vivez en Suisse la semaine et ailleurs le week-end (par exemple famille à l'étranger), choisissez la réponse la plus proche et indiquez-le dans les remarques : nous déterminerons avec vous votre résidence fiscale.",
+        "If you live in Switzerland during the week and elsewhere at weekends (for example family abroad), choose the closest answer and say so in the remarks: we will determine your tax residence with you.",
+        "Wenn Sie unter der Woche in der Schweiz und am Wochenende anderswo leben (z. B. Familie im Ausland), wählen Sie die passendste Antwort und vermerken Sie es in den Bemerkungen: Wir klären Ihre steuerliche Ansässigkeit mit Ihnen.",
       ),
       options: opts(
         ["ch", "En Suisse toute l'année", "In Switzerland all year", "Das ganze Jahr in der Schweiz"],
@@ -281,7 +281,7 @@ const regime: StepDef = {
       showIf: sourceTaxed,
       options: [
         { value: "tariff", label: t("Faire vérifier le barème appliqué (rectification)", "Have the tariff applied checked (correction)", "Den angewandten Tarif prüfen lassen (Berichtigung)"), hint: t("Ne donne pas droit à des déductions supplémentaires.", "Does not give additional deductions.", "Ergibt keine zusätzlichen Abzüge.") },
-        { value: "tou", label: t("Déposer une déclaration complète (TOU)", "File a full return (TOU)", "Eine vollständige Steuererklärung einreichen (NOV)"), hint: t("Domicile en Suisse : choix définitif, valable aussi les années suivantes. Domicile à l'étranger : demande à renouveler chaque année.", "Resident in Switzerland: a final choice that also applies to later years. Resident abroad: the request must be renewed every year.", "Wohnsitz in der Schweiz: endgültig, gilt auch für die Folgejahre. Wohnsitz im Ausland: Antrag jedes Jahr neu stellen.") },
+        { value: "tou", label: t("Déposer une déclaration complète (TOU)", "File a full return (TOU)", "Eine vollständige Steuererklärung einreichen (NOV)"), hint: t("Domicile en Suisse : choix irrévocable, qui s'applique tant que vous restez imposé(e) à la source. Domicile à l'étranger : demande à renouveler chaque année.", "Resident in Switzerland: an irrevocable choice that applies as long as you remain taxed at source. Resident abroad: the request must be renewed every year.", "Wohnsitz in der Schweiz: unwiderruflich, gilt solange Sie quellenbesteuert sind. Wohnsitz im Ausland: Antrag jedes Jahr neu stellen.") },
         { value: "advise", label: t("Je ne sais pas, conseillez-moi", "I don't know, please advise", "Ich weiss es nicht, bitte beraten Sie mich") },
       ],
     }),
@@ -301,9 +301,9 @@ const regime: StepDef = {
     note(
       "regime.touDeadline",
       t(
-        "Pour une demande de taxation ordinaire ultérieure ou de rectification de l'imposition à la source, le délai est en principe le 31 mars de l'année suivante et ne se prolonge pas. En cas de départ de Suisse, la demande doit être faite avant l'annonce du départ. Si une de ces dates approche, appelez-nous.",
-        "For a request for subsequent ordinary assessment or rectification of the tax at source, the deadline is in principle 31 March of the following year and cannot be extended. When leaving Switzerland, the request must be made before deregistering. If one of these dates is near, call us.",
-        "Für einen Antrag auf nachträgliche ordentliche Veranlagung oder Berichtigung der Quellensteuer gilt grundsätzlich der 31. März des Folgejahres, ohne Erstreckung. Bei Wegzug muss der Antrag vor der Abmeldung gestellt werden. Rufen Sie uns an, wenn eine dieser Fristen naht.",
+        "Pour une demande de taxation ordinaire ultérieure ou de rectification de l'imposition à la source, le délai est en principe le 31 mars de l'année suivante et ne se prolonge pas. En cas de départ de Suisse, la demande doit être déposée au plus tard au moment de l'annonce de votre départ. Si une de ces dates approche, appelez-nous.",
+        "For a request for subsequent ordinary assessment or rectification of the tax at source, the deadline is in principle 31 March of the following year and cannot be extended. When leaving Switzerland, the request must be filed at the latest when you deregister. If one of these dates is near, call us.",
+        "Für einen Antrag auf nachträgliche ordentliche Veranlagung oder Berichtigung der Quellensteuer gilt grundsätzlich der 31. März des Folgejahres, ohne Erstreckung. Bei Wegzug muss der Antrag spätestens mit der Abmeldung gestellt werden. Rufen Sie uns an, wenn eine dieser Fristen naht.",
       ),
       { tone: "warning", showIf: sourceTaxed },
     ),
@@ -627,6 +627,7 @@ const work: StepDef = {
         f("institution", "text", t("Institution", "Institution", "Einrichtung"), { required: true, width: "half" }),
         f("reason", "select", t("Motif", "Reason", "Grund"), {
           width: "half",
+          showIf: rowIs("type", "lpp", "p3a"),
           options: opts(
             ["retirement", "Retraite", "Retirement", "Pensionierung"],
             ["home", "Logement (achat, amortissement)", "Home (purchase, repayment)", "Wohneigentum"],
@@ -797,7 +798,7 @@ const toOwnUse = rowHas("events", "toOwnUse");
  * the last notice, new construction / major works, or (uncertain, flagged) a change to own use.
  */
 export const needsGeValuation = (_a: Answers, row?: Row) =>
-  !!row && row.where === "CH" && row.canton === "GE" && ownUse(_a, row) && (row.inLastAvis === "no" || !previouslyTaxed(_a) || bought(_a, row) || works(_a, row) || toOwnUse(_a, row));
+  !!row && row.where === "CH" && row.canton === "GE" && ownUse(_a, row) && (row.inLastAvis === "no" || bought(_a, row) || works(_a, row) || toOwnUse(_a, row));
 const geBlock = (_a: Answers, row?: Row) => needsGeValuation(_a, row) && row?.geFill === "now";
 
 function propertyFields(): FieldDef[] {
@@ -831,7 +832,8 @@ function propertyFields(): FieldDef[] {
         ["co", "Copropriété avec d'autres personnes", "Co-ownership with others", "Miteigentum mit anderen"],
         ["company", "Par une société", "Through a company", "Über eine Gesellschaft"],
         ["bareOwner", "Nue-propriété (usufruit accordé à un tiers)", "Bare ownership (usufruct granted to someone)", "Blosses Eigentum (Nutzniessung an Dritte)"],
-        ["usufruct", "Usufruit ou droit d'habitation (le bien appartient à un tiers)", "Usufruct or right of residence (owned by someone else)", "Nutzniessung oder Wohnrecht (Eigentum Dritter)"],
+        ["usufruct", "Usufruit (le bien appartient à un tiers)", "Usufruct (owned by someone else)", "Nutzniessung (Eigentum Dritter)"],
+        ["habitation", "Droit d'habitation (le bien appartient à un tiers)", "Right of residence (owned by someone else)", "Wohnrecht (Eigentum Dritter)"],
       ),
     }),
     h("share", "percent", t("Votre part (%)", "Your share (%)", "Ihr Anteil (%)"), rowIs("ownership", "co")),
@@ -866,7 +868,7 @@ function propertyFields(): FieldDef[] {
     h("soldPrice", "money", t("Prix de vente (si pas encore d'acte)", "Sale price (if no deed yet)", "Verkaufspreis (falls noch kein Vertrag)"), sold),
     h("notaryFiled", "radio", t("Le notaire a-t-il déjà déposé la déclaration de gain immobilier ?", "Has the notary already filed the property gains return?", "Hat das Notariat die Grundstückgewinnsteuererklärung bereits eingereicht?"), both(inCH, sold), { options: YES_NO_UNKNOWN, width: "full" }),
     // Value
-    h("inLastAvis", "radio", t("Ce bien figure-t-il déjà sur votre dernier avis de taxation ?", "Is this property already on your last notice of assessment?", "Ist diese Liegenschaft bereits in Ihrer letzten Veranlagungsverfügung aufgeführt?"), (a, row) => inCH(a, row) && !bought(a, row) && previouslyTaxed(a), { options: YES_NO_UNKNOWN, width: "full" }),
+    h("inLastAvis", "radio", t("Une valeur fiscale a-t-elle déjà été fixée pour ce bien (avis de taxation ou d'estimation) ?", "Has a tax value already been set for this property (assessment or valuation notice)?", "Wurde für diese Liegenschaft bereits ein Steuerwert festgesetzt (Veranlagungs- oder Schätzungsverfügung)?"), (a, row) => inCH(a, row) && !bought(a, row), { options: YES_NO_UNKNOWN, width: "full" }),
     h("value", "money", t("Valeur estimée au 31.12", "Estimated value at 31.12", "Geschätzter Wert am 31.12."), abroad),
     h("valueCurrency", "select", t("Devise", "Currency", "Währung"), abroad, { options: CURRENCIES }),
     h("foreignAssessment", "yesno", t("Avez-vous un avis d'impôt étranger pour ce bien ?", "Do you have a foreign tax notice for this property?", "Haben Sie eine ausländische Steuerveranlagung für diese Liegenschaft?"), abroad),
@@ -928,7 +930,7 @@ function propertyFields(): FieldDef[] {
         options: opts(["good", "Satisfaisant", "Satisfactory", "Befriedigend"], ["renovation", "Grande rénovation nécessaire", "Needs major renovation", "Grosser Sanierungsbedarf"], ["poor", "Très mauvais", "Very poor", "Sehr schlecht"]),
       }),
       g("geArea", "integer", t("Surface habitable (m²)", "Living area (m²)", "Wohnfläche (m²)"), {
-        help: t("Incluez les combles habitables et mansardes là où la hauteur dépasse 1,5 m ; excluez galetas et combles non habitables, balcons, terrasses, caves, garages et locaux de service.", "Include habitable attic rooms where the height exceeds 1.5 m; exclude unusable lofts, balconies, terraces, cellars, garages and utility rooms.", "Bewohnbare Dachräume ab 1,5 m Höhe einrechnen; nicht bewohnbare Estriche, Balkone, Terrassen, Keller, Garagen und Nebenräume ausschliessen."),
+        help: t("En principe, combles habitables et mansardes comptent là où la hauteur dépasse 1,5 m ; galetas, balcons, terrasses, caves, garages et locaux de service ne comptent pas. En cas de doute, indiquez la surface de vos plans.", "Include habitable attic rooms where the height exceeds 1.5 m; exclude unusable lofts, balconies, terraces, cellars, garages and utility rooms.", "Bewohnbare Dachräume ab 1,5 m Höhe einrechnen; nicht bewohnbare Estriche, Balkone, Terrassen, Keller, Garagen und Nebenräume ausschliessen."),
       }),
       g("geRooms", "text", t("Nombre de pièces", "Number of rooms", "Anzahl Zimmer"), { maxLength: 10, help: t("Comptez les pièces selon vos plans ; nous ferons le calcul.", "Count the rooms as on your plans; we will do the calculation.", "Zählen Sie die Zimmer gemäss Plänen; wir rechnen.") }),
       g("geLand", "integer", t("Surface du terrain (m², maison)", "Land area (m², house)", "Grundstücksfläche (m², Haus)")),
@@ -958,7 +960,9 @@ function propertyFields(): FieldDef[] {
           ["poolOutSmall", "Piscine extérieure de moins de 25 m²", "Outdoor pool under 25 m²", "Aussenschwimmbad unter 25 m²"],
           ["poolOutLarge", "Piscine extérieure de 25 m² ou plus", "Outdoor pool of 25 m² or more", "Aussenschwimmbad ab 25 m²"],
           ["poolIn", "Piscine couverte ou intérieure", "Covered or indoor pool", "Hallen- oder gedecktes Schwimmbad"],
-          ["tennis", "Court de tennis", "Tennis court", "Tennisplatz"],
+          ["poolShared", "Piscine en copropriété", "Shared (co-owned) pool", "Schwimmbad im Miteigentum"],
+          ["tennis", "Court de tennis privé", "Private tennis court", "Privater Tennisplatz"],
+          ["tennisShared", "Court de tennis en copropriété", "Shared tennis court", "Tennisplatz im Miteigentum"],
         ),
       }),
       g("geNuisances", "checkboxes", t("Nuisances", "Nuisances", "Immissionen"), {
@@ -1063,9 +1067,9 @@ const regularisation: StepDef = {
   id: "regularisation",
   title: t("Régularisation", "Regularisation", "Regularisierung"),
   intro: t(
-    "Vos réponses restent confidentielles. Sous certaines conditions, une régularisation spontanée peut éviter une amende ; nous vous appellerons pour en parler avant toute démarche.",
-    "Your answers stay confidential. Under certain conditions, a voluntary disclosure may avoid a fine; we will call you before taking any step.",
-    "Ihre Antworten bleiben vertraulich. Unter gewissen Bedingungen kann eine straflose Selbstanzeige eine Busse vermeiden; wir rufen Sie an, bevor wir etwas unternehmen.",
+    "Vos réponses restent confidentielles. Sous certaines conditions, une régularisation spontanée peut éviter une amende ; l'impôt et les intérêts restent dus pour les années concernées. Nous vous appellerons avant toute démarche.",
+    "Your answers stay confidential. Under certain conditions, a voluntary disclosure may avoid a fine; the tax and interest remain due for the years concerned. We will call you before taking any step.",
+    "Ihre Antworten bleiben vertraulich. Unter gewissen Bedingungen kann eine straflose Selbstanzeige eine Busse vermeiden; Steuer und Zinsen bleiben für die betroffenen Jahre geschuldet. Wir rufen Sie an, bevor wir etwas unternehmen.",
   ),
   sheet: "Régularisation",
   showIf: has("regularisation"),

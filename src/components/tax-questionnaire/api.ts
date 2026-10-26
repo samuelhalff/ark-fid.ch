@@ -47,7 +47,7 @@ export interface CasePayload {
   email: string;
   language: string;
   years: number[];
-  draft: { savedAt: string; stepId: string; answers: Record<string, unknown>; docStatus: Record<string, "later" | "na">; locale: string; aiOptIn?: boolean } | null;
+  draft: { savedAt: string; stepId: string; answers: Record<string, unknown>; docStatus: Record<string, "later" | "na">; locale: string; aiOptIn?: boolean; submitKey?: string } | null;
   files: CaseFile[];
   deadlines: { id: string; label: Record<string, string>; date: string | null; level: string; note?: Record<string, string> }[];
 }
@@ -112,8 +112,11 @@ export function uploadFile(file: File, target: { docKey: string; label: string }
   return { promise, cancel: () => controller.abort() };
 }
 
+/** Submission key: date of the first attempt (yyyymmdd) + random part. */
 export const newSubmitKey = () => {
-  const bytes = new Uint8Array(10);
+  const bytes = new Uint8Array(8);
   crypto.getRandomValues(bytes);
-  return Array.from(bytes, (b) => (b % 36).toString(36)).join("");
+  const d = new Date();
+  const date = `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}`;
+  return date + Array.from(bytes, (b) => (b % 36).toString(36)).join("");
 };
