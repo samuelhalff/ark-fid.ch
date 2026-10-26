@@ -169,7 +169,7 @@ function baseRecord(
 }
 
 /** Creates the case after the e-mail was verified: folders and tracker rows per year, first draft. */
-export async function createCase(storage: TaxStorage, input: { identity: Identity; locale: QfLocale; answers: unknown; householdId?: string; source?: string; stepId?: string; clientKey?: string }) {
+export async function createCase(storage: TaxStorage, input: { identity: Identity; locale: QfLocale; answers: unknown; householdId?: string; source?: string; stepId?: string; clientKey?: string; planned?: ReturnRecord }) {
   const caseId = randomBytes(6).toString("hex");
   const answers = sanitizeAnswers(input.answers);
   answers["start.email"] = input.identity.email;
@@ -190,6 +190,16 @@ export async function createCase(storage: TaxStorage, input: { identity: Identit
   for (const year of years) {
     const folder = await storage.createSubmissionFolder(year, folderName);
     const record = baseRecord(head, year, folder, answers, { source: input.source, ...(input.clientKey ? { clientKey: input.clientKey } : {}) });
+    // A planned row (staff inventory) becomes the main year's row instead of a duplicate; what the
+    // inventory knew (canton, CRM link) is kept when the answers do not say otherwise.
+    if (input.planned?.trackerId && year === years[0]) {
+      const p = input.planned;
+      record.trackerId = p.trackerId;
+      record.canton = record.canton || p.canton;
+      record.crmId = record.crmId || p.crmId;
+      record.crmUrl = record.crmUrl || p.crmUrl;
+      record.crmMatch = record.crmMatch || p.crmMatch;
+    }
     record.trackerId = await sharePointPorts().tracker.upsert(record);
     records.push(record);
   }
@@ -660,7 +670,8 @@ export async function sendResumeLink(storage: TaxStorage, info: CaseInfo, origin
 /** "I already started": mails links for the cases of this e-mail. The response never says whether any exist. */
 export async function sendLinksForEmail(storage: TaxStorage, email: string, origin?: string) {
   const records = await sharePointPorts().tracker.findByEmailHash(emailHash(email));
-  const cases = [...new Set(records.filter((r) => r.state !== "declined" && normalise(r.email) === normalise(email)).map((r) => r.caseId))].slice(0, 3);
+  // Planned rows (staff inventory, no case yet) have nothing to resume.
+  const cases = [...new Set(records.filter((r) => r.caseId && r.state !== "declined" && normalise(r.email) === normalise(email)).map((r) => r.caseId))].slice(0, 3);
   for (const caseId of cases) await sendResumeLink(storage, await getCase(caseId), origin);
   return cases.length;
 }
@@ -726,7 +737,7 @@ export async function previousAnswers(storage: TaxStorage, record: ReturnRecord,
 /** Staff notes of a case prepared by Ark (root of the case folder, never listed to the client). */
 export const ARK_NOTES_FILE = "Points d'attention (Ark).txt";
 
-export async function createInvitedReturn(input: { clientKey: string; email: string; name: string; language: string; taxYear: number; prefillFrom?: ReturnRecord; prefillAnswers?: Record<string, unknown>; notes?: string[] }): Promise<ReturnRecord> {
+export async function createInvitedReturn(input: { clientKey: string; email: string; name: string; language: string; taxYear: number; prefillFrom?: ReturnRecord; prefillAnswers?: Record<string, unknown>; notes?: string[]; planned?: ReturnRecord }): Promise<ReturnRecord> {
   const { getStorage } = await import("./storage");
   const storage = getStorage();
   // CRM convention "NOM COMPOSÉ Prénom": the leading upper-case words form the last name.
@@ -747,6 +758,7 @@ export async function createInvitedReturn(input: { clientKey: string; email: str
     source: input.prefillAnswers ? "ark" : "campaign",
     stepId: "start",
     clientKey: input.clientKey,
+    planned: input.planned,
   });
   const notes = (input.notes || []).map((n) => n.trim()).filter(Boolean).slice(0, 60);
   if (notes.length) await storage.putFile(info.main.driveId, info.main.folderId, ARK_NOTES_FILE, new TextEncoder().encode(notes.map((n) => `- ${n}`).join("\n") + "\n"), "text/plain");

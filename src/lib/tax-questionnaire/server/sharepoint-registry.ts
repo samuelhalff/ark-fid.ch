@@ -266,6 +266,7 @@ const TRACKER_COLUMNS: Column[] = [
   bool("ExclureCampagne", "Exclure de la campagne"),
   text("NoteStaff", "Note (staff)", { text: { allowMultipleLines: true } }),
   text("PrefillTax", "Préremplissage .tax disponible"),
+  num("DerniereDF", "Dernière DF trouvée"),
 ];
 
 const STATE_TO_FR: Record<ReturnRecord["state"], string> = { draft: "Brouillon", submitted: "Envoyé", invited: "Invité", declined: "Abandonné" };
@@ -523,10 +524,10 @@ export function memoryPorts(seed: { crm?: MemoryCrmItem[] } = {}) {
   };
   const tracker: ReturnTracker = {
     async upsert(record) {
-      const index = returns.findIndex((r) => (record.trackerId && r.trackerId === record.trackerId) || (r.caseId === record.caseId && r.taxYear === record.taxYear));
+      const index = returns.findIndex((r) => (record.trackerId && r.trackerId === record.trackerId) || (!!record.caseId && r.caseId === record.caseId && r.taxYear === record.taxYear));
       if (index >= 0) {
         // Staff-owned fields are kept.
-        const staff = { staffStatus: returns[index].staffStatus, extendedTo: returns[index].extendedTo, pbmInvolved: returns[index].pbmInvolved };
+        const staff = { staffStatus: returns[index].staffStatus, extendedTo: returns[index].extendedTo, pbmInvolved: returns[index].pbmInvolved, excludedFromCampaign: returns[index].excludedFromCampaign };
         returns[index] = { ...record, ...staff, trackerId: returns[index].trackerId };
         return returns[index].trackerId!;
       }

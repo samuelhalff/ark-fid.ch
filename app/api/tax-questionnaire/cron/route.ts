@@ -1,7 +1,7 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { emailHash, issueLink } from "@/src/lib/tax-questionnaire/server/access";
-import { inviteMember, isClosed, lang, previousReturn, runCampaign, type CampaignDeps, type CampaignLedger } from "@/src/lib/tax-questionnaire/server/campaign";
+import { inviteMember, isClosed, isPlanned, lang, plannedFor, previousReturn, runCampaign, type CampaignDeps, type CampaignLedger } from "@/src/lib/tax-questionnaire/server/campaign";
 import { clientKey as computeClientKey, cleanupAbandonedDrafts, createInvitedReturn } from "@/src/lib/tax-questionnaire/server/service";
 import { sharePointPorts } from "@/src/lib/tax-questionnaire/server/sharepoint-registry";
 import { DEFAULT_DRIVE_ID, getStorage, type TaxStorage } from "@/src/lib/tax-questionnaire/server/storage";
@@ -176,14 +176,23 @@ async function invite(deps: CampaignDeps, storage: TaxStorage, body: InviteBody,
   }
   if (!clientKey) return { ok: false, error: "invalid_request" };
 
-  const returns = await deps.tracker.findByClientKey(clientKey);
+  const all = await deps.tracker.findByClientKey(clientKey);
+  // Planned rows (staff inventory) are not returns: the invitation turns that row into the return.
+  const returns = all.filter((r) => !isPlanned(r));
+  let planned = all.find((r) => isPlanned(r) && r.taxYear === taxYear && r.state !== "declined");
   const previous = previousReturn(returns, taxYear);
   const current = returns.find((r) => r.taxYear === taxYear && r.state !== "declined");
   if (current && (isClosed(current) || current.invitedAt || current.state !== "invited")) return { ok: false, error: "return_exists", state: current.state };
   const prefs = await deps.prefs.get(clientKey);
   if (prefs?.excluded) return { ok: false, error: "client_excluded" };
-  email = email || prefs?.email || previous?.email || "";
-  name = name || prefs?.name || previous?.name || "";
+  email = email || prefs?.email || previous?.email || planned?.email || "";
+  name = name || prefs?.name || previous?.name || planned?.name || "";
+  if (!planned && email) {
+    const yearPlanned = (await deps.tracker.listByYear(taxYear)).filter((r) => isPlanned(r) && r.state !== "declined");
+    planned = plannedFor(yearPlanned, { clientKey, email });
+  }
+  if (planned?.excludedFromCampaign) return { ok: false, error: "client_excluded" };
+  name = name || planned?.name || "";
   if (!email || !name) return { ok: false, error: "client_not_found" };
   const member = { clientKey, email, name, language: lang(language || prefs?.language || previous?.language), prefs };
   if (dryRun) return { ok: true, dryRun: true, prepared: !!prefill, renewalFrom: prefill ? null : previous?.taxYear || null };
@@ -194,6 +203,7 @@ async function invite(deps: CampaignDeps, storage: TaxStorage, body: InviteBody,
     origin: env("TAX_QF_PUBLIC_ORIGIN") || "https://tax.ark-fid.ch",
     previous,
     existing: current,
+    planned,
     send: !noEmail,
     prefillAnswers: prefill?.answers,
     notes,
