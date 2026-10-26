@@ -188,7 +188,7 @@ curl -sS -X POST http://localhost:3000/api/tax-questionnaire/cron \
 
 ### Renouvellement (client existant)
 
-L'invitation de février reprend le dernier questionnaire envoyé (`previousAnswers`) : l'écran de départ est prérempli (le client confirme ses coordonnées et l'année), chaque rubrique avec des éléments connus (enfants, employeurs, banques, bien et prêteur…) est cochée « Inchangé depuis {année} » sur l'écran de tri et son écran de détail est sauté, sauf si une donnée reprise est incomplète. Le client décoche seulement ce qui a changé. La liste de documents est celle de la nouvelle année (certificats de salaire par employeur, relevés par banque, etc.). L'écran « documents de base » n'est pas montré (Ark a le dossier de l'an dernier).
+L'invitation de février reprend le dernier questionnaire envoyé (`previousAnswers`) : l'écran de départ est prérempli (le client confirme ses coordonnées et l'année) et l'écran de tri montre la situation reprise. Sur chaque écran de détail, chaque élément de l'an dernier (banque, employeur, bien, enfant, prêt, assurance, rente, société…) est une ligne compacte : « Toujours là » / « Terminé en {année} » (avec la date, dans l'année fiscale) / « Modifié » (ouvre la fiche). Le bouton « Tout est identique à {année} » confirme tout d'un clic et note « aucun nouvel élément » ; « Ajouter… » reste disponible pour les nouveaux éléments. La liste de documents suit : élément reconduit, modifié ou nouveau → document de l'année ; terminé dans l'année → document de l'année ou de clôture (relevé de clôture, attestation de remboursement…) ; bien vendu → documents de vente et point d'attention gains immobiliers. L'Excel et le PDF indiquent pour chaque élément : reconduit, nouveau, terminé le …, modifié. L'écran « documents de base » n'est pas montré (Ark a le dossier de l'an dernier).
 
 ### Invitation manuelle (staff)
 
@@ -200,7 +200,13 @@ GitHub → Actions → « Tax questionnaire manual invitation » (ou `scripts/ta
 
 ### Colonnes du staff dans « Suivi questionnaires »
 
-Statut (dont « À valider »), délai obtenu, PBM impliqué, documents à demander, responsable, note, préremplissage .tax disponible, et « Exclure de la campagne » (aucun avis, invitation ni rappel pour ce client).
+Statut (dont « À valider », « Documents manquants », « Dossier complet »), délai obtenu, PBM impliqué, documents à demander, responsable, note, préremplissage .tax disponible, et « Exclure de la campagne » (aucun avis, invitation ni rappel pour ce client).
+
+Lignes de l'inventaire (Provenance « inventaire », sans dossier) : ce sont des clients à inviter, pas des déclarations. La campagne les invite une fois le statut passé de « À valider » à un autre statut et l'e-mail renseigné ; le dossier est alors créé sur la même ligne.
+
+### Documents manquants après l'envoi
+
+La colonne « Documents manquants » liste ce qui manque (documents annoncés « plus tard », non reçus, et lignes ajoutées par le staff dans « Documents à demander », qui rejoignent la liste du client). Elle est recalculée à l'envoi, quand le client signale des ajouts depuis sa page de suivi, et chaque jour par la tâche planifiée. Le statut passe de lui-même à « Documents manquants » puis « Dossier complet » (un statut choisi par le staff n'est jamais remplacé). Rappel au client 7 jours après l'envoi puis tous les 14 jours, jusqu'à : plus rien de manquant, statut « Dossier complet », « Déposé » ou « Clos », échéance passée, désinscription ou exclusion. Résumé au staff après deux rappels sans réponse et à J-30 / J-10. À chaque ajout signalé : e-mail interne (reçus / encore manquants, lien du dossier) et nouveau fichier « Suivi documents <date>.xlsx » dans le dossier.
 
 ## Assistance IA (désactivée par défaut)
 

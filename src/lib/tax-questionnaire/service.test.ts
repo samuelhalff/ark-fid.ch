@@ -149,6 +149,39 @@ test("draft deletion removes folders and revokes access; arrears get their own y
   await assert.rejects(() => service.getCase(info.caseId), /session_expired/);
 });
 
+test("after submission: missing list and status on the tracker, staff items merged, follow-up workbook and staff mail", async () => {
+  const email = "missing@example.com";
+  const base = answers(email, { "start.firstName": "Mi", "start.lastName": "Ssing" });
+  const info = await service.createCase(storage, { identity: { email, firstName: "Mi", lastName: "Ssing" }, locale: "fr", answers: base });
+  await service.finalizeSubmission(storage, await service.getCase(info.caseId), { locale: "fr", answers: base, docStatus: allLater(base), privacyAccepted: true, certified: true, submitKey: "missingk01" });
+  const row = () => mem.returns.find((r) => r.caseId === info.caseId)!;
+  assert.ok(row().missingDocs && row().missingDocs!.length > 0, "missing list written on submit");
+  assert.equal(row().staffStatus, "Documents manquants");
+
+  // Staff adds an item in "Documents à demander": it joins the client's checklist and the missing list.
+  row().staffDocs = "- Contrat de prêt avec votre beau-frère";
+  const current = await service.getCase(info.caseId);
+  const withStaff = { ...current, main: { ...current.main, staffDocs: row().staffDocs } };
+  const { labels } = await service.refreshMissing(storage, withStaff);
+  assert.ok(labels.includes("Contrat de prêt avec votre beau-frère"));
+  const merged = await service.syncStaffDocs(storage, withStaff);
+  assert.ok((merged!.answers["start.arkDocs"] as Record<string, unknown>[]).some((r) => r.staff === "1"));
+  const stored = await service.readDraft(storage, withStaff);
+  assert.ok(!((stored!.answers["start.arkDocs"] as Record<string, unknown>[] | undefined) || []).some((r) => r.staff === "1"), "stored draft untouched");
+  assert.match(row().missingDocs!, /Contrat de prêt avec votre beau-frère/);
+
+  storage.sent.length = 0;
+  await service.notifyAdditions(storage, withStaff);
+  const mail = storage.sent.find((m) => m.subject.startsWith("Documents complémentaires"))!;
+  assert.match(mail.html, /Encore manquants/);
+  const files = await storage.listFiles(info.main.driveId, info.main.folderId);
+  assert.ok(files.some((f) => f.name.startsWith("Suivi documents ") && f.name.endsWith(".xlsx")), "follow-up workbook written");
+
+  // Staff clears the column: the item leaves the to-do.
+  const cleared = { ...withStaff, main: { ...withStaff.main, staffDocs: "" } };
+  assert.ok(!(await service.refreshMissing(storage, cleared)).labels.includes("Contrat de prêt avec votre beau-frère"));
+});
+
 test("annual reminder: on by default, unticking it on submission turns the reminder off", async () => {
   const email = "remind@example.com";
   const base = answers(email, { "start.firstName": "Re", "start.lastName": "Mind" });

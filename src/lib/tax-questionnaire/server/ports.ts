@@ -71,6 +71,12 @@ export interface ReturnRecord {
   pbmInvolved?: boolean;
   /** Staff-owned: "Exclure de la campagne" (no notice, invitation or reminder for this client). */
   excludedFromCampaign?: boolean;
+  /** Missing documents after submission (one label per line), recounted on uploads and daily. */
+  missingDocs?: string;
+  missingRemindersSent?: number;
+  lastMissingReminderAt?: string;
+  /** Staff-owned "Documents à demander": extra items merged into the client's to-do. */
+  staffDocs?: string;
   /** Item id in the tracker (opaque). */
   trackerId?: string;
 }
@@ -83,6 +89,10 @@ export interface ReturnTracker {
   findByEmailHash(emailHash: string): Promise<ReturnRecord[]>;
   findByClientKey(clientKey: string): Promise<ReturnRecord[]>;
   listByYear(taxYear: number): Promise<ReturnRecord[]>;
+  /** Sets the staff status (the app only moves "Nouveau" ↔ "Documents manquants" → "Dossier complet"). */
+  setStatus(trackerId: string, status: string): Promise<void>;
+  /** Records a missing-documents reminder (only these two columns). */
+  markMissingReminder(trackerId: string, sent: number, at: string): Promise<void>;
 }
 
 /** Client-level campaign preferences (independent of any return). */

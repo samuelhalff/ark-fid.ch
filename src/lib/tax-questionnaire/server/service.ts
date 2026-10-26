@@ -16,7 +16,7 @@ import { QF_LOCALES, type Answers, type DocStatus, type QfLocale, type Row } fro
 import { PRIVACY_VERSION, UI } from "../ui";
 import { emailHash, INVITATION_LINK_TTL_MS, issueLink, RESUME_LINK_TTL_MS } from "./access";
 import { clientMail, internalMail, isInternalCase } from "./email";
-import { buildWorkbook, excelFileName, regimeSummary, type DocResult, type SubmissionRecord } from "./excel";
+import { buildDocsWorkbook, buildWorkbook, excelFileName, regimeSummary, type DocResult, type SubmissionRecord } from "./excel";
 import { linkMail, regularisationClientMail, staffAlert } from "./mails";
 import { buildPdf, pdfFileName } from "./pdf";
 import type { ReturnRecord } from "./ports";
@@ -628,6 +628,7 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
         aiOptIn: input.aiOptIn === true,
         submittedAt: now.toISOString(),
         docsReceived: rec.taxYear === info.main.taxYear ? received : rec.docsReceived,
+        missingDocs: rec.taxYear === info.main.taxYear ? docs.filter((d) => d.status === "later" || d.status === "missing").map((d) => d.item.label.fr).join("\n") : rec.missingDocs,
         docsExpected: rec.taxYear === info.main.taxYear ? docs.length : rec.docsExpected,
         excelUrl: yearCopies.get(rec.taxYear)?.excel || excelItem.webUrl,
         pdfUrl: yearCopies.get(rec.taxYear)?.pdf || pdfItem.webUrl,
@@ -652,6 +653,11 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
       console.error("[tax-qf] preferences update failed", info.caseId, error instanceof Error ? error.message : "");
     }
   }
+  try {
+    await autoStatus(info.main, docs.filter((d) => d.status === "later" || d.status === "missing").length);
+  } catch (error) {
+    console.error("[tax-qf] status update failed", info.caseId, error instanceof Error ? error.message : "");
+  }
   await event(storage, info, "submitted", { docs: docs.length, received, flagged: flagged.length, clientNotified, crmMatch });
 
   return {
@@ -661,22 +667,99 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
   };
 }
 
+/** Staff "Documents à demander" lines → rows of the hidden start.arkDocs group (added / removed). */
+const staffLines = (text: string | undefined) =>
+  [...new Set((text || "").split(/\r?\n|;/).map((l) => l.replace(/^[-•*]\s*/, "").trim()).filter(Boolean))].slice(0, 30);
+const staffRowId = (line: string) => `stf${createHash("sha256").update(line.toLowerCase()).digest("hex").slice(0, 12)}`;
+
+/**
+ * The draft with the staff items merged (in memory only: the stored draft is never rewritten
+ * here, so a concurrent autosave cannot be overwritten).
+ */
+export function withStaffDocs(draft: Draft, staffDocs: string | undefined): Draft {
+  const rows = Array.isArray(draft.answers["start.arkDocs"]) ? (draft.answers["start.arkDocs"] as Row[]) : [];
+  const own = rows.filter((r) => r.staff !== "1");
+  const wanted = staffLines(staffDocs).map((line) => ({ _id: staffRowId(line), label: line.slice(0, 200), staff: "1" }) as Row);
+  if (!wanted.length && own.length === rows.length) return draft;
+  return { ...draft, answers: { ...draft.answers, "start.arkDocs": [...own, ...wanted] } };
+}
+
+export async function syncStaffDocs(storage: TaxStorage, info: CaseInfo): Promise<Draft | null> {
+  const draft = await readDraft(storage, info);
+  return draft ? withStaffDocs(draft, info.main.staffDocs) : null;
+}
+
+/** Sets the status only if the tracker row (read fresh) is still in an automatic state. */
+async function autoStatus(record: ReturnRecord, missing: number) {
+  if (!record.trackerId) return;
+  const tracker = sharePointPorts().tracker;
+  const fresh = (await tracker.findByCase(record.caseId)).find((r) => r.trackerId === record.trackerId);
+  const status = nextStaffStatus(fresh ? fresh.staffStatus : record.staffStatus, missing);
+  if (status) await tracker.setStatus(record.trackerId, status);
+}
+
+/** Documents of the case now: files in SharePoint first, then the client's statuses. */
+async function currentDocs(storage: TaxStorage, info: CaseInfo, draft: Draft): Promise<DocResult[]> {
+  const files = await allClientFiles(storage, info);
+  return checklistFor(draft.answers).map((item) => {
+    const own = files.filter((f) => codeFromFileName(f.name) === item.code);
+    const claimed = draft.docStatus[item.key];
+    const status: DocStatus = own.length ? "uploaded" : claimed === "later" ? "later" : claimed === "na" ? "na" : "missing";
+    return { item, status, files: own };
+  });
+}
+
+/** Staff status set by the app: only from its own states, staff choices are never overridden. */
+export function nextStaffStatus(current: string | undefined, missing: number): string | null {
+  const auto = !current || current === "Nouveau" || current === "Documents manquants" || current === "Dossier complet";
+  if (!auto) return null;
+  const wanted = missing ? "Documents manquants" : "Dossier complet";
+  return wanted === current ? null : wanted;
+}
+
+/**
+ * After submission: recounts the documents (files, client statuses, staff items), writes the
+ * missing list and the counts to the tracker and moves the status. Returns the missing labels.
+ */
+export async function refreshMissing(storage: TaxStorage, info: CaseInfo): Promise<{ labels: string[]; docs: DocResult[] }> {
+  const draft = await syncStaffDocs(storage, info);
+  if (!draft) return { labels: [], docs: [] };
+  const docs = await currentDocs(storage, info, draft);
+  const labels = docs.filter((d) => d.status === "later" || d.status === "missing").map((d) => d.item.label[info.language] || d.item.label.fr);
+  const labelsFr = docs.filter((d) => d.status === "later" || d.status === "missing").map((d) => d.item.label.fr);
+  await sharePointPorts().tracker.upsert({ ...info.main, missingDocs: labelsFr.join("\n"), docsReceived: docs.filter((d) => d.status === "uploaded").length, docsExpected: docs.length });
+  await autoStatus(info.main, labels.length);
+  forget(info.caseId);
+  return { labels, docs };
+}
+
 /** After submission: the client added documents from the status page and says "done". */
 export async function notifyAdditions(storage: TaxStorage, info: CaseInfo) {
   const { flagged } = await screenFiles(storage, info);
-  const files = await allClientFiles(storage, info);
+  const { docs } = await refreshMissing(storage, info);
+  const received = docs.filter((d) => d.status === "uploaded");
+  const missing = docs.filter((d) => d.status === "later" || d.status === "missing");
+  // A new version of the documents workbook in the folder (never overwritten).
+  const now = new Date();
+  try {
+    const book = await buildDocsWorkbook(docs, `Documents – ${info.name} – ${info.main.taxYear}`, now);
+    await storage.putFile(info.main.driveId, info.main.folderId, `Suivi documents ${versionStamp(now)}.xlsx`, book, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+  } catch (error) {
+    console.error("[tax-qf] documents workbook failed", info.caseId, error instanceof Error ? error.message : "");
+  }
   const mail = staffAlert(
     `Documents complémentaires – ${info.name} – ${info.main.taxYear}`,
     [
-      `Le client signale avoir ajouté des documents après son envoi (${files.length} fichier(s) au total dans le dossier).`,
+      `Le client a ajouté des documents après son envoi.`,
+      ...(received.length ? [`Reçus : ${received.map((d) => d.item.label.fr).join(" ; ")}`] : []),
+      missing.length ? `Encore manquants (${missing.length}) : ${missing.map((d) => d.item.label.fr).join(" ; ")}` : "Plus aucun document manquant : dossier complet.",
       ...(flagged.length ? [`${flagged.length} fichier(s) à vérifier (sous-dossier « _A verifier »).`] : []),
-      ...files.slice(-30).map((f) => f.name),
     ],
     info.main.folderUrl,
     isInternalCase({ email: info.email, name: info.name, folderName: decodeURIComponent(info.main.folderUrl.split("/").pop() || "") }),
   );
   await storage.sendMail(mail);
-  await event(storage, info, "additions_notified", { files: files.length });
+  await event(storage, info, "additions_notified", { received: received.length, missing: missing.length });
 }
 
 /** "Correct my answers": back to draft; the next submission creates a new version folder. */

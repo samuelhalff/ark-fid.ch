@@ -267,6 +267,9 @@ const TRACKER_COLUMNS: Column[] = [
   text("NoteStaff", "Note (staff)", { text: { allowMultipleLines: true } }),
   text("PrefillTax", "Préremplissage .tax disponible"),
   num("DerniereDF", "Dernière DF trouvée"),
+  text("DocumentsManquants", "Documents manquants", { text: { allowMultipleLines: true, textType: "plain" } }),
+  num("MissingRemindersSent", "Rappels documents envoyés"),
+  { name: "LastMissingReminderAt", displayName: "Dernier rappel documents", dateTime: { format: "dateTime" } },
 ];
 
 const STATE_TO_FR: Record<ReturnRecord["state"], string> = { draft: "Brouillon", submitted: "Envoyé", invited: "Invité", declined: "Abandonné" };
@@ -305,6 +308,9 @@ function trackerFields(r: ReturnRecord): Json {
   if (r.submittedAt) fields.SubmittedAt = r.submittedAt;
   if (r.invitedAt) fields.InvitedAt = r.invitedAt;
   if (r.lastReminderAt) fields.LastReminderAt = r.lastReminderAt;
+  if (r.missingDocs !== undefined) fields.DocumentsManquants = r.missingDocs;
+  if (r.missingRemindersSent !== undefined) fields.MissingRemindersSent = r.missingRemindersSent;
+  if (r.lastMissingReminderAt) fields.LastMissingReminderAt = r.lastMissingReminderAt;
   return fields;
 }
 
@@ -344,6 +350,10 @@ function trackerRecord(id: string, f: Json): ReturnRecord {
     extendedTo: isoDate(f.DelaiObtenu),
     pbmInvolved: f.PBM === true,
     excludedFromCampaign: f.ExclureCampagne === true,
+    missingDocs: str(f.DocumentsManquants),
+    missingRemindersSent: Number(f.MissingRemindersSent) || 0,
+    lastMissingReminderAt: isoDate(f.LastMissingReminderAt),
+    staffDocs: str(f.DocumentsADemander),
   };
 }
 
@@ -373,6 +383,12 @@ class SharePointTracker implements ReturnTracker {
   }
   listByYear(taxYear: number) {
     return this.find(`fields/TaxYear eq ${taxYear}`);
+  }
+  async setStatus(trackerId: string, status: string) {
+    await this.list.update(trackerId, { Status: status });
+  }
+  async markMissingReminder(trackerId: string, sent: number, at: string) {
+    await this.list.update(trackerId, { MissingRemindersSent: sent, LastMissingReminderAt: at });
   }
 }
 
@@ -527,7 +543,7 @@ export function memoryPorts(seed: { crm?: MemoryCrmItem[] } = {}) {
       const index = returns.findIndex((r) => (record.trackerId && r.trackerId === record.trackerId) || (!!record.caseId && r.caseId === record.caseId && r.taxYear === record.taxYear));
       if (index >= 0) {
         // Staff-owned fields are kept.
-        const staff = { staffStatus: returns[index].staffStatus, extendedTo: returns[index].extendedTo, pbmInvolved: returns[index].pbmInvolved, excludedFromCampaign: returns[index].excludedFromCampaign };
+        const staff = { staffStatus: returns[index].staffStatus, extendedTo: returns[index].extendedTo, pbmInvolved: returns[index].pbmInvolved, excludedFromCampaign: returns[index].excludedFromCampaign, staffDocs: returns[index].staffDocs };
         returns[index] = { ...record, ...staff, trackerId: returns[index].trackerId };
         return returns[index].trackerId!;
       }
@@ -546,6 +562,14 @@ export function memoryPorts(seed: { crm?: MemoryCrmItem[] } = {}) {
     },
     async listByYear(taxYear) {
       return returns.filter((r) => r.taxYear === taxYear).map((r) => ({ ...r }));
+    },
+    async setStatus(trackerId, status) {
+      const row = returns.find((r) => r.trackerId === trackerId);
+      if (row) row.staffStatus = status;
+    },
+    async markMissingReminder(trackerId, sent, at) {
+      const row = returns.find((r) => r.trackerId === trackerId);
+      if (row) Object.assign(row, { missingRemindersSent: sent, lastMissingReminderAt: at });
     },
   };
   const prefStore: PreferenceStore = {

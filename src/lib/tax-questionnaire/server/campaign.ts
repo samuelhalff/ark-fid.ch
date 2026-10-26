@@ -45,6 +45,8 @@ export interface CampaignDeps {
   ledger?: CampaignLedger;
   /** E-mail fingerprint used by the access store (the app passes access.emailHash, keyed). */
   hashEmail?: (email: string) => string;
+  /** Optional: recounts a submitted return's missing documents (tracker updated), returns the labels. */
+  refreshMissing?: (record: ReturnRecord) => Promise<string[]>;
   /** Optional: labels of the documents still missing on a return (reminder e-mail). */
   missingDocuments?: (record: ReturnRecord, language: Lang) => Promise<string[]>;
   /** Optional cleanup of abandoned drafts (cron task "cleanup"); implemented by the app. */
@@ -55,6 +57,8 @@ export interface CampaignSummary {
   notices: number;
   invitations: number;
   reminders: number;
+  /** Reminders for documents still missing after submission. */
+  missingReminders: number;
   escalations: number;
   skipped: number;
   dryRun: boolean;
@@ -112,7 +116,7 @@ export function plannedFor(rows: ReturnRecord[], member: { clientKey: string; em
 // ---- mails --------------------------------------------------------------------------------------
 
 /** Client campaign mails, in Samuel's voice (owner-approved French model for the invitation). */
-const TEXT: Record<Lang, { notice: { subject: string; body: string[] }; invitation: { subject: string; lead: string; fresh: string; renewal: string; prepared: string }; reminder: { subject: string; ask: string; missing: string }; courtesy: string; optout: string }> = {
+const TEXT: Record<Lang, { notice: { subject: string; body: string[] }; invitation: { subject: string; lead: string; fresh: string; renewal: string; prepared: string }; reminder: { subject: string; ask: string; missing: string }; missingDocs: { subject: string; lead: string; open: string }; courtesy: string; optout: string }> = {
   fr: {
     notice: {
       subject: "Votre déclaration d'impôt {year}",
@@ -129,6 +133,7 @@ const TEXT: Record<Lang, { notice: { subject: string; body: string[] }; invitati
       prepared: "Nous avons pré-rempli votre questionnaire avec les informations que vous nous avez transmises. Merci de les vérifier, de compléter ce qui manque et d'ajouter vos documents {year} :",
     },
     reminder: { subject: "Rappel : votre questionnaire fiscal {year}", ask: "Avez-vous pu remplir votre questionnaire {year} ?", missing: "Avez-vous pu remplir votre questionnaire {year} ? Il nous manque encore :" },
+    missingDocs: { subject: "Documents pour votre déclaration {year}", lead: "Merci pour votre questionnaire {year}. Il nous manque encore :", open: "Ajouter les documents" },
     courtesy: "J'espère que vous allez bien.",
     optout: "Ne plus recevoir ces emails",
   },
@@ -145,6 +150,7 @@ const TEXT: Record<Lang, { notice: { subject: string; body: string[] }; invitati
       prepared: "We have pre-filled your questionnaire with the information you sent us. Please check it, complete what is missing and add your {year} documents:",
     },
     reminder: { subject: "Reminder: your {year} tax questionnaire", ask: "Have you been able to fill in your {year} questionnaire?", missing: "Have you been able to fill in your {year} questionnaire? We are still missing:" },
+    missingDocs: { subject: "Documents for your {year} tax return", lead: "Thank you for your {year} questionnaire. We are still missing:", open: "Add the documents" },
     courtesy: "I hope you are well.",
     optout: "Stop receiving these emails",
   },
@@ -161,6 +167,7 @@ const TEXT: Record<Lang, { notice: { subject: string; body: string[] }; invitati
       prepared: "Wir haben Ihren Fragebogen mit Ihren Angaben vorausgefüllt. Bitte prüfen und ergänzen Sie ihn und laden Sie Ihre Dokumente {year} hoch:",
     },
     reminder: { subject: "Erinnerung: Ihr Steuerfragebogen {year}", ask: "Konnten Sie Ihren Fragebogen {year} ausfüllen?", missing: "Konnten Sie Ihren Fragebogen {year} ausfüllen? Es fehlen uns noch:" },
+    missingDocs: { subject: "Dokumente für Ihre Steuererklärung {year}", lead: "Vielen Dank für Ihren Fragebogen {year}. Es fehlen uns noch:", open: "Dokumente hinzufügen" },
     courtesy: "Ich hoffe, es geht Ihnen gut.",
     optout: "Keine solchen E-Mails mehr erhalten",
   },
@@ -176,7 +183,7 @@ export interface CampaignMailOptions {
   missing?: string[];
 }
 
-export function campaignMail(kind: "notice" | "invitation" | "reminder", language: Lang, to: string, taxYear: number, link: string | null, optoutLink: string, options: CampaignMailOptions = {}): MailMessage {
+export function campaignMail(kind: "notice" | "invitation" | "reminder" | "missing", language: Lang, to: string, taxYear: number, link: string | null, optoutLink: string, options: CampaignMailOptions = {}): MailMessage {
   const text = TEXT[language];
   const voice = VOICE[language];
   const fill = (s: string) => s.replace(/\{year\}/g, String(taxYear));
@@ -188,13 +195,16 @@ export function campaignMail(kind: "notice" | "invitation" | "reminder", languag
   } else if (kind === "invitation") {
     const variant = options.variant || "fresh";
     blocks = [hello, text.courtesy, fill(text.invitation.lead), fill(text.invitation[variant]), ...linkBlock, voice.codeNote, voice.available, voice.bye, voice.sign];
+  } else if (kind === "missing") {
+    const list = (options.missing || []).slice(0, 12);
+    blocks = [hello, fill(text.missingDocs.lead), { list }, ...(link ? [{ link, label: text.missingDocs.open }] : []), voice.codeNote, voice.bye, voice.sign];
   } else {
     const missing = (options.missing || []).slice(0, 8);
     blocks = missing.length
       ? [hello, fill(text.reminder.missing), { list: missing }, ...linkBlock, voice.bye, voice.sign]
       : [hello, fill(text.reminder.ask), ...linkBlock, voice.bye, voice.sign];
   }
-  const subject = kind === "notice" ? text.notice.subject : kind === "invitation" ? text.invitation.subject : text.reminder.subject;
+  const subject = kind === "notice" ? text.notice.subject : kind === "invitation" ? text.invitation.subject : kind === "missing" ? text.missingDocs.subject : text.reminder.subject;
   const cfg = mailConfig();
   return { from: cfg.from, to: [to], cc: [], replyTo: cfg.replyTo, subject: fill(subject), html: plainHtml(blocks, `<a href="${escapeHtml(optoutLink)}" style="color:#6b7280">${escapeHtml(text.optout)}</a>`) };
 }
@@ -254,6 +264,17 @@ export function dueReminder(record: ReturnRecord, stop: Date, now: Date): Remind
   return null;
 }
 
+/** Staff statuses that end the missing-documents reminders. */
+export const MISSING_STOP_STATUSES = ["Dossier complet", "Déposé", "Clos"];
+
+/** Missing-documents reminder due: 7 days after submission, then every 14 days. */
+export function dueMissingReminder(record: ReturnRecord, now: Date): boolean {
+  if (!record.submittedAt) return false;
+  const sent = record.missingRemindersSent || 0;
+  if (sent === 0) return daysBetween(new Date(record.submittedAt), now) >= 7;
+  return daysBetween(new Date(record.lastMissingReminderAt || record.submittedAt), now) >= 14;
+}
+
 export const isClosed = (record: ReturnRecord) =>
   record.state === "submitted" || record.state === "declined" || (!!record.staffStatus && STOP_STATUSES.includes(record.staffStatus));
 
@@ -309,7 +330,7 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
   const year = now.getUTCFullYear();
   const taxYear = year - 1;
   const month = now.getUTCMonth(); // 0 = January
-  const summary: CampaignSummary = { notices: 0, invitations: 0, reminders: 0, escalations: 0, skipped: 0, dryRun };
+  const summary: CampaignSummary = { notices: 0, invitations: 0, reminders: 0, missingReminders: 0, escalations: 0, skipped: 0, dryRun };
   let actions = 0;
   const budget = () => actions < maxActions;
   const escalate: string[] = [];
@@ -409,6 +430,51 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
     if (daysLeft === 30 || daysLeft === 10) escalate.push(`${current.name} – ${taxYear} – J-${daysLeft} (${current.state})`);
     else if (unanswered >= 2 && due) escalate.push(`${current.name} – ${taxYear} – ${unanswered} rappels sans réponse`);
     if (escalate.length > before && isInternalCase({ email: current.email || member.email, name: current.name })) escalate.slice(before).forEach((line) => escalateInternal.add(line));
+  }
+
+  // Submitted returns with documents still missing: a short reminder 7 days after submission,
+  // then every 14 days, until complete, a staff stop status, the deadline or an opt-out.
+  for (const original of yearRows.filter((r) => !isPlanned(r) && r.state === "submitted")) {
+    // Filed or closed by staff: nothing more (no recount, no reminder).
+    if (original.staffStatus === "Déposé" || original.staffStatus === "Clos") continue;
+    const stop = campaignStopDate({ canton: original.canton, regime: original.regime }, taxYear, original.extendedTo);
+    if (utcDay(now) > utcDay(stop)) continue;
+    // Daily recount (files, statuses, staff items) on real runs; the tracker and status follow.
+    let missing = (original.missingDocs || "").split("\n").filter(Boolean);
+    let record = original;
+    if (!dryRun && deps.refreshMissing) {
+      const fresh = await deps.refreshMissing(original).catch(() => null);
+      if (fresh) missing = fresh;
+      const reread = (await deps.tracker.findByCase(original.caseId)).find((r) => r.trackerId === original.trackerId);
+      if (reread) record = reread;
+    }
+    if (record.staffStatus && MISSING_STOP_STATUSES.includes(record.staffStatus)) continue;
+    const prefs = record.clientKey ? await deps.prefs.get(record.clientKey) : null;
+    if (prefs?.excluded || record.excludedFromCampaign) continue;
+    const due = dueMissingReminder(record, now);
+    const daysLeft = daysBetween(now, stop);
+    if (!due && daysLeft !== 30 && daysLeft !== 10) continue;
+    if (!missing.length) continue;
+    let sent = record.missingRemindersSent || 0;
+    if (due) {
+      if (!budget()) summary.skipped++;
+      else {
+        actions++;
+        summary.missingReminders++;
+        if (!dryRun) {
+          const language = lang(record.language);
+          const link = await deps.issueLink({ caseId: record.caseId, emailHash: record.emailHash, scope: "status", purpose: "status", ttlMs: 30 * DAY, origin: opts.origin, locale: language });
+          const optout = await deps.issueLink({ caseId: `client:${record.clientKey}`, emailHash: (deps.hashEmail || emailHashOf)(record.email), scope: "status", purpose: "optout", ttlMs: OPTOUT_TTL, origin: opts.origin, locale: language });
+          await deps.sendMail(campaignMail("missing", language, record.email, taxYear, link, optout, { firstName: firstNameOf(record.name), missing }));
+          sent += 1;
+          if (record.trackerId) await deps.tracker.markMissingReminder(record.trackerId, sent, iso(now));
+        }
+      }
+    }
+    const before = escalate.length;
+    if (daysLeft === 30 || daysLeft === 10) escalate.push(`${record.name} – ${taxYear} – J-${daysLeft} – ${missing.length} document(s) manquant(s)`);
+    else if (due && sent >= 2) escalate.push(`${record.name} – ${taxYear} – ${missing.length} document(s) manquant(s), ${sent} rappels sans réponse`);
+    if (escalate.length > before && isInternalCase({ email: record.email, name: record.name })) escalate.slice(before).forEach((line) => escalateInternal.add(line));
   }
 
   // One staff digest per run (and per day when a ledger is available).

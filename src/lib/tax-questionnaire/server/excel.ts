@@ -287,3 +287,23 @@ export async function buildWorkbook(record: SubmissionRecord): Promise<Uint8Arra
   const buffer = await wb.xlsx.writeBuffer();
   return new Uint8Array(buffer as ArrayBuffer);
 }
+
+/** Follow-up workbook after submission: every document with its status, and what is still missing. */
+export async function buildDocsWorkbook(docs: DocResult[], title: string, at: Date): Promise<Uint8Array> {
+  const wb = new ExcelJS.Workbook();
+  wb.creator = "Ark Fiduciaire – questionnaire fiscal";
+  wb.created = at;
+  const all = wb.addWorksheet("Documents");
+  all.addRow([title]).font = { bold: true, size: 13 };
+  all.addRow([`Mis à jour le ${nowSwiss(at)}`]).font = { italic: true };
+  all.addRow([]);
+  headerRow(all, ["Document", "Catégorie", "Statut", "Fichiers"]);
+  for (const d of docs) all.addRow([d.item.label.fr, DOC_CATEGORIES[d.item.category].label.fr, STATUS_FR[d.status], d.files.map((f) => f.name).join("\n")]).alignment = { vertical: "top", wrapText: true };
+  [70, 26, 26, 50].forEach((w, i) => (all.getColumn(i + 1).width = w));
+  const todo = wb.addWorksheet("À demander");
+  headerRow(todo, ["Document", "Statut"]);
+  for (const d of docs.filter((x) => x.status === "later" || x.status === "missing")) todo.addRow([d.item.label.fr, STATUS_FR[d.status]]);
+  todo.getColumn(1).width = 70;
+  todo.getColumn(2).width = 26;
+  return new Uint8Array(await wb.xlsx.writeBuffer());
+}

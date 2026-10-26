@@ -9,6 +9,7 @@ import {
   invitePartner,
   listUploads,
   notifyAdditions,
+  syncStaffDocs,
   readDraft,
   recordFeedback,
   removeUpload,
@@ -34,7 +35,8 @@ const toDdMmYyyy = (iso?: string) => (iso && /^\d{4}-\d{2}-\d{2}/.test(iso) ? `$
 export async function GET(request: Request) {
   return route(request, { name: "case-get", perIp: 120, scope: "any" }, async ({ storage, info, session }) => {
     if (!info || !session) return json({ error: "session_expired" }, 401);
-    const draft = await readDraft(storage, info);
+    // Staff "Documents à demander" lines join the client's to-do (and the reminders).
+    const draft = (await syncStaffDocs(storage, info).catch(() => null)) || (await readDraft(storage, info));
     const files = await listUploads(storage, info);
     const answers = draft?.answers || {};
     return json({

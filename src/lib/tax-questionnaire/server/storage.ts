@@ -40,7 +40,7 @@ export interface MailMessage {
 }
 
 export const TRACKING_LIST = "Suivi questionnaires";
-export const TRACKING_STATUSES = ["À valider", "Nouveau", "Offre envoyée", "Mandat", "En cours", "Déposé", "Clos"];
+export const TRACKING_STATUSES = ["À valider", "Nouveau", "Documents manquants", "Dossier complet", "Offre envoyée", "Mandat", "En cours", "Déposé", "Clos"];
 
 export interface TaxStorage {
   readonly kind: "graph" | "mock";

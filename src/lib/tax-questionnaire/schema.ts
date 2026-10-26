@@ -209,7 +209,7 @@ const start: StepDef = {
       titleField: "label",
       hidden: true,
       maxRows: 40,
-      fields: [f("label", "text", t("Document", "Document", "Dokument"), { maxLength: 200 })],
+      fields: [f("label", "text", t("Document", "Document", "Dokument"), { maxLength: 200 }), f("staff", "text", t("Ajouté par le staff", "Added by staff", "Vom Team hinzugefügt"), { hidden: true, maxLength: 1 })],
     }),
     heading("start.contactHeading", t("Vos coordonnées", "Your contact details", "Ihre Kontaktdaten")),
     f("start.firstName", "text", t("Prénom", "First name", "Vorname"), { required: true, width: "half", maxLength: 100 }),
