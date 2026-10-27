@@ -57,6 +57,7 @@ export default async function LocaleLayout(
       home: tNavbar("Home"),
       team: tNavbar("Team"),
       services: tNavbar("Services"),
+      allServices: tNavbar("AllServices"),
       agent: tNavbar("Agent"),
       ressources: tNavbar("Ressources"),
       about: tNavbar("About"),
