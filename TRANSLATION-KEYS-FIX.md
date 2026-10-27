@@ -363,3 +363,4 @@ Added in all locales (`fr`, `en`, `de`, `es`, `pt`):
 - `services:ServiceRelated.PillarLabel` — label of the highlighted reference guide in the related-articles block (`servicePillarArticle` in `src/lib/serviceArticles.ts`).
 - `services:TypicalSituations.Title`, `.Disclaimer`, `.SituationLabel`, `.WhatWeDoLabel` — shared labels of the typical situations block (`src/components/ui/service-typical-situations.tsx`).
 - `<service>:TypicalSituations.Cases[].Situation` / `.WhatWeDo` in `domiciliation`, `payroll`, `accounting`, `incorporation`, `outsourcing` — two fictional examples per service; `accounting:TypicalSituations.PriceNote` — the only price shown (from `faq.json` Answer15).
+- `navbar:AllServices` — "all services" hub link at the end of the collapsible services list in the mobile menu (`src/components/navigation/ServicesMobile.tsx`).
