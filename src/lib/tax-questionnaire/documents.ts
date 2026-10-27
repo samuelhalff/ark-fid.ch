@@ -57,7 +57,7 @@ export const DOC_RULES: DocRule[] = [
   { id: "ark-doc", category: "other", forEach: "start.arkDocs", label: t("{row}", "{row}", "{row}") },
   // ---- key documents (asked first)
   { id: "last-return", category: "base", base: true, when: (a) => a["start.status"] === "filedBefore" && !renewalYear(a), label: t("Dernière déclaration d'impôt déposée (avec annexes)", "Last tax return filed (with schedules)", "Letzte eingereichte Steuererklärung (mit Beilagen)") },
-  { id: "last-assessment", category: "base", base: true, when: previouslyTaxed, label: t("Dernier avis de taxation reçu", "Latest notice of assessment received", "Letzte erhaltene Veranlagungsverfügung") },
+  { id: "last-assessment", category: "base", base: true, when: previouslyTaxed, label: t("Dernier avis (ou décision) de taxation reçu", "Latest notice of assessment received", "Letzte erhaltene Veranlagungsverfügung") },
   {
     id: "access-letter",
     category: "base",
@@ -69,7 +69,7 @@ export const DOC_RULES: DocRule[] = [
   { id: "arrival", category: "base", base: true, when: arrived, label: t("Attestation d'arrivée de la commune", "Municipal registration certificate", "Anmeldebestätigung der Gemeinde") },
   { id: "departure", category: "base", base: true, when: left, label: t("Attestation de départ de la commune", "Municipal deregistration certificate", "Abmeldebestätigung der Gemeinde") },
 
-  { id: "avis-received", category: "admin", when: (a) => a["start.avisReceived"] === "yes", label: t("Avis de taxation {year} déjà reçu (avec bordereau)", "{year} notice of assessment already received (with bill)", "Bereits erhaltene Veranlagungsverfügung {year} (mit Rechnung)") },
+  { id: "avis-received", category: "admin", when: (a) => a["start.avisReceived"] === "yes", label: t("Avis (ou décision) de taxation {year} déjà reçu (avec bordereau)", "{year} notice of assessment already received (with bill)", "Bereits erhaltene Veranlagungsverfügung {year} (mit Rechnung)") },
   { id: "previous-file", category: "base", when: (a) => a["start.status"] === "filedBefore" && a["start.previousFile"] === "yes", label: t("Dossier de l'an dernier remis par votre précédent mandataire", "Last year's file from your previous adviser", "Vorjahresdossier Ihrer früheren Vertretung") },
 
   // ---- family
@@ -88,7 +88,7 @@ export const DOC_RULES: DocRule[] = [
 
   // ---- work
   { id: "salary", category: "work", forEach: "work.employers", label: t("Certificat de salaire {year} – {row}", "Salary certificate {year} – {row}", "Lohnausweis {year} – {row}") },
-  { id: "source-tax", category: "work", when: sourceTaxed, label: t("Attestation de l'impôt à la source {year}, si elle ne figure pas sur le certificat de salaire", "Tax-at-source statement {year}, if not shown on the salary certificate", "Quellensteuerbescheinigung {year}, falls nicht im Lohnausweis"), },
+  { id: "source-tax", category: "work", when: sourceTaxed, label: t("Attestation de l'impôt à la source {year} (à Genève : « attestation-quittance » de l'employeur), si elle ne figure pas sur le certificat de salaire", "Tax-at-source statement {year} (in Geneva: the employer's 'attestation-quittance'), if not shown on the salary certificate", "Quellensteuerbescheinigung {year} (in Genf: «attestation-quittance» des Arbeitgebers), falls nicht im Lohnausweis"), },
   { id: "residence-certificate", category: "work", when: worksInSwitzerlandFromAbroad, label: t("Attestation de résidence fiscale {year} de votre pays de domicile", "Tax residence certificate {year} from your country of residence", "Ansässigkeitsbescheinigung {year} Ihres Wohnsitzstaats") },
   { id: "household-world-income", category: "work", when: (a) => sourceTaxed(a) && worksInSwitzerlandFromAbroad(a) && ["yes", "unknown"].includes(str(a["regime.foreignHouseholdIncome"])), label: t("Justificatifs des revenus {year} du ménage hors de Suisse (y compris du conjoint)", "Proof of the household's {year} income outside Switzerland (including spouse)", "Belege der Haushaltseinkünfte {year} ausserhalb der Schweiz (inkl. Ehegatte)") },
   { id: "board-fees", category: "work", when: yes("work.boardFees"), label: t("Attestations des honoraires d'administrateur {year}", "Director's fee statements {year}", "Bescheinigungen Verwaltungsratshonorare {year}") },

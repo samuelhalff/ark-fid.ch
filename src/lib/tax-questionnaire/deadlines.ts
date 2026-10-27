@@ -36,9 +36,9 @@ export const CANTON_DEADLINES: CantonDeadline[] = [
     canton: "VD",
     ordinary: "03-15",
     extension: t(
-      "Assujettissement illimité : tolérance jusqu'au 30 juin ; une demande gratuite, déposée en ligne entre le 16 mai et le 30 juin, peut être accordée jusqu'au 30 septembre. Assujettissement limité : tolérance jusqu'au 30 novembre. Départ ou forfait : demande par courrier.",
-      "Unlimited tax liability: tolerance until 30 June; a free online request filed between 16 May and 30 June may be granted until 30 September. Limited liability: tolerance until 30 November. Departure or lump-sum: request by letter.",
-      "Unbeschränkte Steuerpflicht: Toleranz bis 30. Juni; ein kostenloses Online-Gesuch zwischen 16. Mai und 30. Juni kann bis 30. September bewilligt werden. Beschränkte Steuerpflicht: Toleranz bis 30. November. Wegzug oder Pauschalbesteuerung: Gesuch per Post.",
+      "Assujettissement illimité : tolérance jusqu'au 30 juin sans demande ; une demande gratuite déposée en ligne du 16 mai au 30 juin peut permettre d'obtenir un délai jusqu'au 30 septembre. Assujettissement limité : tolérance jusqu'au 30 novembre. Fin d'assujettissement en cours d'année ou imposition d'après la dépense : pas de demande en ligne, nous nous en chargeons.",
+      "Unlimited tax liability: tolerance until 30 June without a request; a free online request filed from 16 May to 30 June may result in an extension until 30 September. Limited liability: tolerance until 30 November. Liability ending during the year or lump-sum taxation: no online request, we handle it.",
+      "Unbeschränkte Steuerpflicht: Toleranz bis 30. Juni ohne Gesuch; mit einem kostenlosen Online-Gesuch vom 16. Mai bis 30. Juni kann eine Frist bis 30. September beantragt werden. Beschränkte Steuerpflicht: Toleranz bis 30. November. Ende der Steuerpflicht im Laufe des Jahres oder Pauschalbesteuerung: kein Online-Gesuch, wir kümmern uns darum.",
     ),
     source: "https://www.vd.ch/prestation/demander-un-delai-pour-le-depot-de-la-declaration-dimpot-pour-les-individus-personnes-physiques-et-les-societes-personnes-morales",
     verifiedOn: VERIFIED_ON,
@@ -99,7 +99,11 @@ export function deadlinesFor(a: Answers, opts: { extendedTo?: string; now?: Date
       date: `31.03.${year + 1}`,
       level: "high",
       note: left(a)
-        ? t("Non prolongeable. En cas de départ de Suisse, au plus tard au moment de l'annonce du départ.", "Cannot be extended. When leaving Switzerland, at the latest when you deregister.", "Nicht erstreckbar. Bei Wegzug spätestens mit der Abmeldung.")
+        ? t(
+            "TOU d'un résident ayant quitté la Suisse : la demande devait être déposée au plus tard avec la déclaration de départ (art. 89a al. 3 LIFD). Rectification de l'impôt à la source, et TOU d'une personne domiciliée à l'étranger : délai au 31 mars de l'année suivante, non prolongeable. Appelez-nous sans attendre.",
+            "TOU for a resident who has left Switzerland: the request had to be filed no later than with the departure notice (art. 89a para. 3 DBG). Correction of tax at source, and TOU for a person resident abroad: the deadline is 31 March of the following year and cannot be extended. Call us without delay.",
+            "NOV einer in der Schweiz ansässigen Person, die weggezogen ist: Der Antrag musste spätestens mit der Wegzugsmeldung eingereicht werden (Art. 89a Abs. 3 DBG). Berichtigung der Quellensteuer sowie NOV einer im Ausland wohnhaften Person: Frist am 31. März des Folgejahres, nicht erstreckbar. Rufen Sie uns umgehend an.",
+          )
         : t("Non prolongeable.", "Cannot be extended.", "Nicht erstreckbar."),
     });
   }
@@ -112,9 +116,9 @@ export function deadlinesFor(a: Answers, opts: { extendedTo?: string; now?: Date
       date,
       level: "high",
       note: t(
-        "30 jours dès le lendemain de la réception de l'avis ; reporté au lundi si le dernier jour tombe un samedi ou un dimanche (jours fériés : à vérifier). Conservez l'enveloppe.",
-        "30 days from the day after you received the notice; moved to Monday if the last day is a Saturday or Sunday (public holidays: to be checked). Keep the envelope.",
-        "30 Tage ab dem Tag nach Erhalt der Verfügung; fällt der letzte Tag auf einen Samstag oder Sonntag, auf den Montag verschoben (Feiertage: zu prüfen). Bewahren Sie den Umschlag auf.",
+        "30 jours dès le lendemain de la notification (en principe la date de réception ; un recommandé non retiré est réputé notifié le 7e et dernier jour du délai de garde, si vous deviez vous attendre à une communication de l'administration, notamment dans une procédure en cours) ; reporté au premier jour ouvrable suivant si le dernier jour tombe un samedi, un dimanche ou un jour férié officiel. La date affichée tient compte des week-ends, pas des jours fériés : faites-la confirmer si elle tombe un jour férié. Conservez l'enveloppe.",
+        "30 days from the day after notification (in principle the day you received it; an uncollected registered letter is deemed notified on the 7th and last day of the holding period if you had reason to expect a communication from the authority, particularly in pending proceedings); moved to the next working day if the last day is a Saturday, Sunday or official public holiday. The date shown accounts for weekends but not public holidays: have it confirmed if it falls on one. Keep the envelope.",
+        "30 Tage ab dem Tag nach der Eröffnung (grundsätzlich der Tag des Erhalts; ein nicht abgeholtes Einschreiben gilt am 7. und letzten Tag der Abholfrist als eröffnet, sofern Sie mit einer Mitteilung der Behörde rechnen mussten, insbesondere in einem laufenden Verfahren); fällt der letzte Tag auf einen Samstag, Sonntag oder offiziellen Feiertag, auf den nächsten Werktag verschoben. Das angezeigte Datum berücksichtigt Wochenenden, nicht aber Feiertage: lassen Sie es bestätigen, wenn es auf einen Feiertag fällt. Bewahren Sie den Umschlag auf.",
       ),
     });
   }

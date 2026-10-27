@@ -32,12 +32,6 @@ export const UI = {
   datePlaceholder: t("jj.mm.aaaa", "dd.mm.yyyy", "tt.mm.jjjj"),
   errorSummary: t("Merci de corriger les points signalés.", "Please correct the highlighted fields.", "Bitte korrigieren Sie die markierten Felder."),
   noRows: t("Aucune entrée pour l'instant.", "No entries yet.", "Noch keine Einträge."),
-  draftTitle: t("Brouillon enregistré sur cet appareil", "Draft saved on this device", "Entwurf auf diesem Gerät gespeichert"),
-  draftText: t(
-    "Vos réponses sont gardées dans ce navigateur pour que vous puissiez reprendre plus tard (jamais vos fichiers). Sur un ordinateur partagé, effacez le brouillon en partant. Il est effacé automatiquement après l'envoi ou après 30 jours.",
-    "Your answers are kept in this browser so you can come back later (never your files). On a shared computer, delete the draft when you leave. It is deleted automatically after you submit or after 30 days.",
-    "Ihre Antworten werden in diesem Browser gespeichert, damit Sie später weitermachen können (nie Ihre Dateien). Löschen Sie den Entwurf auf einem gemeinsam genutzten Computer. Er wird nach dem Absenden oder nach 30 Tagen automatisch gelöscht.",
-  ),
   draftDelete: t("Effacer mon brouillon", "Delete my draft", "Entwurf löschen"),
   draftDeleteConfirm: t("Effacer toutes vos réponses de cet appareil ?", "Delete all your answers from this device?", "Alle Antworten von diesem Gerät löschen?"),
   draftRestored: t("Nous avons repris vos réponses enregistrées.", "We restored your saved answers.", "Ihre gespeicherten Antworten wurden wiederhergestellt."),
