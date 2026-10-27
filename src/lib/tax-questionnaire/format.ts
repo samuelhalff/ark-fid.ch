@@ -101,3 +101,15 @@ export function givenName(raw: string | undefined | null): string {
 export function personName(lastName: string | undefined | null, firstName: string | undefined | null): string {
   return `${(lastName || "").trim().replace(/\s+/g, " ").toUpperCase()} ${givenName(firstName)}`.trim();
 }
+
+/**
+ * Reverse of personName: the leading upper-case words form the last name. A name with no such
+ * split (all capitals, or not in the house format) stays whole as the last name rather than being
+ * cut at a guessed word.
+ */
+export function splitPersonName(name: string): { lastName: string; firstName: string } {
+  const words = name.trim().split(/\s+/).filter(Boolean);
+  const split = words.findIndex((w) => w !== w.toUpperCase());
+  if (split <= 0) return { lastName: words.join(" "), firstName: "" };
+  return { lastName: words.slice(0, split).join(" "), firstName: words.slice(split).join(" ") };
+}

@@ -3,7 +3,7 @@ import test from "node:test";
 
 import { campaignMail } from "./server/campaign.ts";
 import { firstNameOf } from "./server/email.ts";
-import { givenName, personName } from "./format.ts";
+import { givenName, personName, splitPersonName } from "./format.ts";
 import { linkMail, otpMail, regularisationClientMail } from "./server/mails.ts";
 
 /** Visible text of a mail, paragraphs separated by blank lines. */
@@ -83,4 +83,11 @@ test("names follow the house convention NOM Prénom whatever the client typed", 
   assert.equal(givenName("éLODIE"), "éLODIE");
   assert.equal(givenName("ÉLODIE"), "Élodie");
   assert.equal(firstNameOf(personName("granath", "ANDERS")), "Anders");
+});
+
+test("invitation names split back into last and first name without guessing", () => {
+  assert.deepEqual(splitPersonName("DE LA TOUR Jean-Paul"), { lastName: "DE LA TOUR", firstName: "Jean-Paul" });
+  assert.deepEqual(splitPersonName("GRANATH Anders"), { lastName: "GRANATH", firstName: "Anders" });
+  assert.deepEqual(splitPersonName("PAULINE ALLAMAND"), { lastName: "PAULINE ALLAMAND", firstName: "" });
+  assert.deepEqual(splitPersonName("Pauline Allamand"), { lastName: "Pauline Allamand", firstName: "" });
 });

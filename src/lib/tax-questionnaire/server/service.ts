@@ -9,7 +9,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { attentionPoints } from "../attention";
 import { DOC_CATEGORIES, docRuleById, selectedYears, taxYearOf } from "../documents";
-import { personName } from "../format";
+import { personName, splitPersonName } from "../format";
 import { ALLOWED_TYPES, checkUpload, codeFromFileName, extensionOf, safeName, sniffMismatch, uploadFileName, UPLOAD_LIMITS } from "../files";
 import { checklistFor, pruneHidden, sanitizeAnswers, validateAll } from "../logic";
 import { has, isCouple, sourceTaxed, sourceTaxedResident, STEPS } from "../schema";
@@ -870,11 +870,7 @@ export const ARK_NOTES_FILE = "Points d'attention (Ark).txt";
 export async function createInvitedReturn(input: { clientKey: string; email: string; name: string; language: string; taxYear: number; prefillFrom?: ReturnRecord; prefillAnswers?: Record<string, unknown>; notes?: string[]; planned?: ReturnRecord }): Promise<ReturnRecord> {
   const { getStorage } = await import("./storage");
   const storage = getStorage();
-  // CRM convention "NOM COMPOSÉ Prénom": the leading upper-case words form the last name.
-  const words = input.name.trim().split(/\s+/);
-  let split = words.findIndex((w) => w !== w.toUpperCase());
-  if (split <= 0) split = 1;
-  const identity = { email: input.email, lastName: words.slice(0, split).join(" ") || input.name, firstName: words.slice(split).join(" ") };
+  const identity = { email: input.email, ...splitPersonName(input.name) };
   const prefill = input.prefillAnswers
     ? { ...sanitizeAnswers(input.prefillAnswers), "start.years": [String(input.taxYear)] }
     : input.prefillFrom
