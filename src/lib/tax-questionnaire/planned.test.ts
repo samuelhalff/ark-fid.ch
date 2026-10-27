@@ -126,12 +126,19 @@ test("a CRM client whose planned row is excluded is skipped", async () => {
   assert.equal(summary.invitations, 0);
 });
 
-test("an e-mail shared by two planned rows links neither; reminders continue for a converted row", async () => {
+test("an e-mail shared by a CRM client and two planned rows: each person invited once on their own row; reminders continue", async () => {
   const { mem, deps, created } = setup([{ id: "1", email: "shared@example.ch", lastName: "Un", firstName: "Client" }]);
-  await addPlanned(mem, plannedRow("Un Client", { email: "shared@example.ch" }), "Nouveau");
-  await addPlanned(mem, plannedRow("Deux Client", { email: "shared@example.ch" }), "Nouveau");
+  const one = await addPlanned(mem, plannedRow("UN Client", { email: "shared@example.ch" }), "Nouveau");
+  const two = await addPlanned(mem, plannedRow("DEUX Client", { email: "shared@example.ch" }), "Nouveau");
   await runCampaign(deps, { now: feb });
-  assert.equal(created.filter((c) => c.planned).length, 0, "no planned row reused on an ambiguous e-mail");
+  assert.deepEqual(created.map((c) => c.planned?.trackerId).sort(), [one, two].sort(), "the CRM client takes its own row, the other family member theirs");
+  assert.equal(mem.returns.length, 2, "no duplicate row");
+
+  const ambiguous = setup([{ id: "1", email: "shared@example.ch", lastName: "Trois", firstName: "Client" }]);
+  await addPlanned(ambiguous.mem, plannedRow("UN Client", { email: "shared@example.ch" }), "Nouveau");
+  await addPlanned(ambiguous.mem, plannedRow("DEUX Client", { email: "shared@example.ch" }), "Nouveau");
+  await runCampaign(ambiguous.deps, { now: feb });
+  assert.equal(ambiguous.created.filter((c) => c.planned && c.name === "TROIS Client").length, 0, "no planned row given to a CRM client with another name");
 
   const solo = setup();
   await addPlanned(solo.mem, plannedRow("Allamand Pauline", { email: "pauline@example.ch" }), "Nouveau");

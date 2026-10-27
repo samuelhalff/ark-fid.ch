@@ -102,16 +102,20 @@ export const PLANNED_PENDING = "À valider";
 /** Client key of a planned row whose ClientKey column is empty (stable, from the row id). */
 export const plannedKey = (r: ReturnRecord) => createHash("sha256").update(`ark-tax-qf-planned|${r.trackerId || r.name}`).digest("hex").slice(0, 24);
 const sameEmail = (a: string, b: string) => !!a && !!b && a.trim().toLowerCase() === b.trim().toLowerCase();
+const foldName = (s?: string) => (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+const sameName = (a?: string, b?: string) => !!foldName(a) && foldName(a) === foldName(b);
 /**
- * Planned row for a client (by client key, else by a unique e-mail match). An e-mail shared by
- * several planned rows matches none of them (left to staff).
+ * Planned row for a client (by client key, else by a unique e-mail match, else by e-mail and name).
+ * An e-mail shared by several planned rows with no name match matches none of them (left to staff).
  */
-export function plannedFor(rows: ReturnRecord[], member: { clientKey: string; email: string }): ReturnRecord | undefined {
+export function plannedFor(rows: ReturnRecord[], member: { clientKey: string; email: string; name?: string }): ReturnRecord | undefined {
   const byKey = rows.filter((r) => r.clientKey && r.clientKey === member.clientKey);
   if (byKey.length === 1) return byKey[0];
   if (byKey.length > 1) return undefined;
   const byEmail = rows.filter((r) => sameEmail(r.email, member.email));
-  return byEmail.length === 1 ? byEmail[0] : undefined;
+  if (byEmail.length === 1) return byEmail[0];
+  const byName = byEmail.filter((r) => sameName(r.name, member.name));
+  return byName.length === 1 ? byName[0] : undefined;
 }
 
 // ---- mails --------------------------------------------------------------------------------------
@@ -225,15 +229,18 @@ async function audience(deps: CampaignDeps, planned: ReturnRecord[], current: Re
     if (prefs.excluded || !prefs.email || members.has(prefs.clientKey)) continue;
     members.set(prefs.clientKey, { clientKey: prefs.clientKey, email: prefs.email, name: prefs.name, language: lang(prefs.language), prefs });
   }
-  // CRM and opted-in clients: an e-mail already here is the same person.
+  // CRM and opted-in clients. A planned row or current return is the same person only when both the
+  // e-mail and the name match: one address can serve several family members.
   const people = [...members.values()];
+  const known = (row: { email?: string; name?: string }) =>
+    people.some((m) => sameEmail(m.email, row.email || "") && sameName(m.name, row.name));
   // Planned rows: once staff validated them (status other than "À valider") and gave an e-mail.
   // Two planned rows may share an e-mail (one family member handles both returns): each is its
   // own client.
   for (const row of planned) {
     if (!row.email || row.excludedFromCampaign || row.state === "declined" || row.staffStatus === PLANNED_PENDING) continue;
     const key = row.clientKey || plannedKey(row);
-    if (members.has(key) || people.some((m) => sameEmail(m.email, row.email))) continue;
+    if (members.has(key) || known(row)) continue;
     const prefs = await deps.prefs.get(key);
     if (prefs?.excluded) continue;
     members.set(key, { clientKey: key, email: row.email, name: row.name, language: lang(row.language || prefs?.language), prefs, planned: row });
@@ -241,7 +248,7 @@ async function audience(deps: CampaignDeps, planned: ReturnRecord[], current: Re
   // Returns created by the campaign for this year (e.g. from a planned row): their reminders go on
   // even when the client is neither in the CRM audience nor opted in.
   for (const row of current) {
-    if (!row.email || !row.clientKey || members.has(row.clientKey) || people.some((m) => sameEmail(m.email, row.email))) continue;
+    if (!row.email || !row.clientKey || members.has(row.clientKey) || known(row)) continue;
     const prefs = await deps.prefs.get(row.clientKey);
     if (prefs?.excluded) continue;
     members.set(row.clientKey, { clientKey: row.clientKey, email: row.email, name: row.name, language: lang(row.language || prefs?.language), prefs });

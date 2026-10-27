@@ -53,6 +53,8 @@ export const VOICE: Record<ClientLocale, { hello: (first: string) => string; ava
 export function firstNameOf(name: string): string {
   const words = name.trim().split(/\s+/).filter(Boolean);
   const first = words.filter((w) => w !== w.toUpperCase());
+  // Not in the house format (no capitalised last name): don't greet someone by their last name.
+  if (first.length === words.length) return "";
   return first.join(" ");
 }
 

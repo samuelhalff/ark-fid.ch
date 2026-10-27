@@ -72,6 +72,7 @@ test("first name from the CRM convention", () => {
   assert.equal(firstNameOf("DE LA TOUR Jean-Paul"), "Jean-Paul");
   assert.equal(firstNameOf("DÉMO Renouvellement"), "Renouvellement");
   assert.equal(firstNameOf("SMITH"), "");
+  assert.equal(firstNameOf("Pauline Allamand"), "", "not in the house format: no guess");
 });
 
 test("names follow the house convention NOM Prénom whatever the client typed", () => {

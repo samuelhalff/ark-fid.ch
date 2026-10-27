@@ -58,10 +58,26 @@ export function matchCrm(items: CrmItem[], identity: ClientIdentity): ClientMatc
   return byName.length ? { status: "ambiguous", candidateIds: byName.map((i) => i.id) } : { status: "none" };
 }
 
-/** CRM Title for a new person: "NOM", or "NOM Prénom" when that last name is already taken (Title is unique). */
-export function crmTitle(items: CrmItem[], identity: ClientIdentity): string {
+/**
+ * CRM Title for a new person: "NOM", or "NOM Prénom" when that last name is already taken (Title is
+ * unique). Null when even that is taken or there is no first name to tell them apart.
+ */
+export function crmTitle(items: CrmItem[], identity: ClientIdentity): string | null {
   const last = identity.lastName.trim().replace(/\s+/g, " ").toUpperCase();
-  return items.some((item) => normalise(item.title) === normalise(last)) ? personName(identity.lastName, identity.firstName) : last;
+  const taken = (title: string) => items.some((item) => normalise(item.title) === normalise(title));
+  if (!taken(last)) return last;
+  const full = personName(identity.lastName, identity.firstName);
+  return identity.firstName.trim() && !taken(full) ? full : null;
+}
+
+/** Last name of a CRM person: the Title, minus the first name when the Title is "NOM Prénom". */
+export function crmLastName(title: string, firstName: string): string {
+  const t = title.trim();
+  const first = firstName.trim();
+  if (!first || !normalise(t).endsWith(` ${normalise(first)}`)) return t;
+  const words = t.split(/\s+/);
+  const firstWords = first.split(/\s+/).length;
+  return words.length > firstWords ? words.slice(0, words.length - firstWords).join(" ") : t;
 }
 
 class SharePointClientRegistry implements ClientRegistry {
@@ -122,6 +138,7 @@ class SharePointClientRegistry implements ClientRegistry {
     const date = new Intl.DateTimeFormat("fr-CH", { timeZone: "Europe/Zurich" }).format(now);
     const items = await this.items();
     const title = crmTitle(items, identity);
+    if (!title) return null;
     const created = await graph.json(base, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -145,7 +162,7 @@ class SharePointClientRegistry implements ClientRegistry {
   async listTaxClients() {
     return (await this.items(true))
       .filter((i) => i.actif && i.etendue.includes("Fiscal") && i.email)
-      .map((i) => ({ id: i.id, email: i.email, lastName: i.title, firstName: i.firstName }));
+      .map((i) => ({ id: i.id, email: i.email, lastName: crmLastName(i.title, i.firstName), firstName: i.firstName }));
   }
 }
 
@@ -548,7 +565,7 @@ export function memoryPorts(seed: { crm?: MemoryCrmItem[] } = {}) {
       return { id, url: `crm://${id}`, created: true };
     },
     async listTaxClients() {
-      return crm.filter((c) => c.actif && c.etendue.includes("Fiscal") && c.email).map((c) => ({ id: c.id, email: c.email, lastName: c.title, firstName: c.firstName }));
+      return crm.filter((c) => c.actif && c.etendue.includes("Fiscal") && c.email).map((c) => ({ id: c.id, email: c.email, lastName: crmLastName(c.title, c.firstName), firstName: c.firstName }));
     },
   };
   const tracker: ReturnTracker = {
