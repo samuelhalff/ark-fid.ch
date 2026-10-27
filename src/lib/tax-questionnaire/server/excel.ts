@@ -3,7 +3,7 @@ import { renewalContext, renewalStatusFr } from "../renewal";
 import type { Row } from "../types";
 import { attentionPoints } from "../attention";
 import { DOC_CATEGORIES, selectedYears, taxYearOf } from "../documents";
-import { dateToUtc, nowSwiss, parseAmount, parseDate } from "../format";
+import { dateToUtc, nowSwiss, parseAmount, parseDate, personName } from "../format";
 import { displayValue, getField, isBlockVisible, isRowFieldVisible, label, visibleSteps } from "../logic";
 import { ROUTER_GROUPS, ROUTER_OPTIONS, routerItems, rowsOf } from "../schema";
 import type { Answers, DocItem, DocStatus, FieldDef, QfLocale } from "../types";
@@ -119,7 +119,7 @@ function sheetName(wb: ExcelJS.Workbook, wanted: string) {
 }
 
 export const excelFileName = (a: Answers) =>
-  `Questionnaire fiscal ${taxYearOf(a)} - ${str(a["start.lastName"]).toUpperCase()} ${str(a["start.firstName"])}`.trim();
+  `Questionnaire fiscal ${taxYearOf(a)} - ${personName(str(a["start.lastName"]), str(a["start.firstName"]))}`;
 
 export async function buildWorkbook(record: SubmissionRecord): Promise<Uint8Array> {
   const a = record.answers;
@@ -128,7 +128,7 @@ export async function buildWorkbook(record: SubmissionRecord): Promise<Uint8Arra
   wb.creator = "Ark Fiduciaire – questionnaire fiscal";
   wb.created = record.submittedAt;
   const year = taxYearOf(a);
-  const fullName = `${str(a["start.lastName"]).toUpperCase()} ${str(a["start.firstName"])}`.trim();
+  const fullName = personName(str(a["start.lastName"]), str(a["start.firstName"]));
   const fv = (id: string) => {
     const def = getField(id);
     return def ? cellValue(def, a[id], a) : null;
@@ -146,7 +146,7 @@ export async function buildWorkbook(record: SubmissionRecord): Promise<Uint8Arra
   };
   section("Client");
   kv(summary, "Nom, prénom", fullName);
-  kv(summary, "Conjoint(e)", `${str(a["start.spouseLastName"]).toUpperCase()} ${str(a["start.spouseFirstName"])}`.trim());
+  kv(summary, "Conjoint(e)", personName(str(a["start.spouseLastName"]), str(a["start.spouseFirstName"])));
   kv(summary, "Ménage", fv("start.household"));
   kv(summary, "E-mail", str(a["start.email"]));
   kv(summary, "Téléphone", str(a["start.phone"]));

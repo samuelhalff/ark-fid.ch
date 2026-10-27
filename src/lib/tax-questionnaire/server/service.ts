@@ -60,7 +60,7 @@ export function clientKey(email: string, lastName: string, firstName: string): s
 }
 
 export function caseFolderName(identity: Identity, caseId: string, now = new Date()): string {
-  const name = safeName(`${identity.lastName.toUpperCase()} ${identity.firstName}`, 60);
+  const name = safeName(personName(identity.lastName, identity.firstName), 60);
   return `${process.env.TAX_QF_FOLDER_PREFIX || ""}${name} - ${now.toISOString().slice(0, 10)} - ${caseId}`;
 }
 
