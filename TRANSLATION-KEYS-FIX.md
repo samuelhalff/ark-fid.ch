@@ -375,3 +375,9 @@ Added in all locales (`fr`, `en`, `de`, `es`, `pt`):
 - `legal:Privacy.DataCollection.WebsiteData.Items[5]` — attribution data item.
 
 Changed values: `cookie:Title`, `cookie:Text`, `cookie:Accept` ("Accept"), `cookie:Decline` ("Refuse"), `legal:Cookies.Introduction.Content[1]`, `legal:Cookies.Types.Analytics.Description`, `legal:Cookies.Types.Marketing.Description`, `legal:Cookies.Types.Marketing.Providers`, `legal:Cookies.Management.ConsentBanner.Description`, `legal:Cookies.Management.ConsentBanner.Options[0..1]`.
+
+## Mobile menu (Oct 2026)
+
+Added in all locales (`fr`, `en`, `de`, `es`, `pt`):
+
+- `navbar:AllServices` — "all services" hub link at the end of the collapsible services list in the mobile menu (`src/components/navigation/ServicesMobile.tsx`).
