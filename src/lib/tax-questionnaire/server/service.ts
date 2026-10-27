@@ -9,6 +9,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { attentionPoints } from "../attention";
 import { DOC_CATEGORIES, docRuleById, selectedYears, taxYearOf } from "../documents";
+import { personName } from "../format";
 import { ALLOWED_TYPES, checkUpload, codeFromFileName, extensionOf, safeName, sniffMismatch, uploadFileName, UPLOAD_LIMITS } from "../files";
 import { checklistFor, pruneHidden, sanitizeAnswers, validateAll } from "../logic";
 import { has, isCouple, sourceTaxed, sourceTaxedResident, STEPS } from "../schema";
@@ -183,7 +184,7 @@ export async function createCase(storage: TaxStorage, input: { identity: Identit
     householdId: input.householdId || caseId,
     email: input.identity.email,
     emailHash: emailHash(input.identity.email),
-    name: `${input.identity.lastName.toUpperCase()} ${input.identity.firstName}`.trim(),
+    name: personName(input.identity.lastName, input.identity.firstName),
     language: input.locale,
   };
   const folderName = caseFolderName(input.identity, caseId);

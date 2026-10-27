@@ -6,6 +6,7 @@
  * - AccessStore → tax site, list "Accès questionnaires" (HMACs only, never usable without the key).
  * In-memory adapters (memoryPorts) serve the local mock mode and the tests.
  */
+import { givenName } from "../format";
 import type { AccessRecord, AccessStore, ClientIdentity, ClientMatch, ClientPreferences, ClientRegistry, PreferenceStore, ReturnRecord, ReturnTracker } from "./ports";
 import { DEFAULT_SITE_ID, getGraph, mockStorageEnabled, TRACKING_LIST, TRACKING_STATUSES, type Json } from "./storage";
 
@@ -115,7 +116,7 @@ class SharePointClientRegistry implements ClientRegistry {
       body: JSON.stringify({
         fields: {
           Title: identity.lastName.toUpperCase(),
-          FirstName: identity.firstName,
+          FirstName: givenName(identity.firstName),
           EMail: identity.email,
           Acquis: "Prospect",
           "Etendue@odata.type": "Collection(Edm.String)",
@@ -531,7 +532,7 @@ export function memoryPorts(seed: { crm?: MemoryCrmItem[] } = {}) {
         return { id: item.id, url: item.webUrl, created: false };
       }
       const id = `crm${nextId++}`;
-      crm.push({ id, title: identity.lastName.toUpperCase(), firstName: identity.firstName, email: identity.email, acquis: "Prospect", actif: false, etendue: ["Fiscal"], webUrl: `crm://${id}`, documents: documentsUrl });
+      crm.push({ id, title: identity.lastName.toUpperCase(), firstName: givenName(identity.firstName), email: identity.email, acquis: "Prospect", actif: false, etendue: ["Fiscal"], webUrl: `crm://${id}`, documents: documentsUrl });
       return { id, url: `crm://${id}`, created: true };
     },
     async listTaxClients() {

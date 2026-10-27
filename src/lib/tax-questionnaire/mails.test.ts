@@ -3,6 +3,7 @@ import test from "node:test";
 
 import { campaignMail } from "./server/campaign.ts";
 import { firstNameOf } from "./server/email.ts";
+import { givenName, personName } from "./format.ts";
 import { linkMail, otpMail, regularisationClientMail } from "./server/mails.ts";
 
 /** Visible text of a mail, paragraphs separated by blank lines. */
@@ -71,4 +72,15 @@ test("first name from the CRM convention", () => {
   assert.equal(firstNameOf("DE LA TOUR Jean-Paul"), "Jean-Paul");
   assert.equal(firstNameOf("DÉMO Renouvellement"), "Renouvellement");
   assert.equal(firstNameOf("SMITH"), "");
+});
+
+test("names follow the house convention NOM Prénom whatever the client typed", () => {
+  assert.equal(personName("constantinescu", "ALEX"), "CONSTANTINESCU Alex");
+  assert.equal(personName(" de la  tour ", "jean-paul"), "DE LA TOUR Jean-Paul");
+  assert.equal(personName("L'Estrange-Fawcett", "robert"), "L'ESTRANGE-FAWCETT Robert");
+  assert.equal(personName("Martin", "Anne-Sophie"), "MARTIN Anne-Sophie");
+  assert.equal(personName("Smith", "McKenzie"), "SMITH McKenzie");
+  assert.equal(givenName("éLODIE"), "éLODIE");
+  assert.equal(givenName("ÉLODIE"), "Élodie");
+  assert.equal(firstNameOf(personName("granath", "ANDERS")), "Anders");
 });

@@ -2,7 +2,7 @@ import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf
 import { attentionPoints } from "../attention";
 import { renewalContext, renewalStatusFr } from "../renewal";
 import { DOC_CATEGORIES, selectedYears, taxYearOf } from "../documents";
-import { nowSwiss } from "../format";
+import { nowSwiss, personName } from "../format";
 import { displayValue, getField, isBlockVisible, isRowFieldVisible, label, visibleSteps } from "../logic";
 import { ROUTER_GROUPS, ROUTER_OPTIONS, routerItems, rowsOf } from "../schema";
 import type { Answers, DocStatus } from "../types";
@@ -162,7 +162,7 @@ export async function buildPdf(record: SubmissionRecord): Promise<Uint8Array> {
   const a = record.answers;
   const L = (text: Parameters<typeof label>[0]) => label(text, "fr", a);
   const year = taxYearOf(a);
-  const fullName = `${str(a["start.lastName"]).toUpperCase()} ${str(a["start.firstName"])}`.trim();
+  const fullName = personName(str(a["start.lastName"]), str(a["start.firstName"]));
 
   const doc = await PDFDocument.create();
   doc.setTitle(toWinAnsi(`Questionnaire fiscal ${year} - ${fullName}`));
@@ -181,7 +181,7 @@ export async function buildPdf(record: SubmissionRecord): Promise<Uint8Array> {
   w.heading("Synthèse");
   w.subheading("Client");
   w.kv("Nom, prénom", fullName);
-  w.kv("Conjoint(e)", `${str(a["start.spouseLastName"]).toUpperCase()} ${str(a["start.spouseFirstName"])}`.trim());
+  w.kv("Conjoint(e)", personName(str(a["start.spouseLastName"]), str(a["start.spouseFirstName"])));
   w.kv("Ménage", fieldText(a, "start.household"));
   w.kv("E-mail", str(a["start.email"]));
   w.kv("Téléphone", str(a["start.phone"]));
@@ -291,4 +291,4 @@ export async function buildPdf(record: SubmissionRecord): Promise<Uint8Array> {
 }
 
 export const pdfFileName = (a: Answers) =>
-  `Résumé questionnaire fiscal ${taxYearOf(a)} - ${str(a["start.lastName"]).toUpperCase()} ${str(a["start.firstName"])}`.trim();
+  `Résumé questionnaire fiscal ${taxYearOf(a)} - ${personName(str(a["start.lastName"]), str(a["start.firstName"]))}`;

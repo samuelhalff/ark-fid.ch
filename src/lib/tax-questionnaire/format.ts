@@ -89,3 +89,15 @@ export function nowSwiss(now = new Date()): string {
   const time = new Intl.DateTimeFormat("fr-CH", { timeZone: "Europe/Zurich", hour: "2-digit", minute: "2-digit", hour12: false }).format(now);
   return `${todaySwiss(now)} ${time}`;
 }
+
+/** "jean-paul" / "JEAN-PAUL" → "Jean-Paul"; mixed case typed by the client is kept as is. */
+export function givenName(raw: string | undefined | null): string {
+  const s = (raw || "").trim().replace(/\s+/g, " ");
+  if (s !== s.toUpperCase() && s !== s.toLowerCase()) return s;
+  return s.toLowerCase().replace(/(^|[\s'’-])(\p{L})/gu, (_, sep: string, ch: string) => sep + ch.toUpperCase());
+}
+
+/** House convention for a person (CRM, Suivi list, PDF, mails): "NOM Prénom". */
+export function personName(lastName: string | undefined | null, firstName: string | undefined | null): string {
+  return `${(lastName || "").trim().replace(/\s+/g, " ").toUpperCase()} ${givenName(firstName)}`.trim();
+}

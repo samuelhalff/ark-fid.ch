@@ -7,6 +7,7 @@
  */
 import { createHash } from "node:crypto";
 import { campaignStopDate } from "../deadlines";
+import { personName } from "../format";
 import type { IssueLinkOptions } from "./access";
 import { escapeHtml, firstNameOf, isInternalCase, mailConfig, plainHtml, VOICE, type MailBlock } from "./email";
 import type { ClientPreferences, ClientRegistry, PreferenceStore, ReturnRecord, ReturnTracker } from "./ports";
@@ -218,7 +219,7 @@ async function audience(deps: CampaignDeps, planned: ReturnRecord[], current: Re
     const key = computeClientKey(client.email, client.lastName, client.firstName);
     const prefs = await deps.prefs.get(key);
     if (prefs?.excluded) continue;
-    members.set(key, { clientKey: key, email: client.email, name: `${client.lastName.toUpperCase()} ${client.firstName}`.trim(), language: lang(prefs?.language), prefs });
+    members.set(key, { clientKey: key, email: client.email, name: personName(client.lastName, client.firstName), language: lang(prefs?.language), prefs });
   }
   for (const prefs of await deps.prefs.listOptedIn()) {
     if (prefs.excluded || !prefs.email || members.has(prefs.clientKey)) continue;

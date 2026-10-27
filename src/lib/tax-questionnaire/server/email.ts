@@ -1,6 +1,6 @@
 import { attentionPoints } from "../attention";
 import { DOC_CATEGORIES, selectedYears, taxYearOf } from "../documents";
-import { nowSwiss } from "../format";
+import { givenName, nowSwiss, personName } from "../format";
 import { displayValue, getField } from "../logic";
 import { CONTACT } from "../ui";
 import type { QfLocale } from "../types";
@@ -87,7 +87,7 @@ const table = (rows: [string, string][]) =>
 export function internalMail(record: SubmissionRecord, excelName: string, excel: Uint8Array | null, notes: string[] = []): MailMessage {
   const a = record.answers;
   const cfg = mailConfig();
-  const name = `${str(a["start.lastName"]).toUpperCase()} ${str(a["start.firstName"])}`.trim();
+  const name = personName(str(a["start.lastName"]), str(a["start.firstName"]));
   const year = String(taxYearOf(a));
   const canton = displayValue(getField("start.canton")!, a["start.canton"], "fr", a);
   const counts = (status: string) => record.docs.filter((d) => d.status === status).length;
@@ -174,7 +174,7 @@ export function clientMail(record: SubmissionRecord): MailMessage {
   const pending = record.docs.filter((d) => d.status === "later" || d.status === "missing");
   const extraLine = record.extras.length ? [DOC_CATEGORIES.extra.label[record.locale]] : [];
   const receivedList = [...received.map((d) => d.item.label[record.locale]), ...extraLine];
-  const blocks: MailBlock[] = [voice.hello(str(a["start.firstName"])), fill(text.thanks, { year })];
+  const blocks: MailBlock[] = [voice.hello(givenName(str(a["start.firstName"]))), fill(text.thanks, { year })];
   if (receivedList.length) blocks.push(text.received, { list: receivedList });
   if (pending.length) blocks.push(text.pending, { list: pending.map((d) => d.item.label[record.locale]) }, text.howTo);
   blocks.push(text.next, voice.available, voice.bye, voice.sign);
