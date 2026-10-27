@@ -9,7 +9,7 @@ process.env.TAX_QF_MOCK_DIR = mkdtempSync(path.join(os.tmpdir(), "tqf-test-"));
 process.env.TAX_QF_TOKEN_SECRET = "test-secret-0123456789abcdef0123456789abcdef";
 
 const { getStorage, MockStorage } = await import("./server/storage.ts");
-const { memoryPorts, setPortsForTests, matchCrm } = await import("./server/sharepoint-registry.ts");
+const { memoryPorts, setPortsForTests, matchCrm, crmTitle } = await import("./server/sharepoint-registry.ts");
 const service = await import("./server/service.ts");
 const access = await import("./server/access.ts");
 const { docCode } = await import("./documents.ts");
@@ -137,6 +137,12 @@ test("CRM: e-mail match links, name-only match is ambiguous and never written", 
   assert.equal(matchCrm(items, { email: "JEAN@dupont.ch", lastName: "x", firstName: "y" }).status, "matched");
   assert.equal(matchCrm(items, { email: "anne@x.ch", lastName: "Martin", firstName: "Anne" }).status, "ambiguous");
   assert.equal(matchCrm(items, { email: "new@x.ch", lastName: "New", firstName: "One" }).status, "none");
+  // Same last name, other person: a new entry whose unique Title falls back to "NOM Prénom".
+  assert.equal(matchCrm(items, { email: "paul@x.ch", lastName: "martin", firstName: "paul" }).status, "none");
+  assert.equal(crmTitle(items, { email: "paul@x.ch", lastName: "martin", firstName: "paul" }), "MARTIN Paul");
+  assert.equal(crmTitle(items, { email: "new@x.ch", lastName: "New", firstName: "One" }), "NEW");
+  const withPaul = [...items, { id: "3", title: "MARTIN Paul", firstName: "Paul", email: "", acquis: "Prospect", actif: false, etendue: [], webUrl: "" }];
+  assert.equal(matchCrm(withPaul, { email: "paul2@x.ch", lastName: "Martin", firstName: "Paul" }).status, "ambiguous");
 });
 
 test("draft deletion removes folders and revokes access; arrears get their own year folder", async () => {

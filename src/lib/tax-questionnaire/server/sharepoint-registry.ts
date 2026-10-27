@@ -6,7 +6,7 @@
  * - AccessStore → tax site, list "Accès questionnaires" (HMACs only, never usable without the key).
  * In-memory adapters (memoryPorts) serve the local mock mode and the tests.
  */
-import { givenName } from "../format";
+import { givenName, personName } from "../format";
 import type { AccessRecord, AccessStore, ClientIdentity, ClientMatch, ClientPreferences, ClientRegistry, PreferenceStore, ReturnRecord, ReturnTracker } from "./ports";
 import { DEFAULT_SITE_ID, getGraph, mockStorageEnabled, TRACKING_LIST, TRACKING_STATUSES, type Json } from "./storage";
 
@@ -50,8 +50,18 @@ export function matchCrm(items: CrmItem[], identity: ClientIdentity): ClientMatc
   if (byEmail.length > 1) return { status: "ambiguous", candidateIds: byEmail.map((i) => i.id) };
   const last = normalise(identity.lastName);
   const first = normalise(identity.firstName);
-  const byName = items.filter((item) => normalise(item.title) === last && (!item.firstName || normalise(item.firstName) === first));
+  // Title is unique in the list, so a second person with the same last name is stored as "NOM Prénom".
+  const byName = items.filter((item) => {
+    const title = normalise(item.title);
+    return (title === last && (!item.firstName || normalise(item.firstName) === first)) || (!!first && title === `${last} ${first}`);
+  });
   return byName.length ? { status: "ambiguous", candidateIds: byName.map((i) => i.id) } : { status: "none" };
+}
+
+/** CRM Title for a new person: "NOM", or "NOM Prénom" when that last name is already taken (Title is unique). */
+export function crmTitle(items: CrmItem[], identity: ClientIdentity): string {
+  const last = identity.lastName.trim().replace(/\s+/g, " ").toUpperCase();
+  return items.some((item) => normalise(item.title) === normalise(last)) ? personName(identity.lastName, identity.firstName) : last;
 }
 
 class SharePointClientRegistry implements ClientRegistry {
@@ -110,12 +120,14 @@ class SharePointClientRegistry implements ClientRegistry {
       return { id: result.id, url: result.url, created: false };
     }
     const date = new Intl.DateTimeFormat("fr-CH", { timeZone: "Europe/Zurich" }).format(now);
+    const items = await this.items();
+    const title = crmTitle(items, identity);
     const created = await graph.json(base, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         fields: {
-          Title: identity.lastName.toUpperCase(),
+          Title: title,
           FirstName: givenName(identity.firstName),
           EMail: identity.email,
           Acquis: "Prospect",
