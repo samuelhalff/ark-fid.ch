@@ -203,6 +203,43 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
+  // kyc.ark-fid.ch: the KYC form (app/[locale]/questionnaire-kyc) at /<fr|en>/, opened from the
+  // link Ark sends (Cadence); every other path goes back to the main site.
+  if (hostname === "kyc.ark-fid.ch" || (!isProd && hostname === "kyc.localhost")) {
+    const kycRedirect = (target: string, status: 307 | 308) => {
+      const url = new URL(target, request.url);
+      if (isProd) url.protocol = "https";
+      const response = NextResponse.redirect(url, status);
+      response.headers.set("X-Robots-Tag", "noindex, nofollow");
+      return response;
+    };
+    // Site languages without a KYC form: English, same host (the session cookie is host-only).
+    if (/^\/(de|es|pt)(\/questionnaire-kyc)?\/?$/.test(pathname)) return kycRedirect("/en/", 307);
+    const kycLocale = pathname.match(/^\/(fr|en)(\/questionnaire-kyc)?\/?$/);
+    if (kycLocale) {
+      if (kycLocale[2] || !pathname.endsWith("/")) return kycRedirect(`/${kycLocale[1]}/`, 308);
+      const target = `/${kycLocale[1]}/questionnaire-kyc/`;
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("x-locale", kycLocale[1]);
+      requestHeaders.set("x-pathname", target);
+      requestHeaders.set("x-nonce", nonce);
+      const response = NextResponse.rewrite(new URL(target, request.url), { request: { headers: requestHeaders } });
+      applySecurityHeaders(response, { nonce, csp, isProd, noIndex: true });
+      response.headers.set("Cache-Control", "no-store");
+      response.headers.set("Referrer-Policy", "no-referrer");
+      return response;
+    }
+    if (pathname === "/") {
+      const response = kycRedirect(`/${getLocale(request) === "fr" ? "fr" : "en"}/`, 307);
+      response.headers.set("Vary", "Accept-Language");
+      return response;
+    }
+    const mainUrl = new URL(`${pathname}${request.nextUrl.search}`, isProd ? "https://ark-fid.ch" : `http://localhost:${request.nextUrl.port || "3000"}`);
+    const response = NextResponse.redirect(mainUrl, 308);
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+    return response;
+  }
+
   // Guardrails for malformed URLs that have shown up in Google Search Console.
   // These mostly come from broken markdown link syntax accidentally emitted in article content.
   // Examples:

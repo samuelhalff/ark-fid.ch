@@ -197,6 +197,8 @@ jobs:
           TAX_QF_CRON_SECRET: ${{ secrets.TAX_QF_CRON_SECRET }}
           TAX_QF_MAIL_TO: ${{ secrets.TAX_QF_MAIL_TO }}
           TAX_QF_MAIL_CC: ${{ secrets.TAX_QF_MAIL_CC }}
+          KYC_QF_TOKEN_SECRET: ${{ secrets.KYC_QF_TOKEN_SECRET }}
+          KYC_QF_API_KEYS: ${{ secrets.KYC_QF_API_KEYS }}
         run: |
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
           USER="${{ secrets.DEPLOY_SSH_USER }}"
@@ -258,6 +260,8 @@ jobs:
             "TAX_QF_CRON_SECRET",
             "TAX_QF_MAIL_TO",
             "TAX_QF_MAIL_CC",
+            "KYC_QF_TOKEN_SECRET",
+            "KYC_QF_API_KEYS",
           ]
           lines = []
           for key in keys:
