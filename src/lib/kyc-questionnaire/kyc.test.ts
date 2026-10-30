@@ -11,7 +11,7 @@ process.env.KYC_QF_API_KEYS = "cadence:cadence-secret-cadence-secret-cadence-01"
 import { documentsFor } from "./documents";
 import { pruneHidden, sanitizeAnswers, validateAll, visibleSteps } from "./engine";
 import { flagsOf, routeMismatch } from "./flags";
-import { createChallenge, createSession, emailHash, readLink, readSession, verifyChallenge } from "./server/access";
+import { createChallenge, createPick, createSession, emailHash, readLink, readPick, readSession, verifyChallenge } from "./server/access";
 import { signRequest, verifyStaffRequest } from "./server/signature";
 import { memoryAccess, memoryTracker } from "./server/ports";
 import { changes, clientCase, confirmSigned, createCase, KycError, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
@@ -358,4 +358,19 @@ test("a create retried after a partial failure resumes the same case", async () 
   assert.equal(again.summary.caseId, first.summary.caseId);
   assert.equal(again.replayed, true);
   assert.equal(f.tracker.rows.length, 1);
+});
+
+test("code without the link: cases found by e-mail, signed choice of form", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0007", payloadHash: "h" });
+  const hash = emailHash("  Jean@Example.CH ");
+  assert.deepEqual(await f.access.casesByEmail(hash), [created.summary.caseId]);
+  assert.deepEqual(await f.access.casesByEmail(emailHash("other@example.ch")), []);
+  const { code, challenge } = createChallenge({ caseId: "", revision: 0, emailHash: hash, byEmail: true });
+  const checked = verifyChallenge(challenge, code);
+  assert.equal(checked.ok && checked.payload.byEmail, true);
+  const pick = createPick(hash, ["K1", "K2"]);
+  assert.deepEqual(readPick(pick), { emailHash: hash, caseIds: ["K1", "K2"] });
+  assert.equal(readPick(pick.replace(/^./, (c) => (c === "e" ? "f" : "e"))), null, "tampered");
+  assert.equal(readPick(pick, Date.now() + 11 * 60 * 1000), null, "expired");
 });

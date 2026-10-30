@@ -31,8 +31,8 @@ import { StepView } from "./StepView";
  * screens after submission (returned, awaiting_signature, signed); "message" for every dead end
  * (no link, expired session, newer version, closed case, invalid link).
  */
-type Phase = "loading" | "code" | "form" | "returned" | "awaiting_signature" | "signed" | "message";
-type Message = { title: string; text: string; retry?: boolean };
+type Phase = "loading" | "email" | "code" | "choose" | "form" | "returned" | "awaiting_signature" | "signed" | "message";
+type Message = { title: string; text: string; retry?: boolean; email?: boolean };
 
 const err = (code: string, locale: KycLocale) => (SERVER_ERRORS[code] || SERVER_ERRORS.generic)[locale];
 const asLocale = (value: unknown): KycLocale | null => ((KYC_LOCALES as readonly string[]).includes(String(value)) ? (value as KycLocale) : null);
@@ -87,6 +87,11 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   const [challenge, setChallenge] = useState("");
   const [emailHint, setEmailHint] = useState("");
   const [otp, setOtp] = useState("");
+  // Code requested with an e-mail address instead of a link; several forms → choice.
+  const [email, setEmail] = useState("");
+  const [byEmail, setByEmail] = useState(false);
+  const [choices, setChoices] = useState<{ caseId: string; name: string }[]>([]);
+  const [pick, setPick] = useState("");
   // Same key for every attempt of this submission (a lost response is replayed, not re-submitted).
   const submitKey = useRef(newSubmitKey());
 
@@ -127,16 +132,23 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
     setPhase("message");
   }, []);
 
+  /** No link and no session: the client asks for a code with their e-mail address. */
+  const askEmail = useCallback((note?: string) => {
+    setNotice(note ? { tone: "info", text: note } : null);
+    setOtp("");
+    setPhase("email");
+  }, []);
+
   /** Dead ends of the case API (expired session, newer version, closed case). */
   const fatal = useCallback(
-    (error: unknown, l: KycLocale, fallback?: Message) => {
+    (error: unknown, l: KycLocale, expiredNote: string | null = UI.expiredText[l]) => {
       const c = code(error);
       if (c === "revision_superseded") return showMessage({ title: UI.supersededTitle[l], text: UI.supersededText[l] });
       if (c === "case_closed") return showMessage({ title: UI.closedTitle[l], text: UI.closedText[l] });
-      if (c === "session_expired") return showMessage(fallback || { title: UI.noLinkTitle[l], text: UI.expiredText[l] });
+      if (c === "session_expired") return askEmail(expiredNote || undefined);
       showMessage({ title: UI.noLinkTitle[l], text: err(c, l), retry: true });
     },
-    [showMessage],
+    [showMessage, askEmail],
   );
 
   const applyCase = useCallback(
@@ -167,11 +179,12 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
         const linkLocale = asLocale(res.language);
         if (!userLocale.current && linkLocale) setLocale(linkLocale);
         setOtp("");
+        setByEmail(false);
         setPhase("code");
         return true;
       } catch (error) {
         const c = code(error);
-        if (c === "link_invalid") showMessage({ title: UI.linkInvalidTitle[l], text: UI.linkInvalidText[l] });
+        if (c === "link_invalid") showMessage({ title: UI.linkInvalidTitle[l], text: UI.linkInvalidText[l], email: true });
         else if (c === "case_closed") showMessage({ title: UI.closedTitle[l], text: UI.closedText[l] });
         else showMessage({ title: UI.noLinkTitle[l], text: err(c, l), retry: true });
         return false;
@@ -193,7 +206,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
     try {
       applyCase(await api.getCase(), true);
     } catch (error) {
-      fatal(error, l, { title: UI.noLinkTitle[l], text: UI.noLinkText[l] });
+      fatal(error, l, null);
     }
   }, [applyCase, fatal, requestCode, initialLocale]);
 
@@ -342,7 +355,13 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
     setBusy(true);
     setNotice(null);
     try {
-      await api.auth({ action: "verify", challenge, code: otp });
+      const res = await api.auth({ action: "verify", challenge, code: otp });
+      if (res.choose?.length) {
+        setChoices(res.choose);
+        setPick(res.pick || "");
+        setPhase("choose");
+        return;
+      }
       applyCase(await api.getCase(), true);
     } catch (error) {
       const c = code(error);
@@ -352,7 +371,43 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
       setBusy(false);
     }
   };
+  const requestEmailCode = async () => {
+    setBusy(true);
+    setNotice(null);
+    try {
+      const res = await api.auth({ action: "email", email });
+      setChallenge(res.challenge || "");
+      setEmailHint(res.emailHint || "");
+      setOtp("");
+      setByEmail(true);
+      setPhase("code");
+      return true;
+    } catch (error) {
+      setNotice({ tone: "error", text: err(code(error), locale) });
+      return false;
+    } finally {
+      setBusy(false);
+    }
+  };
+  const choose = async (caseId: string) => {
+    setBusy(true);
+    setNotice(null);
+    try {
+      await api.auth({ action: "pick", pick, caseId });
+      applyCase(await api.getCase(), true);
+    } catch (error) {
+      const c = code(error);
+      if (c === "otp_expired") askEmail(err(c, locale));
+      else setNotice({ tone: "error", text: err(c, locale) });
+    } finally {
+      setBusy(false);
+    }
+  };
   const resend = async () => {
+    if (byEmail) {
+      if (await requestEmailCode()) setNotice({ tone: "info", text: UI.codeResent[locale] });
+      return;
+    }
     setBusy(true);
     setNotice(null);
     if (await requestCode(locale)) setNotice({ tone: "info", text: UI.codeResent[locale] });
@@ -361,7 +416,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   const logout = async () => {
     await saveNow();
     await api.auth({ action: "logout" }).catch(() => undefined);
-    showMessage({ title: UI.noLinkTitle[locale], text: UI.loggedOut[locale] });
+    askEmail(UI.loggedOut[locale]);
   };
 
   // ---- submission ------------------------------------------------------------------------------------
@@ -506,13 +561,77 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
             <CardTitle>{message.title}</CardTitle>
             <CardDescription className="text-base">{message.text}</CardDescription>
           </CardHeader>
-          {message.retry ? (
-            <CardFooter>
-              <Button type="button" onClick={() => void start()}>
-                {UI.retry[locale]}
-              </Button>
+          {message.retry || message.email ? (
+            <CardFooter className="flex flex-wrap gap-3">
+              {message.retry ? (
+                <Button type="button" onClick={() => void start()}>
+                  {UI.retry[locale]}
+                </Button>
+              ) : null}
+              {message.email ? (
+                <Button type="button" variant={message.retry ? "ghost" : "default"} onClick={() => askEmail()}>
+                  {UI.useEmail[locale]}
+                </Button>
+              ) : null}
             </CardFooter>
           ) : null}
+        </Card>
+        {contact}
+      </div>
+    );
+  }
+
+  if (phase === "email") {
+    return (
+      <div className="flex flex-col gap-8">
+        {header}
+        <Card className="max-w-xl">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (email.trim() && !busy) void requestEmailCode();
+            }}
+            className="flex flex-col gap-6"
+          >
+            <CardHeader>
+              <CardTitle>{UI.emailTitle[locale]}</CardTitle>
+              <CardDescription className="text-base">{UI.emailText[locale]}</CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-3">
+              {noticeBox}
+              <Label htmlFor="kqf-email">{UI.emailLabel[locale]}</Label>
+              <Input id="kqf-email" type="email" inputMode="email" autoComplete="email" maxLength={254} value={email} onChange={(e) => setEmail(e.target.value)} className="max-w-sm" autoFocus />
+            </CardContent>
+            <CardFooter>
+              <Button type="submit" disabled={busy || !email.trim()}>
+                {busy ? <CircleNotch className="size-4 animate-spin" /> : null}
+                {UI.sendCode[locale]}
+              </Button>
+            </CardFooter>
+          </form>
+        </Card>
+        {contact}
+      </div>
+    );
+  }
+
+  if (phase === "choose") {
+    return (
+      <div className="flex flex-col gap-8">
+        {header}
+        <Card className="max-w-xl">
+          <CardHeader>
+            <CardTitle>{UI.chooseTitle[locale]}</CardTitle>
+            <CardDescription className="text-base">{UI.chooseText[locale]}</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-3">
+            {choices.map((c) => (
+              <Button key={c.caseId} type="button" variant="outline" className="h-auto justify-start whitespace-normal py-3 text-left" disabled={busy} onClick={() => void choose(c.caseId)}>
+                {c.name}
+              </Button>
+            ))}
+            {noticeBox}
+          </CardContent>
         </Card>
         {contact}
       </div>
@@ -533,7 +652,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
           >
             <CardHeader>
               <CardTitle>{UI.codeTitle[locale]}</CardTitle>
-              <CardDescription>{UI.codeText[locale].replace("{email}", emailHint)}</CardDescription>
+              <CardDescription>{(byEmail ? UI.emailCodeText : UI.codeText)[locale].replace("{email}", emailHint)}</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-3">
               <Label htmlFor="kqf-code">{UI.codeLabel[locale]}</Label>
@@ -548,6 +667,11 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
               <Button type="button" variant="ghost" onClick={() => void resend()} disabled={busy}>
                 {UI.resendCode[locale]}
               </Button>
+              {byEmail ? (
+                <Button type="button" variant="ghost" onClick={() => askEmail()} disabled={busy}>
+                  {UI.otherEmail[locale]}
+                </Button>
+              ) : null}
             </CardFooter>
           </form>
         </Card>

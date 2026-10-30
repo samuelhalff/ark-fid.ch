@@ -61,6 +61,8 @@ export interface AccessPort {
   get(keyHash: string): Promise<AccessRecord | null>;
   revoke(keyHash: string): Promise<void>;
   revokeCase(caseId: string): Promise<void>;
+  /** Cases that ever had a link for this e-mail (HMAC), for the code login without a link. */
+  casesByEmail(emailHash: string): Promise<string[]>;
 }
 
 export interface KycPorts {
@@ -111,6 +113,9 @@ export function memoryAccess(): AccessPort & { records: AccessRecord[] } {
     },
     async revokeCase(caseId) {
       for (const r of records) if (r.caseId === caseId) r.revoked = true;
+    },
+    async casesByEmail(emailHash) {
+      return [...new Set(records.filter((r) => r.kind === "link" && r.emailHash === emailHash).map((r) => r.caseId))];
     },
   };
 }

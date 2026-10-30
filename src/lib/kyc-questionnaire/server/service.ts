@@ -800,7 +800,7 @@ export async function confirmSigned(session: Session) {
 /** For the one-time code: the case's address and language (never sent to the browser in full). */
 export async function contactOf(caseId: string) {
   const record = await loadCase(caseId);
-  return { email: record.email, emailHash: record.emailHash, language: record.language, state: latest(record).state, revision: latest(record).n, closed: !!record.closedAt };
+  return { email: record.email, emailHash: record.emailHash, language: record.language, displayName: record.displayName, state: latest(record).state, revision: latest(record).n, closed: !!record.closedAt };
 }
 
 /** Uploaded documents whose content does not match their type (executables, scripts) are removed. */

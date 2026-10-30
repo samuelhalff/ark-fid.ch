@@ -63,7 +63,7 @@ export interface CasePayload {
 export const api = {
   config: () => call<{ maxFileBytes: number }>("config"),
   getCase: () => call<CasePayload>("case"),
-  auth: (body: Record<string, unknown>) => call<{ challenge?: string; emailHint?: string; language?: string; ok?: boolean }>("auth", { method: "POST", body: JSON.stringify(body) }),
+  auth: (body: Record<string, unknown>) => call<{ challenge?: string; emailHint?: string; language?: string; ok?: boolean; choose?: { caseId: string; name: string }[]; pick?: string }>("auth", { method: "POST", body: JSON.stringify(body) }),
   caseAction: <T = { ok: boolean }>(action: string, body: Record<string, unknown> = {}) => call<T>("case", { method: "POST", action, body: JSON.stringify(body) }),
 };
 

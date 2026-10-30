@@ -223,8 +223,8 @@ export const STEPS: StepDef[] = [
         kind: "note",
         id: "start.save",
         text: t(
-          "Vos réponses sont enregistrées au fur et à mesure : vous pouvez vous arrêter et reprendre plus tard avec le même lien.",
-          "Your answers are saved as you go: you can stop and come back later with the same link.",
+          "Vos réponses sont enregistrées au fur et à mesure : vous pouvez vous arrêter et reprendre plus tard avec le même lien, ou sur kyc.ark-fid.ch avec un code reçu à votre adresse e-mail.",
+          "Your answers are saved as you go: you can stop and come back later with the same link, or on kyc.ark-fid.ch with a code sent to your e-mail address.",
         ),
       },
       {

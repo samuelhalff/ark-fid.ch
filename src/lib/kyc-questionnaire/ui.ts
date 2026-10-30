@@ -42,18 +42,29 @@ export const UI = {
   // access
   linkOpening: t("Ouverture de votre formulaire…", "Opening your form…"),
   noLinkTitle: t("Ouvrez le lien reçu d'Ark", "Open the link you received from Ark"),
-  noLinkText: t(
-    "Pour accéder à votre formulaire, ouvrez le lien personnel qu'Ark Fiduciaire vous a envoyé par e-mail.",
-    "To access your form, open the personal link Ark Fiduciaire sent you by e-mail.",
-  ),
   expiredText: t(
-    "Votre session a expiré. Ouvrez à nouveau le lien personnel reçu par e-mail : vos réponses enregistrées sont conservées.",
-    "Your session has expired. Open the personal link you received by e-mail again: your saved answers are kept.",
+    "Votre session a expiré. Vos réponses enregistrées sont conservées : demandez un code ci-dessous pour continuer.",
+    "Your session has expired. Your saved answers are kept: request a code below to continue.",
   ),
   loggedOut: t(
-    "Vous êtes déconnecté. Vos réponses sont enregistrées : rouvrez le lien reçu par e-mail pour continuer.",
-    "You are signed out. Your answers are saved: open the link you received by e-mail again to continue.",
+    "Vous êtes déconnecté. Vos réponses sont enregistrées : demandez un code ci-dessous pour continuer.",
+    "You are signed out. Your answers are saved: request a code below to continue.",
   ),
+  emailTitle: t("Accéder à votre formulaire", "Access your form"),
+  emailText: t(
+    "Saisissez l'adresse e-mail à laquelle Ark Fiduciaire vous a écrit. Si un formulaire est en cours à cette adresse, vous recevrez un code pour l'ouvrir ou le reprendre là où vous l'avez laissé.",
+    "Enter the e-mail address Ark Fiduciaire wrote to. If a form is in progress for this address, you will receive a code to open it or pick up where you left off.",
+  ),
+  emailLabel: t("Adresse e-mail", "E-mail address"),
+  sendCode: t("Recevoir un code", "Get a code"),
+  emailCodeText: t(
+    "Si un formulaire est en cours pour {email}, un code à 6 chiffres vient d'y être envoyé. Il est valable 10 minutes. Rien reçu ? Vérifiez vos indésirables ou contactez Ark.",
+    "If a form is in progress for {email}, a 6-digit code has just been sent there. It is valid for 10 minutes. Nothing received? Check your spam folder or contact Ark.",
+  ),
+  otherEmail: t("Utiliser une autre adresse", "Use another address"),
+  useEmail: t("Recevoir un code par e-mail", "Get a code by e-mail"),
+  chooseTitle: t("Quel formulaire ?", "Which form?"),
+  chooseText: t("Plusieurs formulaires sont en cours à cette adresse. Choisissez celui à ouvrir.", "Several forms are in progress for this address. Choose the one to open."),
   codeTitle: t("Vérifiez votre e-mail", "Check your e-mail"),
   codeText: t("Nous avons envoyé un code à 6 chiffres à {email}. Il est valable 10 minutes.", "We sent a 6-digit code to {email}. It is valid for 10 minutes."),
   codeLabel: t("Code reçu par e-mail", "Code received by e-mail"),
@@ -67,8 +78,8 @@ export const UI = {
   savedAt: t("Enregistré à {time}", "Saved at {time}"),
   saveFailed: t("Enregistrement impossible pour l'instant", "Could not save for now"),
   draftStored: t(
-    "Vos réponses sont enregistrées au fur et à mesure chez Ark Fiduciaire. Vous pouvez vous arrêter et reprendre plus tard avec le même lien.",
-    "Your answers are saved as you go at Ark Fiduciaire. You can stop and come back later with the same link.",
+    "Vos réponses sont enregistrées au fur et à mesure chez Ark Fiduciaire. Vous pouvez vous arrêter et reprendre plus tard avec le même lien, ou sur kyc.ark-fid.ch avec un code reçu à votre adresse e-mail.",
+    "Your answers are saved as you go at Ark Fiduciaire. You can stop and come back later with the same link, or on kyc.ark-fid.ch with a code sent to your e-mail address.",
   ),
 
   // documents
@@ -133,8 +144,8 @@ export const UI = {
   closedText: t("Ce formulaire a été clôturé par Ark. Pour toute question, contactez Ark.", "This form has been closed by Ark. For any question, please contact Ark."),
   linkInvalidTitle: t("Lien plus valable", "Link no longer valid"),
   linkInvalidText: t(
-    "Ce lien n'est plus valable. Ouvrez le lien du dernier e-mail reçu d'Ark ou contactez Ark pour en recevoir un nouveau.",
-    "This link is no longer valid. Open the link in the latest e-mail from Ark or contact Ark to receive a new one.",
+    "Ce lien n'est plus valable. Ouvrez le lien du dernier e-mail reçu d'Ark, ou demandez un code avec votre adresse e-mail.",
+    "This link is no longer valid. Open the link in the latest e-mail from Ark, or request a code with your e-mail address.",
   ),
   helpTitle: t("Besoin d'aide ?", "Need help?"),
   retry: t("Réessayer", "Try again"),
@@ -143,6 +154,7 @@ export const UI = {
 /** Error codes of /api/kyc-questionnaire/* (and of the browser upload). */
 export const SERVER_ERRORS: Record<string, L> = {
   otp_invalid: t("Code incorrect.", "Incorrect code."),
+  invalid_email: t("Adresse e-mail invalide.", "Invalid e-mail address."),
   otp_expired: t("Code expiré. Demandez-en un nouveau.", "Code expired. Request a new one."),
   otp_locked: t("Trop d'essais. Demandez un nouveau code.", "Too many attempts. Request a new code."),
   link_invalid: t("Ce lien n'est plus valable.", "This link is no longer valid."),

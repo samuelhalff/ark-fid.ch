@@ -7,6 +7,8 @@ import { getPorts } from "./sharepoint";
  * - a link token (32 random bytes) in the URL fragment, stored only as an HMAC;
  * - a 6-digit code e-mailed at every opening (10 min, single use, 5 attempts) in a signed
  *   challenge the server does not store;
+ * - without the link: the client's e-mail address → the same code, sent only if a form in
+ *   progress was issued to that address (the answer never says whether one exists);
  * - a session cookie (random value, HMAC stored with an absolute expiry, revocable).
  * Links are tied to one revision: a new revision (correction) revokes the older links.
  */
@@ -53,12 +55,14 @@ export interface ChallengePayload {
   emailHash: string;
   exp: number;
   codeMac: string;
+  /** Code requested with an e-mail address (no link): the cases are resolved when it is checked. */
+  byEmail?: true;
 }
 
 const attempts = new Map<string, number>();
 const used = new Map<string, number>();
 
-export function createChallenge(data: { caseId: string; revision: number; emailHash: string }, now = Date.now()) {
+export function createChallenge(data: { caseId: string; revision: number; emailHash: string; byEmail?: true }, now = Date.now()) {
   const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
   const id = randomBytes(12).toString("base64url");
   const payload: ChallengePayload = { ...data, id, exp: now + OTP_TTL_MS, codeMac: mac("otp", `${id}|${code}`) };
@@ -94,6 +98,36 @@ export function verifyChallenge(challenge: unknown, code: unknown, now = Date.no
   used.set(payload.id, payload.exp);
   attempts.delete(payload.id);
   return { ok: true, payload };
+}
+
+/** A code checked correctly whose case could not be resolved (storage failure) may be used again. */
+export function releaseChallenge(id: string) {
+  used.delete(id);
+}
+
+// ---- choice of form after an e-mail code (one address, several forms) ----------------------------
+
+const PICK_TTL_MS = 10 * 60 * 1000;
+
+export function createPick(emailHash: string, caseIds: string[], now = Date.now()) {
+  const body = Buffer.from(JSON.stringify({ emailHash, caseIds, exp: now + PICK_TTL_MS })).toString("base64url");
+  return `${body}.${mac("pick", body)}`;
+}
+
+export function readPick(token: unknown, now = Date.now()): { emailHash: string; caseIds: string[] } | null {
+  if (typeof token !== "string" || token.length > 3000) return null;
+  const [body, signature, ...rest] = token.split(".");
+  if (rest.length || !body || !signature) return null;
+  const expected = Buffer.from(mac("pick", body));
+  const given = Buffer.from(signature);
+  if (expected.length !== given.length || !timingSafeEqual(expected, given)) return null;
+  try {
+    const data = JSON.parse(Buffer.from(body, "base64url").toString("utf8"));
+    if (typeof data.exp !== "number" || data.exp <= now || !Array.isArray(data.caseIds) || typeof data.emailHash !== "string") return null;
+    return { emailHash: data.emailHash, caseIds: data.caseIds.map(String) };
+  } catch {
+    return null;
+  }
 }
 
 // ---- sessions ---------------------------------------------------------------------------------

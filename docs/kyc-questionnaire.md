@@ -24,7 +24,11 @@ sign. Ark then reopens the case with the right route.
 1. Cadence creates a case (client folder on LBA - OAR, route, language, e-mail, prefill) and gets
    the client link. Cadence sends the invitation.
 2. The client opens the link, receives a 6-digit code by e-mail, fills the form (saved as they
-   go), uploads the documents of section H and sends it.
+   go), uploads the documents of section H and sends it. Without the link (lost, expired, or to
+   resume later), the client enters their e-mail address on kyc.ark-fid.ch: a code is sent only if
+   a form in progress (open or awaiting signature, not closed) was issued to that address; the page
+   answers the same way either way, and the lookup runs after the answer. Several forms for one
+   address → the client picks one after entering the code.
 3. The revision is frozen: `questionnaire.json` and its SHA-256, and the PDF to sign, whose
    every page carries the reference `<caseId>-R<n>-<first 8 hex of the SHA-256>`.
 4. The client downloads the PDF, signs it and uploads the scan (several files allowed), then

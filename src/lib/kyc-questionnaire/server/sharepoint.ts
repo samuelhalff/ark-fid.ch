@@ -243,7 +243,7 @@ const ACCESS_COLUMNS: Column[] = [
   choice("Kind", "Type", ["link", "session"]),
   indexed(text("CaseId", "Dossier KYC")),
   num("Revision", "Révision"),
-  text("EmailHash", "Empreinte e-mail"),
+  indexed(text("EmailHash", "Empreinte e-mail")),
   num("ExpiresAt", "Expiration (ms)"),
   bool("Revoked", "Révoqué"),
 ];
@@ -288,6 +288,10 @@ class SharePointAccess implements AccessPort {
   async revokeCase(caseId: string) {
     for (const item of await this.list.query(`fields/CaseId eq ${quote(caseId)}`)) if (item.fields.Revoked !== true) await this.list.update(item.id, { Revoked: true });
     this.cache.clear();
+  }
+  async casesByEmail(emailHash: string) {
+    const items = await this.list.query(`fields/EmailHash eq ${quote(emailHash)}`, 200);
+    return [...new Set(items.filter((i) => str(i.fields.Kind) === "link").map((i) => str(i.fields.CaseId)).filter(Boolean))];
   }
 }
 
