@@ -228,6 +228,18 @@ export const STEPS: StepDef[] = [
         ),
       },
       {
+        kind: "note",
+        id: "start.privacyPolicy",
+        text: t(
+          "Notre politique de confidentialité explique comment nous traitons vos données et comment exercer vos droits (accès, rectification).",
+          "Our privacy policy explains how we process your data and how to exercise your rights (access, rectification).",
+        ),
+        link: {
+          href: t("https://ark-fid.ch/fr/legal/privacy/", "https://ark-fid.ch/en/legal/privacy/"),
+          label: t("Politique de confidentialité", "Privacy policy"),
+        },
+      },
+      {
         kind: "field",
         id: "start.privacy",
         type: "boolean",

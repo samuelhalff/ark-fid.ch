@@ -156,6 +156,9 @@ test("route mismatch: operating form for an asset-holding company and the revers
   assert.equal(routeMismatch({ ...pmOp, "a.activityKind": "assets" }), true);
   assert.equal(routeMismatch({ ...pmNonOp, "a.activityKind": "supports" }), true);
   assert.equal(routeMismatch({ ...pmNonOp, "a.activityKind": "notStarted" }), false);
+  assert.ok(flagsOf({ ...pmOp, "a.ownPremises": "no", "a.ownStaff": "no" }).includes("noSubstance"));
+  assert.ok(!flagsOf({ ...pmOp, "a.ownPremises": "yes", "a.ownStaff": "no" }).includes("noSubstance"));
+  assert.ok(!flagsOf({ ...pmNonOp, "a.ownPremises": "no", "a.ownStaff": "no" }).includes("noSubstance"));
 });
 
 test("documents: certified ID per form signatory, ID per section B person", () => {

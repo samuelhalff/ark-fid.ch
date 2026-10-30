@@ -87,6 +87,8 @@ export interface NoteDef {
   id: string;
   text: L;
   tone?: "info" | "warning";
+  /** Optional link shown after the text (opens in a new tab). */
+  link?: { href: L; label: L };
   showIf?: Predicate;
 }
 

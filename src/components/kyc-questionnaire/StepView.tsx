@@ -81,7 +81,17 @@ function Note({ note, locale, answers }: { note: NoteDef; locale: KycLocale; ans
   return (
     <Alert variant={warning ? "destructive" : "default"}>
       {warning ? <WarningCircle className="size-4" /> : <Info className="size-4" />}
-      <AlertDescription className="whitespace-pre-line">{label(note.text, locale)}</AlertDescription>
+      <AlertDescription className="whitespace-pre-line">
+        {label(note.text, locale)}
+        {note.link ? (
+          <>
+            {" "}
+            <a href={label(note.link.href, locale)} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+              {label(note.link.label, locale)}
+            </a>
+          </>
+        ) : null}
+      </AlertDescription>
     </Alert>
   );
 }

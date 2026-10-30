@@ -82,7 +82,7 @@ Summary: `caseId, clientRef, displayName, route, language, closed, updatedAt, fo
 actionRequired (await_client | review_route | await_signature | review_kyc | null),
 latestRevision {n, id, state, dates, flags, declarationId, json {itemId, sha256}, pdf, signed[],
 folder}, revisions[]`. Flags (`pep`, `sanctions`, `criminal`, `trustOrFoundation`, `nominee`,
-`listed`, `forThird`, `cash`, `crypto`, `valuables`, `licence`, `notStarted`, `routeMismatch`)
+`listed`, `forThird`, `cash`, `crypto`, `valuables`, `licence`, `notStarted`, `noSubstance`, `routeMismatch`)
 are points for Ark's review, not a risk class.
 
 Prefill ids are the answer ids of `src/lib/kyc-questionnaire/schema.ts` (e.g. `a.name`,

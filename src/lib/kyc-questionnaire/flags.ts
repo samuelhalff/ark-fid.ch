@@ -18,6 +18,7 @@ export type Flag =
   | "valuables"
   | "licence"
   | "notStarted"
+  | "noSubstance"
   | "routeMismatch";
 
 export const FLAG_LABELS: Record<Flag, string> = {
@@ -33,6 +34,7 @@ export const FLAG_LABELS: Record<Flag, string> = {
   valuables: "Métaux précieux / art prévus",
   licence: "Activité soumise à autorisation",
   notStarted: "Société pas encore active",
+  noSubstance: "Formulaire opérationnel, mais ni locaux ni employés propres : qualification (société de domicile ?) à vérifier",
   routeMismatch: "Réponses du client contraires au formulaire choisi par Ark",
 };
 
@@ -68,6 +70,8 @@ export function flagsOf(a: Answers): Flag[] {
   if (ops.includes("valuables")) out.add("valuables");
   if (a["d.licence"] === "yes") out.add("licence");
   if (isPM(a) && a["a.activityKind"] === "notStarted") out.add("notStarted");
+  // Dima's internal note: a domiciliary company has no premises or staff of its own.
+  if (isOp(a) && a["a.ownPremises"] === "no" && a["a.ownStaff"] === "no") out.add("noSubstance");
   if (routeMismatch(a)) out.add("routeMismatch");
   return [...out];
 }
