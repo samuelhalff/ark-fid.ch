@@ -103,7 +103,9 @@ Prefill ids are the answer ids of `src/lib/kyc-questionnaire/schema.ts` (e.g. `a
 Graph access uses the site's existing app registration (`MSGRAPH_*`). To do: a dedicated app
 with `Sites.Selected` on LBA - OAR only.
 
-Go-live: DNS `kyc` + Infomaniak site alias + certificate (manual, like tax.), GitHub secrets
-`KYC_QF_TOKEN_SECRET` and `KYC_QF_API_KEYS`, the same API key in Cadence.
+Live since 30.10.2026: Cloudflare DNS `kyc` A/AAAA (DNS-only, like `lba`), Infomaniak site alias and
+certificate, GitHub secrets `KYC_QF_TOKEN_SECRET` and `KYC_QF_API_KEYS`. Cadence holds the same API key.
+What Cadence builds around this app: `docs/kyc-cadence-brief.md`. Templates and Dima's internal notes:
+LBA - OAR › Documents › "LBA - KYC (modèles)".
 
 Tests: `npm run -s test:kyc-qf` (Node 22).
