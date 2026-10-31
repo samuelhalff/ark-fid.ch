@@ -178,9 +178,6 @@ function toFields(row: TrackerRow): Json {
     ["Flags", row.flags],
     ["JsonSha256", row.jsonSha256],
     ["DeclarationId", row.declarationId],
-    ["LinkFolder", linkValue(row.folderUrl, "Dossier")],
-    ["LinkPdf", linkValue(row.pdfUrl, "PDF")],
-    ["LinkSigned", linkValue(row.signedUrl, "Signé")],
     ["IdempotencyKey", row.idempotencyKey],
     ["CreatedBy", row.createdBy],
   ];
