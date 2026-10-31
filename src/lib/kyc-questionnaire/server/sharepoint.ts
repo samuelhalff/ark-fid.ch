@@ -21,7 +21,8 @@ const note = (name: string, displayName: string): Column => ({ name, displayName
 const num = (name: string, displayName: string): Column => ({ name, displayName, number: {} });
 const bool = (name: string, displayName: string): Column => ({ name, displayName, boolean: {} });
 const choice = (name: string, displayName: string, choices: string[]): Column => ({ name, displayName, choice: { choices, displayAs: "dropDownMenu" } });
-const link = (name: string, displayName: string): Column => ({ name, displayName, hyperlinkOrPicture: { isPicture: false } });
+/** A clickable link: Graph cannot write SharePoint hyperlink columns (400 invalidRequest), so links are rich text. */
+const richLink = (name: string, displayName: string): Column => ({ name, displayName, text: { allowMultipleLines: true, textType: "richText", linesForEditing: 1 } });
 
 class SiteList {
   private id = "";
@@ -147,15 +148,21 @@ const TRACKER_COLUMNS: Column[] = [
   text("DeclarationId", "Réf. déclaration"),
   text("DriveId", "DriveId"),
   text("FolderId", "FolderId"),
-  link("LinkFolder", "Dossier"),
-  link("LinkPdf", "PDF à signer"),
-  link("LinkSigned", "PDF signé"),
+  richLink("FolderLink", "Dossier"),
+  richLink("PdfLink", "PDF à signer"),
+  richLink("SignedLink", "PDF signé"),
   indexed(text("IdempotencyKey", "Clé de création")),
   text("CreatedBy", "Créé par (clé API)"),
 ];
 
-const linkValue = (url?: string, label = "Ouvrir") => (url ? { Url: url, Description: label } : undefined);
-const linkUrl = (value: unknown) => (value && typeof value === "object" ? str((value as Json).Url) : str(value));
+const escapeHtml = (value: string) => value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const linkHtml = (url: string | undefined, label: string) => (url ? `<div><a href="${escapeHtml(url)}" target="_blank">${label}</a></div>` : undefined);
+/** The URL back out of a rich-text link; SharePoint stores same-site links as server-relative paths. */
+const linkUrl = (value: unknown) => {
+  const href = /href="([^"]+)"/.exec(str(value))?.[1]?.replace(/&amp;/g, "&");
+  if (!href) return "";
+  return href.startsWith("/") ? `https://${KYC_SITE_ID().split(",")[0]}${href}` : href;
+};
 
 function toFields(row: TrackerRow): Json {
   const fields: Json = {
@@ -178,6 +185,9 @@ function toFields(row: TrackerRow): Json {
     ["Flags", row.flags],
     ["JsonSha256", row.jsonSha256],
     ["DeclarationId", row.declarationId],
+    ["FolderLink", linkHtml(row.folderUrl, "Ouvrir le dossier")],
+    ["PdfLink", linkHtml(row.pdfUrl, "Ouvrir le PDF")],
+    ["SignedLink", linkHtml(row.signedUrl, "Ouvrir le PDF signé")],
     ["IdempotencyKey", row.idempotencyKey],
     ["CreatedBy", row.createdBy],
   ];
@@ -197,7 +207,7 @@ function fromFields(f: Json): TrackerRow {
     state: STATE_BY_FR.get(str(f.Etat)) || "open",
     driveId: str(f.DriveId),
     folderId: str(f.FolderId),
-    folderUrl: linkUrl(f.LinkFolder),
+    folderUrl: linkUrl(f.FolderLink),
     updatedAt: str(f.UpdatedAt),
     invitedAt: str(f.InvitedAt) || undefined,
     submittedAt: str(f.SubmittedAt) || undefined,
@@ -205,8 +215,8 @@ function fromFields(f: Json): TrackerRow {
     flags: str(f.Flags) || undefined,
     jsonSha256: str(f.JsonSha256) || undefined,
     declarationId: str(f.DeclarationId) || undefined,
-    pdfUrl: linkUrl(f.LinkPdf) || undefined,
-    signedUrl: linkUrl(f.LinkSigned) || undefined,
+    pdfUrl: linkUrl(f.PdfLink) || undefined,
+    signedUrl: linkUrl(f.SignedLink) || undefined,
     idempotencyKey: str(f.IdempotencyKey) || undefined,
     createdBy: str(f.CreatedBy) || undefined,
   };
