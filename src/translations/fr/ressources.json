@@ -94,6 +94,10 @@
         {
           "labelKey": "Odoo Accounting Documentation",
           "url": "https://www.odoo.com/documentation/17.0/applications/finance/accounting.html"
+        },
+        {
+          "labelKey": "Odoo - Documentation officielle",
+          "url": "https://www.odoo.com/documentation"
         }
       ],
       "title": "Plan comptable suisse PME : tendances 2026, plan analytique et pilotage Odoo",
@@ -154,6 +158,10 @@
         {
           "labelKey": "Portail PME de la Confédération",
           "url": "https://www.kmu.admin.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "incorporation",
@@ -182,6 +190,10 @@
         {
           "labelKey": "Portail PME de la Confédération",
           "url": "https://www.kmu.admin.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -209,6 +221,10 @@
         {
           "labelKey": "Portail PME de la Confédération",
           "url": "https://www.kmu.admin.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "incorporation",
@@ -235,6 +251,10 @@
         {
           "labelKey": "Portail PME de la Confédération",
           "url": "https://www.kmu.admin.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -278,6 +298,10 @@
         {
           "labelKey": "Portail PME - Fiscalité",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "corporate",
@@ -304,6 +328,10 @@
         {
           "labelKey": "Portail PME - Fiscalité",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -1472,7 +1500,7 @@
         },
         {
           "labelKey": "Office fédéral de la statistique – BFS",
-          "url": "https://www.bfs.admin.ch/bfs/fr/home.html"
+          "url": "https://www.bfs.admin.ch/fr/"
         }
       ],
       "category": "corporate",
@@ -1726,7 +1754,7 @@
         },
         {
           "labelKey": "ELM : La norme suisse en matière de salaire (Office fédéral de la statistique, OFS)",
-          "url": "https://www.bfs.admin.ch/bfs/fr/home/bases-statistiques/elm.html"
+          "url": "https://www.bfs.admin.ch/fr/livraisons-donnees-ide"
         }
       ],
       "category": "payroll",
@@ -3247,10 +3275,6 @@
         {
           "labelKey": "Droit suisse sur la domiciliation commerciale",
           "url": "https://www.zefix.ch/de/firmensuche/"
-        },
-        {
-          "labelKey": "Domiciliation et substance fiscale",
-          "url": "https://www.fedlex.admin.ch/fr/cc/internal-law/19330002"
         }
       ]
     },
@@ -3351,7 +3375,7 @@
       "references": [
         {
           "labelKey": "FAQ sur le registre des ayants droit et la transparence",
-          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-99389.html"
+          "url": "https://www.admin.ch/fr/nsb?id=99389"
         },
         {
           "labelKey": "Reporting PME : défis liés à la complexité croissante",
@@ -3367,7 +3391,7 @@
         },
         {
           "labelKey": "Code des obligations - Comptabilité",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
     },
@@ -3438,10 +3462,6 @@
         {
           "labelKey": "Ordonnance sur le registre du commerce (ORC, RS 221.411) – Fedlex",
           "url": "https://www.fedlex.admin.ch/eli/cc/2007/686/fr"
-        },
-        {
-          "labelKey": "Code des obligations (CO, RS 220) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ],
       "series": "sogc-creations-romandie",
@@ -3473,8 +3493,8 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/11/529_488_529/fr"
         },
         {
-          "labelKey": "Code des obligations (CO, RS 220) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "series": "sogc-faillites-romandie",

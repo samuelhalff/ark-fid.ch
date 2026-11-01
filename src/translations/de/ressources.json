@@ -127,6 +127,10 @@
         {
           "labelKey": "Portail PME de la Confédération",
           "url": "https://www.kmu.admin.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -170,6 +174,10 @@
         {
           "labelKey": "Obligationenrecht (OR)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ],
       "category": "corporate",
@@ -196,6 +204,10 @@
         {
           "labelKey": "KMU-Portal – Steuern",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -221,6 +233,10 @@
         {
           "labelKey": "KMU-Portal – Steuern",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -245,6 +261,10 @@
         {
           "labelKey": "KMU-Portal – Steuern",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -271,6 +291,10 @@
         {
           "labelKey": "KMU-Portal – Steuern",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -297,6 +321,10 @@
         {
           "labelKey": "KMU-Portal – Steuern",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -323,6 +351,10 @@
         {
           "labelKey": "KMU-Portal – Steuern",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -513,6 +545,10 @@
         {
           "labelKey": "Handelsregister – Kanton Genf",
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ],
       "category": "corporate",
@@ -565,6 +601,10 @@
         {
           "labelKey": "Handelsregister – Kanton Genf",
           "url": "https://www.ge.ch/organisation/ocirt-registre-du-commerce-rc"
+        },
+        {
+          "labelKey": "Registre du commerce - Canton de Genève",
+          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ],
       "category": "corporate",
@@ -1463,7 +1503,7 @@
         },
         {
           "labelKey": "Bundesamt für Statistik – BFS",
-          "url": "https://www.bfs.admin.ch/bfs/fr/home.html"
+          "url": "https://www.bfs.admin.ch/fr/"
         },
         {
           "labelKey": "Obligationenrecht – Buchführung",
@@ -1720,7 +1760,7 @@
         },
         {
           "labelKey": "ELM: Schweizer Lohnstandard (Bundesamt für Statistik, BFS)",
-          "url": "https://www.bfs.admin.ch/bfs/fr/home/bases-statistiques/elm.html"
+          "url": "https://www.bfs.admin.ch/fr/livraisons-donnees-ide"
         }
       ],
       "category": "payroll",
@@ -3241,10 +3281,6 @@
         {
           "labelKey": "Droit suisse sur la domiciliation commerciale",
           "url": "https://www.zefix.ch/de/firmensuche/"
-        },
-        {
-          "labelKey": "Domiciliation et substance fiscale",
-          "url": "https://www.fedlex.admin.ch/fr/cc/internal-law/19330002"
         }
       ]
     },
@@ -3345,7 +3381,7 @@
       "references": [
         {
           "labelKey": "FAQ sur le registre des ayants droit et la transparence",
-          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-99389.html"
+          "url": "https://www.admin.ch/fr/nsb?id=99389"
         },
         {
           "labelKey": "Reporting PME : défis liés à la complexité croissante",
@@ -3361,7 +3397,7 @@
         },
         {
           "labelKey": "Code des obligations - Comptabilité",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
     },
@@ -3432,10 +3468,6 @@
         {
           "labelKey": "Handelsregisterverordnung (HRegV, SR 221.411) – Fedlex",
           "url": "https://www.fedlex.admin.ch/eli/cc/2007/686/de"
-        },
-        {
-          "labelKey": "Obligationenrecht (OR, SR 220) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/de"
         }
       ],
       "series": "sogc-creations-romandie",
@@ -3467,8 +3499,8 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/11/529_488_529/de"
         },
         {
-          "labelKey": "Obligationenrecht (OR, SR 220) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/de"
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "series": "sogc-faillites-romandie",

@@ -127,6 +127,10 @@
         {
           "labelKey": "SME Portal of the Confederation",
           "url": "https://www.kmu.admin.ch/fr"
+        },
+        {
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -170,6 +174,10 @@
         {
           "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "corporate",
@@ -196,6 +204,10 @@
         {
           "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -221,6 +233,10 @@
         {
           "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -245,6 +261,10 @@
         {
           "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -271,6 +291,10 @@
         {
           "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -297,6 +321,10 @@
         {
           "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -323,6 +351,10 @@
         {
           "labelKey": "SME Portal - Taxation",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
+        },
+        {
+          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
+          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -1729,7 +1761,7 @@
         },
         {
           "labelKey": "ELM: Swiss Salary Standard (Federal Statistical Office, FSO)",
-          "url": "https://www.bfs.admin.ch/bfs/fr/home/bases-statistiques/elm.html"
+          "url": "https://www.bfs.admin.ch/fr/livraisons-donnees-ide"
         }
       ],
       "category": "payroll",
@@ -3250,10 +3282,6 @@
         {
           "labelKey": "Droit suisse sur la domiciliation commerciale",
           "url": "https://www.zefix.ch/de/firmensuche/"
-        },
-        {
-          "labelKey": "Domiciliation et substance fiscale",
-          "url": "https://www.fedlex.admin.ch/fr/cc/internal-law/19330002"
         }
       ]
     },
@@ -3354,7 +3382,7 @@
       "references": [
         {
           "labelKey": "FAQ sur le registre des ayants droit et la transparence",
-          "url": "https://www.admin.ch/gov/fr/accueil/documentation/communiques.msg-id-99389.html"
+          "url": "https://www.admin.ch/fr/nsb?id=99389"
         },
         {
           "labelKey": "Reporting PME : défis liés à la complexité croissante",
@@ -3370,7 +3398,7 @@
         },
         {
           "labelKey": "Code des obligations - Comptabilité",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr#part_4/tit_32"
+          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ]
     },
@@ -3441,10 +3469,6 @@
         {
           "labelKey": "Commercial Register Ordinance (CRO, SR 221.411) – Fedlex",
           "url": "https://www.fedlex.admin.ch/eli/cc/2007/686/en"
-        },
-        {
-          "labelKey": "Code of Obligations (CO, SR 220) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/en"
         }
       ],
       "series": "sogc-creations-romandie",
@@ -3476,8 +3500,8 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/11/529_488_529/en"
         },
         {
-          "labelKey": "Code of Obligations (CO, SR 220) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/en"
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "series": "sogc-faillites-romandie",
