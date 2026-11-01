@@ -24,6 +24,12 @@ export const isProd = () => process.env.NODE_ENV === "production";
 export const mockStorageEnabled = () => !isProd() && env("KYC_QF_STORAGE") === "mock";
 export const skipTurnstile = () => !isProd() && env("KYC_QF_SKIP_TURNSTILE") === "1";
 
+/**
+ * Online signature (owner decision, 01.11.2026): the client signs in the form, the session opened
+ * with the e-mail code standing as identification (no second code). "off" leaves the signed scan only.
+ */
+export const onlineSignatureEnabled = () => env("KYC_QF_ONLINE_SIGNATURE") !== "off";
+
 /** Link, session and code lifetimes. */
 export const LINK_TTL_MS = 21 * 24 * 60 * 60 * 1000;
 export const SESSION_TTL_MS = 2 * 24 * 60 * 60 * 1000;

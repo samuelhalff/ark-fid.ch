@@ -2,13 +2,14 @@ import { createHash, createHmac, randomBytes } from "node:crypto";
 import { EMAIL_RE } from "../../tax-questionnaire/format";
 import { checkUpload, extensionOf, safeName, sniffMismatch, UPLOAD_LIMITS } from "../../tax-questionnaire/files";
 import { DOCS_FOLDER, docCode, documentsFor, KYC_UPLOAD_TYPES } from "../documents";
-import { pruneHidden, sanitizeAnswers, validateAll } from "../engine";
+import { pruneHidden, rowsOf, sanitizeAnswers, validateAll } from "../engine";
 import { FLAG_LABELS, flagsOf, type Flag } from "../flags";
-import { clientName } from "../schema";
+import { clientName, isPM } from "../schema";
 import { KYC_LOCALES, KYC_ROUTES, type Answers, type DocDeclared, type KycLocale, type KycRoute } from "../types";
 import { emailHash, issueLink } from "./access";
-import { KYC_DRIVE_ID, mockStorageEnabled, tokenSecret } from "./config";
-import { buildKycPdf } from "./pdf";
+import { KYC_DRIVE_ID, mockStorageEnabled, onlineSignatureEnabled, tokenSecret } from "./config";
+import { toWinAnsi } from "../../tax-questionnaire/server/pdf";
+import { appendOnlineSignature, buildKycPdf } from "./pdf";
 import type { RevisionState, TrackerRow } from "./ports";
 import { getPorts } from "./sharepoint";
 
@@ -69,6 +70,8 @@ export interface RevisionRecord {
   pdf?: { itemId: string; name: string; webUrl: string };
   declarationId?: string;
   signed?: { itemId: string; name: string; sha256: string; size: number; webUrl: string }[];
+  /** Signed in the form (not a scan): who, from which contact address, and what. */
+  signedOnline?: { name: string; email: string; at: string; pdfSha256: string };
 }
 
 export interface CaseRecord {
@@ -444,6 +447,8 @@ export interface StaffSummary {
     json?: { itemId: string; sha256: string };
     pdf?: { itemId: string; name: string };
     signed?: { itemId: string; name: string; sha256: string; size: number }[];
+    /** Set when the client signed in the form rather than uploading a scan. */
+    signedOnline?: RevisionRecord["signedOnline"];
     /** Documents frozen at submission (item ids and SHA-256). */
     documents?: RevisionRecord["documents"];
     folder: { itemId: string; webUrl: string };
@@ -488,6 +493,7 @@ export function summarize(record: CaseRecord): StaffSummary {
       json: rev.json,
       pdf: rev.pdf ? { itemId: rev.pdf.itemId, name: rev.pdf.name } : undefined,
       signed: rev.signed?.map(({ itemId, name, sha256, size }) => ({ itemId, name, sha256, size })),
+      signedOnline: rev.signedOnline,
       documents: rev.documents,
       folder: { itemId: rev.folderId, webUrl: rev.folderUrl },
     },
@@ -600,7 +606,85 @@ export async function clientCase(session: Session) {
     declarationId: rev.declarationId || null,
     submittedAt: rev.submittedAt || null,
     signedAt: rev.signedAt || null,
+    onlineSigner: rev.state === "awaiting_signature" && submitted ? onlineSigner(submitted, record) : null,
   };
+}
+
+/**
+ * The one person who can sign online (the client, or a company's sole signatory), else null.
+ * Also null when the name would not print in the PDF (its fonts are Latin only): paper then.
+ */
+function onlineSigner(answers: Answers, record: CaseRecord): string | null {
+  if (!onlineSignatureEnabled()) return null;
+  let name: string;
+  if (!isPM(answers)) name = clientName(answers) || record.displayName || "";
+  else {
+    const signers = rowsOf(answers, "i.signers");
+    if (signers.length !== 1) return null;
+    name = `${str(signers[0].firstName)} ${str(signers[0].lastName)}`.trim();
+  }
+  return name && nameKey(name) && nameKey(toWinAnsi(name)) === nameKey(name) ? name : null;
+}
+
+/** Names compared without case, accents, punctuation or word order. */
+const nameKey = (v: string) =>
+  v
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter(Boolean)
+    .sort()
+    .join(" ");
+
+/**
+ * The client signs in the form: the session (opened with the e-mail code) identifies them, they
+ * accept the declarations and type their name. The PDF they checked gets a signature page and is
+ * filed in "Signé" with its SHA-256, like a scan.
+ */
+export async function signOnline(session: Session, body: { name?: unknown; accept?: unknown; declarationId?: unknown }) {
+  return locked(session.caseId, async () => {
+    const { record, rev } = await clientContext(session);
+    // The form shown in the browser must be this one (another tab may have opened another case).
+    if (!rev.declarationId || str(body.declarationId) !== rev.declarationId) throw new KycError("case_changed", 409);
+    if (rev.state === "signed") {
+      // A retry after a failed tracker update brings "Suivi KYC" up to date.
+      await track(record, rev);
+      return { state: rev.state };
+    }
+    if (rev.state !== "awaiting_signature" || !rev.pdf) throw new KycError("not_editable", 409);
+    const answers = await readSubmitted(record, rev);
+    const expected = answers ? onlineSigner(answers, record) : null;
+    if (!expected) throw new KycError("online_signature_unavailable", 409);
+    const typed = str(body.name).slice(0, 200);
+    if (body.accept !== true) throw new KycError("signature_not_accepted", 422);
+    if (!typed || !nameKey(expected) || nameKey(typed) !== nameKey(expected)) throw new KycError("signature_name", 422);
+    const { storage } = getPorts();
+    const original = await storage.readFile(record.driveId, rev.folderId, rev.pdf.name);
+    if (!original) throw new KycError("pdf_not_ready", 409);
+    const at = now();
+    const pdfSha256 = sha256(original);
+    const signedPdf = await appendOnlineSignature(original, {
+      language: record.language,
+      declarationId: rev.declarationId || "",
+      name: expected,
+      typed,
+      email: record.email,
+      at,
+      pdfSha256,
+      jsonSha256: rev.json?.sha256 || "",
+    });
+    const folderId = await storage.ensureSubfolder(record.driveId, rev.folderId, SIGNED_FOLDER);
+    const fileName = safeName(`Formulaire KYC - ${record.displayName} - R${rev.n} - signé en ligne`, 120) + ".pdf";
+    const file = await storage.putFile(record.driveId, folderId, fileName, signedPdf, "application/pdf");
+    rev.signed = [{ itemId: file.id, name: file.name, sha256: sha256(signedPdf), size: signedPdf.byteLength, webUrl: file.webUrl }];
+    rev.signedOnline = { name: typed, email: record.email, at, pdfSha256 };
+    rev.signedAt = at;
+    rev.state = "signed";
+    await saveCase(record);
+    await track(record, rev);
+    return { state: rev.state };
+  });
 }
 
 const sanitizeDeclared = (raw: unknown): Record<string, DocDeclared> => {
@@ -757,7 +841,7 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
       rev.state = "returned";
     } else {
       rev.declarationId = `${record.caseId}-R${rev.n}-${digest.slice(0, 8).toUpperCase()}`;
-      const pdf = await buildKycPdf(submission, rev.declarationId);
+      const pdf = await buildKycPdf(submission, rev.declarationId, { online: !!onlineSigner(answers, record) });
       const pdfName = safeName(`Formulaire KYC - ${submission.clientName} - R${rev.n} - à signer`, 120) + ".pdf";
       const pdfFile = await storage.putFile(record.driveId, rev.folderId, pdfName, pdf, "application/pdf");
       rev.pdf = { itemId: pdfFile.id, name: pdfFile.name, webUrl: pdfFile.webUrl };
@@ -782,7 +866,10 @@ export async function readPdf(session: Session): Promise<{ name: string; bytes: 
 export async function confirmSigned(session: Session) {
   return locked(session.caseId, async () => {
     const { record, rev } = await clientContext(session);
-    if (rev.state === "signed") return { state: rev.state };
+    if (rev.state === "signed") {
+      await track(record, rev);
+      return { state: rev.state };
+    }
     if (rev.state !== "awaiting_signature") throw new KycError("not_editable", 409);
     const { storage } = getPorts();
     const folderId = await storage.ensureSubfolder(record.driveId, rev.folderId, SIGNED_FOLDER);

@@ -58,6 +58,8 @@ export interface CasePayload {
   declarationId: string | null;
   submittedAt: string | null;
   signedAt: string | null;
+  /** Name of the person who can sign in the form; null: signed scan only. */
+  onlineSigner: string | null;
 }
 
 export const api = {

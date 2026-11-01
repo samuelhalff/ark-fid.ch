@@ -114,6 +114,18 @@ export const UI = {
 
   // after submission
   signTitle: t("Signature du formulaire", "Signing the form"),
+  onlineTitle: t("Signer en ligne", "Sign online"),
+  onlineIntro: t(
+    "Relisez le formulaire (PDF ci-dessous), puis signez-le ici. Aucun nouveau code n'est demandé : vous vous êtes déjà identifié avec le code reçu par e-mail.",
+    "Read the form (PDF below), then sign it here. No new code is needed: you already identified with the code received by e-mail.",
+  ),
+  onlineAccept: t(
+    "Je confirme avoir relu le formulaire, que les informations sont exactes et complètes, et j'accepte les déclarations qu'il contient. Ma saisie ci-dessous vaut signature.",
+    "I confirm that I have read the form, that the information is accurate and complete, and I accept the declarations it contains. What I type below stands as my signature.",
+  ),
+  onlineName: t("Signataire : tapez « {name} »", "Signatory: type “{name}”"),
+  onlineSign: t("Signer le formulaire", "Sign the form"),
+  onlineOr: t("Ou, si vous préférez, signez sur papier :", "Or, if you prefer, sign on paper:"),
   signIntro: t("Merci, vos réponses sont enregistrées. Il reste à signer le formulaire.", "Thank you, your answers are saved. The form now needs to be signed."),
   reference: t("Référence : {ref}", "Reference: {ref}"),
   signStep1: t("Téléchargez le formulaire à signer (PDF).", "Download the form to sign (PDF)."),
@@ -175,6 +187,10 @@ export const SERVER_ERRORS: Record<string, L> = {
   missing_documents: t("Pour chaque document demandé, joignez le fichier ou indiquez que vous l'envoyez séparément.", "For each requested document, attach the file or say that you will send it separately."),
   file_rejected: t("Certains fichiers ont été refusés.", "Some files were rejected."),
   signed_missing: t("Téléversez d'abord le formulaire signé.", "Please upload the signed form first."),
+  signature_name: t("Le nom saisi ne correspond pas au signataire.", "The name typed does not match the signatory."),
+  signature_not_accepted: t("Cochez la confirmation pour signer.", "Tick the confirmation to sign."),
+  case_changed: t("Ce formulaire n'est plus celui ouvert dans cette session (autre onglet ?). Rechargez la page.", "This form is no longer the one open in this session (another tab?). Reload the page."),
+  online_signature_unavailable: t("La signature en ligne n'est pas disponible pour ce formulaire.", "Online signing is not available for this form."),
   pdf_not_ready: t("Le PDF n'est pas encore prêt. Réessayez dans un instant.", "The PDF is not ready yet. Try again shortly."),
   network: t("Problème de connexion. Réessayez.", "Connection problem. Please try again."),
   generic: t("Une erreur est survenue. Réessayez ou contactez Ark.", "Something went wrong. Try again or contact Ark."),

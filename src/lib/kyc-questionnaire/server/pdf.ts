@@ -43,6 +43,23 @@ const TEXT = {
     fr: "Merci de vérifier et de signer ce document, puis d'en déposer sur kyc.ark-fid.ch une copie numérisée ou une photo lisible de toutes les pages.",
     en: "Please check and sign this document, then upload a legible scanned copy or photograph of every page to kyc.ark-fid.ch.",
   },
+  instructionsOnline: {
+    fr: "Merci de vérifier ce document, puis de le signer en ligne sur kyc.ark-fid.ch, ou de le signer sur papier et d'y déposer une copie numérisée ou une photo lisible de toutes les pages.",
+    en: "Please check this document, then sign it online at kyc.ark-fid.ch, or sign it on paper and upload a legible scanned copy or photograph of every page there.",
+  },
+  online: {
+    title: { fr: "Signature en ligne", en: "Online signature" },
+    intro: {
+      fr: "Le présent formulaire a été signé en ligne sur kyc.ark-fid.ch, dans une session ouverte avec un code à usage unique envoyé à l'adresse e-mail indiquée ci-dessous. Dans cette session, les déclarations du formulaire ont été confirmées et le nom du signataire déclaré a été saisi en guise de signature. Il ne s'agit pas d'une signature électronique qualifiée.",
+      en: "This form was signed online at kyc.ark-fid.ch, in a session opened with a one-time code sent to the e-mail address shown below. In that session, the declarations of the form were confirmed and the name of the declared signatory was typed as the signature. This is not a qualified electronic signature.",
+    },
+    signer: { fr: "Signataire déclaré", en: "Declared signatory" },
+    typed: { fr: "Nom saisi", en: "Name typed" },
+    email: { fr: "Adresse e-mail du code", en: "E-mail address of the code" },
+    at: { fr: "Date et heure (Suisse)", en: "Date and time (Swiss time)" },
+    pdf: { fr: "SHA-256 du formulaire signé (pages précédentes)", en: "SHA-256 of the form signed (previous pages)" },
+    json: { fr: "SHA-256 des réponses (questionnaire.json)", en: "SHA-256 of the answers (questionnaire.json)" },
+  },
 } as const;
 
 const swissDate = (iso: string) => {
@@ -136,7 +153,7 @@ class Writer {
   }
 }
 
-export async function buildKycPdf(record: SubmissionRecord, declarationId: string): Promise<Uint8Array> {
+export async function buildKycPdf(record: SubmissionRecord, declarationId: string, options: { online?: boolean } = {}): Promise<Uint8Array> {
   const L: KycLocale = record.language;
   const a: Answers = record.answers;
   const doc = await PDFDocument.create();
@@ -151,7 +168,7 @@ export async function buildKycPdf(record: SubmissionRecord, declarationId: strin
   w.text(TEXT.title[L], { bold: true, size: 15, color: NAVY, gap: 2 });
   w.text(isPP(a) ? TEXT.pp[L] : a.route === "pm-nonop" ? TEXT.pmNonOp[L] : TEXT.pmOp[L], { size: 11, color: NAVY, gap: 6 });
   w.text(`${record.clientName} · ${TEXT.ref[L]} ${declarationId} · ${TEXT.sent[L]} ${swissDate(record.submittedAt)}`, { size: 8.5, color: GREY, gap: 4 });
-  w.text(TEXT.instructions[L], { size: 8.5, color: GREY, gap: 6 });
+  w.text((options.online ? TEXT.instructionsOnline : TEXT.instructions)[L], { size: 8.5, color: GREY, gap: 6 });
 
   for (const step of visibleSteps(a)) {
     if (!step.section) continue;
@@ -211,5 +228,34 @@ export async function buildKycPdf(record: SubmissionRecord, declarationId: strin
     const footer = toWinAnsi(`${TEXT.title[L]} · ${TEXT.ref[L]} ${declarationId} · ${TEXT.confidential[L]} · ${TEXT.page[L]} ${index + 1}/${total}`);
     page.drawText(footer, { x: MARGIN, y: MARGIN - 18, size: 7.5, font: w.font, color: GREY });
   });
+  return doc.save();
+}
+
+/**
+ * The form signed online: the PDF the client checked, unchanged, plus a last page recording who
+ * signed, from which code address, when, and the SHA-256 of the form and of the answers.
+ */
+export async function appendOnlineSignature(
+  original: Uint8Array,
+  info: { language: KycLocale; declarationId: string; name: string; typed: string; email: string; at: string; pdfSha256: string; jsonSha256: string },
+): Promise<Uint8Array> {
+  const L = info.language;
+  const T = TEXT.online;
+  const doc = await PDFDocument.load(original);
+  const font = await doc.embedFont(StandardFonts.Helvetica);
+  const bold = await doc.embedFont(StandardFonts.HelveticaBold);
+  const w = new Writer(doc, font, bold);
+  w.heading(T.title[L]);
+  w.text(T.intro[L], { gap: 10 });
+  w.pair(T.signer[L], info.name);
+  w.pair(T.typed[L], info.typed);
+  w.pair(T.email[L], info.email);
+  w.pair(T.at[L], swissDate(info.at));
+  w.pair(TEXT.ref[L], info.declarationId);
+  w.pair(T.pdf[L], info.pdfSha256);
+  w.pair(T.json[L], info.jsonSha256);
+  for (const page of w.pages) {
+    page.drawText(toWinAnsi(`${TEXT.title[L]} · ${TEXT.ref[L]} ${info.declarationId} · ${TEXT.confidential[L]} · ${T.title[L]}`), { x: MARGIN, y: MARGIN - 18, size: 7.5, font, color: GREY });
+  }
   return doc.save();
 }

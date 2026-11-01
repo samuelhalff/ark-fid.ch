@@ -8,6 +8,7 @@ import { Alert, AlertDescription } from "@/src/components/ui/alert";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/src/components/ui/card";
+import { Checkbox } from "@/src/components/ui/checkbox";
 import { Form } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
@@ -986,7 +987,7 @@ function ReviewSummary({
   );
 }
 
-/** After submission: download the PDF, print and sign, upload the signed scan, confirm. */
+/** After submission: sign online (one signatory), or download the PDF, sign, upload the scan, confirm. */
 function SigningView({
   caseData,
   locale,
@@ -1012,6 +1013,26 @@ function SigningView({
     : [];
   const postOriginals = documentsFor(answers).some(isCertifiedId);
   const signed = caseData.signedFiles || [];
+  const onlineSigner = caseData.onlineSigner;
+  const [accepted, setAccepted] = useState(false);
+  const [typedName, setTypedName] = useState("");
+  const [onlineError, setOnlineError] = useState("");
+
+  const signOnline = async () => {
+    setOnlineError("");
+    if (!accepted) return setOnlineError(SERVER_ERRORS.signature_not_accepted[locale]);
+    setBusy(true);
+    try {
+      await api.caseAction("sign-online", { name: typedName, accept: true, declarationId: caseData.declarationId });
+      onSigned(await api.getCase());
+      window.scrollTo({ top: 0 });
+    } catch (e) {
+      if (e instanceof ApiError && (e.status === 401 || e.status === 410)) return onFatal(e);
+      setOnlineError(errorText(code(e), locale, maxFileBytes));
+    } finally {
+      setBusy(false);
+    }
+  };
 
   const confirm = async () => {
     setError("");
@@ -1049,6 +1070,47 @@ function SigningView({
         {caseData.declarationId ? <p className="text-sm font-medium">{UI.reference[locale].replace("{ref}", caseData.declarationId)}</p> : null}
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
+        {onlineSigner ? (
+          <>
+            <section className="flex flex-col gap-4" aria-labelledby="kyc-online-sign">
+              <h3 id="kyc-online-sign" className="text-lg font-semibold">
+                {UI.onlineTitle[locale]}
+              </h3>
+              <p className="text-sm text-muted-foreground">{UI.onlineIntro[locale]}</p>
+              <div>
+                <Button asChild variant="outline">
+                  <a href={PDF_URL} download>
+                    <DownloadSimple className="size-4" />
+                    {UI.downloadPdf[locale]}
+                  </a>
+                </Button>
+              </div>
+              <div className="flex items-start gap-3">
+                <Checkbox id="kyc-online-accept" checked={accepted} onCheckedChange={(v) => setAccepted(v === true)} className="mt-0.5" />
+                <Label htmlFor="kyc-online-accept" className="text-sm font-normal leading-snug">
+                  {UI.onlineAccept[locale]}
+                </Label>
+              </div>
+              <div className="flex max-w-sm flex-col gap-2">
+                <Label htmlFor="kyc-online-name">{UI.onlineName[locale].replace("{name}", onlineSigner)}</Label>
+                <Input id="kyc-online-name" value={typedName} onChange={(e) => setTypedName(e.target.value)} autoComplete="name" />
+              </div>
+              <div>
+                <Button type="button" onClick={() => void signOnline()} disabled={busy || uploading || !typedName.trim()}>
+                  {busy ? <CircleNotch className="size-4 animate-spin" /> : <Check className="size-4" />}
+                  {UI.onlineSign[locale]}
+                </Button>
+              </div>
+              {onlineError ? (
+                <p className="text-sm font-medium text-destructive" role="alert">
+                  {onlineError}
+                </p>
+              ) : null}
+            </section>
+            <Separator />
+            <p className="text-sm font-medium">{UI.onlineOr[locale]}</p>
+          </>
+        ) : null}
         <ol className="flex flex-col gap-6">
           <li className="flex flex-col gap-3">
             {stepTitle(1, UI.signStep1[locale])}

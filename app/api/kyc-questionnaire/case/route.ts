@@ -1,7 +1,7 @@
 import { clientRoute, json } from "@/src/lib/kyc-questionnaire/server/http";
-import { clientCase, confirmSigned, createUpload, deleteUpload, saveDraft, submit } from "@/src/lib/kyc-questionnaire/server/service";
+import { clientCase, confirmSigned, createUpload, deleteUpload, saveDraft, signOnline, submit } from "@/src/lib/kyc-questionnaire/server/service";
 
-/** The client's case: GET reads it; POST with x-kqf-action saves, uploads, submits, confirms the signature. */
+/** The client's case: GET reads it; POST with x-kqf-action saves, uploads, submits, signs online or confirms the signed scan. */
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -23,6 +23,8 @@ export async function POST(request: Request) {
         return json(await submit(session!, body));
       case "signed":
         return json(await confirmSigned(session!));
+      case "sign-online":
+        return json(await signOnline(session!, body));
       default:
         return json({ error: "invalid_request" }, 400);
     }

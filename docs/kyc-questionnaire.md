@@ -31,8 +31,16 @@ sign. Ark then reopens the case with the right route.
    address → the client picks one after entering the code.
 3. The revision is frozen: `questionnaire.json` and its SHA-256, and the PDF to sign, whose
    every page carries the reference `<caseId>-R<n>-<first 8 hex of the SHA-256>`.
-4. The client downloads the PDF, signs it and uploads the scan (several files allowed), then
-   confirms. The scans are hashed; the revision is `signed`.
+4. The client signs online or on paper:
+   - **online** (Sam, 01.11.2026; `KYC_QF_ONLINE_SIGNATURE=off` disables it): offered when one
+     person signs (the client, or a company's sole signatory). No second code: the session opened
+     with the e-mail code identifies them. They tick the confirmation and type the signatory's name
+     (compared without case, accents or word order). The PDF gets a last page (signatory, name
+     typed, code address, Swiss time, SHA-256 of the PDF and of the JSON) and is filed in `Signé/`
+     as `… - R<n> - signé en ligne.pdf`; `signedOnline` is recorded on the revision;
+   - **on paper**: the client downloads the PDF, signs it and uploads the scan (several files
+     allowed), then confirms. The scans are hashed.
+   Either way the revision is `signed`. Several signatories: paper only.
 5. Ark reviews in Cadence (internal LBA note, risk, four eyes). Corrections = `reopen`: a new
    revision pre-filled with the previous answers; nothing of the old revision is rewritten.
 
@@ -84,7 +92,7 @@ link tokens are never stored); the same key with another body is `409 idempotenc
 `expectedRevision` must be the latest revision number (`409 revision_conflict` otherwise).
 Summary: `caseId, clientRef, displayName, route, language, closed, updatedAt, folder,
 actionRequired (await_client | review_route | await_signature | review_kyc | null),
-latestRevision {n, id, state, dates, flags, declarationId, json {itemId, sha256}, pdf, signed[],
+latestRevision {n, id, state, dates, flags, declarationId, json {itemId, sha256}, pdf, signed[], signedOnline? {name, email, at, pdfSha256},
 folder}, revisions[]`. Flags (`pep`, `sanctions`, `criminal`, `trustOrFoundation`, `nominee`,
 `listed`, `forThird`, `cash`, `crypto`, `valuables`, `licence`, `notStarted`, `noSubstance`, `routeMismatch`)
 are points for Ark's review, not a risk class.

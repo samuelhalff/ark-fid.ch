@@ -14,7 +14,7 @@ import { flagsOf, routeMismatch } from "./flags";
 import { createChallenge, createPick, createSession, emailHash, readLink, readPick, readSession, verifyChallenge } from "./server/access";
 import { signRequest, verifyStaffRequest } from "./server/signature";
 import { memoryAccess, memoryTracker } from "./server/ports";
-import { changes, clientCase, confirmSigned, contactOf, createCase, KycError, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
+import { changes, clientCase, confirmSigned, contactOf, createCase, KycError, signOnline, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
 import { KycMockStorage, setPorts } from "./server/sharepoint";
 import type { Answers } from "./types";
 
@@ -264,6 +264,44 @@ test("create → fill → submit → PDF → signed scan, frozen with its SHA-25
 
   await staffAction(caseId, "close", { expectedRevision: 2 }, { idempotencyKey: "close-0001", payloadHash: "c" });
   await assert.rejects(clientCase({ caseId, revision: 2 }), (e: unknown) => e instanceof KycError && e.code === "case_closed");
+});
+
+test("signing online: the code session identifies, the typed name must be the signatory's, the PDF gets a signature page", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0010", payloadHash: "h" });
+  const caseId = created.summary.caseId;
+  const session = { caseId, revision: 1, emailHash: emailHash("jean@example.ch") };
+  await uploadAll(f, caseId, pmOp);
+  await submit(session, { answers: pmOp });
+  const view = await clientCase(session);
+  assert.equal(view.onlineSigner, "Jean Dupont", "a company's sole signatory");
+  const declarationId = view.declarationId;
+  await assert.rejects(signOnline(session, { name: "Jean Dupont", accept: true, declarationId: "OTHER-R1-00000000" }), (e: unknown) => e instanceof KycError && e.code === "case_changed");
+  await assert.rejects(signOnline(session, { name: "Jean Dupont", declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_not_accepted");
+  await assert.rejects(signOnline(session, { name: "Paul Martin", accept: true, declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_name");
+  await assert.rejects(signOnline(session, { name: "---", accept: true, declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_name");
+  assert.equal((await signOnline(session, { name: "  dupont JEAN ", accept: true, declarationId })).state, "signed");
+  const record = await loadCase(caseId);
+  const rev = record.revisions[0];
+  assert.equal(rev.signedOnline?.email, "jean@example.ch");
+  const original = await f.storage.readFile(record.driveId, rev.folderId, rev.pdf!.name);
+  const { createHash } = await import("node:crypto");
+  assert.equal(rev.signedOnline?.pdfSha256, createHash("sha256").update(original!).digest("hex"));
+  const signedFolder = await f.storage.ensureSubfolder(record.driveId, rev.folderId, "Signé");
+  const signedPdf = await f.storage.readFile(record.driveId, signedFolder, rev.signed![0].name);
+  const { PDFDocument } = await import("pdf-lib");
+  assert.equal((await PDFDocument.load(signedPdf!)).getPageCount(), (await PDFDocument.load(original!)).getPageCount() + 1, "one signature page added");
+  assert.equal((await staffCase(caseId)).latestRevision.signedOnline?.name, "dupont JEAN");
+  assert.equal((await signOnline(session, { name: "x", accept: true, declarationId })).state, "signed", "a repeated signature changes nothing");
+  // Several signatories: paper only.
+  const g = await fixture();
+  const two = await createCase(createInput(g.clientFolder), { keyId: "cadence", idempotencyKey: "create-0011", payloadHash: "h" });
+  const twoAnswers: Answers = { ...pmOp, "i.signers": [row("sgn0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur" }), row("sgn0002", { lastName: "Martin", firstName: "Paul", function: "Administrateur" })] };
+  await uploadAll(g, two.summary.caseId, twoAnswers);
+  await submit({ caseId: two.summary.caseId, revision: 1 }, { answers: twoAnswers });
+  assert.equal((await clientCase({ caseId: two.summary.caseId, revision: 1 })).onlineSigner, null);
+  const twoView = await clientCase({ caseId: two.summary.caseId, revision: 1 });
+  await assert.rejects(signOnline({ caseId: two.summary.caseId, revision: 1 }, { name: "Jean Dupont", accept: true, declarationId: twoView.declarationId }), (e: unknown) => e instanceof KycError && e.code === "online_signature_unavailable");
 });
 
 test("a client description contradicting Ark's form goes back to Ark, nothing to sign", async () => {
