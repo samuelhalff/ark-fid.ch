@@ -4,7 +4,7 @@ import { staffAction, staffCase, type StaffAction } from "@/src/lib/kyc-question
 /**
  * Cadence API for one case:
  *   GET  — the case, with the submitted answers of the latest revision;
- *   POST {action: "link" | "reopen" | "close", expectedRevision, prefill?, route?} (Idempotency-Key required).
+ *   POST {action: "link" | "reopen" | "close", expectedRevision, email? (link), prefill?, route?} (Idempotency-Key required).
  */
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

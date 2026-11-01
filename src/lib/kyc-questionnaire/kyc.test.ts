@@ -14,7 +14,7 @@ import { flagsOf, routeMismatch } from "./flags";
 import { createChallenge, createPick, createSession, emailHash, readLink, readPick, readSession, verifyChallenge } from "./server/access";
 import { signRequest, verifyStaffRequest } from "./server/signature";
 import { memoryAccess, memoryTracker } from "./server/ports";
-import { changes, clientCase, confirmSigned, createCase, KycError, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
+import { changes, clientCase, confirmSigned, contactOf, createCase, KycError, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
 import { KycMockStorage, setPorts } from "./server/sharepoint";
 import type { Answers } from "./types";
 
@@ -371,6 +371,17 @@ test("code without the link: cases found by e-mail, signed choice of form", asyn
   assert.equal(checked.ok && checked.payload.byEmail, true);
   const pick = createPick(hash, ["K1", "K2"]);
   assert.deepEqual(readPick(pick), { emailHash: hash, caseIds: ["K1", "K2"] });
+  // Ark changes the contact: the new address finds the case, the old one no longer does.
+  const token = created.link.url.split("#acces=")[1];
+  await assert.rejects(staffAction(created.summary.caseId, "link", { expectedRevision: 1, email: "not-an-email" }, { idempotencyKey: "link-0007a", payloadHash: "a" }), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
+  const moved = await staffAction(created.summary.caseId, "link", { expectedRevision: 1, email: "Claude@Example.ch" }, { idempotencyKey: "link-0007", payloadHash: "l" });
+  assert.ok(moved.link);
+  assert.equal(await readLink(token), null, "old link revoked");
+  assert.equal((await readLink(moved.link!.url.split("#acces=")[1]))?.emailHash, emailHash("claude@example.ch"));
+  assert.equal((await contactOf(created.summary.caseId)).emailHash, emailHash("claude@example.ch"));
+  await assert.rejects(clientCase({ caseId: created.summary.caseId, revision: 1, emailHash: hash }), (e: unknown) => e instanceof KycError && e.code === "session_expired", "old-address session ends");
+  assert.ok(await clientCase({ caseId: created.summary.caseId, revision: 1, emailHash: emailHash("claude@example.ch") }));
+  assert.notEqual((await contactOf(created.summary.caseId)).emailHash, hash);
   assert.equal(readPick(pick.replace(/^./, (c) => (c === "e" ? "f" : "e"))), null, "tampered");
   assert.equal(readPick(pick, Date.now() + 11 * 60 * 1000), null, "expired");
 });

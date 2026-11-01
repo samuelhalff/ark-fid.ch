@@ -323,7 +323,7 @@ export type StaffAction = "link" | "reopen" | "close";
 export async function staffAction(
   caseId: string,
   action: StaffAction,
-  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown },
+  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown },
   meta: { idempotencyKey: string; payloadHash: string },
 ): Promise<{ summary: StaffSummary; link?: LinkResult; replayed: boolean }> {
   return locked(caseId, async () => {
@@ -359,6 +359,13 @@ export async function staffAction(
 
     if (action === "link") {
       if (rev.state !== "open" && rev.state !== "awaiting_signature") throw new KycError("invalid_state", 409, { state: rev.state });
+      // A new contact address: the new link and codes go to it; old links and sessions are revoked.
+      if (body.email !== undefined) {
+        const email = typeof body.email === "string" ? body.email.trim() : "";
+        if (!EMAIL_RE.test(email) || email.length > 200) throw new KycError("invalid_request", 400, { field: "email" });
+        record.email = email;
+        record.emailHash = emailHash(email);
+      }
       remember(rev.n);
       const link = await relink(record);
       return { summary: summarize(record), link, replayed: false };
@@ -534,10 +541,14 @@ export async function changes(cursor: string, limit: number) {
 export interface Session {
   caseId: string;
   revision: number;
+  /** The address the session was opened with; set for every real session. */
+  emailHash?: string;
 }
 
 async function clientContext(session: Session) {
   const record = await loadCase(session.caseId);
+  // Ark changed the contact: a session opened with the old address ends.
+  if (session.emailHash !== undefined && session.emailHash !== record.emailHash) throw new KycError("session_expired", 401);
   const rev = revisionOf(record, session.revision);
   if (!rev) throw new KycError("case_not_found", 404);
   if (rev.state === "superseded") throw new KycError("revision_superseded", 410);

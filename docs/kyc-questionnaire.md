@@ -77,7 +77,7 @@ link tokens are never stored); the same key with another body is `409 idempotenc
 | `POST /cases` | `{clientRef, displayName, route, language: "fr"\|"en", email, clientFolder: {driveId, itemId}, prefill?: {<answer id>: value}}` | `201` summary + `link: {url, expiresAt}` |
 | `GET /cases?cursor=&limit=50` | – | `{items: [{caseId, clientRef, displayName, route, revision, revisionId, state, updatedAt, declarationId, jsonSha256}], nextCursor, more}` (oldest first; keep `nextCursor`) |
 | `GET /cases/<caseId>` | – | summary + `answers` of the latest submitted revision |
-| `POST /cases/<caseId>` | `{action: "link", expectedRevision}` | new link (old links and sessions revoked); open or awaiting signature only |
+| `POST /cases/<caseId>` | `{action: "link", expectedRevision, email?}` | new link (old links and sessions revoked); open or awaiting signature only. `email` changes the contact: the link and codes then go to the new address only |
 | | `{action: "reopen", expectedRevision, prefill?, route?}` | new revision + link; from returned, awaiting signature or signed |
 | | `{action: "close", expectedRevision}` | irreversible |
 
