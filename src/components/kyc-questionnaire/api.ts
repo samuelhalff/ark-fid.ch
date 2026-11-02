@@ -58,8 +58,14 @@ export interface CasePayload {
   declarationId: string | null;
   submittedAt: string | null;
   signedAt: string | null;
-  /** Name of the person who can sign in the form; null: signed scan only. */
-  onlineSigner: string | null;
+  /** Once submitted: who signs, who has signed, and what this session may do. */
+  signing: {
+    role: "contact" | "signer";
+    online: boolean;
+    onlineStarted: boolean;
+    paperStarted: boolean;
+    signers: { id: string; name: string; signed: boolean; mine: boolean; emailHint: string | null }[];
+  } | null;
 }
 
 export const api = {

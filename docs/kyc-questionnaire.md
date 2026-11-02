@@ -31,16 +31,26 @@ sign. Ark then reopens the case with the right route.
    address → the client picks one after entering the code.
 3. The revision is frozen: `questionnaire.json` and its SHA-256, and the PDF to sign, whose
    every page carries the reference `<caseId>-R<n>-<first 8 hex of the SHA-256>`.
-4. The client signs online or on paper:
-   - **online** (Sam, 01.11.2026; `KYC_QF_ONLINE_SIGNATURE=off` disables it): offered when one
-     person signs (the client, or a company's sole signatory). No second code: the session opened
-     with the e-mail code identifies them. They tick the confirmation and type the signatory's name
-     (compared without case, accents or word order). The PDF gets a last page (signatory, name
-     typed, code address, Swiss time, SHA-256 of the PDF and of the JSON) and is filed in `Signé/`
-     as `… - R<n> - signé en ligne.pdf`; `signedOnline` is recorded on the revision;
-   - **on paper**: the client downloads the PDF, signs it and uploads the scan (several files
+4. The form is signed online or on paper, one way per revision:
+   - **online** (Sam, 01–02.11.2026; `KYC_QF_ONLINE_SIGNATURE=off` disables it). Signatories are
+     fixed at submission (`rev.signers`): the client (natural person) at the case address; a
+     company's signatories at the addresses given in the form (`i.signers[].email`, one per
+     person, duplicates refused); a sole signatory with no address signs at the case address.
+     Online is offered when every signatory has an address and a printable name. Each signs in
+     their own session opened with one code sent to their own address (never a second code):
+     tick the confirmation, type their name (compared without case, accents or word order). The
+     app e-mails each signatory other than the contact a request with a link bound to their
+     address (fixed wording, from `info@ark-fid.ch`); they may also request a code at
+     kyc.ark-fid.ch. A signatory's session only reads the PDF and signs (no answers, documents
+     or scans). Each signature is saved at once; when the last one signs, the PDF gets a page
+     listing every signatory (declared name, name typed, code address, Swiss time, SHA-256 of the
+     PDF and of the JSON) and is filed in `Signé/` as `… - R<n> - signé en ligne.pdf`. Once
+     someone has signed online, the paper path is closed; a scan already uploaded blocks online
+     until it is deleted;
+   - **on paper**: the contact downloads the PDF, has it signed, uploads the scan (several files
      allowed), then confirms. The scans are hashed.
-   Either way the revision is `signed`. Several signatories: paper only.
+   Either way the revision is `signed`. A new contact link (reminder) does not revoke the
+   signatories' links; reopen and close revoke everything.
 5. Ark reviews in Cadence (internal LBA note, risk, four eyes). Corrections = `reopen`: a new
    revision pre-filled with the previous answers; nothing of the old revision is rewritten.
 
@@ -86,13 +96,14 @@ link tokens are never stored); the same key with another body is `409 idempotenc
 | `GET /cases?cursor=&limit=50` | – | `{items: [{caseId, clientRef, displayName, route, revision, revisionId, state, updatedAt, declarationId, jsonSha256}], nextCursor, more}` (oldest first; keep `nextCursor`) |
 | `GET /cases/<caseId>` | – | summary + `answers` of the latest submitted revision |
 | `POST /cases/<caseId>` | `{action: "link", expectedRevision, email?}` | new link (old links and sessions revoked); open or awaiting signature only. `email` changes the contact: the link and codes then go to the new address only |
+| | `{action: "signers", expectedRevision, signers: [{id, email}]}` | awaiting signature: give or correct signatories' addresses (unsigned ones); each new address gets a request; a replay sends nothing |
 | | `{action: "reopen", expectedRevision, prefill?, route?}` | new revision + link; from returned, awaiting signature or signed |
 | | `{action: "close", expectedRevision}` | irreversible |
 
 `expectedRevision` must be the latest revision number (`409 revision_conflict` otherwise).
 Summary: `caseId, clientRef, displayName, route, language, closed, updatedAt, folder,
 actionRequired (await_client | review_route | await_signature | review_kyc | null),
-latestRevision {n, id, state, dates, flags, declarationId, json {itemId, sha256}, pdf, signed[], signedOnline? {name, email, at, pdfSha256},
+latestRevision {n, id, state, dates, flags, declarationId, json {itemId, sha256}, pdf, signed[], signers? [{id, name, email, emailBy, invitedAt, signedAt, typed}],
 folder}, revisions[]`. Flags (`pep`, `sanctions`, `criminal`, `trustOrFoundation`, `nominee`,
 `listed`, `forThird`, `cash`, `crypto`, `valuables`, `licence`, `notStarted`, `noSubstance`, `routeMismatch`)
 are points for Ark's review, not a risk class.

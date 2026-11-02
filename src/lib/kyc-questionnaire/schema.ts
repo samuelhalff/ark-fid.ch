@@ -746,6 +746,17 @@ export const STEPS: StepDef[] = [
           { kind: "field", id: "lastName", type: "text", label: t("Nom", "Last name"), required: true, width: "half" },
           { kind: "field", id: "firstName", type: "text", label: t("Prénom(s)", "First name(s)"), required: true, width: "half" },
           { kind: "field", id: "function", type: "text", label: t("Fonction", "Position"), required: true, width: "half" },
+          {
+            kind: "field",
+            id: "email",
+            type: "email",
+            label: t("E-mail (pour signer en ligne)", "Email (to sign online)"),
+            help: t(
+              "Chaque signataire reçoit à cette adresse un lien et un code pour signer en ligne. Une adresse par personne. Sans adresse, le formulaire se signe sur papier.",
+              "Each signatory receives a link and a code at this address to sign online. One address per person. Without an address, the form is signed on paper.",
+            ),
+            width: "half",
+          },
         ],
       },
       { kind: "field", id: "i.place", type: "text", label: t("Lieu de signature", "Place of signature"), required: true, width: "half" },

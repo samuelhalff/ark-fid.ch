@@ -50,12 +50,13 @@ const TEXT = {
   online: {
     title: { fr: "Signature en ligne", en: "Online signature" },
     intro: {
-      fr: "Le présent formulaire a été signé en ligne sur kyc.ark-fid.ch, dans une session ouverte avec un code à usage unique envoyé à l'adresse e-mail indiquée ci-dessous. Dans cette session, les déclarations du formulaire ont été confirmées et le nom du signataire déclaré a été saisi en guise de signature. Il ne s'agit pas d'une signature électronique qualifiée.",
-      en: "This form was signed online at kyc.ark-fid.ch, in a session opened with a one-time code sent to the e-mail address shown below. In that session, the declarations of the form were confirmed and the name of the declared signatory was typed as the signature. This is not a qualified electronic signature.",
+      fr: "Le présent formulaire a été signé en ligne sur kyc.ark-fid.ch. Chaque signataire ci-dessous l'a signé dans sa propre session, ouverte avec un code à usage unique envoyé à l'adresse e-mail indiquée ; dans cette session, les déclarations du formulaire ont été confirmées et le nom du signataire déclaré a été saisi en guise de signature. Il ne s'agit pas d'une signature électronique qualifiée.",
+      en: "This form was signed online at kyc.ark-fid.ch. Each signatory below signed it in their own session, opened with a one-time code sent to the e-mail address shown; in that session, the declarations of the form were confirmed and the name of the declared signatory was typed as the signature. This is not a qualified electronic signature.",
     },
     signer: { fr: "Signataire déclaré", en: "Declared signatory" },
     typed: { fr: "Nom saisi", en: "Name typed" },
     email: { fr: "Adresse e-mail du code", en: "E-mail address of the code" },
+    byArk: { fr: " (adresse indiquée par Ark)", en: " (address given by Ark)" },
     at: { fr: "Date et heure (Suisse)", en: "Date and time (Swiss time)" },
     pdf: { fr: "SHA-256 du formulaire signé (pages précédentes)", en: "SHA-256 of the form signed (previous pages)" },
     json: { fr: "SHA-256 des réponses (questionnaire.json)", en: "SHA-256 of the answers (questionnaire.json)" },
@@ -232,12 +233,19 @@ export async function buildKycPdf(record: SubmissionRecord, declarationId: strin
 }
 
 /**
- * The form signed online: the PDF the client checked, unchanged, plus a last page recording who
- * signed, from which code address, when, and the SHA-256 of the form and of the answers.
+ * The form signed online: the PDF the signatories checked, unchanged, plus a last page recording
+ * each signature (declared signatory, name typed, code address, Swiss time) and the SHA-256 of
+ * the form and of the answers.
  */
-export async function appendOnlineSignature(
+export async function appendOnlineSignatures(
   original: Uint8Array,
-  info: { language: KycLocale; declarationId: string; name: string; typed: string; email: string; at: string; pdfSha256: string; jsonSha256: string },
+  info: {
+    language: KycLocale;
+    declarationId: string;
+    signers: { name: string; typed: string; email: string; at: string; byArk?: boolean }[];
+    pdfSha256: string;
+    jsonSha256: string;
+  },
 ): Promise<Uint8Array> {
   const L = info.language;
   const T = TEXT.online;
@@ -247,10 +255,13 @@ export async function appendOnlineSignature(
   const w = new Writer(doc, font, bold);
   w.heading(T.title[L]);
   w.text(T.intro[L], { gap: 10 });
-  w.pair(T.signer[L], info.name);
-  w.pair(T.typed[L], info.typed);
-  w.pair(T.email[L], info.email);
-  w.pair(T.at[L], swissDate(info.at));
+  for (const signer of info.signers) {
+    w.pair(T.signer[L], signer.name);
+    w.pair(T.typed[L], signer.typed);
+    w.pair(T.email[L], signer.email + (signer.byArk ? T.byArk[L] : ""));
+    w.pair(T.at[L], swissDate(signer.at));
+    w.y -= 8;
+  }
   w.pair(TEXT.ref[L], info.declarationId);
   w.pair(T.pdf[L], info.pdfSha256);
   w.pair(T.json[L], info.jsonSha256);

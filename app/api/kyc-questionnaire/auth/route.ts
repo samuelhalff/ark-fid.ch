@@ -2,7 +2,7 @@ import { plainHtml } from "@/src/lib/tax-questionnaire/server/email";
 import { createChallenge, createPick, createSession, emailHash, normaliseEmail, readCookie, readLink, readPick, releaseChallenge, revokeSession, sessionCookie, verifyChallenge } from "@/src/lib/kyc-questionnaire/server/access";
 import { mailSender } from "@/src/lib/kyc-questionnaire/server/config";
 import { clientRoute, json, limited } from "@/src/lib/kyc-questionnaire/server/http";
-import { contactOf, KycError } from "@/src/lib/kyc-questionnaire/server/service";
+import { accessFor, KycError } from "@/src/lib/kyc-questionnaire/server/service";
 import { getPorts } from "@/src/lib/kyc-questionnaire/server/sharepoint";
 
 /**
@@ -35,11 +35,11 @@ const ACTIVE = new Set(["open", "awaiting_signature"]);
 async function activeCases(hash: string) {
   const out: { caseId: string; displayName: string; revision: number; language: "fr" | "en"; email: string }[] = [];
   for (const caseId of await getPorts().access.casesByEmail(hash)) {
-    const contact = await contactOf(caseId).catch((error) => {
+    const access = await accessFor(caseId, hash).catch((error) => {
       if (error instanceof KycError && error.code === "case_not_found") return null;
       throw error;
     });
-    if (contact && !contact.closed && contact.emailHash === hash && ACTIVE.has(contact.state)) out.push({ caseId, displayName: contact.displayName, revision: contact.revision, language: contact.language, email: contact.email });
+    if (access && !access.closed && ACTIVE.has(access.state)) out.push({ caseId, displayName: access.displayName, revision: access.revision, language: access.language, email: access.email });
     if (out.length >= 10) break;
   }
   return out;
@@ -57,14 +57,16 @@ export async function POST(request: Request) {
     if (body.action === "link") {
       const link = await readLink(body.token);
       if (!link) return json({ error: "link_invalid" }, 410);
-      const contact = await contactOf(link.caseId);
-      if (contact.closed) return json({ error: "case_closed" }, 410);
-      const tooMany = limited("kyc-otp", link.caseId, 6, 60 * 60 * 1000);
+      // The code goes to the address the link was issued for: the contact, or a signatory still to sign.
+      const access = await accessFor(link.caseId, link.emailHash);
+      if (access?.closed) return json({ error: "case_closed" }, 410);
+      if (!access || access.revision !== link.revision) return json({ error: "link_invalid" }, 410);
+      const tooMany = limited("kyc-otp", `${link.caseId}:${link.emailHash}`, 6, 60 * 60 * 1000) || limited("kyc-otp-case", link.caseId, 15, 60 * 60 * 1000);
       if (tooMany) return tooMany;
       const { code, challenge } = createChallenge({ caseId: link.caseId, revision: link.revision, emailHash: link.emailHash });
-      const text = OTP[contact.language];
-      await getPorts().sendMail({ from: mailSender(), to: [contact.email], cc: [], subject: text.subject(code), html: plainHtml([text.body(code), text.valid]) });
-      return json({ challenge, emailHint: maskEmail(contact.email), language: contact.language });
+      const text = OTP[access.language];
+      await getPorts().sendMail({ from: mailSender(), to: [access.email], cc: [], subject: text.subject(code), html: plainHtml([text.body(code), text.valid]) });
+      return json({ challenge, emailHint: maskEmail(access.email), language: access.language });
     }
 
     if (body.action === "email") {
@@ -100,10 +102,10 @@ export async function POST(request: Request) {
         return json({ choose: cases.map((c) => ({ caseId: c.caseId, name: c.displayName })), pick: createPick(result.payload.emailHash, cases.map((c) => c.caseId)) });
       }
       const { caseId, revision, emailHash: hash } = result.payload;
-      const contact = await contactOf(caseId);
-      if (contact.emailHash !== hash) return json({ error: "otp_invalid" }, 400);
+      const access = await accessFor(caseId, hash);
+      if (!access) return json({ error: "otp_invalid" }, 400);
       // The case was closed or reopened (new revision, old links revoked) since the code was sent.
-      if (contact.closed || contact.revision !== revision) return json({ error: "link_invalid" }, 410);
+      if (access.closed || access.revision !== revision) return json({ error: "link_invalid" }, 410);
       return sessionFor(caseId, revision, hash);
     }
 

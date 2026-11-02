@@ -292,8 +292,10 @@ class SharePointAccess implements AccessPort {
     for (const item of await this.list.query(`fields/Title eq ${quote(keyHash)}`, 5)) await this.list.update(item.id, { Revoked: true });
     this.cache.delete(keyHash);
   }
-  async revokeCase(caseId: string) {
-    for (const item of await this.list.query(`fields/CaseId eq ${quote(caseId)}`)) if (item.fields.Revoked !== true) await this.list.update(item.id, { Revoked: true });
+  async revokeCase(caseId: string, exceptEmailHashes: string[] = []) {
+    for (const item of await this.list.query(`fields/CaseId eq ${quote(caseId)}`)) {
+      if (item.fields.Revoked !== true && !exceptEmailHashes.includes(str(item.fields.EmailHash))) await this.list.update(item.id, { Revoked: true });
+    }
     this.cache.clear();
   }
   async casesByEmail(emailHash: string) {

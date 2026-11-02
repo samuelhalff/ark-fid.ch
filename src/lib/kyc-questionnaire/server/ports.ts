@@ -60,7 +60,8 @@ export interface AccessPort {
   put(record: AccessRecord): Promise<void>;
   get(keyHash: string): Promise<AccessRecord | null>;
   revoke(keyHash: string): Promise<void>;
-  revokeCase(caseId: string): Promise<void>;
+  /** Revokes the case's links and sessions, except those of the given addresses (signers). */
+  revokeCase(caseId: string, exceptEmailHashes?: string[]): Promise<void>;
   /** Cases that ever had a link for this e-mail (HMAC), for the code login without a link. */
   casesByEmail(emailHash: string): Promise<string[]>;
 }
@@ -111,8 +112,8 @@ export function memoryAccess(): AccessPort & { records: AccessRecord[] } {
     async revoke(keyHash) {
       for (const r of records) if (r.keyHash === keyHash) r.revoked = true;
     },
-    async revokeCase(caseId) {
-      for (const r of records) if (r.caseId === caseId) r.revoked = true;
+    async revokeCase(caseId, exceptEmailHashes = []) {
+      for (const r of records) if (r.caseId === caseId && !exceptEmailHashes.includes(r.emailHash)) r.revoked = true;
     },
     async casesByEmail(emailHash) {
       return [...new Set(records.filter((r) => r.kind === "link" && r.emailHash === emailHash).map((r) => r.caseId))];

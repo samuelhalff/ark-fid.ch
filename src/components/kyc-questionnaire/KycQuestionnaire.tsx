@@ -1011,9 +1011,14 @@ function SigningView({
   const signers = isPM(answers)
     ? rowsOf(answers, "i.signers").map((row) => [String(row.lastName || "").toLocaleUpperCase("fr-CH"), String(row.firstName || ""), row.function ? `(${String(row.function)})` : ""].filter(Boolean).join(" "))
     : [];
-  const postOriginals = documentsFor(answers).some(isCertifiedId);
+  const signing = caseData.signing;
+  const isContact = signing?.role !== "signer";
+  const postOriginals = isContact && documentsFor(answers).some(isCertifiedId);
   const signed = caseData.signedFiles || [];
-  const onlineSigner = caseData.onlineSigner;
+  const mySigner = signing?.online ? signing.signers.find((s) => s.mine && !s.signed) || null : null;
+  const onlineSigner = mySigner && !signing?.paperStarted ? mySigner.name : null;
+  const paperAllowed = isContact && !signing?.onlineStarted;
+  const othersPending = !!signing?.online && signing.signers.some((s) => !s.mine && !s.signed);
   const [accepted, setAccepted] = useState(false);
   const [typedName, setTypedName] = useState("");
   const [onlineError, setOnlineError] = useState("");
@@ -1066,10 +1071,29 @@ function SigningView({
     <Card className="min-w-0 max-w-3xl">
       <CardHeader>
         <CardTitle className="text-2xl tracking-tight">{UI.signTitle[locale]}</CardTitle>
-        <CardDescription className="text-base">{UI.signIntro[locale]}</CardDescription>
+        <CardDescription className="text-base">{isContact ? UI.signIntro[locale] : UI.signIntroSigner[locale]}</CardDescription>
         {caseData.declarationId ? <p className="text-sm font-medium">{UI.reference[locale].replace("{ref}", caseData.declarationId)}</p> : null}
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
+        {signing && signing.online && (signing.signers.length > 1 || !isContact) ? (
+          <section className="flex flex-col gap-2" aria-labelledby="kyc-signers">
+            <h3 id="kyc-signers" className="text-base font-semibold">
+              {UI.signersTitle[locale]}
+            </h3>
+            <ul className="flex flex-col gap-1 text-sm">
+              {signing.signers.map((s) => (
+                <li key={s.id} className="flex flex-wrap items-center gap-2">
+                  <span className="font-medium">{s.name}</span>
+                  {s.mine ? <span className="text-muted-foreground">({UI.signerYou[locale]})</span> : s.emailHint ? <span className="text-muted-foreground">{s.emailHint}</span> : null}
+                  <Badge variant={s.signed ? "default" : "outline"}>{s.signed ? UI.signerSigned[locale] : UI.signerWaiting[locale]}</Badge>
+                </li>
+              ))}
+            </ul>
+            {othersPending ? <p className="text-sm text-muted-foreground">{UI.signersInvited[locale]}</p> : null}
+            {!mySigner && signing.signers.some((s) => s.mine) ? <p className="text-sm font-medium">{UI.signerDone[locale]}</p> : null}
+          </section>
+        ) : null}
+        {mySigner && signing?.paperStarted && isContact ? <p className="text-sm text-muted-foreground">{UI.paperStartedNote[locale]}</p> : null}
         {onlineSigner ? (
           <>
             <section className="flex flex-col gap-4" aria-labelledby="kyc-online-sign">
@@ -1107,11 +1131,16 @@ function SigningView({
                 </p>
               ) : null}
             </section>
-            <Separator />
-            <p className="text-sm font-medium">{UI.onlineOr[locale]}</p>
+            {paperAllowed ? (
+              <>
+                <Separator />
+                <p className="text-sm font-medium">{UI.onlineOr[locale]}</p>
+              </>
+            ) : null}
           </>
         ) : null}
-        <ol className="flex flex-col gap-6">
+        {paperAllowed ? (
+          <ol className="flex flex-col gap-6">
           <li className="flex flex-col gap-3">
             {stepTitle(1, UI.signStep1[locale])}
             <div className="pl-10">
@@ -1160,7 +1189,8 @@ function SigningView({
               ) : null}
             </div>
           </li>
-        </ol>
+          </ol>
+        ) : null}
         {postOriginals ? (
           <>
             <Separator />

@@ -7,9 +7,10 @@ import { FLAG_LABELS, flagsOf, type Flag } from "../flags";
 import { clientName, isPM } from "../schema";
 import { KYC_LOCALES, KYC_ROUTES, type Answers, type DocDeclared, type KycLocale, type KycRoute } from "../types";
 import { emailHash, issueLink } from "./access";
-import { KYC_DRIVE_ID, mockStorageEnabled, onlineSignatureEnabled, tokenSecret } from "./config";
+import { KYC_DRIVE_ID, mailSender, mockStorageEnabled, onlineSignatureEnabled, tokenSecret } from "./config";
+import { plainHtml } from "../../tax-questionnaire/server/email";
 import { toWinAnsi } from "../../tax-questionnaire/server/pdf";
-import { appendOnlineSignature, buildKycPdf } from "./pdf";
+import { appendOnlineSignatures, buildKycPdf } from "./pdf";
 import type { RevisionState, TrackerRow } from "./ports";
 import { getPorts } from "./sharepoint";
 
@@ -70,8 +71,26 @@ export interface RevisionRecord {
   pdf?: { itemId: string; name: string; webUrl: string };
   declarationId?: string;
   signed?: { itemId: string; name: string; sha256: string; size: number; webUrl: string }[];
-  /** Signed in the form (not a scan): who, from which contact address, and what. */
-  signedOnline?: { name: string; email: string; at: string; pdfSha256: string };
+  /** Form signatories, fixed at submission (Ark may correct an address before they sign). */
+  signers?: SignerRecord[];
+}
+
+/**
+ * A form signatory. Each signs online in their own session, opened with a code sent to their
+ * address (one code per person); the evidence is kept on the signer, then on the final PDF.
+ */
+export interface SignerRecord {
+  /** Row id of "i.signers", or "client" for a natural person. */
+  id: string;
+  name: string;
+  email?: string;
+  emailHash?: string;
+  /** Who gave the address: the form (client), the case contact by default, or Ark. */
+  emailBy?: "form" | "contact" | "ark";
+  emailSetAt?: string;
+  /** Signature request e-mailed (signers other than the contact). */
+  invitedAt?: string;
+  signature?: { typed: string; email: string; at: string; pdfSha256: string };
 }
 
 export interface CaseRecord {
@@ -313,7 +332,10 @@ export async function createCase(input: CreateCaseInput, meta: { keyId: string; 
 
 async function relink(record: CaseRecord): Promise<LinkResult> {
   const rev = latest(record);
-  await getPorts().access.revokeCase(record.caseId);
+  // The contact's links and sessions are replaced; the signatories' stay (a reminder to the
+  // contact must not cut another signer off).
+  const signerHashes = (rev.signers || []).map((s) => s.emailHash).filter((h): h is string => !!h && h !== record.emailHash);
+  await getPorts().access.revokeCase(record.caseId, rev.state === "awaiting_signature" ? signerHashes : []);
   const link = await issueLink({ caseId: record.caseId, revision: rev.n, emailHash: record.emailHash, locale: record.language });
   rev.invitedAt = now();
   await saveCase(record);
@@ -321,12 +343,12 @@ async function relink(record: CaseRecord): Promise<LinkResult> {
   return link;
 }
 
-export type StaffAction = "link" | "reopen" | "close";
+export type StaffAction = "link" | "reopen" | "close" | "signers";
 
 export async function staffAction(
   caseId: string,
   action: StaffAction,
-  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown },
+  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown; signers?: unknown },
   meta: { idempotencyKey: string; payloadHash: string },
 ): Promise<{ summary: StaffSummary; link?: LinkResult; replayed: boolean }> {
   return locked(caseId, async () => {
@@ -335,6 +357,14 @@ export async function staffAction(
     if (done) {
       if (done.hash !== meta.payloadHash) throw new KycError("idempotency_conflict", 409);
       const rev = latest(record);
+      if (action === "signers") {
+        // A replay sends the requests a mail failure left unsent, nothing else.
+        if (rev.state === "awaiting_signature" && (rev.signers || []).some((x) => !x.invitedAt && !x.signature && x.emailHash && x.emailHash !== record.emailHash)) {
+          await requestSignatures(record, rev);
+          await saveCase(record);
+        }
+        return { summary: summarize(record), replayed: true };
+      }
       const relinkable = action !== "close" && !record.closedAt && (rev.state === "open" || rev.state === "awaiting_signature");
       return { summary: summarize(record), link: relinkable ? await relink(record) : undefined, replayed: true };
     }
@@ -366,12 +396,47 @@ export async function staffAction(
       if (body.email !== undefined) {
         const email = typeof body.email === "string" ? body.email.trim() : "";
         if (!EMAIL_RE.test(email) || email.length > 200) throw new KycError("invalid_request", 400, { field: "email" });
+        // A signatory who signs at the contact address moves with it (unless already signed).
+        for (const signer of rev.signers || []) {
+          if (signer.emailBy === "contact" && signer.emailHash === record.emailHash && !signer.signature) {
+            Object.assign(signer, { email, emailHash: emailHash(email), emailSetAt: now() });
+          }
+        }
         record.email = email;
         record.emailHash = emailHash(email);
       }
       remember(rev.n);
       const link = await relink(record);
       return { summary: summarize(record), link, replayed: false };
+    }
+
+    if (action === "signers") {
+      // Ark gives or corrects signatories' addresses before they sign; each new address gets a request.
+      if (rev.state !== "awaiting_signature") throw new KycError("invalid_state", 409, { state: rev.state });
+      if (!rev.signers) {
+        const answers = await readSubmitted(record, rev);
+        if (!answers) throw new KycError("invalid_state", 409, { state: rev.state });
+        rev.signers = buildSigners(answers, record);
+      }
+      const items = Array.isArray(body.signers) ? (body.signers as unknown[]).slice(0, 10) : [];
+      if (!items.length) throw new KycError("invalid_request", 400, { field: "signers" });
+      for (const raw of items) {
+        const item = (raw || {}) as { id?: unknown; email?: unknown };
+        const signer = rev.signers.find((s) => s.id === item.id);
+        const email = typeof item.email === "string" ? item.email.trim() : "";
+        if (!signer) throw new KycError("invalid_request", 400, { field: "signers.id" });
+        if (signer.signature) throw new KycError("signer_signed", 409, { id: signer.id });
+        if (!EMAIL_RE.test(email) || email.length > 200) throw new KycError("invalid_request", 400, { field: "signers.email" });
+        // A new address gets a new request; the same address keeps its request (sent or still due).
+        if (signer.emailHash !== emailHash(email)) Object.assign(signer, { email, emailHash: emailHash(email), emailBy: "ark", emailSetAt: now(), invitedAt: undefined });
+      }
+      if (duplicateAddress(rev.signers)) throw new KycError("signer_email_duplicate", 422);
+      remember(rev.n);
+      await saveCase(record);
+      await requestSignatures(record, rev);
+      await saveCase(record);
+      await track(record, rev);
+      return { summary: summarize(record), replayed: false };
     }
 
     // reopen: a new revision pre-filled with the last answers (plus Ark's corrections).
@@ -447,8 +512,8 @@ export interface StaffSummary {
     json?: { itemId: string; sha256: string };
     pdf?: { itemId: string; name: string };
     signed?: { itemId: string; name: string; sha256: string; size: number }[];
-    /** Set when the client signed in the form rather than uploading a scan. */
-    signedOnline?: RevisionRecord["signedOnline"];
+    /** Form signatories and their online signatures (none when signed on paper). */
+    signers?: { id: string; name: string; email?: string; emailBy?: SignerRecord["emailBy"]; invitedAt?: string; signedAt?: string; typed?: string }[];
     /** Documents frozen at submission (item ids and SHA-256). */
     documents?: RevisionRecord["documents"];
     folder: { itemId: string; webUrl: string };
@@ -493,7 +558,7 @@ export function summarize(record: CaseRecord): StaffSummary {
       json: rev.json,
       pdf: rev.pdf ? { itemId: rev.pdf.itemId, name: rev.pdf.name } : undefined,
       signed: rev.signed?.map(({ itemId, name, sha256, size }) => ({ itemId, name, sha256, size })),
-      signedOnline: rev.signedOnline,
+      signers: rev.signers?.map((x) => ({ id: x.id, name: x.name, email: x.email, emailBy: x.emailBy, invitedAt: x.invitedAt, signedAt: x.signature?.at, typed: x.signature?.typed })),
       documents: rev.documents,
       folder: { itemId: rev.folderId, webUrl: rev.folderUrl },
     },
@@ -503,6 +568,7 @@ export function summarize(record: CaseRecord): StaffSummary {
 
 /** Case summary for Cadence, with the submitted answers of the latest revision when there are some. */
 export async function staffCase(caseId: string): Promise<StaffSummary & { answers?: Answers }> {
+  await finishIfComplete(caseId);
   const record = await loadCase(caseId);
   const answers = await readSubmitted(record, latest(record));
   return { ...summarize(record), ...(answers ? { answers } : {}) };
@@ -551,15 +617,26 @@ export interface Session {
   emailHash?: string;
 }
 
-async function clientContext(session: Session) {
+type Role = "contact" | "signer";
+
+/**
+ * The session's case and role. The contact (current address of the case) fills the form; a
+ * signer (address of a form signatory, once submitted) only reads the PDF and signs. A session
+ * whose address is neither (contact changed, signer corrected by Ark) ends.
+ */
+async function clientContext(session: Session, allow: Role[]) {
   const record = await loadCase(session.caseId);
-  // Ark changed the contact: a session opened with the old address ends.
-  if (session.emailHash !== undefined && session.emailHash !== record.emailHash) throw new KycError("session_expired", 401);
+  if (!session.emailHash) throw new KycError("session_expired", 401);
   const rev = revisionOf(record, session.revision);
   if (!rev) throw new KycError("case_not_found", 404);
   if (rev.state === "superseded") throw new KycError("revision_superseded", 410);
   if (record.closedAt || rev.state === "closed") throw new KycError("case_closed", 410);
-  return { record, rev };
+  const signing = rev.state === "awaiting_signature" || rev.state === "signed";
+  const mine = signing ? (rev.signers || []).filter((s) => s.emailHash === session.emailHash).map((s) => s.id) : [];
+  const role: Role | null = session.emailHash === record.emailHash ? "contact" : mine.length ? "signer" : null;
+  if (!role) throw new KycError("session_expired", 401);
+  if (!allow.includes(role)) throw new KycError("not_allowed", 403);
+  return { record, rev, role, mine };
 }
 
 export interface ClientFile {
@@ -587,8 +664,42 @@ async function signedFiles(record: CaseRecord, rev: RevisionRecord): Promise<Cli
   return files.filter((f) => !f.folder).map((f) => ({ id: f.id, name: f.name, size: f.size, code: null }));
 }
 
+/**
+ * Everyone signed but the PDF was not filed (a failure after the last signature was saved):
+ * finish now. Called when the case is read, so no one has to sign again.
+ */
+async function finishIfComplete(caseId: string) {
+  await locked(caseId, async () => {
+    const record = await loadCase(caseId);
+    const rev = latest(record);
+    if (rev.state === "awaiting_signature" && rev.signers?.length && rev.signers.every((s) => s.signature)) await finishOnline(record, rev);
+  }).catch((error) => console.error("kyc finish online", error instanceof Error ? error.message : "error"));
+}
+
 export async function clientCase(session: Session) {
-  const { record, rev } = await clientContext(session);
+  await finishIfComplete(session.caseId);
+  const { record, rev, role, mine } = await clientContext(session, ["contact", "signer"]);
+  const signing = rev.state === "awaiting_signature" || rev.state === "signed" ? await signingView(record, rev, role, mine) : null;
+  // A signer sees the signing screen only: not the answers, documents or scans.
+  if (role === "signer") {
+    return {
+      caseId: record.caseId,
+      revision: rev.n,
+      route: record.route,
+      language: record.language,
+      state: rev.state,
+      displayName: record.displayName,
+      prefilledIds: [],
+      draft: null,
+      answers: { route: record.route },
+      files: [],
+      signedFiles: [],
+      declarationId: rev.declarationId || null,
+      submittedAt: rev.submittedAt || null,
+      signedAt: rev.signedAt || null,
+      signing,
+    };
+  }
   const draft = await readDraft(record, rev);
   const submitted = rev.state === "open" ? null : await readSubmitted(record, rev);
   return {
@@ -606,24 +717,31 @@ export async function clientCase(session: Session) {
     declarationId: rev.declarationId || null,
     submittedAt: rev.submittedAt || null,
     signedAt: rev.signedAt || null,
-    onlineSigner: rev.state === "awaiting_signature" && submitted ? onlineSigner(submitted, record) : null,
+    signing,
   };
 }
 
-/**
- * The one person who can sign online (the client, or a company's sole signatory), else null.
- * Also null when the name would not print in the PDF (its fonts are Latin only): paper then.
- */
-function onlineSigner(answers: Answers, record: CaseRecord): string | null {
-  if (!onlineSignatureEnabled()) return null;
-  let name: string;
-  if (!isPM(answers)) name = clientName(answers) || record.displayName || "";
-  else {
-    const signers = rowsOf(answers, "i.signers");
-    if (signers.length !== 1) return null;
-    name = `${str(signers[0].firstName)} ${str(signers[0].lastName)}`.trim();
-  }
-  return name && nameKey(name) && nameKey(toWinAnsi(name)) === nameKey(name) ? name : null;
+const maskAddress = (email: string) => email.replace(/^(.)(.*)(@.*)$/, (_m, a: string, b: string, c: string) => `${a}${"•".repeat(Math.min(6, b.length))}${c}`);
+
+/** What the signing screen shows: who signs, who has signed, and what this session may do. */
+async function signingView(record: CaseRecord, rev: RevisionRecord, role: Role, mine: string[]) {
+  const signers = rev.signers || [];
+  const onlineStarted = signers.some((s) => s.signature);
+  // Once online has started, a late scan no longer blocks it (the server ignores it too).
+  const paperStarted = !onlineStarted && rev.state === "awaiting_signature" && (await signedFiles(record, rev)).length > 0;
+  return {
+    role,
+    online: onlineReady(rev),
+    onlineStarted,
+    paperStarted,
+    signers: signers.map((s) => ({
+      id: s.id,
+      name: s.name,
+      signed: !!s.signature,
+      mine: mine.includes(s.id),
+      emailHint: s.email ? maskAddress(s.email) : null,
+    })),
+  };
 }
 
 /** Names compared without case, accents, punctuation or word order. */
@@ -637,14 +755,93 @@ const nameKey = (v: string) =>
     .sort()
     .join(" ");
 
+/** The name prints in the PDF (its fonts are Latin only) and can be compared. */
+const printable = (name: string) => !!name && !!nameKey(name) && nameKey(toWinAnsi(name)) === nameKey(name);
+
 /**
- * The client signs in the form: the session (opened with the e-mail code) identifies them, they
- * accept the declarations and type their name. The PDF they checked gets a signature page and is
- * filed in "Signé" with its SHA-256, like a scan.
+ * Signatories fixed at submission: the client (natural person, at the case address), or the
+ * company's signatories with the addresses given in the form. A company's sole signatory with no
+ * address signs at the case address. Two signatories never share an address (one mailbox would
+ * sign for both).
+ */
+function buildSigners(answers: Answers, record: CaseRecord): SignerRecord[] {
+  const at = now();
+  if (!isPM(answers)) {
+    return [{ id: "client", name: clientName(answers) || record.displayName, email: record.email, emailHash: record.emailHash, emailBy: "contact", emailSetAt: at }];
+  }
+  const rows = rowsOf(answers, "i.signers");
+  return rows.map((row) => {
+    const email = str(row.email);
+    const name = `${str(row.firstName)} ${str(row.lastName)}`.trim();
+    if (email && EMAIL_RE.test(email)) return { id: String(row._id), name, email, emailHash: emailHash(email), emailBy: "form" as const, emailSetAt: at };
+    if (rows.length === 1) return { id: String(row._id), name, email: record.email, emailHash: record.emailHash, emailBy: "contact" as const, emailSetAt: at };
+    return { id: String(row._id), name };
+  });
+}
+
+const duplicateAddress = (signers: SignerRecord[]) => {
+  const hashes = signers.map((s) => s.emailHash).filter(Boolean);
+  return new Set(hashes).size !== hashes.length;
+};
+
+/** Online signing is possible: every signatory has an address of their own and a printable name. */
+function onlineReady(rev: RevisionRecord): boolean {
+  const signers = rev.signers || [];
+  return onlineSignatureEnabled() && signers.length > 0 && signers.every((s) => s.emailHash && printable(s.name)) && !duplicateAddress(signers);
+}
+
+const SIGN_MAIL = {
+  fr: {
+    subject: (company: string) => `Signature du formulaire KYC – ${company}`,
+    blocks: (name: string, company: string, url: string) => [
+      `Bonjour ${name},`,
+      `Ark Fiduciaire SA vous invite à signer en ligne le formulaire de connaissance du client (KYC) de ${company}, dont vous êtes signataire.`,
+      { link: url, label: "Ouvrir le formulaire à signer" },
+      "Un code à 6 chiffres vous sera envoyé à cette adresse pour vous identifier. Le lien est valable 21 jours. Vous pouvez aussi demander un code sur kyc.ark-fid.ch avec cette adresse.",
+      "Ark Fiduciaire SA",
+    ],
+  },
+  en: {
+    subject: (company: string) => `Signing the KYC form – ${company}`,
+    blocks: (name: string, company: string, url: string) => [
+      `Dear ${name},`,
+      `Ark Fiduciaire SA invites you to sign online the know-your-customer (KYC) form of ${company}, as one of its signatories.`,
+      { link: url, label: "Open the form to sign" },
+      "A 6-digit code will be sent to this address to identify you. The link is valid for 21 days. You can also request a code at kyc.ark-fid.ch with this address.",
+      "Ark Fiduciaire SA",
+    ],
+  },
+} as const;
+
+/**
+ * Signature requests to the signatories other than the contact (who is already on the form):
+ * a link bound to their address, and one e-mail with fixed wording. A failure leaves the signer
+ * unrequested; the next submit retry or Ark's correction sends it.
+ */
+async function requestSignatures(record: CaseRecord, rev: RevisionRecord) {
+  if (rev.state !== "awaiting_signature" || !onlineReady(rev)) return;
+  for (const signer of rev.signers || []) {
+    if (signer.signature || signer.invitedAt || !signer.email || !signer.emailHash || signer.emailHash === record.emailHash) continue;
+    try {
+      const link = await issueLink({ caseId: record.caseId, revision: rev.n, emailHash: signer.emailHash, locale: record.language });
+      const text = SIGN_MAIL[record.language];
+      await getPorts().sendMail({ from: mailSender(), to: [signer.email], cc: [], subject: text.subject(record.displayName), html: plainHtml([...text.blocks(signer.name, record.displayName, link.url)]) });
+      signer.invitedAt = now();
+    } catch (error) {
+      console.error("kyc signature request", error instanceof Error ? error.message : "error");
+    }
+  }
+}
+
+/**
+ * A signatory signs in the form: their session (opened with the code sent to their address)
+ * identifies them; they accept the declarations and type their name. The signature is recorded
+ * at once; when the last one signs, the PDF they checked gets a signature page listing everyone
+ * and is filed in "Signé" with its SHA-256, like a scan.
  */
 export async function signOnline(session: Session, body: { name?: unknown; accept?: unknown; declarationId?: unknown }) {
   return locked(session.caseId, async () => {
-    const { record, rev } = await clientContext(session);
+    const { record, rev, mine } = await clientContext(session, ["contact", "signer"]);
     // The form shown in the browser must be this one (another tab may have opened another case).
     if (!rev.declarationId || str(body.declarationId) !== rev.declarationId) throw new KycError("case_changed", 409);
     if (rev.state === "signed") {
@@ -653,38 +850,70 @@ export async function signOnline(session: Session, body: { name?: unknown; accep
       return { state: rev.state };
     }
     if (rev.state !== "awaiting_signature" || !rev.pdf) throw new KycError("not_editable", 409);
-    const answers = await readSubmitted(record, rev);
-    const expected = answers ? onlineSigner(answers, record) : null;
-    if (!expected) throw new KycError("online_signature_unavailable", 409);
-    const typed = str(body.name).slice(0, 200);
+    const signers = rev.signers || [];
+    const own = signers.filter((s) => mine.includes(s.id));
+    if (!own.length) throw new KycError("not_a_signer", 403);
+    const pending = own.find((s) => !s.signature);
+    if (!pending) {
+      // Already signed: finish if everyone has (a retry after a failure while filing the PDF).
+      if (signers.every((s) => s.signature)) await finishOnline(record, rev);
+      return { state: rev.state };
+    }
+    if (!onlineReady(rev)) throw new KycError("online_signature_unavailable", 409);
+    // A scan blocks starting online; once online has started, a late scan upload is ignored.
+    if (!signers.some((s) => s.signature) && (await signedFiles(record, rev)).length) throw new KycError("paper_started", 409);
     if (body.accept !== true) throw new KycError("signature_not_accepted", 422);
-    if (!typed || !nameKey(expected) || nameKey(typed) !== nameKey(expected)) throw new KycError("signature_name", 422);
-    const { storage } = getPorts();
-    const original = await storage.readFile(record.driveId, rev.folderId, rev.pdf.name);
+    const typed = str(body.name).slice(0, 200);
+    if (!typed || nameKey(typed) !== nameKey(pending.name)) throw new KycError("signature_name", 422);
+    const original = await getPorts().storage.readFile(record.driveId, rev.folderId, rev.pdf.name);
     if (!original) throw new KycError("pdf_not_ready", 409);
-    const at = now();
-    const pdfSha256 = sha256(original);
-    const signedPdf = await appendOnlineSignature(original, {
-      language: record.language,
-      declarationId: rev.declarationId || "",
-      name: expected,
-      typed,
-      email: record.email,
-      at,
-      pdfSha256,
-      jsonSha256: rev.json?.sha256 || "",
-    });
-    const folderId = await storage.ensureSubfolder(record.driveId, rev.folderId, SIGNED_FOLDER);
-    const fileName = safeName(`Formulaire KYC - ${record.displayName} - R${rev.n} - signé en ligne`, 120) + ".pdf";
-    const file = await storage.putFile(record.driveId, folderId, fileName, signedPdf, "application/pdf");
-    rev.signed = [{ itemId: file.id, name: file.name, sha256: sha256(signedPdf), size: signedPdf.byteLength, webUrl: file.webUrl }];
-    rev.signedOnline = { name: typed, email: record.email, at, pdfSha256 };
-    rev.signedAt = at;
-    rev.state = "signed";
+    // The evidence is saved before the PDF is built: a later failure never asks to sign again.
+    pending.signature = { typed, email: pending.email || "", at: now(), pdfSha256: sha256(original) };
     await saveCase(record);
     await track(record, rev);
+    if (signers.every((s) => s.signature)) await finishOnline(record, rev);
     return { state: rev.state };
   });
+}
+
+/** Every signatory has signed: the checked PDF plus the signature page, filed in "Signé". */
+async function finishOnline(record: CaseRecord, rev: RevisionRecord) {
+  const signers = rev.signers || [];
+  const { storage } = getPorts();
+  const original = await storage.readFile(record.driveId, rev.folderId, rev.pdf!.name);
+  if (!original) throw new KycError("pdf_not_ready", 409);
+  const pdfSha256 = sha256(original);
+  // Everyone signed this very document.
+  if (signers.some((s) => s.signature?.pdfSha256 !== pdfSha256)) throw new KycError("pdf_changed", 409);
+  const signedPdf = await appendOnlineSignatures(original, {
+    language: record.language,
+    declarationId: rev.declarationId || "",
+    signers: signers.map((s) => ({ name: s.name, typed: s.signature!.typed, email: s.signature!.email, at: s.signature!.at, byArk: s.emailBy === "ark" })),
+    pdfSha256,
+    jsonSha256: rev.json?.sha256 || "",
+  });
+  const folderId = await storage.ensureSubfolder(record.driveId, rev.folderId, SIGNED_FOLDER);
+  const fileName = safeName(`Formulaire KYC - ${record.displayName} - R${rev.n} - signé en ligne`, 120) + ".pdf";
+  const file = await storage.putFile(record.driveId, folderId, fileName, signedPdf, "application/pdf");
+  rev.signed = [{ itemId: file.id, name: file.name, sha256: sha256(signedPdf), size: signedPdf.byteLength, webUrl: file.webUrl }];
+  rev.signedAt = signers.map((s) => s.signature!.at).sort().pop();
+  rev.state = "signed";
+  await saveCase(record);
+  await track(record, rev);
+}
+
+/**
+ * Who may receive a code for this case at this address: the contact, or a signatory who has not
+ * signed yet while the form awaits signature (latest revision). Null otherwise.
+ */
+export async function accessFor(caseId: string, hash: string) {
+  const record = await loadCase(caseId);
+  const rev = latest(record);
+  const base = { caseId, displayName: record.displayName, language: record.language, revision: rev.n, state: rev.state, closed: !!record.closedAt };
+  if (hash === record.emailHash) return { ...base, email: record.email };
+  if (rev.state !== "awaiting_signature" || !onlineReady(rev)) return null;
+  const signer = (rev.signers || []).find((s) => s.emailHash === hash && !s.signature);
+  return signer?.email ? { ...base, email: signer.email } : null;
 }
 
 const sanitizeDeclared = (raw: unknown): Record<string, DocDeclared> => {
@@ -698,7 +927,7 @@ const sanitizeDeclared = (raw: unknown): Record<string, DocDeclared> => {
 
 export async function saveDraft(session: Session, body: { answers?: unknown; stepId?: unknown; docDeclared?: unknown }) {
   return locked(session.caseId, async () => {
-    const { record, rev } = await clientContext(session);
+    const { record, rev } = await clientContext(session, ["contact"]);
     if (rev.state !== "open") throw new KycError("not_editable", 409);
     const answers = { ...sanitizeAnswers(body.answers), route: record.route };
     const stepId = /^[a-z.]{1,20}$/.test(str(body.stepId)) ? str(body.stepId) : "start";
@@ -715,7 +944,7 @@ export async function saveDraft(session: Session, body: { answers?: unknown; ste
 
 export async function createUpload(session: Session, body: { kind?: unknown; docKey?: unknown; fileName?: unknown; size?: unknown; mime?: unknown }) {
   return locked(session.caseId, async () => {
-    const { record, rev } = await clientContext(session);
+    const { record, rev } = await clientContext(session, ["contact"]);
     const fileName = str(body.fileName);
     const check = checkUpload(fileName, Number(body.size), str(body.mime));
     if (!check.ok) throw new KycError(check.error, 400);
@@ -725,6 +954,8 @@ export async function createUpload(session: Session, body: { kind?: unknown; doc
     const base = safeName(fileName.replace(/\.[^.]+$/, ""), 70);
     if (body.kind === "signed") {
       if (rev.state !== "awaiting_signature") throw new KycError("not_editable", 409);
+      // One way per revision: once someone has signed online, the others sign online too.
+      if ((rev.signers || []).some((s) => s.signature)) throw new KycError("online_signing_started", 409);
       const folderId = await storage.ensureSubfolder(record.driveId, rev.folderId, SIGNED_FOLDER);
       if ((await signedFiles(record, rev)).length >= 10) throw new KycError("too_many_files", 400);
       const name = `Formulaire signé R${rev.n} - ${base}.${check.ext}`;
@@ -750,7 +981,7 @@ export async function createUpload(session: Session, body: { kind?: unknown; doc
 /** Removes a document the client uploaded by mistake (documents of an open revision only). */
 export async function deleteUpload(session: Session, body: { fileId?: unknown }) {
   return locked(session.caseId, async () => {
-    const { record, rev } = await clientContext(session);
+    const { record, rev } = await clientContext(session, ["contact"]);
     const fileId = str(body.fileId);
     const signed = rev.state === "awaiting_signature" ? await signedFiles(record, rev) : [];
     const target = (rev.state === "open" ? await docFiles(record, rev) : signed).find((f) => f.id === fileId);
@@ -775,15 +1006,24 @@ export interface SubmissionRecord {
 
 export async function submit(session: Session, body: { answers?: unknown; docDeclared?: unknown; submitKey?: unknown }) {
   return locked(session.caseId, async () => {
-    const { record, rev } = await clientContext(session);
+    const { record, rev } = await clientContext(session, ["contact"]);
     const submitKey = str(body.submitKey).slice(0, 40);
     if (rev.state !== "open") {
-      if (submitKey && rev.submitKey === submitKey) return { state: rev.state, declarationId: rev.declarationId || null };
+      if (submitKey && rev.submitKey === submitKey) {
+        // A retry sends the signature requests a failure left unsent.
+        if (rev.state === "awaiting_signature" && (rev.signers || []).some((s) => !s.invitedAt && s.emailHash && s.emailHash !== record.emailHash)) {
+          await requestSignatures(record, rev);
+          await saveCase(record);
+        }
+        return { state: rev.state, declarationId: rev.declarationId || null };
+      }
       throw new KycError("not_editable", 409);
     }
     const answers = pruneHidden({ ...sanitizeAnswers(body.answers), route: record.route });
     const errors = validateAll(answers);
     if (Object.keys(errors).length) throw new KycError("invalid_answers", 422, { fields: Object.keys(errors).slice(0, 50) });
+    const signers = buildSigners(answers, record);
+    if (duplicateAddress(signers)) throw new KycError("signer_email_duplicate", 422, { fields: ["i.signers"] });
     const declared = sanitizeDeclared(body.docDeclared);
     const suspicious = await removeSuspicious(record, rev);
     if (suspicious.length) throw new KycError("file_rejected", 422, { files: suspicious });
@@ -841,7 +1081,8 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
       rev.state = "returned";
     } else {
       rev.declarationId = `${record.caseId}-R${rev.n}-${digest.slice(0, 8).toUpperCase()}`;
-      const pdf = await buildKycPdf(submission, rev.declarationId, { online: !!onlineSigner(answers, record) });
+      rev.signers = signers;
+      const pdf = await buildKycPdf(submission, rev.declarationId, { online: onlineReady(rev) });
       const pdfName = safeName(`Formulaire KYC - ${submission.clientName} - R${rev.n} - à signer`, 120) + ".pdf";
       const pdfFile = await storage.putFile(record.driveId, rev.folderId, pdfName, pdf, "application/pdf");
       rev.pdf = { itemId: pdfFile.id, name: pdfFile.name, webUrl: pdfFile.webUrl };
@@ -850,12 +1091,16 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
     if (submission.clientName) record.displayName = submission.clientName;
     await saveCase(record);
     await track(record, rev);
+    if (rev.state === "awaiting_signature") {
+      await requestSignatures(record, rev);
+      await saveCase(record);
+    }
     return { state: rev.state, declarationId: rev.declarationId || null };
   });
 }
 
 export async function readPdf(session: Session): Promise<{ name: string; bytes: Uint8Array }> {
-  const { record, rev } = await clientContext(session);
+  const { record, rev } = await clientContext(session, ["contact", "signer"]);
   if (!rev.pdf) throw new KycError("pdf_not_ready", 409);
   const bytes = await getPorts().storage.readFile(record.driveId, rev.folderId, rev.pdf.name);
   if (!bytes) throw new KycError("pdf_not_ready", 409);
@@ -865,12 +1110,13 @@ export async function readPdf(session: Session): Promise<{ name: string; bytes: 
 /** The client confirms the signed form is uploaded: files hashed, revision signed (frozen). */
 export async function confirmSigned(session: Session) {
   return locked(session.caseId, async () => {
-    const { record, rev } = await clientContext(session);
+    const { record, rev } = await clientContext(session, ["contact"]);
     if (rev.state === "signed") {
       await track(record, rev);
       return { state: rev.state };
     }
     if (rev.state !== "awaiting_signature") throw new KycError("not_editable", 409);
+    if ((rev.signers || []).some((s) => s.signature)) throw new KycError("online_signing_started", 409);
     const { storage } = getPorts();
     const folderId = await storage.ensureSubfolder(record.driveId, rev.folderId, SIGNED_FOLDER);
     const listed = (await storage.listFiles(record.driveId, folderId)).filter((f) => !f.folder);
