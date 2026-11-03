@@ -3,6 +3,7 @@ import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import sharp from "sharp";
 
 process.env.KYC_QF_TOKEN_SECRET = "test-secret-test-secret-test-secret-0123";
 process.env.KYC_QF_STORAGE = "mock";
@@ -19,6 +20,15 @@ import { KycMockStorage, setPorts } from "./server/sharepoint";
 import type { Answers } from "./types";
 
 const row = (id: string, fields: Record<string, string>) => ({ _id: id, ...fields });
+const drawing = async (ink = true) => {
+  const pixels = Buffer.alloc(600 * 180 * 4);
+  if (ink) for (let x = 80; x < 320; x++) for (let y = 65; y < 69; y++) {
+    const at = (y * 600 + x) * 4;
+    pixels[at + 3] = 255;
+  }
+  const png = await sharp(pixels, { raw: { width: 600, height: 180, channels: 4 } }).png().toBuffer();
+  return `data:image/png;base64,${png.toString("base64")}`;
+};
 const JEAN = emailHash("jean@example.ch");
 const person = { lastName: "Dupont", firstName: "Jean", birthDate: "01.02.1970", nationality: "Suisse", address: "Rue du Rhône 1, 1204 Genève", country: "Suisse" };
 
@@ -243,6 +253,7 @@ test("create → fill → submit → PDF → signed scan, frozen with its SHA-25
   assert.equal(summary.actionRequired, "review_kyc");
   assert.equal(summary.latestRevision.signed?.length, 1);
   assert.equal(summary.answers?.["a.name"], "Test SA");
+  assert.ok(summary.documentItems.some((item) => item.files.some((file) => file.webUrl)), "staff receives links to files that still exist");
 
   // Correction: a new revision; the signed one is untouched and its sessions stop working.
   await assert.rejects(staffAction(caseId, "reopen", { expectedRevision: 2 }, { idempotencyKey: "reopen-0001", payloadHash: "r" }), (e: unknown) => e instanceof KycError && e.code === "revision_conflict");
@@ -280,6 +291,9 @@ test("staff prefill keeps client answers and rejects a stale open-tab save", asy
   assert.equal(staff.draft?.["a.lastName"], undefined, "a question hidden on this route is not sent to staff");
   assert.equal(staff.draft?.["d.sector"], "Fiduciaire");
   assert.ok(staff.pages.some((page) => page.fieldIds.includes("a.name")));
+  assert.ok(staff.pages.some((page) => page.missingFieldIds.includes("a.uid")), "staff sees the form's own incomplete fields");
+  assert.ok(staff.pages.some((page) => page.parts.some((part) => part.kind === "field")), "page copy keeps client order");
+  assert.ok(staff.pages.find((page) => page.id === "i")?.parts.some((part) => part.id === "i.declarations" && part.text?.fr !== "{declarations}"), "staff sees the actual client declarations");
   assert.ok(staff.pages.some((page) => page.id === "h"), "Ark sees the same pages as the client");
   assert.ok(staff.documentItems.some((item) => item.key === "pm.rc"), "Ark sees the document page's items");
   assert.equal(opened.draft?.staffPrefillVersion || 0, 0);
@@ -289,7 +303,7 @@ test("staff prefill keeps client answers and rejects a stale open-tab save", asy
   assert.equal((await staffCase(caseId)).draft?.["d.sector"], "Fiduciaire");
 });
 
-test("signing online: the code session identifies, the typed name must be the signatory's, the PDF gets a signature page", async () => {
+test("signing online binds the verified name and drawing to the PDF the signer read", async () => {
   const f = await fixture();
   const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0010", payloadHash: "h" });
   const caseId = created.summary.caseId;
@@ -305,17 +319,22 @@ test("signing online: the code session identifies, the typed name must be the si
   await assert.rejects(signOnline(session, { name: "Jean Dupont", declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_not_accepted");
   await assert.rejects(signOnline(session, { name: "Paul Martin", accept: true, declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_name");
   await assert.rejects(signOnline(session, { name: "---", accept: true, declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_name");
-  assert.equal((await signOnline(session, { name: "  dupont JEAN ", accept: true, declarationId })).state, "signed");
+  await assert.rejects(signOnline(session, { name: "Jean Dupont", accept: true, declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_image");
+  await assert.rejects(signOnline(session, { name: "Jean Dupont", accept: true, declarationId, drawing: await drawing(false) }), (e: unknown) => e instanceof KycError && e.code === "signature_image");
+  assert.equal((await signOnline(session, { name: "  dupont JEAN ", accept: true, declarationId, drawing: await drawing() })).state, "signed");
   const record = await loadCase(caseId);
   const rev = record.revisions[0];
   assert.equal(rev.signers?.[0].signature?.email, "jean@example.ch");
   const original = await f.storage.readFile(record.driveId, rev.folderId, rev.pdf!.name);
   const { createHash } = await import("node:crypto");
   assert.equal(rev.signers?.[0].signature?.pdfSha256, createHash("sha256").update(original!).digest("hex"));
+  assert.ok(rev.signers?.[0].signature?.drawnPng, "drawing stays with the signer's evidence");
   const signedFolder = await f.storage.ensureSubfolder(record.driveId, rev.folderId, "Signé");
   const signedPdf = await f.storage.readFile(record.driveId, signedFolder, rev.signed![0].name);
-  const { PDFDocument } = await import("pdf-lib");
-  assert.equal((await PDFDocument.load(signedPdf!)).getPageCount(), (await PDFDocument.load(original!)).getPageCount() + 1, "one signature page added");
+  const { PDFDocument, PDFName, PDFRawStream } = await import("pdf-lib");
+  const signedDocument = await PDFDocument.load(signedPdf!);
+  assert.equal(signedDocument.getPageCount(), (await PDFDocument.load(original!)).getPageCount() + 1, "one signature page added");
+  assert.ok(signedDocument.context.enumerateIndirectObjects().some(([, object]) => object instanceof PDFRawStream && object.dict.get(PDFName.of("Subtype"))?.toString() === "/Image"), "the PDF embeds the drawn PNG");
   assert.equal((await staffCase(caseId)).latestRevision.signers?.[0].typed, "dupont JEAN");
   assert.equal((await signOnline(session, { name: "x", accept: true, declarationId })).state, "signed", "a repeated signature changes nothing");
 });
@@ -357,14 +376,14 @@ test("several signatories: each signs with their own address and code; the conta
   const declarationId = paulView.declarationId;
   // The contact signs as Jean, never as Paul.
   await assert.rejects(signOnline(contact, { name: "Paul Martin", accept: true, declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_name");
-  assert.equal((await signOnline(contact, { name: "Jean Dupont", accept: true, declarationId })).state, "awaiting_signature");
+  assert.equal((await signOnline(contact, { name: "Jean Dupont", accept: true, declarationId, drawing: await drawing() })).state, "awaiting_signature");
   assert.equal((await signOnline(contact, { name: "Jean Dupont", accept: true, declarationId })).state, "awaiting_signature", "signing twice changes nothing");
   // Online started: no paper scan any more.
   await assert.rejects(createUpload(contact, { kind: "signed", fileName: "scan.pdf", size: 1000, mime: "application/pdf" }), (e: unknown) => e instanceof KycError && e.code === "online_signing_started");
   // A reminder to the contact (new link) does not cut Paul off.
   await staffAction(caseId, "link", { expectedRevision: 1 }, { idempotencyKey: "link-0012", payloadHash: "l" });
   assert.ok(await readLink(token), "Paul's link survives the contact's new link");
-  assert.equal((await signOnline(paul, { name: "martin paul", accept: true, declarationId })).state, "signed");
+  assert.equal((await signOnline(paul, { name: "martin paul", accept: true, declarationId, drawing: await drawing() })).state, "signed");
   const rev = (await loadCase(caseId)).revisions[0];
   const signedFolder = await f.storage.ensureSubfolder("mock-drive", rev.folderId, "Signé");
   const { PDFDocument } = await import("pdf-lib");
@@ -488,8 +507,13 @@ test("a correction keeps the documents already sent: they count, frozen with the
   await staffAction(caseId, "reopen", { expectedRevision: 1 }, { idempotencyKey: "reopen-0006", payloadHash: "r" });
   const v2 = await clientCase({ caseId, revision: 2, emailHash: JEAN });
   assert.ok(v2.files.length > 0 && v2.files.every((x) => "carried" in x));
+  assert.ok((await staffCase(caseId)).documentItems.some((item) => item.files.some((file) => file.webUrl)), "staff can open a carried document");
   const sent = await submit({ caseId, revision: 2, emailHash: JEAN }, { answers: pmOp });
   assert.equal(sent.state, "awaiting_signature", "no new upload needed");
+  const missingDocument = r1.documents!.find((item) => item.files.length)!;
+  await f.storage.deleteFile("mock-drive", missingDocument.files[0].itemId);
+  assert.equal((await staffCase(caseId)).documentItems.find((item) => item.key === missingDocument.key)?.unavailable, true,
+    "a frozen filename does not hide a missing SharePoint file");
   const { deleteUpload } = await import("./server/service");
   await assert.rejects(deleteUpload({ caseId, revision: 2, emailHash: JEAN }, { fileId: v2.files[0].id }), (e: unknown) => e instanceof KycError);
 });

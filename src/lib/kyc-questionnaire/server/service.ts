@@ -1,10 +1,11 @@
 import { createHash, createHmac, randomBytes } from "node:crypto";
+import sharp from "sharp";
 import { EMAIL_RE } from "../../tax-questionnaire/format";
 import { checkUpload, extensionOf, safeName, sniffMismatch, UPLOAD_LIMITS } from "../../tax-questionnaire/files";
 import { DOCS_FOLDER, docCode, documentsFor, KYC_UPLOAD_TYPES } from "../documents";
-import { isBlockVisible, pruneHidden, rowsOf, sanitizeAnswers, validateAll, visibleSteps } from "../engine";
+import { isBlockVisible, pruneHidden, rowsOf, sanitizeAnswers, validateAll, validateStep, visibleSteps } from "../engine";
 import { FLAG_LABELS, flagsOf, type Flag } from "../flags";
-import { clientName, isPM } from "../schema";
+import { clientName, declarations, isPM } from "../schema";
 import { KYC_LOCALES, KYC_ROUTES, type Answers, type DocDeclared, type KycLocale, type KycRoute } from "../types";
 import { emailHash, issueLink } from "./access";
 import { KYC_DRIVE_ID, mailSender, mockStorageEnabled, onlineSignatureEnabled, tokenSecret } from "./config";
@@ -90,7 +91,7 @@ export interface SignerRecord {
   emailSetAt?: string;
   /** Signature request e-mailed (signers other than the contact). */
   invitedAt?: string;
-  signature?: { typed: string; email: string; at: string; pdfSha256: string };
+  signature?: { typed: string; email: string; at: string; pdfSha256: string; drawnPng?: string };
 }
 
 export interface CaseRecord {
@@ -598,8 +599,8 @@ export function summarize(record: CaseRecord): StaffSummary {
 export async function staffCase(caseId: string): Promise<StaffSummary & {
   answers?: Answers;
   draft?: Answers;
-  pages: { id: string; section: string | null; title: { fr: string; en: string }; fieldIds: string[] }[];
-  documentItems: { key: string; label: { fr: string; en: string }; required: boolean; declared: DocDeclared | null; files: string[] }[];
+  pages: { id: string; section: string | null; title: { fr: string; en: string }; intro?: { fr: string; en: string }; fieldIds: string[]; missingFieldIds: string[]; parts: { kind: "field" | "group" | "heading" | "note"; id: string; text?: { fr: string; en: string } }[] }[];
+  documentItems: { key: string; label: { fr: string; en: string }; required: boolean; declared: DocDeclared | null; files: { name: string; webUrl: string }[]; unavailable: boolean }[];
 }> {
   await finishIfComplete(caseId);
   const record = await loadCase(caseId);
@@ -609,21 +610,58 @@ export async function staffCase(caseId: string): Promise<StaffSummary & {
   const openDraft = !answers && rev.state === "open" ? await readDraft(record, rev) : null;
   const draft = openDraft?.answers;
   const current = pruneHidden({ ...(answers || draft || {}), route: record.route });
-  const pages = visibleSteps(current).map((step) => ({
-    id: step.id,
-    section: step.section || null,
-    title: step.title,
-    fieldIds: step.blocks.filter((block) =>
-      (block.kind === "field" || block.kind === "group") && isBlockVisible(block, current)
-    ).map((block) => block.id).filter((id) => id !== "route"),
-  }));
-  const files = [...await docFiles(record, rev), ...carriedFiles(rev)];
+  const declaration = declarations(current);
+  const declarationText = {
+    fr: [declaration.intro.fr, ...declaration.items.map((item) => item.fr), declaration.closing.fr].join("\n\n"),
+    en: [declaration.intro.en, ...declaration.items.map((item) => item.en), declaration.closing.en].join("\n\n"),
+  };
+  const pages = visibleSteps(current).map((step) => {
+    const missing = Object.keys(validateStep(step, current));
+    return {
+      id: step.id, section: step.section || null, title: step.title, intro: step.intro,
+      fieldIds: step.blocks.filter((block) =>
+        (block.kind === "field" || block.kind === "group") && isBlockVisible(block, current)
+      ).map((block) => block.id).filter((id) => id !== "route"),
+      missingFieldIds: [...new Set(missing.map((id) => id.split("[")[0]))],
+      parts: step.blocks.filter((block) => isBlockVisible(block, current) && block.id !== "route")
+        .map((block) => ({ kind: block.kind, id: block.id,
+          ...(block.kind === "heading" ? { text: block.label }
+            : block.kind === "note" ? { text: block.id === "i.declarations" ? declarationText : block.text }
+              : block.help ? { text: block.help } : {}) })),
+    };
+  });
+  const currentFiles = await docFiles(record, rev);
+  const files = [...currentFiles];
+  // Carried documents live in the original revision's Documents folder. Resolve their current
+  // SharePoint URL by item id; an old filename alone is not evidence that a file still exists.
+  const carried = carriedFiles(rev);
+  const carriedByRevision = new Map<number, Set<string>>();
+  for (const file of Object.values(rev.carried || {}).flat()) {
+    const ids = carriedByRevision.get(file.revision) || new Set<string>();
+    ids.add(file.itemId);
+    carriedByRevision.set(file.revision, ids);
+  }
+  for (const [n, ids] of carriedByRevision) {
+    const source = record.revisions.find((entry) => entry.n === n);
+    if (!source) continue;
+    const present = await getPorts().storage.listFiles(record.driveId, source.docsFolderId);
+    for (const file of carried.filter((entry) => ids.has(entry.id))) {
+      const found = present.find((entry) => entry.id === file.id);
+      if (found) files.push({ ...file, webUrl: found.webUrl });
+    }
+  }
   const documentItems = documentsFor(current).map((item) => ({
     key: item.key,
     label: item.label,
     required: item.required,
-    declared: openDraft?.docDeclared[item.key] || null,
-    files: files.filter((file) => file.code === item.code).map((file) => file.name),
+    declared: (rev.documents?.find((entry) => entry.key === item.key)?.status === "later" ? "later"
+      : rev.documents?.find((entry) => entry.key === item.key)?.status === "na" ? "na"
+      : openDraft?.docDeclared[item.key]) || null,
+    files: files.filter((file) => file.code === item.code && file.webUrl)
+      .map((file) => ({ name: file.name, webUrl: file.webUrl! })),
+    unavailable: (rev.documents?.find((entry) => entry.key === item.key)?.files.length
+      ?? (rev.carried?.[item.key]?.length || 0) + currentFiles.filter((file) => file.code === item.code).length)
+      > files.filter((file) => file.code === item.code && file.webUrl).length,
   }));
   return { ...summarize(record), ...(answers ? { answers: current } : {}), ...(draft ? { draft: current } : {}), pages, documentItems };
 }
@@ -698,13 +736,14 @@ export interface ClientFile {
   name: string;
   size: number;
   code: string | null;
+  webUrl?: string;
 }
 
 const codeOf = (name: string) => /^\[([0-9a-f]{12})\] /.exec(name)?.[1] || null;
 
 async function docFiles(record: CaseRecord, rev: RevisionRecord): Promise<ClientFile[]> {
   const files = await getPorts().storage.listFiles(record.driveId, rev.docsFolderId);
-  return files.filter((f) => !f.folder).map((f) => ({ id: f.id, name: f.name, size: f.size, code: codeOf(f.name) }));
+  return files.filter((f) => !f.folder).map((f) => ({ id: f.id, name: f.name, size: f.size, code: codeOf(f.name), webUrl: f.webUrl }));
 }
 
 /** Documents provided in earlier revisions (read-only for the client). */
@@ -893,7 +932,36 @@ async function requestSignatures(record: CaseRecord, rev: RevisionRecord) {
  * at once; when the last one signs, the PDF they checked gets a signature page listing everyone
  * and is filed in "Signé" with its SHA-256, like a scan.
  */
-export async function signOnline(session: Session, body: { name?: unknown; accept?: unknown; declarationId?: unknown }) {
+async function checkedDrawing(value: unknown): Promise<string> {
+  const encoded = typeof value === "string" ? /^data:image\/png;base64,([A-Za-z0-9+/]+={0,2})$/.exec(value)?.[1] : undefined;
+  if (!encoded || encoded.length > 160_000) throw new KycError("signature_image", 422);
+  const bytes = Buffer.from(encoded, "base64");
+  if (bytes.length < 100 || bytes.length > 120_000) throw new KycError("signature_image", 422);
+  try {
+    const input = sharp(bytes, { limitInputPixels: 108_000, failOn: "error" });
+    const metadata = await input.metadata();
+    if (metadata.format !== "png" || metadata.width !== 600 || metadata.height !== 180 || (metadata.pages || 1) !== 1) {
+      throw new Error("wrong drawing dimensions");
+    }
+    const { data, info } = await input.ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    if (info.channels !== 4) throw new Error("wrong drawing channels");
+    let ink = 0;
+    let minX = 600, maxX = 0, minY = 180, maxY = 0;
+    for (let y = 0; y < 180; y++) for (let x = 0; x < 600; x++) {
+      const at = (y * 600 + x) * 4;
+      if (data[at + 3] < 48 || data[at] + data[at + 1] + data[at + 2] > 450) continue;
+      ink++;
+      minX = Math.min(minX, x); maxX = Math.max(maxX, x);
+      minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+    }
+    if (ink < 24 || ink > 20_000 || (maxX - minX < 20 && maxY - minY < 20)) throw new Error("blank drawing");
+    return (await sharp(data, { raw: { width: 600, height: 180, channels: 4 } }).png().toBuffer()).toString("base64");
+  } catch {
+    throw new KycError("signature_image", 422);
+  }
+}
+
+export async function signOnline(session: Session, body: { name?: unknown; accept?: unknown; declarationId?: unknown; drawing?: unknown }) {
   return locked(session.caseId, async () => {
     const { record, rev, mine } = await clientContext(session, ["contact", "signer"]);
     // The form shown in the browser must be this one (another tab may have opened another case).
@@ -919,10 +987,11 @@ export async function signOnline(session: Session, body: { name?: unknown; accep
     if (body.accept !== true) throw new KycError("signature_not_accepted", 422);
     const typed = str(body.name).slice(0, 200);
     if (!typed || nameKey(typed) !== nameKey(pending.name)) throw new KycError("signature_name", 422);
+    const drawnPng = await checkedDrawing(body.drawing);
     const original = await getPorts().storage.readFile(record.driveId, rev.folderId, rev.pdf.name);
     if (!original) throw new KycError("pdf_not_ready", 409);
     // The evidence is saved before the PDF is built: a later failure never asks to sign again.
-    pending.signature = { typed, email: pending.email || "", at: now(), pdfSha256: sha256(original) };
+    pending.signature = { typed, email: pending.email || "", at: now(), pdfSha256: sha256(original), drawnPng };
     await saveCase(record);
     await track(record, rev);
     if (signers.every((s) => s.signature)) await finishOnline(record, rev);
@@ -942,7 +1011,7 @@ async function finishOnline(record: CaseRecord, rev: RevisionRecord) {
   const signedPdf = await appendOnlineSignatures(original, {
     language: record.language,
     declarationId: rev.declarationId || "",
-    signers: signers.map((s) => ({ name: s.name, typed: s.signature!.typed, email: s.signature!.email, at: s.signature!.at, byArk: s.emailBy === "ark" })),
+    signers: signers.map((s) => ({ name: s.name, typed: s.signature!.typed, email: s.signature!.email, at: s.signature!.at, drawnPng: s.signature!.drawnPng, byArk: s.emailBy === "ark" })),
     pdfSha256,
     jsonSha256: rev.json?.sha256 || "",
   });

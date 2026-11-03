@@ -26,6 +26,7 @@ import { ApiError, api, newSubmitKey, PDF_URL, type CaseFile, type CasePayload }
 import { ActiveList, DocumentsStep, errorText, FileList, PickFiles, SIGNED_ACCEPT, useUploads } from "./DocumentsStep";
 import { collectIssues, focusField, fromForm, issuesFromKeys, stepOfKey, stepSchema, toForm, type FormValues, type Issue } from "./form-model";
 import { StepView } from "./StepView";
+import { SignaturePad } from "./SignaturePad";
 
 /**
  * Phases: "loading"; "code" (6-digit code after the link); "form" (open revision); the three
@@ -1050,6 +1051,7 @@ function SigningView({
   const othersPending = !!signing?.online && signing.signers.some((s) => !s.mine && !s.signed);
   const [accepted, setAccepted] = useState(false);
   const [typedName, setTypedName] = useState("");
+  const [drawing, setDrawing] = useState<string | null>(null);
   const [onlineError, setOnlineError] = useState("");
 
   const signOnline = async () => {
@@ -1057,7 +1059,7 @@ function SigningView({
     if (!accepted) return setOnlineError(SERVER_ERRORS.signature_not_accepted[locale]);
     setBusy(true);
     try {
-      await api.caseAction("sign-online", { name: typedName, accept: true, declarationId: caseData.declarationId });
+      await api.caseAction("sign-online", { name: typedName, drawing, accept: true, declarationId: caseData.declarationId });
       onSigned(await api.getCase());
       window.scrollTo({ top: 0 });
     } catch (e) {
@@ -1148,8 +1150,9 @@ function SigningView({
                 <Label htmlFor="kyc-online-name">{UI.onlineName[locale].replace("{name}", onlineSigner)}</Label>
                 <Input id="kyc-online-name" value={typedName} onChange={(e) => setTypedName(e.target.value)} autoComplete="name" />
               </div>
+              <SignaturePad locale={locale} onChange={setDrawing} />
               <div>
-                <Button type="button" onClick={() => void signOnline()} disabled={busy || uploading || !typedName.trim()}>
+                <Button type="button" onClick={() => void signOnline()} disabled={busy || uploading || !typedName.trim() || !drawing}>
                   {busy ? <CircleNotch className="size-4 animate-spin" /> : <Check className="size-4" />}
                   {UI.onlineSign[locale]}
                 </Button>
