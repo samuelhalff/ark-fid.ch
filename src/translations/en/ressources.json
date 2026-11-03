@@ -19,6 +19,37 @@
   "ImageAltPrefix": "Article illustration",
   "Articles": [
     {
+      "slug": "pib-cantonaux-2026-geneve-vaud-lecture-pme",
+      "title": "Cantonal GDP: understanding the new figures for Geneva and Vaud",
+      "description": "Geneva’s 2022 GDP has been revised upwards, yet its economy contracted in 2024. How should SMEs read the new FSO figures and use them in business decisions?",
+      "content": "An economic figure can change without a business having sold anything more. That is the first point to take from the Federal Statistical Office (FSO) publication of 26 October 2026. For business owners in Geneva and Vaud, it is a reason to check exactly what is being compared before changing commercial assumptions.\n\n## What the FSO has changed\n\nThe FSO has published a provisional series of cantonal GDP figures covering 2011 to 2024. Its new method draws more heavily on individual business data to assign value added to the places where it is generated. GDP levels change substantially, while long-term growth patterns remain broadly similar. The [official release](https://www.admin.ch/en/newnsb/2cnZyccHJK21) explains the change.\n\nTwo different comparisons need to be kept separate:\n\n| Question | Relevant comparison |\n| --- | --- |\n| What difference does the new method make? | Old and new GDP estimates for the same year, here 2022 |\n| How has the economy developed? | Successive years within the same revised series |\n\nFor 2022, Geneva, Vaud and Neuchâtel are among eight cantons with upward revisions. In Geneva, the main adjustments concern trade. Schaffhausen's revision reaches +48.5%. That figure measures a statistical level adjustment for 2022, rather than annual growth.\n\n## Geneva and the Lake Geneva region cover different areas\n\nGeneva nevertheless recorded a decline in GDP between 2023 and 2024. Over that period, GDP in the Lake Geneva region increased by 0.9%, hours worked rose by 1.4%, and hourly productivity fell by 0.5%. The region includes Geneva, Vaud and Valais, so its results do not describe Geneva alone.\n\nAn upward revision to the 2022 GDP level and a contraction in 2024 can therefore coexist. Confusing them could produce a story about a recovery or slowdown that the comparison does not actually measure.\n\n## Our interpretation for SMEs: start with your customers\n\nThe suggestions below are our practical interpretation of the publication. They are not FSO forecasts.\n\nBefore making a commercial decision, map your sales: where are your customers, which industries do they operate in, and which contracts support your business? A Geneva company selling mainly abroad has a different exposure from a service provider relying on a handful of local customers.\n\nThis mapping gives regional statistics a practical purpose. If an industry important to your customers weakens, review the related enquiries and renewals. If your own order book remains strong, record the evidence supporting that difference. The aim is to compare the economic context with signals observed inside your business.\n\nReview customer concentration at the same time. A reassuring regional average offers limited comfort when one contract accounts for a large share of sales. Identify which customer decisions could materially change your workload and when those decisions are expected.\n\n## Keep comparisons consistent\n\nIn a presentation for a bank or shareholders, record each indicator's source, publication date, reference period and geographical scope. Replace the whole historical series when adopting the new method. Connecting an old estimate to a new one could introduce an artificial break.\n\nAlso separate changes in sales revenue from changes in quantities sold. Higher prices can support revenue without increasing volumes. Before explaining a difference between your business and an economic indicator, check whether the two measures answer a comparable question.\n\nKeep a short note of the assumptions used in each version of the plan. This makes it easier to explain why expectations changed and prevents an updated external figure from silently replacing a commercial assumption that still needs testing.\n\n## An example: deciding whether to invest\n\nImagine a service business considering an additional employee to handle more enquiries. A favourable cantonal GDP headline does not establish the case for that position. Management can bring together three pieces of evidence: signed orders, available capacity and the expected margin on additional work.\n\nIt can then test a scenario in which some customers postpone their projects. Quantify the extra fixed cost, expected receipts and the acceptable period before reviewing the decision. These assumptions belong to the business and should be explicit and open to revision.\n\nThis approach also allows decisions when economic information is incomplete. Hiring can depend on a specific condition, such as a signed contract or a minimum order level. Assign someone to monitor that condition and record when management will assess it again.\n\n## Choose a useful productivity measure\n\nA service team might track hours per assignment, rework and margin per service. A trading business could examine volumes, margin by product range and processing costs. Keep definitions stable from month to month so that differences can be understood.\n\nIf work takes longer, look for an operational explanation: more complex assignments, repeated tasks, missing information or poor data quality. Link each action to an observable result, such as fewer corrections or a shorter period between delivery and invoicing. That makes the discussion more useful than directly comparing a small team with a regional average.\n\n## When should you review the position?\n\nThe FSO plans more detailed consolidated results in March 2027. The full release schedules definitive detailed data for October 2027. Until then, retain the provisional label in your presentations.\n\nFor your next management meeting, prepare one page connecting the regional context with orders, margins and key assumptions. Set a review date and identify the events that would trigger a change. Our guide to [SME budgets and forecasts](/ressources/articles/budget-forecast-pme-piloter-cashflow-2026) develops this approach. To organise this monitoring with your fiduciary adviser, [contact our team](/contact).\n",
+      "author": "Ark Fiduciaire",
+      "date": "2026-11-03",
+      "category": "finance",
+      "tags": [
+        "economie",
+        "pib",
+        "statistiques",
+        "geneve",
+        "vaud",
+        "pme"
+      ],
+      "references": [
+        {
+          "labelKey": "FSO — cantonal GDP: release of 26 October 2026",
+          "url": "https://www.admin.ch/en/newnsb/2cnZyccHJK21"
+        },
+        {
+          "labelKey": "FSO — full release and publication schedule (PDF, French)",
+          "url": "https://dam-api.bfs.admin.ch/hub/api/dam/assets/36248797/master"
+        },
+        {
+          "labelKey": "FSO — questions and answers on the cantonal GDP revision (PDF, French)",
+          "url": "https://dam-api.bfs.admin.ch/hub/api/dam/assets/36931989/master"
+        }
+      ]
+    },
+    {
       "slug": "conseiller-lba-2026-avocats-fiduciaires-arbre-de-decision",
       "title": "AMLA advisers 2026: are law firms and fiduciaries covered?",
       "description": "Revised Swiss AMLA from 1 October 2026: who is an adviser? Covered operations, exceptions, thresholds and decision trees for law firms and fiduciaries.",
