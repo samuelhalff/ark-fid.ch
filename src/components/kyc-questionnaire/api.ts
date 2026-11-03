@@ -50,7 +50,7 @@ export interface CasePayload {
   state: CaseState;
   displayName: string;
   prefilledIds: string[];
-  draft: { savedAt: string; stepId: string; answers: Answers; docDeclared: Record<string, DocDeclared> } | null;
+  draft: { savedAt: string; stepId: string; answers: Answers; docDeclared: Record<string, DocDeclared>; staffPrefillVersion?: number } | null;
   /** Submitted answers once sent, else the draft's. */
   answers: Answers;
   files: CaseFile[];

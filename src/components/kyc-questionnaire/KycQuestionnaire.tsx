@@ -109,6 +109,8 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
     [locale],
   );
   const form = useForm<FormValues>({ resolver, defaultValues: {}, mode: "onSubmit", reValidateMode: "onChange" });
+  const staffPrefillVersion = useRef(0);
+  const savedAnswers = useRef<Answers>({});
   const values = form.watch();
   const answers = useMemo<Answers>(() => ({ ...fromForm(values), route }), [values, route]);
   const steps = useMemo(() => visibleSteps(answers), [answers]);
@@ -162,6 +164,8 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
           form.reset(toForm(withoutRoute(data.draft?.answers || data.answers || {})));
           setDocDeclared(data.draft?.docDeclared || {});
           if (data.draft?.stepId) setStepId(data.draft.stepId);
+          staffPrefillVersion.current = data.draft?.staffPrefillVersion || 0;
+          savedAnswers.current = withoutRoute(data.draft?.answers || data.answers || {});
         }
         setPhase("form");
       } else {
@@ -256,12 +260,33 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
         savePending.current = false;
         setSave({ state: "saving" });
         try {
-          const res = await api.caseAction<{ savedAt: string }>("save", { answers: withoutRoute(fromForm(form.getValues())), stepId: stepRef.current?.id, docDeclared: declaredRef.current });
+          const outgoing = withoutRoute(fromForm(form.getValues()));
+          const res = await api.caseAction<{ savedAt: string }>("save", { answers: outgoing, stepId: stepRef.current?.id, docDeclared: declaredRef.current, staffPrefillVersion: staffPrefillVersion.current });
+          savedAnswers.current = outgoing;
           setSave({ state: "saved", at: res.savedAt });
         } catch (error) {
           setSave({ state: "failed" });
           savePending.current = false;
           if (error instanceof ApiError && (error.status === 401 || error.status === 410)) fatal(error, locale);
+          else if (code(error) === "draft_changed") {
+            try {
+              const local = withoutRoute(fromForm(form.getValues()));
+              const fresh = await api.getCase();
+              if (fresh.state !== "open") { applyCase(fresh, false); return; }
+              const remote = withoutRoute(fresh.draft?.answers || fresh.answers || {});
+              const merged: Answers = { ...remote };
+              for (const key of new Set([...Object.keys(savedAnswers.current), ...Object.keys(local)])) {
+                if (JSON.stringify(local[key]) === JSON.stringify(savedAnswers.current[key])) continue;
+                if (local[key] === undefined) delete merged[key];
+                else merged[key] = local[key];
+              }
+              applyCase(fresh, false);
+              staffPrefillVersion.current = fresh.draft?.staffPrefillVersion || 0;
+              savedAnswers.current = remote;
+              form.reset(toForm(merged));
+              savePending.current = true;
+            } catch { setSave({ state: "failed" }); }
+          }
           else if (code(error) === "not_editable") void refreshCase();
         }
       } while (savePending.current);
@@ -272,7 +297,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
     } finally {
       saving.current = null;
     }
-  }, [phase, form, fatal, locale, refreshCase]);
+  }, [phase, form, fatal, locale, refreshCase, applyCase]);
   useEffect(() => {
     if (phase !== "form") return;
     const timer = setTimeout(() => void saveNow(), 1500);

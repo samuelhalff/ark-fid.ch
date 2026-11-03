@@ -2,7 +2,7 @@ import { createHash, createHmac, randomBytes } from "node:crypto";
 import { EMAIL_RE } from "../../tax-questionnaire/format";
 import { checkUpload, extensionOf, safeName, sniffMismatch, UPLOAD_LIMITS } from "../../tax-questionnaire/files";
 import { DOCS_FOLDER, docCode, documentsFor, KYC_UPLOAD_TYPES } from "../documents";
-import { pruneHidden, rowsOf, sanitizeAnswers, validateAll } from "../engine";
+import { isBlockVisible, pruneHidden, rowsOf, sanitizeAnswers, validateAll, visibleSteps } from "../engine";
 import { FLAG_LABELS, flagsOf, type Flag } from "../flags";
 import { clientName, isPM } from "../schema";
 import { KYC_LOCALES, KYC_ROUTES, type Answers, type DocDeclared, type KycLocale, type KycRoute } from "../types";
@@ -120,6 +120,8 @@ interface Draft {
   stepId: string;
   answers: Answers;
   docDeclared: Record<string, DocDeclared>;
+  /** Incremented only when Ark adds answers, so an open client tab cannot erase them. */
+  staffPrefillVersion?: number;
 }
 
 const CASE_FILE = "case.json";
@@ -419,10 +421,15 @@ export async function staffAction(
       const answered = (value: unknown) =>
         value !== undefined && value !== null && !(typeof value === "string" && !value.trim()) && !(Array.isArray(value) && !value.length);
       const current = draft.answers as Record<string, unknown>;
+      const added: string[] = [];
       for (const [key, value] of Object.entries(extra.answers as Record<string, unknown>)) {
-        if (key !== "route" && !answered(current[key])) current[key] = value;
+        if (key !== "route" && !answered(current[key])) {
+          current[key] = value;
+          added.push(key);
+        }
       }
-      rev.prefilledIds = [...new Set([...(rev.prefilledIds || []), ...extra.ids])];
+      rev.prefilledIds = [...new Set([...(rev.prefilledIds || []), ...added])];
+      draft.staffPrefillVersion = (draft.staffPrefillVersion || 0) + 1;
       draft.savedAt = now();
       await writeDraft(record, rev, draft);
       remember(rev.n);
@@ -587,15 +594,38 @@ export function summarize(record: CaseRecord): StaffSummary {
   };
 }
 
-/** Case summary for Cadence, with the submitted answers of the latest revision when there are some. */
-export async function staffCase(caseId: string): Promise<StaffSummary & { answers?: Answers; draft?: Answers }> {
+/** Case summary for Cadence, with the current answers and exactly the pages visible to the client. */
+export async function staffCase(caseId: string): Promise<StaffSummary & {
+  answers?: Answers;
+  draft?: Answers;
+  pages: { id: string; section: string | null; title: { fr: string; en: string }; fieldIds: string[] }[];
+  documentItems: { key: string; label: { fr: string; en: string }; required: boolean; declared: DocDeclared | null; files: string[] }[];
+}> {
   await finishIfComplete(caseId);
   const record = await loadCase(caseId);
   const rev = latest(record);
   const answers = await readSubmitted(record, rev);
   // What the client has filled so far, for Ark to see and help (Sam, 2026-11-03).
-  const draft = !answers && rev.state === "open" ? (await readDraft(record, rev))?.answers : undefined;
-  return { ...summarize(record), ...(answers ? { answers } : {}), ...(draft ? { draft } : {}) };
+  const openDraft = !answers && rev.state === "open" ? await readDraft(record, rev) : null;
+  const draft = openDraft?.answers;
+  const current = pruneHidden({ ...(answers || draft || {}), route: record.route });
+  const pages = visibleSteps(current).map((step) => ({
+    id: step.id,
+    section: step.section || null,
+    title: step.title,
+    fieldIds: step.blocks.filter((block) =>
+      (block.kind === "field" || block.kind === "group") && isBlockVisible(block, current)
+    ).map((block) => block.id).filter((id) => id !== "route"),
+  }));
+  const files = [...await docFiles(record, rev), ...carriedFiles(rev)];
+  const documentItems = documentsFor(current).map((item) => ({
+    key: item.key,
+    label: item.label,
+    required: item.required,
+    declared: openDraft?.docDeclared[item.key] || null,
+    files: files.filter((file) => file.code === item.code).map((file) => file.name),
+  }));
+  return { ...summarize(record), ...(answers ? { answers: current } : {}), ...(draft ? { draft: current } : {}), pages, documentItems };
 }
 
 /**
@@ -949,14 +979,17 @@ const sanitizeDeclared = (raw: unknown): Record<string, DocDeclared> => {
   return out;
 };
 
-export async function saveDraft(session: Session, body: { answers?: unknown; stepId?: unknown; docDeclared?: unknown }) {
+export async function saveDraft(session: Session, body: { answers?: unknown; stepId?: unknown; docDeclared?: unknown; staffPrefillVersion?: unknown }) {
   return locked(session.caseId, async () => {
     const { record, rev } = await clientContext(session, ["contact"]);
     if (rev.state !== "open") throw new KycError("not_editable", 409);
+    const current = await readDraft(record, rev);
+    const seen = body.staffPrefillVersion === undefined ? 0 : body.staffPrefillVersion;
+    if (seen !== (current?.staffPrefillVersion || 0)) throw new KycError("draft_changed", 409);
     const answers = { ...sanitizeAnswers(body.answers), route: record.route };
     const stepId = /^[a-z.]{1,20}$/.test(str(body.stepId)) ? str(body.stepId) : "start";
     const savedAt = now();
-    await writeDraft(record, rev, { savedAt, stepId, answers, docDeclared: sanitizeDeclared(body.docDeclared) });
+    await writeDraft(record, rev, { savedAt, stepId, answers, docDeclared: sanitizeDeclared(body.docDeclared), staffPrefillVersion: current?.staffPrefillVersion || 0 });
     if (!rev.startedAt) {
       rev.startedAt = savedAt;
       await saveCase(record);

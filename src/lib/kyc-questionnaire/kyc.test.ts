@@ -267,6 +267,28 @@ test("create → fill → submit → PDF → signed scan, frozen with its SHA-25
   await assert.rejects(clientCase({ caseId, revision: 2, emailHash: JEAN }), (e: unknown) => e instanceof KycError && e.code === "case_closed");
 });
 
+test("staff prefill keeps client answers and rejects a stale open-tab save", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-prefill-race", payloadHash: "race" });
+  const caseId = created.summary.caseId;
+  const session = { caseId, revision: 1, emailHash: JEAN };
+  const opened = await clientCase(session);
+  await saveDraft(session, { answers: { "a.name": "Client's spelling", "a.lastName": "Hidden old value" }, staffPrefillVersion: 0 });
+  await staffAction(caseId, "prefill", { expectedRevision: 1, prefill: { "a.name": "Ark spelling", "d.sector": "Fiduciaire" } }, { idempotencyKey: "prefill-race-01", payloadHash: "prefill-race" });
+  const staff = await staffCase(caseId);
+  assert.equal(staff.draft?.["a.name"], "Client's spelling");
+  assert.equal(staff.draft?.["a.lastName"], undefined, "a question hidden on this route is not sent to staff");
+  assert.equal(staff.draft?.["d.sector"], "Fiduciaire");
+  assert.ok(staff.pages.some((page) => page.fieldIds.includes("a.name")));
+  assert.ok(staff.pages.some((page) => page.id === "h"), "Ark sees the same pages as the client");
+  assert.ok(staff.documentItems.some((item) => item.key === "pm.rc"), "Ark sees the document page's items");
+  assert.equal(opened.draft?.staffPrefillVersion || 0, 0);
+  await assert.rejects(saveDraft(session, { answers: { "a.name": "Client's spelling" }, staffPrefillVersion: 0 }), (e: unknown) => e instanceof KycError && e.code === "draft_changed");
+  const current = await clientCase(session);
+  await saveDraft(session, { answers: current.draft?.answers, staffPrefillVersion: current.draft?.staffPrefillVersion });
+  assert.equal((await staffCase(caseId)).draft?.["d.sector"], "Fiduciaire");
+});
+
 test("signing online: the code session identifies, the typed name must be the signatory's, the PDF gets a signature page", async () => {
   const f = await fixture();
   const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0010", payloadHash: "h" });
