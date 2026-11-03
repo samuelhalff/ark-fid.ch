@@ -10,7 +10,7 @@ import { staffAction, staffCase, type StaffAction } from "@/src/lib/kyc-question
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const ACTIONS: StaffAction[] = ["link", "reopen", "close", "signers"];
+const ACTIONS: StaffAction[] = ["link", "reopen", "close", "signers", "prefill"];
 
 export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;

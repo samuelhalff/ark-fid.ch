@@ -337,13 +337,17 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
     setNotice(null);
     // Leaving the documents screen would hide the progress of the uploads still running.
     if (uploading) return setNotice({ tone: "error", text: UI.uploadsBusy[locale] });
+    // Never blocked on a step: what is missing is saved as it is and checked again at the end
+    // (Sam, 2026-11-03). The client fills what they can and comes back for the rest.
     const list = await stepIssues();
-    if (list.length) return fail(list);
     setIssues([]);
     const following = steps[index + 1];
     if (following) {
       void saveNow();
       goTo(following.id);
+      if (list.length) setNotice({ tone: "info", text: UI.stepIncomplete[locale] });
+    } else if (list.length) {
+      fail(list);
     }
   };
   const back = () => {

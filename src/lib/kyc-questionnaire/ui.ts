@@ -32,6 +32,7 @@ export const UI = {
   no: t("Non", "No"),
   choose: t("Choisir…", "Choose…"),
   datePlaceholder: t("jj.mm.aaaa", "dd.mm.yyyy"),
+  stepIncomplete: t("Étape enregistrée. Certaines réponses manquent encore : vous pourrez les compléter plus tard, elles seront vérifiées avant l’envoi.", "Step saved. Some answers are still missing: you can complete them later; they are checked before you submit."),
   errorSummary: t("Merci de corriger les points signalés.", "Please correct the highlighted fields."),
   prefilled: t("Pré-rempli par Ark — à vérifier", "Pre-filled by Ark — please check"),
   prefilledStep: t(

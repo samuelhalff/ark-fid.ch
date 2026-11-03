@@ -343,7 +343,7 @@ async function relink(record: CaseRecord): Promise<LinkResult> {
   return link;
 }
 
-export type StaffAction = "link" | "reopen" | "close" | "signers";
+export type StaffAction = "link" | "reopen" | "close" | "signers" | "prefill";
 
 export async function staffAction(
   caseId: string,
@@ -408,6 +408,27 @@ export async function staffAction(
       remember(rev.n);
       const link = await relink(record);
       return { summary: summarize(record), link, replayed: false };
+    }
+
+    if (action === "prefill") {
+      // Ark adds what it already holds to a form the client is filling: only empty answers are
+      // filled, so nothing the client typed is overwritten (Sam, 2026-11-03).
+      if (rev.state !== "open") throw new KycError("invalid_state", 409, { state: rev.state });
+      const extra = prefillAnswers(body.prefill, record.route as KycRoute);
+      const draft: Draft = (await readDraft(record, rev)) || { savedAt: now(), stepId: "start", answers: { route: record.route }, docDeclared: {} };
+      const answered = (value: unknown) =>
+        value !== undefined && value !== null && !(typeof value === "string" && !value.trim()) && !(Array.isArray(value) && !value.length);
+      const current = draft.answers as Record<string, unknown>;
+      for (const [key, value] of Object.entries(extra.answers as Record<string, unknown>)) {
+        if (key !== "route" && !answered(current[key])) current[key] = value;
+      }
+      rev.prefilledIds = [...new Set([...(rev.prefilledIds || []), ...extra.ids])];
+      draft.savedAt = now();
+      await writeDraft(record, rev, draft);
+      remember(rev.n);
+      await saveCase(record);
+      await track(record, rev);
+      return { summary: summarize(record), replayed: false };
     }
 
     if (action === "signers") {
@@ -567,11 +588,14 @@ export function summarize(record: CaseRecord): StaffSummary {
 }
 
 /** Case summary for Cadence, with the submitted answers of the latest revision when there are some. */
-export async function staffCase(caseId: string): Promise<StaffSummary & { answers?: Answers }> {
+export async function staffCase(caseId: string): Promise<StaffSummary & { answers?: Answers; draft?: Answers }> {
   await finishIfComplete(caseId);
   const record = await loadCase(caseId);
-  const answers = await readSubmitted(record, latest(record));
-  return { ...summarize(record), ...(answers ? { answers } : {}) };
+  const rev = latest(record);
+  const answers = await readSubmitted(record, rev);
+  // What the client has filled so far, for Ark to see and help (Sam, 2026-11-03).
+  const draft = !answers && rev.state === "open" ? (await readDraft(record, rev))?.answers : undefined;
+  return { ...summarize(record), ...(answers ? { answers } : {}), ...(draft ? { draft } : {}) };
 }
 
 /**
