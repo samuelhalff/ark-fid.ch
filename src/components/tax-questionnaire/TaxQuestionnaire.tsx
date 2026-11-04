@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, CircleNotch, EnvelopeSimple, Phone, SignOut, Spa
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import posthog from "posthog-js";
 import { Alert, AlertDescription, AlertTitle } from "@/src/components/ui/alert";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
@@ -34,6 +35,7 @@ import { Turnstile } from "./Turnstile";
 type Phase = "loading" | "start" | "code" | "form" | "status" | "optedOut";
 
 const err = (code: string, locale: QfLocale) => (SERVER_ERRORS[code] || SERVER_ERRORS.generic)[locale];
+const posthogConfigured = Boolean(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN && process.env.NEXT_PUBLIC_POSTHOG_HOST);
 const CONSENT_LABELS = {
   privacy: { fr: "Accord à la notice de confidentialité", en: "Agreement to the privacy notice", de: "Zustimmung zum Datenschutzhinweis" },
   certify: { fr: "Confirmation que les réponses sont complètes et exactes", en: "Confirmation that the answers are complete and correct", de: "Bestätigung, dass die Angaben vollständig und richtig sind" },
@@ -98,6 +100,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
   const [certified, setCertified] = useState(false);
   const [aiOptIn, setAiOptIn] = useState(false);
   const submitKey = useRef(newSubmitKey());
+  const identifiedCaseId = useRef<string | null>(null);
   const [justSubmitted, setJustSubmitted] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState<Record<string, string>>({});
 
@@ -125,6 +128,10 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
   // ---- loading: magic link in the fragment, else an existing session ----------------------------
   const loadCase = useCallback(async () => {
     const data = await api.getCase();
+    if (posthogConfigured && identifiedCaseId.current !== data.caseId) {
+      posthog.identify(data.caseId, { email: data.email });
+      identifiedCaseId.current = data.caseId;
+    }
     setCaseData(data);
     if (data.draft) {
       form.reset(toForm({ ...defaultAnswers(), ...(data.draft.answers as Answers) }));
@@ -680,6 +687,8 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                       if (!window.confirm(UI.draftDeleteConfirm[locale])) return;
                       await api.caseAction("delete").catch(() => undefined);
                       await api.auth({ action: "logout" }).catch(() => undefined);
+                      if (posthogConfigured) posthog.reset();
+                      identifiedCaseId.current = null;
                       form.reset(toForm(defaultAnswers()));
                       setCaseData(null);
                       setStepId("start");
@@ -691,6 +700,8 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                     <Button type="button" variant="ghost" size="sm" onClick={async () => {
                       await saveNow();
                       await api.auth({ action: "logout" }).catch(() => undefined);
+                      if (posthogConfigured) posthog.reset();
+                      identifiedCaseId.current = null;
                       window.location.reload();
                     }}>
                       <SignOut className="size-4" />

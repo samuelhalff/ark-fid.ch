@@ -15,6 +15,7 @@
 try { require("dotenv").config(); } catch {}
 const fs = require("fs");
 const path = require("path");
+const { captureAiGeneration, createAiTraceId } = require("./lib/posthogAi");
 
 const AZURE = {
   endpoint: process.env.AZURE_OPENAI_ENDPOINT,
@@ -32,6 +33,8 @@ const LOCALE_NAMES = {
 function sleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
 
 async function azureJson(system, user) {
+  const traceId = createAiTraceId();
+  const startedAt = Date.now();
   if (!AZURE.endpoint || !AZURE.apiKey) {
     throw new Error("Missing AZURE_OPENAI_ENDPOINT or AZURE_OPENAI_API_KEY");
   }
@@ -57,7 +60,21 @@ async function azureJson(system, user) {
     const text = await res.text().catch(() => "");
     if (res.ok) {
       try {
-        const content = JSON.parse(text)?.choices?.[0]?.message?.content;
+        const data = JSON.parse(text);
+        const content = data?.choices?.[0]?.message?.content;
+        if (!content) throw new Error("Azure OpenAI returned no content.");
+        await captureAiGeneration({
+          traceId,
+          spanName: "azure_openai_reference_label_translation",
+          model: process.env.AZURE_OPENAI_DEPLOYMENT || "gpt-4.1",
+          input: body.messages,
+          output: content,
+          usage: data?.usage,
+          latencyMs: Date.now() - startedAt,
+          httpStatus: res.status,
+          requestUrl: url,
+          temperature: body.temperature,
+        });
         return JSON.parse(content);
       } catch (e) {
         if (attempt === 4) throw new Error("Azure JSON parse error: " + e.message);

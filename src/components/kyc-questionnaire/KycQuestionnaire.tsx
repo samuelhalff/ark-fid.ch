@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Check, CircleNotch, DownloadSimple, EnvelopeSimp
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import posthog from "posthog-js";
 import { Alert, AlertDescription } from "@/src/components/ui/alert";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
@@ -37,6 +38,7 @@ type Phase = "loading" | "email" | "code" | "choose" | "form" | "returned" | "aw
 type Message = { title: string; text: string; retry?: boolean; email?: boolean };
 
 const err = (code: string, locale: KycLocale) => (SERVER_ERRORS[code] || SERVER_ERRORS.generic)[locale];
+const posthogConfigured = Boolean(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN && process.env.NEXT_PUBLIC_POSTHOG_HOST);
 const asLocale = (value: unknown): KycLocale | null => ((KYC_LOCALES as readonly string[]).includes(String(value)) ? (value as KycLocale) : null);
 const code = (error: unknown) => (error instanceof ApiError ? error.code : "generic");
 
@@ -96,6 +98,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   const [pick, setPick] = useState("");
   // Same key for every attempt of this submission (a lost response is replayed, not re-submitted).
   const submitKey = useRef(newSubmitKey());
+  const identifiedCaseId = useRef<string | null>(null);
 
   const route = caseData?.route || "";
   const routeRef = useRef(route);
@@ -157,6 +160,10 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
 
   const applyCase = useCallback(
     (data: CasePayload, first: boolean) => {
+      if (posthogConfigured && identifiedCaseId.current !== data.caseId) {
+        posthog.identify(data.caseId);
+        identifiedCaseId.current = data.caseId;
+      }
       setCaseData(data);
       const caseLocale = asLocale(data.language);
       if (!userLocale.current && caseLocale) setLocale(caseLocale);
@@ -206,6 +213,8 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
     // client, another revision) is closed first.
     if (token.current) {
       await api.auth({ action: "logout" }).catch(() => undefined);
+      if (posthogConfigured) posthog.reset();
+      identifiedCaseId.current = null;
       await requestCode(l);
       return;
     }
@@ -369,6 +378,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
     setIssues([]);
     const following = steps[index + 1];
     if (following) {
+      if (posthogConfigured) posthog.capture("kyc_qf_step_advanced", { step: step.id, has_validation_issues: list.length > 0 });
       void saveNow();
       goTo(following.id);
       if (list.length) setNotice({ tone: "info", text: UI.stepIncomplete[locale] });
@@ -394,6 +404,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
         return;
       }
       applyCase(await api.getCase(), true);
+      if (posthogConfigured) posthog.capture("kyc_qf_access_verified", { method: byEmail ? "email" : "link" });
     } catch (error) {
       const c = code(error);
       if (c === "revision_superseded" || c === "case_closed") fatal(error, locale);
@@ -426,6 +437,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
     try {
       await api.auth({ action: "pick", pick, caseId });
       applyCase(await api.getCase(), true);
+      if (posthogConfigured) posthog.capture("kyc_qf_access_verified", { method: "email_case_selection" });
     } catch (error) {
       const c = code(error);
       if (c === "otp_expired") askEmail(err(c, locale));
@@ -447,6 +459,8 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   const logout = async () => {
     await saveNow();
     await api.auth({ action: "logout" }).catch(() => undefined);
+    if (posthogConfigured) posthog.reset();
+    identifiedCaseId.current = null;
     askEmail(UI.loggedOut[locale]);
   };
 
@@ -477,6 +491,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
       await saveNow();
       await api.caseAction<{ state: string; declarationId: string | null }>("submit", { answers: withoutRoute(fromForm(form.getValues())), docDeclared, submitKey: submitKey.current });
       applyCase(await api.getCase(), false);
+      if (posthogConfigured) posthog.capture("kyc_qf_submit");
       window.scrollTo({ top: 0 });
     } catch (error) {
       const c = code(error);
@@ -1061,6 +1076,7 @@ function SigningView({
     try {
       await api.caseAction("sign-online", { name: typedName, drawing, accept: true, declarationId: caseData.declarationId });
       onSigned(await api.getCase());
+      if (posthogConfigured) posthog.capture("kyc_qf_signed", { method: "online" });
       window.scrollTo({ top: 0 });
     } catch (e) {
       if (e instanceof ApiError && (e.status === 401 || e.status === 410)) return onFatal(e);
@@ -1077,6 +1093,7 @@ function SigningView({
     try {
       await api.caseAction("signed");
       onSigned(await api.getCase());
+      if (posthogConfigured) posthog.capture("kyc_qf_signed", { method: "paper" });
       window.scrollTo({ top: 0 });
     } catch (e) {
       const c = code(e);

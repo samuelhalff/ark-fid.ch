@@ -14,6 +14,11 @@ const ARTICLE_CONSOLIDATIONS_2026_10 = [
   ["mise-en-place-ou-amelioration-du-controle-des-proces-verbaux-et-assemblees-generales-en-pme-geneve-2025-solutions-pratiques", "proces-verbal-assemblee-generale-obligations-redaction-suisse-2025"],
 ];
 const ARTICLE_PREFIX = "/:locale/ressources/articles/";
+const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST;
+const posthogAssetsHost = posthogHost?.replace(
+  ".i.posthog.com",
+  "-assets.i.posthog.com",
+);
 const consolidationRedirects = (pairs) =>
   pairs.flatMap(([source, target]) =>
     [`${ARTICLE_PREFIX}${source}/`, `${ARTICLE_PREFIX}${source}`].map((from) => ({
@@ -671,6 +676,22 @@ const baseConfig = {
   async rewrites() {
     // Map localized French slugs to existing English-slug routes for rendering
     return [
+      ...(posthogHost
+        ? [
+            {
+              source: "/ingest/static/:path*",
+              destination: `${posthogAssetsHost}/static/:path*`,
+            },
+            {
+              source: "/ingest/array/:path*",
+              destination: `${posthogAssetsHost}/array/:path*`,
+            },
+            {
+              source: "/ingest/:path*",
+              destination: `${posthogHost}/:path*`,
+            },
+          ]
+        : []),
       {
         source: "/fr/services/comptabilite",
         destination: "/fr/services/accounting",

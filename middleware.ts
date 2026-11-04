@@ -132,6 +132,7 @@ export function middleware(request: NextRequest) {
           `style-src 'self' 'unsafe-inline'`,
           `font-src 'self' data:`,
           `connect-src 'self' https: https://vitals.vercel-analytics.com https://api.formspark.io`,
+          `worker-src 'self' blob:`,
           // Allow embedding Google Maps iframe & required map tiles/images
           `frame-src 'self' https://www.google.com https://maps.google.com https://maps.gstatic.com https://challenges.cloudflare.com`,
           // Some map assets & JS served from these
@@ -150,6 +151,7 @@ export function middleware(request: NextRequest) {
           `font-src 'self' data:`,
           // Allow HMR/WebSocket in dev
           `connect-src 'self' http: https: ws: wss: https://vitals.vercel-analytics.com`,
+          `worker-src 'self' blob:`,
           `frame-src 'self' https://www.google.com https://maps.google.com https://maps.gstatic.com https://challenges.cloudflare.com`,
           `frame-ancestors 'self'`,
           `base-uri 'self'`,

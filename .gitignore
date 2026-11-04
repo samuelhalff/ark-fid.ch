@@ -40,3 +40,4 @@ scripts/seo-suggest-latest.json
 tmp/
 .refresh-run.json
 .refresh-logs/
+.env

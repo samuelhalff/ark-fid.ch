@@ -33,6 +33,7 @@ const fs = require("fs");
 const path = require("path");
 const { translateLabels } = require("./translate-reference-labels");
 const { isDataReportArticle } = require("./lib/articleTopicGuardrails");
+const { captureAiGeneration, createAiTraceId } = require("./lib/posthogAi");
 
 const args = new Set(process.argv.slice(2).filter(a => !a.includes('=')));
 const getArg = (k, d) => {
@@ -121,6 +122,8 @@ function extractJson(raw) {
 }
 
 async function azureChatJson(prompt) {
+  const traceId = createAiTraceId();
+  const startedAt = Date.now();
   if (!AZURE.endpoint || !AZURE.apiKey) {
     throw new Error("Missing Azure OpenAI endpoint or API key");
   }
@@ -153,6 +156,18 @@ async function azureChatJson(prompt) {
         const parsed = JSON.parse(text);
         const content = parsed?.choices?.[0]?.message?.content;
         if (!content) throw new Error("Azure OpenAI returned no content.");
+        await captureAiGeneration({
+          traceId,
+          spanName: "azure_openai_article_translation",
+          model: AZURE.deployment,
+          input: body.messages,
+          output: content,
+          usage: parsed?.usage,
+          latencyMs: Date.now() - startedAt,
+          httpStatus: res.status,
+          requestUrl: url,
+          temperature: body.temperature,
+        });
         return extractJson(content);
       } catch (e) {
         if (attempt < maxAttempts) {
