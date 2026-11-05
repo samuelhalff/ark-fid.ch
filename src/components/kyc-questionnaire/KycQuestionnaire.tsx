@@ -1141,6 +1141,10 @@ function SigningView({
         {caseData.declarationId ? <p className="text-sm font-medium">{UI.reference[locale].replace("{ref}", caseData.declarationId)}</p> : null}
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
+        <section aria-labelledby="kyc-declaration" className="rounded-md border p-4">
+          <h3 id="kyc-declaration" className="text-sm font-semibold">{UI.clientDeclaration.title[locale]}</h3>
+          <p className="mt-1 whitespace-pre-line text-sm text-muted-foreground">{UI.clientDeclaration.body[locale]}</p>
+        </section>
         {signing && signing.online && (signing.signers.length > 1 || !isContact) ? (
           <section className="flex flex-col gap-2" aria-labelledby="kyc-signers">
             <h3 id="kyc-signers" className="text-base font-semibold">

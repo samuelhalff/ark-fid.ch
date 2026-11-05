@@ -124,6 +124,13 @@ export const UI = {
     "Je confirme avoir relu le formulaire, que les informations sont exactes et complètes, et j'accepte les déclarations qu'il contient. Mon nom et ma signature tracée ci-dessous valent signature du formulaire.",
     "I confirm that I have read the form, that the information is accurate and complete, and I accept its declarations. My name and the signature I draw below sign this form.",
   ),
+  clientDeclaration: {
+    title: t("Déclaration et engagement du client", "Declaration and undertaking by the client"),
+    body: t(
+      "Je soussigné(e), agissant en mon nom propre ou en qualité de représentant(e) dûment habilité(e) de l'entité concernée, confirme que les informations communiquées dans le présent questionnaire, y compris celles préremplies par Ark Fiduciaire SA, sont, à ma connaissance, exactes, complètes et à jour.\n\nJe confirme notamment l'exactitude des informations relatives aux activités de l'entité, à sa structure de propriété et de contrôle ainsi qu'à ses ayants droit économiques.\n\nJe m'engage à informer spontanément Ark Fiduciaire SA, sans délai, de toute modification pertinente de ces informations pendant la durée de notre relation, notamment en cas de changement d'ayant droit économique, d'actionnariat ou de contrôle, de représentant ou de pouvoir de signature, d'activité, de structure ou de situation susceptible d'influencer les obligations de diligence d'Ark Fiduciaire SA.",
+      "I, the undersigned, acting in my own name or as the duly authorised representative of the entity concerned, confirm that the information provided in this questionnaire, including the information pre-filled by Ark Fiduciaire SA, is, to the best of my knowledge, accurate, complete and up to date.\n\nI confirm in particular the accuracy of the information relating to the entity's activities, its ownership and control structure and its beneficial owners.\n\nI undertake to inform Ark Fiduciaire SA spontaneously and without delay of any relevant change to this information during our relationship, in particular any change of beneficial owner, shareholding or control, of representative or signing authority, of activity, of structure or of any situation likely to affect Ark Fiduciaire SA's due diligence obligations.",
+    ),
+  },
   onlineName: t("Signataire : tapez « {name} »", "Signatory: type “{name}”"),
   onlineDraw: t("Tracez votre signature avec le doigt, la souris ou un stylet", "Draw your signature with a finger, mouse or pen"),
   onlineClear: t("Effacer la signature", "Clear signature"),
