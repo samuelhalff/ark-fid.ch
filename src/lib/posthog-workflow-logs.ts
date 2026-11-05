@@ -1,6 +1,8 @@
 import { SeverityNumber } from "@opentelemetry/api-logs";
 import { after } from "next/server";
-import { posthogLoggerProvider, posthogWorkflowLogger } from "@/instrumentation";
+import { posthogLogsProvider } from "@/instrumentation";
+
+const posthogWorkflowLogger = posthogLogsProvider?.getLogger("posthog-questionnaire-workflows");
 
 type WorkflowLog = {
   workflow: "kyc_questionnaire";
@@ -12,7 +14,8 @@ type WorkflowLog = {
 
 /** Emits only PostHog-owned, bounded workflow outcomes; existing application logs stay local. */
 export function logQuestionnaireWorkflow(record: WorkflowLog) {
-  if (!posthogWorkflowLogger || !posthogLoggerProvider) return;
+  const provider = posthogLogsProvider;
+  if (!posthogWorkflowLogger || !provider) return;
 
   posthogWorkflowLogger.emit({
     body: "KYC questionnaire workflow completed",
@@ -20,6 +23,6 @@ export function logQuestionnaireWorkflow(record: WorkflowLog) {
     attributes: record,
   });
   after(async () => {
-    await posthogLoggerProvider.forceFlush();
+    await provider.forceFlush();
   });
 }
