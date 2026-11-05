@@ -43,6 +43,7 @@ const {
   validateArticleTopicAgainstAvailable,
 } = require("./lib/topicSelector");
 const { buildAzureOpenAIChatBody } = require("./lib/azureOpenAIChatOptions");
+const { captureAiGeneration, createAiTraceId } = require("./lib/posthogAi");
 const {
   buildEditorialRules,
   buildRefreshResearchPrompt,
@@ -1418,6 +1419,8 @@ function buildDraftAppendPromptFromExistingArticle(
 }
 
 async function azureOpenAIJson(prompt, options = {}) {
+  const traceId = createAiTraceId();
+  const startedAt = Date.now();
   const {
     endpoint = AZURE_OPENAI_ENDPOINT,
     deployment = AZURE_OPENAI_DEPLOYMENT,
@@ -1501,6 +1504,19 @@ async function azureOpenAIJson(prompt, options = {}) {
       }
       const content = parsed?.choices?.[0]?.message?.content;
       if (!content) throw new Error("Azure OpenAI returned no content.");
+      await captureAiGeneration({
+        traceId,
+        spanName: "azure_openai_chat_completion",
+        model: deployment,
+        input: body.messages,
+        output: content,
+        usage: parsed?.usage,
+        latencyMs: Date.now() - startedAt,
+        httpStatus: res.status,
+        requestUrl: url,
+        temperature,
+        maxTokens,
+      });
       return extractJsonFromText(content);
     }
     const retryable = [408, 429, 500, 502, 503, 504];
@@ -1616,6 +1632,8 @@ async function resolveAgentId(agentsClient, agentNameOrId) {
  * @returns {Promise<Object>} Parsed JSON response
  */
 async function azureAgentJson(prompt, { agentId = AZURE_AGENT_NAME } = {}) {
+  const traceId = createAiTraceId();
+  const startedAt = Date.now();
   if (!AZURE_AGENT_ENDPOINT) throw new Error("Missing AZURE_AGENT_ENDPOINT");
   if (!agentId) throw new Error("Missing AZURE_AGENT_NAME");
 
@@ -1688,6 +1706,16 @@ async function azureAgentJson(prompt, { agentId = AZURE_AGENT_NAME } = {}) {
   if (!lastAssistantText) {
     throw new Error("Azure Agent returned no assistant text content");
   }
+  await captureAiGeneration({
+    traceId,
+    spanName: "azure_ai_foundry_agent_run",
+    model: run?.model || agentId,
+    input: [{ role: "user", content: prompt }],
+    output: lastAssistantText,
+    usage: run?.usage,
+    latencyMs: Date.now() - startedAt,
+    requestUrl: AZURE_AGENT_ENDPOINT,
+  });
   return extractJsonFromText(lastAssistantText);
 }
 
@@ -1703,6 +1731,8 @@ async function azureAgentResponsesApi(
   prompt,
   { agentName = AZURE_AGENT_NAME } = {},
 ) {
+  const traceId = createAiTraceId();
+  const startedAt = Date.now();
   if (!AZURE_AGENT_ENDPOINT) throw new Error("Missing AZURE_AGENT_ENDPOINT");
   if (!agentName) throw new Error("Missing AZURE_AGENT_NAME");
 
@@ -1865,6 +1895,17 @@ async function azureAgentResponsesApi(
     throw new Error("Responses API returned no output text");
   }
 
+  await captureAiGeneration({
+    traceId,
+    spanName: "azure_ai_foundry_responses_api",
+    model: response.model || agentRef.name,
+    input: [{ role: "user", content: prompt }],
+    output: outputText,
+    usage: response.usage,
+    latencyMs: Date.now() - startedAt,
+    requestUrl: `${baseURL}/responses`,
+    maxTokens: AZURE_AGENT_RESPONSES_MAX_OUTPUT_TOKENS || undefined,
+  });
   return extractJsonFromText(outputText);
 }
 

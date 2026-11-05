@@ -1286,3 +1286,36 @@ async function removeSuspicious(record: CaseRecord, rev: RevisionRecord): Promis
   }
   return suspicious;
 }
+
+/**
+ * A read-only preview of what the client will see for a route and prefill, before
+ * any case exists. Same engine as the real form: `visibleSteps` + `documentsFor`
+ * over the pruned answers, so Cadence never keeps a second questionnaire engine.
+ */
+export function previewForm(route: string, prefill: Record<string, unknown> | null) {
+  const current = pruneHidden({ ...(prefill || {}), route });
+  const declaration = declarations(current);
+  const declarationText = {
+    fr: [declaration.intro.fr, ...declaration.items.map((item) => item.fr), declaration.closing.fr].join("\n\n"),
+    en: [declaration.intro.en, ...declaration.items.map((item) => item.en), declaration.closing.en].join("\n\n"),
+  };
+  const pages = visibleSteps(current).map((step) => {
+    const missing = Object.keys(validateStep(step, current));
+    return {
+      id: step.id, section: step.section || null, title: step.title, intro: step.intro,
+      fieldIds: step.blocks.filter((block) =>
+        (block.kind === "field" || block.kind === "group") && isBlockVisible(block, current)
+      ).map((block) => block.id).filter((id) => id !== "route"),
+      missingFieldIds: [...new Set(missing.map((id) => id.split("[")[0]))],
+      parts: step.blocks.filter((block) => isBlockVisible(block, current) && block.id !== "route")
+        .map((block) => ({ kind: block.kind, id: block.id,
+          ...(block.kind === "heading" ? { text: block.label }
+            : block.kind === "note" ? { text: block.id === "i.declarations" ? declarationText : block.text }
+              : block.help ? { text: block.help } : {}) })),
+    };
+  });
+  const documentItems = documentsFor(current).map((item) => ({
+    key: item.key, label: item.label, required: item.required, declared: null as null, files: [] as { name: string; webUrl: string }[], unavailable: false,
+  }));
+  return { pages, documentItems };
+}

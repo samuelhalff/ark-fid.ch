@@ -1,6 +1,17 @@
 "use client";
 
+import posthog from "posthog-js";
 import { gaClientIdFromCookies, readConsentChoice } from "@/src/lib/consent-mode";
+
+const posthogConfigured = Boolean(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN && process.env.NEXT_PUBLIC_POSTHOG_HOST);
+const posthogEvents = new Set([
+  "agent_first_message",
+  "contact_form_start",
+  "form_submit_error",
+  "generate_lead",
+  "tax_qf_step_complete",
+  "tax_qf_submit",
+]);
 
 /**
  * Safe GA4 event helper.
@@ -22,6 +33,7 @@ export function trackEvent(name: string, params?: AnalyticsParams) {
   }
   try {
     if (typeof window === "undefined") return;
+    if (posthogConfigured && posthogEvents.has(name)) posthog.capture(name, params);
     const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
     if (typeof gtag !== "function") return;
     gtag("event", name, { transport_type: "beacon", ...params });

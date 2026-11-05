@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { captureAiGeneration, createAiTraceId } = require("./lib/posthogAi");
 
 const args = new Set(process.argv.slice(2));
 const APPLY = args.has("--apply");
@@ -114,6 +115,8 @@ function detectIndent(content) {
 }
 
 async function azureChatJson(prompt, locale) {
+  const traceId = createAiTraceId();
+  const startedAt = Date.now();
   if (!AZURE_OPENAI_ENDPOINT || !AZURE_OPENAI_API_KEY) {
     throw new Error("Missing AZURE_OPENAI_ENDPOINT or AZURE_OPENAI_API_KEY");
   }
@@ -155,6 +158,22 @@ async function azureChatJson(prompt, locale) {
   const data = await res.json();
   const content = data?.choices?.[0]?.message?.content;
   if (!content) throw new Error("Missing response content");
+  await captureAiGeneration({
+    traceId,
+    spanName: "azure_openai_service_seo_update",
+    model: AZURE_OPENAI_DEPLOYMENT,
+    input: [
+      { role: "system", content: system },
+      { role: "user", content: user },
+    ],
+    output: content,
+    usage: data?.usage,
+    latencyMs: Date.now() - startedAt,
+    httpStatus: res.status,
+    requestUrl: url,
+    temperature: 0.3,
+    maxTokens: 700,
+  });
   return JSON.parse(content);
 }
 

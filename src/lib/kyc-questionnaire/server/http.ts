@@ -5,6 +5,7 @@ import { readCookie, readSession } from "./access";
 import { ALLOWED_ORIGINS, extraOrigins, isProd, tokenSecret } from "./config";
 import { KycError, type Session } from "./service";
 import { verifyStaffRequest } from "./signature";
+import { logQuestionnaireWorkflow } from "@/src/lib/posthog-workflow-logs";
 
 /** HTTP plumbing of /api/kyc-questionnaire/*. No request content is logged. */
 
@@ -18,8 +19,12 @@ export function originAllowed(request: Request): boolean {
 }
 
 export function errorResponse(error: unknown, route: string): NextResponse {
-  if (error instanceof KycError) return json({ error: error.code, ...(error.detail || {}) }, error.status);
+  if (error instanceof KycError) {
+    logQuestionnaireWorkflow({ workflow: "kyc_questionnaire", route, outcome: "failed", status_code: error.status, error_code: error.code });
+    return json({ error: error.code, ...(error.detail || {}) }, error.status);
+  }
   console.error(`[kyc-qf] ${route} failed`, error instanceof StorageError ? error.message : error instanceof Error ? error.name : "");
+  logQuestionnaireWorkflow({ workflow: "kyc_questionnaire", route, outcome: "failed", status_code: 502, error_code: "storage_unavailable" });
   return json({ error: "storage_unavailable" }, 502);
 }
 
@@ -67,7 +72,9 @@ export async function clientRoute(
       const perSession = limited(`${options.name}:session`, session.caseId, options.perIp * 2);
       if (perSession) return perSession;
     }
-    return await handler({ body, ip, session });
+    const response = await handler({ body, ip, session });
+    logQuestionnaireWorkflow({ workflow: "kyc_questionnaire", route: options.name, outcome: "completed", status_code: response.status });
+    return response;
   } catch (error) {
     return errorResponse(error, options.name);
   }
@@ -86,7 +93,9 @@ export async function staffRoute(request: Request, handler: (ctx: StaffContext) 
   const verified = await verifyStaffRequest(request);
   if (!verified.ok) return json({ error: verified.error, ...(verified.reason ? { reason: verified.reason } : {}) }, verified.status);
   try {
-    return await handler(verified);
+    const response = await handler(verified);
+    logQuestionnaireWorkflow({ workflow: "kyc_questionnaire", route: "staff", outcome: "completed", status_code: response.status });
+    return response;
   } catch (error) {
     return errorResponse(error, "staff");
   }

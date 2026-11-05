@@ -18,6 +18,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { captureAiGeneration, createAiTraceId } = require("./lib/posthogAi");
 
 const args = process.argv.slice(2);
 const flag = (name) => args.includes(name);
@@ -78,30 +79,47 @@ function buildUrl() {
 }
 
 async function fixCasing(text, locale, attempt = 1) {
+  const traceId = createAiTraceId();
+  const startedAt = Date.now();
+  const messages = [
+    {
+      role: "system",
+      content:
+        `Tu corriges UNIQUEMENT la casse (majuscules/minuscules) d'un texte en ${LANG_NAMES[locale]}. ` +
+        "Ne corrige que les erreurs manifestes (phrase commençant par une minuscule, nom propre/acronyme en minuscules). " +
+        LANG_RULES[locale] +
+        " INTERDIT de changer quoi que ce soit d'autre: aucun mot, aucun signe, aucun espace, aucune ponctuation, aucun retour à la ligne. " +
+        "Si la casse est déjà correcte, renvoie le texte tel quel. Réponds avec le texte corrigé, rien d'autre." +
+        (attempt > 1 ? " ATTENTION: ta réponse précédente a modifié autre chose que la casse. Recommence en ne touchant STRICTEMENT qu'aux majuscules/minuscules." : ""),
+    },
+    { role: "user", content: text },
+  ];
   const res = await fetch(buildUrl(), {
     method: "POST",
     headers: { "Content-Type": "application/json", "api-key": API_KEY },
     body: JSON.stringify({
-      messages: [
-        {
-          role: "system",
-          content:
-            `Tu corriges UNIQUEMENT la casse (majuscules/minuscules) d'un texte en ${LANG_NAMES[locale]}. ` +
-            "Ne corrige que les erreurs manifestes (phrase commençant par une minuscule, nom propre/acronyme en minuscules). " +
-            LANG_RULES[locale] +
-            " INTERDIT de changer quoi que ce soit d'autre: aucun mot, aucun signe, aucun espace, aucune ponctuation, aucun retour à la ligne. " +
-            "Si la casse est déjà correcte, renvoie le texte tel quel. Réponds avec le texte corrigé, rien d'autre." +
-            (attempt > 1 ? " ATTENTION: ta réponse précédente a modifié autre chose que la casse. Recommence en ne touchant STRICTEMENT qu'aux majuscules/minuscules." : ""),
-        },
-        { role: "user", content: text },
-      ],
+      messages,
       temperature: 0,
       max_tokens: 8000,
     }),
   });
   if (!res.ok) throw new Error(`Azure OpenAI HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`);
   const data = await res.json();
-  return (data.choices?.[0]?.message?.content ?? "").replace(/^```[a-z]*\n?|\n?```$/g, "");
+  const content = data.choices?.[0]?.message?.content ?? "";
+  await captureAiGeneration({
+    traceId,
+    spanName: "azure_openai_article_casing_repair",
+    model: DEPLOYMENT,
+    input: messages,
+    output: content,
+    usage: data?.usage,
+    latencyMs: Date.now() - startedAt,
+    httpStatus: res.status,
+    requestUrl: buildUrl(),
+    temperature: 0,
+    maxTokens: 8000,
+  });
+  return content.replace(/^```[a-z]*\n?|\n?```$/g, "");
 }
 
 // The hard invariant: only letter case may differ.
