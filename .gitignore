@@ -32,6 +32,8 @@ litellm_config.yaml
 .DS_Store
 .vscode
 .idea
+# Claude Code / agent tooling (skills, worktrees, settings) — never commit to the public repo
+.claude
 dev.log
 quick-deploy.tar.gz
 *.out
@@ -40,3 +42,4 @@ scripts/seo-suggest-latest.json
 tmp/
 .refresh-run.json
 .refresh-logs/
+.env
