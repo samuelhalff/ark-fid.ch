@@ -38,13 +38,17 @@ sign. Ark then reopens the case with the right route.
      person, duplicates refused); a sole signatory with no address signs at the case address.
      Online is offered when every signatory has an address and a printable name. Each signs in
      their own session opened with one code sent to their own address (never a second code):
-     tick the confirmation, type their name (compared without case, accents or word order). The
+     tick the confirmation, type their name (compared without case, accents or word order), and
+     draw their signature with a finger, mouse or pen. The server rejects an empty drawing and
+     stores the checked PNG with that signer's evidence. The
      app e-mails each signatory other than the contact a request with a link bound to their
      address (fixed wording, from `info@ark-fid.ch`); they may also request a code at
      kyc.ark-fid.ch. A signatory's session only reads the PDF and signs (no answers, documents
      or scans). Each signature is saved at once; when the last one signs, the PDF gets a page
-     listing every signatory (declared name, name typed, code address, Swiss time, SHA-256 of the
-     PDF and of the JSON) and is filed in `Signé/` as `… - R<n> - signé en ligne.pdf`. Once
+     listing every signatory (declared name, name typed, drawn signature, code address, Swiss
+     time, SHA-256 of the PDF and of the JSON) and is filed in `Signé/` as
+     `… - R<n> - signé en ligne.pdf`. The PDF to sign points to the final signature page, so it
+     does not show an unexplained blank signature line. Older signed PDFs stay unchanged. Once
      someone has signed online, the paper path is closed; a scan already uploaded blocks online
      until it is deleted;
    - **on paper**: the contact downloads the PDF, has it signed, uploads the scan (several files

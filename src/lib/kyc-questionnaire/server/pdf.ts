@@ -39,6 +39,7 @@ const TEXT = {
   name: { fr: "Nom, prénom et fonction", en: "Name, first name and position" },
   namePp: { fr: "Nom et prénom", en: "Name and first name" },
   signature: { fr: "Signature", en: "Signature" },
+  onlineSignature: { fr: "Signature en ligne : voir la dernière page", en: "Online signature: see the final page" },
   instructions: {
     fr: "Merci de vérifier et de signer ce document, puis d'en déposer sur kyc.ark-fid.ch une copie numérisée ou une photo lisible de toutes les pages.",
     en: "Please check and sign this document, then upload a legible scanned copy or photograph of every page to kyc.ark-fid.ch.",
@@ -50,11 +51,12 @@ const TEXT = {
   online: {
     title: { fr: "Signature en ligne", en: "Online signature" },
     intro: {
-      fr: "Le présent formulaire a été signé en ligne sur kyc.ark-fid.ch. Chaque signataire ci-dessous l'a signé dans sa propre session, ouverte avec un code à usage unique envoyé à l'adresse e-mail indiquée ; dans cette session, les déclarations du formulaire ont été confirmées et le nom du signataire déclaré a été saisi en guise de signature. Il ne s'agit pas d'une signature électronique qualifiée.",
-      en: "This form was signed online at kyc.ark-fid.ch. Each signatory below signed it in their own session, opened with a one-time code sent to the e-mail address shown; in that session, the declarations of the form were confirmed and the name of the declared signatory was typed as the signature. This is not a qualified electronic signature.",
+      fr: "Le présent formulaire a été signé en ligne sur kyc.ark-fid.ch. Chaque signataire ci-dessous a utilisé sa propre session, ouverte avec un code envoyé à son adresse e-mail, puis a confirmé les déclarations et saisi son nom. Son tracé manuscrit figure ci-dessous lorsqu'il a été recueilli. Il ne s'agit pas d'une signature électronique qualifiée.",
+      en: "This form was signed online at kyc.ark-fid.ch. Each signatory below used their own session, opened with a code sent to their e-mail address, then confirmed the declarations and typed their name. Their drawn signature appears below when one was captured. This is not a qualified electronic signature.",
     },
     signer: { fr: "Signataire déclaré", en: "Declared signatory" },
     typed: { fr: "Nom saisi", en: "Name typed" },
+    drawn: { fr: "Signature tracée", en: "Drawn signature" },
     email: { fr: "Adresse e-mail du code", en: "E-mail address of the code" },
     byArk: { fr: " (adresse indiquée par Ark)", en: " (address given by Ark)" },
     at: { fr: "Date et heure (Suisse)", en: "Date and time (Swiss time)" },
@@ -217,10 +219,14 @@ export async function buildKycPdf(record: SubmissionRecord, declarationId: strin
   w.text(`${TEXT.place[L]} : ${String(a["i.place"] || "")}, ____________________`, { gap: 18 });
   for (const signer of signers) {
     w.ensure(70);
-    w.text(`${isPM(a) ? TEXT.name[L] : TEXT.namePp[L]} : ${signer}`, { gap: 30 });
-    w.rule(MARGIN, MARGIN + 240);
-    w.y -= 4;
-    w.text(TEXT.signature[L], { size: 8.5, color: GREY, gap: 16 });
+    w.text(`${isPM(a) ? TEXT.name[L] : TEXT.namePp[L]} : ${signer}`, { gap: options.online ? 4 : 30 });
+    if (options.online) {
+      w.text(TEXT.onlineSignature[L], { size: 8.5, color: GREY, gap: 35 });
+    } else {
+      w.rule(MARGIN, MARGIN + 240);
+      w.y -= 4;
+      w.text(TEXT.signature[L], { size: 8.5, color: GREY, gap: 16 });
+    }
   }
 
   // Footer with the reference on every page.
@@ -242,7 +248,7 @@ export async function appendOnlineSignatures(
   info: {
     language: KycLocale;
     declarationId: string;
-    signers: { name: string; typed: string; email: string; at: string; byArk?: boolean }[];
+    signers: { name: string; typed: string; email: string; at: string; drawnPng?: string; byArk?: boolean }[];
     pdfSha256: string;
     jsonSha256: string;
   },
@@ -260,7 +266,16 @@ export async function appendOnlineSignatures(
     w.pair(T.typed[L], signer.typed);
     w.pair(T.email[L], signer.email + (signer.byArk ? T.byArk[L] : ""));
     w.pair(T.at[L], swissDate(signer.at));
-    w.y -= 8;
+    if (signer.drawnPng) {
+      const image = await doc.embedPng(Buffer.from(signer.drawnPng, "base64"));
+      const size = image.scaleToFit(300, 90);
+      w.ensure(size.height + 24);
+      w.text(T.drawn[L], { size: 8.5, color: GREY, gap: 2 });
+      w.page.drawImage(image, { x: MARGIN, y: w.y - size.height, width: size.width, height: size.height });
+      w.y -= size.height + 10;
+    } else {
+      w.y -= 8;
+    }
   }
   w.pair(TEXT.ref[L], info.declarationId);
   w.pair(T.pdf[L], info.pdfSha256);
