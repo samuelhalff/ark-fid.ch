@@ -27,7 +27,7 @@ sshpass -p "$DEPLOY_SSH_PASSWORD" ssh -p "$DEPLOY_SSH_PORT" -o StrictHostKeyChec
   # Verify artifact exists on server
   if [ ! -f \$ARTIFACT ]; then
     echo '❌ Artifact not found on server at \$ARTIFACT'
-    echo 'Run ./quick-deploy.sh first to upload a build'
+    echo 'Run ./scripts/quick-deploy.sh first to upload a build'
     exit 1
   fi
   

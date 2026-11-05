@@ -190,22 +190,22 @@ chmod +x /srv/customer/sites/ark-fid.ch/shared/start-server.sh
 
 ## Local Deploy Scripts
 
-### `quick-deploy.sh`
+### `scripts/quick-deploy.sh`
 
 Fast deploy from existing `npm run build` output (no rebuild)
 
 ```bash
-./quick-deploy.sh
+./scripts/quick-deploy.sh
 ```
 
 **Requires:** `.env` with `DEPLOY_SSH_*` credentials
 
-### `manual-deploy.sh`
+### `scripts/manual-deploy.sh`
 
 Full rebuild + deploy from local machine
 
 ```bash
-./manual-deploy.sh
+./scripts/manual-deploy.sh
 ```
 
 ### `check-server.sh`

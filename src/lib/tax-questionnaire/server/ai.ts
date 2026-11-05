@@ -1,5 +1,5 @@
 /**
- * AI assistance (DECISIONS.md §F), built but OFF unless TAX_QF_AI_ENABLED=1 and the client opted in.
+ * AI assistance (docs/DECISIONS.md §F), built but OFF unless TAX_QF_AI_ENABLED=1 and the client opted in.
  *
  * Three stateless chat-completions calls (no tools, no conversation state, structured JSON output):
  *  (i)   help    – explains what a question means and which document answers it (no advice, no figures);
