@@ -11,12 +11,13 @@ type PostHogLog = {
 const logger = posthogLogsProvider?.getLogger("posthog-wizard");
 
 export function emitPostHogLog({ body, severityNumber, attributes }: PostHogLog) {
-  if (!logger || !posthogLogsProvider) return;
+  const provider = posthogLogsProvider;
+  if (!logger || !provider) return;
 
   logger.emit({ body, severityNumber, attributes });
   after(async () => {
     try {
-      await posthogLogsProvider.forceFlush();
+      await provider.forceFlush();
     } catch {
       // Log delivery must not change the route response.
     }
