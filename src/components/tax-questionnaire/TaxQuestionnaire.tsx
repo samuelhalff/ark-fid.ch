@@ -17,6 +17,7 @@ import { Progress } from "@/src/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/components/ui/select";
 import { Separator } from "@/src/components/ui/separator";
 import { Textarea } from "@/src/components/ui/textarea";
+import posthog from "posthog-js";
 import { trackEvent } from "@/src/lib/analytics";
 import { docCode } from "@/src/lib/tax-questionnaire/documents";
 import { checklistFor, displayValue, isBlockVisible, isRowFieldVisible, label as interpolate, pruneHidden, visibleSteps } from "@/src/lib/tax-questionnaire/logic";
@@ -100,6 +101,18 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
   const submitKey = useRef(newSubmitKey());
   const [justSubmitted, setJustSubmitted] = useState(false);
   const [aiSuggestions, setAiSuggestions] = useState<Record<string, string>>({});
+  const identifiedCaseId = useRef<string | null>(null);
+
+  const identifyCase = useCallback((data: CasePayload) => {
+    if (identifiedCaseId.current === data.caseId) return;
+    if (identifiedCaseId.current) posthog.reset();
+    posthog.identify(data.caseId, { email: data.email });
+    identifiedCaseId.current = data.caseId;
+  }, []);
+  const resetIdentity = useCallback(() => {
+    posthog.reset();
+    identifiedCaseId.current = null;
+  }, []);
 
   const stepRef = useRef<StepDef | null>(null);
   const resolver: Resolver<FormValues> = useCallback(
@@ -125,6 +138,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
   // ---- loading: magic link in the fragment, else an existing session ----------------------------
   const loadCase = useCallback(async () => {
     const data = await api.getCase();
+    identifyCase(data);
     setCaseData(data);
     if (data.draft) {
       form.reset(toForm({ ...defaultAnswers(), ...(data.draft.answers as Answers) }));
@@ -135,7 +149,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
     }
     setPhase(data.state === "submitted" ? "status" : "form");
     return data;
-  }, [form]);
+  }, [form, identifyCase]);
 
   useEffect(() => {
     void api.config().then(setConfig, () => undefined);
@@ -205,7 +219,10 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
           setSave({ state: "saved", at: res.savedAt });
         } catch (error) {
           setSave({ state: "failed" });
-          if (error instanceof ApiError && error.status === 401) setPhase("start");
+          if (error instanceof ApiError && error.status === 401) {
+            resetIdentity();
+            setPhase("start");
+          }
           savePending.current = false;
         }
       } while (savePending.current);
@@ -216,7 +233,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
     } finally {
       saving.current = null;
     }
-  }, [phase, caseData?.scope, docStatus, locale, aiOptIn, form]);
+  }, [phase, caseData?.scope, docStatus, locale, aiOptIn, form, resetIdentity]);
   useEffect(() => {
     if (phase !== "form") return;
     const timer = setTimeout(() => void saveNow(), 1500);
@@ -288,6 +305,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
     if (list.length) return fail(list);
     setIssues([]);
     trackEvent("tax_qf_step_complete", { step: step.id });
+    posthog.capture("tax_qf_step_complete", { step: step.id, locale });
     if (step.id === "router") {
       const flags = Object.fromEntries(routerItems(answers).slice(0, 24).map((item) => [`r_${item}`, true]));
       trackEvent("tax_qf_router", flags);
@@ -314,6 +332,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
       setChallenge(res.challenge || "");
       setEmailHint(res.emailHint || "");
       setCode("");
+      posthog.capture("tax_qf_access_started", { locale });
       setPhase("code");
     } catch (error) {
       setNotice({ tone: "error", text: err(error instanceof ApiError ? error.code : "generic", locale) });
@@ -328,6 +347,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
     try {
       await api.auth({ action: "verify", challenge, code, locale, answers: fromForm(form.getValues()) });
       const data = await loadCase();
+      posthog.capture("tax_qf_access_verified", { locale });
       if (data.state !== "submitted" && (!data.draft || data.draft.stepId === "start")) {
         const firstAfterStart = shownSteps(fromForm(form.getValues()))[1];
         if (firstAfterStart) setStepId(firstAfterStart.id);
@@ -364,6 +384,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
       await saveNow();
       await api.caseAction("submit", { answers: fromForm(form.getValues()), docStatus, locale, privacyAccepted: true, certified: true, aiOptIn, submitKey: submitKey.current });
       trackEvent("tax_qf_submit", { result: "ok", docs: checklist.length });
+      posthog.capture("tax_qf_submit", { result: "ok", document_count: checklist.length, locale });
       setJustSubmitted(true);
       submitKey.current = newSubmitKey();
       await loadCase();
@@ -371,6 +392,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
     } catch (error) {
       const codeName = error instanceof ApiError ? error.code : "generic";
       trackEvent("tax_qf_submit", { result: codeName });
+      posthog.capture("tax_qf_submit", { result: codeName, locale });
       if (codeName === "invalid_answers" && error instanceof ApiError && Array.isArray(error.detail.steps) && error.detail.steps[0]) goTo(String(error.detail.steps[0]));
       if (codeName === "documents_incomplete" && error instanceof ApiError && Array.isArray(error.detail.keys)) {
         const keys = new Set((error.detail.keys as unknown[]).map(String));
@@ -680,6 +702,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                       if (!window.confirm(UI.draftDeleteConfirm[locale])) return;
                       await api.caseAction("delete").catch(() => undefined);
                       await api.auth({ action: "logout" }).catch(() => undefined);
+                      resetIdentity();
                       form.reset(toForm(defaultAnswers()));
                       setCaseData(null);
                       setStepId("start");
@@ -691,6 +714,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                     <Button type="button" variant="ghost" size="sm" onClick={async () => {
                       await saveNow();
                       await api.auth({ action: "logout" }).catch(() => undefined);
+                      resetIdentity();
                       window.location.reload();
                     }}>
                       <SignOut className="size-4" />

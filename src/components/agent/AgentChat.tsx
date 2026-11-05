@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import posthog from "posthog-js";
 import { Input } from "@/src/components/ui/input";
 import { Textarea } from "@/src/components/ui/textarea";
 import { Button } from "@/src/components/ui/button";
@@ -644,6 +645,7 @@ export default function AgentChat({
       setLeadConfirmed(true);
       setConfirmedEmail(normalizedEmail);
       trackEvent("generate_lead", { method: "instant_quote", form_id: "agent_lead" });
+      posthog.capture("agent_lead_confirmed", { form_id: "agent_lead" });
       setLeadMeta({
         id: payload.leadId,
         token: payload.leadToken,
@@ -807,6 +809,9 @@ export default function AgentChat({
     };
     setMessages(nextMessages);
     setInput("");
+    posthog.capture("agent_message_sent", {
+      message_number: nextMessages.filter((message) => message.role === "user").length,
+    });
 
     try {
       const { pageUrl, referrer, utm, attribution } = getRequestContext();
@@ -883,6 +888,7 @@ export default function AgentChat({
       }
       if (!nextMessages.some((message) => message.role === "assistant")) {
         trackEvent("agent_first_message");
+        posthog.capture("agent_first_response");
       }
       setMessages((prev) => [
         ...prev,

@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
+import { emitPostHogLog, SeverityNumber } from "@/src/lib/posthog-logs";
 import { ClientSecretCredential } from "@azure/identity";
-import { createHash, randomBytes, timingSafeEqual } from "crypto";
+import { createHash, randomBytes, randomUUID, timingSafeEqual } from "crypto";
 import { promises as dns } from "dns";
+import {
+  captureAiGeneration,
+  getAiSessionId,
+  type AiChatMessage,
+} from "@/src/lib/ai/posthog";
 import {
   extractResponseText,
   getAzureCredentialFromEnv,
@@ -1125,31 +1131,85 @@ export async function POST(request: Request) {
       }
     }
 
+    const aiInput = buildConversationItems(payload, messages).map(
+      (message) => ({
+        role: message.role as AiChatMessage["role"],
+        content: message.content,
+      })
+    );
+    const aiSessionId = getAiSessionId("agent", payload.leadId || "");
+    const aiTraceId = randomUUID();
     const conversation = await postJson(
       `${baseUrl}/conversations?api-version=${apiVersion}`,
       authHeaders,
-      { items: buildConversationItems(payload, messages) },
+      { items: aiInput },
       timeoutMs
     );
 
-    const response = await postJson(
-      `${baseUrl}/responses?api-version=${apiVersion}`,
-      authHeaders,
-      {
-        conversation: conversation.id,
-        agent: agentRef,
-        safety_identifier: buildSafetyIdentifier(payload.email),
-        ...(Number.isFinite(maxOutputTokens) && maxOutputTokens > 0
-          ? { max_output_tokens: maxOutputTokens }
-          : {}),
-      },
-      timeoutMs
-    );
+    const responseStartedAt = Date.now();
+    let response: unknown;
+    try {
+      response = await postJson(
+        `${baseUrl}/responses?api-version=${apiVersion}`,
+        authHeaders,
+        {
+          conversation: conversation.id,
+          agent: agentRef,
+          safety_identifier: buildSafetyIdentifier(payload.email),
+          ...(Number.isFinite(maxOutputTokens) && maxOutputTokens > 0
+            ? { max_output_tokens: maxOutputTokens }
+            : {}),
+        },
+        timeoutMs
+      );
+    } catch (error) {
+      await captureAiGeneration({
+        distinctId: aiSessionId,
+        sessionId: aiSessionId,
+        traceId: aiTraceId,
+        spanName: "azure_foundry_agent_response",
+        input: aiInput,
+        latencyMs: Date.now() - responseStartedAt,
+        error,
+      });
+      throw error;
+    }
 
     const reply = extractResponseText(response);
     if (!reply) {
-      throw new Error("Empty response from agent");
+      const error = new Error("Empty response from agent");
+      await captureAiGeneration({
+        distinctId: aiSessionId,
+        sessionId: aiSessionId,
+        traceId: aiTraceId,
+        spanName: "azure_foundry_agent_response",
+        input: aiInput,
+        response,
+        latencyMs: Date.now() - responseStartedAt,
+        error,
+      });
+      throw error;
     }
+    const responseLatencyMs = Date.now() - responseStartedAt;
+    await captureAiGeneration({
+      distinctId: aiSessionId,
+      sessionId: aiSessionId,
+      traceId: aiTraceId,
+      spanName: "azure_foundry_agent_response",
+      input: aiInput,
+      output: reply,
+      response,
+      latencyMs: responseLatencyMs,
+    });
+    emitPostHogLog({
+      body: "Instant quote assistant response completed",
+      severityNumber: SeverityNumber.INFO,
+      attributes: {
+        event: "agent_response_completed",
+        route: "/api/agent/chat",
+        duration_ms: responseLatencyMs,
+      },
+    });
 
     // Log assistant reply (skip for internal users – no SharePoint record)
     if (!syntheticSession) {
@@ -1191,6 +1251,15 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     const status = (error as any)?.status;
+    emitPostHogLog({
+      body: "Instant quote assistant response failed",
+      severityNumber: SeverityNumber.ERROR,
+      attributes: {
+        event: "agent_response_failed",
+        route: "/api/agent/chat",
+        status_code: typeof status === "number" ? status : 500,
+      },
+    });
     if (DEBUG_VALIDATION) {
       console.warn("[agent] Agent request failed", error);
     }

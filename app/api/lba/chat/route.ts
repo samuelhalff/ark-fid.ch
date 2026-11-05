@@ -1,6 +1,12 @@
-import { createHash } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { promises as dns } from "node:dns";
 import { NextResponse } from "next/server";
+import { emitPostHogLog, SeverityNumber } from "@/src/lib/posthog-logs";
+import {
+  captureAiGeneration,
+  getAiSessionId,
+  type AiChatMessage,
+} from "@/src/lib/ai/posthog";
 import {
   extractResponseText,
   getAzureCredentialFromEnv,
@@ -323,24 +329,74 @@ export async function POST(request: Request) {
     }
 
     const base = `${endpoint}/openai`;
+    const aiInput: AiChatMessage[] = [
+      {
+        role: "system",
+        content: `Interface language of the page: ${locale}. Reply in the language of the user's last message; if unclear, use ${locale}.`,
+      },
+      ...messages,
+    ];
+    const aiSessionId = getAiSessionId("lba", sessionId);
+    const aiTraceId = randomUUID();
     const conversation = await postJson(`${base}/conversations?api-version=${apiVersion}`, authHeaders, {
-      items: [
-        {
-          type: "message",
-          role: "system",
-          content: `Interface language of the page: ${locale}. Reply in the language of the user's last message; if unclear, use ${locale}.`,
-        },
-        ...messages.map((message) => ({ type: "message", role: message.role, content: message.content })),
-      ],
+      items: aiInput.map((message) => ({ type: "message", ...message })),
     });
-    const response = await postJson(`${base}/responses?api-version=${apiVersion}`, authHeaders, {
-      conversation: conversation.id,
-      agent,
-      safety_identifier: createHash("sha256").update(`lba:${sessionId}`).digest("hex"),
-    });
+    const responseStartedAt = Date.now();
+    let response: unknown;
+    try {
+      response = await postJson(`${base}/responses?api-version=${apiVersion}`, authHeaders, {
+        conversation: conversation.id,
+        agent,
+        safety_identifier: createHash("sha256").update(`lba:${sessionId}`).digest("hex"),
+      });
+    } catch (error) {
+      await captureAiGeneration({
+        distinctId: aiSessionId,
+        sessionId: aiSessionId,
+        traceId: aiTraceId,
+        spanName: "azure_foundry_lba_response",
+        input: aiInput,
+        latencyMs: Date.now() - responseStartedAt,
+        error,
+      });
+      throw error;
+    }
 
     const reply = extractResponseText(response);
-    if (!reply) throw new Error("Empty response from agent");
+    if (!reply) {
+      const error = new Error("Empty response from agent");
+      await captureAiGeneration({
+        distinctId: aiSessionId,
+        sessionId: aiSessionId,
+        traceId: aiTraceId,
+        spanName: "azure_foundry_lba_response",
+        input: aiInput,
+        response,
+        latencyMs: Date.now() - responseStartedAt,
+        error,
+      });
+      throw error;
+    }
+    const responseLatencyMs = Date.now() - responseStartedAt;
+    await captureAiGeneration({
+      distinctId: aiSessionId,
+      sessionId: aiSessionId,
+      traceId: aiTraceId,
+      spanName: "azure_foundry_lba_response",
+      input: aiInput,
+      output: reply,
+      response,
+      latencyMs: responseLatencyMs,
+    });
+    emitPostHogLog({
+      body: "LBA assistant response completed",
+      severityNumber: SeverityNumber.INFO,
+      attributes: {
+        event: "lba_response_completed",
+        route: "/api/lba/chat",
+        duration_ms: responseLatencyMs,
+      },
+    });
     if (verified.leadId) {
       // Keeps the conversation on the lead in Odoo (best effort, never blocks the reply).
       void postOdooLeadNote(
@@ -351,6 +407,15 @@ export async function POST(request: Request) {
     return json({ reply: withDisclaimer(reply, locale), disclaimer: LBA_CHAT_DISCLAIMER[locale], session });
   } catch (error) {
     const status = (error as { status?: number })?.status;
+    emitPostHogLog({
+      body: "LBA assistant response failed",
+      severityNumber: SeverityNumber.ERROR,
+      attributes: {
+        event: "lba_response_failed",
+        route: "/api/lba/chat",
+        status_code: typeof status === "number" ? status : 502,
+      },
+    });
     console.error("[lba-chat] agent call failed", status || "", error instanceof Error ? error.message.slice(0, 200) : "");
     if (status === 429) return json({ error: "rate_limited", session }, 429, { "Retry-After": "30" });
     // Azure's content filter rejects some prompts (e.g. injection attempts) with a 400.

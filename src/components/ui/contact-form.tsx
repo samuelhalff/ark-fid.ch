@@ -1,6 +1,7 @@
 "use client";
 
 import { FC, useMemo } from "react";
+import posthog from "posthog-js";
 import { cn } from "@/src/lib/utils";
 import { getGaClientId, trackEvent } from "@/src/lib/analytics";
 import { currentPageUrl, getAttributionPayload } from "@/src/lib/attribution";
@@ -132,6 +133,7 @@ const ContactForm: FC<ContactFormProps> = ({
     if (formStartTracked.current) return;
     formStartTracked.current = true;
     trackEvent("contact_form_start", { form_id: "contact" });
+    posthog.capture("contact_form_started", { form_id: "contact" });
   };
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
@@ -161,6 +163,7 @@ const ContactForm: FC<ContactFormProps> = ({
         throw new Error("Network response was not ok");
       }
       trackEvent("generate_lead", { method: "contact_form", form_id: "contact" });
+      posthog.capture("contact_form_submitted", { form_id: "contact" });
       form.reset(defaultValues);
       toast.success(strings.toasts.success, {
         action: { label: "Close", onClick: () => toast.dismiss },
