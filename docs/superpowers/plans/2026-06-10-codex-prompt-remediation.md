@@ -100,11 +100,11 @@
 **Files:**
 - Inspect: `.github/workflows/*`
 - Modify workflow only if existing publication flow lacks IndexNow/sitemap ping.
-- Create: `CODEX-REPORT.md`
+- Create: `../../CODEX-REPORT.md`
 
 - [ ] Inspect IndexNow and sitemap ping scripts plus publication workflow.
 - [ ] Add publication ping step if workflow exists and is missing it.
 - [ ] Read `/api/agent/chat` and note whether request body length is bounded.
-- [ ] Write `CODEX-REPORT.md` with each task status and out-of-scope recommendations only.
+- [ ] Write `../../CODEX-REPORT.md` with each task status and out-of-scope recommendations only.
 - [ ] Run final validation: `npm run typecheck && npm run lint && npm run build && npm run validate:translations && npm run lint:metadata && npm run validate:topic-policy && npm run lint:links`.
 - [ ] Commit the report and any final workflow changes.

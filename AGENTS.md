@@ -16,7 +16,7 @@
 
 ## Internationalisation
 - Keep translation namespaces aligned between server and client utilities.
-- When adding new translation keys, update both the locale JSON files and the translation key index in `TRANSLATION-KEYS-FIX.md`.
+- When adding new translation keys, update both the locale JSON files and the translation key index in `docs/TRANSLATION-KEYS-FIX.md`.
 
 ## Documentation
 - Update relevant docs in the `docs/` directory when introducing build, deployment, or i18n changes.

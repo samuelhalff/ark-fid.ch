@@ -228,7 +228,7 @@ ssh user@host "rm -f /srv/customer/sites/ark-fid.ch/ark-fid.pid"
 
 ## Related Documentation
 
-- [DEPLOYMENT.md](../DEPLOYMENT.md) - Main deployment documentation
+- [DEPLOYMENT.md](./DEPLOYMENT.md) - Main deployment documentation
 - [CI Validation Guarantees](./ci-validation-guarantees.md) - CI/CD pipeline docs
 - GitHub Actions Workflow: `.github/workflows/build-and-deploy.yml`
 
