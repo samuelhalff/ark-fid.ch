@@ -55,6 +55,9 @@ jobs:
     timeout-minutes: 30
     env:
       NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
+      # Public client-side PostHog config (phc_ key is a public client key)
+      NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN: phc_mhiZkrv7cuKo6ZLETjQpVXJZcgm4W8jMVBfsEKTjELaE
+      NEXT_PUBLIC_POSTHOG_HOST: https://t.ark-fid.ch
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -158,6 +161,8 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         env:
           NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
+          NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN: phc_mhiZkrv7cuKo6ZLETjQpVXJZcgm4W8jMVBfsEKTjELaE
+          NEXT_PUBLIC_POSTHOG_HOST: https://t.ark-fid.ch
           TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
           AZURE_AGENT_CHAT_NAME: ${{ secrets.AZURE_AGENT_CHAT_NAME }}
           AZURE_AGENT_ENDPOINT: ${{ secrets.AZURE_AGENT_ENDPOINT }}
@@ -221,6 +226,8 @@ jobs:
           removable = ["TAX_QF_MAIL_TO", "TAX_QF_MAIL_CC"]
           keys = [
             "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
+            "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN",
+            "NEXT_PUBLIC_POSTHOG_HOST",
             "TURNSTILE_SECRET_KEY",
             "AZURE_AGENT_CHAT_NAME",
             "AZURE_AGENT_ENDPOINT",
