@@ -19,5 +19,8 @@
       "date": "2026-10-25",
       "reason": "step refresh: failure - ...n allowed reference domains) | [refs] Rejected: https://www.ch.ch/fr/democratie/organiser-vie-associative/assemblee-generale/ (unverifiable-spa: SPA domain cannot be verified over HTTP; not accepted for new references) | [refs] Rejected: https://www.vemoir.ch/fr/outils/modele-proces-verbal/assemblee-generale-sa (blocked-domain: Domain not in allowed reference domains) | refresh: proces-verbal-assemblee-generale-obligations-redaction-suisse-2025: refreshed article too short (1087 < 1200 words) (refresh: proces-verbal-assemblee-generale-obligations-redaction-suisse-2025: refreshed article too short (1087 < 1200 words))"
     }
-  ]
+  ],
+  "attempts": {
+    "liquidation-societe-suisse": 1
+  }
 }
