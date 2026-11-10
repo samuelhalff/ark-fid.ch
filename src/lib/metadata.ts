@@ -80,6 +80,10 @@ export async function getPageMetadata(
   customData?: {
     articleTitle?: string;
     articleDescription?: string;
+    /** Used verbatim as <title> when set (no brand suffix). */
+    articleMetaTitle?: string;
+    /** Used verbatim as meta description when set (no promo suffix). */
+    articleMetaDescription?: string;
     validLocales?: Locale[];
   }
 ): Promise<Metadata> {
@@ -99,6 +103,8 @@ export async function getPageMetadata(
   if (normalizedPath.startsWith("/ressources/articles/") && customData?.articleTitle) {
     title = config.dynamic.articles.titleTemplate.replace("{articleTitle}", customData.articleTitle);
     description = config.dynamic.articles.descriptionTemplate.replace("{articleDescription}", customData.articleDescription || "");
+    if (customData.articleMetaTitle) title = customData.articleMetaTitle;
+    if (customData.articleMetaDescription) description = customData.articleMetaDescription;
   }
   
   // Generate locale-aware URLs (all locales have prefix in our setup, but slugs may differ per locale)
@@ -241,7 +247,8 @@ export async function generateMetadataForArticle(
   slugOrTitle?: string,
   titleOrDescription?: string,
   description?: string,
-  validLocales?: Locale[]
+  validLocales?: Locale[],
+  seo?: { metaTitle?: string; metaDescription?: string }
 ): Promise<Metadata> {
   if (typeof localeOrSlug === 'string' && slugOrTitle && titleOrDescription && !description) {
     // Old signature: generateMetadataForArticle(slug, title, description)
@@ -255,6 +262,8 @@ export async function generateMetadataForArticle(
     return await getPageMetadata(localeOrSlug as Locale, `/ressources/articles/${slugOrTitle}`, {
       articleTitle: titleOrDescription,
       articleDescription: description,
+      articleMetaTitle: seo?.metaTitle,
+      articleMetaDescription: seo?.metaDescription,
       validLocales,
     });
   }

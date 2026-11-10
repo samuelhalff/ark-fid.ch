@@ -15,6 +15,12 @@ export type ResourceArticle = {
   slug: string;
   title: string;
   description?: string;
+  /** Optional SERP title (<= 60 chars). Replaces the branded template when set. */
+  metaTitle?: string;
+  /** Optional SERP description (<= 155 chars). Replaces the templated description when set. */
+  metaDescription?: string;
+  /** Emit FAQPage JSON-LD from the article's visible "## FAQ" section. */
+  faqSchema?: boolean;
   content?: string;
   date?: string;
   updated?: string;

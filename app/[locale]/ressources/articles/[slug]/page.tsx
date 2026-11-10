@@ -31,9 +31,11 @@ import {
   fallbackCategoryLabel,
   type ResourceCategoryLabels,
 } from "@/src/lib/resourceCategories";
+import { extractFaqFromContent } from "@/src/lib/articleFaq";
 import {
   buildArticleSchema,
   buildBreadcrumbList,
+  buildFAQPage,
   buildTeamPersonId,
   getArkServiceEntityId,
 } from "@/src/lib/structuredData";
@@ -364,6 +366,12 @@ export default async function ArticlePage(props: Params) {
     timeRequired: reading?.timeRequiredISO,
   });
 
+  // Opt-in per article (faqSchema: true): the FAQPage JSON-LD mirrors the visible FAQ.
+  const faqEntries = article.faqSchema
+    ? extractFaqFromContent(article.content ?? "")
+    : [];
+  const faqJsonLd = faqEntries.length >= 3 ? buildFAQPage(faqEntries) : null;
+
   return (
     <main className="max-w-3xl mx-auto px-5 py-12 mt-8 sm:px-8">
       <Defer rootMargin="300px" idle={200}>
@@ -382,6 +390,13 @@ export default async function ArticlePage(props: Params) {
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          nonce={nonce}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
       <Breadcrumbs
         className="mb-6"
         baseLabel={ressources.IntroShort || "Resources"}
@@ -680,7 +695,8 @@ export async function generateMetadata(props: Params) {
     article.slug,
     article.title,
     article.description,
-    validLocales
+    validLocales,
+    { metaTitle: article.metaTitle, metaDescription: article.metaDescription }
   );
   const robotsConfig: Record<string, unknown> =
     meta && typeof meta.robots === "object" && meta.robots !== null
