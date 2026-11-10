@@ -1,6 +1,5 @@
 {
   "queue": [
-    "liquidation-societe-suisse",
     "risques-faillite-administrateurs",
     "lba-aml-obligations-kyc-risques-fiduciaire-suisse",
     "guide-cotisations-sociales-employeurs-suisse-2026",
@@ -12,15 +11,17 @@
     "domiciliation-suisse-substance-risques-guide-2026",
     "creer-sarl-sa-geneve-criteres-capital-fiscalite-gouvernance-2026"
   ],
-  "done": [],
+  "done": [
+    {
+      "slug": "liquidation-societe-suisse",
+      "date": "2026-11-10"
+    }
+  ],
   "failed": [
     {
       "slug": "proces-verbal-assemblee-generale-obligations-redaction-suisse-2025",
       "date": "2026-10-25",
       "reason": "step refresh: failure - ...n allowed reference domains) | [refs] Rejected: https://www.ch.ch/fr/democratie/organiser-vie-associative/assemblee-generale/ (unverifiable-spa: SPA domain cannot be verified over HTTP; not accepted for new references) | [refs] Rejected: https://www.vemoir.ch/fr/outils/modele-proces-verbal/assemblee-generale-sa (blocked-domain: Domain not in allowed reference domains) | refresh: proces-verbal-assemblee-generale-obligations-redaction-suisse-2025: refreshed article too short (1087 < 1200 words) (refresh: proces-verbal-assemblee-generale-obligations-redaction-suisse-2025: refreshed article too short (1087 < 1200 words))"
     }
-  ],
-  "attempts": {
-    "liquidation-societe-suisse": 1
-  }
+  ]
 }
