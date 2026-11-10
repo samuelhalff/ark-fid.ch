@@ -87,6 +87,9 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   const [save, setSave] = useState<{ state: "idle" | "saving" | "saved" | "failed"; at?: string }>({ state: "idle" });
   // Access flow: the link token stays in memory only (removed from the URL at once).
   const token = useRef("");
+  const assistToken = useRef("");
+  const [assistOpen, setAssistOpen] = useState(false);
+  const [assistCode, setAssistCode] = useState("");
   const [challenge, setChallenge] = useState("");
   const [emailHint, setEmailHint] = useState("");
   const [otp, setOtp] = useState("");
@@ -219,6 +222,22 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   const start = useCallback(async () => {
     setPhase("loading");
     const l = storedLocale() || initialLocale;
+    // Ark staff link (single use): opens the form with its own session, no e-mail code.
+    if (assistToken.current) {
+      const found = assistToken.current;
+      assistToken.current = "";
+      await api.auth({ action: "logout" }).catch(() => undefined);
+      resetIdentity();
+      try {
+        await api.auth({ action: "assist", token: found });
+        applyCase(await api.getCase(), true);
+      } catch (error) {
+        const c = code(error);
+        if (c === "assist_invalid") askEmail(err(c, l));
+        else fatal(error, l, null);
+      }
+      return;
+    }
     // A link always opens its own case with a fresh code: an older session in this browser (another
     // client, another revision) is closed first.
     if (token.current) {
@@ -232,13 +251,18 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
     } catch (error) {
       fatal(error, l, null);
     }
-  }, [applyCase, fatal, requestCode, initialLocale, resetIdentity]);
+  }, [applyCase, askEmail, fatal, requestCode, initialLocale, resetIdentity]);
 
   useEffect(() => {
     const chosen = storedLocale();
     if (chosen) {
       userLocale.current = true;
       setLocale(chosen);
+    }
+    const staffFound = /assist=([A-Za-z0-9_-]+)/.exec(window.location.hash)?.[1];
+    if (staffFound) {
+      assistToken.current = staffFound;
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
     }
     const found = /acces=([A-Za-z0-9_-]+)/.exec(window.location.hash)?.[1];
     if (found) {
@@ -424,6 +448,21 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
     } catch (error) {
       const c = code(error);
       if (c === "revision_superseded" || c === "case_closed") fatal(error, locale);
+      else setNotice({ tone: "error", text: err(c, locale) });
+    } finally {
+      setBusy(false);
+    }
+  };
+  /** Ark staff: the short code typed on the access page opens the form without an e-mail code. */
+  const openWithAssistCode = async () => {
+    setBusy(true);
+    setNotice(null);
+    try {
+      await api.auth({ action: "assist", code: assistCode });
+      applyCase(await api.getCase(), true);
+    } catch (error) {
+      const c = code(error);
+      if (c === "case_closed") fatal(error, locale);
       else setNotice({ tone: "error", text: err(c, locale) });
     } finally {
       setBusy(false);
@@ -674,6 +713,27 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
             </CardFooter>
           </form>
         </Card>
+        {assistOpen ? (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (assistCode.trim() && !busy) void openWithAssistCode();
+            }}
+            className="flex max-w-xl items-end gap-3"
+          >
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="kqf-assist">{UI.assistLabel[locale]}</Label>
+              <Input id="kqf-assist" autoComplete="off" autoCapitalize="characters" spellCheck={false} maxLength={12} value={assistCode} onChange={(e) => setAssistCode(e.target.value)} className="w-44 uppercase tracking-widest" autoFocus />
+            </div>
+            <Button type="submit" variant="outline" disabled={busy || !assistCode.trim()}>
+              {UI.assistSubmit[locale]}
+            </Button>
+          </form>
+        ) : (
+          <button type="button" className="w-fit text-xs text-muted-foreground underline-offset-4 hover:underline" onClick={() => setAssistOpen(true)}>
+            {UI.assistLink[locale]}
+          </button>
+        )}
         {contact}
       </div>
     );
@@ -1075,7 +1135,7 @@ function SigningView({
     ? rowsOf(answers, "i.signers").map((row) => [String(row.lastName || "").toLocaleUpperCase("fr-CH"), String(row.firstName || ""), row.function ? `(${String(row.function)})` : ""].filter(Boolean).join(" "))
     : [];
   const signing = caseData.signing;
-  const isContact = signing?.role !== "signer";
+  const isContact = signing?.role !== "signer" && signing?.role !== "staff";
   const postOriginals = isContact && documentsFor(answers).some(isCertifiedId);
   const signed = caseData.signedFiles || [];
   const mySigner = signing?.online ? signing.signers.find((s) => s.mine && !s.signed) || null : null;

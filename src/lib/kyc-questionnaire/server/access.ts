@@ -130,19 +130,75 @@ export function readPick(token: unknown, now = Date.now()): { emailHash: string;
   }
 }
 
+// ---- staff assistance (Ark helps a client fill the form) ----------------------------------------------
+
+export const ASSIST_DEFAULT_MINUTES = 30;
+export const ASSIST_MAX_MINUTES = 240;
+export const STAFF_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
+// No 0, 1, O or I: nothing to confuse when read aloud; a typed code ignores case, spaces and dashes.
+const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+const ASSIST_TOKEN_RE = /^[A-Za-z0-9_-]{40,60}$/;
+export const normaliseAssistCode = (code: string) => code.toUpperCase().replace(/[\s-]/g, "");
+
+/** One single use, two ways in: a link token and an 8-character code (stored only as HMACs). */
+export async function issueAssist(options: { caseId: string; revision: number; by: string; locale: string; ttlMs: number }) {
+  const token = randomBytes(32).toString("base64url");
+  let code = "";
+  for (const byte of randomBytes(8)) code += CODE_ALPHABET[byte % CODE_ALPHABET.length];
+  const expiresAt = Date.now() + options.ttlMs;
+  const tokenKey = mac("assist", token);
+  const codeKey = mac("assist", normaliseAssistCode(code));
+  const base = { kind: "assist" as const, caseId: options.caseId, revision: options.revision, emailHash: STAFF_HASH, expiresAt, revoked: false, by: options.by };
+  const { access } = getPorts();
+  await access.put({ ...base, keyHash: tokenKey, sibling: codeKey });
+  await access.put({ ...base, keyHash: codeKey, sibling: tokenKey });
+  return { link: linkUrl(token, options.locale).replace("#acces=", "#assist="), code: `${code.slice(0, 4)}-${code.slice(4)}`, expiresAt: new Date(expiresAt).toISOString() };
+}
+
+/** Consumes an assist token or code (single use) and returns what it opens, or null. */
+export async function redeemAssist(input: { token?: unknown; code?: unknown }) {
+  let key: string | null = null;
+  if (typeof input.token === "string" && ASSIST_TOKEN_RE.test(input.token)) key = mac("assist", input.token);
+  else if (typeof input.code === "string" && input.code.length <= 40) {
+    const clean = normaliseAssistCode(input.code);
+    if (clean.length === 8) key = mac("assist", clean);
+  }
+  if (!key) return null;
+  const { access } = getPorts();
+  const record = await access.get(key);
+  if (!record || record.kind !== "assist" || record.revoked || record.expiresAt <= Date.now() || !record.by) return null;
+  await access.revoke(key);
+  if (record.sibling) await access.revoke(record.sibling);
+  return record;
+}
+
 // ---- sessions ---------------------------------------------------------------------------------
 
 export interface SessionInfo {
   caseId: string;
   revision: number;
   emailHash: string;
+  /** Set when Ark staff opened the session with an assist code or link: who (role "staff"). */
+  staffBy?: string;
 }
+
+/** Address hash of a staff session: never equals a real address hash, so it is never a contact or a signer. */
+export const STAFF_HASH = "staff";
 
 export const SESSION_COOKIE = () => (isProd() ? "__Host-kqf" : "kqf");
 
-export async function createSession(info: SessionInfo): Promise<string> {
+export async function createSession(info: SessionInfo, options: { ttlMs?: number } = {}): Promise<string> {
   const raw = randomBytes(32).toString("base64url");
-  await getPorts().access.put({ keyHash: mac("session", raw), kind: "session", caseId: info.caseId, revision: info.revision, emailHash: info.emailHash, expiresAt: Date.now() + SESSION_TTL_MS, revoked: false });
+  await getPorts().access.put({
+    keyHash: mac("session", raw),
+    kind: "session",
+    caseId: info.caseId,
+    revision: info.revision,
+    emailHash: info.emailHash,
+    expiresAt: Date.now() + (options.ttlMs || SESSION_TTL_MS),
+    revoked: false,
+    ...(info.staffBy ? { by: info.staffBy } : {}),
+  });
   return raw;
 }
 
@@ -150,7 +206,7 @@ export async function readSession(raw: string | undefined): Promise<SessionInfo 
   if (!raw || !TOKEN_RE.test(raw)) return null;
   const record = await getPorts().access.get(mac("session", raw));
   if (!record || record.kind !== "session" || record.revoked || record.expiresAt <= Date.now()) return null;
-  return { caseId: record.caseId, revision: record.revision, emailHash: record.emailHash };
+  return { caseId: record.caseId, revision: record.revision, emailHash: record.emailHash, ...(record.by ? { staffBy: record.by } : {}) };
 }
 
 export async function revokeSession(raw: string | undefined) {

@@ -168,6 +168,9 @@ export async function buildKycPdf(record: SubmissionRecord, declarationId: strin
   doc.setTitle(`${TEXT.title[L]} – ${record.clientName}`);
   doc.setAuthor("Ark Fiduciaire SA");
   doc.setProducer("kyc.ark-fid.ch");
+  // Internal metadata (not printed on the form): which answers Ark entered during an assisted session.
+  const entered = Object.entries(record.enteredBy || {});
+  if (entered.length) doc.setKeywords([`ark-assisted: ${entered.length} answer(s) entered by Ark (${[...new Set(entered.map(([, by]) => by))].join(", ")})`, `ark-entered-ids: ${entered.map(([id]) => id).join(" ")}`]);
   const w = new Writer(doc, await doc.embedFont(StandardFonts.Helvetica), await doc.embedFont(StandardFonts.HelveticaBold));
 
   // Letterhead and title.

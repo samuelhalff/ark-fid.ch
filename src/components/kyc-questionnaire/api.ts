@@ -60,7 +60,7 @@ export interface CasePayload {
   signedAt: string | null;
   /** Once submitted: who signs, who has signed, and what this session may do. */
   signing: {
-    role: "contact" | "signer";
+    role: "contact" | "signer" | "staff";
     online: boolean;
     onlineStarted: boolean;
     paperStarted: boolean;

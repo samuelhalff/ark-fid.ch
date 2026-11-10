@@ -102,6 +102,8 @@ link tokens are never stored); the same key with another body is `409 idempotenc
 | `POST /cases/<caseId>` | `{action: "link", expectedRevision, email?}` | new link (old links and sessions revoked); open or awaiting signature only. `email` changes the contact: the link and codes then go to the new address only |
 | | `{action: "signers", expectedRevision, signers: [{id, email}]}` | awaiting signature: give or correct signatories' addresses (unsigned ones); each new address gets a request; a replay sends nothing |
 | | `{action: "reopen", expectedRevision, prefill?, route?}` | new revision + link; from returned, awaiting signature or signed |
+| | `{action: "prefill", expectedRevision, prefill: {<answer id>: value}, overwrite?: boolean, by?: string}` | open revision only (`409 invalid_state` otherwise). Fills **empty** answers only. With `overwrite: true` the given values also replace answers the client already typed (values that differ), each marked entered by Ark (`by`, default `"Cadence"`). Always bumps `staffPrefillVersion` so an open client tab cannot erase them (its next save is `409 draft_changed` and reloads). Result: summary |
+| | `{action: "assist", by, ttlMinutes?, expectedRevision?}` | open revision only. Issues a single-use staff access, see "Assisted entry" below. Result: summary + `assist: {link, code, expiresAt}` |
 | | `{action: "close", expectedRevision}` | irreversible |
 
 `expectedRevision` must be the latest revision number (`409 revision_conflict` otherwise).
@@ -111,6 +113,39 @@ latestRevision {n, id, state, dates, flags, declarationId, json {itemId, sha256}
 folder}, revisions[]`. Flags (`pep`, `sanctions`, `criminal`, `trustOrFoundation`, `nominee`,
 `listed`, `forThird`, `cash`, `crypto`, `valuables`, `licence`, `notStarted`, `noSubstance`, `routeMismatch`)
 are points for Ark's review, not a risk class.
+
+### Assisted entry (Ark fills the form with or for the client)
+
+`assist` gives an Ark person a short-lived, **single-use** way into the case's open revision,
+with no e-mail code (the access itself is the secret):
+
+- request `{action: "assist", by: "<staff name or e-mail>", ttlMinutes?: 1-240 (default 30), expectedRevision?}`
+  (`expectedRevision` may be omitted; if given it must be the latest);
+- response: the case summary plus `assist: {link, code, expiresAt}`, e.g.
+  `{"assist": {"link": "https://kyc.ark-fid.ch/fr/#assist=<43 chars>", "code": "K7MQ-4XPD", "expiresAt": "2026-11-10T14:30:00.000Z"}}`.
+  `link` and `code` are two ways into the **same** single use: using either one spends both.
+  The code (8 characters, no 0/1/O/I) is typed on the access page under the quiet "Code cabinet"
+  entry (case, spaces and dashes are ignored); the link opens the form directly;
+- refused with `409 invalid_state` when the revision is not `open` (returned, awaiting signature,
+  signed, closed or superseded), `400 invalid_request` for a missing `by` or a bad `ttlMinutes`;
+- the secrets are stored only as HMACs; a replay of the same `Idempotency-Key` issues a fresh
+  access. A new `link`, `reopen` or `close` revokes outstanding assist access;
+- browser side: `POST /api/kyc-questionnaire/auth {action: "assist", token | code}` (10 per IP per
+  10 min) sets a session cookie with role **`staff`** (8 hours, bound to the revision; the case
+  payload's `signing.role` shows it). Wrong, used or expired: `400 assist_invalid`.
+
+Role `staff` can do everything the contact can on an open revision: save the draft, upload and
+delete documents, read the PDF, submit. It can **not** sign: `signOnline`, `confirmSigned` and the
+upload of a signed scan answer `403 not_allowed`.
+
+**Provenance.** Every answer whose value changes in a `staff` session (draft save or submit), and
+every value written by `prefill` with `overwrite`, is recorded as `enteredBy[<answer id>] = <by>`
+("entered by Ark (<by>)"). If the client later changes that answer, the mark is removed. Marks are
+kept in `draft.json` (open) and in the frozen `questionnaire.json` (`enteredBy`, plus `submittedBy`
+when staff submitted), they are carried into a correction revision while unchanged, and they are
+returned to Cadence as `enteredBy` on `GET /cases/<caseId>` (absent when none). The PDF's internal
+metadata (Keywords: `ark-assisted`, `ark-entered-ids`) lists them; they are not printed on the form
+and never appear in the client's case payload or form UI.
 
 Prefill ids are the answer ids of `src/lib/kyc-questionnaire/schema.ts` (e.g. `a.name`,
 `a.uid`, `a.seat`, `a.directors` as rows `{_id, lastName, …}`); unknown ids are dropped and

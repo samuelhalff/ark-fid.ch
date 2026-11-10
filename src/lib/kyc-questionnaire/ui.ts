@@ -58,6 +58,9 @@ export const UI = {
   ),
   emailLabel: t("Adresse e-mail", "E-mail address"),
   sendCode: t("Recevoir un code", "Get a code"),
+  assistLink: t("Code cabinet", "Firm code"),
+  assistLabel: t("Code cabinet", "Firm code"),
+  assistSubmit: t("Ouvrir", "Open"),
   emailCodeText: t(
     "Si un formulaire est en cours pour {email}, un code à 6 chiffres vient d'y être envoyé. Il est valable 10 minutes. Rien reçu ? Vérifiez vos indésirables ou contactez Ark.",
     "If a form is in progress for {email}, a 6-digit code has just been sent there. It is valid for 10 minutes. Nothing received? Check your spam folder or contact Ark.",
@@ -190,6 +193,7 @@ export const UI = {
 /** Error codes of /api/kyc-questionnaire/* (and of the browser upload). */
 export const SERVER_ERRORS: Record<string, L> = {
   otp_invalid: t("Code incorrect.", "Incorrect code."),
+  assist_invalid: t("Ce code n'est pas valable ou a déjà été utilisé.", "This code is not valid or has already been used."),
   invalid_email: t("Adresse e-mail invalide.", "Invalid e-mail address."),
   otp_expired: t("Code expiré. Demandez-en un nouveau.", "Code expired. Request a new one."),
   otp_locked: t("Trop d'essais. Demandez un nouveau code.", "Too many attempts. Request a new code."),

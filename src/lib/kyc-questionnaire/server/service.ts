@@ -7,7 +7,7 @@ import { isBlockVisible, pruneHidden, rowsOf, sanitizeAnswers, validateAll, vali
 import { FLAG_LABELS, flagsOf, type Flag } from "../flags";
 import { clientName, declarations, isPM } from "../schema";
 import { KYC_LOCALES, KYC_ROUTES, type Answers, type DocDeclared, type KycLocale, type KycRoute } from "../types";
-import { emailHash, issueLink } from "./access";
+import { ASSIST_DEFAULT_MINUTES, ASSIST_MAX_MINUTES, emailHash, issueAssist, issueLink, STAFF_HASH } from "./access";
 import { KYC_DRIVE_ID, mailSender, mockStorageEnabled, onlineSignatureEnabled, tokenSecret } from "./config";
 import { plainHtml } from "../../tax-questionnaire/server/email";
 import { toWinAnsi } from "../../tax-questionnaire/server/pdf";
@@ -123,6 +123,23 @@ interface Draft {
   docDeclared: Record<string, DocDeclared>;
   /** Incremented only when Ark adds answers, so an open client tab cannot erase them. */
   staffPrefillVersion?: number;
+  /** Answer id → who at Ark entered its current value (assisted session or overwrite). Never sent to the client. */
+  enteredBy?: Record<string, string>;
+}
+
+/**
+ * Keeps `enteredBy` true after answers change: an answer whose value changed is marked with the
+ * person who changed it when that is Ark staff, and unmarked when the client did.
+ */
+function trackEnteredBy(before: Answers, after: Answers, marks: Record<string, string> | undefined, staffBy: string | null): Record<string, string> {
+  const next: Record<string, string> = {};
+  for (const key of Object.keys(after)) {
+    if (key === "route") continue;
+    if (canonical(before[key]) !== canonical(after[key])) {
+      if (staffBy) next[key] = staffBy;
+    } else if (marks?.[key]) next[key] = marks[key];
+  }
+  return next;
 }
 
 const CASE_FILE = "case.json";
@@ -346,14 +363,22 @@ async function relink(record: CaseRecord): Promise<LinkResult> {
   return link;
 }
 
-export type StaffAction = "link" | "reopen" | "close" | "signers" | "prefill";
+export type StaffAction = "link" | "reopen" | "close" | "signers" | "prefill" | "assist";
+
+export interface AssistResult {
+  /** Opens the form for Ark staff (fragment `#assist=`); single use, shared with `code`. */
+  link: string;
+  /** The same single use as a short code to type on the access page ("Code cabinet"). */
+  code: string;
+  expiresAt: string;
+}
 
 export async function staffAction(
   caseId: string,
   action: StaffAction,
-  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown; signers?: unknown },
+  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown; signers?: unknown; by?: unknown; ttlMinutes?: unknown; overwrite?: unknown },
   meta: { idempotencyKey: string; payloadHash: string },
-): Promise<{ summary: StaffSummary; link?: LinkResult; replayed: boolean }> {
+): Promise<{ summary: StaffSummary; link?: LinkResult; assist?: AssistResult; replayed: boolean }> {
   return locked(caseId, async () => {
     const record = await loadCase(caseId);
     const done = record.idempotency[meta.idempotencyKey];
@@ -368,11 +393,17 @@ export async function staffAction(
         }
         return { summary: summarize(record), replayed: true };
       }
+      if (action === "assist") {
+        // The secrets are never stored, so a replay issues a fresh access (still single use).
+        const open = !record.closedAt && rev.state === "open";
+        return { summary: summarize(record), assist: open ? await assistFor(record, rev, body) : undefined, replayed: true };
+      }
       const relinkable = action !== "close" && !record.closedAt && (rev.state === "open" || rev.state === "awaiting_signature");
       return { summary: summarize(record), link: relinkable ? await relink(record) : undefined, replayed: true };
     }
     const rev = latest(record);
-    if (Number(body.expectedRevision) !== rev.n) throw new KycError("revision_conflict", 409, { latestRevision: rev.n });
+    // `assist` may omit expectedRevision (it always opens the latest open revision).
+    if (!(action === "assist" && body.expectedRevision === undefined) && Number(body.expectedRevision) !== rev.n) throw new KycError("revision_conflict", 409, { latestRevision: rev.n });
     if (record.closedAt && action !== "close") throw new KycError("case_closed", 409);
     const remember = (n: number) => {
       record.idempotency[meta.idempotencyKey] = { hash: meta.payloadHash, at: now(), revision: n };
@@ -417,18 +448,29 @@ export async function staffAction(
       // Ark adds what it already holds to a form the client is filling: only empty answers are
       // filled, so nothing the client typed is overwritten (Sam, 2026-11-03).
       if (rev.state !== "open") throw new KycError("invalid_state", 409, { state: rev.state });
+      if (body.overwrite !== undefined && typeof body.overwrite !== "boolean") throw new KycError("invalid_request", 400, { field: "overwrite" });
+      // overwrite: Ark's values replace what the client typed (Ark's explicit choice, marked as Ark's).
+      const overwrite = body.overwrite === true;
+      const by = str(body.by).slice(0, 120) || "Cadence";
       const extra = prefillAnswers(body.prefill, record.route as KycRoute);
       const draft: Draft = (await readDraft(record, rev)) || { savedAt: now(), stepId: "start", answers: { route: record.route }, docDeclared: {} };
       const answered = (value: unknown) =>
         value !== undefined && value !== null && !(typeof value === "string" && !value.trim()) && !(Array.isArray(value) && !value.length);
       const current = draft.answers as Record<string, unknown>;
       const added: string[] = [];
+      const marks = { ...(draft.enteredBy || {}) };
       for (const [key, value] of Object.entries(extra.answers as Record<string, unknown>)) {
-        if (key !== "route" && !answered(current[key])) {
+        if (key === "route") continue;
+        if (!answered(current[key])) {
           current[key] = value;
+          added.push(key);
+        } else if (overwrite && canonical(current[key]) !== canonical(value)) {
+          current[key] = value;
+          marks[key] = by;
           added.push(key);
         }
       }
+      if (Object.keys(marks).length) draft.enteredBy = marks;
       rev.prefilledIds = [...new Set([...(rev.prefilledIds || []), ...added])];
       draft.staffPrefillVersion = (draft.staffPrefillVersion || 0) + 1;
       draft.savedAt = now();
@@ -437,6 +479,14 @@ export async function staffAction(
       await saveCase(record);
       await track(record, rev);
       return { summary: summarize(record), replayed: false };
+    }
+
+    if (action === "assist") {
+      if (rev.state !== "open") throw new KycError("invalid_state", 409, { state: rev.state });
+      const assist = await assistFor(record, rev, body);
+      remember(rev.n);
+      await saveCase(record);
+      return { summary: summarize(record), assist, replayed: false };
     }
 
     if (action === "signers") {
@@ -473,7 +523,10 @@ export async function staffAction(
     const route = body.route === undefined ? record.route : String(body.route);
     if (!(KYC_ROUTES as readonly string[]).includes(route)) throw new KycError("invalid_request", 400, { field: "route" });
     const { storage } = getPorts();
-    const previousAnswers = (await readSubmitted(record, rev)) || (await readDraft(record, rev))?.answers || {};
+    const previous = await readSubmission(record, rev);
+    const previousDraft = previous?.answers ? null : await readDraft(record, rev);
+    const previousAnswers = previous?.answers || previousDraft?.answers || {};
+    const previousMarks = previous?.answers ? previous.enteredBy : previousDraft?.enteredBy;
     const extra = prefillAnswers(body.prefill, route as KycRoute);
     const answers: Answers = { ...sanitizeAnswers(previousAnswers), ...extra.answers, route };
     const n = rev.n + 1;
@@ -502,7 +555,9 @@ export async function staffAction(
       prefilledIds: extra.ids,
     };
     record.revisions.push(next);
-    await writeDraft(record, next, { savedAt: now(), stepId: "start", answers, docDeclared: {} });
+    // Ark's entries stay marked unless the correction changed them.
+    const marks = trackEnteredBy(previousAnswers, answers, previousMarks, null);
+    await writeDraft(record, next, { savedAt: now(), stepId: "start", answers, docDeclared: {}, ...(Object.keys(marks).length ? { enteredBy: marks } : {}) });
     remember(n);
     await saveCase(record);
     await track(record, rev);
@@ -511,10 +566,25 @@ export async function staffAction(
   });
 }
 
-async function readSubmitted(record: CaseRecord, rev: RevisionRecord): Promise<Answers | null> {
+/** Short-lived single-use access for Ark staff to the open revision (a link and a short code). */
+async function assistFor(record: CaseRecord, rev: RevisionRecord, body: { by?: unknown; ttlMinutes?: unknown }): Promise<AssistResult> {
+  const by = str(body.by).slice(0, 120);
+  if (!by) throw new KycError("invalid_request", 400, { field: "by" });
+  let minutes = ASSIST_DEFAULT_MINUTES;
+  if (body.ttlMinutes !== undefined) {
+    minutes = Number(body.ttlMinutes);
+    if (!Number.isFinite(minutes) || minutes < 1 || minutes > ASSIST_MAX_MINUTES) throw new KycError("invalid_request", 400, { field: "ttlMinutes" });
+  }
+  return issueAssist({ caseId: record.caseId, revision: rev.n, by, locale: record.language, ttlMs: Math.round(minutes * 60 * 1000) });
+}
+
+async function readSubmission(record: CaseRecord, rev: RevisionRecord) {
   if (!rev.json) return null;
-  const data = await readJsonFile<{ answers?: Answers }>(record.driveId, rev.folderId, "questionnaire.json");
-  return data?.answers || null;
+  return readJsonFile<{ answers?: Answers; enteredBy?: Record<string, string> }>(record.driveId, rev.folderId, "questionnaire.json");
+}
+
+async function readSubmitted(record: CaseRecord, rev: RevisionRecord): Promise<Answers | null> {
+  return (await readSubmission(record, rev))?.answers || null;
 }
 
 export interface StaffSummary {
@@ -599,13 +669,16 @@ export function summarize(record: CaseRecord): StaffSummary {
 export async function staffCase(caseId: string): Promise<StaffSummary & {
   answers?: Answers;
   draft?: Answers;
+  /** Answer id → who at Ark entered its current value (assisted session, overwrite). Absent when none. */
+  enteredBy?: Record<string, string>;
   pages: { id: string; section: string | null; title: { fr: string; en: string }; intro?: { fr: string; en: string }; fieldIds: string[]; missingFieldIds: string[]; parts: { kind: "field" | "group" | "heading" | "note"; id: string; text?: { fr: string; en: string } }[] }[];
   documentItems: { key: string; label: { fr: string; en: string }; required: boolean; declared: DocDeclared | null; files: { name: string; webUrl: string }[]; unavailable: boolean }[];
 }> {
   await finishIfComplete(caseId);
   const record = await loadCase(caseId);
   const rev = latest(record);
-  const answers = await readSubmitted(record, rev);
+  const submission = await readSubmission(record, rev);
+  const answers = submission?.answers || null;
   // What the client has filled so far, for Ark to see and help (Sam, 2026-11-03).
   const openDraft = !answers && rev.state === "open" ? await readDraft(record, rev) : null;
   const draft = openDraft?.answers;
@@ -663,7 +736,9 @@ export async function staffCase(caseId: string): Promise<StaffSummary & {
       ?? (rev.carried?.[item.key]?.length || 0) + currentFiles.filter((file) => file.code === item.code).length)
       > files.filter((file) => file.code === item.code && file.webUrl).length,
   }));
-  return { ...summarize(record), ...(answers ? { answers: current } : {}), ...(draft ? { draft: current } : {}), pages, documentItems };
+  const marks = answers ? submission?.enteredBy : openDraft?.enteredBy;
+  const entered = Object.fromEntries(Object.entries(marks || {}).filter(([key]) => key in current));
+  return { ...summarize(record), ...(answers ? { answers: current } : {}), ...(draft ? { draft: current } : {}), ...(Object.keys(entered).length ? { enteredBy: entered } : {}), pages, documentItems };
 }
 
 /**
@@ -707,9 +782,12 @@ export interface Session {
   revision: number;
   /** The address the session was opened with; set for every real session. */
   emailHash?: string;
+  /** Ark staff opened this session with an assist code or link: who. Role "staff". */
+  staffBy?: string;
 }
 
-type Role = "contact" | "signer";
+/** "staff": Ark helping the client; does everything the contact does except sign. */
+type Role = "contact" | "signer" | "staff";
 
 /**
  * The session's case and role. The contact (current address of the case) fills the form; a
@@ -724,8 +802,9 @@ async function clientContext(session: Session, allow: Role[]) {
   if (rev.state === "superseded") throw new KycError("revision_superseded", 410);
   if (record.closedAt || rev.state === "closed") throw new KycError("case_closed", 410);
   const signing = rev.state === "awaiting_signature" || rev.state === "signed";
-  const mine = signing ? (rev.signers || []).filter((s) => s.emailHash === session.emailHash).map((s) => s.id) : [];
-  const role: Role | null = session.emailHash === record.emailHash ? "contact" : mine.length ? "signer" : null;
+  const mine = signing && session.emailHash !== STAFF_HASH ? (rev.signers || []).filter((s) => s.emailHash === session.emailHash).map((s) => s.id) : [];
+  const staff = !!session.staffBy && session.emailHash === STAFF_HASH;
+  const role: Role | null = staff ? "staff" : session.emailHash === record.emailHash ? "contact" : mine.length ? "signer" : null;
   if (!role) throw new KycError("session_expired", 401);
   if (!allow.includes(role)) throw new KycError("not_allowed", 403);
   return { record, rev, role, mine };
@@ -771,7 +850,7 @@ async function finishIfComplete(caseId: string) {
 
 export async function clientCase(session: Session) {
   await finishIfComplete(session.caseId);
-  const { record, rev, role, mine } = await clientContext(session, ["contact", "signer"]);
+  const { record, rev, role, mine } = await clientContext(session, ["contact", "signer", "staff"]);
   const signing = rev.state === "awaiting_signature" || rev.state === "signed" ? await signingView(record, rev, role, mine) : null;
   // A signer sees the signing screen only: not the answers, documents or scans.
   if (role === "signer") {
@@ -793,7 +872,9 @@ export async function clientCase(session: Session) {
       signing,
     };
   }
-  const draft = await readDraft(record, rev);
+  // Provenance (`enteredBy`) is for Ark only: never part of what the form receives.
+  const { enteredBy: _hidden, ...draft } = (await readDraft(record, rev)) || ({} as Draft);
+  const hasDraft = !!draft.savedAt;
   const submitted = rev.state === "open" ? null : await readSubmitted(record, rev);
   return {
     caseId: record.caseId,
@@ -803,8 +884,8 @@ export async function clientCase(session: Session) {
     state: rev.state,
     displayName: record.displayName,
     prefilledIds: rev.prefilledIds,
-    draft: rev.state === "open" ? draft : null,
-    answers: submitted || draft?.answers || { route: record.route },
+    draft: rev.state === "open" && hasDraft ? draft : null,
+    answers: submitted || draft.answers || { route: record.route },
     files: [...(await docFiles(record, rev)), ...carriedFiles(rev)],
     signedFiles: rev.state === "awaiting_signature" || rev.state === "signed" ? await signedFiles(record, rev) : [],
     declarationId: rev.declarationId || null,
@@ -1050,7 +1131,7 @@ const sanitizeDeclared = (raw: unknown): Record<string, DocDeclared> => {
 
 export async function saveDraft(session: Session, body: { answers?: unknown; stepId?: unknown; docDeclared?: unknown; staffPrefillVersion?: unknown }) {
   return locked(session.caseId, async () => {
-    const { record, rev } = await clientContext(session, ["contact"]);
+    const { record, rev, role } = await clientContext(session, ["contact", "staff"]);
     if (rev.state !== "open") throw new KycError("not_editable", 409);
     const current = await readDraft(record, rev);
     const seen = body.staffPrefillVersion === undefined ? 0 : body.staffPrefillVersion;
@@ -1058,7 +1139,8 @@ export async function saveDraft(session: Session, body: { answers?: unknown; ste
     const answers = { ...sanitizeAnswers(body.answers), route: record.route };
     const stepId = /^[a-z.]{1,20}$/.test(str(body.stepId)) ? str(body.stepId) : "start";
     const savedAt = now();
-    await writeDraft(record, rev, { savedAt, stepId, answers, docDeclared: sanitizeDeclared(body.docDeclared), staffPrefillVersion: current?.staffPrefillVersion || 0 });
+    const marks = trackEnteredBy(current?.answers || {}, answers, current?.enteredBy, role === "staff" ? session.staffBy! : null);
+    await writeDraft(record, rev, { savedAt, stepId, answers, docDeclared: sanitizeDeclared(body.docDeclared), staffPrefillVersion: current?.staffPrefillVersion || 0, ...(Object.keys(marks).length ? { enteredBy: marks } : {}) });
     if (!rev.startedAt) {
       rev.startedAt = savedAt;
       await saveCase(record);
@@ -1070,7 +1152,7 @@ export async function saveDraft(session: Session, body: { answers?: unknown; ste
 
 export async function createUpload(session: Session, body: { kind?: unknown; docKey?: unknown; fileName?: unknown; size?: unknown; mime?: unknown }) {
   return locked(session.caseId, async () => {
-    const { record, rev } = await clientContext(session, ["contact"]);
+    const { record, rev, role } = await clientContext(session, ["contact", "staff"]);
     const fileName = str(body.fileName);
     const check = checkUpload(fileName, Number(body.size), str(body.mime));
     if (!check.ok) throw new KycError(check.error, 400);
@@ -1079,6 +1161,8 @@ export async function createUpload(session: Session, body: { kind?: unknown; doc
     const { storage } = getPorts();
     const base = safeName(fileName.replace(/\.[^.]+$/, ""), 70);
     if (body.kind === "signed") {
+      // The signed scan is part of signing: not Ark's to give.
+      if (role === "staff") throw new KycError("not_allowed", 403);
       if (rev.state !== "awaiting_signature") throw new KycError("not_editable", 409);
       // One way per revision: once someone has signed online, the others sign online too.
       if ((rev.signers || []).some((s) => s.signature)) throw new KycError("online_signing_started", 409);
@@ -1107,7 +1191,8 @@ export async function createUpload(session: Session, body: { kind?: unknown; doc
 /** Removes a document the client uploaded by mistake (documents of an open revision only). */
 export async function deleteUpload(session: Session, body: { fileId?: unknown }) {
   return locked(session.caseId, async () => {
-    const { record, rev } = await clientContext(session, ["contact"]);
+    const { record, rev, role } = await clientContext(session, ["contact", "staff"]);
+    if (role === "staff" && rev.state !== "open") throw new KycError("not_allowed", 403);
     const fileId = str(body.fileId);
     const signed = rev.state === "awaiting_signature" ? await signedFiles(record, rev) : [];
     const target = (rev.state === "open" ? await docFiles(record, rev) : signed).find((f) => f.id === fileId);
@@ -1128,11 +1213,15 @@ export interface SubmissionRecord {
   answers: Answers;
   documents: { key: string; label: string; status: "uploaded" | "later" | "na"; files: string[] }[];
   flags: Flag[];
+  /** Answer id → who at Ark entered its final value. Internal: absent when the client entered everything. */
+  enteredBy?: Record<string, string>;
+  /** Set when Ark staff submitted the form in an assisted session. */
+  submittedBy?: string;
 }
 
 export async function submit(session: Session, body: { answers?: unknown; docDeclared?: unknown; submitKey?: unknown }) {
   return locked(session.caseId, async () => {
-    const { record, rev } = await clientContext(session, ["contact"]);
+    const { record, rev, role } = await clientContext(session, ["contact", "staff"]);
     const submitKey = str(body.submitKey).slice(0, 40);
     if (rev.state !== "open") {
       if (submitKey && rev.submitKey === submitKey) {
@@ -1181,6 +1270,9 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
 
     const flags = flagsOf(answers);
     const submittedAt = now();
+    const staffBy = role === "staff" ? session.staffBy! : null;
+    const before = await readDraft(record, rev);
+    const marks = trackEnteredBy(before?.answers || {}, answers, before?.enteredBy, staffBy);
     const submission: SubmissionRecord = {
       caseId: record.caseId,
       revision: rev.n,
@@ -1192,6 +1284,8 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
       answers,
       documents,
       flags,
+      ...(Object.keys(marks).length ? { enteredBy: marks } : {}),
+      ...(staffBy ? { submittedBy: staffBy } : {}),
     };
     const jsonBytes = enc({ ...submission, documents: manifest.map((d) => ({ ...d, label: items.find((i) => i.key === d.key)?.label.fr || d.key })) });
     const digest = sha256(jsonBytes);
@@ -1226,7 +1320,7 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
 }
 
 export async function readPdf(session: Session): Promise<{ name: string; bytes: Uint8Array }> {
-  const { record, rev } = await clientContext(session, ["contact", "signer"]);
+  const { record, rev } = await clientContext(session, ["contact", "signer", "staff"]);
   if (!rev.pdf) throw new KycError("pdf_not_ready", 409);
   const bytes = await getPorts().storage.readFile(record.driveId, rev.folderId, rev.pdf.name);
   if (!bytes) throw new KycError("pdf_not_ready", 409);

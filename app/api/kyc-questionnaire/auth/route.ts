@@ -1,8 +1,8 @@
 import { plainHtml } from "@/src/lib/tax-questionnaire/server/email";
-import { createChallenge, createPick, createSession, emailHash, normaliseEmail, readCookie, readLink, readPick, releaseChallenge, revokeSession, sessionCookie, verifyChallenge } from "@/src/lib/kyc-questionnaire/server/access";
+import { createChallenge, createPick, createSession, emailHash, normaliseEmail, readCookie, readLink, readPick, releaseChallenge, revokeSession, sessionCookie, STAFF_HASH, STAFF_SESSION_TTL_MS, redeemAssist, verifyChallenge } from "@/src/lib/kyc-questionnaire/server/access";
 import { mailSender } from "@/src/lib/kyc-questionnaire/server/config";
 import { clientRoute, json, limited } from "@/src/lib/kyc-questionnaire/server/http";
-import { accessFor, KycError } from "@/src/lib/kyc-questionnaire/server/service";
+import { accessFor, contactOf, KycError } from "@/src/lib/kyc-questionnaire/server/service";
 import { getPorts } from "@/src/lib/kyc-questionnaire/server/sharepoint";
 
 /**
@@ -12,6 +12,8 @@ import { getPorts } from "@/src/lib/kyc-questionnaire/server/sharepoint";
  *   email  — no link: the client types their address → the same code, e-mailed only if a form in
  *            progress was issued to it; the answer is identical either way and sent before any lookup;
  *   pick   — after an e-mail code, the form chosen when the address has several in progress;
+ *   assist — Ark staff: the single-use code ("Code cabinet") or link issued by Cadence's `assist` action
+ *            opens the open revision with role "staff" (no e-mail code: the access itself is the secret);
  *   logout — session revoked.
  */
 export const runtime = "nodejs";
@@ -115,6 +117,20 @@ export async function POST(request: Request) {
       const chosen = (await activeCases(pick.emailHash)).find((c) => c.caseId === body.caseId);
       if (!chosen) return json({ error: "link_invalid" }, 410);
       return sessionFor(chosen.caseId, chosen.revision, pick.emailHash);
+    }
+
+    if (body.action === "assist") {
+      const tooMany = limited("kyc-assist", ip, 10, 10 * 60 * 1000);
+      if (tooMany) return tooMany;
+      const assist = await redeemAssist({ token: body.token, code: body.code });
+      if (!assist) return json({ error: "assist_invalid" }, 400);
+      const state = await contactOf(assist.caseId);
+      if (state.closed) return json({ error: "case_closed" }, 410);
+      if (state.state !== "open" || state.revision !== assist.revision) return json({ error: "assist_invalid" }, 410);
+      const value = await createSession({ caseId: assist.caseId, revision: assist.revision, emailHash: STAFF_HASH, staffBy: assist.by }, { ttlMs: STAFF_SESSION_TTL_MS });
+      const response = json({ ok: true, staff: true });
+      response.headers.append("Set-Cookie", sessionCookie(value, STAFF_SESSION_TTL_MS / 1000));
+      return response;
     }
 
     if (body.action === "logout") {

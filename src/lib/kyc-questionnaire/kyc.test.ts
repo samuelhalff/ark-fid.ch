@@ -12,10 +12,10 @@ process.env.KYC_QF_API_KEYS = "cadence:cadence-secret-cadence-secret-cadence-01"
 import { documentsFor } from "./documents";
 import { pruneHidden, sanitizeAnswers, validateAll, visibleSteps } from "./engine";
 import { flagsOf, routeMismatch } from "./flags";
-import { createChallenge, createPick, createSession, emailHash, readLink, readPick, readSession, verifyChallenge } from "./server/access";
+import { createChallenge, createPick, createSession, emailHash, readLink, readPick, readSession, STAFF_HASH, redeemAssist, verifyChallenge } from "./server/access";
 import { signRequest, verifyStaffRequest } from "./server/signature";
 import { memoryAccess, memoryTracker } from "./server/ports";
-import { accessFor, changes, clientCase, confirmSigned, contactOf, createCase, createUpload, KycError, readPdf, signOnline, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
+import { accessFor, changes, clientCase, confirmSigned, contactOf, createCase, createUpload, deleteUpload, KycError, readPdf, signOnline, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
 import { KycMockStorage, setPorts } from "./server/sharepoint";
 import type { Answers } from "./types";
 
@@ -553,4 +553,132 @@ test("code without the link: cases found by e-mail, signed choice of form", asyn
   assert.notEqual((await contactOf(created.summary.caseId)).emailHash, hash);
   assert.equal(readPick(pick.replace(/^./, (c) => (c === "e" ? "f" : "e"))), null, "tampered");
   assert.equal(readPick(pick, Date.now() + 11 * 60 * 1000), null, "expired");
+});
+
+// ---- Ark assistance (assist access, role "staff", provenance, prefill overwrite) --------------------
+
+test("assist: single-use link or code opens a staff session that fills and submits but never signs", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-assist-1", payloadHash: "a1" });
+  const caseId = created.summary.caseId;
+  await assert.rejects(staffAction(caseId, "assist", {}, { idempotencyKey: "assist-no-by", payloadHash: "n" }), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
+  await assert.rejects(staffAction(caseId, "assist", { by: "Sam", ttlMinutes: 0 }, { idempotencyKey: "assist-ttl", payloadHash: "t" }), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
+  const issued = await staffAction(caseId, "assist", { by: "Sam", ttlMinutes: 15 }, { idempotencyKey: "assist-0001", payloadHash: "as1" });
+  const assist = issued.assist!;
+  assert.match(assist.link, /#assist=[A-Za-z0-9_-]{43}$/);
+  assert.match(assist.code, /^[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}$/);
+  assert.ok(Math.abs(Date.parse(assist.expiresAt) - Date.now() - 15 * 60_000) < 5_000);
+  assert.equal((await readLink(assist.link.split("#assist=")[1])), null, "an assist token is not a client link");
+
+  // Single use across both ways in; the code is read loosely.
+  assert.equal(await redeemAssist({ code: "wrong-code" }), null);
+  const used = await redeemAssist({ code: assist.code.toLowerCase().replace("-", " ") });
+  assert.equal(used?.by, "Sam");
+  assert.equal(await redeemAssist({ code: assist.code }), null, "the code is single use");
+  assert.equal(await redeemAssist({ token: assist.link.split("#assist=")[1] }), null, "the link is spent with the code");
+  const second = (await staffAction(caseId, "assist", { by: "Anne" }, { idempotencyKey: "assist-0002", payloadHash: "as2" })).assist!;
+  assert.equal((await redeemAssist({ token: second.link.split("#assist=")[1] }))?.by, "Anne");
+  assert.equal(await redeemAssist({ code: second.code }), null, "the code is spent with the link");
+
+  const staff = { caseId, revision: 1, emailHash: STAFF_HASH, staffBy: "Sam" };
+  const raw = await createSession(staff);
+  assert.equal((await readSession(raw))?.staffBy, "Sam");
+  assert.equal((await readSession(await createSession({ caseId, revision: 1, emailHash: JEAN })))?.staffBy, undefined);
+
+  // Provenance: Ark's answers are marked, the client's later edits unmark them, the form never sees marks.
+  const contact = { caseId, revision: 1, emailHash: JEAN };
+  await saveDraft(contact, { answers: { "a.name": "Client name", "d.sector": "Conseil" }, stepId: "a" });
+  assert.equal((await staffCase(caseId)).enteredBy, undefined);
+  await saveDraft(staff, { answers: { "a.name": "Client name", "d.sector": "Fiduciaire", "d.purpose": "Conseil" }, stepId: "d" });
+  assert.deepEqual((await staffCase(caseId)).enteredBy, { "d.sector": "Sam", "d.purpose": "Sam" });
+  const seen = await clientCase(contact);
+  assert.ok(!JSON.stringify(seen).includes("enteredBy"), "provenance is not shown to the client");
+  assert.ok(!JSON.stringify(await clientCase(staff)).includes("enteredBy"));
+  await saveDraft(contact, { answers: { ...seen.draft!.answers, "d.purpose": "Autre" }, stepId: "d" });
+  assert.deepEqual((await staffCase(caseId)).enteredBy, { "d.sector": "Sam" });
+
+  // Documents: staff may upload, not the signed scan.
+  assert.ok((await createUpload(staff, { kind: "doc", docKey: "pm.rc", fileName: "rc.pdf", size: 1000, mime: "application/pdf" })).uploadUrl);
+  for (const file of (await clientCase(staff)).files) assert.deepEqual(await deleteUpload(staff, { fileId: file.id }), { ok: true });
+  await assert.rejects(createUpload(staff, { kind: "signed", fileName: "s.pdf", size: 1000, mime: "application/pdf" }), (e: unknown) => e instanceof KycError && e.code === "not_allowed");
+
+  // Submit as staff: the stored JSON records provenance and who submitted; the PDF carries internal metadata.
+  await saveDraft(staff, { answers: pmOp, stepId: "i" });
+  await uploadAll(f, caseId, pmOp);
+  const sent = await submit(staff, { answers: pmOp, submitKey: "ks" });
+  assert.equal(sent.state, "awaiting_signature");
+  const record = await loadCase(caseId);
+  const rev = record.revisions[0];
+  const stored = JSON.parse(new TextDecoder().decode((await f.storage.readFile(record.driveId, rev.folderId, "questionnaire.json"))!));
+  assert.equal(stored.submittedBy, "Sam");
+  assert.equal(stored.enteredBy["d.sector"], "Sam");
+  assert.equal(stored.enteredBy["d.purpose"], "Sam", "changed back by Ark after the client edited it");
+  assert.ok(Object.keys(stored.enteredBy).length > 5, "everything staff changed in this session is marked");
+  assert.ok(Object.values(stored.enteredBy).every((by) => by === "Sam"));
+  const pdf = new TextDecoder("latin1").decode((await f.storage.readFile(record.driveId, rev.folderId, rev.pdf!.name))!);
+  assert.ok(pdf.length > 1000);
+  assert.deepEqual((await staffCase(caseId)).enteredBy, stored.enteredBy);
+
+  // Staff never signs, online or by scan, and cannot confirm a scan; it can read the PDF.
+  await assert.rejects(signOnline(staff, { name: "Jean Dupont", accept: true, declarationId: sent.declarationId, drawing: await drawing() }), (e: unknown) => e instanceof KycError && e.code === "not_allowed");
+  await assert.rejects(confirmSigned(staff), (e: unknown) => e instanceof KycError && e.code === "not_allowed");
+  await assert.rejects(saveDraft(staff, { answers: pmOp }), (e: unknown) => e instanceof KycError && e.code === "not_editable");
+  assert.ok((await readPdf(staff)).bytes.byteLength > 1000);
+  assert.equal((await clientCase(staff)).signing?.role, "staff");
+  // A staff session of a case that moved on ends.
+  await assert.rejects(clientCase({ ...staff, caseId: "unknown" }), (e: unknown) => e instanceof KycError);
+});
+
+test("assist is refused when the revision is not open, and a new link revokes assist access", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-assist-2", payloadHash: "b1" });
+  const caseId = created.summary.caseId;
+  const open = (await staffAction(caseId, "assist", { expectedRevision: 1, by: "Sam" }, { idempotencyKey: "assist-open", payloadHash: "o" })).assist!;
+  await assert.rejects(staffAction(caseId, "assist", { expectedRevision: 2, by: "Sam" }, { idempotencyKey: "assist-stale", payloadHash: "s" }), (e: unknown) => e instanceof KycError && e.code === "revision_conflict");
+  // A replayed request issues a fresh single-use access, not the old secrets.
+  const replay = await staffAction(caseId, "assist", { expectedRevision: 1, by: "Sam" }, { idempotencyKey: "assist-open", payloadHash: "o" });
+  assert.equal(replay.replayed, true);
+  assert.notEqual(replay.assist?.code, open.code);
+  await staffAction(caseId, "link", { expectedRevision: 1 }, { idempotencyKey: "assist-relink", payloadHash: "rl" });
+  assert.equal(await redeemAssist({ code: open.code }), null, "a new link revokes outstanding assist access");
+
+  const session = { caseId, revision: 1, emailHash: JEAN };
+  await saveDraft(session, { answers: pmOp });
+  await uploadAll(f, caseId, pmOp);
+  await submit(session, { answers: pmOp });
+  await assert.rejects(staffAction(caseId, "assist", { by: "Sam" }, { idempotencyKey: "assist-submitted", payloadHash: "x" }), (e: unknown) => e instanceof KycError && e.code === "invalid_state");
+  await staffAction(caseId, "close", { expectedRevision: 1 }, { idempotencyKey: "assist-close", payloadHash: "cl" });
+  await assert.rejects(staffAction(caseId, "assist", { by: "Sam" }, { idempotencyKey: "assist-closed", payloadHash: "y" }), (e: unknown) => e instanceof KycError && (e.code === "case_closed" || e.code === "invalid_state"));
+});
+
+test("prefill overwrite replaces client answers while open, marks them as Ark's and bumps the version", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-overwrite", payloadHash: "w1" });
+  const caseId = created.summary.caseId;
+  const session = { caseId, revision: 1, emailHash: JEAN };
+  await saveDraft(session, { answers: { "a.name": "Client's spelling", "d.sector": "Conseil" }, staffPrefillVersion: 0 });
+  await assert.rejects(staffAction(caseId, "prefill", { expectedRevision: 1, prefill: { "a.name": "X" }, overwrite: "yes" }, { idempotencyKey: "ow-bad", payloadHash: "bad" }), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
+  // Without the flag nothing typed by the client is touched (unchanged behaviour).
+  await staffAction(caseId, "prefill", { expectedRevision: 1, prefill: { "a.name": "Ark spelling" } }, { idempotencyKey: "ow-plain", payloadHash: "plain" });
+  assert.equal((await staffCase(caseId)).draft?.["a.name"], "Client's spelling");
+  assert.equal((await staffCase(caseId)).enteredBy, undefined);
+  const before = (await clientCase(session)).draft?.staffPrefillVersion || 0;
+  await staffAction(caseId, "prefill", { expectedRevision: 1, overwrite: true, by: "Sam", prefill: { "a.name": "Ark spelling", "d.sector": "Conseil", "d.purpose": "Nouveau" } }, { idempotencyKey: "ow-yes", payloadHash: "yes" });
+  const staff = await staffCase(caseId);
+  assert.equal(staff.draft?.["a.name"], "Ark spelling");
+  assert.equal(staff.draft?.["d.purpose"], "Nouveau");
+  assert.deepEqual(staff.enteredBy, { "a.name": "Sam" }, "only values that replaced a client answer are marked; empty ones are plain prefill");
+  const view = await clientCase(session);
+  assert.equal((view.draft?.staffPrefillVersion || 0), before + 1);
+  assert.ok(view.prefilledIds.includes("a.name"), "the client sees it as to check");
+  assert.ok(!JSON.stringify(view).includes("enteredBy"));
+  await assert.rejects(saveDraft(session, { answers: { "a.name": "Client's spelling" }, staffPrefillVersion: before }), (e: unknown) => e instanceof KycError && e.code === "draft_changed");
+  // The client edits the overwritten answer: it is theirs again.
+  await saveDraft(session, { answers: { ...view.draft!.answers, "a.name": "Back to client" }, staffPrefillVersion: before + 1 });
+  assert.equal((await staffCase(caseId)).enteredBy, undefined);
+  // Overwrite is for open revisions only.
+  await saveDraft(session, { answers: pmOp, staffPrefillVersion: before + 1 });
+  await uploadAll(f, caseId, pmOp);
+  await submit(session, { answers: pmOp });
+  await assert.rejects(staffAction(caseId, "prefill", { expectedRevision: 1, overwrite: true, prefill: { "a.name": "Late" } }, { idempotencyKey: "ow-late", payloadHash: "late" }), (e: unknown) => e instanceof KycError && e.code === "invalid_state");
 });

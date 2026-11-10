@@ -48,12 +48,16 @@ export interface TrackerPort {
 
 export interface AccessRecord {
   keyHash: string;
-  kind: "link" | "session";
+  kind: "link" | "session" | "assist";
   caseId: string;
   revision: number;
   emailHash: string;
   expiresAt: number;
   revoked: boolean;
+  /** Staff assistance (kind "assist", and the staff session it opens): who at Ark. */
+  by?: string;
+  /** An assist link and its short code are two records of one single use: the other one's key. */
+  sibling?: string;
 }
 
 export interface AccessPort {

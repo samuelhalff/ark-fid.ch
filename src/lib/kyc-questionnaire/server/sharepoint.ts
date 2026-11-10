@@ -247,12 +247,14 @@ class SharePointTracker implements TrackerPort {
 // ---- "Accès KYC" --------------------------------------------------------------------------------
 
 const ACCESS_COLUMNS: Column[] = [
-  choice("Kind", "Type", ["link", "session"]),
+  choice("Kind", "Type", ["link", "session", "assist"]),
   indexed(text("CaseId", "Dossier KYC")),
   num("Revision", "Révision"),
   indexed(text("EmailHash", "Empreinte e-mail")),
   num("ExpiresAt", "Expiration (ms)"),
   bool("Revoked", "Révoqué"),
+  text("By", "Saisi par (Ark)"),
+  text("Sibling", "Accès jumelé"),
 ];
 
 class SharePointAccess implements AccessPort {
@@ -267,6 +269,8 @@ class SharePointAccess implements AccessPort {
       EmailHash: record.emailHash,
       ExpiresAt: record.expiresAt,
       Revoked: record.revoked,
+      ...(record.by ? { By: record.by } : {}),
+      ...(record.sibling ? { Sibling: record.sibling } : {}),
     });
     this.cache.delete(record.keyHash);
   }
@@ -277,12 +281,14 @@ class SharePointAccess implements AccessPort {
     const record: AccessRecord | null = f
       ? {
           keyHash,
-          kind: str(f.Kind) === "session" ? "session" : "link",
+          kind: str(f.Kind) === "session" ? "session" : str(f.Kind) === "assist" ? "assist" : "link",
           caseId: str(f.CaseId),
           revision: Number(f.Revision) || 0,
           emailHash: str(f.EmailHash),
           expiresAt: Number(f.ExpiresAt) || 0,
           revoked: f.Revoked === true,
+          ...(str(f.By) ? { by: str(f.By) } : {}),
+          ...(str(f.Sibling) ? { sibling: str(f.Sibling) } : {}),
         }
       : null;
     this.cache.set(keyHash, { record, at: Date.now() });

@@ -4,13 +4,14 @@ import { staffAction, staffCase, type StaffAction } from "@/src/lib/kyc-question
 /**
  * Cadence API for one case:
  *   GET  — the case, with the submitted answers of the latest revision;
- *   POST {action: "link" | "reopen" | "close" | "signers", expectedRevision, email? (link), signers? [{id, email}],
- *        prefill?, route?} (Idempotency-Key required).
+ *   POST {action: "link" | "reopen" | "close" | "signers" | "prefill" | "assist", expectedRevision (optional for assist),
+ *        email? (link), signers? [{id, email}], prefill? (+ overwrite?, by?), route?, by + ttlMinutes? (assist)}
+ *        (Idempotency-Key required).
  */
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const ACTIONS: StaffAction[] = ["link", "reopen", "close", "signers", "prefill"];
+const ACTIONS: StaffAction[] = ["link", "reopen", "close", "signers", "prefill", "assist"];
 
 export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
@@ -23,6 +24,6 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     const action = String(body.action || "") as StaffAction;
     if (!ACTIONS.includes(action)) return json({ error: "invalid_request", field: "action" }, 400);
     const result = await staffAction(id, action, body, { idempotencyKey, payloadHash });
-    return json({ ...result.summary, ...(result.link ? { link: result.link } : {}), replayed: result.replayed });
+    return json({ ...result.summary, ...(result.link ? { link: result.link } : {}), ...(result.assist ? { assist: result.assist } : {}), replayed: result.replayed });
   });
 }
