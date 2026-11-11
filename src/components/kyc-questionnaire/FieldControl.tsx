@@ -14,6 +14,7 @@ import { UI } from "@/src/lib/kyc-questionnaire/ui";
 import type { Answers, FieldDef, KycLocale } from "@/src/lib/kyc-questionnaire/types";
 import { normaliseAmount, normaliseDate } from "@/src/lib/tax-questionnaire/format";
 import { cn } from "@/src/lib/utils";
+import { HelpHint } from "./HelpHint";
 
 interface Props {
   field: FieldDef;
@@ -48,14 +49,21 @@ export function FieldControl({ field, name, locale, answers, arkPrefilled }: Pro
         const invalid = !!fieldState.error;
         const errorRing = invalid ? "ring-2 ring-destructive/60" : "";
         const prefilledTag = arkPrefilled ? <span className="ml-2 text-xs font-medium text-brand-hover">{UI.prefilled[locale]}</span> : null;
+        // The explanation sits behind a small (i) button next to the label (outside it). The same text stays
+        // available to screen readers as the field description, so aria-describedby points at real content.
+        const helpText = field.help ? L(field.help) : null;
+        const hint = helpText ? <HelpHint text={helpText} locale={locale} /> : null;
+        const help = helpText ? <FormDescription className="sr-only">{helpText}</FormDescription> : null;
         const labelNode = (
-          <FormLabel className="form-label">
-            {L(field.label)}
-            {optional ? <span className="ml-1 font-normal text-muted-foreground">({UI.optional[locale]})</span> : null}
-            {prefilledTag}
-          </FormLabel>
+          <div className="flex items-start gap-1">
+            <FormLabel className="form-label leading-snug">
+              {L(field.label)}
+              {optional ? <span className="ml-1 font-normal text-muted-foreground">({UI.optional[locale]})</span> : null}
+              {prefilledTag}
+            </FormLabel>
+            {hint}
+          </div>
         );
-        const help = field.help ? <FormDescription>{L(field.help)}</FormDescription> : null;
 
         if (field.type === "boolean") {
           return (
@@ -68,6 +76,7 @@ export function FieldControl({ field, name, locale, answers, arkPrefilled }: Pro
                   {L(field.label)}
                   {prefilledTag}
                 </FormLabel>
+                {hint}
               </div>
               {help}
               <FormMessage />

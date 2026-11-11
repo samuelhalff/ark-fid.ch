@@ -186,6 +186,7 @@ export const UI = {
     "Ce lien n'est plus valable. Ouvrez le lien du dernier e-mail reçu d'Ark, ou demandez un code avec votre adresse e-mail.",
     "This link is no longer valid. Open the link in the latest e-mail from Ark, or request a code with your e-mail address.",
   ),
+  helpButton: t("Explication", "Explanation"),
   helpTitle: t("Besoin d'aide ?", "Need help?"),
   retry: t("Réessayer", "Try again"),
 } as const;

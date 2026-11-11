@@ -11,6 +11,7 @@ import { declarations } from "@/src/lib/kyc-questionnaire/schema";
 import { UI } from "@/src/lib/kyc-questionnaire/ui";
 import type { Answers, GroupDef, KycLocale, NoteDef, Row, StepDef } from "@/src/lib/kyc-questionnaire/types";
 import { FieldControl } from "./FieldControl";
+import { HelpHint } from "./HelpHint";
 import { toName } from "./form-model";
 
 interface StepProps {
@@ -117,13 +118,18 @@ function GroupControl({ group, locale, answers, arkPrefilled }: { group: GroupDe
   }, [append, fields.length, min]);
 
   return (
-    <section data-field={name} tabIndex={-1} className="flex flex-col gap-3 outline-none" aria-labelledby={`${name}-title`}>
-      <div>
+    <section data-field={name} tabIndex={-1} className="flex flex-col gap-3 outline-none" aria-labelledby={`${name}-title`} aria-describedby={group.help ? `${name}-help` : undefined}>
+      <div className="flex items-start gap-1">
         <h3 id={`${name}-title`} className="text-lg font-semibold tracking-tight">
           {L(group.label)}
           {arkPrefilled ? <span className="ml-2 align-middle text-xs font-medium text-brand-hover">{UI.prefilled[locale]}</span> : null}
         </h3>
-        {group.help ? <p className="text-sm text-muted-foreground">{L(group.help)}</p> : null}
+        {group.help ? <HelpHint text={L(group.help)} locale={locale} className="mt-0.5" /> : null}
+        {group.help ? (
+          <p id={`${name}-help`} className="sr-only">
+            {L(group.help)}
+          </p>
+        ) : null}
       </div>
       {fields.map((field, index) => {
         const row = (rows[index] || { _id: "" }) as Row;

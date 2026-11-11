@@ -151,6 +151,15 @@ test("operating cascade: 25 % → other control → most senior manager", () => 
   assert.equal(validateAll(unidentified)["b.unidentifiedReason"], "required");
 });
 
+test("currency \"Autre\" asks which currency, and only then", () => {
+  const funds = { ...pp, "f.funds": "yes", "f.origin": "Vente d'un appartement", "f.amount": "1000.00", "f.currency": "CHF", "f.bank": "UBS, Suisse", "f.holder": "Test" };
+  assert.equal(validateAll(pruneHidden(funds))["f.currencyOther"], undefined);
+  const other = pruneHidden({ ...funds, "f.currency": "other" });
+  assert.equal(validateAll(other)["f.currencyOther"], "required");
+  assert.equal(validateAll(pruneHidden({ ...other, "f.currencyOther": "JPY" }))["f.currencyOther"], undefined);
+  assert.equal(pruneHidden({ ...funds, "f.currencyOther": "JPY" })["f.currencyOther"], undefined, "hidden answer dropped");
+});
+
 test("listed company: no cascade, no shareholder list, proof of listing requested", () => {
   const listed = pruneHidden({ ...pmOp, "a.listed": "yes", "a.listedWhere": "Holding AG, SIX" });
   assert.equal(listed["b.q25"], undefined);
