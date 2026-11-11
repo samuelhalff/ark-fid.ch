@@ -57,7 +57,7 @@ sshpass -p "$DEPLOY_SSH_PASSWORD" ssh -T -p "${DEPLOY_SSH_PORT:-22}" "$DEPLOY_SS
     rm -f \$BASE/.pid
   fi
   # Kill any next-server processes
-  pkill -9 -f 'next-server' 2>/dev/null || true
+  pkill -9 -f '[n]ext-server' 2>/dev/null || true
   # Fallback: kill all node processes
   pkill -9 node 2>/dev/null || true
   sleep 2
