@@ -23,6 +23,12 @@ const str = (v: unknown) => (typeof v === "string" ? v.trim() : "");
 export async function POST(request: Request) {
   return staffRoute(request, async ({ body, keyId, idempotencyKey, payloadHash }) => {
     const folder = (body.clientFolder || {}) as Record<string, unknown>;
+    // Cadence's layout folders (both or neither): absent, the case keeps its own `KYC <id>/` folders.
+    const ref = (value: unknown) => {
+      if (value === undefined || value === null) return undefined;
+      const f = value as Record<string, unknown>;
+      return { driveId: str(f.driveId), itemId: str(f.itemId) };
+    };
     const result = await createCase(
       {
         clientRef: str(body.clientRef),
@@ -31,7 +37,10 @@ export async function POST(request: Request) {
         language: str(body.language),
         email: str(body.email),
         clientFolder: { driveId: str(folder.driveId), itemId: str(folder.itemId) },
+        piecesFolder: ref(body.piecesFolder),
+        technicalFolder: ref(body.technicalFolder),
         prefill: body.prefill,
+        skippedDocuments: body.skippedDocuments,
       },
       { keyId, idempotencyKey, payloadHash },
     );

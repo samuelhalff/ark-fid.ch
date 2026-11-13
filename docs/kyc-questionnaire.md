@@ -46,7 +46,7 @@ sign. Ark then reopens the case with the right route.
      kyc.ark-fid.ch. A signatory's session only reads the PDF and signs (no answers, documents
      or scans). Each signature is saved at once; when the last one signs, the PDF gets a page
      listing every signatory (declared name, name typed, drawn signature, code address, Swiss
-     time, SHA-256 of the PDF and of the JSON) and is filed in `Signé/` as
+     time, SHA-256 of the PDF and of the JSON) and is filed in `Signé/` (`Pièces/` for a case with the layout folders) as
      `… - R<n> - signé en ligne.pdf`. The PDF to sign points to the final signature page, so it
      does not show an unexplained blank signature line. Older signed PDFs stay unchanged. Once
      someone has signed online, the paper path is closed; a scan already uploaded blocks online
@@ -63,13 +63,26 @@ revision may become `superseded` (reopened) or `closed`.
 
 ## SharePoint (site LBA - OAR)
 
-- Client folder (given by Cadence, must be in the "Documents" library of LBA - OAR):
-  `KYC <caseId>/` with `case.json` (state) and `Révision <n>/` (`draft.json`,
-  `Documents/` — uploads named `[code] <document> - <original name>`, PDF or images only —,
-  `questionnaire.json`, `questionnaire.sha256`, `Formulaire KYC - … - R<n> - à signer.pdf`,
-  `Signé/`). Documents sent with an earlier revision count for the next one and are never
-  touched again. At submission every document is listed with its item id and SHA-256
-  (`questionnaire.json`, `latestRevision.documents`); the signed scans likewise at confirmation.
+- Client folder (given by Cadence, must be in the "Documents" library of LBA - OAR). Cadence owns the
+  layout (`app/kyc/layout.py`): readable documents in `<Client>/<YYYY>/Pièces/`, the app's data in
+  `<Client>/Données techniques/`, the year being the case's. The site builds no path: `POST /cases`
+  carries `piecesFolder` and `technicalFolder` (`{driveId, itemId}`, both or neither, same library as
+  `clientFolder`) and the case keeps them. Several cases share the two folders, told apart by name:
+  - data in `Données techniques/`: `KYC <caseId> - case.json` (state) and, per revision,
+    `KYC <caseId> R<n> - draft.json`, `… - questionnaire.json`, `… - questionnaire.sha256`;
+  - documents in `Pièces/`: uploads `[code] <document> - <original name> (<caseId> R<n>).<ext>`, the PDF to
+    sign `Formulaire KYC - … - à signer (<caseId> R<n>).pdf`, signed scans
+    `Formulaire signé <name> (<caseId> R<n>).<ext>` and the online-signed PDF `… - signé en ligne (<caseId> R<n>).pdf`.
+    A file is the revision's only if its name ends with that tag (before the extension, and SharePoint's
+    " 1" on a taken name), so one case never reads or deletes another's, whatever a client names a file.
+  The summary's `folder` and `latestRevision.folder` are the `Pièces/` folder (where the PDFs are).
+  A case created without the two folders (every case before the layout, or one Cadence sent while
+  SharePoint did not answer it) keeps its own `KYC <caseId>/` with `case.json` and `Révision <n>/`
+  (`draft.json`, `Documents/` — uploads named `[code] <document> - <original name>`, PDF or images
+  only —, `questionnaire.json`, `questionnaire.sha256`, `Formulaire KYC - … - R<n> - à signer.pdf`,
+  `Signé/`), read and written as before; nothing is moved. Documents sent with an earlier revision count
+  for the next one and are never touched again. At submission every document is listed with its item id and
+  SHA-256 (`questionnaire.json`, `latestRevision.documents`); the signed scans likewise at confirmation.
   Files added to a folder after that are not part of the record.
 - List **Suivi KYC**: one row per revision (state, dates, flags, SHA-256, reference, links).
 - List **Accès KYC**: HMACs of links and sessions only.

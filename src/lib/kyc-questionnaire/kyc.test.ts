@@ -16,7 +16,7 @@ import { flagsOf, routeMismatch } from "./flags";
 import { createChallenge, createPick, createSession, emailHash, readLink, readPick, readSession, STAFF_HASH, redeemAssist, verifyChallenge } from "./server/access";
 import { signRequest, verifyStaffRequest } from "./server/signature";
 import { memoryAccess, memoryTracker } from "./server/ports";
-import { accessFor, askField, changes, clientCase, confirmSigned, contactOf, createCase, createUpload, deleteUpload, KycError, readPdf, signOnline, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
+import { accessFor, askField, changes, clientCase, confirmSigned, contactOf, createCase, createUpload, deleteUpload, formPdfName, KycError, readPdf, signOnline, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
 import { KycMockStorage, setPorts } from "./server/sharepoint";
 import type { Answers } from "./types";
 
@@ -897,4 +897,133 @@ test("a case sent with the earlier form still shows Ark every answer it holds", 
   assert.ok(staff.pages.every((page) => page.missingFieldIds.length === 0), "a sent form is never « missing » under newer rules");
   const label = staff.pages.flatMap((page) => page.parts).find((part) => part.id === "d.activity")?.label?.fr;
   assert.equal(label, "Que détient la société ?", "the route's wording travels with the page");
+});
+
+// ---- Cadence's layout: <Client>/<YYYY>/Pièces/ and <Client>/Données techniques/ -------------------
+
+/** A client folder with the two layout folders Cadence makes, as Cadence would send them. */
+async function layoutFixture() {
+  const f = await fixture();
+  const client = path.join("Dossiers LBA Clients", "Test SA");
+  const pieces = path.join(client, "2026", "Pièces");
+  const technical = path.join(client, "Données techniques");
+  await fs.mkdir(path.join(f.base, pieces), { recursive: true });
+  await fs.mkdir(path.join(f.base, technical), { recursive: true });
+  const ref = (rel: string) => ({ driveId: "mock-drive", itemId: f.storage.idOf(rel) });
+  return {
+    ...f,
+    client: path.join(f.base, client),
+    piecesDir: path.join(f.base, pieces),
+    technicalDir: path.join(f.base, technical),
+    input: (route = "pm-op") => ({ ...createInput(f.clientFolder, route), piecesFolder: ref(pieces), technicalFolder: ref(technical) }),
+  };
+}
+
+/** Uploads the required documents the way the form does (the name is the form's), then gives each its bytes. */
+async function uploadViaForm(f: Awaited<ReturnType<typeof layoutFixture>>, caseId: string, answers: Answers) {
+  const session = { caseId, revision: (await loadCase(caseId)).revisions.length, emailHash: JEAN };
+  await saveDraft(session, { answers, stepId: "d" });
+  for (const item of documentsFor(pruneHidden(answers)).filter((d) => d.required)) {
+    await createUpload(session, { kind: "doc", docKey: item.key, fileName: "scan.pdf", size: 13, mime: "application/pdf" });
+  }
+  for (const name of await fs.readdir(f.piecesDir)) {
+    const full = path.join(f.piecesDir, name);
+    if (name.endsWith(`(${caseId} R${session.revision}).pdf`) && (await fs.stat(full)).size === 0) await fs.writeFile(full, "%PDF-1.4 test");
+  }
+}
+
+test("a case sent with the layout folders files into them and nowhere else, beside another case of the client", async () => {
+  const f = await layoutFixture();
+  const a = (await createCase(f.input(), { keyId: "cadence", idempotencyKey: "create-lay-a1", payloadHash: "a" })).summary.caseId;
+  const b = (await createCase({ ...f.input(), clientRef: "cadence-43" }, { keyId: "cadence", idempotencyKey: "create-lay-b1", payloadHash: "b" })).summary.caseId;
+  const replay = await createCase(f.input(), { keyId: "cadence", idempotencyKey: "create-lay-a1", payloadHash: "a" });
+  assert.equal(replay.summary.caseId, a);
+  assert.equal(replay.replayed, true);
+
+  // No `KYC <id>/` folder: the client folder holds only the year and the technical folder.
+  assert.deepEqual((await fs.readdir(f.client)).sort(), ["2026", "Données techniques"]);
+  const record = await loadCase(a);
+  assert.equal(record.folderId, f.input().technicalFolder.itemId);
+  assert.equal(record.folders?.piecesFolderId, f.input().piecesFolder.itemId);
+  assert.ok((await fs.readdir(f.technicalDir)).includes(`KYC ${a} - case.json`));
+
+  const answers = pmOp;
+  await uploadViaForm(f, a, answers);
+  await uploadViaForm(f, b, answers);
+  const sessionA = { caseId: a, revision: 1, emailHash: JEAN };
+  // Case B's documents sit in the same folder and never count for case A, nor does a forged name.
+  await fs.writeFile(path.join(f.piecesDir, `[000000000000] x - forged (${a} R1) (${b} R1).pdf`), "%PDF-1.4 other");
+  assert.ok(((await clientCase(sessionA)).files as { name: string }[]).every((file) => file.name.endsWith(`(${a} R1).pdf`)));
+  const sent = await submit(sessionA, { answers, submitKey: "k1" });
+  assert.equal(sent.state, "awaiting_signature");
+
+  const rev = (await loadCase(a)).revisions[0];
+  assert.ok(rev.pdf?.name.endsWith(`(${a} R1).pdf`), "the PDF to sign is named for its case");
+  assert.ok((await fs.readdir(f.piecesDir)).includes(rev.pdf!.name), "the PDF to sign is in Pièces");
+  const data = await fs.readdir(f.technicalDir);
+  for (const name of [`KYC ${a} R1 - draft.json`, `KYC ${a} R1 - questionnaire.json`, `KYC ${a} R1 - questionnaire.sha256`]) assert.ok(data.includes(name), name);
+  assert.ok(!(await fs.readdir(f.piecesDir)).some((name) => name.endsWith(".json") || name.endsWith(".sha256")), "no data file among the documents");
+  assert.ok(rev.documents?.every((d) => d.files.every((x) => x.name.endsWith(`(${a} R1).pdf`))), "only this case's documents are frozen");
+
+  // What Cadence reads: the readable folder is Pièces.
+  const summary = await staffCase(a);
+  assert.equal(summary.folder.itemId, f.input().piecesFolder.itemId);
+  assert.equal(summary.latestRevision.folder.itemId, f.input().piecesFolder.itemId);
+
+  // The signed scan goes to Pièces too; another case's signed file there is neither read nor deleted.
+  const foreign = `Formulaire signé scan (${b} R1).pdf`;
+  await fs.writeFile(path.join(f.piecesDir, foreign), "%PDF-1.4 foreign");
+  // A client document whose file name says « signé en ligne » is still a document, not a signed form.
+  await fs.writeFile(path.join(f.piecesDir, `[000000000001] a - signé en ligne (${a} R1).pdf`), "%PDF-1.4 doc");
+  await assert.rejects(confirmSigned(sessionA), (e: unknown) => e instanceof KycError && e.code === "signed_missing");
+  await createUpload(sessionA, { kind: "signed", fileName: "scan.pdf", size: 15, mime: "application/pdf" });
+  const mine = `Formulaire signé scan (${a} R1).pdf`;
+  assert.ok((await fs.readdir(f.piecesDir)).includes(mine));
+  await fs.writeFile(path.join(f.piecesDir, mine), "%PDF-1.4 signed");
+  assert.equal((await confirmSigned(sessionA)).state, "signed");
+  assert.deepEqual((await loadCase(a)).revisions[0].signed?.map((x) => x.name), [mine]);
+  assert.ok((await fs.readdir(f.piecesDir)).includes(foreign));
+
+  // A correction keeps filing into the same two folders, still with no folder of its own.
+  await staffAction(a, "reopen", { expectedRevision: 1 }, { idempotencyKey: "reopen-lay-01", payloadHash: "r" });
+  const next = (await loadCase(a)).revisions[1];
+  assert.equal(next.folderId, f.input().technicalFolder.itemId);
+  assert.equal(next.docsFolderId, f.input().piecesFolder.itemId);
+  assert.ok((await fs.readdir(f.technicalDir)).includes(`KYC ${a} R2 - draft.json`));
+  assert.deepEqual((await fs.readdir(f.client)).sort(), ["2026", "Données techniques"]);
+});
+
+test("a case without the layout folders keeps its own folders, beside layout cases", async () => {
+  const f = await layoutFixture();
+  const legacy = (await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-lay-old", payloadHash: "o" })).summary.caseId;
+  const laid = (await createCase(f.input(), { keyId: "cadence", idempotencyKey: "create-lay-new", payloadHash: "n" })).summary.caseId;
+  const old = await loadCase(legacy);
+  assert.equal(old.folders, undefined);
+  assert.ok((await fs.readdir(path.join(f.client, `KYC ${legacy}`))).includes("case.json"));
+  assert.ok((await fs.readdir(path.join(f.client, `KYC ${legacy}`, "Révision 1"))).includes("draft.json"));
+  assert.equal((await loadCase(laid)).caseId, laid);
+  await uploadAll(f, legacy, pmOp);
+  assert.equal((await submit({ caseId: legacy, revision: 1, emailHash: JEAN }, { answers: pmOp })).state, "awaiting_signature");
+  assert.ok((await fs.readdir(path.join(f.client, `KYC ${legacy}`, "Révision 1"))).some((name) => name.endsWith("à signer.pdf")), "the old way, untouched");
+  assert.deepEqual((await fs.readdir(f.piecesDir)).filter((name) => name.includes(legacy)), []);
+});
+
+test("the layout folders come both or neither, and only from the client's library", async () => {
+  const f = await layoutFixture();
+  const meta = (n: string) => ({ keyId: "cadence", idempotencyKey: `create-lay-bad-${n}`, payloadHash: n });
+  const bad = (e: unknown) => e instanceof KycError && e.code === "invalid_request";
+  await assert.rejects(createCase({ ...f.input(), technicalFolder: undefined }, meta("1")), bad);
+  await assert.rejects(createCase({ ...f.input(), piecesFolder: undefined }, meta("2")), bad);
+  await assert.rejects(createCase({ ...f.input(), piecesFolder: { driveId: "another-drive", itemId: f.input().piecesFolder.itemId } }, meta("3")), bad);
+  await assert.rejects(createCase({ ...f.input(), technicalFolder: { driveId: "mock-drive", itemId: "no-such-folder" } }, meta("4")), (e: unknown) => e instanceof KycError && e.code === "client_folder_not_found");
+});
+
+test("the form's two PDFs keep two names in the shared folder, even for a very long client name", () => {
+  const record = { caseId: "KABCDEFGHIJKL", folders: { piecesFolderId: "p", technicalFolderId: "t" } } as unknown as Parameters<typeof formPdfName>[0];
+  const rev = { n: 1 } as Parameters<typeof formPdfName>[1];
+  const name = "Société de gestion d'actifs et de participations immobilières internationales ".repeat(2);
+  const toSign = formPdfName(record, rev, name, "à signer");
+  const online = formPdfName(record, rev, name, "signé en ligne");
+  assert.notEqual(toSign, online);
+  assert.ok(toSign.endsWith("(KABCDEFGHIJKL R1).pdf") && online.endsWith("(KABCDEFGHIJKL R1).pdf"));
 });

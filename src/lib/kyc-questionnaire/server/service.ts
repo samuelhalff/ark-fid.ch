@@ -14,6 +14,7 @@ import { plainHtml } from "../../tax-questionnaire/server/email";
 import { toWinAnsi } from "../../tax-questionnaire/server/pdf";
 import { appendOnlineSignatures, buildKycPdf } from "./pdf";
 import type { RevisionState, TrackerRow } from "./ports";
+import { caseFileName, dataFileName, isOwnPiece, ONLINE_SIGNED_MARK, pieceFileName, SIGNED_SCAN_PREFIX, type CaseFolders } from "./layout";
 import { getPorts } from "./sharepoint";
 import { askCadence, type AskReply } from "./cadence";
 
@@ -109,6 +110,8 @@ export interface CaseRecord {
   clientFolderId: string;
   folderId: string;
   folderUrl: string;
+  /** Set when Cadence sent the case with its layout folders (see layout.ts): absent = the case's own `KYC <id>/` folders. */
+  folders?: CaseFolders;
   createdAt: string;
   updatedAt: string;
   createdBy: string;
@@ -148,7 +151,6 @@ function trackEnteredBy(before: Answers, after: Answers, marks: Record<string, s
   return next;
 }
 
-const CASE_FILE = "case.json";
 const DRAFT_FILE = "draft.json";
 const SIGNED_FOLDER = "Signé";
 const now = () => new Date().toISOString();
@@ -199,14 +201,35 @@ export async function loadCase(caseId: string): Promise<CaseRecord> {
   const rows = await getPorts().tracker.ofCase(caseId);
   const row = rows[0];
   if (!row) throw new KycError("case_not_found", 404);
-  const record = await readJsonFile<CaseRecord>(row.driveId, row.folderId, CASE_FILE);
-  if (!record || record.caseId !== caseId) throw new KycError("case_not_found", 404);
+  // The folder is the case's own (`case.json`) or the shared data folder (a file named for the case).
+  let record: CaseRecord | null = null;
+  for (const shared of [false, true]) {
+    const found = await readJsonFile<CaseRecord>(row.driveId, row.folderId, caseFileName(caseId, shared));
+    if (found?.caseId === caseId) {
+      record = found;
+      break;
+    }
+  }
+  if (!record) throw new KycError("case_not_found", 404);
   return record;
 }
 
 async function saveCase(record: CaseRecord) {
   record.updatedAt = now();
-  await getPorts().storage.putFile(record.driveId, record.folderId, CASE_FILE, enc(record), "application/json");
+  await getPorts().storage.putFile(record.driveId, record.folderId, caseFileName(record.caseId, !!record.folders), enc(record), "application/json");
+}
+
+/** A revision's data file: in its own folder, or among the shared data under a name that tells the case and revision. */
+const dataName = (record: CaseRecord, rev: RevisionRecord, base: string) => dataFileName(record.caseId, rev.n, base, !!record.folders);
+
+/** The folder of a revision's readable files (the form's PDFs): the shared `Pièces/`, or its own revision folder. */
+const readableFolderId = (record: CaseRecord, rev: RevisionRecord) => (record.folders ? record.folders.piecesFolderId : rev.folderId);
+
+/** The form's own PDFs: `kind` is « à signer » or « signé en ligne ». */
+export function formPdfName(record: CaseRecord, rev: RevisionRecord, clientName: string, kind: string) {
+  // The client's name is cut, never the kind: « à signer » and « signé en ligne » must stay two names in one folder.
+  if (record.folders) return pieceFileName(`${safeName(`Formulaire KYC - ${clientName}`, 100)} - ${kind}`, "pdf", record.caseId, rev.n);
+  return safeName(`Formulaire KYC - ${clientName} - R${rev.n} - ${kind}`, 120) + ".pdf";
 }
 
 const latest = (record: CaseRecord) => record.revisions[record.revisions.length - 1];
@@ -244,13 +267,13 @@ async function track(record: CaseRecord, rev: RevisionRecord, extra: Partial<Tra
 
 /** Saved answers come back in the current form's shape (merged questions, upgrade.ts). */
 async function readDraft(record: CaseRecord, rev: RevisionRecord): Promise<Draft | null> {
-  const draft = await readJsonFile<Draft>(record.driveId, rev.folderId, DRAFT_FILE);
+  const draft = await readJsonFile<Draft>(record.driveId, rev.folderId, dataName(record, rev, DRAFT_FILE));
   if (!draft?.answers || (draft.formVersion || 1) >= FORM_VERSION) return draft;
   return { ...draft, answers: upgradeAnswers(draft.answers, { infer: true }), enteredBy: upgradeMarks(draft.enteredBy) };
 }
 
 async function writeDraft(record: CaseRecord, rev: RevisionRecord, draft: Draft) {
-  await getPorts().storage.putFile(record.driveId, rev.folderId, DRAFT_FILE, enc({ ...draft, formVersion: FORM_VERSION }), "application/json");
+  await getPorts().storage.putFile(record.driveId, rev.folderId, dataName(record, rev, DRAFT_FILE), enc({ ...draft, formVersion: FORM_VERSION }), "application/json");
 }
 
 /**
@@ -273,6 +296,9 @@ export interface CreateCaseInput {
   language: string;
   email: string;
   clientFolder: { driveId: string; itemId: string };
+  /** The case's `Pièces/` and `Données techniques/` (Cadence's layout); both or neither. */
+  piecesFolder?: { driveId: string; itemId: string };
+  technicalFolder?: { driveId: string; itemId: string };
   prefill?: unknown;
   /** Document keys Ark took off the list before sending (optional). */
   skippedDocuments?: unknown;
@@ -297,6 +323,10 @@ function checkCreate(input: CreateCaseInput) {
   if (!input.clientFolder?.driveId || !input.clientFolder?.itemId) throw bad("clientFolder");
   if (!mockStorageEnabled() && input.clientFolder.driveId !== KYC_DRIVE_ID()) throw bad("clientFolder.driveId");
   skippedKeys(input.skippedDocuments);
+  if (!input.piecesFolder !== !input.technicalFolder) throw bad("piecesFolder");
+  for (const folder of [input.piecesFolder, input.technicalFolder]) {
+    if (folder && (!folder.driveId || !folder.itemId || folder.driveId !== input.clientFolder.driveId)) throw bad("piecesFolder");
+  }
 }
 
 /** Answers Ark pre-filled: sanitised like client answers, the route always the case's. */
@@ -331,19 +361,24 @@ export async function createCase(input: CreateCaseInput, meta: { keyId: string; 
     const route = input.route as KycRoute;
     const created = now();
     const caseId = caseIdFor(meta.idempotencyKey);
-    const caseFolderName = safeName(`KYC ${caseId}`);
-    const caseFolderId = await storage.ensureSubfolder(folder.driveId, folder.folderId, caseFolderName);
-    const existing = await readJsonFile<CaseRecord>(folder.driveId, caseFolderId, CASE_FILE);
+    // With Cadence's layout folders the case has no folders of its own: its data is in the shared
+    // technical folder and its documents in the shared pieces folder (layout.ts).
+    const pieces = input.piecesFolder ? await storage.getFolder(input.piecesFolder.driveId, input.piecesFolder.itemId) : null;
+    const technical = input.technicalFolder ? await storage.getFolder(input.technicalFolder.driveId, input.technicalFolder.itemId) : null;
+    if (input.piecesFolder && (!pieces || !technical)) throw new KycError("client_folder_not_found", 404);
+    const folders: CaseFolders | undefined = pieces && technical ? { piecesFolderId: pieces.folderId, technicalFolderId: technical.folderId } : undefined;
+    const caseFolderId = technical ? technical.folderId : await storage.ensureSubfolder(folder.driveId, folder.folderId, safeName(`KYC ${caseId}`));
+    const existing = await readJsonFile<CaseRecord>(folder.driveId, caseFolderId, caseFileName(caseId, !!folders));
     if (existing) {
       // An earlier attempt got this far: same request → finish it; another request → conflict.
       if (existing.idempotency[meta.idempotencyKey]?.hash !== meta.payloadHash) throw new KycError("idempotency_conflict", 409);
       await track(existing, existing.revisions[0], { idempotencyKey: meta.idempotencyKey, createdBy: meta.keyId });
       return { summary: summarize(existing), link: await relink(existing), replayed: true };
     }
-    const caseFolder = await storage.getFolder(folder.driveId, caseFolderId);
-    const revFolderId = await storage.ensureSubfolder(folder.driveId, caseFolderId, "Révision 1");
-    const revFolder = await storage.getFolder(folder.driveId, revFolderId);
-    const docsFolderId = await storage.ensureSubfolder(folder.driveId, revFolderId, DOCS_FOLDER);
+    const caseFolder = pieces || (await storage.getFolder(folder.driveId, caseFolderId));
+    const revFolderId = folders ? caseFolderId : await storage.ensureSubfolder(folder.driveId, caseFolderId, "Révision 1");
+    const revFolder = pieces || (await storage.getFolder(folder.driveId, revFolderId));
+    const docsFolderId = folders ? folders.piecesFolderId : await storage.ensureSubfolder(folder.driveId, revFolderId, DOCS_FOLDER);
     const prefilled = prefillAnswers(input.prefill, route);
     const ids = prefilled.ids;
     const answers: Answers = { ...routeDefaults(route), ...prefilled.answers };
@@ -360,6 +395,7 @@ export async function createCase(input: CreateCaseInput, meta: { keyId: string; 
       clientFolderId: folder.folderId,
       folderId: caseFolderId,
       folderUrl: caseFolder?.webUrl || "",
+      ...(folders ? { folders } : {}),
       createdAt: created,
       updatedAt: created,
       createdBy: meta.keyId,
@@ -570,9 +606,10 @@ export async function staffAction(
     const extra = prefillAnswers(body.prefill, route as KycRoute);
     const answers: Answers = { ...sanitizeAnswers(previousAnswers), ...extra.answers, route };
     const n = rev.n + 1;
-    const folderId = await storage.ensureSubfolder(record.driveId, record.folderId, `Révision ${n}`);
-    const folder = await storage.getFolder(record.driveId, folderId);
-    const docsFolderId = await storage.ensureSubfolder(record.driveId, folderId, DOCS_FOLDER);
+    // A case with the layout folders keeps filing into them; one without opens its next revision folder.
+    const folderId = record.folders ? record.folders.technicalFolderId : await storage.ensureSubfolder(record.driveId, record.folderId, `Révision ${n}`);
+    const folder = record.folders ? null : await storage.getFolder(record.driveId, folderId);
+    const docsFolderId = record.folders ? record.folders.piecesFolderId : await storage.ensureSubfolder(record.driveId, folderId, DOCS_FOLDER);
     // Documents of earlier revisions stay where they are and count as provided.
     const carried: Record<string, FrozenFile[]> = { ...(rev.carried || {}) };
     for (const doc of rev.documents || []) {
@@ -590,7 +627,7 @@ export async function staffAction(
       carried,
       createdAt: now(),
       folderId,
-      folderUrl: folder?.webUrl || "",
+      folderUrl: record.folders ? rev.folderUrl : folder?.webUrl || "",
       // Only what Ark pre-fills now is marked "to check": the rest was confirmed by the client.
       prefilledIds: extra.ids,
     };
@@ -620,7 +657,7 @@ async function assistFor(record: CaseRecord, rev: RevisionRecord, body: { by?: u
 
 async function readSubmission(record: CaseRecord, rev: RevisionRecord) {
   if (!rev.json) return null;
-  const submission = await readJsonFile<{ answers?: Answers; enteredBy?: Record<string, string>; documents?: { key: string; label: string }[]; formVersion?: number }>(record.driveId, rev.folderId, "questionnaire.json");
+  const submission = await readJsonFile<{ answers?: Answers; enteredBy?: Record<string, string>; documents?: { key: string; label: string }[]; formVersion?: number }>(record.driveId, rev.folderId, dataName(record, rev, "questionnaire.json"));
   // A form sent before 2026-11-13: merged questions read in the current shape, nothing inferred.
   if (!submission?.answers || (submission.formVersion || 1) >= FORM_VERSION) return submission;
   return { ...submission, answers: upgradeAnswers(submission.answers), enteredBy: upgradeMarks(submission.enteredBy) };
@@ -685,7 +722,7 @@ export function summarize(record: CaseRecord): StaffSummary {
     language: record.language,
     closed: !!record.closedAt,
     updatedAt: record.updatedAt,
-    folder: { driveId: record.driveId, itemId: record.folderId, webUrl: record.folderUrl },
+    folder: { driveId: record.driveId, itemId: record.folders ? record.folders.piecesFolderId : record.folderId, webUrl: record.folderUrl },
     skippedDocuments: record.skippedDocuments || [],
     actionRequired: action,
     latestRevision: {
@@ -704,7 +741,7 @@ export function summarize(record: CaseRecord): StaffSummary {
       signed: rev.signed?.map(({ itemId, name, sha256, size }) => ({ itemId, name, sha256, size })),
       signers: rev.signers?.map((x) => ({ id: x.id, name: x.name, email: x.email, emailBy: x.emailBy, invitedAt: x.invitedAt, signedAt: x.signature?.at, typed: x.signature?.typed })),
       documents: rev.documents,
-      folder: { itemId: rev.folderId, webUrl: rev.folderUrl },
+      folder: { itemId: readableFolderId(record, rev), webUrl: rev.folderUrl },
     },
     revisions: record.revisions.map((r) => ({ n: r.n, id: r.id, state: r.state })),
   };
@@ -891,20 +928,34 @@ export interface ClientFile {
 
 const codeOf = (name: string) => /^\[([0-9a-f]{12})\] /.exec(name)?.[1] || null;
 
+/** The documents the client uploaded to this revision (in the shared `Pièces/` only the ones carrying this case and revision). */
 async function docFiles(record: CaseRecord, rev: RevisionRecord): Promise<ClientFile[]> {
   const files = await getPorts().storage.listFiles(record.driveId, rev.docsFolderId);
-  return files.filter((f) => !f.folder).map((f) => ({ id: f.id, name: f.name, size: f.size, code: codeOf(f.name), webUrl: f.webUrl }));
+  const own = (f: { name: string }) => !record.folders || (codeOf(f.name) !== null && isOwnPiece(f.name, record.caseId, rev.n));
+  return files.filter((f) => !f.folder && own(f)).map((f) => ({ id: f.id, name: f.name, size: f.size, code: codeOf(f.name), webUrl: f.webUrl }));
 }
 
 /** Documents provided in earlier revisions (read-only for the client). */
 const carriedFiles = (rev: RevisionRecord): (ClientFile & { carried: true })[] =>
   Object.entries(rev.carried || {}).flatMap(([key, files]) => files.map((f) => ({ id: f.itemId, name: f.name, size: f.size, code: docCode(key), carried: true as const })));
 
+/** Where the signed form of a revision is filed: its `Signé/` folder, or the shared `Pièces/`. */
+async function signedFolderId(record: CaseRecord, rev: RevisionRecord): Promise<string> {
+  return record.folders ? record.folders.piecesFolderId : getPorts().storage.ensureSubfolder(record.driveId, rev.folderId, SIGNED_FOLDER);
+}
+
+/** The signed form's files of a revision (scans and the online-signed PDF); in the shared `Pièces/` only this revision's. */
+async function signedStored(record: CaseRecord, rev: RevisionRecord) {
+  const folderId = await signedFolderId(record, rev);
+  // A client's document (it starts with its code) is never a signed form, whatever its file name says.
+  const own = (name: string) =>
+    !record.folders || (isOwnPiece(name, record.caseId, rev.n) && codeOf(name) === null && (name.startsWith(SIGNED_SCAN_PREFIX) || (name.startsWith("Formulaire KYC - ") && name.includes(ONLINE_SIGNED_MARK))));
+  const files = (await getPorts().storage.listFiles(record.driveId, folderId)).filter((f) => !f.folder && own(f.name));
+  return { folderId, files };
+}
+
 async function signedFiles(record: CaseRecord, rev: RevisionRecord): Promise<ClientFile[]> {
-  const { storage } = getPorts();
-  const folderId = await storage.ensureSubfolder(record.driveId, rev.folderId, SIGNED_FOLDER);
-  const files = await storage.listFiles(record.driveId, folderId);
-  return files.filter((f) => !f.folder).map((f) => ({ id: f.id, name: f.name, size: f.size, code: null }));
+  return (await signedStored(record, rev)).files.map((f) => ({ id: f.id, name: f.name, size: f.size, code: null }));
 }
 
 /**
@@ -1141,7 +1192,7 @@ export async function signOnline(session: Session, body: { name?: unknown; accep
     const typed = str(body.name).slice(0, 200);
     if (!typed || nameKey(typed) !== nameKey(pending.name)) throw new KycError("signature_name", 422);
     const drawnPng = await checkedDrawing(body.drawing);
-    const original = await getPorts().storage.readFile(record.driveId, rev.folderId, rev.pdf.name);
+    const original = await getPorts().storage.readFile(record.driveId, readableFolderId(record, rev), rev.pdf.name);
     if (!original) throw new KycError("pdf_not_ready", 409);
     // The evidence is saved before the PDF is built: a later failure never asks to sign again.
     pending.signature = { typed, email: pending.email || "", at: now(), pdfSha256: sha256(original), drawnPng };
@@ -1156,7 +1207,7 @@ export async function signOnline(session: Session, body: { name?: unknown; accep
 async function finishOnline(record: CaseRecord, rev: RevisionRecord) {
   const signers = rev.signers || [];
   const { storage } = getPorts();
-  const original = await storage.readFile(record.driveId, rev.folderId, rev.pdf!.name);
+  const original = await storage.readFile(record.driveId, readableFolderId(record, rev), rev.pdf!.name);
   if (!original) throw new KycError("pdf_not_ready", 409);
   const pdfSha256 = sha256(original);
   // Everyone signed this very document.
@@ -1168,8 +1219,8 @@ async function finishOnline(record: CaseRecord, rev: RevisionRecord) {
     pdfSha256,
     jsonSha256: rev.json?.sha256 || "",
   });
-  const folderId = await storage.ensureSubfolder(record.driveId, rev.folderId, SIGNED_FOLDER);
-  const fileName = safeName(`Formulaire KYC - ${record.displayName} - R${rev.n} - signé en ligne`, 120) + ".pdf";
+  const folderId = await signedFolderId(record, rev);
+  const fileName = formPdfName(record, rev, record.displayName, "signé en ligne");
   const file = await storage.putFile(record.driveId, folderId, fileName, signedPdf, "application/pdf");
   rev.signed = [{ itemId: file.id, name: file.name, sha256: sha256(signedPdf), size: signedPdf.byteLength, webUrl: file.webUrl }];
   rev.signedAt = signers.map((s) => s.signature!.at).sort().pop();
@@ -1274,9 +1325,9 @@ export async function createUpload(session: Session, body: { kind?: unknown; doc
       if (rev.state !== "awaiting_signature") throw new KycError("not_editable", 409);
       // One way per revision: once someone has signed online, the others sign online too.
       if ((rev.signers || []).some((s) => s.signature)) throw new KycError("online_signing_started", 409);
-      const folderId = await storage.ensureSubfolder(record.driveId, rev.folderId, SIGNED_FOLDER);
+      const folderId = await signedFolderId(record, rev);
       if ((await signedFiles(record, rev)).length >= 10) throw new KycError("too_many_files", 400);
-      const name = `Formulaire signé R${rev.n} - ${base}.${check.ext}`;
+      const name = record.folders ? pieceFileName(`${SIGNED_SCAN_PREFIX}${base}`, check.ext, record.caseId, rev.n) : `Formulaire signé R${rev.n} - ${base}.${check.ext}`;
       const { uploadUrl } = await storage.createUploadSession(record.driveId, folderId, name, Number(body.size));
       return { uploadUrl, chunkBytes: UPLOAD_LIMITS.chunkBytes };
     }
@@ -1286,11 +1337,11 @@ export async function createUpload(session: Session, body: { kind?: unknown; doc
     const item = items.find((i) => i.key === str(body.docKey));
     if (!item) throw new KycError("unknown_document", 400);
     if (items.filter((i) => i.code === item.code).length > 1) throw new KycError("unknown_document", 400);
-    const current = await storage.listFiles(record.driveId, rev.docsFolderId);
+    const current = await docFiles(record, rev);
     if (current.length >= 80) throw new KycError("too_many_files", 400);
     if (current.reduce((sum, f) => sum + f.size, 0) + Number(body.size) > UPLOAD_LIMITS.maxTotalBytes) throw new KycError("file_size", 400);
     const short = safeName(item.label[record.language] || item.label.fr, 50);
-    const name = `[${item.code}] ${short} - ${base}.${check.ext}`;
+    const name = record.folders ? pieceFileName(`[${item.code}] ${short} - ${base}`, check.ext, record.caseId, rev.n) : `[${item.code}] ${short} - ${base}.${check.ext}`;
     const { uploadUrl } = await storage.createUploadSession(record.driveId, rev.docsFolderId, name, Number(body.size));
     return { uploadUrl, chunkBytes: UPLOAD_LIMITS.chunkBytes };
   });
@@ -1400,8 +1451,8 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
     };
     const jsonBytes = enc({ ...submission, documents: manifest.map((d) => ({ ...d, label: items.find((i) => i.key === d.key)?.label.fr || d.key })) });
     const digest = sha256(jsonBytes);
-    const jsonFile = await storage.putFile(record.driveId, rev.folderId, "questionnaire.json", jsonBytes, "application/json");
-    await storage.putFile(record.driveId, rev.folderId, "questionnaire.sha256", new TextEncoder().encode(`${digest}  questionnaire.json\n`), "text/plain");
+    const jsonFile = await storage.putFile(record.driveId, rev.folderId, dataName(record, rev, "questionnaire.json"), jsonBytes, "application/json");
+    await storage.putFile(record.driveId, rev.folderId, dataName(record, rev, "questionnaire.sha256"), new TextEncoder().encode(`${digest}  questionnaire.json\n`), "text/plain");
     rev.json = { itemId: jsonFile.id, sha256: digest };
     rev.flags = flags;
     rev.documents = manifest;
@@ -1414,8 +1465,8 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
       rev.declarationId = `${record.caseId}-R${rev.n}-${digest.slice(0, 8).toUpperCase()}`;
       rev.signers = signers;
       const pdf = await buildKycPdf(submission, rev.declarationId, { online: onlineReady(rev) });
-      const pdfName = safeName(`Formulaire KYC - ${submission.clientName} - R${rev.n} - à signer`, 120) + ".pdf";
-      const pdfFile = await storage.putFile(record.driveId, rev.folderId, pdfName, pdf, "application/pdf");
+      const pdfName = formPdfName(record, rev, submission.clientName, "à signer");
+      const pdfFile = await storage.putFile(record.driveId, readableFolderId(record, rev), pdfName, pdf, "application/pdf");
       rev.pdf = { itemId: pdfFile.id, name: pdfFile.name, webUrl: pdfFile.webUrl };
       rev.state = "awaiting_signature";
     }
@@ -1433,7 +1484,7 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
 export async function readPdf(session: Session): Promise<{ name: string; bytes: Uint8Array }> {
   const { record, rev } = await clientContext(session, ["contact", "signer", "staff"]);
   if (!rev.pdf) throw new KycError("pdf_not_ready", 409);
-  const bytes = await getPorts().storage.readFile(record.driveId, rev.folderId, rev.pdf.name);
+  const bytes = await getPorts().storage.readFile(record.driveId, readableFolderId(record, rev), rev.pdf.name);
   if (!bytes) throw new KycError("pdf_not_ready", 409);
   return { name: rev.pdf.name, bytes };
 }
@@ -1449,8 +1500,7 @@ export async function confirmSigned(session: Session) {
     if (rev.state !== "awaiting_signature") throw new KycError("not_editable", 409);
     if ((rev.signers || []).some((s) => s.signature)) throw new KycError("online_signing_started", 409);
     const { storage } = getPorts();
-    const folderId = await storage.ensureSubfolder(record.driveId, rev.folderId, SIGNED_FOLDER);
-    const listed = (await storage.listFiles(record.driveId, folderId)).filter((f) => !f.folder);
+    const { folderId, files: listed } = await signedStored(record, rev);
     if (!listed.length) throw new KycError("signed_missing", 422);
     const signed: NonNullable<RevisionRecord["signed"]> = [];
     for (const file of listed) {
