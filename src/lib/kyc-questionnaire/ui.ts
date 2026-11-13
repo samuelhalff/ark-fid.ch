@@ -10,35 +10,31 @@ export const CONTACT = {
 } as const;
 
 export const UI = {
-  pageTitle: t("Formulaire KYC", "KYC form"),
+  pageTitle: t("Questionnaire client", "Client questionnaire"),
   pageIntro: t(
-    "Vérifiez les informations pré-remplies par Ark, complétez le formulaire et joignez les documents demandés. Vous signerez ensuite le formulaire généré.",
-    "Check the information pre-filled by Ark, complete the form and attach the requested documents. You will then sign the generated form.",
+    "Vérifiez ce que nous avons déjà rempli, complétez le reste, joignez les documents, puis signez.",
+    "Check what we have already filled in, complete the rest, attach the documents, then sign.",
   ),
   eyebrow: t("Ark Fiduciaire · KYC", "Ark Fiduciaire · KYC"),
   language: t("Langue", "Language"),
-  stepOf: t("Étape {n} sur {total}", "Step {n} of {total}"),
-  section: t("Section {letter}", "Section {letter}"),
+  stepOf: t("Écran {n} sur {total}", "Screen {n} of {total}"),
   back: t("Retour", "Back"),
   next: t("Continuer", "Continue"),
   edit: t("Modifier", "Edit"),
+  rowDone: t("Valider", "Done"),
   remove: t("Supprimer", "Remove"),
   carried: t("Transmis lors d'une version précédente", "Provided with an earlier version"),
-  addRow: t("Ajouter : {item}", "Add: {item}"),
-  addAnother: t("Ajouter une autre entrée : {item}", "Add another: {item}"),
+  addRow: t("Ajouter une personne", "Add a person"),
+  addAnother: t("Ajouter une personne", "Add a person"),
   noRows: t("Aucune entrée pour l'instant.", "No entries yet."),
   optional: t("facultatif", "optional"),
   yes: t("Oui", "Yes"),
   no: t("Non", "No"),
   choose: t("Choisir…", "Choose…"),
   datePlaceholder: t("jj.mm.aaaa", "dd.mm.yyyy"),
-  stepIncomplete: t("Étape enregistrée. Certaines réponses manquent encore : vous pourrez les compléter plus tard, elles seront vérifiées avant l’envoi.", "Step saved. Some answers are still missing: you can complete them later; they are checked before you submit."),
+  stepIncomplete: t("Écran enregistré. Il manque encore des réponses : complétez-les quand vous voulez, tout est vérifié avant l’envoi.", "Screen saved. Some answers are still missing: complete them whenever you like, everything is checked before you send."),
   errorSummary: t("Merci de corriger les points signalés.", "Please correct the highlighted fields."),
-  prefilled: t("Pré-rempli par Ark — à vérifier", "Pre-filled by Ark — please check"),
-  prefilledStep: t(
-    "Ark a pré-rempli certaines réponses de cet écran. Vérifiez chacune d'elles et corrigez-les si nécessaire.",
-    "Ark pre-filled some answers on this screen. Please check each of them and correct them if needed.",
-  ),
+  prefilled: t("Déjà rempli, à vérifier", "Already filled in, please check"),
 
   // access
   linkOpening: t("Ouverture de votre formulaire…", "Opening your form…"),
@@ -82,8 +78,8 @@ export const UI = {
   savedAt: t("Enregistré à {time}", "Saved at {time}"),
   saveFailed: t("Enregistrement impossible pour l'instant", "Could not save for now"),
   draftStored: t(
-    "Vos réponses sont enregistrées au fur et à mesure chez Ark Fiduciaire. Vous pouvez vous arrêter et reprendre plus tard avec le même lien, ou sur kyc.ark-fid.ch avec un code reçu à votre adresse e-mail.",
-    "Your answers are saved as you go at Ark Fiduciaire. You can stop and come back later with the same link, or on kyc.ark-fid.ch with a code sent to your e-mail address.",
+    "Tout est enregistré au fur et à mesure. Reprenez plus tard avec le même lien, ou sur kyc.ark-fid.ch avec un code reçu par e-mail.",
+    "Everything is saved as you go. Come back later with the same link, or on kyc.ark-fid.ch with a code sent by e-mail.",
   ),
 
   // documents
@@ -99,7 +95,7 @@ export const UI = {
   docsDone: t("{done} sur {total} documents traités", "{done} of {total} documents handled"),
 
   // review
-  reviewIntro: t("Relisez vos réponses avant l'envoi. Vous pouvez revenir à chaque écran pour corriger.", "Check your answers before sending. You can go back to each screen to correct them."),
+  reviewIntro: t("Pour corriger une réponse, « Modifier » vous ramène à son écran.", "To correct an answer, “Edit” takes you back to its screen."),
   reviewDocs: t("Documents", "Documents"),
   docUploadedOne: t("Joint (1 fichier)", "Attached (1 file)"),
   docUploadedMany: t("Joint ({n} fichiers)", "Attached ({n} files)"),

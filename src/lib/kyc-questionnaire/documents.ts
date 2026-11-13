@@ -7,8 +7,8 @@ import { clientName, isListed, isPM, isPP, sectionBPersons } from "./schema";
 import { t, type Answers, type DocItem, type L, type Row } from "./types";
 
 const CERTIFIED_HINT = t(
-  "Copie certifiée conforme par un notaire, votre commune ou Ark Fiduciaire SA (sur présentation de l'original). Joignez-en ici une copie numérisée et envoyez l'exemplaire certifié original par courrier à Ark Fiduciaire SA, boulevard Georges-Favon 26, 1204 Genève.",
-  "Copy certified by a notary, your municipality or Ark Fiduciaire SA (on presentation of the original). Attach a scanned copy here and send the original certified copy by post to Ark Fiduciaire SA, boulevard Georges-Favon 26, 1204 Geneva, Switzerland.",
+  "Copie certifiée par un notaire, votre commune, ou par nous sur présentation de l’original. Joignez un scan ici et envoyez la copie certifiée par la poste : Ark Fiduciaire SA, boulevard Georges-Favon 26, 1204 Genève.",
+  "Copy certified by a notary, your municipality, or by us on presentation of the original. Attach a scan here and send the certified copy by post: Ark Fiduciaire SA, boulevard Georges-Favon 26, 1204 Geneva, Switzerland.",
 );
 
 /** Accepted uploads: PDF and images only (no office documents, which may carry macros). */
@@ -63,33 +63,43 @@ const rows = (a: Answers, id: string): Row[] => (Array.isArray(a[id]) ? (a[id] a
 function allDocuments(a: Answers): DocItem[] {
   const out: DocItem[] = [];
   if (isPP(a)) {
-    out.push(item("pp.id", t("Copie certifiée conforme de votre passeport ou de votre carte d'identité", "Certified copy of your passport or identity card"), true, CERTIFIED_HINT));
-    out.push(item("pp.address", t("Justificatif de domicile de moins de 3 mois (facture d'électricité ou de téléphone, attestation de domicile)", "Proof of address less than 3 months old (utility or phone bill, certificate of residence)"), true));
-    out.push(item("pp.wealth", t("Justificatifs de l'origine de votre fortune (p. ex. contrat de travail, acte de vente, succession)", "Evidence of the origin of your wealth (e.g. employment contract, deed of sale, estate documents)"), true));
+    out.push(item("pp.id", t("Copie certifiée de votre passeport ou carte d’identité", "Certified copy of your passport or identity card"), true, CERTIFIED_HINT));
+    out.push(item("pp.address", t("Justificatif de domicile de moins de 3 mois (facture d’électricité ou de téléphone, attestation de la commune)", "Proof of address less than 3 months old (utility or phone bill, certificate from the municipality)"), true));
+    out.push(item("pp.wealth", t("Justificatifs de l’origine de votre fortune (p. ex. contrat de travail, acte de vente, succession)", "Evidence of the origin of your wealth (e.g. employment contract, deed of sale, estate documents)"), true));
     for (const { row } of sectionBPersons(a)) {
-      out.push(item(`pp.ubo:${row._id}`, t(`Copie de la pièce d'identité de ${personLabel(row)} (uniquement si Ark Fiduciaire SA vous la demande)`, `Copy of the identity document of ${personLabel(row)} (only if requested by Ark Fiduciaire SA)`), false));
+      out.push(item(`pp.ubo:${row._id}`, t(`Pièce d’identité de ${personLabel(row)} (seulement si nous vous la demandons)`, `Identity document of ${personLabel(row)} (only if we ask for it)`), false));
     }
   }
   if (isPM(a)) {
     if (!swissCompany(a)) out.push(item("pm.rc", t("Extrait du registre du commerce de moins de 12 mois (ou équivalent étranger)", "Commercial register extract less than 12 months old (or foreign equivalent)"), true));
     if (!swissCompany(a)) out.push(item("pm.statutes", t("Statuts", "Articles of association"), true));
-    if (!isListed(a)) out.push(item("pm.shareholders", t("Liste des actionnaires avec leur nombre d'actions (registre des actions)", "List of shareholders with their number of shares (share register)"), true));
-    if (a["b.structure"] === "yes" || String(a["d.group"] || "").trim()) out.push(item("pm.chart", t("Organigramme du groupe ou de la chaîne de détention", "Chart of the group or ownership chain"), true));
-    if (isListed(a)) out.push(item("pm.listed", t("Preuve de la cotation (ou de la détention majoritaire par une société cotée)", "Evidence of the listing (or of majority ownership by a listed company)"), true));
+    if (!isListed(a)) out.push(item("pm.shareholders", t("Registre des actions", "Share register"), true));
+    if (a["b.structure"] === "yes" || String(a["d.group"] || "").trim()) out.push(item("pm.chart", t("Schéma de qui détient la société", "Chart of who owns the company"), true));
     for (const row of rows(a, "i.signers")) {
-      out.push(item(`pm.signer:${row._id}`, t(`Copie certifiée conforme de la pièce d'identité de ${personLabel(row)} (signataire du formulaire)`, `Certified copy of the identity document of ${personLabel(row)} (form signatory)`), true, CERTIFIED_HINT));
+      out.push(item(`pm.signer:${row._id}`, t(`Copie certifiée de la pièce d’identité de ${personLabel(row)}`, `Certified copy of the identity document of ${personLabel(row)}`), true, CERTIFIED_HINT));
     }
     for (const { row } of sectionBPersons(a)) {
-      out.push(item(`pm.person:${row._id}`, t(`Copie de la pièce d'identité de ${personLabel(row)} (personne indiquée au point B)`, `Copy of the identity document of ${personLabel(row)} (person listed in section B)`), true));
+      out.push(item(`pm.person:${row._id}`, t(`Pièce d’identité de ${personLabel(row)}`, `Identity document of ${personLabel(row)}`), true));
     }
     if (a["b.transparency"] === "done") out.push(item("pm.transparency", t("Extrait du registre de transparence", "Transparency register extract"), true));
-    if (a["a.activityKind"] === "notStarted") out.push(item("pm.plan", t("Plan d'affaires ou description de l'activité prévue", "Business plan or description of the planned activity"), true));
-    else out.push(item("pm.financials", t("Derniers états financiers", "Latest financial statements"), true));
+    if (a["a.activityKind"] === "notStarted") out.push(item("pm.plan", t("Plan d’affaires ou description de l’activité prévue", "Business plan or description of the planned activity"), true));
+    else out.push(item("pm.financials", t("Derniers comptes annuels", "Latest annual accounts"), true));
   }
-  if (a["f.funds"] === "yes") out.push(item("funds", t("Justificatifs de l'origine des fonds (p. ex. relevé du compte depuis lequel l'argent sera versé)", "Evidence of the origin of funds (e.g. statement of the account the money will come from)"), true));
-  out.push(item("other", t("Autre document utile (facultatif)", "Other useful document (optional)"), false));
+  if (a["f.funds"] === "yes") out.push(item("funds", t("Preuve de l’origine du versement (p. ex. relevé du compte d’où part l’argent)", "Evidence of the origin of the payment (e.g. statement of the account the money comes from)"), true));
+  out.push(item("other", t("Autre document (facultatif)", "Other document (optional)"), false));
   return out;
 }
+
+/**
+ * Documents earlier versions of the form asked for and the current one no longer does (proof of
+ * listing: public, Ark finds it). Kept so the files of earlier cases still show in the staff view.
+ */
+export const RETIRED_DOCUMENTS: Record<string, L> = {
+  "pm.listed": t("Preuve de la cotation (ou de la détention majoritaire par une société cotée)", "Evidence of the listing (or of majority ownership by a listed company)"),
+};
+
+/** A retired document an earlier case holds files or an answer for, as an item of its list. */
+export const retiredDocument = (key: string): DocItem | null => (RETIRED_DOCUMENTS[key] ? item(key, RETIRED_DOCUMENTS[key], false) : null);
 
 /** Name prefix of the case's documents folder files: "[code] ". */
 export const DOCS_FOLDER = "Documents";

@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { getField, getGroup, label, rowsOf, rowTitle, validateStep, type FieldError } from "@/src/lib/kyc-questionnaire/engine";
+import { fieldText, getField, getGroup, label, rowsOf, rowTitle, validateStep, type FieldError } from "@/src/lib/kyc-questionnaire/engine";
 import { STEPS } from "@/src/lib/kyc-questionnaire/schema";
 import { FIELD_ERRORS } from "@/src/lib/kyc-questionnaire/ui";
 import type { Answers, KycLocale, Row, StepDef } from "@/src/lib/kyc-questionnaire/types";
@@ -86,7 +86,7 @@ export function collectIssues(errors: Record<string, unknown>, locale: KycLocale
     const id = toId(name);
     const field = getField(id);
     if (field) {
-      out.push({ name, label: label(field.label, locale) });
+      out.push({ name, label: label(fieldText(field, answers).label, locale) });
       continue;
     }
     const group = getGroup(id);
@@ -125,8 +125,9 @@ export function issuesFromKeys(keys: string[], locale: KycLocale, answers: Answe
       out.push({ name: `${toName(groupId)}.${index}.${fieldId}`, label: `${label(f.label, locale)} (${rowLabel(groupId, index, answers, locale)})` });
       continue;
     }
-    const block = getField(key) || getGroup(key);
-    if (block) out.push({ name: toName(key), label: label(block.label, locale) });
+    const field = getField(key);
+    const block = field || getGroup(key);
+    if (block) out.push({ name: toName(key), label: label(field ? fieldText(field, answers).label : block.label, locale) });
   }
   return out;
 }

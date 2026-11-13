@@ -5,6 +5,7 @@
 import { EMAIL_RE, parseAmount, parseDate } from "../tax-questionnaire/format";
 import { STEPS } from "./schema";
 import type { Answers, Block, FieldDef, GroupDef, KycLocale, L, Row, StepDef } from "./types";
+import { upgradeAnswers } from "./upgrade";
 
 export const LIMITS = {
   text: 200,
@@ -43,6 +44,8 @@ for (const step of STEPS) {
 export const SERVER_OWNED = new Set(["route"]);
 
 export const getField = (id: string) => TOP_FIELDS.get(id);
+/** An answer id the form no longer asks (retired block): readable, never prefilled. */
+export const isRetiredId = (id: string) => !!(TOP_FIELDS.get(id)?.retired || GROUPS.get(id)?.retired);
 export const getGroup = (id: string) => GROUPS.get(id);
 export const stepById = (id: string) => STEPS.find((s) => s.id === id);
 export const allFieldIds = () => [...TOP_FIELDS.keys(), ...GROUPS.keys()];
@@ -51,7 +54,37 @@ export const rowsOf = (a: Answers, id: string): Row[] => (Array.isArray(a[id]) ?
 
 export const isStepVisible = (step: StepDef, a: Answers) => !step.showIf || step.showIf(a);
 export const visibleSteps = (a: Answers) => STEPS.filter((s) => isStepVisible(s, a));
-export const isBlockVisible = (block: Block, a: Answers) => !block.showIf || block.showIf(a);
+const isRetired = (block: Block) => (block.kind === "field" || block.kind === "group") && !!block.retired;
+/**
+ * A block with something to show for these answers. A retired block (no longer asked) shows to
+ * readers only when an earlier version of the form stored an answer for it.
+ */
+export const isBlockVisible = (block: Block, a: Answers) => (!block.showIf || block.showIf(a)) && (!isRetired(block) || !isEmpty(a[block.id]));
+/** A block the client is asked to fill in: visible and not retired (the form, validation). */
+export const isBlockAsked = (block: Block, a: Answers) => !isRetired(block) && isBlockVisible(block, a);
+/** Title and intro of a screen for these answers (`variants`). */
+export function stepText(step: StepDef, a: Answers): { title: L; intro?: L } {
+  const variant = step.variants?.find((v) => {
+    try {
+      return v.when(a);
+    } catch {
+      return false;
+    }
+  });
+  return { title: step.title, intro: variant?.intro || step.intro };
+}
+
+/** Label and help of a field for these answers (route-specific wording, `variants`). */
+export function fieldText(field: FieldDef, a: Answers): { label: L; help?: L } {
+  const variant = field.variants?.find((v) => {
+    try {
+      return v.when(a);
+    } catch {
+      return false;
+    }
+  });
+  return { label: variant?.label || field.label, help: variant?.help || field.help };
+}
 export const isRowFieldVisible = (field: FieldDef, a: Answers, row: Row) => !field.showIf || field.showIf(a, row);
 
 /** Drops the answers of hidden screens, blocks and row fields (repeated until stable). */
@@ -103,13 +136,16 @@ function sanitizeValue(field: FieldDef, raw: unknown): string | string[] | undef
 export function sanitizeAnswers(raw: unknown): Answers {
   const out: Answers = {};
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) return out;
-  const input = raw as Record<string, unknown>;
+  // Earlier ids map to the current questions; a question no longer asked is never taken in
+  // (the client cannot see it, so it must not reach what they sign). Ark keeps old cases' answers.
+  const input = upgradeAnswers(raw as Answers) as Record<string, unknown>;
   for (const [id, field] of TOP_FIELDS) {
-    if (SERVER_OWNED.has(id)) continue;
+    if (SERVER_OWNED.has(id) || field.retired) continue;
     const value = sanitizeValue(field, input[id]);
     if (value !== undefined && value !== "" && !(Array.isArray(value) && value.length === 0)) out[id] = value;
   }
   for (const [id, group] of GROUPS) {
+    if (group.retired) continue;
     const list = input[id];
     if (!Array.isArray(list)) continue;
     const seen = new Set<string>();
@@ -179,7 +215,7 @@ export function validateStep(step: StepDef, a: Answers): Errors {
   const errors: Errors = {};
   if (!isStepVisible(step, a)) return errors;
   for (const block of step.blocks) {
-    if (!isBlockVisible(block, a)) continue;
+    if (!isBlockAsked(block, a)) continue;
     if (block.kind === "field") {
       const error = validateField(block, a[block.id]);
       if (error) errors[block.id] = error;

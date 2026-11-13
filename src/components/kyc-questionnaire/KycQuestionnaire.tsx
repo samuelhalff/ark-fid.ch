@@ -17,7 +17,7 @@ import { Separator } from "@/src/components/ui/separator";
 import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
 import posthog from "posthog-js";
 import { documentsFor } from "@/src/lib/kyc-questionnaire/documents";
-import { displayValue, isBlockVisible, isRowFieldVisible, label, pruneHidden, rowsOf, rowTitle, validateAll, visibleSteps } from "@/src/lib/kyc-questionnaire/engine";
+import { stepText, displayValue, fieldText, isBlockAsked, isRowFieldVisible, label, pruneHidden, rowsOf, rowTitle, stepById, validateAll, visibleSteps } from "@/src/lib/kyc-questionnaire/engine";
 import { routeMismatch } from "@/src/lib/kyc-questionnaire/flags";
 import { isPM } from "@/src/lib/kyc-questionnaire/schema";
 import { KYC_LOCALES, type Answers, type DocDeclared, type DocItem, type KycLocale, type StepDef } from "@/src/lib/kyc-questionnaire/types";
@@ -67,6 +67,10 @@ const withoutRoute = (answers: Answers): Answers => {
 
 /** French typography: a space before the colon. */
 const sep = (locale: KycLocale) => (locale === "fr" ? " : " : ": ");
+/** Screen to resume a draft on: the money screen took over F and G (form of 2026-11-13); an unknown id starts over. */
+const resumeStep = (id: string) => (id === "f" || id === "g" ? "e" : stepById(id) ? id : "start");
+/** The screens counted in the progress: neither the start screen nor the review. */
+const isCounted = (step: StepDef) => step.id !== "start" && step.special !== "review";
 
 const isCertifiedId = (item: DocItem) => item.key === "pp.id" || item.key.startsWith("pm.signer:");
 
@@ -184,7 +188,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
         if (first) {
           form.reset(toForm(withoutRoute(data.draft?.answers || data.answers || {})));
           setDocDeclared(data.draft?.docDeclared || {});
-          if (data.draft?.stepId) setStepId(data.draft.stepId);
+          if (data.draft?.stepId) setStepId(resumeStep(data.draft.stepId));
           staffPrefillVersion.current = data.draft?.staffPrefillVersion || 0;
           savedAnswers.current = withoutRoute(data.draft?.answers || data.answers || {});
         }
@@ -597,7 +601,6 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
       </div>
       <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">{UI.pageTitle[locale]}</h1>
       {caseData?.displayName ? <p className="text-lg font-medium">{caseData.displayName}</p> : null}
-      {phase === "form" ? <p className="max-w-[60ch] text-base leading-7 text-muted-foreground">{UI.pageIntro[locale]}</p> : null}
     </div>
   );
 
@@ -839,9 +842,13 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   }
 
   // phase "form"
-  const progress = Math.round(((index + 1) / Math.max(steps.length, 1)) * 100);
-  const stepLabel = UI.stepOf[locale].replace("{n}", String(index + 1)).replace("{total}", String(steps.length));
+  // « Écran n sur 7 »: the screens between the start screen and the review (A to the signature).
+  const counted = steps.filter(isCounted);
+  const screen = counted.indexOf(step) + 1;
+  const stepLabel = screen ? UI.stepOf[locale].replace("{n}", String(screen)).replace("{total}", String(counted.length)) : "";
+  const progress = step.special === "review" ? 100 : Math.round((screen / Math.max(counted.length, 1)) * 100);
   const special = step.special;
+  const started = step.id !== "start";
 
   return (
     <Form {...form}>
@@ -854,31 +861,30 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
         }}
       >
         {header}
-        <div className="sticky top-16 z-20 -mx-5 flex flex-col gap-2 bg-background/95 px-5 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:px-0">
-          <div className="flex items-center justify-between gap-3 text-sm">
-            <span className="font-medium">{stepLabel}</span>
-            <span className="text-muted-foreground" aria-live="polite">
-              {save.state === "saving"
-                ? UI.saving[locale]
-                : save.state === "saved" && save.at
-                  ? UI.savedAt[locale].replace("{time}", new Date(save.at).toLocaleTimeString(locale === "fr" ? "fr-CH" : "en-GB", { hour: "2-digit", minute: "2-digit" }))
-                  : save.state === "failed"
-                    ? UI.saveFailed[locale]
-                    : ""}
-            </span>
+        {started ? (
+          <div className="sticky top-16 z-20 -mx-5 flex flex-col gap-2 bg-background/95 px-5 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:px-0">
+            <div className="flex items-center justify-between gap-3 text-sm">
+              <span className="font-medium">{stepLabel}</span>
+              <span className="text-muted-foreground" aria-live="polite">
+                {save.state === "saving"
+                  ? UI.saving[locale]
+                  : save.state === "saved" && save.at
+                    ? UI.savedAt[locale].replace("{time}", new Date(save.at).toLocaleTimeString(locale === "fr" ? "fr-CH" : "en-GB", { hour: "2-digit", minute: "2-digit" }))
+                    : save.state === "failed"
+                      ? UI.saveFailed[locale]
+                      : ""}
+              </span>
+            </div>
+            <Progress value={progress} aria-label={stepLabel || L(step.title)} />
+            <StepRail steps={counted.concat(steps.filter((s) => s.special === "review"))} current={step.id} locale={locale} onGo={(id) => goTo(id)} />
           </div>
-          <Progress value={progress} aria-label={stepLabel} />
-          <StepRail steps={steps} index={index} locale={locale} onGo={(id) => goTo(id)} />
-        </div>
+        ) : null}
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
           <Card className="min-w-0">
             <CardHeader>
-              <CardTitle className="text-2xl tracking-tight">
-                {step.section ? <span className="mr-2 text-muted-foreground">{step.section}.</span> : null}
-                {L(step.title)}
-              </CardTitle>
-              {step.intro ? <CardDescription className="text-base">{L(step.intro)}</CardDescription> : null}
+              <CardTitle className="text-2xl tracking-tight">{L(step.title)}</CardTitle>
+              {stepText(step, answers).intro ? <CardDescription className="text-base">{L(stepText(step, answers).intro!)}</CardDescription> : null}
             </CardHeader>
             <CardContent className="flex flex-col gap-6">
               {special === "documents" ? (
@@ -905,7 +911,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
               ) : special === "review" ? (
                 <ReviewSummary answers={pruned} items={items} files={files} docDeclared={docDeclared} locale={locale} onEdit={goTo} />
               ) : (
-                <StepView step={step} locale={locale} answers={answers} prefilled={prefilled} />
+                <StepView key={step.id} step={step} locale={locale} answers={answers} prefilled={prefilled} />
               )}
 
               {special === "review" && mismatch ? (
@@ -932,7 +938,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
           <aside className="flex flex-col gap-4">
             <Card className="gap-3 py-5">
               <CardContent className="flex flex-col gap-3 px-5 text-sm text-muted-foreground">
-                <p>{UI.draftStored[locale]}</p>
+                {started ? <p>{UI.draftStored[locale]}</p> : null}
                 <div>
                   <Button type="button" variant="ghost" size="sm" onClick={() => void logout()}>
                     <SignOut className="size-4" />
@@ -949,20 +955,21 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   );
 }
 
-/** Progress by screen: section letters (A–I) where the screen has one, earlier screens clickable. */
-function StepRail({ steps, index, locale, onGo }: { steps: StepDef[]; index: number; locale: KycLocale; onGo: (id: string) => void }) {
+/** Progress by screen: the counted screens numbered 1…n, then the review (✓); earlier screens clickable. */
+function StepRail({ steps, current, locale, onGo }: { steps: StepDef[]; current: string; locale: KycLocale; onGo: (id: string) => void }) {
+  const index = steps.findIndex((s) => s.id === current);
   return (
-    <ol className="flex flex-wrap items-center gap-1.5" aria-label={UI.stepOf[locale].replace("{n}", String(index + 1)).replace("{total}", String(steps.length))}>
+    <ol className="flex flex-wrap items-center gap-1.5">
       {steps.map((s, i) => {
         const title = label(s.title, locale);
-        const text = s.section || (s.special === "review" ? "✓" : String(i + 1));
+        const text = s.special === "review" ? "✓" : String(i + 1);
         const current = i === index;
         const done = i < index;
         const className = cn(
           "flex size-7 items-center justify-center rounded-full text-xs font-semibold",
           current ? "bg-primary text-primary-foreground" : done ? "bg-surface-warm text-foreground dark:bg-card" : "text-muted-foreground shadow-[inset_0_0_0_1px_rgba(20,16,14,0.16)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.2)]",
         );
-        const name = s.section ? `${UI.section[locale].replace("{letter}", s.section)}${sep(locale)}${title}` : title;
+        const name = s.special === "review" ? title : `${UI.stepOf[locale].replace("{n}", String(i + 1)).replace("{total}", String(steps.length - 1))}${sep(locale)}${title}`;
         return (
           <li key={s.id}>
             {done ? (
@@ -1014,10 +1021,10 @@ function ReviewSummary({
       {steps.map((step) => {
         const rows: { label: string; value: string; sub?: { title: string; values: { label: string; value: string }[] }[] }[] = [];
         for (const block of step.blocks) {
-          if (!isBlockVisible(block, answers)) continue;
+          if (!isBlockAsked(block, answers)) continue;
           if (block.kind === "field") {
             const value = displayValue(block, answers[block.id], locale);
-            if (value) rows.push({ label: L(block.label), value: short(value) });
+            if (value) rows.push({ label: L(fieldText(block, answers).label), value: short(value) });
           }
           if (block.kind === "group") {
             const list = rowsOf(answers, block.id);
@@ -1039,10 +1046,7 @@ function ReviewSummary({
         return (
           <Card key={step.id} className="gap-2 py-4">
             <CardHeader className="flex flex-row items-center justify-between gap-2 px-4">
-              <CardTitle className="text-base">
-                {step.section ? <span className="mr-1 text-muted-foreground">{step.section}.</span> : null}
-                {L(step.title)}
-              </CardTitle>
+              <CardTitle className="text-base">{L(step.title)}</CardTitle>
               <Button type="button" variant="link" size="sm" onClick={() => onEdit(step.id)} aria-label={`${UI.edit[locale]}${sep(locale)}${L(step.title)}`}>
                 {UI.edit[locale]}
               </Button>
@@ -1081,7 +1085,6 @@ function ReviewSummary({
         <Card className="gap-2 py-4">
           <CardHeader className="flex flex-row items-center justify-between gap-2 px-4">
             <CardTitle className="text-base">
-              {docsStep?.section ? <span className="mr-1 text-muted-foreground">{docsStep.section}.</span> : null}
               {UI.reviewDocs[locale]}
             </CardTitle>
             {docsStep ? (

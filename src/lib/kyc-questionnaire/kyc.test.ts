@@ -9,8 +9,9 @@ process.env.KYC_QF_TOKEN_SECRET = "test-secret-test-secret-test-secret-0123";
 process.env.KYC_QF_STORAGE = "mock";
 process.env.KYC_QF_API_KEYS = "cadence:cadence-secret-cadence-secret-cadence-01";
 
-import { documentList, documentsFor, swissCompany } from "./documents";
-import { pruneHidden, sanitizeAnswers, validateAll, visibleSteps } from "./engine";
+import { documentList, documentsFor, retiredDocument, swissCompany } from "./documents";
+import { fieldText, getField, getGroup, isBlockAsked, isBlockVisible, pruneHidden, sanitizeAnswers, validateAll, visibleSteps } from "./engine";
+import { upgradeAnswers } from "./upgrade";
 import { flagsOf, routeMismatch } from "./flags";
 import { createChallenge, createPick, createSession, emailHash, readLink, readPick, readSession, STAFF_HASH, redeemAssist, verifyChallenge } from "./server/access";
 import { signRequest, verifyStaffRequest } from "./server/signature";
@@ -47,9 +48,7 @@ const pmCommon: Answers = {
   "a.ownPremises": "no",
   "a.ownStaff": "no",
   "a.listed": "no",
-  "a.directors": [row("dir0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur", nationality: "Suisse", country: "Suisse" })],
-  "a.signatories": [row("sig0001", { lastName: "Dupont", firstName: "Jean", signing: "individual" })],
-  "b.shareholders": [row("sha0001", { name: "Jean Dupont", kind: "person", percent: "100" })],
+  "a.directors": [row("dir0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur", signing: "individual", nationality: "Suisse", country: "Suisse" })],
   "b.structure": "no",
   "b.transparency": "notYet",
   "c.pep": "none",
@@ -58,16 +57,15 @@ const pmCommon: Answers = {
   "d.servicesPm": ["domiciliation", "accounting"],
   "d.purpose": "Conseil",
   "d.activity": "Conseil en gestion",
-  "d.sector": "Conseil",
   "d.countries": "Suisse",
   "d.counterparties": "Clients en Suisse",
   "d.licence": "no",
+  "e.companyAssetSources": ["capital", "other"],
   "e.companyAssets": "Capital libéré",
   "f.funds": "no",
   "g.turnover": "100'000",
   "g.operations": "50 par an, CHF 100'000",
   "g.typesPm": ["domestic"],
-  "g.countries": "Suisse, CHF",
   "i.signers": [row("sgn0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur" })],
   "i.place": "Genève",
   "i.accept": "yes",
@@ -96,14 +94,10 @@ const pp: Answers = {
   "a.lastName": "Martin",
   "a.firstName": "Anne",
   "a.birthDate": "03.04.1980",
-  "a.birthPlace": "Lyon",
   "a.nationality": "France",
   "a.taxCountry": "Suisse",
   "a.address": "Rue de Lausanne 2, 1201 Genève",
   "a.country": "Suisse",
-  "a.idType": "passport",
-  "a.idNumber": "X123",
-  "a.idExpiry": "01.01.2030",
   "a.profession": "Consultante",
   "a.email": "anne@example.ch",
   "a.phone": "+41 79 000 00 00",
@@ -121,7 +115,6 @@ const pp: Answers = {
   "f.funds": "no",
   "g.operations": "Peu",
   "g.typesPp": ["domestic"],
-  "g.countries": "Suisse",
   "i.place": "Genève",
   "i.accept": "yes",
 };
@@ -152,7 +145,7 @@ test("operating cascade: 25 % → other control → most senior manager", () => 
 });
 
 test("currency \"Autre\" asks which currency, and only then", () => {
-  const funds = { ...pp, "f.funds": "yes", "f.origin": "Vente d'un appartement", "f.amount": "1000.00", "f.currency": "CHF", "f.bank": "UBS, Suisse", "f.holder": "Test" };
+  const funds = { ...pp, "f.funds": "yes", "f.origin": "Vente d'un appartement", "f.amount": "1000.00", "f.currency": "CHF", "f.bank": "UBS, Suisse, Test" };
   assert.equal(validateAll(pruneHidden(funds))["f.currencyOther"], undefined);
   const other = pruneHidden({ ...funds, "f.currency": "other" });
   assert.equal(validateAll(other)["f.currencyOther"], "required");
@@ -160,11 +153,11 @@ test("currency \"Autre\" asks which currency, and only then", () => {
   assert.equal(pruneHidden({ ...funds, "f.currencyOther": "JPY" })["f.currencyOther"], undefined, "hidden answer dropped");
 });
 
-test("listed company: no cascade, no shareholder list, proof of listing requested", () => {
+test("listed company: no cascade, no share register; the listing is public, no proof asked", () => {
   const listed = pruneHidden({ ...pmOp, "a.listed": "yes", "a.listedWhere": "Holding AG, SIX" });
   assert.equal(listed["b.q25"], undefined);
   assert.deepEqual(validateAll(listed), {});
-  assert.ok(documentsFor(listed).some((d) => d.key === "pm.listed"));
+  assert.ok(!documentsFor(listed).some((d) => d.key === "pm.listed" || d.key === "pm.shareholders"));
   assert.ok(flagsOf(listed).includes("listed"));
 });
 
@@ -207,6 +200,78 @@ test("documents: a key Ark took off the list is not asked and says so; an unknow
   assert.ok(!asked.includes("pm.signer:sgn0001"));
   assert.equal(asked.length, documentsFor(answers).length - 1);
   assert.equal(documentList(answers, ["pm.signer:sgn0001"]).find((d) => d.key === "pm.signer:sgn0001")?.withheld, "removed");
+});
+
+// ---- earlier answers (form simplified on 2026-11-13) ---------------------------------------------
+
+const oldPmOp: Answers = {
+  ...pmOp,
+  "a.directors": [
+    row("dir0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur", nationality: "Suisse", country: "Suisse" }),
+    row("dir0002", { lastName: "Muller", firstName: "Eva", function: "Membre", nationality: "Suisse", country: "Suisse" }),
+  ],
+  "a.signatories": [row("sig0001", { lastName: "dupont", firstName: "Jean", signing: "individual" }), row("sig0002", { lastName: "Roth", firstName: "Max", function: "Fondé de procuration", signing: "joint" })],
+  "b.shareholders": [row("sha0001", { name: "Jean Dupont", kind: "person", percent: "100" })],
+  "a.staffCount": "3",
+  "d.sector": "Fiduciaire",
+  "d.turnover": "90'000",
+  "g.countries": "France, EUR",
+  "e.companyAssetSources": undefined,
+  "e.companyAssets": "Capital libéré",
+  "f.funds": "yes",
+  "f.origin": "Épargne",
+  "f.amount": "1000",
+  "f.currency": "CHF",
+  "f.bank": "UBS",
+  "f.holder": "Test SA",
+  "f.more": "Non",
+};
+
+test("earlier answers: a draft's merged questions take them, nothing typed is lost, twice is once", () => {
+  const up = upgradeAnswers({ ...oldPmOp }, { infer: true });
+  const people = up["a.directors"] as Record<string, string>[];
+  assert.deepEqual(people.map((p) => [p.lastName, p.signing, p.function]), [["Dupont", "individual", "Administrateur"], ["Muller", "none", "Membre"], ["Roth", "joint", "Fondé de procuration"]]);
+  assert.equal(up["d.activity"], "Conseil en gestion (Fiduciaire)");
+  assert.equal(up["d.countries"], "Suisse ; France, EUR");
+  assert.equal(up["f.bank"], "UBS, Test SA");
+  assert.deepEqual(up["e.companyAssetSources"], ["other"]);
+  for (const gone of ["a.signatories", "d.sector", "g.countries", "f.holder"]) assert.equal(up[gone], undefined, gone);
+  for (const kept of ["a.staffCount", "d.turnover", "f.more", "b.shareholders"]) assert.ok(up[kept] !== undefined, `${kept} kept for Ark`);
+  assert.deepEqual(upgradeAnswers(up, { infer: true }), up, "idempotent");
+  // Only what the earlier form never asked is missing: the new signatory's nationality and country.
+  assert.deepEqual(Object.keys(validateAll(pruneHidden(up))).sort(), [`a.directors[${people[2]._id}].country`, `a.directors[${people[2]._id}].nationality`]);
+  // A retired question shows to readers when answered, is never asked, never required.
+  const staffCount = getField("a.staffCount")!;
+  assert.equal(isBlockAsked(staffCount, up), false);
+  assert.equal(isBlockVisible(staffCount, up), true);
+  assert.equal(isBlockVisible(staffCount, { route: "pm-op" }), false);
+  assert.equal(isBlockVisible(getGroup("b.shareholders")!, pruneHidden(up)), true);
+  assert.ok(retiredDocument("pm.listed")?.label.fr.startsWith("Preuve de la cotation"));
+  // Names written differently still match (hyphen, accents, case).
+  const hyphen = upgradeAnswers({ "a.directors": [row("dir0001", { lastName: "Muller", firstName: "Jean-Pierre" })], "a.signatories": [row("sig0001", { lastName: "MÜLLER", firstName: "Jean Pierre", signing: "joint" })] });
+  assert.equal((hyphen["a.directors"] as Record<string, string>[]).length, 1);
+});
+
+test("earlier answers sent by a browser: merged, nothing inferred, nothing retired taken in", () => {
+  const clean = sanitizeAnswers(oldPmOp);
+  const people = clean["a.directors"] as Record<string, string>[];
+  assert.equal(people.find((p) => p.lastName === "Muller")?.signing, undefined, "no signature made up");
+  assert.equal(clean["e.companyAssetSources"], undefined);
+  for (const retiredId of ["a.staffCount", "d.turnover", "f.more", "b.shareholders"]) assert.equal(clean[retiredId], undefined, `${retiredId} never reaches a new submission`);
+  assert.equal(clean["d.activity"], "Conseil en gestion (Fiduciaire)");
+});
+
+test("route wording: the non-operating company is asked what it holds; the person where it works and holds assets", () => {
+  assert.equal(fieldText(getField("d.activity")!, pmNonOp).label.fr, "Que détient la société ?");
+  assert.match(fieldText(getField("d.activity")!, pmOp).label.fr, /^Décrivez/);
+  assert.match(fieldText(getField("d.countries")!, pp).label.fr, /avez-vous des biens/);
+  // Operating-only questions are not asked of a non-operating company.
+  const nonop = pruneHidden({ ...pmNonOp, "a.ownPremises": "no", "g.turnover": "1" });
+  assert.equal(nonop["a.ownPremises"], undefined);
+  assert.equal(nonop["g.turnover"], undefined);
+  // A person's companies and licence only when a service concerns a company.
+  assert.equal(pruneHidden({ ...pp, "d.servicesPp": ["tax"], "d.licence": "no" })["d.licence"], undefined);
+  assert.equal(pruneHidden(pp)["d.licence"], "no");
 });
 
 // ---- service ---------------------------------------------------------------------------------
@@ -287,16 +352,16 @@ test("create → fill → submit → PDF → signed scan, frozen with its SHA-25
 
   // Correction: a new revision; the signed one is untouched and its sessions stop working.
   await assert.rejects(staffAction(caseId, "reopen", { expectedRevision: 2 }, { idempotencyKey: "reopen-0001", payloadHash: "r" }), (e: unknown) => e instanceof KycError && e.code === "revision_conflict");
-  const reopened = await staffAction(caseId, "reopen", { expectedRevision: 1, prefill: { "d.sector": "Fiduciaire" } }, { idempotencyKey: "reopen-0001", payloadHash: "r" });
+  const reopened = await staffAction(caseId, "reopen", { expectedRevision: 1, prefill: { "d.counterparties": "Fiduciaire" } }, { idempotencyKey: "reopen-0001", payloadHash: "r" });
   assert.equal(reopened.summary.latestRevision.n, 2);
   assert.ok(reopened.link);
   assert.deepEqual(reopened.summary.revisions.map((r) => r.state), ["superseded", "open"]);
   await assert.rejects(clientCase(session), (e: unknown) => e instanceof KycError && e.code === "revision_superseded");
   const v2 = await clientCase({ caseId, revision: 2, emailHash: JEAN });
-  assert.equal(v2.answers["d.sector"], "Fiduciaire");
+  assert.equal(v2.answers["d.counterparties"], "Fiduciaire");
   assert.equal(v2.answers["a.name"], "Test SA", "previous answers carried over");
   assert.ok((await f.storage.readFile(record.driveId, rev.folderId, rev.pdf!.name))!.byteLength > 1000, "revision 1 files kept");
-  const replay = await staffAction(caseId, "reopen", { expectedRevision: 1, prefill: { "d.sector": "Fiduciaire" } }, { idempotencyKey: "reopen-0001", payloadHash: "r" });
+  const replay = await staffAction(caseId, "reopen", { expectedRevision: 1, prefill: { "d.counterparties": "Fiduciaire" } }, { idempotencyKey: "reopen-0001", payloadHash: "r" });
   assert.equal(replay.summary.latestRevision.n, 2, "a replayed reopen does not create a third revision");
 
   const feed = await changes("", 10);
@@ -315,11 +380,11 @@ test("staff prefill keeps client answers and rejects a stale open-tab save", asy
   const session = { caseId, revision: 1, emailHash: JEAN };
   const opened = await clientCase(session);
   await saveDraft(session, { answers: { "a.name": "Client's spelling", "a.lastName": "Hidden old value" }, staffPrefillVersion: 0 });
-  await staffAction(caseId, "prefill", { expectedRevision: 1, prefill: { "a.name": "Ark spelling", "d.sector": "Fiduciaire" } }, { idempotencyKey: "prefill-race-01", payloadHash: "prefill-race" });
+  await staffAction(caseId, "prefill", { expectedRevision: 1, prefill: { "a.name": "Ark spelling", "d.counterparties": "Fiduciaire" } }, { idempotencyKey: "prefill-race-01", payloadHash: "prefill-race" });
   const staff = await staffCase(caseId);
   assert.equal(staff.draft?.["a.name"], "Client's spelling");
   assert.equal(staff.draft?.["a.lastName"], undefined, "a question hidden on this route is not sent to staff");
-  assert.equal(staff.draft?.["d.sector"], "Fiduciaire");
+  assert.equal(staff.draft?.["d.counterparties"], "Fiduciaire");
   assert.ok(staff.pages.some((page) => page.fieldIds.includes("a.name")));
   assert.ok(staff.pages.some((page) => page.missingFieldIds.includes("a.uid")), "staff sees the form's own incomplete fields");
   assert.ok(staff.pages.some((page) => page.parts.some((part) => part.kind === "field")), "page copy keeps client order");
@@ -330,7 +395,7 @@ test("staff prefill keeps client answers and rejects a stale open-tab save", asy
   await assert.rejects(saveDraft(session, { answers: { "a.name": "Client's spelling" }, staffPrefillVersion: 0 }), (e: unknown) => e instanceof KycError && e.code === "draft_changed");
   const current = await clientCase(session);
   await saveDraft(session, { answers: current.draft?.answers, staffPrefillVersion: current.draft?.staffPrefillVersion });
-  assert.equal((await staffCase(caseId)).draft?.["d.sector"], "Fiduciaire");
+  assert.equal((await staffCase(caseId)).draft?.["d.counterparties"], "Fiduciaire");
 });
 
 test("signing online binds the verified name and drawing to the PDF the signer read", async () => {
@@ -617,15 +682,15 @@ test("assist: single-use link or code opens a staff session that fills and submi
 
   // Provenance: Ark's answers are marked, the client's later edits unmark them, the form never sees marks.
   const contact = { caseId, revision: 1, emailHash: JEAN };
-  await saveDraft(contact, { answers: { "a.name": "Client name", "d.sector": "Conseil" }, stepId: "a" });
+  await saveDraft(contact, { answers: { "a.name": "Client name", "d.counterparties": "Conseil" }, stepId: "a" });
   assert.equal((await staffCase(caseId)).enteredBy, undefined);
-  await saveDraft(staff, { answers: { "a.name": "Client name", "d.sector": "Fiduciaire", "d.purpose": "Conseil" }, stepId: "d" });
-  assert.deepEqual((await staffCase(caseId)).enteredBy, { "d.sector": "Sam", "d.purpose": "Sam" });
+  await saveDraft(staff, { answers: { "a.name": "Client name", "d.counterparties": "Fiduciaire", "d.purpose": "Conseil" }, stepId: "d" });
+  assert.deepEqual((await staffCase(caseId)).enteredBy, { "d.counterparties": "Sam", "d.purpose": "Sam" });
   const seen = await clientCase(contact);
   assert.ok(!JSON.stringify(seen).includes("enteredBy"), "provenance is not shown to the client");
   assert.ok(!JSON.stringify(await clientCase(staff)).includes("enteredBy"));
   await saveDraft(contact, { answers: { ...seen.draft!.answers, "d.purpose": "Autre" }, stepId: "d" });
-  assert.deepEqual((await staffCase(caseId)).enteredBy, { "d.sector": "Sam" });
+  assert.deepEqual((await staffCase(caseId)).enteredBy, { "d.counterparties": "Sam" });
 
   // Documents: staff may upload, not the signed scan.
   assert.ok((await createUpload(staff, { kind: "doc", docKey: "pm.shareholders", fileName: "rc.pdf", size: 1000, mime: "application/pdf" })).uploadUrl);
@@ -641,7 +706,7 @@ test("assist: single-use link or code opens a staff session that fills and submi
   const rev = record.revisions[0];
   const stored = JSON.parse(new TextDecoder().decode((await f.storage.readFile(record.driveId, rev.folderId, "questionnaire.json"))!));
   assert.equal(stored.submittedBy, "Sam");
-  assert.equal(stored.enteredBy["d.sector"], "Sam");
+  assert.equal(stored.enteredBy["d.counterparties"], "Sam");
   assert.equal(stored.enteredBy["d.purpose"], "Sam", "changed back by Ark after the client edited it");
   assert.ok(Object.keys(stored.enteredBy).length > 5, "everything staff changed in this session is marked");
   assert.ok(Object.values(stored.enteredBy).every((by) => by === "Sam"));
@@ -686,14 +751,14 @@ test("prefill overwrite replaces client answers while open, marks them as Ark's 
   const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-overwrite", payloadHash: "w1" });
   const caseId = created.summary.caseId;
   const session = { caseId, revision: 1, emailHash: JEAN };
-  await saveDraft(session, { answers: { "a.name": "Client's spelling", "d.sector": "Conseil" }, staffPrefillVersion: 0 });
+  await saveDraft(session, { answers: { "a.name": "Client's spelling", "d.counterparties": "Conseil" }, staffPrefillVersion: 0 });
   await assert.rejects(staffAction(caseId, "prefill", { expectedRevision: 1, prefill: { "a.name": "X" }, overwrite: "yes" }, { idempotencyKey: "ow-bad", payloadHash: "bad" }), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
   // Without the flag nothing typed by the client is touched (unchanged behaviour).
   await staffAction(caseId, "prefill", { expectedRevision: 1, prefill: { "a.name": "Ark spelling" } }, { idempotencyKey: "ow-plain", payloadHash: "plain" });
   assert.equal((await staffCase(caseId)).draft?.["a.name"], "Client's spelling");
   assert.equal((await staffCase(caseId)).enteredBy, undefined);
   const before = (await clientCase(session)).draft?.staffPrefillVersion || 0;
-  await staffAction(caseId, "prefill", { expectedRevision: 1, overwrite: true, by: "Sam", prefill: { "a.name": "Ark spelling", "d.sector": "Conseil", "d.purpose": "Nouveau" } }, { idempotencyKey: "ow-yes", payloadHash: "yes" });
+  await staffAction(caseId, "prefill", { expectedRevision: 1, overwrite: true, by: "Sam", prefill: { "a.name": "Ark spelling", "d.counterparties": "Conseil", "d.purpose": "Nouveau" } }, { idempotencyKey: "ow-yes", payloadHash: "yes" });
   const staff = await staffCase(caseId);
   assert.equal(staff.draft?.["a.name"], "Ark spelling");
   assert.equal(staff.draft?.["d.purpose"], "Nouveau");
@@ -728,7 +793,7 @@ test("a question about a field goes to Cadence signed, with the case's route and
 
   const answer = await askField(
     session,
-    { fieldId: "c.pep", question: "Mon oncle est conseiller d'État, est-ce que ça compte ?", language: "fr", answers: { route: "pp", "c.sanctions": "no", "d.sector": "Conseil", "a.name": "Test SA" } },
+    { fieldId: "c.pep", question: "Mon oncle est conseiller d'État, est-ce que ça compte ?", language: "fr", answers: { route: "pp", "c.sanctions": "no", "d.counterparties": "Conseil", "a.name": "Test SA" } },
     reply(200, { off_topic: false, answer: "Oui, un proche compte.", proposal: "close" }),
   );
   assert.deepEqual(answer, { offTopic: false, answer: "Oui, un proche compte.", proposal: "close" });
@@ -795,4 +860,41 @@ test("documents taken off by Ark: sent at creation, replaced by the documents ac
   assert.equal(staff.documentItems.find((d) => d.key === "pm.financials")?.withheld, "removed");
   const cleared = await staffAction(caseId, "documents", { expectedRevision: 1, skippedDocuments: [] }, { idempotencyKey: "docs-0003", payloadHash: "d2" });
   assert.deepEqual(cleared.summary.skippedDocuments, []);
+});
+
+test("a retired question is never prefilled; an operating company starts with « its business » ticked", async () => {
+  const f = await fixture();
+  const created = await createCase({ ...createInput(f.clientFolder, "pp"), prefill: { "a.lastName": "Martin", "a.idNumber": "X1" } }, { keyId: "cadence", idempotencyKey: "create-retired-01", payloadHash: "r1" });
+  const view = await clientCase({ caseId: created.summary.caseId, revision: 1, emailHash: JEAN });
+  assert.equal(view.answers["a.idNumber"], undefined);
+  assert.deepEqual(view.prefilledIds, ["a.lastName"]);
+  const op = await createCase({ ...createInput(f.clientFolder), clientRef: "cadence-43" }, { keyId: "cadence", idempotencyKey: "create-default-01", payloadHash: "d1" });
+  const opView = await clientCase({ caseId: op.summary.caseId, revision: 1, emailHash: JEAN });
+  assert.deepEqual(opView.answers["e.companyAssetSources"], ["activity"]);
+  assert.ok(!opView.prefilledIds.includes("e.companyAssetSources"), "a default, not Ark's prefill");
+});
+
+test("a case sent with the earlier form still shows Ark every answer it holds", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder, "pm-nonop"), { keyId: "cadence", idempotencyKey: "create-old-01", payloadHash: "o1" });
+  const caseId = created.summary.caseId;
+  const session = { caseId, revision: 1, emailHash: JEAN };
+  await uploadAll(f, caseId, pmNonOp);
+  await submit(session, { answers: pmNonOp, submitKey: "old-1" });
+  const record = await loadCase(caseId);
+  const rev = record.revisions[0];
+  const stored = JSON.parse(new TextDecoder().decode(await f.storage.readFile(record.driveId, rev.folderId, "questionnaire.json")));
+  // As the earlier form stored it: separate signatories, sector, turnover and premises on this route.
+  delete stored.formVersion;
+  stored.answers = { ...stored.answers, "a.signatories": [row("sig0001", { lastName: "Dupont", firstName: "Jean", signing: "joint" })], "d.sector": "Immobilier", "g.turnover": "50'000", "a.ownPremises": "no", "a.idNumber": "X1" };
+  stored.answers["a.directors"] = [row("dir0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur", nationality: "Suisse", country: "Suisse" })];
+  await f.storage.putFile(record.driveId, rev.folderId, "questionnaire.json", new TextEncoder().encode(JSON.stringify(stored)), "application/json");
+  const staff = await staffCase(caseId);
+  assert.equal((staff.answers?.["a.directors"] as Record<string, string>[])[0].signing, "joint");
+  assert.match(String(staff.answers?.["d.activity"]), /Immobilier/);
+  const shown = staff.pages.flatMap((page) => page.fieldIds);
+  for (const id of ["g.turnover", "a.ownPremises", "d.activity"]) assert.ok(shown.includes(id), `${id} shown`);
+  assert.ok(staff.pages.every((page) => page.missingFieldIds.length === 0), "a sent form is never « missing » under newer rules");
+  const label = staff.pages.flatMap((page) => page.parts).find((part) => part.id === "d.activity")?.label?.fr;
+  assert.equal(label, "Que détient la société ?", "the route's wording travels with the page");
 });

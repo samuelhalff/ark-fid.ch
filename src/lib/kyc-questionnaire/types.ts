@@ -55,12 +55,31 @@ export interface Option {
 
 export type Predicate = (answers: Answers, row?: Row) => boolean;
 
+/**
+ * Wording of a block for some answers only (e.g. the non-operating company): the first variant
+ * whose `when` holds replaces the label and help. Same answer id, same meaning.
+ */
+export interface Variant {
+  when: (answers: Answers) => boolean;
+  label?: L;
+  help?: L;
+}
+
 export interface FieldDef {
   kind: "field";
   id: string;
   type: FieldType;
   label: L;
   help?: L;
+  variants?: Variant[];
+  /** A link inside the label (single checkbox): the text of `label` equal to `link.label` becomes the link. */
+  link?: { href: L; label: L };
+  /**
+   * No longer asked (form of 2026-11-13). Kept so the answers of earlier drafts and cases still
+   * show to Ark (staff view, PDF) under their own label: never shown in the form, never required,
+   * never prefilled by Cadence; visible to readers only when it has a value.
+   */
+  retired?: boolean;
   options?: Option[];
   required?: boolean;
   showIf?: Predicate;
@@ -80,6 +99,8 @@ export interface GroupDef {
   maxRows: number;
   minRows?: number;
   showIf?: Predicate;
+  /** See FieldDef.retired. */
+  retired?: boolean;
 }
 
 export interface NoteDef {
@@ -97,6 +118,17 @@ export interface HeadingDef {
   id: string;
   label: L;
   showIf?: Predicate;
+  /**
+   * Letter of a section of Dima's form that starts at this heading inside a screen (the money
+   * screen holds E, F and G): printed as a section in the PDF, a sub-title in the form.
+   */
+  section?: string;
+  /**
+   * Title of the "already filled in, to check" block when the fields after it were prefilled by
+   * Ark; `note` is said in that block only. `onlyWhenPrefilled`: not shown at all otherwise.
+   * `ids`: the fields that belong to the block (others prefilled after it stand alone).
+   */
+  prefill?: { note?: L; onlyWhenPrefilled?: boolean; ids?: string[] };
 }
 
 export type Block = FieldDef | GroupDef | NoteDef | HeadingDef;
@@ -107,6 +139,8 @@ export interface StepDef {
   section?: string;
   title: L;
   intro?: L;
+  /** Intro for some answers only (e.g. a company): the first whose `when` holds replaces `intro`. */
+  variants?: { when: (answers: Answers) => boolean; intro: L }[];
   showIf?: (answers: Answers) => boolean;
   blocks: Block[];
   /** Screens with their own UI: documents (section H) and review. */

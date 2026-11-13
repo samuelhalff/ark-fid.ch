@@ -1,6 +1,6 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
 import { toWinAnsi } from "../../tax-questionnaire/server/pdf";
-import { displayValue, isBlockVisible, isRowFieldVisible, label, rowsOf, rowTitle, visibleSteps } from "../engine";
+import { displayValue, fieldText, isBlockVisible, isRowFieldVisible, label, rowsOf, rowTitle, visibleSteps } from "../engine";
 import { declarations, isPM, isPP } from "../schema";
 import type { Answers, KycLocale } from "../types";
 import type { SubmissionRecord } from "./service";
@@ -23,7 +23,7 @@ const BLACK = rgb(0.1, 0.1, 0.12);
 const LINE = rgb(0.75, 0.77, 0.8);
 
 const TEXT = {
-  title: { fr: "Formulaire de connaissance du client (KYC)", en: "Know your customer form (KYC)" },
+  title: { fr: "Questionnaire client", en: "Client questionnaire" },
   pp: { fr: "Personnes physiques", en: "Natural persons" },
   pmOp: { fr: "Personnes morales", en: "Legal entities" },
   pmNonOp: { fr: "Personnes morales – sociétés non opérationnelles", en: "Legal entities – non-operating companies" },
@@ -194,10 +194,12 @@ export async function buildKycPdf(record: SubmissionRecord, declarationId: strin
     for (const block of step.blocks) {
       if (!isBlockVisible(block, a)) continue;
       if (block.kind === "heading") {
-        w.text(label(block.label, L), { bold: true, size: 10, color: NAVY, gap: 2 });
+        // A section starting inside a screen (F and G on the money screen) is a section here too.
+        if (block.section) w.heading(`${block.section}.  ${label(block.label, L).toLocaleUpperCase(L === "fr" ? "fr-CH" : "en-GB")}`);
+        else if (!block.prefill?.onlyWhenPrefilled) w.text(label(block.label, L), { bold: true, size: 10, color: NAVY, gap: 2 });
       } else if (block.kind === "field") {
         if (block.id === "i.accept") continue;
-        w.pair(label(block.label, L), displayValue(block, a[block.id], L));
+        w.pair(label(fieldText(block, a).label, L), displayValue(block, a[block.id], L));
       } else if (block.kind === "group") {
         w.text(label(block.label, L), { bold: true, size: 10, color: NAVY, gap: 1 });
         const rows = rowsOf(a, block.id);

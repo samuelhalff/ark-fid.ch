@@ -9,7 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/components/ui/select";
 import { Textarea } from "@/src/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
-import { label, LIMITS } from "@/src/lib/kyc-questionnaire/engine";
+import { fieldText, label, LIMITS } from "@/src/lib/kyc-questionnaire/engine";
 import { UI } from "@/src/lib/kyc-questionnaire/ui";
 import type { Answers, FieldDef, KycLocale } from "@/src/lib/kyc-questionnaire/types";
 import { normaliseAmount, normaliseDate } from "@/src/lib/tax-questionnaire/format";
@@ -23,22 +23,42 @@ interface Props {
   locale: KycLocale;
   /** Current answers (options with a showIf). */
   answers: Answers;
-  /** Pre-filled by Ark: marked "to check". */
-  arkPrefilled?: boolean;
   /** A top-level question: its (i) also takes a question about the field. */
   askable?: boolean;
+  /**
+   * Edited inside a « déjà rempli » row (StepView): small label ("block") or question label ("solo")
+   * over a control at row height; a choice is a Select so the row keeps its height.
+   */
+  row?: "block" | "solo";
+}
+
+/** The label with the part equal to `link.label` as a link (new tab). */
+function withLink(text: string, link: { href: string; label: string } | null) {
+  const at = link ? text.indexOf(link.label) : -1;
+  if (!link || at < 0) return text;
+  return (
+    <>
+      {text.slice(0, at)}
+      <a href={link.href} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2" onClick={(e) => e.stopPropagation()}>
+        {link.label}
+      </a>
+      {text.slice(at + link.label.length)}
+    </>
+  );
 }
 
 const CHECKBOX_RING = "shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]";
 const OPTION_CARD = "flex cursor-pointer items-start gap-3 rounded-md bg-surface-warm px-3 py-2.5 font-normal leading-snug shadow-[inset_0_0_0_1px_rgba(20,16,14,0.08)] dark:bg-background dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)]";
 
 /** One question, rendered with the site's shadcn components only. */
-export function FieldControl({ field, name, locale, answers, arkPrefilled, askable }: Props) {
+export function FieldControl({ field, name, locale, answers, askable, row }: Props) {
   const { control } = useFormContext();
   const L = (text: Parameters<typeof label>[0]) => label(text, locale);
   const optional = !field.required && !["checkboxes", "boolean"].includes(field.type);
   const options = (field.options || []).filter((o) => !o.showIf || o.showIf(answers));
-  const span = field.width === "half" ? "sm:col-span-1" : "sm:col-span-2";
+  const span = row ? "" : field.width === "half" ? "sm:col-span-1" : "sm:col-span-2";
+  const text = fieldText(field, answers);
+  const fieldLabel = L(text.label);
   const max = field.maxLength || (field.type === "textarea" ? LIMITS.textarea : LIMITS.text);
 
   return (
@@ -50,29 +70,64 @@ export function FieldControl({ field, name, locale, answers, arkPrefilled, askab
         // Invalid controls get the site's destructive ring; the message is shown right under them.
         const invalid = !!fieldState.error;
         const errorRing = invalid ? "ring-2 ring-destructive/60" : "";
-        const prefilledTag = arkPrefilled ? <span className="ml-2 text-xs font-medium text-brand-hover">{UI.prefilled[locale]}</span> : null;
         // The explanation sits behind a small (i) button next to the label (outside it). The same text stays
         // available to screen readers as the field description, so aria-describedby points at real content.
-        const helpText = field.help ? L(field.help) : null;
+        const helpText = text.help ? L(text.help) : null;
         const hint = helpText ? (
           <HelpHint
             text={helpText}
-            title={L(field.label)}
+            title={fieldLabel}
             locale={locale}
             ask={askable ? { field, answers: () => answers, onUse: (next) => f.onChange(next) } : undefined}
           />
         ) : null;
         const help = helpText ? <FormDescription className="sr-only">{helpText}</FormDescription> : null;
-        const labelNode = (
+        const optionalTag = optional ? <span className="ml-1 font-normal text-muted-foreground">({UI.optional[locale]})</span> : null;
+        // In a row the (i) sits in a box of the label's line height, so the row never grows when editing.
+        const labelNode = row ? (
+          <div className="flex min-w-0 items-start gap-1">
+            <FormLabel className={row === "solo" ? "min-w-0 leading-5 font-medium [overflow-wrap:anywhere]" : "min-w-0 text-xs leading-4 font-normal text-muted-foreground [overflow-wrap:anywhere]"}>
+              {fieldLabel}
+              {optionalTag}
+            </FormLabel>
+            {hint ? <div className={cn("flex items-center", row === "solo" ? "h-5" : "h-4")}>{hint}</div> : null}
+          </div>
+        ) : (
           <div className="flex items-start gap-1">
             <FormLabel className="form-label leading-snug">
-              {L(field.label)}
-              {optional ? <span className="ml-1 font-normal text-muted-foreground">({UI.optional[locale]})</span> : null}
-              {prefilledTag}
+              {fieldLabel}
+              {optionalTag}
             </FormLabel>
             {hint}
           </div>
         );
+        const rowItem = row ? "gap-1" : "";
+
+        // A choice edited in a row: a Select at field height, same height as the value it replaces.
+        if (row && (field.type === "radio" || field.type === "yesno" || field.type === "select")) {
+          const choices = field.type === "yesno" ? [{ value: "yes", text: UI.yes[locale] }, { value: "no", text: UI.no[locale] }] : options.map((o) => ({ value: o.value, text: L(o.label) }));
+          return (
+            <FormItem data-field={name} className={rowItem}>
+              {labelNode}
+              <Select value={typeof value === "string" ? value : ""} onValueChange={(next) => f.onChange(next || undefined)}>
+                <FormControl>
+                  <SelectTrigger ref={f.ref} aria-invalid={invalid || undefined} className="h-10 min-w-0">
+                    <SelectValue placeholder={UI.choose[locale]} />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {choices.map((choice) => (
+                    <SelectItem key={choice.value} value={choice.value}>
+                      {choice.text}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {help}
+              <FormMessage />
+            </FormItem>
+          );
+        }
 
         if (field.type === "boolean") {
           return (
@@ -81,9 +136,8 @@ export function FieldControl({ field, name, locale, answers, arkPrefilled, askab
                 <FormControl>
                   <Checkbox aria-invalid={invalid || undefined} className={cn(CHECKBOX_RING, invalid && "ring-2 ring-destructive/60")} checked={value === "yes"} onCheckedChange={(checked) => f.onChange(checked === true ? "yes" : undefined)} />
                 </FormControl>
-                <FormLabel className="mt-0 font-normal leading-snug hover:cursor-pointer">
-                  {L(field.label)}
-                  {prefilledTag}
+                <FormLabel className="mt-0 block font-normal leading-snug hover:cursor-pointer">
+                  <span>{withLink(fieldLabel, field.link ? { href: L(field.link.href), label: L(field.link.label) } : null)}</span>
                 </FormLabel>
                 {hint}
               </div>
@@ -96,10 +150,10 @@ export function FieldControl({ field, name, locale, answers, arkPrefilled, askab
         if (field.type === "checkboxes") {
           const current = Array.isArray(value) ? (value as string[]) : [];
           return (
-            <FormItem data-field={name} className="sm:col-span-2">
+            <FormItem data-field={name} className={cn(!row && "sm:col-span-2", rowItem)}>
               {labelNode}
               {help}
-              <div className="grid gap-2 sm:grid-cols-2" role="group" aria-label={L(field.label)}>
+              <div className="grid gap-2 sm:grid-cols-2" role="group" aria-label={fieldLabel}>
                 {options.map((option) => {
                   const id = `${name}-${option.value}`;
                   const checked = current.includes(option.value);
@@ -179,7 +233,7 @@ export function FieldControl({ field, name, locale, answers, arkPrefilled, askab
               {labelNode}
               <Select value={typeof value === "string" ? value : ""} onValueChange={f.onChange}>
                 <FormControl>
-                  <SelectTrigger aria-invalid={invalid || undefined}>
+                  <SelectTrigger aria-invalid={invalid || undefined} className="h-10 min-w-0">
                     <SelectValue placeholder={UI.choose[locale]} />
                   </SelectTrigger>
                 </FormControl>
@@ -199,10 +253,10 @@ export function FieldControl({ field, name, locale, answers, arkPrefilled, askab
 
         if (field.type === "textarea") {
           return (
-            <FormItem data-field={name} className="sm:col-span-2">
+            <FormItem data-field={name} className={cn(!row && "sm:col-span-2", rowItem)}>
               {labelNode}
               <FormControl>
-                <Textarea rows={4} maxLength={max} {...f} value={typeof value === "string" ? value : ""} />
+                <Textarea rows={row ? 3 : 4} maxLength={max} {...f} value={typeof value === "string" ? value : ""} />
               </FormControl>
               {help}
               <FormMessage />
@@ -221,7 +275,7 @@ export function FieldControl({ field, name, locale, answers, arkPrefilled, askab
         if (name === "a__firstName") inputProps.autoComplete = "given-name";
         if (name === "a__lastName") inputProps.autoComplete = "family-name";
         return (
-          <FormItem data-field={name} className={span}>
+          <FormItem data-field={name} className={cn(span, rowItem)}>
             {labelNode}
             <FormControl>
               <Input

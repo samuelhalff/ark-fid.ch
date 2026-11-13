@@ -2,11 +2,12 @@ import { createHash, createHmac, randomBytes } from "node:crypto";
 import sharp from "sharp";
 import { EMAIL_RE } from "../../tax-questionnaire/format";
 import { checkUpload, extensionOf, safeName, sniffMismatch, UPLOAD_LIMITS } from "../../tax-questionnaire/files";
-import { DOCS_FOLDER, docCode, documentList, documentsFor, KYC_UPLOAD_TYPES, type Withheld } from "../documents";
-import { getField, isBlockVisible, isStepVisible, pruneHidden, rowsOf, sanitizeAnswers, validateAll, validateField, validateStep, visibleSteps } from "../engine";
+import { DOCS_FOLDER, docCode, documentList, documentsFor, KYC_UPLOAD_TYPES, retiredDocument, type Withheld } from "../documents";
+import { fieldText, getField, stepText, isBlockAsked, isBlockVisible, isRetiredId, isStepVisible, pruneHidden, rowsOf, sanitizeAnswers, validateAll, validateField, validateStep, visibleSteps } from "../engine";
 import { FLAG_LABELS, flagsOf, type Flag } from "../flags";
-import { clientName, declarations, isPM, STEPS } from "../schema";
-import { KYC_LOCALES, KYC_ROUTES, type Answers, type DocDeclared, type KycLocale, type KycRoute } from "../types";
+import { clientName, declarations, isPM, routeDefaults, STEPS } from "../schema";
+import { FORM_VERSION, upgradeAnswers, upgradeIds, upgradeMarks } from "../upgrade";
+import { KYC_LOCALES, KYC_ROUTES, type Answers, type Block, type DocDeclared, type KycLocale, type KycRoute } from "../types";
 import { ASSIST_DEFAULT_MINUTES, ASSIST_MAX_MINUTES, emailHash, issueAssist, issueLink, STAFF_HASH } from "./access";
 import { KYC_DRIVE_ID, mailSender, mockStorageEnabled, onlineSignatureEnabled, tokenSecret } from "./config";
 import { plainHtml } from "../../tax-questionnaire/server/email";
@@ -128,6 +129,8 @@ interface Draft {
   staffPrefillVersion?: number;
   /** Answer id → who at Ark entered its current value (assisted session or overwrite). Never sent to the client. */
   enteredBy?: Record<string, string>;
+  /** Questions the answers were saved for (upgrade.ts); absent: the form before 2026-11-13. */
+  formVersion?: number;
 }
 
 /**
@@ -239,12 +242,15 @@ async function track(record: CaseRecord, rev: RevisionRecord, extra: Partial<Tra
   await getPorts().tracker.upsert(trackerRow(record, rev, extra));
 }
 
+/** Saved answers come back in the current form's shape (merged questions, upgrade.ts). */
 async function readDraft(record: CaseRecord, rev: RevisionRecord): Promise<Draft | null> {
-  return readJsonFile<Draft>(record.driveId, rev.folderId, DRAFT_FILE);
+  const draft = await readJsonFile<Draft>(record.driveId, rev.folderId, DRAFT_FILE);
+  if (!draft?.answers || (draft.formVersion || 1) >= FORM_VERSION) return draft;
+  return { ...draft, answers: upgradeAnswers(draft.answers, { infer: true }), enteredBy: upgradeMarks(draft.enteredBy) };
 }
 
 async function writeDraft(record: CaseRecord, rev: RevisionRecord, draft: Draft) {
-  await getPorts().storage.putFile(record.driveId, rev.folderId, DRAFT_FILE, enc(draft), "application/json");
+  await getPorts().storage.putFile(record.driveId, rev.folderId, DRAFT_FILE, enc({ ...draft, formVersion: FORM_VERSION }), "application/json");
 }
 
 /**
@@ -295,7 +301,8 @@ function checkCreate(input: CreateCaseInput) {
 
 /** Answers Ark pre-filled: sanitised like client answers, the route always the case's. */
 function prefillAnswers(raw: unknown, route: KycRoute): { answers: Answers; ids: string[] } {
-  const answers = sanitizeAnswers(raw);
+  // Never a question that is no longer asked: the client could not see or correct it.
+  const answers = Object.fromEntries(Object.entries(sanitizeAnswers(raw)).filter(([id]) => !isRetiredId(id)));
   const ids = Object.keys(answers).filter((id) => {
     const v = answers[id];
     return Array.isArray(v) ? v.length > 0 : !!v;
@@ -337,7 +344,9 @@ export async function createCase(input: CreateCaseInput, meta: { keyId: string; 
     const revFolderId = await storage.ensureSubfolder(folder.driveId, caseFolderId, "Révision 1");
     const revFolder = await storage.getFolder(folder.driveId, revFolderId);
     const docsFolderId = await storage.ensureSubfolder(folder.driveId, revFolderId, DOCS_FOLDER);
-    const { answers, ids } = prefillAnswers(input.prefill, route);
+    const prefilled = prefillAnswers(input.prefill, route);
+    const ids = prefilled.ids;
+    const answers: Answers = { ...routeDefaults(route), ...prefilled.answers };
     const record: CaseRecord = {
       v: 1,
       caseId,
@@ -611,7 +620,10 @@ async function assistFor(record: CaseRecord, rev: RevisionRecord, body: { by?: u
 
 async function readSubmission(record: CaseRecord, rev: RevisionRecord) {
   if (!rev.json) return null;
-  return readJsonFile<{ answers?: Answers; enteredBy?: Record<string, string> }>(record.driveId, rev.folderId, "questionnaire.json");
+  const submission = await readJsonFile<{ answers?: Answers; enteredBy?: Record<string, string>; documents?: { key: string; label: string }[]; formVersion?: number }>(record.driveId, rev.folderId, "questionnaire.json");
+  // A form sent before 2026-11-13: merged questions read in the current shape, nothing inferred.
+  if (!submission?.answers || (submission.formVersion || 1) >= FORM_VERSION) return submission;
+  return { ...submission, answers: upgradeAnswers(submission.answers), enteredBy: upgradeMarks(submission.enteredBy) };
 }
 
 async function readSubmitted(record: CaseRecord, rev: RevisionRecord): Promise<Answers | null> {
@@ -698,13 +710,44 @@ export function summarize(record: CaseRecord): StaffSummary {
   };
 }
 
+const hasAnswer = (value: unknown) => value !== undefined && value !== null && value !== "" && !(Array.isArray(value) && value.length === 0);
+
+/**
+ * The screens as Cadence shows them: per page its blocks with what Ark reads next to each answer
+ * (the label and help of this route, notes, the declarations of this form).
+ */
+function pagesFor(current: Answers, shown: (block: Block) => boolean, sent = false) {
+  const declaration = declarations(current);
+  const declarationText = {
+    fr: [declaration.intro.fr, ...declaration.items.map((item) => item.fr), declaration.closing.fr].join("\n\n"),
+    en: [declaration.intro.en, ...declaration.items.map((item) => item.en), declaration.closing.en].join("\n\n"),
+  };
+  return visibleSteps(current).map((step) => {
+    // A sent form is read as it was sent: never "missing" under rules it was not given.
+    const missing = sent ? [] : Object.keys(validateStep(step, current));
+    // A heading the form shows only over Ark's prefill (« Vous ») says nothing to a reader.
+    const blocks = step.blocks.filter((block) => block.id !== "route" && shown(block) && !(block.kind === "heading" && block.prefill?.onlyWhenPrefilled));
+    return {
+      id: step.id, section: step.section || null, title: step.title, intro: stepText(step, current).intro,
+      fieldIds: blocks.filter((block) => block.kind === "field" || block.kind === "group").map((block) => block.id),
+      missingFieldIds: [...new Set(missing.map((id) => id.split("[")[0]))],
+      parts: blocks.map((block) => {
+        if (block.kind === "heading") return { kind: block.kind, id: block.id, text: block.label, ...(block.section ? { section: block.section } : {}) };
+        if (block.kind === "note") return { kind: block.kind, id: block.id, text: block.id === "i.declarations" ? declarationText : block.text };
+        const text = block.kind === "field" ? fieldText(block, current) : { label: block.label, help: block.help };
+        return { kind: block.kind, id: block.id, label: text.label, ...(text.help ? { text: text.help } : {}), ...(block.retired ? { retired: true } : {}) };
+      }),
+    };
+  });
+}
+
 /** Case summary for Cadence, with the current answers and exactly the pages visible to the client. */
 export async function staffCase(caseId: string): Promise<StaffSummary & {
   answers?: Answers;
   draft?: Answers;
   /** Answer id → who at Ark entered its current value (assisted session, overwrite). Absent when none. */
   enteredBy?: Record<string, string>;
-  pages: { id: string; section: string | null; title: { fr: string; en: string }; intro?: { fr: string; en: string }; fieldIds: string[]; missingFieldIds: string[]; parts: { kind: "field" | "group" | "heading" | "note"; id: string; text?: { fr: string; en: string } }[] }[];
+  pages: { id: string; section: string | null; title: { fr: string; en: string }; intro?: { fr: string; en: string }; fieldIds: string[]; missingFieldIds: string[]; parts: { kind: "field" | "group" | "heading" | "note"; id: string; label?: { fr: string; en: string }; text?: { fr: string; en: string }; section?: string; retired?: boolean }[] }[];
   documentItems: { key: string; label: { fr: string; en: string }; required: boolean; declared: DocDeclared | null; files: { name: string; webUrl: string }[]; unavailable: boolean; withheld: Withheld | null }[];
 }> {
   await finishIfComplete(caseId);
@@ -715,27 +758,11 @@ export async function staffCase(caseId: string): Promise<StaffSummary & {
   // What the client has filled so far, for Ark to see and help (Sam, 2026-11-03).
   const openDraft = !answers && rev.state === "open" ? await readDraft(record, rev) : null;
   const draft = openDraft?.answers;
-  const current = pruneHidden({ ...(answers || draft || {}), route: record.route });
-  const declaration = declarations(current);
-  const declarationText = {
-    fr: [declaration.intro.fr, ...declaration.items.map((item) => item.fr), declaration.closing.fr].join("\n\n"),
-    en: [declaration.intro.en, ...declaration.items.map((item) => item.en), declaration.closing.en].join("\n\n"),
-  };
-  const pages = visibleSteps(current).map((step) => {
-    const missing = Object.keys(validateStep(step, current));
-    return {
-      id: step.id, section: step.section || null, title: step.title, intro: step.intro,
-      fieldIds: step.blocks.filter((block) =>
-        (block.kind === "field" || block.kind === "group") && isBlockVisible(block, current)
-      ).map((block) => block.id).filter((id) => id !== "route"),
-      missingFieldIds: [...new Set(missing.map((id) => id.split("[")[0]))],
-      parts: step.blocks.filter((block) => isBlockVisible(block, current) && block.id !== "route")
-        .map((block) => ({ kind: block.kind, id: block.id,
-          ...(block.kind === "heading" ? { text: block.label }
-            : block.kind === "note" ? { text: block.id === "i.declarations" ? declarationText : block.text }
-              : block.help ? { text: block.help } : {}) })),
-    };
-  });
+  // A submitted form is shown as it was sent: every answer it holds, even one the current form
+  // would no longer ask on that route. A draft follows the current form.
+  const current = answers ? { ...answers, route: record.route } : pruneHidden({ ...(draft || {}), route: record.route });
+  const shown = (block: Block) => isBlockVisible(block, current) || (!!answers && block.kind !== "note" && block.kind !== "heading" && hasAnswer(current[block.id]));
+  const pages = pagesFor(current, shown, !!answers);
   const currentFiles = await docFiles(record, rev);
   const files = [...currentFiles];
   // Carried documents live in the original revision's Documents folder. Resolve their current
@@ -756,7 +783,17 @@ export async function staffCase(caseId: string): Promise<StaffSummary & {
       if (found) files.push({ ...file, webUrl: found.webUrl });
     }
   }
-  const documentItems = documentList(current, record.skippedDocuments).map((item) => ({
+  // Documents an earlier version of the form asked for (e.g. proof of listing) stay listed for
+  // the cases that hold them, under the label the client saw.
+  const listed = documentList(current, record.skippedDocuments);
+  const known = new Set(listed.map((item) => item.key));
+  const sentLabel = (key: string) => submission?.documents?.find((entry) => entry.key === key)?.label;
+  for (const key of new Set([...(rev.documents || []).map((entry) => entry.key), ...Object.keys(rev.carried || {})])) {
+    if (known.has(key)) continue;
+    const old = retiredDocument(key) || (sentLabel(key) ? { key, code: docCode(key), label: { fr: sentLabel(key)!, en: sentLabel(key)! }, required: false } : null);
+    if (old) listed.push({ ...old, withheld: null });
+  }
+  const documentItems = listed.map((item) => ({
     key: item.key,
     label: item.label,
     required: item.required,
@@ -917,7 +954,7 @@ export async function clientCase(session: Session) {
     language: record.language,
     state: rev.state,
     displayName: record.displayName,
-    prefilledIds: rev.prefilledIds,
+    prefilledIds: upgradeIds(rev.prefilledIds || []),
     skippedDocuments: record.skippedDocuments || [],
     draft: rev.state === "open" && hasDraft ? draft : null,
     answers: submitted || draft.answers || { route: record.route },
@@ -1202,12 +1239,12 @@ export async function askField(
   const field = getField(fieldId);
   const answers: Answers = { ...sanitizeAnswers(body.answers), route: record.route };
   const step = STEPS.find((s) => !s.special && s.blocks.some((b) => b.kind === "field" && b.id === fieldId));
-  if (!field || !field.help || !step || !question || !isStepVisible(step, answers) || !isBlockVisible(field, answers)) {
+  if (!field || !field.help || !step || !question || !isStepVisible(step, answers) || !isBlockAsked(field, answers)) {
     throw new KycError("invalid_request", 400);
   }
   const stepAnswers: Record<string, unknown> = {};
   for (const block of step.blocks) {
-    if (block.kind !== "field" || block.id === "route" || !isBlockVisible(block, answers)) continue;
+    if (block.kind !== "field" || block.id === "route" || !isBlockAsked(block, answers)) continue;
     const value = answers[block.id];
     if (value !== undefined && value !== "" && !(Array.isArray(value) && !value.length)) stepAnswers[block.id] = value;
   }
@@ -1288,6 +1325,8 @@ export interface SubmissionRecord {
   enteredBy?: Record<string, string>;
   /** Set when Ark staff submitted the form in an assisted session. */
   submittedBy?: string;
+  /** Questions the answers were given for (upgrade.ts). */
+  formVersion?: number;
 }
 
 export async function submit(session: Session, body: { answers?: unknown; docDeclared?: unknown; submitKey?: unknown }) {
@@ -1345,6 +1384,7 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
     const before = await readDraft(record, rev);
     const marks = trackEnteredBy(before?.answers || {}, answers, before?.enteredBy, staffBy);
     const submission: SubmissionRecord = {
+      formVersion: FORM_VERSION,
       caseId: record.caseId,
       revision: rev.n,
       revisionId: rev.id,
@@ -1459,26 +1499,7 @@ async function removeSuspicious(record: CaseRecord, rev: RevisionRecord): Promis
  */
 export function previewForm(route: string, prefill: Record<string, unknown> | null, skipped: readonly string[] = []) {
   const current = pruneHidden({ ...(prefill || {}), route });
-  const declaration = declarations(current);
-  const declarationText = {
-    fr: [declaration.intro.fr, ...declaration.items.map((item) => item.fr), declaration.closing.fr].join("\n\n"),
-    en: [declaration.intro.en, ...declaration.items.map((item) => item.en), declaration.closing.en].join("\n\n"),
-  };
-  const pages = visibleSteps(current).map((step) => {
-    const missing = Object.keys(validateStep(step, current));
-    return {
-      id: step.id, section: step.section || null, title: step.title, intro: step.intro,
-      fieldIds: step.blocks.filter((block) =>
-        (block.kind === "field" || block.kind === "group") && isBlockVisible(block, current)
-      ).map((block) => block.id).filter((id) => id !== "route"),
-      missingFieldIds: [...new Set(missing.map((id) => id.split("[")[0]))],
-      parts: step.blocks.filter((block) => isBlockVisible(block, current) && block.id !== "route")
-        .map((block) => ({ kind: block.kind, id: block.id,
-          ...(block.kind === "heading" ? { text: block.label }
-            : block.kind === "note" ? { text: block.id === "i.declarations" ? declarationText : block.text }
-              : block.help ? { text: block.help } : {}) })),
-    };
-  });
+  const pages = pagesFor(current, (block) => isBlockVisible(block, current));
   const documentItems = documentList(current, skipped).map((item) => ({
     key: item.key, label: item.label, required: item.required, declared: null as null, files: [] as { name: string; webUrl: string }[], unavailable: false,
     withheld: item.withheld,
