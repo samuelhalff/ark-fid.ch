@@ -36,29 +36,24 @@ const item = (key: string, label: L, required: boolean, hint?: L): DocItem => ({
 const SWISS_UID = /^CHE[-.\s]?\d{3}[.\s]?\d{3}[.\s]?\d{3}$/i;
 
 /**
- * A company registered in Switzerland: its register extract and its articles are public and Ark
- * obtains them itself, so the client is not asked for them (Sam, 2026-11-13).
+ * A company registered in Switzerland: its register extract and its articles are online at the
+ * register, so they are not on its list at all (Sam, 2026-11-13: « en Suisse tout est en ligne au RC »).
  */
 export const swissCompany = (a: Answers): boolean => isPM(a) && SWISS_UID.test(String(a["a.uid"] || "").trim());
-const FIRM_OBTAINS = new Set(["pm.rc", "pm.statutes"]);
 
-/** Why a document of the list is not asked of the client: Ark obtains it, or Ark took it off the list. */
-export type Withheld = "firm" | "removed";
+/** Why a document of the list is not asked of the client: Ark took it off this case's list. */
+export type Withheld = "removed";
 
 /**
- * Every document the route and answers call for, each with why it is not asked of the client
- * (`withheld`), if it is not. `skipped`: the keys Ark took off this case's list (Cadence).
+ * Every document the route and answers call for, each marked `withheld` when Ark took it off this
+ * case's list. `skipped`: those keys (Cadence).
  */
 export function documentList(a: Answers, skipped: readonly string[] = []): (DocItem & { withheld: Withheld | null })[] {
-  const firm = swissCompany(a);
   const removed = new Set(skipped);
-  return allDocuments(a).map((doc) => ({
-    ...doc,
-    withheld: firm && FIRM_OBTAINS.has(doc.key) ? "firm" : removed.has(doc.key) ? "removed" : null,
-  }));
+  return allDocuments(a).map((doc) => ({ ...doc, withheld: removed.has(doc.key) ? "removed" : null }));
 }
 
-/** The documents asked of the client: the list without what Ark obtains or took off. */
+/** The documents asked of the client: the list without what Ark took off. */
 export function documentsFor(a: Answers, skipped: readonly string[] = []): DocItem[] {
   return documentList(a, skipped).filter((doc) => doc.withheld === null).map(({ withheld: _w, ...doc }) => doc);
 }
@@ -76,8 +71,8 @@ function allDocuments(a: Answers): DocItem[] {
     }
   }
   if (isPM(a)) {
-    out.push(item("pm.rc", t("Extrait du registre du commerce de moins de 12 mois (ou équivalent étranger)", "Commercial register extract less than 12 months old (or foreign equivalent)"), true));
-    out.push(item("pm.statutes", t("Statuts", "Articles of association"), true));
+    if (!swissCompany(a)) out.push(item("pm.rc", t("Extrait du registre du commerce de moins de 12 mois (ou équivalent étranger)", "Commercial register extract less than 12 months old (or foreign equivalent)"), true));
+    if (!swissCompany(a)) out.push(item("pm.statutes", t("Statuts", "Articles of association"), true));
     if (!isListed(a)) out.push(item("pm.shareholders", t("Liste des actionnaires avec leur nombre d'actions (registre des actions)", "List of shareholders with their number of shares (share register)"), true));
     if (a["b.structure"] === "yes" || String(a["d.group"] || "").trim()) out.push(item("pm.chart", t("Organigramme du groupe ou de la chaîne de détention", "Chart of the group or ownership chain"), true));
     if (isListed(a)) out.push(item("pm.listed", t("Preuve de la cotation (ou de la détention majoritaire par une société cotée)", "Evidence of the listing (or of majority ownership by a listed company)"), true));

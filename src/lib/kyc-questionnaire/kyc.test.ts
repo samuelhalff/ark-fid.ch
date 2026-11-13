@@ -188,14 +188,11 @@ test("documents: certified ID per form signatory, ID per section B person", () =
   assert.ok(documentsFor(pp).some((d) => d.key === "pp.id"));
 });
 
-test("documents: a Swiss company's extract and articles are Ark's to obtain, never asked (Sam, 2026-11-13)", () => {
+test("documents: a Swiss company's extract and articles are not on its list at all (Sam, 2026-11-13)", () => {
   const swiss = pruneHidden(pmNonOp);
   assert.equal(swissCompany(swiss), true);
-  const asked = documentsFor(swiss).map((d) => d.key);
-  assert.ok(!asked.includes("pm.rc") && !asked.includes("pm.statutes"));
-  const list = documentList(swiss);
-  assert.equal(list.find((d) => d.key === "pm.rc")?.withheld, "firm");
-  assert.equal(list.find((d) => d.key === "pm.statutes")?.withheld, "firm");
+  const listed = documentList(swiss).map((d) => d.key);
+  assert.ok(!listed.includes("pm.rc") && !listed.includes("pm.statutes"));
   // A foreign company is asked for both, as before.
   const foreign = pruneHidden({ ...pmNonOp, "a.uid": "HRB 12345", "a.incorporationCountry": "Allemagne" });
   assert.equal(swissCompany(foreign), false);
@@ -328,7 +325,7 @@ test("staff prefill keeps client answers and rejects a stale open-tab save", asy
   assert.ok(staff.pages.some((page) => page.parts.some((part) => part.kind === "field")), "page copy keeps client order");
   assert.ok(staff.pages.find((page) => page.id === "i")?.parts.some((part) => part.id === "i.declarations" && part.text?.fr !== "{declarations}"), "staff sees the actual client declarations");
   assert.ok(staff.pages.some((page) => page.id === "h"), "Ark sees the same pages as the client");
-  assert.ok(staff.documentItems.some((item) => item.key === "pm.rc"), "Ark sees the document page's items");
+  assert.ok(staff.documentItems.some((item) => item.key === "pm.shareholders"), "Ark sees the document page's items");
   assert.equal(opened.draft?.staffPrefillVersion || 0, 0);
   await assert.rejects(saveDraft(session, { answers: { "a.name": "Client's spelling" }, staffPrefillVersion: 0 }), (e: unknown) => e instanceof KycError && e.code === "draft_changed");
   const current = await clientCase(session);
@@ -780,7 +777,7 @@ test("documents taken off by Ark: sent at creation, replaced by the documents ac
   assert.deepEqual(client.skippedDocuments, ["pm.shareholders"], "the client's form filters the same list");
   let staff = await staffCase(caseId);
   assert.equal(staff.documentItems.find((d) => d.key === "pm.shareholders")?.withheld, "removed");
-  assert.equal(staff.documentItems.find((d) => d.key === "pm.rc")?.withheld, "firm");
+  assert.ok(!staff.documentItems.some((d) => d.key === "pm.rc" || d.key === "pm.statutes"), "a Swiss company's extract and articles are not listed");
   await assert.rejects(
     createUpload({ caseId, revision: 1, emailHash: JEAN }, { kind: "doc", docKey: "pm.shareholders", fileName: "a.pdf", size: 1000, mime: "application/pdf" }),
     (e: unknown) => e instanceof KycError && e.code === "unknown_document",
