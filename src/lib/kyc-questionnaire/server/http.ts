@@ -47,7 +47,7 @@ export function limited(name: string, key: string, max: number, windowMs = 10 * 
 export async function clientRoute(
   request: Request,
   options: { name: string; perIp: number; maxBytes?: number; session: boolean },
-  handler: (ctx: { body: Record<string, unknown>; ip: string; session: Session | null }) => Promise<NextResponse>,
+  handler: (ctx: { body: Record<string, unknown>; ip: string; userAgent: string; session: Session | null }) => Promise<NextResponse>,
 ): Promise<NextResponse> {
   if (!originAllowed(request)) return json({ error: "forbidden" }, 403);
   const ip = clientIp(request);
@@ -72,7 +72,7 @@ export async function clientRoute(
       const perSession = limited(`${options.name}:session`, session.caseId, options.perIp * 2);
       if (perSession) return perSession;
     }
-    const response = await handler({ body, ip, session });
+    const response = await handler({ body, ip, userAgent: request.headers.get("user-agent") || "", session });
     logQuestionnaireWorkflow({ workflow: "kyc_questionnaire", route: options.name, outcome: "completed", status_code: response.status });
     return response;
   } catch (error) {

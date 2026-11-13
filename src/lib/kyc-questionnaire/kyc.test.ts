@@ -13,7 +13,7 @@ import { documentList, documentsFor, retiredDocument, swissCompany } from "./doc
 import { fieldText, getField, getGroup, isBlockAsked, isBlockVisible, pruneHidden, sanitizeAnswers, validateAll, visibleSteps } from "./engine";
 import { upgradeAnswers } from "./upgrade";
 import { flagsOf, routeMismatch } from "./flags";
-import { createChallenge, createPick, createSession, emailHash, readLink, readPick, readSession, STAFF_HASH, redeemAssist, verifyChallenge } from "./server/access";
+import { createChallenge, createPick, createSession, emailHash, linkRef, readLink, readPick, readSession, STAFF_HASH, redeemAssist, verifyChallenge } from "./server/access";
 import { signRequest, verifyStaffRequest } from "./server/signature";
 import { memoryAccess, memoryTracker } from "./server/ports";
 import { accessFor, askField, changes, clientCase, confirmSigned, contactOf, createCase, createUpload, deleteUpload, formPdfName, KycError, readPdf, signOnline, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
@@ -416,9 +416,12 @@ test("signing online binds the verified name and drawing to the PDF the signer r
   await assert.rejects(signOnline(session, { name: "---", accept: true, declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_name");
   await assert.rejects(signOnline(session, { name: "Jean Dupont", accept: true, declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_image");
   await assert.rejects(signOnline(session, { name: "Jean Dupont", accept: true, declarationId, drawing: await drawing(false) }), (e: unknown) => e instanceof KycError && e.code === "signature_image");
-  assert.equal((await signOnline(session, { name: "  dupont JEAN ", accept: true, declarationId, drawing: await drawing() })).state, "signed");
+  assert.equal((await signOnline({ ...session, linkRef: "abcd1234abcd1234" }, { name: "  dupont JEAN ", accept: true, declarationId, drawing: await drawing() }, { ip: "203.0.113.7", userAgent: "Mozilla/5.0 (Test)\u0000\n é" })).state, "signed");
   const record = await loadCase(caseId);
   const rev = record.revisions[0];
+  const trace = rev.signers?.[0].signature;
+  assert.deepEqual([trace?.ip, trace?.userAgent, trace?.linkRef], ["203.0.113.7", "Mozilla/5.0 (Test)", "abcd1234abcd1234"], "signature trace kept with the case, control and non-ASCII characters dropped");
+  assert.ok(trace?.at && trace.email === "jean@example.ch");
   assert.equal(rev.signers?.[0].signature?.email, "jean@example.ch");
   const original = await f.storage.readFile(record.driveId, rev.folderId, rev.pdf!.name);
   const { createHash } = await import("node:crypto");
@@ -430,6 +433,14 @@ test("signing online binds the verified name and drawing to the PDF the signer r
   const signedDocument = await PDFDocument.load(signedPdf!);
   assert.equal(signedDocument.getPageCount(), (await PDFDocument.load(original!)).getPageCount() + 1, "one signature page added");
   assert.ok(signedDocument.context.enumerateIndirectObjects().some(([, object]) => object instanceof PDFRawStream && object.dict.get(PDFName.of("Subtype"))?.toString() === "/Image"), "the PDF embeds the drawn PNG");
+  assert.equal(rev.signed![0].sha256, createHash("sha256").update(signedPdf!).digest("hex"), "the stored hash is that of the stored signed PDF");
+  // Content streams are deflated: inflate them all, then look at what the page draws.
+  const { inflateSync } = await import("node:zlib");
+  const pdfText = signedDocument.context.enumerateIndirectObjects().map(([, object]) => {
+    if (!(object instanceof PDFRawStream) || object.dict.get(PDFName.of("Subtype"))) return "";
+    try { return Buffer.from(inflateSync(object.contents)).toString("latin1"); } catch { return ""; }
+  }).join("\n");
+  for (const shown of ["203.0.113.7", "abcd1234abcd1234", "Mozilla/5.0 (Test)", trace!.pdfSha256.slice(0, 24)]) assert.ok(pdfText.includes(shown) || pdfText.toLowerCase().includes(Buffer.from(shown, "latin1").toString("hex")), `signature page shows ${shown}`);
   assert.equal((await staffCase(caseId)).latestRevision.signers?.[0].typed, "dupont JEAN");
   assert.equal((await signOnline(session, { name: "x", accept: true, declarationId })).state, "signed", "a repeated signature changes nothing");
 });
@@ -560,6 +571,11 @@ test("links, one-time codes and sessions", async () => {
   assert.equal(verifyChallenge(challenge, code).ok, false, "single use");
   const raw = await createSession({ caseId: link!.caseId, revision: 1, emailHash: "x" });
   assert.equal((await readSession(raw))?.caseId, link!.caseId);
+  const viaLink = createChallenge({ caseId: link!.caseId, revision: 1, emailHash: "x", linkRef: linkRef(link!) });
+  const verified = verifyChallenge(viaLink.challenge, viaLink.code);
+  assert.ok(verified.ok && verified.payload.linkRef === linkRef(link!) && linkRef(link!).length === 16, "the challenge carries the link reference, not the token");
+  assert.equal((await readSession(await createSession({ caseId: link!.caseId, revision: 1, emailHash: "x", linkRef: linkRef(link!) })))?.linkRef, linkRef(link!));
+  assert.equal((await readSession(raw))?.linkRef, undefined, "a session opened by address carries no link");
   // A new link revokes the old one.
   await staffAction(created.summary.caseId, "link", { expectedRevision: 1 }, { idempotencyKey: "link-0001", payloadHash: "l" });
   assert.equal(await readLink(token), null);

@@ -49,7 +49,7 @@ const TEXT = {
     en: "Please check this document, then sign it online at kyc.ark-fid.ch, or sign it on paper and upload a legible scanned copy or photograph of every page there.",
   },
   online: {
-    title: { fr: "Signature en ligne", en: "Online signature" },
+    title: { fr: "Signature en ligne : trace de signature", en: "Online signature: signature trace" },
     intro: {
       fr: "Le présent formulaire a été signé en ligne sur kyc.ark-fid.ch. Chaque signataire ci-dessous a utilisé sa propre session, ouverte avec un code envoyé à son adresse e-mail, puis a confirmé les déclarations et saisi son nom. Son tracé manuscrit figure ci-dessous lorsqu'il a été recueilli. Il ne s'agit pas d'une signature électronique qualifiée.",
       en: "This form was signed online at kyc.ark-fid.ch. Each signatory below used their own session, opened with a code sent to their e-mail address, then confirmed the declarations and typed their name. Their drawn signature appears below when one was captured. This is not a qualified electronic signature.",
@@ -60,6 +60,9 @@ const TEXT = {
     email: { fr: "Adresse e-mail du code", en: "E-mail address of the code" },
     byArk: { fr: " (adresse indiquée par Ark)", en: " (address given by Ark)" },
     at: { fr: "Date et heure (Suisse)", en: "Date and time (Swiss time)" },
+    ip: { fr: "Adresse IP", en: "IP address" },
+    userAgent: { fr: "Navigateur (user agent)", en: "Browser (user agent)" },
+    link: { fr: "Référence du lien personnel", en: "Personal link reference" },
     pdf: { fr: "SHA-256 du formulaire signé (pages précédentes)", en: "SHA-256 of the form signed (previous pages)" },
     json: { fr: "SHA-256 des réponses (questionnaire.json)", en: "SHA-256 of the answers (questionnaire.json)" },
   },
@@ -253,7 +256,7 @@ export async function appendOnlineSignatures(
   info: {
     language: KycLocale;
     declarationId: string;
-    signers: { name: string; typed: string; email: string; at: string; drawnPng?: string; byArk?: boolean }[];
+    signers: { name: string; typed: string; email: string; at: string; drawnPng?: string; ip?: string; userAgent?: string; linkRef?: string; byArk?: boolean }[];
     pdfSha256: string;
     jsonSha256: string;
   },
@@ -271,6 +274,9 @@ export async function appendOnlineSignatures(
     w.pair(T.typed[L], signer.typed);
     w.pair(T.email[L], signer.email + (signer.byArk ? T.byArk[L] : ""));
     w.pair(T.at[L], swissDate(signer.at));
+    if (signer.ip) w.pair(T.ip[L], signer.ip);
+    if (signer.userAgent) w.pair(T.userAgent[L], signer.userAgent);
+    if (signer.linkRef) w.pair(T.link[L], signer.linkRef);
     if (signer.drawnPng) {
       const image = await doc.embedPng(Buffer.from(signer.drawnPng, "base64"));
       const size = image.scaleToFit(300, 90);

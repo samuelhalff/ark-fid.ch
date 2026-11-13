@@ -12,7 +12,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const action = request.headers.get("x-kqf-action") || "";
   const perIp = action === "save" ? 600 : action === "ask" ? 30 : 120;
-  return clientRoute(request, { name: `kyc-case-${action || "none"}`, perIp, maxBytes: 512 * 1024, session: true }, async ({ body, session }) => {
+  return clientRoute(request, { name: `kyc-case-${action || "none"}`, perIp, maxBytes: 512 * 1024, session: true }, async ({ body, session, ip, userAgent }) => {
     switch (action) {
       case "save":
         return json(await saveDraft(session!, body));
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       case "signed":
         return json(await confirmSigned(session!));
       case "sign-online":
-        return json(await signOnline(session!, body));
+        return json(await signOnline(session!, body, { ip, userAgent }));
       case "ask": {
         // At most 20 questions per case in ten minutes (Cadence keeps the same cap).
         const tooMany = limited("kyc-ask:case", session!.caseId, 20);

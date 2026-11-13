@@ -255,6 +255,7 @@ const ACCESS_COLUMNS: Column[] = [
   bool("Revoked", "Révoqué"),
   text("By", "Saisi par (Ark)"),
   text("Sibling", "Accès jumelé"),
+  text("LinkRef", "Référence du lien"),
 ];
 
 class SharePointAccess implements AccessPort {
@@ -271,6 +272,7 @@ class SharePointAccess implements AccessPort {
       Revoked: record.revoked,
       ...(record.by ? { By: record.by } : {}),
       ...(record.sibling ? { Sibling: record.sibling } : {}),
+      ...(record.linkRef ? { LinkRef: record.linkRef } : {}),
     });
     this.cache.delete(record.keyHash);
   }
@@ -289,6 +291,7 @@ class SharePointAccess implements AccessPort {
           revoked: f.Revoked === true,
           ...(str(f.By) ? { by: str(f.By) } : {}),
           ...(str(f.Sibling) ? { sibling: str(f.Sibling) } : {}),
+          ...(str(f.LinkRef) ? { linkRef: str(f.LinkRef) } : {}),
         }
       : null;
     this.cache.set(keyHash, { record, at: Date.now() });

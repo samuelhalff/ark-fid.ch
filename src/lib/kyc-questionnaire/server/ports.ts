@@ -56,6 +56,8 @@ export interface AccessRecord {
   revoked: boolean;
   /** Staff assistance (kind "assist", and the staff session it opens): who at Ark. */
   by?: string;
+  /** Link and session opened through a link: the link's public reference (see linkRef in access.ts). */
+  linkRef?: string;
   /** An assist link and its short code are two records of one single use: the other one's key. */
   sibling?: string;
 }
@@ -107,7 +109,9 @@ export function memoryAccess(): AccessPort & { records: AccessRecord[] } {
   return {
     records,
     async put(record) {
-      records.push({ ...record });
+      // Only the fields the SharePoint store keeps, so a field forgotten there fails the tests.
+      const { keyHash, kind, caseId, revision, emailHash, expiresAt, revoked, by, sibling, linkRef } = record;
+      records.push({ keyHash, kind, caseId, revision, emailHash, expiresAt, revoked, ...(by ? { by } : {}), ...(sibling ? { sibling } : {}), ...(linkRef ? { linkRef } : {}) });
     },
     async get(keyHash) {
       const found = records.find((r) => r.keyHash === keyHash);

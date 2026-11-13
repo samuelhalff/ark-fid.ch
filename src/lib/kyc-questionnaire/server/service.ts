@@ -1,4 +1,5 @@
 import { createHash, createHmac, randomBytes } from "node:crypto";
+import { isIP } from "node:net";
 import sharp from "sharp";
 import { EMAIL_RE } from "../../tax-questionnaire/format";
 import { checkUpload, extensionOf, safeName, sniffMismatch, UPLOAD_LIMITS } from "../../tax-questionnaire/files";
@@ -94,7 +95,11 @@ export interface SignerRecord {
   emailSetAt?: string;
   /** Signature request e-mailed (signers other than the contact). */
   invitedAt?: string;
-  signature?: { typed: string; email: string; at: string; pdfSha256: string; drawnPng?: string };
+  /**
+   * Signature trace: who, when, from where. `ip` is the client address
+   * seen by our front proxy, `linkRef` the personal link the session was opened through.
+   */
+  signature?: { typed: string; email: string; at: string; pdfSha256: string; drawnPng?: string; ip?: string; userAgent?: string; linkRef?: string };
 }
 
 export interface CaseRecord {
@@ -892,6 +897,8 @@ export interface Session {
   emailHash?: string;
   /** Ark staff opened this session with an assist code or link: who. Role "staff". */
   staffBy?: string;
+  /** The personal link the session was opened through (absent when opened by e-mail address). */
+  linkRef?: string;
 }
 
 /** "staff": Ark helping the client; does everything the contact does except sign. */
@@ -1165,7 +1172,10 @@ async function checkedDrawing(value: unknown): Promise<string> {
   }
 }
 
-export async function signOnline(session: Session, body: { name?: unknown; accept?: unknown; declarationId?: unknown; drawing?: unknown }) {
+/** Printable ASCII only, bounded: the trace is printed in the PDF and never logged. */
+const traceText = (value: string, max: number) => value.replace(/[^\x20-\x7e]/g, "").trim().slice(0, max);
+
+export async function signOnline(session: Session, body: { name?: unknown; accept?: unknown; declarationId?: unknown; drawing?: unknown }, evidence: { ip?: string; userAgent?: string } = {}) {
   return locked(session.caseId, async () => {
     const { record, rev, mine } = await clientContext(session, ["contact", "signer"]);
     // The form shown in the browser must be this one (another tab may have opened another case).
@@ -1195,7 +1205,11 @@ export async function signOnline(session: Session, body: { name?: unknown; accep
     const original = await getPorts().storage.readFile(record.driveId, readableFolderId(record, rev), rev.pdf.name);
     if (!original) throw new KycError("pdf_not_ready", 409);
     // The evidence is saved before the PDF is built: a later failure never asks to sign again.
-    pending.signature = { typed, email: pending.email || "", at: now(), pdfSha256: sha256(original), drawnPng };
+    pending.signature = { typed, email: pending.email || "", at: now(), pdfSha256: sha256(original), drawnPng,
+      ip: isIP(evidence.ip || "") ? evidence.ip : undefined,
+      userAgent: traceText(evidence.userAgent || "", 200) || undefined,
+      linkRef: session.linkRef,
+    };
     await saveCase(record);
     await track(record, rev);
     if (signers.every((s) => s.signature)) await finishOnline(record, rev);
@@ -1215,7 +1229,7 @@ async function finishOnline(record: CaseRecord, rev: RevisionRecord) {
   const signedPdf = await appendOnlineSignatures(original, {
     language: record.language,
     declarationId: rev.declarationId || "",
-    signers: signers.map((s) => ({ name: s.name, typed: s.signature!.typed, email: s.signature!.email, at: s.signature!.at, drawnPng: s.signature!.drawnPng, byArk: s.emailBy === "ark" })),
+    signers: signers.map((s) => ({ name: s.name, typed: s.signature!.typed, email: s.signature!.email, at: s.signature!.at, drawnPng: s.signature!.drawnPng, ip: s.signature!.ip, userAgent: s.signature!.userAgent, linkRef: s.signature!.linkRef, byArk: s.emailBy === "ark" })),
     pdfSha256,
     jsonSha256: rev.json?.sha256 || "",
   });

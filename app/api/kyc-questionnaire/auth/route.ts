@@ -1,5 +1,5 @@
 import { plainHtml } from "@/src/lib/tax-questionnaire/server/email";
-import { createChallenge, createPick, createSession, emailHash, normaliseEmail, readCookie, readLink, readPick, releaseChallenge, revokeSession, sessionCookie, STAFF_HASH, STAFF_SESSION_TTL_MS, redeemAssist, verifyChallenge } from "@/src/lib/kyc-questionnaire/server/access";
+import { createChallenge, createPick, createSession, emailHash, normaliseEmail, linkRef, readCookie, readLink, readPick, releaseChallenge, revokeSession, sessionCookie, STAFF_HASH, STAFF_SESSION_TTL_MS, redeemAssist, verifyChallenge } from "@/src/lib/kyc-questionnaire/server/access";
 import { mailSender } from "@/src/lib/kyc-questionnaire/server/config";
 import { clientRoute, json, limited } from "@/src/lib/kyc-questionnaire/server/http";
 import { accessFor, contactOf, KycError } from "@/src/lib/kyc-questionnaire/server/service";
@@ -47,8 +47,8 @@ async function activeCases(hash: string) {
   return out;
 }
 
-async function sessionFor(caseId: string, revision: number, hash: string) {
-  const value = await createSession({ caseId, revision, emailHash: hash });
+async function sessionFor(caseId: string, revision: number, hash: string, viaLink?: string) {
+  const value = await createSession({ caseId, revision, emailHash: hash, ...(viaLink ? { linkRef: viaLink } : {}) });
   const response = json({ ok: true });
   response.headers.append("Set-Cookie", sessionCookie(value));
   return response;
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
       if (!access || access.revision !== link.revision) return json({ error: "link_invalid" }, 410);
       const tooMany = limited("kyc-otp", `${link.caseId}:${link.emailHash}`, 6, 60 * 60 * 1000) || limited("kyc-otp-case", link.caseId, 15, 60 * 60 * 1000);
       if (tooMany) return tooMany;
-      const { code, challenge } = createChallenge({ caseId: link.caseId, revision: link.revision, emailHash: link.emailHash });
+      const { code, challenge } = createChallenge({ caseId: link.caseId, revision: link.revision, emailHash: link.emailHash, linkRef: linkRef(link) });
       const text = OTP[access.language];
       await getPorts().sendMail({ from: mailSender(), to: [access.email], cc: [], subject: text.subject(code), html: plainHtml([text.body(code), text.valid]) });
       return json({ challenge, emailHint: maskEmail(access.email), language: access.language });
@@ -108,7 +108,7 @@ export async function POST(request: Request) {
       if (!access) return json({ error: "otp_invalid" }, 400);
       // The case was closed or reopened (new revision, old links revoked) since the code was sent.
       if (access.closed || access.revision !== revision) return json({ error: "link_invalid" }, 410);
-      return sessionFor(caseId, revision, hash);
+      return sessionFor(caseId, revision, hash, result.payload.linkRef);
     }
 
     if (body.action === "pick") {

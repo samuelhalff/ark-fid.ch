@@ -30,6 +30,9 @@ export function linkUrl(token: string, locale = "fr", origin = publicOrigin()) {
   return `${base}${path}#acces=${token}`;
 }
 
+/** Public reference of a link for the signature trace: a separate keyed hash of its lookup key, never the token or a part of its key. */
+export const linkRef = (record: { keyHash: string }) => mac("linkref", record.keyHash).slice(0, 16);
+
 export async function issueLink(options: { caseId: string; revision: number; emailHash: string; locale: string; ttlMs?: number }) {
   const token = randomBytes(32).toString("base64url");
   const expiresAt = Date.now() + (options.ttlMs || LINK_TTL_MS);
@@ -53,6 +56,8 @@ export interface ChallengePayload {
   caseId: string;
   revision: number;
   emailHash: string;
+  /** Set when the code was requested by opening a link: that link's reference. */
+  linkRef?: string;
   exp: number;
   codeMac: string;
   /** Code requested with an e-mail address (no link): the cases are resolved when it is checked. */
@@ -62,7 +67,7 @@ export interface ChallengePayload {
 const attempts = new Map<string, number>();
 const used = new Map<string, number>();
 
-export function createChallenge(data: { caseId: string; revision: number; emailHash: string; byEmail?: true }, now = Date.now()) {
+export function createChallenge(data: { caseId: string; revision: number; emailHash: string; byEmail?: true; linkRef?: string }, now = Date.now()) {
   const code = String(randomInt(0, 1_000_000)).padStart(6, "0");
   const id = randomBytes(12).toString("base64url");
   const payload: ChallengePayload = { ...data, id, exp: now + OTP_TTL_MS, codeMac: mac("otp", `${id}|${code}`) };
@@ -178,6 +183,8 @@ export interface SessionInfo {
   caseId: string;
   revision: number;
   emailHash: string;
+  /** The link the session was opened through (absent when opened by e-mail address or by staff). */
+  linkRef?: string;
   /** Set when Ark staff opened the session with an assist code or link: who (role "staff"). */
   staffBy?: string;
 }
@@ -198,6 +205,7 @@ export async function createSession(info: SessionInfo, options: { ttlMs?: number
     expiresAt: Date.now() + (options.ttlMs || SESSION_TTL_MS),
     revoked: false,
     ...(info.staffBy ? { by: info.staffBy } : {}),
+    ...(info.linkRef ? { linkRef: info.linkRef } : {}),
   });
   return raw;
 }
@@ -206,7 +214,7 @@ export async function readSession(raw: string | undefined): Promise<SessionInfo 
   if (!raw || !TOKEN_RE.test(raw)) return null;
   const record = await getPorts().access.get(mac("session", raw));
   if (!record || record.kind !== "session" || record.revoked || record.expiresAt <= Date.now()) return null;
-  return { caseId: record.caseId, revision: record.revision, emailHash: record.emailHash, ...(record.by ? { staffBy: record.by } : {}) };
+  return { caseId: record.caseId, revision: record.revision, emailHash: record.emailHash, ...(record.by ? { staffBy: record.by } : {}), ...(record.linkRef ? { linkRef: record.linkRef } : {}) };
 }
 
 export async function revokeSession(raw: string | undefined) {
