@@ -729,41 +729,38 @@ export function routeDefaults(route: string): Answers {
 
 export function declarations(a: Answers): { intro: ReturnType<typeof t>; items: ReturnType<typeof t>[]; closing: ReturnType<typeof t> } {
   const closing = t(
-    "Les informations et documents transmis ultérieurement par écrit par le client ou ses représentants autorisés, notamment par e-mail, complètent le présent formulaire et en font partie intégrante. Tout changement d'ayant droit économique doit être communiqué sans délai à Ark Fiduciaire SA dans une forme permettant d'en conserver une preuve écrite ; Ark Fiduciaire SA peut demander une nouvelle déclaration signée.",
-    "Information and documents later provided in writing by the client or its authorised representatives, including by email, supplement this form and form an integral part of it. Any change of beneficial owner must be reported to Ark Fiduciaire SA without delay in a form that provides written evidence; Ark Fiduciaire SA may request a new signed declaration.",
+    "Une fausse déclaration intentionnelle sur l'ayant droit économique est punissable (art. 251 CP, faux dans les titres).",
+    "An intentionally false statement about the beneficial owner is a criminal offence (art. 251 of the Swiss Criminal Code, forgery of documents).",
   );
   if (isPP(a)) {
     return {
-      intro: t("En signant ce formulaire, je :", "By signing this form, I:"),
+      intro: t("En signant, je confirme :", "By signing, I confirm:"),
       items: [
-        t("déclare que les informations fournies sont exactes et complètes ;", "declare that the information provided is accurate and complete;"),
-        t("déclare que l'argent et les biens concernés proviennent d'activités légales ;", "declare that the money and assets involved come from lawful activities;"),
-        t("confirme que l'ayant droit économique est celui indiqué au point B ;", "confirm that the beneficial owner is the one stated in section B;"),
-        t("confirme ne pas être une PPE ni proche d'une PPE, sauf indication contraire au point C ;", "confirm that I am not a PEP or close to a PEP, unless stated otherwise in section C;"),
-        t("confirme ne faire l'objet d'aucune sanction, sauf indication contraire au point C ;", "confirm that I am not subject to any sanctions, unless stated otherwise in section C;"),
-        t("m'engage à informer sans délai Ark Fiduciaire SA de tout changement des informations fournies.", "undertake to inform Ark Fiduciaire SA without delay of any change to the information provided."),
+        t("que les informations de ce formulaire sont exactes et complètes ;", "that the information in this form is accurate and complete;"),
+        t("que l'ayant droit économique des avoirs est la personne indiquée au point B ;", "that the beneficial owner of the assets is the person stated in section B;"),
+        t("que mes avoirs proviennent d'activités légales ;", "that my assets come from lawful activities;"),
+        t("que je ne suis ni une PPE, ni proche d'une PPE, ni sous sanctions, sauf indication contraire au point C ;", "that I am not a PEP, close to a PEP or subject to sanctions, unless stated otherwise in section C;"),
+        t("que j'informerai Ark Fiduciaire SA sans délai de tout changement de ces informations pendant notre relation ;", "that I will inform Ark Fiduciaire SA without delay of any change to this information during our relationship;"),
+        t("que je prends note qu'Ark Fiduciaire SA conserve et traite ces données pour remplir ses obligations légales.", "that I note that Ark Fiduciaire SA keeps and processes this data to meet its legal duties."),
       ],
       closing,
     };
   }
   return {
-    intro: t("En signant ce formulaire au nom de la société, le ou les soussignés :", "By signing this form on behalf of the company, the undersigned:"),
+    intro: t("En signant pour la société, nous confirmons :", "By signing for the company, we confirm:"),
     items: [
-      t("déclarent être autorisés à représenter la société ;", "declare that they are authorised to represent the company;"),
-      t("déclarent que les informations fournies sont exactes et complètes ;", "declare that the information provided is accurate and complete;"),
-      t("déclarent que les avoirs de la société proviennent d'activités légales ;", "declare that the company's assets come from lawful activities;"),
+      t("être autorisés à représenter la société ;", "that we are authorised to represent the company;"),
+      t("que les informations de ce formulaire sont exactes et complètes ;", "that the information in this form is accurate and complete;"),
       isNonOp(a)
-        ? t("confirment que les ayants droit économiques de l'argent et des biens de la société sont ceux indiqués au point B ;", "confirm that the beneficial owners of the company's money and assets are those stated in section B;")
+        ? t("que les ayants droit économiques des avoirs de la société sont les personnes indiquées au point B ;", "that the beneficial owners of the company's assets are the persons stated in section B;")
         : t(
-            "confirment que les informations fournies au point B concernant les ayants droit économiques ou, lorsque ceux-ci n'ont pas pu être identifiés, le membre le plus haut placé de l'organe de direction, sont exactes et complètes ;",
-            "confirm that the information provided in section B concerning the beneficial owners or, where they could not be identified, the most senior member of the governing body, is accurate and complete;",
+            "que le point B désigne les ayants droit économiques de la société ou, à défaut, son dirigeant le plus haut placé ;",
+            "that section B names the company's beneficial owners or, failing that, its most senior manager;",
           ),
-      t("confirment qu'aucune personne mentionnée n'est une PPE ni proche d'une PPE, sauf indication contraire au point C ;", "confirm that no person mentioned is a PEP or close to a PEP, unless stated otherwise in section C;"),
-      t("confirment que ni la société ni ces personnes ne font l'objet de sanctions, sauf indication contraire au point C ;", "confirm that neither the company nor these persons are subject to sanctions, unless stated otherwise in section C;"),
-      t(
-        "s'engagent à informer sans délai Ark Fiduciaire SA de tout changement (actionnaires, ayants droit économiques, administrateurs, signataires, activité).",
-        "undertake to inform Ark Fiduciaire SA without delay of any change (shareholders, beneficial owners, directors, signatories, activity).",
-      ),
+      t("que les avoirs de la société proviennent d'activités légales ;", "that the company's assets come from lawful activities;"),
+      t("que ni la société ni aucune personne mentionnée n'est une PPE, proche d'une PPE ou sous sanctions, sauf indication contraire au point C ;", "that neither the company nor any person mentioned is a PEP, close to a PEP or subject to sanctions, unless stated otherwise in section C;"),
+      t("que nous informerons Ark Fiduciaire SA sans délai de tout changement pendant notre relation (actionnaires, contrôle, ayants droit économiques, administrateurs, signataires, activité) ;", "that we will inform Ark Fiduciaire SA without delay of any change during our relationship (shareholders, control, beneficial owners, directors, signatories, activity);"),
+      t("que nous prenons note qu'Ark Fiduciaire SA conserve et traite ces données pour remplir ses obligations légales.", "that we note that Ark Fiduciaire SA keeps and processes this data to meet its legal duties."),
     ],
     closing,
   };
