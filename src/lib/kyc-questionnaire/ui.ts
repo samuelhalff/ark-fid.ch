@@ -188,6 +188,15 @@ export const UI = {
   ),
   helpButton: t("Explication", "Explanation"),
   helpTitle: t("Besoin d'aide ?", "Need help?"),
+  askReveal: t("Poser une question", "Ask a question"),
+  askLabel: t("Votre question", "Your question"),
+  askSend: t("Demander", "Ask"),
+  askSending: t("Un instant…", "One moment…"),
+  askEcho: t("« {question} »", "“{question}”"),
+  askProposal: t("Proposition pour ce champ", "Suggested for this field"),
+  askUse: t("Utiliser", "Use"),
+  askClose: t("Fermer", "Close"),
+  askOffTopic: t("Je ne peux répondre qu'aux questions sur ce formulaire.", "I can only answer questions about this form."),
   retry: t("Réessayer", "Try again"),
 } as const;
 
@@ -227,6 +236,7 @@ export const SERVER_ERRORS: Record<string, L> = {
   not_allowed: t("Cette action n'est pas disponible pour un signataire.", "This action is not available to a signatory."),
   online_signature_unavailable: t("La signature en ligne n'est pas disponible pour ce formulaire.", "Online signing is not available for this form."),
   pdf_not_ready: t("Le PDF n'est pas encore prêt. Réessayez dans un instant.", "The PDF is not ready yet. Try again shortly."),
+  assist_unavailable: t("La réponse n'a pas pu être obtenue. Réessayez dans un moment.", "No answer could be obtained. Try again in a moment."),
   network: t("Problème de connexion. Réessayez.", "Connection problem. Please try again."),
   generic: t("Une erreur est survenue. Réessayez ou contactez Ark.", "Something went wrong. Try again or contact Ark."),
 };

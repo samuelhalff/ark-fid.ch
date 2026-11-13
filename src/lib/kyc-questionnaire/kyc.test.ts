@@ -15,7 +15,7 @@ import { flagsOf, routeMismatch } from "./flags";
 import { createChallenge, createPick, createSession, emailHash, readLink, readPick, readSession, STAFF_HASH, redeemAssist, verifyChallenge } from "./server/access";
 import { signRequest, verifyStaffRequest } from "./server/signature";
 import { memoryAccess, memoryTracker } from "./server/ports";
-import { accessFor, changes, clientCase, confirmSigned, contactOf, createCase, createUpload, deleteUpload, KycError, readPdf, signOnline, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
+import { accessFor, askField, changes, clientCase, confirmSigned, contactOf, createCase, createUpload, deleteUpload, KycError, readPdf, signOnline, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
 import { KycMockStorage, setPorts } from "./server/sharepoint";
 import type { Answers } from "./types";
 
@@ -690,4 +690,55 @@ test("prefill overwrite replaces client answers while open, marks them as Ark's 
   await uploadAll(f, caseId, pmOp);
   await submit(session, { answers: pmOp });
   await assert.rejects(staffAction(caseId, "prefill", { expectedRevision: 1, overwrite: true, prefill: { "a.name": "Late" } }, { idempotencyKey: "ow-late", payloadHash: "late" }), (e: unknown) => e instanceof KycError && e.code === "invalid_state");
+});
+
+// ---- the form assistant -----------------------------------------------------------------------
+
+test("a question about a field goes to Cadence signed, with the case's route and only that step's answers", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-ask-01", payloadHash: "ask1" });
+  const session = { caseId: created.summary.caseId, revision: 1, emailHash: JEAN };
+  const calls: { url: string; init: RequestInit }[] = [];
+  const reply = (status: number, body: unknown) =>
+    (async (url: string | URL | Request, init?: RequestInit) => {
+      calls.push({ url: String(url), init: init! });
+      return new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
+    }) as typeof fetch;
+
+  const answer = await askField(
+    session,
+    { fieldId: "c.pep", question: "Mon oncle est conseiller d'État, est-ce que ça compte ?", language: "fr", answers: { route: "pp", "c.sanctions": "no", "d.sector": "Conseil", "a.name": "Test SA" } },
+    reply(200, { off_topic: false, answer: "Oui, un proche compte.", proposal: "close" }),
+  );
+  assert.deepEqual(answer, { offTopic: false, answer: "Oui, un proche compte.", proposal: "close" });
+  const { url, init } = calls[0];
+  assert.equal(url, "https://app.ark-fid.ch/api/kyc-form/ask");
+  const sent = JSON.parse(String(init.body));
+  assert.equal(sent.route, "pm-op", "the case's route, never the browser's");
+  assert.equal(sent.caseId, created.summary.caseId);
+  assert.deepEqual(sent.answers, { "c.sanctions": "no" }, "only the other answers of the field's step");
+  const headers = init.headers as Record<string, string>;
+  assert.equal(headers["x-kyc-key-id"], "cadence");
+  assert.equal(headers["x-kyc-signature"], signRequest("cadence-secret-cadence-secret-cadence-01", "POST", "/kyc-form/ask", headers["x-kyc-timestamp"], headers["x-kyc-nonce"], String(init.body)));
+
+  // Off the form: no proposal reaches the browser, even if one was sent.
+  const off = await askField(session, { fieldId: "c.pep", question: "Quel temps fera-t-il ?" }, reply(200, { off_topic: true, answer: null, proposal: "close" }));
+  assert.deepEqual(off, { offTopic: true, answer: null, proposal: null });
+
+  // A proposal that is not a listed option of the field never reaches the browser.
+  for (const bad of [["close"], "not-an-option"]) {
+    const stray = await askField(session, { fieldId: "c.pep", question: "?" }, reply(200, { off_topic: false, answer: "x", proposal: bad }));
+    assert.deepEqual(stray, { offTopic: false, answer: "x", proposal: null });
+  }
+
+  // A field without help, an unknown field or an empty question: refused before Cadence.
+  const before = calls.length;
+  for (const body of [{ fieldId: "a.seat", question: "?" }, { fieldId: "x.nope", question: "?" }, { fieldId: "c.pep", question: "  " }]) {
+    await assert.rejects(askField(session, body, reply(200, {})), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
+  }
+  assert.equal(calls.length, before);
+
+  // Cadence's limit and failures come back as the site's own codes.
+  await assert.rejects(askField(session, { fieldId: "c.pep", question: "?" }, reply(429, {})), (e: unknown) => e instanceof KycError && e.code === "rate_limited");
+  await assert.rejects(askField(session, { fieldId: "c.pep", question: "?" }, reply(502, {})), (e: unknown) => e instanceof KycError && e.code === "assist_unavailable");
 });

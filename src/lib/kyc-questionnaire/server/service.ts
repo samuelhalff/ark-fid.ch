@@ -3,9 +3,9 @@ import sharp from "sharp";
 import { EMAIL_RE } from "../../tax-questionnaire/format";
 import { checkUpload, extensionOf, safeName, sniffMismatch, UPLOAD_LIMITS } from "../../tax-questionnaire/files";
 import { DOCS_FOLDER, docCode, documentsFor, KYC_UPLOAD_TYPES } from "../documents";
-import { isBlockVisible, pruneHidden, rowsOf, sanitizeAnswers, validateAll, validateStep, visibleSteps } from "../engine";
+import { getField, isBlockVisible, isStepVisible, pruneHidden, rowsOf, sanitizeAnswers, validateAll, validateField, validateStep, visibleSteps } from "../engine";
 import { FLAG_LABELS, flagsOf, type Flag } from "../flags";
-import { clientName, declarations, isPM } from "../schema";
+import { clientName, declarations, isPM, STEPS } from "../schema";
 import { KYC_LOCALES, KYC_ROUTES, type Answers, type DocDeclared, type KycLocale, type KycRoute } from "../types";
 import { ASSIST_DEFAULT_MINUTES, ASSIST_MAX_MINUTES, emailHash, issueAssist, issueLink, STAFF_HASH } from "./access";
 import { KYC_DRIVE_ID, mailSender, mockStorageEnabled, onlineSignatureEnabled, tokenSecret } from "./config";
@@ -14,6 +14,7 @@ import { toWinAnsi } from "../../tax-questionnaire/server/pdf";
 import { appendOnlineSignatures, buildKycPdf } from "./pdf";
 import type { RevisionState, TrackerRow } from "./ports";
 import { getPorts } from "./sharepoint";
+import { askCadence, type AskReply } from "./cadence";
 
 /**
  * KYC cases. A case belongs to one client folder on LBA - OAR and has numbered revisions; a
@@ -1148,6 +1149,42 @@ export async function saveDraft(session: Session, body: { answers?: unknown; ste
     }
     return { savedAt };
   });
+}
+
+/**
+ * The client's question about one field (its (i)): relayed to Cadence with the field and the other
+ * answers of its step, never stored. The answer may propose a value; the form writes it only when
+ * the client presses « Utiliser ». The route is the case's, never the browser's.
+ */
+export async function askField(
+  session: Session,
+  body: { fieldId?: unknown; question?: unknown; answers?: unknown; language?: unknown },
+  fetchImpl: typeof fetch = fetch,
+): Promise<AskReply> {
+  const { record, rev } = await clientContext(session, ["contact", "staff"]);
+  if (rev.state !== "open") throw new KycError("not_editable", 409);
+  const fieldId = str(body.fieldId);
+  const question = str(body.question).slice(0, 500);
+  const field = getField(fieldId);
+  const answers: Answers = { ...sanitizeAnswers(body.answers), route: record.route };
+  const step = STEPS.find((s) => !s.special && s.blocks.some((b) => b.kind === "field" && b.id === fieldId));
+  if (!field || !field.help || !step || !question || !isStepVisible(step, answers) || !isBlockVisible(field, answers)) {
+    throw new KycError("invalid_request", 400);
+  }
+  const stepAnswers: Record<string, unknown> = {};
+  for (const block of step.blocks) {
+    if (block.kind !== "field" || block.id === "route" || !isBlockVisible(block, answers)) continue;
+    const value = answers[block.id];
+    if (value !== undefined && value !== "" && !(Array.isArray(value) && !value.length)) stepAnswers[block.id] = value;
+  }
+  const language = body.language === "en" ? "en" : "fr";
+  const result = await askCadence({ caseId: record.caseId, route: record.route, fieldId, question, language, answers: stepAnswers }, fetchImpl);
+  if (!result.ok) throw new KycError(result.error, result.status);
+  // A proposal is only ever a valid value for this very field (right type, a listed option): anything else is dropped.
+  const proposed = result.reply.proposal;
+  const clean = proposed === null ? undefined : sanitizeAnswers({ [fieldId]: proposed })[fieldId];
+  const proposal = clean !== undefined && JSON.stringify(clean) === JSON.stringify(proposed) && validateField(field, clean) === null ? (clean as string | string[]) : null;
+  return { ...result.reply, proposal };
 }
 
 export async function createUpload(session: Session, body: { kind?: unknown; docKey?: unknown; fileName?: unknown; size?: unknown; mime?: unknown }) {

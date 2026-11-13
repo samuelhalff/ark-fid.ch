@@ -46,7 +46,7 @@ export function StepView({ step, locale, answers, prefilled }: StepProps) {
         chunk.kind === "fields" ? (
           <div key={index} className="grid gap-5 sm:grid-cols-2">
             {chunk.items.map((block) =>
-              block.kind === "field" ? <FieldControl key={block.id} field={block} name={toName(block.id)} locale={locale} answers={answers} arkPrefilled={prefilled.has(block.id)} /> : null,
+              block.kind === "field" ? <FieldControl key={block.id} field={block} name={toName(block.id)} locale={locale} answers={answers} arkPrefilled={prefilled.has(block.id)} askable /> : null,
             )}
           </div>
         ) : (
@@ -124,7 +124,7 @@ function GroupControl({ group, locale, answers, arkPrefilled }: { group: GroupDe
           {L(group.label)}
           {arkPrefilled ? <span className="ml-2 align-middle text-xs font-medium text-brand-hover">{UI.prefilled[locale]}</span> : null}
         </h3>
-        {group.help ? <HelpHint text={L(group.help)} locale={locale} className="mt-0.5" /> : null}
+        {group.help ? <HelpHint text={L(group.help)} title={L(group.label)} locale={locale} className="mt-0.5" /> : null}
         {group.help ? (
           <p id={`${name}-help`} className="sr-only">
             {L(group.help)}

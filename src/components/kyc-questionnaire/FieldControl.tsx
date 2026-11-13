@@ -25,13 +25,15 @@ interface Props {
   answers: Answers;
   /** Pre-filled by Ark: marked "to check". */
   arkPrefilled?: boolean;
+  /** A top-level question: its (i) also takes a question about the field. */
+  askable?: boolean;
 }
 
 const CHECKBOX_RING = "shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]";
 const OPTION_CARD = "flex cursor-pointer items-start gap-3 rounded-md bg-surface-warm px-3 py-2.5 font-normal leading-snug shadow-[inset_0_0_0_1px_rgba(20,16,14,0.08)] dark:bg-background dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)]";
 
 /** One question, rendered with the site's shadcn components only. */
-export function FieldControl({ field, name, locale, answers, arkPrefilled }: Props) {
+export function FieldControl({ field, name, locale, answers, arkPrefilled, askable }: Props) {
   const { control } = useFormContext();
   const L = (text: Parameters<typeof label>[0]) => label(text, locale);
   const optional = !field.required && !["checkboxes", "boolean"].includes(field.type);
@@ -52,7 +54,14 @@ export function FieldControl({ field, name, locale, answers, arkPrefilled }: Pro
         // The explanation sits behind a small (i) button next to the label (outside it). The same text stays
         // available to screen readers as the field description, so aria-describedby points at real content.
         const helpText = field.help ? L(field.help) : null;
-        const hint = helpText ? <HelpHint text={helpText} locale={locale} /> : null;
+        const hint = helpText ? (
+          <HelpHint
+            text={helpText}
+            title={L(field.label)}
+            locale={locale}
+            ask={askable ? { field, answers: () => answers, onUse: (next) => f.onChange(next) } : undefined}
+          />
+        ) : null;
         const help = helpText ? <FormDescription className="sr-only">{helpText}</FormDescription> : null;
         const labelNode = (
           <div className="flex items-start gap-1">

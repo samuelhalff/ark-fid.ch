@@ -30,6 +30,10 @@ export const skipTurnstile = () => !isProd() && env("KYC_QF_SKIP_TURNSTILE") ===
  */
 export const onlineSignatureEnabled = () => env("KYC_QF_ONLINE_SIGNATURE") !== "off";
 
+/** Cadence's form assistant (the client's question about one field), signed with KYC_QF_API_KEYS. */
+export const cadenceAskUrl = () => env("KYC_QF_CADENCE_ASK_URL") || "https://app.ark-fid.ch/api/kyc-form/ask";
+export const cadenceKeyId = () => env("KYC_QF_CADENCE_KEY_ID") || "cadence";
+
 /** Link, session and code lifetimes. */
 export const LINK_TTL_MS = 21 * 24 * 60 * 60 * 1000;
 export const SESSION_TTL_MS = 2 * 24 * 60 * 60 * 1000;
