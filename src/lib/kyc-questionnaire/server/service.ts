@@ -2,7 +2,7 @@ import { createHash, createHmac, randomBytes } from "node:crypto";
 import sharp from "sharp";
 import { EMAIL_RE } from "../../tax-questionnaire/format";
 import { checkUpload, extensionOf, safeName, sniffMismatch, UPLOAD_LIMITS } from "../../tax-questionnaire/files";
-import { DOCS_FOLDER, docCode, documentsFor, KYC_UPLOAD_TYPES } from "../documents";
+import { DOCS_FOLDER, docCode, documentList, documentsFor, KYC_UPLOAD_TYPES, type Withheld } from "../documents";
 import { getField, isBlockVisible, isStepVisible, pruneHidden, rowsOf, sanitizeAnswers, validateAll, validateField, validateStep, visibleSteps } from "../engine";
 import { FLAG_LABELS, flagsOf, type Flag } from "../flags";
 import { clientName, declarations, isPM, STEPS } from "../schema";
@@ -112,6 +112,8 @@ export interface CaseRecord {
   updatedAt: string;
   createdBy: string;
   closedAt?: string;
+  /** Document keys Ark took off this case's list (Cadence): never asked of the client, never missing. */
+  skippedDocuments?: string[];
   revisions: RevisionRecord[];
   /** Staff requests already applied: Idempotency-Key → payload hash and result. */
   idempotency: Record<string, { hash: string; at: string; revision: number }>;
@@ -266,6 +268,17 @@ export interface CreateCaseInput {
   email: string;
   clientFolder: { driveId: string; itemId: string };
   prefill?: unknown;
+  /** Document keys Ark took off the list before sending (optional). */
+  skippedDocuments?: unknown;
+}
+
+/** A list of document keys from Cadence: at most 100 distinct non-empty strings of 120 characters. */
+function skippedKeys(raw: unknown): string[] {
+  if (raw === undefined || raw === null) return [];
+  if (!Array.isArray(raw) || raw.length > 100 || raw.some((key) => typeof key !== "string" || !key.trim() || key.length > 120)) {
+    throw new KycError("invalid_request", 400, { field: "skippedDocuments" });
+  }
+  return [...new Set(raw as string[])];
 }
 
 function checkCreate(input: CreateCaseInput) {
@@ -277,6 +290,7 @@ function checkCreate(input: CreateCaseInput) {
   if (!input.displayName || input.displayName.length > 200) throw bad("displayName");
   if (!input.clientFolder?.driveId || !input.clientFolder?.itemId) throw bad("clientFolder");
   if (!mockStorageEnabled() && input.clientFolder.driveId !== KYC_DRIVE_ID()) throw bad("clientFolder.driveId");
+  skippedKeys(input.skippedDocuments);
 }
 
 /** Answers Ark pre-filled: sanitised like client answers, the route always the case's. */
@@ -340,6 +354,7 @@ export async function createCase(input: CreateCaseInput, meta: { keyId: string; 
       createdAt: created,
       updatedAt: created,
       createdBy: meta.keyId,
+      ...(skippedKeys(input.skippedDocuments).length ? { skippedDocuments: skippedKeys(input.skippedDocuments) } : {}),
       revisions: [{ n: 1, id: newRevisionId(), state: "open", route, docsFolderId, createdAt: created, folderId: revFolderId, folderUrl: revFolder?.webUrl || "", prefilledIds: ids }],
       idempotency: { [meta.idempotencyKey]: { hash: meta.payloadHash, at: created, revision: 1 } },
     };
@@ -364,7 +379,7 @@ async function relink(record: CaseRecord): Promise<LinkResult> {
   return link;
 }
 
-export type StaffAction = "link" | "reopen" | "close" | "signers" | "prefill" | "assist";
+export type StaffAction = "link" | "reopen" | "close" | "signers" | "prefill" | "assist" | "documents";
 
 export interface AssistResult {
   /** Opens the form for Ark staff (fragment `#assist=`); single use, shared with `code`. */
@@ -377,7 +392,7 @@ export interface AssistResult {
 export async function staffAction(
   caseId: string,
   action: StaffAction,
-  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown; signers?: unknown; by?: unknown; ttlMinutes?: unknown; overwrite?: unknown },
+  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown; signers?: unknown; by?: unknown; ttlMinutes?: unknown; overwrite?: unknown; skippedDocuments?: unknown },
   meta: { idempotencyKey: string; payloadHash: string },
 ): Promise<{ summary: StaffSummary; link?: LinkResult; assist?: AssistResult; replayed: boolean }> {
   return locked(caseId, async () => {
@@ -394,6 +409,8 @@ export async function staffAction(
         }
         return { summary: summarize(record), replayed: true };
       }
+      // Taking documents off the list issues no link: a replay answers the case as it is.
+      if (action === "documents") return { summary: summarize(record), replayed: true };
       if (action === "assist") {
         // The secrets are never stored, so a replay issues a fresh access (still single use).
         const open = !record.closedAt && rev.state === "open";
@@ -419,6 +436,19 @@ export async function staffAction(
         rev.state = "closed";
         await getPorts().access.revokeCase(caseId);
       }
+      remember(rev.n);
+      await saveCase(record);
+      await track(record, rev);
+      return { summary: summarize(record), replayed: false };
+    }
+
+    if (action === "documents") {
+      // The documents Ark took off the list (Sam, 2026-11-13: « certains docs ne sont pas pertinents »):
+      // the whole list, replaced. Not asked of the client from now on, never counted missing.
+      if (!Array.isArray(body.skippedDocuments)) throw new KycError("invalid_request", 400, { field: "skippedDocuments" });
+      const keys = skippedKeys(body.skippedDocuments);
+      if (keys.length) record.skippedDocuments = keys;
+      else delete record.skippedDocuments;
       remember(rev.n);
       await saveCase(record);
       await track(record, rev);
@@ -597,6 +627,7 @@ export interface StaffSummary {
   closed: boolean;
   updatedAt: string;
   folder: { driveId: string; itemId: string; webUrl: string };
+  skippedDocuments: string[];
   actionRequired: "await_client" | "review_route" | "await_signature" | "review_kyc" | null;
   latestRevision: {
     n: number;
@@ -643,6 +674,7 @@ export function summarize(record: CaseRecord): StaffSummary {
     closed: !!record.closedAt,
     updatedAt: record.updatedAt,
     folder: { driveId: record.driveId, itemId: record.folderId, webUrl: record.folderUrl },
+    skippedDocuments: record.skippedDocuments || [],
     actionRequired: action,
     latestRevision: {
       n: rev.n,
@@ -673,7 +705,7 @@ export async function staffCase(caseId: string): Promise<StaffSummary & {
   /** Answer id → who at Ark entered its current value (assisted session, overwrite). Absent when none. */
   enteredBy?: Record<string, string>;
   pages: { id: string; section: string | null; title: { fr: string; en: string }; intro?: { fr: string; en: string }; fieldIds: string[]; missingFieldIds: string[]; parts: { kind: "field" | "group" | "heading" | "note"; id: string; text?: { fr: string; en: string } }[] }[];
-  documentItems: { key: string; label: { fr: string; en: string }; required: boolean; declared: DocDeclared | null; files: { name: string; webUrl: string }[]; unavailable: boolean }[];
+  documentItems: { key: string; label: { fr: string; en: string }; required: boolean; declared: DocDeclared | null; files: { name: string; webUrl: string }[]; unavailable: boolean; withheld: Withheld | null }[];
 }> {
   await finishIfComplete(caseId);
   const record = await loadCase(caseId);
@@ -724,10 +756,11 @@ export async function staffCase(caseId: string): Promise<StaffSummary & {
       if (found) files.push({ ...file, webUrl: found.webUrl });
     }
   }
-  const documentItems = documentsFor(current).map((item) => ({
+  const documentItems = documentList(current, record.skippedDocuments).map((item) => ({
     key: item.key,
     label: item.label,
     required: item.required,
+    withheld: item.withheld,
     declared: (rev.documents?.find((entry) => entry.key === item.key)?.status === "later" ? "later"
       : rev.documents?.find((entry) => entry.key === item.key)?.status === "na" ? "na"
       : openDraft?.docDeclared[item.key]) || null,
@@ -885,6 +918,7 @@ export async function clientCase(session: Session) {
     state: rev.state,
     displayName: record.displayName,
     prefilledIds: rev.prefilledIds,
+    skippedDocuments: record.skippedDocuments || [],
     draft: rev.state === "open" && hasDraft ? draft : null,
     answers: submitted || draft.answers || { route: record.route },
     files: [...(await docFiles(record, rev)), ...carriedFiles(rev)],
@@ -1211,7 +1245,7 @@ export async function createUpload(session: Session, body: { kind?: unknown; doc
     }
     if (rev.state !== "open") throw new KycError("not_editable", 409);
     const draft = await readDraft(record, rev);
-    const items = documentsFor(pruneHidden({ ...(draft?.answers || {}), route: record.route }));
+    const items = documentsFor(pruneHidden({ ...(draft?.answers || {}), route: record.route }), record.skippedDocuments);
     const item = items.find((i) => i.key === str(body.docKey));
     if (!item) throw new KycError("unknown_document", 400);
     if (items.filter((i) => i.code === item.code).length > 1) throw new KycError("unknown_document", 400);
@@ -1280,7 +1314,7 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
     const suspicious = await removeSuspicious(record, rev);
     if (suspicious.length) throw new KycError("file_rejected", 422, { files: suspicious });
     const files = await docFiles(record, rev);
-    const items = documentsFor(answers);
+    const items = documentsFor(answers, record.skippedDocuments);
     // Two documents sharing a code would let one file count for both (row ids are the client's).
     if (new Set(items.map((i) => i.code)).size !== items.length) throw new KycError("invalid_answers", 422, { fields: [] });
     // Real sizes (the size declared when the upload started is the browser's word).
@@ -1423,7 +1457,7 @@ async function removeSuspicious(record: CaseRecord, rev: RevisionRecord): Promis
  * any case exists. Same engine as the real form: `visibleSteps` + `documentsFor`
  * over the pruned answers, so Cadence never keeps a second questionnaire engine.
  */
-export function previewForm(route: string, prefill: Record<string, unknown> | null) {
+export function previewForm(route: string, prefill: Record<string, unknown> | null, skipped: readonly string[] = []) {
   const current = pruneHidden({ ...(prefill || {}), route });
   const declaration = declarations(current);
   const declarationText = {
@@ -1445,8 +1479,9 @@ export function previewForm(route: string, prefill: Record<string, unknown> | nu
               : block.help ? { text: block.help } : {}) })),
     };
   });
-  const documentItems = documentsFor(current).map((item) => ({
+  const documentItems = documentList(current, skipped).map((item) => ({
     key: item.key, label: item.label, required: item.required, declared: null as null, files: [] as { name: string; webUrl: string }[], unavailable: false,
+    withheld: item.withheld,
   }));
   return { pages, documentItems };
 }

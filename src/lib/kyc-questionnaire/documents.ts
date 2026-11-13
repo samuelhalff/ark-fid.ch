@@ -31,10 +31,41 @@ const fnv = (key: string, seed: number) => {
 export const docCode = (key: string): string => (fnv(key, 0x811c9dc5) + fnv(key, 0x050c5d1f)).slice(0, 12);
 
 const item = (key: string, label: L, required: boolean, hint?: L): DocItem => ({ key, code: docCode(key), label, required, hint });
+
+/** A Swiss UID as the register writes it (CHE-123.456.789), spaces and separators tolerated. */
+const SWISS_UID = /^CHE[-.\s]?\d{3}[.\s]?\d{3}[.\s]?\d{3}$/i;
+
+/**
+ * A company registered in Switzerland: its register extract and its articles are public and Ark
+ * obtains them itself, so the client is not asked for them (Sam, 2026-11-13).
+ */
+export const swissCompany = (a: Answers): boolean => isPM(a) && SWISS_UID.test(String(a["a.uid"] || "").trim());
+const FIRM_OBTAINS = new Set(["pm.rc", "pm.statutes"]);
+
+/** Why a document of the list is not asked of the client: Ark obtains it, or Ark took it off the list. */
+export type Withheld = "firm" | "removed";
+
+/**
+ * Every document the route and answers call for, each with why it is not asked of the client
+ * (`withheld`), if it is not. `skipped`: the keys Ark took off this case's list (Cadence).
+ */
+export function documentList(a: Answers, skipped: readonly string[] = []): (DocItem & { withheld: Withheld | null })[] {
+  const firm = swissCompany(a);
+  const removed = new Set(skipped);
+  return allDocuments(a).map((doc) => ({
+    ...doc,
+    withheld: firm && FIRM_OBTAINS.has(doc.key) ? "firm" : removed.has(doc.key) ? "removed" : null,
+  }));
+}
+
+/** The documents asked of the client: the list without what Ark obtains or took off. */
+export function documentsFor(a: Answers, skipped: readonly string[] = []): DocItem[] {
+  return documentList(a, skipped).filter((doc) => doc.withheld === null).map(({ withheld: _w, ...doc }) => doc);
+}
 const personLabel = (row: Row) => [String(row.lastName || "").toLocaleUpperCase("fr-CH"), String(row.firstName || "")].join(" ").trim();
 const rows = (a: Answers, id: string): Row[] => (Array.isArray(a[id]) ? (a[id] as Row[]) : []);
 
-export function documentsFor(a: Answers): DocItem[] {
+function allDocuments(a: Answers): DocItem[] {
   const out: DocItem[] = [];
   if (isPP(a)) {
     out.push(item("pp.id", t("Copie certifiée conforme de votre passeport ou de votre carte d'identité", "Certified copy of your passport or identity card"), true, CERTIFIED_HINT));

@@ -4,14 +4,15 @@ import { staffAction, staffCase, type StaffAction } from "@/src/lib/kyc-question
 /**
  * Cadence API for one case:
  *   GET  — the case, with the submitted answers of the latest revision;
- *   POST {action: "link" | "reopen" | "close" | "signers" | "prefill" | "assist", expectedRevision (optional for assist),
- *        email? (link), signers? [{id, email}], prefill? (+ overwrite?, by?), route?, by + ttlMinutes? (assist)}
+ *   POST {action: "link" | "reopen" | "close" | "signers" | "prefill" | "assist" | "documents", expectedRevision (optional for assist),
+ *        email? (link), signers? [{id, email}], prefill? (+ overwrite?, by?), route?, by + ttlMinutes? (assist),
+ *        skippedDocuments [keys] (documents: the keys Ark took off the client's list)}
  *        (Idempotency-Key required).
  */
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const ACTIONS: StaffAction[] = ["link", "reopen", "close", "signers", "prefill", "assist"];
+const ACTIONS: StaffAction[] = ["link", "reopen", "close", "signers", "prefill", "assist", "documents"];
 
 export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;

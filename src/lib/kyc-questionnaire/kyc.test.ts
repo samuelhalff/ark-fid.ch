@@ -9,7 +9,7 @@ process.env.KYC_QF_TOKEN_SECRET = "test-secret-test-secret-test-secret-0123";
 process.env.KYC_QF_STORAGE = "mock";
 process.env.KYC_QF_API_KEYS = "cadence:cadence-secret-cadence-secret-cadence-01";
 
-import { documentsFor } from "./documents";
+import { documentList, documentsFor, swissCompany } from "./documents";
 import { pruneHidden, sanitizeAnswers, validateAll, visibleSteps } from "./engine";
 import { flagsOf, routeMismatch } from "./flags";
 import { createChallenge, createPick, createSession, emailHash, readLink, readPick, readSession, STAFF_HASH, redeemAssist, verifyChallenge } from "./server/access";
@@ -186,6 +186,30 @@ test("documents: certified ID per form signatory, ID per section B person", () =
   assert.ok(keys.includes("pm.signer:sgn0001"));
   assert.ok(keys.includes("pm.person:ubo0001"));
   assert.ok(documentsFor(pp).some((d) => d.key === "pp.id"));
+});
+
+test("documents: a Swiss company's extract and articles are Ark's to obtain, never asked (Sam, 2026-11-13)", () => {
+  const swiss = pruneHidden(pmNonOp);
+  assert.equal(swissCompany(swiss), true);
+  const asked = documentsFor(swiss).map((d) => d.key);
+  assert.ok(!asked.includes("pm.rc") && !asked.includes("pm.statutes"));
+  const list = documentList(swiss);
+  assert.equal(list.find((d) => d.key === "pm.rc")?.withheld, "firm");
+  assert.equal(list.find((d) => d.key === "pm.statutes")?.withheld, "firm");
+  // A foreign company is asked for both, as before.
+  const foreign = pruneHidden({ ...pmNonOp, "a.uid": "HRB 12345", "a.incorporationCountry": "Allemagne" });
+  assert.equal(swissCompany(foreign), false);
+  assert.ok(documentsFor(foreign).some((d) => d.key === "pm.rc") && documentsFor(foreign).some((d) => d.key === "pm.statutes"));
+  // A person never is a company.
+  assert.equal(swissCompany({ ...pp, "a.uid": "CHE-123.456.789" }), false);
+});
+
+test("documents: a key Ark took off the list is not asked and says so; an unknown key changes nothing", () => {
+  const answers = pruneHidden(pmNonOp);
+  const asked = documentsFor(answers, ["pm.signer:sgn0001", "nothing.here"]).map((d) => d.key);
+  assert.ok(!asked.includes("pm.signer:sgn0001"));
+  assert.equal(asked.length, documentsFor(answers).length - 1);
+  assert.equal(documentList(answers, ["pm.signer:sgn0001"]).find((d) => d.key === "pm.signer:sgn0001")?.withheld, "removed");
 });
 
 // ---- service ---------------------------------------------------------------------------------
@@ -607,7 +631,7 @@ test("assist: single-use link or code opens a staff session that fills and submi
   assert.deepEqual((await staffCase(caseId)).enteredBy, { "d.sector": "Sam" });
 
   // Documents: staff may upload, not the signed scan.
-  assert.ok((await createUpload(staff, { kind: "doc", docKey: "pm.rc", fileName: "rc.pdf", size: 1000, mime: "application/pdf" })).uploadUrl);
+  assert.ok((await createUpload(staff, { kind: "doc", docKey: "pm.shareholders", fileName: "rc.pdf", size: 1000, mime: "application/pdf" })).uploadUrl);
   for (const file of (await clientCase(staff)).files) assert.deepEqual(await deleteUpload(staff, { fileId: file.id }), { ok: true });
   await assert.rejects(createUpload(staff, { kind: "signed", fileName: "s.pdf", size: 1000, mime: "application/pdf" }), (e: unknown) => e instanceof KycError && e.code === "not_allowed");
 
@@ -741,4 +765,37 @@ test("a question about a field goes to Cadence signed, with the case's route and
   // Cadence's limit and failures come back as the site's own codes.
   await assert.rejects(askField(session, { fieldId: "c.pep", question: "?" }, reply(429, {})), (e: unknown) => e instanceof KycError && e.code === "rate_limited");
   await assert.rejects(askField(session, { fieldId: "c.pep", question: "?" }, reply(502, {})), (e: unknown) => e instanceof KycError && e.code === "assist_unavailable");
+});
+
+test("documents taken off by Ark: sent at creation, replaced by the documents action, never asked, never missing", async () => {
+  const f = await fixture();
+  await assert.rejects(
+    createCase({ ...createInput(f.clientFolder), skippedDocuments: "pm.chart" }, { keyId: "cadence", idempotencyKey: "create-skip-bad", payloadHash: "b" }),
+    (e: unknown) => e instanceof KycError && e.code === "invalid_request",
+  );
+  const created = await createCase({ ...createInput(f.clientFolder), skippedDocuments: ["pm.shareholders"] }, { keyId: "cadence", idempotencyKey: "create-skip-01", payloadHash: "s" });
+  const caseId = created.summary.caseId;
+  assert.deepEqual(created.summary.skippedDocuments, ["pm.shareholders"]);
+  const client = await clientCase({ caseId, revision: 1, emailHash: JEAN });
+  assert.deepEqual(client.skippedDocuments, ["pm.shareholders"], "the client's form filters the same list");
+  let staff = await staffCase(caseId);
+  assert.equal(staff.documentItems.find((d) => d.key === "pm.shareholders")?.withheld, "removed");
+  assert.equal(staff.documentItems.find((d) => d.key === "pm.rc")?.withheld, "firm");
+  await assert.rejects(
+    createUpload({ caseId, revision: 1, emailHash: JEAN }, { kind: "doc", docKey: "pm.shareholders", fileName: "a.pdf", size: 1000, mime: "application/pdf" }),
+    (e: unknown) => e instanceof KycError && e.code === "unknown_document",
+  );
+  // The whole list, replaced; a replay issues no link and changes nothing.
+  await assert.rejects(staffAction(caseId, "documents", { expectedRevision: 1 }, { idempotencyKey: "docs-0001", payloadHash: "d0" }), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
+  const done = await staffAction(caseId, "documents", { expectedRevision: 1, skippedDocuments: ["pm.financials"] }, { idempotencyKey: "docs-0002", payloadHash: "d1" });
+  assert.deepEqual(done.summary.skippedDocuments, ["pm.financials"]);
+  assert.equal(done.link, undefined);
+  const replay = await staffAction(caseId, "documents", { expectedRevision: 1, skippedDocuments: ["pm.financials"] }, { idempotencyKey: "docs-0002", payloadHash: "d1" });
+  assert.equal(replay.replayed, true);
+  assert.equal(replay.link, undefined);
+  staff = await staffCase(caseId);
+  assert.equal(staff.documentItems.find((d) => d.key === "pm.shareholders")?.withheld, null);
+  assert.equal(staff.documentItems.find((d) => d.key === "pm.financials")?.withheld, "removed");
+  const cleared = await staffAction(caseId, "documents", { expectedRevision: 1, skippedDocuments: [] }, { idempotencyKey: "docs-0003", payloadHash: "d2" });
+  assert.deepEqual(cleared.summary.skippedDocuments, []);
 });

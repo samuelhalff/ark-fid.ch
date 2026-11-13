@@ -135,7 +135,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   const step = steps[index] || steps[0];
   stepRef.current = step;
   const pruned = useMemo(() => pruneHidden(answers), [answers]);
-  const items = useMemo(() => documentsFor(pruned), [pruned]);
+  const items = useMemo(() => documentsFor(pruned, caseData?.skippedDocuments), [pruned, caseData]);
   const files = useMemo(() => caseData?.files || [], [caseData]);
   const prefilled = useMemo(() => new Set(caseData?.prefilledIds || []), [caseData]);
   const L = (text: Parameters<typeof label>[0]) => label(text, locale);
@@ -1136,7 +1136,7 @@ function SigningView({
     : [];
   const signing = caseData.signing;
   const isContact = signing?.role !== "signer" && signing?.role !== "staff";
-  const postOriginals = isContact && documentsFor(answers).some(isCertifiedId);
+  const postOriginals = isContact && documentsFor(answers, caseData.skippedDocuments).some(isCertifiedId);
   const signed = caseData.signedFiles || [];
   const mySigner = signing?.online ? signing.signers.find((s) => s.mine && !s.signed) || null : null;
   const onlineSigner = mySigner && !signing?.paperStarted ? mySigner.name : null;
