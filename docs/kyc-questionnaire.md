@@ -170,7 +170,7 @@ Prefill ids are the answer ids of `src/lib/kyc-questionnaire/schema.ts` (e.g. `a
 |---|---|
 | `KYC_QF_TOKEN_SECRET` | HMAC key of links, codes, sessions (≥ 32 chars; required) |
 | `KYC_QF_API_KEYS` | Cadence keys `id:secret[,id:secret]` (required for the API) |
-| `KYC_QF_MAIL_SENDER` | Sender of the code e-mails (default info@ark-fid.ch) |
+| `KYC_QF_MAIL_SENDER` | Sender of the code e-mails (default frontdesk@ark-fid.ch: bounces land where someone reads them, Sam 2026-11-14) |
 | `KYC_QF_PUBLIC_ORIGIN`, `KYC_QF_ALLOWED_ORIGINS` | Defaults https://kyc.ark-fid.ch |
 | `KYC_QF_SP_SITE_ID`, `KYC_QF_SP_DRIVE_ID`, `KYC_QF_TRACKING_LIST`, `KYC_QF_ACCESS_LIST` | Defaults: LBA - OAR, "Suivi KYC", "Accès KYC" |
 | `KYC_QF_STORAGE=mock`, `KYC_QF_MOCK_DIR` | Development only (local folder, in-memory lists) |

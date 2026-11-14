@@ -13,7 +13,7 @@ const list = (value: string, fallback: string[]) => (value === "none" ? [] : val
 
 /** Recipients (owner decision); overridable by env for tests. */
 export const mailConfig = () => ({
-  from: env("TAX_QF_MAIL_SENDER") || "info@ark-fid.ch",
+  from: env("TAX_QF_MAIL_SENDER") || "frontdesk@ark-fid.ch",
   to: list(env("TAX_QF_MAIL_TO"), ["samuel.halff@ark-fid.ch"]),
   cc: list(env("TAX_QF_MAIL_CC"), ["sebastien.gallie@ark-fid.ch", "lassana.dioum@pbm.law"]),
   // Client mails are signed by Samuel: replies go to him.

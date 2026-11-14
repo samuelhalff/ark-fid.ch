@@ -74,7 +74,7 @@ Le formulaire, l'Excel, le PDF et la campagne ne passent que par les interfaces 
 | `MSGRAPH_TENANT_ID` / `MSGRAPH_CLIENT_ID` / `MSGRAPH_CLIENT_SECRET` | application Graph existante (crm-dev). Une application dédiée peut la remplacer via `TAX_QF_GRAPH_*`. |
 | `TAX_QF_SP_DRIVE_ID`, `TAX_QF_SP_SITE_ID`, `TAX_QF_SP_ROOT_FOLDER` | valeurs par défaut : le site « Questionnaires fiscaux », la bibliothèque Documents et le dossier `Questionnaires`. |
 | `TAX_QF_CRM_SITE_ID`, `TAX_QF_CRM_LIST_ID` | valeurs par défaut : liste CRM « Clients ». |
-| `TAX_QF_MAIL_SENDER`, `TAX_QF_MAIL_TO`, `TAX_QF_MAIL_CC` | valeurs par défaut : info@, Samuel, Sébastien + Lassana. `none` donne une liste vide. Supprimer le secret GitHub retire aussi la ligne du `.env` du serveur au déploiement suivant. |
+| `TAX_QF_MAIL_SENDER`, `TAX_QF_MAIL_TO`, `TAX_QF_MAIL_CC` | valeurs par défaut : frontdesk@ (Sam 2026-11-14 : les retours d’erreur arrivent là où on les lit), Samuel, Sébastien + Lassana. `none` donne une liste vide. Supprimer le secret GitHub retire aussi la ligne du `.env` du serveur au déploiement suivant. |
 | `TAX_QF_PUBLIC_ORIGIN` | origine des liens envoyés par e-mail. |
 | `TAX_QF_ALLOWED_ORIGINS` | origines supplémentaires (préproduction). |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | déjà utilisées par le site. |

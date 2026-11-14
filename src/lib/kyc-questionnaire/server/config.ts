@@ -18,7 +18,7 @@ export const ALLOWED_ORIGINS = ["https://kyc.ark-fid.ch"];
 export const extraOrigins = () => env("KYC_QF_ALLOWED_ORIGINS").split(",").map((v) => v.trim()).filter(Boolean);
 
 /** One-time code e-mails (the only e-mails sent by this app; invitations are Cadence's). */
-export const mailSender = () => env("KYC_QF_MAIL_SENDER") || "info@ark-fid.ch";
+export const mailSender = () => env("KYC_QF_MAIL_SENDER") || "frontdesk@ark-fid.ch";
 
 export const isProd = () => process.env.NODE_ENV === "production";
 export const mockStorageEnabled = () => !isProd() && env("KYC_QF_STORAGE") === "mock";
