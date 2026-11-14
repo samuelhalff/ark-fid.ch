@@ -64,7 +64,7 @@ test("no marketing phrasing in any client mail, in any language", () => {
       assert.ok(!/background:#|padding:10px 16px/.test(mail.html), "no button or banner");
     }
   }
-  assert.equal(textOf(otpMail("fr", "a@b.ch", "123456").html), "Votre code : 123456\nIl est valable 10 minutes.");
+  assert.equal(textOf(otpMail("fr", "a@b.ch", "123456").html), "Votre code :\n123456\nIl est valable 10 minutes.");
 });
 
 test("first name from the CRM convention", () => {

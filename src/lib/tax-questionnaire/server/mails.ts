@@ -5,7 +5,7 @@ import type { MailMessage } from "./storage";
 
 const T = {
   otpSubject: { fr: "Votre code : {code}", en: "Your code: {code}", de: "Ihr Code: {code}" },
-  otpBody: { fr: "Votre code : {code}", en: "Your code: {code}", de: "Ihr Code: {code}" },
+  otpBody: { fr: "Votre code :", en: "Your code:", de: "Ihr Code:" },
   otpValid: { fr: "Il est valable 10 minutes.", en: "It is valid for 10 minutes.", de: "Er ist 10 Minuten gültig." },
   linkSubject: {
     resume: { fr: "Votre questionnaire fiscal", en: "Your tax questionnaire", de: "Ihr Steuerfragebogen" },
@@ -34,7 +34,7 @@ export function otpMail(locale: QfLocale, to: string, code: string): MailMessage
     to: [to],
     cc: [],
     subject: fill(T.otpSubject[locale], { code }),
-    html: plainHtml([fill(T.otpBody[locale], { code }), T.otpValid[locale]]),
+    html: plainHtml([T.otpBody[locale], { code }, T.otpValid[locale]]),
   };
 }
 

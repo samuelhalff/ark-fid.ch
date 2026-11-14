@@ -23,7 +23,8 @@ export const mailConfig = () => ({
 // ---- client mails: plain, short, in Samuel's voice (owner rule, see the e-mail style guide) ----------
 
 /** One paragraph, a link on its own line, or a hyphen list. */
-export type MailBlock = string | { link: string; label: string } | { list: string[] };
+/** A one-time code: centred, large, one tap selects it whole (Sam 2026-11-14: « facile à sélectionner et copier »). */
+export type MailBlock = string | { link: string; label: string } | { list: string[] } | { code: string };
 
 const FONT = "Aptos, Calibri, 'Segoe UI', Helvetica, Arial, sans-serif";
 
@@ -33,6 +34,8 @@ export function plainHtml(blocks: MailBlock[], footer = ""): string {
   const body = blocks
     .map((b) => {
       if (typeof b === "string") return p(escapeHtml(b).replace(/\n/g, "<br>"));
+      if ("code" in b)
+        return `<p style="margin:6px 0 20px 0;text-align:center"><span style="display:inline-block;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:32px;line-height:1.2;font-weight:700;letter-spacing:6px;padding:12px 20px;border:1px solid #d9dcdf;color:#1f1f1f;border-radius:8px;-webkit-user-select:all;user-select:all">${escapeHtml(b.code)}</span></p>`;
       if ("link" in b) return p(`<a href="${escapeHtml(b.link)}" style="color:#0f5bd8">${escapeHtml(b.label)}</a>`);
       return `<ul style="margin:0 0 14px 0;padding-left:20px">${b.list.map((i) => `<li>${escapeHtml(i)}</li>`).join("")}</ul>`;
     })

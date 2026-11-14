@@ -22,8 +22,8 @@ export const dynamic = "force-dynamic";
 const maskEmail = (email: string) => email.replace(/^(.)(.*)(@.*)$/, (_m, a: string, b: string, c: string) => `${a}${"•".repeat(Math.min(6, b.length))}${c}`);
 
 const OTP = {
-  fr: { subject: (code: string) => `Votre code d'accès Ark Fiduciaire : ${code}`, body: (code: string) => `Votre code pour ouvrir le formulaire KYC d'Ark Fiduciaire SA : ${code}`, valid: "Il est valable 10 minutes. Si vous n'avez rien demandé, ignorez ce message." },
-  en: { subject: (code: string) => `Your Ark Fiduciaire access code: ${code}`, body: (code: string) => `Your code to open the Ark Fiduciaire SA KYC form: ${code}`, valid: "It is valid for 10 minutes. If you did not ask for it, ignore this message." },
+  fr: { subject: (code: string) => `Votre code d'accès Ark Fiduciaire : ${code}`, body: "Votre code pour ouvrir le formulaire KYC d’Ark Fiduciaire SA :", valid: "Il est valable 10 minutes. Si vous n’avez rien demandé, ignorez ce message." },
+  en: { subject: (code: string) => `Your Ark Fiduciaire access code: ${code}`, body: "Your code to open the Ark Fiduciaire SA KYC form:", valid: "It is valid for 10 minutes. If you did not ask for it, ignore this message." },
 };
 
 const EMAIL_RE = /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,}$/;
@@ -67,7 +67,7 @@ export async function POST(request: Request) {
       if (tooMany) return tooMany;
       const { code, challenge } = createChallenge({ caseId: link.caseId, revision: link.revision, emailHash: link.emailHash, linkRef: linkRef(link) });
       const text = OTP[access.language];
-      await getPorts().sendMail({ from: mailSender(), to: [access.email], cc: [], subject: text.subject(code), html: plainHtml([text.body(code), text.valid]) });
+      await getPorts().sendMail({ from: mailSender(), to: [access.email], cc: [], subject: text.subject(code), html: plainHtml([text.body, { code }, text.valid]) });
       return json({ challenge, emailHint: maskEmail(access.email), language: access.language });
     }
 
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
         .then(async (cases) => {
           if (!cases.length) return;
           const text = OTP[cases[0].language];
-          await getPorts().sendMail({ from: mailSender(), to: [cases[0].email], cc: [], subject: text.subject(code), html: plainHtml([text.body(code), text.valid]) });
+          await getPorts().sendMail({ from: mailSender(), to: [cases[0].email], cc: [], subject: text.subject(code), html: plainHtml([text.body, { code }, text.valid]) });
         })
         .catch((error) => console.error("kyc email code", error instanceof Error ? error.message : "error"));
       return json({ challenge, emailHint: maskEmail(email) });
