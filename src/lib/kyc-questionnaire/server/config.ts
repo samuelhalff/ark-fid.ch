@@ -1,3 +1,5 @@
+import { parseApiKeys } from "./signature";
+
 /**
  * Configuration of kyc.ark-fid.ch. Everything lives on the SharePoint site "LBA - OAR"
  * (sites/LBA-OAR): client folders under "Dossiers LBA Clients", the lists "Suivi KYC" and
@@ -50,13 +52,5 @@ export function tokenSecret(): string | null {
  * Distinct from the token secret: a leaked API key cannot forge client links, and the reverse.
  */
 export function apiKeys(): Map<string, string> {
-  const out = new Map<string, string>();
-  for (const pair of env("KYC_QF_API_KEYS").split(",")) {
-    const index = pair.indexOf(":");
-    if (index <= 0) continue;
-    const id = pair.slice(0, index).trim();
-    const secret = pair.slice(index + 1).trim();
-    if (/^[A-Za-z0-9_-]{2,40}$/.test(id) && secret.length >= 32) out.set(id, secret);
-  }
-  return out;
+  return parseApiKeys(env("KYC_QF_API_KEYS"));
 }

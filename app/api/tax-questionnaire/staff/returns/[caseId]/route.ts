@@ -1,0 +1,29 @@
+import { json } from "@/src/lib/tax-questionnaire/server/http";
+import { STAFF_ACTIONS, staffAction, staffReturn, type StaffAction } from "@/src/lib/tax-questionnaire/server/staff";
+import { staffRoute } from "@/src/lib/tax-questionnaire/server/staff-http";
+
+/**
+ * Cadence API for one case:
+ *   GET  ?year=<taxYear> — the return (latest year by default) with its documents and answers;
+ *   POST {action, taxYear?, email?, send?, extendedTo?, staffDocs?, clientRef?} (Idempotency-Key required):
+ *        link (per case: new staff link; email changes the address; send mails it) |
+ *        remind {taxYear} | exclude / include {taxYear} | deadline {taxYear, extendedTo} |
+ *        staffDocs {taxYear, staffDocs: string[]} | attach {clientRef}.
+ */
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+export async function GET(request: Request, context: { params: Promise<{ caseId: string }> }) {
+  const { caseId } = await context.params;
+  return staffRoute(request, async ({ deps }) => json(await staffReturn(caseId, new URL(request.url).searchParams.get("year") || undefined, deps)));
+}
+
+export async function POST(request: Request, context: { params: Promise<{ caseId: string }> }) {
+  const { caseId } = await context.params;
+  return staffRoute(request, async ({ body, idempotencyKey, payloadHash, deps }) => {
+    const action = String(body.action || "") as StaffAction;
+    if (!STAFF_ACTIONS.includes(action)) return json({ error: "invalid_request", field: "action" }, 400);
+    const result = await staffAction(caseId, action, body, { idempotencyKey, payloadHash }, deps);
+    return json({ ...result.summary, ...(result.extra || {}), ...(result.link ? { link: result.link } : {}), replayed: result.replayed });
+  });
+}

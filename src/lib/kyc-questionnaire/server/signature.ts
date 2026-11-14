@@ -1,12 +1,13 @@
 import { createHash, createHmac, timingSafeEqual } from "node:crypto";
-import { apiKeys } from "./config";
 
 /**
  * Cadence → kyc.ark-fid.ch request signature (HMAC-SHA256, base64url) over
  *   METHOD \n PATH?QUERY \n TIMESTAMP \n NONCE \n SHA256-HEX(BODY)
  * Headers: x-kyc-key-id, x-kyc-timestamp (ms since epoch), x-kyc-nonce (16–64 of [A-Za-z0-9_-]),
  * x-kyc-signature; POST also Idempotency-Key (8–100 of [A-Za-z0-9_.:-]). Five-minute window, each
- * nonce accepted once (single Node instance). Keys rotate by listing two in KYC_QF_API_KEYS.
+ * nonce accepted once (single Node instance). Keys rotate by listing two pairs in the variable.
+ * Shared by the KYC (KYC_QF_API_KEYS) and tax (TAX_QF_API_KEYS) staff APIs: each route passes its
+ * own key set, so a key of one never validates a request to the other.
  */
 export const SIGNATURE_WINDOW_MS = 5 * 60 * 1000;
 const nonces = new Map<string, number>();
@@ -16,11 +17,23 @@ export function signRequest(secret: string, method: string, pathAndQuery: string
   return createHmac("sha256", secret).update(`${method.toUpperCase()}\n${pathAndQuery}\n${timestamp}\n${nonce}\n${bodyHash}`).digest("base64url");
 }
 
+/** "keyId:secret" pairs separated by commas (two pairs during a rotation); secrets of 32+ chars. */
+export function parseApiKeys(raw: string): Map<string, string> {
+  const out = new Map<string, string>();
+  for (const pair of raw.split(",")) {
+    const index = pair.indexOf(":");
+    if (index <= 0) continue;
+    const id = pair.slice(0, index).trim();
+    const secret = pair.slice(index + 1).trim();
+    if (/^[A-Za-z0-9_-]{2,40}$/.test(id) && secret.length >= 32) out.set(id, secret);
+  }
+  return out;
+}
+
 export type Verified = { ok: true; keyId: string; body: Record<string, unknown>; idempotencyKey: string; payloadHash: string };
 export type Refused = { ok: false; status: number; error: string; reason?: string };
 
-export async function verifyStaffRequest(request: Request, now = Date.now()): Promise<Verified | Refused> {
-  const keys = apiKeys();
+export async function verifyStaffRequest(request: Request, keys: Map<string, string>, now = Date.now()): Promise<Verified | Refused> {
   if (!keys.size) return { ok: false, status: 500, error: "missing_configuration" };
   const keyId = request.headers.get("x-kyc-key-id") || "";
   const timestamp = request.headers.get("x-kyc-timestamp") || "";

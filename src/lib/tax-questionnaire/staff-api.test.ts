@@ -1,0 +1,270 @@
+import assert from "node:assert/strict";
+import { mkdtempSync } from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import test from "node:test";
+
+process.env.TAX_QF_STORAGE = "mock";
+process.env.TAX_QF_MOCK_DIR = mkdtempSync(path.join(os.tmpdir(), "tqf-staff-"));
+process.env.TAX_QF_TOKEN_SECRET = "test-secret-0123456789abcdef0123456789abcdef";
+process.env.TAX_QF_API_KEYS = "cadence:tax-secret-tax-secret-tax-secret-0123456";
+process.env.KYC_QF_API_KEYS = "cadence:kyc-secret-kyc-secret-kyc-secret-0123456";
+
+const { getStorage } = await import("./server/storage.ts");
+const { memoryPorts, setPortsForTests } = await import("./server/sharepoint-registry.ts");
+const staff = await import("./server/staff.ts");
+const access = await import("./server/access.ts");
+const { signRequest, verifyStaffRequest } = await import("../kyc-questionnaire/server/signature.ts");
+const { apiKeys } = await import("../kyc-questionnaire/server/config.ts");
+type MailMessage = import("./server/storage.ts").MailMessage;
+type StaffDeps = import("./server/staff.ts").StaffDeps;
+type ReturnRecord = import("./server/ports.ts").ReturnRecord;
+
+const YEAR = new Date().getUTCFullYear() - 1;
+const DAY = 24 * 60 * 60 * 1000;
+const mem = memoryPorts();
+setPortsForTests(mem.ports);
+const storage = getStorage();
+const mails: MailMessage[] = [];
+let clock = Date.now();
+const ledger = new Set<string>();
+const deps: StaffDeps = {
+  campaign: { ...staff.appCampaignDeps(storage), sendMail: async (m) => void mails.push(m) },
+  storage,
+  ledger: { has: async (k) => ledger.has(k), add: async (k) => void ledger.add(k) },
+  origin: "https://tax.ark-fid.ch",
+  now: () => new Date(clock),
+};
+
+let seq = 0;
+const person = () => {
+  seq++;
+  return { clientRef: `res.partner:${100 + seq}`, firstName: "Alex", lastName: `Test${seq}`, email: `alex${seq}@example.ch`, language: "fr", canton: "GE", taxYear: YEAR };
+};
+const rows = (caseId: string) => mem.returns.filter((r) => r.caseId === caseId);
+const tokenOf = (url: string) => url.split("#acces=")[1];
+const meta = (key: string, hash = "h") => ({ idempotencyKey: key, payloadHash: hash });
+
+test("signature: tax keys never validate a KYC request, nor KYC keys a tax request", async () => {
+  const make = (secret: string) => {
+    const ts = String(Date.now());
+    const nonce = `n${Math.random().toString(36).slice(2)}abcdefghijkl`;
+    const pathname = "/api/tax-questionnaire/staff/returns";
+    return new Request(`https://tax.ark-fid.ch${pathname}`, {
+      method: "GET",
+      headers: { "x-kyc-key-id": "cadence", "x-kyc-timestamp": ts, "x-kyc-nonce": nonce, "x-kyc-signature": signRequest(secret, "GET", pathname, ts, nonce, "") },
+    });
+  };
+  const tax = "tax-secret-tax-secret-tax-secret-0123456";
+  const kyc = "kyc-secret-kyc-secret-kyc-secret-0123456";
+  assert.equal((await verifyStaffRequest(make(tax), staff.taxApiKeys())).ok, true);
+  assert.equal((await verifyStaffRequest(make(kyc), staff.taxApiKeys())).ok, false);
+  assert.equal((await verifyStaffRequest(make(kyc), apiKeys())).ok, true);
+  assert.equal((await verifyStaffRequest(make(tax), apiKeys())).ok, false);
+  assert.equal((await verifyStaffRequest(make(tax), new Map())).ok, false, "no keys: refused");
+});
+
+test("create: idempotent (replay finds the same case), no answers in the response", async () => {
+  const input = { ...person(), sendInvitation: false };
+  const first = await staff.createReturn(input, { idempotencyKey: "create-key-0001" }, deps);
+  assert.equal(first.created, true);
+  assert.equal(first.replayed, false);
+  assert.equal(first.summary.caseId, staff.caseIdFor("create-key-0001"));
+  assert.equal(first.summary.clientRef, input.clientRef);
+  assert.equal(first.summary.canton, "GE");
+  assert.ok(first.link.url.includes("#acces=") && Date.parse(first.link.expiresAt) > Date.now());
+  assert.ok(!("answers" in first.summary));
+  assert.equal(mails.length, 0, "sendInvitation false: nothing sent");
+  assert.equal(rows(first.summary.caseId)[0].createKey, "create-key-0001");
+  const again = await staff.createReturn(input, { idempotencyKey: "create-key-0001" }, deps);
+  assert.equal(again.summary.caseId, first.summary.caseId);
+  assert.equal(again.replayed, true);
+  assert.equal(rows(first.summary.caseId).length, 1);
+  // A later create with sendInvitation sends the invitation the first one left out.
+  const send = await staff.createReturn({ ...input, sendInvitation: true }, { idempotencyKey: "create-key-0001" }, deps);
+  assert.equal(send.replayed, true);
+  assert.ok(send.summary.invitedAt);
+  assert.equal(mails.length, 1);
+});
+
+test("create: an existing campaign return is adopted (adopted: true), never refused", async () => {
+  const p = person();
+  const campaign = await deps.campaign.createInvitedReturn({ clientKey: "ck-adopt", email: p.email, name: `${p.lastName.toUpperCase()} ${p.firstName}`, language: "fr", taxYear: YEAR });
+  assert.equal(campaign.clientRef, undefined);
+  const result = await staff.createReturn({ ...p, sendInvitation: false }, { idempotencyKey: "create-key-adopt" }, deps);
+  assert.equal(result.adopted, true);
+  assert.equal(result.created, false);
+  assert.equal(result.summary.caseId, campaign.caseId);
+  assert.equal(rows(campaign.caseId)[0].clientRef, p.clientRef);
+  // Second time, found by clientRef.
+  const again = await staff.createReturn({ ...p, email: "other@example.ch", sendInvitation: false }, { idempotencyKey: "create-key-adopt2" }, deps);
+  assert.equal(again.summary.caseId, campaign.caseId);
+  assert.equal(again.adopted, true);
+});
+
+test("feed: Modified order, 10-s quiet window, inclusive cursor, no inventory rows, no answers", async () => {
+  await mem.ports.tracker.upsert({ caseId: "", source: "inventaire", householdId: "", clientKey: "", emailHash: "", name: "PLANNED Row", email: "", language: "fr", canton: "GE", taxYear: YEAR, state: "draft", regime: "", optIn: false, aiOptIn: false, driveId: "", folderId: "", folderUrl: "" } as ReturnRecord);
+  const fresh = await staff.changes("", 200, { campaign: deps.campaign, now: () => new Date() });
+  assert.ok(fresh.items.every((i) => Date.parse(i.updatedAt) <= Date.now() - staff.FEED_QUIET_MS), "rows written in the last 10 s wait");
+  const later = { campaign: deps.campaign, now: () => new Date(Date.now() + 11_000) };
+  const all = await staff.changes("", 200, later);
+  const withCase = mem.returns.filter((r) => r.caseId);
+  assert.equal(all.items.length, withCase.length, "rows without a case are skipped");
+  assert.ok(all.items.every((i) => i.caseId && !("answers" in i)));
+  const keys = all.items.map((i) => `${i.updatedAt}|${i.caseId}|${i.taxYear}`);
+  assert.deepEqual(keys, [...keys].sort());
+  const page1 = await staff.changes("", 2, later);
+  assert.equal(page1.items.length, 2);
+  assert.equal(page1.more, all.items.length > 2);
+  const page2 = await staff.changes(page1.nextCursor, 2, later);
+  assert.equal(`${page2.items[0].updatedAt}|${page2.items[0].caseId}|${page2.items[0].taxYear}`, page1.nextCursor, "cursor is >=: the last item comes back");
+});
+
+test("link: revokes staff links only; an e-mail change revokes all; a replay mints one more and sends nothing", async () => {
+  const created = await staff.createReturn({ ...person(), sendInvitation: false }, { idempotencyKey: "create-key-link" }, deps);
+  const caseId = created.summary.caseId;
+  const row = rows(caseId)[0];
+  const invitation = await access.issueLink({ caseId, emailHash: row.emailHash, scope: "edit", purpose: "invitation", ttlMs: DAY, locale: "fr" });
+  const first = await staff.staffAction(caseId, "link", {}, meta("link-key-0001"), deps);
+  assert.ok(first.link);
+  assert.equal(await access.readLink(tokenOf(created.link.url)), null, "earlier staff link revoked");
+  assert.ok(await access.readLink(tokenOf(invitation)), "invitation link kept");
+  assert.ok(await access.readLink(tokenOf(first.link!.url)));
+
+  const sentBefore = mails.length;
+  const sent = await staff.staffAction(caseId, "link", { send: true }, meta("link-key-0002", "p2"), deps);
+  assert.equal(mails.length, sentBefore + 1);
+  assert.equal(mails.at(-1)!.to[0], row.email);
+  const replay = await staff.staffAction(caseId, "link", { send: true }, meta("link-key-0002", "p2"), deps);
+  assert.equal(replay.replayed, true);
+  assert.equal(mails.length, sentBefore + 1, "replay sends nothing");
+  assert.ok(await access.readLink(tokenOf(sent.link!.url)), "replay revokes nothing");
+  assert.ok(await access.readLink(tokenOf(replay.link!.url)));
+  await assert.rejects(staff.staffAction(caseId, "link", {}, meta("link-key-0002", "other"), deps), /idempotency_conflict/);
+
+  const changed = await staff.staffAction(caseId, "link", { email: "new.address@example.ch" }, meta("link-key-0003"), deps);
+  assert.equal(changed.summary.email, "new.address@example.ch");
+  assert.equal(rows(caseId)[0].emailHash, access.emailHash("new.address@example.ch"));
+  assert.equal(await access.readLink(tokenOf(invitation)), null, "e-mail change revokes every link");
+  assert.equal(await access.readLink(tokenOf(replay.link!.url)), null);
+  assert.ok(await access.readLink(tokenOf(changed.link!.url)));
+});
+
+test("remind: mail by state, three-day rule (too_soon with nextAt), campaign counters", async () => {
+  const created = await staff.createReturn({ ...person(), sendInvitation: false }, { idempotencyKey: "create-key-remind" }, deps);
+  const caseId = created.summary.caseId;
+  const n = mails.length;
+  const invite = await staff.staffAction(caseId, "remind", { taxYear: YEAR }, meta("remind-0001"), deps);
+  assert.equal(invite.extra?.kind, "invitation");
+  assert.equal(invite.extra?.sent, true);
+  assert.ok(invite.summary.invitedAt);
+  assert.equal(mails.length, n + 1);
+
+  const soon = await staff.staffAction(caseId, "remind", { taxYear: YEAR }, meta("remind-0002"), deps);
+  assert.equal(soon.extra?.sent, false);
+  assert.equal(soon.extra?.reason, "too_soon");
+  assert.ok(Date.parse(String(soon.extra?.nextAt)) > clock);
+  assert.equal(mails.length, n + 1);
+
+  clock += 3 * DAY;
+  const reminder = await staff.staffAction(caseId, "remind", { taxYear: YEAR }, meta("remind-0003"), deps);
+  assert.equal(reminder.extra?.kind, "reminder");
+  assert.equal(reminder.summary.remindersSent, 1);
+  assert.equal(reminder.summary.lastReminderAt, new Date(clock).toISOString());
+  assert.equal(mails.length, n + 2);
+  const replay = await staff.staffAction(caseId, "remind", { taxYear: YEAR }, meta("remind-0003"), deps);
+  assert.equal(replay.replayed, true);
+  assert.equal(replay.extra?.sent, true);
+  assert.equal(replay.extra?.kind, "reminder", "replay reports the mail sent");
+  assert.equal(mails.length, n + 2, "replay sends nothing");
+
+  // Submitted: the missing-documents mail and its counters.
+  const row = rows(caseId)[0];
+  await mem.ports.tracker.upsert({ ...row, state: "submitted", submittedAt: new Date(clock - 10 * DAY).toISOString() });
+  const saved = deps.campaign.refreshMissing;
+  deps.campaign.refreshMissing = async () => ["Certificat de salaire"];
+  try {
+    const missing = await staff.staffAction(caseId, "remind", { taxYear: YEAR }, meta("remind-0004"), deps);
+    assert.equal(missing.extra?.kind, "missing");
+    assert.equal(missing.summary.missingRemindersSent, 1);
+    assert.equal(mails.length, n + 3);
+    assert.match(mails.at(-1)!.html, /Certificat de salaire/);
+  } finally {
+    deps.campaign.refreshMissing = saved;
+  }
+  clock = Date.now();
+});
+
+test("exclude / include / deadline / staffDocs act on the row; attach sets clientRef on every year", async () => {
+  const created = await staff.createReturn({ ...person(), sendInvitation: false }, { idempotencyKey: "create-key-row" }, deps);
+  const caseId = created.summary.caseId;
+  assert.equal((await staff.staffAction(caseId, "exclude", { taxYear: YEAR }, meta("row-0001"), deps)).summary.excluded, true);
+  assert.equal((await staff.staffAction(caseId, "include", { taxYear: YEAR }, meta("row-0002"), deps)).summary.excluded, false);
+  assert.equal((await staff.staffAction(caseId, "deadline", { taxYear: YEAR, extendedTo: `${YEAR + 1}-09-30` }, meta("row-0003"), deps)).summary.extendedTo, `${YEAR + 1}-09-30`);
+  await assert.rejects(staff.staffAction(caseId, "deadline", { taxYear: YEAR, extendedTo: "30.09" }, meta("row-0004"), deps), /invalid_extended_to/);
+  assert.deepEqual((await staff.staffAction(caseId, "staffDocs", { taxYear: YEAR, staffDocs: ["Relevé UBS", " Relevé UBS ", "Attestation 3a"] }, meta("row-0005"), deps)).summary.staffDocs, ["Relevé UBS", "Attestation 3a"]);
+  const attached = await staff.staffAction(caseId, "attach", { clientRef: "res.partner:999" }, meta("row-0006"), deps);
+  assert.equal(attached.summary.clientRef, "res.partner:999");
+  assert.ok(rows(caseId).every((r) => r.clientRef === "res.partner:999"));
+});
+
+test("GET one return: documents with statuses and the answers", async () => {
+  const created = await staff.createReturn({ ...person(), sendInvitation: false }, { idempotencyKey: "create-key-get" }, deps);
+  const one = await staff.staffReturn(created.summary.caseId, String(YEAR), deps);
+  assert.equal(one.caseId, created.summary.caseId);
+  assert.ok(Array.isArray(one.documents));
+  assert.ok(one.documents.every((d) => ["received", "later", "na", "missing"].includes(d.status)));
+  assert.equal(typeof one.answers, "object");
+  await assert.rejects(staff.staffReturn("nope00000000", undefined, deps), /not_found/);
+});
+
+test("create: a shared address adopts only a couple's return; another client's is refused", async () => {
+  const a = person();
+  const first = await staff.createReturn({ ...a, sendInvitation: false }, { idempotencyKey: "create-key-coupleA" }, deps);
+  const b = { ...person(), email: a.email };
+  await assert.rejects(staff.createReturn({ ...b, sendInvitation: false }, { idempotencyKey: "create-key-coupleB" }, deps), /client_ref_conflict/);
+  assert.equal(rows(first.summary.caseId)[0].clientRef, a.clientRef, "never overwritten");
+  const couple = await staff.createReturn({ ...b, spouseRef: a.clientRef, sendInvitation: false }, { idempotencyKey: "create-key-coupleB2" }, deps);
+  assert.equal(couple.adopted, true);
+  assert.equal(couple.summary.caseId, first.summary.caseId);
+  assert.equal(couple.summary.clientRef, a.clientRef);
+  assert.equal(couple.summary.spouseRef, b.clientRef);
+  const again = await staff.createReturn({ ...b, email: "b.own@example.ch", sendInvitation: false }, { idempotencyKey: "create-key-coupleB3" }, deps);
+  assert.equal(again.summary.caseId, first.summary.caseId, "found by spouseRef");
+});
+
+test("link: a half-done e-mail change is finished by the retry (every year, every link)", async () => {
+  const created = await staff.createReturn({ ...person(), sendInvitation: false }, { idempotencyKey: "create-key-halfdone" }, deps);
+  const caseId = created.summary.caseId;
+  const main = rows(caseId)[0];
+  await mem.ports.tracker.upsert({ ...main, taxYear: YEAR - 1, trackerId: undefined, modifiedAt: undefined });
+  const old = await access.issueLink({ caseId, emailHash: main.emailHash, scope: "edit", purpose: "invitation", ttlMs: DAY, locale: "fr" });
+  // The first attempt changed the main year only, then failed.
+  await mem.ports.tracker.upsert({ ...rows(caseId).find((r) => r.taxYear === YEAR)!, email: "moved@example.ch", emailHash: access.emailHash("moved@example.ch") });
+  await staff.staffAction(caseId, "link", { email: "moved@example.ch" }, meta("link-halfdone-01"), deps);
+  assert.ok(rows(caseId).length === 2 && rows(caseId).every((r) => r.email === "moved@example.ch" && r.emailHash === access.emailHash("moved@example.ch")));
+  assert.equal(await access.readLink(tokenOf(old)), null);
+});
+
+test("remind: excluded clients and client-started drafts get nothing", async () => {
+  const created = await staff.createReturn({ ...person(), sendInvitation: false }, { idempotencyKey: "create-key-excl" }, deps);
+  const caseId = created.summary.caseId;
+  const n = mails.length;
+  await staff.staffAction(caseId, "exclude", { taxYear: YEAR }, meta("excl-0001"), deps);
+  const excluded = await staff.staffAction(caseId, "remind", { taxYear: YEAR }, meta("excl-0002"), deps);
+  assert.equal(excluded.extra?.sent, false);
+  assert.equal(excluded.extra?.reason, "excluded");
+  await staff.staffAction(caseId, "include", { taxYear: YEAR }, meta("excl-0003"), deps);
+  await mem.ports.tracker.upsert({ ...rows(caseId)[0], state: "draft", source: "form" });
+  const draft = await staff.staffAction(caseId, "remind", { taxYear: YEAR }, meta("excl-0004"), deps);
+  assert.equal(draft.extra?.reason, "nothing_to_send");
+  assert.equal(mails.length, n);
+});
+
+test("next year's return carries clientRef and spouseRef", async () => {
+  const p = person();
+  const prev = await deps.campaign.createInvitedReturn({ clientKey: "ck-carry", email: p.email, name: "CARRY Alex", language: "fr", taxYear: YEAR - 1, clientRef: "res.partner:7", spouseRef: "res.partner:8" });
+  const next = await deps.campaign.createInvitedReturn({ clientKey: "ck-carry", email: p.email, name: "CARRY Alex", language: "fr", taxYear: YEAR, prefillFrom: prev });
+  assert.equal(next.clientRef, "res.partner:7");
+  assert.equal(next.spouseRef, "res.partner:8");
+});

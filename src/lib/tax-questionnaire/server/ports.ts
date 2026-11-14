@@ -77,9 +77,20 @@ export interface ReturnRecord {
   lastMissingReminderAt?: string;
   /** Staff-owned "Documents à demander": extra items merged into the client's to-do. */
   staffDocs?: string;
+  /** Cadence's client (Odoo partner) for this return, set at creation or by "attach"; carried to the next year. */
+  clientRef?: string;
+  /** Cadence's partner for the spouse (couples), when Cadence knows it. */
+  spouseRef?: string;
+  /** Idempotency-Key of the staff API creation (the case id is derived from it). */
+  createKey?: string;
   /** Item id in the tracker (opaque). */
   trackerId?: string;
+  /** Read only: last change of the tracker row (SharePoint "Modified"), the staff feed's order. */
+  modifiedAt?: string;
 }
+
+/** Staff-owned columns the staff API (Cadence) may set. */
+export type StaffFields = Partial<Pick<ReturnRecord, "excludedFromCampaign" | "extendedTo" | "staffDocs">>;
 
 /** Per-return workflow (today: SharePoint list "Suivi questionnaires"). */
 export interface ReturnTracker {
@@ -93,6 +104,10 @@ export interface ReturnTracker {
   setStatus(trackerId: string, status: string): Promise<void>;
   /** Records a missing-documents reminder (only these two columns). */
   markMissingReminder(trackerId: string, sent: number, at: string): Promise<void>;
+  /** Staff API: sets staff-owned columns (exclusion, extended deadline, documents to ask for); "" clears the deadline. */
+  setStaffFields(trackerId: string, fields: StaffFields): Promise<void>;
+  /** Staff feed: rows whose last change (modifiedAt) is at or after `since` ("" = all rows). */
+  listChanged(since: string): Promise<ReturnRecord[]>;
 }
 
 /** Client-level campaign preferences (independent of any return). */
@@ -123,7 +138,7 @@ export interface AccessRecord {
   scope: "edit" | "status";
   expiresAt: number;
   revoked: boolean;
-  /** For links: purpose (resume, invitation, partner). */
+  /** For links: purpose (resume, invitation, partner, status, optout, staff). */
   purpose?: string;
 }
 
@@ -131,5 +146,6 @@ export interface AccessStore {
   put(record: AccessRecord): Promise<void>;
   get(keyHash: string): Promise<AccessRecord | null>;
   revoke(keyHash: string): Promise<void>;
-  revokeCase(caseId: string, kind?: AccessRecord["kind"]): Promise<void>;
+  /** Revokes a case's links and sessions; narrowed to one kind and, for links, one purpose. */
+  revokeCase(caseId: string, kind?: AccessRecord["kind"], purpose?: string): Promise<void>;
 }

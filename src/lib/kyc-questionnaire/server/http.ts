@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { clientIp, hit, json, readJson, type Counter } from "../../tax-questionnaire/server/http";
 import { StorageError } from "../../tax-questionnaire/server/storage";
 import { readCookie, readSession } from "./access";
-import { ALLOWED_ORIGINS, extraOrigins, isProd, tokenSecret } from "./config";
+import { ALLOWED_ORIGINS, apiKeys, extraOrigins, isProd, tokenSecret } from "./config";
 import { KycError, type Session } from "./service";
 import { verifyStaffRequest } from "./signature";
 import { logQuestionnaireWorkflow } from "@/src/lib/posthog-workflow-logs";
@@ -90,7 +90,7 @@ export async function staffRoute(request: Request, handler: (ctx: StaffContext) 
   if (!tokenSecret()) return json({ error: "missing_configuration" }, 500);
   const tooMany = limited("staff", request.headers.get("x-kyc-key-id") || clientIp(request), 600);
   if (tooMany) return tooMany;
-  const verified = await verifyStaffRequest(request);
+  const verified = await verifyStaffRequest(request, apiKeys());
   if (!verified.ok) return json({ error: verified.error, ...(verified.reason ? { reason: verified.reason } : {}) }, verified.status);
   try {
     const response = await handler(verified);

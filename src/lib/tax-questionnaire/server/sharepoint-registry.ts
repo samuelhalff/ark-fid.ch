@@ -7,8 +7,8 @@
  * In-memory adapters (memoryPorts) serve the local mock mode and the tests.
  */
 import { givenName, personName } from "../format";
-import type { AccessRecord, AccessStore, ClientIdentity, ClientMatch, ClientPreferences, ClientRegistry, PreferenceStore, ReturnRecord, ReturnTracker } from "./ports";
-import { DEFAULT_SITE_ID, getGraph, mockStorageEnabled, TRACKING_LIST, TRACKING_STATUSES, type Json } from "./storage";
+import type { AccessRecord, AccessStore, ClientIdentity, ClientMatch, ClientPreferences, ClientRegistry, PreferenceStore, ReturnRecord, ReturnTracker, StaffFields } from "./ports";
+import { DEFAULT_SITE_ID, getGraph, mockStorageEnabled, StorageError, TRACKING_LIST, TRACKING_STATUSES, type Json } from "./storage";
 
 export interface Ports {
   registry: ClientRegistry;
@@ -184,14 +184,22 @@ class SiteList {
   site() {
     return env("TAX_QF_SP_SITE_ID") || DEFAULT_SITE_ID;
   }
+  /**
+   * The list id; on an existing list, its missing columns are added first. A migration failure
+   * never fails the caller (a client's save must not break on it): it is logged and retried on
+   * the next access. Concurrent first accesses share one migration.
+   */
   async listId(): Promise<string> {
-    if (this.id) return this.id;
+    if (this.id) {
+      if (!this.migrated) await this.migrateOnce();
+      return this.id;
+    }
     const graph = getGraph();
     const found = await graph.json(`/sites/${this.site()}/lists?$filter=${encodeURIComponent(`displayName eq '${this.displayName}'`)}&$select=id`);
     const existing = (found.value as Json[] | undefined)?.[0];
     if (existing) {
       this.id = str(existing.id);
-      await this.migrate();
+      await this.migrateOnce();
       return this.id;
     }
     const created = await graph.json(`/sites/${this.site()}/lists`, {
@@ -199,7 +207,25 @@ class SiteList {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ displayName: this.displayName, list: { template: "genericList" }, columns: this.columns }),
     });
+    this.migrated = true;
     return (this.id = str(created.id));
+  }
+  private migrated = false;
+  private migrating: Promise<void> | null = null;
+  private async migrateOnce() {
+    if (!this.migrating) {
+      this.migrating = this.migrate()
+        .then(() => {
+          this.migrated = true;
+        })
+        .catch((error) => {
+          console.error(`[tax-qf] columns of "${this.displayName}" not migrated (retried on next access)`, error instanceof Error ? error.message.slice(0, 120) : "");
+        })
+        .finally(() => {
+          this.migrating = null;
+        });
+    }
+    await this.migrating;
   }
   /** Adds the columns missing from an existing list (idempotent; column types are never changed). */
   private async migrate() {
@@ -209,7 +235,12 @@ class SiteList {
     for (const column of this.columns) {
       const found = existing.get(str(column.name));
       if (!found) {
-        await graph.json(`/sites/${this.site()}/lists/${this.id}/columns`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(column) });
+        try {
+          await graph.json(`/sites/${this.site()}/lists/${this.id}/columns`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(column) });
+        } catch (error) {
+          // 409: the column was just added by a concurrent first request.
+          if (!(error instanceof StorageError && error.status === 409)) throw error;
+        }
         continue;
       }
       // Choice columns: new choices are appended (existing ones and the type are never changed).
@@ -225,11 +256,12 @@ class SiteList {
       }
     }
   }
+  /** Items matching an OData filter ("" = all items, at most 20 pages). */
   async query(filter: string, top = 200): Promise<{ id: string; fields: Json }[]> {
     const graph = getGraph();
     const list = await this.listId();
     const out: { id: string; fields: Json }[] = [];
-    let next: string | null = `/sites/${this.site()}/lists/${list}/items?$expand=fields&$filter=${encodeURIComponent(filter)}&$top=${top}`;
+    let next: string | null = `/sites/${this.site()}/lists/${list}/items?$expand=fields${filter ? `&$filter=${encodeURIComponent(filter)}` : ""}&$top=${top}`;
     for (let page = 0; next && page < 20; page++) {
       const data: Json = await graph.json(next, { headers: { Prefer: "HonorNonIndexedQueriesWarningMayFailRandomly" } });
       for (const item of (data.value as Json[]) || []) out.push({ id: str(item.id), fields: (item.fields || {}) as Json });
@@ -300,6 +332,10 @@ const TRACKER_COLUMNS: Column[] = [
   text("DocumentsManquants", "Documents manquants", { text: { allowMultipleLines: true, textType: "plain" } }),
   num("MissingRemindersSent", "Rappels documents envoyés"),
   { name: "LastMissingReminderAt", displayName: "Dernier rappel documents", dateTime: { format: "dateTime" } },
+  // Cadence (staff API)
+  text("ClientRef", "Client Cadence", { indexed: true }),
+  text("SpouseRef", "Conjoint Cadence"),
+  text("CreateKey", "Clé de création (Cadence)", { indexed: true }),
 ];
 
 const STATE_TO_FR: Record<ReturnRecord["state"], string> = { draft: "Brouillon", submitted: "Envoyé", invited: "Invité", declined: "Abandonné" };
@@ -341,6 +377,10 @@ function trackerFields(r: ReturnRecord): Json {
   if (r.missingDocs !== undefined) fields.DocumentsManquants = r.missingDocs;
   if (r.missingRemindersSent !== undefined) fields.MissingRemindersSent = r.missingRemindersSent;
   if (r.lastMissingReminderAt) fields.LastMissingReminderAt = r.lastMissingReminderAt;
+  // Written only when known: a record built without them never blanks Cadence's link.
+  if (r.clientRef) fields.ClientRef = r.clientRef;
+  if (r.spouseRef) fields.SpouseRef = r.spouseRef;
+  if (r.createKey) fields.CreateKey = r.createKey;
   return fields;
 }
 
@@ -384,6 +424,10 @@ function trackerRecord(id: string, f: Json): ReturnRecord {
     missingRemindersSent: Number(f.MissingRemindersSent) || 0,
     lastMissingReminderAt: isoDate(f.LastMissingReminderAt),
     staffDocs: str(f.DocumentsADemander),
+    clientRef: str(f.ClientRef) || undefined,
+    spouseRef: str(f.SpouseRef) || undefined,
+    createKey: str(f.CreateKey) || undefined,
+    modifiedAt: isoDate(f.Modified),
   };
 }
 
@@ -419,6 +463,17 @@ class SharePointTracker implements ReturnTracker {
   }
   async markMissingReminder(trackerId: string, sent: number, at: string) {
     await this.list.update(trackerId, { MissingRemindersSent: sent, LastMissingReminderAt: at });
+  }
+  async setStaffFields(trackerId: string, fields: StaffFields) {
+    const patch: Json = {};
+    if (fields.excludedFromCampaign !== undefined) patch.ExclureCampagne = fields.excludedFromCampaign;
+    // Date-only column: noon UTC keeps the day whatever the site's time zone.
+    if (fields.extendedTo !== undefined) patch.DelaiObtenu = fields.extendedTo ? `${fields.extendedTo.slice(0, 10)}T12:00:00Z` : null;
+    if (fields.staffDocs !== undefined) patch.DocumentsADemander = fields.staffDocs;
+    if (Object.keys(patch).length) await this.list.update(trackerId, patch);
+  }
+  listChanged(since: string) {
+    return this.find(since ? `fields/Modified ge ${quote(since)}` : "");
   }
 }
 
@@ -523,9 +578,12 @@ class SharePointAccess implements AccessStore {
     for (const item of found) await this.list.update(item.id, { Revoked: true });
     this.cache.delete(keyHash);
   }
-  async revokeCase(caseId: string, kind?: AccessRecord["kind"]) {
+  async revokeCase(caseId: string, kind?: AccessRecord["kind"], purpose?: string) {
     const found = await this.list.query(`fields/CaseId eq ${quote(caseId)}`);
-    for (const item of found) if (!kind || item.fields.Kind === kind) await this.list.update(item.id, { Revoked: true });
+    for (const item of found) {
+      if (item.fields.Revoked === true || (kind && item.fields.Kind !== kind) || (purpose && str(item.fields.Purpose) !== purpose)) continue;
+      await this.list.update(item.id, { Revoked: true });
+    }
     this.cache.clear();
   }
 }
@@ -548,6 +606,12 @@ export function memoryPorts(seed: { crm?: MemoryCrmItem[] } = {}) {
   const prefs: ClientPreferences[] = [];
   const access = new Map<string, AccessRecord>();
   let nextId = 1;
+  // Monotonic "Modified" stamp of the in-memory tracker (SharePoint sets it on every write).
+  let lastStamp = 0;
+  const touch = (row: ReturnRecord) => {
+    lastStamp = Math.max(Date.now(), lastStamp + 1);
+    row.modifiedAt = new Date(lastStamp).toISOString();
+  };
   const registry: ClientRegistry = {
     async match(identity) {
       return matchCrm(crm, identity);
@@ -573,12 +637,18 @@ export function memoryPorts(seed: { crm?: MemoryCrmItem[] } = {}) {
       const index = returns.findIndex((r) => (record.trackerId && r.trackerId === record.trackerId) || (!!record.caseId && r.caseId === record.caseId && r.taxYear === record.taxYear));
       if (index >= 0) {
         // Staff-owned fields are kept.
-        const staff = { staffStatus: returns[index].staffStatus, extendedTo: returns[index].extendedTo, pbmInvolved: returns[index].pbmInvolved, excludedFromCampaign: returns[index].excludedFromCampaign, staffDocs: returns[index].staffDocs };
-        returns[index] = { ...record, ...staff, trackerId: returns[index].trackerId };
+        const old = returns[index];
+        const staff = { staffStatus: old.staffStatus, extendedTo: old.extendedTo, pbmInvolved: old.pbmInvolved, excludedFromCampaign: old.excludedFromCampaign, staffDocs: old.staffDocs };
+        // Cadence's columns are written only when given (as in SharePoint).
+        const cadence = { clientRef: record.clientRef || old.clientRef, spouseRef: record.spouseRef || old.spouseRef, createKey: record.createKey || old.createKey };
+        returns[index] = { ...record, ...staff, ...cadence, trackerId: old.trackerId };
+        touch(returns[index]);
         return returns[index].trackerId!;
       }
       const trackerId = `t${nextId++}`;
-      returns.push({ ...record, trackerId, staffStatus: "Nouveau" });
+      const row: ReturnRecord = { ...record, trackerId, staffStatus: "Nouveau" };
+      touch(row);
+      returns.push(row);
       return trackerId;
     },
     async findByCase(caseId) {
@@ -595,11 +665,28 @@ export function memoryPorts(seed: { crm?: MemoryCrmItem[] } = {}) {
     },
     async setStatus(trackerId, status) {
       const row = returns.find((r) => r.trackerId === trackerId);
-      if (row) row.staffStatus = status;
+      if (row) {
+        row.staffStatus = status;
+        touch(row);
+      }
     },
     async markMissingReminder(trackerId, sent, at) {
       const row = returns.find((r) => r.trackerId === trackerId);
-      if (row) Object.assign(row, { missingRemindersSent: sent, lastMissingReminderAt: at });
+      if (row) {
+        Object.assign(row, { missingRemindersSent: sent, lastMissingReminderAt: at });
+        touch(row);
+      }
+    },
+    async setStaffFields(trackerId, fields) {
+      const row = returns.find((r) => r.trackerId === trackerId);
+      if (!row) return;
+      if (fields.excludedFromCampaign !== undefined) row.excludedFromCampaign = fields.excludedFromCampaign;
+      if (fields.extendedTo !== undefined) row.extendedTo = fields.extendedTo || undefined;
+      if (fields.staffDocs !== undefined) row.staffDocs = fields.staffDocs;
+      touch(row);
+    },
+    async listChanged(since) {
+      return returns.filter((r) => !since || (r.modifiedAt || "") >= since).map((r) => ({ ...r }));
     },
   };
   const prefStore: PreferenceStore = {
@@ -626,8 +713,8 @@ export function memoryPorts(seed: { crm?: MemoryCrmItem[] } = {}) {
       const record = access.get(keyHash);
       if (record) record.revoked = true;
     },
-    async revokeCase(caseId, kind) {
-      for (const record of access.values()) if (record.caseId === caseId && (!kind || record.kind === kind)) record.revoked = true;
+    async revokeCase(caseId, kind, purpose) {
+      for (const record of access.values()) if (record.caseId === caseId && (!kind || record.kind === kind) && (!purpose || record.purpose === purpose)) record.revoked = true;
     },
   };
   return { ports: { registry, tracker, prefs: prefStore, access: accessStore } as Ports, crm, returns, prefsList: prefs, access };

@@ -32,6 +32,12 @@ export interface InvitedReturnInput {
   prefillAnswers?: Record<string, unknown>;
   /** Staff notes for the preparer (kept server-side, in the case folder). */
   notes?: string[];
+  /** Staff API (Cadence): derived case id, Cadence's references, canton when not in the answers. */
+  caseId?: string;
+  clientRef?: string;
+  spouseRef?: string;
+  createKey?: string;
+  canton?: string;
 }
 
 export interface CampaignDeps {
@@ -313,11 +319,13 @@ export async function inviteMember(
     planned?: ReturnRecord;
     /** Runs before the return is marked invited (e.g. staff hand-over file): a failure leaves it retryable. */
     beforeMark?: (record: ReturnRecord, link: string) => Promise<void>;
+    /** Staff API creation: derived case id and Cadence's references. */
+    create?: Pick<InvitedReturnInput, "caseId" | "clientRef" | "spouseRef" | "createKey" | "canton">;
   },
 ): Promise<{ record: ReturnRecord; link: string }> {
   const record =
     opts.existing ||
-    (await deps.createInvitedReturn({ clientKey: member.clientKey, email: member.email, name: member.name, language: member.language, taxYear, prefillFrom: opts.prefillAnswers ? undefined : opts.previous, prefillAnswers: opts.prefillAnswers, notes: opts.notes, planned: opts.planned }));
+    (await deps.createInvitedReturn({ clientKey: member.clientKey, email: member.email, name: member.name, language: member.language, taxYear, prefillFrom: opts.prefillAnswers ? undefined : opts.previous, prefillAnswers: opts.prefillAnswers, notes: opts.notes, planned: opts.planned, ...(opts.create || {}) }));
   const link = await deps.issueLink({ caseId: record.caseId, emailHash: record.emailHash, scope: "edit", purpose: "invitation", ttlMs: opts.ttlMs || INVITATION_TTL, origin: opts.origin, locale: member.language });
   if (opts.send !== false) {
     const optout = await deps.issueLink({ caseId: `client:${member.clientKey}`, emailHash: (deps.hashEmail || emailHashOf)(member.email), scope: "status", purpose: "optout", ttlMs: OPTOUT_TTL, origin: opts.origin, locale: member.language });
@@ -329,6 +337,47 @@ export async function inviteMember(
   const invited = { ...record, state: "invited" as const, invitedAt: iso(opts.now), remindersSent: 0 };
   await deps.tracker.upsert(invited);
   return { record: invited, link };
+}
+
+/** Opt-out link of a client (footer of every campaign mail). */
+const optoutLinkFor = (deps: CampaignDeps, member: Pick<Member, "clientKey" | "email" | "language">, origin?: string) =>
+  deps.issueLink({ caseId: `client:${member.clientKey}`, emailHash: (deps.hashEmail || emailHashOf)(member.email), scope: "status", purpose: "optout", ttlMs: OPTOUT_TTL, origin, locale: member.language });
+
+/**
+ * Reminder of an invited, open return (the campaign's +14 days / D-30 / D-10, and Cadence's
+ * "Relancer"): fresh invitation link, the documents still missing, one more reminder counted.
+ */
+export async function sendReminder(
+  deps: CampaignDeps,
+  current: ReturnRecord,
+  member: Pick<Member, "clientKey" | "email" | "name" | "language">,
+  opts: { now: Date; origin?: string },
+): Promise<ReturnRecord> {
+  const link = await deps.issueLink({ caseId: current.caseId, emailHash: current.emailHash, scope: "edit", purpose: "invitation", ttlMs: INVITATION_TTL, origin: opts.origin, locale: member.language });
+  const reminderLang = lang(current.language || member.language);
+  const missing = deps.missingDocuments ? await deps.missingDocuments(current, reminderLang).catch(() => []) : [];
+  await deps.sendMail(campaignMail("reminder", reminderLang, current.email || member.email, current.taxYear, link, await optoutLinkFor(deps, member, opts.origin), { firstName: firstNameOf(current.name || member.name), missing }));
+  const updated = { ...current, remindersSent: (current.remindersSent || 0) + 1, lastReminderAt: iso(opts.now) };
+  await deps.tracker.upsert(updated);
+  return updated;
+}
+
+/** Missing-documents reminder of a submitted return (status link); returns the new count. */
+export async function sendMissingReminder(deps: CampaignDeps, record: ReturnRecord, missing: string[], opts: { now: Date; origin?: string }): Promise<number> {
+  const language = lang(record.language);
+  const link = await deps.issueLink({ caseId: record.caseId, emailHash: record.emailHash, scope: "status", purpose: "status", ttlMs: 30 * DAY, origin: opts.origin, locale: language });
+  const optout = await optoutLinkFor(deps, { clientKey: record.clientKey, email: record.email, language }, opts.origin);
+  await deps.sendMail(campaignMail("missing", language, record.email, record.taxYear, link, optout, { firstName: firstNameOf(record.name), missing }));
+  const sent = (record.missingRemindersSent || 0) + 1;
+  if (record.trackerId) await deps.tracker.markMissingReminder(record.trackerId, sent, iso(opts.now));
+  return sent;
+}
+
+/** Never two campaign mails within three days: when the next one may go (null: now). */
+export function nextMailAt(last: string | undefined, now: Date): string | null {
+  if (!last) return null;
+  const from = new Date(last);
+  return daysBetween(from, now) < 3 ? new Date(utcDay(from) + 3 * DAY).toISOString() : null;
 }
 
 /** Latest submitted return before a tax year (the renewal source). */
@@ -348,8 +397,7 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
   const escalate: string[] = [];
   const escalateInternal = new Set<string>();
 
-  const optoutLink = (member: Member) =>
-    deps.issueLink({ caseId: `client:${member.clientKey}`, emailHash: (deps.hashEmail || emailHashOf)(member.email), scope: "status", purpose: "optout", ttlMs: OPTOUT_TTL, origin: opts.origin, locale: member.language });
+  const optoutLink = (member: Member) => optoutLinkFor(deps, member, opts.origin);
 
   const yearRows = await deps.tracker.listByYear(taxYear);
   const plannedRows = yearRows.filter((r) => isPlanned(r) && r.state !== "declined");
@@ -428,13 +476,7 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
       } else {
         actions++;
         summary.reminders++;
-        if (!dryRun) {
-          const link = await deps.issueLink({ caseId: current.caseId, emailHash: current.emailHash, scope: "edit", purpose: "invitation", ttlMs: INVITATION_TTL, origin: opts.origin, locale: member.language });
-          const reminderLang = lang(current.language || member.language);
-          const missing = deps.missingDocuments ? await deps.missingDocuments(current, reminderLang).catch(() => []) : [];
-          await deps.sendMail(campaignMail("reminder", reminderLang, current.email || member.email, taxYear, link, await optoutLink(member), { firstName: firstNameOf(current.name || member.name), missing }));
-          await deps.tracker.upsert({ ...current, remindersSent: (current.remindersSent || 0) + 1, lastReminderAt: iso(now) });
-        }
+        if (!dryRun) await sendReminder(deps, current, member, { now, origin: opts.origin });
       }
     }
     const unanswered = (current.remindersSent || 0) + (due && !dryRun ? 1 : 0);
@@ -473,14 +515,7 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
       else {
         actions++;
         summary.missingReminders++;
-        if (!dryRun) {
-          const language = lang(record.language);
-          const link = await deps.issueLink({ caseId: record.caseId, emailHash: record.emailHash, scope: "status", purpose: "status", ttlMs: 30 * DAY, origin: opts.origin, locale: language });
-          const optout = await deps.issueLink({ caseId: `client:${record.clientKey}`, emailHash: (deps.hashEmail || emailHashOf)(record.email), scope: "status", purpose: "optout", ttlMs: OPTOUT_TTL, origin: opts.origin, locale: language });
-          await deps.sendMail(campaignMail("missing", language, record.email, taxYear, link, optout, { firstName: firstNameOf(record.name), missing }));
-          sent += 1;
-          if (record.trackerId) await deps.tracker.markMissingReminder(record.trackerId, sent, iso(now));
-        }
+        if (!dryRun) sent = await sendMissingReminder(deps, record, missing, { now, origin: opts.origin });
       }
     }
     const before = escalate.length;

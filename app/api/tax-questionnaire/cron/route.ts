@@ -1,9 +1,9 @@
-import { createHash, timingSafeEqual } from "node:crypto";
+import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
-import { emailHash, issueLink } from "@/src/lib/tax-questionnaire/server/access";
-import { inviteMember, isClosed, isPlanned, lang, plannedFor, previousReturn, runCampaign, type CampaignDeps, type CampaignLedger } from "@/src/lib/tax-questionnaire/server/campaign";
-import { clientKey as computeClientKey, cleanupAbandonedDrafts, createInvitedReturn, getCase, missingDocuments, refreshMissing } from "@/src/lib/tax-questionnaire/server/service";
-import { sharePointPorts } from "@/src/lib/tax-questionnaire/server/sharepoint-registry";
+import { inviteMember, isClosed, isPlanned, lang, plannedFor, previousReturn, runCampaign, type CampaignDeps } from "@/src/lib/tax-questionnaire/server/campaign";
+import { fileLedger } from "@/src/lib/tax-questionnaire/server/ledger";
+import { clientKey as computeClientKey, cleanupAbandonedDrafts } from "@/src/lib/tax-questionnaire/server/service";
+import { appCampaignDeps } from "@/src/lib/tax-questionnaire/server/staff";
 import { DEFAULT_DRIVE_ID, getStorage, type TaxStorage } from "@/src/lib/tax-questionnaire/server/storage";
 
 /**
@@ -31,29 +31,6 @@ function authorized(request: Request): boolean {
   return given.length === expected.length && timingSafeEqual(given, expected);
 }
 
-/** Durable ledger: one small JSON file per processed key in the library's _system folder. */
-function fileLedger(storage: TaxStorage): CampaignLedger {
-  const drive = env("TAX_QF_SP_DRIVE_ID") || DEFAULT_DRIVE_ID;
-  let folder = "";
-  const folderId = async () => {
-    if (!folder) {
-      const system = await storage.ensureSubfolder(drive, "root", "_system");
-      folder = await storage.ensureSubfolder(drive, system, "cron-ledger");
-    }
-    return folder;
-  };
-  const fileName = (key: string) => `${createHash("sha256").update(key).digest("hex").slice(0, 40)}.json`;
-  return {
-    async has(key) {
-      return (await storage.readFile(drive, await folderId(), fileName(key))) !== null;
-    },
-    async add(key) {
-      const body = new TextEncoder().encode(JSON.stringify({ key, at: new Date().toISOString() }));
-      await storage.putFile(drive, await folderId(), fileName(key), body, "application/json");
-    },
-  };
-}
-
 export async function POST(request: Request) {
   if (!authorized(request)) return json({ error: "forbidden" }, 403);
   let body: InviteBody & { task?: unknown; dryRun?: unknown; idempotencyKey?: unknown };
@@ -73,7 +50,6 @@ export async function POST(request: Request) {
     const ledgerKey = `${task}:${key}`;
     if (!dryRun && (await ledger.has(ledgerKey))) return json({ ok: true, task, skipped: "already_processed" });
 
-    const ports = sharePointPorts();
     if (task === "cleanup") {
       if (env("TAX_QF_CLEANUP_ENABLED") !== "1") return json({ ok: true, task, skipped: "disabled" });
       const result = dryRun ? { deleted: 0 } : await cleanupAbandonedDrafts();
@@ -81,19 +57,7 @@ export async function POST(request: Request) {
       return json({ ok: true, task, ...result });
     }
 
-    const deps: CampaignDeps = {
-      registry: ports.registry,
-      tracker: ports.tracker,
-      prefs: ports.prefs,
-      sendMail: (message) => storage.sendMail(message),
-      issueLink,
-      hashEmail: emailHash,
-      createInvitedReturn,
-      missingDocuments,
-      refreshMissing: async (record) => (await refreshMissing(storage, await getCase(record.caseId))).labels,
-      staffRecipients: (env("TAX_QF_STAFF_ALERT_TO") || "samuel.halff@ark-fid.ch,sebastien.gallie@ark-fid.ch").split(",").map((v) => v.trim()).filter(Boolean),
-      ledger,
-    };
+    const deps: CampaignDeps = appCampaignDeps(storage, ledger);
     if (task === "invite") {
       const result = await invite(deps, storage, body, dryRun);
       if (!dryRun && result.ok) await ledger.add(ledgerKey);

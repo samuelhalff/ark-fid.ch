@@ -80,6 +80,8 @@ export interface CaseInfo {
 
 const caseCache = new Map<string, { info: CaseInfo; at: number }>();
 const forget = (caseId: string) => caseCache.delete(caseId);
+/** Drops the cached case (after a write made outside this module, e.g. by the staff API). */
+export const forgetCase = forget;
 
 export async function getCase(caseId: string): Promise<CaseInfo> {
   // Rows without a case (staff inventory) never resolve to a case.
@@ -169,8 +171,12 @@ function baseRecord(
 }
 
 /** Creates the case after the e-mail was verified: folders and tracker rows per year, first draft. */
-export async function createCase(storage: TaxStorage, input: { identity: Identity; locale: QfLocale; answers: unknown; householdId?: string; source?: string; stepId?: string; clientKey?: string; planned?: ReturnRecord }) {
-  const caseId = randomBytes(6).toString("hex");
+export async function createCase(
+  storage: TaxStorage,
+  input: { identity: Identity; locale: QfLocale; answers: unknown; householdId?: string; source?: string; stepId?: string; clientKey?: string; planned?: ReturnRecord; caseId?: string; cadence?: Pick<ReturnRecord, "clientRef" | "spouseRef" | "createKey"> },
+) {
+  // The staff API passes a case id derived from its Idempotency-Key (a retry finds the same case).
+  const caseId = input.caseId || randomBytes(6).toString("hex");
   const answers = sanitizeAnswers(input.answers);
   // Annual service reminder: on by default (the client can untick it; each e-mail has an opt-out).
   if (answers["review.reminder"] === undefined) answers["review.reminder"] = "yes";
@@ -191,7 +197,7 @@ export async function createCase(storage: TaxStorage, input: { identity: Identit
   const records: ReturnRecord[] = [];
   for (const year of years) {
     const folder = await storage.createSubmissionFolder(year, folderName);
-    const record = baseRecord(head, year, folder, answers, { source: input.source, ...(input.clientKey ? { clientKey: input.clientKey } : {}) });
+    const record = baseRecord(head, year, folder, answers, { source: input.source, ...(input.clientKey ? { clientKey: input.clientKey } : {}), ...(input.cadence || {}) });
     // A planned row (staff inventory) becomes the main year's row instead of a duplicate; what the
     // inventory knew (canton, CRM link) is kept when the answers do not say otherwise.
     if (input.planned?.trackerId && year === years[0]) {
@@ -710,6 +716,17 @@ async function currentDocs(storage: TaxStorage, info: CaseInfo, draft: Draft): P
   });
 }
 
+/**
+ * Staff API: the checklist of one tax year of a case, each item with its status (files first,
+ * then the client's "later" / "not applicable"). Items without a year belong to the main year.
+ */
+export async function caseDocuments(storage: TaxStorage, info: CaseInfo, taxYear: number): Promise<{ docs: DocResult[]; answers: Answers }> {
+  const draft = await syncStaffDocs(storage, info);
+  if (!draft) return { docs: [], answers: {} };
+  const docs = (await currentDocs(storage, info, draft)).filter((d) => (d.item.year ?? info.main.taxYear) === taxYear);
+  return { docs, answers: draft.answers };
+}
+
 /** Staff status set by the app: only from its own states, staff choices are never overridden. */
 export function nextStaffStatus(current: string | undefined, missing: number): string | null {
   const auto = !current || current === "Nouveau" || current === "Documents manquants" || current === "Dossier complet";
@@ -867,7 +884,23 @@ export async function previousAnswers(storage: TaxStorage, record: ReturnRecord,
 /** Staff notes of a case prepared by Ark (root of the case folder, never listed to the client). */
 export const ARK_NOTES_FILE = "Points d'attention (Ark).txt";
 
-export async function createInvitedReturn(input: { clientKey: string; email: string; name: string; language: string; taxYear: number; prefillFrom?: ReturnRecord; prefillAnswers?: Record<string, unknown>; notes?: string[]; planned?: ReturnRecord }): Promise<ReturnRecord> {
+export async function createInvitedReturn(input: {
+  clientKey: string;
+  email: string;
+  name: string;
+  language: string;
+  taxYear: number;
+  prefillFrom?: ReturnRecord;
+  prefillAnswers?: Record<string, unknown>;
+  notes?: string[];
+  planned?: ReturnRecord;
+  /** Staff API: case id derived from the creation key, Cadence's references, canton when not in the answers. */
+  caseId?: string;
+  clientRef?: string;
+  spouseRef?: string;
+  createKey?: string;
+  canton?: string;
+}): Promise<ReturnRecord> {
   const { getStorage } = await import("./storage");
   const storage = getStorage();
   const identity = { email: input.email, ...splitPersonName(input.name) };
@@ -876,15 +909,21 @@ export async function createInvitedReturn(input: { clientKey: string; email: str
     : input.prefillFrom
       ? await previousAnswers(storage, input.prefillFrom, input.taxYear)
       : null;
+  const answers: Record<string, unknown> = prefill || { "start.years": [String(input.taxYear)] };
+  if (input.canton && !answers["start.canton"]) answers["start.canton"] = input.canton;
+  // Cadence's client (and spouse) follow the client from one year to the next.
+  const clientRef = input.clientRef || input.prefillFrom?.clientRef || input.planned?.clientRef;
   const info = await createCase(storage, {
     identity,
     locale: asLocale(input.language),
-    answers: prefill || { "start.years": [String(input.taxYear)] },
+    answers,
     householdId: input.prefillFrom?.householdId,
     source: input.prefillAnswers ? "ark" : "campaign",
     stepId: "start",
     clientKey: input.clientKey,
     planned: input.planned,
+    caseId: input.caseId,
+    cadence: { clientRef, spouseRef: input.spouseRef || input.prefillFrom?.spouseRef || input.planned?.spouseRef, createKey: input.createKey },
   });
   const notes = (input.notes || []).map((n) => n.trim()).filter(Boolean).slice(0, 60);
   if (notes.length) await storage.putFile(info.main.driveId, info.main.folderId, ARK_NOTES_FILE, new TextEncoder().encode(notes.map((n) => `- ${n}`).join("\n") + "\n"), "text/plain");

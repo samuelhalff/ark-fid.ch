@@ -22,7 +22,7 @@ export interface IssueLinkOptions {
   caseId: string;
   emailHash: string;
   scope: Scope;
-  /** resume | invitation | partner | status | optout */
+  /** resume | invitation | partner | status | optout | staff (issued for Cadence) */
   purpose: string;
   ttlMs: number;
   /** Public origin for the link (default https://tax.ark-fid.ch). */
@@ -60,7 +60,13 @@ export function linkUrl(token: string, locale = "fr", origin = publicOrigin()) {
 
 /** Creates a single-purpose link (only its HMAC is stored) and returns the full URL. */
 export async function issueLink(options: IssueLinkOptions): Promise<string> {
+  return (await issueLinkWithExpiry(options)).url;
+}
+
+/** Same, with the link's expiry (ISO), which the staff API returns alongside every link. */
+export async function issueLinkWithExpiry(options: IssueLinkOptions): Promise<{ url: string; expiresAt: string }> {
   const token = randomBytes(32).toString("base64url");
+  const expiresAt = Date.now() + options.ttlMs;
   await sharePointPorts().access.put({
     keyHash: mac("link", token),
     kind: "link",
@@ -68,10 +74,10 @@ export async function issueLink(options: IssueLinkOptions): Promise<string> {
     emailHash: options.emailHash,
     scope: options.scope,
     purpose: options.purpose,
-    expiresAt: Date.now() + options.ttlMs,
+    expiresAt,
     revoked: false,
   });
-  return linkUrl(token, options.locale, options.origin);
+  return { url: linkUrl(token, options.locale, options.origin), expiresAt: new Date(expiresAt).toISOString() };
 }
 
 export async function readLink(token: unknown) {

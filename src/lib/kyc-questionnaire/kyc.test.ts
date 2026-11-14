@@ -14,6 +14,7 @@ import { fieldText, getField, getGroup, isBlockAsked, isBlockVisible, pruneHidde
 import { upgradeAnswers } from "./upgrade";
 import { flagsOf, routeMismatch } from "./flags";
 import { createChallenge, createPick, createSession, emailHash, linkRef, readLink, readPick, readSession, STAFF_HASH, redeemAssist, verifyChallenge } from "./server/access";
+import { apiKeys } from "./server/config";
 import { signRequest, verifyStaffRequest } from "./server/signature";
 import { memoryAccess, memoryTracker } from "./server/ports";
 import { accessFor, askField, changes, clientCase, confirmSigned, contactOf, createCase, createUpload, deleteUpload, formPdfName, KycError, readPdf, signOnline, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
@@ -595,7 +596,7 @@ test("Cadence requests: signature, clock window, single-use nonce, idempotency k
     });
   };
   const status = async (r: Request) => {
-    const v = await verifyStaffRequest(r);
+    const v = await verifyStaffRequest(r, apiKeys());
     return v.ok ? 200 : v.status;
   };
   assert.equal(await status(make()), 200);
