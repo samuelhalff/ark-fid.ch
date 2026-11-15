@@ -363,7 +363,7 @@ export async function staffReturn(caseId: string, year: unknown, deps: Pick<Staf
     code: d.item.code,
     label: d.item.label[language] || d.item.label.fr,
     status: (d.status === "uploaded" ? "received" : d.status) as StaffDocStatus,
-    ...(d.files[0]?.webUrl ? { fileUrl: d.files[0].webUrl } : {}),
+    ...(d.files[0]?.webUrl ? { fileUrl: d.files[0].webUrl, size: d.files[0].size, ...(d.files[0].createdAt ? { receivedAt: d.files[0].createdAt } : {}) } : {}),
   }));
   return { ...summarize(row), documents, answers, filledBy, questions: staffQuestions(answers), pages: staffPages(answers, lang(pagesLang || "fr")) };
 }

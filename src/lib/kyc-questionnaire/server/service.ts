@@ -838,7 +838,7 @@ export async function staffCase(caseId: string): Promise<StaffSummary & {
   /** Answer id → who at Ark entered its current value (assisted session, overwrite). Absent when none. */
   enteredBy?: Record<string, string>;
   pages: { id: string; section: string | null; title: { fr: string; en: string }; intro?: { fr: string; en: string }; fieldIds: string[]; missingFieldIds: string[]; parts: { kind: "field" | "group" | "heading" | "note"; id: string; label?: { fr: string; en: string }; text?: { fr: string; en: string }; section?: string; retired?: boolean; tree?: { depth: number; text: { fr: string; en: string } }[]; controllers?: { fr: string; en: string }; options?: { value: string; label: { fr: string; en: string } }[] }[] }[];
-  documentItems: { key: string; label: { fr: string; en: string }; required: boolean; declared: DocDeclared | null; files: { name: string; webUrl: string }[]; unavailable: boolean; withheld: Withheld | null }[];
+  documentItems: { key: string; label: { fr: string; en: string }; required: boolean; declared: DocDeclared | null; files: { name: string; webUrl: string; size?: number; receivedAt?: string }[]; unavailable: boolean; withheld: Withheld | null }[];
 }> {
   await finishIfComplete(caseId);
   const record = await loadCase(caseId);
@@ -870,7 +870,7 @@ export async function staffCase(caseId: string): Promise<StaffSummary & {
     const present = await getPorts().storage.listFiles(record.driveId, source.docsFolderId);
     for (const file of carried.filter((entry) => ids.has(entry.id))) {
       const found = present.find((entry) => entry.id === file.id);
-      if (found) files.push({ ...file, webUrl: found.webUrl });
+      if (found) files.push({ ...file, webUrl: found.webUrl, ...(found.createdAt ? { receivedAt: found.createdAt } : {}) });
     }
   }
   // Documents an earlier version of the form asked for (e.g. proof of listing) stay listed for
@@ -892,7 +892,7 @@ export async function staffCase(caseId: string): Promise<StaffSummary & {
       : rev.documents?.find((entry) => entry.key === item.key)?.status === "na" ? "na"
       : declaredFor(item, openDraft?.docDeclared)) || null,
     files: files.filter((file) => holdsFile(item, file.code) && file.webUrl)
-      .map((file) => ({ name: file.name, webUrl: file.webUrl! })),
+      .map((file) => ({ name: file.name, webUrl: file.webUrl!, size: file.size, ...(file.receivedAt ? { receivedAt: file.receivedAt } : {}) })),
     unavailable: (itemKeys(item).some((key) => rev.documents?.some((entry) => entry.key === key))
       ? itemKeys(item).reduce((n, key) => n + (rev.documents?.find((entry) => entry.key === key)?.files.length || 0), 0)
       : itemKeys(item).reduce((n, key) => n + (rev.carried?.[key]?.length || 0), 0) + currentFiles.filter((file) => holdsFile(item, file.code)).length)
@@ -980,6 +980,8 @@ export interface ClientFile {
   size: number;
   code: string | null;
   webUrl?: string;
+  /** When the file reached the library (ISO). */
+  receivedAt?: string;
 }
 
 const codeOf = (name: string) => /^\[([0-9a-f]{12})\] /.exec(name)?.[1] || null;
@@ -988,7 +990,7 @@ const codeOf = (name: string) => /^\[([0-9a-f]{12})\] /.exec(name)?.[1] || null;
 async function docFiles(record: CaseRecord, rev: RevisionRecord): Promise<ClientFile[]> {
   const files = await getPorts().storage.listFiles(record.driveId, rev.docsFolderId);
   const own = (f: { name: string }) => !record.folders || (codeOf(f.name) !== null && isOwnPiece(f.name, record.caseId, rev.n));
-  return files.filter((f) => !f.folder && own(f)).map((f) => ({ id: f.id, name: f.name, size: f.size, code: codeOf(f.name), webUrl: f.webUrl }));
+  return files.filter((f) => !f.folder && own(f)).map((f) => ({ id: f.id, name: f.name, size: f.size, code: codeOf(f.name), webUrl: f.webUrl, ...(f.createdAt ? { receivedAt: f.createdAt } : {}) }));
 }
 
 /** Documents provided in earlier revisions (read-only for the client). */
@@ -1625,7 +1627,7 @@ export function previewForm(route: string, prefill: Record<string, unknown> | nu
   const current = pruneHidden({ ...(prefill || {}), route });
   const pages = pagesFor(current, (block) => isBlockVisible(block, current));
   const documentItems = documentList(current, skipped).map((item) => ({
-    key: item.key, label: item.label, required: item.required, declared: null as null, files: [] as { name: string; webUrl: string }[], unavailable: false,
+    key: item.key, label: item.label, required: item.required, declared: null as null, files: [] as { name: string; webUrl: string; size?: number; receivedAt?: string }[], unavailable: false,
     withheld: item.withheld,
   }));
   return { pages, documentItems };

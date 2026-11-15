@@ -19,6 +19,8 @@ export interface StoredFile {
   name: string;
   size: number;
   webUrl: string;
+  /** When the file reached the library (ISO), when the store tells. */
+  createdAt?: string;
   /** Name of the sub-folder holding the file ("" for the submission folder itself). */
   folder: string;
 }
@@ -196,7 +198,7 @@ export class GraphStorage implements TaxStorage {
 
   private async children(driveId: string, folderId: string): Promise<Json[]> {
     const out: Json[] = [];
-    let next: string | null = `/drives/${driveId}/items/${folderId}/children?$select=id,name,size,webUrl,folder,file&$top=200`;
+    let next: string | null = `/drives/${driveId}/items/${folderId}/children?$select=id,name,size,webUrl,createdDateTime,folder,file&$top=200`;
     for (let page = 0; next && page < 20; page++) {
       const data = await this.json(next);
       out.push(...((data.value as Json[]) || []));
@@ -212,6 +214,7 @@ export class GraphStorage implements TaxStorage {
       name: String(item.name),
       size: Number(item.size) || 0,
       webUrl: String(item.webUrl || ""),
+      ...(typeof item.createdDateTime === "string" ? { createdAt: item.createdDateTime } : {}),
       folder,
     });
     for (const item of await this.children(driveId, folderId)) {
@@ -358,10 +361,12 @@ export class MockStorage implements TaxStorage {
         for (const child of await fs.readdir(full, { withFileTypes: true })) {
           if (!child.isFile()) continue;
           const childPath = path.join(full, child.name);
-          files.push({ id: this.idOf(this.rel(childPath)), name: child.name, size: (await fs.stat(childPath)).size, webUrl: `file://${childPath}`, folder: entry.name });
+          const st = await fs.stat(childPath);
+          files.push({ id: this.idOf(this.rel(childPath)), name: child.name, size: st.size, webUrl: `file://${childPath}`, createdAt: st.mtime.toISOString(), folder: entry.name });
         }
       } else if (entry.isFile()) {
-        files.push({ id: this.idOf(this.rel(full)), name: entry.name, size: (await fs.stat(full)).size, webUrl: `file://${full}`, folder: "" });
+        const st = await fs.stat(full);
+        files.push({ id: this.idOf(this.rel(full)), name: entry.name, size: st.size, webUrl: `file://${full}`, createdAt: st.mtime.toISOString(), folder: "" });
       }
     }
     return files;

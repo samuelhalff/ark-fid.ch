@@ -384,6 +384,7 @@ test("create → fill → submit → PDF → signed scan, frozen with its SHA-25
   assert.equal(summary.latestRevision.signed?.length, 1);
   assert.equal(summary.answers?.["a.name"], "Test SA");
   assert.ok(summary.documentItems.some((item) => item.files.some((file) => file.webUrl)), "staff receives links to files that still exist");
+  assert.ok(summary.documentItems.some((item) => item.files.some((file) => (file.size ?? 0) > 0 && !Number.isNaN(Date.parse(file.receivedAt || "")))), "each received file carries its size and receipt date");
 
   // Correction: a new revision; the signed one is untouched and its sessions stop working.
   await assert.rejects(staffAction(caseId, "reopen", { expectedRevision: 2 }, { idempotencyKey: "reopen-0001", payloadHash: "r" }), (e: unknown) => e instanceof KycError && e.code === "revision_conflict");
@@ -699,6 +700,7 @@ test("a correction keeps the documents already sent: they count, frozen with the
   const v2 = await clientCase({ caseId, revision: 2, emailHash: JEAN });
   assert.ok(v2.files.length > 0 && v2.files.every((x) => "carried" in x));
   assert.ok((await staffCase(caseId)).documentItems.some((item) => item.files.some((file) => file.webUrl)), "staff can open a carried document");
+  assert.ok((await staffCase(caseId)).documentItems.some((item) => item.files.some((file) => file.webUrl && file.receivedAt && file.size)), "a carried document keeps its size and date");
   const sent = await submit({ caseId, revision: 2, emailHash: JEAN }, { answers: pmOp });
   assert.equal(sent.state, "awaiting_signature", "no new upload needed");
   const missingDocument = r1.documents!.find((item) => item.files.length)!;
