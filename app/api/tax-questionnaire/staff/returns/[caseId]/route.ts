@@ -5,10 +5,11 @@ import { staffRoute } from "@/src/lib/tax-questionnaire/server/staff-http";
 /**
  * Cadence API for one case:
  *   GET  ?year=<taxYear> — the return (latest year by default) with its documents and answers;
- *   POST {action, taxYear?, email?, send?, extendedTo?, staffDocs?, clientRef?} (Idempotency-Key required):
+ *   POST {action, taxYear?, email?, send?, extendedTo?, staffDocs?, officeDocs?, clientRef?} (Idempotency-Key required):
  *        link (per case: new staff link; email changes the address; send mails it) |
  *        remind {taxYear} | exclude / include {taxYear} | deadline {taxYear, extendedTo} |
- *        staffDocs {taxYear, staffDocs: string[]} | attach {clientRef}.
+ *        staffDocs {taxYear, staffDocs: string[]} | officeDocs {taxYear, officeDocs: string[]} (document keys the
+ *        office holds: off the client's to-do, missing list and reminders) | attach {clientRef}.
  */
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

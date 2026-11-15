@@ -488,11 +488,12 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
     if (code) byCode.set(code, [...(byCode.get(code) || []), file]);
   }
   const used = new Set<string>();
+  const office = await officeDocs(storage, info);
   const docs: DocResult[] = checklist.map((item) => {
     const files = byCode.get(item.code) || [];
     files.forEach((f) => used.add(f.id));
     const claimed = statusInput[item.key];
-    const status: DocStatus = files.length ? "uploaded" : claimed === "later" ? "later" : claimed === "na" ? "na" : "missing";
+    const status: DocStatus = files.length ? "uploaded" : officeHeld(office, item, info) ? "office" : claimed === "later" ? "later" : claimed === "na" ? "na" : "missing";
     return { item, status, files };
   });
   const extras = accepted.filter((f) => !used.has(f.id));
@@ -705,13 +706,52 @@ async function autoStatus(record: ReturnRecord, missing: number) {
   if (status) await tracker.setStatus(record.trackerId, status);
 }
 
-/** Documents of the case now: files in SharePoint first, then the client's statuses. */
+/**
+ * Documents the office already holds (Cadence « Ajouter »: received on paper or by e-mail and filed
+ * there): per tax year, in that year's folder, written only by the staff action `officeDocs`. Such a
+ * document leaves the client's to-do, the missing list and the reminders; a file from the client wins.
+ */
+export const OFFICE_DOCS_FILE = "documents-bureau.json";
+export type OfficeDocs = Map<number, Set<string>>;
+
+export async function officeDocs(storage: TaxStorage, info: CaseInfo): Promise<OfficeDocs> {
+  const out: OfficeDocs = new Map();
+  for (const record of info.records) {
+    const raw = await storage.readFile(record.driveId, record.folderId, OFFICE_DOCS_FILE).catch(() => null);
+    if (!raw) continue;
+    try {
+      const parsed = JSON.parse(new TextDecoder().decode(raw)) as { keys?: unknown };
+      const keys = Array.isArray(parsed.keys) ? parsed.keys.filter((k): k is string => typeof k === "string") : [];
+      if (keys.length) out.set(record.taxYear, new Set(keys));
+    } catch {
+      // An unreadable file holds nothing: the document stays asked.
+    }
+  }
+  return out;
+}
+
+export function officeHeld(office: OfficeDocs, item: { key: string; year?: number }, info: CaseInfo): boolean {
+  return !!office.get(item.year ?? info.main.taxYear)?.has(item.key);
+}
+
+/** Every key the office holds, whatever the year (the client's form leaves them out). */
+export const officeKeys = (office: OfficeDocs) => [...new Set([...office.values()].flatMap((keys) => [...keys]))];
+
+/** Replaces the keys the office holds for one year of the case (the whole list: Cadence's receipts). */
+export async function setOfficeDocs(storage: TaxStorage, info: CaseInfo, taxYear: number, keys: string[]) {
+  const record = info.records.find((r) => r.taxYear === taxYear);
+  if (!record) throw new ServiceError("not_found", 404);
+  await storage.putFile(record.driveId, record.folderId, OFFICE_DOCS_FILE, new TextEncoder().encode(JSON.stringify({ keys })), "application/json");
+}
+
+/** Documents of the case now: files in SharePoint first, then the office's, then the client's statuses. */
 async function currentDocs(storage: TaxStorage, info: CaseInfo, draft: Draft): Promise<DocResult[]> {
   const files = await allClientFiles(storage, info);
+  const office = await officeDocs(storage, info);
   return checklistFor(draft.answers).map((item) => {
     const own = files.filter((f) => codeFromFileName(f.name) === item.code);
     const claimed = draft.docStatus[item.key];
-    const status: DocStatus = own.length ? "uploaded" : claimed === "later" ? "later" : claimed === "na" ? "na" : "missing";
+    const status: DocStatus = own.length ? "uploaded" : officeHeld(office, item, info) ? "office" : claimed === "later" ? "later" : claimed === "na" ? "na" : "missing";
     return { item, status, files: own };
   });
 }
@@ -943,8 +983,9 @@ export async function missingDocuments(record: ReturnRecord, language: QfLocale)
   if (!draft) return [];
   const files = await allClientFiles(storage, info);
   const codes = new Set(files.map((f) => codeFromFileName(f.name)).filter(Boolean));
+  const office = await officeDocs(storage, info);
   return checklistFor(pruneHidden(draft.answers))
-    .filter((item) => !codes.has(item.code) && draft.docStatus[item.key] !== "na")
+    .filter((item) => !codes.has(item.code) && draft.docStatus[item.key] !== "na" && !officeHeld(office, item, info))
     .map((item) => item.label[language]);
 }
 

@@ -142,7 +142,12 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
   stepRef.current = step;
   const L = (text: Parameters<typeof interpolate>[0]) => interpolate(text, locale, answers);
   const pruned = useMemo(() => pruneHidden(answers), [answers]);
-  const checklist = useMemo(() => checklistFor(answers), [answers]);
+  // Documents the office already holds (received another way) are not asked of the client.
+  const officeHeld = caseData?.officeDocs;
+  const checklist = useMemo(() => {
+    const held = new Set(officeHeld || []);
+    return checklistFor(answers).filter((item) => !held.has(item.key));
+  }, [answers, officeHeld]);
   const files = useMemo(() => caseData?.files || [], [caseData]);
 
   // ---- loading: magic link in the fragment, else an existing session ----------------------------

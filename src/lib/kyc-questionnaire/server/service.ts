@@ -124,6 +124,8 @@ export interface CaseRecord {
   closedAt?: string;
   /** Document keys Ark took off this case's list (Cadence): never asked of the client, never missing. */
   skippedDocuments?: string[];
+  /** Document keys the office already holds (Cadence « Ajouter »): not asked of the client, never missing. */
+  officeDocuments?: string[];
   revisions: RevisionRecord[];
   /** Staff requests already applied: Idempotency-Key → payload hash and result. */
   idempotency: Record<string, { hash: string; at: string; revision: number }>;
@@ -316,10 +318,10 @@ export interface CreateCaseInput {
 }
 
 /** A list of document keys from Cadence: at most 100 distinct non-empty strings of 120 characters. */
-function skippedKeys(raw: unknown): string[] {
+function skippedKeys(raw: unknown, field = "skippedDocuments"): string[] {
   if (raw === undefined || raw === null) return [];
   if (!Array.isArray(raw) || raw.length > 100 || raw.some((key) => typeof key !== "string" || !key.trim() || key.length > 120)) {
-    throw new KycError("invalid_request", 400, { field: "skippedDocuments" });
+    throw new KycError("invalid_request", 400, { field });
   }
   return [...new Set(raw as string[])];
 }
@@ -455,7 +457,7 @@ const notifyVia = (notify: unknown): LinkReplacedVia => (notify === "email" ? "e
 export async function staffAction(
   caseId: string,
   action: StaffAction,
-  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown; signers?: unknown; by?: unknown; ttlMinutes?: unknown; overwrite?: unknown; skippedDocuments?: unknown; notify?: unknown },
+  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown; signers?: unknown; by?: unknown; ttlMinutes?: unknown; overwrite?: unknown; skippedDocuments?: unknown; officeDocuments?: unknown; notify?: unknown },
   meta: { idempotencyKey: string; payloadHash: string },
 ): Promise<{ summary: StaffSummary; link?: LinkResult; assist?: AssistResult; replayed: boolean }> {
   return locked(caseId, async () => {
@@ -508,10 +510,23 @@ export async function staffAction(
     if (action === "documents") {
       // The documents Ark took off the list (Sam, 2026-11-13: « certains docs ne sont pas pertinents »):
       // the whole list, replaced. Not asked of the client from now on, never counted missing.
-      if (!Array.isArray(body.skippedDocuments)) throw new KycError("invalid_request", 400, { field: "skippedDocuments" });
-      const keys = skippedKeys(body.skippedDocuments);
-      if (keys.length) record.skippedDocuments = keys;
-      else delete record.skippedDocuments;
+      // `officeDocuments`: the documents the office already holds (Cadence « Ajouter »), the whole list too.
+      // Each list is replaced only when sent; at least one of them.
+      const sentSkipped = body.skippedDocuments !== undefined;
+      const sentOffice = body.officeDocuments !== undefined;
+      if (!sentSkipped && !sentOffice) throw new KycError("invalid_request", 400, { field: "skippedDocuments" });
+      if (sentSkipped && !Array.isArray(body.skippedDocuments)) throw new KycError("invalid_request", 400, { field: "skippedDocuments" });
+      if (sentOffice && !Array.isArray(body.officeDocuments)) throw new KycError("invalid_request", 400, { field: "officeDocuments" });
+      const keys = sentSkipped ? skippedKeys(body.skippedDocuments) : null;
+      const office = sentOffice ? skippedKeys(body.officeDocuments, "officeDocuments") : null;
+      if (keys) {
+        if (keys.length) record.skippedDocuments = keys;
+        else delete record.skippedDocuments;
+      }
+      if (office) {
+        if (office.length) record.officeDocuments = office;
+        else delete record.officeDocuments;
+      }
       remember(rev.n);
       await saveCase(record);
       await track(record, rev);
@@ -698,6 +713,7 @@ export interface StaffSummary {
   updatedAt: string;
   folder: { driveId: string; itemId: string; webUrl: string };
   skippedDocuments: string[];
+  officeDocuments: string[];
   actionRequired: "await_client" | "review_route" | "await_signature" | "review_kyc" | null;
   latestRevision: {
     n: number;
@@ -745,6 +761,7 @@ export function summarize(record: CaseRecord): StaffSummary {
     updatedAt: record.updatedAt,
     folder: { driveId: record.driveId, itemId: record.folders ? record.folders.piecesFolderId : record.folderId, webUrl: record.folderUrl },
     skippedDocuments: record.skippedDocuments || [],
+    officeDocuments: record.officeDocuments || [],
     actionRequired: action,
     latestRevision: {
       n: rev.n,
@@ -858,7 +875,7 @@ export async function staffCase(caseId: string): Promise<StaffSummary & {
   }
   // Documents an earlier version of the form asked for (e.g. proof of listing) stay listed for
   // the cases that hold them, under the label the client saw.
-  const listed = documentList(current, record.skippedDocuments);
+  const listed = documentList(current, record.skippedDocuments, record.officeDocuments);
   const known = new Set(listed.map((item) => item.key));
   const sentLabel = (key: string) => submission?.documents?.find((entry) => entry.key === key)?.label;
   for (const key of new Set([...(rev.documents || []).map((entry) => entry.key), ...Object.keys(rev.carried || {})])) {
@@ -1045,6 +1062,7 @@ export async function clientCase(session: Session) {
     displayName: record.displayName,
     prefilledIds: upgradeIds(rev.prefilledIds || []),
     skippedDocuments: record.skippedDocuments || [],
+    officeDocuments: record.officeDocuments || [],
     draft: rev.state === "open" && hasDraft ? draft : null,
     answers: submitted || draft.answers || { route: record.route },
     files: [...(await docFiles(record, rev)), ...carriedFiles(rev)],
@@ -1386,7 +1404,7 @@ export async function createUpload(session: Session, body: { kind?: unknown; doc
     }
     if (rev.state !== "open") throw new KycError("not_editable", 409);
     const draft = await readDraft(record, rev);
-    const items = documentsFor(pruneHidden({ ...(draft?.answers || {}), route: record.route }), record.skippedDocuments);
+    const items = documentsFor(pruneHidden({ ...(draft?.answers || {}), route: record.route }), record.skippedDocuments, record.officeDocuments);
     const item = items.find((i) => i.key === str(body.docKey));
     if (!item) throw new KycError("unknown_document", 400);
     if (items.filter((i) => i.code === item.code).length > 1) throw new KycError("unknown_document", 400);
@@ -1460,7 +1478,7 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
     const suspicious = await removeSuspicious(record, rev);
     if (suspicious.length) throw new KycError("file_rejected", 422, { files: suspicious });
     const files = await docFiles(record, rev);
-    const items = documentsFor(answers, record.skippedDocuments);
+    const items = documentsFor(answers, record.skippedDocuments, record.officeDocuments);
     // Two documents sharing a code would let one file count for both (row ids are the client's).
     if (new Set(items.map((i) => i.code)).size !== items.length) throw new KycError("invalid_answers", 422, { fields: [] });
     // Real sizes (the size declared when the upload started is the browser's word).

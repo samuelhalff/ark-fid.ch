@@ -933,6 +933,22 @@ test("documents taken off by Ark: sent at creation, replaced by the documents ac
   assert.equal(staff.documentItems.find((d) => d.key === "pm.financials")?.withheld, "removed");
   const cleared = await staffAction(caseId, "documents", { expectedRevision: 1, skippedDocuments: [] }, { idempotencyKey: "docs-0003", payloadHash: "d2" });
   assert.deepEqual(cleared.summary.skippedDocuments, []);
+  // The office holds one (« Ajouter »): off the client's list, listed for Ark as office; the taken-off list is kept.
+  await staffAction(caseId, "documents", { expectedRevision: 1, skippedDocuments: ["pm.shareholders"] }, { idempotencyKey: "docs-0004", payloadHash: "d3" });
+  await assert.rejects(staffAction(caseId, "documents", { expectedRevision: 1, officeDocuments: "pm.financials" }, { idempotencyKey: "docs-0005", payloadHash: "d4" }), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
+  const held = await staffAction(caseId, "documents", { expectedRevision: 1, officeDocuments: ["pm.financials"] }, { idempotencyKey: "docs-0006", payloadHash: "d5" });
+  assert.deepEqual(held.summary.officeDocuments, ["pm.financials"]);
+  assert.deepEqual(held.summary.skippedDocuments, ["pm.shareholders"], "a list not sent is kept");
+  staff = await staffCase(caseId);
+  assert.equal(staff.documentItems.find((d) => d.key === "pm.financials")?.withheld, "office");
+  const asked = await clientCase({ caseId, revision: 1, emailHash: JEAN });
+  assert.deepEqual(asked.officeDocuments, ["pm.financials"]);
+  await assert.rejects(
+    createUpload({ caseId, revision: 1, emailHash: JEAN }, { kind: "doc", docKey: "pm.financials", fileName: "a.pdf", size: 1000, mime: "application/pdf" }),
+    (e: unknown) => e instanceof KycError && e.code === "unknown_document",
+  );
+  const back = await staffAction(caseId, "documents", { expectedRevision: 1, officeDocuments: [] }, { idempotencyKey: "docs-0007", payloadHash: "d6" });
+  assert.deepEqual(back.summary.officeDocuments, []);
 });
 
 test("a retired question is never prefilled; an operating company starts with « its business » ticked", async () => {

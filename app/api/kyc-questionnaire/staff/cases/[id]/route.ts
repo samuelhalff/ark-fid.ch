@@ -6,7 +6,8 @@ import { staffAction, staffCase, type StaffAction } from "@/src/lib/kyc-question
  *   GET  — the case, with the submitted answers of the latest revision;
  *   POST {action: "link" | "reopen" | "close" | "signers" | "prefill" | "assist" | "documents", expectedRevision (optional for assist),
  *        email? + notify? ("email" when Cadence e-mails the new link) (link), signers? [{id, email}], prefill? (+ overwrite?, by?), route?, by + ttlMinutes? (assist),
- *        skippedDocuments [keys] (documents: the keys Ark took off the client's list)}
+ *        skippedDocuments [keys] and/or officeDocuments [keys] (documents: the keys Ark took off the client's list /
+ *        the keys the office already holds; each list replaced only when sent)}
  *        (Idempotency-Key required).
  */
 export const runtime = "nodejs";

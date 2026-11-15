@@ -12,7 +12,7 @@ import { emailHash, issueLink, issueLinkWithExpiry, RESUME_LINK_TTL_MS } from ".
 import { inviteMember, isClosed, isPlanned, lang, MISSING_STOP_STATUSES, nextMailAt, plannedFor, previousReturn, sendMissingReminder, sendReminder, type CampaignDeps, type CampaignLedger } from "./campaign";
 import { linkMail } from "./mails";
 import type { ReturnRecord } from "./ports";
-import { caseDocuments, clientKey as computeClientKey, createInvitedReturn, forgetCase, getCase, missingDocuments, refreshMissing, ServiceError } from "./service";
+import { caseDocuments, clientKey as computeClientKey, createInvitedReturn, forgetCase, getCase, missingDocuments, refreshMissing, ServiceError, setOfficeDocs } from "./service";
 import { normalise, sharePointPorts } from "./sharepoint-registry";
 import type { TaxStorage } from "./storage";
 
@@ -333,7 +333,7 @@ export async function changes(cursor: string, limit: number, deps: Pick<StaffDep
 
 // ---- one return --------------------------------------------------------------------------------------
 
-export type StaffDocStatus = "received" | "later" | "na" | "missing";
+export type StaffDocStatus = "received" | "office" | "later" | "na" | "missing";
 
 export async function staffReturn(caseId: string, year: unknown, deps: Pick<StaffDeps, "storage">) {
   const rows = await caseRows(caseId);
@@ -354,7 +354,7 @@ export async function staffReturn(caseId: string, year: unknown, deps: Pick<Staf
 
 // ---- actions -----------------------------------------------------------------------------------------
 
-export const STAFF_ACTIONS = ["link", "remind", "exclude", "include", "deadline", "staffDocs", "attach"] as const;
+export const STAFF_ACTIONS = ["link", "remind", "exclude", "include", "deadline", "staffDocs", "officeDocs", "attach"] as const;
 export type StaffAction = (typeof STAFF_ACTIONS)[number];
 
 export interface ActionBody {
@@ -365,6 +365,8 @@ export interface ActionBody {
   notify?: unknown;
   extendedTo?: unknown;
   staffDocs?: unknown;
+  /** `officeDocs`: the document keys the office holds for that year (the whole list, replaced). */
+  officeDocs?: unknown;
   clientRef?: unknown;
 }
 
@@ -395,6 +397,15 @@ export async function staffAction(caseId: string, action: StaffAction, body: Act
       if (!Array.isArray(body.staffDocs) || body.staffDocs.some((d) => typeof d !== "string")) throw new ServiceError("invalid_staff_docs", 400);
       const docs = [...new Set((body.staffDocs as string[]).map((d) => d.replace(/\s+/g, " ").trim().slice(0, 200)).filter(Boolean))].slice(0, 30);
       await tracker.setStaffFields(row.trackerId, { staffDocs: docs.join("\n") });
+    } else if (action === "officeDocs") {
+      const raw = body.officeDocs;
+      if (!Array.isArray(raw) || raw.length > 100 || raw.some((k) => typeof k !== "string" || !k.trim() || k.length > 120)) throw new ServiceError("invalid_office_docs", 400);
+      // Idempotent by nature (the whole list); a submitted return's missing list, counts and status follow.
+      forgetCase(caseId);
+      const info = await getCase(caseId);
+      await setOfficeDocs(deps.storage, info, row.taxYear, [...new Set((raw as string[]).map((k) => k.trim()))]);
+      if (row.state === "submitted") await refreshMissing(deps.storage, info);
+      forgetCase(caseId);
     }
     return { summary: summarize(await reread(row)), replayed: false };
   });

@@ -42,21 +42,25 @@ const SWISS_UID = /^CHE[-.\s]?\d{3}[.\s]?\d{3}[.\s]?\d{3}$/i;
  */
 export const swissCompany = (a: Answers): boolean => isPM(a) && SWISS_UID.test(String(a["a.uid"] || "").trim());
 
-/** Why a document of the list is not asked of the client: Ark took it off this case's list. */
-export type Withheld = "removed";
+/**
+ * Why a document of the list is not asked of the client: Ark took it off this case's list
+ * (`removed`), or the office already holds it, received another way (`office`, Cadence « Ajouter »).
+ */
+export type Withheld = "removed" | "office";
 
 /**
  * Every document the route and answers call for, each marked `withheld` when Ark took it off this
- * case's list. `skipped`: those keys (Cadence).
+ * case's list (`skipped`) or holds it (`office`); both are Cadence's keys. Taken off wins.
  */
-export function documentList(a: Answers, skipped: readonly string[] = []): (DocItem & { withheld: Withheld | null })[] {
+export function documentList(a: Answers, skipped: readonly string[] = [], office: readonly string[] = []): (DocItem & { withheld: Withheld | null })[] {
   const removed = new Set(skipped);
-  return allDocuments(a).map((doc) => ({ ...doc, withheld: removed.has(doc.key) ? "removed" : null }));
+  const held = new Set(office);
+  return allDocuments(a).map((doc) => ({ ...doc, withheld: removed.has(doc.key) ? "removed" : held.has(doc.key) ? "office" : null }));
 }
 
-/** The documents asked of the client: the list without what Ark took off. */
-export function documentsFor(a: Answers, skipped: readonly string[] = []): DocItem[] {
-  return documentList(a, skipped).filter((doc) => doc.withheld === null).map(({ withheld: _w, ...doc }) => doc);
+/** The documents asked of the client: the list without what Ark took off or already holds. */
+export function documentsFor(a: Answers, skipped: readonly string[] = [], office: readonly string[] = []): DocItem[] {
+  return documentList(a, skipped, office).filter((doc) => doc.withheld === null).map(({ withheld: _w, ...doc }) => doc);
 }
 const personLabel = (row: Row) => [String(row.lastName || "").toLocaleUpperCase("fr-CH"), String(row.firstName || "")].join(" ").trim();
 const rows = (a: Answers, id: string): Row[] => (Array.isArray(a[id]) ? (a[id] as Row[]) : []);

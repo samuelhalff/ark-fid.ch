@@ -38,6 +38,7 @@ export interface SubmissionRecord {
 const LANG_FR: Record<QfLocale, string> = { fr: "Français", en: "Anglais", de: "Allemand" };
 export const STATUS_FR: Record<DocStatus, string> = {
   uploaded: "Reçu",
+  office: "Reçu par Ark",
   later: "Envoi ultérieur annoncé",
   na: "Non applicable (selon le client)",
   missing: "Non reçu",

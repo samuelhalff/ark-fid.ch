@@ -52,6 +52,7 @@ export interface CasePayload {
   prefilledIds: string[];
   /** Document keys Ark took off this case's list: not asked here (absent on a signer's view). */
   skippedDocuments?: string[];
+  officeDocuments?: string[];
   draft: { savedAt: string; stepId: string; answers: Answers; docDeclared: Record<string, DocDeclared>; staffPrefillVersion?: number } | null;
   /** Submitted answers once sent, else the draft's. */
   answers: Answers;

@@ -11,6 +11,7 @@ process.env.TAX_QF_API_KEYS = "cadence:tax-secret-tax-secret-tax-secret-0123456"
 process.env.KYC_QF_API_KEYS = "cadence:kyc-secret-kyc-secret-kyc-secret-0123456";
 
 const { getStorage } = await import("./server/storage.ts");
+const service = await import("./server/service.ts");
 const { memoryPorts, setPortsForTests } = await import("./server/sharepoint-registry.ts");
 const staff = await import("./server/staff.ts");
 const access = await import("./server/access.ts");
@@ -245,7 +246,7 @@ test("GET one return: documents with statuses and the answers", async () => {
   const one = await staff.staffReturn(created.summary.caseId, String(YEAR), deps);
   assert.equal(one.caseId, created.summary.caseId);
   assert.ok(Array.isArray(one.documents));
-  assert.ok(one.documents.every((d) => ["received", "later", "na", "missing"].includes(d.status)));
+  assert.ok(one.documents.every((d) => ["received", "office", "later", "na", "missing"].includes(d.status)));
   assert.equal(typeof one.answers, "object");
   await assert.rejects(staff.staffReturn("nope00000000", undefined, deps), /not_found/);
 });
@@ -299,4 +300,34 @@ test("next year's return carries clientRef and spouseRef", async () => {
   const next = await deps.campaign.createInvitedReturn({ clientKey: "ck-carry", email: p.email, name: "CARRY Alex", language: "fr", taxYear: YEAR, prefillFrom: prev });
   assert.equal(next.clientRef, "res.partner:7");
   assert.equal(next.spouseRef, "res.partner:8");
+});
+
+test("officeDocs: a document the office holds leaves the missing list and the reminder, stays listed for Cadence as office", async () => {
+  const created = await staff.createReturn({ ...person(), sendInvitation: false }, { idempotencyKey: "create-key-office" }, deps);
+  const caseId = created.summary.caseId;
+  const row = rows(caseId)[0];
+  const answers = { "start.arkDocs": [{ _id: "ark0001", label: "Relevé UBS" }, { _id: "ark0002", label: "Attestation 3a" }] };
+  await storage.putFile(row.driveId, row.folderId, service.DRAFT_FILE, new TextEncoder().encode(JSON.stringify({ version: 1, savedAt: "", stepId: "start", answers, docStatus: {}, locale: "fr" })), "application/json");
+  service.forgetCase(caseId);
+  let one = await staff.staffReturn(caseId, String(YEAR), deps);
+  assert.equal(one.documents.length, 2);
+  const ubs = one.documents.find((d) => d.label === "Relevé UBS")!;
+  assert.deepEqual(await service.missingDocuments(row, "fr"), ["Relevé UBS", "Attestation 3a"]);
+
+  await assert.rejects(staff.staffAction(caseId, "officeDocs", { taxYear: YEAR, officeDocs: "x" }, meta("office-0002"), deps), /invalid_office_docs/);
+  await staff.staffAction(caseId, "officeDocs", { taxYear: YEAR, officeDocs: [ubs.key, ubs.key] }, meta("office-0003"), deps);
+  service.forgetCase(caseId);
+  one = await staff.staffReturn(caseId, String(YEAR), deps);
+  assert.equal(one.documents.find((d) => d.key === ubs.key)?.status, "office", "still listed for Cadence, held by the office");
+  assert.deepEqual(await service.missingDocuments(rows(caseId)[0], "fr"), ["Attestation 3a"], "the reminder stops asking");
+  const info = await service.getCase(caseId);
+  assert.deepEqual(service.officeKeys(await service.officeDocs(storage, info)), [ubs.key], "the client's form leaves it out");
+
+  // Submitted: the missing list and the counts follow at once.
+  await mem.ports.tracker.upsert({ ...rows(caseId)[0], state: "submitted", submittedAt: new Date().toISOString() });
+  await staff.staffAction(caseId, "officeDocs", { taxYear: YEAR, officeDocs: [ubs.key] }, meta("office-0004"), deps);
+  assert.equal(rows(caseId)[0].missingDocs, "Attestation 3a");
+  // The whole list, replaced: an empty list asks for it again.
+  await staff.staffAction(caseId, "officeDocs", { taxYear: YEAR, officeDocs: [] }, meta("office-0005"), deps);
+  assert.equal(rows(caseId)[0].missingDocs, "Relevé UBS\nAttestation 3a");
 });

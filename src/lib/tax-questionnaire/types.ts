@@ -168,4 +168,5 @@ export interface DocItem {
   year?: number;
 }
 
-export type DocStatus = "uploaded" | "later" | "na" | "missing";
+/** "office": the office received it another way (Cadence « Ajouter »); never asked of the client. */
+export type DocStatus = "uploaded" | "office" | "later" | "na" | "missing";

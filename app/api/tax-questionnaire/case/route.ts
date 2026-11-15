@@ -10,6 +10,8 @@ import {
   listUploads,
   notifyAdditions,
   syncStaffDocs,
+  officeDocs,
+  officeKeys,
   readDraft,
   recordFeedback,
   removeUpload,
@@ -38,6 +40,8 @@ export async function GET(request: Request) {
     // Staff "Documents à demander" lines join the client's to-do (and the reminders).
     const draft = (await syncStaffDocs(storage, info).catch(() => null)) || (await readDraft(storage, info));
     const files = await listUploads(storage, info);
+    // Documents the office already holds leave the client's list (and the reminders).
+    const office = officeKeys(await officeDocs(storage, info).catch(() => new Map()));
     const answers = draft?.answers || {};
     return json({
       caseId: info.caseId,
@@ -49,6 +53,7 @@ export async function GET(request: Request) {
       years: info.records.map((r) => r.taxYear),
       draft,
       files,
+      officeDocs: office,
       deadlines: deadlinesFor(answers, { extendedTo: toDdMmYyyy(info.main.extendedTo) }),
     });
   });
