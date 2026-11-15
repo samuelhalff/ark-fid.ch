@@ -1767,10 +1767,6 @@
         {
           "labelKey": "Declaración de salarios - Oficina Federal de Seguros Sociales (OFAS)",
           "url": "https://www.eak.admin.ch/fr/decompte-des-salaires-et-declaration-de-salaires"
-        },
-        {
-          "labelKey": "ELM: Norma suiza sobre salarios (Oficina Federal de Estadística, OFS)",
-          "url": "https://www.bfs.admin.ch/fr/livraisons-donnees-ide"
         }
       ],
       "category": "payroll",
@@ -2101,10 +2097,6 @@
       "author": "Ark Fiduciaire",
       "date": "2026-05-19",
       "references": [
-        {
-          "labelKey": "Comunicación OFRC 1/24 - Práctica del Registro Mercantil sobre el derecho revisado de las SA",
-          "url": "https://www.vd.ch/fileadmin/user_upload/themes/economie_emploi/entreprises/registre_commerce/fichiers_pdf/Communication_OFRC_1_2024_FR.pdf"
-        },
         {
           "labelKey": "Ley sobre el blanqueo de dinero: obligaciones complementarias (OFJ)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"

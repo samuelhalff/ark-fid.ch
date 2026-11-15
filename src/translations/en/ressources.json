@@ -44,8 +44,8 @@
           "url": "https://dam-api.bfs.admin.ch/hub/api/dam/assets/36248797/master"
         },
         {
-          "labelKey": "FSO — questions and answers on the cantonal GDP revision (PDF, French)",
-          "url": "https://dam-api.bfs.admin.ch/hub/api/dam/assets/36931989/master"
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ]
     },
@@ -1811,10 +1811,6 @@
         {
           "labelKey": "Salary Declaration – Federal Social Insurance Office (FSIO)",
           "url": "https://www.eak.admin.ch/fr/decompte-des-salaires-et-declaration-de-salaires"
-        },
-        {
-          "labelKey": "ELM: Swiss Salary Standard (Federal Statistical Office, FSO)",
-          "url": "https://www.bfs.admin.ch/fr/livraisons-donnees-ide"
         }
       ],
       "category": "payroll",
@@ -2145,10 +2141,6 @@
       "author": "Ark Fiduciaire",
       "date": "2026-05-19",
       "references": [
-        {
-          "labelKey": "OFRC Communication 1/24 – Commercial Registry practice on revised company law",
-          "url": "https://www.vd.ch/fileadmin/user_upload/themes/economie_emploi/entreprises/registre_commerce/fichiers_pdf/Communication_OFRC_1_2024_FR.pdf"
-        },
         {
           "labelKey": "Anti-Money Laundering Act: additional obligations (FOJ)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
@@ -3525,10 +3517,6 @@
         {
           "labelKey": "Commercial Register Ordinance (CRO, SR 221.411) – Fedlex",
           "url": "https://www.fedlex.admin.ch/eli/cc/2007/686/en"
-        },
-        {
-          "labelKey": "Code of Obligations (CO, SR 220) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/en"
         }
       ],
       "series": "sogc-creations-romandie",
@@ -3561,8 +3549,8 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/11/529_488_529/en"
         },
         {
-          "labelKey": "Code of Obligations (CO, SR 220) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/en"
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "series": "sogc-faillites-romandie",
@@ -3608,7 +3596,7 @@
         },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr/"
+          "url": "https://www.swissdec.ch/fr"
         }
       ]
     }

@@ -44,8 +44,8 @@
           "url": "https://dam-api.bfs.admin.ch/hub/api/dam/assets/36248797/master"
         },
         {
-          "labelKey": "OFS — questions et réponses sur la révision des PIB cantonaux (PDF)",
-          "url": "https://dam-api.bfs.admin.ch/hub/api/dam/assets/36931989/master"
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ]
     },
@@ -1801,10 +1801,6 @@
         {
           "labelKey": "Déclaration des salaires - Office fédéral des assurances sociales (OFAS)",
           "url": "https://www.eak.admin.ch/fr/decompte-des-salaires-et-declaration-de-salaires"
-        },
-        {
-          "labelKey": "ELM : La norme suisse en matière de salaire (Office fédéral de la statistique, OFS)",
-          "url": "https://www.bfs.admin.ch/fr/livraisons-donnees-ide"
         }
       ],
       "category": "payroll",
@@ -2135,10 +2131,6 @@
       "author": "Ark Fiduciaire",
       "date": "2026-05-19",
       "references": [
-        {
-          "labelKey": "Communication OFRC 1/24 - Pratique du Registre du commerce sur le droit révisé des SA",
-          "url": "https://www.vd.ch/fileadmin/user_upload/themes/economie_emploi/entreprises/registre_commerce/fichiers_pdf/Communication_OFRC_1_2024_FR.pdf"
-        },
         {
           "labelKey": "Loi sur le blanchiment d’argent : obligations complémentaires (OFJ)",
           "url": "https://www.fedlex.admin.ch/eli/cc/1998/892_892_892/fr"
@@ -3512,10 +3504,6 @@
         {
           "labelKey": "Ordonnance sur le registre du commerce (ORC, RS 221.411) – Fedlex",
           "url": "https://www.fedlex.admin.ch/eli/cc/2007/686/fr"
-        },
-        {
-          "labelKey": "Code des obligations (CO, RS 220) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
         }
       ],
       "series": "sogc-creations-romandie",
@@ -3548,8 +3536,8 @@
           "url": "https://www.fedlex.admin.ch/eli/cc/11/529_488_529/fr"
         },
         {
-          "labelKey": "Code des obligations (CO, RS 220) – Fedlex",
-          "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
+          "labelKey": "Portail PME de la Confédération",
+          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "series": "sogc-faillites-romandie",
@@ -3595,7 +3583,7 @@
         },
         {
           "labelKey": "Swissdec - Standard de transmission salariale",
-          "url": "https://www.swissdec.ch/fr/"
+          "url": "https://www.swissdec.ch/fr"
         }
       ]
     }
