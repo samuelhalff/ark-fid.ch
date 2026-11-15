@@ -27,7 +27,11 @@ import { ApiError, api, newSubmitKey, PDF_URL, type CaseFile, type CasePayload }
 import { DocumentsStep, errorText, KycFileRows, PickFiles, SIGNED_ACCEPT, useKycUploads } from "./DocumentsStep";
 import { collectIssues, focusField, fromForm, issuesFromKeys, stepOfKey, stepSchema, toForm, type FormValues, type Issue } from "./form-model";
 import { StepView } from "./StepView";
-import { SubScreenContext } from "./SubScreen";
+import { IssueLinks, MissingAnswers, missingLabel } from "@/src/components/questionnaire/IssueList";
+import { ProgressBar } from "@/src/components/questionnaire/Progress";
+import { kycFormKit } from "./kit";
+import { KitProvider } from "@/src/components/questionnaire/kit";
+import { SubScreenContext } from "@/src/components/questionnaire/SubScreen";
 import { SignaturePad } from "./SignaturePad";
 
 /**
@@ -85,6 +89,7 @@ const isCertifiedId = (item: DocItem) => item.key === "pp.id" || item.key.starts
 
 export default function KycQuestionnaire({ locale: initialLocale }: { locale: KycLocale }) {
   const [locale, setLocale] = useState<KycLocale>(initialLocale);
+  const kit = useMemo(() => kycFormKit(locale), [locale]);
   const userLocale = useRef(false);
   const [phase, setPhase] = useState<Phase>("loading");
   const [message, setMessage] = useState<Message | null>(null);
@@ -552,7 +557,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
           ...missingDocs().map((item) => ({ name: `doc:${item.key}`, label: L(item.label), stepId: docsStepId, onGo: () => { goTo(docsStepId); fail([{ name: `doc:${item.key}`, label: L(item.label) }], err("missing_documents", locale)); } })),
         ]
       : [];
-  const missingLabel = missingList.length === 1 ? UI.missingOne[locale] : UI.missingMany[locale].replace("{n}", String(missingList.length));
+  const missingText = missingLabel(kit.strings, missingList.length);
   const submit = async () => {
     setNotice(null);
     // Whole form first (same validator as the server), then the documents.
@@ -633,17 +638,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
     <Alert variant={notice.tone === "error" ? "destructive" : "default"} aria-live="assertive">
       <AlertDescription>
         <p>{notice.text}</p>
-        {notice.tone === "error" && issues.length ? (
-          <ul className="mt-2 list-disc pl-5">
-            {issues.map((issue) => (
-              <li key={issue.name}>
-                <button type="button" className="text-left underline underline-offset-2" onClick={() => focusField(issue.name)}>
-                  {issue.label}
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : null}
+        {notice.tone === "error" ? <IssueLinks issues={issues} /> : null}
         {notice.list?.length ? (
           <ul className="mt-2 list-disc pl-5">
             {notice.list.map((name) => (
@@ -873,6 +868,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   const started = step.id !== "start";
 
   return (
+    <KitProvider kit={kit}>
     <Form {...form}>
       <form
         className="flex flex-col gap-8"
@@ -885,18 +881,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
         {header}
         {started && !subScreen ? (
           // The numbered screens alone say where the client is (and take them back); the save time beside them.
-          <div className="sticky top-16 z-20 -mx-5 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 bg-background/95 px-5 py-2 backdrop-blur sm:mx-0 sm:rounded-xl sm:px-0">
-            <StepRail steps={counted.concat(steps.filter((s) => s.special === "review"))} current={step.id} locale={locale} onGo={(id) => goTo(id)} />
-            <span className="text-xs text-muted-foreground" aria-live="polite">
-                {save.state === "saving"
-                  ? UI.saving[locale]
-                  : save.state === "saved" && save.at
-                    ? UI.savedAt[locale].replace("{time}", new Date(save.at).toLocaleTimeString(locale === "fr" ? "fr-CH" : "en-GB", { hour: "2-digit", minute: "2-digit" }))
-                    : save.state === "failed"
-                      ? UI.saveFailed[locale]
-                      : ""}
-              </span>
-          </div>
+          <ProgressBar steps={counted.concat(steps.filter((s) => s.special === "review"))} current={step.id} onGo={(id) => goTo(id)} save={save} answers={answers} />
         ) : null}
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
@@ -931,27 +916,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
                 />
               ) : special === "review" ? (
                 <>
-                  {missingList.length ? (
-                    <Alert variant="destructive">
-                      <WarningCircle className="size-4" />
-                      <AlertDescription>
-                        <p className="font-medium">{missingLabel}</p>
-                        <ul className="mt-2 flex flex-col gap-1">
-                          {missingList.map((item) => {
-                            const where = stepById(item.stepId);
-                            return (
-                              <li key={item.name}>
-                                <button type="button" className="min-h-11 py-1 text-left underline underline-offset-2 [overflow-wrap:anywhere]" onClick={item.onGo}>
-                                  {where ? `${L(where.title)} › ` : ""}
-                                  {item.label}
-                                </button>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </AlertDescription>
-                    </Alert>
-                  ) : null}
+                  <MissingAnswers items={missingList} where={(id) => { const where = stepById(id); return where ? L(where.title) : null; }} onGo={(item) => (item as (typeof missingList)[number]).onGo()} />
                   <ReviewSummary answers={pruned} items={items} files={files} docDeclared={docDeclared} locale={locale} onEdit={goTo} />
                 </>
               ) : (
@@ -975,7 +940,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
               </Button>
               <Button type="submit" disabled={busy || (special === "review" && (uploading || missingList.length > 0))}>
                 {busy ? <CircleNotch className="size-4 animate-spin" /> : null}
-                {special === "review" ? (busy ? UI.submitting[locale] : missingList.length ? missingLabel : mismatch ? UI.submitForReview[locale] : UI.submit[locale]) : UI.next[locale]}
+                {special === "review" ? (busy ? UI.submitting[locale] : missingList.length ? missingText : mismatch ? UI.submitForReview[locale] : UI.submit[locale]) : UI.next[locale]}
                 {special !== "review" ? <ArrowRight className="size-4" /> : null}
               </Button>
             </CardFooter>
@@ -998,39 +963,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
         </div>
       </form>
     </Form>
-  );
-}
-
-/** Progress by screen: the counted screens numbered 1…n, then the review (✓); earlier screens clickable. */
-function StepRail({ steps, current, locale, onGo }: { steps: StepDef[]; current: string; locale: KycLocale; onGo: (id: string) => void }) {
-  const index = steps.findIndex((s) => s.id === current);
-  return (
-    <ol className="flex flex-wrap items-center gap-1.5">
-      {steps.map((s, i) => {
-        const title = label(s.title, locale);
-        const text = s.special === "review" ? "✓" : String(i + 1);
-        const current = i === index;
-        const done = i < index;
-        const className = cn(
-          "flex size-7 items-center justify-center rounded-full text-xs font-semibold",
-          current ? "bg-primary text-primary-foreground" : done ? "bg-surface-warm text-foreground dark:bg-card" : "text-muted-foreground shadow-[inset_0_0_0_1px_rgba(20,16,14,0.16)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.2)]",
-        );
-        const name = s.special === "review" ? title : `${UI.stepOf[locale].replace("{n}", String(i + 1)).replace("{total}", String(steps.length - 1))}${sep(locale)}${title}`;
-        return (
-          <li key={s.id}>
-            {done ? (
-              <button type="button" className={cn(className, "hover:ring-2 hover:ring-ring/50")} onClick={() => onGo(s.id)} aria-label={name} title={title}>
-                {text}
-              </button>
-            ) : (
-              <span className={className} aria-current={current ? "step" : undefined} aria-label={name} title={title}>
-                {text}
-              </span>
-            )}
-          </li>
-        );
-      })}
-    </ol>
+    </KitProvider>
   );
 }
 

@@ -2,7 +2,7 @@
 
 import { WarningCircle } from "@phosphor-icons/react";
 import { useState } from "react";
-import { FilledCheck } from "@/src/components/kyc-questionnaire/FilledCheck";
+import { FilledCheck } from "@/src/components/questionnaire/FilledCheck";
 import { Button } from "@/src/components/ui/button";
 import { formatSize, isRetryable, pendingRows, shownName, type UploadRow } from "@/src/lib/doc-actions";
 import { cn } from "@/src/lib/utils";

@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback } from "react";
-import { DocumentRow, type DocRowStrings } from "@/src/components/questionnaire-docs/DocumentRow";
-import { FileRows, type FileRowsStrings, type StoredFile } from "@/src/components/questionnaire-docs/FileRows";
-import { useFileUploads } from "@/src/components/questionnaire-docs/useFileUploads";
+import { DocumentRow, type DocRowStrings } from "@/src/components/questionnaire/docs/DocumentRow";
+import { FileRows, type FileRowsStrings, type StoredFile } from "@/src/components/questionnaire/docs/FileRows";
+import { useFileUploads } from "@/src/components/questionnaire/docs/useFileUploads";
 import { Progress } from "@/src/components/ui/progress";
 import { label } from "@/src/lib/kyc-questionnaire/engine";
 import { SERVER_ERRORS, UI } from "@/src/lib/kyc-questionnaire/ui";
@@ -13,7 +13,7 @@ import { extensionOf } from "@/src/lib/tax-questionnaire/files";
 import type { UploadRow } from "@/src/lib/doc-actions";
 import { api, uploadFile, type CaseFile } from "./api";
 
-export { PickFiles } from "@/src/components/questionnaire-docs/DocumentRow";
+export { PickFiles } from "@/src/components/questionnaire/docs/DocumentRow";
 
 /** Accepted extensions of the signed form (scan or photo). */
 export const SIGNED_ACCEPT = ".pdf,.jpg,.jpeg,.png,.heic,.heif";

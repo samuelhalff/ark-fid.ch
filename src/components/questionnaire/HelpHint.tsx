@@ -6,20 +6,16 @@ import { Button } from "@/src/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/src/components/ui/popover";
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/src/components/ui/sheet";
 import { Textarea } from "@/src/components/ui/textarea";
-import { displayValue } from "@/src/lib/kyc-questionnaire/engine";
-import type { Answers, FieldDef, KycLocale } from "@/src/lib/kyc-questionnaire/types";
-import { SERVER_ERRORS, UI } from "@/src/lib/kyc-questionnaire/ui";
+import type { AnyAnswers } from "@/src/lib/questionnaire/form-values";
 import { cn } from "@/src/lib/utils";
-import { ApiError, api } from "./api";
+import { fill, useKit, type AskReply, type KitField } from "./kit";
 
 /** What a field passes to let the client ask about it: the answers go with the question, « Utiliser » sets the value. */
 export interface AskContext {
-  field: FieldDef;
-  answers: () => Answers;
+  field: KitField;
+  answers: () => AnyAnswers;
   onUse: (value: string | string[]) => void;
 }
-
-type Reply = { offTopic: boolean; answer: string | null; proposal: string | string[] | null };
 
 const PHONE = "(max-width: 639px)";
 const subscribe = (notify: () => void) => {
@@ -35,7 +31,11 @@ const usePhone = () => useSyncExternalStore(subscribe, () => window.matchMedia(P
  * primary button is visible at a time (« Demander », then « Utiliser »). Keep it outside any
  * <label>, so tapping it never toggles the checkbox or radio the label belongs to.
  */
-export function HelpHint({ text, title, locale, className, ask }: { text: string; title?: string; locale: KycLocale; className?: string; ask?: AskContext }) {
+export function HelpHint({ text, title, className, ask }: { text: string; title?: string; className?: string; ask?: AskContext }) {
+  const kit = useKit();
+  const helpButton = kit.strings.helpButton || "?";
+  // The question goes only to a form with an assistant.
+  const asking = kit.ask && kit.strings.ask ? ask : undefined;
   const phone = usePhone();
   const [open, setOpen] = useState(false);
   const [round, setRound] = useState(0);
@@ -46,7 +46,7 @@ export function HelpHint({ text, title, locale, className, ask }: { text: string
   const trigger = (
     <button
       type="button"
-      aria-label={UI.helpButton[locale]}
+      aria-label={helpButton}
       className={cn(
         "inline-flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-full text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50",
         className,
@@ -56,14 +56,14 @@ export function HelpHint({ text, title, locale, className, ask }: { text: string
     </button>
   );
   // Remounted on each opening: a closed (i) forgets its question and answer.
-  const body = <HelpBody key={round} text={text} locale={locale} ask={ask} close={() => setOpen(false)} />;
+  const body = <HelpBody key={round} text={text} ask={asking} close={() => setOpen(false)} />;
 
   if (phone) {
     return (
       <Sheet open={open} onOpenChange={toggle}>
         <SheetTrigger asChild>{trigger}</SheetTrigger>
         <SheetContent side="bottom" className="flex max-h-[85dvh] flex-col gap-3 overflow-y-auto rounded-t-2xl px-5 pt-5 pb-[max(1.75rem,env(safe-area-inset-bottom))]">
-          <SheetTitle className="pr-8 text-base leading-snug">{title || UI.helpButton[locale]}</SheetTitle>
+          <SheetTitle className="pr-8 text-base leading-snug">{title || helpButton}</SheetTitle>
           <SheetDescription className="sr-only">{text}</SheetDescription>
           {body}
         </SheetContent>
@@ -80,13 +80,15 @@ export function HelpHint({ text, title, locale, className, ask }: { text: string
   );
 }
 
-function HelpBody({ text, locale, ask, close }: { text: string; locale: KycLocale; ask?: AskContext; close: () => void }) {
+function HelpBody({ text, ask, close }: { text: string; ask?: AskContext; close: () => void }) {
+  const kit = useKit();
+  const S = kit.strings.ask!;
   const [asking, setAsking] = useState(false);
   const [question, setQuestion] = useState("");
   const [asked, setAsked] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [reply, setReply] = useState<Reply | null>(null);
+  const [reply, setReply] = useState<AskReply | null>(null);
 
   const send = async () => {
     const q = question.trim();
@@ -94,12 +96,10 @@ function HelpBody({ text, locale, ask, close }: { text: string; locale: KycLocal
     setPending(true);
     setError(null);
     try {
-      const result = await api.caseAction<Reply>("ask", { fieldId: ask.field.id, question: q, answers: ask.answers(), language: locale });
-      setReply(result);
+      setReply(await kit.ask!.send(ask.field.id, q, ask.answers()));
       setAsked(q);
     } catch (e) {
-      const code = e instanceof ApiError ? e.code : "generic";
-      setError((SERVER_ERRORS[code] || SERVER_ERRORS.assist_unavailable)[locale]);
+      setError(kit.ask!.errorText(e));
     } finally {
       setPending(false);
     }
@@ -110,21 +110,21 @@ function HelpBody({ text, locale, ask, close }: { text: string; locale: KycLocal
     const proposal = reply.offTopic ? null : reply.proposal;
     tail = (
       <div className="flex flex-col gap-3">
-        <p className="break-words text-xs text-muted-foreground">{UI.askEcho[locale].replace("{question}", asked)}</p>
-        <p className="break-words text-sm leading-relaxed" role="status">{reply.offTopic ? UI.askOffTopic[locale] : reply.answer}</p>
+        <p className="break-words text-xs text-muted-foreground">{fill(S.echo, { question: asked })}</p>
+        <p className="break-words text-sm leading-relaxed" role="status">{reply.offTopic ? S.offTopic : reply.answer}</p>
         {proposal !== null ? (
           <div className="flex flex-col gap-0.5 rounded-md bg-muted px-3 py-2">
-            <span className="text-xs text-muted-foreground">{UI.askProposal[locale]}</span>
-            <span className="break-words text-sm font-medium">{displayValue(ask.field, proposal, locale)}</span>
+            <span className="text-xs text-muted-foreground">{S.proposal}</span>
+            <span className="break-words text-sm font-medium">{kit.ask!.display(ask.field, proposal)}</span>
           </div>
         ) : null}
         <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <Button type="button" variant={proposal !== null ? "link" : "default"} className="h-11 sm:h-9" onClick={close}>
-            {UI.askClose[locale]}
+            {S.close}
           </Button>
           {proposal !== null ? (
             <Button type="button" className="h-11 sm:h-9" onClick={() => { ask.onUse(proposal); close(); }}>
-              {UI.askUse[locale]}
+              {S.use}
             </Button>
           ) : null}
         </div>
@@ -135,18 +135,18 @@ function HelpBody({ text, locale, ask, close }: { text: string; locale: KycLocal
       // The (i) sits inside the step's own form: React bubbles a portalled submit up to it, which would
       // move to the next step, so the event stops here.
       <form className="flex flex-col gap-2 border-t pt-3" onSubmit={(e) => { e.preventDefault(); e.stopPropagation(); void send(); }}>
-        <label htmlFor={`ask-${ask.field.id}`} className="text-xs font-medium">{UI.askLabel[locale]}</label>
+        <label htmlFor={`ask-${ask.field.id}`} className="text-xs font-medium">{S.label}</label>
         <Textarea id={`ask-${ask.field.id}`} rows={2} maxLength={500} autoFocus value={question} onChange={(e) => setQuestion(e.target.value)} className="text-base sm:text-sm" />
         {error ? <p className="text-sm text-destructive" role="alert">{error}</p> : null}
         <Button type="submit" className="h-11 sm:h-9 sm:self-end" disabled={!question.trim() || pending}>
-          {pending ? UI.askSending[locale] : UI.askSend[locale]}
+          {pending ? S.sending : S.send}
         </Button>
       </form>
     );
   } else if (ask) {
     tail = (
       <Button type="button" variant="link" className="h-auto self-start p-0 text-sm" onClick={() => setAsking(true)}>
-        {UI.askReveal[locale]}
+        {S.reveal}
       </Button>
     );
   }

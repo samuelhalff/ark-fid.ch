@@ -2,8 +2,8 @@
 
 import { Paperclip, Plus } from "@phosphor-icons/react";
 import { useRef, useState, type ReactNode } from "react";
-import { LongText } from "@/src/components/forms/LongText";
-import { FilledCheck } from "@/src/components/kyc-questionnaire/FilledCheck";
+import { LongText } from "@/src/components/questionnaire/LongText";
+import { FilledCheck } from "@/src/components/questionnaire/FilledCheck";
 import { Button } from "@/src/components/ui/button";
 import { docRowView, type DocAction, type DocDeclared } from "@/src/lib/doc-actions";
 import { cn } from "@/src/lib/utils";

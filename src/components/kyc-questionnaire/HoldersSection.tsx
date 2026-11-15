@@ -34,11 +34,15 @@ import { clientName, isOp, needsManager } from "@/src/lib/kyc-questionnaire/sche
 import { FIELD_ERRORS, UI } from "@/src/lib/kyc-questionnaire/ui";
 import type { Answers, FieldDef, GroupDef, KycLocale, Row } from "@/src/lib/kyc-questionnaire/types";
 import { cn } from "@/src/lib/utils";
-import { BottomSheet } from "./BottomSheet";
-import { CompanyNameInput } from "./CompanyNameInput";
-import { FieldControl } from "./FieldControl";
+import { BottomSheet } from "@/src/components/questionnaire/BottomSheet";
+import { CompanyNameInput, type RegisterCompany } from "@/src/components/questionnaire/CompanyNameInput";
+import { api } from "./api";
+import { FieldControl } from "@/src/components/questionnaire/FieldControl";
 import { fromForm, toName } from "./form-model";
-import { useSubScreen } from "./SubScreen";
+import { useSubScreen } from "@/src/components/questionnaire/SubScreen";
+
+/** The register search behind the company name (stable: the field searches again when it changes). */
+const searchRegister = (q: string) => api.caseAction<{ items?: RegisterCompany[] }>("companies", { q });
 
 type Purpose = "holder" | "control" | "managers";
 type SheetState =
@@ -257,8 +261,9 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
                   name={f.name}
                   value={typeof f.value === "string" ? f.value : ""}
                   maxLength={def("name").maxLength}
-                  locale={locale}
                   search={swiss}
+                  searchRegister={searchRegister}
+                  listLabel={UI.holdersRegisterHint[locale]}
                   className="h-12 text-lg font-semibold"
                   onValue={(next) => {
                     f.onChange(next);
@@ -282,10 +287,10 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
           )}
         />
         <div className="grid min-w-0 gap-5 sm:grid-cols-2">
-          <FieldControl field={def("country")} name={`${base}.country`} locale={locale} answers={answers} />
-          <FieldControl field={def("percent")} name={`${base}.percent`} locale={locale} answers={answers} />
+          <FieldControl field={def("country")} name={`${base}.country`} answers={answers} />
+          <FieldControl field={def("percent")} name={`${base}.percent`} answers={answers} />
           <div className="flex min-w-0 flex-col gap-1 sm:col-span-2">
-            <FieldControl field={def("uid")} name={`${base}.uid`} locale={locale} answers={answers} />
+            <FieldControl field={def("uid")} name={`${base}.uid`} answers={answers} />
             {fromRegister.has(row._id) ? <p className="text-xs text-brand-hover">{UI.holdersFromRegister[locale]}</p> : null}
           </div>
         </div>
@@ -296,7 +301,7 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
             {!unknown && missing.includes(`${keyOf(parent)}[${row._id}].${NESTED}`) ? <p className="text-sm text-muted-foreground">{FIELD_ERRORS.min_rows[locale]}</p> : null}
           </div>
         ) : unknown ? null : (
-          <FieldControl field={def("owners")} name={`${base}.owners`} locale={locale} answers={answers} />
+          <FieldControl field={def("owners")} name={`${base}.owners`} answers={answers} />
         )}
         {unknownToggle(unknown, () => setValue(`${base}.unknown`, unknown ? undefined : "yes", { shouldDirty: true }))}
         <div className="flex flex-col gap-2 pt-2">
@@ -403,7 +408,7 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
           <>
             <div className="grid min-w-0 gap-5 sm:grid-cols-2">
               {items.map(({ def, name }) => (
-                <FieldControl key={name} field={def} name={name} locale={locale} answers={a} />
+                <FieldControl key={name} field={def} name={name} answers={a} />
               ))}
             </div>
             <Button type="button" className="h-12" onClick={() => void done(items.map((i) => i.name))}>
@@ -435,7 +440,7 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
         <>
           <div className="grid min-w-0 gap-5 sm:grid-cols-2">
             {items.map(({ def, name }) => (
-              <FieldControl key={name} field={def} name={name} locale={locale} answers={a} />
+              <FieldControl key={name} field={def} name={name} answers={a} />
             ))}
           </div>
           {row.kind === "trust" || row.kind === "foundation" ? <p className="text-sm text-muted-foreground">{UI.holdersTrustNote[locale]}</p> : null}
@@ -486,11 +491,11 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
           {unknownToggle(unknownTop, () => setValue(toName("b.holdersUnknown"), unknownTop ? undefined : "yes", { shouldDirty: true }))}
           {operating && getField("b.qOther") && (!getField("b.qOther")!.showIf || getField("b.qOther")!.showIf!(answers)) ? (
             <div className="flex min-w-0 flex-col gap-4 rounded-xl bg-surface-warm p-4 dark:bg-card">
-              <FieldControl field={getField("b.qOther")!} name={toName("b.qOther")} locale={locale} answers={answers} />
+              <FieldControl field={getField("b.qOther")!} name={toName("b.qOther")} answers={answers} />
               {answers["b.qOther"] === "yes" ? (
                 <>
                   {personsPick("control")}
-                  <FieldControl field={getField("b.controlHow")!} name={toName("b.controlHow")} locale={locale} answers={answers} />
+                  <FieldControl field={getField("b.controlHow")!} name={toName("b.controlHow")} answers={answers} />
                 </>
               ) : null}
             </div>
@@ -498,7 +503,7 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
           {needsManager(answers) ? <div className="rounded-xl bg-surface-warm p-4 dark:bg-card">{personsPick("managers")}</div> : null}
         </>
       )}
-      <BottomSheet open={!!open} title={open?.title || ""} locale={locale} onClose={open?.onClose || (() => setSheet(null))}>
+      <BottomSheet open={!!open} title={open?.title || ""} closeLabel={UI.holdersClose[locale]} onClose={open?.onClose || (() => setSheet(null))}>
         {open?.body}
       </BottomSheet>
     </div>

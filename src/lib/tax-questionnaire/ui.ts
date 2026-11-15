@@ -81,6 +81,8 @@ export const UI = {
   missingOne: t("Il manque 1 réponse", "1 answer missing", "1 Antwort fehlt"),
   missingMany: t("Il manque {n} réponses", "{n} answers missing", "{n} Antworten fehlen"),
   otherName: t("Quelqu'un d'autre : remplissez ci-dessous.", "Someone else: fill in below.", "Jemand anderes: unten ausfüllen."),
+  addRow: t("Ajouter : {item}", "Add: {item}", "Hinzufügen: {item}"),
+  addAnother: t("Ajouter un autre élément : {item}", "Add another: {item}", "Weiteres hinzufügen: {item}"),
   showAll: t("Voir tout", "Show all", "Alles anzeigen"),
   showLess: t("Réduire", "Show less", "Weniger anzeigen"),
   submitting: t("Envoi en cours…", "Sending…", "Wird gesendet…"),

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { chooseCountry, countries, isCountryName, pickCountry, searchCountries, splitCountries, suggestCountries, tidyCountries, typedPart } from "./countries.ts";
+import { chooseCountry, countries, isCountryName, pickCountry, searchCountries, splitCountries, suggestCountries, tidyCountries, typedPart } from "../questionnaire/countries.ts";
 import { STEPS } from "./schema.ts";
 
 test("Switzerland and its neighbours come first, in the form's language", () => {

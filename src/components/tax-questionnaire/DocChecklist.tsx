@@ -3,9 +3,9 @@
 import { Copy, FileText } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/src/components/kibo-ui/dropzone";
-import { DocumentRow, type DocRowStrings } from "@/src/components/questionnaire-docs/DocumentRow";
-import { FileRows, type FileRowsStrings, type StoredFile } from "@/src/components/questionnaire-docs/FileRows";
-import { useFileUploads } from "@/src/components/questionnaire-docs/useFileUploads";
+import { DocumentRow, type DocRowStrings } from "@/src/components/questionnaire/docs/DocumentRow";
+import { FileRows, type FileRowsStrings, type StoredFile } from "@/src/components/questionnaire/docs/FileRows";
+import { useFileUploads } from "@/src/components/questionnaire/docs/useFileUploads";
 import { Button } from "@/src/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/src/components/ui/collapsible";
 import { Progress } from "@/src/components/ui/progress";

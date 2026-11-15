@@ -3,7 +3,7 @@
 import { forwardRef, useCallback, useEffect, useId, useRef, useState } from "react";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
-import { chooseCountry, suggestCountries, type CountryLocale } from "@/src/lib/kyc-questionnaire/countries";
+import { chooseCountry, suggestCountries, type CountryLocale } from "@/src/lib/questionnaire/countries";
 
 type Props = Omit<React.ComponentPropsWithoutRef<"input">, "value" | "onChange"> & {
   value: string;

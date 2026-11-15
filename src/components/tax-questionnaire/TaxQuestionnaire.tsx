@@ -12,7 +12,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/src/compo
 import { Form } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
-import { LongText } from "@/src/components/forms/LongText";
+import { LongText } from "@/src/components/questionnaire/LongText";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/components/ui/select";
 import { Separator } from "@/src/components/ui/separator";
 import { Textarea } from "@/src/components/ui/textarea";
@@ -29,6 +29,10 @@ import { ApiError, api, newSubmitKey, type CasePayload } from "./api";
 import { DocChecklist } from "./DocChecklist";
 import { collectIssues, focusField, fromForm, issueFromKey, stepSchema, toForm, toName, type FormValues, type Issue } from "./form-model";
 import { StepView } from "./StepView";
+import { IssueLinks, MissingAnswers, missingLabel } from "@/src/components/questionnaire/IssueList";
+import { ProgressBar } from "@/src/components/questionnaire/Progress";
+import { taxFormKit } from "./kit";
+import { KitProvider } from "@/src/components/questionnaire/kit";
 import { Turnstile } from "./Turnstile";
 
 type Phase = "loading" | "start" | "code" | "form" | "status" | "optedOut";
@@ -85,6 +89,7 @@ function shownSteps(answers: Answers): StepDef[] {
 
 
 export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
+  const kit = useMemo(() => taxFormKit(locale), [locale]);
   // Site languages without a questionnaire (es, pt) land here on the English form with a note.
   const [otherLanguage, setOtherLanguage] = useState<"es" | "pt" | null>(null);
   const [phase, setPhase] = useState<Phase>("loading");
@@ -477,7 +482,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
           ...(caseData ? missingDocs(checklist).map((item) => ({ name: `doc:${item.key}`, label: item.label[locale], stepId: docsStepId })) : []),
         ]
       : [];
-  const missingLabel = missingList.length === 1 ? UI.missingOne[locale] : UI.missingMany[locale].replace("{n}", String(missingList.length));
+  const missingText = missingLabel(kit.strings, missingList.length);
 
   // ---- rendering -------------------------------------------------------------------------------------
   // One line: what the form is and for whom (each said once); the intro only before the form starts.
@@ -502,17 +507,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
     <Alert variant={notice.tone === "error" ? "destructive" : "default"} aria-live="assertive">
       <AlertDescription>
         <p>{notice.text}</p>
-        {notice.tone === "error" && issues.length ? (
-          <ul className="mt-2 list-disc pl-5">
-            {issues.map((issue) => (
-              <li key={issue.name}>
-                <button type="button" className="text-left underline underline-offset-2" onClick={() => focusField(issue.name)}>
-                  {issue.label}
-                </button>
-              </li>
-            ))}
-          </ul>
-        ) : null}
+        {notice.tone === "error" ? <IssueLinks issues={issues} /> : null}
       </AlertDescription>
     </Alert>
   ) : null;
@@ -614,6 +609,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
   const items = special === "baseDocs" ? checklist.filter((i) => i.base) : checklist;
 
   return (
+    <KitProvider kit={kit}>
     <Form {...form}>
       <form
         className="flex flex-col gap-8"
@@ -625,12 +621,9 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
       >
         {header}
         {/* Where the client is, said once (the screen's title is in the card), the save time beside it. */}
-        <div className="sticky top-16 z-20 -mx-5 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 bg-background/95 px-5 py-2 text-sm backdrop-blur sm:mx-0 sm:rounded-xl sm:px-0">
-          <span className="font-medium">{UI.stepOf[locale].replace("{n}", String(index + 1)).replace("{total}", String(steps.length))}</span>
-          <span className="text-xs text-muted-foreground" aria-live="polite">
-            {save.state === "saving" ? UI2.saving[locale] : save.state === "saved" && save.at ? UI2.savedAt[locale].replace("{time}", new Date(save.at).toLocaleTimeString("fr-CH", { hour: "2-digit", minute: "2-digit" })) : save.state === "failed" ? UI2.saveFailed[locale] : ""}
-          </span>
-        </div>
+        {phase !== "start" && step.id !== "start" ? (
+          <ProgressBar steps={steps.filter((s) => s.id !== "start" && s.special !== "review").concat(steps.filter((s) => s.special === "review"))} current={step.id} onGo={(id) => goTo(id)} save={save} answers={answers} />
+        ) : null}
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
           <Card className="min-w-0">
@@ -646,31 +639,11 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                 </>
               ) : special === "review" ? (
                 <>
-                  {missingList.length ? (
-                    <Alert variant="destructive">
-                      <WarningCircle className="size-4" />
-                      <AlertDescription>
-                        <p className="font-medium">{missingLabel}</p>
-                        <ul className="mt-2 flex flex-col gap-1">
-                          {missingList.map((item) => {
-                            const where = steps.find((s) => s.id === item.stepId);
-                            return (
-                              <li key={item.name}>
-                                <button type="button" className="min-h-11 py-1 text-left underline underline-offset-2 [overflow-wrap:anywhere]" onClick={() => openIssue(item.stepId, item)}>
-                                  {where ? `${L(where.title)} › ` : ""}
-                                  {item.label}
-                                </button>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </AlertDescription>
-                    </Alert>
-                  ) : null}
+                  <MissingAnswers items={missingList} where={(id) => { const where = steps.find((s) => s.id === id); return where ? L(where.title) : null; }} onGo={(item) => openIssue(item.stepId, item)} />
                   <ReviewSummary answers={pruned} locale={locale} onEdit={goTo} />
                 </>
               ) : null}
-              {special !== "documents" ? <StepView step={step} locale={locale} answers={answers} knownItems={knownItems(answers, locale)} aiSuggestions={aiSuggestions} /> : null}
+              {special !== "documents" ? <StepView key={step.id} step={step} locale={locale} answers={answers} knownItems={knownItems(answers, locale)} aiSuggestions={aiSuggestions} /> : null}
               {special === "baseDocs" && caseData ? (
                 <DocChecklist items={items} files={files} docStatus={docStatus} onStatus={(key, status) => setDocStatus((prev) => { const nextStatus = { ...prev }; if (status) nextStatus[key] = status; else delete nextStatus[key]; return nextStatus; })} locale={locale} clientName={`${String(answers["start.firstName"] || "")} ${String(answers["start.lastName"] || "")}`.trim()} canRemove={!caseData?.submittedAt} onChanged={refreshFiles} onBusy={setUploading} showExtra={false} />
               ) : null}
@@ -776,7 +749,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                 ) : null}
                 <Button type="submit" disabled={busy || (special === "review" && (uploading || missingList.length > 0))}>
                   {busy ? <CircleNotch className="size-4 animate-spin" /> : null}
-                  {special === "review" ? (missingList.length ? missingLabel : UI.submit[locale]) : phase === "start" ? UI2.sendCode[locale] : UI.next[locale]}
+                  {special === "review" ? (missingList.length ? missingText : UI.submit[locale]) : phase === "start" ? UI2.sendCode[locale] : UI.next[locale]}
                   {special !== "review" ? <ArrowRight className="size-4" /> : null}
                 </Button>
               </div>
@@ -883,6 +856,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
         </div>
       </form>
     </Form>
+    </KitProvider>
   );
 }
 

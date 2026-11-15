@@ -5,10 +5,8 @@
  * always held — a country name, or several separated by commas for a field that takes several —
  * so a name typed by hand or prefilled by Ark is still a valid answer.
  */
-import type { KycLocale } from "./types";
-
-/** The forms' languages: the KYC form's, and German for the tax questionnaire (shared field). */
-export type CountryLocale = KycLocale | "de";
+/** The forms' languages: the KYC form's (FR/EN), and German for the tax questionnaire. */
+export type CountryLocale = "fr" | "en" | "de";
 
 /** ISO 3166-1 alpha-2, every country and territory Intl names. */
 const CODES = (

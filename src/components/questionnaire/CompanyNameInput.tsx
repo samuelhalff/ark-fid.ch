@@ -3,10 +3,7 @@
 import { forwardRef, useEffect, useId, useRef, useState } from "react";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
-import { UI } from "@/src/lib/kyc-questionnaire/ui";
-import type { KycLocale } from "@/src/lib/kyc-questionnaire/types";
 import { cn } from "@/src/lib/utils";
-import { api } from "./api";
 
 export type RegisterCompany = { name: string; seat: string; uid: string };
 
@@ -15,9 +12,12 @@ type Props = Omit<React.ComponentPropsWithoutRef<"input">, "value" | "onChange">
   onValue: (value: string) => void;
   /** A company of the register was chosen: its name is already set, the caller takes its UID. */
   onPick: (company: RegisterCompany) => void;
-  locale: KycLocale;
   /** Search the register only while true (a Swiss company, or no country yet). */
   search: boolean;
+  /** The register search of the form's server (Cadence's register behind it). */
+  searchRegister: (q: string) => Promise<{ items?: RegisterCompany[] }>;
+  /** Accessible name of the list of companies offered. */
+  listLabel: string;
 };
 
 /**
@@ -26,7 +26,7 @@ type Props = Omit<React.ComponentPropsWithoutRef<"input">, "value" | "onChange">
  * for the iPhone keyboard to cover). Any name typed stays the answer; if the search is down the
  * field is a plain text field.
  */
-export const CompanyNameInput = forwardRef<HTMLInputElement, Props>(function CompanyNameInput({ value, onValue, onPick, locale, search, onBlur, onFocus, className, ...input }, ref) {
+export const CompanyNameInput = forwardRef<HTMLInputElement, Props>(function CompanyNameInput({ value, onValue, onPick, search, searchRegister, listLabel, onBlur, onFocus, className, ...input }, ref) {
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState<RegisterCompany[]>([]);
   const listId = useId();
@@ -40,15 +40,14 @@ export const CompanyNameInput = forwardRef<HTMLInputElement, Props>(function Com
     }
     const timer = setTimeout(() => {
       asked.current = typed;
-      api
-        .caseAction<{ items?: RegisterCompany[] }>("companies", { q: typed })
+      searchRegister(typed)
         .then((data) => {
           if (asked.current === typed) setItems(Array.isArray(data.items) ? data.items.slice(0, 8) : []);
         })
         .catch(() => setItems([]));
     }, 300);
     return () => clearTimeout(timer);
-  }, [typed, open, search]);
+  }, [typed, open, search, searchRegister]);
 
   const matches = open && items.some((i) => i.name !== typed) ? items : [];
   return (
@@ -77,7 +76,7 @@ export const CompanyNameInput = forwardRef<HTMLInputElement, Props>(function Com
         }}
       />
       {matches.length ? (
-        <div id={listId} role="listbox" aria-label={UI.holdersRegisterHint[locale]} className="flex flex-col overflow-hidden rounded-md border bg-background shadow-sm">
+        <div id={listId} role="listbox" aria-label={listLabel} className="flex flex-col overflow-hidden rounded-md border bg-background shadow-sm">
           {matches.map((company) => (
             <Button
               key={`${company.uid}|${company.name}`}
