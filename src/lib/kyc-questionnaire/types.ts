@@ -117,6 +117,8 @@ export interface HeadingDef {
   kind: "heading";
   id: string;
   label: L;
+  /** One line under the heading (also the note of its prefilled block when it has none of its own). */
+  help?: L;
   showIf?: Predicate;
   /**
    * Letter of a section of Dima's form that starts at this heading inside a screen (the money

@@ -12,7 +12,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
 import { fieldText, label, LIMITS } from "@/src/lib/kyc-questionnaire/engine";
 import { UI } from "@/src/lib/kyc-questionnaire/ui";
 import type { Answers, FieldDef, KycLocale } from "@/src/lib/kyc-questionnaire/types";
-import { normaliseAmount, normaliseDate } from "@/src/lib/tax-questionnaire/format";
+import { maskDate, normaliseAmount, normaliseDate } from "@/src/lib/tax-questionnaire/format";
 import { cn } from "@/src/lib/utils";
 import { HelpHint } from "./HelpHint";
 
@@ -284,7 +284,7 @@ export function FieldControl({ field, name, locale, answers, askable, row }: Pro
                 ref={f.ref}
                 value={typeof value === "string" ? value : ""}
                 maxLength={max}
-                onChange={(e) => f.onChange(e.target.value)}
+                onChange={(e) => f.onChange(field.type === "date" ? maskDate(e.target.value, typeof value === "string" ? value : "") : e.target.value)}
                 onBlur={(e) => {
                   const raw = e.target.value;
                   if (field.type === "money" && raw) f.onChange(normaliseAmount(raw));

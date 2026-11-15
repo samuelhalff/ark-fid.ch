@@ -9,7 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/components/ui/select";
 import { Textarea } from "@/src/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
-import { normaliseAmount, normaliseDate } from "@/src/lib/tax-questionnaire/format";
+import { maskDate, normaliseAmount, normaliseDate } from "@/src/lib/tax-questionnaire/format";
 import { label as interpolate, taxYearChoices } from "@/src/lib/tax-questionnaire/logic";
 import { UI } from "@/src/lib/tax-questionnaire/ui";
 import type { Answers, FieldDef, QfLocale, Row } from "@/src/lib/tax-questionnaire/types";
@@ -244,7 +244,7 @@ export function FieldControl({ field, name, locale, answers, row, arkPrefilled }
                 ref={f.ref}
                 value={typeof value === "string" ? value : ""}
                 maxLength={field.maxLength || 200}
-                onChange={(e) => f.onChange(e.target.value)}
+                onChange={(e) => f.onChange(field.type === "date" ? maskDate(e.target.value, typeof value === "string" ? value : "") : e.target.value)}
                 onBlur={(e) => {
                   const raw = e.target.value;
                   if (field.type === "money" && raw) f.onChange(normaliseAmount(raw));

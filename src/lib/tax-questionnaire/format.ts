@@ -70,6 +70,39 @@ export function normaliseDate(raw: string): string {
   return parts ? formatDate(parts) : raw;
 }
 
+/**
+ * Live mask for a date typed on a phone keypad (digits only, no « . » key): « 01032016 » becomes
+ * « 01.03.2016 » as it is typed, the dot added after the day and the month. A separator typed by
+ * hand closes its part (« 1. » → « 01. »); a pasted complete date (« 2016-03-01 », « 1.3.2016 »)
+ * is normalised at once. `previous` is the value before this keystroke: while deleting, no dot is
+ * added back, so backspace walks through the dots naturally.
+ */
+export function maskDate(raw: string, previous = ""): string {
+  const s = raw.trim();
+  if (!s) return "";
+  const whole = parseDate(s);
+  if (whole) return formatDate(whole);
+  const max = [2, 2, 4];
+  const parts = ["", "", ""];
+  let i = 0;
+  for (const ch of s) {
+    if (ch >= "0" && ch <= "9") {
+      if (parts[i].length === max[i]) {
+        if (i === 2) break;
+        i++;
+      }
+      parts[i] += ch;
+    } else if (i < 2 && parts[i]) {
+      parts[i] = parts[i].padStart(2, "0");
+      i++;
+    }
+  }
+  let out = parts.slice(0, i + 1).join(".");
+  const deleting = s.length < previous.length;
+  if (!deleting && i < 2 && parts[i].length === 2) out += ".";
+  return out;
+}
+
 /** Date as a UTC Date (for Excel cells). */
 export function dateToUtc(parts: DateParts): Date {
   return new Date(Date.UTC(parts.year, parts.month - 1, parts.day));

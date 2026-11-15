@@ -357,7 +357,7 @@ export const STEPS: StepDef[] = [
           { kind: "field", id: "country", type: "text", label: t("Pays où elle habite", "Country of residence"), required: true, width: "half" },
         ],
       },
-      { kind: "heading", id: "a.contactHeading", label: t("Votre interlocuteur", "Your contact person") },
+      { kind: "heading", id: "a.contactHeading", label: t("Personne de contact de la société", "The company's contact person"), help: t("La personne qu'Ark contacte pour ce dossier — en principe vous.", "The person Ark contacts about this file — usually you.") },
       { kind: "field", id: "a.contactName", type: "text", label: t("Nom", "Name"), required: true, width: "half" },
       { kind: "field", id: "a.contactEmail", type: "email", label: t("E-mail", "Email"), required: true, width: "half" },
       { kind: "field", id: "a.contactPhone", type: "tel", label: t("Téléphone", "Phone"), required: true, width: "half" },

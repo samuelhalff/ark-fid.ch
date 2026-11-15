@@ -135,7 +135,7 @@ export function StepView({ step, locale, answers, prefilled }: StepProps) {
               </div>
             );
           }
-          const note = heading.prefill?.note ? L(heading.prefill.note) : null;
+          const note = heading.prefill?.note ? L(heading.prefill.note) : heading.help ? L(heading.help) : null;
           return (
             <PrefilledBox key={index} id={`${heading.id}-title`} title={L(heading.label)} locale={locale} note={note}>
               <div className={PF_LINES}>{segment.items.map((field) => row(field, false))}</div>
@@ -149,9 +149,10 @@ export function StepView({ step, locale, answers, prefilled }: StepProps) {
               {L(heading.label)}
             </h2>
           ) : (
-            <h3 key={heading.id} className="pt-2 text-lg font-semibold tracking-tight">
-              {L(heading.label)}
-            </h3>
+            <div key={heading.id} className="flex flex-col gap-1 pt-2">
+              <h3 className="text-lg font-semibold tracking-tight">{L(heading.label)}</h3>
+              {heading.help ? <p className="text-sm text-muted-foreground">{L(heading.help)}</p> : null}
+            </div>
           );
         }
         if (segment.kind === "note") return <Note key={segment.note.id} note={segment.note} locale={locale} answers={answers} />;
