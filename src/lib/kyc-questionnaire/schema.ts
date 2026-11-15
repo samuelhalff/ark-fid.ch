@@ -651,8 +651,8 @@ export const STEPS: StepDef[] = [
       { kind: "field", id: "e.wealthDetails", type: "textarea", label: t("Précisez en une phrase", "Say more in one sentence"), help: t("Exemple : vente de mon entreprise en 2019.", "Example: sale of my business in 2019."), required: true, maxLength: 2000, showIf: isPP },
       { kind: "field", id: "e.otherWealth", type: "textarea", label: t("D’où vient la fortune des autres personnes ?", "Where does the other people's wealth come from?"), help: t("Une phrase par personne.", "One sentence per person."), required: true, maxLength: 2000, showIf: (a) => isPP(a) && a["b.ppOwner"] === "others" },
 
-      { kind: "heading", id: "f.heading", section: "F", label: t("Versement prévu", "Planned payment") },
-      yesNo("f.funds", t("Allez-vous verser de l’argent pour ce mandat, par exemple le capital d’une nouvelle société ?", "Will you pay in money for this mandate, for example the capital of a new company?")),
+      { kind: "heading", id: "f.heading", section: "F", label: t("Argent confié à Ark", "Money entrusted to Ark") },
+      yesNo("f.funds", t("Allez-vous confier de l'argent à Ark, par exemple le capital d'une société à créer ?", "Will you entrust money to Ark, for example the capital of a company to be set up?"), { help: t("Nos honoraires ne comptent pas.", "Our fees do not count.") }),
       { kind: "field", id: "f.origin", type: "textarea", label: t("D’où vient cet argent, et à qui est-il ?", "Where does this money come from, and whose is it?"), help: t("Exemple : vente de mon appartement à Lausanne en mars 2026.", "Example: sale of my flat in Lausanne in March 2026."), required: true, maxLength: 4100, showIf: is("f.funds", "yes") },
       { kind: "field", id: "f.amount", type: "money", label: t("Montant", "Amount"), required: true, width: "half", showIf: is("f.funds", "yes") },
       { kind: "field", id: "f.currency", type: "select", label: t("Devise", "Currency"), required: true, width: "half", options: CURRENCIES, showIf: is("f.funds", "yes") },
