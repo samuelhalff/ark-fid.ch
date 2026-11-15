@@ -14,6 +14,7 @@ import { UI } from "@/src/lib/kyc-questionnaire/ui";
 import type { Answers, Block, FieldDef, GroupDef, HeadingDef, KycLocale, NoteDef, Row, StepDef } from "@/src/lib/kyc-questionnaire/types";
 import { cn } from "@/src/lib/utils";
 import { FieldControl } from "./FieldControl";
+import { FilledCheck } from "./FilledCheck";
 import { HelpHint } from "./HelpHint";
 import { toName } from "./form-model";
 
@@ -164,6 +165,22 @@ export function StepView({ step, locale, answers, prefilled }: StepProps) {
   );
 }
 
+/** A read-only value: a long one (the company's purpose…) shows three lines and « Voir tout ». */
+function LongValue({ text, locale }: { text: string; locale: KycLocale }) {
+  const [all, setAll] = useState(false);
+  const long = text.length > 160 || text.split("\n").length > 3;
+  return (
+    <div className="flex min-h-10 flex-col justify-center">
+      <p className={cn("whitespace-pre-line [overflow-wrap:anywhere]", long && !all && "line-clamp-3")}>{text}</p>
+      {long ? (
+        <button type="button" className="self-start py-1 text-sm text-brand-hover underline-offset-2 hover:underline" aria-expanded={all} onClick={() => setAll((v) => !v)}>
+          {all ? UI.showLess[locale] : UI.showAll[locale]}
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
 /** « Déjà rempli, à vérifier »: the marker of a block of prefilled rows. */
 function PrefilledBadge({ locale }: { locale: KycLocale }) {
   return (
@@ -237,8 +254,11 @@ function PrefilledRow({
                   <HelpHint text={L(text.help)} title={fieldLabel} locale={locale} />
                 </div>
               ) : null}
+              <div className={cn("flex items-center", solo ? "h-5" : "h-4")}>
+                <FilledCheck field={field} value={raw} />
+              </div>
             </div>
-            <p className="flex min-h-10 items-center whitespace-pre-line [overflow-wrap:anywhere]">{value}</p>
+            <LongValue text={value} locale={locale} />
           </div>
         )}
       </div>

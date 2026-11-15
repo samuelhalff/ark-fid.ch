@@ -267,3 +267,10 @@ export function newRowId(): string {
   globalThis.crypto.getRandomValues(bytes);
   return Array.from(bytes, (b) => (b % 36).toString(36)).join("") + Date.now().toString(36).slice(-4);
 }
+
+/** Has the field an answer the form accepts (prefilled by Ark or typed)? A single checkbox shows its own state. */
+export function isFilled(field: FieldDef, value: unknown): boolean {
+  if (field.type === "boolean") return false;
+  const present = Array.isArray(value) ? value.length > 0 : typeof value === "string" ? value.trim() !== "" : value != null;
+  return present && !validateField(field, value);
+}

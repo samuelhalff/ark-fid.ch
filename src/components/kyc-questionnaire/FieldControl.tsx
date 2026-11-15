@@ -15,6 +15,7 @@ import type { Answers, FieldDef, KycLocale } from "@/src/lib/kyc-questionnaire/t
 import { maskDate, normaliseAmount, normaliseDate } from "@/src/lib/tax-questionnaire/format";
 import { cn } from "@/src/lib/utils";
 import { CountryInput } from "./CountryInput";
+import { FilledCheck } from "./FilledCheck";
 import { HelpHint } from "./HelpHint";
 
 interface Props {
@@ -92,6 +93,9 @@ export function FieldControl({ field, name, locale, answers, askable, row }: Pro
               {optionalTag}
             </FormLabel>
             {hint ? <div className={cn("flex items-center", row === "solo" ? "h-5" : "h-4")}>{hint}</div> : null}
+            <div className={cn("flex items-center", row === "solo" ? "h-5" : "h-4")}>
+              <FilledCheck field={field} value={value} />
+            </div>
           </div>
         ) : (
           <div className="flex items-start gap-1">
@@ -100,6 +104,7 @@ export function FieldControl({ field, name, locale, answers, askable, row }: Pro
               {optionalTag}
             </FormLabel>
             {hint}
+            <FilledCheck field={field} value={value} className="mt-[0.2em]" />
           </div>
         );
         const rowItem = row ? "gap-1" : "";

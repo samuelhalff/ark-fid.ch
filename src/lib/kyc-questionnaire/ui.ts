@@ -25,6 +25,8 @@ export const UI = {
   carried: t("Transmis lors d'une version précédente", "Provided with an earlier version"),
   addRow: t("Ajouter une personne", "Add a person"),
   addAnother: t("Ajouter une personne", "Add a person"),
+  showAll: t("Voir tout", "Show all"),
+  showLess: t("Réduire", "Show less"),
   otherPerson: t("Autre personne : remplissez ci-dessous.", "Someone else: fill in below."),
   noRows: t("Aucune entrée pour l'instant.", "No entries yet."),
   optional: t("facultatif", "optional"),

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { getGroup, isRowFieldVisible, validateField } from "./engine.ts";
+import { getField, getGroup, isFilled, isRowFieldVisible, validateField } from "./engine.ts";
 import { choiceLabel, isUnnamedRow, knownPeople, rowFromPerson } from "./people.ts";
 import type { Answers, GroupDef } from "./types.ts";
 
@@ -77,4 +77,12 @@ test("a director given by name only, chosen as a 25 % holder: the name is copied
   const row = rowFromPerson(holders, person, { _id: "row0000001" });
   const missing = holders.fields.filter((f) => isRowFieldVisible(f, answers, row) && validateField(f, row[f.id])).map((f) => f.id);
   assert.deepEqual(missing, ["birthDate", "nationality", "address", "country", "percent", "holding"]);
+});
+
+test("the green check: a valid answer only, never an empty or refused one", () => {
+  const date = getField("a.incorporationDate")!;
+  assert.equal(isFilled(date, "01.03.2016"), true);
+  assert.equal(isFilled(date, "01.03"), false);
+  assert.equal(isFilled(date, "  "), false);
+  assert.equal(isFilled(getField("a.contactEmail")!, "sam@"), false);
 });
