@@ -7,6 +7,9 @@
  */
 import type { KycLocale } from "./types";
 
+/** The forms' languages: the KYC form's, and German for the tax questionnaire (shared field). */
+export type CountryLocale = KycLocale | "de";
+
 /** ISO 3166-1 alpha-2, every country and territory Intl names. */
 const CODES = (
   "AD AE AF AG AI AL AM AO AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ " +
@@ -28,9 +31,9 @@ export interface Country {
 
 const fold = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 
-const cache = new Map<KycLocale, Country[]>();
+const cache = new Map<CountryLocale, Country[]>();
 
-export function countries(locale: KycLocale): Country[] {
+export function countries(locale: CountryLocale): Country[] {
   const known = cache.get(locale);
   if (known) return known;
   const names = new Intl.DisplayNames([locale], { type: "region" });
@@ -47,7 +50,7 @@ export function countries(locale: KycLocale): Country[] {
 }
 
 /** The countries whose name has a word starting with `query` (then containing it), first ones first. */
-export function searchCountries(query: string, locale: KycLocale, limit = 6): Country[] {
+export function searchCountries(query: string, locale: CountryLocale, limit = 6): Country[] {
   const q = fold(query.trim());
   if (!q) return [];
   const all = countries(locale);
@@ -75,7 +78,7 @@ export function pickCountry(value: string, name: string, several: boolean): stri
 }
 
 /** True when what is typed is already a full country name: nothing left to suggest. */
-export function isCountryName(text: string, locale: KycLocale): boolean {
+export function isCountryName(text: string, locale: CountryLocale): boolean {
   const q = fold(text.trim());
   return !!q && countries(locale).some((c) => fold(c.name) === q);
 }

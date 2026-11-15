@@ -10,9 +10,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/src/components/ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
 import { maskDate, normaliseAmount, normaliseDate } from "@/src/lib/tax-questionnaire/format";
-import { label as interpolate, taxYearChoices } from "@/src/lib/tax-questionnaire/logic";
+import { label as interpolate, isFilled, taxYearChoices } from "@/src/lib/tax-questionnaire/logic";
 import { UI } from "@/src/lib/tax-questionnaire/ui";
 import type { Answers, FieldDef, QfLocale, Row } from "@/src/lib/tax-questionnaire/types";
+import { CountryInput } from "@/src/components/kyc-questionnaire/CountryInput";
+import { FilledCheck } from "@/src/components/kyc-questionnaire/FilledCheck";
 import { CommuneField } from "./CommuneField";
 
 const ARK_PREFILLED_LABEL = { fr: "Pré-rempli par Ark — à vérifier", en: "Pre-filled by Ark — please check", de: "Von Ark vorausgefüllt — bitte prüfen" };
@@ -46,12 +48,16 @@ export function FieldControl({ field, name, locale, answers, row, arkPrefilled }
         // Invalid controls get the site's destructive ring; the message is shown right under them.
         const invalid = !!fieldState.error;
         const errorRing = invalid ? "ring-2 ring-destructive/60" : "";
+        // The label line ends with the quiet green check once the answer is accepted (shared with KYC).
         const labelNode = (
-          <FormLabel className="form-label">
-            {L(field.label)}
-            {optional ? <span className="ml-1 font-normal text-muted-foreground">({UI.optional[locale]})</span> : null}
-            {arkPrefilled ? <span className="ml-2 text-xs font-medium text-brand-hover">{ARK_PREFILLED_LABEL[locale]}</span> : null}
-          </FormLabel>
+          <div className="flex items-start gap-1">
+            <FormLabel className="form-label min-w-0">
+              {L(field.label)}
+              {optional ? <span className="ml-1 font-normal text-muted-foreground">({UI.optional[locale]})</span> : null}
+              {arkPrefilled ? <span className="ml-2 text-xs font-medium text-brand-hover">{ARK_PREFILLED_LABEL[locale]}</span> : null}
+            </FormLabel>
+            <FilledCheck filled={!invalid && isFilled(field, value)} className="mt-[0.2em]" />
+          </div>
         );
         const help = field.help ? <FormDescription>{L(field.help)}</FormDescription> : null;
 
@@ -234,6 +240,33 @@ export function FieldControl({ field, name, locale, answers, row, arkPrefilled }
         if (field.type === "date") Object.assign(inputProps, { inputMode: "numeric", placeholder: UI.datePlaceholder[locale], autoComplete: "off" });
         if (name.endsWith("firstName")) inputProps.autoComplete = "given-name";
         if (name.endsWith("lastName")) inputProps.autoComplete = "family-name";
+        if (field.suggest) {
+          // Countries offered as typed (« sui » → Suisse), the same control as the KYC form.
+          return (
+            <FormItem data-field={name} className={cn(field.width === "half" ? "sm:col-span-1" : "sm:col-span-2")}>
+              {labelNode}
+              <FormControl>
+                <CountryInput
+                  name={f.name}
+                  ref={f.ref}
+                  value={typeof value === "string" ? value : ""}
+                  maxLength={field.maxLength || 200}
+                  locale={locale}
+                  several={field.suggest === "countries"}
+                  onValue={(next) => f.onChange(next)}
+                  onBlur={(e) => {
+                    const raw = e.target.value;
+                    const trimmed = raw.replace(/[\s,;]+$/, "");
+                    if (trimmed !== raw) f.onChange(trimmed);
+                    f.onBlur();
+                  }}
+                />
+              </FormControl>
+              {help}
+              <FormMessage />
+            </FormItem>
+          );
+        }
         return (
           <FormItem data-field={name} className={cn(field.width === "half" ? "sm:col-span-1" : "sm:col-span-2")}>
             {labelNode}

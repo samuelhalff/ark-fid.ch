@@ -309,3 +309,27 @@ export function newRowId(): string {
   globalThis.crypto.getRandomValues(bytes);
   return Array.from(bytes, (b) => (b % 36).toString(36)).join("") + Date.now().toString(36).slice(-4);
 }
+
+/** Has the field an answer the form accepts (prefilled or typed)? A single checkbox shows its own state. */
+export function isFilled(field: FieldDef, value: unknown): boolean {
+  if (field.type === "boolean") return false;
+  return !isEmpty(value) && !validateField(field, value);
+}
+
+/** Screen holding an error key of validateAll ("start.email" or "assets.banks[rowid].bank"). */
+export function stepOfKey(key: string): string | undefined {
+  const id = /^([^[]+)\[/.exec(key)?.[1] || key;
+  return STEPS.find((step) => step.blocks.some((block) => block.id === id))?.id;
+}
+
+/**
+ * What still blocks sending, in the form's order (the same validator as the server): `{ key, stepId }`.
+ * The review screen lists it, each a link, and keeps « Envoyer » disabled until it is empty.
+ */
+export function missingAnswers(a: Answers, now = new Date()): { key: string; stepId: string }[] {
+  const order = new Map(STEPS.map((step, i) => [step.id, i]));
+  return Object.keys(validateAll(pruneHidden(a), now))
+    .map((key) => ({ key, stepId: stepOfKey(key) || "" }))
+    .filter((m) => m.stepId)
+    .sort((x, y) => (order.get(x.stepId) ?? 0) - (order.get(y.stepId) ?? 0));
+}

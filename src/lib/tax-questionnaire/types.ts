@@ -70,6 +70,8 @@ export interface FieldDef {
   hidden?: boolean;
   /** commune fields: id of the canton field that filters the list (top-level id, or row field id). */
   cantonField?: string;
+  /** A text field that offers countries as typed: one (`country`) or several, comma-separated (`countries`). */
+  suggest?: "country" | "countries";
 }
 
 export interface GroupDef {

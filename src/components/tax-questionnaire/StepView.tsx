@@ -15,6 +15,8 @@ import { ROUTER_GROUPS, ROUTER_OPTIONS, renewalYear, rowsOf, STEPS } from "@/src
 import { UI, UI2 } from "@/src/lib/tax-questionnaire/ui";
 import type { Answers, GroupDef, QfLocale, Row, StepDef } from "@/src/lib/tax-questionnaire/types";
 import { cn } from "@/src/lib/utils";
+import { NameChoices } from "@/src/components/forms/NameChoices";
+import { choiceLabel, knownNames, NAME_REUSE } from "@/src/lib/tax-questionnaire/people";
 import { FieldControl } from "./FieldControl";
 import { toName } from "./form-model";
 
@@ -144,7 +146,7 @@ const R = {
 function GroupControl({ group, locale, answers, arkPrefilled }: { group: GroupDef; locale: QfLocale; answers: Answers; arkPrefilled?: boolean }) {
   const { control, formState, setValue } = useFormContext();
   const name = toName(group.id);
-  const { fields, append, remove } = useFieldArray({ control, name, keyName: "_key" });
+  const { fields, append, remove, update } = useFieldArray({ control, name, keyName: "_key" });
   const L = (text: Parameters<typeof interpolate>[0]) => interpolate(text, locale, answers);
   const year = L({ fr: "{year}", en: "{year}", de: "{year}" });
   const rows = rowsOf(answers, group.id);
@@ -169,6 +171,9 @@ function GroupControl({ group, locale, answers, arkPrefilled }: { group: GroupDe
     if (isSame) setSameAs(false);
   };
   const fieldOf = (id: string) => group.fields.find((f) => f.id === id);
+  // Names given above (employers, children, the spouse…): one tap fills the name of an entry still without one.
+  const reuse = NAME_REUSE[group.id];
+  const names = reuse ? knownNames(answers, group.id) : [];
   const fr = locale === "fr";
   const keptLabel = (fr && KEPT[group.id]) || R.kept[locale];
   const endedLabel = (fr && ENDED[group.id]) || R.ended[locale];
@@ -243,6 +248,16 @@ function GroupControl({ group, locale, answers, arkPrefilled }: { group: GroupDe
             ) : null}
             {expanded ? (
               <CardContent className="grid gap-5 px-5 sm:grid-cols-2">
+                {reuse && !carried && !String(row[reuse.field] || "").trim() ? (
+                  <NameChoices
+                    choices={names.map((n) => ({ key: n.key, label: choiceLabel(n, locale) }))}
+                    other={UI.otherName[locale]}
+                    onPick={(key) => {
+                      const picked = names.find((n) => n.key === key);
+                      if (picked) update(index, { ...row, _id: row._id || newRowId(), [reuse.field]: picked.value });
+                    }}
+                  />
+                ) : null}
                 {group.fields
                   .filter((f) => !f.hidden && isRowFieldVisible(f, answers, row))
                   .map((f) => (
@@ -257,14 +272,14 @@ function GroupControl({ group, locale, answers, arkPrefilled }: { group: GroupDe
       {groupMessage ? <p className="text-sm text-destructive">{groupMessage}</p> : null}
       <div className="flex flex-wrap items-center gap-2">
         {carriedRows.length ? (
-          <Button type="button" variant={isSame ? "secondary" : "outline"} onClick={allIdentical}>
-            {R.same[locale].replace("{prev}", prev)}
+          <Button type="button" variant={isSame ? "secondary" : "outline"} className="h-auto min-h-9 max-w-full py-2 text-left whitespace-normal" onClick={allIdentical}>
+            <span className="min-w-0 whitespace-normal">{R.same[locale].replace("{prev}", prev)}</span>
           </Button>
         ) : null}
         {fields.length < group.maxRows ? (
-          <Button type="button" variant="outline" onClick={addRow}>
+          <Button type="button" variant="outline" className="h-auto min-h-9 max-w-full py-2 text-left whitespace-normal [overflow-wrap:anywhere]" onClick={addRow}>
             <Plus className="size-4" />
-            {addLabel}
+            <span className="min-w-0 whitespace-normal [overflow-wrap:anywhere]">{addLabel}</span>
           </Button>
         ) : null}
       </div>

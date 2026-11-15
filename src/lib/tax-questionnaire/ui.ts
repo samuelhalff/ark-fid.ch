@@ -69,6 +69,11 @@ export const UI = {
     "Ich bestätige, dass die Angaben für mich und gegebenenfalls meinen Ehegatten oder meine Partnerin / meinen Partner, der/die davon Kenntnis hat, richtig und vollständig sind.",
   ),
   submit: t("Envoyer à Ark Fiduciaire", "Send to Ark Fiduciaire", "An Ark Fiduciaire senden"),
+  missingOne: t("Il manque 1 réponse", "1 answer missing", "1 Antwort fehlt"),
+  missingMany: t("Il manque {n} réponses", "{n} answers missing", "{n} Antworten fehlen"),
+  otherName: t("Quelqu'un d'autre : remplissez ci-dessous.", "Someone else: fill in below.", "Jemand anderes: unten ausfüllen."),
+  showAll: t("Voir tout", "Show all", "Alles anzeigen"),
+  showLess: t("Réduire", "Show less", "Weniger anzeigen"),
   submitting: t("Envoi en cours…", "Sending…", "Wird gesendet…"),
   doneTitle: t("Merci, c'est envoyé", "Thank you, it's sent", "Vielen Dank, gesendet"),
   doneText: t(
@@ -90,7 +95,6 @@ export const UI = {
 
 /** Texts of the access flow, autosave, status page and done screen. */
 export const UI2 = {
-  eyebrow: t("Ark Fiduciaire · Impôts", "Ark Fiduciaire · Tax", "Ark Fiduciaire · Steuern"),
   sendCode: t("Continuer", "Continue", "Weiter"),
   codeTitle: t("Vérifiez votre e-mail", "Check your e-mail", "Prüfen Sie Ihre E-Mail"),
   codeText: t("Nous avons envoyé un code à 6 chiffres à {email}. Il est valable 10 minutes.", "We sent a 6-digit code to {email}. It is valid for 10 minutes.", "Wir haben einen 6-stelligen Code an {email} gesendet. Er ist 10 Minuten gültig."),

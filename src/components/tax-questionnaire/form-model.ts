@@ -108,3 +108,26 @@ export function focusField(name: string | undefined) {
   const target = container.querySelector<HTMLElement>("input:not([type=hidden]), textarea, button, [role=combobox], [role=radio], [role=checkbox], [tabindex]");
   (target || container).focus({ preventScroll: true });
 }
+
+/**
+ * An error key of the shared validator ("start.email" or "assets.banks[rowid].bank") as a form
+ * issue: the control's name (for focusField) and its label, the row named as in collectIssues.
+ */
+export function issueFromKey(key: string, locale: QfLocale, answers: Answers): Issue | null {
+  const L = (text: Parameters<typeof interpolate>[0]) => interpolate(text, locale, answers);
+  const field = getField(key);
+  if (field) return { name: toName(key), label: L(field.label) };
+  const group = getGroup(key);
+  if (group) return { name: toName(key), label: L(group.label) };
+  const match = /^(.+)\[([a-z0-9]+)\]\.(.+)$/.exec(key);
+  if (!match) return null;
+  const [, groupId, rowId, fieldId] = match;
+  const rowGroup = getGroup(groupId);
+  const f = rowGroup?.fields.find((x) => x.id === fieldId);
+  if (!rowGroup || !f) return null;
+  const rows = (Array.isArray(answers[groupId]) ? answers[groupId] : []) as Row[];
+  const index = Math.max(rows.findIndex((r) => r._id === rowId), 0);
+  const row = rows[index] || ({} as Row);
+  const title = (rowGroup.titleField || "").split("|").map((k) => (typeof row[k] === "string" ? (row[k] as string) : "")).find(Boolean);
+  return { name: `${toName(groupId)}.${index}.${fieldId}`, label: `${L(f.label)} (${title || `${L(rowGroup.itemLabel)} ${index + 1}`})` };
+}

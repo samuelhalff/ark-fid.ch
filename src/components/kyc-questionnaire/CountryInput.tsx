@@ -3,13 +3,12 @@
 import { forwardRef, useId, useState } from "react";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
-import { isCountryName, pickCountry, searchCountries, typedPart } from "@/src/lib/kyc-questionnaire/countries";
-import type { KycLocale } from "@/src/lib/kyc-questionnaire/types";
+import { isCountryName, pickCountry, searchCountries, typedPart, type CountryLocale } from "@/src/lib/kyc-questionnaire/countries";
 
 type Props = Omit<React.ComponentPropsWithoutRef<"input">, "value" | "onChange"> & {
   value: string;
   onValue: (value: string) => void;
-  locale: KycLocale;
+  locale: CountryLocale;
   /** Takes several countries, separated by commas (nationalities, tax countries). */
   several: boolean;
 };
@@ -66,7 +65,7 @@ export const CountryInput = forwardRef<HTMLInputElement, Props>(function Country
                 setOpen(several);
               }}
             >
-              {country.name}
+              <span className="w-full text-left">{country.name}</span>
             </Button>
           ))}
         </div>

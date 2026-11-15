@@ -1,11 +1,10 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, CircleNotch, EnvelopeSimple, Phone, SignOut, Sparkle } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, CircleNotch, EnvelopeSimple, Phone, SignOut, Sparkle, WarningCircle } from "@phosphor-icons/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Alert, AlertDescription, AlertTitle } from "@/src/components/ui/alert";
-import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { Checkbox } from "@/src/components/ui/checkbox";
@@ -13,14 +12,14 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/src/compo
 import { Form } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
-import { Progress } from "@/src/components/ui/progress";
+import { LongText } from "@/src/components/forms/LongText";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/components/ui/select";
 import { Separator } from "@/src/components/ui/separator";
 import { Textarea } from "@/src/components/ui/textarea";
 import posthog from "posthog-js";
 import { trackEvent } from "@/src/lib/analytics";
 import { docCode } from "@/src/lib/tax-questionnaire/documents";
-import { checklistFor, displayValue, isBlockVisible, isRowFieldVisible, label as interpolate, pruneHidden, visibleSteps } from "@/src/lib/tax-questionnaire/logic";
+import { checklistFor, displayValue, isBlockVisible, isRowFieldVisible, label as interpolate, missingAnswers, pruneHidden, visibleSteps } from "@/src/lib/tax-questionnaire/logic";
 import { knownItems } from "@/src/lib/tax-questionnaire/renewal";
 import { ROUTER_OPTIONS, renewalYear, routerItems, rowsOf } from "@/src/lib/tax-questionnaire/schema";
 import { CONTACT, FIELD_ERRORS, SERVER_ERRORS, UI, UI2 } from "@/src/lib/tax-questionnaire/ui";
@@ -28,7 +27,7 @@ import { cn } from "@/src/lib/utils";
 import type { Answers, QfLocale, StepDef } from "@/src/lib/tax-questionnaire/types";
 import { ApiError, api, newSubmitKey, type CasePayload } from "./api";
 import { DocChecklist } from "./DocChecklist";
-import { collectIssues, focusField, fromForm, stepSchema, toForm, toName, type FormValues, type Issue } from "./form-model";
+import { collectIssues, focusField, fromForm, issueFromKey, stepSchema, toForm, toName, type FormValues, type Issue } from "./form-model";
 import { StepView } from "./StepView";
 import { Turnstile } from "./Turnstile";
 
@@ -416,19 +415,44 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
     }
   };
 
+  // ---- review: what still blocks sending ------------------------------------------------------------
+  // Said on the review screen before anyone presses « Envoyer » (same validator as the server); each a link.
+  const docsStepId = steps.find((s) => s.special === "documents")?.id || "documents";
+  const openIssue = (stepId: string, issue: Issue) => {
+    goTo(stepId);
+    setTimeout(() => {
+      if (issue.name.startsWith("doc:")) setIssues([issue]);
+      else void form.trigger();
+      focusField(issue.name);
+    }, 80);
+  };
+  const missingList =
+    step?.special === "review"
+      ? [
+          ...missingAnswers(pruned).flatMap(({ key, stepId }) => {
+            const issue = issueFromKey(key, locale, answers);
+            return issue ? [{ ...issue, stepId }] : [];
+          }),
+          ...(caseData ? missingDocs(checklist).map((item) => ({ name: `doc:${item.key}`, label: item.label[locale], stepId: docsStepId })) : []),
+        ]
+      : [];
+  const missingLabel = missingList.length === 1 ? UI.missingOne[locale] : UI.missingMany[locale].replace("{n}", String(missingList.length));
+
   // ---- rendering -------------------------------------------------------------------------------------
+  // One line: what the form is and for whom (each said once); the intro only before the form starts.
+  const clientName = `${String(answers["start.firstName"] || "")} ${String(answers["start.lastName"] || "")}`.trim();
   const header = (
     <div className="flex flex-col gap-3">
-      <div>
-        <Badge variant="secondary">{UI2.eyebrow[locale]}</Badge>
-      </div>
       {otherLanguage ? (
         <Alert>
           <AlertDescription>{OTHER_LANGUAGE_NOTE[otherLanguage]}</AlertDescription>
         </Alert>
       ) : null}
-      <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">{UI.pageTitle[locale]}</h1>
-      <p className="max-w-[60ch] text-base leading-7 text-muted-foreground">{UI.pageIntro[locale]}</p>
+      <h1 className="min-w-0 text-xl font-semibold leading-snug tracking-tight [overflow-wrap:anywhere] sm:text-2xl">
+        {UI.pageTitle[locale]}
+        {phase !== "start" && clientName ? <span className="font-medium text-muted-foreground">{` · ${clientName}`}</span> : null}
+      </h1>
+      {phase === "start" ? <p className="max-w-[60ch] text-base leading-7 text-muted-foreground">{UI.pageIntro[locale]}</p> : null}
     </div>
   );
 
@@ -544,7 +568,6 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
   }
 
   // phase "start" (no session yet) or "form"
-  const progress = Math.round(((index + 1) / Math.max(steps.length, 1)) * 100);
   const special = step.special;
   const items = special === "baseDocs" ? checklist.filter((i) => i.base) : checklist;
 
@@ -559,14 +582,12 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
         }}
       >
         {header}
-        <div className="sticky top-16 z-20 -mx-5 flex flex-col gap-2 bg-background/95 px-5 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:px-0">
-          <div className="flex items-center justify-between gap-3 text-sm">
-            <span className="font-medium">{UI.stepOf[locale].replace("{n}", String(index + 1)).replace("{total}", String(steps.length))}</span>
-            <span className="text-muted-foreground" aria-live="polite">
-              {save.state === "saving" ? UI2.saving[locale] : save.state === "saved" && save.at ? UI2.savedAt[locale].replace("{time}", new Date(save.at).toLocaleTimeString("fr-CH", { hour: "2-digit", minute: "2-digit" })) : save.state === "failed" ? UI2.saveFailed[locale] : ""}
-            </span>
-          </div>
-          <Progress value={progress} aria-label={UI.stepOf[locale].replace("{n}", String(index + 1)).replace("{total}", String(steps.length))} />
+        {/* Where the client is, said once (the screen's title is in the card), the save time beside it. */}
+        <div className="sticky top-16 z-20 -mx-5 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 bg-background/95 px-5 py-2 text-sm backdrop-blur sm:mx-0 sm:rounded-xl sm:px-0">
+          <span className="font-medium">{UI.stepOf[locale].replace("{n}", String(index + 1)).replace("{total}", String(steps.length))}</span>
+          <span className="text-xs text-muted-foreground" aria-live="polite">
+            {save.state === "saving" ? UI2.saving[locale] : save.state === "saved" && save.at ? UI2.savedAt[locale].replace("{time}", new Date(save.at).toLocaleTimeString("fr-CH", { hour: "2-digit", minute: "2-digit" })) : save.state === "failed" ? UI2.saveFailed[locale] : ""}
+          </span>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
@@ -582,7 +603,30 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                   <DocChecklist items={items} files={files} docStatus={docStatus} onStatus={(key, status) => setDocStatus((prev) => { const nextStatus = { ...prev }; if (status) nextStatus[key] = status; else delete nextStatus[key]; return nextStatus; })} locale={locale} clientName={`${String(answers["start.firstName"] || "")} ${String(answers["start.lastName"] || "")}`.trim()} canRemove={!caseData?.submittedAt} onChanged={refreshFiles} onBusy={setUploading} missing={new Set(issues.filter((i) => i.name.startsWith("doc:")).map((i) => i.name.slice(4)))} />
                 </>
               ) : special === "review" ? (
-                <ReviewSummary answers={pruned} locale={locale} onEdit={goTo} />
+                <>
+                  {missingList.length ? (
+                    <Alert variant="destructive">
+                      <WarningCircle className="size-4" />
+                      <AlertDescription>
+                        <p className="font-medium">{missingLabel}</p>
+                        <ul className="mt-2 flex flex-col gap-1">
+                          {missingList.map((item) => {
+                            const where = steps.find((s) => s.id === item.stepId);
+                            return (
+                              <li key={item.name}>
+                                <button type="button" className="min-h-11 py-1 text-left underline underline-offset-2 [overflow-wrap:anywhere]" onClick={() => openIssue(item.stepId, item)}>
+                                  {where ? `${L(where.title)} › ` : ""}
+                                  {item.label}
+                                </button>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </AlertDescription>
+                    </Alert>
+                  ) : null}
+                  <ReviewSummary answers={pruned} locale={locale} onEdit={goTo} />
+                </>
               ) : null}
               {special !== "documents" ? <StepView step={step} locale={locale} answers={answers} knownItems={knownItems(answers, locale)} aiSuggestions={aiSuggestions} /> : null}
               {special === "baseDocs" && caseData ? (
@@ -688,9 +732,9 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                     {UI2.skip[locale]}
                   </Button>
                 ) : null}
-                <Button type="submit" disabled={busy || (special === "review" && uploading)}>
+                <Button type="submit" disabled={busy || (special === "review" && (uploading || missingList.length > 0))}>
                   {busy ? <CircleNotch className="size-4 animate-spin" /> : null}
-                  {special === "review" ? UI.submit[locale] : phase === "start" ? UI2.sendCode[locale] : UI.next[locale]}
+                  {special === "review" ? (missingList.length ? missingLabel : UI.submit[locale]) : phase === "start" ? UI2.sendCode[locale] : UI.next[locale]}
                   {special !== "review" ? <ArrowRight className="size-4" /> : null}
                 </Button>
               </div>
@@ -779,7 +823,7 @@ function ReviewSummary({ answers, locale, onEdit }: { answers: Answers; locale: 
           if (!isBlockVisible(block, answers)) continue;
           if (block.kind === "field" && !block.hidden) {
             const value = displayValue(block, answers[block.id], locale, answers);
-            if (value) rows.push({ label: L(block.label), value: value.length > 160 ? `${value.slice(0, 157)}…` : value });
+            if (value) rows.push({ label: L(block.label), value });
           }
           if (block.kind === "group" && !block.hidden) {
             const list = rowsOf(answers, block.id);
@@ -807,7 +851,9 @@ function ReviewSummary({ answers, locale, onEdit }: { answers: Answers; locale: 
                 {rows.map((row, i) => (
                   <div key={i} className="contents">
                     <dt className="text-muted-foreground">{row.label}</dt>
-                    <dd className="break-words">{row.value}</dd>
+                    <dd className="min-w-0">
+                      <LongText text={row.value} showAll={UI.showAll[locale]} showLess={UI.showLess[locale]} />
+                    </dd>
                   </div>
                 ))}
               </dl>
