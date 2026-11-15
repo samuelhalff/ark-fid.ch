@@ -26,6 +26,8 @@ export const UI = {
   addRow: t("Ajouter une personne", "Add a person"),
   addAnother: t("Ajouter une personne", "Add a person"),
   showAll: t("Voir tout", "Show all"),
+  personChoice: t("C'est {name} ({role}indiqué plus haut)", "It's {name} ({role}given above)"),
+  contactRole: t("personne de contact", "contact person"),
   showLess: t("Réduire", "Show less"),
   otherPerson: t("Autre personne : remplissez ci-dessous.", "Someone else: fill in below."),
   noRows: t("Aucune entrée pour l'instant.", "No entries yet."),

@@ -7,6 +7,7 @@
 import { splitPersonName } from "../tax-questionnaire/format";
 import { isBlockAsked, rowsOf } from "./engine";
 import { STEPS } from "./schema";
+import { UI } from "./ui";
 import type { Answers, GroupDef, KycLocale, Row } from "./types";
 
 export interface KnownPerson {
@@ -98,9 +99,8 @@ export function rowFromPerson(group: GroupDef, person: KnownPerson, base: Row): 
 /** An entry still without a name: where the choices are offered. */
 export const isUnnamedRow = (row: Row | undefined) => !clean(row?.lastName) && !clean(row?.firstName);
 
-/** « C'est Samuel Halff (administrateur, indiqué plus haut) ». */
+/** « C'est Samuel Halff (administrateur, indiqué plus haut) », in the form's language. */
 export function choiceLabel(person: KnownPerson, locale: KycLocale): string {
-  const name = `${person.firstName} ${person.lastName}`;
-  const role = person.role || (person.contact ? (locale === "fr" ? "personne de contact" : "contact person") : "");
-  return locale === "fr" ? `C'est ${name} (${role ? `${role}, ` : ""}indiqué plus haut)` : `It's ${name} (${role ? `${role}, ` : ""}given above)`;
+  const role = person.role || (person.contact ? UI.contactRole[locale] : "");
+  return UI.personChoice[locale].replace("{name}", `${person.firstName} ${person.lastName}`).replace("{role}", role ? `${role}, ` : "");
 }

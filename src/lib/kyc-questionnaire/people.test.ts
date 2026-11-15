@@ -86,3 +86,13 @@ test("the green check: a valid answer only, never an empty or refused one", () =
   assert.equal(isFilled(date, "  "), false);
   assert.equal(isFilled(getField("a.contactEmail")!, "sam@"), false);
 });
+
+test("every interface text of the form exists in French and English", async () => {
+  const { UI } = await import("./ui.ts");
+  for (const [key, text] of Object.entries(UI)) {
+    if (!text || typeof text !== "object" || !("fr" in text)) continue;
+    const l = text as Record<string, unknown>;
+    assert.ok(typeof l.fr === "string" && l.fr.trim(), `${key} fr`);
+    assert.ok(typeof l.en === "string" && l.en.trim(), `${key} en`);
+  }
+});
