@@ -14,6 +14,7 @@ import { UI } from "@/src/lib/kyc-questionnaire/ui";
 import type { Answers, FieldDef, KycLocale } from "@/src/lib/kyc-questionnaire/types";
 import { maskDate, normaliseAmount, normaliseDate } from "@/src/lib/tax-questionnaire/format";
 import { cn } from "@/src/lib/utils";
+import { CountryInput } from "./CountryInput";
 import { HelpHint } from "./HelpHint";
 
 interface Props {
@@ -274,6 +275,34 @@ export function FieldControl({ field, name, locale, answers, askable, row }: Pro
         // Browser autofill only for the client's own name (a person's form), not for third parties' rows.
         if (name === "a__firstName") inputProps.autoComplete = "given-name";
         if (name === "a__lastName") inputProps.autoComplete = "family-name";
+        if (field.suggest) {
+          return (
+            <FormItem data-field={name} className={cn(span, rowItem)}>
+              {labelNode}
+              <FormControl>
+                <CountryInput
+                  {...inputProps}
+                  name={f.name}
+                  ref={f.ref}
+                  value={typeof value === "string" ? value : ""}
+                  maxLength={max}
+                  locale={locale}
+                  several={field.suggest === "countries"}
+                  onValue={(next) => f.onChange(next)}
+                  onBlur={(e) => {
+                    // A trailing comma left by the last pick is not part of the answer.
+                    const raw = e.target.value;
+                    const trimmed = raw.replace(/[\s,;]+$/, "");
+                    if (trimmed !== raw) f.onChange(trimmed);
+                    f.onBlur();
+                  }}
+                />
+              </FormControl>
+              {help}
+              <FormMessage />
+            </FormItem>
+          );
+        }
         return (
           <FormItem data-field={name} className={cn(span, rowItem)}>
             {labelNode}

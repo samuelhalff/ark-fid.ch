@@ -85,6 +85,8 @@ export interface FieldDef {
   showIf?: Predicate;
   maxLength?: number;
   width?: "full" | "half";
+  /** A text field that offers countries as typed: one (`country`) or several, comma-separated (`countries`). */
+  suggest?: "country" | "countries";
 }
 
 export interface GroupDef {

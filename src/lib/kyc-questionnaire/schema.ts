@@ -46,12 +46,12 @@ const personFields = (opts: { address?: boolean; birth?: boolean } = {}): FieldD
   { kind: "field", id: "lastName", type: "text", label: t("Nom", "Last name"), required: true, width: "half" },
   { kind: "field", id: "firstName", type: "text", label: t("Prénom(s)", "First name(s)"), required: true, width: "half" },
   ...(opts.birth === false ? [] : [{ kind: "field", id: "birthDate", type: "date", label: t("Date de naissance", "Date of birth"), required: true, width: "half" } as FieldDef]),
-  { kind: "field", id: "nationality", type: "text", label: t("Nationalité(s)", "Nationality(ies)"), required: true, width: "half" },
+  { kind: "field", id: "nationality", type: "text", label: t("Nationalité(s)", "Nationality(ies)"), required: true, width: "half", suggest: "countries" },
   ...(opts.address === false
     ? []
     : [
         { kind: "field", id: "address", type: "text", label: t("Adresse (rue, n°, NPA, localité)", "Address (street, no., postcode, town)"), required: true, maxLength: 300 } as FieldDef,
-        { kind: "field", id: "country", type: "text", label: t("Pays", "Country"), required: true, width: "half" } as FieldDef,
+        { kind: "field", id: "country", type: "text", label: t("Pays", "Country"), required: true, width: "half", suggest: "country" } as FieldDef,
       ]),
 ];
 
@@ -285,10 +285,10 @@ export const STEPS: StepDef[] = [
       { kind: "field", id: "a.email", type: "email", label: t("E-mail", "Email"), required: true, width: "half" },
       { kind: "field", id: "a.phone", type: "tel", label: t("Téléphone", "Phone"), help: t("Avec l’indicatif si le numéro n’est pas suisse (+33…).", "With the country code if the number is not Swiss (+33…)."), required: true, width: "half" },
       { kind: "field", id: "a.birthDate", type: "date", label: t("Date de naissance", "Date of birth"), required: true, width: "half" },
-      { kind: "field", id: "a.nationality", type: "text", label: t("Nationalité(s)", "Nationality(ies)"), required: true, width: "half", help: t("Toutes, si vous en avez plusieurs.", "All of them, if you have more than one.") },
+      { kind: "field", id: "a.nationality", type: "text", label: t("Nationalité(s)", "Nationality(ies)"), required: true, width: "half", suggest: "countries", help: t("Toutes, si vous en avez plusieurs.", "All of them, if you have more than one.") },
       { kind: "field", id: "a.address", type: "text", label: t("Adresse où vous habitez (rue, n°, NPA, localité)", "Address where you live (street, no., postcode, town)"), help: t("Pas de case postale.", "Not a P.O. box."), required: true, maxLength: 300 },
-      { kind: "field", id: "a.country", type: "text", label: t("Pays", "Country"), required: true, width: "half" },
-      { kind: "field", id: "a.taxCountry", type: "text", label: t("Pays où vous payez vos impôts", "Country where you pay tax"), help: t("Plusieurs pays : indiquez-les tous.", "Several countries: list them all."), required: true, width: "half" },
+      { kind: "field", id: "a.country", type: "text", label: t("Pays", "Country"), required: true, width: "half", suggest: "country" },
+      { kind: "field", id: "a.taxCountry", type: "text", suggest: "countries", label: t("Pays où vous payez vos impôts", "Country where you pay tax"), help: t("Plusieurs pays : indiquez-les tous.", "Several countries: list them all."), required: true, width: "half" },
       { kind: "field", id: "a.tin", type: "text", label: t("Numéro fiscal", "Tax number"), help: t("En Suisse, votre numéro AVS (756…).", "In Switzerland, your AHV/AVS number (756…)."), width: "half" },
       { kind: "field", id: "a.corrAddress", type: "text", label: t("Adresse postale, si elle est différente", "Mailing address, if different"), maxLength: 300 },
       { kind: "field", id: "a.profession", type: "text", label: t("Votre métier, et votre employeur ou votre entreprise", "Your occupation, and your employer or business"), help: t("Retraité ou sans emploi : écrivez-le.", "Retired or not working: write that."), required: true, maxLength: 450 },
@@ -310,9 +310,9 @@ export const STEPS: StepDef[] = [
       { kind: "field", id: "a.legalForm", type: "text", label: t("Forme juridique (SA, Sàrl…)", "Legal form (SA, Sàrl, Ltd…)"), required: true, width: "half" },
       { kind: "field", id: "a.uid", type: "text", label: t("Numéro IDE (CHE-…)", "UID number (CHE-…)"), help: t("Société étrangère : le numéro de son registre.", "Foreign company: the number in its own register."), required: true, width: "half" },
       { kind: "field", id: "a.incorporationDate", type: "date", label: t("Date de création", "Date of incorporation"), required: true, width: "half" },
-      { kind: "field", id: "a.incorporationCountry", type: "text", label: t("Pays d’enregistrement", "Country of registration"), required: true, width: "half" },
+      { kind: "field", id: "a.incorporationCountry", type: "text", suggest: "country", label: t("Pays d’enregistrement", "Country of registration"), required: true, width: "half" },
       { kind: "field", id: "a.seat", type: "text", label: t("Adresse du siège", "Registered address"), required: true, maxLength: 300 },
-      { kind: "field", id: "a.companyTaxCountry", type: "text", label: t("Pays où la société paie ses impôts", "Country where the company pays tax"), required: true, width: "half" },
+      { kind: "field", id: "a.companyTaxCountry", type: "text", suggest: "country", label: t("Pays où la société paie ses impôts", "Country where the company pays tax"), required: true, width: "half" },
       {
         kind: "field",
         id: "a.activityKind",
@@ -353,8 +353,8 @@ export const STEPS: StepDef[] = [
               { value: "none", label: t("Aucune", "None") },
             ],
           },
-          { kind: "field", id: "nationality", type: "text", label: t("Nationalité(s)", "Nationality(ies)"), required: true, width: "half" },
-          { kind: "field", id: "country", type: "text", label: t("Pays où elle habite", "Country of residence"), required: true, width: "half" },
+          { kind: "field", id: "nationality", type: "text", label: t("Nationalité(s)", "Nationality(ies)"), required: true, width: "half", suggest: "countries" },
+          { kind: "field", id: "country", type: "text", label: t("Pays où elle habite", "Country of residence"), required: true, width: "half", suggest: "country" },
         ],
       },
       { kind: "heading", id: "a.contactHeading", label: t("Personne de contact de la société", "The company's contact person"), help: t("La personne qu'Ark contacte pour ce dossier — en principe vous.", "The person Ark contacts about this file — usually you.") },
