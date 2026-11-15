@@ -87,7 +87,7 @@ function allDocuments(a: Answers): DocItem[] {
     else out.push(item("pm.financials", t("Derniers comptes annuels", "Latest annual accounts"), true));
   }
   if (a["f.funds"] === "yes") out.push(item("funds", t("Preuve de l’origine du versement (p. ex. relevé du compte d’où part l’argent)", "Evidence of the origin of the payment (e.g. statement of the account the money comes from)"), true));
-  out.push(item("other", t("Autre document (facultatif)", "Other document (optional)"), false));
+  out.push(item("other", t("Autre document", "Other document"), false));
   return out;
 }
 

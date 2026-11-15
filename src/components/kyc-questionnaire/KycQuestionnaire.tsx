@@ -24,7 +24,7 @@ import { KYC_LOCALES, type Answers, type DocDeclared, type DocItem, type KycLoca
 import { CONTACT, SERVER_ERRORS, UI } from "@/src/lib/kyc-questionnaire/ui";
 import { cn } from "@/src/lib/utils";
 import { ApiError, api, newSubmitKey, PDF_URL, type CaseFile, type CasePayload } from "./api";
-import { ActiveList, DocumentsStep, errorText, FileList, PickFiles, SIGNED_ACCEPT, useUploads } from "./DocumentsStep";
+import { DocumentsStep, errorText, KycFileRows, PickFiles, SIGNED_ACCEPT, useKycUploads } from "./DocumentsStep";
 import { collectIssues, focusField, fromForm, issuesFromKeys, stepOfKey, stepSchema, toForm, type FormValues, type Issue } from "./form-model";
 import { StepView } from "./StepView";
 import { SubScreenContext } from "./SubScreen";
@@ -1197,7 +1197,7 @@ function SigningView({
   const [busy, setBusy] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
-  const uploads = useUploads({ locale, maxFileBytes, onUploaded: onChanged, onBusy: setUploading });
+  const uploads = useKycUploads({ maxFileBytes, onUploaded: onChanged, onBusy: setUploading });
   const answers = caseData.answers || {};
   const signers = isPM(answers)
     ? rowsOf(answers, "i.signers").map((row) => [String(row.lastName || "").toLocaleUpperCase("fr-CH"), String(row.firstName || ""), row.function ? `(${String(row.function)})` : ""].filter(Boolean).join(" "))
@@ -1360,10 +1360,9 @@ function SigningView({
           <li className="flex flex-col gap-3">
             {stepTitle(3, UI.signStep3[locale])}
             <div className="flex flex-col gap-3 pl-10">
-              <FileList files={signed} locale={locale} onChanged={onChanged} />
-              <ActiveList list={uploads.active.signed || []} locale={locale} onDismiss={(id) => uploads.dismiss("signed", id)} />
+              <KycFileRows files={signed} rows={uploads.rows.signed || []} locale={locale} maxFileBytes={maxFileBytes} onChanged={onChanged} onRetry={(id) => uploads.retry("signed", id)} onDismiss={(id) => uploads.dismiss("signed", id)} />
               <div>
-                <PickFiles accept={SIGNED_ACCEPT} label={signed.length ? UI.addFiles[locale] : UI.chooseFiles[locale]} onFiles={(list) => void uploads.start("signed", { kind: "signed" }, list, SIGNED_ACCEPT)} />
+                <PickFiles accept={SIGNED_ACCEPT} label={signed.length ? UI.addFiles[locale] : UI.chooseFiles[locale]} variant={signed.length ? "outline" : "default"} onFiles={(list) => void uploads.start("signed", list)} />
               </div>
             </div>
           </li>
