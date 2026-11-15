@@ -610,7 +610,7 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
   // Every document needs a file or a status ("later" / "not applicable"); a file set aside for
   // checking counts as given (the client did send one).
   const flaggedCodes = new Set(flagged.map((f) => codeFromFileName(f.file.name)).filter(Boolean));
-  const unresolved = docs.filter((d) => d.status === "missing" && !flaggedCodes.has(d.item.code));
+  const unresolved = docs.filter((d) => d.status === "missing" && !d.item.optional && !flaggedCodes.has(d.item.code));
   if (unresolved.length) throw new ServiceError("documents_incomplete", 422, { keys: unresolved.map((d) => d.item.key) });
 
   const key = clientKey(info.email, str(answers["start.lastName"]), str(answers["start.firstName"]));
@@ -759,7 +759,7 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
         submittedAt: now.toISOString(),
         submittedBy: staffBy || undefined,
         docsReceived: rec.taxYear === info.main.taxYear ? received : rec.docsReceived,
-        missingDocs: rec.taxYear === info.main.taxYear ? docs.filter((d) => d.status === "later" || d.status === "missing").map((d) => d.item.label.fr).join("\n") : rec.missingDocs,
+        missingDocs: rec.taxYear === info.main.taxYear ? docs.filter(outstanding).map((d) => d.item.label.fr).join("\n") : rec.missingDocs,
         docsExpected: rec.taxYear === info.main.taxYear ? docs.length : rec.docsExpected,
         excelUrl: yearCopies.get(rec.taxYear)?.excel || excelItem.webUrl,
         pdfUrl: yearCopies.get(rec.taxYear)?.pdf || pdfItem.webUrl,
@@ -785,7 +785,7 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
     }
   }
   try {
-    await autoStatus(info.main, docs.filter((d) => d.status === "later" || d.status === "missing").length);
+    await autoStatus(info.main, docs.filter(outstanding).length);
   } catch (error) {
     console.error("[tax-qf] status update failed", info.caseId, error instanceof Error ? error.message : "");
   }
@@ -793,14 +793,48 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
 
   return {
     received: docs.filter((d) => d.status === "uploaded").map((d) => d.item.key),
-    pending: docs.filter((d) => d.status === "later" || d.status === "missing").map((d) => d.item.key),
+    pending: docs.filter(outstanding).map((d) => d.item.key),
     clientNotified,
   };
 }
 
-/** Staff "Documents à demander" lines → rows of the hidden start.arkDocs group (added / removed). */
-const staffLines = (text: string | undefined) =>
-  [...new Set((text || "").split(/\r?\n|;/).map((l) => l.replace(/^[-•*]\s*/, "").trim()).filter(Boolean))].slice(0, 30);
+/** Still to come: « plus tard », or not received (an optional document Ark asked for is never missing). */
+const outstanding = (d: DocResult) => d.status === "later" || (d.status === "missing" && !d.item.optional);
+
+export interface StaffDocItem {
+  label: string;
+  help?: string;
+  required: boolean;
+}
+
+/** A staff item read from a JSON line of « Documents à demander »: an object with a label, else null. */
+function staffJsonLine(line: string): StaffDocItem | null {
+  if (!line.startsWith("{")) return null;
+  try {
+    const raw: unknown = JSON.parse(line);
+    if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
+    const { label, help, required } = raw as Record<string, unknown>;
+    if (typeof label !== "string" || !label.trim()) return null;
+    const text = typeof help === "string" ? help.trim() : "";
+    return { label: label.trim(), ...(text ? { help: text } : {}), required: required !== false };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Staff "Documents à demander" (one per line): a JSON line `{"label","help"?,"required"?}`, or a
+ * plain line (legacy: split on `;`, bullet stripped), required. First of a label wins; 30 at most.
+ */
+export function staffDocItems(text: string | undefined): StaffDocItem[] {
+  const out: StaffDocItem[] = [];
+  for (const line of (text || "").split(/\r?\n/)) {
+    const json = staffJsonLine(line.trim());
+    const items = json ? [json] : line.split(";").map((l) => l.replace(/^[-•*]\s*/, "").trim()).filter(Boolean).map((label) => ({ label, required: true }));
+    for (const entry of items) if (!out.some((o) => o.label === entry.label)) out.push(entry);
+  }
+  return out.slice(0, 30);
+}
 const staffRowId = (line: string) => `stf${createHash("sha256").update(line.toLowerCase()).digest("hex").slice(0, 12)}`;
 
 /**
@@ -810,7 +844,7 @@ const staffRowId = (line: string) => `stf${createHash("sha256").update(line.toLo
 export function withStaffDocs(draft: Draft, staffDocs: string | undefined): Draft {
   const rows = Array.isArray(draft.answers["start.arkDocs"]) ? (draft.answers["start.arkDocs"] as Row[]) : [];
   const own = rows.filter((r) => r.staff !== "1");
-  const wanted = staffLines(staffDocs).map((line) => ({ _id: staffRowId(line), label: line.slice(0, 200), staff: "1" }) as Row);
+  const wanted = staffDocItems(staffDocs).map((doc) => ({ _id: staffRowId(doc.label), label: doc.label.slice(0, 200), staff: "1", ...(doc.help ? { help: doc.help.slice(0, 1000) } : {}), ...(doc.required ? {} : { required: "0" }) }) as Row);
   if (!wanted.length && own.length === rows.length) return draft;
   return { ...draft, answers: { ...draft.answers, "start.arkDocs": [...own, ...wanted] } };
 }
@@ -906,8 +940,8 @@ export async function refreshMissing(storage: TaxStorage, info: CaseInfo): Promi
   const draft = await syncStaffDocs(storage, info);
   if (!draft) return { labels: [], docs: [] };
   const docs = await currentDocs(storage, info, draft);
-  const labels = docs.filter((d) => d.status === "later" || d.status === "missing").map((d) => d.item.label[info.language] || d.item.label.fr);
-  const labelsFr = docs.filter((d) => d.status === "later" || d.status === "missing").map((d) => d.item.label.fr);
+  const labels = docs.filter(outstanding).map((d) => d.item.label[info.language] || d.item.label.fr);
+  const labelsFr = docs.filter(outstanding).map((d) => d.item.label.fr);
   await sharePointPorts().tracker.upsert({ ...info.main, missingDocs: labelsFr.join("\n"), docsReceived: docs.filter((d) => d.status === "uploaded").length, docsExpected: docs.length });
   await autoStatus(info.main, labels.length);
   forget(info.caseId);
@@ -919,7 +953,7 @@ export async function notifyAdditions(storage: TaxStorage, info: CaseInfo) {
   const { flagged } = await screenFiles(storage, info);
   const { docs } = await refreshMissing(storage, info);
   const received = docs.filter((d) => d.status === "uploaded");
-  const missing = docs.filter((d) => d.status === "later" || d.status === "missing");
+  const missing = docs.filter(outstanding);
   // A new version of the documents workbook in the folder (never overwritten).
   const now = new Date();
   try {
@@ -1108,7 +1142,7 @@ export async function missingDocuments(record: ReturnRecord, language: QfLocale)
   const codes = new Set(files.map((f) => codeFromFileName(f.name)).filter(Boolean));
   const office = await officeDocs(storage, info);
   return checklistFor(pruneHidden(draft.answers))
-    .filter((item) => !codes.has(item.code) && draft.docStatus[item.key] !== "na" && !officeHeld(office, item, info))
+    .filter((item) => !codes.has(item.code) && draft.docStatus[item.key] !== "na" && !officeHeld(office, item, info) && !(item.optional && !draft.docStatus[item.key]))
     .map((item) => item.label[language]);
 }
 

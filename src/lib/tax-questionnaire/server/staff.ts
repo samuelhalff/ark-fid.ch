@@ -9,6 +9,7 @@ import { createHmac } from "node:crypto";
 import { parseApiKeys } from "../../kyc-questionnaire/server/signature";
 import { personName } from "../format";
 import { displayValue, getField, getGroup, isBlockVisible, isFilled, isQuestionVisible, isRowFieldVisible, label, validateField, visibleSteps } from "../logic";
+import { whereToFind } from "../hints";
 import { ROUTER_GROUPS, ROUTER_OPTIONS, rowsOf } from "../schema";
 import { t, type Answers, type FieldDef, type L, type Option, type QfLocale } from "../types";
 import { assistMinutes } from "../../forms/assist";
@@ -17,7 +18,7 @@ import { inviteMember, isClosed, isPlanned, lang, MISSING_STOP_STATUSES, nextMai
 import { clientsFromCadence } from "./cadence-registry";
 import { linkMail } from "./mails";
 import type { ReturnRecord } from "./ports";
-import { caseDocuments, clientKey as computeClientKey, createInvitedReturn, forgetCase, getCase, missingDocuments, prefillDraft, readDraft, refreshMissing, SERVER_OWNED, ServiceError, setOfficeDocs } from "./service";
+import { caseDocuments, clientKey as computeClientKey, createInvitedReturn, forgetCase, getCase, missingDocuments, prefillDraft, readDraft, refreshMissing, SERVER_OWNED, ServiceError, setOfficeDocs, staffDocItems, type StaffDocItem } from "./service";
 import { normalise, sharePointPorts } from "./sharepoint-registry";
 import type { TaxStorage } from "./storage";
 
@@ -95,7 +96,10 @@ export interface ReturnSummary {
   /** Closed for the office: declined by the client, or staff status « Déposé » / « Clos ». */
   closed: boolean;
   extendedTo?: string;
+  /** Labels of the documents Ark asked for (« Documents à demander »). */
   staffDocs: string[];
+  /** The same, with their explanation and whether they are required. */
+  staffDocItems: StaffDocItem[];
   updatedAt: string;
 }
 
@@ -136,7 +140,8 @@ export function summarize(r: ReturnRecord): ReturnSummary {
     excluded: !!r.excludedFromCampaign,
     closed: r.state === "declined" || (!!r.staffStatus && STOP_STATUSES.includes(r.staffStatus)),
     ...(r.extendedTo ? { extendedTo: r.extendedTo.slice(0, 10) } : {}),
-    staffDocs: lines(r.staffDocs),
+    staffDocs: staffDocItems(r.staffDocs).map((doc) => doc.label),
+    staffDocItems: staffDocItems(r.staffDocs),
     updatedAt: r.modifiedAt || "",
   };
 }
@@ -362,6 +367,8 @@ export async function staffReturn(caseId: string, year: unknown, deps: Pick<Staf
     key: d.item.key,
     code: d.item.code,
     label: d.item.label[language] || d.item.label.fr,
+    ...(whereToFind(d.item, language) ? { help: whereToFind(d.item, language) } : {}),
+    required: !d.item.optional,
     status: (d.status === "uploaded" ? "received" : d.status) as StaffDocStatus,
     ...(d.files[0]?.webUrl ? { fileUrl: d.files[0].webUrl, size: d.files[0].size, ...(d.files[0].createdAt ? { receivedAt: d.files[0].createdAt } : {}) } : {}),
   }));
@@ -520,6 +527,39 @@ export interface ActionBody {
   answers?: unknown;
 }
 
+/**
+ * `staffDocs` entries: a label (as before) or `{label, help?, required?}` (required by default).
+ * Stored one per line: a plain required document as its label, any other as a JSON line.
+ * First of a label (whatever the case) wins; 30 at most.
+ */
+function staffDocsText(raw: unknown): string {
+  const bad = () => new ServiceError("invalid_staff_docs", 400);
+  if (!Array.isArray(raw)) throw bad();
+  const docs: (StaffDocItem & { line?: true })[] = [];
+  for (const entry of raw) {
+    let doc: StaffDocItem & { line?: true };
+    if (typeof entry === "string") {
+      const label = entry.replace(/\s+/g, " ").trim().slice(0, 200);
+      if (!label) continue;
+      doc = { label, required: true, line: true };
+    } else {
+      if (!entry || typeof entry !== "object" || Array.isArray(entry)) throw bad();
+      const { label, help, required } = entry as Record<string, unknown>;
+      const name = typeof label === "string" ? label.replace(/\s+/g, " ").trim() : "";
+      if (!name || name.length > 200) throw bad();
+      if (help !== undefined && help !== null && typeof help !== "string") throw bad();
+      const text = typeof help === "string" ? help.trim() : "";
+      if (text.length > 1000) throw bad();
+      if (required !== undefined && typeof required !== "boolean") throw bad();
+      doc = { label: name, ...(text ? { help: text } : {}), required: required !== false };
+    }
+    if (!docs.some((d) => d.label.toLowerCase() === doc.label.toLowerCase())) docs.push(doc);
+  }
+  // An object the plain-line reading would alter (« ; », a leading bullet or « { ») goes as JSON too.
+  const plain = (d: StaffDocItem & { line?: true }) => d.line || (d.required && !d.help && !/;|^[-•*{]/.test(d.label));
+  return docs.slice(0, 30).map((d) => (plain(d) ? d.label : JSON.stringify({ label: d.label, ...(d.help ? { help: d.help } : {}), required: d.required }))).join("\n");
+}
+
 export type ActionResult = { summary: ReturnSummary; link?: LinkResult; replayed: boolean; extra?: Record<string, unknown> };
 
 export async function staffAction(caseId: string, action: StaffAction, body: ActionBody, meta: { idempotencyKey: string; payloadHash: string }, deps: StaffDeps): Promise<ActionResult> {
@@ -546,9 +586,7 @@ export async function staffAction(caseId: string, action: StaffAction, body: Act
       if (extendedTo && (!DATE_RE.test(extendedTo) || Number.isNaN(Date.parse(`${extendedTo}T12:00:00Z`)))) throw new ServiceError("invalid_extended_to", 400);
       await tracker.setStaffFields(row.trackerId, { extendedTo });
     } else if (action === "staffDocs") {
-      if (!Array.isArray(body.staffDocs) || body.staffDocs.some((d) => typeof d !== "string")) throw new ServiceError("invalid_staff_docs", 400);
-      const docs = [...new Set((body.staffDocs as string[]).map((d) => d.replace(/\s+/g, " ").trim().slice(0, 200)).filter(Boolean))].slice(0, 30);
-      await tracker.setStaffFields(row.trackerId, { staffDocs: docs.join("\n") });
+      await tracker.setStaffFields(row.trackerId, { staffDocs: staffDocsText(body.staffDocs) });
     } else if (action === "officeDocs") {
       const raw = body.officeDocs;
       if (!Array.isArray(raw) || raw.length > 100 || raw.some((k) => typeof k !== "string" || !k.trim() || k.length > 120)) throw new ServiceError("invalid_office_docs", 400);

@@ -157,6 +157,7 @@ const INSTITUTION_RULES = new Set(["bank", "bank-statements", "trading", "foreig
 
 /** One-line "where to find it" hint, institution-specific when the row names a known provider. */
 export function whereToFind(item: DocItem, locale: QfLocale): string {
+  if (item.hint?.[locale]) return item.hint[locale];
   const generic = RULE_HINTS[item.ruleId]?.[locale] || "";
   if (!INSTITUTION_RULES.has(item.ruleId)) return generic;
   const inst = matchInstitution(rowTitleOf(item));

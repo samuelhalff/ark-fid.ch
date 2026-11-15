@@ -131,7 +131,7 @@ export function DocChecklist({ items, files, docStatus, onStatus, locale, client
                   dataField={`doc:${item.key}`}
                   title={item.label[locale]}
                   hint={whereToFind(item, locale)}
-                  required
+                  required={!item.optional}
                   canNotApply
                   received={mine.length > 0}
                   status={status}

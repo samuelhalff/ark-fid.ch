@@ -185,5 +185,13 @@ export interface DocItem {
   also?: string[];
 }
 
+/** A document Ark asked for on this case only (Cadence, key `extra:<uuid>`): its name, what to send, required or not. */
+export interface ExtraDocument {
+  key: string;
+  label: string;
+  help?: string;
+  required: boolean;
+}
+
 /** Client's answer per document: uploaded is derived from the files; these two are declared. */
 export type DocDeclared = "later" | "na";

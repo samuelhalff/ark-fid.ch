@@ -976,6 +976,74 @@ test("documents taken off by Ark: sent at creation, replaced by the documents ac
   assert.deepEqual(back.summary.officeDocuments, []);
 });
 
+test("documents Ark asks on this case only: stored by the documents action, asked after the standard ones, with their help", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-extra-01", payloadHash: "x" });
+  const caseId = created.summary.caseId;
+  assert.deepEqual(created.summary.extraDocuments, [], "none by default");
+  const docs = (body: Record<string, unknown>, key: string) => staffAction(caseId, "documents", { expectedRevision: 1, ...body }, { idempotencyKey: key, payloadHash: key });
+  const refused = (e: unknown) => e instanceof KycError && e.code === "invalid_request" && e.detail?.field === "extraDocuments";
+  for (const [i, bad] of [
+    "x",
+    [{ key: "other", label: "A", required: true }],
+    [{ key: "extra:a b", label: "A" }],
+    [{ key: "extra:1", label: "   " }],
+    [{ key: "extra:1", label: "A".repeat(201) }],
+    [{ key: "extra:1", label: "A", help: 3 }],
+    [{ key: "extra:1", label: "A", help: "h".repeat(1001) }],
+    [{ key: "extra:1", label: "A", required: "no" }],
+    Array.from({ length: 31 }, (_, n) => ({ key: `extra:${n}`, label: "A" })),
+  ].entries()) await assert.rejects(docs({ extraDocuments: bad }, `extra-bad-${i}`), refused);
+  const done = await docs({ extraDocuments: [
+    { key: "extra:3f2a-1", label: "  Bail   à loyer ", help: " Le bail signé de vos bureaux. ", required: true },
+    { key: "extra:3f2a-2", label: "Organigramme", help: "", required: false },
+    { key: "extra:3f2a-1", label: "Doublon" },
+    { key: "extra:3f2a-3", label: "Attestation" },
+  ] }, "extra-0001");
+  assert.deepEqual(done.summary.extraDocuments, [
+    { key: "extra:3f2a-1", label: "Bail à loyer", help: "Le bail signé de vos bureaux.", required: true },
+    { key: "extra:3f2a-2", label: "Organigramme", required: false },
+    { key: "extra:3f2a-3", label: "Attestation", required: true },
+  ]);
+  assert.deepEqual(done.summary.skippedDocuments, [], "a list not sent is kept");
+  // The client's list: after the standard ones, help as the hint, optional when not required.
+  const client = await clientCase({ caseId, revision: 1, emailHash: JEAN });
+  const items = documentsFor(pruneHidden({ ...pmOp, "a.uid": "CHE-123.456.789" }), client.skippedDocuments, client.officeDocuments, client.extraDocuments);
+  const lease = items.find((d) => d.key === "extra:3f2a-1")!;
+  assert.deepEqual(lease.hint, { fr: "Le bail signé de vos bureaux.", en: "Le bail signé de vos bureaux." });
+  assert.equal(lease.required, true);
+  assert.equal(lease.code, docCode("extra:3f2a-1"));
+  assert.equal(items.find((d) => d.key === "extra:3f2a-2")?.required, false);
+  assert.ok(items.findIndex((d) => d.key === "other") < items.findIndex((d) => d.key === "extra:3f2a-1"), "after the standard ones");
+  assert.ok((await createUpload({ caseId, revision: 1, emailHash: JEAN }, { kind: "doc", docKey: "extra:3f2a-1", fileName: "bail.pdf", size: 1000, mime: "application/pdf" })).uploadUrl);
+  // Staff items carry the help, standard documents too.
+  let staff = await staffCase(caseId);
+  assert.deepEqual(staff.documentItems.find((d) => d.key === "extra:3f2a-1")?.help, { fr: "Le bail signé de vos bureaux.", en: "Le bail signé de vos bureaux." });
+  assert.equal(staff.documentItems.find((d) => d.key === "extra:3f2a-2")?.help, undefined);
+  // Taken off and held by the office apply to them like any document.
+  await docs({ skippedDocuments: ["extra:3f2a-2"], officeDocuments: ["extra:3f2a-3"] }, "extra-0002");
+  staff = await staffCase(caseId);
+  assert.equal(staff.documentItems.find((d) => d.key === "extra:3f2a-2")?.withheld, "removed");
+  assert.equal(staff.documentItems.find((d) => d.key === "extra:3f2a-3")?.withheld, "office");
+  assert.equal(staff.extraDocuments.length, 3, "an extraDocuments list not sent is kept");
+  const asked = documentsFor(pruneHidden(pmOp), ["extra:3f2a-2"], ["extra:3f2a-3"], staff.extraDocuments).map((d) => d.key);
+  assert.ok(asked.includes("extra:3f2a-1") && !asked.includes("extra:3f2a-2") && !asked.includes("extra:3f2a-3"));
+  // Replaced, then cleared by an empty list.
+  const replaced = await docs({ extraDocuments: [{ key: "extra:9", label: "Autre pièce", required: false }] }, "extra-0003");
+  assert.deepEqual(replaced.summary.extraDocuments, [{ key: "extra:9", label: "Autre pièce", required: false }]);
+  const cleared = await docs({ extraDocuments: [] }, "extra-0004");
+  assert.deepEqual(cleared.summary.extraDocuments, []);
+  assert.equal((await loadCase(caseId)).extraDocuments, undefined);
+  assert.ok(!(await staffCase(caseId)).documentItems.some((d) => d.key.startsWith("extra:")));
+});
+
+test("a standard document's help reaches the staff items; without extras the list is unchanged", () => {
+  const a = pruneHidden(pp);
+  assert.deepEqual(documentList(a, [], [], []), documentList(a));
+  const id = documentList(a).find((d) => d.key === "pp.id")!;
+  assert.ok(id.hint?.fr.startsWith("Copie certifiée"));
+});
+
 test("a retired question is never prefilled; an operating company starts with « its business » ticked", async () => {
   const f = await fixture();
   const created = await createCase({ ...createInput(f.clientFolder, "pp"), prefill: { "a.lastName": "Martin", "a.idNumber": "X1" } }, { keyId: "cadence", idempotencyKey: "create-retired-01", payloadHash: "r1" });

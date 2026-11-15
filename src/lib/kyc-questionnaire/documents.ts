@@ -6,7 +6,7 @@
 import { holderKinds } from "./holders";
 import { personKey } from "./people";
 import { clientName, isListed, isPM, isPP, sectionBPersons } from "./schema";
-import { t, type Answers, type DocItem, type L, type Row } from "./types";
+import { t, type Answers, type DocItem, type ExtraDocument, type L, type Row } from "./types";
 
 const CERTIFIED_HINT = t(
   "Copie certifiée par un notaire, votre commune, ou par nous sur présentation de l’original. Joignez un scan ici et envoyez la copie certifiée par la poste : Ark Fiduciaire SA, boulevard Georges-Favon 26, 1204 Genève.",
@@ -74,16 +74,18 @@ export type Withheld = "removed" | "office";
 /**
  * Every document the route and answers call for, each marked `withheld` when Ark took it off this
  * case's list (`skipped`) or holds it (`office`); both are Cadence's keys. Taken off wins.
+ * `extra`: the documents Ark asked for on this case only, after the standard ones.
  */
-export function documentList(a: Answers, skipped: readonly string[] = [], office: readonly string[] = []): (DocItem & { withheld: Withheld | null })[] {
+export function documentList(a: Answers, skipped: readonly string[] = [], office: readonly string[] = [], extra: readonly ExtraDocument[] = []): (DocItem & { withheld: Withheld | null })[] {
   const removed = new Set(skipped);
   const held = new Set(office);
-  return allDocuments(a, removed).map((doc) => ({ ...doc, withheld: removed.has(doc.key) ? "removed" : held.has(doc.key) ? "office" : null }));
+  const asked = extra.map((doc) => item(doc.key, t(doc.label, doc.label), doc.required, doc.help ? t(doc.help, doc.help) : undefined));
+  return [...allDocuments(a, removed), ...asked].map((doc) => ({ ...doc, withheld: removed.has(doc.key) ? "removed" : held.has(doc.key) ? "office" : null }));
 }
 
 /** The documents asked of the client: the list without what Ark took off or already holds. */
-export function documentsFor(a: Answers, skipped: readonly string[] = [], office: readonly string[] = []): DocItem[] {
-  return documentList(a, skipped, office).filter((doc) => doc.withheld === null).map(({ withheld: _w, ...doc }) => doc);
+export function documentsFor(a: Answers, skipped: readonly string[] = [], office: readonly string[] = [], extra: readonly ExtraDocument[] = []): DocItem[] {
+  return documentList(a, skipped, office, extra).filter((doc) => doc.withheld === null).map(({ withheld: _w, ...doc }) => doc);
 }
 const personLabel = (row: Row) => [String(row.lastName || "").toLocaleUpperCase("fr-CH"), String(row.firstName || "")].join(" ").trim();
 const rows = (a: Answers, id: string): Row[] => (Array.isArray(a[id]) ? (a[id] as Row[]) : []);

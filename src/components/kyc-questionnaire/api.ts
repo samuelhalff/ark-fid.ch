@@ -1,7 +1,7 @@
 "use client";
 
 /** Browser calls to /api/kyc-questionnaire/* (same origin, CSRF header, no PII in URLs). */
-import type { Answers, DocDeclared, KycRoute } from "@/src/lib/kyc-questionnaire/types";
+import type { Answers, DocDeclared, ExtraDocument, KycRoute } from "@/src/lib/kyc-questionnaire/types";
 import { apiCaller, uploadInChunks, type UploadHandle } from "@/src/lib/questionnaire/api-client";
 
 export { ApiError, newSubmitKey, type UploadHandle } from "@/src/lib/questionnaire/api-client";
@@ -30,6 +30,8 @@ export interface CasePayload {
   /** Document keys Ark took off this case's list: not asked here (absent on a signer's view). */
   skippedDocuments?: string[];
   officeDocuments?: string[];
+  /** Documents Ark asked for on this case only, after the standard ones. */
+  extraDocuments?: ExtraDocument[];
   draft: { savedAt: string; stepId: string; answers: Answers; docDeclared: Record<string, DocDeclared>; staffPrefillVersion?: number } | null;
   /** Submitted answers once sent, else the draft's. */
   answers: Answers;

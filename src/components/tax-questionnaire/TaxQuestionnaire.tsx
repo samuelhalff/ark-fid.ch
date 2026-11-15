@@ -331,7 +331,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
     setNotice({ tone: "error", text: UI.errorSummary[locale] });
     requestAnimationFrame(() => focusField(list[0]?.name));
   };
-  const missingDocs = (list: typeof checklist) => list.filter((item) => !files.some((f) => f.code === item.code) && !docStatus[item.key]);
+  const missingDocs = (list: typeof checklist) => list.filter((item) => !item.optional && !files.some((f) => f.code === item.code) && !docStatus[item.key]);
   const stepIssues = async (): Promise<Issue[]> => {
     const valid = await form.trigger();
     // The render-time formState snapshot is stale right after trigger(): read the live errors.
@@ -940,7 +940,7 @@ function StatusView({
 }) {
   const [message, setMessage] = useState("");
   const [partner, setPartner] = useState({ email: "", firstName: "", lastName: "" });
-  const pending = checklist.filter((item) => !caseData.files.some((f) => f.code === item.code) && docStatus[item.key] !== "na");
+  const pending = checklist.filter((item) => !caseData.files.some((f) => f.code === item.code) && docStatus[item.key] !== "na" && !(item.optional && !docStatus[item.key]));
   const date = caseData.submittedAt ? new Date(caseData.submittedAt).toLocaleDateString("fr-CH") : "";
   return (
     <div className="flex flex-col gap-8">

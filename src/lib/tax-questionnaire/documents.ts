@@ -244,7 +244,14 @@ export function computeChecklist(answers: Answers, titleFields: Record<string, s
       for (const locale of Object.keys(label) as QfLocale[]) {
         label[locale] = label[locale].replace(/\{row\}/g, rowTitle(row, titleFields[rule.forEach as string], index, locale));
       }
-      items.push(item(rule, `${rule.id}:${row._id}`, label));
+      const doc = item(rule, `${rule.id}:${row._id}`, label);
+      // A document Ark asked for: its own explanation, and « facultatif » when Ark said so.
+      if (rule.id === "ark-doc") {
+        const help = String(row.help || "").trim();
+        if (help) doc.hint = t(help, help, help);
+        if (row.required === "0") doc.optional = true;
+      }
+      items.push(doc);
     });
   }
   for (const older of selectedYears(answers).slice(1)) {

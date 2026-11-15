@@ -14,6 +14,7 @@ const service = await import("./server/service.ts");
 const access = await import("./server/access.ts");
 const { docCode } = await import("./documents.ts");
 const { checklistFor } = await import("./logic.ts");
+const { whereToFind } = await import("./hints.ts");
 /** Every checklist item answered "later" (the server requires a file or a status per document). */
 const allLater = (a: Record<string, unknown>) => Object.fromEntries(checklistFor(a).map((i) => [i.key, "later"]));
 
@@ -192,6 +193,44 @@ test("after submission: missing list and status on the tracker, staff items merg
   // Staff clears the column: the item leaves the to-do.
   const cleared = { ...withStaff, main: { ...withStaff.main, staffDocs: "" } };
   assert.ok(!(await service.refreshMissing(storage, cleared)).labels.includes("Contrat de prêt avec votre beau-frère"));
+});
+
+test("staff documents: JSON lines carry help and « facultatif »; legacy lines unchanged; an optional one never blocks nor counts missing", async () => {
+  // Parser: legacy lines (split on « ; », bullet stripped), JSON lines, label-exact dedupe.
+  assert.deepEqual(service.staffDocItems("- Relevé UBS; Attestation 3a\nRelevé UBS\n{\"label\":\"Bail\",\"help\":\"Le bail signé\",\"required\":false}\n{broken"), [
+    { label: "Relevé UBS", required: true },
+    { label: "Attestation 3a", required: true },
+    { label: "Bail", help: "Le bail signé", required: false },
+    { label: "{broken", required: true },
+  ]);
+  assert.deepEqual(service.staffDocItems("{\"label\":\"  \"}"), [{ label: "{\"label\":\"  \"}", required: true }], "no label: read as a plain line");
+  const email = "optional@example.com";
+  const base = answers(email, { "start.firstName": "Op", "start.lastName": "Tional" });
+  const info = await service.createCase(storage, { identity: { email, firstName: "Op", lastName: "Tional" }, locale: "fr", answers: base });
+  // Rows: same key as a plain line of the same label, help and "0" on the hidden row.
+  const withStaff = { ...info, main: { ...info.main, staffDocs: "Bail\n{\"label\":\"Organigramme\",\"help\":\"Qui détient quoi\",\"required\":false}" } };
+  const merged = (await service.syncStaffDocs(storage, withStaff))!;
+  const ark = merged.answers["start.arkDocs"] as Record<string, unknown>[];
+  const plainKey = (await service.syncStaffDocs(storage, { ...info, main: { ...info.main, staffDocs: "Organigramme" } }))!.answers["start.arkDocs"] as Record<string, unknown>[];
+  assert.equal(ark[1]._id, plainKey[0]._id, "the key depends on the label only");
+  assert.deepEqual(ark.map((r) => [r.help, r.required]), [[undefined, undefined], ["Qui détient quoi", "0"]]);
+  const items = checklistFor(merged.answers).filter((i) => i.ruleId === "ark-doc");
+  assert.deepEqual(items.map((i) => [i.label.fr, i.optional, i.hint?.fr]), [["Bail", undefined, undefined], ["Organigramme", true, "Qui détient quoi"]]);
+  assert.equal(whereToFind(items[1], "en"), "Qui détient quoi", "the row shows Ark's explanation");
+  assert.match(whereToFind(items[0], "fr"), /Document demandé par Ark/, "without one, the generic hint");
+  // An optional own row in the stored draft: the submission goes through without it.
+  const stored = (await service.readDraft(storage, info))!;
+  const own = [{ _id: "own00001", label: "Plan", required: "0" }];
+  await storage.putFile(info.main.driveId, info.main.folderId, service.DRAFT_FILE, new TextEncoder().encode(JSON.stringify({ ...stored, answers: { ...stored.answers, "start.arkDocs": own } })), "application/json");
+  const later = Object.fromEntries(Object.entries(allLater(base)));
+  const result = await service.finalizeSubmission(storage, await service.getCase(info.caseId), { locale: "fr", answers: base, docStatus: later, privacyAccepted: true, certified: true, submitKey: "optional01" });
+  assert.ok(!result.pending.includes("ark-doc:own00001"), "never pending");
+  const row = () => mem.returns.find((r) => r.caseId === info.caseId)!;
+  assert.doesNotMatch(row().missingDocs || "", /Plan/);
+  // After submission: an optional staff item is never in the missing list, a required one is.
+  const after = { ...(await service.getCase(info.caseId)), main: { ...row(), staffDocs: withStaff.main.staffDocs } };
+  const { labels } = await service.refreshMissing(storage, after);
+  assert.ok(labels.includes("Bail") && !labels.includes("Organigramme"));
 });
 
 test("annual reminder: on by default, unticking it on submission turns the reminder off", async () => {

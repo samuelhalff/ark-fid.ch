@@ -209,7 +209,13 @@ const start: StepDef = {
       titleField: "label",
       hidden: true,
       maxRows: 40,
-      fields: [f("label", "text", t("Document", "Document", "Dokument"), { maxLength: 200 }), f("staff", "text", t("Ajouté par le staff", "Added by staff", "Vom Team hinzugefügt"), { hidden: true, maxLength: 1 })],
+      fields: [
+        f("label", "text", t("Document", "Document", "Dokument"), { maxLength: 200 }),
+        f("staff", "text", t("Ajouté par le staff", "Added by staff", "Vom Team hinzugefügt"), { hidden: true, maxLength: 1 }),
+        // Staff items: the explanation shown under the title, and "0" when the document is optional.
+        f("help", "text", t("Explication", "Explanation", "Erklärung"), { hidden: true, maxLength: 1000 }),
+        f("required", "text", t("Obligatoire", "Required", "Erforderlich"), { hidden: true, maxLength: 1 }),
+      ],
     }),
     heading("start.contactHeading", t("Vos coordonnées", "Your contact details", "Ihre Kontaktdaten")),
     f("start.firstName", "text", t("Prénom", "First name", "Vorname"), { required: true, width: "half", maxLength: 100 }),

@@ -14,7 +14,7 @@ import { staffRoute } from "@/src/lib/tax-questionnaire/server/staff-http";
  *   POST {action, taxYear?, email?, send?, extendedTo?, staffDocs?, officeDocs?, clientRef?, by?, ttlMinutes?, answers?} (Idempotency-Key required):
  *        link (per case: new staff link; email changes the address; send mails it) |
  *        remind {taxYear} | exclude / include {taxYear} | deadline {taxYear, extendedTo} |
- *        staffDocs {taxYear, staffDocs: string[]} | officeDocs {taxYear, officeDocs: string[]} (document keys the
+ *        staffDocs {taxYear, staffDocs: (string | {label, help?, required?})[]} | officeDocs {taxYear, officeDocs: string[]} (document keys the
  *        office holds: off the client's to-do, missing list and reminders) | attach {clientRef} |
  *        assist {taxYear, by, ttlMinutes?} (office access « Code cabinet »: answer adds
  *        assist: {link (#assist=), code, expiresAt}; single use; nothing e-mailed) |

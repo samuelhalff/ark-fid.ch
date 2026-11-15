@@ -166,6 +166,8 @@ export interface DocItem {
   base?: boolean;
   /** Arrears: the earlier tax year this item belongs to (its own year folder). */
   year?: number;
+  /** Asked by Ark as « facultatif »: never blocks the submission, never counted missing. */
+  optional?: boolean;
 }
 
 /** "office": the office received it another way (Cadence « Ajouter »); never asked of the client. */

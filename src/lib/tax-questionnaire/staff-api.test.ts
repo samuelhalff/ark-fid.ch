@@ -244,6 +244,58 @@ test("exclude / include / deadline / staffDocs act on the row; attach sets clien
   assert.ok(rows(caseId).every((r) => r.clientRef === "res.partner:999"));
 });
 
+test("staffDocs: objects with help and required stored as JSON lines; strings as before; summary gives labels and items", async () => {
+  const created = await staff.createReturn({ ...person(), sendInvitation: false }, { idempotencyKey: "create-key-sdocs" }, deps);
+  const caseId = created.summary.caseId;
+  const row = () => rows(caseId).find((r) => r.taxYear === YEAR)!;
+  for (const [i, bad] of [
+    "Relevé",
+    [{ label: "  " }],
+    [{ label: "A".repeat(201) }],
+    [{ label: "A", help: 3 }],
+    [{ label: "A", help: "h".repeat(1001) }],
+    [{ label: "A", required: "no" }],
+    [null],
+  ].entries()) await assert.rejects(staff.staffAction(caseId, "staffDocs", { taxYear: YEAR, staffDocs: bad }, meta(`sdocs-bad-${i}`), deps), /invalid_staff_docs/);
+  const done = await staff.staffAction(caseId, "staffDocs", { taxYear: YEAR, staffDocs: [
+    "Relevé UBS",
+    { label: "Attestation 3a" },
+    { label: "  Bail   à loyer ", help: " Le bail signé ", required: false },
+    { label: "Organigramme", help: "Qui détient quoi" },
+    { label: "relevé ubs", help: "doublon" },
+    { label: "Prêt; contrat" },
+  ] }, meta("sdocs-0001"), deps);
+  assert.equal(row().staffDocs, [
+    "Relevé UBS",
+    "Attestation 3a",
+    JSON.stringify({ label: "Bail à loyer", help: "Le bail signé", required: false }),
+    JSON.stringify({ label: "Organigramme", help: "Qui détient quoi", required: true }),
+    JSON.stringify({ label: "Prêt; contrat", required: true }),
+  ].join("\n"));
+  assert.deepEqual(done.summary.staffDocs, ["Relevé UBS", "Attestation 3a", "Bail à loyer", "Organigramme", "Prêt; contrat"], "labels only, no JSON");
+  assert.deepEqual(done.summary.staffDocItems, [
+    { label: "Relevé UBS", required: true },
+    { label: "Attestation 3a", required: true },
+    { label: "Bail à loyer", help: "Le bail signé", required: false },
+    { label: "Organigramme", help: "Qui détient quoi", required: true },
+    { label: "Prêt; contrat", required: true },
+  ]);
+  // Legacy strings: stored exactly as before (a « ; » still splits when read).
+  const legacy = await staff.staffAction(caseId, "staffDocs", { taxYear: YEAR, staffDocs: ["A; B", " C "] }, meta("sdocs-0002"), deps);
+  assert.equal(row().staffDocs, "A; B\nC");
+  assert.deepEqual(legacy.summary.staffDocs, ["A", "B", "C"]);
+  // The return's documents carry the help and whether they are required.
+  await staff.staffAction(caseId, "staffDocs", { taxYear: YEAR, staffDocs: [{ label: "Bail", help: "Le bail signé", required: false }, "Relevé UBS"] }, meta("sdocs-0003"), deps);
+  const one = await staff.staffReturn(caseId, String(YEAR), deps);
+  const bail = one.documents.find((d) => d.label === "Bail");
+  assert.equal(bail?.help, "Le bail signé");
+  assert.equal(bail?.required, false);
+  const ubs = one.documents.find((d) => d.label === "Relevé UBS");
+  assert.equal(ubs?.required, true);
+  assert.match(ubs?.help || "", /Ark/, "a document without its own help gives the generic one");
+  assert.ok(one.documents.every((d) => typeof d.required === "boolean"));
+});
+
 test("GET one return: documents with statuses and the answers", async () => {
   const created = await staff.createReturn({ ...person(), sendInvitation: false }, { idempotencyKey: "create-key-get" }, deps);
   const one = await staff.staffReturn(created.summary.caseId, String(YEAR), deps);
