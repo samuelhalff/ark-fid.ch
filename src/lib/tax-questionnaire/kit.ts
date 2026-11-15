@@ -1,4 +1,4 @@
-/** The tax form's kit for the shared questionnaire components: FR/EN/DE strings, labels with the tax year, help shown under the label. */
+/** The tax form's kit for the shared questionnaire components: FR/EN/DE strings, labels with the tax year, help behind the (i). */
 import type { IssueAdapter } from "../questionnaire/issues";
 import type { KitBase, KitField } from "../questionnaire/kit";
 import { displayValue, getField, getGroup, isFilled, isRowFieldVisible, label, newRowId, validateField } from "./logic";
@@ -28,6 +28,9 @@ export function taxKit(locale: QfLocale): KitBase {
       addAnother: s("addAnother"),
       otherPerson: s("otherName"),
       edit: s("edit"),
+      helpButton: s("helpButton"),
+      prefilled: s("prefilled"),
+      rowDone: s("rowDone"),
       showAll: s("showAll"),
       showLess: s("showLess"),
       stepOf: s("stepOf"),
@@ -41,7 +44,6 @@ export function taxKit(locale: QfLocale): KitBase {
     fieldText: (field) => ({ label: field.label, help: field.help }),
     isFilled: (field, value) => isFilled(field as FieldDef, value),
     maxLength: (field: KitField) => field.maxLength || (field.type === "textarea" ? 4000 : 200),
-    helpStyle: "inline",
     // The client's own name and e-mail (start screen), never a child's, an employer's or a partner's row.
     autofill: { start__firstName: "given-name", start__lastName: "family-name", start__email: "email" },
     displayValue: (field, value, answers) => displayValue(field as FieldDef, value, locale, answers as Answers),

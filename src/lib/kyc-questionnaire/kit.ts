@@ -40,7 +40,6 @@ export function kycKit(locale: KycLocale): KitBase {
     fieldText: (field, answers) => fieldText(field as FieldDef, answers as Answers),
     isFilled: (field, value) => isFilled(field as FieldDef, value),
     maxLength: (field: KitField) => field.maxLength || (field.type === "textarea" ? LIMITS.textarea : LIMITS.text),
-    helpStyle: "hint",
     // The client's own name and e-mail (a person's form; the contact person of a company), never a third party's row.
     autofill: { a__firstName: "given-name", a__lastName: "family-name", a__email: "email", a__contactEmail: "email" },
     displayValue: (field, value, answers) => displayValue(field as FieldDef, value, locale, answers as Answers),

@@ -33,8 +33,6 @@ interface Props {
    * over a control at row height; a choice is a Select so the row keeps its height.
    */
   layout?: "block" | "solo";
-  /** A short marker after the label (« Pré-rempli par Ark — à vérifier »). */
-  marker?: string;
 }
 
 /** The label with the part equal to `link.label` as a link (new tab). */
@@ -60,7 +58,7 @@ const INVALID_RING = "ring-2 ring-destructive/60";
 const NEVER_OPTIONAL = new Set(["checkboxes", "boolean", "taxyears"]);
 
 /** One question of a questionnaire (KYC or tax), rendered with the site's shadcn components only. */
-export function FieldControl({ field, name, answers, row, askable, layout, marker }: Props) {
+export function FieldControl({ field, name, answers, row, askable, layout }: Props) {
   const { control } = useFormContext();
   const kit = useKit();
   const S = kit.strings;
@@ -85,21 +83,18 @@ export function FieldControl({ field, name, answers, row, askable, layout, marke
         // The explanation: behind a small (i) next to the label (the same text stays the field's description
         // for screen readers), or a visible line under the label, as the form chooses.
         const helpText = text.help ? L(text.help) : null;
-        const hinted = kit.helpStyle === "hint";
         const hint =
-          helpText && hinted ? (
+          helpText ? (
             <HelpHint text={helpText} title={fieldLabel} ask={askable ? { field, answers: () => answers, onUse: (next) => f.onChange(next) } : undefined} />
           ) : null;
-        const help = helpText ? <FormDescription className={hinted ? "sr-only" : undefined}>{helpText}</FormDescription> : null;
+        const help = helpText ? <FormDescription className="sr-only">{helpText}</FormDescription> : null;
         const optionalTag = optional ? <span className="ml-1 font-normal text-muted-foreground">({S.optional})</span> : null;
-        const markerTag = marker ? <span className="ml-2 text-xs font-medium text-brand-hover">{marker}</span> : null;
         // In a row the (i) sits in a box of the label's line height, so the row never grows when editing.
         const labelNode = layout ? (
           <div className="flex min-w-0 items-start gap-1">
             <FormLabel className={layout === "solo" ? "min-w-0 leading-5 font-medium [overflow-wrap:anywhere]" : "min-w-0 text-xs leading-4 font-normal text-muted-foreground [overflow-wrap:anywhere]"}>
               {fieldLabel}
               {optionalTag}
-              {markerTag}
             </FormLabel>
             {hint ? <div className={cn("flex items-center", layout === "solo" ? "h-5" : "h-4")}>{hint}</div> : null}
             <div className={cn("flex items-center", layout === "solo" ? "h-5" : "h-4")}>
@@ -111,7 +106,6 @@ export function FieldControl({ field, name, answers, row, askable, layout, marke
             <FormLabel className="form-label min-w-0 leading-snug">
               {fieldLabel}
               {optionalTag}
-              {markerTag}
             </FormLabel>
             {hint}
             <FilledCheck filled={filled} className="mt-[0.2em]" />

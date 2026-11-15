@@ -1,9 +1,7 @@
 "use client";
 
-import { Info } from "@phosphor-icons/react";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { Alert, AlertDescription } from "@/src/components/ui/alert";
 import { Button } from "@/src/components/ui/button";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
@@ -29,24 +27,17 @@ interface StepProps {
   aiSuggestions?: Record<string, string>;
 }
 
-/** A tax screen in the shared step view, with what only this form has: Ark's pre-filled marks, the router cards, the items carried over from last year. */
+/** A tax screen in the shared step view, with what only this form has: the router cards, the items carried over from last year. */
 export function StepView({ step, locale, answers, knownItems, aiSuggestions }: StepProps) {
   const { setValue } = useFormContext();
   const blocks = step.blocks.filter((b) => isBlockVisible(b, answers) && !((b.kind === "field" || b.kind === "group") && b.hidden));
   const ark = arkPrefilledSet(answers);
-  const anyArk = blocks.some((b) => (b.kind === "field" || b.kind === "group") && ark.has(b.id));
   return (
     <div className="flex flex-col gap-6">
-      {anyArk ? (
-        <Alert>
-          <Info className="size-4" />
-          <AlertDescription>{ARK_STEP_NOTE[locale]}</AlertDescription>
-        </Alert>
-      ) : null}
       <SharedStepView
         blocks={blocks}
         answers={answers}
-        marker={(id) => (ark.has(id) ? ARK_PREFILLED[locale] : undefined)}
+        prefilled={ark}
         renderBlock={(block) => {
           if (block.id === "router.items") return <RouterCards locale={locale} answers={answers} aiSuggestions={aiSuggestions} knownItems={knownItems || {}} />;
           if (block.id === "router.unchanged") return null;
@@ -62,12 +53,6 @@ export function StepView({ step, locale, answers, knownItems, aiSuggestions }: S
 export const arkPrefilledSet = (answers: Answers) =>
   new Set(String(answers["start.arkPrefilled"] || "").split(/[\s,]+/).filter(Boolean));
 
-export const ARK_PREFILLED = { fr: "Pré-rempli par Ark — à vérifier", en: "Pre-filled by Ark — please check", de: "Von Ark vorausgefüllt — bitte prüfen" };
-const ARK_STEP_NOTE = {
-  fr: "Ark a pré-rempli certaines réponses de cet écran à partir de vos échanges. Vérifiez chacune d'elles et corrigez ou complétez si nécessaire.",
-  en: "Ark pre-filled some answers on this screen from your exchanges. Please check each of them and correct or complete them if needed.",
-  de: "Ark hat einige Antworten auf dieser Seite aus Ihren Angaben vorausgefüllt. Bitte prüfen Sie jede davon und korrigieren oder ergänzen Sie sie bei Bedarf.",
-};
 
 /** Renewal wording per group (fr), with generic fallbacks; en/de stay generic. */
 const KEPT: Record<string, string> = {

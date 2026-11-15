@@ -23,7 +23,7 @@ export interface FieldTypeContext {
   f: ControllerRenderProps<FieldValues, string>;
   fieldState: ControllerFieldState;
   invalid: boolean;
-  /** The label line (label, optional tag, marker, (i), green check). */
+  /** The label line (label, optional tag, (i), green check). */
   labelNode: ReactNode;
   /** The explanation (screen-reader description, or the visible line), and the error message, to place. */
   help: ReactNode;

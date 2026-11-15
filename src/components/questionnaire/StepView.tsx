@@ -47,8 +47,6 @@ export interface StepViewProps {
   answers: AnyAnswers;
   /** Ids (top-level fields and groups) pre-filled by Ark: shown as « déjà rempli, à vérifier » rows. */
   prefilled?: Set<string>;
-  /** A short marker after a question's label (tax: « Pré-rempli par Ark — à vérifier »). */
-  marker?: (id: string) => string | undefined;
   /** A block the form renders itself (KYC holders, tax router cards…); undefined for the shared rendering. */
   renderBlock?: (block: KitBlock) => ReactNode | undefined;
   /** Something under a heading (KYC: the contact person picked among the people above). */
@@ -83,7 +81,7 @@ function useRowFocus() {
 }
 
 /** Renders the blocks of a screen (KYC or tax); consecutive fields share a responsive two-column grid. */
-export function StepView({ blocks, answers, prefilled = new Set(), marker, renderBlock, headingExtra, fieldOf, groupExtras }: StepViewProps) {
+export function StepView({ blocks, answers, prefilled = new Set(), renderBlock, headingExtra, fieldOf, groupExtras }: StepViewProps) {
   const kit = useKit();
   const L = (text: Parameters<typeof kit.t>[0]) => kit.t(text, answers);
   const { formState, getFieldState, trigger } = useFormContext();
@@ -141,7 +139,7 @@ export function StepView({ blocks, answers, prefilled = new Set(), marker, rende
               {segment.items.map((field) => {
                 const own = renderBlock?.(field);
                 if (own !== undefined) return <Fragment key={field.id}>{own}</Fragment>;
-                return <FieldControl key={field.id} field={field} name={toName(field.id)} answers={answers} askable marker={marker?.(field.id)} />;
+                return <FieldControl key={field.id} field={field} name={toName(field.id)} answers={answers} askable />;
               })}
             </div>
           );
@@ -187,7 +185,6 @@ export function StepView({ blocks, answers, prefilled = new Set(), marker, rende
             group={group}
             answers={answers}
             prefilled={prefilled.has(group.id) && (rowsIn(answers, group.id).length > 0 || initial.has(group.id))}
-            marker={marker?.(group.id)}
             extras={groupExtras}
           />
         );
@@ -250,7 +247,7 @@ function PrefilledRow({ field, answers, solo, open, onOpen, onClose }: { field: 
           <div data-field={name} className="flex flex-col gap-1">
             <div className="flex min-w-0 items-start gap-1">
               <span className={solo ? "min-w-0 text-sm leading-5 font-medium [overflow-wrap:anywhere]" : "min-w-0 text-xs leading-4 text-muted-foreground [overflow-wrap:anywhere]"}>{fieldLabel}</span>
-              {text.help && kit.helpStyle === "hint" ? (
+              {text.help ? (
                 <div className={cn("flex items-center", solo ? "h-5" : "h-4")}>
                   <HelpHint text={L(text.help)} title={fieldLabel} />
                 </div>
@@ -306,7 +303,7 @@ function Note({ note, answers }: { note: KitNote; answers: AnyAnswers }) {
  * starts with its first card(s) open). Prefilled by Ark: one card of one-line rows (name, then the
  * other answers), each opened by « Modifier ». A form may show some rows its own way (GroupExtras).
  */
-function GroupControl({ group, answers, prefilled, marker, extras: extrasOf }: { group: KitGroup; answers: AnyAnswers; prefilled?: boolean; marker?: string; extras?: StepViewProps["groupExtras"] }) {
+function GroupControl({ group, answers, prefilled, extras: extrasOf }: { group: KitGroup; answers: AnyAnswers; prefilled?: boolean; extras?: StepViewProps["groupExtras"] }) {
   const kit = useKit();
   const S = kit.strings;
   const L = (text: Parameters<typeof kit.t>[0]) => kit.t(text, answers);
@@ -332,10 +329,9 @@ function GroupControl({ group, answers, prefilled, marker, extras: extrasOf }: {
     for (let i = fields.length; i < min; i++) append({ _id: kit.newRowId() }, { shouldFocus: false });
   }, [append, fields.length, min, kit]);
 
-  const hinted = kit.helpStyle === "hint";
-  const helpHint = group.help && hinted ? <HelpHint text={L(group.help)} title={L(group.label)} className="mt-0.5" /> : null;
+  const helpHint = group.help ? <HelpHint text={L(group.help)} title={L(group.label)} className="mt-0.5" /> : null;
   const helpText = group.help ? (
-    <p id={`${name}-help`} className={hinted ? "sr-only" : "text-sm text-muted-foreground"}>
+    <p id={`${name}-help`} className="sr-only">
       {L(group.help)}
     </p>
   ) : null;
@@ -473,10 +469,9 @@ function GroupControl({ group, answers, prefilled, marker, extras: extrasOf }: {
 
   return (
     <section data-field={name} tabIndex={-1} className="flex flex-col gap-3 outline-none" aria-labelledby={`${name}-title`} aria-describedby={group.help ? `${name}-help` : undefined}>
-      <div className={hinted ? "flex items-start gap-1" : "flex flex-col"}>
+      <div className="flex items-start gap-1">
         <h3 id={`${name}-title`} className="text-lg font-semibold tracking-tight">
           {L(group.label)}
-          {marker ? <span className="ml-2 align-middle text-xs font-medium text-brand-hover">{marker}</span> : null}
         </h3>
         {helpHint}
         {helpText}

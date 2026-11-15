@@ -87,11 +87,11 @@ export interface KitStrings {
   missingOne: string;
   missingMany: string;
   /** The (i) of a field and its « Poser une question » (forms whose help sits behind it). */
-  helpButton?: string;
+  helpButton: string;
   ask?: { reveal: string; label: string; send: string; sending: string; echo: string; offTopic: string; proposal: string; close: string; use: string };
   /** Prefilled rows (« Déjà rempli, à vérifier », « Terminé »). */
-  prefilled?: string;
-  rowDone?: string;
+  prefilled: string;
+  rowDone: string;
 }
 
 export type AskReply = { offTopic: boolean; answer: string | null; proposal: string | string[] | null };
@@ -108,8 +108,6 @@ export interface KitBase {
   isFilled: (field: KitField, value: unknown) => boolean;
   /** Text length cap of a field. */
   maxLength: (field: KitField) => number;
-  /** Where a field's explanation shows: behind the (i) next to its label, or as a line under it. */
-  helpStyle: "hint" | "inline";
   /** Browser autofill only on the client's own answers, never on third parties' rows: form name → token. */
   autofill: Record<string, string>;
   /** An answer as read back (option labels, Oui/Non, a person's name). */
