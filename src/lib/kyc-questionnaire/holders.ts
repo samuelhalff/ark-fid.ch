@@ -81,7 +81,7 @@ export function stakes(a: Answers): Stake[] {
         known.percent += share * 100;
         known.indirect ||= depth > 1;
         found.set(row.person, known);
-      } else if (row.kind === "company" && depth < HOLDER_DEPTH) walk(childrenOf(row), share, depth + 1);
+      } else if (row.kind === "company" && row.unknown !== "yes" && depth < HOLDER_DEPTH) walk(childrenOf(row), share, depth + 1);
     }
   };
   walk(holdersOf(a), 1, 1);
@@ -124,10 +124,11 @@ export const controllerFound = (a: Answers) => controllers25(a).length > 0 || (a
 /** Every `b.persons` id something points to (holders at every level, other control, managers). */
 export function referencedPersonIds(a: Answers): Set<string> {
   const ids = new Set<string>([...idList(a["b.controlPersons"]), ...idList(a["b.managers"])]);
+  // The holders of a company said unknown are not asked any more (and pruned on save).
   const walk = (rows: Row[]) => {
     for (const row of rows) {
       if (row.kind === "person" && typeof row.person === "string" && row.person) ids.add(row.person);
-      walk(childrenOf(row));
+      if (row.unknown !== "yes") walk(childrenOf(row));
     }
   };
   walk(holdersOf(a));

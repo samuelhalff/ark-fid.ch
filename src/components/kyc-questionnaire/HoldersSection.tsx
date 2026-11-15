@@ -31,7 +31,7 @@ import {
 } from "@/src/lib/kyc-questionnaire/holders";
 import { personChoices, rowFromPerson, type PersonChoice } from "@/src/lib/kyc-questionnaire/people";
 import { clientName, isOp, needsManager } from "@/src/lib/kyc-questionnaire/schema";
-import { UI } from "@/src/lib/kyc-questionnaire/ui";
+import { FIELD_ERRORS, UI } from "@/src/lib/kyc-questionnaire/ui";
 import type { Answers, FieldDef, GroupDef, KycLocale, Row } from "@/src/lib/kyc-questionnaire/types";
 import { cn } from "@/src/lib/utils";
 import { BottomSheet } from "./BottomSheet";
@@ -84,6 +84,12 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
     top.current?.scrollIntoView({ block: "start", behavior: "smooth" });
   }, [path.length, setSubScreen]);
   useEffect(() => () => setSubScreen(false), [setSubScreen]);
+  // The company on screen is gone (removed, or the form reloaded): back to the client's own holders.
+  useEffect(() => {
+    if (path.length && !rowAt(answers, path)) setPath([]);
+  }, [answers, path]);
+  // Names taken from the register in this visit: their UID says so (« Ark complète depuis le registre »).
+  const [fromRegister, setFromRegister] = useState<Set<string>>(() => new Set());
 
   // Keys of what is still missing, to mark a holder « À compléter » (same validator as sending).
   const missing = useMemo(() => Object.keys(validateAll(pruneHidden(answers))), [answers]);
@@ -260,12 +266,20 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
                   locale={locale}
                   search={swiss}
                   className="h-12 text-lg font-semibold"
-                  onValue={(next) => f.onChange(next)}
+                  onValue={(next) => {
+                    f.onChange(next);
+                    setFromRegister((known) => {
+                      if (!known.has(row._id)) return known;
+                      const rest = new Set(known);
+                      rest.delete(row._id);
+                      return rest;
+                    });
+                  }}
                   onBlur={f.onBlur}
                   onPick={(company) => {
                     if (company.uid) setValue(`${base}.uid`, company.uid, { shouldDirty: true });
                     if (!String(row.country || "").trim()) setValue(`${base}.country`, locale === "fr" ? "Suisse" : "Switzerland", { shouldDirty: true });
-                    setValue(`${base}.fromRegister`, "yes");
+                    setFromRegister((known) => new Set(known).add(row._id));
                   }}
                 />
               </FormControl>
@@ -278,13 +292,14 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
           <FieldControl field={def("percent")} name={`${base}.percent`} locale={locale} answers={answers} />
           <div className="flex min-w-0 flex-col gap-1 sm:col-span-2">
             <FieldControl field={def("uid")} name={`${base}.uid`} locale={locale} answers={answers} />
-            {getValues(`${base}.fromRegister`) === "yes" ? <p className="text-xs text-brand-hover">{UI.holdersFromRegister[locale]}</p> : null}
+            {fromRegister.has(row._id) ? <p className="text-xs text-brand-hover">{UI.holdersFromRegister[locale]}</p> : null}
           </div>
         </div>
         {depth < HOLDER_DEPTH ? (
           <div className="flex min-w-0 flex-col gap-3">
             <h3 className="text-base font-semibold">{L(levelGroup(group, depth + 1).label)}</h3>
             {unknown ? null : list(p)}
+            {!unknown && missing.includes(`${keyOf(parent)}[${row._id}].${NESTED}`) ? <p className="text-sm text-muted-foreground">{FIELD_ERRORS.min_rows[locale]}</p> : null}
           </div>
         ) : unknown ? null : (
           <FieldControl field={def("owners")} name={`${base}.owners`} locale={locale} answers={answers} />
@@ -361,7 +376,7 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
                 {hint(c) ? <span className="text-sm font-normal text-muted-foreground">{hint(c)}</span> : null}
               </Button>
             ))}
-            {sheet.purpose === "managers" && !choices.length ? null : (
+            {(
               <Button type="button" variant="outline" className="h-13 justify-start font-semibold" onClick={() => pick(sheet, null)}>
                 {UI.holdersSomeoneElse[locale]}
               </Button>

@@ -163,3 +163,17 @@ test("a draft's old 25 % list becomes persons and « Personne » holders, once (
   assert.equal(unknown["b.holdersUnknown"], "yes");
   assert.equal("b.qOther" in unknown, false);
 });
+
+test("a company said unknown: its old holders count for nothing, so the managers are asked (review 2026-11-15)", () => {
+  const a: Answers = { ...westBay, "b.holders": [company("hldx00001", "Holding X SA", "100", [person("hldy00001", "pery00001", "60")], { unknown: "yes" })] };
+  assert.deepEqual(stakes(a), []);
+  assert.equal(needsManager(a), true, "the same answer as the server, which prunes those holders");
+  assert.ok(!referencedPersonIds(a).has("pery00001"));
+});
+
+test("a share is accepted only as the 25 % computation reads it", () => {
+  const bad = { ...westBay, "b.holders": [person("hlds00001", "pers00001", "CHF 50")] };
+  assert.equal(validateAll(pruneHidden(bad))["b.holders[hlds00001].percent"], "invalid_percent");
+  const good = { ...westBay, "b.holders": [person("hlds00001", "pers00001", "33,5 %")] };
+  assert.equal(validateAll(pruneHidden(good))["b.holders[hlds00001].percent"], undefined);
+});

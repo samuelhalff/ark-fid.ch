@@ -5,7 +5,7 @@
 import { EMAIL_RE, parseAmount, parseDate } from "../tax-questionnaire/format";
 import { STEPS } from "./schema";
 import type { Answers, Block, FieldDef, GroupDef, KycLocale, L, Row, StepDef } from "./types";
-import { holderTitle, personById, personName, prunePeople } from "./holders";
+import { holderTitle, parsePercent, personById, personName, prunePeople } from "./holders";
 import { upgradeAnswers } from "./upgrade";
 
 export const LIMITS = {
@@ -222,10 +222,9 @@ export function validateField(field: FieldDef, value: unknown): FieldError | nul
     }
     case "integer":
       return /^\d{1,9}$/.test(value.replace(/['’\s]/g, "")) ? null : "invalid_number";
-    case "percent": {
-      const n = parseAmount(value.replace("%", ""));
-      return n === null || n < 0 || n > 100 ? "invalid_percent" : null;
-    }
+    case "percent":
+      // The same reading as the 25 % computation (holders.ts): what counts there is what is accepted here.
+      return parsePercent(value) === null ? "invalid_percent" : null;
     case "yesno":
       return value === "yes" || value === "no" ? null : "invalid_option";
     case "select":
