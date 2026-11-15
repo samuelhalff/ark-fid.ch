@@ -661,7 +661,10 @@ export const STEPS: StepDef[] = [
 
       { kind: "heading", id: "g.heading", section: "G", label: t("Activité prévue", "Expected activity") },
       { kind: "field", id: "g.turnover", type: "money", label: t("Chiffre d’affaires annuel (CHF)", "Annual turnover (CHF)"), help: t("Le dernier connu, ou une estimation pour une société nouvelle.", "The latest known, or an estimate for a new company."), width: "half", required: true, showIf: isOp },
-      { kind: "field", id: "g.operations", type: "text", label: t("Combien de paiements par an, pour quel total ?", "How many payments a year, for what total?"), help: t("Une estimation : 40 paiements, environ 200 000 CHF.", "An estimate: 40 payments, about CHF 200,000."), required: true },
+      { kind: "field", id: "g.paymentsPerYear", type: "integer", label: t("Paiements par an", "Payments per year"), help: t("Une estimation, par exemple 40", "An estimate, e.g. 40"), required: true, width: "half" },
+      { kind: "field", id: "g.paymentsTotal", type: "money", label: t("Total par an (CHF)", "Total per year (CHF)"), help: t("Par exemple 200 000", "E.g. 200,000"), required: true, width: "half" },
+      // Retired 2026-11-15: two numbers in one text field; split into the two fields above.
+      retired("g.operations", "text", t("Combien de paiements par an, pour quel total ?", "How many payments a year, for what total?")),
       { kind: "field", id: "g.typesPm", type: "checkboxes", required: true, label: t("Quels genres de paiements prévoyez-vous ?", "What kinds of payments do you expect?"), options: PM_OPERATIONS, showIf: isPM },
       { kind: "field", id: "g.typesPp", type: "checkboxes", required: true, label: t("Quels genres de paiements prévoyez-vous ?", "What kinds of payments do you expect?"), options: PP_OPERATIONS, showIf: isPP },
       { kind: "field", id: "g.typesOther", type: "text", label: t("Lequel ?", "Which one?"), required: true, showIf: (a) => has("g.typesPm", "other")(a) || has("g.typesPp", "other")(a) },

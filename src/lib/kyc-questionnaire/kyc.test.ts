@@ -10,7 +10,7 @@ process.env.KYC_QF_STORAGE = "mock";
 process.env.KYC_QF_API_KEYS = "cadence:cadence-secret-cadence-secret-cadence-01";
 
 import { documentList, documentsFor, retiredDocument, swissCompany } from "./documents";
-import { fieldText, getField, getGroup, isBlockAsked, isBlockVisible, pruneHidden, sanitizeAnswers, validateAll, visibleSteps } from "./engine";
+import { fieldText, getField, getGroup, isBlockAsked, isBlockVisible, isRetiredId, pruneHidden, sanitizeAnswers, validateAll, validateField, visibleSteps } from "./engine";
 import { upgradeAnswers } from "./upgrade";
 import { flagsOf, routeMismatch } from "./flags";
 import { createChallenge, createPick, createSession, emailHash, linkRef, linkRefusal, linkStatus, readLink, readPick, readSession, STAFF_HASH, redeemAssist, verifyChallenge } from "./server/access";
@@ -65,7 +65,8 @@ const pmCommon: Answers = {
   "e.companyAssets": "Capital libéré",
   "f.funds": "no",
   "g.turnover": "100'000",
-  "g.operations": "50 par an, CHF 100'000",
+  "g.paymentsPerYear": "50",
+  "g.paymentsTotal": "100'000",
   "g.typesPm": ["domestic"],
   "i.signers": [row("sgn0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur" })],
   "i.place": "Genève",
@@ -114,7 +115,8 @@ const pp: Answers = {
   "e.wealthSources": ["salary"],
   "e.wealthDetails": "Salaire",
   "f.funds": "no",
-  "g.operations": "Peu",
+  "g.paymentsPerYear": "5",
+  "g.paymentsTotal": "10'000",
   "g.typesPp": ["domestic"],
   "i.place": "Genève",
   "i.accept": "yes",
@@ -1088,4 +1090,16 @@ test("the form's two PDFs keep two names in the shared folder, even for a very l
   const online = formPdfName(record, rev, name, "signé en ligne");
   assert.notEqual(toSign, online);
   assert.ok(toSign.endsWith("(KABCDEFGHIJKL R1).pdf") && online.endsWith("(KABCDEFGHIJKL R1).pdf"));
+});
+
+test("payments: two numbers in two fields; an earlier one-line answer stays readable, never asked", () => {
+  const perYear = getField("g.paymentsPerYear")!;
+  const total = getField("g.paymentsTotal")!;
+  assert.equal(perYear.type, "integer");
+  assert.equal(total.type, "money");
+  assert.equal(validateField(perYear, "40"), null);
+  assert.equal(validateField(total, "200'000"), null);
+  assert.notEqual(validateField(perYear, "40 paiements"), null);
+  assert.equal(getField("g.operations")!.retired, true);
+  assert.equal(isRetiredId("g.operations"), true);
 });
