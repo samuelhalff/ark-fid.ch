@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { dueReminder, emailHashOf, runCampaign, type CampaignDeps, type InvitedReturnInput } from "./server/campaign.ts";
+import { dueReminder, emailHashOf, knownClientKey, runCampaign, type CampaignDeps, type InvitedReturnInput } from "./server/campaign.ts";
 import type { ClientPreferences, ReturnRecord } from "./server/ports.ts";
 import { clientKey } from "./server/service.ts";
 import type { MailMessage } from "./server/storage.ts";
 
-type Client = { id: string; email: string; lastName: string; firstName: string };
+type Client = { id: string; email: string; lastName: string; firstName: string; clientRef?: string; language?: string };
 
 function setup(clients: Client[], prefsList: ClientPreferences[] = [], returns: ReturnRecord[] = []) {
   const sent: MailMessage[] = [];
@@ -14,11 +14,15 @@ function setup(clients: Client[], prefsList: ClientPreferences[] = [], returns: 
   const tracker = new Map(returns.map((r) => [r.caseId, r]));
   const ledger = new Set<string>();
   let seq = 0;
+  const years: number[] = [];
   const deps: CampaignDeps = {
     registry: {
       match: async () => ({ status: "none" }),
       recordTaxClient: async () => null,
-      listTaxClients: async () => clients,
+      listTaxClients: async (year: number) => {
+        years.push(year);
+        return clients;
+      },
     },
     tracker: {
       upsert: async (r) => {
@@ -55,6 +59,7 @@ function setup(clients: Client[], prefsList: ClientPreferences[] = [], returns: 
         driveId: "d",
         folderId: `f${seq}`,
         folderUrl: "",
+        ...(input.clientRef ? { clientRef: input.clientRef } : {}),
       };
       tracker.set(record.caseId, record);
       return record;
@@ -62,7 +67,7 @@ function setup(clients: Client[], prefsList: ClientPreferences[] = [], returns: 
     staffRecipients: ["samuel.halff@ark-fid.ch"],
     ledger: { has: async (k) => ledger.has(k), add: async (k) => void ledger.add(k) },
   };
-  return { deps, sent, prefs, tracker };
+  return { deps, sent, prefs, tracker, years };
 }
 
 const alice: Client = { id: "1", email: "alice@example.ch", lastName: "Martin", firstName: "Alice" };
@@ -175,4 +180,56 @@ test("dueReminder respects the three-day gap after a late invitation", () => {
   const stop = new Date(Date.UTC(2026, 2, 31));
   assert.equal(dueReminder(rec, stop, at("2026-03-06")), null);
   assert.equal(dueReminder(rec, stop, at("2026-03-08")), "d30");
+});
+
+test("Cadence's list: asked for the tax year, its client reference and language reach the return", async () => {
+  const carol: Client = { id: "odoo:42", email: "carol@example.ch", lastName: "Keller", firstName: "Carol", clientRef: "odoo:42", language: "de" };
+  const { deps, sent, tracker, years } = setup([carol]);
+  await runCampaign(deps, { now: at("2027-02-01") });
+  assert.deepEqual(years, [2026]);
+  const created = [...tracker.values()].find((r) => r.email === carol.email);
+  assert.equal(created?.clientRef, "odoo:42");
+  assert.equal(created?.language, "de");
+  assert.equal(sent.length, 1);
+});
+
+test("a list the registry cannot give stops the run before any mail", async () => {
+  const { deps, sent } = setup([alice]);
+  deps.registry.listTaxClients = async () => {
+    throw new Error("client_list_unavailable:unreachable");
+  };
+  await assert.rejects(runCampaign(deps, { now: at("2027-02-01") }), /client_list_unavailable/);
+  assert.equal(sent.length, 0);
+});
+
+test("Cadence's person keeps last year's client key whatever the spelling: no second return, the opt-out holds", async () => {
+  // Last year's return was written from the CRM as « MARTIN Alice »; Cadence spells her « Martin-Dubois Alice ».
+  const odooAlice: Client = { ...alice, lastName: "Martin-Dubois", clientRef: "odoo:7" };
+  const last = { ...previousReturn(aliceKey), taxYear: 2025, state: "submitted" as const, submittedAt: "2026-03-01T00:00:00Z" };
+  const { deps, sent, tracker } = setup([odooAlice], [], [last]);
+  await runCampaign(deps, { now: at("2027-02-01") });
+  const mine = [...tracker.values()].filter((r) => r.taxYear === 2026);
+  assert.equal(mine.length, 1);
+  assert.equal(mine[0].clientKey, aliceKey, "the same client, not a new one");
+  assert.equal(sent.length, 1);
+
+  const excluded = setup([odooAlice], [{ clientKey: aliceKey, email: alice.email, name: "MARTIN Alice", language: "fr", optIn: false, excluded: true }], [last]);
+  await runCampaign(excluded.deps, { now: at("2027-02-01") });
+  assert.equal(excluded.sent.length, 0, "her opt-out is under the old key");
+});
+
+test("a spouse covered by the household's return of the year is not invited alone", async () => {
+  const spouse: Client = { id: "odoo:9", email: "paul@example.ch", lastName: "Martin", firstName: "Paul", clientRef: "odoo:9" };
+  const household = { ...previousReturn(aliceKey), caseId: "hh", taxYear: 2026, state: "invited" as const, invitedAt: "2027-02-01T06:00:00Z", spouseRef: "odoo:9" };
+  const { deps, sent } = setup([spouse], [], [household]);
+  await runCampaign(deps, { now: at("2027-02-01") });
+  assert.equal(sent.length, 0);
+});
+
+test("an e-mail shared by several family members names no client key", () => {
+  const a = { ...previousReturn("k1"), clientKey: "k1" };
+  const b = { ...previousReturn("k2"), caseId: "other", clientKey: "k2" };
+  assert.equal(knownClientKey([a, b], "odoo:1", alice.email), null);
+  assert.equal(knownClientKey([a], "odoo:1", alice.email), "k1");
+  assert.equal(knownClientKey([a, { ...b, clientRef: "odoo:1" }], "odoo:1", alice.email), "k2");
 });

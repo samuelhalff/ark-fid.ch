@@ -1,5 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
+import { ClientListUnavailable } from "@/src/lib/tax-questionnaire/server/cadence-registry";
 import { inviteMember, isClosed, isPlanned, lang, plannedFor, previousReturn, runCampaign, type CampaignDeps } from "@/src/lib/tax-questionnaire/server/campaign";
 import { fileLedger } from "@/src/lib/tax-questionnaire/server/ledger";
 import { clientKey as computeClientKey, cleanupAbandonedDrafts } from "@/src/lib/tax-questionnaire/server/service";
@@ -67,6 +68,12 @@ export async function POST(request: Request) {
     if (!dryRun) await ledger.add(ledgerKey);
     return json({ ok: true, task, ...summary });
   } catch (error) {
+    // Cadence did not give its whole list: the campaign skips this run (nothing sent, the key is not
+    // recorded, so a rerun with the same key goes through). Failing makes the workflow say so.
+    if (error instanceof ClientListUnavailable) {
+      console.warn("[tax-qf] campaign skipped: client list unavailable", error.reason);
+      return json({ error: "clients_unavailable", task, skipped: "client_list_unavailable" }, 503);
+    }
     // Codes only: never client data.
     console.error("[tax-qf] cron failed", task, error instanceof Error ? error.message.slice(0, 120) : "");
     return json({ error: "cron_failed" }, 502);

@@ -8,6 +8,7 @@
  */
 import { givenName, personName } from "../format";
 import type { AccessRecord, AccessStore, LinkReplacement, ClientIdentity, ClientMatch, ClientPreferences, ClientRegistry, PreferenceStore, ReturnRecord, ReturnTracker, StaffFields } from "./ports";
+import { CadenceClientRegistry, clientsFromCadence } from "./cadence-registry";
 import { DEFAULT_SITE_ID, getGraph, mockStorageEnabled, StorageError, TRACKING_LIST, TRACKING_STATUSES, type Json } from "./storage";
 
 export interface Ports {
@@ -747,7 +748,7 @@ export function sharePointPorts(): Ports {
   if (holder.__tqfPorts) return holder.__tqfPorts;
   holder.__tqfPorts = mockStorageEnabled()
     ? memoryPorts({ crm: [{ id: "crm-demo", title: "EXEMPLE", firstName: "Client", email: "client@example.com", acquis: "Client", actif: true, etendue: ["Fiscal"] }] }).ports
-    : { registry: new SharePointClientRegistry(), tracker: new SharePointTracker(), prefs: new SharePointPreferences(), access: new SharePointAccess() };
+    : { registry: clientsFromCadence() ? new CadenceClientRegistry() : new SharePointClientRegistry(), tracker: new SharePointTracker(), prefs: new SharePointPreferences(), access: new SharePointAccess() };
   return holder.__tqfPorts;
 }
 

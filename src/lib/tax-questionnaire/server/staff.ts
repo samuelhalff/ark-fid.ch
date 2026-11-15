@@ -14,6 +14,7 @@ import { t, type Answers, type FieldDef, type L, type Option, type QfLocale } fr
 import { assistMinutes } from "../../forms/assist";
 import { emailHash, issueAssist, issueLink, issueLinkWithExpiry, RESUME_LINK_TTL_MS } from "./access";
 import { inviteMember, isClosed, isPlanned, lang, MISSING_STOP_STATUSES, nextMailAt, STOP_STATUSES, plannedFor, previousReturn, sendMissingReminder, sendReminder, type CampaignDeps, type CampaignLedger } from "./campaign";
+import { clientsFromCadence } from "./cadence-registry";
 import { linkMail } from "./mails";
 import type { ReturnRecord } from "./ports";
 import { caseDocuments, clientKey as computeClientKey, createInvitedReturn, forgetCase, getCase, missingDocuments, prefillDraft, readDraft, refreshMissing, SERVER_OWNED, ServiceError, setOfficeDocs } from "./service";
@@ -55,7 +56,9 @@ export function appCampaignDeps(storage: TaxStorage, ledger?: CampaignLedger): C
     createInvitedReturn,
     missingDocuments,
     refreshMissing: async (record) => (await refreshMissing(storage, await getCase(record.caseId))).labels,
-    staffRecipients: (env("TAX_QF_STAFF_ALERT_TO") || "samuel.halff@ark-fid.ch,sebastien.gallie@ark-fid.ch").split(",").map((v) => v.trim()).filter(Boolean),
+    // The daily staff digest: off once Cadence gives the list (Cadence's screens replace it); the internal
+    // e-mail on each submission stays.
+    staffRecipients: clientsFromCadence() ? [] : (env("TAX_QF_STAFF_ALERT_TO") || "samuel.halff@ark-fid.ch,sebastien.gallie@ark-fid.ch").split(",").map((v) => v.trim()).filter(Boolean),
     ledger,
   };
 }

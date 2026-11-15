@@ -96,6 +96,8 @@ export interface Member {
   prefs: ClientPreferences | null;
   /** Planned row of the tracker (staff inventory) this client is invited from. */
   planned?: ReturnRecord;
+  /** Cadence's client (registry from Cadence): carried onto the return the invitation creates. */
+  clientRef?: string;
 }
 
 /**
@@ -222,14 +224,41 @@ export function campaignMail(kind: "notice" | "invitation" | "reminder" | "missi
 
 // ---- audience -----------------------------------------------------------------------------------
 
-async function audience(deps: CampaignDeps, planned: ReturnRecord[], current: ReturnRecord[]): Promise<Member[]> {
+/**
+ * The client key a Cadence reference already has on the tracker: the newest row carrying the reference,
+ * else the rows with that e-mail (rows written before Cadence sent references) when they all share one
+ * key — an address several family members use names no one.
+ */
+export function knownClientKey(rows: ReturnRecord[], clientRef: string, email: string): string | null {
+  const byRef = rows.filter((r) => r.clientRef === clientRef && r.clientKey).sort((a, b) => b.taxYear - a.taxYear)[0];
+  if (byRef) return byRef.clientKey;
+  const keys = new Set(rows.filter((r) => r.clientKey && sameEmail(r.email, email)).map((r) => r.clientKey));
+  return keys.size === 1 ? [...keys][0] : null;
+}
+
+async function audience(deps: CampaignDeps, planned: ReturnRecord[], current: ReturnRecord[], taxYear: number): Promise<Member[]> {
   const members = new Map<string, Member>();
-  for (const client of await deps.registry.listTaxClients()) {
+  // Throws when the registry cannot give its whole list (Cadence down): the run stops before any mail.
+  const clients = await deps.registry.listTaxClients(taxYear);
+  // Cadence's people are known by their reference, not by the spelling of their name: this year's and
+  // last year's rows say which client key (returns, preferences, opt-out) a reference already has.
+  const recent = clients.some((c) => c.clientRef) ? [...(await deps.tracker.listByYear(taxYear)), ...(await deps.tracker.listByYear(taxYear - 1))] : [];
+  for (const client of clients) {
     if (!client.email) continue;
-    const key = computeClientKey(client.email, client.lastName, client.firstName);
+    const ref = client.clientRef;
+    // A spouse covered by the household's return of the year is not invited on their own.
+    if (ref && recent.some((r) => r.taxYear === taxYear && r.spouseRef === ref && r.state !== "declined")) continue;
+    const key = (ref && knownClientKey(recent, ref, client.email)) || computeClientKey(client.email, client.lastName, client.firstName);
     const prefs = await deps.prefs.get(key);
     if (prefs?.excluded) continue;
-    members.set(key, { clientKey: key, email: client.email, name: personName(client.lastName, client.firstName), language: lang(prefs?.language), prefs });
+    members.set(key, {
+      clientKey: key,
+      email: client.email,
+      name: personName(client.lastName, client.firstName),
+      language: lang(prefs?.language || client.language),
+      prefs,
+      ...(client.clientRef ? { clientRef: client.clientRef } : {}),
+    });
   }
   for (const prefs of await deps.prefs.listOptedIn()) {
     if (prefs.excluded || !prefs.email || members.has(prefs.clientKey)) continue;
@@ -325,7 +354,7 @@ export async function inviteMember(
 ): Promise<{ record: ReturnRecord; link: string }> {
   const record =
     opts.existing ||
-    (await deps.createInvitedReturn({ clientKey: member.clientKey, email: member.email, name: member.name, language: member.language, taxYear, prefillFrom: opts.prefillAnswers ? undefined : opts.previous, prefillAnswers: opts.prefillAnswers, notes: opts.notes, planned: opts.planned, ...(opts.create || {}) }));
+    (await deps.createInvitedReturn({ clientKey: member.clientKey, email: member.email, name: member.name, language: member.language, taxYear, prefillFrom: opts.prefillAnswers ? undefined : opts.previous, prefillAnswers: opts.prefillAnswers, notes: opts.notes, planned: opts.planned, ...(member.clientRef ? { clientRef: member.clientRef } : {}), ...(opts.create || {}) }));
   const link = await deps.issueLink({ caseId: record.caseId, emailHash: record.emailHash, scope: "edit", purpose: "invitation", ttlMs: opts.ttlMs || INVITATION_TTL, origin: opts.origin, locale: member.language });
   if (opts.send !== false) {
     const optout = await deps.issueLink({ caseId: `client:${member.clientKey}`, emailHash: (deps.hashEmail || emailHashOf)(member.email), scope: "status", purpose: "optout", ttlMs: OPTOUT_TTL, origin: opts.origin, locale: member.language });
@@ -403,7 +432,7 @@ export async function runCampaign(deps: CampaignDeps, opts: { now: Date; dryRun?
   const plannedRows = yearRows.filter((r) => isPlanned(r) && r.state !== "declined");
   const campaignRows = yearRows.filter((r) => !isPlanned(r) && r.source === "campaign" && !isClosed(r));
   const usedPlanned = new Set<string>();
-  for (const member of await audience(deps, plannedRows, campaignRows)) {
+  for (const member of await audience(deps, plannedRows, campaignRows, taxYear)) {
     const all = await deps.tracker.findByClientKey(member.clientKey);
     const returns = all.filter((r) => !isPlanned(r));
     let planned = member.planned || plannedFor(plannedRows, member);

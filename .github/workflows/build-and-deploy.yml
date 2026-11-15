@@ -209,6 +209,8 @@ jobs:
           KYC_QF_TOKEN_SECRET: ${{ secrets.KYC_QF_TOKEN_SECRET }}
           KYC_QF_API_KEYS: ${{ secrets.KYC_QF_API_KEYS }}
           TAX_QF_API_KEYS: ${{ secrets.TAX_QF_API_KEYS }}
+          # Repository variable (not a secret): "cadence" = the campaign's audience comes from Cadence.
+          TAX_QF_CLIENTS_SOURCE: ${{ vars.TAX_QF_CLIENTS_SOURCE }}
         run: |
           HOST="${{ secrets.DEPLOY_SSH_HOST }}"
           USER="${{ secrets.DEPLOY_SSH_USER }}"
@@ -228,7 +230,7 @@ jobs:
           import os, sys
           # Optional overrides owned by CI: when the secret is deleted, the line is removed from
           # the server file too (otherwise a stale value, e.g. TAX_QF_MAIL_CC=none, would stay).
-          removable = ["TAX_QF_MAIL_TO", "TAX_QF_MAIL_CC"]
+          removable = ["TAX_QF_MAIL_TO", "TAX_QF_MAIL_CC", "TAX_QF_CLIENTS_SOURCE"]
           keys = [
             "NEXT_PUBLIC_TURNSTILE_SITE_KEY",
             "NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN",
@@ -275,6 +277,7 @@ jobs:
             "KYC_QF_TOKEN_SECRET",
             "KYC_QF_API_KEYS",
             "TAX_QF_API_KEYS",
+            "TAX_QF_CLIENTS_SOURCE",
           ]
           lines = []
           for key in keys:

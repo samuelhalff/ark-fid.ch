@@ -33,6 +33,8 @@ jobs:
     timeout-minutes: 10
     strategy:
       max-parallel: 1
+      # A skipped campaign (Cadence's list unavailable: 503) must not cancel the cleanup.
+      fail-fast: false
       matrix:
         task: [campaign, cleanup]
     steps:

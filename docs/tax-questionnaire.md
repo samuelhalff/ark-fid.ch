@@ -45,6 +45,8 @@ Le registre maître est la liste « Clients » du site CRM. Il n'y a pas de seco
 - **Aucune correspondance** : création d'un Prospect (Title en majuscules, FirstName, EMail, Etendue = Fiscal, Commentaires « Créé par tax.ark-fid.ch … », LienDocuments = dossier).
 - `TAX_QF_CRM_WRITES=0` rend le CRM en lecture seule (tests).
 
+**Liste tenue par Cadence (`TAX_QF_CLIENTS_SOURCE=cadence`).** Le registre devient `server/cadence-registry.ts` : la campagne invite les personnes que Cadence lui donne pour l'année (`GET https://app.ark-fid.ch/api/tax-form/clients?year=<année fiscale>`, signé comme les appels du KYC vers Cadence, avec la paire `cadence` de `TAX_QF_API_KEYS`) : une obligation fiscale de l'année encore à déposer dans l'Odoo du bureau, une personne (pas une société) avec une adresse e-mail, non exclue de la campagne dans Cadence. Chaque invitation porte la référence Cadence du client (`clientRef`). Le CRM SharePoint n'est plus ni lu ni écrit (`match` et `recordTaxClient` ne font rien : Cadence rattache les déclarations en relevant le fil). **Si Cadence ne répond pas ou ne donne pas toute la liste, la campagne saute ce passage** (rien n'est envoyé, la route répond 503 `clients_unavailable`, la clé n'est pas enregistrée) : jamais d'invitation depuis une liste ancienne ou partielle. Le récapitulatif quotidien aux collaborateurs est coupé dans ce mode (les écrans de Cadence le remplacent) ; l'e-mail interne à chaque envoi reste.
+
 Le formulaire, l'Excel, le PDF et la campagne ne passent que par les interfaces de `server/ports.ts` : `ClientRegistry`, `ReturnTracker`, `PreferenceStore` et `AccessStore`. Les implémentations SharePoint se trouvent dans `server/sharepoint-registry.ts`.
 
 ## Accès (sans compte)
@@ -79,6 +81,7 @@ Le formulaire, l'Excel, le PDF et la campagne ne passent que par les interfaces 
 | `TAX_QF_ALLOWED_ORIGINS` | origines supplémentaires (préproduction). |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY` | déjà utilisées par le site. |
 | `TAX_QF_CRON_SECRET`, `TAX_QF_STAFF_ALERT_TO`, `TAX_QF_CLEANUP_ENABLED` | campagne annuelle et nettoyage (voir plus bas). |
+| `TAX_QF_CLIENTS_SOURCE` | `cadence` : la campagne lit sa liste dans Cadence (voir « Registre clients ») ; vide : CRM SharePoint. Variable de dépôt GitHub (pas un secret) reportée par le déploiement ; la supprimer la retire du serveur. `TAX_QF_CADENCE_CLIENTS_URL` (facultatif) change l'adresse (défaut https://app.ark-fid.ch/api/tax-form/clients). |
 | `TAX_QF_API_KEYS` | clés de l'API bureau (Cadence), `cadence:<secret de 32 caractères ou plus>` ; deux paires séparées par une virgule pendant une rotation. Distinctes de `KYC_QF_API_KEYS`. Sans elles, l'API refuse tout. |
 | `TAX_QF_AI_*` | assistance IA, désactivée par défaut (voir plus bas). |
 | Tests uniquement | `TAX_QF_STORAGE=mock`, `TAX_QF_MOCK_DIR`, `TAX_QF_SKIP_TURNSTILE=1` (hors production), `TAX_QF_FOLDER_PREFIX="TEST - "`, `TAX_QF_CRM_WRITES=0`. |
@@ -152,14 +155,14 @@ Module : `src/lib/tax-questionnaire/deadlines.ts` (pur, testé par `deadlines.te
 
 Logique : `src/lib/tax-questionnaire/server/campaign.ts` (`runCampaign`, testé par `campaign.test.ts`). Déclenchement : `.github/workflows/tax-qf-cron.yml`, tous les jours à 06:15 UTC, qui appelle `POST /api/tax-questionnaire/cron` (tâches `campaign` puis `cleanup`).
 
-Public : clients du CRM « Clients » actifs, avec « Fiscal » dans Etendue et une adresse e-mail, moins les clients exclus (préférences), plus les prospects ayant coché « me rappeler chaque année ».
+Public : la liste de Cadence quand `TAX_QF_CLIENTS_SOURCE=cadence` (sinon les clients du CRM « Clients » actifs, avec « Fiscal » dans Etendue et une adresse e-mail), moins les clients exclus (préférences), plus les prospects ayant coché « me rappeler chaque année ».
 
 Règles (année N, déclaration N-1) :
 1. **Préavis** (dès le 5 janvier) : une seule fois, aux clients qui n'ont jamais utilisé le questionnaire, avec un lien de désinscription ; mémorisé dans les préférences (`noticeSentYear`).
 2. **Invitation** (dès le 1er février) : crée la déclaration N-1 (préremplie depuis la dernière déclaration envoyée s'il y en a une), lien personnel valable 14 jours.
 3. **Relances** : 14 jours après l'invitation, puis à J-30 et J-10 avant le délai (`campaignStopDate`), jamais deux messages à moins de 3 jours d'intervalle.
 4. **Arrêt** : questionnaire envoyé ou refusé, statut « Déposé » ou « Clos » dans la liste, client exclu, ou délai dépassé.
-5. **Suivi interne** : un seul récapitulatif par jour aux collaborateurs (J-30, J-10, et 2 relances sans réponse).
+5. **Suivi interne** : un seul récapitulatif par jour aux collaborateurs (J-30, J-10, et 2 relances sans réponse) — sauf quand la liste vient de Cadence, qui le remplace.
 6. Chaque message (fr/en/de selon la langue du client) contient un lien de désinscription ; aucune donnée personnelle dans les liens (jeton opaque).
 7. Idempotence : décisions tirées des champs de la liste (`invitedAt`, `remindersSent`, `lastReminderAt`) ; la route garde en plus un registre des clés traitées dans SharePoint (`/_system/cron-ledger`, un fichier par clé date+tâche). Au plus 40 envois par exécution (le reste suit le lendemain).
 

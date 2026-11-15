@@ -27,8 +27,24 @@ export interface ClientRegistry {
    * Never overwrites other fields. Returns the registry id and link when known.
    */
   recordTaxClient(identity: ClientIdentity, documentsUrl: string, now: Date): Promise<{ id: string; url: string; created: boolean } | null>;
-  /** Campaign audience: active clients with the tax scope and an e-mail. */
-  listTaxClients(): Promise<{ id: string; email: string; lastName: string; firstName: string }[]>;
+  /**
+   * Campaign audience of a tax year: the clients to invite, each with an e-mail (SharePoint: active
+   * clients with the tax scope; Cadence: tax obligation of the year still to file). Throws when the
+   * whole list cannot be read: the campaign then skips its run.
+   */
+  listTaxClients(taxYear: number): Promise<TaxClient[]>;
+}
+
+/** One person of the campaign audience. */
+export interface TaxClient {
+  id: string;
+  email: string;
+  lastName: string;
+  firstName: string;
+  /** Cadence's client (Odoo partner), carried onto the return the campaign creates. */
+  clientRef?: string;
+  /** fr / en / de when the registry knows it. */
+  language?: string;
 }
 
 export type ReturnState = "draft" | "submitted" | "invited" | "declined";
