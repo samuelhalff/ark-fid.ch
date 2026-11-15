@@ -28,8 +28,8 @@ import { EMAIL_RE } from "@/src/lib/tax-questionnaire/format";
  *   GET            — draft, files, state, deadlines;
  *   POST {action}  — save | delete | resumeLink | upload | remove | submit | additions | reopen | feedback | partner.
  * An office session (Ark staff, `staffBy`) saves and submits for the client: its answers are marked
- * « rempli par Ark », its submission e-mails no confirmation; it cannot delete the draft nor e-mail
- * the client a link.
+ * « rempli par Ark », its submission e-mails no confirmation; it cannot delete the draft nor send
+ * any e-mail (the client's link, a partner's invitation, the « documents ajoutés » alert).
  */
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
   const perIp = action === "save" ? 600 : action === "upload" ? 400 : 60;
   return route(request, { name: `case-${action || "unknown"}`, perIp, maxBytes, scope }, async ({ body, storage, info, session }) => {
     if (!info || !session) return json({ error: "session_expired" }, 401);
-    if (session.staffBy && (action === "delete" || action === "resumeLink")) return json({ error: "forbidden_scope" }, 403);
+    if (session.staffBy && ["delete", "resumeLink", "partner", "additions"].includes(action)) return json({ error: "forbidden_scope" }, 403);
     switch (action) {
       case "save":
         return json(await saveDraft(storage, info, { answers: body.answers, stepId: body.stepId, docStatus: body.docStatus, locale: body.locale, aiOptIn: body.aiOptIn, submitKey: body.submitKey }, session.staffBy));
