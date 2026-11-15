@@ -327,6 +327,8 @@ test("officeDocs: a document the office holds leaves the missing list and the re
   await mem.ports.tracker.upsert({ ...rows(caseId)[0], state: "submitted", submittedAt: new Date().toISOString() });
   await staff.staffAction(caseId, "officeDocs", { taxYear: YEAR, officeDocs: [ubs.key] }, meta("office-0004"), deps);
   assert.equal(rows(caseId)[0].missingDocs, "Attestation 3a");
+  assert.equal(staff.summarize(rows(caseId)[0]).closed, false);
+  assert.equal(staff.summarize({ ...rows(caseId)[0], staffStatus: "Clos" }).closed, true, "staff status « Clos » closes it for the office");
   // The whole list, replaced: an empty list asks for it again.
   await staff.staffAction(caseId, "officeDocs", { taxYear: YEAR, officeDocs: [] }, meta("office-0005"), deps);
   assert.equal(rows(caseId)[0].missingDocs, "Relevé UBS\nAttestation 3a");

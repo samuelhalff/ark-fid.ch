@@ -9,7 +9,7 @@ import { createHmac } from "node:crypto";
 import { parseApiKeys } from "../../kyc-questionnaire/server/signature";
 import { personName } from "../format";
 import { emailHash, issueLink, issueLinkWithExpiry, RESUME_LINK_TTL_MS } from "./access";
-import { inviteMember, isClosed, isPlanned, lang, MISSING_STOP_STATUSES, nextMailAt, plannedFor, previousReturn, sendMissingReminder, sendReminder, type CampaignDeps, type CampaignLedger } from "./campaign";
+import { inviteMember, isClosed, isPlanned, lang, MISSING_STOP_STATUSES, nextMailAt, STOP_STATUSES, plannedFor, previousReturn, sendMissingReminder, sendReminder, type CampaignDeps, type CampaignLedger } from "./campaign";
 import { linkMail } from "./mails";
 import type { ReturnRecord } from "./ports";
 import { caseDocuments, clientKey as computeClientKey, createInvitedReturn, forgetCase, getCase, missingDocuments, refreshMissing, ServiceError, setOfficeDocs } from "./service";
@@ -83,6 +83,8 @@ export interface ReturnSummary {
   excelUrl?: string;
   pdfUrl?: string;
   excluded: boolean;
+  /** Closed for the office: declined by the client, or staff status « Déposé » / « Clos ». */
+  closed: boolean;
   extendedTo?: string;
   staffDocs: string[];
   updatedAt: string;
@@ -121,6 +123,7 @@ export function summarize(r: ReturnRecord): ReturnSummary {
     ...(r.excelUrl ? { excelUrl: r.excelUrl } : {}),
     ...(r.pdfUrl ? { pdfUrl: r.pdfUrl } : {}),
     excluded: !!r.excludedFromCampaign,
+    closed: r.state === "declined" || (!!r.staffStatus && STOP_STATUSES.includes(r.staffStatus)),
     ...(r.extendedTo ? { extendedTo: r.extendedTo.slice(0, 10) } : {}),
     staffDocs: lines(r.staffDocs),
     updatedAt: r.modifiedAt || "",
