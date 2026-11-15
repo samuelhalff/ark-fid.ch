@@ -110,3 +110,6 @@ export function chooseCountry(value: string, name: string, several: boolean, loc
   const adding = several && browse && isCountryName(typedPart(value, true), locale);
   return pickCountry(adding ? `${value}, ` : value, name, several);
 }
+
+/** The answer once the field is left: only a trailing comma left by the last pick goes; never emptied. */
+export const tidyCountries = (raw: string) => raw.replace(/[\s,;]+$/, "");

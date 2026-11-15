@@ -15,6 +15,7 @@ import type { Answers, FieldDef, KycLocale } from "@/src/lib/kyc-questionnaire/t
 import { maskDate, normaliseAmount, normaliseDate } from "@/src/lib/tax-questionnaire/format";
 import { cn } from "@/src/lib/utils";
 import { CountryInput } from "./CountryInput";
+import { tidyCountries } from "@/src/lib/kyc-questionnaire/countries";
 import { FilledCheck } from "./FilledCheck";
 import { HelpHint } from "./HelpHint";
 
@@ -297,7 +298,7 @@ export function FieldControl({ field, name, locale, answers, askable, row }: Pro
                   onBlur={(e) => {
                     // A trailing comma left by the last pick is not part of the answer.
                     const raw = e.target.value;
-                    const trimmed = raw.replace(/[\s,;]+$/, "");
+                    const trimmed = tidyCountries(raw);
                     if (trimmed !== raw) f.onChange(trimmed);
                     f.onBlur();
                   }}

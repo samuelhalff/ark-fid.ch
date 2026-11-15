@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { chooseCountry, countries, isCountryName, pickCountry, searchCountries, splitCountries, suggestCountries, typedPart } from "./countries.ts";
+import { chooseCountry, countries, isCountryName, pickCountry, searchCountries, splitCountries, suggestCountries, tidyCountries, typedPart } from "./countries.ts";
 import { STEPS } from "./schema.ts";
 
 test("Switzerland and its neighbours come first, in the form's language", () => {
@@ -67,4 +67,26 @@ test("a prefilled « Suisse » just entered offers the others: one replaces it, 
   // Once typing, a full name typed needs nothing more.
   assert.deepEqual(suggestCountries("France", false, "fr", false), []);
   assert.equal(chooseCountry("Suisse, Fr", "France", true, "fr", false), "Suisse, France");
+});
+
+test("a several-countries answer is never emptied: picking, leaving the field, autocorrected text", () => {
+  const values = ["Suisse", "Suisse, ", "Suisse,", "Suisse, Fr", "Suisse, France", "Suisse; France, it", "Suisse / France", "suisse, Suisse", "France, ", " Suisse ,  "];
+  const names = ["Suisse", "France", "Italie"];
+  for (const value of values) {
+    const before = splitCountries(value);
+    // Leaving the field (blur while the list is open, or a tap racing the blur) only drops a trailing comma.
+    assert.equal(splitCountries(tidyCountries(value)).join("|"), before.join("|"), "blur keeps " + value);
+    assert.ok(tidyCountries(value).length > 0, "blur never empties " + value);
+    for (const name of names) {
+      for (const browse of [false, true]) {
+        const after = chooseCountry(value, name, true, "fr", browse);
+        assert.ok(after.length > 0, "pick never empties " + value);
+        assert.ok(splitCountries(after).includes(name), name + " added to " + value);
+        // The names before the one being typed all stay.
+        const kept = splitCountries(value.slice(0, Math.max(value.lastIndexOf(","), value.lastIndexOf(";")) + 1));
+        for (const k of kept) assert.ok(splitCountries(after).some((n) => n.toLowerCase() === k.toLowerCase()), k + " kept in " + after);
+      }
+    }
+  }
+  assert.equal(tidyCountries(""), "");
 });
