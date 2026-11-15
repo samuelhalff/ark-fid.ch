@@ -12,7 +12,6 @@ import { Checkbox } from "@/src/components/ui/checkbox";
 import { Form } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
-import { Progress } from "@/src/components/ui/progress";
 import { Separator } from "@/src/components/ui/separator";
 import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
 import posthog from "posthog-js";
@@ -596,21 +595,21 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   };
 
   // ---- rendering -------------------------------------------------------------------------------------
+  // One line: what the form is and for whom (each said once), the language beside it.
   const header = (
-    <div className="flex flex-col gap-3">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <Badge variant="secondary">{UI.eyebrow[locale]}</Badge>
-        <ToggleGroup type="single" variant="outline" size="sm" value={locale} onValueChange={(v) => asLocale(v) && chooseLocale(v as KycLocale)} aria-label={UI.language[locale]}>
-          <ToggleGroupItem value="fr" lang="fr" aria-label="Français">
-            FR
-          </ToggleGroupItem>
-          <ToggleGroupItem value="en" lang="en" aria-label="English">
-            EN
-          </ToggleGroupItem>
-        </ToggleGroup>
-      </div>
-      <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">{UI.pageTitle[locale]}</h1>
-      {caseData?.displayName ? <p className="text-lg font-medium">{caseData.displayName}</p> : null}
+    <div className="flex items-start justify-between gap-3">
+      <h1 className="min-w-0 pt-0.5 text-xl font-semibold leading-snug tracking-tight [overflow-wrap:anywhere] sm:text-2xl">
+        {UI.pageTitle[locale]}
+        {caseData?.displayName ? <span className="font-medium text-muted-foreground">{` · ${caseData.displayName}`}</span> : null}
+      </h1>
+      <ToggleGroup type="single" variant="outline" size="sm" className="shrink-0" value={locale} onValueChange={(v) => asLocale(v) && chooseLocale(v as KycLocale)} aria-label={UI.language[locale]}>
+        <ToggleGroupItem value="fr" lang="fr" aria-label="Français">
+          FR
+        </ToggleGroupItem>
+        <ToggleGroupItem value="en" lang="en" aria-label="English">
+          EN
+        </ToggleGroupItem>
+      </ToggleGroup>
     </div>
   );
 
@@ -852,11 +851,8 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   }
 
   // phase "form"
-  // « Écran n sur 7 »: the screens between the start screen and the review (A to the signature).
+  // The numbered screens: between the start screen and the review (A to the signature).
   const counted = steps.filter(isCounted);
-  const screen = counted.indexOf(step) + 1;
-  const stepLabel = screen ? UI.stepOf[locale].replace("{n}", String(screen)).replace("{total}", String(counted.length)) : "";
-  const progress = step.special === "review" ? 100 : Math.round((screen / Math.max(counted.length, 1)) * 100);
   const special = step.special;
   const started = step.id !== "start";
 
@@ -872,10 +868,10 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
       >
         {header}
         {started ? (
-          <div className="sticky top-16 z-20 -mx-5 flex flex-col gap-2 bg-background/95 px-5 py-3 backdrop-blur sm:mx-0 sm:rounded-xl sm:px-0">
-            <div className="flex items-center justify-between gap-3 text-sm">
-              <span className="font-medium">{stepLabel}</span>
-              <span className="text-muted-foreground" aria-live="polite">
+          // The numbered screens alone say where the client is (and take them back); the save time beside them.
+          <div className="sticky top-16 z-20 -mx-5 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 bg-background/95 px-5 py-2 backdrop-blur sm:mx-0 sm:rounded-xl sm:px-0">
+            <StepRail steps={counted.concat(steps.filter((s) => s.special === "review"))} current={step.id} locale={locale} onGo={(id) => goTo(id)} />
+            <span className="text-xs text-muted-foreground" aria-live="polite">
                 {save.state === "saving"
                   ? UI.saving[locale]
                   : save.state === "saved" && save.at
@@ -884,9 +880,6 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
                       ? UI.saveFailed[locale]
                       : ""}
               </span>
-            </div>
-            <Progress value={progress} aria-label={stepLabel || L(step.title)} />
-            <StepRail steps={counted.concat(steps.filter((s) => s.special === "review"))} current={step.id} locale={locale} onGo={(id) => goTo(id)} />
           </div>
         ) : null}
 

@@ -15,7 +15,6 @@ export const UI = {
     "Vérifiez ce que nous avons déjà rempli, complétez le reste, joignez les documents, puis signez.",
     "Check what we have already filled in, complete the rest, attach the documents, then sign.",
   ),
-  eyebrow: t("Ark Fiduciaire · KYC", "Ark Fiduciaire · KYC"),
   language: t("Langue", "Language"),
   stepOf: t("Écran {n} sur {total}", "Screen {n} of {total}"),
   back: t("Retour", "Back"),
