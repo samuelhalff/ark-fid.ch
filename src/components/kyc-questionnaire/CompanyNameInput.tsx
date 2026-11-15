@@ -86,8 +86,8 @@ export const CompanyNameInput = forwardRef<HTMLInputElement, Props>(function Com
               aria-selected={false}
               variant="ghost"
               className={cn("h-auto min-h-11 flex-col items-start justify-center gap-0 rounded-none px-3 py-1.5 text-left font-normal whitespace-normal")}
-              // Keeps the field focused (and the keyboard up) while the choice is tapped.
-              onPointerDown={(e) => e.preventDefault()}
+              // Keeps the field focused (and the keyboard up) while the choice is tapped. Not on pointerdown:
+              // iOS Safari then drops the tap's click, and the choice does nothing.
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => {
                 onValue(company.name);

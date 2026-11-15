@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { countries, isCountryName, pickCountry, searchCountries, splitCountries, typedPart } from "./countries.ts";
+import { chooseCountry, countries, isCountryName, pickCountry, searchCountries, splitCountries, suggestCountries, typedPart } from "./countries.ts";
 import { STEPS } from "./schema.ts";
 
 test("Switzerland and its neighbours come first, in the form's language", () => {
@@ -40,4 +40,31 @@ test("every nationality and country field of a person or the company offers the 
   assert.ok(countryFields.length >= 8);
   for (const f of countryFields) assert.ok(f.suggest, `${f.id} offers the countries`);
   for (const f of countryFields.filter((f) => /nationality|taxCountry$/.test(f.id) && f.id !== "a.companyTaxCountry")) assert.equal(f.suggest, "countries", `${f.id} takes several`);
+});
+
+test("an empty field offers the common countries; a typed name its matches; a full name nothing", () => {
+  assert.deepEqual(suggestCountries("", false, "fr").map((c) => c.name), ["Suisse", "France", "Italie", "Allemagne", "Autriche", "Royaume-Uni", "États-Unis", "Liechtenstein"]);
+  assert.deepEqual(suggestCountries("  ", false, "en").slice(0, 2).map((c) => c.name), ["Switzerland", "France"]);
+  assert.equal(suggestCountries("sui", false, "fr")[0].name, "Suisse");
+  assert.deepEqual(suggestCountries("Suisse", false, "fr"), []);
+  // A prefilled « Suisse » being edited: what is typed instead is searched.
+  assert.equal(suggestCountries("Suiss", false, "fr")[0].name, "Suisse");
+  assert.equal(suggestCountries("Fra", false, "fr")[0].name, "France");
+  // Several: after « Suisse, » the common ones come back without Suisse.
+  const next = suggestCountries("Suisse, ", true, "fr").map((c) => c.name);
+  assert.equal(next.includes("Suisse"), false);
+  assert.equal(next[0], "France");
+  assert.equal(suggestCountries("Suisse, it", true, "fr")[0].name, "Italie");
+});
+
+test("a prefilled « Suisse » just entered offers the others: one replaces it, or is added when several are taken", () => {
+  const single = suggestCountries("Suisse", false, "fr", true).map((c) => c.name);
+  assert.equal(single.includes("Suisse"), false);
+  assert.equal(single[0], "France");
+  assert.equal(chooseCountry("Suisse", "France", false, "fr", true), "France");
+  assert.equal(suggestCountries("Suisse, France", true, "fr", true).some((c) => ["Suisse", "France"].includes(c.name)), false);
+  assert.equal(chooseCountry("Suisse", "France", true, "fr", true), "Suisse, France");
+  // Once typing, a full name typed needs nothing more.
+  assert.deepEqual(suggestCountries("France", false, "fr", false), []);
+  assert.equal(chooseCountry("Suisse, Fr", "France", true, "fr", false), "Suisse, France");
 });

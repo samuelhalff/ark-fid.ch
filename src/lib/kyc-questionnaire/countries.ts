@@ -82,3 +82,31 @@ export function isCountryName(text: string, locale: CountryLocale): boolean {
   const q = fold(text.trim());
   return !!q && countries(locale).some((c) => fold(c.name) === q);
 }
+
+/** Offered on an empty field: the countries most of Ark's clients and their people name. */
+const COMMON = ["CH", "FR", "IT", "DE", "AT", "GB", "US", "LI"];
+
+/**
+ * What the list under the field offers: the common countries while nothing is typed (minus the
+ * ones already in the field), the matches of what is typed, nothing once the text typed is a full
+ * country name. `browse`: the field was just entered, nothing typed yet — a full name already
+ * there (prefilled « Suisse ») offers the common others, to replace it or, when several are
+ * taken, to add one.
+ */
+export function suggestCountries(value: string, several: boolean, locale: CountryLocale, browse = false): Country[] {
+  const typed = typedPart(value, several);
+  const common = () => {
+    const picked = new Set(splitCountries(several || browse ? value : "").map(fold));
+    const all = countries(locale);
+    return COMMON.map((code) => all.find((c) => c.code === code)!).filter((c) => c && !picked.has(fold(c.name)));
+  };
+  if (!typed) return common();
+  if (isCountryName(typed, locale)) return browse ? common() : [];
+  return searchCountries(typed, locale);
+}
+
+/** The value once `name` is chosen from the list (see suggestCountries for `browse`). */
+export function chooseCountry(value: string, name: string, several: boolean, locale: CountryLocale, browse = false): string {
+  const adding = several && browse && isCountryName(typedPart(value, true), locale);
+  return pickCountry(adding ? `${value}, ` : value, name, several);
+}
