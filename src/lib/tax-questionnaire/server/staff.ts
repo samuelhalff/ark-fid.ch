@@ -402,7 +402,7 @@ export const STAFF_PAGES: { id: string; title: L; steps: string[] }[] = [
 /**
  * The client's answers to read, computed from them by the form's own rules, in a language: tabs
  * (STAFF_PAGES) → visible screens → the visible questions that hold an answer, each with its label and
- * its value as the form shows it (option labels, Oui/Non); repeating groups as numbered rows. Empty
+ * its value as the form shows it (option labels, Oui/Non); repeating groups as rows named by their title answer (else « Employeur 2 »). Empty
  * answers, hidden and server-owned questions, empty screens and tabs are left out. Never stored.
  */
 export function staffPages(a: Answers, locale: QfLocale = "fr"): StaffPage[] {
@@ -441,9 +441,12 @@ export function staffPages(a: Answers, locale: QfLocale = "fr"): StaffPage[] {
                 .filter((f) => !f.hidden && isRowFieldVisible(f, a, row))
                 .map((f) => item(f, row[f.id]))
                 .filter((f): f is StaffPageField => f !== null);
-              return { title: fields.find((f) => f.id === titleId)?.value || `${L(block.itemLabel)} ${index + 1}`, fields };
+              const title = fields.find((f) => f.id === titleId);
+              // The row is named by its title answer (« Acme SA »), which is not repeated under it.
+              return { title: title?.value || `${L(block.itemLabel)} ${index + 1}`, fields: fields.filter((f) => f !== title), answered: fields.length > 0 };
             })
-            .filter((row) => row.fields.length > 0);
+            .filter((row) => row.answered)
+            .map(({ title, fields }) => ({ title, fields }));
           if (rows.length) items.push({ kind: "group", id: block.id, label: L(block.label), rows });
         }
       }

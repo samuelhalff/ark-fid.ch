@@ -407,7 +407,7 @@ test("GET one return: pages to read — tabs of the form's screens, labels and v
   assert.equal(employers.kind, "group");
   assert.equal(employers.rows.length, 1);
   assert.equal(employers.rows[0].title, "Acme SA");
-  assert.deepEqual(employers.rows[0].fields.map((f) => [f.label, f.value]), [["Employeur", "Acme SA"]]);
+  assert.deepEqual(employers.rows[0].fields, [], "the row title is not repeated under it");
   const costs = work.items.find((i) => i.id === "work.actualCosts") as StaffPageField;
   assert.equal(costs.value, "Non");
   const deductions = pages.find((p) => p.id === "deductions")!;
