@@ -106,11 +106,7 @@ export function collectIssues(errors: Record<string, unknown>, locale: KycLocale
   return out;
 }
 
-/** Screen holding an error key of the shared validator ("a.name" or "b.ubos[rowid].lastName"). */
-export function stepOfKey(key: string): string | undefined {
-  const id = ROW_KEY.exec(key)?.[1] || key;
-  return STEPS.find((s) => s.blocks.some((b) => b.id === id))?.id;
-}
+export { stepOfKey } from "@/src/lib/kyc-questionnaire/engine";
 
 /** Error keys of the server (422 invalid_answers) as form issues. */
 export function issuesFromKeys(keys: string[], locale: KycLocale, answers: Answers): Issue[] {

@@ -112,6 +112,8 @@ export const UI = {
     "Some of your answers need to be looked at by Ark. Ark will review your answers before anything is signed.",
   ),
   submit: t("Envoyer le formulaire", "Send the form"),
+  missingOne: t("Il manque 1 réponse", "1 answer missing"),
+  missingMany: t("Il manque {n} réponses", "{n} answers missing"),
   submitForReview: t("Envoyer à Ark pour vérification", "Send to Ark for review"),
   submitting: t("Envoi en cours…", "Sending…"),
   filesRejected: t("Ces fichiers ont été refusés et supprimés, joignez-les à nouveau (PDF, image ou document lisible) :", "These files were rejected and removed, please attach them again (PDF, image or readable document):"),

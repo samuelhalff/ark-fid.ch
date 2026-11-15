@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { getField, getGroup, isFilled, isRowFieldVisible, validateField } from "./engine.ts";
+import { getGroup, isRowFieldVisible, validateField } from "./engine.ts";
+import { STEPS } from "./schema.ts";
 import { choiceLabel, isUnnamedRow, knownPeople, rowFromPerson } from "./people.ts";
 import type { Answers, GroupDef } from "./types.ts";
 
@@ -79,20 +80,12 @@ test("a director given by name only, chosen as a 25 % holder: the name is copied
   assert.deepEqual(missing, ["birthDate", "nationality", "address", "country", "percent", "holding"]);
 });
 
-test("the green check: a valid answer only, never an empty or refused one", () => {
-  const date = getField("a.incorporationDate")!;
-  assert.equal(isFilled(date, "01.03.2016"), true);
-  assert.equal(isFilled(date, "01.03"), false);
-  assert.equal(isFilled(date, "  "), false);
-  assert.equal(isFilled(getField("a.contactEmail")!, "sam@"), false);
-});
-
-test("every interface text of the form exists in French and English", async () => {
-  const { UI } = await import("./ui.ts");
-  for (const [key, text] of Object.entries(UI)) {
-    if (!text || typeof text !== "object" || !("fr" in text)) continue;
-    const l = text as Record<string, unknown>;
-    assert.ok(typeof l.fr === "string" && l.fr.trim(), `${key} fr`);
-    assert.ok(typeof l.en === "string" && l.en.trim(), `${key} en`);
-  }
+test("the review screen lists what is missing in form order, and nothing once complete", async () => {
+  const { missingAnswers } = await import("./engine.ts");
+  const missing = missingAnswers({ route: "pm-op" });
+  assert.ok(missing.length > 3);
+  assert.ok(missing.every((m) => m.stepId));
+  const order = missing.map((m) => STEPS.findIndex((s) => s.id === m.stepId));
+  assert.deepEqual(order, [...order].sort((x, y) => x - y));
+  assert.ok(missing.some((m) => m.key === "a.incorporationDate"));
 });

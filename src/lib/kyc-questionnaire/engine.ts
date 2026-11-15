@@ -274,3 +274,18 @@ export function isFilled(field: FieldDef, value: unknown): boolean {
   const present = Array.isArray(value) ? value.length > 0 : typeof value === "string" ? value.trim() !== "" : value != null;
   return present && !validateField(field, value);
 }
+
+/** Screen holding an error key of validateAll ("a.name" or "b.ubos[rowid].lastName"). */
+export function stepOfKey(key: string): string | undefined {
+  const id = /^([^[]+)\[/.exec(key)?.[1] || key;
+  return STEPS.find((step) => step.blocks.some((block) => block.id === id))?.id;
+}
+
+/** What still blocks sending, in the form's order (same validator as the server): `{ key, stepId }`. */
+export function missingAnswers(a: Answers): { key: string; stepId: string }[] {
+  const order = new Map(STEPS.map((step, i) => [step.id, i]));
+  return Object.keys(validateAll(pruneHidden(a)))
+    .map((key) => ({ key, stepId: stepOfKey(key) || "" }))
+    .filter((m) => m.stepId)
+    .sort((x, y) => (order.get(x.stepId) ?? 0) - (order.get(y.stepId) ?? 0));
+}

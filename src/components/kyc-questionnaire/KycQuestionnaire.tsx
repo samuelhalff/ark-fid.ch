@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Check, CircleNotch, DownloadSimple, EnvelopeSimple, Info, Phone, SignOut } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, Check, CircleNotch, DownloadSimple, EnvelopeSimple, Info, Phone, SignOut, WarningCircle } from "@phosphor-icons/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +16,7 @@ import { Separator } from "@/src/components/ui/separator";
 import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
 import posthog from "posthog-js";
 import { documentsFor } from "@/src/lib/kyc-questionnaire/documents";
-import { stepText, displayValue, fieldText, isBlockAsked, isRowFieldVisible, label, pruneHidden, rowsOf, rowTitle, stepById, validateAll, visibleSteps } from "@/src/lib/kyc-questionnaire/engine";
+import { stepText, displayValue, fieldText, isBlockAsked, isRowFieldVisible, label, missingAnswers, pruneHidden, rowsOf, rowTitle, stepById, validateAll, visibleSteps } from "@/src/lib/kyc-questionnaire/engine";
 import { routeMismatch } from "@/src/lib/kyc-questionnaire/flags";
 import { isPM } from "@/src/lib/kyc-questionnaire/schema";
 import { KYC_LOCALES, type Answers, type DocDeclared, type DocItem, type KycLocale, type StepDef } from "@/src/lib/kyc-questionnaire/types";
@@ -537,6 +537,17 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   // ---- submission ------------------------------------------------------------------------------------
   const mismatch = routeMismatch(pruned);
   const docsStepId = steps.find((s) => s.special === "documents")?.id || "h";
+  // What still blocks sending, said on the review screen before anyone presses « Envoyer ».
+  const missingList =
+    step.special === "review"
+      ? [
+          ...missingAnswers(pruned).flatMap(({ key, stepId }) =>
+            issuesFromKeys([key], locale, answers).map((issue) => ({ ...issue, stepId, onGo: () => { goTo(stepId); setRevalidate([issue]); } })),
+          ),
+          ...missingDocs().map((item) => ({ name: `doc:${item.key}`, label: L(item.label), stepId: docsStepId, onGo: () => { goTo(docsStepId); fail([{ name: `doc:${item.key}`, label: L(item.label) }], err("missing_documents", locale)); } })),
+        ]
+      : [];
+  const missingLabel = missingList.length === 1 ? UI.missingOne[locale] : UI.missingMany[locale].replace("{n}", String(missingList.length));
   const submit = async () => {
     setNotice(null);
     // Whole form first (same validator as the server), then the documents.
@@ -912,7 +923,30 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
                   missing={new Set(issues.filter((i) => i.name.startsWith("doc:")).map((i) => i.name.slice(4)))}
                 />
               ) : special === "review" ? (
-                <ReviewSummary answers={pruned} items={items} files={files} docDeclared={docDeclared} locale={locale} onEdit={goTo} />
+                <>
+                  {missingList.length ? (
+                    <Alert variant="destructive">
+                      <WarningCircle className="size-4" />
+                      <AlertDescription>
+                        <p className="font-medium">{missingLabel}</p>
+                        <ul className="mt-2 flex flex-col gap-1">
+                          {missingList.map((item) => {
+                            const where = stepById(item.stepId);
+                            return (
+                              <li key={item.name}>
+                                <button type="button" className="min-h-11 py-1 text-left underline underline-offset-2 [overflow-wrap:anywhere]" onClick={item.onGo}>
+                                  {where ? `${L(where.title)} › ` : ""}
+                                  {item.label}
+                                </button>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </AlertDescription>
+                    </Alert>
+                  ) : null}
+                  <ReviewSummary answers={pruned} items={items} files={files} docDeclared={docDeclared} locale={locale} onEdit={goTo} />
+                </>
               ) : (
                 <StepView key={step.id} step={step} locale={locale} answers={answers} prefilled={prefilled} />
               )}
@@ -930,9 +964,9 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
                 <ArrowLeft className="size-4" />
                 {UI.back[locale]}
               </Button>
-              <Button type="submit" disabled={busy || (special === "review" && uploading)}>
+              <Button type="submit" disabled={busy || (special === "review" && (uploading || missingList.length > 0))}>
                 {busy ? <CircleNotch className="size-4 animate-spin" /> : null}
-                {special === "review" ? (busy ? UI.submitting[locale] : mismatch ? UI.submitForReview[locale] : UI.submit[locale]) : UI.next[locale]}
+                {special === "review" ? (busy ? UI.submitting[locale] : missingList.length ? missingLabel : mismatch ? UI.submitForReview[locale] : UI.submit[locale]) : UI.next[locale]}
                 {special !== "review" ? <ArrowRight className="size-4" /> : null}
               </Button>
             </CardFooter>
