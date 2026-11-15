@@ -13,7 +13,7 @@ import { documentList, documentsFor, retiredDocument, swissCompany } from "./doc
 import { fieldText, getField, getGroup, isBlockAsked, isBlockVisible, pruneHidden, sanitizeAnswers, validateAll, visibleSteps } from "./engine";
 import { upgradeAnswers } from "./upgrade";
 import { flagsOf, routeMismatch } from "./flags";
-import { createChallenge, createPick, createSession, emailHash, linkRef, readLink, readPick, readSession, STAFF_HASH, redeemAssist, verifyChallenge } from "./server/access";
+import { createChallenge, createPick, createSession, emailHash, linkRef, linkRefusal, linkStatus, readLink, readPick, readSession, STAFF_HASH, redeemAssist, verifyChallenge } from "./server/access";
 import { apiKeys } from "./server/config";
 import { signRequest, verifyStaffRequest } from "./server/signature";
 import { memoryAccess, memoryTracker } from "./server/ports";
@@ -580,6 +580,51 @@ test("links, one-time codes and sessions", async () => {
   // A new link revokes the old one.
   await staffAction(created.summary.caseId, "link", { expectedRevision: 1 }, { idempotencyKey: "link-0001", payloadHash: "l" });
   assert.equal(await readLink(token), null);
+});
+
+test("an unusable link says why: replaced (by e-mail on a date, or otherwise), expired, or invalid", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0050", payloadHash: "h" });
+  const caseId = created.summary.caseId;
+  const tokenOf = (url: string) => url.split("#acces=")[1];
+  const refusal = async (token: string) => {
+    const found = await linkStatus(token);
+    assert.notEqual(found.status, "ok");
+    return linkRefusal(found as Exclude<typeof found, { status: "ok" }>);
+  };
+  // Cadence e-mails the new link: the old one says so, with the date.
+  const before = Date.now();
+  const emailed = await staffAction(caseId, "link", { expectedRevision: 1, notify: "email" }, { idempotencyKey: "link-0050", payloadHash: "e" });
+  const byEmail = await refusal(tokenOf(created.link.url));
+  assert.equal(byEmail.error, "link_replaced");
+  assert.equal(byEmail.via, "email");
+  assert.ok(Date.parse(byEmail.at!) >= before && Date.parse(byEmail.at!) <= Date.now());
+  assert.ok(f.access.records.filter((r) => r.kind === "link" && r.replacedAt).every((r) => r.revoked));
+  // A link handed over otherwise (no notify): "other".
+  const handed = await staffAction(caseId, "link", { expectedRevision: 1 }, { idempotencyKey: "link-0051", payloadHash: "o" });
+  const other = await refusal(tokenOf(emailed.link!.url));
+  assert.equal(other.error, "link_replaced");
+  assert.equal(other.via, "other");
+  // An idempotent replay of the e-mailed link replaces the current one the same way.
+  const replay = await staffAction(caseId, "link", { expectedRevision: 1, notify: "email" }, { idempotencyKey: "link-0050", payloadHash: "e" });
+  assert.equal(replay.replayed, true);
+  assert.equal((await refusal(tokenOf(handed.link!.url))).via, "email");
+  // A replaced link keeps its first reason when the case is closed later.
+  assert.equal((await refusal(tokenOf(created.link.url))).via, "email");
+  // Expired (TTL passed, never revoked).
+  const current = f.access.records.find((r) => r.kind === "link" && !r.revoked)!;
+  current.expiresAt = Date.now() - 1;
+  assert.deepEqual(await refusal(tokenOf(replay.link!.url)), { error: "link_expired" });
+  current.expiresAt = Date.now() + 60_000;
+  assert.equal((await linkStatus(tokenOf(replay.link!.url))).status, "ok");
+  // Closing revokes without a replacement: invalid, as are unknown or malformed tokens.
+  await staffAction(caseId, "close", { expectedRevision: 1 }, { idempotencyKey: "close-0050", payloadHash: "c" });
+  assert.deepEqual(await refusal(tokenOf(replay.link!.url)), { error: "link_invalid" });
+  assert.equal((await refusal(tokenOf(created.link.url))).via, "email", "an earlier replacement is not overwritten");
+  assert.deepEqual(await refusal("A".repeat(43)), { error: "link_invalid" });
+  assert.deepEqual(await refusal("short"), { error: "link_invalid" });
+  // Sessions revoked with the links carry no replacement.
+  assert.ok(f.access.records.filter((r) => r.kind !== "link").every((r) => !r.replacedAt));
 });
 
 test("Cadence requests: signature, clock window, single-use nonce, idempotency key", async () => {

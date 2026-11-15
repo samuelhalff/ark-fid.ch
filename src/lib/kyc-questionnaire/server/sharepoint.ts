@@ -3,7 +3,7 @@ import path from "node:path";
 import { getGraph, MockStorage, StorageError, type Json, type TaxStorage } from "../../tax-questionnaire/server/storage";
 import { GraphStorage } from "../../tax-questionnaire/server/storage";
 import { ACCESS_LIST, KYC_SITE_ID, mailSender, mockStorageEnabled, TRACKER_LIST } from "./config";
-import { memoryAccess, memoryTracker, type AccessPort, type AccessRecord, type KycPorts, type RevisionState, type TrackerPort, type TrackerRow } from "./ports";
+import { memoryAccess, memoryTracker, type AccessPort, type AccessRecord, type KycPorts, type LinkReplacement, type RevisionState, type TrackerPort, type TrackerRow } from "./ports";
 
 /**
  * SharePoint adapters on the "LBA - OAR" site: the lists are created on first use and missing
@@ -256,6 +256,8 @@ const ACCESS_COLUMNS: Column[] = [
   text("By", "Saisi par (Ark)"),
   text("Sibling", "Accès jumelé"),
   text("LinkRef", "Référence du lien"),
+  num("ReplacedAt", "Remplacé le (ms)"),
+  text("ReplacedVia", "Remplacé par"),
 ];
 
 class SharePointAccess implements AccessPort {
@@ -273,6 +275,7 @@ class SharePointAccess implements AccessPort {
       ...(record.by ? { By: record.by } : {}),
       ...(record.sibling ? { Sibling: record.sibling } : {}),
       ...(record.linkRef ? { LinkRef: record.linkRef } : {}),
+      ...(record.replacedAt ? { ReplacedAt: record.replacedAt, ReplacedVia: record.replacedVia || "other" } : {}),
     });
     this.cache.delete(record.keyHash);
   }
@@ -292,6 +295,7 @@ class SharePointAccess implements AccessPort {
           ...(str(f.By) ? { by: str(f.By) } : {}),
           ...(str(f.Sibling) ? { sibling: str(f.Sibling) } : {}),
           ...(str(f.LinkRef) ? { linkRef: str(f.LinkRef) } : {}),
+          ...(Number(f.ReplacedAt) > 0 ? { replacedAt: Number(f.ReplacedAt), replacedVia: str(f.ReplacedVia) === "email" ? ("email" as const) : ("other" as const) } : {}),
         }
       : null;
     this.cache.set(keyHash, { record, at: Date.now() });
@@ -301,9 +305,11 @@ class SharePointAccess implements AccessPort {
     for (const item of await this.list.query(`fields/Title eq ${quote(keyHash)}`, 5)) await this.list.update(item.id, { Revoked: true });
     this.cache.delete(keyHash);
   }
-  async revokeCase(caseId: string, exceptEmailHashes: string[] = []) {
+  async revokeCase(caseId: string, exceptEmailHashes: string[] = [], replaced?: LinkReplacement) {
     for (const item of await this.list.query(`fields/CaseId eq ${quote(caseId)}`)) {
-      if (item.fields.Revoked !== true && !exceptEmailHashes.includes(str(item.fields.EmailHash))) await this.list.update(item.id, { Revoked: true });
+      if (item.fields.Revoked === true || exceptEmailHashes.includes(str(item.fields.EmailHash))) continue;
+      const replacedBy = replaced && str(item.fields.Kind) === "link" ? { ReplacedAt: replaced.at, ReplacedVia: replaced.via } : {};
+      await this.list.update(item.id, { Revoked: true, ...replacedBy });
     }
     this.cache.clear();
   }

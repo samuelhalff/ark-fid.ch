@@ -14,7 +14,7 @@ import { KYC_DRIVE_ID, mailSender, mockStorageEnabled, onlineSignatureEnabled, t
 import { plainHtml } from "../../tax-questionnaire/server/email";
 import { toWinAnsi } from "../../tax-questionnaire/server/pdf";
 import { appendOnlineSignatures, buildKycPdf } from "./pdf";
-import type { RevisionState, TrackerRow } from "./ports";
+import type { LinkReplacedVia, RevisionState, TrackerRow } from "./ports";
 import { caseFileName, dataFileName, isOwnPiece, ONLINE_SIGNED_MARK, pieceFileName, SIGNED_SCAN_PREFIX, type CaseFolders } from "./layout";
 import { getPorts } from "./sharepoint";
 import { askCadence, type AskReply } from "./cadence";
@@ -416,12 +416,16 @@ export async function createCase(input: CreateCaseInput, meta: { keyId: string; 
   });
 }
 
-async function relink(record: CaseRecord): Promise<LinkResult> {
+/**
+ * A new link for the contact. `via` tells the holder of a replaced link where the new one went:
+ * "email" when Cadence e-mails it (staff `link` with `notify: "email"`), "other" otherwise.
+ */
+async function relink(record: CaseRecord, via: LinkReplacedVia = "other"): Promise<LinkResult> {
   const rev = latest(record);
   // The contact's links and sessions are replaced; the signatories' stay (a reminder to the
   // contact must not cut another signer off).
   const signerHashes = (rev.signers || []).map((s) => s.emailHash).filter((h): h is string => !!h && h !== record.emailHash);
-  await getPorts().access.revokeCase(record.caseId, rev.state === "awaiting_signature" ? signerHashes : []);
+  await getPorts().access.revokeCase(record.caseId, rev.state === "awaiting_signature" ? signerHashes : [], { at: Date.now(), via });
   const link = await issueLink({ caseId: record.caseId, revision: rev.n, emailHash: record.emailHash, locale: record.language });
   rev.invitedAt = now();
   await saveCase(record);
@@ -439,10 +443,13 @@ export interface AssistResult {
   expiresAt: string;
 }
 
+/** Staff `link` field `notify`: "email" when Cadence e-mails the new link; anything else is "other". */
+const notifyVia = (notify: unknown): LinkReplacedVia => (notify === "email" ? "email" : "other");
+
 export async function staffAction(
   caseId: string,
   action: StaffAction,
-  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown; signers?: unknown; by?: unknown; ttlMinutes?: unknown; overwrite?: unknown; skippedDocuments?: unknown },
+  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown; signers?: unknown; by?: unknown; ttlMinutes?: unknown; overwrite?: unknown; skippedDocuments?: unknown; notify?: unknown },
   meta: { idempotencyKey: string; payloadHash: string },
 ): Promise<{ summary: StaffSummary; link?: LinkResult; assist?: AssistResult; replayed: boolean }> {
   return locked(caseId, async () => {
@@ -467,7 +474,7 @@ export async function staffAction(
         return { summary: summarize(record), assist: open ? await assistFor(record, rev, body) : undefined, replayed: true };
       }
       const relinkable = action !== "close" && !record.closedAt && (rev.state === "open" || rev.state === "awaiting_signature");
-      return { summary: summarize(record), link: relinkable ? await relink(record) : undefined, replayed: true };
+      return { summary: summarize(record), link: relinkable ? await relink(record, action === "link" ? notifyVia(body.notify) : "other") : undefined, replayed: true };
     }
     const rev = latest(record);
     // `assist` may omit expectedRevision (it always opens the latest open revision).
@@ -521,7 +528,7 @@ export async function staffAction(
         record.emailHash = emailHash(email);
       }
       remember(rev.n);
-      const link = await relink(record);
+      const link = await relink(record, notifyVia(body.notify));
       return { summary: summarize(record), link, replayed: false };
     }
 

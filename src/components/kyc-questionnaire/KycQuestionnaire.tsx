@@ -40,6 +40,14 @@ type Message = { title: string; text: string; retry?: boolean; email?: boolean }
 const err = (code: string, locale: KycLocale) => (SERVER_ERRORS[code] || SERVER_ERRORS.generic)[locale];
 const asLocale = (value: unknown): KycLocale | null => ((KYC_LOCALES as readonly string[]).includes(String(value)) ? (value as KycLocale) : null);
 const code = (error: unknown) => (error instanceof ApiError ? error.code : "generic");
+/** A link replaced by a newer one: by e-mail on a date (the holder's own link), or handed over otherwise. */
+const replacedMessage = (error: unknown, l: KycLocale) => {
+  const detail = error instanceof ApiError ? error.detail : {};
+  const at = typeof detail.at === "string" ? new Date(detail.at) : null;
+  const date = at && !Number.isNaN(at.getTime()) ? at.toLocaleDateString(l === "fr" ? "fr-CH" : "en-GB", { day: "numeric", month: "long", year: "numeric" }) : "";
+  const text = detail.via === "email" && date ? UI.linkReplacedEmailText[l].replace("{date}", date) : UI.linkReplacedOtherText[l];
+  return { title: UI.linkReplacedTitle[l], text, email: true };
+};
 
 /** The client's own language choice (FR/EN switch), kept for this tab across reloads. */
 const LOCALE_KEY = "kqf-locale";
@@ -214,7 +222,9 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
         return true;
       } catch (error) {
         const c = code(error);
-        if (c === "link_invalid") showMessage({ title: UI.linkInvalidTitle[l], text: UI.linkInvalidText[l], email: true });
+        if (c === "link_replaced") showMessage(replacedMessage(error, l));
+        else if (c === "link_expired") showMessage({ title: UI.linkExpiredTitle[l], text: UI.linkExpiredText[l], email: true });
+        else if (c === "link_invalid") showMessage({ title: UI.linkInvalidTitle[l], text: UI.linkInvalidText[l], email: true });
         else if (c === "case_closed") showMessage({ title: UI.closedTitle[l], text: UI.closedText[l] });
         else showMessage({ title: UI.noLinkTitle[l], text: err(c, l), retry: true });
         return false;

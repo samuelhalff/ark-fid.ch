@@ -1,4 +1,5 @@
 import { createHmac, randomBytes, randomInt, timingSafeEqual } from "node:crypto";
+import type { AccessRecord, LinkReplacedVia } from "./ports";
 import { normalise, sharePointPorts } from "./sharepoint-registry";
 
 /**
@@ -80,11 +81,34 @@ export async function issueLinkWithExpiry(options: IssueLinkOptions): Promise<{ 
   return { url: linkUrl(token, options.locale, options.origin), expiresAt: new Date(expiresAt).toISOString() };
 }
 
-export async function readLink(token: unknown) {
-  if (typeof token !== "string" || !/^[A-Za-z0-9_-]{40,60}$/.test(token)) return null;
+/**
+ * What a link opened by the client is: usable, replaced by a newer link (the holder may learn when
+ * and whether it came by e-mail: it is their own link), expired, or unknown / revoked otherwise.
+ */
+export type LinkStatus =
+  | { status: "ok"; record: AccessRecord }
+  | { status: "replaced"; via: LinkReplacedVia; at: number }
+  | { status: "expired" }
+  | { status: "invalid" };
+
+export async function linkStatus(token: unknown): Promise<LinkStatus> {
+  if (typeof token !== "string" || !/^[A-Za-z0-9_-]{40,60}$/.test(token)) return { status: "invalid" };
   const record = await sharePointPorts().access.get(mac("link", token));
-  if (!record || record.kind !== "link" || record.revoked || record.expiresAt <= Date.now()) return null;
-  return record;
+  if (!record || record.kind !== "link") return { status: "invalid" };
+  if (record.revoked) return record.replacedAt ? { status: "replaced", via: record.replacedVia === "email" ? "email" : "other", at: record.replacedAt } : { status: "invalid" };
+  if (record.expiresAt <= Date.now()) return { status: "expired" };
+  return { status: "ok", record };
+}
+
+/** The 410 answer for a link that cannot be used: `link_replaced` {via, at}, `link_expired` or `link_invalid`. */
+export function linkRefusal(status: Exclude<LinkStatus, { status: "ok" }>): { error: string; via?: LinkReplacedVia; at?: string } {
+  if (status.status === "replaced") return { error: "link_replaced", via: status.via, at: new Date(status.at).toISOString() };
+  return { error: status.status === "expired" ? "link_expired" : "link_invalid" };
+}
+
+export async function readLink(token: unknown) {
+  const found = await linkStatus(token);
+  return found.status === "ok" ? found.record : null;
 }
 
 // ---- one-time codes -------------------------------------------------------------------------------

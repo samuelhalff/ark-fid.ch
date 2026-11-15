@@ -1,5 +1,5 @@
 import { plainHtml } from "@/src/lib/tax-questionnaire/server/email";
-import { createChallenge, createPick, createSession, emailHash, normaliseEmail, linkRef, readCookie, readLink, readPick, releaseChallenge, revokeSession, sessionCookie, STAFF_HASH, STAFF_SESSION_TTL_MS, redeemAssist, verifyChallenge } from "@/src/lib/kyc-questionnaire/server/access";
+import { createChallenge, createPick, createSession, emailHash, normaliseEmail, linkRef, linkRefusal, linkStatus, readCookie, readPick, releaseChallenge, revokeSession, sessionCookie, STAFF_HASH, STAFF_SESSION_TTL_MS, redeemAssist, verifyChallenge } from "@/src/lib/kyc-questionnaire/server/access";
 import { mailSender } from "@/src/lib/kyc-questionnaire/server/config";
 import { clientRoute, json, limited } from "@/src/lib/kyc-questionnaire/server/http";
 import { accessFor, contactOf, KycError } from "@/src/lib/kyc-questionnaire/server/service";
@@ -57,8 +57,9 @@ async function sessionFor(caseId: string, revision: number, hash: string, viaLin
 export async function POST(request: Request) {
   return clientRoute(request, { name: "kyc-auth", perIp: 20, session: false }, async ({ body, ip }) => {
     if (body.action === "link") {
-      const link = await readLink(body.token);
-      if (!link) return json({ error: "link_invalid" }, 410);
+      const found = await linkStatus(body.token);
+      if (found.status !== "ok") return json(linkRefusal(found), 410);
+      const link = found.record;
       // The code goes to the address the link was issued for: the contact, or a signatory still to sign.
       const access = await accessFor(link.caseId, link.emailHash);
       if (access?.closed) return json({ error: "case_closed" }, 410);

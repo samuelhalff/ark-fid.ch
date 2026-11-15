@@ -35,6 +35,17 @@ import { Turnstile } from "./Turnstile";
 type Phase = "loading" | "start" | "code" | "form" | "status" | "optedOut";
 
 const err = (code: string, locale: QfLocale) => (SERVER_ERRORS[code] || SERVER_ERRORS.generic)[locale];
+const DATE_LOCALES: Record<QfLocale, string> = { fr: "fr-CH", en: "en-GB", de: "de-CH" };
+/** Why an opened link cannot be used: replaced (by e-mail on a date, or otherwise), expired, or no longer valid. */
+function linkRefusalText(error: unknown, locale: QfLocale): string {
+  const code = error instanceof ApiError ? error.code : "";
+  const detail = error instanceof ApiError ? error.detail : {};
+  if (code === "link_expired") return UI2.linkExpired[locale];
+  if (code !== "link_replaced") return UI2.linkInvalid[locale];
+  const at = typeof detail.at === "string" ? new Date(detail.at) : null;
+  const date = at && !Number.isNaN(at.getTime()) ? at.toLocaleDateString(DATE_LOCALES[locale], { day: "numeric", month: "long", year: "numeric" }) : "";
+  return detail.via === "email" && date ? UI2.linkReplacedEmail[locale].replace("{date}", date) : UI2.linkReplacedOther[locale];
+}
 const CONSENT_LABELS = {
   privacy: { fr: "Accord à la notice de confidentialité", en: "Agreement to the privacy notice", de: "Zustimmung zum Datenschutzhinweis" },
   certify: { fr: "Confirmation que les réponses sont complètes et exactes", en: "Confirmation that the answers are complete and correct", de: "Bestätigung, dass die Angaben vollständig und richtig sind" },
@@ -170,8 +181,8 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
           setEmailHint(res.emailHint || "");
           setPhase("code");
         })
-        .catch(() => {
-          setNotice({ tone: "error", text: UI2.linkInvalid[locale] });
+        .catch((error) => {
+          setNotice({ tone: "error", text: linkRefusalText(error, locale) });
           setFind((f) => ({ ...f, open: true }));
           setPhase("start");
         });

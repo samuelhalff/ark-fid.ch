@@ -7,7 +7,7 @@
  * In-memory adapters (memoryPorts) serve the local mock mode and the tests.
  */
 import { givenName, personName } from "../format";
-import type { AccessRecord, AccessStore, ClientIdentity, ClientMatch, ClientPreferences, ClientRegistry, PreferenceStore, ReturnRecord, ReturnTracker, StaffFields } from "./ports";
+import type { AccessRecord, AccessStore, LinkReplacement, ClientIdentity, ClientMatch, ClientPreferences, ClientRegistry, PreferenceStore, ReturnRecord, ReturnTracker, StaffFields } from "./ports";
 import { DEFAULT_SITE_ID, getGraph, mockStorageEnabled, StorageError, TRACKING_LIST, TRACKING_STATUSES, type Json } from "./storage";
 
 export interface Ports {
@@ -535,6 +535,8 @@ const ACCESS_COLUMNS: Column[] = [
   text("Purpose", "Usage"),
   num("ExpiresAt", "Expiration (ms)"),
   bool("Revoked", "Révoqué"),
+  num("ReplacedAt", "Remplacé le (ms)"),
+  text("ReplacedVia", "Remplacé par"),
 ];
 
 class SharePointAccess implements AccessStore {
@@ -550,6 +552,7 @@ class SharePointAccess implements AccessStore {
       Purpose: record.purpose || "",
       ExpiresAt: record.expiresAt,
       Revoked: record.revoked,
+      ...(record.replacedAt ? { ReplacedAt: record.replacedAt, ReplacedVia: record.replacedVia || "other" } : {}),
     });
     this.cache.delete(record.keyHash);
   }
@@ -568,6 +571,7 @@ class SharePointAccess implements AccessStore {
           purpose: str(f.Purpose) || undefined,
           expiresAt: Number(f.ExpiresAt) || 0,
           revoked: f.Revoked === true,
+          ...(Number(f.ReplacedAt) > 0 ? { replacedAt: Number(f.ReplacedAt), replacedVia: str(f.ReplacedVia) === "email" ? ("email" as const) : ("other" as const) } : {}),
         }
       : null;
     this.cache.set(keyHash, { record, at: Date.now(), itemId: found[0]?.id });
@@ -578,11 +582,12 @@ class SharePointAccess implements AccessStore {
     for (const item of found) await this.list.update(item.id, { Revoked: true });
     this.cache.delete(keyHash);
   }
-  async revokeCase(caseId: string, kind?: AccessRecord["kind"], purpose?: string) {
+  async revokeCase(caseId: string, kind?: AccessRecord["kind"], purpose?: string, replaced?: LinkReplacement) {
     const found = await this.list.query(`fields/CaseId eq ${quote(caseId)}`);
     for (const item of found) {
       if (item.fields.Revoked === true || (kind && item.fields.Kind !== kind) || (purpose && str(item.fields.Purpose) !== purpose)) continue;
-      await this.list.update(item.id, { Revoked: true });
+      const replacedBy = replaced && str(item.fields.Kind) === "link" ? { ReplacedAt: replaced.at, ReplacedVia: replaced.via } : {};
+      await this.list.update(item.id, { Revoked: true, ...replacedBy });
     }
     this.cache.clear();
   }
@@ -713,8 +718,12 @@ export function memoryPorts(seed: { crm?: MemoryCrmItem[] } = {}) {
       const record = access.get(keyHash);
       if (record) record.revoked = true;
     },
-    async revokeCase(caseId, kind, purpose) {
-      for (const record of access.values()) if (record.caseId === caseId && (!kind || record.kind === kind) && (!purpose || record.purpose === purpose)) record.revoked = true;
+    async revokeCase(caseId, kind, purpose, replaced) {
+      for (const record of access.values()) {
+        if (record.revoked || record.caseId !== caseId || (kind && record.kind !== kind) || (purpose && record.purpose !== purpose)) continue;
+        record.revoked = true;
+        if (replaced && record.kind === "link") Object.assign(record, { replacedAt: replaced.at, replacedVia: replaced.via });
+      }
     },
   };
   return { ports: { registry, tracker, prefs: prefStore, access: accessStore } as Ports, crm, returns, prefsList: prefs, access };

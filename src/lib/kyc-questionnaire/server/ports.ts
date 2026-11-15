@@ -60,14 +60,27 @@ export interface AccessRecord {
   linkRef?: string;
   /** An assist link and its short code are two records of one single use: the other one's key. */
   sibling?: string;
+  /** A link revoked because a newer one replaced it: when (ms), and whether Cadence e-mailed the new one. */
+  replacedAt?: number;
+  replacedVia?: LinkReplacedVia;
+}
+
+export type LinkReplacedVia = "email" | "other";
+/** Why the links of a case are revoked, when a newer link replaces them. */
+export interface LinkReplacement {
+  at: number;
+  via: LinkReplacedVia;
 }
 
 export interface AccessPort {
   put(record: AccessRecord): Promise<void>;
   get(keyHash: string): Promise<AccessRecord | null>;
   revoke(keyHash: string): Promise<void>;
-  /** Revokes the case's links and sessions, except those of the given addresses (signers). */
-  revokeCase(caseId: string, exceptEmailHashes?: string[]): Promise<void>;
+  /**
+   * Revokes the case's links and sessions, except those of the given addresses (signers). With
+   * `replaced`, the links revoked now record that a newer link replaced them.
+   */
+  revokeCase(caseId: string, exceptEmailHashes?: string[], replaced?: LinkReplacement): Promise<void>;
   /** Cases that ever had a link for this e-mail (HMAC), for the code login without a link. */
   casesByEmail(emailHash: string): Promise<string[]>;
 }
@@ -110,8 +123,8 @@ export function memoryAccess(): AccessPort & { records: AccessRecord[] } {
     records,
     async put(record) {
       // Only the fields the SharePoint store keeps, so a field forgotten there fails the tests.
-      const { keyHash, kind, caseId, revision, emailHash, expiresAt, revoked, by, sibling, linkRef } = record;
-      records.push({ keyHash, kind, caseId, revision, emailHash, expiresAt, revoked, ...(by ? { by } : {}), ...(sibling ? { sibling } : {}), ...(linkRef ? { linkRef } : {}) });
+      const { keyHash, kind, caseId, revision, emailHash, expiresAt, revoked, by, sibling, linkRef, replacedAt, replacedVia } = record;
+      records.push({ keyHash, kind, caseId, revision, emailHash, expiresAt, revoked, ...(by ? { by } : {}), ...(sibling ? { sibling } : {}), ...(linkRef ? { linkRef } : {}), ...(replacedAt ? { replacedAt, replacedVia } : {}) });
     },
     async get(keyHash) {
       const found = records.find((r) => r.keyHash === keyHash);
@@ -120,8 +133,12 @@ export function memoryAccess(): AccessPort & { records: AccessRecord[] } {
     async revoke(keyHash) {
       for (const r of records) if (r.keyHash === keyHash) r.revoked = true;
     },
-    async revokeCase(caseId, exceptEmailHashes = []) {
-      for (const r of records) if (r.caseId === caseId && !exceptEmailHashes.includes(r.emailHash)) r.revoked = true;
+    async revokeCase(caseId, exceptEmailHashes = [], replaced) {
+      for (const r of records) {
+        if (r.caseId !== caseId || r.revoked || exceptEmailHashes.includes(r.emailHash)) continue;
+        r.revoked = true;
+        if (replaced && r.kind === "link") Object.assign(r, { replacedAt: replaced.at, replacedVia: replaced.via });
+      }
     },
     async casesByEmail(emailHash) {
       return [...new Set(records.filter((r) => r.kind === "link" && r.emailHash === emailHash).map((r) => r.caseId))];

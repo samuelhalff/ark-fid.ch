@@ -1,4 +1,4 @@
-import { createChallenge, createSession, emailHash, readCookie, readLink, revokeSession, sessionCookie, verifyChallenge } from "@/src/lib/tax-questionnaire/server/access";
+import { createChallenge, createSession, emailHash, linkRefusal, linkStatus, readCookie, revokeSession, sessionCookie, verifyChallenge } from "@/src/lib/tax-questionnaire/server/access";
 import { json, rateLimited, skipTurnstile, verifyTurnstile, type Counter } from "@/src/lib/tax-questionnaire/server/http";
 import { otpMail } from "@/src/lib/tax-questionnaire/server/mails";
 import { route } from "@/src/lib/tax-questionnaire/server/route-kit";
@@ -53,8 +53,9 @@ export async function POST(request: Request) {
     }
 
     if (action === "link") {
-      const link = await readLink(body.token);
-      if (!link) return json({ error: "link_invalid" }, 410);
+      const found = await linkStatus(body.token);
+      if (found.status !== "ok") return json(linkRefusal(found), 410);
+      const link = found.record;
       if (link.purpose === "optout" && link.caseId.startsWith("client:")) {
         await optOut(link.caseId.slice("client:".length));
         return json({ optedOut: true });

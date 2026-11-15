@@ -361,6 +361,8 @@ export interface ActionBody {
   taxYear?: unknown;
   email?: unknown;
   send?: unknown;
+  /** `link`: "email" when Cadence e-mails the new link itself (a replaced link then says so). */
+  notify?: unknown;
   extendedTo?: unknown;
   staffDocs?: unknown;
   clientRef?: unknown;
@@ -415,17 +417,19 @@ async function linkAction(rows: ReturnRecord[], body: ActionBody, meta: { idempo
   const access = sharePointPorts().access;
   const email = str(body.email);
   let main = rows[0];
+  // The holder of a replaced link is told whether the new one went by e-mail (from here or Cadence).
+  const replaced = { at: Date.now(), via: body.send === true || body.notify === "email" ? ("email" as const) : ("other" as const) };
   // Any year still on another address (a half-done change included) means the change is due.
   if (email && rows.some((r) => normalise(r.email) !== normalise(email))) {
     if (!EMAIL_RE.test(email)) throw new ServiceError("invalid_email", 400);
     const hash = (deps.campaign.hashEmail || emailHash)(email);
     // Revoked first: once every row has the new address, the old links are already gone.
-    await access.revokeCase(caseId);
+    await access.revokeCase(caseId, undefined, undefined, replaced);
     // The client key stays: it names the client (preferences, campaign), not the address.
     for (const r of rows) if (normalise(r.email) !== normalise(email) || r.emailHash !== hash) await deps.campaign.tracker.upsert({ ...r, email, emailHash: hash });
     main = await reread(main);
   } else {
-    await access.revokeCase(caseId, "link", "staff");
+    await access.revokeCase(caseId, "link", "staff", replaced);
   }
   const link = await staffLink(main, deps);
   if (body.send === true) {

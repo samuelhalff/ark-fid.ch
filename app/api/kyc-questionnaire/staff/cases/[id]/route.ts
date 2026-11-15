@@ -5,7 +5,7 @@ import { staffAction, staffCase, type StaffAction } from "@/src/lib/kyc-question
  * Cadence API for one case:
  *   GET  — the case, with the submitted answers of the latest revision;
  *   POST {action: "link" | "reopen" | "close" | "signers" | "prefill" | "assist" | "documents", expectedRevision (optional for assist),
- *        email? (link), signers? [{id, email}], prefill? (+ overwrite?, by?), route?, by + ttlMinutes? (assist),
+ *        email? + notify? ("email" when Cadence e-mails the new link) (link), signers? [{id, email}], prefill? (+ overwrite?, by?), route?, by + ttlMinutes? (assist),
  *        skippedDocuments [keys] (documents: the keys Ark took off the client's list)}
  *        (Idempotency-Key required).
  */

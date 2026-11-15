@@ -140,12 +140,25 @@ export interface AccessRecord {
   revoked: boolean;
   /** For links: purpose (resume, invitation, partner, status, optout, staff). */
   purpose?: string;
+  /** A link revoked because a newer one replaced it: when (ms), and whether the new one was e-mailed. */
+  replacedAt?: number;
+  replacedVia?: LinkReplacedVia;
+}
+
+export type LinkReplacedVia = "email" | "other";
+/** Why links are revoked, when a newer link replaces them. */
+export interface LinkReplacement {
+  at: number;
+  via: LinkReplacedVia;
 }
 
 export interface AccessStore {
   put(record: AccessRecord): Promise<void>;
   get(keyHash: string): Promise<AccessRecord | null>;
   revoke(keyHash: string): Promise<void>;
-  /** Revokes a case's links and sessions; narrowed to one kind and, for links, one purpose. */
-  revokeCase(caseId: string, kind?: AccessRecord["kind"], purpose?: string): Promise<void>;
+  /**
+   * Revokes a case's links and sessions; narrowed to one kind and, for links, one purpose. With
+   * `replaced`, the links revoked now record that a newer link replaced them.
+   */
+  revokeCase(caseId: string, kind?: AccessRecord["kind"], purpose?: string, replaced?: LinkReplacement): Promise<void>;
 }

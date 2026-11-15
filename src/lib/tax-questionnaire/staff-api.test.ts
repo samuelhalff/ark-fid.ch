@@ -120,6 +120,38 @@ test("feed: Modified order, 10-s quiet window, inclusive cursor, no inventory ro
   assert.equal(`${page2.items[0].updatedAt}|${page2.items[0].caseId}|${page2.items[0].taxYear}`, page1.nextCursor, "cursor is >=: the last item comes back");
 });
 
+test("an unusable link says why: replaced (by e-mail on a date, or otherwise), expired, or invalid", async () => {
+  const created = await staff.createReturn({ ...person(), sendInvitation: false }, { idempotencyKey: "create-key-why" }, deps);
+  const caseId = created.summary.caseId;
+  const refusal = async (url: string) => {
+    const found = await access.linkStatus(tokenOf(url));
+    assert.notEqual(found.status, "ok");
+    return access.linkRefusal(found as Exclude<typeof found, { status: "ok" }>);
+  };
+  // Cadence e-mails the new link (notify), or the site does (send): the old one says so, with the date.
+  const before = Date.now();
+  const notified = await staff.staffAction(caseId, "link", { notify: "email" }, meta("why-key-0001"), deps);
+  const first = await refusal(created.link.url);
+  assert.equal(first.error, "link_replaced");
+  assert.equal(first.via, "email");
+  assert.ok(Date.parse(first.at!) >= before && Date.parse(first.at!) <= Date.now());
+  const sent = await staff.staffAction(caseId, "link", { send: true }, meta("why-key-0002"), deps);
+  assert.equal((await refusal(notified.link!.url)).via, "email");
+  // Handed over otherwise: "other".
+  const handed = await staff.staffAction(caseId, "link", {}, meta("why-key-0003"), deps);
+  assert.equal((await refusal(sent.link!.url)).via, "other");
+  // Expired (TTL passed, never revoked).
+  const record = [...mem.access.values()].find((r) => r.kind === "link" && r.caseId === caseId && !r.revoked && r.purpose === "staff")!;
+  record.expiresAt = Date.now() - 1;
+  assert.deepEqual(await refusal(handed.link!.url), { error: "link_expired" });
+  // Revoked without a replacement (draft deleted, …) or unknown: invalid; an earlier replacement stays.
+  record.expiresAt = Date.now() + DAY;
+  await mem.ports.access.revokeCase(caseId);
+  assert.deepEqual(await refusal(handed.link!.url), { error: "link_invalid" });
+  assert.equal((await refusal(created.link.url)).via, "email");
+  assert.deepEqual(await refusal(`https://x/#acces=${"A".repeat(43)}`), { error: "link_invalid" });
+});
+
 test("link: revokes staff links only; an e-mail change revokes all; a replay mints one more and sends nothing", async () => {
   const created = await staff.createReturn({ ...person(), sendInvitation: false }, { idempotencyKey: "create-key-link" }, deps);
   const caseId = created.summary.caseId;
