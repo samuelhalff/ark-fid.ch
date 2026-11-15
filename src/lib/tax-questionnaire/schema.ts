@@ -1144,7 +1144,7 @@ const documents: StepDef = {
 
 const review: StepDef = {
   id: "review",
-  title: t("Vérification et envoi", "Review and submit", "Prüfen und absenden"),
+  title: t("Relire et envoyer", "Review and send", "Prüfen und senden"),
   sheet: "Suivi",
   special: "review",
   blocks: [

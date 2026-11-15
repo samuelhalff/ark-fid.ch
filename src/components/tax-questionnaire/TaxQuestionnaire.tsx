@@ -12,14 +12,13 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/src/compo
 import { Form } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
-import { LongText } from "@/src/components/questionnaire/LongText";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/components/ui/select";
 import { Separator } from "@/src/components/ui/separator";
 import { Textarea } from "@/src/components/ui/textarea";
 import posthog from "posthog-js";
 import { trackEvent } from "@/src/lib/analytics";
 import { docCode } from "@/src/lib/tax-questionnaire/documents";
-import { checklistFor, displayValue, isBlockVisible, isRowFieldVisible, label as interpolate, missingAnswers, pruneHidden, visibleSteps } from "@/src/lib/tax-questionnaire/logic";
+import { checklistFor, displayValue, isBlockVisible, isRowFieldVisible, label as interpolate, missingAnswers, pruneHidden, stepOfKey, visibleSteps } from "@/src/lib/tax-questionnaire/logic";
 import { knownItems } from "@/src/lib/tax-questionnaire/renewal";
 import { ROUTER_OPTIONS, renewalYear, routerItems, rowsOf } from "@/src/lib/tax-questionnaire/schema";
 import { CONTACT, FIELD_ERRORS, SERVER_ERRORS, UI, UI2 } from "@/src/lib/tax-questionnaire/ui";
@@ -31,6 +30,7 @@ import { collectIssues, focusField, fromForm, issueFromKey, stepSchema, toForm, 
 import { StepView } from "./StepView";
 import { IssueLinks, MissingAnswers, missingLabel } from "@/src/components/questionnaire/IssueList";
 import { ProgressBar } from "@/src/components/questionnaire/Progress";
+import { ReviewList, type ReviewRow } from "@/src/components/questionnaire/ReviewList";
 import { taxFormKit } from "./kit";
 import { KitProvider } from "@/src/components/questionnaire/kit";
 import { Turnstile } from "./Turnstile";
@@ -483,6 +483,10 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
         ]
       : [];
   const missingText = missingLabel(kit.strings, missingList.length);
+  // On the first screen after sign-in, for a form already (partly) answered: one button to the first
+  // screen still incomplete, or to the review when nothing is missing.
+  const later = (key: string) => steps.findIndex((s) => s.id === stepOfKey(key)) > 1;
+  const resumeTo = phase !== "form" || index !== 1 || !Object.keys(pruned).some(later) ? null : missingAnswers(pruned).find((m) => later(m.key))?.stepId || (caseData && missingDocs(checklist).length ? docsStepId : "review");
 
   // ---- rendering -------------------------------------------------------------------------------------
   // One line: what the form is and for whom (each said once); the intro only before the form starts.
@@ -621,7 +625,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
       >
         {header}
         {/* Where the client is, said once (the screen's title is in the card), the save time beside it. */}
-        {phase !== "start" && step.id !== "start" ? (
+        {phase !== "start" ? (
           <ProgressBar steps={steps.filter((s) => s.id !== "start" && s.special !== "review").concat(steps.filter((s) => s.special === "review"))} current={step.id} onGo={(id) => goTo(id)} save={save} answers={answers} />
         ) : null}
 
@@ -639,7 +643,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                 </>
               ) : special === "review" ? (
                 <>
-                  <MissingAnswers items={missingList} where={(id) => { const where = steps.find((s) => s.id === id); return where ? L(where.title) : null; }} onGo={(item) => openIssue(item.stepId, item)} />
+                  <MissingAnswers items={missingList} where={(id) => { const where = id === "start" ? null : steps.find((s) => s.id === id); return where ? L(where.title) : null; }} onGo={(item) => openIssue(item.stepId, item)} />
                   <ReviewSummary answers={pruned} locale={locale} onEdit={goTo} />
                 </>
               ) : null}
@@ -672,7 +676,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                   <div data-field="consent.privacy" className="flex flex-col gap-1">
                     <div className="flex items-start gap-3">
                       <Checkbox
-                        className={cn("shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]", hasIssue("consent.privacy") && "ring-2 ring-destructive/60")}
+                        className={cn(hasIssue("consent.privacy") && "ring-2 ring-destructive/60")}
                         id="tqf-privacy"
                         aria-invalid={hasIssue("consent.privacy") || undefined}
                         aria-describedby={hasIssue("consent.privacy") ? "tqf-privacy-error" : undefined}
@@ -702,7 +706,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                   <Separator />
                   {config.aiEnabled ? (
                     <div className="flex items-start gap-3">
-                      <Checkbox className="shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]" id="tqf-ai" checked={aiOptIn} onCheckedChange={(v) => setAiOptIn(v === true)} />
+                      <Checkbox id="tqf-ai" checked={aiOptIn} onCheckedChange={(v) => setAiOptIn(v === true)} />
                       <Label htmlFor="tqf-ai" className="font-normal leading-snug">
                         {UI2.aiOptIn[locale]}
                       </Label>
@@ -711,7 +715,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                   <div data-field="consent.certify" className="flex flex-col gap-1">
                     <div className="flex items-start gap-3">
                       <Checkbox
-                        className={cn("shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]", hasIssue("consent.certify") && "ring-2 ring-destructive/60")}
+                        className={cn(hasIssue("consent.certify") && "ring-2 ring-destructive/60")}
                         id="tqf-certify"
                         aria-invalid={hasIssue("consent.certify") || undefined}
                         aria-describedby={hasIssue("consent.certify") ? "tqf-certify-error" : undefined}
@@ -753,6 +757,12 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                   {special !== "review" ? <ArrowRight className="size-4" /> : null}
                 </Button>
               </div>
+              {resumeTo ? (
+                <Button type="button" variant="outline" className="w-full" onClick={() => goTo(resumeTo)}>
+                  {resumeTo === "review" ? L(steps.find((s) => s.special === "review")!.title) : UI.resume[locale]}
+                  <ArrowRight className="size-4" />
+                </Button>
+              ) : null}
             </CardFooter>
           </Card>
 
@@ -860,57 +870,31 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
   );
 }
 
-/** Read-only summary of the answers with links back to each screen. */
+/** The review list: every visible answer; a click goes back to its screen. */
 function ReviewSummary({ answers, locale, onEdit }: { answers: Answers; locale: QfLocale; onEdit: (stepId: string) => void }) {
   const L = (text: Parameters<typeof interpolate>[0]) => interpolate(text, locale, answers);
-  const steps = visibleSteps(answers).filter((s) => !s.special);
+  const rows: ReviewRow[] = [];
+  for (const step of visibleSteps(answers).filter((s) => !s.special)) {
+    for (const block of step.blocks) {
+      if (!isBlockVisible(block, answers)) continue;
+      if (block.kind === "field" && !block.hidden) {
+        const value = displayValue(block, answers[block.id], locale, answers);
+        if (value) rows.push({ label: L(block.label), value, stepId: step.id });
+      }
+      if (block.kind === "group" && !block.hidden) {
+        const titles = rowsOf(answers, block.id).map((row, i) => {
+          const f = block.fields.find((x) => x.id === (block.titleField || "").split("|")[0]);
+          const title = f && isRowFieldVisible(f, answers, row) ? displayValue(f, row[f.id], locale, answers) : "";
+          return title || `${L(block.itemLabel)} ${i + 1}`;
+        });
+        if (titles.length) rows.push({ label: L(block.label), value: titles.join("\n"), stepId: step.id });
+      }
+    }
+  }
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <p className="text-sm text-muted-foreground">{UI.reviewIntro[locale]}</p>
-      {steps.map((step) => {
-        const rows: { label: string; value: string }[] = [];
-        for (const block of step.blocks) {
-          if (!isBlockVisible(block, answers)) continue;
-          if (block.kind === "field" && !block.hidden) {
-            const value = displayValue(block, answers[block.id], locale, answers);
-            if (value) rows.push({ label: L(block.label), value });
-          }
-          if (block.kind === "group" && !block.hidden) {
-            const list = rowsOf(answers, block.id);
-            if (list.length) {
-              const titles = list.map((row, i) => {
-                const f = block.fields.find((x) => x.id === (block.titleField || "").split("|")[0]);
-                const title = f && isRowFieldVisible(f, answers, row) ? displayValue(f, row[f.id], locale, answers) : "";
-                return title || `${L(block.itemLabel)} ${i + 1}`;
-              });
-              rows.push({ label: L(block.label), value: titles.join(" · ") });
-            }
-          }
-        }
-        if (!rows.length) return null;
-        return (
-          <Card key={step.id} className="gap-2 py-4">
-            <CardHeader className="flex flex-row items-center justify-between px-4">
-              <CardTitle className="text-base">{L(step.title)}</CardTitle>
-              <Button type="button" variant="link" size="sm" onClick={() => onEdit(step.id)}>
-                {UI.edit[locale]}
-              </Button>
-            </CardHeader>
-            <CardContent className="px-4">
-              <dl className="grid gap-x-4 gap-y-1 text-sm sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-                {rows.map((row, i) => (
-                  <div key={i} className="contents">
-                    <dt className="text-muted-foreground">{row.label}</dt>
-                    <dd className="min-w-0">
-                      <LongText text={row.value} showAll={UI.showAll[locale]} showLess={UI.showLess[locale]} />
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </CardContent>
-          </Card>
-        );
-      })}
+      <ReviewList rows={rows} onEdit={onEdit} />
     </div>
   );
 }

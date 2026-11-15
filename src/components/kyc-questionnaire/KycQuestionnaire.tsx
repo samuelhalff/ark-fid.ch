@@ -29,6 +29,7 @@ import { collectIssues, focusField, fromForm, issuesFromKeys, stepOfKey, stepSch
 import { StepView } from "./StepView";
 import { IssueLinks, MissingAnswers, missingLabel } from "@/src/components/questionnaire/IssueList";
 import { ProgressBar } from "@/src/components/questionnaire/Progress";
+import { ReviewList, type ReviewRow } from "@/src/components/questionnaire/ReviewList";
 import { kycFormKit } from "./kit";
 import { KitProvider } from "@/src/components/questionnaire/kit";
 import { SubScreenContext } from "@/src/components/questionnaire/SubScreen";
@@ -558,6 +559,9 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
         ]
       : [];
   const missingText = missingLabel(kit.strings, missingList.length);
+  // On the start screen of a form already (partly) answered: one button to the first screen still
+  // incomplete, or to the review when nothing is missing.
+  const resumeTo = step.id !== "start" || !Object.keys(pruned).some((k) => (stepOfKey(k) || "start") !== "start") ? null : missingAnswers(pruned).find((m) => m.stepId !== "start")?.stepId || (missingDocs().length ? docsStepId : "review");
   const submit = async () => {
     setNotice(null);
     // Whole form first (same validator as the server), then the documents.
@@ -879,8 +883,8 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
         }}
       >
         {header}
-        {started && !subScreen ? (
-          // The numbered screens alone say where the client is (and take them back); the save time beside them.
+        {!subScreen ? (
+          // The numbered screens say where the client is and go to any screen; the save time beside them.
           <ProgressBar steps={counted.concat(steps.filter((s) => s.special === "review"))} current={step.id} onGo={(id) => goTo(id)} save={save} answers={answers} />
         ) : null}
 
@@ -916,7 +920,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
                 />
               ) : special === "review" ? (
                 <>
-                  <MissingAnswers items={missingList} where={(id) => { const where = stepById(id); return where ? L(where.title) : null; }} onGo={(item) => (item as (typeof missingList)[number]).onGo()} />
+                  <MissingAnswers items={missingList} where={(id) => { const where = id === "start" ? null : stepById(id); return where ? L(where.title) : null; }} onGo={(item) => (item as (typeof missingList)[number]).onGo()} />
                   <ReviewSummary answers={pruned} items={items} files={files} docDeclared={docDeclared} locale={locale} onEdit={goTo} />
                 </>
               ) : (
@@ -943,6 +947,12 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
                 {special === "review" ? (busy ? UI.submitting[locale] : missingList.length ? missingText : mismatch ? UI.submitForReview[locale] : UI.submit[locale]) : UI.next[locale]}
                 {special !== "review" ? <ArrowRight className="size-4" /> : null}
               </Button>
+              {resumeTo ? (
+                <Button type="button" variant="outline" className="w-full" onClick={() => goTo(resumeTo)}>
+                  {resumeTo === "review" ? L(stepById("review")!.title) : UI.resume[locale]}
+                  <ArrowRight className="size-4" />
+                </Button>
+              ) : null}
             </CardFooter>
           </Card>
 
@@ -967,7 +977,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   );
 }
 
-/** Read-only summary of the visible answers per section, and the status of each document. */
+/** The review list: every visible answer, then the status of each document; a click goes back to its screen. */
 function ReviewSummary({
   answers,
   items,
@@ -984,8 +994,6 @@ function ReviewSummary({
   onEdit: (stepId: string) => void;
 }) {
   const L = (text: Parameters<typeof label>[0]) => label(text, locale);
-  const steps = visibleSteps(answers).filter((s) => !s.special);
-  const short = (value: string) => (value.length > 200 ? `${value.slice(0, 197)}…` : value);
   const docStatus = (item: DocItem) => {
     const n = files.filter((f) => holdsFile(item, f.code)).length;
     if (n) return n === 1 ? UI.docUploadedOne[locale] : UI.docUploadedMany[locale].replace("{n}", String(n));
@@ -993,120 +1001,46 @@ function ReviewSummary({
     if (declaredFor(item, docDeclared) === "na") return UI.docNa[locale];
     return item.required ? UI.docMissing[locale] : UI.docOptionalNone[locale];
   };
-  const docsStep = visibleSteps(answers).find((s) => s.special === "documents");
+  const rows: ReviewRow[] = [];
+  for (const step of visibleSteps(answers)) {
+    if (step.special === "documents") {
+      for (const item of items) {
+        const status = docStatus(item);
+        rows.push({ label: L(item.label), value: status, stepId: step.id, missing: status === UI.docMissing[locale] });
+      }
+    }
+    if (step.special) continue;
+    for (const block of step.blocks) {
+      if (!isBlockAsked(block, answers)) continue;
+      if (block.kind === "field" && block.id !== "b.holdersUnknown") {
+        const value = displayValue(block, answers[block.id], locale, answers);
+        if (value) rows.push({ label: L(fieldText(block, answers).label), value, stepId: step.id });
+      }
+      if (block.kind === "group" && block.ui === "holders") {
+        // The holders, indented by level, then the people the shares lead to (computed).
+        const lines = holderLines(answers).map((line) => ({ depth: line.depth, text: line.text[locale] }));
+        if (lines.length) rows.push({ label: L(block.label), lines, stepId: step.id });
+        const computed = computedText(answers, isOp(answers));
+        if (computed) rows.push({ label: (isOp(answers) ? UI.holdersComputedOp : UI.holdersComputedNonOp)[locale], value: computed[locale], stepId: step.id });
+        continue;
+      }
+      if (block.kind === "group") {
+        rowsOf(answers, block.id).forEach((row, i) => {
+          const value = block.fields
+            .filter((f) => isRowFieldVisible(f, answers, row))
+            .map((f) => [L(f.label), displayValue(f, row[f.id], locale)])
+            .filter(([, v]) => v)
+            .map(([l, v]) => `${l}${sep(locale)}${v}`)
+            .join("\n");
+          if (value) rows.push({ label: `${L(block.itemLabel)} ${i + 1}${rowTitle(block, row) ? ` · ${rowTitle(block, row)}` : ""}`, value, stepId: step.id });
+        });
+      }
+    }
+  }
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <p className="text-sm text-muted-foreground">{UI.reviewIntro[locale]}</p>
-      {steps.map((step) => {
-        const rows: { label: string; value: string; sub?: { title: string; values: { label: string; value: string }[] }[]; lines?: { depth: number; text: string }[] }[] = [];
-        for (const block of step.blocks) {
-          if (!isBlockAsked(block, answers)) continue;
-          if (block.kind === "field" && block.id !== "b.holdersUnknown") {
-            const value = displayValue(block, answers[block.id], locale, answers);
-            if (value) rows.push({ label: L(fieldText(block, answers).label), value: short(value) });
-          }
-          if (block.kind === "group" && block.ui === "holders") {
-            // The holders, indented by level, then the people the shares lead to (computed).
-            const lines = holderLines(answers).map((line) => ({ depth: line.depth, text: line.text[locale] }));
-            if (lines.length) rows.push({ label: L(block.label), value: "", lines });
-            const computed = computedText(answers, isOp(answers));
-            if (computed) rows.push({ label: (isOp(answers) ? UI.holdersComputedOp : UI.holdersComputedNonOp)[locale], value: computed[locale] });
-            continue;
-          }
-          if (block.kind === "group") {
-            const list = rowsOf(answers, block.id);
-            if (!list.length) continue;
-            rows.push({
-              label: L(block.label),
-              value: "",
-              sub: list.map((row, i) => ({
-                title: `${L(block.itemLabel)} ${i + 1}${rowTitle(block, row) ? ` · ${rowTitle(block, row)}` : ""}`,
-                values: block.fields
-                  .filter((f) => isRowFieldVisible(f, answers, row))
-                  .map((f) => ({ label: L(f.label), value: short(displayValue(f, row[f.id], locale)) }))
-                  .filter((v) => v.value),
-              })),
-            });
-          }
-        }
-        if (!rows.length) return null;
-        return (
-          <Card key={step.id} className="gap-2 py-4">
-            <CardHeader className="flex flex-row items-center justify-between gap-2 px-4">
-              <CardTitle className="text-base">{L(step.title)}</CardTitle>
-              <Button type="button" variant="link" size="sm" onClick={() => onEdit(step.id)} aria-label={`${UI.edit[locale]}${sep(locale)}${L(step.title)}`}>
-                {UI.edit[locale]}
-              </Button>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-3 px-4">
-              {rows.map((row, i) =>
-                row.lines ? (
-                  <div key={i} className="flex min-w-0 flex-col gap-1">
-                    <p className="text-sm font-medium">{row.label}</p>
-                    <ul className="flex flex-col gap-1 text-sm">
-                      {row.lines.map((line, j) => (
-                        <li key={j} className="[overflow-wrap:anywhere]" style={{ paddingLeft: `${(line.depth - 1) * 1}rem` }}>
-                          {line.text}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : row.sub ? (
-                  <div key={i} className="flex flex-col gap-2">
-                    <p className="text-sm font-medium">{row.label}</p>
-                    {row.sub.map((sub, j) => (
-                      <div key={j} className="rounded-md bg-surface-warm p-3 dark:bg-card">
-                        <p className="mb-1 text-sm font-medium">{sub.title}</p>
-                        <dl className="grid gap-x-4 gap-y-1 text-sm sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-                          {sub.values.map((v, k) => (
-                            <div key={k} className="contents">
-                              <dt className="text-muted-foreground">{v.label}</dt>
-                              <dd className="break-words">{v.value}</dd>
-                            </div>
-                          ))}
-                        </dl>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <dl key={i} className="grid gap-x-4 text-sm sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-                    <dt className="text-muted-foreground">{row.label}</dt>
-                    <dd className="whitespace-pre-line break-words">{row.value}</dd>
-                  </dl>
-                ),
-              )}
-            </CardContent>
-          </Card>
-        );
-      })}
-      {items.length ? (
-        <Card className="gap-2 py-4">
-          <CardHeader className="flex flex-row items-center justify-between gap-2 px-4">
-            <CardTitle className="text-base">
-              {UI.reviewDocs[locale]}
-            </CardTitle>
-            {docsStep ? (
-              <Button type="button" variant="link" size="sm" onClick={() => onEdit(docsStep.id)} aria-label={`${UI.edit[locale]}${sep(locale)}${UI.reviewDocs[locale]}`}>
-                {UI.edit[locale]}
-              </Button>
-            ) : null}
-          </CardHeader>
-          <CardContent className="px-4">
-            <dl className="grid gap-x-4 gap-y-1 text-sm sm:grid-cols-[minmax(0,1fr)_minmax(0,12rem)]">
-              {items.map((item) => {
-                const status = docStatus(item);
-                const missing = status === UI.docMissing[locale];
-                return (
-                  <div key={item.key} className="contents">
-                    <dt className="text-muted-foreground">{L(item.label)}</dt>
-                    <dd className={cn("break-words", missing && "font-medium text-destructive")}>{status}</dd>
-                  </div>
-                );
-              })}
-            </dl>
-          </CardContent>
-        </Card>
-      ) : null}
+      <ReviewList rows={rows} onEdit={onEdit} />
     </div>
   );
 }

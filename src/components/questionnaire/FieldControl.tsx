@@ -50,7 +50,6 @@ function withLink(text: string, link: { href: string; label: string } | null) {
   );
 }
 
-const CHECKBOX_RING = "shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)]";
 const OPTION_CARD = "flex cursor-pointer items-start gap-3 rounded-md bg-surface-warm px-3 py-2.5 font-normal leading-snug shadow-[inset_0_0_0_1px_rgba(20,16,14,0.08)] dark:bg-background dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)]";
 const INVALID_RING = "ring-2 ring-destructive/60";
 
@@ -126,7 +125,7 @@ export function FieldControl({ field, name, answers, row, askable, layout }: Pro
                   return (
                     <Label key={option.value} htmlFor={id} className={cn(OPTION_CARD, checked && "ring-2 ring-ring/50", errorRing)}>
                       <Checkbox
-                        className={cn(CHECKBOX_RING, invalid && INVALID_RING)}
+                        className={cn(invalid && INVALID_RING)}
                         aria-invalid={invalid || undefined}
                         id={id}
                         checked={checked}
@@ -180,7 +179,7 @@ export function FieldControl({ field, name, answers, row, askable, layout }: Pro
             <FormItem data-field={name} className={cn("flex flex-col gap-1", span)}>
               <div className="flex items-start gap-3">
                 <FormControl>
-                  <Checkbox aria-invalid={invalid || undefined} className={cn(CHECKBOX_RING, invalid && INVALID_RING)} checked={value === "yes"} onCheckedChange={(checked) => f.onChange(checked === true ? "yes" : undefined)} />
+                  <Checkbox aria-invalid={invalid || undefined} className={cn(invalid && INVALID_RING)} checked={value === "yes"} onCheckedChange={(checked) => f.onChange(checked === true ? "yes" : undefined)} />
                 </FormControl>
                 <FormLabel className="mt-0 block font-normal leading-snug hover:cursor-pointer">
                   <span>{withLink(fieldLabel, field.link ? { href: L(field.link.href), label: L(field.link.label) } : null)}</span>

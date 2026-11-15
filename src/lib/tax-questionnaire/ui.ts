@@ -22,6 +22,7 @@ export const UI = {
   stepOf: t("Étape {n} sur {total}", "Step {n} of {total}", "Schritt {n} von {total}"),
   back: t("Retour", "Back", "Zurück"),
   next: t("Continuer", "Continue", "Weiter"),
+  resume: t("Reprendre où j’en étais", "Pick up where I left off", "Dort weitermachen, wo ich aufgehört habe"),
   edit: t("Modifier", "Edit", "Bearbeiten"),
   helpButton: t("Aide", "Help", "Hilfe"),
   prefilled: t("Déjà rempli, à vérifier", "Already filled in, please check", "Bereits ausgefüllt, bitte prüfen"),
@@ -73,8 +74,7 @@ export const UI = {
   docsMissingStatus: t("Indiquez un fichier ou un statut pour chaque document.", "Give a file or a status for each document.", "Geben Sie für jedes Dokument eine Datei oder einen Status an."),
   uploadsBusy: t("Des fichiers sont encore en cours d'envoi.", "Files are still uploading.", "Es werden noch Dateien hochgeladen."),
   // review
-  reviewTitle: t("Vérification et envoi", "Review and submit", "Prüfen und absenden"),
-  reviewIntro: t("Relisez vos réponses avant l'envoi.", "Check your answers before submitting.", "Prüfen Sie Ihre Antworten vor dem Absenden."),
+  reviewIntro: t("Pour corriger une réponse, cliquez dessus.", "To correct an answer, click on it.", "Um eine Antwort zu ändern, klicken Sie darauf."),
   certify: t(
     "Je certifie que les informations données sont exactes et complètes, pour moi et, le cas échéant, mon conjoint ou partenaire, qui en a pris connaissance.",
     "I certify that the information given is true and complete, for myself and, where applicable, my spouse or partner, who has seen it.",

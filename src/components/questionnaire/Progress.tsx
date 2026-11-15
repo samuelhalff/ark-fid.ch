@@ -9,8 +9,8 @@ const sep = (locale: string) => (locale === "fr" ? " : " : ": ");
 const TIME_LOCALE: Record<string, string> = { fr: "fr-CH", de: "de-CH", en: "en-GB" };
 
 /**
- * Progress by screen: the counted screens numbered 1…n, then the review (✓); earlier screens are
- * buttons back to them. `steps` holds the counted screens and, last, the review.
+ * Progress by screen: the counted screens numbered 1…n, then the review (✓); every other screen,
+ * earlier or later, is a button to it. `steps` holds the counted screens and, last, the review.
  */
 export function StepRail({ steps, current, onGo, answers }: { steps: { id: string; title: LabelText; special?: string }[]; current: string; onGo: (id: string) => void; answers?: AnyAnswers }) {
   const kit = useKit();
@@ -30,7 +30,7 @@ export function StepRail({ steps, current, onGo, answers }: { steps: { id: strin
         const name = review ? title : `${fill(kit.strings.stepOf, { n: i + 1, total: steps.length - 1 })}${sep(kit.locale)}${title}`;
         return (
           <li key={s.id}>
-            {done ? (
+            {!here ? (
               <button type="button" className={cn(className, "hover:ring-2 hover:ring-ring/50")} onClick={() => onGo(s.id)} aria-label={name} title={title}>
                 {text}
               </button>

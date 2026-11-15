@@ -19,6 +19,7 @@ export const UI = {
   stepOf: t("Écran {n} sur {total}", "Screen {n} of {total}"),
   back: t("Retour", "Back"),
   next: t("Continuer", "Continue"),
+  resume: t("Reprendre où j’en étais", "Pick up where I left off"),
   edit: t("Modifier", "Edit"),
   rowDone: t("Valider", "Done"),
   remove: t("Supprimer", "Remove"),
@@ -105,8 +106,7 @@ export const UI = {
   docsDone: t("{done} sur {total} documents traités", "{done} of {total} documents handled"),
 
   // review
-  reviewIntro: t("Pour corriger une réponse, « Modifier » vous ramène à son écran.", "To correct an answer, “Edit” takes you back to its screen."),
-  reviewDocs: t("Documents", "Documents"),
+  reviewIntro: t("Pour corriger une réponse, cliquez dessus.", "To correct an answer, click on it."),
   docUploadedOne: t("Joint (1 fichier)", "Attached (1 file)"),
   docUploadedMany: t("Joint ({n} fichiers)", "Attached ({n} files)"),
   docLater: t("Envoyé séparément", "Sent separately"),

@@ -277,7 +277,7 @@ function RouterCards({ locale, answers, aiSuggestions, knownItems }: { locale: Q
                             <Checkbox
                               id={id}
                               checked={checked}
-                              className="shadow-[inset_0_0_0_1px_rgba(20,16,14,0.28)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.32)] mt-0.5"
+                              className="mt-0.5"
                               onCheckedChange={(next) => {
                                 const list = next === true ? [...current, option.value] : current.filter((v) => v !== option.value);
                                 // An item carried over from last year is ended on its own screen, not by unticking its area.
