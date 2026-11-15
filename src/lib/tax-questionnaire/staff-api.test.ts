@@ -20,6 +20,9 @@ const { apiKeys } = await import("../kyc-questionnaire/server/config.ts");
 type MailMessage = import("./server/storage.ts").MailMessage;
 type StaffDeps = import("./server/staff.ts").StaffDeps;
 type ReturnRecord = import("./server/ports.ts").ReturnRecord;
+type StaffPageField = import("./server/staff.ts").StaffPageField;
+type StaffPageGroup = import("./server/staff.ts").StaffPageGroup;
+const schema = await import("./schema.ts");
 
 const YEAR = new Date().getUTCFullYear() - 1;
 const DAY = 24 * 60 * 60 * 1000;
@@ -375,6 +378,52 @@ test("GET one return: questions the client sees now, French labels, hidden and s
   assert.equal(employers.kind, "group");
   assert.ok(employers.fields.some((f) => f.id === "name") && !employers.fields.some((f) => f.id === "carried"));
   assert.ok(employers.maxRows > 0);
+});
+
+test("GET one return: pages to read — tabs of the form's screens, labels and values in the asked language, answered questions only", async () => {
+  const answers = {
+    ...BASE,
+    "router.items": ["employed", "p3a"],
+    "work.employers": [{ _id: "emp1abcd", name: "Acme SA" }],
+    "work.actualCosts": "no",
+  };
+  const caseId = await withDraft("create-key-pages", answers);
+  const { pages } = await staff.staffReturn(caseId, String(YEAR), deps);
+  assert.deepEqual(pages.map((p) => p.id), ["situation", "income", "deductions"], "an empty tab (no fortune answered) is left out");
+  const situation = pages[0];
+  assert.equal(situation.title, "Situation");
+  const start = situation.sections.find((s) => s.id === "start")!;
+  assert.equal(start.title, "Pour commencer");
+  const fields = start.items.filter((i) => i.kind === "field") as StaffPageField[];
+  const household = fields.find((f) => f.id === "start.household")!;
+  assert.equal(household.label, "Vous remplissez pour…");
+  assert.notEqual(household.value, "single", "an option shows its label");
+  assert.equal(household.valid, true);
+  const ids = fields.map((f) => f.id);
+  for (const absent of ["start.email", "start.communeBfs", "start.spouseFirstName", "start.arkPrefilled"]) assert.ok(!ids.includes(absent), absent);
+  const income = pages.find((p) => p.id === "income")!;
+  const work = income.sections[0];
+  const employers = work.items.find((i) => i.id === "work.employers") as StaffPageGroup;
+  assert.equal(employers.kind, "group");
+  assert.equal(employers.rows.length, 1);
+  assert.equal(employers.rows[0].title, "Acme SA");
+  assert.deepEqual(employers.rows[0].fields.map((f) => [f.label, f.value]), [["Employeur", "Acme SA"]]);
+  const costs = work.items.find((i) => i.id === "work.actualCosts") as StaffPageField;
+  assert.equal(costs.value, "Non");
+  const deductions = pages.find((p) => p.id === "deductions")!;
+  assert.deepEqual(deductions.sections[0].items.map((i) => [i.label, (i as StaffPageField).value]), [["Déductions et autres", "3e pilier A"]]);
+  const blankRow = staff.staffPages({ ...answers, "work.employers": [{ _id: "emp1abcd", name: "Acme SA" }, { _id: "emp2abcd" }] }).find((p) => p.id === "income")!;
+  assert.equal((blankRow.sections[0].items[0] as StaffPageGroup).rows.length, 1, "a row with nothing answered is left out");
+  // In English on request.
+  const english = staff.staffPages(answers, "en");
+  assert.equal(english[0].title, "Situation");
+  assert.equal(english.find((p) => p.id === "income")!.title, "Income");
+  assert.equal((english.find((p) => p.id === "income")!.sections[0].items.find((i) => i.id === "work.actualCosts") as StaffPageField).value, "No");
+});
+
+test("pages: every screen with questions belongs to a tab (none silently dropped)", () => {
+  const placed = new Set(staff.STAFF_PAGES.flatMap((p) => p.steps));
+  for (const step of schema.STEPS) if (!step.special) assert.ok(placed.has(step.id), step.id);
 });
 
 test("prefill: writes as an office session, only changed answers marked with by; hidden ones reported", async () => {

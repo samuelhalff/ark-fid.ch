@@ -8,8 +8,9 @@
 import { createHmac } from "node:crypto";
 import { parseApiKeys } from "../../kyc-questionnaire/server/signature";
 import { personName } from "../format";
-import { getField, getGroup, isBlockVisible, isQuestionVisible, label, validateField, visibleSteps } from "../logic";
-import type { Answers, FieldDef, Option } from "../types";
+import { displayValue, getField, getGroup, isBlockVisible, isFilled, isQuestionVisible, isRowFieldVisible, label, validateField, visibleSteps } from "../logic";
+import { ROUTER_GROUPS, ROUTER_OPTIONS, rowsOf } from "../schema";
+import { t, type Answers, type FieldDef, type L, type Option, type QfLocale } from "../types";
 import { assistMinutes } from "../../forms/assist";
 import { emailHash, issueAssist, issueLink, issueLinkWithExpiry, RESUME_LINK_TTL_MS } from "./access";
 import { inviteMember, isClosed, isPlanned, lang, MISSING_STOP_STATUSES, nextMailAt, STOP_STATUSES, plannedFor, previousReturn, sendMissingReminder, sendReminder, type CampaignDeps, type CampaignLedger } from "./campaign";
@@ -345,7 +346,7 @@ export async function changes(cursor: string, limit: number, deps: Pick<StaffDep
 
 export type StaffDocStatus = "received" | "office" | "later" | "na" | "missing";
 
-export async function staffReturn(caseId: string, year: unknown, deps: Pick<StaffDeps, "storage">) {
+export async function staffReturn(caseId: string, year: unknown, deps: Pick<StaffDeps, "storage">, pagesLang?: string | null) {
   const rows = await caseRows(caseId);
   const row = yearRow(rows, year);
   forgetCase(caseId);
@@ -361,7 +362,96 @@ export async function staffReturn(caseId: string, year: unknown, deps: Pick<Staf
     status: (d.status === "uploaded" ? "received" : d.status) as StaffDocStatus,
     ...(d.files[0]?.webUrl ? { fileUrl: d.files[0].webUrl } : {}),
   }));
-  return { ...summarize(row), documents, answers, filledBy, questions: staffQuestions(answers) };
+  return { ...summarize(row), documents, answers, filledBy, questions: staffQuestions(answers), pages: staffPages(answers, lang(pagesLang || "fr")) };
+}
+
+// ---- the answers to read (Cadence's tabs) -------------------------------------------------------------
+
+export interface StaffPageField {
+  kind: "field";
+  id: string;
+  label: string;
+  value: string;
+  /** The answer is one the form accepts (Cadence's quiet green check). */
+  valid: boolean;
+}
+export interface StaffPageGroup {
+  kind: "group";
+  id: string;
+  label: string;
+  rows: { title: string; fields: StaffPageField[] }[];
+}
+export interface StaffPage {
+  id: string;
+  title: string;
+  sections: { id: string; title: string; items: (StaffPageField | StaffPageGroup)[] }[];
+}
+
+/**
+ * The tabs Cadence shows a return's answers in, and the form's screens each gathers (in order). The
+ * router screen gives only its « Déductions et autres » cards (pillar 3a, medical costs…): they have no
+ * screen of their own; its other cards are read in their screens.
+ */
+export const STAFF_PAGES: { id: string; title: L; steps: string[] }[] = [
+  { id: "situation", title: t("Situation", "Situation", "Situation"), steps: ["start", "regime", "family", "lumpSum"] },
+  { id: "income", title: t("Revenus", "Income", "Einkommen"), steps: ["work"] },
+  { id: "assets", title: t("Fortune", "Assets", "Vermögen"), steps: ["assets", "property", "regularisation"] },
+  { id: "deductions", title: t("Déductions", "Deductions", "Abzüge"), steps: ["router", "other"] },
+];
+
+/**
+ * The client's answers to read, computed from them by the form's own rules, in a language: tabs
+ * (STAFF_PAGES) → visible screens → the visible questions that hold an answer, each with its label and
+ * its value as the form shows it (option labels, Oui/Non); repeating groups as numbered rows. Empty
+ * answers, hidden and server-owned questions, empty screens and tabs are left out. Never stored.
+ */
+export function staffPages(a: Answers, locale: QfLocale = "fr"): StaffPage[] {
+  const L = (text: L) => label(text, locale, a);
+  const value = (field: FieldDef, raw: unknown): string =>
+    field.type === "boolean" ? (raw === true ? { fr: "Oui", en: "Yes", de: "Ja" }[locale] : "") : displayValue(field, raw, locale, a);
+  const item = (field: FieldDef, raw: unknown): StaffPageField | null => {
+    const shown = value(field, raw);
+    return shown ? { kind: "field", id: field.id, label: L(field.label), value: shown, valid: field.type === "boolean" || isFilled(field, raw) } : null;
+  };
+  const steps = new Map(visibleSteps(a).map((step) => [step.id, step]));
+  const pages: StaffPage[] = [];
+  for (const page of STAFF_PAGES) {
+    const sections: StaffPage["sections"] = [];
+    for (const stepId of page.steps) {
+      const step = steps.get(stepId);
+      if (!step) continue;
+      const items: (StaffPageField | StaffPageGroup)[] = [];
+      if (step.id === "router") {
+        const chosen = new Set((Array.isArray(a["router.items"]) ? a["router.items"] : []).map(String));
+        const other = ROUTER_GROUPS.find((g) => g.id === "other")!;
+        const cards = ROUTER_OPTIONS.filter((o) => o.group === other.id && chosen.has(o.value) && (!o.showIf || o.showIf(a)));
+        if (cards.length) items.push({ kind: "field", id: "router.items", label: L(other.label), value: cards.map((o) => L(o.label)).join(", "), valid: true });
+      } else {
+        for (const block of step.blocks) {
+          if ((block.kind !== "field" && block.kind !== "group") || !officeQuestion(block) || !isBlockVisible(block, a)) continue;
+          if (block.kind === "field") {
+            const one = item(block, a[block.id]);
+            if (one) items.push(one);
+            continue;
+          }
+          const titleId = (block.titleField || "").split("|")[0];
+          const rows = rowsOf(a, block.id)
+            .map((row, index) => {
+              const fields = block.fields
+                .filter((f) => !f.hidden && isRowFieldVisible(f, a, row))
+                .map((f) => item(f, row[f.id]))
+                .filter((f): f is StaffPageField => f !== null);
+              return { title: fields.find((f) => f.id === titleId)?.value || `${L(block.itemLabel)} ${index + 1}`, fields };
+            })
+            .filter((row) => row.fields.length > 0);
+          if (rows.length) items.push({ kind: "group", id: block.id, label: L(block.label), rows });
+        }
+      }
+      if (items.length) sections.push({ id: step.id, title: L(step.title), items });
+    }
+    if (sections.length) pages.push({ id: page.id, title: L(page.title), sections });
+  }
+  return pages;
 }
 
 /** Questions Cadence may read and pre-fill: not set by the app or the server, not the verified address. */

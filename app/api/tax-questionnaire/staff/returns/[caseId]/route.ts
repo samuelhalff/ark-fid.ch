@@ -7,7 +7,10 @@ import { staffRoute } from "@/src/lib/tax-questionnaire/server/staff-http";
  *   GET  ?year=<taxYear> — the return (latest year by default) with its documents, answers and
  *        filledBy (answer key → who at Ark entered it; submittedBy when Ark sent it), and questions
  *        (what the client sees now, in French: [{id, kind: field|group, step, stepTitle, label, type?,
- *        options?: [{value, label}], required?, fields?, maxRows?}]);
+ *        options?: [{value, label}], required?, fields?, maxRows?}]), and pages (the answers to read,
+ *        in ?lang=fr|en|de, French by default: [{id, title, sections: [{id, title, items: [{kind: field, id,
+ *        label, value, valid} | {kind: group, id, label, rows: [{title, fields: [field…]}]}]}]}], answered
+ *        questions only — the tabs Situation / Revenus / Fortune / Déductions);
  *   POST {action, taxYear?, email?, send?, extendedTo?, staffDocs?, officeDocs?, clientRef?, by?, ttlMinutes?, answers?} (Idempotency-Key required):
  *        link (per case: new staff link; email changes the address; send mails it) |
  *        remind {taxYear} | exclude / include {taxYear} | deadline {taxYear, extendedTo} |
@@ -24,7 +27,8 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: Request, context: { params: Promise<{ caseId: string }> }) {
   const { caseId } = await context.params;
-  return staffRoute(request, async ({ deps }) => json(await staffReturn(caseId, new URL(request.url).searchParams.get("year") || undefined, deps)));
+  const query = new URL(request.url).searchParams;
+  return staffRoute(request, async ({ deps }) => json(await staffReturn(caseId, query.get("year") || undefined, deps, query.get("lang"))));
 }
 
 export async function POST(request: Request, context: { params: Promise<{ caseId: string }> }) {
