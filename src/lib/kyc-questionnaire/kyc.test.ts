@@ -50,7 +50,6 @@ const pmCommon: Answers = {
   "a.ownStaff": "no",
   "a.listed": "no",
   "a.directors": [row("dir0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur", signing: "individual", nationality: "Suisse", country: "Suisse" })],
-  "b.structure": "no",
   "b.transparency": "notYet",
   "c.pep": "none",
   "c.sanctions": "no",
@@ -77,8 +76,9 @@ const pmOp: Answers = {
   ...pmCommon,
   route: "pm-op",
   "a.activityKind": "operates",
-  "b.q25": "yes",
-  "b.controllers25": [row("ctl0001", { ...person, percent: "100", holding: ["direct"] as unknown as string })],
+  "b.persons": [row("per0001", person)],
+  "b.holders": [row("hld0001", { kind: "person", person: "per0001", percent: "100" })],
+  "b.qOther": "no",
   "b.forThird": "no",
   "e.ownersWealth": "Salaire",
 };
@@ -87,7 +87,8 @@ const pmNonOp: Answers = {
   ...pmCommon,
   route: "pm-nonop",
   "a.activityKind": "assets",
-  "b.ubos": [row("ubo0001", { ...person, wealth: "Héritage" })],
+  "b.persons": [row("per0001", { ...person, wealth: "Héritage" })],
+  "b.holders": [row("hld0001", { kind: "person", person: "per0001", percent: "100" })],
 };
 
 const pp: Answers = {
@@ -128,23 +129,33 @@ test("each route shows its own screens and its section B", () => {
   const ids = (a: Answers) => visibleSteps(a).map((s) => s.id);
   assert.deepEqual(ids(pp).filter((id) => id.startsWith("a.") || id.startsWith("b.")), ["a.pp", "b.pp"]);
   assert.deepEqual(ids(pmOp).filter((id) => id.startsWith("a.") || id.startsWith("b.")), ["a.pm", "b.pm"]);
-  assert.equal(pruneHidden(pmOp)["b.ubos"], undefined, "no beneficial-owner list on the operating form");
-  assert.equal(pruneHidden(pmNonOp)["b.controllers25"], undefined, "no 25 % cascade on the non-operating form");
+  assert.equal(pruneHidden(pmNonOp)["b.qOther"], undefined, "no other-control question on the non-operating form");
+  const withWealth = pruneHidden({ ...pmOp, "b.persons": [row("per0001", { ...person, wealth: "x" })] })["b.persons"] as { wealth?: string }[];
+  assert.equal(withWealth[0].wealth, undefined, "wealth asked of the persons of a non-operating company only");
 });
 
 test("complete answers are valid for each route", () => {
   for (const a of [pp, pmOp, pmNonOp]) assert.deepEqual(validateAll(pruneHidden(a)), {}, String(a.route));
 });
 
-test("operating cascade: 25 % → other control → most senior manager", () => {
-  const no25 = pruneHidden({ ...pmOp, "b.q25": "no" });
-  assert.equal(validateAll(no25)["b.qOther"], "required");
-  const manager = pruneHidden({ ...pmOp, "b.q25": "no", "b.qOther": "no" });
-  assert.equal(validateAll(manager)["b.manager"], "min_rows");
-  assert.equal(manager["b.controllers25"], undefined);
-  const unidentified = pruneHidden({ ...pmOp, "b.q25": "unidentified" });
-  assert.equal(validateAll(unidentified)["b.manager"], "min_rows", "art. 2a al. 3: not identifiable → senior manager");
-  assert.equal(validateAll(unidentified)["b.unidentifiedReason"], "required");
+test("operating cascade: 25 % computed → other control → most senior managers", () => {
+  const { "b.qOther": _q, ...noAnswer } = pmOp;
+  assert.equal(validateAll(pruneHidden(noAnswer))["b.qOther"], "required", "other control asked once, even with a 25 % holder");
+  // Four persons at 20 %: nobody reaches 25 %, nobody controls otherwise → the managers.
+  const persons = ["a", "b", "c", "d", "e"].map((x) => row(`per000${x}`, { ...person, lastName: `P${x}` }));
+  const small = { ...pmOp, "b.persons": persons, "b.holders": persons.map((p, i) => row(`hld000${i}`, { kind: "person", person: p._id, percent: "20" })) };
+  assert.equal(validateAll(pruneHidden(small))["b.managers"], "required");
+  const other = pruneHidden({ ...small, "b.qOther": "yes" });
+  assert.equal(validateAll(other)["b.controlPersons"], "required");
+  assert.equal(validateAll(other)["b.managers"], undefined, "someone controls otherwise: no managers");
+  assert.deepEqual(validateAll(pruneHidden({ ...small, "b.qOther": "yes", "b.controlPersons": ["per000a"] })), {});
+  // « Je ne sais pas qui est derrière » with nobody found: the managers, picked among the directors.
+  const unknown = pruneHidden({ ...pmOp, "b.holders": [], "b.holdersUnknown": "yes" });
+  assert.equal(validateAll(unknown)["b.holders"], undefined, "an empty list is fine once unknown is said");
+  assert.equal(validateAll(unknown)["b.managers"], "required", "art. 2a al. 3: not identifiable → senior managers");
+  const managed = pruneHidden({ ...unknown, "b.persons": [row("dir0001p", person)], "b.managers": ["dir0001p"] });
+  assert.deepEqual(validateAll(managed), {});
+  assert.equal((managed["b.persons"] as unknown[]).length, 1, "a manager's person is kept");
 });
 
 test("currency \"Autre\" asks which currency, and only then", () => {
@@ -158,7 +169,7 @@ test("currency \"Autre\" asks which currency, and only then", () => {
 
 test("listed company: no cascade, no share register; the listing is public, no proof asked", () => {
   const listed = pruneHidden({ ...pmOp, "a.listed": "yes", "a.listedWhere": "Holding AG, SIX" });
-  assert.equal(listed["b.q25"], undefined);
+  assert.equal(listed["b.holders"], undefined);
   assert.deepEqual(validateAll(listed), {});
   assert.ok(!documentsFor(listed).some((d) => d.key === "pm.listed" || d.key === "pm.shareholders"));
   assert.ok(flagsOf(listed).includes("listed"));
@@ -180,7 +191,7 @@ test("route mismatch: operating form for an asset-holding company and the revers
 test("documents: certified ID per form signatory, ID per section B person", () => {
   const keys = documentsFor(pruneHidden(pmNonOp)).map((d) => d.key);
   assert.ok(keys.includes("pm.signer:sgn0001"));
-  assert.ok(keys.includes("pm.person:ubo0001"));
+  assert.ok(keys.includes("pm.person:per0001"));
   assert.ok(documentsFor(pp).some((d) => d.key === "pp.id"));
 });
 

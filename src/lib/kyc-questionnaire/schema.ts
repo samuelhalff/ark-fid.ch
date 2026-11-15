@@ -15,6 +15,7 @@
  * answers still show to Ark; `upgradeAnswers` (engine.ts) maps merged answers.
  * Every answer is a fact for Ark's review: the form never announces a legal qualification.
  */
+import { controllers25, HOLDER_DEPTH, HOLDER_KINDS, holdersOf, idList, KIND_LABEL, NESTED, personsOf, referencedPersonIds } from "./holders";
 import { t, type Answers, type FieldDef, type GroupDef, type Option, type Row, type StepDef } from "./types";
 
 // ---- predicates ------------------------------------------------------------------------------------
@@ -29,9 +30,14 @@ const has = (id: string, value: string) => (a: Answers) => Array.isArray(a[id]) 
 const rowIs = (id: string, value: string) => (_a: Answers, row?: Row) => row?.[id] === value;
 export const isListed = (a: Answers) => isPM(a) && a["a.listed"] === "yes";
 const cascade = (a: Answers) => isOp(a) && !isListed(a);
-/** Art. 2a al. 3 LBA: nobody controls by 25 % or otherwise, or the controlling person cannot be identified. */
+/** Section B asks who holds the company: an operating company not listed, or a non-operating one. */
+export const holdersAsked = (a: Answers) => isNonOp(a) || cascade(a);
+/**
+ * Art. 2a al. 3 LBA: once the holders and other control are answered, nobody reaches 25 % or
+ * controls otherwise (or nobody knows who): the most senior managers are named instead.
+ */
 export const needsManager = (a: Answers) =>
-  cascade(a) && (a["b.q25"] === "unidentified" || (a["b.q25"] === "no" && (a["b.qOther"] === "no" || a["b.qOther"] === "unidentified")));
+  cascade(a) && (holdersOf(a).length > 0 || a["b.holdersUnknown"] === "yes") && a["b.qOther"] === "no" && controllers25(a).length === 0;
 /** Services that concern a company of the person: only then are its companies and licence asked. */
 const PP_COMPANY_SERVICES = ["formation", "domiciliation", "directorship", "secretariat"];
 export const ppCompanyConcerned = (a: Answers) =>
@@ -116,6 +122,8 @@ const CURRENCIES: Option[] = ["CHF", "EUR", "USD", "GBP"].map((c) => ({ value: c
 
 // ---- screens ---------------------------------------------------------------------------------------
 
+// Retired 2026-11-15 (holders tree): the old step-by-step questions of section B, kept so earlier
+// answers still show to Ark. `upgradeAnswers` turns a draft's old persons into holders.
 const SAME_UNIDENTIFIED = t("Oui, mais on ne sait pas qui est la personne au bout de la chaîne", "Yes, but nobody knows who the person at the end of the chain is");
 
 const B_OP_GROUP_25: GroupDef = {
@@ -125,9 +133,9 @@ const B_OP_GROUP_25: GroupDef = {
   help: t("Une ligne par personne. Si la part passe par une société, indiquez la personne derrière.", "One line per person. If the share is held through a company, give the person behind it."),
   itemLabel: t("Personne", "Person"),
   titleFields: ["lastName", "firstName"],
-  minRows: 1,
   maxRows: 10,
-  showIf: (a) => isOp(a) && !isListed(a) && a["b.q25"] === "yes",
+  retired: true,
+  showIf: isPM,
   fields: [
     ...personFields(),
     { kind: "field", id: "percent", type: "percent", label: t("Part (%)", "Share (%)"), required: true, width: "half" },
@@ -150,7 +158,7 @@ const B_OP_GROUP_25: GroupDef = {
       label: t("Par quelle société passe la part, ou avec qui est l’accord ?", "Which company is the share held through, or who is the agreement with?"),
       required: true,
       maxLength: 300,
-      showIf: (_a, row) => Array.isArray(row?.holding) && (row.holding.includes("indirect") || row.holding.includes("concert")),
+      showIf: (_a, row) => Array.isArray(row?.holding) && ((row.holding as string[]).includes("indirect") || (row.holding as string[]).includes("concert")),
     },
   ],
 };
@@ -162,9 +170,9 @@ const B_OP_GROUP_OTHER: GroupDef = {
   help: t("Une ligne par personne.", "One line per person."),
   itemLabel: t("Personne", "Person"),
   titleFields: ["lastName", "firstName"],
-  minRows: 1,
   maxRows: 10,
-  showIf: (a) => isOp(a) && !isListed(a) && a["b.q25"] === "no" && a["b.qOther"] === "yes",
+  retired: true,
+  showIf: isPM,
   fields: [...personFields(), { kind: "field", id: "controlType", type: "text", label: t("Comment ? (accord, veto, nomination du conseil…)", "How? (agreement, veto, appointing the board…)"), required: true, maxLength: 300 }],
 };
 
@@ -178,9 +186,9 @@ const B_OP_GROUP_MANAGER: GroupDef = {
   ),
   itemLabel: t("Dirigeant", "Senior manager"),
   titleFields: ["lastName", "firstName"],
-  minRows: 1,
   maxRows: 1,
-  showIf: needsManager,
+  retired: true,
+  showIf: isPM,
   fields: [...personFields(), { kind: "field", id: "function", type: "text", label: t("Fonction", "Position"), required: true, width: "half" }],
 };
 
@@ -194,9 +202,9 @@ const B_NONOP_GROUP: GroupDef = {
   ),
   itemLabel: t("Personne", "Person"),
   titleFields: ["lastName", "firstName"],
-  minRows: 1,
   maxRows: 10,
-  showIf: isNonOp,
+  retired: true,
+  showIf: isPM,
   fields: [
     ...personFields(),
     { kind: "field", id: "share", type: "text", label: t("Part ou rôle", "Share or role"), width: "half" },
@@ -230,6 +238,78 @@ const B_SHAREHOLDERS_RETIRED: GroupDef = {
     },
     { kind: "field", id: "percent", type: "percent", label: t("Part du capital et des voix (%)", "Share of capital and votes (%)"), width: "half" },
     { kind: "field", id: "behalf", type: "text", label: t("Pour le compte de qui ?", "On whose behalf?"), showIf: rowIs("kind", "nominee") },
+  ],
+};
+
+const UNKNOWN = t("Je ne sais pas qui est derrière", "I don't know who is behind it");
+const rowKind = (...kinds: string[]) => (_a: Answers, row?: Row) => kinds.includes(String(row?.kind || ""));
+
+/** What is asked of one holder; a company at the last level gets a free text for its own holders. */
+const holderFields = (depth: number): FieldDef[] => [
+  { kind: "field", id: "kind", type: "radio", label: t("Type", "Type"), required: true, options: HOLDER_KINDS.map((k) => ({ value: k, label: KIND_LABEL[k] })) },
+  { kind: "field", id: "person", type: "person", label: t("Personne", "Person"), required: true, showIf: rowKind("person") },
+  { kind: "field", id: "name", type: "text", label: t("Nom", "Name"), required: true, maxLength: 200, showIf: rowKind("company", "trust", "foundation", "nominee") },
+  { kind: "field", id: "country", type: "text", suggest: "country", label: t("Pays", "Country"), required: true, width: "half", showIf: rowKind("company") },
+  { kind: "field", id: "percent", type: "percent", label: t("Part détenue", "Share held"), help: t("En parts ou en droits de vote, en %.", "In shares or voting rights, in %."), required: true, width: "half" },
+  { kind: "field", id: "uid", type: "text", label: t("IDE", "UID"), help: t("Société étrangère : le numéro de son registre, si vous l’avez.", "Foreign company: its register number, if you have it."), maxLength: 60, showIf: rowKind("company") },
+  {
+    kind: "field",
+    id: "behind",
+    type: "textarea",
+    label: t("Pour qui, ou qui est derrière ?", "On whose behalf, or who is behind it?"),
+    help: t("Trust ou fondation : fondateur, bénéficiaires. Prête-nom : la personne pour qui il détient les parts.", "Trust or foundation: settlor or founder, beneficiaries. Nominee: the person the shares are held for."),
+    required: true,
+    maxLength: 1500,
+    showIf: rowKind("trust", "foundation", "nominee"),
+  },
+  { kind: "field", id: "unknown", type: "boolean", label: UNKNOWN, showIf: rowKind("company") },
+  ...(depth === HOLDER_DEPTH
+    ? [
+        {
+          kind: "field",
+          id: "owners",
+          type: "textarea",
+          label: t("Qui détient cette société ?", "Who holds this company?"),
+          help: t("Noms, pays et parts, étape par étape jusqu’aux personnes.", "Names, countries and shares, step by step down to the people."),
+          required: true,
+          maxLength: 2000,
+          showIf: (_a: Answers, row?: Row) => row?.kind === "company" && row.unknown !== "yes",
+        } as FieldDef,
+      ]
+    : []),
+];
+
+/** The holders of the client (level 1) or of a company holder (levels 2 and 3), each level the same questions. */
+function holderGroup(depth: number): GroupDef {
+  return {
+    kind: "group",
+    id: depth === 1 ? "b.holders" : NESTED,
+    label: depth === 1 ? t("Qui détient la société ?", "Who holds the company?") : t("Qui détient cette société ?", "Who holds this company?"),
+    itemLabel: t("Détenteur", "Holder"),
+    titleFields: ["name"],
+    minRows: 1,
+    maxRows: 20,
+    fields: holderFields(depth),
+    ...(depth === 1
+      ? { showIf: holdersAsked, optionalIf: (a: Answers) => a["b.holdersUnknown"] === "yes", ui: "holders" as const }
+      : { showIf: (_a: Answers, row?: Row) => row?.kind === "company" && row.unknown !== "yes" }),
+    ...(depth < HOLDER_DEPTH ? { nested: holderGroup(depth + 1) } : {}),
+  };
+}
+
+/** People of section B, each entered once; holders, other control and managers point to them. */
+const B_PERSONS: GroupDef = {
+  kind: "group",
+  id: "b.persons",
+  label: t("Personnes citées", "People named"),
+  itemLabel: t("Personne", "Person"),
+  titleFields: ["lastName", "firstName"],
+  maxRows: 40,
+  showIf: holdersAsked,
+  ui: "hidden",
+  fields: [
+    ...personFields(),
+    { kind: "field", id: "wealth", type: "textarea", label: t("D’où vient sa fortune ?", "Where does their wealth come from?"), help: t("Salaire, entreprise, héritage, placements…", "Salary, business, inheritance, investments…"), required: true, maxLength: 1500, showIf: (a) => isNonOp(a) },
   ],
 };
 
@@ -408,85 +488,42 @@ export const STEPS: StepDef[] = [
   {
     id: "b.pm",
     section: "B",
-    title: t("Qui possède la société ?", "Who owns the company?"),
+    title: t("Qui détient la société ?", "Who holds the company?"),
+    variants: [
+      {
+        when: isNonOp,
+        intro: t(
+          "Jusqu’aux personnes au bout de la chaîne, même avec une petite part. La loi les appelle ayants droit économiques.",
+          "Down to the people at the end of the chain, even with a small share. The law calls them beneficial owners.",
+        ),
+      },
+    ],
     showIf: isPM,
     blocks: [
       { kind: "note", id: "b.listedNote", showIf: isListed, text: t("Société cotée : nous verrons si cette page est nécessaire.", "Listed company: we will check whether this page is needed.") },
-      // Operating company: art. 2a al. 3 LBA, in order.
-      {
-        kind: "field",
-        id: "b.q25",
-        type: "radio",
-        required: true,
-        label: t("Une personne détient-elle 25 % ou plus de la société ?", "Does anyone own 25% or more of the company?"),
-        help: t(
-          "En parts ou en droits de vote, directement ou à travers une autre société. Par exemple, si vous détenez toute la société : Oui.",
-          "In shares or voting rights, directly or through another company. For example, if you own the whole company: Yes.",
-        ),
-        options: [
-          { value: "yes", label: t("Oui", "Yes") },
-          { value: "no", label: t("Non", "No") },
-          { value: "unidentified", label: SAME_UNIDENTIFIED },
-        ],
+      holderGroup(1),
+      { kind: "field", id: "b.holdersUnknown", type: "boolean", label: UNKNOWN, showIf: holdersAsked, ui: "hidden" },
+      // Operating company: control by other means (art. 2a al. 3 LBA), asked once.
+      yesNo("b.qOther", t("Quelqu’un contrôle-t-il la société autrement ?", "Does anyone control the company in another way?"), {
+        help: t("Accord entre actionnaires, droit de veto…", "Shareholders' agreement, veto right…"),
         showIf: cascade,
-      },
-      B_OP_GROUP_25,
+        ui: "hidden",
+      }),
+      { kind: "field", id: "b.controlPersons", type: "persons", label: t("Qui ?", "Who?"), required: true, showIf: (a) => cascade(a) && a["b.qOther"] === "yes", ui: "hidden" },
+      { kind: "field", id: "b.controlHow", type: "text", label: t("Comment ?", "How?"), maxLength: 300, showIf: (a) => cascade(a) && a["b.qOther"] === "yes", ui: "hidden" },
       {
         kind: "field",
-        id: "b.qOther",
-        type: "radio",
+        id: "b.managers",
+        type: "persons",
+        label: t("Qui dirige la société au plus haut niveau ?", "Who runs the company at the highest level?"),
+        help: t("Personne n’atteint 25 % ni ne contrôle autrement : la loi demande alors le ou les dirigeants.", "Nobody reaches 25% or controls otherwise: the law then asks for the senior manager(s)."),
         required: true,
-        label: t("Quelqu’un contrôle-t-il la société d’une autre façon ?", "Does anyone control the company in another way?"),
-        help: t(
-          "Par exemple par un accord entre actionnaires, un droit de veto, ou le droit de nommer la plupart du conseil.",
-          "For example through a shareholders' agreement, a veto, or the right to appoint most of the board.",
-        ),
-        options: [
-          { value: "yes", label: t("Oui", "Yes") },
-          { value: "no", label: t("Non", "No") },
-          { value: "unidentified", label: SAME_UNIDENTIFIED },
-        ],
-        showIf: (a) => cascade(a) && a["b.q25"] === "no",
+        showIf: needsManager,
+        ui: "hidden",
       },
-      {
-        kind: "field",
-        id: "b.unidentifiedReason",
-        type: "textarea",
-        required: true,
-        maxLength: 1500,
-        label: t("Pourquoi ne sait-on pas qui c’est ?", "Why does nobody know who it is?"),
-        help: t("Décrivez ce que vous savez : qui détient la société, puis qui détient cet actionnaire, avec pays et parts.", "Describe what you know: who owns the company, then who owns that shareholder, with countries and shares."),
-        showIf: (a) => cascade(a) && (a["b.q25"] === "unidentified" || a["b.qOther"] === "unidentified"),
-      },
-      B_OP_GROUP_OTHER,
-      B_OP_GROUP_MANAGER,
+      B_PERSONS,
       yesNo("b.forThird", t("La société détient-elle de l’argent ou des biens qui appartiennent à quelqu’un d’autre ?", "Does the company hold money or assets that belong to someone else?"), { help: t("Exemple : des fonds de clients.", "Example: client funds."), showIf: isOp }),
       { kind: "field", id: "b.forThirdDetails", type: "textarea", label: t("À qui, et quoi ?", "Whose, and what?"), required: true, showIf: (a) => isOp(a) && a["b.forThird"] === "yes" },
-      // Non-operating company: art. 2a al. 6 LBA, every beneficial owner of the assets.
-      B_NONOP_GROUP,
-      yesNo("b.structure", t("La société est-elle détenue à travers une autre société, un trust, une fondation ou un prête-nom ?", "Is the company owned through another company, a trust, a foundation or a nominee?"), { help: t("Prête-nom : quelqu’un qui détient des parts pour un autre. Trust : structure où quelqu’un gère des biens pour d’autres.", "Nominee: someone who holds shares for another person. Trust: a structure in which someone manages assets for others.") }),
-      {
-        kind: "field",
-        id: "b.structureKinds",
-        type: "checkboxes",
-        label: t("Lesquels ?", "Which?"),
-        required: true,
-        showIf: is("b.structure", "yes"),
-        options: [
-          { value: "company", label: t("Une autre société", "Another company") },
-          { value: "trust", label: t("Un trust", "A trust") },
-          { value: "foundation", label: t("Une fondation", "A foundation") },
-          { value: "nominee", label: t("Un prête-nom", "A nominee") },
-        ],
-      },
-      { kind: "field", id: "b.structureDetails", type: "textarea", label: t("Qui détient quoi, étape par étape jusqu’aux personnes ?", "Who holds what, step by step down to the people?"), help: t("Exemple : X SA (Suisse) détient 100 % de la société ; Mme Y (France) détient 60 % de X SA, M. Z 40 %.", "Example: X SA (Switzerland) holds 100% of the company; Ms Y (France) holds 60% of X SA, Mr Z 40%."), required: true, showIf: is("b.structure", "yes") },
-      {
-        kind: "note",
-        id: "b.structureNote",
-        tone: "warning",
-        showIf: (a) => has("b.structureKinds", "trust")(a) || has("b.structureKinds", "foundation")(a),
-        text: t("Trust ou fondation : nous vous contacterons pour la suite. Vous pouvez déjà envoyer le formulaire.", "Trust or foundation: we will contact you about the next steps. You can already send the form."),
-      },
       {
         kind: "field",
         id: "b.transparency",
@@ -504,6 +541,29 @@ export const STEPS: StepDef[] = [
       { kind: "note", id: "b.transparencyNote", showIf: (a) => a["b.transparency"] === "notYet" || a["b.transparency"] === "unknown", text: t("Nous pouvons faire l’inscription pour vous.", "We can make the filing for you.") },
       // Retired 2026-11-13.
       B_SHAREHOLDERS_RETIRED,
+      // Retired 2026-11-15: replaced by the holders tree above.
+      retired("b.q25", "radio", t("Une personne détient-elle 25 % ou plus de la société ?", "Does anyone own 25% or more of the company?"), {
+        options: [
+          { value: "yes", label: t("Oui", "Yes") },
+          { value: "no", label: t("Non", "No") },
+          { value: "unidentified", label: SAME_UNIDENTIFIED },
+        ],
+      }),
+      B_OP_GROUP_25,
+      B_OP_GROUP_OTHER,
+      B_OP_GROUP_MANAGER,
+      B_NONOP_GROUP,
+      retired("b.unidentifiedReason", "textarea", t("Pourquoi ne sait-on pas qui c’est ?", "Why does nobody know who it is?")),
+      retired("b.structure", "yesno", t("La société est-elle détenue à travers une autre société, un trust, une fondation ou un prête-nom ?", "Is the company owned through another company, a trust, a foundation or a nominee?")),
+      retired("b.structureKinds", "checkboxes", t("Lesquels ?", "Which?"), {
+        options: [
+          { value: "company", label: t("Une autre société", "Another company") },
+          { value: "trust", label: t("Un trust", "A trust") },
+          { value: "foundation", label: t("Une fondation", "A foundation") },
+          { value: "nominee", label: t("Un prête-nom", "A nominee") },
+        ],
+      }),
+      retired("b.structureDetails", "textarea", t("Qui détient quoi, étape par étape jusqu’aux personnes ?", "Who holds what, step by step down to the people?")),
       retired("b.transparencyDate", "date", t("Date de la déclaration", "Date of the declaration")),
     ],
   },
@@ -777,14 +837,22 @@ export function clientName(a: Answers): string {
   return [last ? last.toLocaleUpperCase("fr-CH") : "", String(a["a.firstName"] || "").trim()].filter(Boolean).join(" ");
 }
 
-/** Persons of section B (controlling persons or beneficial owners), for documents and the PDF. */
+/**
+ * Persons of section B whose identity Ark needs, for documents: a person's other owners (PP); on a
+ * non-operating company every person behind it; on an operating one the persons at 25 % or more,
+ * those who control it otherwise and, failing them, the senior managers.
+ */
 export function sectionBPersons(a: Answers): { group: string; row: Row }[] {
-  const ids = isPP(a) ? ["b.ppOthers"] : isNonOp(a) ? ["b.ubos"] : ["b.controllers25", "b.controllersOther", "b.manager"];
-  const out: { group: string; row: Row }[] = [];
-  for (const id of ids) {
-    const visible = STEPS.some((s) => (!s.showIf || s.showIf(a)) && s.blocks.some((b) => b.id === id && (!b.showIf || b.showIf(a))));
-    if (!visible) continue;
-    for (const row of Array.isArray(a[id]) ? (a[id] as Row[]) : []) out.push({ group: id, row });
-  }
-  return out;
+  if (isPP(a)) return a["b.ppOwner"] === "others" ? (Array.isArray(a["b.ppOthers"]) ? (a["b.ppOthers"] as Row[]) : []).map((row) => ({ group: "b.ppOthers", row })) : [];
+  if (!holdersAsked(a)) return [];
+  const wanted = isNonOp(a)
+    ? referencedPersonIds(a)
+    : new Set([
+        ...controllers25(a).map((s) => s.personId),
+        ...(a["b.qOther"] === "yes" ? idList(a["b.controlPersons"]) : []),
+        ...(needsManager(a) ? idList(a["b.managers"]) : []),
+      ]);
+  return personsOf(a)
+    .filter((row) => wanted.has(row._id))
+    .map((row) => ({ group: "b.persons", row }));
 }

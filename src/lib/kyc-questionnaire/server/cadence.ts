@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { apiKeys, cadenceAskUrl, cadenceKeyId } from "./config";
+import { apiKeys, cadenceAskUrl, cadenceCompaniesUrl, cadenceKeyId } from "./config";
 import { signRequest } from "./signature";
 
 /**
@@ -52,4 +52,52 @@ export async function askCadence(payload: AskPayload, fetchImpl: typeof fetch = 
     ok: true,
     reply: { offTopic: data.off_topic, answer: typeof data.answer === "string" ? data.answer : null, proposal: data.off_topic ? null : validProposal },
   };
+}
+
+/**
+ * kyc.ark-fid.ch → Cadence: Swiss companies of the register whose name matches what the client
+ * types (holders of section B), from Cadence's Zefix integration: at most 8 active companies,
+ * `{ name, seat, uid }`. GET, signed over the query string as sent. Never blocks the form: any
+ * failure is an empty list, and the client's own text stays the answer.
+ */
+export const COMPANIES_PATH = "/kyc-form/companies";
+export type RegisterCompany = { name: string; seat: string; uid: string };
+
+export async function companiesCadence(q: string, fetchImpl: typeof fetch = fetch, now = Date.now()): Promise<{ ok: boolean; items: RegisterCompany[] }> {
+  const query = q.replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, 120);
+  if (query.length < 2) return { ok: true, items: [] };
+  const keys = apiKeys();
+  const keyId = keys.has(cadenceKeyId()) ? cadenceKeyId() : [...keys.keys()][0];
+  const secret = keyId ? keys.get(keyId) : undefined;
+  if (!keyId || !secret) return { ok: false, items: [] };
+  const search = new URLSearchParams({ q: query }).toString();
+  const timestamp = String(now);
+  const nonce = randomBytes(18).toString("base64url");
+  try {
+    const res = await fetchImpl(`${cadenceCompaniesUrl()}?${search}`, {
+      method: "GET",
+      headers: {
+        "x-kyc-key-id": keyId,
+        "x-kyc-timestamp": timestamp,
+        "x-kyc-nonce": nonce,
+        "x-kyc-signature": signRequest(secret, "GET", COMPANIES_PATH, timestamp, nonce, search),
+      },
+      cache: "no-store",
+      signal: AbortSignal.timeout(6_000),
+    });
+    if (!res.ok) return { ok: false, items: [] };
+    const data = (await res.json().catch(() => null)) as { items?: unknown } | null;
+    const items = Array.isArray(data?.items) ? data!.items : [];
+    const text = (v: unknown, max: number) => (typeof v === "string" ? v.replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, max) : "");
+    return {
+      ok: true,
+      items: items
+        .filter((i): i is Record<string, unknown> => !!i && typeof i === "object")
+        .map((i) => ({ name: text(i.name, 200), seat: text(i.seat, 100), uid: text(i.uid, 30) }))
+        .filter((i) => i.name)
+        .slice(0, 8),
+    };
+  } catch {
+    return { ok: false, items: [] };
+  }
 }

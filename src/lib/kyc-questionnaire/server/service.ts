@@ -6,7 +6,8 @@ import { checkUpload, extensionOf, safeName, sniffMismatch, UPLOAD_LIMITS } from
 import { DOCS_FOLDER, docCode, documentList, documentsFor, KYC_UPLOAD_TYPES, retiredDocument, type Withheld } from "../documents";
 import { fieldText, getField, stepText, isBlockAsked, isBlockVisible, isRetiredId, isStepVisible, pruneHidden, rowsOf, sanitizeAnswers, validateAll, validateField, validateStep, visibleSteps } from "../engine";
 import { FLAG_LABELS, flagsOf, type Flag } from "../flags";
-import { clientName, declarations, isPM, routeDefaults, STEPS } from "../schema";
+import { computedText, holderLines, personOptions } from "../holders";
+import { clientName, declarations, isOp, isPM, routeDefaults, STEPS } from "../schema";
 import { FORM_VERSION, upgradeAnswers, upgradeIds, upgradeMarks } from "../upgrade";
 import { KYC_LOCALES, KYC_ROUTES, type Answers, type Block, type DocDeclared, type KycLocale, type KycRoute } from "../types";
 import { ASSIST_DEFAULT_MINUTES, ASSIST_MAX_MINUTES, emailHash, issueAssist, issueLink, STAFF_HASH } from "./access";
@@ -17,7 +18,7 @@ import { appendOnlineSignatures, buildKycPdf } from "./pdf";
 import type { LinkReplacedVia, RevisionState, TrackerRow } from "./ports";
 import { caseFileName, dataFileName, isOwnPiece, ONLINE_SIGNED_MARK, pieceFileName, SIGNED_SCAN_PREFIX, type CaseFolders } from "./layout";
 import { getPorts } from "./sharepoint";
-import { askCadence, type AskReply } from "./cadence";
+import { askCadence, companiesCadence, type AskReply, type RegisterCompany } from "./cadence";
 
 /**
  * KYC cases. A case belongs to one client folder on LBA - OAR and has numbered revisions; a
@@ -784,10 +785,25 @@ function pagesFor(current: Answers, shown: (block: Block) => boolean, sent = fal
         if (block.kind === "heading") return { kind: block.kind, id: block.id, text: block.label, ...(block.section ? { section: block.section } : {}) };
         if (block.kind === "note") return { kind: block.kind, id: block.id, text: block.id === "i.declarations" ? declarationText : block.text };
         const text = block.kind === "field" ? fieldText(block, current) : { label: block.label, help: block.help };
-        return { kind: block.kind, id: block.id, label: text.label, ...(text.help ? { text: text.help } : {}), ...(block.retired ? { retired: true } : {}) };
+        return {
+          kind: block.kind,
+          id: block.id,
+          label: text.label,
+          ...(text.help ? { text: text.help } : {}),
+          ...(block.retired ? { retired: true } : {}),
+          // The holders tree as Ark reads it: worded, indented lines and the computed people (one computation, here).
+          ...(block.kind === "group" && block.ui === "holders" ? holdersPart(current) : {}),
+          ...(block.kind === "field" && (block.type === "person" || block.type === "persons") ? { options: personOptions(current) } : {}),
+        };
       }),
     };
   });
+}
+
+/** The holders part for Cadence: `tree` (indented lines) and `controllers` (the computed people, when any). */
+function holdersPart(current: Answers): { tree: { depth: number; text: { fr: string; en: string } }[]; controllers?: { fr: string; en: string } } {
+  const computed = computedText(current, isOp(current));
+  return { tree: holderLines(current), ...(computed ? { controllers: computed } : {}) };
 }
 
 /** Case summary for Cadence, with the current answers and exactly the pages visible to the client. */
@@ -796,7 +812,7 @@ export async function staffCase(caseId: string): Promise<StaffSummary & {
   draft?: Answers;
   /** Answer id → who at Ark entered its current value (assisted session, overwrite). Absent when none. */
   enteredBy?: Record<string, string>;
-  pages: { id: string; section: string | null; title: { fr: string; en: string }; intro?: { fr: string; en: string }; fieldIds: string[]; missingFieldIds: string[]; parts: { kind: "field" | "group" | "heading" | "note"; id: string; label?: { fr: string; en: string }; text?: { fr: string; en: string }; section?: string; retired?: boolean }[] }[];
+  pages: { id: string; section: string | null; title: { fr: string; en: string }; intro?: { fr: string; en: string }; fieldIds: string[]; missingFieldIds: string[]; parts: { kind: "field" | "group" | "heading" | "note"; id: string; label?: { fr: string; en: string }; text?: { fr: string; en: string }; section?: string; retired?: boolean; tree?: { depth: number; text: { fr: string; en: string } }[]; controllers?: { fr: string; en: string }; options?: { value: string; label: { fr: string; en: string } }[] }[] }[];
   documentItems: { key: string; label: { fr: string; en: string }; required: boolean; declared: DocDeclared | null; files: { name: string; webUrl: string }[]; unavailable: boolean; withheld: Withheld | null }[];
 }> {
   await finishIfComplete(caseId);
@@ -1299,6 +1315,13 @@ export async function saveDraft(session: Session, body: { answers?: unknown; ste
  * answers of its step, never stored. The answer may propose a value; the form writes it only when
  * the client presses « Utiliser ». The route is the case's, never the browser's.
  */
+/** Swiss companies of the register matching the client's typing (holders of section B); never an error. */
+export async function searchCompanies(session: Session, body: { q?: unknown }, fetchImpl: typeof fetch = fetch): Promise<{ items: RegisterCompany[] }> {
+  const { rev } = await clientContext(session, ["contact", "staff"]);
+  if (rev.state !== "open") throw new KycError("not_editable", 409);
+  return { items: (await companiesCadence(str(body.q), fetchImpl)).items };
+}
+
 export async function askField(
   session: Session,
   body: { fieldId?: unknown; question?: unknown; answers?: unknown; language?: unknown },

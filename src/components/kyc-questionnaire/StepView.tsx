@@ -16,6 +16,8 @@ import { cn } from "@/src/lib/utils";
 import { FieldControl } from "./FieldControl";
 import { FilledCheck } from "./FilledCheck";
 import { HelpHint } from "./HelpHint";
+import { HoldersSection } from "./HoldersSection";
+import { useSubScreen } from "./SubScreen";
 import { toName } from "./form-model";
 
 interface StepProps {
@@ -69,7 +71,10 @@ export function StepView({ step, locale, answers, prefilled }: StepProps) {
   const focusRow = useRowFocus();
 
   const isRow = (b: Block): b is FieldDef => b.kind === "field" && b.type !== "boolean" && prefilled.has(b.id) && (hasValue(answers[b.id]) || initial.has(b.id));
-  const blocks = step.blocks.filter((b) => isBlockAsked(b, answers));
+  // Blocks the holders component asks itself (section B of a company) are not fields of their own here.
+  const blocks = step.blocks.filter((b) => isBlockAsked(b, answers) && !((b.kind === "field" || b.kind === "group") && b.ui === "hidden"));
+  // A company holder's own screen is open: it alone shows, the rest of the step waits behind it.
+  const { open: subScreen } = useSubScreen();
   const segments: Segment[] = [];
   for (let i = 0; i < blocks.length; i++) {
     const block = blocks[i];
@@ -119,6 +124,7 @@ export function StepView({ step, locale, answers, prefilled }: StepProps) {
   return (
     <div className="flex flex-col gap-6">
       {segments.map((segment, index) => {
+        if (subScreen && !(segment.kind === "group" && segment.group.ui === "holders")) return null;
         if (segment.kind === "fields") {
           return (
             <div key={index} className="grid gap-5 sm:grid-cols-2">
@@ -159,6 +165,7 @@ export function StepView({ step, locale, answers, prefilled }: StepProps) {
         }
         if (segment.kind === "note") return <Note key={segment.note.id} note={segment.note} locale={locale} answers={answers} />;
         const group = segment.group;
+        if (group.ui === "holders") return <HoldersSection key={group.id} group={group} locale={locale} answers={answers} />;
         return <GroupControl key={group.id} group={group} locale={locale} answers={answers} arkPrefilled={prefilled.has(group.id) && (rowsOf(answers, group.id).length > 0 || initial.has(group.id))} />;
       })}
     </div>

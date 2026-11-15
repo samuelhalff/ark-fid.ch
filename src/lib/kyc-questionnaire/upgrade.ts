@@ -10,8 +10,8 @@
  */
 import type { Answers, Row } from "./types";
 
-/** Version of the questions answers are saved for (1: until 2026-11-13). */
-export const FORM_VERSION = 2;
+/** Version of the questions answers are saved for (1: until 2026-11-13; 2: until the holders tree of 2026-11-15). */
+export const FORM_VERSION = 3;
 
 /** Answer ids merged into another one: provenance marks and prefill ids follow their answer. */
 export const MOVED_IDS: Record<string, string> = {
@@ -92,7 +92,51 @@ export function upgradeAnswers(input: Answers, options: { infer?: boolean } = {}
     if (people.length) out["a.directors"] = people;
     delete out["a.signatories"];
   }
+  if (options.infer) {
+    const tree = holdersFromOldLists(out);
+    Object.assign(out, tree);
+    if ("b.qOther" in tree && tree["b.qOther"] === undefined) delete out["b.qOther"];
+  }
   // A draft: the old free text on where the company's money comes from is now « Autre ».
   if (options.infer && str(out["e.companyAssets"]) && out["e.companyAssetSources"] === undefined) out["e.companyAssetSources"] = ["other"];
+  return out;
+}
+
+const ROW_ID = /^[a-z0-9]{6,24}$/;
+const PERSON_FACTS = ["lastName", "firstName", "birthDate", "nationality", "address", "country"] as const;
+
+/**
+ * The holders tree from a draft's old lists (2026-11-15): each person of « 25 % ou plus »
+ * (`b.controllers25`) or of a non-operating company's owners (`b.ubos`) becomes a person entered
+ * once (`b.persons`) and a « Personne » holder with the share given. Only while the draft has no
+ * holders yet; the old answers stay as they were (retired, read-only for Ark). Same mapping as
+ * Cadence's `upgrade.py`.
+ */
+export function holdersFromOldLists(a: Answers): Answers {
+  if (Array.isArray(a["b.holders"])) return {};
+  const old = [...rows(a["b.controllers25"]).map((row) => ({ row, percent: str(row.percent) })), ...rows(a["b.ubos"]).map((row) => ({ row, percent: /^\d{1,3}([.,]\d+)?\s*%?$/.test(str(row.share)) ? str(row.share).replace(/\s*%$/, "") : "" }))];
+  const out: Answers = {};
+  if (a["b.q25"] === "unidentified" || a["b.qOther"] === "unidentified") out["b.holdersUnknown"] = "yes";
+  if (a["b.qOther"] === "unidentified") out["b.qOther"] = undefined;
+  if (!old.length) return out;
+  const persons: Row[] = rows(a["b.persons"]).map((p) => ({ ...p }));
+  const holders: Row[] = [];
+  const key = (r: Row) => `${norm(r.lastName)}|${norm(r.firstName)}`;
+  old.forEach(({ row, percent }, index) => {
+    const base = typeof row._id === "string" && ROW_ID.test(row._id) ? row._id.slice(0, 23) : "";
+    let person = key(row) !== "|" ? persons.find((p) => key(p) === key(row)) : undefined;
+    if (!person) {
+      person = { _id: base ? `${base}p` : `pers${String(index).padStart(4, "0")}` };
+      for (const f of PERSON_FACTS) if (str(row[f])) person[f] = str(row[f]);
+      if (str(row.wealth)) person.wealth = str(row.wealth);
+      persons.push(person);
+    }
+    if (holders.some((h) => h.person === person!._id)) return;
+    const holder: Row = { _id: base ? `${base}h` : `hold${String(index).padStart(4, "0")}`, kind: "person", person: person._id };
+    if (percent) holder.percent = percent;
+    holders.push(holder);
+  });
+  out["b.persons"] = persons;
+  out["b.holders"] = holders;
   return out;
 }

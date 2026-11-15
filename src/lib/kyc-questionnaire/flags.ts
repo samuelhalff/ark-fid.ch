@@ -2,6 +2,7 @@
  * Points for Ark's review (internal LBA note), computed from the answers. Never shown to the
  * client as such. The legal qualification and the risk class stay Ark's decision (Cadence).
  */
+import { holderKinds } from "./holders";
 import { isListed, isNonOp, isOp, isPM, isPP } from "./schema";
 import type { Answers } from "./types";
 
@@ -57,7 +58,8 @@ export function flagsOf(a: Answers): Flag[] {
   if (a["c.pep"] === "pep" || a["c.pep"] === "close") out.add("pep");
   if (a["c.sanctions"] === "yes") out.add("sanctions");
   if (a["c.criminal"] === "yes") out.add("criminal");
-  const kinds = list(a, "b.structureKinds");
+  // The holders tree (2026-11-15), or an earlier form's « structure » answer.
+  const kinds = [...list(a, "b.structureKinds"), ...holderKinds(a)];
   if (kinds.includes("trust") || kinds.includes("foundation")) out.add("trustOrFoundation");
   if (kinds.includes("nominee") || list(a, "b.shareholders").some((r) => (r as Record<string, unknown>).kind === "nominee")) out.add("nominee");
   if (list(a, "b.shareholders").some((r) => (r as Record<string, unknown>).kind === "trust")) out.add("trustOrFoundation");

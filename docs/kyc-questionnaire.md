@@ -10,8 +10,17 @@ Cadence. It sends no e-mail except the one-time login code.
 | Route | Form | Section B |
 |---|---|---|
 | `pp` | Natural person | Beneficial owner (self or others) |
-| `pm-op` | Operating legal entity | Art. 2a al. 3 LBA: ≥ 25 % (alone or in concert) → other control → most senior manager; listed company: art. 4 al. 1 LBA, Ark decides |
-| `pm-nonop` | Non-operating legal entity (art. 2a al. 6 LBA, in particular domiciliary companies) | Every beneficial owner of the assets, no threshold |
+| `pm-op` | Operating legal entity | Art. 2a al. 3 LBA: the holders tree (`holders.ts`), 25 % computed (shares multiplied along the chain, summed per person; information only) → other control, asked once → most senior managers picked among the directors; listed company: art. 4 al. 1 LBA, Ark decides |
+| `pm-nonop` | Non-operating legal entity (art. 2a al. 6 LBA, in particular domiciliary companies) | The same holders tree: every person at the end of the chain, no threshold, with where their wealth comes from |
+
+Holders tree (2026-11-15, mockup approved by Sam): `b.holders` rows (person, company, trust,
+foundation, nominee) with a share; a company has its own `holders`, three levels deep, then a free
+text; « Je ne sais pas qui est derrière » at each level. People facts are entered once in
+`b.persons`; holders, `b.controlPersons` and `b.managers` point to them by id. The old step-by-step
+answers (`b.q25`, `b.controllers25`, `b.controllersOther`, `b.manager`, `b.ubos`, `b.structure*`,
+`b.unidentifiedReason`) are retired (read-only for Ark); a draft's old lists become holders
+(`upgrade.ts`, the same mapping as Cadence's `upgrade.py`). The contract to Cadence carries the
+nested group; the pages handed to Cadence carry the worded `tree` and the computed `controllers`.
 
 Trusts, foundations and other complex structures stay outside the web form (manual route).
 The client's own description of the company (`a.activityKind`) is compared with Ark's route:
@@ -173,6 +182,7 @@ Prefill ids are the answer ids of `src/lib/kyc-questionnaire/schema.ts` (e.g. `a
 | `KYC_QF_MAIL_SENDER` | Sender of the code e-mails (default frontdesk@ark-fid.ch: bounces land where someone reads them, Sam 2026-11-14) |
 | `KYC_QF_PUBLIC_ORIGIN`, `KYC_QF_ALLOWED_ORIGINS` | Defaults https://kyc.ark-fid.ch |
 | `KYC_QF_SP_SITE_ID`, `KYC_QF_SP_DRIVE_ID`, `KYC_QF_TRACKING_LIST`, `KYC_QF_ACCESS_LIST` | Defaults: LBA - OAR, "Suivi KYC", "Accès KYC" |
+| `KYC_QF_CADENCE_ASK_URL`, `KYC_QF_CADENCE_COMPANIES_URL`, `KYC_QF_CADENCE_KEY_ID` | Cadence's form assistant and register search (signed GET `/kyc-form/companies?q=`, ≤ 8 active Swiss companies; the companies URL defaults to the assistant's host) |
 | `KYC_QF_STORAGE=mock`, `KYC_QF_MOCK_DIR` | Development only (local folder, in-memory lists) |
 
 Graph access uses the site's existing app registration (`MSGRAPH_*`). To do: a dedicated app

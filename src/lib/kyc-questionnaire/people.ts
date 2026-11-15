@@ -104,3 +104,34 @@ export function choiceLabel(person: KnownPerson, locale: KycLocale): string {
   const role = person.role || (person.contact ? UI.contactRole[locale] : "");
   return UI.personChoice[locale].replace("{name}", `${person.firstName} ${person.lastName}`).replace("{role}", role ? `${role}, ` : "");
 }
+
+/** One choice of the holders' person picker: a person of `b.persons`, or one named earlier in the form. */
+export interface PersonChoice {
+  /** `b.persons` id when the person is already there; absent for one named earlier (copied on choice). */
+  id?: string;
+  known?: KnownPerson;
+  name: string;
+  /** « administrateur, indiqué plus haut » */
+  role?: string;
+}
+
+/**
+ * Who the holders component offers (section B): the persons already entered there, then the people
+ * named earlier in the form (directors, contact) not yet among them. `directorsOnly`: the senior
+ * managers are picked among the directors (art. 2a al. 3 LBA).
+ */
+export function personChoices(answers: Answers, options: { directorsOnly?: boolean; exclude?: readonly string[] } = {}): PersonChoice[] {
+  const exclude = new Set(options.exclude || []);
+  const directors = new Map(rowsOf(answers, "a.directors").map((r) => [personKey(r.lastName, r.firstName), clean(r.function)]));
+  const out: PersonChoice[] = [];
+  for (const row of rowsOf(answers, "b.persons")) {
+    const key = personKey(row.lastName, row.firstName);
+    if (exclude.has(row._id) || (options.directorsOnly && !directors.has(key))) continue;
+    out.push({ id: row._id, name: [clean(row.firstName), clean(row.lastName)].filter(Boolean).join(" "), role: directors.get(key) || undefined });
+  }
+  for (const person of knownPeople(answers, "b.persons")) {
+    if (options.directorsOnly && !directors.has(person.key)) continue;
+    out.push({ known: person, name: `${person.firstName} ${person.lastName}`, role: person.role || undefined });
+  }
+  return out;
+}

@@ -5,6 +5,7 @@
 import { EMAIL_RE, parseAmount, parseDate } from "../tax-questionnaire/format";
 import { STEPS } from "./schema";
 import type { Answers, Block, FieldDef, GroupDef, KycLocale, L, Row, StepDef } from "./types";
+import { holderTitle, personById, personName, prunePeople } from "./holders";
 import { upgradeAnswers } from "./upgrade";
 
 export const LIMITS = {
@@ -86,6 +87,21 @@ export function fieldText(field: FieldDef, a: Answers): { label: L; help?: L } {
   return { label: variant?.label || field.label, help: variant?.help || field.help };
 }
 export const isRowFieldVisible = (field: FieldDef, a: Answers, row: Row) => !field.showIf || field.showIf(a, row);
+/** The group nested under `row` (holders of a company holder), when it applies to that row. */
+export const nestedOf = (group: GroupDef, a: Answers, row: Row): GroupDef | null =>
+  group.nested && (!group.nested.showIf || group.nested.showIf(a, row)) ? group.nested : null;
+export const nestedRows = (row: Row, id: string): Row[] => (Array.isArray(row[id]) ? (row[id] as Row[]).filter((r) => r && typeof r === "object") : []);
+
+/** The visible answers of rows, nested groups included. */
+function pruneRows(group: GroupDef, rows: Row[], a: Answers): Row[] {
+  return rows.map((row) => {
+    const kept: Row = { _id: row._id };
+    for (const field of group.fields) if (row[field.id] !== undefined && isRowFieldVisible(field, a, row)) kept[field.id] = row[field.id];
+    const nested = nestedOf(group, a, row);
+    if (nested && row[nested.id] !== undefined) kept[nested.id] = pruneRows(nested, nestedRows(row, nested.id), a);
+    return kept;
+  });
+}
 
 /** Drops the answers of hidden screens, blocks and row fields (repeated until stable). */
 export function pruneHidden(input: Answers): Answers {
@@ -104,21 +120,24 @@ export function pruneHidden(input: Answers): Answers {
           next[block.id] = value;
           continue;
         }
-        next[block.id] = rowsOf(current, block.id).map((row) => {
-          const kept: Row = { _id: row._id };
-          for (const field of block.fields) if (row[field.id] !== undefined && isRowFieldVisible(field, current, row)) kept[field.id] = row[field.id];
-          return kept;
-        });
+        next[block.id] = pruneRows(block, rowsOf(current, block.id), current);
       }
     }
-    if (JSON.stringify(next) === JSON.stringify(current)) return next;
-    current = next;
+    // Persons nothing points to any more are dropped, and so are pointers to a missing person.
+    const settled = prunePeople(next);
+    if (JSON.stringify(settled) === JSON.stringify(current)) return settled;
+    current = settled;
   }
   return current;
 }
 
 function sanitizeValue(field: FieldDef, raw: unknown): string | string[] | undefined {
   if (field.type === "boolean") return raw === "yes" ? "yes" : undefined;
+  if (field.type === "person") return typeof raw === "string" && LIMITS.rowIdRe.test(raw) ? raw : undefined;
+  if (field.type === "persons") {
+    if (!Array.isArray(raw)) return undefined;
+    return [...new Set(raw.filter((v): v is string => typeof v === "string" && LIMITS.rowIdRe.test(v)))].slice(0, LIMITS.maxCheckboxes);
+  }
   if (field.type === "checkboxes") {
     if (!Array.isArray(raw)) return undefined;
     const allowed = new Set((field.options || []).map((o) => o.value));
@@ -148,24 +167,30 @@ export function sanitizeAnswers(raw: unknown): Answers {
     if (group.retired) continue;
     const list = input[id];
     if (!Array.isArray(list)) continue;
-    const seen = new Set<string>();
-    const clean: Row[] = [];
-    for (const item of list.slice(0, group.maxRows)) {
-      if (!item || typeof item !== "object" || Array.isArray(item)) continue;
-      const source = item as Record<string, unknown>;
-      const rowId = typeof source._id === "string" && LIMITS.rowIdRe.test(source._id) ? source._id : "";
-      if (!rowId || seen.has(rowId)) continue;
-      seen.add(rowId);
-      const row: Row = { _id: rowId };
-      for (const field of group.fields) {
-        const value = sanitizeValue(field, source[field.id]);
-        if (value !== undefined && value !== "" && !(Array.isArray(value) && value.length === 0)) row[field.id] = value;
-      }
-      clean.push(row);
-    }
-    out[id] = clean;
+    out[id] = sanitizeRows(group, list);
   }
   return out;
+}
+
+/** Rows of `group` with known fields of the right shape, nested groups included. */
+function sanitizeRows(group: GroupDef, list: unknown[]): Row[] {
+  const seen = new Set<string>();
+  const clean: Row[] = [];
+  for (const item of list.slice(0, group.maxRows)) {
+    if (!item || typeof item !== "object" || Array.isArray(item)) continue;
+    const source = item as Record<string, unknown>;
+    const rowId = typeof source._id === "string" && LIMITS.rowIdRe.test(source._id) ? source._id : "";
+    if (!rowId || seen.has(rowId)) continue;
+    seen.add(rowId);
+    const row: Row = { _id: rowId };
+    for (const field of group.fields) {
+      const value = sanitizeValue(field, source[field.id]);
+      if (value !== undefined && value !== "" && !(Array.isArray(value) && value.length === 0)) row[field.id] = value;
+    }
+    if (group.nested && Array.isArray(source[group.nested.id])) row[group.nested.id] = sanitizeRows(group.nested, source[group.nested.id] as unknown[]);
+    clean.push(row);
+  }
+  return clean;
 }
 
 const isEmpty = (value: unknown) =>
@@ -179,7 +204,9 @@ export function validateField(field: FieldDef, value: unknown): FieldError | nul
     return value.every((v) => allowed.has(v)) ? null : "invalid_option";
   }
   if (field.type === "boolean") return value === "yes" ? null : "invalid_option";
+  if (field.type === "persons") return Array.isArray(value) && value.every((v) => typeof v === "string" && LIMITS.rowIdRe.test(v)) ? null : "invalid_option";
   if (typeof value !== "string") return "invalid_option";
+  if (field.type === "person") return LIMITS.rowIdRe.test(value) ? null : "invalid_option";
   const max = field.maxLength || (field.type === "textarea" ? LIMITS.textarea : LIMITS.text);
   if (value.length > max) return "too_long";
   switch (field.type) {
@@ -220,18 +247,24 @@ export function validateStep(step: StepDef, a: Answers): Errors {
       const error = validateField(block, a[block.id]);
       if (error) errors[block.id] = error;
     } else if (block.kind === "group") {
-      const list = rowsOf(a, block.id);
-      if (list.length < (block.minRows || 0)) errors[block.id] = "min_rows";
-      for (const row of list) {
-        for (const field of block.fields) {
-          if (!isRowFieldVisible(field, a, row)) continue;
-          const error = validateField(field, row[field.id]);
-          if (error) errors[rowFieldKey(block.id, row._id, field.id)] = error;
-        }
-      }
+      validateRows(block, rowsOf(a, block.id), a, block.id, errors);
     }
   }
   return errors;
+}
+
+/** Errors of rows under `key` ("b.holders", then "b.holders[r1].holders" for a nested group). */
+function validateRows(group: GroupDef, list: Row[], a: Answers, key: string, errors: Errors, parent?: Row) {
+  if (list.length < (group.minRows || 0) && !(group.optionalIf && group.optionalIf(a, parent))) errors[key] = "min_rows";
+  for (const row of list) {
+    for (const field of group.fields) {
+      if (!isRowFieldVisible(field, a, row)) continue;
+      const error = validateField(field, row[field.id]);
+      if (error) errors[rowFieldKey(key, row._id, field.id)] = error;
+    }
+    const nested = nestedOf(group, a, row);
+    if (nested) validateRows(nested, nestedRows(row, nested.id), a, rowFieldKey(key, row._id, nested.id), errors, row);
+  }
 }
 
 export const validateAll = (a: Answers): Errors => Object.assign({}, ...visibleSteps(a).map((s) => validateStep(s, a)));
@@ -246,9 +279,13 @@ export function rowTitle(group: GroupDef, row: Row): string {
     .join(" ");
 }
 
-/** Display value of an answer (option labels, Oui/Non) in a language. */
-export function displayValue(field: FieldDef, value: unknown, locale: KycLocale): string {
+/** Display value of an answer (option labels, Oui/Non, a person's name) in a language. */
+export function displayValue(field: FieldDef, value: unknown, locale: KycLocale, answers?: Answers): string {
   if (isEmpty(value)) return "";
+  if (field.type === "person" || field.type === "persons") {
+    const ids = Array.isArray(value) ? value : [value];
+    return ids.map((id) => (answers ? personName(personById(answers, id)) : "") || "…").join(", ");
+  }
   const optionLabel = (v: string) => {
     const option = field.options?.find((o) => o.value === v);
     return option ? label(option.label, locale) : v;
@@ -273,6 +310,36 @@ export function isFilled(field: FieldDef, value: unknown): boolean {
   if (field.type === "boolean") return false;
   const present = Array.isArray(value) ? value.length > 0 : typeof value === "string" ? value.trim() !== "" : value != null;
   return present && !validateField(field, value);
+}
+
+/**
+ * What an error key of a nested group points to, in words: « Part (Holding X SA › Mme Y) » for
+ * "b.holders[r1].holders[r2].percent", « Qui détient cette société ? (Holding X SA) » for a missing list.
+ */
+export function nestedKeyLabel(key: string, a: Answers, locale: KycLocale): string | null {
+  const parts = key.split(/\[([a-z0-9]+)\]\./);
+  // ["b.holders", "r1", "holders", "r2", "percent"]
+  let group = GROUPS.get(parts[0]);
+  if (!group || parts.length < 3) return null;
+  let rows = rowsOf(a, parts[0]);
+  const titles: string[] = [];
+  for (let i = 1; i < parts.length; i += 2) {
+    const row = rows.find((r) => r._id === parts[i]);
+    if (!row) return null;
+    const title = group.ui === "holders" || group.id === "holders" ? holderTitle(a, row) : rowTitle(group, row);
+    titles.push(title || label(group.itemLabel, locale));
+    const next = parts[i + 1];
+    const last = i + 2 >= parts.length;
+    if (group.nested && next === group.nested.id) {
+      if (last) return `${label(group.nested.label, locale)} (${titles.join(" › ")})`;
+      rows = nestedRows(row, next);
+      group = group.nested;
+      continue;
+    }
+    const field = group.fields.find((f) => f.id === next);
+    return field && last ? `${label(field.label, locale)} (${titles.join(" › ")})` : null;
+  }
+  return null;
 }
 
 /** Screen holding an error key of validateAll ("a.name" or "b.ubos[rowid].lastName"). */

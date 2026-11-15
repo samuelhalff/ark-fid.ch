@@ -25,8 +25,11 @@ export const t = (fr: string, en: string): L => ({ fr, en });
 export const KYC_ROUTES = ["pp", "pm-op", "pm-nonop"] as const;
 export type KycRoute = (typeof KYC_ROUTES)[number];
 
-/** A row of a repeating group (directors, beneficial owners…). `_id` is a stable random id. */
-export type Row = { _id: string } & { [field: string]: string | string[] | undefined };
+/**
+ * A row of a repeating group (directors, holders…). `_id` is a stable random id. A group nested
+ * under the rows (`GroupDef.nested`: the holders of a holding company) keeps its rows under its id.
+ */
+export type Row = { _id: string } & { [field: string]: string | string[] | Row[] | undefined };
 
 export type AnswerValue = string | string[] | Row[] | undefined;
 export type Answers = Record<string, AnswerValue>;
@@ -44,7 +47,9 @@ export type FieldType =
   | "select"
   | "radio"
   | "checkboxes"
-  | "boolean"; // single checkbox: "yes" or absent
+  | "boolean" // single checkbox: "yes" or absent
+  | "person" // the `_id` of a row of `b.persons` (people facts are entered once)
+  | "persons"; // several of them
 
 export interface Option {
   value: string;
@@ -87,6 +92,8 @@ export interface FieldDef {
   width?: "full" | "half";
   /** A text field that offers countries as typed: one (`country`) or several, comma-separated (`countries`). */
   suggest?: "country" | "countries";
+  /** Asked by the holders component of its screen, not as a field of its own. */
+  ui?: "hidden";
 }
 
 export interface GroupDef {
@@ -100,9 +107,18 @@ export interface GroupDef {
   fields: FieldDef[];
   maxRows: number;
   minRows?: number;
+  /** `minRows` is not asked when this holds (e.g. « Je ne sais pas qui est derrière »). */
+  optionalIf?: Predicate;
   showIf?: Predicate;
   /** See FieldDef.retired. */
   retired?: boolean;
+  /**
+   * A group under each row (the holders of a company that holds the client), stored on the row
+   * under `nested.id`; its `showIf` / `optionalIf` receive that parent row.
+   */
+  nested?: GroupDef;
+  /** Drawn by its own component instead of numbered cards: the holders tree, or not at all (`b.persons`). */
+  ui?: "holders" | "hidden";
 }
 
 export interface NoteDef {

@@ -1,7 +1,8 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
 import { toWinAnsi } from "../../tax-questionnaire/server/pdf";
 import { displayValue, fieldText, isBlockVisible, isRowFieldVisible, label, rowsOf, rowTitle, visibleSteps } from "../engine";
-import { declarations, isPM, isPP } from "../schema";
+import { computedText, holderLines } from "../holders";
+import { declarations, isOp, isPM, isPP } from "../schema";
 import type { Answers, KycLocale } from "../types";
 import type { SubmissionRecord } from "./service";
 
@@ -23,6 +24,8 @@ const BLACK = rgb(0.1, 0.1, 0.12);
 const LINE = rgb(0.75, 0.77, 0.8);
 
 const TEXT = {
+  controllers: { fr: "Personnes à 25 % ou plus (calculé)", en: "Persons with 25% or more (computed)" },
+  owners: { fr: "Ayants droit économiques (calculé)", en: "Beneficial owners (computed)" },
   title: { fr: "Questionnaire client", en: "Client questionnaire" },
   pp: { fr: "Personnes physiques", en: "Natural persons" },
   pmOp: { fr: "Personnes morales", en: "Legal entities" },
@@ -196,8 +199,15 @@ export async function buildKycPdf(record: SubmissionRecord, declarationId: strin
         if (block.section) w.heading(`${block.section}.  ${label(block.label, L).toLocaleUpperCase(L === "fr" ? "fr-CH" : "en-GB")}`);
         else if (!block.prefill?.onlyWhenPrefilled) w.text(label(block.label, L), { bold: true, size: 10, color: NAVY, gap: 2 });
       } else if (block.kind === "field") {
-        if (block.id === "i.accept") continue;
-        w.pair(label(fieldText(block, a).label, L), displayValue(block, a[block.id], L));
+        // « Je ne sais pas qui est derrière » is a line of the holders tree.
+        if (block.id === "i.accept" || block.id === "b.holdersUnknown") continue;
+        w.pair(label(fieldText(block, a).label, L), displayValue(block, a[block.id], L, a));
+      } else if (block.kind === "group" && block.ui === "holders") {
+        // The holders, indented by level, then the people the shares lead to (computed).
+        w.text(label(block.label, L), { bold: true, size: 10, color: NAVY, gap: 1 });
+        for (const line of holderLines(a)) w.text(line.text[L], { size: 9.5, x: MARGIN + 8 * line.depth, gap: 1 });
+        const computed = computedText(a, isOp(a));
+        if (computed) w.pair(TEXT[isOp(a) ? "controllers" : "owners"][L], computed[L]);
       } else if (block.kind === "group") {
         w.text(label(block.label, L), { bold: true, size: 10, color: NAVY, gap: 1 });
         const rows = rowsOf(a, block.id);

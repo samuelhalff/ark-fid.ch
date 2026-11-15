@@ -34,6 +34,8 @@ export const onlineSignatureEnabled = () => env("KYC_QF_ONLINE_SIGNATURE") !== "
 
 /** Cadence's form assistant (the client's question about one field), signed with KYC_QF_API_KEYS. */
 export const cadenceAskUrl = () => env("KYC_QF_CADENCE_ASK_URL") || "https://app.ark-fid.ch/api/kyc-form/ask";
+/** Cadence's register search (holders of section B): the same host as the assistant unless set. */
+export const cadenceCompaniesUrl = () => env("KYC_QF_CADENCE_COMPANIES_URL") || cadenceAskUrl().replace(/\/kyc-form\/ask$/, "/kyc-form/companies");
 export const cadenceKeyId = () => env("KYC_QF_CADENCE_KEY_ID") || "cadence";
 
 /** Link, session and code lifetimes. */

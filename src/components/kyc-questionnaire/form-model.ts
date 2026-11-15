@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { fieldText, getField, getGroup, label, rowsOf, rowTitle, validateStep, type FieldError } from "@/src/lib/kyc-questionnaire/engine";
+import { fieldText, getField, getGroup, label, nestedKeyLabel, nestedRows, rowsOf, rowTitle, validateStep, type FieldError } from "@/src/lib/kyc-questionnaire/engine";
 import { STEPS } from "@/src/lib/kyc-questionnaire/schema";
 import { FIELD_ERRORS } from "@/src/lib/kyc-questionnaire/ui";
 import type { Answers, KycLocale, Row, StepDef } from "@/src/lib/kyc-questionnaire/types";
@@ -41,6 +41,26 @@ export function fromForm(values: FormValues): Answers {
 
 const ROW_KEY = /^(.+)\[([a-z0-9]+)\]\.(.+)$/;
 
+/**
+ * react-hook-form path of an error key, nested groups included: "b.holders[r1].holders[r2].percent"
+ * → ["b__holders", 0, "holders", 1, "percent"]. Null when a row is not (or no longer) there.
+ */
+export function keyPath(key: string, answers: Answers): (string | number)[] | null {
+  const parts = key.split(/\[([a-z0-9]+)\]\./);
+  const path: (string | number)[] = [toName(parts[0])];
+  let rows = rowsOf(answers, parts[0]);
+  for (let i = 1; i < parts.length; i += 2) {
+    const index = rows.findIndex((r) => r._id === parts[i]);
+    if (index < 0) return null;
+    path.push(index, parts[i + 1]);
+    rows = nestedRows(rows[index], parts[i + 1]);
+  }
+  return path;
+}
+
+/** Answers edited by the holders component of section B: their issues point to it. */
+const HOLDER_BLOCKS = new Set(["b.holders", "b.persons", "b.holdersUnknown", "b.qOther", "b.controlPersons", "b.controlHow", "b.managers"]);
+
 /** zod schema for one screen: delegates to the shared validator (same rules as the server). */
 export function stepSchema(step: StepDef, locale: KycLocale, route: string) {
   return z.record(z.unknown()).superRefine((values, ctx) => {
@@ -49,14 +69,7 @@ export function stepSchema(step: StepDef, locale: KycLocale, route: string) {
     const errors = validateStep(step, answers);
     for (const [key, code] of Object.entries(errors)) {
       const message = FIELD_ERRORS[code as FieldError]?.[locale] || code;
-      const row = ROW_KEY.exec(key);
-      if (row) {
-        const [, groupId, rowId, fieldId] = row;
-        const index = rowsOf(answers, groupId).findIndex((r) => r._id === rowId);
-        ctx.addIssue({ code: "custom", path: [toName(groupId), Math.max(index, 0), fieldId], message });
-      } else {
-        ctx.addIssue({ code: "custom", path: [toName(key)], message });
-      }
+      ctx.addIssue({ code: "custom", path: keyPath(key, answers) || [toName(key.split("[")[0])], message });
     }
   });
 }
@@ -92,6 +105,11 @@ export function collectIssues(errors: Record<string, unknown>, locale: KycLocale
     const group = getGroup(id);
     if (!group) continue;
     const n = node as ErrorNode;
+    if (HOLDER_BLOCKS.has(id)) {
+      // The holders tree and its persons are edited in their own component: one issue, pointing to it.
+      out.push({ name: toName("b.holders"), label: label(getGroup("b.holders")!.label, locale) });
+      continue;
+    }
     if (n.message || n.root?.message) out.push({ name, label: label(group.label, locale) });
     if (Array.isArray(node)) {
       node.forEach((rowErrors, index) => {
@@ -103,7 +121,8 @@ export function collectIssues(errors: Record<string, unknown>, locale: KycLocale
       });
     }
   }
-  return out;
+  // One line per place: the holders component gathers its own answers.
+  return out.filter((issue, index) => out.findIndex((o) => o.name === issue.name && o.label === issue.label) === index);
 }
 
 export { stepOfKey } from "@/src/lib/kyc-questionnaire/engine";
@@ -112,6 +131,13 @@ export { stepOfKey } from "@/src/lib/kyc-questionnaire/engine";
 export function issuesFromKeys(keys: string[], locale: KycLocale, answers: Answers): Issue[] {
   const out: Issue[] = [];
   for (const key of keys) {
+    if (HOLDER_BLOCKS.has(key.split("[")[0])) {
+      // « Part détenue (Holding X SA › Mme Y) »: found in the holders component.
+      const worded = key.includes("[") ? nestedKeyLabel(key, answers, locale) : null;
+      const field = getField(key);
+      out.push({ name: toName("b.holders"), label: worded || label(field ? fieldText(field, answers).label : getGroup(key)?.label || getGroup("b.holders")!.label, locale) });
+      continue;
+    }
     const row = ROW_KEY.exec(key);
     if (row) {
       const [, groupId, rowId, fieldId] = row;

@@ -1,7 +1,7 @@
 import { clientRoute, json, limited } from "@/src/lib/kyc-questionnaire/server/http";
-import { askField, clientCase, confirmSigned, createUpload, deleteUpload, saveDraft, signOnline, submit } from "@/src/lib/kyc-questionnaire/server/service";
+import { askField, clientCase, searchCompanies, confirmSigned, createUpload, deleteUpload, saveDraft, signOnline, submit } from "@/src/lib/kyc-questionnaire/server/service";
 
-/** The client's case: GET reads it; POST with x-kqf-action saves, uploads, submits, signs online, confirms the signed scan or asks about a field. */
+/** The client's case: GET reads it; POST with x-kqf-action saves, uploads, submits, signs online, confirms the signed scan, asks about a field or searches the register. */
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const action = request.headers.get("x-kqf-action") || "";
-  const perIp = action === "save" ? 600 : action === "ask" ? 30 : 120;
+  const perIp = action === "save" || action === "companies" ? 600 : action === "ask" ? 30 : 120;
   return clientRoute(request, { name: `kyc-case-${action || "none"}`, perIp, maxBytes: 512 * 1024, session: true }, async ({ body, session, ip, userAgent }) => {
     switch (action) {
       case "save":
@@ -30,6 +30,11 @@ export async function POST(request: Request) {
         // At most 20 questions per case in ten minutes (Cadence keeps the same cap).
         const tooMany = limited("kyc-ask:case", session!.caseId, 20);
         return tooMany || json(await askField(session!, body));
+      }
+      case "companies": {
+        // The register type-ahead (debounced in the browser): at most 120 searches per case in ten minutes.
+        const tooMany = limited("kyc-companies:case", session!.caseId, 120);
+        return tooMany || json(await searchCompanies(session!, body));
       }
       default:
         return json({ error: "invalid_request" }, 400);

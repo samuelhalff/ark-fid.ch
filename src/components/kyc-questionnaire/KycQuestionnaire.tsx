@@ -18,7 +18,8 @@ import posthog from "posthog-js";
 import { documentsFor } from "@/src/lib/kyc-questionnaire/documents";
 import { stepText, displayValue, fieldText, isBlockAsked, isRowFieldVisible, label, missingAnswers, pruneHidden, rowsOf, rowTitle, stepById, validateAll, visibleSteps } from "@/src/lib/kyc-questionnaire/engine";
 import { routeMismatch } from "@/src/lib/kyc-questionnaire/flags";
-import { isPM } from "@/src/lib/kyc-questionnaire/schema";
+import { computedText, holderLines } from "@/src/lib/kyc-questionnaire/holders";
+import { isOp, isPM } from "@/src/lib/kyc-questionnaire/schema";
 import { KYC_LOCALES, type Answers, type DocDeclared, type DocItem, type KycLocale, type StepDef } from "@/src/lib/kyc-questionnaire/types";
 import { CONTACT, SERVER_ERRORS, UI } from "@/src/lib/kyc-questionnaire/ui";
 import { cn } from "@/src/lib/utils";
@@ -26,6 +27,7 @@ import { ApiError, api, newSubmitKey, PDF_URL, type CaseFile, type CasePayload }
 import { ActiveList, DocumentsStep, errorText, FileList, PickFiles, SIGNED_ACCEPT, useUploads } from "./DocumentsStep";
 import { collectIssues, focusField, fromForm, issuesFromKeys, stepOfKey, stepSchema, toForm, type FormValues, type Issue } from "./form-model";
 import { StepView } from "./StepView";
+import { SubScreenContext } from "./SubScreen";
 import { SignaturePad } from "./SignaturePad";
 
 /**
@@ -89,6 +91,9 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   const [caseData, setCaseData] = useState<CasePayload | null>(null);
   const [maxFileBytes, setMaxFileBytes] = useState(50 * 1024 * 1024);
   const [stepId, setStepId] = useState("start");
+  // A screen pushed inside the step (a company holder of section B) hides the step's own chrome.
+  const [subScreen, setSubScreen] = useState(false);
+  const subScreenValue = useMemo(() => ({ open: subScreen, set: setSubScreen }), [subScreen]);
   const [docDeclared, setDocDeclared] = useState<Record<string, DocDeclared>>({});
   const [notice, setNotice] = useState<{ tone: "info" | "error"; text: string; list?: string[] } | null>(null);
   const [issues, setIssues] = useState<Issue[]>([]);
@@ -878,7 +883,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
         }}
       >
         {header}
-        {started ? (
+        {started && !subScreen ? (
           // The numbered screens alone say where the client is (and take them back); the save time beside them.
           <div className="sticky top-16 z-20 -mx-5 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 bg-background/95 px-5 py-2 backdrop-blur sm:mx-0 sm:rounded-xl sm:px-0">
             <StepRail steps={counted.concat(steps.filter((s) => s.special === "review"))} current={step.id} locale={locale} onGo={(id) => goTo(id)} />
@@ -896,10 +901,12 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
           <Card className="min-w-0">
-            <CardHeader>
-              <CardTitle className="text-2xl tracking-tight">{L(step.title)}</CardTitle>
-              {stepText(step, answers).intro ? <CardDescription className="text-base">{L(stepText(step, answers).intro!)}</CardDescription> : null}
-            </CardHeader>
+            {subScreen ? null : (
+              <CardHeader>
+                <CardTitle className="text-2xl tracking-tight">{L(step.title)}</CardTitle>
+                {stepText(step, answers).intro ? <CardDescription className="text-base">{L(stepText(step, answers).intro!)}</CardDescription> : null}
+              </CardHeader>
+            )}
             <CardContent className="flex flex-col gap-6">
               {special === "documents" ? (
                 <DocumentsStep
@@ -948,7 +955,9 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
                   <ReviewSummary answers={pruned} items={items} files={files} docDeclared={docDeclared} locale={locale} onEdit={goTo} />
                 </>
               ) : (
-                <StepView key={step.id} step={step} locale={locale} answers={answers} prefilled={prefilled} />
+                <SubScreenContext.Provider value={subScreenValue}>
+                  <StepView key={step.id} step={step} locale={locale} answers={answers} prefilled={prefilled} />
+                </SubScreenContext.Provider>
               )}
 
               {special === "review" && mismatch ? (
@@ -959,7 +968,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
               ) : null}
               {noticeBox}
             </CardContent>
-            <CardFooter className="flex flex-wrap items-center justify-between gap-3">
+            <CardFooter className={cn("flex flex-wrap items-center justify-between gap-3", subScreen && "hidden")}>
               <Button type="button" variant="outline" onClick={back} disabled={index === 0 || busy}>
                 <ArrowLeft className="size-4" />
                 {UI.back[locale]}
@@ -1056,12 +1065,20 @@ function ReviewSummary({
     <div className="flex flex-col gap-4">
       <p className="text-sm text-muted-foreground">{UI.reviewIntro[locale]}</p>
       {steps.map((step) => {
-        const rows: { label: string; value: string; sub?: { title: string; values: { label: string; value: string }[] }[] }[] = [];
+        const rows: { label: string; value: string; sub?: { title: string; values: { label: string; value: string }[] }[]; lines?: { depth: number; text: string }[] }[] = [];
         for (const block of step.blocks) {
           if (!isBlockAsked(block, answers)) continue;
-          if (block.kind === "field") {
-            const value = displayValue(block, answers[block.id], locale);
+          if (block.kind === "field" && block.id !== "b.holdersUnknown") {
+            const value = displayValue(block, answers[block.id], locale, answers);
             if (value) rows.push({ label: L(fieldText(block, answers).label), value: short(value) });
+          }
+          if (block.kind === "group" && block.ui === "holders") {
+            // The holders, indented by level, then the people the shares lead to (computed).
+            const lines = holderLines(answers).map((line) => ({ depth: line.depth, text: line.text[locale] }));
+            if (lines.length) rows.push({ label: L(block.label), value: "", lines });
+            const computed = computedText(answers, isOp(answers));
+            if (computed) rows.push({ label: (isOp(answers) ? UI.holdersComputedOp : UI.holdersComputedNonOp)[locale], value: computed[locale] });
+            continue;
           }
           if (block.kind === "group") {
             const list = rowsOf(answers, block.id);
@@ -1090,7 +1107,18 @@ function ReviewSummary({
             </CardHeader>
             <CardContent className="flex flex-col gap-3 px-4">
               {rows.map((row, i) =>
-                row.sub ? (
+                row.lines ? (
+                  <div key={i} className="flex min-w-0 flex-col gap-1">
+                    <p className="text-sm font-medium">{row.label}</p>
+                    <ul className="flex flex-col gap-1 text-sm">
+                      {row.lines.map((line, j) => (
+                        <li key={j} className="[overflow-wrap:anywhere]" style={{ paddingLeft: `${(line.depth - 1) * 1}rem` }}>
+                          {line.text}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : row.sub ? (
                   <div key={i} className="flex flex-col gap-2">
                     <p className="text-sm font-medium">{row.label}</p>
                     {row.sub.map((sub, j) => (
