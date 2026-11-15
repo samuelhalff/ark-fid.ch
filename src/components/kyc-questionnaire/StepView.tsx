@@ -8,7 +8,7 @@ import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { displayValue, fieldText, getField, isBlockAsked, validateField, isRowFieldVisible, label, newRowId, rowsOf, rowTitle } from "@/src/lib/kyc-questionnaire/engine";
-import { choiceLabel, isUnnamedRow, knownPeople, rowFromPerson } from "@/src/lib/kyc-questionnaire/people";
+import { choiceLabel, CONTACT_HEADING, contactChoices, contactFromPerson, isUnnamedRow, knownPeople, rowFromPerson } from "@/src/lib/kyc-questionnaire/people";
 import { declarations } from "@/src/lib/kyc-questionnaire/schema";
 import { UI } from "@/src/lib/kyc-questionnaire/ui";
 import type { Answers, Block, FieldDef, GroupDef, HeadingDef, KycLocale, NoteDef, Row, StepDef } from "@/src/lib/kyc-questionnaire/types";
@@ -62,7 +62,7 @@ function useRowFocus() {
 /** Renders the blocks of a screen; consecutive fields share a responsive two-column grid. */
 export function StepView({ step, locale, answers, prefilled }: StepProps) {
   const L = (text: Parameters<typeof label>[0]) => label(text, locale);
-  const { formState, getFieldState, trigger } = useFormContext();
+  const { formState, getFieldState, trigger, setValue } = useFormContext();
   // Rows shown when the screen opened stay rows while the client edits them, even emptied.
   const [initial] = useState(() => new Set([...prefilled].filter((id) => hasValue(answers[id]))));
   // A prefilled answer the form would refuse (e.g. a phone in the wrong format) opens at once.
@@ -160,6 +160,9 @@ export function StepView({ step, locale, answers, prefilled }: StepProps) {
             <div key={heading.id} className="flex flex-col gap-1 pt-2">
               <h3 className="text-lg font-semibold tracking-tight">{L(heading.label)}</h3>
               {heading.help ? <p className="text-sm text-muted-foreground">{L(heading.help)}</p> : null}
+              {heading.id === CONTACT_HEADING ? <ContactChoices answers={answers} locale={locale} onPick={(values) => {
+                for (const [id, value] of Object.entries(values)) setValue(toName(id), value, { shouldDirty: true, shouldValidate: true });
+              }} /> : null}
             </div>
           );
         }
@@ -168,6 +171,22 @@ export function StepView({ step, locale, answers, prefilled }: StepProps) {
         if (group.ui === "holders") return <HoldersSection key={group.id} group={group} locale={locale} answers={answers} />;
         return <GroupControl key={group.id} group={group} locale={locale} answers={answers} arkPrefilled={prefilled.has(group.id) && (rowsOf(answers, group.id).length > 0 || initial.has(group.id))} />;
       })}
+    </div>
+  );
+}
+
+/** The contact person block, still empty: one tap names a person given above (a director), still editable. */
+function ContactChoices({ answers, locale, onPick }: { answers: Answers; locale: KycLocale; onPick: (values: Answers) => void }) {
+  const people = contactChoices(answers);
+  if (!people.length) return null;
+  return (
+    <div className="flex flex-col gap-2 pt-2">
+      {people.map((person) => (
+        <Button key={person.key} type="button" variant="outline" className="h-auto min-h-11 justify-start py-2 text-left whitespace-normal [overflow-wrap:anywhere]" onClick={() => onPick(contactFromPerson(person))}>
+          {choiceLabel(person, locale)}
+        </Button>
+      ))}
+      <p className="text-sm text-muted-foreground">{UI.otherPerson[locale]}</p>
     </div>
   );
 }

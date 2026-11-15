@@ -5,10 +5,10 @@
  * row, still editable: the answers keep their shape, nothing points to another block.
  */
 import { splitPersonName } from "../tax-questionnaire/format";
-import { isBlockAsked, rowsOf } from "./engine";
+import { isBlockAsked, rowsOf, validateField } from "./engine";
 import { STEPS } from "./schema";
 import { UI } from "./ui";
-import type { Answers, GroupDef, KycLocale, Row } from "./types";
+import type { Answers, Block, FieldDef, GroupDef, KycLocale, Row } from "./types";
 
 export interface KnownPerson {
   /** Same person, whatever the case or spacing: "halff samuel". */
@@ -48,11 +48,8 @@ function contactPerson(answers: Answers): KnownPerson | null {
   return { key: personKey(lastName, firstName), lastName, firstName, values, contact: true };
 }
 
-/**
- * The persons named before `groupId` in the form (in form order, each once), not yet in that
- * group. Only blocks the client is asked count; the same person met twice gathers both rows' values.
- */
-export function knownPeople(answers: Answers, groupId: string): KnownPerson[] {
+/** The persons named in the blocks the client is asked before the block `stopId` (in form order, each once). */
+function peopleBefore(answers: Answers, stopId: string): { people: Map<string, KnownPerson>; stop: Block | null } {
   const found = new Map<string, KnownPerson>();
   const add = (person: KnownPerson) => {
     if (!person.key || !person.lastName || !person.firstName) return;
@@ -64,15 +61,11 @@ export function knownPeople(answers: Answers, groupId: string): KnownPerson[] {
       known.contact ||= person.contact;
     }
   };
-  let target: GroupDef | null = null;
-  outer: for (const step of STEPS) {
+  for (const step of STEPS) {
     for (const block of step.blocks) {
-      if (block.id === groupId && block.kind === "group") {
-        target = block;
-        break outer;
-      }
+      if (block.id === stopId) return { people: found, stop: block };
       if (!isBlockAsked(block, answers)) continue;
-      if (block.kind === "heading" && block.id === "a.contactHeading") {
+      if (block.kind === "heading" && block.id === CONTACT_HEADING) {
         const contact = contactPerson(answers);
         if (contact) add(contact);
       }
@@ -84,9 +77,51 @@ export function knownPeople(answers: Answers, groupId: string): KnownPerson[] {
       }
     }
   }
-  if (!target || !isPersonGroup(target)) return [];
+  return { people: found, stop: null };
+}
+
+/**
+ * The persons named before `groupId` in the form (in form order, each once), not yet in that
+ * group. Only blocks the client is asked count; the same person met twice gathers both rows' values.
+ */
+export function knownPeople(answers: Answers, groupId: string): KnownPerson[] {
+  const { people, stop } = peopleBefore(answers, groupId);
+  if (!stop || stop.kind !== "group" || !isPersonGroup(stop)) return [];
   const already = new Set(rowsOf(answers, groupId).map((r) => personKey(r.lastName, r.firstName)));
-  return [...found.values()].filter((p) => !already.has(p.key));
+  return [...people.values()].filter((p) => !already.has(p.key));
+}
+
+/** The heading of the company's contact person (« Personne de contact de la société »). */
+export const CONTACT_HEADING = "a.contactHeading";
+
+/**
+ * Who the contact person block offers while its name is still empty (Sam 2026-11-15: « on ne peut
+ * pas sélectionner un admin déjà renseigné ? »): the persons named above it (the directors).
+ */
+export function contactChoices(answers: Answers): KnownPerson[] {
+  if (clean(answers["a.contactName"])) return [];
+  return [...peopleBefore(answers, CONTACT_HEADING).people.values()].filter((p) => !p.contact);
+}
+
+/** The contact answers a choice fills: the name (« Samuel Halff »), the e-mail and phone when known; still editable. */
+export function contactFromPerson(person: KnownPerson): Answers {
+  const out: Answers = { "a.contactName": `${person.firstName} ${person.lastName}` };
+  if (person.values.email) out["a.contactEmail"] = person.values.email;
+  if (person.values.phone) out["a.contactPhone"] = person.values.phone;
+  return out;
+}
+
+/**
+ * The facts a person's panel shows (section B: holders, other control, managers). A new entry asks
+ * only what is still missing (what a choice copied is not asked again); an entry opened again shows
+ * every fact it holds, editable, so a birth date given earlier is seen again (Sam 2026-11-15: « la
+ * date de naissance n'apparaît plus »). The name stays the panel's title once given.
+ */
+export function personSheetFacts(persons: GroupDef, answers: Answers, person: Row | undefined, isNew: boolean): string[] {
+  if (!person) return [];
+  const asked = persons.fields.filter((f) => !f.showIf || f.showIf(answers, person));
+  const missing = (f: FieldDef) => validateField(f, person[f.id]) !== null;
+  return asked.filter((f) => missing(f) || (!isNew && f.id !== "lastName" && f.id !== "firstName")).map((f) => f.id);
 }
 
 /** `row` (an entry of `group`) with what the group asks that is known of `person`; its other answers stay. */

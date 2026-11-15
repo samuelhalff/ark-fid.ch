@@ -3,7 +3,7 @@ import test from "node:test";
 
 import { getGroup, isRowFieldVisible, validateField } from "./engine.ts";
 import { STEPS } from "./schema.ts";
-import { choiceLabel, isUnnamedRow, knownPeople, rowFromPerson } from "./people.ts";
+import { choiceLabel, contactChoices, contactFromPerson, isUnnamedRow, knownPeople, personSheetFacts, rowFromPerson } from "./people.ts";
 import type { Answers, GroupDef } from "./types.ts";
 
 const group = (id: string) => getGroup(id) as GroupDef;
@@ -87,4 +87,29 @@ test("the review screen lists what is missing in form order, and nothing once co
   const order = missing.map((m) => STEPS.findIndex((s) => s.id === m.stepId));
   assert.deepEqual(order, [...order].sort((x, y) => x - y));
   assert.ok(missing.some((m) => m.key === "a.incorporationDate"));
+});
+
+test("a person's birth date, saved, shows again when the panel is opened after a reload (West Bay, 2026-11-15)", () => {
+  const persons = group("b.persons");
+  const saved: Answers = { ...westBay, "b.holders": [{ _id: "hold00001", kind: "person", person: "per000001", percent: "100" }], "b.persons": [{ _id: "per000001", lastName: "Halff", firstName: "Samuel", nationality: "Suisse", country: "Suisse" }] };
+  // New entry copied from the director: only what is missing is asked, the birth date among it.
+  assert.ok(personSheetFacts(persons, saved, (saved["b.persons"] as Answers[])[0] as never, true).includes("birthDate"));
+  // The client types it, the draft is saved and reloaded: the value is still in the answers…
+  const filled = { ...saved, "b.persons": [{ ...(saved["b.persons"] as object[])[0], birthDate: "01.02.1970", address: "Rue du Rhône 1, 1204 Genève" }] } as Answers;
+  const reloaded = JSON.parse(JSON.stringify(filled)) as Answers; // stored as JSON, read back
+  const person = (reloaded["b.persons"] as unknown as Record<string, string>[])[0];
+  assert.equal(person.birthDate, "01.02.1970");
+  // …and the panel opened again shows it (it used to list only the missing facts: none, so no birth date).
+  const shown = personSheetFacts(persons, reloaded, person as never, false);
+  assert.ok(shown.includes("birthDate"), "the birth date field is shown with its value");
+  assert.ok(!shown.includes("lastName"), "a known name stays the title");
+});
+
+test("the contact person block offers the director given above, copying the name; nothing once a name is typed", () => {
+  const noContact: Answers = { route: "pm-op", "a.directors": westBay["a.directors"] };
+  const [person, ...rest] = contactChoices(noContact);
+  assert.equal(rest.length, 0);
+  assert.equal(choiceLabel(person, "fr"), "C'est Samuel Halff (administrateur unique, indiqué plus haut)");
+  assert.deepEqual(contactFromPerson(person), { "a.contactName": "Samuel Halff" });
+  assert.deepEqual(contactChoices(westBay), []);
 });

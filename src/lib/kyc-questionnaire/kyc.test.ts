@@ -9,7 +9,7 @@ process.env.KYC_QF_TOKEN_SECRET = "test-secret-test-secret-test-secret-0123";
 process.env.KYC_QF_STORAGE = "mock";
 process.env.KYC_QF_API_KEYS = "cadence:cadence-secret-cadence-secret-cadence-01";
 
-import { documentList, documentsFor, retiredDocument, swissCompany } from "./documents";
+import { docCode, documentList, documentsFor, declaredFor, holdsFile, retiredDocument, samePerson, swissCompany } from "./documents";
 import { fieldText, getField, getGroup, isBlockAsked, isBlockVisible, isRetiredId, pruneHidden, sanitizeAnswers, validateAll, validateField, visibleSteps } from "./engine";
 import { upgradeAnswers } from "./upgrade";
 import { flagsOf, routeMismatch } from "./flags";
@@ -187,10 +187,31 @@ test("route mismatch: operating form for an asset-holding company and the revers
 });
 
 test("documents: certified ID per form signatory, ID per section B person", () => {
-  const keys = documentsFor(pruneHidden(pmNonOp)).map((d) => d.key);
+  const other = { ...pmNonOp, "i.signers": [row("sgn0001", { lastName: "Martin", firstName: "Paul", function: "Administrateur" })] };
+  const keys = documentsFor(pruneHidden(other)).map((d) => d.key);
   assert.ok(keys.includes("pm.signer:sgn0001"));
-  assert.ok(keys.includes("pm.person:per0001"));
+  assert.ok(keys.includes("pm.person:per0001"), "two different people: two IDs");
   assert.ok(documentsFor(pp).some((d) => d.key === "pp.id"));
+});
+
+test("documents: one ID per person — a signer also named in section B gives the certified copy once (Sam 2026-11-15)", () => {
+  const docs = documentsFor(pruneHidden(pmNonOp));
+  const ids = docs.filter((d) => d.key.startsWith("pm.signer:") || d.key.startsWith("pm.person:"));
+  assert.deepEqual(ids.map((d) => d.key), ["pm.signer:sgn0001"], "Jean Dupont signs and holds: one item");
+  const kept = ids[0];
+  assert.deepEqual(kept.also, ["pm.person:per0001"]);
+  assert.match(kept.hint!.fr, /^Pour : Administrateur, personne citée au point B\. Copie certifiée/);
+  // A file uploaded under the plain ID before the fold stays attached to the kept item.
+  assert.ok(holdsFile(kept, docCode("pm.person:per0001")) && holdsFile(kept, docCode("pm.signer:sgn0001")));
+  assert.ok(!holdsFile(kept, docCode("pm.person:other")));
+  // Same name, different birth dates: two people, two IDs.
+  assert.equal(samePerson({ lastName: "DUPONT", firstName: " jean " }, { lastName: "Dupont", firstName: "Jean", birthDate: "01.02.1970" }), true);
+  assert.equal(samePerson({ lastName: "Dupont", firstName: "Jean", birthDate: "03.04.1999" }, { lastName: "Dupont", firstName: "Jean", birthDate: "01.02.1970" }), false);
+  assert.equal(samePerson({ lastName: "", firstName: "" }, { lastName: "", firstName: "" }), false);
+  // Ark took the signer's ID off the list: the section B person's own ID is asked again.
+  assert.ok(documentsFor(pruneHidden(pmNonOp), ["pm.signer:sgn0001"]).some((d) => d.key === "pm.person:per0001"));
+  // A « plus tard » given under the folded key still counts for the kept item.
+  assert.equal(declaredFor(kept, { "pm.person:per0001": "later" }), "later");
 });
 
 test("documents: a Swiss company's extract and articles are not on its list at all (Sam, 2026-11-13)", () => {
@@ -210,7 +231,9 @@ test("documents: a key Ark took off the list is not asked and says so; an unknow
   const answers = pruneHidden(pmNonOp);
   const asked = documentsFor(answers, ["pm.signer:sgn0001", "nothing.here"]).map((d) => d.key);
   assert.ok(!asked.includes("pm.signer:sgn0001"));
-  assert.equal(asked.length, documentsFor(answers).length - 1);
+  // The signer was also the section B person: their plain ID comes back in place of the certified copy.
+  assert.ok(asked.includes("pm.person:per0001"));
+  assert.equal(asked.length, documentsFor(answers).length);
   assert.equal(documentList(answers, ["pm.signer:sgn0001"]).find((d) => d.key === "pm.signer:sgn0001")?.withheld, "removed");
 });
 

@@ -8,7 +8,7 @@ import { Progress } from "@/src/components/ui/progress";
 import { label } from "@/src/lib/kyc-questionnaire/engine";
 import { SERVER_ERRORS, UI } from "@/src/lib/kyc-questionnaire/ui";
 import type { DocDeclared, DocItem, KycLocale } from "@/src/lib/kyc-questionnaire/types";
-import { KYC_ACCEPT_ATTRIBUTE as ACCEPT_ATTRIBUTE } from "@/src/lib/kyc-questionnaire/documents";
+import { declaredFor, holdsFile, KYC_ACCEPT_ATTRIBUTE as ACCEPT_ATTRIBUTE } from "@/src/lib/kyc-questionnaire/documents";
 import { extensionOf } from "@/src/lib/tax-questionnaire/files";
 import type { UploadRow } from "@/src/lib/doc-actions";
 import { api, uploadFile, type CaseFile } from "./api";
@@ -103,8 +103,8 @@ export function DocumentsStep({ items, files, docDeclared, onDeclared, locale, m
     [onDeclared, onChanged],
   );
   const uploads = useKycUploads({ maxFileBytes, beforeUpload, onUploaded, onBusy });
-  const filesFor = (item: DocItem) => files.filter((f) => f.code === item.code);
-  const handled = items.filter((item) => filesFor(item).length > 0 || docDeclared[item.key] || !item.required).length;
+  const filesFor = (item: DocItem) => files.filter((f) => holdsFile(item, f.code));
+  const handled = items.filter((item) => filesFor(item).length > 0 || declaredFor(item, docDeclared) || !item.required).length;
   const strings = rowStrings(locale);
 
   return (
@@ -119,7 +119,7 @@ export function DocumentsStep({ items, files, docDeclared, onDeclared, locale, m
         {items.map((item) => {
           const mine = filesFor(item);
           const received = mine.length > 0;
-          const status = docDeclared[item.key];
+          const status = declaredFor(item, docDeclared);
           return (
             <DocumentRow
               key={item.key}

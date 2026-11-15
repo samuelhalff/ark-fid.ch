@@ -15,7 +15,7 @@ import { Label } from "@/src/components/ui/label";
 import { Separator } from "@/src/components/ui/separator";
 import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
 import posthog from "posthog-js";
-import { documentsFor } from "@/src/lib/kyc-questionnaire/documents";
+import { declaredFor, documentsFor, holdsFile } from "@/src/lib/kyc-questionnaire/documents";
 import { stepText, displayValue, fieldText, isBlockAsked, isRowFieldVisible, label, missingAnswers, pruneHidden, rowsOf, rowTitle, stepById, validateAll, visibleSteps } from "@/src/lib/kyc-questionnaire/engine";
 import { routeMismatch } from "@/src/lib/kyc-questionnaire/flags";
 import { computedText, holderLines } from "@/src/lib/kyc-questionnaire/holders";
@@ -399,7 +399,7 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
     [locale],
   );
   const missingDocs = useCallback(
-    () => items.filter((item) => item.required && !files.some((f) => f.code === item.code) && docDeclared[item.key] !== "later"),
+    () => items.filter((item) => item.required && !files.some((f) => holdsFile(item, f.code)) && declaredFor(item, docDeclared) !== "later"),
     [items, files, docDeclared],
   );
   const stepIssues = useCallback(async (): Promise<Issue[]> => {
@@ -1054,10 +1054,10 @@ function ReviewSummary({
   const steps = visibleSteps(answers).filter((s) => !s.special);
   const short = (value: string) => (value.length > 200 ? `${value.slice(0, 197)}…` : value);
   const docStatus = (item: DocItem) => {
-    const n = files.filter((f) => f.code === item.code).length;
+    const n = files.filter((f) => holdsFile(item, f.code)).length;
     if (n) return n === 1 ? UI.docUploadedOne[locale] : UI.docUploadedMany[locale].replace("{n}", String(n));
-    if (docDeclared[item.key] === "later") return UI.docLater[locale];
-    if (docDeclared[item.key] === "na") return UI.docNa[locale];
+    if (declaredFor(item, docDeclared) === "later") return UI.docLater[locale];
+    if (declaredFor(item, docDeclared) === "na") return UI.docNa[locale];
     return item.required ? UI.docMissing[locale] : UI.docOptionalNone[locale];
   };
   const docsStep = visibleSteps(answers).find((s) => s.special === "documents");

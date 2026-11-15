@@ -4,6 +4,7 @@
  * Pure module.
  */
 import { holderKinds } from "./holders";
+import { personKey } from "./people";
 import { clientName, isListed, isPM, isPP, sectionBPersons } from "./schema";
 import { t, type Answers, type DocItem, type L, type Row } from "./types";
 
@@ -33,6 +34,28 @@ export const docCode = (key: string): string => (fnv(key, 0x811c9dc5) + fnv(key,
 
 const item = (key: string, label: L, required: boolean, hint?: L): DocItem => ({ key, code: docCode(key), label, required, hint });
 
+/** Does a file (by the code in its name) belong to this item: its own code, or that of an item folded into it. */
+export const holdsFile = (doc: Pick<DocItem, "code" | "also">, code: string | null | undefined): boolean => !!code && (code === doc.code || !!doc.also?.some((key) => docCode(key) === code));
+/** The item's key and the keys folded into it (carried files, declarations). */
+export const itemKeys = (doc: Pick<DocItem, "key" | "also">): string[] => [doc.key, ...(doc.also || [])];
+/** The client's declaration for the item (« plus tard », « sans objet »), made under its key or under a key folded into it. */
+export const declaredFor = <T,>(doc: Pick<DocItem, "key" | "also">, declared: Readonly<Record<string, T>> | undefined): T | undefined => {
+  for (const key of itemKeys(doc)) if (declared?.[key]) return declared[key];
+  return undefined;
+};
+
+/**
+ * The same person, named in two places: same name whatever the case or spacing, and birth dates
+ * that do not differ (one may be missing: the signers' list asks none).
+ */
+export function samePerson(x: Record<string, unknown>, y: Record<string, unknown>): boolean {
+  const key = personKey(x.lastName, x.firstName);
+  if (!key || !String(x.lastName || "").trim() || !String(x.firstName || "").trim() || key !== personKey(y.lastName, y.firstName)) return false;
+  const bx = String(x.birthDate || "").replace(/\s/g, "");
+  const by = String(y.birthDate || "").replace(/\s/g, "");
+  return !bx || !by || bx === by;
+}
+
 /** A Swiss UID as the register writes it (CHE-123.456.789), spaces and separators tolerated. */
 const SWISS_UID = /^CHE[-.\s]?\d{3}[.\s]?\d{3}[.\s]?\d{3}$/i;
 
@@ -55,7 +78,7 @@ export type Withheld = "removed" | "office";
 export function documentList(a: Answers, skipped: readonly string[] = [], office: readonly string[] = []): (DocItem & { withheld: Withheld | null })[] {
   const removed = new Set(skipped);
   const held = new Set(office);
-  return allDocuments(a).map((doc) => ({ ...doc, withheld: removed.has(doc.key) ? "removed" : held.has(doc.key) ? "office" : null }));
+  return allDocuments(a, removed).map((doc) => ({ ...doc, withheld: removed.has(doc.key) ? "removed" : held.has(doc.key) ? "office" : null }));
 }
 
 /** The documents asked of the client: the list without what Ark took off or already holds. */
@@ -65,13 +88,19 @@ export function documentsFor(a: Answers, skipped: readonly string[] = [], office
 const personLabel = (row: Row) => [String(row.lastName || "").toLocaleUpperCase("fr-CH"), String(row.firstName || "")].join(" ").trim();
 const rows = (a: Answers, id: string): Row[] => (Array.isArray(a[id]) ? (a[id] as Row[]) : []);
 
-function allDocuments(a: Answers): DocItem[] {
+function allDocuments(a: Answers, removed: ReadonlySet<string> = new Set()): DocItem[] {
   const out: DocItem[] = [];
   if (isPP(a)) {
     out.push(item("pp.id", t("Copie certifiée de votre passeport ou carte d’identité", "Certified copy of your passport or identity card"), true, CERTIFIED_HINT));
     out.push(item("pp.address", t("Justificatif de domicile de moins de 3 mois (facture d’électricité ou de téléphone, attestation de la commune)", "Proof of address less than 3 months old (utility or phone bill, certificate from the municipality)"), true));
     out.push(item("pp.wealth", t("Justificatifs de l’origine de votre fortune (p. ex. contrat de travail, acte de vente, succession)", "Evidence of the origin of your wealth (e.g. employment contract, deed of sale, estate documents)"), true));
+    const self = { lastName: a["a.lastName"] as string, firstName: a["a.firstName"] as string, birthDate: a["a.birthDate"] as string };
     for (const { row } of sectionBPersons(a)) {
+      // The client named among the persons behind the assets: their certified ID above covers it.
+      if (samePerson(row, self)) {
+        out[0].also = [...(out[0].also || []), `pp.ubo:${row._id}`];
+        continue;
+      }
       out.push(item(`pp.ubo:${row._id}`, t(`Pièce d’identité de ${personLabel(row)} (seulement si nous vous la demandons)`, `Identity document of ${personLabel(row)} (only if we ask for it)`), false));
     }
   }
@@ -80,12 +109,27 @@ function allDocuments(a: Answers): DocItem[] {
     if (!swissCompany(a)) out.push(item("pm.statutes", t("Statuts", "Articles of association"), true));
     if (!isListed(a)) out.push(item("pm.shareholders", t("Registre des actions", "Share register"), true));
     if ((a["b.structure"] === "yes" && !Array.isArray(a["b.holders"])) || holderKinds(a).some((kind) => kind !== "person") || String(a["d.group"] || "").trim()) out.push(item("pm.chart", t("Schéma de qui détient la société", "Chart of who owns the company"), true));
-    for (const row of rows(a, "i.signers")) {
-      out.push(item(`pm.signer:${row._id}`, t(`Copie certifiée de la pièce d’identité de ${personLabel(row)}`, `Certified copy of the identity document of ${personLabel(row)}`), true, CERTIFIED_HINT));
+    // One ID per person (Sam 2026-11-15: « We're asking for ID twice »): a person of section B who
+    // also signs gives the signer's certified copy only (it covers a plain copy); both roles are said.
+    const signers = rows(a, "i.signers").map((row) => ({ row, doc: item(`pm.signer:${row._id}`, t(`Copie certifiée de la pièce d’identité de ${personLabel(row)}`, `Certified copy of the identity document of ${personLabel(row)}`), true, CERTIFIED_HINT) }));
+    const plain: DocItem[] = [];
+    const bPersons = sectionBPersons(a).map(({ row }) => row);
+    for (const row of bPersons) {
+      // Folded only into a signer's ID Ark still asks, and only when the name points to one person of section B
+      // (the signers' list asks no birth date: a father and son of the same name keep their own IDs).
+      const signer = signers.find((s) => !removed.has(s.doc.key) && samePerson(s.row, row) && bPersons.filter((other) => samePerson(s.row, other)).length === 1);
+      if (!signer) {
+        plain.push(item(`pm.person:${row._id}`, t(`Pièce d’identité de ${personLabel(row)}`, `Identity document of ${personLabel(row)}`), true));
+        continue;
+      }
+      signer.doc.also = [...(signer.doc.also || []), `pm.person:${row._id}`];
+      const role = String(signer.row.function || "").trim();
+      signer.doc.hint = t(
+        `Pour : ${role || "signataire"}, personne citée au point B. ${CERTIFIED_HINT.fr}`,
+        `For: ${role || "signatory"}, person named in section B. ${CERTIFIED_HINT.en}`,
+      );
     }
-    for (const { row } of sectionBPersons(a)) {
-      out.push(item(`pm.person:${row._id}`, t(`Pièce d’identité de ${personLabel(row)}`, `Identity document of ${personLabel(row)}`), true));
-    }
+    out.push(...signers.map((s) => s.doc), ...plain);
     if (a["b.transparency"] === "done") out.push(item("pm.transparency", t("Extrait du registre de transparence", "Transparency register extract"), true));
     if (a["a.activityKind"] === "notStarted") out.push(item("pm.plan", t("Plan d’affaires ou description de l’activité prévue", "Business plan or description of the planned activity"), true));
     else out.push(item("pm.financials", t("Derniers comptes annuels", "Latest annual accounts"), true));

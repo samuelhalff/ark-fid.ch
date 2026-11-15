@@ -3,7 +3,7 @@ import { isIP } from "node:net";
 import sharp from "sharp";
 import { EMAIL_RE } from "../../tax-questionnaire/format";
 import { checkUpload, extensionOf, safeName, sniffMismatch, UPLOAD_LIMITS } from "../../tax-questionnaire/files";
-import { DOCS_FOLDER, docCode, documentList, documentsFor, KYC_UPLOAD_TYPES, retiredDocument, type Withheld } from "../documents";
+import { DOCS_FOLDER, docCode, documentList, documentsFor, declaredFor, holdsFile, itemKeys, KYC_UPLOAD_TYPES, retiredDocument, type Withheld } from "../documents";
 import { fieldText, getField, stepText, isBlockAsked, isBlockVisible, isRetiredId, isStepVisible, pruneHidden, rowsOf, sanitizeAnswers, validateAll, validateField, validateStep, visibleSteps } from "../engine";
 import { FLAG_LABELS, flagsOf, type Flag } from "../flags";
 import { computedText, holderLines, personOptions } from "../holders";
@@ -876,7 +876,7 @@ export async function staffCase(caseId: string): Promise<StaffSummary & {
   // Documents an earlier version of the form asked for (e.g. proof of listing) stay listed for
   // the cases that hold them, under the label the client saw.
   const listed = documentList(current, record.skippedDocuments, record.officeDocuments);
-  const known = new Set(listed.map((item) => item.key));
+  const known = new Set(listed.flatMap((item) => itemKeys(item)));
   const sentLabel = (key: string) => submission?.documents?.find((entry) => entry.key === key)?.label;
   for (const key of new Set([...(rev.documents || []).map((entry) => entry.key), ...Object.keys(rev.carried || {})])) {
     if (known.has(key)) continue;
@@ -890,12 +890,13 @@ export async function staffCase(caseId: string): Promise<StaffSummary & {
     withheld: item.withheld,
     declared: (rev.documents?.find((entry) => entry.key === item.key)?.status === "later" ? "later"
       : rev.documents?.find((entry) => entry.key === item.key)?.status === "na" ? "na"
-      : openDraft?.docDeclared[item.key]) || null,
-    files: files.filter((file) => file.code === item.code && file.webUrl)
+      : declaredFor(item, openDraft?.docDeclared)) || null,
+    files: files.filter((file) => holdsFile(item, file.code) && file.webUrl)
       .map((file) => ({ name: file.name, webUrl: file.webUrl! })),
-    unavailable: (rev.documents?.find((entry) => entry.key === item.key)?.files.length
-      ?? (rev.carried?.[item.key]?.length || 0) + currentFiles.filter((file) => file.code === item.code).length)
-      > files.filter((file) => file.code === item.code && file.webUrl).length,
+    unavailable: (itemKeys(item).some((key) => rev.documents?.some((entry) => entry.key === key))
+      ? itemKeys(item).reduce((n, key) => n + (rev.documents?.find((entry) => entry.key === key)?.files.length || 0), 0)
+      : itemKeys(item).reduce((n, key) => n + (rev.carried?.[key]?.length || 0), 0) + currentFiles.filter((file) => holdsFile(item, file.code)).length)
+      > files.filter((file) => holdsFile(item, file.code) && file.webUrl).length,
   }));
   const marks = answers ? submission?.enteredBy : openDraft?.enteredBy;
   const entered = Object.fromEntries(Object.entries(marks || {}).filter(([key]) => key in current));
@@ -1489,12 +1490,12 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
     const missing: string[] = [];
     const { storage } = getPorts();
     for (const item of items) {
-      const frozen: FrozenFile[] = [...(rev.carried?.[item.key] || [])];
-      for (const file of files.filter((f) => f.code === item.code)) {
+      const frozen: FrozenFile[] = itemKeys(item).flatMap((key) => rev.carried?.[key] || []);
+      for (const file of files.filter((f) => holdsFile(item, f.code))) {
         const bytes = await storage.readFile(record.driveId, rev.docsFolderId, file.name);
         if (bytes) frozen.push({ itemId: file.id, name: file.name, size: bytes.byteLength, sha256: sha256(bytes), revision: rev.n });
       }
-      const status = frozen.length ? "uploaded" : declared[item.key] === "later" ? "later" : !item.required ? "na" : null;
+      const status = frozen.length ? "uploaded" : declaredFor(item, declared) === "later" ? "later" : !item.required ? "na" : null;
       if (!status) missing.push(item.key);
       else {
         documents.push({ key: item.key, label: item.label.fr, status, files: frozen.map((f) => f.name) });

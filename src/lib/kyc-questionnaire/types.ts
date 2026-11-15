@@ -178,6 +178,11 @@ export interface DocItem {
   hint?: L;
   /** Must be uploaded (or marked "sent separately") before submitting. */
   required: boolean;
+  /**
+   * Keys of the items folded into this one (the same person's ID asked in two roles): their files,
+   * uploaded before the fold, count and show here — never lost.
+   */
+  also?: string[];
 }
 
 /** Client's answer per document: uploaded is derived from the files; these two are declared. */

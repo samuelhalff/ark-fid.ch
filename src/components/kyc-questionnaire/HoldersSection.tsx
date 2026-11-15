@@ -6,7 +6,7 @@ import { useFormContext } from "react-hook-form";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/src/components/ui/form";
-import { getField, getGroup, label, newRowId, pruneHidden, validateAll, validateField } from "@/src/lib/kyc-questionnaire/engine";
+import { getField, getGroup, label, newRowId, pruneHidden, validateAll } from "@/src/lib/kyc-questionnaire/engine";
 import {
   childrenOf,
   computedPeople,
@@ -29,7 +29,7 @@ import {
   withHoldersAt,
   type HolderKind,
 } from "@/src/lib/kyc-questionnaire/holders";
-import { personChoices, rowFromPerson, type PersonChoice } from "@/src/lib/kyc-questionnaire/people";
+import { personChoices, personSheetFacts, rowFromPerson, type PersonChoice } from "@/src/lib/kyc-questionnaire/people";
 import { clientName, isOp, needsManager } from "@/src/lib/kyc-questionnaire/schema";
 import { FIELD_ERRORS, UI } from "@/src/lib/kyc-questionnaire/ui";
 import type { Answers, FieldDef, GroupDef, KycLocale, Row } from "@/src/lib/kyc-questionnaire/types";
@@ -55,12 +55,6 @@ function levelGroup(top: GroupDef, depth: number): GroupDef {
   let group = top;
   for (let d = 1; d < depth && group.nested; d++) group = group.nested;
   return group;
-}
-
-/** The facts of a person still to give (the name is a title when known): only those are asked. */
-function missingFacts(persons: GroupDef, a: Answers, person: Row | undefined): string[] {
-  if (!person) return [];
-  return persons.fields.filter((f) => (!f.showIf || f.showIf(a, person)) && validateField(f, person[f.id]) !== null).map((f) => f.id);
 }
 
 /**
@@ -124,7 +118,7 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
   };
   const pick = (target: Extract<SheetState, { kind: "pick" }>, choice: PersonChoice | null) => {
     const { a, id } = personFor(choice, fresh());
-    const facts = missingFacts(persons, a, personById(a, id));
+    const facts = personSheetFacts(persons, a, personById(a, id), true);
     if (target.purpose === "holder") {
       const holderId = newRowId();
       addHolder(target.path, { _id: holderId, kind: "person", person: id }, a);
@@ -157,7 +151,7 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
               aria-label={UI.holdersOpen[locale].replace("{name}", title)}
               onClick={() => {
                 if (row.kind === "company") setPath([...p, row._id]);
-                else setSheet({ kind: "holder", path: p, id: row._id, isNew: false, facts: row.kind === "person" ? missingFacts(persons, answers, personById(answers, row.person)) : [] });
+                else setSheet({ kind: "holder", path: p, id: row._id, isNew: false, facts: row.kind === "person" ? personSheetFacts(persons, answers, personById(answers, row.person), false) : [] });
               }}
             >
               <span className="flex min-w-0 flex-1 flex-col gap-1">
@@ -209,7 +203,7 @@ export function HoldersSection({ group, locale, answers }: { group: GroupDef; lo
           const who = personName(personById(answers, pid)) || UI.holdersNoName[locale];
           return (
             <div key={pid} className="flex min-h-12 min-w-0 items-center gap-2 rounded-md bg-background pl-3 dark:bg-muted/40">
-              <button type="button" className="min-h-11 min-w-0 flex-1 truncate text-left" onClick={() => setSheet({ kind: "person", personId: pid, isNew: false, facts: missingFacts(persons, answers, personById(answers, pid)), purpose })}>
+              <button type="button" className="min-h-11 min-w-0 flex-1 truncate text-left" onClick={() => setSheet({ kind: "person", personId: pid, isNew: false, facts: personSheetFacts(persons, answers, personById(answers, pid), false), purpose })}>
                 {who}
               </button>
               <Button type="button" variant="ghost" size="icon" className="size-11 shrink-0 text-muted-foreground" aria-label={UI.holdersRemovePerson[locale].replace("{name}", who)} onClick={() => commit(prunePeople({ ...fresh(), [id]: chosen.filter((x) => x !== pid) }), [id, "b.persons"])}>
