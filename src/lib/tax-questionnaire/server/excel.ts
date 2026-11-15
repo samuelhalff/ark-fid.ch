@@ -33,7 +33,14 @@ export interface SubmissionRecord {
   folderName: string;
   folderUrl: string;
   privacyVersion: string;
+  /** « Rempli par Ark »: answer key → who at Ark entered it (office session). */
+  filledBy?: Record<string, string>;
+  /** Submitted by Ark staff in an office session: who. */
+  submittedBy?: string;
 }
+
+/** Suffix of an answer entered by Ark staff in the office's outputs (Excel, PDF). */
+export const filledMark = (record: Pick<SubmissionRecord, "filledBy">, id: string) => (record.filledBy?.[id] ? ` (rempli par Ark – ${record.filledBy[id]})` : "");
 
 const LANG_FR: Record<QfLocale, string> = { fr: "Français", en: "Anglais", de: "Allemand" };
 export const STATUS_FR: Record<DocStatus, string> = {
@@ -156,6 +163,9 @@ export async function buildWorkbook(record: SubmissionRecord): Promise<Uint8Arra
   kv(summary, "Précédent mandataire", str(a["start.previousPreparer"]));
   kv(summary, "N° de contribuable", str(a["base.taxNumber"]));
   kv(summary, "Clé client", record.clientKey);
+  if (record.submittedBy) kv(summary, "Rempli et envoyé par", `Ark – ${record.submittedBy}`);
+  const marked = Object.keys(record.filledBy || {}).length;
+  if (marked) kv(summary, "Réponses remplies par Ark", marked);
   section("Période et régime");
   kv(summary, "Année(s) fiscale(s)", selectedYears(a).join(", "));
   kv(summary, "Canton au 31.12", fv("start.canton"));
@@ -221,7 +231,7 @@ export async function buildWorkbook(record: SubmissionRecord): Promise<Uint8Arra
         if (block.hidden) continue;
         const value = cellValue(block, a[block.id], a);
         if (value !== null && value !== "") {
-          kv(ws, L(block.label), value, block);
+          kv(ws, `${L(block.label)}${filledMark(record, block.id)}`, value, block);
           wrote = true;
         }
         continue;
@@ -231,7 +241,7 @@ export async function buildWorkbook(record: SubmissionRecord): Promise<Uint8Arra
       if (list.length === 0) continue;
       wrote = true;
       ws.addRow([]);
-      ws.addRow([L(block.label)]).font = { bold: true };
+      ws.addRow([`${L(block.label)}${filledMark(record, block.id)}`]).font = { bold: true };
       const columns = block.fields.filter((f) => !f.hidden && list.some((row) => isRowFieldVisible(f, a, row) && row[f.id] !== undefined));
       // Renewal: reconduit / nouveau / terminé (date) / modifié, per item.
       const status = renewalContext(a) ? (row: Row) => renewalStatusFr(row) : null;

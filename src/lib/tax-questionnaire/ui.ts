@@ -173,6 +173,15 @@ export const UI2 = {
   partnerSent: t("Invitation envoyée.", "Invitation sent.", "Einladung gesendet."),
   retry: t("Réessayer", "Try again", "Erneut versuchen"),
   privacyShort: t("Lire la notice de confidentialité", "Read the privacy notice", "Datenschutzhinweis lesen"),
+  // Ark staff (office access issued by Cadence): same wording as the KYC form.
+  assistLink: t("Code cabinet", "Firm code", "Kanzleicode"),
+  assistLabel: t("Code cabinet", "Firm code", "Kanzleicode"),
+  assistSubmit: t("Ouvrir", "Open", "Öffnen"),
+  staffFilling: t(
+    "Accès cabinet ({by}) : vous remplissez ce questionnaire pour le client. Vos réponses sont marquées « rempli par Ark ».",
+    "Firm access ({by}): you are filling in this questionnaire for the client. Your answers are marked “filled in by Ark”.",
+    "Kanzleizugang ({by}): Sie füllen diesen Fragebogen für den Kunden aus. Ihre Antworten werden als „von Ark ausgefüllt“ markiert.",
+  ),
 } as const;
 
 export const SERVER_ERRORS: Record<string, L> = {
@@ -199,6 +208,9 @@ export const SERVER_ERRORS: Record<string, L> = {
     "Your answers and documents are saved, but the confirmation could not be sent. Try again in a moment or call us.",
     "Ihre Antworten und Dokumente sind gespeichert, die Bestätigung konnte aber nicht gesendet werden. Versuchen Sie es gleich nochmals oder rufen Sie uns an.",
   ),
+  assist_invalid: t("Ce code n'est pas valable ou a déjà été utilisé.", "This code is not valid or has already been used.", "Dieser Code ist nicht gültig oder wurde bereits verwendet."),
+  case_closed: t("Ce questionnaire a été clôturé.", "This questionnaire has been closed.", "Dieser Fragebogen wurde abgeschlossen."),
+  forbidden_scope: t("Cette action n'est pas disponible ici.", "This action is not available here.", "Diese Aktion ist hier nicht verfügbar."),
   generic: t("Une erreur est survenue. Réessayez ou contactez-nous.", "Something went wrong. Try again or contact us.", "Ein Fehler ist aufgetreten. Bitte erneut versuchen oder uns kontaktieren."),
 };
 

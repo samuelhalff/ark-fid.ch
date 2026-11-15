@@ -1,8 +1,9 @@
-import { createChallenge, createSession, emailHash, linkRefusal, linkStatus, readCookie, revokeSession, sessionCookie, verifyChallenge } from "@/src/lib/tax-questionnaire/server/access";
+import { createChallenge, createSession, emailHash, linkRefusal, linkStatus, readCookie, redeemAssist, revokeSession, sessionCookie, STAFF_HASH, STAFF_SESSION_TTL_MS, verifyChallenge } from "@/src/lib/tax-questionnaire/server/access";
+import { isClosed } from "@/src/lib/tax-questionnaire/server/campaign";
 import { json, rateLimited, skipTurnstile, verifyTurnstile, type Counter } from "@/src/lib/tax-questionnaire/server/http";
 import { otpMail } from "@/src/lib/tax-questionnaire/server/mails";
 import { route } from "@/src/lib/tax-questionnaire/server/route-kit";
-import { createCase, getCase, optOut, sendLinksForEmail } from "@/src/lib/tax-questionnaire/server/service";
+import { createCase, forgetCase, getCase, optOut, sendLinksForEmail } from "@/src/lib/tax-questionnaire/server/service";
 import { normalise } from "@/src/lib/tax-questionnaire/server/sharepoint-registry";
 import { EMAIL_RE } from "@/src/lib/tax-questionnaire/format";
 import { sanitizeAnswers, stepById, validateStep } from "@/src/lib/tax-questionnaire/logic";
@@ -14,6 +15,8 @@ import { QF_LOCALES, type QfLocale } from "@/src/lib/tax-questionnaire/types";
  *   verify — code entered → (new) case created, or (link) case opened → session cookie;
  *   link   — magic link opened → code e-mailed to the case's address;
  *   find   — "I already started": links e-mailed for the cases of an address (never says if any);
+ *   assist — Ark staff: the single-use office access issued by Cadence's `assist` action (link token
+ *            from `#assist=`, or the typed « Code cabinet ») → office session, no e-mail code;
  *   logout — session revoked.
  */
 export const runtime = "nodejs";
@@ -21,6 +24,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 const perEmail = new Map<string, Counter>();
+const perIpAssist = new Map<string, Counter>();
 const str = (v: unknown) => (typeof v === "string" ? v.trim() : "");
 const locale = (v: unknown): QfLocale => ((QF_LOCALES as readonly string[]).includes(String(v)) ? (v as QfLocale) : "fr");
 const maskEmail = (email: string) => email.replace(/^(.)(.*)(@.*)$/, (_m, a: string, b: string, c: string) => `${a}${"•".repeat(Math.min(6, b.length))}${c}`);
@@ -112,6 +116,21 @@ export async function POST(request: Request) {
       }
       // Same answer whether or not a questionnaire exists for this address.
       return json({ ok: true });
+    }
+
+    if (action === "assist") {
+      const limited = rateLimited(perIpAssist, ip, 10, 10 * 60 * 1000);
+      if (limited) return limited;
+      const assist = await redeemAssist({ token: body.token, code: body.code });
+      if (!assist?.by) return json({ error: "assist_invalid" }, 400);
+      forgetCase(assist.caseId);
+      const info = await getCase(assist.caseId).catch(() => null);
+      // Closed for the office, or sent meanwhile: the access opens nothing.
+      if (!info || isClosed(info.main)) return json({ error: info?.main.state === "submitted" ? "already_submitted" : "case_closed" }, 410);
+      const value = await createSession({ caseId: info.caseId, emailHash: STAFF_HASH, scope: "edit", staffBy: assist.by });
+      const response = json({ ok: true, scope: "edit", staff: true });
+      response.headers.append("Set-Cookie", sessionCookie(value, STAFF_SESSION_TTL_MS / 1000));
+      return response;
     }
 
     if (action === "logout") {

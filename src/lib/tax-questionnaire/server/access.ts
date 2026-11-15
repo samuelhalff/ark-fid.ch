@@ -1,6 +1,7 @@
 import { createHmac, randomBytes, randomInt, timingSafeEqual } from "node:crypto";
 import type { AccessRecord, LinkReplacedVia } from "./ports";
 import { normalise, sharePointPorts } from "./sharepoint-registry";
+import { issueAssistAccess, redeemAssistAccess, STAFF_HASH as SHARED_STAFF_HASH, STAFF_SESSION_TTL_MS } from "../../forms/assist";
 
 /**
  * Access without accounts (DECISIONS §B):
@@ -17,6 +18,8 @@ export interface SessionInfo {
   caseId: string;
   emailHash: string;
   scope: Scope;
+  /** Set when Ark staff opened the session with an office access (assist link or « Code cabinet »): who. */
+  staffBy?: string;
 }
 
 export interface IssueLinkOptions {
@@ -174,9 +177,38 @@ export function verifyChallenge(challenge: unknown, code: unknown, now = Date.no
   return { ok: true, payload };
 }
 
+// ---- office access (Ark staff fill the form for the client): shared logic in src/lib/forms/assist.ts --
+
+export { STAFF_SESSION_TTL_MS } from "../../forms/assist";
+/**
+ * Address hash of a staff session: never a real address hash (those are keyed MACs), so a staff
+ * session never passes for the client's verified address (the case is found by its id).
+ */
+export const STAFF_HASH = SHARED_STAFF_HASH;
+const assistMac = (secret: string) => mac("assist", secret);
+
+/** One single use, two ways in: a link token (`#assist=`) and an 8-character code (stored only as HMACs). */
+export async function issueAssist(options: { caseId: string; by: string; ttlMs: number; origin?: string; locale?: string }) {
+  return issueAssistAccess<AccessRecord>({
+    mac: assistMac,
+    access: sharePointPorts().access,
+    ttlMs: options.ttlMs,
+    record: ({ keyHash, sibling, expiresAt }) => ({ keyHash, sibling, kind: "assist", caseId: options.caseId, emailHash: STAFF_HASH, scope: "edit", purpose: "assist", expiresAt, revoked: false, by: options.by }),
+    link: (token) => linkUrl(token, options.locale, options.origin).replace("#acces=", "#assist="),
+  });
+}
+
+/** Consumes an assist token or code (single use: the other way in is spent too) and returns its record, or null. */
+export async function redeemAssist(input: { token?: unknown; code?: unknown }) {
+  return redeemAssistAccess<AccessRecord>(input, { mac: assistMac, access: sharePointPorts().access });
+}
+
 // ---- sessions -------------------------------------------------------------------------------------
 
 export const SESSION_COOKIE = () => (process.env.NODE_ENV === "production" ? "__Host-tqf" : "tqf");
+
+/** A staff session (staffBy) lasts STAFF_SESSION_TTL_MS, a client's SESSION_TTL_MS. */
+export const sessionTtlMs = (info: Pick<SessionInfo, "staffBy">) => (info.staffBy ? STAFF_SESSION_TTL_MS : SESSION_TTL_MS);
 
 export async function createSession(info: SessionInfo): Promise<string> {
   const raw = randomBytes(32).toString("base64url");
@@ -184,10 +216,11 @@ export async function createSession(info: SessionInfo): Promise<string> {
     keyHash: mac("session", raw),
     kind: "session",
     caseId: info.caseId,
-    emailHash: info.emailHash,
+    emailHash: info.staffBy ? STAFF_HASH : info.emailHash,
     scope: info.scope,
-    expiresAt: Date.now() + SESSION_TTL_MS,
+    expiresAt: Date.now() + sessionTtlMs(info),
     revoked: false,
+    ...(info.staffBy ? { by: info.staffBy } : {}),
   });
   return raw;
 }
@@ -196,7 +229,7 @@ export async function readSession(raw: string | undefined): Promise<SessionInfo 
   if (!raw || !/^[A-Za-z0-9_-]{40,60}$/.test(raw)) return null;
   const record = await sharePointPorts().access.get(mac("session", raw));
   if (!record || record.kind !== "session" || record.revoked || record.expiresAt <= Date.now()) return null;
-  return { caseId: record.caseId, emailHash: record.emailHash, scope: record.scope };
+  return { caseId: record.caseId, emailHash: record.emailHash, scope: record.scope, ...(record.by ? { staffBy: record.by } : {}) };
 }
 
 export async function revokeSession(raw: string | undefined) {

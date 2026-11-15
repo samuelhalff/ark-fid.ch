@@ -336,6 +336,7 @@ const TRACKER_COLUMNS: Column[] = [
   text("ClientRef", "Client Cadence", { indexed: true }),
   text("SpouseRef", "Conjoint Cadence"),
   text("CreateKey", "Clé de création (Cadence)", { indexed: true }),
+  text("SubmittedBy", "Envoyé par (Ark)"),
 ];
 
 const STATE_TO_FR: Record<ReturnRecord["state"], string> = { draft: "Brouillon", submitted: "Envoyé", invited: "Invité", declined: "Abandonné" };
@@ -372,6 +373,8 @@ function trackerFields(r: ReturnRecord): Json {
     RemindersSent: r.remindersSent ?? 0,
   };
   if (r.submittedAt) fields.SubmittedAt = r.submittedAt;
+  // Each submission says who sent it (blank: the client), so a later client submission clears it.
+  if (r.state === "submitted") fields.SubmittedBy = r.submittedBy || "";
   if (r.invitedAt) fields.InvitedAt = r.invitedAt;
   if (r.lastReminderAt) fields.LastReminderAt = r.lastReminderAt;
   if (r.missingDocs !== undefined) fields.DocumentsManquants = r.missingDocs;
@@ -401,6 +404,7 @@ function trackerRecord(id: string, f: Json): ReturnRecord {
     optIn: f.OptIn === true,
     aiOptIn: f.AiOptIn === true,
     submittedAt: isoDate(f.SubmittedAt),
+    submittedBy: str(f.SubmittedBy) || undefined,
     docsReceived: Number(f.DocsReceived) || 0,
     docsExpected: Number(f.DocsExpected) || 0,
     driveId: str(f.DriveId),
@@ -537,6 +541,8 @@ const ACCESS_COLUMNS: Column[] = [
   bool("Revoked", "Révoqué"),
   num("ReplacedAt", "Remplacé le (ms)"),
   text("ReplacedVia", "Remplacé par"),
+  text("By", "Ark (accès cabinet)"),
+  text("Sibling", "Accès lié"),
 ];
 
 class SharePointAccess implements AccessStore {
@@ -553,6 +559,8 @@ class SharePointAccess implements AccessStore {
       ExpiresAt: record.expiresAt,
       Revoked: record.revoked,
       ...(record.replacedAt ? { ReplacedAt: record.replacedAt, ReplacedVia: record.replacedVia || "other" } : {}),
+      ...(record.by ? { By: record.by } : {}),
+      ...(record.sibling ? { Sibling: record.sibling } : {}),
     });
     this.cache.delete(record.keyHash);
   }
@@ -564,7 +572,7 @@ class SharePointAccess implements AccessStore {
     const record: AccessRecord | null = f
       ? {
           keyHash,
-          kind: str(f.Kind) === "session" ? "session" : "link",
+          kind: str(f.Kind) === "session" ? "session" : str(f.Kind) === "assist" ? "assist" : "link",
           caseId: str(f.CaseId),
           emailHash: str(f.EmailHash),
           scope: str(f.Scope) === "status" ? "status" : "edit",
@@ -572,6 +580,8 @@ class SharePointAccess implements AccessStore {
           expiresAt: Number(f.ExpiresAt) || 0,
           revoked: f.Revoked === true,
           ...(Number(f.ReplacedAt) > 0 ? { replacedAt: Number(f.ReplacedAt), replacedVia: str(f.ReplacedVia) === "email" ? ("email" as const) : ("other" as const) } : {}),
+          ...(str(f.By) ? { by: str(f.By) } : {}),
+          ...(str(f.Sibling) ? { sibling: str(f.Sibling) } : {}),
         }
       : null;
     this.cache.set(keyHash, { record, at: Date.now(), itemId: found[0]?.id });

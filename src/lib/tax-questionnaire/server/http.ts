@@ -93,7 +93,7 @@ export function errorResponse(error: unknown, route: string): NextResponse {
  * Session check for authenticated routes (cookie + CSRF header + origin). Returns the session or
  * an error response. IMPLEMENTATION IN PROGRESS — signature stable.
  */
-export async function requireSession(request: Request, scope: "edit" | "status" | "any" = "edit"): Promise<{ caseId: string; emailHash: string; scope: "edit" | "status" } | NextResponse> {
+export async function requireSession(request: Request, scope: "edit" | "status" | "any" = "edit"): Promise<SessionInfo | NextResponse> {
   // CSRF: every authenticated call is same-origin and carries a custom header (forces a preflight
   // for any cross-site attempt); SameSite=Lax cookies alone are not relied upon.
   if (!originAllowed(request)) return json({ error: "forbidden" }, 403);

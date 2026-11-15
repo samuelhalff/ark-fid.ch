@@ -2,17 +2,18 @@
  * Staff API for Cadence (signed server-to-server requests, routes under
  * app/api/tax-questionnaire/staff/returns): create or adopt a return, the change feed, one return
  * with its documents and answers, and the row actions (link, remind, exclude, include, deadline,
- * staffDocs, attach). The site stays the only sender of tax e-mails; Cadence asks it to send.
+ * staffDocs, officeDocs, attach, assist). The site stays the only sender of tax e-mails; Cadence asks it to send.
  * Contract: docs/tax-questionnaire.md « API bureau (Cadence) ».
  */
 import { createHmac } from "node:crypto";
 import { parseApiKeys } from "../../kyc-questionnaire/server/signature";
 import { personName } from "../format";
-import { emailHash, issueLink, issueLinkWithExpiry, RESUME_LINK_TTL_MS } from "./access";
+import { assistMinutes } from "../../forms/assist";
+import { emailHash, issueAssist, issueLink, issueLinkWithExpiry, RESUME_LINK_TTL_MS } from "./access";
 import { inviteMember, isClosed, isPlanned, lang, MISSING_STOP_STATUSES, nextMailAt, STOP_STATUSES, plannedFor, previousReturn, sendMissingReminder, sendReminder, type CampaignDeps, type CampaignLedger } from "./campaign";
 import { linkMail } from "./mails";
 import type { ReturnRecord } from "./ports";
-import { caseDocuments, clientKey as computeClientKey, createInvitedReturn, forgetCase, getCase, missingDocuments, refreshMissing, ServiceError, setOfficeDocs } from "./service";
+import { caseDocuments, clientKey as computeClientKey, createInvitedReturn, forgetCase, getCase, missingDocuments, readDraft, refreshMissing, ServiceError, setOfficeDocs } from "./service";
 import { normalise, sharePointPorts } from "./sharepoint-registry";
 import type { TaxStorage } from "./storage";
 
@@ -72,6 +73,8 @@ export interface ReturnSummary {
   canton: string;
   state: ReturnRecord["state"];
   submittedAt?: string;
+  /** Submitted by Ark staff in an office session (assist): who. Absent when the client sent it. */
+  submittedBy?: string;
   invitedAt?: string;
   remindersSent: number;
   lastReminderAt?: string;
@@ -107,11 +110,13 @@ export function summarize(r: ReturnRecord): ReturnSummary {
     householdId: r.householdId,
     name: r.name,
     email: r.email,
-    emailVerified: r.state === "submitted" || (r.source !== "campaign" && r.source !== "ark" && r.source !== "inventaire"),
+    // A submission by Ark staff (office session) proves nothing about the client's address.
+    emailVerified: (r.state === "submitted" && !r.submittedBy) || (r.source !== "campaign" && r.source !== "ark" && r.source !== "inventaire"),
     language: r.language,
     canton: r.canton,
     state: r.state,
     ...(r.submittedAt ? { submittedAt: r.submittedAt } : {}),
+    ...(r.submittedBy ? { submittedBy: r.submittedBy } : {}),
     ...(r.invitedAt ? { invitedAt: r.invitedAt } : {}),
     remindersSent: r.remindersSent || 0,
     ...(r.lastReminderAt ? { lastReminderAt: r.lastReminderAt } : {}),
@@ -344,6 +349,8 @@ export async function staffReturn(caseId: string, year: unknown, deps: Pick<Staf
   forgetCase(caseId);
   const info = await getCase(caseId);
   const { docs, answers } = await caseDocuments(deps.storage, info, row.taxYear);
+  // « Rempli par Ark »: answer key → who at Ark entered its current value (office sessions).
+  const filledBy = (await readDraft(deps.storage, info))?.filledBy || {};
   const language = lang(row.language);
   const documents = docs.map((d) => ({
     key: d.item.key,
@@ -352,12 +359,12 @@ export async function staffReturn(caseId: string, year: unknown, deps: Pick<Staf
     status: (d.status === "uploaded" ? "received" : d.status) as StaffDocStatus,
     ...(d.files[0]?.webUrl ? { fileUrl: d.files[0].webUrl } : {}),
   }));
-  return { ...summarize(row), documents, answers };
+  return { ...summarize(row), documents, answers, filledBy };
 }
 
 // ---- actions -----------------------------------------------------------------------------------------
 
-export const STAFF_ACTIONS = ["link", "remind", "exclude", "include", "deadline", "staffDocs", "officeDocs", "attach"] as const;
+export const STAFF_ACTIONS = ["link", "remind", "exclude", "include", "deadline", "staffDocs", "officeDocs", "attach", "assist"] as const;
 export type StaffAction = (typeof STAFF_ACTIONS)[number];
 
 export interface ActionBody {
@@ -371,12 +378,17 @@ export interface ActionBody {
   /** `officeDocs`: the document keys the office holds for that year (the whole list, replaced). */
   officeDocs?: unknown;
   clientRef?: unknown;
+  /** `assist`: who at Ark will fill the form (required, ≤ 120 characters). */
+  by?: unknown;
+  /** `assist`: minutes the office access stays usable (1..240, default 30). */
+  ttlMinutes?: unknown;
 }
 
 export type ActionResult = { summary: ReturnSummary; link?: LinkResult; replayed: boolean; extra?: Record<string, unknown> };
 
 export async function staffAction(caseId: string, action: StaffAction, body: ActionBody, meta: { idempotencyKey: string; payloadHash: string }, deps: StaffDeps): Promise<ActionResult> {
   return locked(`case:${caseId}`, async () => {
+    if (action === "assist") return assistAction(caseId, body, meta, deps);
     const rows = await caseRows(caseId);
     if (action === "link") return linkAction(rows, body, meta, deps);
     if (action === "remind") return remindAction(yearRow(rows, requireYear(body)), meta, deps);
@@ -493,4 +505,31 @@ async function remindAction(row: ReturnRecord, meta: { idempotencyKey: string; p
   }
   await remember(deps, row.caseId, meta, kind);
   return { summary: summarize(await reread(row)), replayed: false, extra: { sent: true, kind } };
+}
+
+/**
+ * Office access (« Code cabinet »): a single-use link (`#assist=`) and code for Ark staff to fill
+ * the client's questionnaire themselves; it opens an office session (no e-mail code), whose saves
+ * are marked « rempli par Ark ». Refused for a return closed for the office (case_closed) or
+ * already submitted. Nothing is e-mailed. The secrets are never stored, so a replay issues a fresh
+ * access (still single use).
+ */
+async function assistAction(caseId: string, body: ActionBody, meta: { idempotencyKey: string; payloadHash: string }, deps: StaffDeps): Promise<ActionResult> {
+  if (!/^[A-Za-z0-9_-]{6,40}$/.test(caseId)) throw new ServiceError("not_found", 404);
+  const year = requireYear(body);
+  // Declined years included: those are refused as closed, not unknown.
+  const all = (await sharePointPorts().tracker.findByCase(caseId)).filter((r) => r.taxYear === year);
+  const row = all.find((r) => r.state !== "declined") || all[0];
+  if (!row) throw new ServiceError("not_found", 404);
+  const by = typeof body.by === "string" ? body.by.trim() : "";
+  if (!by || by.length > 120) throw new ServiceError("invalid_by", 400);
+  const minutes = assistMinutes(body.ttlMinutes, { integer: true });
+  if (minutes === null) throw new ServiceError("invalid_ttl", 400);
+  const replayed = await replayOf(deps, caseId, meta);
+  const summary = summarize(row);
+  if (summary.closed) throw new ServiceError("case_closed", 409);
+  if (row.state === "submitted") throw new ServiceError("already_submitted", 409);
+  const assist = await issueAssist({ caseId, by, ttlMs: minutes * 60 * 1000, origin: deps.origin, locale: lang(row.language) });
+  if (!replayed) await remember(deps, caseId, meta);
+  return { summary, replayed, extra: { assist } };
 }

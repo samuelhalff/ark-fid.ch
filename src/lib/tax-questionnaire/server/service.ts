@@ -116,6 +116,54 @@ export interface Draft {
   aiOptIn?: boolean;
   /** Key of the pending submission attempt (survives a reload: a retry reuses the same version). */
   submitKey?: string;
+  /**
+   * « Rempli par Ark »: answer key → who at Ark entered its current value (office session). A later
+   * change of that answer by the client removes the mark. Never sent to the client's browser.
+   */
+  filledBy?: Record<string, string>;
+}
+
+export function cleanFilledBy(raw: unknown): Record<string, string> | undefined {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return undefined;
+  const out: Record<string, string> = {};
+  for (const [key, value] of Object.entries(raw as Record<string, unknown>).slice(0, 2000)) {
+    if (key.length <= 120 && typeof value === "string" && value.trim()) out[key] = value.trim().slice(0, 120);
+  }
+  return Object.keys(out).length ? out : undefined;
+}
+
+/** JSON with sorted object keys: the same answer compares equal whatever the key order. */
+function canonical(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(canonical).join(",")}]`;
+  if (value && typeof value === "object") {
+    return `{${Object.keys(value as Record<string, unknown>)
+      .filter((k) => (value as Record<string, unknown>)[k] !== undefined)
+      .sort()
+      .map((k) => `${JSON.stringify(k)}:${canonical((value as Record<string, unknown>)[k])}`)
+      .join(",")}}`;
+  }
+  return value === undefined ? "undefined" : JSON.stringify(value);
+}
+
+/**
+ * The « Rempli par Ark » marks after a save: every answer whose value changed is marked with the
+ * staff member (office session) or unmarked (the client's own change, or an answer staff cleared).
+ */
+export function markFilledBy(previous: Record<string, string> | undefined, before: Answers | undefined, after: Answers, staffBy?: string): Record<string, string> | undefined {
+  const out: Record<string, string> = { ...(previous || {}) };
+  for (const key of new Set([...Object.keys(before || {}), ...Object.keys(after)])) {
+    if (canonical(before?.[key]) === canonical(after[key])) continue;
+    if (staffBy && after[key] !== undefined && after[key] !== "") out[key] = staffBy;
+    else delete out[key];
+  }
+  return Object.keys(out).length ? out : undefined;
+}
+
+/** The draft as the browser may see it (without the office marks). */
+export function clientDraft<T extends Draft | null>(draft: T): T {
+  if (!draft || !draft.filledBy) return draft;
+  const { filledBy: _marks, ...rest } = draft;
+  return rest as T;
 }
 
 export function cleanDocStatus(raw: unknown): Record<string, "later" | "na"> {
@@ -136,7 +184,9 @@ export async function readDraft(storage: TaxStorage, info: CaseInfo): Promise<Dr
   if (!raw) return null;
   try {
     const parsed = JSON.parse(new TextDecoder().decode(raw)) as Draft;
-    return { ...parsed, answers: sanitizeAnswers(parsed.answers), docStatus: cleanDocStatus(parsed.docStatus), locale: asLocale(parsed.locale) };
+    const filledBy = cleanFilledBy(parsed.filledBy);
+    const { filledBy: _raw, ...rest } = parsed;
+    return { ...rest, answers: sanitizeAnswers(parsed.answers), docStatus: cleanDocStatus(parsed.docStatus), locale: asLocale(parsed.locale), ...(filledBy ? { filledBy } : {}) };
   } catch {
     return null;
   }
@@ -270,15 +320,18 @@ export function keepServerOwned(answers: Answers, stored: Answers | undefined): 
   return out;
 }
 
-export async function saveDraft(storage: TaxStorage, info: CaseInfo, body: { answers: unknown; stepId: unknown; docStatus: unknown; locale: unknown; aiOptIn?: unknown; submitKey?: unknown }) {
+/** `staffBy`: saved in an office session (Ark staff filling for the client): the changed answers are marked. */
+export async function saveDraft(storage: TaxStorage, info: CaseInfo, body: { answers: unknown; stepId: unknown; docStatus: unknown; locale: unknown; aiOptIn?: unknown; submitKey?: unknown }, staffBy?: string) {
   if (info.main.state === "submitted") throw new ServiceError("already_submitted", 409);
-  const answers = keepServerOwned(sanitizeAnswers(body.answers), (await readDraft(storage, info))?.answers);
+  const stored = await readDraft(storage, info);
+  const answers = keepServerOwned(sanitizeAnswers(body.answers), stored?.answers);
   // The identity stays the verified one.
   answers["start.email"] = info.email;
   const stepId = STEPS.some((s) => s.id === body.stepId) ? String(body.stepId) : "start";
   const updated = await ensureYears(storage, info, answers);
   const submitKey = typeof body.submitKey === "string" && /^[a-z0-9]{8,32}$/.test(body.submitKey) ? body.submitKey : undefined;
-  const draft: Draft = { version: 1, savedAt: new Date().toISOString(), stepId, answers, docStatus: cleanDocStatus(body.docStatus), locale: asLocale(body.locale), aiOptIn: body.aiOptIn === true, submitKey };
+  const filledBy = markFilledBy(stored?.filledBy, stored?.answers, answers, staffBy);
+  const draft: Draft = { version: 1, savedAt: new Date().toISOString(), stepId, answers, docStatus: cleanDocStatus(body.docStatus), locale: asLocale(body.locale), aiOptIn: body.aiOptIn === true, submitKey, ...(filledBy ? { filledBy } : {}) };
   await writeDraft(storage, updated, draft);
   return { savedAt: draft.savedAt };
 }
@@ -425,11 +478,16 @@ export interface FinalizeInput {
 
 const inFlight = new Set<string>();
 
-export async function finalizeSubmission(storage: TaxStorage, info: CaseInfo, input: FinalizeInput, now = new Date()) {
+/**
+ * `staffBy`: submitted in an office session (Ark staff filled it for the client): recorded as
+ * submittedBy, the changed answers are marked « rempli par Ark », and no confirmation is e-mailed
+ * to the client.
+ */
+export async function finalizeSubmission(storage: TaxStorage, info: CaseInfo, input: FinalizeInput, now = new Date(), staffBy?: string) {
   if (inFlight.has(info.caseId)) throw new ServiceError("in_progress", 409);
   inFlight.add(info.caseId);
   try {
-    return await finalizeLocked(storage, info, input, now);
+    return await finalizeLocked(storage, info, input, now, staffBy);
   } finally {
     inFlight.delete(info.caseId);
     forget(info.caseId);
@@ -442,16 +500,18 @@ function versionStamp(now: Date) {
   return `${get("year")}-${get("month")}-${get("day")} ${get("hour")}h${get("minute")}`;
 }
 
-async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: FinalizeInput, now: Date) {
+async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: FinalizeInput, now: Date, staffBy?: string) {
   const locale = asLocale(input.locale);
   if (input.privacyAccepted !== true || input.certified !== true) throw new ServiceError("consent_required");
   if (info.main.state === "submitted") throw new ServiceError("already_submitted", 409);
   const submitKey = typeof input.submitKey === "string" && /^[a-z0-9]{8,32}$/.test(input.submitKey) ? input.submitKey : null;
   if (!submitKey) throw new ServiceError("invalid_request");
 
-  const raw = keepServerOwned(sanitizeAnswers(input.answers), (await readDraft(storage, info))?.answers);
+  const stored = await readDraft(storage, info);
+  const raw = keepServerOwned(sanitizeAnswers(input.answers), stored?.answers);
   raw["start.email"] = info.email;
   const answers = pruneHidden(raw);
+  const marks = markFilledBy(stored?.filledBy, stored?.answers, raw, staffBy);
   const errors = validateAll(answers, now);
   // Every item carried over from last year must still be on a visible screen (with its status).
   for (const [id, value] of Object.entries(raw)) {
@@ -504,6 +564,11 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
   if (unresolved.length) throw new ServiceError("documents_incomplete", 422, { keys: unresolved.map((d) => d.item.key) });
 
   const key = clientKey(info.email, str(answers["start.lastName"]), str(answers["start.firstName"]));
+  // The marks of the answers sent (hidden ones are pruned); the draft keeps them for a correction.
+  const filledBy = marks ? Object.fromEntries(Object.entries(marks).filter(([k]) => answers[k] !== undefined)) : {};
+  if (stored && canonical(marks || {}) !== canonical(stored.filledBy || {})) {
+    await writeDraft(storage, info, { ...stored, answers: raw, savedAt: now.toISOString(), ...(marks ? { filledBy: marks } : { filledBy: undefined }) });
+  }
   const record: SubmissionRecord = {
     sid: info.caseId,
     clientKey: key,
@@ -516,6 +581,8 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
     folderName: (await storage.getFolder(info.main.driveId, info.main.folderId))?.name || info.caseId,
     folderUrl: info.main.folderUrl,
     privacyVersion: PRIVACY_VERSION,
+    ...(Object.keys(filledBy).length ? { filledBy } : {}),
+    ...(staffBy ? { submittedBy: staffBy } : {}),
   };
 
   // Immutable version folder per submission attempt: a retry with the same key reuses it.
@@ -545,6 +612,8 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
     aiOptIn: input.aiOptIn === true,
     // Service reminder based on the client relationship, on by default, with opt-out (not a consent).
     annualReminder: { enabled: answers["review.reminder"] === "yes", basis: "service-reminder-opt-out", recordedAt: now.toISOString() },
+    // Office session: Ark staff ticked the confirmations for the client.
+    ...(staffBy ? { submittedBy: staffBy } : {}),
   };
   await put("consent.json", new TextEncoder().encode(JSON.stringify(consent, null, 2)), "application/json");
   const questionnaire = {
@@ -561,6 +630,8 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
     extras: extras.map((f) => f.name),
     flagged: flagged.map((f) => ({ name: f.file.name, reason: f.reason })),
     attention: attentionPoints(answers).map((p) => ({ level: p.level, text: p.text })),
+    ...(Object.keys(filledBy).length ? { filledBy } : {}),
+    ...(staffBy ? { submittedBy: staffBy } : {}),
   };
   const jsonItem = await put("questionnaire.json", new TextEncoder().encode(JSON.stringify(questionnaire, null, 2)), "application/json");
   // Arrears years: each year folder gets its own copy of the submitted version.
@@ -578,7 +649,7 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
   // TOU d'office (resident, salary ≥ CHF 120'000) has no 31 March request deadline.
   const touRequest = sourceTaxed(answers) && !(sourceTaxedResident(answers) && answers["regime.over120k"] === "yes");
   const urgentSource = touRequest && now.getMonth() <= 2; // until 31 March
-  const prefixes = [regularisation ? "[Régularisation]" : "", touRequest ? "[TOU 31.03]" : "", urgentSource ? "[URGENT]" : ""].filter(Boolean).join(" ");
+  const prefixes = [staffBy ? "[Rempli par Ark]" : "", regularisation ? "[Régularisation]" : "", touRequest ? "[TOU 31.03]" : "", urgentSource ? "[URGENT]" : ""].filter(Boolean).join(" ");
   const internal = internalMail(record, excelName, excel.byteLength <= MAX_ATTACHMENT_BYTES ? excel : null);
   internal.subject = `${prefixes ? `${prefixes} ` : ""}${internal.subject}`;
   if (pdf.byteLength <= MAX_ATTACHMENT_BYTES) internal.attachments = [...(internal.attachments || []), { name: pdfName, contentType: "application/pdf", bytes: pdf }];
@@ -595,7 +666,8 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
     await event(storage, info, "mail_sent", { kind: "internal" });
   }
   let clientNotified = sent.client === true;
-  if (!sent.client) {
+  // Filled and sent by the office: no confirmation to the client.
+  if (!sent.client && !staffBy) {
     try {
       await storage.sendMail(regularisation ? regularisationClientMail(locale, info.email) : clientMail(record));
       sent.client = clientNotified = true;
@@ -635,6 +707,7 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
         optIn: answers["review.reminder"] === "yes",
         aiOptIn: input.aiOptIn === true,
         submittedAt: now.toISOString(),
+        submittedBy: staffBy || undefined,
         docsReceived: rec.taxYear === info.main.taxYear ? received : rec.docsReceived,
         missingDocs: rec.taxYear === info.main.taxYear ? docs.filter((d) => d.status === "later" || d.status === "missing").map((d) => d.item.label.fr).join("\n") : rec.missingDocs,
         docsExpected: rec.taxYear === info.main.taxYear ? docs.length : rec.docsExpected,
@@ -666,7 +739,7 @@ async function finalizeLocked(storage: TaxStorage, info: CaseInfo, input: Finali
   } catch (error) {
     console.error("[tax-qf] status update failed", info.caseId, error instanceof Error ? error.message : "");
   }
-  await event(storage, info, "submitted", { docs: docs.length, received, flagged: flagged.length, clientNotified, crmMatch });
+  await event(storage, info, "submitted", { docs: docs.length, received, flagged: flagged.length, clientNotified, crmMatch, ...(staffBy ? { submittedBy: staffBy } : {}) });
 
   return {
     received: docs.filter((d) => d.status === "uploaded").map((d) => d.item.key),

@@ -52,6 +52,8 @@ export interface CasePayload {
   /** Document keys the office already holds: not asked of the client. */
   officeDocs?: string[];
   deadlines: { id: string; label: Record<string, string>; date: string | null; level: string; note?: Record<string, string> }[];
+  /** Office session (Ark staff filling the form for the client): who. */
+  staffBy?: string;
 }
 
 export const api = {

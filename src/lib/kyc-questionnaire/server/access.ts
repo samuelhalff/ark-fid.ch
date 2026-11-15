@@ -2,6 +2,7 @@ import { createHmac, randomBytes, randomInt, timingSafeEqual } from "node:crypto
 import { LINK_TTL_MS, OTP_MAX_ATTEMPTS, OTP_TTL_MS, isProd, publicOrigin, SESSION_TTL_MS, tokenSecret } from "./config";
 import type { AccessRecord, LinkReplacedVia } from "./ports";
 import { getPorts } from "./sharepoint";
+import { issueAssistAccess, redeemAssistAccess, STAFF_HASH as SHARED_STAFF_HASH } from "../../forms/assist";
 
 /**
  * Client access without accounts (same design as tax.ark-fid.ch, own key domain):
@@ -159,46 +160,25 @@ export function readPick(token: unknown, now = Date.now()): { emailHash: string;
   }
 }
 
-// ---- staff assistance (Ark helps a client fill the form) ----------------------------------------------
+// ---- staff assistance (Ark helps a client fill the form): shared logic in src/lib/forms/assist.ts ----
 
-export const ASSIST_DEFAULT_MINUTES = 30;
-export const ASSIST_MAX_MINUTES = 240;
-export const STAFF_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
-// No 0, 1, O or I: nothing to confuse when read aloud; a typed code ignores case, spaces and dashes.
-const CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-const ASSIST_TOKEN_RE = /^[A-Za-z0-9_-]{40,60}$/;
-export const normaliseAssistCode = (code: string) => code.toUpperCase().replace(/[\s-]/g, "");
+export { ASSIST_DEFAULT_MINUTES, ASSIST_MAX_MINUTES, STAFF_SESSION_TTL_MS, normaliseAssistCode } from "../../forms/assist";
+const assistMac = (secret: string) => mac("assist", secret);
 
 /** One single use, two ways in: a link token and an 8-character code (stored only as HMACs). */
 export async function issueAssist(options: { caseId: string; revision: number; by: string; locale: string; ttlMs: number }) {
-  const token = randomBytes(32).toString("base64url");
-  let code = "";
-  for (const byte of randomBytes(8)) code += CODE_ALPHABET[byte % CODE_ALPHABET.length];
-  const expiresAt = Date.now() + options.ttlMs;
-  const tokenKey = mac("assist", token);
-  const codeKey = mac("assist", normaliseAssistCode(code));
-  const base = { kind: "assist" as const, caseId: options.caseId, revision: options.revision, emailHash: STAFF_HASH, expiresAt, revoked: false, by: options.by };
-  const { access } = getPorts();
-  await access.put({ ...base, keyHash: tokenKey, sibling: codeKey });
-  await access.put({ ...base, keyHash: codeKey, sibling: tokenKey });
-  return { link: linkUrl(token, options.locale).replace("#acces=", "#assist="), code: `${code.slice(0, 4)}-${code.slice(4)}`, expiresAt: new Date(expiresAt).toISOString() };
+  return issueAssistAccess<AccessRecord>({
+    mac: assistMac,
+    access: getPorts().access,
+    ttlMs: options.ttlMs,
+    record: ({ keyHash, sibling, expiresAt }) => ({ keyHash, sibling, kind: "assist", caseId: options.caseId, revision: options.revision, emailHash: STAFF_HASH, expiresAt, revoked: false, by: options.by }),
+    link: (token) => linkUrl(token, options.locale).replace("#acces=", "#assist="),
+  });
 }
 
 /** Consumes an assist token or code (single use) and returns what it opens, or null. */
 export async function redeemAssist(input: { token?: unknown; code?: unknown }) {
-  let key: string | null = null;
-  if (typeof input.token === "string" && ASSIST_TOKEN_RE.test(input.token)) key = mac("assist", input.token);
-  else if (typeof input.code === "string" && input.code.length <= 40) {
-    const clean = normaliseAssistCode(input.code);
-    if (clean.length === 8) key = mac("assist", clean);
-  }
-  if (!key) return null;
-  const { access } = getPorts();
-  const record = await access.get(key);
-  if (!record || record.kind !== "assist" || record.revoked || record.expiresAt <= Date.now() || !record.by) return null;
-  await access.revoke(key);
-  if (record.sibling) await access.revoke(record.sibling);
-  return record;
+  return redeemAssistAccess<AccessRecord>(input, { mac: assistMac, access: getPorts().access });
 }
 
 // ---- sessions ---------------------------------------------------------------------------------
@@ -214,7 +194,7 @@ export interface SessionInfo {
 }
 
 /** Address hash of a staff session: never equals a real address hash, so it is never a contact or a signer. */
-export const STAFF_HASH = "staff";
+export const STAFF_HASH = SHARED_STAFF_HASH;
 
 export const SESSION_COOKIE = () => (isProd() ? "__Host-kqf" : "kqf");
 

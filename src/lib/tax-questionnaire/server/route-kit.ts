@@ -1,4 +1,5 @@
 import type { NextResponse } from "next/server";
+import type { SessionInfo } from "./access";
 import { clientIp, errorResponse, json, originAllowed, rateLimited, readJson, requireSession, type Counter } from "./http";
 import { getCase, type CaseInfo } from "./service";
 import { getStorage, type TaxStorage } from "./storage";
@@ -27,7 +28,8 @@ export interface RouteContext {
   ip: string;
   storage: TaxStorage;
   info: CaseInfo | null;
-  session: { caseId: string; emailHash: string; scope: "edit" | "status" } | null;
+  /** staffBy: an office session (Ark staff filling the form for the client). */
+  session: SessionInfo | null;
 }
 
 export async function route(request: Request, options: RouteOptions, handler: (ctx: RouteContext) => Promise<NextResponse>): Promise<NextResponse> {

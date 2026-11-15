@@ -105,6 +105,9 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
   const [emailHint, setEmailHint] = useState("");
   const [code, setCode] = useState("");
   const [find, setFind] = useState<{ open: boolean; email: string; done: boolean }>({ open: false, email: "", done: false });
+  // Ark staff: office access (« Code cabinet ») typed on the start screen.
+  const [assistOpen, setAssistOpen] = useState(false);
+  const [assistCode, setAssistCode] = useState("");
   // Review
   const [certified, setCertified] = useState(false);
   const [aiOptIn, setAiOptIn] = useState(false);
@@ -174,6 +177,25 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
       window.history.replaceState(null, "", window.location.pathname + window.location.hash);
     }
     const hash = typeof window !== "undefined" ? window.location.hash : "";
+    // Ark staff link (single use): opens the form in an office session, no e-mail code; an older
+    // session in this browser is closed first.
+    const assistToken = /assist=([A-Za-z0-9_-]+)/.exec(hash)?.[1];
+    if (assistToken) {
+      window.history.replaceState(null, "", window.location.pathname);
+      void (async () => {
+        await api.auth({ action: "logout" }).catch(() => undefined);
+        resetIdentity();
+        try {
+          await api.auth({ action: "assist", token: assistToken });
+          await loadCase();
+        } catch (error) {
+          setNotice({ tone: "error", text: err(error instanceof ApiError ? error.code : "generic", locale) });
+          setAssistOpen(true);
+          setPhase("start");
+        }
+      })();
+      return;
+    }
     const token = /acces=([A-Za-z0-9_-]+)/.exec(hash)?.[1];
     if (token) {
       window.history.replaceState(null, "", window.location.pathname);
@@ -200,7 +222,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
         if (carried) form.reset(toForm({ ...defaultAnswers(), ...carried }));
         setPhase("start");
       });
-  }, [loadCase, locale, form]);
+  }, [loadCase, locale, form, resetIdentity]);
 
   // ---- analytics: step views, abandonment -----------------------------------------------------------
   useEffect(() => {
@@ -374,6 +396,20 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
     }
   };
 
+  /** Ark staff: the short code typed on the start screen opens the form without an e-mail code. */
+  const openWithAssistCode = async () => {
+    setBusy(true);
+    setNotice(null);
+    try {
+      await api.auth({ action: "assist", code: assistCode });
+      await loadCase();
+    } catch (error) {
+      setNotice({ tone: "error", text: err(error instanceof ApiError ? error.code : "generic", locale) });
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const sendFind = async () => {
     setBusy(true);
     try {
@@ -458,6 +494,7 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
         {phase !== "start" && clientName ? <span className="font-medium text-muted-foreground">{` · ${clientName}`}</span> : null}
       </h1>
       {phase === "start" ? <p className="max-w-[60ch] text-base leading-7 text-muted-foreground">{UI.pageIntro[locale]}</p> : null}
+      {phase !== "start" && caseData?.staffBy ? <p className="max-w-[70ch] text-sm text-muted-foreground">{UI2.staffFilling[locale].replace("{by}", caseData.staffBy)}</p> : null}
     </div>
   );
 
@@ -750,8 +787,10 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
             {phase === "form" ? (
               <Card className="gap-3 py-5">
                 <CardContent className="flex flex-col gap-3 px-5 text-sm text-muted-foreground">
-                  <p>{UI2.draftStored[locale]}</p>
+                  {caseData?.staffBy ? null : <p>{UI2.draftStored[locale]}</p>}
                   <div className="flex flex-wrap gap-2">
+                    {caseData?.staffBy ? null : (
+                      <>
                     <Button type="button" variant="outline" size="sm" onClick={async () => {
                       await saveNow();
                       await api.caseAction("resumeLink").then(() => setNotice({ tone: "info", text: UI2.continueLaterDone[locale] }), () => undefined);
@@ -771,6 +810,8 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                     }}>
                       {UI.draftDelete[locale]}
                     </Button>
+                      </>
+                    )}
                     <Button type="button" variant="ghost" size="sm" onClick={async () => {
                       await saveNow();
                       await api.auth({ action: "logout" }).catch(() => undefined);
@@ -803,6 +844,36 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
                     <Button type="button" variant="outline" size="sm" onClick={() => setFind((f) => ({ ...f, open: true }))}>
                       {UI2.findTitle[locale]}
                     </Button>
+                  )}
+                  {assistOpen ? (
+                    <div className="flex items-end gap-3">
+                      <div className="flex min-w-0 flex-col gap-2">
+                        <Label htmlFor="tqf-assist">{UI2.assistLabel[locale]}</Label>
+                        <Input
+                          id="tqf-assist"
+                          autoComplete="off"
+                          autoCapitalize="characters"
+                          spellCheck={false}
+                          maxLength={12}
+                          value={assistCode}
+                          onChange={(e) => setAssistCode(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key !== "Enter") return;
+                            e.preventDefault();
+                            if (assistCode.trim() && !busy) void openWithAssistCode();
+                          }}
+                          className="w-36 uppercase tracking-widest"
+                          autoFocus
+                        />
+                      </div>
+                      <Button type="button" variant="outline" size="sm" onClick={() => void openWithAssistCode()} disabled={busy || !assistCode.trim()}>
+                        {UI2.assistSubmit[locale]}
+                      </Button>
+                    </div>
+                  ) : (
+                    <button type="button" className="w-fit text-xs text-muted-foreground underline-offset-4 hover:underline" onClick={() => setAssistOpen(true)}>
+                      {UI2.assistLink[locale]}
+                    </button>
                   )}
                 </CardContent>
               </Card>

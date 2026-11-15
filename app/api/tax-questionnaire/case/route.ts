@@ -1,8 +1,9 @@
-import { createSession, readCookie, revokeSession, sessionCookie } from "@/src/lib/tax-questionnaire/server/access";
+import { createSession, readCookie, revokeSession, sessionCookie, sessionTtlMs, STAFF_HASH } from "@/src/lib/tax-questionnaire/server/access";
 import { deadlinesFor } from "@/src/lib/tax-questionnaire/deadlines";
 import { json } from "@/src/lib/tax-questionnaire/server/http";
 import { route } from "@/src/lib/tax-questionnaire/server/route-kit";
 import {
+  clientDraft,
   createUpload,
   deleteDraft,
   finalizeSubmission,
@@ -26,6 +27,9 @@ import { EMAIL_RE } from "@/src/lib/tax-questionnaire/format";
  * The client's case (session cookie required):
  *   GET            — draft, files, state, deadlines;
  *   POST {action}  — save | delete | resumeLink | upload | remove | submit | additions | reopen | feedback | partner.
+ * An office session (Ark staff, `staffBy`) saves and submits for the client: its answers are marked
+ * « rempli par Ark », its submission e-mails no confirmation; it cannot delete the draft nor e-mail
+ * the client a link.
  */
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -51,8 +55,10 @@ export async function GET(request: Request) {
       email: info.email,
       language: info.language,
       years: info.records.map((r) => r.taxYear),
-      draft,
+      // The office marks (« rempli par Ark ») stay on the server.
+      draft: clientDraft(draft),
       files,
+      ...(session.staffBy ? { staffBy: session.staffBy } : {}),
       officeDocs: office,
       deadlines: deadlinesFor(answers, { extendedTo: toDdMmYyyy(info.main.extendedTo) }),
     });
@@ -66,9 +72,10 @@ export async function POST(request: Request) {
   const perIp = action === "save" ? 600 : action === "upload" ? 400 : 60;
   return route(request, { name: `case-${action || "unknown"}`, perIp, maxBytes, scope }, async ({ body, storage, info, session }) => {
     if (!info || !session) return json({ error: "session_expired" }, 401);
+    if (session.staffBy && (action === "delete" || action === "resumeLink")) return json({ error: "forbidden_scope" }, 403);
     switch (action) {
       case "save":
-        return json(await saveDraft(storage, info, { answers: body.answers, stepId: body.stepId, docStatus: body.docStatus, locale: body.locale, aiOptIn: body.aiOptIn, submitKey: body.submitKey }));
+        return json(await saveDraft(storage, info, { answers: body.answers, stepId: body.stepId, docStatus: body.docStatus, locale: body.locale, aiOptIn: body.aiOptIn, submitKey: body.submitKey }, session.staffBy));
       case "delete":
         await deleteDraft(storage, info);
         return json({ ok: true });
@@ -99,7 +106,7 @@ export async function POST(request: Request) {
             certified: body.certified,
             aiOptIn: body.aiOptIn,
             submitKey: body.submitKey,
-          }),
+          }, new Date(), session.staffBy),
         );
       case "additions":
         if (info.main.state !== "submitted") throw new ServiceError("invalid_request");
@@ -109,10 +116,12 @@ export async function POST(request: Request) {
         if (info.main.state !== "submitted") throw new ServiceError("invalid_request");
         await reopenCase(info);
         {
-          // Same verified visitor: the status session is exchanged for an edit session.
+          // Same verified visitor: the status session is exchanged for an edit session (an office
+          // session stays one, with its own lifetime).
           await revokeSession(readCookie(request));
           const response = json({ ok: true });
-          response.headers.append("Set-Cookie", sessionCookie(await createSession({ caseId: info.caseId, emailHash: info.emailHash, scope: "edit" })));
+          const next = session.staffBy ? { caseId: info.caseId, emailHash: STAFF_HASH, scope: "edit" as const, staffBy: session.staffBy } : { caseId: info.caseId, emailHash: info.emailHash, scope: "edit" as const };
+          response.headers.append("Set-Cookie", sessionCookie(await createSession(next), sessionTtlMs(next) / 1000));
           return response;
         }
       case "feedback":

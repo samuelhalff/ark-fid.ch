@@ -49,6 +49,8 @@ export interface ReturnRecord {
   optIn: boolean;
   aiOptIn: boolean;
   submittedAt?: string;
+  /** Set when Ark staff submitted the questionnaire in an office (assist) session: who. */
+  submittedBy?: string;
   docsReceived?: number;
   docsExpected?: number;
   /** SharePoint drive/folder of the year folder. */
@@ -132,7 +134,8 @@ export interface PreferenceStore {
 export interface AccessRecord {
   /** HMAC of the opaque secret (lookup key). */
   keyHash: string;
-  kind: "link" | "session";
+  /** "assist": Ark staff office access (a link token or a « Code cabinet », single use, shared). */
+  kind: "link" | "session" | "assist";
   caseId: string;
   emailHash: string;
   scope: "edit" | "status";
@@ -143,6 +146,10 @@ export interface AccessRecord {
   /** A link revoked because a newer one replaced it: when (ms), and whether the new one was e-mailed. */
   replacedAt?: number;
   replacedVia?: LinkReplacedVia;
+  /** Assist accesses and the staff sessions they open: who at Ark. */
+  by?: string;
+  /** Assist accesses: the key of the other way in (link ↔ code), revoked with it. */
+  sibling?: string;
 }
 
 export type LinkReplacedVia = "email" | "other";
