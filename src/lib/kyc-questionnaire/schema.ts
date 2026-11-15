@@ -652,7 +652,6 @@ export const STEPS: StepDef[] = [
         // (any text typed by hand stays, so older answers with currencies still read).
         suggest: "countries",
         label: t("Dans quels pays la société travaille-t-elle et fait-elle des paiements ?", "In which countries does the company work and make payments?"),
-        help: t("Et les devises, si ce n’est pas que le franc.", "And the currencies, if not only Swiss francs."),
         variants: [{ when: isPP, label: t("Dans quels pays travaillez-vous, avez-vous des biens ou faites-vous des paiements ?", "In which countries do you work, hold assets or make payments?") }],
         required: true,
         maxLength: 700,
