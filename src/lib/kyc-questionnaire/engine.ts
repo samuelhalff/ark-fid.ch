@@ -243,7 +243,7 @@ export function validateStep(step: StepDef, a: Answers): Errors {
   for (const block of step.blocks) {
     if (!isBlockAsked(block, a)) continue;
     if (block.kind === "field") {
-      const error = validateField(block, a[block.id]);
+      const error = isEmpty(a[block.id]) && block.optionalIf?.(a) ? null : validateField(block, a[block.id]);
       if (error) errors[block.id] = error;
     } else if (block.kind === "group") {
       validateRows(block, rowsOf(a, block.id), a, block.id, errors);

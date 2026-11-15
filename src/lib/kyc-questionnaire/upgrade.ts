@@ -11,7 +11,7 @@
 import type { Answers, Row } from "./types";
 
 /** Version of the questions answers are saved for (1: until 2026-11-13; 2: until the holders tree of 2026-11-15). */
-export const FORM_VERSION = 3;
+export const FORM_VERSION = 4;
 
 /** Answer ids merged into another one: provenance marks and prefill ids follow their answer. */
 export const MOVED_IDS: Record<string, string> = {
@@ -96,6 +96,8 @@ export function upgradeAnswers(input: Answers, options: { infer?: boolean } = {}
     const tree = holdersFromOldLists(out);
     Object.assign(out, tree);
     if ("b.qOther" in tree && tree["b.qOther"] === undefined) delete out["b.qOther"];
+    Object.assign(out, controlFromOldLists(out));
+    Object.assign(out, paymentsFromOldText(out));
   }
   // A draft: the old free text on where the company's money comes from is now « Autre ».
   if (options.infer && str(out["e.companyAssets"]) && out["e.companyAssetSources"] === undefined) out["e.companyAssetSources"] = ["other"];
@@ -139,4 +141,94 @@ export function holdersFromOldLists(a: Answers): Answers {
   out["b.persons"] = persons;
   out["b.holders"] = holders;
   return out;
+}
+
+/** A `b.persons` row for an old row of section B: the same person (same name) when already there, else a new one. */
+function personFor(persons: Row[], row: Row, fallback: string): Row {
+  const key = (r: Row) => `${norm(r.lastName)}|${norm(r.firstName)}`;
+  const found = key(row) !== "|" ? persons.find((p) => key(p) === key(row)) : undefined;
+  if (found) {
+    for (const f of PERSON_FACTS) if (str(row[f]) && !str(found[f])) found[f] = str(row[f]);
+    return found;
+  }
+  const taken = new Set(persons.map((p) => p._id));
+  const base = typeof row._id === "string" && ROW_ID.test(row._id) ? `${row._id.slice(0, 23)}p` : "";
+  let id = base && !taken.has(base) ? base : "";
+  for (let n = 1; !id; n++) if (!taken.has(`${fallback}${String(n).padStart(4, "0")}`)) id = `${fallback}${String(n).padStart(4, "0")}`;
+  const person: Row = { _id: id };
+  for (const f of PERSON_FACTS) if (str(row[f])) person[f] = str(row[f]);
+  persons.push(person);
+  return person;
+}
+
+/**
+ * Other control and the senior manager from a draft's old lists (2026-11-15): each person of
+ * « Qui, et comment ? » (`b.controllersOther`) becomes a person entered once (`b.persons`) named in
+ * `b.controlPersons`, their « comment » joined in `b.controlHow`, and « contrôle autrement » is yes;
+ * the old « Qui dirige la société ? » (`b.manager`) becomes the managers pick (`b.managers`). Only
+ * where the new answer is still empty; the old answers stay (retired, read-only for Ark). Same
+ * mapping as Cadence's `upgrade.py`.
+ */
+export function controlFromOldLists(a: Answers): Answers {
+  const others = rows(a["b.controllersOther"]).filter((r) => str(r.lastName) || str(r.firstName));
+  const managers = rows(a["b.manager"]).filter((r) => str(r.lastName) || str(r.firstName));
+  const emptyIds = (id: string) => !Array.isArray(a[id]) || !(a[id] as unknown[]).length;
+  const moveControl = others.length > 0 && emptyIds("b.controlPersons") && a["b.qOther"] !== "no";
+  const moveManagers = managers.length > 0 && emptyIds("b.managers");
+  if (!moveControl && !moveManagers) return {};
+  const persons: Row[] = rows(a["b.persons"]).map((p) => ({ ...p }));
+  const out: Answers = {};
+  if (moveControl) {
+    out["b.controlPersons"] = [...new Set(others.map((r) => personFor(persons, r, "ctrl")._id))];
+    out["b.qOther"] = "yes";
+    if (!str(a["b.controlHow"])) {
+      const how = [...new Set(others.map((r) => str(r.controlType)).filter(Boolean))].join(" ; ");
+      if (how) out["b.controlHow"] = how.length > 300 ? `${how.slice(0, 299)}…` : how;
+    }
+  }
+  if (moveManagers) out["b.managers"] = [...new Set(managers.map((r) => personFor(persons, r, "mngr")._id))];
+  out["b.persons"] = persons;
+  return out;
+}
+
+const NUMBER = /(\d{1,3}(?:['’\u00a0\u202f ]\d{3})+|\d+)([.,]\d+)?/g;
+const COUNT_AFTER = /^\s*(paiements?|versements?|virements?|op[ée]rations?|transactions?|payments?|transfers?|fois)/;
+/** An amount per payment or per period (« 40 paiements de 5 000 CHF », « par mois »): not a yearly total. */
+const PER_UNIT = /(\bde\b|\bx\b|×|(?:^|\s)à(?:\s|$)|chacune?|\beach\b|\bper\b|par (mois|semaine|jour)|mensuel|hebdo|month|week|\/\s*(mois|month))/;
+const MONEY_AFTER = /^\s*(chf|fr\.?|francs?|eur|euros?|€|usd|\$)/;
+const MONEY_BEFORE = /(chf|fr\.|eur|€|usd|\$)\s*$/;
+
+/**
+ * The old « Combien de paiements par an, pour quel total ? » read as its two numbers, only when
+ * unambiguous: exactly two numbers, one of them marked as a count (« 40 paiements ») or as an
+ * amount (« 200 000 CHF »), the other taking the other role; the count a whole number; no amount per
+ * payment or per period (« de 5 000 », « par mois »), no bare year as the total. Else null.
+ */
+export function parseOperations(text: unknown): { perYear: string; total: string } | null {
+  const s = str(text).toLocaleLowerCase("fr-CH");
+  if (PER_UNIT.test(s)) return null;
+  const found = [...s.matchAll(NUMBER)].map((m) => {
+    const end = (m.index || 0) + m[0].length;
+    return { whole: m[1].replace(/['’\u00a0\u202f ]/g, ""), decimals: m[2] || "", count: COUNT_AFTER.test(s.slice(end)), money: MONEY_AFTER.test(s.slice(end)) || MONEY_BEFORE.test(s.slice(0, m.index)) };
+  });
+  if (found.length !== 2) return null;
+  const [x, y] = found;
+  let count: typeof x | undefined;
+  if ((x.count || y.money) && !(y.count || x.money)) count = x;
+  else if ((y.count || x.money) && !(x.count || y.money)) count = y;
+  if (!count || count.decimals || count.whole.length > 9) return null;
+  const total = count === x ? y : x;
+  if (total.whole.length > 13 || (!total.money && /^(19|20)\d\d$/.test(total.whole))) return null;
+  return { perYear: String(Number(count.whole)), total: `${Number(total.whole)}${total.decimals.replace(",", ".")}` };
+}
+
+/**
+ * The amount through the accounts (`g.amount`, 2026-11-15) from a draft's earlier payments answers:
+ * the total per year when given, else the total read from the old one-field text when unambiguous.
+ * Only while `g.amount` is empty; for an operating company it stays unasked (pruned).
+ */
+export function paymentsFromOldText(a: Answers): Answers {
+  if (str(a["g.amount"])) return {};
+  const total = str(a["g.paymentsTotal"]) || parseOperations(a["g.operations"])?.total || "";
+  return total ? { "g.amount": total } : {};
 }

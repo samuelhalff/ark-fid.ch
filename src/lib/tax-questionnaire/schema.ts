@@ -1122,7 +1122,7 @@ const lumpSum: StepDef = {
     f("lumpSum.basis", "money", t("Base convenue (CHF), si vous la connaissez", "Agreed base (CHF), if you know it", "Vereinbarte Bemessungsgrundlage (CHF), falls bekannt"), { width: "half" }),
     f("lumpSum.swissItems", "textarea", t("Revenus et biens en Suisse (immeubles, comptes, rentes…)", "Income and assets in Switzerland (property, accounts, pensions…)", "Einkünfte und Vermögen in der Schweiz (Liegenschaften, Konten, Renten…)"), {
       maxLength: 2000,
-      help: t("Pour le calcul de contrôle.", "For the control calculation.", "Für die Kontrollrechnung."),
+      help: t("Le forfait doit rester au moins égal à l’impôt ordinaire sur ces éléments : nous le vérifions.", "The lump-sum tax must be at least the ordinary tax on these items: we check this.", "Die Pauschalsteuer muss mindestens der ordentlichen Steuer auf diesen Elementen entsprechen: Wir prüfen das."),
     }),
     f("lumpSum.treaty", "radio", t("Sur certains revenus étrangers, l'impôt retenu est-il réduit grâce à un accord entre pays (convention fiscale) ?", "On some foreign income, is the tax withheld reduced thanks to an agreement between countries (tax treaty)?", "Wird auf gewissen ausländischen Einkünften dank eines Abkommens zwischen Staaten (Steuerabkommen) weniger Steuer abgezogen?"), { options: YES_NO_UNKNOWN }),
   ],

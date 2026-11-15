@@ -75,7 +75,7 @@ function allDocuments(a: Answers): DocItem[] {
     if (!swissCompany(a)) out.push(item("pm.rc", t("Extrait du registre du commerce de moins de 12 mois (ou équivalent étranger)", "Commercial register extract less than 12 months old (or foreign equivalent)"), true));
     if (!swissCompany(a)) out.push(item("pm.statutes", t("Statuts", "Articles of association"), true));
     if (!isListed(a)) out.push(item("pm.shareholders", t("Registre des actions", "Share register"), true));
-    if (a["b.structure"] === "yes" || holderKinds(a).some((kind) => kind !== "person") || String(a["d.group"] || "").trim()) out.push(item("pm.chart", t("Schéma de qui détient la société", "Chart of who owns the company"), true));
+    if ((a["b.structure"] === "yes" && !Array.isArray(a["b.holders"])) || holderKinds(a).some((kind) => kind !== "person") || String(a["d.group"] || "").trim()) out.push(item("pm.chart", t("Schéma de qui détient la société", "Chart of who owns the company"), true));
     for (const row of rows(a, "i.signers")) {
       out.push(item(`pm.signer:${row._id}`, t(`Copie certifiée de la pièce d’identité de ${personLabel(row)}`, `Certified copy of the identity document of ${personLabel(row)}`), true, CERTIFIED_HINT));
     }

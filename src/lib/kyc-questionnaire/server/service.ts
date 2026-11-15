@@ -278,6 +278,11 @@ async function readDraft(record: CaseRecord, rev: RevisionRecord): Promise<Draft
   return { ...draft, answers: upgradeAnswers(draft.answers, { infer: true }), enteredBy: upgradeMarks(draft.enteredBy) };
 }
 
+/** The answers a draft holds for questions the form no longer asks (retired): kept as they are. */
+function retiredAnswers(answers: Answers | undefined): Answers {
+  return Object.fromEntries(Object.entries(answers || {}).filter(([id, value]) => isRetiredId(id) && value !== undefined));
+}
+
 async function writeDraft(record: CaseRecord, rev: RevisionRecord, draft: Draft) {
   await getPorts().storage.putFile(record.driveId, rev.folderId, dataName(record, rev, DRAFT_FILE), enc({ ...draft, formVersion: FORM_VERSION }), "application/json");
 }
@@ -617,7 +622,10 @@ export async function staffAction(
     const previousAnswers = previous?.answers || previousDraft?.answers || {};
     const previousMarks = previous?.answers ? previous.enteredBy : previousDraft?.enteredBy;
     const extra = prefillAnswers(body.prefill, route as KycRoute);
-    const answers: Answers = { ...sanitizeAnswers(previousAnswers), ...extra.answers, route };
+    // The new draft takes the earlier answers in the current shape (moves of upgrade.ts) and keeps
+    // the answers to questions no longer asked, read-only, like any draft.
+    const earlier = upgradeAnswers(previousAnswers, { infer: true });
+    const answers: Answers = { ...sanitizeAnswers(earlier), ...retiredAnswers(earlier), ...extra.answers, route };
     const n = rev.n + 1;
     // A case with the layout folders keeps filing into them; one without opens its next revision folder.
     const folderId = record.folders ? record.folders.technicalFolderId : await storage.ensureSubfolder(record.driveId, record.folderId, `Révision ${n}`);
@@ -1296,7 +1304,8 @@ export async function saveDraft(session: Session, body: { answers?: unknown; ste
     const current = await readDraft(record, rev);
     const seen = body.staffPrefillVersion === undefined ? 0 : body.staffPrefillVersion;
     if (seen !== (current?.staffPrefillVersion || 0)) throw new KycError("draft_changed", 409);
-    const answers = { ...sanitizeAnswers(body.answers), route: record.route };
+    // Answers to questions no longer asked never come from the browser; the draft keeps its own.
+    const answers = { ...sanitizeAnswers(body.answers), ...retiredAnswers(current?.answers), route: record.route };
     const stepId = /^[a-z.]{1,20}$/.test(str(body.stepId)) ? str(body.stepId) : "start";
     const savedAt = now();
     const marks = trackEnteredBy(current?.answers || {}, answers, current?.enteredBy, role === "staff" ? session.staffBy! : null);
@@ -1439,7 +1448,10 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
       }
       throw new KycError("not_editable", 409);
     }
-    const answers = pruneHidden({ ...sanitizeAnswers(body.answers), route: record.route });
+    // Answers to questions no longer asked come from the draft, never the browser: they go with the
+    // form read-only (Ark, PDF), and an earlier answer that stands for a new question counts.
+    const before = await readDraft(record, rev);
+    const answers = pruneHidden({ ...sanitizeAnswers(body.answers), ...retiredAnswers(before?.answers), route: record.route });
     const errors = validateAll(answers);
     if (Object.keys(errors).length) throw new KycError("invalid_answers", 422, { fields: Object.keys(errors).slice(0, 50) });
     const signers = buildSigners(answers, record);
@@ -1476,7 +1488,6 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
     const flags = flagsOf(answers);
     const submittedAt = now();
     const staffBy = role === "staff" ? session.staffBy! : null;
-    const before = await readDraft(record, rev);
     const marks = trackEnteredBy(before?.answers || {}, answers, before?.enteredBy, staffBy);
     const submission: SubmissionRecord = {
       formVersion: FORM_VERSION,

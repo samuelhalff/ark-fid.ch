@@ -64,8 +64,6 @@ const pmCommon: Answers = {
   "e.companyAssets": "Capital libéré",
   "f.funds": "no",
   "g.turnover": "100'000",
-  "g.paymentsPerYear": "50",
-  "g.paymentsTotal": "100'000",
   "g.typesPm": ["domestic"],
   "i.signers": [row("sgn0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur" })],
   "i.place": "Genève",
@@ -87,6 +85,7 @@ const pmNonOp: Answers = {
   ...pmCommon,
   route: "pm-nonop",
   "a.activityKind": "assets",
+  "g.amount": "100'000",
   "b.persons": [row("per0001", { ...person, wealth: "Héritage" })],
   "b.holders": [row("hld0001", { kind: "person", person: "per0001", percent: "100" })],
 };
@@ -116,8 +115,7 @@ const pp: Answers = {
   "e.wealthSources": ["salary"],
   "e.wealthDetails": "Salaire",
   "f.funds": "no",
-  "g.paymentsPerYear": "5",
-  "g.paymentsTotal": "10'000",
+  "g.amount": "10'000",
   "g.typesPp": ["domestic"],
   "i.place": "Genève",
   "i.accept": "yes",
@@ -1103,14 +1101,103 @@ test("the form's two PDFs keep two names in the shared folder, even for a very l
   assert.ok(toSign.endsWith("(KABCDEFGHIJKL R1).pdf") && online.endsWith("(KABCDEFGHIJKL R1).pdf"));
 });
 
-test("payments: two numbers in two fields; an earlier one-line answer stays readable, never asked", () => {
-  const perYear = getField("g.paymentsPerYear")!;
-  const total = getField("g.paymentsTotal")!;
-  assert.equal(perYear.type, "integer");
-  assert.equal(total.type, "money");
-  assert.equal(validateField(perYear, "40"), null);
-  assert.equal(validateField(total, "200'000"), null);
-  assert.notEqual(validateField(perYear, "40 paiements"), null);
-  assert.equal(getField("g.operations")!.retired, true);
-  assert.equal(isRetiredId("g.operations"), true);
+test("section G: an operating company gives its turnover, others the amount through the accounts; no payment count", () => {
+  const visible = (a: Answers) => Object.keys(pruneHidden({ ...a, "g.turnover": "1", "g.amount": "1", "g.paymentsPerYear": "2", "g.paymentsTotal": "3" })).filter((k) => k.startsWith("g.") && !k.startsWith("g.types"));
+  assert.deepEqual(visible(pmOp).sort(), ["g.paymentsPerYear", "g.paymentsTotal", "g.turnover"], "old numbers only read-only (retired)");
+  assert.deepEqual(visible(pmNonOp).sort(), ["g.amount", "g.paymentsPerYear", "g.paymentsTotal"]);
+  assert.deepEqual(visible(pp).sort(), ["g.amount", "g.paymentsPerYear", "g.paymentsTotal"]);
+  for (const id of ["g.operations", "g.paymentsPerYear", "g.paymentsTotal"]) assert.equal(isRetiredId(id), true, id);
+  assert.equal(getField("g.amount")!.type, "money");
+  const { "g.amount": _a, ...noAmount } = pp;
+  assert.deepEqual(Object.keys(validateAll(pruneHidden(noAmount))).filter((k) => k.startsWith("g.")), ["g.amount"]);
+  assert.deepEqual(Object.keys(validateAll(pruneHidden({ ...noAmount, "g.paymentsPerYear": "5" }))).filter((k) => k.startsWith("g.")), [], "an earlier answer counts");
+});
+
+test("a draft saved before the 2026-11-15 changes: old answers moved, kept through the client's saves and sent read-only", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-old-draft", payloadHash: "old" });
+  const caseId = created.summary.caseId;
+  const session = { caseId, revision: 1, emailHash: JEAN };
+  const record = await loadCase(caseId);
+  const rev = record.revisions[0];
+  // What a client had typed under the old section B and G (formVersion 3: holders already moved).
+  const { "b.qOther": _q, ...rest } = pmOp;
+  const oldAnswers: Answers = {
+    ...rest,
+    "b.q25": "yes",
+    "b.controllers25": [row("per0001", { ...person, percent: "100" })],
+    "b.qOther": "yes",
+    "b.controllersOther": [row("ctl0002", { ...person, lastName: "Keller", firstName: "Eva", controlType: "Pacte d'actionnaires" })],
+    "b.structureDetails": "Détenue à 100 % par M. Dupont",
+    "g.operations": "40 paiements, 200 000 CHF",
+  };
+  await f.storage.putFile(record.driveId, rev.folderId, "draft.json", new TextEncoder().encode(JSON.stringify({ savedAt: "2026-11-14T10:00:00Z", stepId: "g", answers: oldAnswers, docDeclared: {}, formVersion: 3 })), "application/json");
+
+  const staff = await staffCase(caseId);
+  assert.deepEqual(staff.draft?.["b.controlPersons"], ["ctl0002p"], "other control moved to the persons");
+  assert.equal(staff.draft?.["b.controlHow"], "Pacte d'actionnaires");
+  assert.equal(staff.draft?.["b.structureDetails"], "Détenue à 100 % par M. Dupont", "a retired answer still shows to Ark");
+  assert.ok(staff.pages.some((page) => page.parts.some((part) => part.id === "b.structureDetails" && part.retired)));
+  const missing = staff.pages.flatMap((page) => page.missingFieldIds);
+  assert.ok(!missing.some((k) => k.startsWith("b.") || k.startsWith("g.")), `nothing new to answer because of the change: ${missing.join(", ")}`);
+
+  // The client's next save (the form never sends retired answers) keeps them in the draft.
+  const view = await clientCase(session);
+  assert.equal(view.draft?.answers["b.structureDetails"], "Détenue à 100 % par M. Dupont");
+  const { "b.structureDetails": _s, "b.controllersOther": _c, "b.q25": _q25, "b.controllers25": _c25, ...fromBrowser } = view.draft!.answers;
+  await saveDraft(session, { answers: fromBrowser, stepId: "g" });
+  const saved = JSON.parse(new TextDecoder().decode((await f.storage.readFile(record.driveId, rev.folderId, "draft.json"))!));
+  assert.equal(saved.formVersion, 4);
+  assert.equal(saved.answers["b.structureDetails"], "Détenue à 100 % par M. Dupont");
+  assert.ok(saved.answers["b.controllersOther"], "the old list stays, retired");
+  assert.deepEqual(saved.answers["b.controlPersons"], ["ctl0002p"]);
+
+  // Sent: retired answers go along, read-only.
+  await uploadAll(f, caseId, saved.answers);
+  const sent = await submit(session, { answers: fromBrowser, submitKey: "old-1" });
+  assert.equal(sent.state, "awaiting_signature");
+  const stored = JSON.parse(new TextDecoder().decode((await f.storage.readFile(record.driveId, rev.folderId, "questionnaire.json"))!));
+  assert.equal(stored.answers["g.operations"], "40 paiements, 200 000 CHF");
+  assert.equal(stored.answers["b.structureDetails"], "Détenue à 100 % par M. Dupont");
+  const after = await staffCase(caseId);
+  assert.ok(after.pages.some((page) => page.parts.some((part) => part.id === "b.structureDetails")), "Ark still reads it once sent");
+});
+
+test("a person's draft with this morning's two payment numbers: the total becomes the amount, nothing new to answer", async () => {
+  const f = await fixture();
+  const created = await createCase({ ...createInput(f.clientFolder, "pp") }, { keyId: "cadence", idempotencyKey: "create-old-pp", payloadHash: "pp" });
+  const caseId = created.summary.caseId;
+  const record = await loadCase(caseId);
+  const rev = record.revisions[0];
+  const { "g.amount": _a, ...rest } = pp;
+  for (const [n, answers] of [[1, { ...rest, "g.paymentsPerYear": "5", "g.paymentsTotal": "10'000" }], [2, { ...rest, "g.operations": "Variable" }]] as const) {
+    await f.storage.putFile(record.driveId, rev.folderId, "draft.json", new TextEncoder().encode(JSON.stringify({ savedAt: "2026-11-15T08:00:00Z", stepId: "g", answers, docDeclared: {}, formVersion: 3 })), "application/json");
+    const staff = await staffCase(caseId);
+    assert.equal(staff.draft?.["g.amount"], n === 1 ? "10'000" : undefined);
+    assert.ok(!staff.pages.flatMap((page) => page.missingFieldIds).some((k) => k.startsWith("g.")), `case ${n}: nothing in G becomes incomplete`);
+  }
+});
+
+test("reopening a form sent before 2026-11-15: the new draft takes the moved answers and keeps the retired ones", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-old-reopen", payloadHash: "reo" });
+  const caseId = created.summary.caseId;
+  const session = { caseId, revision: 1, emailHash: JEAN };
+  await uploadAll(f, caseId, pmOp);
+  await submit(session, { answers: pmOp });
+  const record = await loadCase(caseId);
+  const rev = record.revisions[0];
+  const stored = JSON.parse(new TextDecoder().decode((await f.storage.readFile(record.driveId, rev.folderId, "questionnaire.json"))!));
+  const { "b.qOther": _q, ...rest } = stored.answers;
+  stored.answers = { ...rest, "b.qOther": "yes", "b.controllersOther": [row("ctl0002", { ...person, lastName: "Keller", firstName: "Eva", controlType: "Veto" })], "g.operations": "40 paiements, 200 000 CHF" };
+  delete stored.formVersion;
+  await f.storage.putFile(record.driveId, rev.folderId, "questionnaire.json", new TextEncoder().encode(JSON.stringify(stored)), "application/json");
+  const signedFolder = await f.storage.ensureSubfolder(record.driveId, rev.folderId, "Signé");
+  await f.storage.putFile(record.driveId, signedFolder, "Formulaire signé R1 - scan.pdf", new TextEncoder().encode("%PDF-1.4 signed"), "application/pdf");
+  await confirmSigned(session);
+  await staffAction(caseId, "reopen", { expectedRevision: 1 }, { idempotencyKey: "reopen-old-01", payloadHash: "ro" });
+  const v2 = (await staffCase(caseId)).draft!;
+  assert.deepEqual(v2["b.controlPersons"], ["ctl0002p"]);
+  assert.equal(v2["g.operations"], "40 paiements, 200 000 CHF", "retired answer kept, read-only");
+  assert.ok(v2["b.controllersOther"]);
 });

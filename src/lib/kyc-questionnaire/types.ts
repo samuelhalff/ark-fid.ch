@@ -87,6 +87,8 @@ export interface FieldDef {
   retired?: boolean;
   options?: Option[];
   required?: boolean;
+  /** `required` is not asked when this holds (e.g. an earlier answer stands for it). */
+  optionalIf?: Predicate;
   showIf?: Predicate;
   maxLength?: number;
   width?: "full" | "half";

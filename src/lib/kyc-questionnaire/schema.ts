@@ -43,6 +43,9 @@ const PP_COMPANY_SERVICES = ["formation", "domiciliation", "directorship", "secr
 export const ppCompanyConcerned = (a: Answers) =>
   isPP(a) && Array.isArray(a["d.servicesPp"]) && (a["d.servicesPp"] as string[]).some((v) => PP_COMPANY_SERVICES.includes(v));
 
+/** A draft that already answered the payments under an earlier version of section G: that answer counts. */
+const answeredBefore = (a: Answers) => ["g.operations", "g.paymentsPerYear", "g.paymentsTotal"].some((id) => typeof a[id] === "string" && (a[id] as string).trim() !== "");
+
 // ---- reusable fields -------------------------------------------------------------------------------
 
 const yesNo = (id: string, label: ReturnType<typeof t>, extra: Partial<FieldDef> = {}): FieldDef => ({ kind: "field", id, type: "yesno", label, required: true, ...extra });
@@ -412,7 +415,7 @@ export const STEPS: StepDef[] = [
         kind: "group",
         id: "a.directors",
         label: t("Administrateurs, gérants et signataires", "Directors, managers and signatories"),
-        help: t("Une ligne par personne.", "One line per person."),
+        help: t("Tous ceux inscrits au registre du commerce, chacun avec son droit de signature.", "Everyone recorded in the commercial register, each with their signing right."),
         itemLabel: t("Personne", "Person"),
         titleFields: ["lastName", "firstName"],
         minRows: 1,
@@ -482,7 +485,7 @@ export const STEPS: StepDef[] = [
         fields: [...personFields(), { kind: "field", id: "relation", type: "text", label: t("Lien avec vous", "Relationship to you"), width: "half" }],
       },
       yesNo("b.ppStructure", t("Ces biens sont-ils détenus par une société, un trust ou une fondation ?", "Are these assets held by a company, a trust or a foundation?"), { help: t("Exemple : un immeuble détenu par votre SA. Trust : structure où quelqu’un gère des biens pour d’autres.", "Example: a building held by your company. Trust: a structure in which someone manages assets for others.") }),
-      { kind: "field", id: "b.ppStructureDetails", type: "textarea", label: t("Laquelle ? Nom, pays, et qui détient quoi", "Which one? Name, country, and who holds what"), help: t("Exemple : X SA (Suisse) détient l’immeuble ; vous détenez 100 % de X SA.", "Example: X SA (Switzerland) owns the building; you hold 100% of X SA."), required: true, showIf: is("b.ppStructure", "yes") },
+      { kind: "field", id: "b.ppStructureDetails", type: "textarea", label: t("Laquelle ? Nom, pays, et qui détient quoi", "Which one? Name, country, and who holds what"), help: t("Jusqu’à vous, étape par étape, avec la part de chacun.", "Down to you, step by step, with each one's share."), required: true, showIf: is("b.ppStructure", "yes") },
     ],
   },
   {
@@ -505,8 +508,10 @@ export const STEPS: StepDef[] = [
       { kind: "field", id: "b.holdersUnknown", type: "boolean", label: UNKNOWN, showIf: holdersAsked, ui: "hidden" },
       // Operating company: control by other means (art. 2a al. 3 LBA), asked once.
       yesNo("b.qOther", t("Quelqu’un contrôle-t-il la société autrement ?", "Does anyone control the company in another way?"), {
-        help: t("Accord entre actionnaires, droit de veto…", "Shareholders' agreement, veto right…"),
+        help: t("Ce qui compte : un accord entre actionnaires, un droit de veto, le pouvoir de nommer le conseil.", "What counts: a shareholders' agreement, a veto right, the power to appoint the board."),
         showIf: cascade,
+        // A draft that answered « 25 % ou plus : oui » before 2026-11-15 was not asked this then (while someone still reaches 25 %).
+        optionalIf: (a) => a["b.q25"] === "yes" && controllers25(a).length > 0,
         ui: "hidden",
       }),
       { kind: "field", id: "b.controlPersons", type: "persons", label: t("Qui ?", "Who?"), required: true, showIf: (a) => cascade(a) && a["b.qOther"] === "yes", ui: "hidden" },
@@ -522,7 +527,7 @@ export const STEPS: StepDef[] = [
         ui: "hidden",
       },
       B_PERSONS,
-      yesNo("b.forThird", t("La société détient-elle de l’argent ou des biens qui appartiennent à quelqu’un d’autre ?", "Does the company hold money or assets that belong to someone else?"), { help: t("Exemple : des fonds de clients.", "Example: client funds."), showIf: isOp }),
+      yesNo("b.forThird", t("La société détient-elle de l’argent ou des biens qui appartiennent à quelqu’un d’autre ?", "Does the company hold money or assets that belong to someone else?"), { help: t("Ce qui compte : l’argent ou les biens de clients ou d’autres personnes que la société garde ou gère pour eux.", "What counts: money or assets of clients or other people that the company keeps or manages for them."), showIf: isOp }),
       { kind: "field", id: "b.forThirdDetails", type: "textarea", label: t("À qui, et quoi ?", "Whose, and what?"), required: true, showIf: (a) => isOp(a) && a["b.forThird"] === "yes" },
       {
         kind: "field",
@@ -611,7 +616,7 @@ export const STEPS: StepDef[] = [
       yesNo(
         "c.criminal",
         t("Quelqu’un fait-il l’objet d’une enquête pénale, ou d’une condamnation encore inscrite, pour blanchiment ou une infraction proche ?", "Is anyone under criminal investigation, or subject to a conviction still on record, for money laundering or a related offence?"),
-        { help: t("Par exemple corruption, escroquerie, abus de confiance, fraude fiscale grave, financement du terrorisme. En Suisse ou à l’étranger.", "For example bribery, fraud, breach of trust, serious tax fraud, terrorist financing. In Switzerland or abroad.") },
+        { help: t("Ce qui compte : corruption, escroquerie, abus de confiance, fraude fiscale grave, financement du terrorisme, en Suisse ou à l’étranger.", "What counts: bribery, fraud, breach of trust, serious tax fraud, terrorist financing, in Switzerland or abroad.") },
       ),
       { kind: "field", id: "c.criminalDetails", type: "textarea", label: t("Qui, quoi, quelle autorité, où en est-on ?", "Who, what, which authority, what stage?"), required: true, showIf: is("c.criminal", "yes") },
     ],
@@ -632,8 +637,8 @@ export const STEPS: StepDef[] = [
         id: "d.activity",
         type: "textarea",
         label: t("Décrivez l’activité de la société et son secteur", "Describe the company's business and its sector"),
-        help: t("Exemple : deux restaurants à Genève.", "Example: two restaurants in Geneva."),
-        variants: [{ when: isNonOp, label: t("Que détient la société ?", "What does the company hold?"), help: t("Exemple : un immeuble loué à Genève ; les participations d’un groupe familial.", "Example: a let building in Geneva; the shareholdings of a family group.") }],
+        help: t("Ce qu’elle vend ou fait, pour qui et où.", "What it sells or does, for whom and where."),
+        variants: [{ when: isNonOp, label: t("Que détient la société ?", "What does the company hold?"), help: t("Ses biens et participations, et où ils se trouvent.", "Its assets and holdings, and where they are.") }],
         required: true,
         maxLength: 2500,
         showIf: isPM,
@@ -660,7 +665,7 @@ export const STEPS: StepDef[] = [
         maxLength: 2000,
       },
       { kind: "field", id: "d.group", type: "text", label: t("Autres sociétés du même groupe", "Other companies of the same group"), help: t("Même société mère ou mêmes propriétaires.", "Same parent company or same owners."), maxLength: 400, showIf: isPM },
-      yesNo("d.licence", t("L’activité demande-t-elle une autorisation officielle en Suisse ?", "Does the business need an official licence in Switzerland?"), { help: t("Par exemple banque, assurance, gestion de fortune, restaurant, santé.", "For example banking, insurance, asset management, restaurant, healthcare."), showIf: (a) => isPM(a) || ppCompanyConcerned(a) }),
+      yesNo("d.licence", t("L’activité demande-t-elle une autorisation officielle en Suisse ?", "Does the business need an official licence in Switzerland?"), { help: t("Ce qui compte : une activité qui demande l’accord de la FINMA, du canton ou d’une autre autorité (banque, assurance, gestion de fortune, restaurant, santé…).", "What counts: a business that needs approval from FINMA, the canton or another authority (banking, insurance, asset management, restaurant, healthcare…)."), showIf: (a) => isPM(a) || ppCompanyConcerned(a) }),
       { kind: "field", id: "d.licenceDetails", type: "text", label: t("Laquelle, quelle autorité, où en est la demande ?", "Which one, which authority, where does the application stand?"), required: true, maxLength: 400, showIf: (a) => a["d.licence"] === "yes" && (isPM(a) || ppCompanyConcerned(a)) },
       // Retired 2026-11-13: both are in the financial statements asked in H.
       retired("d.turnover", "money", t("Chiffre d’affaires du dernier exercice (CHF)", "Turnover of the last financial year (CHF)")),
@@ -708,26 +713,29 @@ export const STEPS: StepDef[] = [
           { value: "other", label: t("Autre", "Other") },
         ],
       },
-      { kind: "field", id: "e.wealthDetails", type: "textarea", label: t("Précisez en une phrase", "Say more in one sentence"), help: t("Exemple : vente de mon entreprise en 2019.", "Example: sale of my business in 2019."), required: true, maxLength: 2000, showIf: isPP },
-      { kind: "field", id: "e.otherWealth", type: "textarea", label: t("D’où vient la fortune des autres personnes ?", "Where does the other people's wealth come from?"), help: t("Une phrase par personne.", "One sentence per person."), required: true, maxLength: 2000, showIf: (a) => isPP(a) && a["b.ppOwner"] === "others" },
+      { kind: "field", id: "e.wealthDetails", type: "textarea", label: t("Précisez en une phrase", "Say more in one sentence"), help: t("Ce qui a créé la fortune, et quand.", "What created the wealth, and when."), required: true, maxLength: 2000, showIf: isPP },
+      { kind: "field", id: "e.otherWealth", type: "textarea", label: t("D’où vient la fortune des autres personnes ?", "Where does the other people's wealth come from?"), help: t("Pour chacune : salaire, entreprise, héritage…", "For each one: salary, business, inheritance…"), required: true, maxLength: 2000, showIf: (a) => isPP(a) && a["b.ppOwner"] === "others" },
 
       { kind: "heading", id: "f.heading", section: "F", label: t("Argent confié à Ark", "Money entrusted to Ark") },
       yesNo("f.funds", t("Allez-vous confier de l'argent à Ark, par exemple le capital d'une société à créer ?", "Will you entrust money to Ark, for example the capital of a company to be set up?"), { help: t("Nos honoraires ne comptent pas.", "Our fees do not count.") }),
-      { kind: "field", id: "f.origin", type: "textarea", label: t("D’où vient cet argent, et à qui est-il ?", "Where does this money come from, and whose is it?"), help: t("Exemple : vente de mon appartement à Lausanne en mars 2026.", "Example: sale of my flat in Lausanne in March 2026."), required: true, maxLength: 4100, showIf: is("f.funds", "yes") },
+      { kind: "field", id: "f.origin", type: "textarea", label: t("D’où vient cet argent, et à qui est-il ?", "Where does this money come from, and whose is it?"), help: t("Ce qui l’a produit (une vente, un héritage…), quand, et qui en est le propriétaire.", "What produced it (a sale, an inheritance…), when, and who owns it."), required: true, maxLength: 4100, showIf: is("f.funds", "yes") },
       { kind: "field", id: "f.amount", type: "money", label: t("Montant", "Amount"), required: true, width: "half", showIf: is("f.funds", "yes") },
       { kind: "field", id: "f.currency", type: "select", label: t("Devise", "Currency"), required: true, width: "half", options: CURRENCIES, showIf: is("f.funds", "yes") },
       { kind: "field", id: "f.currencyOther", type: "text", label: t("Quelle devise ?", "Which currency?"), required: true, width: "half", maxLength: 40, showIf: (a) => a["f.funds"] === "yes" && a["f.currency"] === "other" },
       { kind: "field", id: "f.bank", type: "text", label: t("Depuis quel compte ?", "From which account?"), help: t("Banque, pays et titulaire.", "Bank, country and account holder."), required: true, maxLength: 450, showIf: is("f.funds", "yes") },
 
       { kind: "heading", id: "g.heading", section: "G", label: t("Activité prévue", "Expected activity") },
-      { kind: "field", id: "g.turnover", type: "money", label: t("Chiffre d’affaires annuel (CHF)", "Annual turnover (CHF)"), help: t("Le dernier connu, ou une estimation pour une société nouvelle.", "The latest known, or an estimate for a new company."), width: "half", required: true, showIf: isOp },
-      { kind: "field", id: "g.paymentsPerYear", type: "integer", label: t("Paiements par an", "Payments per year"), help: t("Une estimation, par exemple 40", "An estimate, e.g. 40"), required: true, width: "half" },
-      { kind: "field", id: "g.paymentsTotal", type: "money", label: t("Total par an (CHF)", "Total per year (CHF)"), help: t("Par exemple 200 000", "E.g. 200,000"), required: true, width: "half" },
-      // Retired 2026-11-15: two numbers in one text field; split into the two fields above.
-      retired("g.operations", "text", t("Combien de paiements par an, pour quel total ?", "How many payments a year, for what total?")),
+      { kind: "field", id: "g.turnover", type: "money", label: t("Chiffre d’affaires annuel (CHF)", "Annual turnover (CHF)"), help: t("Celui du dernier exercice. Pour une société nouvelle, une estimation suffit.", "The last financial year's. For a new company, an estimate is enough."), width: "half", required: true, showIf: isOp },
+      // No turnover to give (a person, a non-operating company): what goes through the accounts.
+      { kind: "field", id: "g.amount", type: "money", label: t("Montant qui passera sur les comptes en un an (CHF)", "Amount that will go through the accounts in a year (CHF)"), help: t("À peu près : ce qui entre et sort. Nous vérifions seulement que les mouvements correspondent à l’activité.", "Roughly: what comes in and goes out. We only check that the movements match the activity."), width: "half", required: true, optionalIf: answeredBefore, showIf: (a) => !isOp(a) },
       { kind: "field", id: "g.typesPm", type: "checkboxes", required: true, label: t("Quels genres de paiements prévoyez-vous ?", "What kinds of payments do you expect?"), options: PM_OPERATIONS, showIf: isPM },
       { kind: "field", id: "g.typesPp", type: "checkboxes", required: true, label: t("Quels genres de paiements prévoyez-vous ?", "What kinds of payments do you expect?"), options: PP_OPERATIONS, showIf: isPP },
       { kind: "field", id: "g.typesOther", type: "text", label: t("Lequel ?", "Which one?"), required: true, showIf: (a) => has("g.typesPm", "other")(a) || has("g.typesPp", "other")(a) },
+      // Retired 2026-11-15: payments counted and totalled (first one text field, then two numbers);
+      // a turnover or the amount through the accounts says enough (Sam, 2026-11-15).
+      retired("g.operations", "text", t("Combien de paiements par an, pour quel total ?", "How many payments a year, for what total?")),
+      retired("g.paymentsPerYear", "integer", t("Paiements par an", "Payments per year")),
+      retired("g.paymentsTotal", "money", t("Total par an (CHF)", "Total per year (CHF)")),
       // Retired 2026-11-13.
       retired("f.more", "text", t("Autres versements prévus ?", "Other payments planned?")),
       retired("g.turnoverPp", "money", t("Chiffre d'affaires annuel prévu (CHF, seulement si une société est concernée)", "Expected annual turnover (CHF, only if a company is concerned)")),

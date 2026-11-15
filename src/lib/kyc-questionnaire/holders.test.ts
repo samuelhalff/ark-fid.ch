@@ -3,7 +3,7 @@ import test from "node:test";
 import { missingAnswers, nestedKeyLabel, pruneHidden, sanitizeAnswers, validateAll } from "./engine";
 import { anyUnknown, computedText, controllers25, formatPercent, holderLines, holdersAt, parsePercent, prunePeople, referencedPersonIds, showsComputedLine, stakes, withHoldersAt } from "./holders";
 import { needsManager, sectionBPersons } from "./schema";
-import { holdersFromOldLists, upgradeAnswers } from "./upgrade";
+import { controlFromOldLists, holdersFromOldLists, parseOperations, paymentsFromOldText, upgradeAnswers } from "./upgrade";
 import type { Answers, Row } from "./types";
 
 const facts = { birthDate: "01.02.1970", nationality: "Suisse", address: "Rue du Rhône 1, 1204 Genève", country: "Suisse" };
@@ -176,4 +176,80 @@ test("a share is accepted only as the 25 % computation reads it", () => {
   assert.equal(validateAll(pruneHidden(bad))["b.holders[hlds00001].percent"], "invalid_percent");
   const good = { ...westBay, "b.holders": [person("hlds00001", "pers00001", "33,5 %")] };
   assert.equal(validateAll(pruneHidden(good))["b.holders[hlds00001].percent"], undefined);
+});
+
+test("a draft's old other control and senior manager become persons and picks (Cadence upgrade.py does the same)", () => {
+  // The shape a draft saved before 2026-11-15 holds, already through the holders pass (formVersion 3).
+  const old: Answers = {
+    route: "pm-op",
+    "a.listed": "no",
+    "b.q25": "yes",
+    "b.controllers25": [{ _id: "k3x9q1m2", lastName: "Rossi", firstName: "Anna", percent: "60", holding: ["direct"] }],
+    "b.persons": [{ _id: "k3x9q1m2p", lastName: "Rossi", firstName: "Anna" }],
+    "b.holders": [{ _id: "k3x9q1m2h", kind: "person", person: "k3x9q1m2p", percent: "60" }],
+    "b.qOther": "yes",
+    "b.controllersOther": [
+      { _id: "z8w7v6u5", lastName: "ROSSI", firstName: "Ánna", birthDate: "01.02.1970", controlType: "Droit de veto" },
+      { _id: "y1y2y3y4", lastName: "Keller", firstName: "Eva", controlType: "Pacte d'actionnaires" },
+    ],
+    "b.manager": [{ _id: "m0m0m0m0", lastName: "Favre", firstName: "Luc", function: "CEO", country: "Suisse" }],
+  };
+  const up = upgradeAnswers(old, { infer: true });
+  assert.deepEqual(up["b.persons"], [
+    { _id: "k3x9q1m2p", lastName: "Rossi", firstName: "Anna", birthDate: "01.02.1970" },
+    { _id: "y1y2y3y4p", lastName: "Keller", firstName: "Eva" },
+    { _id: "m0m0m0m0p", lastName: "Favre", firstName: "Luc", country: "Suisse" },
+  ]);
+  assert.deepEqual(up["b.controlPersons"], ["k3x9q1m2p", "y1y2y3y4p"]);
+  assert.equal(up["b.controlHow"], "Droit de veto ; Pacte d'actionnaires");
+  assert.equal(up["b.qOther"], "yes");
+  assert.deepEqual(up["b.managers"], ["m0m0m0m0p"]);
+  assert.deepEqual(up["b.controllersOther"], old["b.controllersOther"], "the old answer stays, retired");
+  assert.deepEqual(upgradeAnswers(up, { infer: true }), up, "idempotent");
+  assert.equal(upgradeAnswers(old)["b.controlPersons"], undefined, "a sent form is read as sent");
+  const kept = upgradeAnswers({ ...old, "b.controlPersons": ["k3x9q1m2p"], "b.controlHow": "x" }, { infer: true });
+  assert.deepEqual([kept["b.controlPersons"], kept["b.controlHow"]], [["k3x9q1m2p"], "x"], "the client's new answer is never replaced");
+  assert.equal(controlFromOldLists({ ...old, "b.qOther": "no" })["b.controlPersons"], undefined, "« non » stays no: leftover rows name nobody");
+  const clash = controlFromOldLists({ "b.persons": [{ _id: "y1y2y3y4p", lastName: "Autre" }], "b.manager": [{ _id: "y1y2y3y4", lastName: "Favre" }] });
+  assert.deepEqual(clash["b.managers"], ["mngr0001"]);
+  // Other control is now asked from the persons: nothing left to answer in section B.
+  const missing = Object.keys(validateAll(pruneHidden(up))).filter((k) => k.startsWith("b.controlPersons") || k === "b.qOther");
+  assert.deepEqual(missing, []);
+});
+
+test("the old payments text gives its total only when it reads unambiguously (same cases as upgrade.py)", () => {
+  const cases: [string, { perYear: string; total: string } | null][] = [
+    ["40 paiements, 200 000 CHF", { perYear: "40", total: "200000" }],
+    ["CHF 200'000 en 40 versements", { perYear: "40", total: "200000" }],
+    ["environ 12 paiements pour 50000", { perYear: "12", total: "50000" }],
+    ["1 500 000 CHF, 250 opérations", { perYear: "250", total: "1500000" }],
+    ["40 paiements", null],
+    ["entre 10 et 20 paiements, 100 000 CHF", null],
+    ["40, 200000", null],
+    ["40 paiements et 2 virements", null],
+    ["Variable", null],
+    ["40 paiements de 5 000 CHF", null],
+    ["40 x 5000 CHF", null],
+    ["40 paiements en 2026", null],
+    ["40 paiements à 5000 CHF", null],
+    ["2 paiements par mois, 3000 CHF", null],
+  ];
+  for (const [text, expected] of cases) {
+    assert.deepEqual(parseOperations(text), expected, text);
+    const up = upgradeAnswers({ route: "pp", "g.operations": text }, { infer: true });
+    assert.equal(up["g.operations"], text, "the old answer stays");
+    assert.equal(up["g.amount"], expected?.total);
+  }
+  assert.equal(paymentsFromOldText({ "g.paymentsTotal": "10'000", "g.operations": "40 paiements, 200 000 CHF" })["g.amount"], "10'000", "this morning's total first");
+  assert.deepEqual(paymentsFromOldText({ "g.amount": "5", "g.paymentsTotal": "9" }), {}, "an amount given is kept");
+  assert.equal(upgradeAnswers({ route: "pp", "g.paymentsTotal": "9" })["g.amount"], undefined, "a sent form is read as sent");
+});
+
+test("a draft that said « 25 % ou plus : oui » before 2026-11-15 was not asked about other control: not asked now either", () => {
+  const { "b.qOther": _q, ...noOther } = westBay;
+  assert.ok("b.qOther" in validateAll(pruneHidden(noOther)), "a new form asks it");
+  assert.ok(!("b.qOther" in validateAll(pruneHidden({ ...noOther, "b.q25": "yes" }))), "the old answer stands");
+  assert.ok(!("b.qOther" in validateAll(pruneHidden({ ...noOther, "b.q25": "yes", "b.qOther": "no" }))));
+  const below = { ...noOther, "b.q25": "yes", "b.holders": [company("hldx00001", "Holding X SA", "100", [person("hldy00001", "pery00001", "20"), person("hldz00001", "perz00001", "20")])] };
+  assert.ok("b.qOther" in validateAll(pruneHidden(below)), "once nobody reaches 25 %, it is asked again");
 });
