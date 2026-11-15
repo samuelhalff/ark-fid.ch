@@ -42,6 +42,14 @@ test("every nationality and country field of a person or the company offers the 
   for (const f of countryFields.filter((f) => /nationality|taxCountry$/.test(f.id) && f.id !== "a.companyTaxCountry")) assert.equal(f.suggest, "countries", `${f.id} takes several`);
 });
 
+test("the countries where the client works and pays offer the picker taking several", () => {
+  const f = STEPS.flatMap((s) => s.blocks.flatMap((b) => (b.kind === "group" ? b.fields : b.kind === "field" ? [b] : []))).find((f) => f.id === "d.countries");
+  assert.equal(f?.type, "text");
+  assert.equal(f?.suggest, "countries");
+  // An older free-text answer keeps its names (separators tidied to commas); a pick adds after it.
+  assert.equal(chooseCountry("Suisse ; France, EUR, ", "Allemagne", true, "fr"), "Suisse, France, EUR, Allemagne");
+});
+
 test("an empty field offers the common countries; a typed name its matches; a full name nothing", () => {
   assert.deepEqual(suggestCountries("", false, "fr").map((c) => c.name), ["Suisse", "France", "Italie", "Allemagne", "Autriche", "Royaume-Uni", "États-Unis", "Liechtenstein"]);
   assert.deepEqual(suggestCountries("  ", false, "en").slice(0, 2).map((c) => c.name), ["Switzerland", "France"]);
