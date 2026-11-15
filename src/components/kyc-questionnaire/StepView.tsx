@@ -1,13 +1,14 @@
 "use client";
 
 import { Check, Info, PencilSimple, Plus, Trash, WarningCircle } from "@phosphor-icons/react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { Alert, AlertDescription } from "@/src/components/ui/alert";
 import { Badge } from "@/src/components/ui/badge";
 import { Button } from "@/src/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { displayValue, fieldText, getField, isBlockAsked, validateField, isRowFieldVisible, label, newRowId, rowsOf, rowTitle } from "@/src/lib/kyc-questionnaire/engine";
+import { choiceLabel, isUnnamedRow, knownPeople, rowFromPerson } from "@/src/lib/kyc-questionnaire/people";
 import { declarations } from "@/src/lib/kyc-questionnaire/schema";
 import { UI } from "@/src/lib/kyc-questionnaire/ui";
 import type { Answers, Block, FieldDef, GroupDef, HeadingDef, KycLocale, NoteDef, Row, StepDef } from "@/src/lib/kyc-questionnaire/types";
@@ -298,7 +299,7 @@ function Note({ note, locale, answers }: { note: NoteDef; locale: KycLocale; ans
 function GroupControl({ group, locale, answers, arkPrefilled }: { group: GroupDef; locale: KycLocale; answers: Answers; arkPrefilled?: boolean }) {
   const { control, formState, trigger } = useFormContext();
   const name = toName(group.id);
-  const { fields, append, remove } = useFieldArray({ control, name, keyName: "_key" });
+  const { fields, append, remove, update } = useFieldArray({ control, name, keyName: "_key" });
   const L = (text: Parameters<typeof label>[0]) => label(text, locale);
   const rows = rowsOf(answers, group.id);
   // A prefilled person with an answer missing or refused (e.g. no nationality yet) opens at once.
@@ -339,11 +340,33 @@ function GroupControl({ group, locale, answers, arkPrefilled }: { group: GroupDe
       </div>
     ) : null;
 
+  // People named earlier in the form (directors, contact, persons of an earlier list): one tap copies them into an entry.
+  const people = knownPeople(answers, group.id);
+  const choices = (index: number, row: Row) =>
+    people.length && isUnnamedRow(row) ? (
+      <div className="flex flex-col gap-2 sm:col-span-2">
+        {people.map((person) => (
+          <Button
+            key={person.key}
+            type="button"
+            variant="outline"
+            className="h-auto min-h-11 justify-start py-2 text-left whitespace-normal [overflow-wrap:anywhere]"
+            onClick={() => update(index, rowFromPerson(group, person, { ...row, _id: row._id || newRowId() }))}
+          >
+            {choiceLabel(person, locale)}
+          </Button>
+        ))}
+        <p className="text-sm text-muted-foreground">{UI.otherPerson[locale]}</p>
+      </div>
+    ) : null;
+
   /** The fields of one row, and its remove button (a card of its own, or a part of the prefilled card). */
-  const rowFields = (index: number, row: Row) =>
-    group.fields
+  const rowFields = (index: number, row: Row) => [
+    <Fragment key="choices">{choices(index, row)}</Fragment>,
+    ...group.fields
       .filter((f) => isRowFieldVisible(f, answers, row))
-      .map((f) => <FieldControl key={f.id} field={f} name={`${name}.${index}.${f.id}`} locale={locale} answers={answers} />);
+      .map((f) => <FieldControl key={f.id} field={f} name={`${name}.${index}.${f.id}`} locale={locale} answers={answers} />),
+  ];
   const removeButton = (index: number) =>
     fields.length > min ? (
       <Button type="button" variant="ghost" size="sm" onClick={() => remove(index)} aria-label={`${UI.remove[locale]} ${item} ${index + 1}`}>

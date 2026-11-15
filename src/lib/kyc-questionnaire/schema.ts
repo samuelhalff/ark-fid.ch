@@ -321,12 +321,12 @@ export const STEPS: StepDef[] = [
         label: t("Que fait la société aujourd’hui ?", "What does the company do today?"),
         options: [
           { value: "operates", label: t("Elle vend des produits ou des services", "It sells products or services") },
-          { value: "supports", label: t("Elle dirige, finance ou sert d’autres sociétés de son groupe", "It manages, finances or serves other companies of its group") },
+          { value: "supports", label: t("Elle travaille pour les autres sociétés de son groupe (direction, financement, services)", "It works for the other companies of its group (management, financing, services)") },
           { value: "assets", label: t("Elle détient seulement des biens (participations, immeubles, titres, comptes)", "It only holds assets (shareholdings, real estate, securities, accounts)") },
           { value: "notStarted", label: t("Elle n’a pas encore commencé", "It has not started yet") },
         ],
       },
-      yesNo("a.listed", t("La société est-elle cotée en bourse, ou détenue à plus de 50 % par une société cotée ?", "Is the company listed on a stock exchange, or more than 50% owned by a listed company?")),
+      yesNo("a.listed", t("La société est-elle cotée en bourse ?", "Is the company listed on a stock exchange?"), { help: t("Répondez aussi oui si une société cotée en détient plus de la moitié.", "Also answer yes if a listed company owns more than half of it.") }),
       { kind: "field", id: "a.listedWhere", type: "text", label: t("Quelle société, quelle bourse ?", "Which company, which exchange?"), required: true, showIf: is("a.listed", "yes") },
       {
         kind: "group",
@@ -383,7 +383,7 @@ export const STEPS: StepDef[] = [
         id: "b.ppOwner",
         type: "radio",
         required: true,
-        label: t("L’argent et les biens concernés par notre mandat sont-ils à vous ?", "Do the money and assets involved in our mandate belong to you?"),
+        label: t("L’argent et les biens dont nous nous occupons sont-ils à vous ?", "Do the money and assets we deal with belong to you?"),
         help: t("Même si un compte ou un contrat est au nom d’un autre.", "Even if an account or a contract is in someone else's name."),
         options: [
           { value: "self", label: t("Oui, seulement à moi", "Yes, to me alone") },
@@ -418,10 +418,10 @@ export const STEPS: StepDef[] = [
         id: "b.q25",
         type: "radio",
         required: true,
-        label: t("Une ou plusieurs personnes détiennent-elles au moins 25 % de la société (capital ou voix) ?", "Do one or more people hold at least 25% of the company (capital or votes)?"),
+        label: t("Une personne détient-elle 25 % ou plus de la société ?", "Does anyone own 25% or more of the company?"),
         help: t(
-          "Comptez aussi les parts détenues via une autre société, ou ensemble avec d’autres par accord. Seules comptent des personnes, pas des sociétés.",
-          "Count shares held through another company, or together with others by agreement, too. Only people count, not companies.",
+          "En parts ou en droits de vote, directement ou à travers une autre société. Par exemple, si vous détenez toute la société : Oui.",
+          "In shares or voting rights, directly or through another company. For example, if you own the whole company: Yes.",
         ),
         options: [
           { value: "yes", label: t("Oui", "Yes") },
@@ -436,9 +436,10 @@ export const STEPS: StepDef[] = [
         id: "b.qOther",
         type: "radio",
         required: true,
-        label: t(
-          "Quelqu’un contrôle-t-il la société autrement, par exemple par un accord entre actionnaires, un droit de veto ou le droit de nommer la majorité du conseil ?",
-          "Does someone control the company otherwise, for example through a shareholders' agreement, a veto right or the right to appoint most of the board?",
+        label: t("Quelqu’un contrôle-t-il la société d’une autre façon ?", "Does anyone control the company in another way?"),
+        help: t(
+          "Par exemple par un accord entre actionnaires, un droit de veto, ou le droit de nommer la plupart du conseil.",
+          "For example through a shareholders' agreement, a veto, or the right to appoint most of the board.",
         ),
         options: [
           { value: "yes", label: t("Oui", "Yes") },
@@ -463,7 +464,7 @@ export const STEPS: StepDef[] = [
       { kind: "field", id: "b.forThirdDetails", type: "textarea", label: t("À qui, et quoi ?", "Whose, and what?"), required: true, showIf: (a) => isOp(a) && a["b.forThird"] === "yes" },
       // Non-operating company: art. 2a al. 6 LBA, every beneficial owner of the assets.
       B_NONOP_GROUP,
-      yesNo("b.structure", t("Entre la société et ses propriétaires, y a-t-il une autre société, un trust, une fondation ou un prête-nom ?", "Between the company and its owners, is there another company, a trust, a foundation or a nominee?"), { help: t("Prête-nom : quelqu’un qui détient des parts pour un autre. Trust : structure où quelqu’un gère des biens pour d’autres.", "Nominee: someone who holds shares for another person. Trust: a structure in which someone manages assets for others.") }),
+      yesNo("b.structure", t("La société est-elle détenue à travers une autre société, un trust, une fondation ou un prête-nom ?", "Is the company owned through another company, a trust, a foundation or a nominee?"), { help: t("Prête-nom : quelqu’un qui détient des parts pour un autre. Trust : structure où quelqu’un gère des biens pour d’autres.", "Nominee: someone who holds shares for another person. Trust: a structure in which someone manages assets for others.") }),
       {
         kind: "field",
         id: "b.structureKinds",
@@ -472,7 +473,7 @@ export const STEPS: StepDef[] = [
         required: true,
         showIf: is("b.structure", "yes"),
         options: [
-          { value: "company", label: t("Une ou plusieurs sociétés", "One or more companies") },
+          { value: "company", label: t("Une autre société", "Another company") },
           { value: "trust", label: t("Un trust", "A trust") },
           { value: "foundation", label: t("Une fondation", "A foundation") },
           { value: "nominee", label: t("Un prête-nom", "A nominee") },
