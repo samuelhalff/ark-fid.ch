@@ -2,18 +2,20 @@
  * Staff API for Cadence (signed server-to-server requests, routes under
  * app/api/tax-questionnaire/staff/returns): create or adopt a return, the change feed, one return
  * with its documents and answers, and the row actions (link, remind, exclude, include, deadline,
- * staffDocs, officeDocs, attach, assist). The site stays the only sender of tax e-mails; Cadence asks it to send.
+ * staffDocs, officeDocs, attach, assist, prefill). The site stays the only sender of tax e-mails; Cadence asks it to send.
  * Contract: docs/tax-questionnaire.md « API bureau (Cadence) ».
  */
 import { createHmac } from "node:crypto";
 import { parseApiKeys } from "../../kyc-questionnaire/server/signature";
 import { personName } from "../format";
+import { getField, getGroup, isBlockVisible, isQuestionVisible, label, validateField, visibleSteps } from "../logic";
+import type { Answers, FieldDef, Option } from "../types";
 import { assistMinutes } from "../../forms/assist";
 import { emailHash, issueAssist, issueLink, issueLinkWithExpiry, RESUME_LINK_TTL_MS } from "./access";
 import { inviteMember, isClosed, isPlanned, lang, MISSING_STOP_STATUSES, nextMailAt, STOP_STATUSES, plannedFor, previousReturn, sendMissingReminder, sendReminder, type CampaignDeps, type CampaignLedger } from "./campaign";
 import { linkMail } from "./mails";
 import type { ReturnRecord } from "./ports";
-import { caseDocuments, clientKey as computeClientKey, createInvitedReturn, forgetCase, getCase, missingDocuments, readDraft, refreshMissing, ServiceError, setOfficeDocs } from "./service";
+import { caseDocuments, clientKey as computeClientKey, createInvitedReturn, forgetCase, getCase, missingDocuments, prefillDraft, readDraft, refreshMissing, SERVER_OWNED, ServiceError, setOfficeDocs } from "./service";
 import { normalise, sharePointPorts } from "./sharepoint-registry";
 import type { TaxStorage } from "./storage";
 
@@ -359,12 +361,48 @@ export async function staffReturn(caseId: string, year: unknown, deps: Pick<Staf
     status: (d.status === "uploaded" ? "received" : d.status) as StaffDocStatus,
     ...(d.files[0]?.webUrl ? { fileUrl: d.files[0].webUrl } : {}),
   }));
-  return { ...summarize(row), documents, answers, filledBy };
+  return { ...summarize(row), documents, answers, filledBy, questions: staffQuestions(answers) };
+}
+
+/** Questions Cadence may read and pre-fill: not set by the app or the server, not the verified address. */
+const officeQuestion = (block: { id: string; hidden?: boolean }) => !block.hidden && !SERVER_OWNED.includes(block.id) && block.id !== "start.email";
+
+export interface StaffQuestionField {
+  id: string;
+  label: string;
+  type: FieldDef["type"];
+  options?: { value: string; label: string }[];
+  required?: true;
+}
+export type StaffQuestion =
+  | ({ kind: "field"; step: string; stepTitle: string } & StaffQuestionField)
+  | { id: string; kind: "group"; step: string; stepTitle: string; label: string; fields: StaffQuestionField[]; maxRows: number };
+
+/**
+ * The questions the client sees now for these answers, in the form's order, in French (the
+ * office's language): visible screens (not the upload, documents and review screens) and blocks.
+ */
+export function staffQuestions(a: Answers): StaffQuestion[] {
+  const fieldOf = (field: FieldDef): StaffQuestionField => {
+    const options = field.options?.filter((o: Option) => !o.showIf || o.showIf(a)).map((o) => ({ value: o.value, label: label(o.label, "fr", a) }));
+    return { id: field.id, label: label(field.label, "fr", a), type: field.type, ...(options ? { options } : {}), ...(field.required ? { required: true as const } : {}) };
+  };
+  const out: StaffQuestion[] = [];
+  for (const step of visibleSteps(a)) {
+    if (step.special) continue;
+    const where = { step: step.id, stepTitle: label(step.title, "fr", a) };
+    for (const block of step.blocks) {
+      if ((block.kind !== "field" && block.kind !== "group") || !officeQuestion(block) || !isBlockVisible(block, a)) continue;
+      if (block.kind === "field") out.push({ kind: "field", ...where, ...fieldOf(block) });
+      else out.push({ id: block.id, kind: "group", ...where, label: label(block.label, "fr", a), fields: block.fields.filter((f) => !f.hidden).map(fieldOf), maxRows: block.maxRows });
+    }
+  }
+  return out;
 }
 
 // ---- actions -----------------------------------------------------------------------------------------
 
-export const STAFF_ACTIONS = ["link", "remind", "exclude", "include", "deadline", "staffDocs", "officeDocs", "attach", "assist"] as const;
+export const STAFF_ACTIONS = ["link", "remind", "exclude", "include", "deadline", "staffDocs", "officeDocs", "attach", "assist", "prefill"] as const;
 export type StaffAction = (typeof STAFF_ACTIONS)[number];
 
 export interface ActionBody {
@@ -382,6 +420,8 @@ export interface ActionBody {
   by?: unknown;
   /** `assist`: minutes the office access stays usable (1..240, default 30). */
   ttlMinutes?: unknown;
+  /** `prefill`: answers to write, `{<question id>: value}` (a group: the whole list of rows). */
+  answers?: unknown;
 }
 
 export type ActionResult = { summary: ReturnSummary; link?: LinkResult; replayed: boolean; extra?: Record<string, unknown> };
@@ -389,6 +429,7 @@ export type ActionResult = { summary: ReturnSummary; link?: LinkResult; replayed
 export async function staffAction(caseId: string, action: StaffAction, body: ActionBody, meta: { idempotencyKey: string; payloadHash: string }, deps: StaffDeps): Promise<ActionResult> {
   return locked(`case:${caseId}`, async () => {
     if (action === "assist") return assistAction(caseId, body, meta, deps);
+    if (action === "prefill") return prefillAction(caseId, body, meta, deps);
     const rows = await caseRows(caseId);
     if (action === "link") return linkAction(rows, body, meta, deps);
     if (action === "remind") return remindAction(yearRow(rows, requireYear(body)), meta, deps);
@@ -515,14 +556,7 @@ async function remindAction(row: ReturnRecord, meta: { idempotencyKey: string; p
  * access (still single use).
  */
 async function assistAction(caseId: string, body: ActionBody, meta: { idempotencyKey: string; payloadHash: string }, deps: StaffDeps): Promise<ActionResult> {
-  if (!/^[A-Za-z0-9_-]{6,40}$/.test(caseId)) throw new ServiceError("not_found", 404);
-  const year = requireYear(body);
-  // Declined years included: those are refused as closed, not unknown.
-  const all = (await sharePointPorts().tracker.findByCase(caseId)).filter((r) => r.taxYear === year);
-  const row = all.find((r) => r.state !== "declined") || all[0];
-  if (!row) throw new ServiceError("not_found", 404);
-  const by = typeof body.by === "string" ? body.by.trim() : "";
-  if (!by || by.length > 120) throw new ServiceError("invalid_by", 400);
+  const { row, by } = await officeRow(caseId, body);
   const minutes = assistMinutes(body.ttlMinutes, { integer: true });
   if (minutes === null) throw new ServiceError("invalid_ttl", 400);
   const replayed = await replayOf(deps, caseId, meta);
@@ -532,4 +566,109 @@ async function assistAction(caseId: string, body: ActionBody, meta: { idempotenc
   const assist = await issueAssist({ caseId, by, ttlMs: minutes * 60 * 1000, origin: deps.origin, locale: lang(row.language) });
   if (!replayed) await remember(deps, caseId, meta);
   return { summary, replayed, extra: { assist } };
+}
+
+/** The year's row an office action (assist, prefill) works on, and who at Ark acts. */
+async function officeRow(caseId: string, body: ActionBody): Promise<{ row: ReturnRecord; by: string }> {
+  if (!/^[A-Za-z0-9_-]{6,40}$/.test(caseId)) throw new ServiceError("not_found", 404);
+  const year = requireYear(body);
+  // Declined years included: those are refused as closed, not unknown.
+  const all = (await sharePointPorts().tracker.findByCase(caseId)).filter((r) => r.taxYear === year);
+  const row = all.find((r) => r.state !== "declined") || all[0];
+  if (!row) throw new ServiceError("not_found", 404);
+  const by = typeof body.by === "string" ? body.by.trim() : "";
+  if (!by || by.length > 120) throw new ServiceError("invalid_by", 400);
+  return { row, by };
+}
+
+const MAX_PREFILL_KEYS = 200;
+
+/**
+ * The answers of a `prefill`, checked as a whole (any problem: invalid_answers with every
+ * `{id, error}`, nothing written). Keys: questions Cadence may fill (officeQuestion), even when
+ * another answer hides them now. A field value is checked by the form's own validator and never
+ * empty (prefill writes, never clears); a group value is the whole list of rows, each row keyed
+ * by the group's visible field ids (plus `_id`).
+ */
+export function checkPrefill(raw: unknown): Answers {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new ServiceError("invalid_answers", 400, { fields: [] });
+  const entries = Object.entries(raw as Record<string, unknown>);
+  if (!entries.length || entries.length > MAX_PREFILL_KEYS) throw new ServiceError("invalid_answers", 400, { fields: [] });
+  const errors: { id: string; error: string }[] = [];
+  const out: Answers = {};
+  const empty = (v: unknown) => v === undefined || v === null || (typeof v === "string" && !v.trim()) || (Array.isArray(v) && !v.length);
+  for (const [id, value] of entries) {
+    const field = getField(id);
+    const group = getGroup(id);
+    const block = field || group;
+    if (!block) {
+      errors.push({ id, error: "unknown" });
+      continue;
+    }
+    if (!officeQuestion(block)) {
+      errors.push({ id, error: "not_allowed" });
+      continue;
+    }
+    if (empty(value)) {
+      errors.push({ id, error: "empty" });
+      continue;
+    }
+    if (field) {
+      const error = validateField(field, value);
+      if (error) errors.push({ id, error });
+      else out[id] = value as Answers[string];
+      continue;
+    }
+    if (!Array.isArray(value) || value.some((r) => !r || typeof r !== "object" || Array.isArray(r))) {
+      errors.push({ id, error: "invalid_rows" });
+      continue;
+    }
+    if (value.length > group!.maxRows) {
+      errors.push({ id, error: "too_many_rows" });
+      continue;
+    }
+    const fields = new Map(group!.fields.filter((f) => !f.hidden).map((f) => [f.id, f]));
+    const before = errors.length;
+    const rows = (value as Record<string, unknown>[]).map((source, i) => {
+      const row: Record<string, unknown> = { _id: typeof source._id === "string" ? source._id : "" };
+      for (const [key, v] of Object.entries(source)) {
+        if (key === "_id") continue;
+        const rowField = fields.get(key);
+        const at = `${id}[${i}].${key}`;
+        if (!rowField) errors.push({ id: at, error: "unknown" });
+        else if (!empty(v)) {
+          const error = validateField(rowField, v);
+          if (error) errors.push({ id: at, error });
+          else row[key] = v;
+        }
+      }
+      return row;
+    });
+    if (errors.length === before) out[id] = rows as Answers[string];
+  }
+  if (errors.length) throw new ServiceError("invalid_answers", 400, { fields: errors });
+  return out;
+}
+
+/**
+ * Cadence pre-fills the client's questionnaire as an office session would (« rempli par Ark »,
+ * marked with `by`): refused like assist (not_found, case_closed, already_submitted), and for a
+ * return whose questionnaire was never started (not_started: no draft yet). `written`: the
+ * answers that changed, `unchanged`: those given with the stored value, `hidden`: written answers
+ * the client does not see now (another answer hides their question). A replay writes nothing and
+ * answers every given id as unchanged.
+ */
+async function prefillAction(caseId: string, body: ActionBody, meta: { idempotencyKey: string; payloadHash: string }, deps: StaffDeps): Promise<ActionResult> {
+  const { row, by } = await officeRow(caseId, body);
+  const given = checkPrefill(body.answers);
+  const summary = summarize(row);
+  if (await replayOf(deps, caseId, meta)) return { summary, replayed: true, extra: { prefill: { written: [], unchanged: Object.keys(given), hidden: [] } } };
+  if (summary.closed) throw new ServiceError("case_closed", 409);
+  if (row.state === "submitted") throw new ServiceError("already_submitted", 409);
+  forgetCase(caseId);
+  const result = await prefillDraft(deps.storage, await getCase(caseId), given, by);
+  forgetCase(caseId);
+  await remember(deps, caseId, meta);
+  const hidden = result.written.filter((id) => !isQuestionVisible(id, result.answers));
+  return { summary, replayed: false, extra: { prefill: { written: result.written, unchanged: result.unchanged, hidden } } };
 }

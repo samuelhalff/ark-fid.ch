@@ -11,7 +11,7 @@ import { attentionPoints } from "../attention";
 import { DOC_CATEGORIES, docRuleById, selectedYears, taxYearOf } from "../documents";
 import { personName, splitPersonName } from "../format";
 import { ALLOWED_TYPES, checkUpload, codeFromFileName, extensionOf, safeName, sniffMismatch, uploadFileName, UPLOAD_LIMITS } from "../files";
-import { checklistFor, pruneHidden, sanitizeAnswers, validateAll } from "../logic";
+import { checklistFor, getField, getGroup, newRowId, pruneHidden, sanitizeAnswers, validateAll } from "../logic";
 import { has, isCouple, sourceTaxed, sourceTaxedResident, STEPS } from "../schema";
 import { QF_LOCALES, type Answers, type DocStatus, type QfLocale, type Row } from "../types";
 import { PRIVACY_VERSION, UI } from "../ui";
@@ -287,7 +287,7 @@ async function ensureYears(storage: TaxStorage, info: CaseInfo, answers: Answers
  * ignored, the stored one is kept. The free-text pre-fill marker of the AI reading (not a year)
  * may still be set by the client while none is stored.
  */
-const SERVER_OWNED = ["start.arkPrefilled", "start.arkDocs"];
+export const SERVER_OWNED = ["start.arkPrefilled", "start.arkDocs"];
 export function keepServerOwned(answers: Answers, stored: Answers | undefined): Answers {
   const out = { ...answers };
   for (const key of SERVER_OWNED) {
@@ -334,6 +334,56 @@ export async function saveDraft(storage: TaxStorage, info: CaseInfo, body: { ans
   const draft: Draft = { version: 1, savedAt: new Date().toISOString(), stepId, answers, docStatus: cleanDocStatus(body.docStatus), locale: asLocale(body.locale), aiOptIn: body.aiOptIn === true, submitKey, ...(filledBy ? { filledBy } : {}) };
   await writeDraft(storage, updated, draft);
   return { savedAt: draft.savedAt };
+}
+
+/**
+ * Cadence's pre-fill (staff action `prefill`): answers already validated by the staff API, merged
+ * over the stored draft and saved as an office session would save them — the changed answers are
+ * marked « rempli par Ark » with `by`. Never clears an answer. A group answer is the whole list of
+ * rows: a row whose `_id` is a stored row's keeps that row's hidden fields (renewal status,
+ * carried mark, BFS number of an unchanged commune), any other row gets a new id. A commune typed
+ * here is the free-text form, so a stored BFS number of another commune goes.
+ */
+export async function prefillDraft(storage: TaxStorage, info: CaseInfo, given: Answers, by: string) {
+  if (info.main.state === "submitted") throw new ServiceError("already_submitted", 409);
+  const stored = await readDraft(storage, info);
+  if (!stored) throw new ServiceError("not_started", 409);
+  const merged: Answers = { ...stored.answers };
+  for (const [id, value] of Object.entries(given)) {
+    const group = getGroup(id);
+    if (!group) {
+      merged[id] = value;
+      if (getField(id)?.type === "commune" && canonical(value) !== canonical(stored.answers[id])) delete merged[`${id}Bfs`];
+      continue;
+    }
+    const storedRows = new Map((Array.isArray(stored.answers[id]) ? (stored.answers[id] as Row[]) : []).map((r) => [r._id, r]));
+    const used = new Set<string>();
+    merged[id] = ((value as Row[]) || []).map((row) => {
+      const before = storedRows.get(row._id);
+      if (!before || used.has(row._id)) return { ...row, _id: newRowId() };
+      used.add(row._id);
+      const kept: Row = { _id: row._id };
+      for (const field of group.fields) {
+        if (!field.hidden || before[field.id] === undefined) continue;
+        const commune = group.fields.find((c) => c.type === "commune" && `${c.id}Bfs` === field.id);
+        if (commune && row[commune.id] !== undefined && canonical(row[commune.id]) !== canonical(before[commune.id])) continue;
+        kept[field.id] = before[field.id];
+      }
+      return { ...kept, ...row, _id: row._id };
+    });
+  }
+  const answers = keepServerOwned(sanitizeAnswers(merged), stored.answers);
+  // The identity stays the verified one.
+  answers["start.email"] = info.email;
+  const written = Object.keys(given).filter((id) => canonical(stored.answers[id]) !== canonical(answers[id]));
+  const unchanged = Object.keys(given).filter((id) => !written.includes(id));
+  if (written.length) {
+    const updated = await ensureYears(storage, info, answers);
+    const filledBy = markFilledBy(stored.filledBy, stored.answers, answers, by);
+    const { filledBy: _old, ...rest } = stored;
+    await writeDraft(storage, updated, { ...rest, savedAt: new Date().toISOString(), answers, ...(filledBy ? { filledBy } : {}) });
+  }
+  return { written, unchanged, answers };
 }
 
 /** "Delete my draft": removes the folders of an unsubmitted case and revokes its access. */

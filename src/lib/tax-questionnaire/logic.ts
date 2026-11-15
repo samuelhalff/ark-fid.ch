@@ -60,6 +60,12 @@ export const isStepVisible = (step: StepDef, a: Answers) => !step.showIf || step
 export const visibleSteps = (a: Answers) => STEPS.filter((step) => isStepVisible(step, a));
 export const isBlockVisible = (block: Block, a: Answers) => !block.showIf || block.showIf(a);
 export const isRowFieldVisible = (field: FieldDef, a: Answers, row: Row) => !field.showIf || field.showIf(a, row);
+/** Is this top-level question (field or group id) on screen for these answers (its step and its block shown)? */
+export function isQuestionVisible(id: string, a: Answers): boolean {
+  const step = stepById(OWNER_STEP.get(id) || "");
+  const block = getField(id) || getGroup(id);
+  return !!step && !!block && isStepVisible(step, a) && isBlockVisible(block, a);
+}
 
 const rows = (value: unknown): Row[] => (Array.isArray(value) ? (value as Row[]) : []);
 

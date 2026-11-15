@@ -333,3 +333,123 @@ test("officeDocs: a document the office holds leaves the missing list and the re
   await staff.staffAction(caseId, "officeDocs", { taxYear: YEAR, officeDocs: [] }, meta("office-0005"), deps);
   assert.equal(rows(caseId)[0].missingDocs, "Relevé UBS\nAttestation 3a");
 });
+
+// ---- office pre-fill (questions + prefill) ------------------------------------------------------------
+
+async function withDraft(key: string, answers: Record<string, unknown>, filledBy?: Record<string, string>) {
+  const created = await staff.createReturn({ ...person(), sendInvitation: false }, { idempotencyKey: key }, deps);
+  const caseId = created.summary.caseId;
+  const row = rows(caseId)[0];
+  const draft = { version: 1, savedAt: "2020-01-01T00:00:00.000Z", stepId: "regime", answers: { ...answers, "start.email": row.email }, docStatus: { x1: "later" }, locale: "fr", ...(filledBy ? { filledBy } : {}) };
+  await storage.putFile(row.driveId, row.folderId, service.DRAFT_FILE, new TextEncoder().encode(JSON.stringify(draft)), "application/json");
+  service.forgetCase(caseId);
+  return caseId;
+}
+const storedDraft = async (caseId: string) => {
+  service.forgetCase(caseId);
+  return (await service.readDraft(storage, await service.getCase(caseId)))!;
+};
+const prefill = (caseId: string, body: Record<string, unknown>, key: string, hash = "h") => staff.staffAction(caseId, "prefill", { taxYear: YEAR, by: "Sam", ...body }, meta(key, hash), deps);
+const refusedWith = (code: string, status: number) => (e: unknown) => (e as { code: string; status: number }).code === code && (e as { status: number }).status === status;
+const BASE = { "start.years": [String(YEAR)], "start.household": "single", "start.canton": "GE", "start.commune": "Genève", "start.communeBfs": "6621", "start.firstName": "Alex", "start.phone": "+41 22 000 00 00" };
+
+test("GET one return: questions the client sees now, French labels, hidden and server-owned ones absent", async () => {
+  const caseId = await withDraft("create-key-questions", BASE);
+  const { questions } = await staff.staffReturn(caseId, String(YEAR), deps);
+  const ids = questions.map((q) => q.id);
+  const first = questions.find((q) => q.id === "start.firstName")!;
+  assert.equal(first.kind, "field");
+  assert.equal(first.label, "Prénom");
+  assert.equal(first.step, "start");
+  assert.equal(first.stepTitle, "Pour commencer");
+  assert.equal((first as { required?: boolean }).required, true);
+  const household = questions.find((q) => q.id === "start.household") as { options?: { value: string; label: string }[] };
+  assert.ok(household.options?.some((o) => o.value === "couple"));
+  for (const absent of ["start.spouseFirstName", "start.communeBfs", "start.arkPrefilled", "start.arkDocs", "start.email", "base.taxNumber", "work.employers"]) assert.ok(!ids.includes(absent), absent);
+  assert.ok(ids.includes("start.commune") && ids.includes("router.items"));
+  // A couple: the spouse's questions appear; groups list their visible row fields.
+  const couple = await withDraft("create-key-questions2", { ...BASE, "start.household": "couple", "router.items": ["employed"] });
+  const qs = (await staff.staffReturn(couple, String(YEAR), deps)).questions;
+  assert.ok(qs.some((q) => q.id === "start.spouseFirstName"));
+  const employers = qs.find((q) => q.id === "work.employers") as { kind: string; fields: { id: string }[]; maxRows: number };
+  assert.equal(employers.kind, "group");
+  assert.ok(employers.fields.some((f) => f.id === "name") && !employers.fields.some((f) => f.id === "carried"));
+  assert.ok(employers.maxRows > 0);
+});
+
+test("prefill: writes as an office session, only changed answers marked with by; hidden ones reported", async () => {
+  const caseId = await withDraft("create-key-prefill", BASE, { "start.firstName": "Anne" });
+  const result = await prefill(caseId, { answers: { "start.phone": "+41 22 000 00 00", "start.commune": "Carouge", "start.spouseFirstName": "Kim", "work.employers": [{ name: "Acme SA" }] } }, "prefill-0001");
+  assert.equal(result.replayed, false);
+  const out = result.extra!.prefill as { written: string[]; unchanged: string[]; hidden: string[] };
+  assert.deepEqual(out.written.sort(), ["start.commune", "start.spouseFirstName", "work.employers"]);
+  assert.deepEqual(out.unchanged, ["start.phone"]);
+  assert.deepEqual(out.hidden.sort(), ["start.spouseFirstName", "work.employers"]);
+  const draft = await storedDraft(caseId);
+  assert.deepEqual(draft.filledBy, { "start.firstName": "Anne", "start.commune": "Sam", "start.spouseFirstName": "Sam", "work.employers": "Sam" });
+  assert.equal(draft.answers["start.commune"], "Carouge");
+  assert.equal(draft.answers["start.communeBfs"], undefined, "the BFS number of the old commune goes");
+  assert.equal(draft.answers["start.email"], rows(caseId)[0].email);
+  assert.equal(draft.stepId, "regime");
+  assert.deepEqual(draft.docStatus, { x1: "later" });
+  assert.notEqual(draft.savedAt, "2020-01-01T00:00:00.000Z");
+  const employers = draft.answers["work.employers"] as { _id: string; name: string }[];
+  assert.equal(employers.length, 1);
+  assert.match(employers[0]._id, /^[a-z0-9]{6,24}$/);
+  // A row given with its stored _id keeps it (and its carried mark); a new row gets a new id.
+  const again = await prefill(caseId, { answers: { "work.employers": [{ _id: employers[0]._id, name: "Acme SA" }, { name: "Beta SA" }] } }, "prefill-0002");
+  assert.deepEqual((again.extra!.prefill as { written: string[] }).written, ["work.employers"]);
+  const two = (await storedDraft(caseId)).answers["work.employers"] as { _id: string; name: string }[];
+  assert.equal(two[0]._id, employers[0]._id);
+  assert.equal(two[1].name, "Beta SA");
+  assert.notEqual(two[1]._id, employers[0]._id);
+});
+
+test("prefill: unknown, hidden, server-owned, the address, bad or empty values refused all or nothing", async () => {
+  const caseId = await withDraft("create-key-prefill-bad", BASE);
+  const before = await storedDraft(caseId);
+  const bad = { "start.commune": "Carouge", "nope.field": "x", "start.communeBfs": "6608", "start.arkDocs": [{ label: "x" }], "start.email": "x@example.ch", "start.phone": "abc", "start.firstName": " ", "work.employers": [{ name: "Acme", salary: "1" }] };
+  await assert.rejects(prefill(caseId, { answers: bad }, "prefill-bad-1"), (e: unknown) => {
+    const err = e as { code: string; status: number; detail: { fields: { id: string; error: string }[] } };
+    assert.equal(err.code, "invalid_answers");
+    assert.equal(err.status, 400);
+    assert.deepEqual(Object.fromEntries(err.detail.fields.map((f) => [f.id, f.error])), {
+      "nope.field": "unknown",
+      "start.communeBfs": "not_allowed",
+      "start.arkDocs": "not_allowed",
+      "start.email": "not_allowed",
+      "start.phone": "invalid_phone",
+      "start.firstName": "empty",
+      "work.employers[0].salary": "unknown",
+    });
+    return true;
+  });
+  for (const answers of [{}, [], "x", null]) await assert.rejects(prefill(caseId, { answers }, `prefill-bad-${JSON.stringify(answers)}`), refusedWith("invalid_answers", 400));
+  assert.deepEqual(await storedDraft(caseId), before, "nothing written");
+});
+
+test("prefill: refused without by, closed for the office, submitted, unknown; replay writes once", async () => {
+  const caseId = await withDraft("create-key-prefill-refuse", BASE);
+  const answers = { "start.phone": "+41 79 111 11 11" };
+  await assert.rejects(prefill(caseId, { answers, by: "" }, "pr-1"), refusedWith("invalid_by", 400));
+  await assert.rejects(prefill(caseId, { answers, by: undefined }, "pr-2"), refusedWith("invalid_by", 400));
+  await assert.rejects(prefill("nosuchcase1", { answers }, "pr-3"), refusedWith("not_found", 404));
+
+  const first = await prefill(caseId, { answers }, "pr-4", "p1");
+  assert.deepEqual((first.extra!.prefill as { written: string[] }).written, ["start.phone"]);
+  const saved = await storedDraft(caseId);
+  const replay = await prefill(caseId, { answers }, "pr-4", "p1");
+  assert.equal(replay.replayed, true);
+  assert.deepEqual(replay.extra!.prefill, { written: [], unchanged: ["start.phone"], hidden: [] });
+  assert.deepEqual(await storedDraft(caseId), saved, "a replay writes nothing");
+  await assert.rejects(prefill(caseId, { answers: { "start.phone": "+41 79 222 22 22" } }, "pr-4", "p2"), refusedWith("idempotency_conflict", 409));
+
+  // Staff columns: set on the row itself, as in assist.test.ts.
+  const row = rows(caseId)[0];
+  row.staffStatus = "Clos";
+  await assert.rejects(prefill(caseId, { answers }, "pr-5"), refusedWith("case_closed", 409));
+  row.staffStatus = undefined;
+  row.state = "submitted";
+  await assert.rejects(prefill(caseId, { answers }, "pr-6"), refusedWith("already_submitted", 409));
+  assert.deepEqual(await storedDraft(caseId), saved);
+});
