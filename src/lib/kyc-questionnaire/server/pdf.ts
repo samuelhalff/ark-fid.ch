@@ -1,4 +1,4 @@
-import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
+import { PDFDocument, StandardFonts, degrees, rgb, type PDFFont, type PDFPage } from "pdf-lib";
 import { toWinAnsi } from "../../tax-questionnaire/server/pdf";
 import { displayValue, fieldText, isBlockVisible, isRowFieldVisible, label, rowsOf, rowTitle, visibleSteps } from "../engine";
 import { computedText, holderLines } from "../holders";
@@ -22,6 +22,7 @@ const NAVY = rgb(0.12, 0.165, 0.267);
 const GREY = rgb(0.42, 0.45, 0.5);
 const BLACK = rgb(0.1, 0.1, 0.12);
 const LINE = rgb(0.75, 0.77, 0.8);
+const DRAFT = rgb(0.7, 0.16, 0.12);
 
 const TEXT = {
   controllers: { fr: "Personnes à 25 % ou plus (calculé)", en: "Persons with 25% or more (computed)" },
@@ -31,6 +32,13 @@ const TEXT = {
   pmOp: { fr: "Personnes morales", en: "Legal entities" },
   pmNonOp: { fr: "Personnes morales – sociétés non opérationnelles", en: "Legal entities – non-operating companies" },
   ref: { fr: "Réf.", en: "Ref." },
+  draft: { fr: "Brouillon — non signé", en: "Draft — not signed" },
+  draftMark: { fr: "BROUILLON", en: "DRAFT" },
+  printed: { fr: "Imprimé le", en: "Printed on" },
+  draftNote: {
+    fr: "Réponses enregistrées à ce jour. Document de travail d'Ark Fiduciaire SA : il n'est pas signé et ne remplace pas le formulaire signé.",
+    en: "Answers recorded to date. Working document of Ark Fiduciaire SA: it is not signed and does not replace the signed form.",
+  },
   sent: { fr: "Envoyé en ligne le", en: "Submitted online on" },
   page: { fr: "Page", en: "Page" },
   confidential: { fr: "Confidentiel", en: "Confidential" },
@@ -163,7 +171,12 @@ class Writer {
   }
 }
 
-export async function buildKycPdf(record: SubmissionRecord, declarationId: string, options: { online?: boolean } = {}): Promise<Uint8Array> {
+/**
+ * `draft`: the answers as they stand, printed for Ark before (or without) a signature: same
+ * layout, marked « Brouillon — non signé » on every page, with no reference, no documents list and
+ * no signature blocks, so nothing on it can be taken for the signed form.
+ */
+export async function buildKycPdf(record: SubmissionRecord, declarationId: string, options: { online?: boolean; draft?: { printedAt: string } } = {}): Promise<Uint8Array> {
   const L: KycLocale = record.language;
   const a: Answers = record.answers;
   const doc = await PDFDocument.create();
@@ -180,11 +193,19 @@ export async function buildKycPdf(record: SubmissionRecord, declarationId: strin
   w.text("26, boulevard Georges-Favon · 1204 Genève · T. +41 22 512 50 50 · info@ark-fid.ch · ark-fid.ch", { size: 8.5, color: GREY, gap: 14 });
   w.text(TEXT.title[L], { bold: true, size: 15, color: NAVY, gap: 2 });
   w.text(isPP(a) ? TEXT.pp[L] : a.route === "pm-nonop" ? TEXT.pmNonOp[L] : TEXT.pmOp[L], { size: 11, color: NAVY, gap: 6 });
-  w.text(`${record.clientName} · ${TEXT.ref[L]} ${declarationId} · ${TEXT.sent[L]} ${swissDate(record.submittedAt)}`, { size: 8.5, color: GREY, gap: 4 });
-  w.text((options.online ? TEXT.instructionsOnline : TEXT.instructions)[L], { size: 8.5, color: GREY, gap: 6 });
+  if (options.draft) {
+    w.text(`${record.clientName} · ${TEXT.printed[L]} ${swissDate(options.draft.printedAt)}`, { size: 8.5, color: GREY, gap: 4 });
+    w.text(TEXT.draft[L], { bold: true, size: 10, color: DRAFT, gap: 2 });
+    w.text(TEXT.draftNote[L], { size: 8.5, color: GREY, gap: 6 });
+  } else {
+    w.text(`${record.clientName} · ${TEXT.ref[L]} ${declarationId} · ${TEXT.sent[L]} ${swissDate(record.submittedAt)}`, { size: 8.5, color: GREY, gap: 4 });
+    w.text((options.online ? TEXT.instructionsOnline : TEXT.instructions)[L], { size: 8.5, color: GREY, gap: 6 });
+  }
 
   for (const step of visibleSteps(a)) {
     if (!step.section) continue;
+    // The documents are the file's « Pièces », not something a draft can state.
+    if (options.draft && step.special === "documents") continue;
     w.heading(`${step.section}.  ${label(step.title, L).toLocaleUpperCase(L === "fr" ? "fr-CH" : "en-GB")}`);
     if (step.special === "documents") {
       for (const d of record.documents) {
@@ -219,7 +240,7 @@ export async function buildKycPdf(record: SubmissionRecord, declarationId: strin
             w.pair(label(field.label, L), displayValue(field, row[field.id], L), 8);
           }
         });
-      } else if (block.kind === "note" && block.id === "i.declarations") {
+      } else if (block.kind === "note" && block.id === "i.declarations" && !options.draft) {
         const text = declarations(a);
         w.text(label(text.intro, L), { gap: 2 });
         for (const item of text.items) w.text(`–  ${label(item, L)}`, { x: MARGIN + 10, gap: 1 });
@@ -228,6 +249,8 @@ export async function buildKycPdf(record: SubmissionRecord, declarationId: strin
       }
     }
   }
+
+  if (options.draft) return finishDraft(doc, w, L);
 
   // Signature blocks: one per signatory (company), or the client.
   const signers = isPM(a)
@@ -252,6 +275,23 @@ export async function buildKycPdf(record: SubmissionRecord, declarationId: strin
   const total = w.pages.length;
   w.pages.forEach((page, index) => {
     const footer = toWinAnsi(`${TEXT.title[L]} · ${TEXT.ref[L]} ${declarationId} · ${TEXT.confidential[L]} · ${TEXT.page[L]} ${index + 1}/${total}`);
+    page.drawText(footer, { x: MARGIN, y: MARGIN - 18, size: 7.5, font: w.font, color: GREY });
+  });
+  return doc.save();
+}
+
+/** A draft's pages: « Brouillon — non signé » and the page number in the footer, a light diagonal mark. */
+async function finishDraft(doc: PDFDocument, w: Writer, L: KycLocale): Promise<Uint8Array> {
+  const total = w.pages.length;
+  const mark = TEXT.draftMark[L];
+  const size = 96;
+  const width = w.bold.widthOfTextAtSize(mark, size);
+  const [pw, ph] = A4;
+  const r = Math.SQRT1_2;
+  w.pages.forEach((page, index) => {
+    // At 45°, the text's middle on the page's middle.
+    page.drawText(mark, { x: pw / 2 - (width / 2) * r + (size / 3) * r, y: ph / 2 - (width / 2) * r - (size / 3) * r, size, font: w.bold, color: DRAFT, opacity: 0.13, rotate: degrees(45) });
+    const footer = toWinAnsi(`${TEXT.title[L]} · ${TEXT.draft[L]} · ${TEXT.confidential[L]} · ${TEXT.page[L]} ${index + 1}/${total}`);
     page.drawText(footer, { x: MARGIN, y: MARGIN - 18, size: 7.5, font: w.font, color: GREY });
   });
   return doc.save();

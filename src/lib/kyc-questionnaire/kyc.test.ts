@@ -1432,3 +1432,30 @@ test("reopening a form sent before 2026-11-15: the new draft takes the moved ans
   assert.equal(v2["g.operations"], "40 paiements, 200 000 CHF", "retired answer kept, read-only");
   assert.ok(v2["b.controllersOther"]);
 });
+
+test("draft PDF: the form's layout, every page marked, nothing to sign; a bad route is refused", async () => {
+  const { previewPdf } = await import("./server/service");
+  const { PDFDocument } = await import("pdf-lib");
+  const bytes = await previewPdf("pm-op", { ...pmOp, "g.operations": "50" }, "Test SA", "fr");
+  assert.equal(Buffer.from(bytes.slice(0, 5)).toString(), "%PDF-");
+  const doc = await PDFDocument.load(bytes);
+  assert.ok(doc.getPageCount() >= 2);
+  // Every page carries the draft footer; nothing to sign and no declarations.
+  const { inflateSync } = await import("node:zlib");
+  const pageText = doc.getPages().map((page) => {
+    const contents = page.node.Contents();
+    const streams = contents && "asArray" in contents ? contents.asArray() : contents ? [contents] : [];
+    return streams.map((ref) => {
+      const stream = doc.context.lookup(ref) as unknown as { getContents(): Uint8Array; dict: { get(k: unknown): unknown } };
+      const raw = Buffer.from(stream.getContents());
+      try { return inflateSync(raw).toString("latin1"); } catch { return raw.toString("latin1"); }
+    }).join("");
+  });
+  const hex = (text: string) => Buffer.from(text, "latin1").toString("hex").toUpperCase();
+  for (const text of pageText) assert.ok(text.includes(hex("Brouillon")), "draft on every page");
+  const all = pageText.join("");
+  assert.ok(!all.includes(hex("Signature en ligne")) && !all.includes(hex("Lieu et date")), "no signature block");
+  assert.ok(!all.includes(hex("En signant pour")), "no declarations");
+  assert.equal(doc.getTitle(), "Questionnaire client – Test SA");
+  await assert.rejects(previewPdf("nope", pmOp, "Test SA", "fr"), (e: { code?: string; status?: number }) => e.status === 400);
+});

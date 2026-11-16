@@ -1791,6 +1791,27 @@ async function removeSuspicious(record: CaseRecord, rev: RevisionRecord): Promis
 }
 
 /**
+ * Cadence's « PDF » of a form not signed: the answers Cadence holds (prefill, the client's draft,
+ * the paper form typed by staff, the answers handed in), printed with the form's own layout and
+ * marked « Brouillon — non signé ». Read-only: nothing is stored.
+ */
+export async function previewPdf(route: string, answers: Record<string, unknown> | null, clientName: string, language: string): Promise<Uint8Array> {
+  if (!(KYC_ROUTES as readonly string[]).includes(route)) throw new KycError("invalid_request", 400, { field: "route" });
+  // Answers to questions the form no longer asks print read-only, as the mirror shows them:
+  // sanitising drops them, so they are taken back from the upgraded answers.
+  const upgraded = upgradeAnswers((answers || {}) as Answers);
+  const retired = Object.fromEntries(Object.entries(upgraded).filter(([id]) => isRetiredId(id)));
+  const current = pruneHidden({ ...sanitizeAnswers(answers || {}), ...retired, route });
+  const L: KycLocale = language === "en" ? "en" : "fr";
+  const printedAt = now();
+  const record = {
+    caseId: "", revision: 0, revisionId: "", route: route as KycRoute, language: L, submittedAt: printedAt,
+    clientName: clientName.slice(0, 200) || "—", answers: current as Answers, documents: [], flags: [],
+  } as SubmissionRecord;
+  return buildKycPdf(record, "", { draft: { printedAt } });
+}
+
+/**
  * A read-only preview of what the client will see for a route and prefill, before
  * any case exists. Same engine as the real form: `visibleSteps` + `documentsFor`
  * over the pruned answers, so Cadence never keeps a second questionnaire engine.
