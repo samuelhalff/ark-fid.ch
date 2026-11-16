@@ -489,9 +489,9 @@ const notifyVia = (notify: unknown): LinkReplacedVia => (notify === "email" ? "e
 export async function staffAction(
   caseId: string,
   action: StaffAction,
-  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown; signers?: unknown; signatories?: unknown; by?: unknown; ttlMinutes?: unknown; overwrite?: unknown; skippedDocuments?: unknown; officeDocuments?: unknown; extraDocuments?: unknown; notify?: unknown },
+  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown; signers?: unknown; signatories?: unknown; signerIds?: unknown; by?: unknown; ttlMinutes?: unknown; overwrite?: unknown; skippedDocuments?: unknown; officeDocuments?: unknown; extraDocuments?: unknown; notify?: unknown },
   meta: { idempotencyKey: string; payloadHash: string },
-): Promise<{ summary: StaffSummary; link?: LinkResult; assist?: AssistResult; reminded?: string[]; replayed: boolean }> {
+): Promise<{ summary: StaffSummary; link?: LinkResult; assist?: AssistResult; reminded?: string[]; links?: ({ id: string } & LinkResult)[]; replayed: boolean }> {
   return locked(caseId, async () => {
     const record = await loadCase(caseId);
     const done = record.idempotency[meta.idempotencyKey];
@@ -508,6 +508,7 @@ export async function staffAction(
       }
       // A reminder replayed is not sent twice.
       if (action === "remind_signers") return { summary: summarize(record), reminded: [], replayed: true };
+      // (A copied link is never stored nor remembered: each call issues a new one.)
       // Taking documents off the list issues no link: a replay answers the case as it is.
       if (action === "documents") return { summary: summarize(record), replayed: true };
       if (action === "assist") {
@@ -698,11 +699,21 @@ export async function staffAction(
     if (action === "remind_signers") {
       // « Relancer » and Cadence's automatic reminders: each signatory who has not signed gets their
       // own request again, with a fresh link (the contact signs in the form and is reminded by Cadence).
+      // `signerIds`: only these (« Relancer » chooses; « Envoyer le lien » on one row); each must be a
+      // signatory who has not signed and is not the contact. `notify: "none"` (one id): no e-mail,
+      // the link comes back for Ark to copy — bound to that address, it opens only with a code sent there.
       if (rev.state !== "awaiting_signature") throw new KycError("invalid_state", 409, { state: rev.state });
+      const only = chosenSigners(record, rev, body.signerIds);
+      if (body.notify === "none") {
+        if (!only || only.length !== 1) throw new KycError("invalid_request", 400, { field: "signerIds" });
+        const signer = only[0];
+        const issued = await issueLink({ caseId: record.caseId, revision: rev.n, emailHash: signer.emailHash!, locale: record.language });
+        return { summary: summarize(record), links: [{ id: signer.id, ...issued }], replayed: false };
+      }
       // Remembered before the mails: a retry of the same reminder never sends them twice.
       remember(rev.n);
       await saveCase(record);
-      const reminded = await requestSignatures(record, rev, { again: true });
+      const reminded = await requestSignatures(record, rev, { again: true, only: only?.map((x) => x.id) });
       await saveCase(record);
       return { summary: summarize(record), reminded, replayed: false };
     }
@@ -1276,6 +1287,23 @@ function nextSignatories(current: SignerRecord[], items: unknown, by: string): S
   return next;
 }
 
+/**
+ * The signatories Ark named for a reminder or a link (`signerIds`), or null for every one pending.
+ * Each must exist, not have signed and not be the contact (who signs in the form with the case link).
+ */
+function chosenSigners(record: CaseRecord, rev: RevisionRecord, ids: unknown): SignerRecord[] | null {
+  if (ids === undefined || ids === null) return null;
+  if (!Array.isArray(ids) || !ids.length || ids.length > 10) throw new KycError("invalid_request", 400, { field: "signerIds" });
+  if (!onlineReady(rev)) throw new KycError("online_signature_unavailable", 409);
+  return [...new Set(ids.map(String))].map((id) => {
+    const signer = (rev.signers || []).find((s) => s.id === id);
+    if (!signer) throw new KycError("invalid_request", 400, { field: "signerIds" });
+    if (signer.signature) throw new KycError("signer_signed", 409, { id });
+    if (!signer.emailHash || signer.emailHash === record.emailHash) throw new KycError("signer_is_contact", 409, { id });
+    return signer;
+  });
+}
+
 /** Online signing is possible: every signatory has an address of their own and a printable name. */
 function onlineReady(rev: RevisionRecord): boolean {
   const signers = rev.signers || [];
@@ -1313,10 +1341,11 @@ const SIGN_MAIL = {
  * unrequested; the next submit retry or Ark's correction sends it. `again`: a reminder, to every
  * signatory who has not signed, requested before or not. Returns the ids of the signatories e-mailed.
  */
-async function requestSignatures(record: CaseRecord, rev: RevisionRecord, options: { again?: boolean } = {}): Promise<string[]> {
+async function requestSignatures(record: CaseRecord, rev: RevisionRecord, options: { again?: boolean; only?: string[] } = {}): Promise<string[]> {
   if (rev.state !== "awaiting_signature" || !onlineReady(rev)) return [];
   const sent: string[] = [];
   for (const signer of rev.signers || []) {
+    if (options.only && !options.only.includes(signer.id)) continue;
     if (signer.signature || (signer.invitedAt && !options.again) || !signer.email || !signer.emailHash || signer.emailHash === record.emailHash) continue;
     try {
       const link = await issueLink({ caseId: record.caseId, revision: rev.n, emailHash: signer.emailHash, locale: record.language });

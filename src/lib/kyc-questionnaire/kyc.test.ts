@@ -636,6 +636,39 @@ test("the list sent again after a lost answer changes nothing; taking off the on
   assert.equal(done.summary.latestRevision.signed?.length, 1, "the signed PDF is filed");
 });
 
+test("one signatory's link on demand: e-mailed, or handed to Ark to copy, never for the contact or who signed", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0018", payloadHash: "h" });
+  const caseId = created.summary.caseId;
+  const contact = { caseId, revision: 1, emailHash: JEAN };
+  const signer = (id: string, firstName: string, lastName: string, email: string) => row(id, { lastName, firstName, function: "Administrateur", email });
+  const answers: Answers = { ...pmOp, "i.signers": [signer("sgn0001", "Paul", "Martin", "paul@example.ch"), signer("sgn0002", "Marie", "Rochat", "marie@example.ch")] };
+  await uploadAll(f, caseId, answers);
+  const act = (key: string, body: Record<string, unknown>) => staffAction(caseId, "remind_signers", { expectedRevision: 1, ...body }, { idempotencyKey: key, payloadHash: key });
+  await assert.rejects(act("one-open", { signerIds: ["sgn0001"] }), (e: unknown) => e instanceof KycError && e.code === "invalid_state");
+  await submit(contact, { answers });
+  assert.equal(f.mails.length, 2);
+  // « Envoyer le lien » on Paul's row: Paul only.
+  const one = await act("one-paul", { signerIds: ["sgn0001"] });
+  assert.deepEqual(one.reminded, ["sgn0001"]);
+  assert.deepEqual((f.mails[2] as { to: string[] }).to, ["paul@example.ch"]);
+  // « Copier le lien »: no e-mail; the link is Paul's (his address), and opens only with his code.
+  const copied = await act("copy-paul", { signerIds: ["sgn0001"], notify: "none" });
+  assert.equal(f.mails.length, 3, "copying sends nothing");
+  const token = /#acces=([A-Za-z0-9_-]+)/.exec(copied.links![0].url)![1];
+  assert.equal(copied.links![0].id, "sgn0001");
+  assert.equal((await readLink(token))?.emailHash, emailHash("paul@example.ch"));
+  await assert.rejects(act("copy-two", { signerIds: ["sgn0001", "sgn0002"], notify: "none" }), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
+  await assert.rejects(act("one-unknown", { signerIds: ["nobody01"] }), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
+  const declarationId = (await clientCase(contact)).declarationId;
+  await signOnline({ caseId, revision: 1, emailHash: emailHash("paul@example.ch") }, { name: "Paul Martin", accept: true, declarationId, drawing: await drawing() });
+  await assert.rejects(act("one-signed", { signerIds: ["sgn0001"] }), (e: unknown) => e instanceof KycError && e.code === "signer_signed");
+  // The contact signs in the form with the case link: no signatory link for them.
+  await staffAction(caseId, "signatories", { expectedRevision: 1, by: "Sam", signatories: [{ id: "sgn0001", firstName: "Paul", lastName: "Martin", function: "Administrateur", email: "paul@example.ch" }, { firstName: "Jean", lastName: "Dupont", function: "Directeur", email: "jean@example.ch" }] }, { idempotencyKey: "sty-contact", payloadHash: "c" });
+  const jeanId = (await loadCase(caseId)).revisions[0].signers![1].id;
+  await assert.rejects(act("one-contact", { signerIds: [jeanId] }), (e: unknown) => e instanceof KycError && e.code === "signer_is_contact");
+});
+
 test("a reminder re-sends each unsigned signatory their own request, once per call", async () => {
   const f = await fixture();
   const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0016", payloadHash: "h" });

@@ -7,7 +7,8 @@ import { staffAction, staffCase, type StaffAction } from "@/src/lib/kyc-question
  *   POST {action: "link" | "reopen" | "close" | "signers" | "signatories" | "remind_signers" | "prefill" | "assist" | "documents", expectedRevision (optional for assist),
  *        email? + notify? ("email" when Cadence e-mails the new link) (link), signers? [{id, email}],
  *        signatories [{id?, firstName, lastName, function, email}] + by (signatories: the whole list, one or two, after submission),
- *        remind_signers (re-sends each unsigned signatory their request; answers `reminded` [ids]),
+ *        remind_signers + signerIds? + notify? (re-sends each unsigned signatory — or those named — their request; answers
+ *        `reminded` [ids]; notify "none" with one id: no e-mail, answers `links` [{id, url, expiresAt}] to copy),
  *        prefill? (+ overwrite?, by?), route?, by + ttlMinutes? (assist),
  *        skippedDocuments [keys] and/or officeDocuments [keys] and/or extraDocuments [{key: "extra:<id>", label, help?, required}]
  *        (documents: the keys Ark took off the client's list / the keys the office already holds / the documents Ark
@@ -30,6 +31,6 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     const action = String(body.action || "") as StaffAction;
     if (!ACTIONS.includes(action)) return json({ error: "invalid_request", field: "action" }, 400);
     const result = await staffAction(id, action, body, { idempotencyKey, payloadHash });
-    return json({ ...result.summary, ...(result.link ? { link: result.link } : {}), ...(result.assist ? { assist: result.assist } : {}), ...(result.reminded ? { reminded: result.reminded } : {}), replayed: result.replayed });
+    return json({ ...result.summary, ...(result.link ? { link: result.link } : {}), ...(result.assist ? { assist: result.assist } : {}), ...(result.reminded ? { reminded: result.reminded } : {}), ...(result.links ? { links: result.links } : {}), replayed: result.replayed });
   });
 }
