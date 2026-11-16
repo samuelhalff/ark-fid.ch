@@ -86,9 +86,16 @@ export interface RevisionRecord {
  * address (one code per person); the evidence is kept on the signer, then on the final PDF.
  */
 export interface SignerRecord {
-  /** Row id of "i.signers", or "client" for a natural person. */
+  /** Row id of "i.signers", "client" for a natural person, or "ark…" for a signatory Ark named after submission. */
   id: string;
   name: string;
+  /** The signatory's function in the company, and their name in two parts (as the form or Ark gave them). */
+  function?: string;
+  firstName?: string;
+  lastName?: string;
+  /** Ark named or changed this signatory after submission: who at Ark, and when. */
+  setBy?: string;
+  setAt?: string;
   email?: string;
   emailHash?: string;
   /** Who gave the address: the form (client), the case contact by default, or Ark. */
@@ -466,7 +473,7 @@ async function relink(record: CaseRecord, via: LinkReplacedVia = "other"): Promi
   return link;
 }
 
-export type StaffAction = "link" | "reopen" | "close" | "signers" | "prefill" | "assist" | "documents";
+export type StaffAction = "link" | "reopen" | "close" | "signers" | "signatories" | "remind_signers" | "prefill" | "assist" | "documents";
 
 export interface AssistResult {
   /** Opens the form for Ark staff (fragment `#assist=`); single use, shared with `code`. */
@@ -482,16 +489,16 @@ const notifyVia = (notify: unknown): LinkReplacedVia => (notify === "email" ? "e
 export async function staffAction(
   caseId: string,
   action: StaffAction,
-  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown; signers?: unknown; by?: unknown; ttlMinutes?: unknown; overwrite?: unknown; skippedDocuments?: unknown; officeDocuments?: unknown; extraDocuments?: unknown; notify?: unknown },
+  body: { expectedRevision?: unknown; prefill?: unknown; route?: unknown; email?: unknown; signers?: unknown; signatories?: unknown; by?: unknown; ttlMinutes?: unknown; overwrite?: unknown; skippedDocuments?: unknown; officeDocuments?: unknown; extraDocuments?: unknown; notify?: unknown },
   meta: { idempotencyKey: string; payloadHash: string },
-): Promise<{ summary: StaffSummary; link?: LinkResult; assist?: AssistResult; replayed: boolean }> {
+): Promise<{ summary: StaffSummary; link?: LinkResult; assist?: AssistResult; reminded?: string[]; replayed: boolean }> {
   return locked(caseId, async () => {
     const record = await loadCase(caseId);
     const done = record.idempotency[meta.idempotencyKey];
     if (done) {
       if (done.hash !== meta.payloadHash) throw new KycError("idempotency_conflict", 409);
       const rev = latest(record);
-      if (action === "signers") {
+      if (action === "signers" || action === "signatories") {
         // A replay sends the requests a mail failure left unsent, nothing else.
         if (rev.state === "awaiting_signature" && (rev.signers || []).some((x) => !x.invitedAt && !x.signature && x.emailHash && x.emailHash !== record.emailHash)) {
           await requestSignatures(record, rev);
@@ -499,6 +506,8 @@ export async function staffAction(
         }
         return { summary: summarize(record), replayed: true };
       }
+      // A reminder replayed is not sent twice.
+      if (action === "remind_signers") return { summary: summarize(record), reminded: [], replayed: true };
       // Taking documents off the list issues no link: a replay answers the case as it is.
       if (action === "documents") return { summary: summarize(record), replayed: true };
       if (action === "assist") {
@@ -659,6 +668,45 @@ export async function staffAction(
       return { summary: summarize(record), replayed: false };
     }
 
+    if (action === "signatories") {
+      // Ark sets who signs, after submission and before the last signature (Sam, 2026-11-16: « quid si
+      // soudainement on réalise qu'il faut 2 signatures ? »): the whole list, one or two people. A
+      // signatory who has signed stays exactly as they signed; the others are replaced, removed or
+      // added, and each new address gets its own request. The client's submitted answers and the PDF
+      // stay as handed in (they are sealed): the signature page says whom Ark named.
+      if (rev.state !== "awaiting_signature") throw new KycError("invalid_state", 409, { state: rev.state });
+      if (!rev.signers) {
+        const answers = await readSubmitted(record, rev);
+        if (!answers) throw new KycError("invalid_state", 409, { state: rev.state });
+        rev.signers = buildSigners(answers, record);
+      }
+      const by = str(body.by).slice(0, 120);
+      if (!by) throw new KycError("invalid_request", 400, { field: "by" });
+      const next = nextSignatories(rev.signers, body.signatories, by);
+      if (duplicateAddress(next)) throw new KycError("signer_email_duplicate", 422);
+      rev.signers = next;
+      remember(rev.n);
+      await saveCase(record);
+      await requestSignatures(record, rev);
+      await saveCase(record);
+      // The one left unsigned taken off: everyone remaining has signed, the form is signed now.
+      if (next.every((s) => s.signature)) await finishOnline(record, rev);
+      await track(record, rev);
+      return { summary: summarize(record), replayed: false };
+    }
+
+    if (action === "remind_signers") {
+      // « Relancer » and Cadence's automatic reminders: each signatory who has not signed gets their
+      // own request again, with a fresh link (the contact signs in the form and is reminded by Cadence).
+      if (rev.state !== "awaiting_signature") throw new KycError("invalid_state", 409, { state: rev.state });
+      // Remembered before the mails: a retry of the same reminder never sends them twice.
+      remember(rev.n);
+      await saveCase(record);
+      const reminded = await requestSignatures(record, rev, { again: true });
+      await saveCase(record);
+      return { summary: summarize(record), reminded, replayed: false };
+    }
+
     // reopen: a new revision pre-filled with the last answers (plus Ark's corrections).
     if (rev.state === "open" || rev.state === "superseded" || rev.state === "closed") throw new KycError("invalid_state", 409, { state: rev.state });
     const route = body.route === undefined ? record.route : String(body.route);
@@ -763,7 +811,7 @@ export interface StaffSummary {
     pdf?: { itemId: string; name: string };
     signed?: { itemId: string; name: string; sha256: string; size: number }[];
     /** Form signatories and their online signatures (none when signed on paper). */
-    signers?: { id: string; name: string; email?: string; emailBy?: SignerRecord["emailBy"]; invitedAt?: string; signedAt?: string; typed?: string }[];
+    signers?: { id: string; name: string; firstName?: string; lastName?: string; function?: string; email?: string; emailBy?: SignerRecord["emailBy"]; setBy?: string; setAt?: string; invitedAt?: string; signedAt?: string; typed?: string }[];
     /** Documents frozen at submission (item ids and SHA-256). */
     documents?: RevisionRecord["documents"];
     folder: { itemId: string; webUrl: string };
@@ -811,7 +859,7 @@ export function summarize(record: CaseRecord): StaffSummary {
       json: rev.json,
       pdf: rev.pdf ? { itemId: rev.pdf.itemId, name: rev.pdf.name } : undefined,
       signed: rev.signed?.map(({ itemId, name, sha256, size }) => ({ itemId, name, sha256, size })),
-      signers: rev.signers?.map((x) => ({ id: x.id, name: x.name, email: x.email, emailBy: x.emailBy, invitedAt: x.invitedAt, signedAt: x.signature?.at, typed: x.signature?.typed })),
+      signers: rev.signers?.map((x) => ({ id: x.id, name: x.name, firstName: x.firstName, lastName: x.lastName, function: x.function, email: x.email, emailBy: x.emailBy, setBy: x.setBy, setAt: x.setAt, invitedAt: x.invitedAt, signedAt: x.signature?.at, typed: x.signature?.typed })),
       documents: rev.documents,
       folder: { itemId: readableFolderId(record, rev), webUrl: rev.folderUrl },
     },
@@ -1165,9 +1213,10 @@ function buildSigners(answers: Answers, record: CaseRecord): SignerRecord[] {
   return rows.map((row) => {
     const email = str(row.email);
     const name = `${str(row.firstName)} ${str(row.lastName)}`.trim();
-    if (email && EMAIL_RE.test(email)) return { id: String(row._id), name, email, emailHash: emailHash(email), emailBy: "form" as const, emailSetAt: at };
-    if (rows.length === 1) return { id: String(row._id), name, email: record.email, emailHash: record.emailHash, emailBy: "contact" as const, emailSetAt: at };
-    return { id: String(row._id), name };
+    const role = { ...(str(row.function) ? { function: str(row.function) } : {}), ...(str(row.firstName) ? { firstName: str(row.firstName) } : {}), ...(str(row.lastName) ? { lastName: str(row.lastName) } : {}) };
+    if (email && EMAIL_RE.test(email)) return { id: String(row._id), name, ...role, email, emailHash: emailHash(email), emailBy: "form" as const, emailSetAt: at };
+    if (rows.length === 1) return { id: String(row._id), name, ...role, email: record.email, emailHash: record.emailHash, emailBy: "contact" as const, emailSetAt: at };
+    return { id: String(row._id), name, ...role };
   });
 }
 
@@ -1175,6 +1224,57 @@ const duplicateAddress = (signers: SignerRecord[]) => {
   const hashes = signers.map((s) => s.emailHash).filter(Boolean);
   return new Set(hashes).size !== hashes.length;
 };
+
+/**
+ * The signatories after Ark's change: `items` is the whole list (one or two people). An entry with
+ * the `id` of a signatory keeps that signatory (a signed one must come back unchanged); an entry
+ * without `id` is a new signatory. A signatory left out is removed, never one who has signed.
+ */
+function nextSignatories(current: SignerRecord[], items: unknown, by: string): SignerRecord[] {
+  const list = Array.isArray(items) ? items : [];
+  if (list.length < 1 || list.length > 2) throw new KycError("invalid_request", 400, { field: "signatories" });
+  const at = now();
+  const kept = new Set<string>();
+  // A function the record does not hold (signatories fixed before it was kept) is not a change.
+  const sameRole = (signer: SignerRecord, role: string) => !signer.function || role === signer.function;
+  const next = list.map((raw): SignerRecord => {
+    const item = (raw && typeof raw === "object" ? raw : {}) as { id?: unknown; firstName?: unknown; lastName?: unknown; function?: unknown; email?: unknown };
+    const firstName = str(item.firstName).slice(0, 100);
+    const lastName = str(item.lastName).slice(0, 100);
+    const name = `${firstName} ${lastName}`.trim();
+    const role = str(item.function).slice(0, 120);
+    const email = str(item.email);
+    const id = item.id === undefined || item.id === null || item.id === "" ? null : String(item.id);
+    let signer = id === null ? undefined : current.find((s) => s.id === id);
+    if (id !== null && (!signer || kept.has(id))) throw new KycError("invalid_request", 400, { field: "signatories.id" });
+    // A new entry at the address of a signatory not yet signed is that signatory (a retry after a
+    // lost answer sends the list again without the id the first try created).
+    if (!signer && email) signer = current.find((s) => !s.signature && !kept.has(s.id) && s.emailHash === emailHash(email));
+    if (signer?.signature) {
+      // Who signed stays as they signed.
+      if (nameKey(name) !== nameKey(signer.name) || emailHash(email) !== signer.emailHash || !sameRole(signer, role)) throw new KycError("signer_signed", 409, { id: signer.id });
+      kept.add(signer.id);
+      return signer;
+    }
+    if (!lastName || !printable(name)) throw new KycError("invalid_request", 400, { field: "signatories.name" });
+    if (!EMAIL_RE.test(email) || email.length > 200) throw new KycError("invalid_request", 400, { field: "signatories.email" });
+    const parts = { firstName: firstName || undefined, lastName };
+    if (signer) {
+      kept.add(signer.id);
+      const sameAddress = signer.emailHash === emailHash(email);
+      if (sameAddress && name === signer.name && sameRole(signer, role)) return { ...signer, ...parts, function: signer.function || role || undefined };
+      // Changed: a new address gets a new request; the same address keeps its request.
+      return {
+        ...signer, ...parts, name, function: role || undefined, setBy: by, setAt: at,
+        ...(sameAddress ? {} : { email, emailHash: emailHash(email), emailBy: "ark" as const, emailSetAt: at, invitedAt: undefined }),
+      };
+    }
+    return { id: `ark${randomBytes(6).toString("hex")}`, name, ...parts, ...(role ? { function: role } : {}), email, emailHash: emailHash(email), emailBy: "ark", emailSetAt: at, setBy: by, setAt: at };
+  });
+  const gone = current.find((s) => s.signature && !kept.has(s.id));
+  if (gone) throw new KycError("signer_signed", 409, { id: gone.id });
+  return next;
+}
 
 /** Online signing is possible: every signatory has an address of their own and a printable name. */
 function onlineReady(rev: RevisionRecord): boolean {
@@ -1185,6 +1285,7 @@ function onlineReady(rev: RevisionRecord): boolean {
 const SIGN_MAIL = {
   fr: {
     subject: (company: string) => `Signature du formulaire KYC – ${company}`,
+    reminder: "Rappel : ",
     blocks: (name: string, company: string, url: string) => [
       `Bonjour ${name},`,
       `Ark Fiduciaire SA vous invite à signer en ligne le formulaire de connaissance du client (KYC) de ${company}, dont vous êtes signataire.`,
@@ -1195,6 +1296,7 @@ const SIGN_MAIL = {
   },
   en: {
     subject: (company: string) => `Signing the KYC form – ${company}`,
+    reminder: "Reminder: ",
     blocks: (name: string, company: string, url: string) => [
       `Dear ${name},`,
       `Ark Fiduciaire SA invites you to sign online the know-your-customer (KYC) form of ${company}, as one of its signatories.`,
@@ -1208,21 +1310,26 @@ const SIGN_MAIL = {
 /**
  * Signature requests to the signatories other than the contact (who is already on the form):
  * a link bound to their address, and one e-mail with fixed wording. A failure leaves the signer
- * unrequested; the next submit retry or Ark's correction sends it.
+ * unrequested; the next submit retry or Ark's correction sends it. `again`: a reminder, to every
+ * signatory who has not signed, requested before or not. Returns the ids of the signatories e-mailed.
  */
-async function requestSignatures(record: CaseRecord, rev: RevisionRecord) {
-  if (rev.state !== "awaiting_signature" || !onlineReady(rev)) return;
+async function requestSignatures(record: CaseRecord, rev: RevisionRecord, options: { again?: boolean } = {}): Promise<string[]> {
+  if (rev.state !== "awaiting_signature" || !onlineReady(rev)) return [];
+  const sent: string[] = [];
   for (const signer of rev.signers || []) {
-    if (signer.signature || signer.invitedAt || !signer.email || !signer.emailHash || signer.emailHash === record.emailHash) continue;
+    if (signer.signature || (signer.invitedAt && !options.again) || !signer.email || !signer.emailHash || signer.emailHash === record.emailHash) continue;
     try {
       const link = await issueLink({ caseId: record.caseId, revision: rev.n, emailHash: signer.emailHash, locale: record.language });
       const text = SIGN_MAIL[record.language];
-      await getPorts().sendMail({ from: mailSender(), to: [signer.email], cc: [], subject: text.subject(record.displayName), html: plainHtml([...text.blocks(signer.name, record.displayName, link.url)]) });
+      const subject = (options.again && signer.invitedAt ? text.reminder : "") + text.subject(record.displayName);
+      await getPorts().sendMail({ from: mailSender(), to: [signer.email], cc: [], subject, html: plainHtml([...text.blocks(signer.name, record.displayName, link.url)]) });
       signer.invitedAt = now();
+      sent.push(signer.id);
     } catch (error) {
       console.error("kyc signature request", error instanceof Error ? error.message : "error");
     }
   }
+  return sent;
 }
 
 /**
@@ -1317,7 +1424,7 @@ async function finishOnline(record: CaseRecord, rev: RevisionRecord) {
   const signedPdf = await appendOnlineSignatures(original, {
     language: record.language,
     declarationId: rev.declarationId || "",
-    signers: signers.map((s) => ({ name: s.name, typed: s.signature!.typed, email: s.signature!.email, at: s.signature!.at, drawnPng: s.signature!.drawnPng, ip: s.signature!.ip, userAgent: s.signature!.userAgent, linkRef: s.signature!.linkRef, byArk: s.emailBy === "ark" })),
+    signers: signers.map((s) => ({ name: s.name, function: s.function, setByArk: !!s.setBy, typed: s.signature!.typed, email: s.signature!.email, at: s.signature!.at, drawnPng: s.signature!.drawnPng, ip: s.signature!.ip, userAgent: s.signature!.userAgent, linkRef: s.signature!.linkRef, byArk: s.emailBy === "ark" })),
     pdfSha256,
     jsonSha256: rev.json?.sha256 || "",
   });

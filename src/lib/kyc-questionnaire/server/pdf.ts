@@ -62,6 +62,7 @@ const TEXT = {
     drawn: { fr: "Signature tracée", en: "Drawn signature" },
     email: { fr: "Adresse e-mail du code", en: "E-mail address of the code" },
     byArk: { fr: " (adresse indiquée par Ark)", en: " (address given by Ark)" },
+    setByArk: { fr: " (désigné par Ark après la remise du formulaire)", en: " (named by Ark after the form was handed in)" },
     at: { fr: "Date et heure (Suisse)", en: "Date and time (Swiss time)" },
     ip: { fr: "Adresse IP", en: "IP address" },
     userAgent: { fr: "Navigateur (user agent)", en: "Browser (user agent)" },
@@ -266,7 +267,7 @@ export async function appendOnlineSignatures(
   info: {
     language: KycLocale;
     declarationId: string;
-    signers: { name: string; typed: string; email: string; at: string; drawnPng?: string; ip?: string; userAgent?: string; linkRef?: string; byArk?: boolean }[];
+    signers: { name: string; function?: string; setByArk?: boolean; typed: string; email: string; at: string; drawnPng?: string; ip?: string; userAgent?: string; linkRef?: string; byArk?: boolean }[];
     pdfSha256: string;
     jsonSha256: string;
   },
@@ -280,7 +281,7 @@ export async function appendOnlineSignatures(
   w.heading(T.title[L]);
   w.text(T.intro[L], { gap: 10 });
   for (const signer of info.signers) {
-    w.pair(T.signer[L], signer.name);
+    w.pair(T.signer[L], signer.name + (signer.function ? `, ${signer.function}` : "") + (signer.setByArk ? T.setByArk[L] : ""));
     w.pair(T.typed[L], signer.typed);
     w.pair(T.email[L], signer.email + (signer.byArk ? T.byArk[L] : ""));
     w.pair(T.at[L], swissDate(signer.at));

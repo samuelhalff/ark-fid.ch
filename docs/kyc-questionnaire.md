@@ -45,6 +45,9 @@ sign. Ark then reopens the case with the right route.
      fixed at submission (`rev.signers`): the client (natural person) at the case address; a
      company's signatories at the addresses given in the form (`i.signers[].email`, one per
      person, duplicates refused); a sole signatory with no address signs at the case address.
+     Until the last signature, Ark may set who signs (`signatories`, one or two people): a
+     signatory who has signed stays as signed; the client's answers and the PDF stay as handed
+     in, and the signature page marks a signatory Ark named after submission.
      Online is offered when every signatory has an address and a printable name. Each signs in
      their own session opened with one code sent to their own address (never a second code):
      tick the confirmation, type their name (compared without case, accents or word order), and
@@ -123,6 +126,8 @@ link tokens are never stored); the same key with another body is `409 idempotenc
 | `GET /cases/<caseId>` | – | summary + `answers` of the latest submitted revision |
 | `POST /cases/<caseId>` | `{action: "link", expectedRevision, email?}` | new link (old links and sessions revoked); open or awaiting signature only. `email` changes the contact: the link and codes then go to the new address only |
 | | `{action: "signers", expectedRevision, signers: [{id, email}]}` | awaiting signature: give or correct signatories' addresses (unsigned ones); each new address gets a request; a replay sends nothing |
+| | `{action: "signatories", expectedRevision, by, signatories: [{id?, firstName, lastName, function, email}]}` | awaiting signature: the whole list of signatories, one or two (`id` keeps one, no `id` adds one, left out removes one); a signed one must come back unchanged (`signer_signed`); duplicate address `signer_email_duplicate`; each new address gets a request; a replay sends nothing |
+| | `{action: "remind_signers", expectedRevision}` | awaiting signature: each unsigned signatory other than the contact gets their request again with a fresh link (« Rappel : »); answers `reminded` [ids]; a replay sends nothing |
 | | `{action: "reopen", expectedRevision, prefill?, route?}` | new revision + link; from returned, awaiting signature or signed |
 | | `{action: "prefill", expectedRevision, prefill: {<answer id>: value}, overwrite?: boolean, by?: string}` | open revision only (`409 invalid_state` otherwise). Fills **empty** answers only. With `overwrite: true` the given values also replace answers the client already typed (values that differ), each marked entered by Ark (`by`, default `"Cadence"`). Always bumps `staffPrefillVersion` so an open client tab cannot erase them (its next save is `409 draft_changed` and reloads). Result: summary |
 | | `{action: "assist", by, ttlMinutes?, expectedRevision?}` | open revision only. Issues a single-use staff access, see "Assisted entry" below. Result: summary + `assist: {link, code, expiresAt}` |
@@ -131,7 +136,7 @@ link tokens are never stored); the same key with another body is `409 idempotenc
 `expectedRevision` must be the latest revision number (`409 revision_conflict` otherwise).
 Summary: `caseId, clientRef, displayName, route, language, closed, updatedAt, folder,
 actionRequired (await_client | review_route | await_signature | review_kyc | null),
-latestRevision {n, id, state, dates, flags, declarationId, json {itemId, sha256}, pdf, signed[], signers? [{id, name, email, emailBy, invitedAt, signedAt, typed}],
+latestRevision {n, id, state, dates, flags, declarationId, json {itemId, sha256}, pdf, signed[], signers? [{id, name, firstName, lastName, function, email, emailBy, setBy, setAt, invitedAt, signedAt, typed}],
 folder}, revisions[]`. Flags (`pep`, `sanctions`, `criminal`, `trustOrFoundation`, `nominee`,
 `listed`, `forThird`, `cash`, `crypto`, `valuables`, `licence`, `notStarted`, `noSubstance`, `routeMismatch`)
 are points for Ark's review, not a risk class.

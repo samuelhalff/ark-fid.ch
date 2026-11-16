@@ -4,8 +4,11 @@ import { staffAction, staffCase, type StaffAction } from "@/src/lib/kyc-question
 /**
  * Cadence API for one case:
  *   GET  — the case, with the submitted answers of the latest revision;
- *   POST {action: "link" | "reopen" | "close" | "signers" | "prefill" | "assist" | "documents", expectedRevision (optional for assist),
- *        email? + notify? ("email" when Cadence e-mails the new link) (link), signers? [{id, email}], prefill? (+ overwrite?, by?), route?, by + ttlMinutes? (assist),
+ *   POST {action: "link" | "reopen" | "close" | "signers" | "signatories" | "remind_signers" | "prefill" | "assist" | "documents", expectedRevision (optional for assist),
+ *        email? + notify? ("email" when Cadence e-mails the new link) (link), signers? [{id, email}],
+ *        signatories [{id?, firstName, lastName, function, email}] + by (signatories: the whole list, one or two, after submission),
+ *        remind_signers (re-sends each unsigned signatory their request; answers `reminded` [ids]),
+ *        prefill? (+ overwrite?, by?), route?, by + ttlMinutes? (assist),
  *        skippedDocuments [keys] and/or officeDocuments [keys] and/or extraDocuments [{key: "extra:<id>", label, help?, required}]
  *        (documents: the keys Ark took off the client's list / the keys the office already holds / the documents Ark
  *        asked for on this case only; each list replaced only when sent, [] clears it)}
@@ -14,7 +17,7 @@ import { staffAction, staffCase, type StaffAction } from "@/src/lib/kyc-question
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const ACTIONS: StaffAction[] = ["link", "reopen", "close", "signers", "prefill", "assist", "documents"];
+const ACTIONS: StaffAction[] = ["link", "reopen", "close", "signers", "signatories", "remind_signers", "prefill", "assist", "documents"];
 
 export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
@@ -27,6 +30,6 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     const action = String(body.action || "") as StaffAction;
     if (!ACTIONS.includes(action)) return json({ error: "invalid_request", field: "action" }, 400);
     const result = await staffAction(id, action, body, { idempotencyKey, payloadHash });
-    return json({ ...result.summary, ...(result.link ? { link: result.link } : {}), ...(result.assist ? { assist: result.assist } : {}), replayed: result.replayed });
+    return json({ ...result.summary, ...(result.link ? { link: result.link } : {}), ...(result.assist ? { assist: result.assist } : {}), ...(result.reminded ? { reminded: result.reminded } : {}), replayed: result.replayed });
   });
 }

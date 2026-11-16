@@ -572,6 +572,95 @@ test("addresses given in two steps: both signatories get their request once the 
   assert.equal(f.mails.length, 2, "the same address is not requested twice");
 });
 
+test("Ark sets the signatories after submission: adds, replaces, never touches who signed", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0015", payloadHash: "h" });
+  const caseId = created.summary.caseId;
+  const contact = { caseId, revision: 1, emailHash: JEAN };
+  const jean = { id: "sgn0001", firstName: "Jean", lastName: "Dupont", function: "Administrateur", email: "jean@example.ch" };
+  const answers: Answers = { ...pmOp, "i.signers": [row("sgn0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur" })] };
+  await uploadAll(f, caseId, answers);
+  await assert.rejects(staffAction(caseId, "signatories", { expectedRevision: 1, by: "Sam", signatories: [jean] }, { idempotencyKey: "sty-open", payloadHash: "o" }), (e: unknown) => e instanceof KycError && e.code === "invalid_state", "before submission the open form's answer is changed instead");
+  await submit(contact, { answers });
+  assert.equal(f.mails.length, 0, "the sole signatory signs at the contact address");
+  const set = (key: string, signatories: unknown[], by = "Sam") => staffAction(caseId, "signatories", { expectedRevision: 1, by, signatories }, { idempotencyKey: key, payloadHash: key });
+  const paul = { firstName: "Paul", lastName: "Martin", function: "Directeur", email: "paul@example.ch" };
+  await assert.rejects(set("sty-by", [jean, paul], ""), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
+  await assert.rejects(set("sty-three", [jean, paul, { ...paul, email: "x@example.ch" }]), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
+  await assert.rejects(set("sty-dup", [jean, { ...paul, email: "JEAN@example.ch" }]), (e: unknown) => e instanceof KycError && e.code === "signer_email_duplicate");
+  assert.equal((await loadCase(caseId)).revisions[0].signers?.length, 1, "a refused change leaves the list as it was");
+  // A second signatory: Paul gets his own request; Jean stays the contact's signatory.
+  const added = await set("sty-add", [jean, paul]);
+  const signers = added.summary.latestRevision.signers!;
+  assert.deepEqual(signers.map((s) => [s.name, s.function, s.email, s.setBy ?? null]), [["Jean Dupont", "Administrateur", "jean@example.ch", null], ["Paul Martin", "Directeur", "paul@example.ch", "Sam"]]);
+  assert.match(signers[1].id, /^ark[0-9a-f]{12}$/);
+  assert.deepEqual(f.mails.map((m) => (m as { to: string[] }).to[0]), ["paul@example.ch"]);
+  assert.equal((await set("sty-add", [jean, paul])).replayed, true);
+  assert.equal(f.mails.length, 1, "a replay sends nothing");
+  const declarationId = (await clientCase(contact)).declarationId;
+  assert.equal((await signOnline(contact, { name: "Jean Dupont", accept: true, declarationId, drawing: await drawing() })).state, "awaiting_signature", "Paul has not signed yet");
+  // Who signed stays exactly as they signed.
+  await assert.rejects(set("sty-drop-jean", [{ ...paul, id: signers[1].id }]), (e: unknown) => e instanceof KycError && e.code === "signer_signed");
+  await assert.rejects(set("sty-move-jean", [{ ...jean, email: "jean2@example.ch" }, { ...paul, id: signers[1].id }]), (e: unknown) => e instanceof KycError && e.code === "signer_signed");
+  // Paul is replaced by Marie: her request goes; Paul's session ends.
+  const marie = { firstName: "Marie", lastName: "Rochat", function: "Administratrice", email: "marie@example.ch" };
+  const replaced = await set("sty-marie", [jean, marie]);
+  assert.deepEqual(replaced.summary.latestRevision.signers!.map((s) => s.name), ["Jean Dupont", "Marie Rochat"]);
+  assert.deepEqual(f.mails.map((m) => (m as { to: string[] }).to[0]), ["paul@example.ch", "marie@example.ch"]);
+  await assert.rejects(clientCase({ caseId, revision: 1, emailHash: emailHash("paul@example.ch") }), (e: unknown) => e instanceof KycError && e.code === "session_expired");
+  const marieSession = { caseId, revision: 1, emailHash: emailHash("marie@example.ch") };
+  assert.equal((await signOnline(marieSession, { name: "Marie Rochat", accept: true, declarationId, drawing: await drawing() })).state, "signed");
+  // Signed: nobody can be changed any more.
+  await assert.rejects(set("sty-late", [jean, marie]), (e: unknown) => e instanceof KycError && e.code === "invalid_state");
+});
+
+test("the list sent again after a lost answer changes nothing; taking off the one left unsigned signs the form", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0017", payloadHash: "h" });
+  const caseId = created.summary.caseId;
+  const contact = { caseId, revision: 1, emailHash: JEAN };
+  const jean = { id: "sgn0001", firstName: "Jean", lastName: "Dupont", function: "Administrateur", email: "jean@example.ch" };
+  const answers: Answers = { ...pmOp, "i.signers": [row("sgn0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur" })] };
+  await uploadAll(f, caseId, answers);
+  await submit(contact, { answers });
+  const paul = { firstName: "Paul", lastName: "Martin", function: "Directeur", email: "paul@example.ch" };
+  const first = await staffAction(caseId, "signatories", { expectedRevision: 1, by: "Sam", signatories: [jean, paul] }, { idempotencyKey: "sty-retry-1", payloadHash: "1" });
+  const again = await staffAction(caseId, "signatories", { expectedRevision: 1, by: "Sam", signatories: [jean, paul] }, { idempotencyKey: "sty-retry-2", payloadHash: "2" });
+  assert.deepEqual(again.summary.latestRevision.signers!.map((s) => s.id), first.summary.latestRevision.signers!.map((s) => s.id));
+  assert.equal(f.mails.length, 1, "Paul is not invited twice");
+  assert.deepEqual([again.summary.latestRevision.signers![1].firstName, again.summary.latestRevision.signers![1].lastName], ["Paul", "Martin"]);
+  const declarationId = (await clientCase(contact)).declarationId;
+  await signOnline(contact, { name: "Jean Dupont", accept: true, declarationId, drawing: await drawing() });
+  const done = await staffAction(caseId, "signatories", { expectedRevision: 1, by: "Sam", signatories: [jean] }, { idempotencyKey: "sty-drop-paul", payloadHash: "d" });
+  assert.equal(done.summary.latestRevision.state, "signed");
+  assert.equal(done.summary.latestRevision.signed?.length, 1, "the signed PDF is filed");
+});
+
+test("a reminder re-sends each unsigned signatory their own request, once per call", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0016", payloadHash: "h" });
+  const caseId = created.summary.caseId;
+  const contact = { caseId, revision: 1, emailHash: JEAN };
+  const answers: Answers = { ...pmOp, "i.signers": [row("sgn0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur", email: "jean@example.ch" }), row("sgn0002", { lastName: "Martin", firstName: "Paul", function: "Administrateur", email: "paul@example.ch" })] };
+  await uploadAll(f, caseId, answers);
+  await assert.rejects(staffAction(caseId, "remind_signers", { expectedRevision: 1 }, { idempotencyKey: "rem-open", payloadHash: "o" }), (e: unknown) => e instanceof KycError && e.code === "invalid_state");
+  await submit(contact, { answers });
+  assert.equal(f.mails.length, 1);
+  const first = await staffAction(caseId, "remind_signers", { expectedRevision: 1 }, { idempotencyKey: "rem-0001", payloadHash: "r1" });
+  assert.deepEqual(first.reminded, ["sgn0002"], "the contact is reminded by Cadence, not here");
+  const mail = f.mails[1] as { to: string[]; subject: string; html: string };
+  assert.deepEqual(mail.to, ["paul@example.ch"]);
+  assert.match(mail.subject, /^Rappel : /);
+  const token = /#acces=([A-Za-z0-9_-]+)/.exec(mail.html)![1];
+  assert.equal((await readLink(token))?.emailHash, emailHash("paul@example.ch"), "the reminder carries Paul's own link");
+  const replay = await staffAction(caseId, "remind_signers", { expectedRevision: 1 }, { idempotencyKey: "rem-0001", payloadHash: "r1" });
+  assert.deepEqual([replay.replayed, replay.reminded, f.mails.length], [true, [], 2], "a replay sends nothing");
+  const declarationId = (await clientCase(contact)).declarationId;
+  await signOnline({ caseId, revision: 1, emailHash: emailHash("paul@example.ch") }, { name: "Paul Martin", accept: true, declarationId, drawing: await drawing() });
+  const after = await staffAction(caseId, "remind_signers", { expectedRevision: 1 }, { idempotencyKey: "rem-0002", payloadHash: "r2" });
+  assert.deepEqual([after.reminded, f.mails.length], [[], 2], "who signed is not reminded");
+});
+
 test("a client description contradicting Ark's form goes back to Ark, nothing to sign", async () => {
   const f = await fixture();
   const created = await createCase(createInput(f.clientFolder, "pm-op"), { keyId: "cadence", idempotencyKey: "create-0002", payloadHash: "h" });
