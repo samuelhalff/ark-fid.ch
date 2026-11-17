@@ -104,6 +104,8 @@ export interface GroupDef {
   label: L;
   help?: L;
   itemLabel: L;
+  /** The add button's words (« Ajouter un compte »), instead of the form's « Ajouter une personne ». */
+  addLabel?: L;
   /** Row fields joined to title a row (summaries, PDF), e.g. "lastName firstName". */
   titleFields?: string[];
   fields: FieldDef[];

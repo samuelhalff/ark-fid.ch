@@ -36,6 +36,8 @@ export interface KitGroup {
   label: LabelText;
   help?: LabelText;
   itemLabel: LabelText;
+  /** The add button's words, instead of the kit's addRow / addAnother. */
+  addLabel?: LabelText;
   fields: KitField[];
   maxRows: number;
   minRows?: number;

@@ -43,6 +43,7 @@ function group(where: string, g: GroupDef, problems: string[]) {
   check(`${where}.label`, g.label, problems);
   if (g.help) check(`${where}.help`, g.help, problems);
   check(`${where}.itemLabel`, g.itemLabel, problems);
+  if (g.addLabel) check(`${where}.addLabel`, g.addLabel, problems);
   for (const f of g.fields) field(`${where}.${f.id}`, f, problems);
   if (g.nested) group(`${where}.${g.nested.id}`, g.nested, problems);
 }

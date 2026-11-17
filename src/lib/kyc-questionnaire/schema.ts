@@ -725,11 +725,42 @@ export const STEPS: StepDef[] = [
       { kind: "field", id: "f.currency", type: "select", label: t("Devise", "Currency"), required: true, width: "half", options: CURRENCIES, showIf: is("f.funds", "yes") },
       { kind: "field", id: "f.currencyOther", type: "text", label: t("Quelle devise ?", "Which currency?"), required: true, width: "half", maxLength: 40, showIf: (a) => a["f.funds"] === "yes" && a["f.currency"] === "other" },
       { kind: "field", id: "f.bank", type: "text", label: t("Depuis quel compte ?", "From which account?"), help: t("Banque, pays et titulaire.", "Bank, country and account holder."), required: true, maxLength: 450, showIf: is("f.funds", "yes") },
+      // A client's own account Ark can reach (power of attorney, signature, e-banking) counts for the
+      // LBA even when no money is entrusted (Ricci, 2026-11-17; Sam « Ok mieux », 2026-11-17). A fact only.
+      yesNo("f.bankAccess", t("Aurons-nous accès à l'un de vos comptes bancaires (procuration, signature ou e-banking) ?", "Will we have access to one of your bank accounts (power of attorney, signature or e-banking)?")),
+      {
+        kind: "group",
+        id: "f.accounts",
+        label: t("Quels comptes ?", "Which accounts?"),
+        itemLabel: t("Compte", "Account"),
+        addLabel: t("Ajouter un compte", "Add an account"),
+        titleFields: ["bank"],
+        minRows: 1,
+        maxRows: 10,
+        showIf: is("f.bankAccess", "yes"),
+        fields: [
+          { kind: "field", id: "bank", type: "text", label: t("Banque", "Bank"), required: true, width: "half", maxLength: 200 },
+          { kind: "field", id: "country", type: "text", label: t("Pays", "Country"), required: true, width: "half", suggest: "country" },
+          { kind: "field", id: "holder", type: "text", label: t("Titulaire du compte", "Account holder"), required: true, maxLength: 300 },
+          {
+            kind: "field",
+            id: "access",
+            type: "checkboxes",
+            label: t("Type d’accès", "Type of access"),
+            required: true,
+            options: [
+              { value: "view", label: t("Consultation uniquement", "View only") },
+              { value: "prepare", label: t("Préparation de paiements", "Preparing payments") },
+              { value: "execute", label: t("Autorisation ou exécution de paiements", "Authorising or executing payments") },
+            ],
+          },
+        ],
+      },
 
       { kind: "heading", id: "g.heading", section: "G", label: t("Activité prévue", "Expected activity") },
       { kind: "field", id: "g.turnover", type: "money", label: t("Chiffre d’affaires annuel (CHF)", "Annual turnover (CHF)"), help: t("Celui du dernier exercice. Pour une société nouvelle, une estimation suffit.", "The last financial year's. For a new company, an estimate is enough."), width: "half", required: true, showIf: isOp },
-      // No turnover to give (a person, a non-operating company): what goes through the accounts.
-      { kind: "field", id: "g.amount", type: "money", label: t("Montant qui passera sur les comptes en un an (CHF)", "Amount that will go through the accounts in a year (CHF)"), help: t("À peu près : ce qui entre et sort. Nous vérifions seulement que les mouvements correspondent à l’activité.", "Roughly: what comes in and goes out. We only check that the movements match the activity."), width: "half", required: true, optionalIf: answeredBefore, showIf: (a) => !isOp(a) },
+      // No turnover to give (a person, a non-operating company): what goes through the client's bank accounts, all of them.
+      { kind: "field", id: "g.amount", type: "money", label: t("Montant qui passera en un an sur vos comptes bancaires (CHF)", "Amount that will go through your bank accounts in a year (CHF)"), help: t("Sur tous vos comptes bancaires : entrées et sorties d'une année ordinaire, une estimation suffit.", "Across all your bank accounts: what comes in and goes out in an ordinary year; an estimate is enough."), width: "half", required: true, optionalIf: answeredBefore, showIf: (a) => !isOp(a) },
       { kind: "field", id: "g.typesPm", type: "checkboxes", required: true, label: t("Quels genres de paiements prévoyez-vous ?", "What kinds of payments do you expect?"), options: PM_OPERATIONS, showIf: isPM },
       { kind: "field", id: "g.typesPp", type: "checkboxes", required: true, label: t("Quels genres de paiements prévoyez-vous ?", "What kinds of payments do you expect?"), options: PP_OPERATIONS, showIf: isPP },
       { kind: "field", id: "g.typesOther", type: "text", label: t("Lequel ?", "Which one?"), required: true, showIf: (a) => has("g.typesPm", "other")(a) || has("g.typesPp", "other")(a) },

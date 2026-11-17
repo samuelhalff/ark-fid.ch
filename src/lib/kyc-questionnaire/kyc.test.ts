@@ -63,6 +63,7 @@ const pmCommon: Answers = {
   "e.companyAssetSources": ["capital", "other"],
   "e.companyAssets": "Capital libéré",
   "f.funds": "no",
+  "f.bankAccess": "no",
   "g.turnover": "100'000",
   "g.typesPm": ["domestic"],
   "i.signers": [row("sgn0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur" })],
@@ -115,6 +116,7 @@ const pp: Answers = {
   "e.wealthSources": ["salary"],
   "e.wealthDetails": "Salaire",
   "f.funds": "no",
+  "f.bankAccess": "no",
   "g.amount": "10'000",
   "g.typesPp": ["domestic"],
   "i.place": "Genève",
@@ -1477,4 +1479,115 @@ test("draft PDF: the form's layout, every page marked, nothing to sign; a bad ro
   assert.ok(!all.includes(hex("En signant pour")), "no declarations");
   assert.equal(doc.getTitle(), "Questionnaire client – Test SA");
   await assert.rejects(previewPdf("nope", pmOp, "Test SA", "fr"), (e: { code?: string; status?: number }) => e.status === 400);
+});
+
+// ---- Bank access (point 8c, Sam « Ok mieux » 2026-11-17) --------------------------------------------
+
+/** Text drawn on each page of a PDF, as hex WinAnsi (how pdf-lib writes it); `has` finds a text in it. */
+async function pdfPages(bytes: Uint8Array) {
+  const { PDFDocument } = await import("pdf-lib");
+  const { inflateSync } = await import("node:zlib");
+  const doc = await PDFDocument.load(bytes);
+  const pages = doc.getPages().map((page) => {
+    const contents = page.node.Contents();
+    const streams = contents && "asArray" in contents ? contents.asArray() : contents ? [contents] : [];
+    return streams.map((ref) => {
+      const raw = Buffer.from((doc.context.lookup(ref) as unknown as { getContents(): Uint8Array }).getContents());
+      try { return inflateSync(raw).toString("latin1"); } catch { return raw.toString("latin1"); }
+    }).join("");
+  });
+  const hex = (text: string) => Buffer.from(text, "latin1").toString("hex").toUpperCase();
+  return { doc, pages, hex, has: (text: string) => pages.join("").includes(hex(text)) };
+}
+
+const ACCOUNT = row("acc0001", { bank: "UBS", country: "Suisse", holder: "Anne Martin" });
+const withAccess = (a: Answers): Answers => ({ ...a, "f.bankAccess": "yes", "f.accounts": [{ ...ACCOUNT, access: ["view", "execute"] }] });
+
+test("bank access: asked on every route, its accounts only on « oui », each with its kinds of access", () => {
+  for (const a of [pp, pmOp, pmNonOp]) {
+    assert.ok(isBlockAsked(getField("f.bankAccess")!, a), `${a.route}: asked`);
+    const { "f.bankAccess": _b, ...without } = a;
+    assert.equal(validateAll(pruneHidden(without))["f.bankAccess"], "required", `${a.route}: required on a new form`);
+    assert.ok(!isBlockAsked(getGroup("f.accounts")!, a), `${a.route}: no accounts on « non »`);
+    assert.ok(!isBlockAsked(getGroup("f.accounts")!, without), `${a.route}: no accounts before an answer`);
+    const yes = pruneHidden({ ...a, "f.bankAccess": "yes" });
+    assert.ok(isBlockAsked(getGroup("f.accounts")!, yes));
+    assert.equal(validateAll(yes)["f.accounts"], "min_rows", "« oui » names at least one account");
+    assert.deepEqual(validateAll(pruneHidden(withAccess(a))), {}, `${a.route}: complete`);
+  }
+  // Each field of a row is asked; the kinds of access are the three offered, several at once.
+  const errors = validateAll(pruneHidden({ ...pp, "f.bankAccess": "yes", "f.accounts": [ACCOUNT] }));
+  assert.deepEqual(Object.keys(errors), ["f.accounts[acc0001].access"]);
+  assert.equal(validateAll(pruneHidden({ ...pp, "f.bankAccess": "yes", "f.accounts": [{ ...ACCOUNT, access: ["sign"] }] }))["f.accounts[acc0001].access"], "invalid_option");
+  const clean = sanitizeAnswers(withAccess(pp));
+  assert.deepEqual((clean["f.accounts"] as Record<string, unknown>[])[0].access, ["view", "execute"], "the kinds of access are kept");
+  // « Non » after « oui »: the accounts typed go with the hidden group.
+  assert.equal(pruneHidden({ ...withAccess(pp), "f.bankAccess": "no" })["f.accounts"], undefined);
+  // The amount says it covers all the client's bank accounts; still not asked of an operating company.
+  assert.match(fieldText(getField("g.amount")!, pp).label.fr, /sur vos comptes bancaires/);
+  assert.match(String(fieldText(getField("g.amount")!, pp).help?.fr), /^Sur tous vos comptes bancaires/);
+  assert.ok(!isBlockAsked(getField("g.amount")!, pmOp));
+});
+
+test("bank access on a form signed before it existed: the old revision stays complete; reopened, Ark fills it in an assisted session, Ark's PDF and pages show it", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder, "pp"), { keyId: "cadence", idempotencyKey: "create-bank-01", payloadHash: "b1" });
+  const caseId = created.summary.caseId;
+  const session = { caseId, revision: 1, emailHash: JEAN };
+  await uploadAll(f, caseId, pp);
+  await submit(session, { answers: pp, submitKey: "bank-1" });
+  const record = await loadCase(caseId);
+  const rev = record.revisions[0];
+  // As a form sent before 2026-11-17 stored it: no answer about bank access.
+  const stored = JSON.parse(new TextDecoder().decode((await f.storage.readFile(record.driveId, rev.folderId, "questionnaire.json"))!));
+  delete stored.answers["f.bankAccess"];
+  await f.storage.putFile(record.driveId, rev.folderId, "questionnaire.json", new TextEncoder().encode(JSON.stringify(stored)), "application/json");
+  const signedFolder = await f.storage.ensureSubfolder(record.driveId, rev.folderId, "Signé");
+  await f.storage.putFile(record.driveId, signedFolder, "Formulaire signé R1 - scan.pdf", new TextEncoder().encode("%PDF-1.4 signed"), "application/pdf");
+  assert.equal((await confirmSigned(session)).state, "signed");
+  const signedPdf = Buffer.from((await f.storage.readFile(record.driveId, rev.folderId, rev.pdf!.name))!);
+  const old = await staffCase(caseId);
+  assert.equal(old.answers?.["f.bankAccess"], undefined);
+  assert.ok(old.pages.every((page) => page.missingFieldIds.length === 0), "the signed form is not incomplete under the new question");
+  assert.ok(!old.pages.flatMap((page) => page.fieldIds).includes("f.accounts"), "no accounts shown for it");
+  // The form's draft PDF (Cadence's print) of the old answers still builds.
+  const { previewPdf } = await import("./server/service");
+  assert.ok((await pdfPages(await previewPdf("pp", stored.answers, "Anne Martin", "fr"))).doc.getPageCount() >= 2);
+
+  // Reopened: the new revision asks the question; a staff session answers it, the client signs again.
+  await staffAction(caseId, "reopen", { expectedRevision: 1 }, { idempotencyKey: "reopen-bank-01", payloadHash: "rb" });
+  const reopened = await staffCase(caseId);
+  assert.ok(reopened.pages.flatMap((page) => page.missingFieldIds).includes("f.bankAccess"), "the new revision asks it");
+  // Cadence's « Formulaire » saves through the prefill action (overwrite): several rows, their kinds of access kept.
+  const two = [{ ...ACCOUNT, access: ["prepare"] }, { _id: "acc0002", bank: "PostFinance", country: "Suisse", holder: "Anne Martin", access: ["view", "prepare", "execute"] }];
+  await staffAction(caseId, "prefill", { expectedRevision: 2, overwrite: true, by: "Sam", prefill: { "f.bankAccess": "yes", "f.accounts": two } }, { idempotencyKey: "prefill-bank-01", payloadHash: "pb" });
+  const prefilled = (await staffCase(caseId)).draft!;
+  assert.deepEqual((prefilled["f.accounts"] as Record<string, unknown>[]).map((r) => r.access), [["prepare"], ["view", "prepare", "execute"]]);
+  assert.ok(!(await staffCase(caseId)).pages.flatMap((page) => page.missingFieldIds).some((id) => id.startsWith("f.")), "nothing missing in F once saved");
+  // An assisted session (staff session) changes them like any answer.
+  const staff = { caseId, revision: 2, emailHash: STAFF_HASH, staffBy: "Sam" };
+  const opened = (await clientCase(staff)).draft!;
+  const draft = opened.answers;
+  assert.equal((draft["f.accounts"] as unknown[]).length, 2, "the staff session reads Cadence's rows");
+  await saveDraft(staff, { answers: withAccess(draft), stepId: "e", staffPrefillVersion: opened.staffPrefillVersion });
+  assert.equal((await staffCase(caseId)).enteredBy?.["f.accounts"], "Sam", "Ark's entry is marked as Ark's");
+  await uploadAll(f, caseId, withAccess(draft));
+  assert.equal((await submit(staff, { answers: withAccess(draft), submitKey: "bank-2" })).state, "awaiting_signature");
+
+  const after = await loadCase(caseId);
+  const rev2 = after.revisions[1];
+  const sent = JSON.parse(new TextDecoder().decode((await f.storage.readFile(after.driveId, rev2.folderId, "questionnaire.json"))!));
+  assert.equal(sent.answers["f.bankAccess"], "yes");
+  assert.deepEqual(sent.answers["f.accounts"][0].access, ["view", "execute"]);
+  const summary = await staffCase(caseId);
+  const e = summary.pages.find((page) => page.id === "e")!;
+  const order = e.fieldIds.filter((id) => ["f.funds", "f.bankAccess", "f.accounts", "g.amount"].includes(id));
+  assert.deepEqual(order, ["f.funds", "f.bankAccess", "f.accounts", "g.amount"], "in the form's order, on Ark's money page");
+  assert.equal(e.parts.find((part) => part.id === "f.accounts")?.label?.fr, "Quels comptes ?");
+  const pdf = await pdfPages((await f.storage.readFile(after.driveId, rev2.folderId, rev2.pdf!.name))!);
+  for (const text of ["Aurons-nous", "Quels comptes ?", "Compte 1 ", "UBS", "Anne Martin", "Consultation uniquement, Autorisation ou", "Montant qui passera en un an"]) {
+    assert.ok(pdf.has(text), `PDF shows « ${text} »`);
+  }
+  // Revision 1's PDF is the one that was signed: never rebuilt.
+  assert.ok(signedPdf.equals(Buffer.from((await f.storage.readFile(record.driveId, rev.folderId, rev.pdf!.name))!)), "revision 1's PDF unchanged, byte for byte");
 });

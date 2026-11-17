@@ -353,7 +353,7 @@ function GroupControl({ group, answers, prefilled, extras: extrasOf }: { group: 
         }}
       >
         <Plus className="size-4" />
-        <span className="min-w-0 whitespace-normal [overflow-wrap:anywhere]">{extras?.addLabel || fill(fields.length ? S.addAnother : S.addRow, { item })}</span>
+        <span className="min-w-0 whitespace-normal [overflow-wrap:anywhere]">{extras?.addLabel || (group.addLabel ? L(group.addLabel) : fill(fields.length ? S.addAnother : S.addRow, { item }))}</span>
       </Button>
     ) : null;
 
