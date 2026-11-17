@@ -46,7 +46,7 @@ export interface CasePayload {
     online: boolean;
     onlineStarted: boolean;
     paperStarted: boolean;
-    signers: { id: string; name: string; signed: boolean; mine: boolean; emailHint: string | null }[];
+    signers: { id: string; name: string; signed: boolean; mine: boolean; emailHint: string | null; invitedAt: string | null; inForm: boolean }[];
   } | null;
 }
 

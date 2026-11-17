@@ -18,7 +18,7 @@ import { apiKeys } from "./server/config";
 import { signRequest, verifyStaffRequest } from "./server/signature";
 import { memoryAccess, memoryTracker } from "./server/ports";
 import { accessFor, askField, changes, clientCase, confirmSigned, contactOf, createCase, createUpload, deleteUpload, formPdfName, KycError, readPdf, signOnline, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
-import { KycMockStorage, setPorts } from "./server/sharepoint";
+import { KycMockStorage, getPorts, setPorts } from "./server/sharepoint";
 import type { Answers } from "./types";
 
 const row = (id: string, fields: Record<string, string>) => ({ _id: id, ...fields });
@@ -510,6 +510,8 @@ test("several signatories: each signs with their own address and code; the conta
   const paul = { caseId, revision: 1, emailHash: emailHash("paul@example.ch") };
   const paulView = await clientCase(paul);
   assert.equal(paulView.signing?.role, "signer");
+  const jeanRow = paulView.signing?.signers.find((s) => s.name.includes("Jean"));
+  assert.ok(jeanRow?.inForm && !jeanRow.invitedAt, "Paul sees the contact signing in the form, not a link never sent");
   assert.deepEqual(paulView.answers, { route: "pm-op" }, "a signer does not see the answers");
   assert.equal(paulView.files.length, 0);
   await assert.rejects(saveDraft(paul, { answers: pmOp }), (e: unknown) => e instanceof KycError && e.code === "not_allowed");
@@ -920,8 +922,25 @@ test("assist: single-use link or code opens a staff session that fills and submi
   // Submit as staff: the stored JSON records provenance and who submitted; the PDF carries internal metadata.
   await saveDraft(staff, { answers: pmOp, stepId: "i" });
   await uploadAll(f, caseId, pmOp);
+  const mailsBefore = f.mails.length;
+  // The first request fails (mail down): a retry of the same submit sends it.
+  const ports = getPorts();
+  setPorts({ ...ports, sendMail: async () => { throw new Error("mail down"); } });
+  assert.equal((await submit(staff, { answers: pmOp, submitKey: "ks" })).state, "awaiting_signature");
+  setPorts(ports);
+  assert.equal(f.mails.length, mailsBefore, "nothing went out");
   const sent = await submit(staff, { answers: pmOp, submitKey: "ks" });
   assert.equal(sent.state, "awaiting_signature");
+  // Ark filled the form: the contact was never in this session, so their signing link goes to their address (Ricci, 2026-11-17).
+  const toContact = (f.mails.slice(mailsBefore) as { to: string[]; html: string }[]).filter((m) => m.to.includes("jean@example.ch"));
+  assert.equal(toContact.length, 1, "the contact gets a signing link");
+  const contactLink = await readLink(/#acces=([A-Za-z0-9_-]+)/.exec(toContact[0].html)![1]);
+  assert.equal(contactLink?.emailHash, JEAN, "bound to the contact's address");
+  const staffView = await clientCase(staff);
+  assert.ok(staffView.signing?.signers.length && staffView.signing.signers.every((s) => !!s.invitedAt && !s.inForm), "the list says when each link went out");
+  await submit(staff, { answers: pmOp, submitKey: "ks" });
+  assert.equal(f.mails.length, mailsBefore + toContact.length, "a submit retry sends nothing twice");
+  assert.equal((await staffCase(caseId)).email, "jean@example.ch", "Cadence reads the contact's address");
   const record = await loadCase(caseId);
   const rev = record.revisions[0];
   const stored = JSON.parse(new TextDecoder().decode((await f.storage.readFile(record.driveId, rev.folderId, "questionnaire.json"))!));

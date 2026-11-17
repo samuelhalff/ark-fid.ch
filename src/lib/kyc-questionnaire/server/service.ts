@@ -70,6 +70,8 @@ export interface RevisionRecord {
   invitedAt?: string;
   startedAt?: string;
   submittedAt?: string;
+  /** Who at Ark sent the form in an assistance session; then the contact signs with their own link. */
+  submittedBy?: string;
   submitKey?: string;
   signedAt?: string;
   flags?: Flag[];
@@ -500,7 +502,7 @@ export async function staffAction(
       const rev = latest(record);
       if (action === "signers" || action === "signatories") {
         // A replay sends the requests a mail failure left unsent, nothing else.
-        if (rev.state === "awaiting_signature" && (rev.signers || []).some((x) => !x.invitedAt && !x.signature && x.emailHash && x.emailHash !== record.emailHash)) {
+        if (rev.state === "awaiting_signature" && requestPending(record, rev)) {
           await requestSignatures(record, rev);
           await saveCase(record);
         }
@@ -698,7 +700,7 @@ export async function staffAction(
 
     if (action === "remind_signers") {
       // « Relancer » and Cadence's automatic reminders: each signatory who has not signed gets their
-      // own request again, with a fresh link (the contact signs in the form and is reminded by Cadence).
+      // own request again, with a fresh link (a contact signing in the form is reminded by Cadence; one Ark filled it for is reminded here).
       // `signerIds`: only these (« Relancer » chooses; « Envoyer le lien » on one row); each must be a
       // signatory who has not signed and is not the contact. `notify: "none"` (one id): no e-mail,
       // the link comes back for Ark to copy — bound to that address, it opens only with a code sent there.
@@ -798,6 +800,8 @@ export interface StaffSummary {
   caseId: string;
   clientRef: string;
   displayName: string;
+  /** The contact's address: where the case link and its codes go. Cadence shows it before sending. */
+  email: string;
   route: KycRoute;
   language: KycLocale;
   closed: boolean;
@@ -847,6 +851,7 @@ export function summarize(record: CaseRecord): StaffSummary {
     caseId: record.caseId,
     clientRef: record.clientRef,
     displayName: record.displayName,
+    email: record.email,
     route: record.route,
     language: record.language,
     closed: !!record.closedAt,
@@ -1191,6 +1196,8 @@ async function signingView(record: CaseRecord, rev: RevisionRecord, role: Role, 
       signed: !!s.signature,
       mine: mine.includes(s.id),
       emailHint: s.email ? maskAddress(s.email) : null,
+      invitedAt: s.invitedAt || null,
+      inForm: contactSignsInForm(record, rev, s),
     })),
   };
 }
@@ -1288,8 +1295,19 @@ function nextSignatories(current: SignerRecord[], items: unknown, by: string): S
 }
 
 /**
+ * The contact signs in the form they filled, with the case link. When Ark filled it for them in an
+ * assistance session (Ricci, 2026-11-17), they were never in that session: they get a signing link
+ * at their address like any other signatory.
+ */
+const contactSignsInForm = (record: CaseRecord, rev: RevisionRecord, signer: SignerRecord) => signer.emailHash === record.emailHash && !rev.submittedBy;
+
+/** A signature request a failure left unsent: what a retry or a replay sends. */
+const requestPending = (record: CaseRecord, rev: RevisionRecord) =>
+  (rev.signers || []).some((s) => !s.invitedAt && !s.signature && s.emailHash && !contactSignsInForm(record, rev, s));
+
+/**
  * The signatories Ark named for a reminder or a link (`signerIds`), or null for every one pending.
- * Each must exist, not have signed and not be the contact (who signs in the form with the case link).
+ * Each must exist, not have signed and not be the contact signing in the form (`contactSignsInForm`).
  */
 function chosenSigners(record: CaseRecord, rev: RevisionRecord, ids: unknown): SignerRecord[] | null {
   if (ids === undefined || ids === null) return null;
@@ -1299,7 +1317,7 @@ function chosenSigners(record: CaseRecord, rev: RevisionRecord, ids: unknown): S
     const signer = (rev.signers || []).find((s) => s.id === id);
     if (!signer) throw new KycError("invalid_request", 400, { field: "signerIds" });
     if (signer.signature) throw new KycError("signer_signed", 409, { id });
-    if (!signer.emailHash || signer.emailHash === record.emailHash) throw new KycError("signer_is_contact", 409, { id });
+    if (!signer.emailHash || contactSignsInForm(record, rev, signer)) throw new KycError("signer_is_contact", 409, { id });
     return signer;
   });
 }
@@ -1336,7 +1354,7 @@ const SIGN_MAIL = {
 } as const;
 
 /**
- * Signature requests to the signatories other than the contact (who is already on the form):
+ * Signature requests to the signatories other than a contact signing in the form (`contactSignsInForm`):
  * a link bound to their address, and one e-mail with fixed wording. A failure leaves the signer
  * unrequested; the next submit retry or Ark's correction sends it. `again`: a reminder, to every
  * signatory who has not signed, requested before or not. Returns the ids of the signatories e-mailed.
@@ -1346,7 +1364,7 @@ async function requestSignatures(record: CaseRecord, rev: RevisionRecord, option
   const sent: string[] = [];
   for (const signer of rev.signers || []) {
     if (options.only && !options.only.includes(signer.id)) continue;
-    if (signer.signature || (signer.invitedAt && !options.again) || !signer.email || !signer.emailHash || signer.emailHash === record.emailHash) continue;
+    if (signer.signature || (signer.invitedAt && !options.again) || !signer.email || !signer.emailHash || contactSignsInForm(record, rev, signer)) continue;
     try {
       const link = await issueLink({ caseId: record.caseId, revision: rev.n, emailHash: signer.emailHash, locale: record.language });
       const text = SIGN_MAIL[record.language];
@@ -1633,7 +1651,7 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
     if (rev.state !== "open") {
       if (submitKey && rev.submitKey === submitKey) {
         // A retry sends the signature requests a failure left unsent.
-        if (rev.state === "awaiting_signature" && (rev.signers || []).some((s) => !s.invitedAt && s.emailHash && s.emailHash !== record.emailHash)) {
+        if (rev.state === "awaiting_signature" && requestPending(record, rev)) {
           await requestSignatures(record, rev);
           await saveCase(record);
         }
@@ -1705,6 +1723,7 @@ export async function submit(session: Session, body: { answers?: unknown; docDec
     rev.flags = flags;
     rev.documents = manifest;
     rev.submittedAt = submittedAt;
+    rev.submittedBy = staffBy || undefined;
     rev.submitKey = submitKey || undefined;
     if (flags.includes("routeMismatch")) {
       // The client's description contradicts Ark's choice of form: back to Ark, nothing to sign.

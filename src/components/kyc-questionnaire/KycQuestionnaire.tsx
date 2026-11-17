@@ -1082,6 +1082,17 @@ function SigningView({
   const onlineSigner = mySigner && !signing?.paperStarted ? mySigner.name : null;
   const paperAllowed = isContact && !signing?.onlineStarted;
   const othersPending = !!signing?.online && signing.signers.some((s) => !s.mine && !s.signed);
+  // What really happened for each signatory: signed, signing here, the contact signing in the form, link sent (when), or nothing sent yet.
+  const signerState = (s: { signed: boolean; mine: boolean; invitedAt: string | null; inForm: boolean }) =>
+    s.signed
+      ? UI.signerSigned[locale]
+      : s.mine
+        ? UI.signerWaiting[locale]
+        : s.inForm
+          ? UI.signerInForm[locale]
+          : s.invitedAt
+          ? UI.signerLinkSent[locale].replace("{date}", new Date(s.invitedAt).toLocaleDateString(locale === "fr" ? "fr-CH" : "en-GB", { day: "numeric", month: "short", timeZone: "Europe/Zurich" }))
+          : UI.signerNotSent[locale];
   const [accepted, setAccepted] = useState(false);
   const [typedName, setTypedName] = useState("");
   const [drawing, setDrawing] = useState<string | null>(null);
@@ -1137,7 +1148,7 @@ function SigningView({
     <Card className="min-w-0 max-w-3xl">
       <CardHeader>
         <CardTitle className="text-2xl tracking-tight">{UI.signTitle[locale]}</CardTitle>
-        <CardDescription className="text-base">{isContact ? UI.signIntro[locale] : UI.signIntroSigner[locale]}</CardDescription>
+        <CardDescription className="text-base">{isContact ? UI.signIntro[locale] : signing?.role === "staff" ? UI.signIntroStaff[locale] : UI.signIntroSigner[locale]}</CardDescription>
         {caseData.declarationId ? <p className="text-sm font-medium">{UI.reference[locale].replace("{ref}", caseData.declarationId)}</p> : null}
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
@@ -1151,7 +1162,7 @@ function SigningView({
                 <li key={s.id} className="flex flex-wrap items-center gap-2">
                   <span className="font-medium">{s.name}</span>
                   {s.mine ? <span className="text-muted-foreground">({UI.signerYou[locale]})</span> : s.emailHint ? <span className="text-muted-foreground">{s.emailHint}</span> : null}
-                  <Badge variant={s.signed ? "default" : "outline"}>{s.signed ? UI.signerSigned[locale] : UI.signerWaiting[locale]}</Badge>
+                  <Badge variant={s.signed ? "default" : "outline"}>{signerState(s)}</Badge>
                 </li>
               ))}
             </ul>

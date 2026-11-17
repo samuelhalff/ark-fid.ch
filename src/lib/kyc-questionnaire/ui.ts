@@ -71,11 +71,14 @@ export const UI = {
   chooseTitle: t("Quel formulaire ?", "Which form?"),
   chooseText: t("Plusieurs formulaires sont en cours à cette adresse. Choisissez celui à ouvrir.", "Several forms are in progress for this address. Choose the one to open."),
   codeTitle: t("Vérifiez votre e-mail", "Check your e-mail"),
-  codeText: t("Nous avons envoyé un code à 6 chiffres à {email}. Il est valable 10 minutes.", "We sent a 6-digit code to {email}. It is valid for 10 minutes."),
+  codeText: t(
+    "Nous avons envoyé un code à 6 chiffres à {email}. Il est valable 10 minutes. Utilisez le dernier code reçu, sur cette page. Rien reçu ? Vérifiez vos indésirables.",
+    "We sent a 6-digit code to {email}. It is valid for 10 minutes. Use the latest code you received, on this page. Nothing received? Check your spam folder.",
+  ),
   codeLabel: t("Code reçu par e-mail", "Code received by e-mail"),
   verify: t("Valider", "Confirm"),
   resendCode: t("Renvoyer un code", "Send a new code"),
-  codeResent: t("Un nouveau code vous a été envoyé.", "A new code has been sent to you."),
+  codeResent: t("Un nouveau code vous a été envoyé. Utilisez-le sur cette page.", "A new code has been sent to you. Use it on this page."),
   logout: t("Se déconnecter", "Sign out"),
 
   // autosave
@@ -141,13 +144,17 @@ export const UI = {
   onlineSign: t("Signer le formulaire", "Sign the form"),
   onlineOr: t("Ou, si vous préférez, signez sur papier :", "Or, if you prefer, sign on paper:"),
   signIntroSigner: t("Vous êtes invité à signer ce formulaire, rempli par la société. Relisez-le, puis signez-le en ligne.", "You are invited to sign this form, completed by the company. Read it, then sign it online."),
+  signIntroStaff: t("Le formulaire est envoyé. Chaque signataire signe en ligne avec le lien reçu à son adresse ; vous ne signez pas pour eux.", "The form is sent. Each signatory signs online with the link sent to their address; you do not sign for them."),
   signersTitle: t("Signataires", "Signatories"),
   signerSigned: t("signé", "signed"),
   signerWaiting: t("en attente", "waiting"),
+  signerLinkSent: t("lien envoyé le {date}", "link sent on {date}"),
+  signerNotSent: t("lien pas encore envoyé", "link not sent yet"),
+  signerInForm: t("signe dans le formulaire", "signs in the form"),
   signerYou: t("vous", "you"),
   signersInvited: t(
-    "Chaque signataire a reçu à son adresse un lien pour signer en ligne avec son propre code. Le formulaire est complet quand tous ont signé.",
-    "Each signatory received a link at their address to sign online with their own code. The form is complete once everyone has signed.",
+    "Chaque signataire signe en ligne avec le lien reçu à son adresse et son propre code. Le formulaire est complet quand tous ont signé.",
+    "Each signatory signs online with the link sent to their address and their own code. The form is complete once everyone has signed.",
   ),
   signerDone: t("Merci, votre signature est enregistrée.", "Thank you, your signature is recorded."),
   paperStartedNote: t(
@@ -243,7 +250,7 @@ export const UI = {
 
 /** Error codes of /api/kyc-questionnaire/* (and of the browser upload). */
 export const SERVER_ERRORS: Record<string, L> = {
-  otp_invalid: t("Code incorrect.", "Incorrect code."),
+  otp_invalid: t("Code incorrect. Utilisez le dernier code reçu, sur cette page.", "Incorrect code. Use the latest code you received, on this page."),
   assist_invalid: t("Ce code n'est pas valable ou a déjà été utilisé.", "This code is not valid or has already been used."),
   invalid_email: t("Adresse e-mail invalide.", "Invalid e-mail address."),
   otp_expired: t("Code expiré. Demandez-en un nouveau.", "Code expired. Request a new one."),

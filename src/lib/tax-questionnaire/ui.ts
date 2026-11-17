@@ -111,7 +111,11 @@ export const UI = {
 export const UI2 = {
   sendCode: t("Continuer", "Continue", "Weiter"),
   codeTitle: t("Vérifiez votre e-mail", "Check your e-mail", "Prüfen Sie Ihre E-Mail"),
-  codeText: t("Nous avons envoyé un code à 6 chiffres à {email}. Il est valable 10 minutes.", "We sent a 6-digit code to {email}. It is valid for 10 minutes.", "Wir haben einen 6-stelligen Code an {email} gesendet. Er ist 10 Minuten gültig."),
+  codeText: t(
+    "Nous avons envoyé un code à 6 chiffres à {email}. Il est valable 10 minutes. Utilisez le dernier code reçu, sur cette page. Rien reçu ? Vérifiez vos indésirables.",
+    "We sent a 6-digit code to {email}. It is valid for 10 minutes. Use the latest code you received, on this page. Nothing received? Check your spam folder.",
+    "Wir haben einen 6-stelligen Code an {email} gesendet. Er ist 10 Minuten gültig. Verwenden Sie den zuletzt erhaltenen Code auf dieser Seite. Nichts erhalten? Prüfen Sie Ihren Spam-Ordner.",
+  ),
   codeLabel: t("Code reçu par e-mail", "Code received by e-mail", "Per E-Mail erhaltener Code"),
   verify: t("Valider", "Confirm", "Bestätigen"),
   resendCode: t("Renvoyer un code", "Send a new code", "Neuen Code senden"),
@@ -190,7 +194,7 @@ export const UI2 = {
 } as const;
 
 export const SERVER_ERRORS: Record<string, L> = {
-  otp_invalid: t("Code incorrect.", "Incorrect code.", "Falscher Code."),
+  otp_invalid: t("Code incorrect. Utilisez le dernier code reçu, sur cette page.", "Incorrect code. Use the latest code you received, on this page.", "Falscher Code. Verwenden Sie den zuletzt erhaltenen Code auf dieser Seite."),
   otp_expired: t("Code expiré. Demandez-en un nouveau.", "Code expired. Request a new one.", "Code abgelaufen. Fordern Sie einen neuen an."),
   otp_locked: t("Trop d'essais. Demandez un nouveau code.", "Too many attempts. Request a new code.", "Zu viele Versuche. Fordern Sie einen neuen Code an."),
   consent_required: t("Merci de cocher les confirmations demandées.", "Please tick the required confirmations.", "Bitte die erforderlichen Bestätigungen ankreuzen."),
