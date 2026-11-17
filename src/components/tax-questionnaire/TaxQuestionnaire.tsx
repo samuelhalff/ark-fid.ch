@@ -34,6 +34,7 @@ import { ReviewList, type ReviewRow } from "@/src/components/questionnaire/Revie
 import { taxFormKit } from "./kit";
 import { KitProvider } from "@/src/components/questionnaire/kit";
 import { Turnstile } from "./Turnstile";
+import { AUTOSAVE_IDLE_MS, saveWhenHidden } from "@/src/lib/forms/autosave";
 
 type Phase = "loading" | "start" | "code" | "form" | "status" | "optedOut";
 
@@ -278,9 +279,13 @@ export default function TaxQuestionnaire({ locale }: { locale: QfLocale }) {
   }, [phase, caseData?.scope, docStatus, locale, aiOptIn, form, resetIdentity]);
   useEffect(() => {
     if (phase !== "form") return;
-    const timer = setTimeout(() => void saveNow(), 1500);
+    const timer = setTimeout(() => void saveNow(), AUTOSAVE_IDLE_MS);
     return () => clearTimeout(timer);
   }, [values, docStatus, phase, saveNow]);
+  useEffect(() => {
+    if (phase !== "form") return;
+    return saveWhenHidden(() => void saveNow());
+  }, [phase, saveNow]);
 
   // Language switch in the site header (plain <a hreflang> links, full page load): the draft is
   // saved first (with the current step) so the client continues where he was in the new language;

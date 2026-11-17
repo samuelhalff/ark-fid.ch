@@ -34,6 +34,7 @@ import { kycFormKit } from "./kit";
 import { KitProvider } from "@/src/components/questionnaire/kit";
 import { SubScreenContext } from "@/src/components/questionnaire/SubScreen";
 import { SignaturePad } from "./SignaturePad";
+import { AUTOSAVE_IDLE_MS, saveWhenHidden } from "@/src/lib/forms/autosave";
 
 /**
  * Phases: "loading"; "code" (6-digit code after the link); "form" (open revision); the three
@@ -367,9 +368,13 @@ export default function KycQuestionnaire({ locale: initialLocale }: { locale: Ky
   }, [phase, form, fatal, locale, refreshCase, applyCase]);
   useEffect(() => {
     if (phase !== "form") return;
-    const timer = setTimeout(() => void saveNow(), 1500);
+    const timer = setTimeout(() => void saveNow(), AUTOSAVE_IDLE_MS);
     return () => clearTimeout(timer);
   }, [values, docDeclared, phase, saveNow]);
+  useEffect(() => {
+    if (phase !== "form") return;
+    return saveWhenHidden(() => void saveNow());
+  }, [phase, saveNow]);
 
   // Language links of the site header (full page load): the draft is saved first, and the chosen
   // language wins over the case language after the reload.
