@@ -43,10 +43,12 @@ export interface CasePayload {
   /** Once submitted: who signs, who has signed, and what this session may do. */
   signing: {
     role: "contact" | "signer" | "staff";
+    /** The Ark staff member with the case open (staff session only). */
+    staffName: string | null;
     online: boolean;
     onlineStarted: boolean;
     paperStarted: boolean;
-    signers: { id: string; name: string; signed: boolean; mine: boolean; emailHint: string | null; invitedAt: string | null; inForm: boolean }[];
+    signers: { id: string; name: string; signed: boolean; signatureId: string | null; presentBy: string | null; mine: boolean; emailHint: string | null; invitedAt: string | null; inForm: boolean }[];
   } | null;
 }
 

@@ -15,6 +15,7 @@ import { KYC_DRIVE_ID, mailSender, mockStorageEnabled, onlineSignatureEnabled, t
 import { plainHtml } from "../../tax-questionnaire/server/email";
 import { toWinAnsi } from "../../tax-questionnaire/server/pdf";
 import { appendOnlineSignatures, buildKycPdf } from "./pdf";
+import { SIGNATURE_METHODS, signatureHash, signatureId, type SignatureMethod } from "./signature-proof";
 import type { LinkReplacedVia, RevisionState, TrackerRow } from "./ports";
 import { caseFileName, dataFileName, isOwnPiece, ONLINE_SIGNED_MARK, pieceFileName, SIGNED_SCAN_PREFIX, type CaseFolders } from "./layout";
 import { getPorts } from "./sharepoint";
@@ -109,7 +110,15 @@ export interface SignerRecord {
    * Signature trace: who, when, from where. `ip` is the client address
    * seen by our front proxy, `linkRef` the personal link the session was opened through.
    */
-  signature?: { typed: string; email: string; at: string; pdfSha256: string; drawnPng?: string; ip?: string; userAgent?: string; linkRef?: string };
+  signature?: {
+    typed: string; email: string; at: string; pdfSha256: string; drawnPng?: string; ip?: string; userAgent?: string; linkRef?: string;
+    /** How the signature was made: the name in handwriting (auto), drawn, or an uploaded image. */
+    method?: SignatureMethod;
+    /** Ark staff member beside the signatory when the signature was given on the firm's screen. */
+    presentBy?: string;
+    /** SHA-256 over the signed PDF, answers, signatory, image, time, method and presence; its first 16 characters are the signature ID. */
+    hash?: string;
+  };
 }
 
 export interface CaseRecord {
@@ -1131,7 +1140,7 @@ async function finishIfComplete(caseId: string) {
 export async function clientCase(session: Session) {
   await finishIfComplete(session.caseId);
   const { record, rev, role, mine } = await clientContext(session, ["contact", "signer", "staff"]);
-  const signing = rev.state === "awaiting_signature" || rev.state === "signed" ? await signingView(record, rev, role, mine) : null;
+  const signing = rev.state === "awaiting_signature" || rev.state === "signed" ? await signingView(record, rev, role, mine, session.staffBy) : null;
   // A signer sees the signing screen only: not the answers, documents or scans.
   if (role === "signer") {
     return {
@@ -1181,13 +1190,15 @@ export async function clientCase(session: Session) {
 const maskAddress = (email: string) => email.replace(/^(.)(.*)(@.*)$/, (_m, a: string, b: string, c: string) => `${a}${"•".repeat(Math.min(6, b.length))}${c}`);
 
 /** What the signing screen shows: who signs, who has signed, and what this session may do. */
-async function signingView(record: CaseRecord, rev: RevisionRecord, role: Role, mine: string[]) {
+async function signingView(record: CaseRecord, rev: RevisionRecord, role: Role, mine: string[], staffBy?: string) {
   const signers = rev.signers || [];
   const onlineStarted = signers.some((s) => s.signature);
   // Once online has started, a late scan no longer blocks it (the server ignores it too).
   const paperStarted = !onlineStarted && rev.state === "awaiting_signature" && (await signedFiles(record, rev)).length > 0;
   return {
     role,
+    /** Who at Ark has the case open (staff session only): named on the signature dialog and on the proof. */
+    staffName: role === "staff" ? traceText(staffBy || "", 100) || "Ark" : null,
     online: onlineReady(rev),
     onlineStarted,
     paperStarted,
@@ -1195,6 +1206,8 @@ async function signingView(record: CaseRecord, rev: RevisionRecord, role: Role, 
       id: s.id,
       name: s.name,
       signed: !!s.signature,
+      signatureId: s.signature?.hash ? signatureId(s.signature.hash) : null,
+      presentBy: s.signature?.presentBy || null,
       mine: mine.includes(s.id),
       emailHint: s.email ? maskAddress(s.email) : null,
       invitedAt: s.invitedAt || null,
@@ -1408,7 +1421,7 @@ async function checkedDrawing(value: unknown): Promise<string> {
       minX = Math.min(minX, x); maxX = Math.max(maxX, x);
       minY = Math.min(minY, y); maxY = Math.max(maxY, y);
     }
-    if (ink < 24 || ink > 20_000 || (maxX - minX < 20 && maxY - minY < 20)) throw new Error("blank drawing");
+    if (ink < 24 || ink > 40_000 || (maxX - minX < 20 && maxY - minY < 20)) throw new Error("blank drawing");
     return (await sharp(data, { raw: { width: 600, height: 180, channels: 4 } }).png().toBuffer()).toString("base64");
   } catch {
     throw new KycError("signature_image", 422);
@@ -1418,9 +1431,9 @@ async function checkedDrawing(value: unknown): Promise<string> {
 /** Printable ASCII only, bounded: the trace is printed in the PDF and never logged. */
 const traceText = (value: string, max: number) => value.replace(/[^\x20-\x7e]/g, "").trim().slice(0, max);
 
-export async function signOnline(session: Session, body: { name?: unknown; accept?: unknown; declarationId?: unknown; drawing?: unknown }, evidence: { ip?: string; userAgent?: string } = {}) {
+export async function signOnline(session: Session, body: { signerId?: unknown; method?: unknown; accept?: unknown; declarationId?: unknown; drawing?: unknown }, evidence: { ip?: string; userAgent?: string } = {}) {
   return locked(session.caseId, async () => {
-    const { record, rev, mine } = await clientContext(session, ["contact", "signer"]);
+    const { record, rev, role, mine } = await clientContext(session, ["contact", "signer", "staff"]);
     // The form shown in the browser must be this one (another tab may have opened another case).
     if (!rev.declarationId || str(body.declarationId) !== rev.declarationId) throw new KycError("case_changed", 409);
     if (rev.state === "signed") {
@@ -1430,10 +1443,15 @@ export async function signOnline(session: Session, body: { name?: unknown; accep
     }
     if (rev.state !== "awaiting_signature" || !rev.pdf) throw new KycError("not_editable", 409);
     const signers = rev.signers || [];
-    const own = signers.filter((s) => mine.includes(s.id));
-    if (!own.length) throw new KycError("not_a_signer", 403);
+    // Staff signs for one named signatory of this case, present beside them; everyone else signs as themselves.
+    const staffSigns = role === "staff";
+    // Only staff names another signatory; everyone else signs as themselves.
+    if (!staffSigns && body.signerId !== undefined && !mine.includes(str(body.signerId))) throw new KycError("not_a_signer", 403);
+    const own = staffSigns ? signers.filter((s) => s.id === str(body.signerId)) : signers.filter((s) => mine.includes(s.id));
+    if (!own.length) throw new KycError("not_a_signer", staffSigns ? 404 : 403);
     const pending = own.find((s) => !s.signature);
     if (!pending) {
+      if (staffSigns) throw new KycError("signer_signed", 409, { id: own[0].id });
       // Already signed: finish if everyone has (a retry after a failure while filing the PDF).
       if (signers.every((s) => s.signature)) await finishOnline(record, rev);
       return { state: rev.state };
@@ -1442,16 +1460,20 @@ export async function signOnline(session: Session, body: { name?: unknown; accep
     // A scan blocks starting online; once online has started, a late scan upload is ignored.
     if (!signers.some((s) => s.signature) && (await signedFiles(record, rev)).length) throw new KycError("paper_started", 409);
     if (body.accept !== true) throw new KycError("signature_not_accepted", 422);
-    const typed = str(body.name).slice(0, 200);
-    if (!typed || nameKey(typed) !== nameKey(pending.name)) throw new KycError("signature_name", 422);
+    const method = SIGNATURE_METHODS.find((m) => m === body.method);
+    if (!method) throw new KycError("signature_image", 422);
     const drawnPng = await checkedDrawing(body.drawing);
     const original = await getPorts().storage.readFile(record.driveId, readableFolderId(record, rev), rev.pdf.name);
     if (!original) throw new KycError("pdf_not_ready", 409);
+    const at = now();
+    const presentBy = staffSigns ? traceText(session.staffBy || "", 100) || "Ark" : undefined;
+    const pdfSha256 = sha256(original);
     // The evidence is saved before the PDF is built: a later failure never asks to sign again.
-    pending.signature = { typed, email: pending.email || "", at: now(), pdfSha256: sha256(original), drawnPng,
+    pending.signature = { typed: pending.name, email: pending.email || "", at, pdfSha256, drawnPng, method, ...(presentBy ? { presentBy } : {}),
+      hash: signatureHash({ pdfSha256, jsonSha256: rev.json?.sha256 || "", signerId: pending.id, png: drawnPng, at, method, presentBy }),
       ip: isIP(evidence.ip || "") ? evidence.ip : undefined,
       userAgent: traceText(evidence.userAgent || "", 200) || undefined,
-      linkRef: session.linkRef,
+      linkRef: staffSigns ? undefined : session.linkRef,
     };
     await saveCase(record);
     await track(record, rev);
@@ -1472,7 +1494,7 @@ async function finishOnline(record: CaseRecord, rev: RevisionRecord) {
   const signedPdf = await appendOnlineSignatures(original, {
     language: record.language,
     declarationId: rev.declarationId || "",
-    signers: signers.map((s) => ({ name: s.name, function: s.function, setByArk: !!s.setBy, typed: s.signature!.typed, email: s.signature!.email, at: s.signature!.at, drawnPng: s.signature!.drawnPng, ip: s.signature!.ip, userAgent: s.signature!.userAgent, linkRef: s.signature!.linkRef, byArk: s.emailBy === "ark" })),
+    signers: signers.map((s) => ({ name: s.name, function: s.function, setByArk: !!s.setBy, typed: s.signature!.typed, email: s.signature!.email, at: s.signature!.at, drawnPng: s.signature!.drawnPng, ip: s.signature!.ip, userAgent: s.signature!.userAgent, linkRef: s.signature!.linkRef, byArk: s.emailBy === "ark", method: s.signature!.method, presentBy: s.signature!.presentBy, hash: s.signature!.hash })),
     pdfSha256,
     jsonSha256: rev.json?.sha256 || "",
   });

@@ -33,7 +33,7 @@ import { ReviewList, type ReviewRow } from "@/src/components/questionnaire/Revie
 import { kycFormKit } from "./kit";
 import { KitProvider } from "@/src/components/questionnaire/kit";
 import { SubScreenContext } from "@/src/components/questionnaire/SubScreen";
-import { SignaturePad } from "./SignaturePad";
+import { SignDialog, type SignMethod } from "./SignDialog";
 import { AUTOSAVE_IDLE_MS, saveWhenHidden } from "@/src/lib/forms/autosave";
 
 /**
@@ -1093,18 +1093,20 @@ function SigningView({
           : s.invitedAt
           ? UI.signerLinkSent[locale].replace("{date}", new Date(s.invitedAt).toLocaleDateString(locale === "fr" ? "fr-CH" : "en-GB", { day: "numeric", month: "short", timeZone: "Europe/Zurich" }))
           : UI.signerNotSent[locale];
-  const [accepted, setAccepted] = useState(false);
-  const [typedName, setTypedName] = useState("");
-  const [drawing, setDrawing] = useState<string | null>(null);
+  // The dialog signs for the session's own signatory, or (firm's screen) for the one the firm chose.
+  const [dialogFor, setDialogFor] = useState<{ id: string | null; name: string } | null>(null);
   const [onlineError, setOnlineError] = useState("");
+  const assisting = signing?.role === "staff";
+  const canSignHere = !!signing?.online && !signing.paperStarted;
 
-  const signOnline = async () => {
+  const signOnline = async (method: SignMethod, image: string) => {
+    if (!dialogFor) return;
     setOnlineError("");
-    if (!accepted) return setOnlineError(SERVER_ERRORS.signature_not_accepted[locale]);
     setBusy(true);
     try {
-      await api.caseAction("sign-online", { name: typedName, drawing, accept: true, declarationId: caseData.declarationId });
-      posthog.capture("kyc_qf_signed_online", { locale });
+      await api.caseAction("sign-online", { ...(dialogFor.id ? { signerId: dialogFor.id } : {}), method, drawing: image, accept: true, declarationId: caseData.declarationId });
+      posthog.capture("kyc_qf_signed_online", { locale, method, assisted: assisting });
+      setDialogFor(null);
       onSigned(await api.getCase());
       window.scrollTo({ top: 0 });
     } catch (e) {
@@ -1152,7 +1154,7 @@ function SigningView({
         {caseData.declarationId ? <p className="text-sm font-medium">{UI.reference[locale].replace("{ref}", caseData.declarationId)}</p> : null}
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
-        {signing && signing.online && (signing.signers.length > 1 || !isContact) ? (
+        {signing && signing.online && (signing.signers.length > 1 || !isContact || signing.signers.some((s) => s.signatureId)) ? (
           <section className="flex flex-col gap-2" aria-labelledby="kyc-signers">
             <h3 id="kyc-signers" className="text-base font-semibold">
               {UI.signersTitle[locale]}
@@ -1163,6 +1165,17 @@ function SigningView({
                   <span className="font-medium">{s.name}</span>
                   {s.mine ? <span className="text-muted-foreground">({UI.signerYou[locale]})</span> : s.emailHint ? <span className="text-muted-foreground">{s.emailHint}</span> : null}
                   <Badge variant={s.signed ? "default" : "outline"}>{signerState(s)}</Badge>
+                  {assisting && !s.signed && canSignHere ? (
+                    <Button type="button" size="sm" variant="outline" className="ml-auto" onClick={() => { setOnlineError(""); setDialogFor({ id: s.id, name: s.name }); }}>
+                      {UI.signButton[locale]}
+                    </Button>
+                  ) : null}
+                  {s.signatureId ? (
+                    <span className="basis-full text-xs text-muted-foreground">
+                      {s.presentBy ? <>{UI.signedInPresence[locale].replace("{name}", s.presentBy)} · </> : null}
+                      {UI.signatureId[locale].replace("{id}", s.signatureId)}
+                    </span>
+                  ) : null}
                 </li>
               ))}
             </ul>
@@ -1186,28 +1199,11 @@ function SigningView({
                   </a>
                 </Button>
               </div>
-              <div className="flex items-start gap-3">
-                <Checkbox id="kyc-online-accept" checked={accepted} onCheckedChange={(v) => setAccepted(v === true)} className="mt-0.5" />
-                <Label htmlFor="kyc-online-accept" className="text-sm font-normal leading-snug">
-                  {UI.onlineAccept[locale]}
-                </Label>
-              </div>
-              <div className="flex max-w-sm flex-col gap-2">
-                <Label htmlFor="kyc-online-name">{UI.onlineName[locale].replace("{name}", onlineSigner)}</Label>
-                <Input id="kyc-online-name" value={typedName} onChange={(e) => setTypedName(e.target.value)} autoComplete="name" />
-              </div>
-              <SignaturePad locale={locale} onChange={setDrawing} />
-              <div>
-                <Button type="button" onClick={() => void signOnline()} disabled={busy || uploading || !typedName.trim() || !drawing}>
-                  {busy ? <CircleNotch className="size-4 animate-spin" /> : <Check className="size-4" />}
-                  {UI.onlineSign[locale]}
+              <div className="flex flex-wrap gap-2">
+                <Button type="button" onClick={() => { setOnlineError(""); setDialogFor({ id: null, name: onlineSigner }); }} disabled={busy || uploading}>
+                  {UI.signButton[locale]}
                 </Button>
               </div>
-              {onlineError ? (
-                <p className="text-sm font-medium text-destructive" role="alert">
-                  {onlineError}
-                </p>
-              ) : null}
             </section>
             {paperAllowed ? (
               <>
@@ -1278,6 +1274,16 @@ function SigningView({
           </>
         ) : null}
       </CardContent>
+      <SignDialog
+        open={!!dialogFor}
+        onOpenChange={(open) => !open && setDialogFor(null)}
+        locale={locale}
+        signerName={dialogFor?.name || ""}
+        presentBy={assisting ? signing?.staffName || "Ark" : null}
+        busy={busy}
+        error={onlineError}
+        onSubmit={(method, image) => void signOnline(method, image)}
+      />
     </Card>
   );
 }

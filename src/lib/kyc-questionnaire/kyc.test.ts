@@ -17,6 +17,7 @@ import { createChallenge, createPick, createSession, emailHash, linkRef, linkRef
 import { apiKeys } from "./server/config";
 import { signRequest, verifyStaffRequest } from "./server/signature";
 import { memoryAccess, memoryTracker } from "./server/ports";
+import { signatureHash, signatureId } from "./server/signature-proof";
 import { accessFor, askField, changes, clientCase, confirmSigned, contactOf, createCase, createUpload, deleteUpload, formPdfName, KycError, readPdf, signOnline, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
 import { KycMockStorage, getPorts, setPorts } from "./server/sharepoint";
 import type { Answers } from "./types";
@@ -450,11 +451,9 @@ test("signing online binds the verified name and drawing to the PDF the signer r
   const declarationId = view.declarationId;
   await assert.rejects(signOnline(session, { name: "Jean Dupont", accept: true, declarationId: "OTHER-R1-00000000" }), (e: unknown) => e instanceof KycError && e.code === "case_changed");
   await assert.rejects(signOnline(session, { name: "Jean Dupont", declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_not_accepted");
-  await assert.rejects(signOnline(session, { name: "Paul Martin", accept: true, declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_name");
-  await assert.rejects(signOnline(session, { name: "---", accept: true, declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_name");
   await assert.rejects(signOnline(session, { name: "Jean Dupont", accept: true, declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_image");
   await assert.rejects(signOnline(session, { name: "Jean Dupont", accept: true, declarationId, drawing: await drawing(false) }), (e: unknown) => e instanceof KycError && e.code === "signature_image");
-  assert.equal((await signOnline({ ...session, linkRef: "abcd1234abcd1234" }, { name: "  dupont JEAN ", accept: true, declarationId, drawing: await drawing() }, { ip: "203.0.113.7", userAgent: "Mozilla/5.0 (Test)\u0000\n é" })).state, "signed");
+  assert.equal((await signOnline({ ...session, linkRef: "abcd1234abcd1234" }, { name: "  dupont JEAN ", accept: true, declarationId, method: "drawn", drawing: await drawing() }, { ip: "203.0.113.7", userAgent: "Mozilla/5.0 (Test)\u0000\n é" })).state, "signed");
   const record = await loadCase(caseId);
   const rev = record.revisions[0];
   const trace = rev.signers?.[0].signature;
@@ -479,7 +478,7 @@ test("signing online binds the verified name and drawing to the PDF the signer r
     try { return Buffer.from(inflateSync(object.contents)).toString("latin1"); } catch { return ""; }
   }).join("\n");
   for (const shown of ["203.0.113.7", "abcd1234abcd1234", "Mozilla/5.0 (Test)", trace!.pdfSha256.slice(0, 24)]) assert.ok(pdfText.includes(shown) || pdfText.toLowerCase().includes(Buffer.from(shown, "latin1").toString("hex")), `signature page shows ${shown}`);
-  assert.equal((await staffCase(caseId)).latestRevision.signers?.[0].typed, "dupont JEAN");
+  assert.equal((await staffCase(caseId)).latestRevision.signers?.[0].typed, "Jean Dupont", "the name is the signatory's, never typed");
   assert.equal((await signOnline(session, { name: "x", accept: true, declarationId })).state, "signed", "a repeated signature changes nothing");
 });
 
@@ -521,15 +520,14 @@ test("several signatories: each signs with their own address and code; the conta
   assert.ok((await readPdf(paul)).bytes.byteLength > 1000, "a signer reads the PDF");
   const declarationId = paulView.declarationId;
   // The contact signs as Jean, never as Paul.
-  await assert.rejects(signOnline(contact, { name: "Paul Martin", accept: true, declarationId }), (e: unknown) => e instanceof KycError && e.code === "signature_name");
-  assert.equal((await signOnline(contact, { name: "Jean Dupont", accept: true, declarationId, drawing: await drawing() })).state, "awaiting_signature");
+  assert.equal((await signOnline(contact, { name: "Jean Dupont", accept: true, declarationId, method: "drawn", drawing: await drawing() })).state, "awaiting_signature");
   assert.equal((await signOnline(contact, { name: "Jean Dupont", accept: true, declarationId })).state, "awaiting_signature", "signing twice changes nothing");
   // Online started: no paper scan any more.
   await assert.rejects(createUpload(contact, { kind: "signed", fileName: "scan.pdf", size: 1000, mime: "application/pdf" }), (e: unknown) => e instanceof KycError && e.code === "online_signing_started");
   // A reminder to the contact (new link) does not cut Paul off.
   await staffAction(caseId, "link", { expectedRevision: 1 }, { idempotencyKey: "link-0012", payloadHash: "l" });
   assert.ok(await readLink(token), "Paul's link survives the contact's new link");
-  assert.equal((await signOnline(paul, { name: "martin paul", accept: true, declarationId, drawing: await drawing() })).state, "signed");
+  assert.equal((await signOnline(paul, { name: "martin paul", accept: true, declarationId, method: "drawn", drawing: await drawing() })).state, "signed");
   const rev = (await loadCase(caseId)).revisions[0];
   const signedFolder = await f.storage.ensureSubfolder("mock-drive", rev.folderId, "Signé");
   const { PDFDocument } = await import("pdf-lib");
@@ -559,6 +557,99 @@ test("Ark gives the signatories' addresses after submission (form entered by han
   assert.equal(view.signing?.online, true);
   assert.ok(view.signing?.signers.every((s) => !s.mine));
   await assert.rejects(signOnline(contact, { name: "Jean Dupont", accept: true, declarationId: view.declarationId }), (e: unknown) => e instanceof KycError && e.code === "not_a_signer");
+});
+
+test("assistance: staff signs for a signatory of its case who has not signed, once, with method and presence in the proof", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0013", payloadHash: "h" });
+  const caseId = created.summary.caseId;
+  const contact = { caseId, revision: 1, emailHash: JEAN };
+  const staff = { caseId, revision: 1, emailHash: STAFF_HASH, staffBy: "Samuel Halff" };
+  const two: Answers = {
+    ...pmOp,
+    "i.signers": [row("sgn0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur", email: "jean@example.ch" }), row("sgn0002", { lastName: "Martin", firstName: "Paul", function: "Administrateur", email: "paul@example.ch" })],
+  };
+  await uploadAll(f, caseId, two);
+  await submit(contact, { answers: two, submitKey: "s13" });
+  const declarationId = (await clientCase(contact)).declarationId;
+  const view = await clientCase(staff);
+  assert.equal(view.signing?.staffName, "Samuel Halff");
+  const body = async (extra: Record<string, unknown> = {}) => ({ accept: true, declarationId, method: "auto", drawing: await drawing(), ...extra });
+  // A contact session cannot use the staff path: it names no signatory of its own and cannot sign for Paul.
+  await assert.rejects(signOnline(contact, await body({ signerId: "sgn0002" }), {}), (e: unknown) => e instanceof KycError && e.code === "not_a_signer");
+  assert.equal((await loadCase(caseId)).revisions[0].signers?.[1].signature, undefined, "the contact did not sign for Paul");
+  // Staff: a signatory that is not of this case, and a missing id, are refused.
+  await assert.rejects(signOnline(staff, await body({ signerId: "nobody" })), (e: unknown) => e instanceof KycError && e.code === "not_a_signer");
+  await assert.rejects(signOnline(staff, await body()), (e: unknown) => e instanceof KycError && e.code === "not_a_signer");
+  // The image checks are the server's: a bad method, not a PNG, wrong size, blank.
+  await assert.rejects(signOnline(staff, await body({ signerId: "sgn0002", method: "scribble" })), (e: unknown) => e instanceof KycError && e.code === "signature_image");
+  await assert.rejects(signOnline(staff, await body({ signerId: "sgn0002", drawing: "data:image/jpeg;base64,/9j/4AAQ" })), (e: unknown) => e instanceof KycError && e.code === "signature_image");
+  const small = (await sharp({ create: { width: 50, height: 20, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 1 } } }).png().toBuffer()).toString("base64");
+  await assert.rejects(signOnline(staff, await body({ signerId: "sgn0002", method: "image", drawing: `data:image/png;base64,${small}` })), (e: unknown) => e instanceof KycError && e.code === "signature_image");
+  await assert.rejects(signOnline(staff, await body({ signerId: "sgn0002", drawing: await drawing(false) })), (e: unknown) => e instanceof KycError && e.code === "signature_image");
+  await assert.rejects(signOnline(staff, await body({ signerId: "sgn0002", accept: false })), (e: unknown) => e instanceof KycError && e.code === "signature_not_accepted");
+  // Staff signs for Paul (present beside Samuel); the proof says how and who was present.
+  assert.equal((await signOnline(staff, await body({ signerId: "sgn0002", method: "image" }), { ip: "203.0.113.9", userAgent: "Mozilla/5.0 (Firm)" })).state, "awaiting_signature");
+  const record = await loadCase(caseId);
+  const proof = record.revisions[0].signers![1].signature!;
+  assert.deepEqual([proof.method, proof.presentBy, proof.ip, proof.typed], ["image", "Samuel Halff", "203.0.113.9", record.revisions[0].signers![1].name]);
+  assert.match(proof.hash!, /^[0-9a-f]{64}$/);
+  // Once: a second try for the same signatory is refused and changes nothing.
+  await assert.rejects(signOnline(staff, await body({ signerId: "sgn0002" })), (e: unknown) => e instanceof KycError && e.code === "signer_signed");
+  assert.equal((await loadCase(caseId)).revisions[0].signers![1].signature!.hash, proof.hash);
+  const after = await clientCase(staff);
+  const paul = after.signing!.signers.find((x) => x.id === "sgn0002")!;
+  assert.deepEqual([paul.presentBy, paul.signatureId], ["Samuel Halff", signatureId(proof.hash!)]);
+  // The contact signs for themselves by auto signature; the form is signed and the PDF page shows the presence line and the IDs.
+  assert.equal((await signOnline(contact, await body({ method: "auto" }))).state, "signed");
+  const done = await loadCase(caseId);
+  const rev = done.revisions[0];
+  assert.equal(rev.signers![0].signature!.method, "auto");
+  assert.equal(rev.signers![0].signature!.presentBy, undefined);
+  const folder = await f.storage.ensureSubfolder(done.driveId, rev.folderId, "Signé");
+  const pdf = await f.storage.readFile(done.driveId, folder, rev.signed![0].name);
+  const { PDFDocument, PDFName, PDFRawStream } = await import("pdf-lib");
+  const { inflateSync } = await import("node:zlib");
+  const text = (await PDFDocument.load(pdf!)).context.enumerateIndirectObjects().map(([, o]) => {
+    if (!(o instanceof PDFRawStream) || o.dict.get(PDFName.of("Subtype"))) return "";
+    try { return Buffer.from(inflateSync(o.contents)).toString("latin1"); } catch { return ""; }
+  }).join("\n");
+  const shown = (needle: string) => text.includes(needle) || text.toLowerCase().includes(Buffer.from(needle, "latin1").toString("hex"));
+  assert.ok(shown("Samuel Halff"), "the PDF says who was present");
+  assert.ok(shown(signatureId(proof.hash!)), "the PDF prints the signature ID");
+  assert.ok(shown(proof.hash!.slice(0, 32)), "the PDF prints the full hash");
+});
+
+test("signature ID: same inputs give the same ID, any input changed gives another", () => {
+  const base = { pdfSha256: "a".repeat(64), jsonSha256: "b".repeat(64), signerId: "sgn0001", png: Buffer.from("png-one").toString("base64"), at: "2026-11-20T10:00:00.000Z", method: "auto" as const, presentBy: "Samuel Halff" };
+  const hash = signatureHash(base);
+  assert.equal(signatureHash({ ...base }), hash);
+  assert.match(signatureId(hash), /^[0-9A-F]{4}(-[0-9A-F]{4}){3}$/);
+  assert.equal(signatureId(hash).replace(/-/g, ""), hash.slice(0, 16).toUpperCase());
+  const changed = [
+    { pdfSha256: "c".repeat(64) }, { jsonSha256: "d".repeat(64) }, { signerId: "sgn0002" }, { png: Buffer.from("png-two").toString("base64") },
+    { at: "2026-11-20T10:00:01.000Z" }, { method: "drawn" as const }, { presentBy: "Anne" }, { presentBy: undefined },
+  ];
+  for (const change of changed) assert.notEqual(signatureHash({ ...base, ...change }), hash, JSON.stringify(Object.keys(change)));
+});
+
+test("automatic signature: the browser renders the name to the 600x180 PNG the server accepts", async () => {
+  const { renderAutoSignature } = await import("./signature-image");
+  // No DOM here: a minimal canvas stand-in records the drawing and returns the PNG the pad would.
+  const g = globalThis as unknown as Record<string, unknown>;
+  const calls: string[] = [];
+  const fakeContext = { font: "", fillStyle: "", textAlign: "", textBaseline: "", measureText: (t: string) => ({ width: t.length * 20 }), fillText: (t: string) => void calls.push(t) };
+  const png = await drawing();
+  g.document = { fonts: { load: async () => [] }, createElement: () => ({ width: 0, height: 0, getContext: () => fakeContext, toDataURL: () => png }) };
+  try {
+    const image = await renderAutoSignature("Paola Ricci");
+    assert.deepEqual(calls, ["Paola Ricci"]);
+    assert.match(fakeContext.font, /Caveat/);
+    assert.equal(image, png);
+    assert.equal(await renderAutoSignature("   "), null);
+  } finally {
+    delete g.document;
+  }
 });
 
 test("addresses given in two steps: both signatories get their request once the second is known", async () => {
@@ -602,7 +693,7 @@ test("Ark sets the signatories after submission: adds, replaces, never touches w
   assert.equal((await set("sty-add", [jean, paul])).replayed, true);
   assert.equal(f.mails.length, 1, "a replay sends nothing");
   const declarationId = (await clientCase(contact)).declarationId;
-  assert.equal((await signOnline(contact, { name: "Jean Dupont", accept: true, declarationId, drawing: await drawing() })).state, "awaiting_signature", "Paul has not signed yet");
+  assert.equal((await signOnline(contact, { name: "Jean Dupont", accept: true, declarationId, method: "drawn", drawing: await drawing() })).state, "awaiting_signature", "Paul has not signed yet");
   // Who signed stays exactly as they signed.
   await assert.rejects(set("sty-drop-jean", [{ ...paul, id: signers[1].id }]), (e: unknown) => e instanceof KycError && e.code === "signer_signed");
   await assert.rejects(set("sty-move-jean", [{ ...jean, email: "jean2@example.ch" }, { ...paul, id: signers[1].id }]), (e: unknown) => e instanceof KycError && e.code === "signer_signed");
@@ -613,7 +704,7 @@ test("Ark sets the signatories after submission: adds, replaces, never touches w
   assert.deepEqual(f.mails.map((m) => (m as { to: string[] }).to[0]), ["paul@example.ch", "marie@example.ch"]);
   await assert.rejects(clientCase({ caseId, revision: 1, emailHash: emailHash("paul@example.ch") }), (e: unknown) => e instanceof KycError && e.code === "session_expired");
   const marieSession = { caseId, revision: 1, emailHash: emailHash("marie@example.ch") };
-  assert.equal((await signOnline(marieSession, { name: "Marie Rochat", accept: true, declarationId, drawing: await drawing() })).state, "signed");
+  assert.equal((await signOnline(marieSession, { name: "Marie Rochat", accept: true, declarationId, method: "drawn", drawing: await drawing() })).state, "signed");
   // Signed: nobody can be changed any more.
   await assert.rejects(set("sty-late", [jean, marie]), (e: unknown) => e instanceof KycError && e.code === "invalid_state");
 });
@@ -634,7 +725,7 @@ test("the list sent again after a lost answer changes nothing; taking off the on
   assert.equal(f.mails.length, 1, "Paul is not invited twice");
   assert.deepEqual([again.summary.latestRevision.signers![1].firstName, again.summary.latestRevision.signers![1].lastName], ["Paul", "Martin"]);
   const declarationId = (await clientCase(contact)).declarationId;
-  await signOnline(contact, { name: "Jean Dupont", accept: true, declarationId, drawing: await drawing() });
+  await signOnline(contact, { name: "Jean Dupont", accept: true, declarationId, method: "drawn", drawing: await drawing() });
   const done = await staffAction(caseId, "signatories", { expectedRevision: 1, by: "Sam", signatories: [jean] }, { idempotencyKey: "sty-drop-paul", payloadHash: "d" });
   assert.equal(done.summary.latestRevision.state, "signed");
   assert.equal(done.summary.latestRevision.signed?.length, 1, "the signed PDF is filed");
@@ -665,7 +756,7 @@ test("one signatory's link on demand: e-mailed, or handed to Ark to copy, never 
   await assert.rejects(act("copy-two", { signerIds: ["sgn0001", "sgn0002"], notify: "none" }), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
   await assert.rejects(act("one-unknown", { signerIds: ["nobody01"] }), (e: unknown) => e instanceof KycError && e.code === "invalid_request");
   const declarationId = (await clientCase(contact)).declarationId;
-  await signOnline({ caseId, revision: 1, emailHash: emailHash("paul@example.ch") }, { name: "Paul Martin", accept: true, declarationId, drawing: await drawing() });
+  await signOnline({ caseId, revision: 1, emailHash: emailHash("paul@example.ch") }, { name: "Paul Martin", accept: true, declarationId, method: "drawn", drawing: await drawing() });
   await assert.rejects(act("one-signed", { signerIds: ["sgn0001"] }), (e: unknown) => e instanceof KycError && e.code === "signer_signed");
   // The contact signs in the form with the case link: no signatory link for them.
   await staffAction(caseId, "signatories", { expectedRevision: 1, by: "Sam", signatories: [{ id: "sgn0001", firstName: "Paul", lastName: "Martin", function: "Administrateur", email: "paul@example.ch" }, { firstName: "Jean", lastName: "Dupont", function: "Directeur", email: "jean@example.ch" }] }, { idempotencyKey: "sty-contact", payloadHash: "c" });
@@ -693,7 +784,7 @@ test("a reminder re-sends each unsigned signatory their own request, once per ca
   const replay = await staffAction(caseId, "remind_signers", { expectedRevision: 1 }, { idempotencyKey: "rem-0001", payloadHash: "r1" });
   assert.deepEqual([replay.replayed, replay.reminded, f.mails.length], [true, [], 2], "a replay sends nothing");
   const declarationId = (await clientCase(contact)).declarationId;
-  await signOnline({ caseId, revision: 1, emailHash: emailHash("paul@example.ch") }, { name: "Paul Martin", accept: true, declarationId, drawing: await drawing() });
+  await signOnline({ caseId, revision: 1, emailHash: emailHash("paul@example.ch") }, { name: "Paul Martin", accept: true, declarationId, method: "drawn", drawing: await drawing() });
   const after = await staffAction(caseId, "remind_signers", { expectedRevision: 1 }, { idempotencyKey: "rem-0002", payloadHash: "r2" });
   assert.deepEqual([after.reminded, f.mails.length], [[], 2], "who signed is not reminded");
 });
@@ -955,8 +1046,8 @@ test("assist: single-use link or code opens a staff session that fills and submi
   assert.ok(pdf.length > 1000);
   assert.deepEqual((await staffCase(caseId)).enteredBy, stored.enteredBy);
 
-  // Staff never signs, online or by scan, and cannot confirm a scan; it can read the PDF.
-  await assert.rejects(signOnline(staff, { name: "Jean Dupont", accept: true, declarationId: sent.declarationId, drawing: await drawing() }), (e: unknown) => e instanceof KycError && e.code === "not_allowed");
+  // Staff signs only for a named signatory (see the assistance test), never by scan, and cannot confirm a scan; it can read the PDF.
+  await assert.rejects(signOnline(staff, { accept: true, declarationId: sent.declarationId, method: "drawn", drawing: await drawing() }), (e: unknown) => e instanceof KycError && e.code === "not_a_signer");
   await assert.rejects(confirmSigned(staff), (e: unknown) => e instanceof KycError && e.code === "not_allowed");
   await assert.rejects(saveDraft(staff, { answers: pmOp }), (e: unknown) => e instanceof KycError && e.code === "not_editable");
   assert.ok((await readPdf(staff)).bytes.byteLength > 1000);

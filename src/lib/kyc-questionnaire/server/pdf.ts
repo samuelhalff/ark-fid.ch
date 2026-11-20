@@ -4,6 +4,7 @@ import { displayValue, fieldText, isBlockVisible, isRowFieldVisible, label, rows
 import { computedText, holderLines } from "../holders";
 import { declarations, isOp, isPM, isPP } from "../schema";
 import type { Answers, KycLocale } from "../types";
+import { signatureId, type SignatureMethod } from "./signature-proof";
 import type { SubmissionRecord } from "./service";
 
 /**
@@ -62,12 +63,21 @@ const TEXT = {
   online: {
     title: { fr: "Signature en ligne : trace de signature", en: "Online signature: signature trace" },
     intro: {
-      fr: "Le présent formulaire a été signé en ligne sur kyc.ark-fid.ch. Chaque signataire ci-dessous a utilisé sa propre session, ouverte avec un code envoyé à son adresse e-mail, puis a confirmé les déclarations et saisi son nom. Son tracé manuscrit figure ci-dessous lorsqu'il a été recueilli. Il ne s'agit pas d'une signature électronique qualifiée.",
-      en: "This form was signed online at kyc.ark-fid.ch. Each signatory below used their own session, opened with a code sent to their e-mail address, then confirmed the declarations and typed their name. Their drawn signature appears below when one was captured. This is not a qualified electronic signature.",
+      fr: "Le présent formulaire a été signé en ligne sur kyc.ark-fid.ch. Chaque signataire ci-dessous a utilisé sa propre session, ouverte avec un code envoyé à son adresse e-mail, puis a confirmé les déclarations et choisi son mode de signature. Sa signature figure ci-dessous. Il ne s'agit pas d'une signature électronique qualifiée.",
+      en: "This form was signed online at kyc.ark-fid.ch. Each signatory below used their own session, opened with a code sent to their e-mail address, then confirmed the declarations and chose how to sign. Their signature appears below. This is not a qualified electronic signature.",
     },
     signer: { fr: "Signataire déclaré", en: "Declared signatory" },
-    typed: { fr: "Nom saisi", en: "Name typed" },
-    drawn: { fr: "Signature tracée", en: "Drawn signature" },
+    typed: { fr: "Nom du signataire", en: "Name of the signatory" },
+    drawn: { fr: "Signature", en: "Signature" },
+    method: { fr: "Mode de signature", en: "Signature method" },
+    methods: {
+      auto: { fr: "Nom en écriture manuscrite (automatique)", en: "Name in handwriting (automatic)" },
+      drawn: { fr: "Dessinée", en: "Drawn" },
+      image: { fr: "Image importée", en: "Uploaded image" },
+    },
+    present: { fr: "Signé en présence de {name}", en: "Signed in the presence of {name}" },
+    signatureId: { fr: "ID de signature", en: "Signature ID" },
+    hash: { fr: "SHA-256 de la signature", en: "SHA-256 of the signature" },
     email: { fr: "Adresse e-mail du code", en: "E-mail address of the code" },
     byArk: { fr: " (adresse indiquée par Ark)", en: " (address given by Ark)" },
     setByArk: { fr: " (désigné par Ark après la remise du formulaire)", en: " (named by Ark after the form was handed in)" },
@@ -307,7 +317,7 @@ export async function appendOnlineSignatures(
   info: {
     language: KycLocale;
     declarationId: string;
-    signers: { name: string; function?: string; setByArk?: boolean; typed: string; email: string; at: string; drawnPng?: string; ip?: string; userAgent?: string; linkRef?: string; byArk?: boolean }[];
+    signers: { name: string; function?: string; setByArk?: boolean; typed: string; email: string; at: string; drawnPng?: string; ip?: string; userAgent?: string; linkRef?: string; byArk?: boolean; method?: SignatureMethod; presentBy?: string; hash?: string }[];
     pdfSha256: string;
     jsonSha256: string;
   },
@@ -328,13 +338,20 @@ export async function appendOnlineSignatures(
     if (signer.ip) w.pair(T.ip[L], signer.ip);
     if (signer.userAgent) w.pair(T.userAgent[L], signer.userAgent);
     if (signer.linkRef) w.pair(T.link[L], signer.linkRef);
+    if (signer.method) w.pair(T.method[L], T.methods[signer.method][L]);
+    if (signer.presentBy) w.text(T.present[L].replace("{name}", signer.presentBy), { bold: true, gap: 4 });
     if (signer.drawnPng) {
       const image = await doc.embedPng(Buffer.from(signer.drawnPng, "base64"));
       const size = image.scaleToFit(300, 90);
       w.ensure(size.height + 24);
       w.text(T.drawn[L], { size: 8.5, color: GREY, gap: 2 });
       w.page.drawImage(image, { x: MARGIN, y: w.y - size.height, width: size.width, height: size.height });
-      w.y -= size.height + 10;
+      w.y -= size.height + 4;
+      if (signer.hash) {
+        w.text(`${T.signatureId[L]} : ${signatureId(signer.hash)}`, { size: 9, gap: 2 });
+        w.pair(T.hash[L], signer.hash);
+      }
+      w.y -= 6;
     } else {
       w.y -= 8;
     }

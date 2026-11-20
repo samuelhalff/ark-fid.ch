@@ -597,3 +597,12 @@ summary.faq-summary::marker {
 .animate-testimonials-scroll:hover {
   animation-play-state: paused;
 }
+
+/* Handwriting face for the automatic signature (subset: Latin letters and accents). */
+@font-face {
+  font-family: 'Caveat';
+  src: url('/assets/fonts/Caveat-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
