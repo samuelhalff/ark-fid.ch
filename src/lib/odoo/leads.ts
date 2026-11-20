@@ -30,6 +30,7 @@ export type WebsiteLeadInput = {
   transcript?: LeadTranscriptMessage[];
   assignedUserId?: number;
   sourceId?: number;
+  tagId?: number;
 };
 
 type OdooConfig = {
@@ -160,6 +161,13 @@ export function buildOdooLeadValues(
     Number.isFinite(input.sourceId)
   ) {
     values.source_id = input.sourceId;
+  }
+  if (
+    availableFields.has("tag_ids") &&
+    input.tagId &&
+    Number.isFinite(input.tagId)
+  ) {
+    values.tag_ids = [[4, input.tagId]];
   }
   if (
     availableFields.has("user_id") &&
@@ -319,6 +327,37 @@ const getWebsiteSourceId = async (config: OdooConfig) => {
   return id;
 };
 
+// Exact-name lookup; never creates the tag. Any failure means "no tag" so it
+// can never block lead creation.
+const getWebsiteTagId = async (config: OdooConfig) => {
+  try {
+    const tagName = trim(process.env.ODOO_LEAD_TAG_NAME || WEBSITE_SOURCE);
+    if (!tagName) return null;
+
+    const cacheKey = `${config.url}::${config.db}::tag::${tagName}`;
+    const cached = userCache.get(cacheKey);
+    if (cached && cached.expiresAt > Date.now()) return cached.id;
+
+    const payload = await odooJson2(config, "crm.tag", "search_read", {
+      domain: [["name", "=", tagName]],
+      fields: ["id", "name"],
+      limit: 1,
+    });
+    const result = unwrapOdooResult(payload);
+    const id =
+      Array.isArray(result) && typeof result[0]?.id === "number"
+        ? result[0].id
+        : null;
+    userCache.set(cacheKey, {
+      id,
+      expiresAt: Date.now() + FIELDS_CACHE_TTL_MS,
+    });
+    return id;
+  } catch {
+    return null;
+  }
+};
+
 export async function createOdooWebsiteLead(input: WebsiteLeadInput) {
   const config = getOdooConfig();
   if (!config || shouldSkipInternalLead(input.email, config)) return null;
@@ -326,8 +365,14 @@ export async function createOdooWebsiteLead(input: WebsiteLeadInput) {
   const fields = await getLeadFields(config);
   const assignedUserId = input.assignedUserId || (await getDefaultLeadUserId(config));
   const sourceId = input.sourceId || (await getWebsiteSourceId(config));
+  const tagId = input.tagId || (await getWebsiteTagId(config));
   const values = buildOdooLeadValues(
-    { ...input, assignedUserId, ...(sourceId ? { sourceId } : {}) },
+    {
+      ...input,
+      assignedUserId,
+      ...(sourceId ? { sourceId } : {}),
+      ...(tagId ? { tagId } : {}),
+    },
     fields,
   );
   const payload = await odooJson2(config, "crm.lead", "create", {

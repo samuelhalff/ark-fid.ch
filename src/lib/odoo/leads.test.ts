@@ -142,3 +142,86 @@ test("formatLeadDescription includes first-party attribution lines", async () =>
   assert.match(description, /GCLID: abcscript/);
   assert.match(description, /Pages viewed: \/fr\/services\/ > \/fr\/contact\//);
 });
+
+test("buildOdooLeadValues adds the tag via a link command", () => {
+  const values = buildOdooLeadValues(
+    { email: "a@example.com", sourceDetail: "contact_form", tagId: 7 },
+    new Set(["tag_ids"]),
+  );
+  assert.deepEqual(values.tag_ids, [[4, 7]]);
+  const none = buildOdooLeadValues(
+    { email: "a@example.com", sourceDetail: "contact_form" },
+    new Set(["tag_ids"]),
+  );
+  assert.equal("tag_ids" in none, false);
+});
+
+async function runCreate(
+  t: test.TestContext,
+  tagResponse: () => Response,
+  tagName: string,
+) {
+  process.env.ODOO_URL = `https://odoo-${tagName}.example.com`;
+  process.env.ODOO_DB = "db";
+  process.env.ODOO_TOKEN = "tok";
+  process.env.ODOO_LEAD_TAG_NAME = tagName;
+  const { createOdooWebsiteLead } = await import("./leads.ts");
+  const bodies: Record<string, unknown>[] = [];
+  t.mock.method(globalThis, "fetch", async (url: string, init: RequestInit) => {
+    const body = JSON.parse(String(init.body));
+    if (url.endsWith("/crm.lead/fields_get")) {
+      return new Response(JSON.stringify({ tag_ids: {}, name: {} }));
+    }
+    if (url.endsWith("/res.users/search_read") || url.endsWith("/utm.source/search_read")) {
+      return new Response(JSON.stringify([]));
+    }
+    if (url.endsWith("/crm.tag/search_read")) {
+      bodies.push(body);
+      return tagResponse();
+    }
+    if (url.endsWith("/crm.lead/create")) {
+      bodies.push(body);
+      return new Response(JSON.stringify([42]));
+    }
+    throw new Error(`unexpected ${url}`);
+  });
+  const id = await createOdooWebsiteLead({
+    email: "x@example.com",
+    sourceDetail: "contact_form",
+  });
+  return { id, bodies };
+}
+
+test("createOdooWebsiteLead tags the lead with the exact-name crm.tag", async (t) => {
+  const { id, bodies } = await runCreate(
+    t,
+    () => new Response(JSON.stringify([{ id: 9, name: "tagok" }])),
+    "tagok",
+  );
+  assert.equal(id, 42);
+  assert.deepEqual(bodies[0].domain, [["name", "=", "tagok"]]);
+  const vals = (bodies[1].vals_list as Record<string, unknown>[])[0];
+  assert.deepEqual(vals.tag_ids, [[4, 9]]);
+});
+
+test("createOdooWebsiteLead skips the tag when missing", async (t) => {
+  const { id, bodies } = await runCreate(
+    t,
+    () => new Response(JSON.stringify([])),
+    "tagmissing",
+  );
+  assert.equal(id, 42);
+  const vals = (bodies[1].vals_list as Record<string, unknown>[])[0];
+  assert.equal("tag_ids" in vals, false);
+});
+
+test("createOdooWebsiteLead still creates the lead when the tag lookup fails", async (t) => {
+  const { id, bodies } = await runCreate(
+    t,
+    () => new Response("boom", { status: 500 }),
+    "tagfail",
+  );
+  assert.equal(id, 42);
+  const vals = (bodies[1].vals_list as Record<string, unknown>[])[0];
+  assert.equal("tag_ids" in vals, false);
+});
