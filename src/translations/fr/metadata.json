@@ -124,6 +124,11 @@
       "description": "Politique de confidentialité d'Ark Fiduciaire. Comment nous protégeons et traitons vos données personnelles selon les exigences suisses et européennes.",
       "keywords": "politique confidentialité, protection données, conformité rgpd, données personnelles"
     },
+    "/legal/app-privacy": {
+      "title": "Confidentialité de l’application Cadence - Ark Fiduciaire",
+      "description": "Politique de confidentialité de l'application iPhone Cadence : données traitées, sous-traitants, durée de conservation et vos droits.",
+      "keywords": "cadence, application, politique confidentialité, protection données"
+    },
     "/legal/terms": {
       "title": "Conditions de service - Ark Fiduciaire",
       "description": "Conditions de service et d'utilisation du site web et des services d'Ark Fiduciaire. Conditions légales et termes d'utilisation.",

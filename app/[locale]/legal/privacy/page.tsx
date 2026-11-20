@@ -52,6 +52,15 @@ export default async function PrivacyPage(
           {r("Privacy.LastUpdated", "Last updated")}:{" "}
           {formatDate("2026-10-26", locale)}
         </p>
+        <p className="text-xs dark:text-white mb-2">
+          {r("Privacy.AppLink.Before", "Cadence app: see its ")}
+          <a
+            href={`/${locale}/legal/app-privacy/`}
+            className="text-brand-hover dark:text-brand hover:underline"
+          >
+            {r("Privacy.AppLink.Link", "privacy policy")}
+          </a>
+        </p>
         <Separator className="mt-6" />
       </div>
 

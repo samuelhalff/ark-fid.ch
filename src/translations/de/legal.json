@@ -269,6 +269,10 @@
             "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Genf"
+        },
+        "AppLink": {
+            "Before": "Cadence app: see its ",
+            "Link": "privacy policy"
         }
     },
     "Cookies": {
@@ -450,6 +454,51 @@
             "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Genf"
+        }
+    },
+    "AppPrivacy": {
+        "Title": "Cadence app: privacy policy",
+        "LastUpdated": "Last updated",
+        "Supplement": {
+            "Before": "Supplements ",
+            "Link": "Ark Fiduciaire SA's privacy policy",
+            "After": "."
+        },
+        "Controller": {
+            "Title": "Controller",
+            "Content": "The organisation that gave you access to Cadence (for example Ark Fiduciaire SA, 26 boulevard Georges-Favon, 1204 Geneva, info@ark-fid.ch) decides why data is processed; Cadence is the tool it uses. Applicable law: Swiss FADP and, where relevant, GDPR."
+        },
+        "Processing": {
+            "Title": "What the app processes",
+            "Items": [
+                "Sign-in identity: name, email address and identifier of your work Microsoft (Entra) account, to sign you in and give you your rights. The session token stays in your iPhone's Keychain.",
+                "Client data of the firm entered or received as part of the work (invoices, bank statements, emails attached to a file, hours, documents, engagement letters). Stored in the firm's Odoo database and on the firm's infrastructure; Cadence does not sell it or use it for advertising.",
+                "Photos and documents you choose to upload (camera or files).",
+                "Voice dictation: if you use the microphone, the recording is sent to Azure OpenAI (Microsoft) for transcription. Cadence does not store the recording: it is processed in memory and discarded by Cadence once transcribed. Microsoft's processing is governed by its Azure OpenAI terms.",
+                "Push notification token (APNs) linked to your account, to deliver notifications. Notification content carries no client data.",
+                "Error reports (Sentry): technical crash information, no identity, no screen recording; email addresses and IBANs are masked before sending.",
+                "Face ID / Touch ID: optional app lock, processed on the device only; no biometric data leaves the iPhone."
+            ]
+        },
+        "NotDone": {
+            "Title": "What the app does not do",
+            "Content": "No advertising, no tracking across apps or websites, no advertising identifier, no location."
+        },
+        "Processors": {
+            "Title": "Processors",
+            "Content": "Microsoft (sign-in, Azure, SharePoint, Graph), Odoo SA (accounting), Apple (notifications), Sentry (error reports), depending on the modules your organisation enables."
+        },
+        "Retention": {
+            "Title": "Retention",
+            "Content": "According to the organisation's legal retention duties; push tokens are deleted on sign-out."
+        },
+        "Rights": {
+            "Title": "Your rights",
+            "Content": "Access, rectification, erasure: contact your organisation, or info@ark-fid.ch. You may lodge a complaint with the FDPIC (Federal Data Protection and Information Commissioner)."
+        },
+        "Contact": {
+            "Title": "Contact",
+            "Content": "info@ark-fid.ch"
         }
     }
 }

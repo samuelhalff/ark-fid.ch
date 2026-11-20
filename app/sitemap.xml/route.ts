@@ -35,6 +35,7 @@ const staticPaths = [
   "/partners",
   "/legal/terms",
   "/legal/privacy",
+  "/legal/app-privacy",
   "/legal/cookies",
 ];
 

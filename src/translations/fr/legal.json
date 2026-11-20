@@ -269,6 +269,10 @@
             "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Genève"
+        },
+        "AppLink": {
+            "Before": "Application Cadence : voir sa ",
+            "Link": "politique de confidentialité"
         }
     },
     "Cookies": {
@@ -450,6 +454,51 @@
             "CompanyName": "Ark Fiduciaire SA",
             "Email": "info@ark-fid.ch",
             "Address": "26 Boulevard Georges-Favon, 1204 Genève"
+        }
+    },
+    "AppPrivacy": {
+        "Title": "Application Cadence : politique de confidentialité",
+        "LastUpdated": "Dernière mise à jour",
+        "Supplement": {
+            "Before": "Complète la ",
+            "Link": "politique de confidentialité d'Ark Fiduciaire SA",
+            "After": "."
+        },
+        "Controller": {
+            "Title": "Responsable",
+            "Content": "L'organisation qui vous a donné accès à Cadence (par exemple Ark Fiduciaire SA, 26 boulevard Georges-Favon, 1204 Genève, info@ark-fid.ch) décide des finalités du traitement ; Cadence est l'outil qu'elle utilise. Loi applicable : LPD suisse et, le cas échéant, RGPD."
+        },
+        "Processing": {
+            "Title": "Ce que l'application traite",
+            "Items": [
+                "Identité de connexion : nom, adresse e-mail et identifiant de votre compte Microsoft professionnel (Entra), pour vous connecter et vous attribuer vos droits. Le jeton de session reste dans le Trousseau (Keychain) de votre iPhone.",
+                "Données des clients du cabinet saisies ou reçues dans le cadre du travail (factures, relevés bancaires, e-mails rattachés à un dossier, heures, documents, lettres de mission). Elles sont stockées dans la base Odoo du cabinet et sur l'infrastructure du cabinet ; Cadence ne les vend pas et ne les utilise pas pour de la publicité.",
+                "Photos et documents que vous choisissez d'envoyer (appareil photo ou fichiers).",
+                "Dictée vocale : si vous utilisez le micro, l'enregistrement est envoyé à Azure OpenAI (Microsoft) pour être transcrit. Cadence ne conserve pas l'enregistrement : il est traité en mémoire, puis effacé par Cadence une fois transcrit. Le traitement par Microsoft est régi par ses conditions Azure OpenAI.",
+                "Jeton de notification (APNs) lié à votre compte, pour vous envoyer les notifications. Le contenu des notifications ne contient pas de données de client.",
+                "Rapports d'erreurs (Sentry) : informations techniques sur un plantage, sans identité, sans enregistrement d'écran ; adresses e-mail et IBAN sont masqués avant envoi.",
+                "Face ID / Touch ID : verrouillage facultatif de l'application, traité uniquement sur l'appareil ; aucune donnée biométrique ne quitte l'iPhone."
+            ]
+        },
+        "NotDone": {
+            "Title": "Ce que l'application ne fait pas",
+            "Content": "Aucune publicité, aucun suivi entre applications ou sites, aucun identifiant publicitaire, aucune localisation."
+        },
+        "Processors": {
+            "Title": "Sous-traitants",
+            "Content": "Microsoft (connexion, Azure, SharePoint, Graph), Odoo SA (comptabilité), Apple (notifications), Sentry (rapports d'erreurs), selon les modules activés par votre organisation."
+        },
+        "Retention": {
+            "Title": "Durée",
+            "Content": "Selon les obligations légales de conservation de l'organisation ; les jetons de notification sont supprimés à la déconnexion."
+        },
+        "Rights": {
+            "Title": "Vos droits",
+            "Content": "Accès, rectification, effacement : adressez-vous à votre organisation, ou à info@ark-fid.ch. Vous pouvez saisir le PFPDT (Préposé fédéral à la protection des données)."
+        },
+        "Contact": {
+            "Title": "Contact",
+            "Content": "info@ark-fid.ch"
         }
     }
 }
