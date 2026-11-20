@@ -130,6 +130,19 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: mkdir -p artifact && cp next-standalone.tar.gz artifact/next-standalone.tar.gz.part
 
+      - name: Pin the deploy host key
+        # S-F6 (security audit 2026-11-18): every ssh/sftp below checks the server's key against this
+        # file instead of accepting any key. The value is `ssh-keyscan` of the host, checked against a
+        # long-known entry before it was stored.
+        env:
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          test -n "$KNOWN_HOSTS" || { echo "DEPLOY_SSH_KNOWN_HOSTS is not set" >&2; exit 1; }
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$KNOWN_HOSTS" > "$HOME/.ssh/known_hosts_deploy"
+          chmod 600 "$HOME/.ssh/known_hosts_deploy"
+
       - name: Upload release to server
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
@@ -149,7 +162,7 @@ jobs:
           # ConnectTimeout turn stalls into fast failures the loop can retry.
           for attempt in 1 2 3; do
             if sshpass -p "$PASS" rsync -av --partial --checksum --timeout=60 \
-              -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -o ConnectTimeout=15 -p $PORT" \
+              -e "ssh -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts_deploy -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -o ConnectTimeout=15 -p $PORT" \
               artifact/next-standalone.tar.gz.part \
               "$USER@$HOST:/srv/customer/sites/ark-fid.ch/artifact/"; then
               echo "Upload verified on attempt $attempt (rsync checksum)"
@@ -218,7 +231,7 @@ jobs:
           PORT="${{ secrets.DEPLOY_SSH_PORT }}"; [ -z "$PORT" ] && PORT=22
 
           BASE="/srv/customer/sites/ark-fid.ch"
-          SFTP_OPTS=(-P "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=20)
+          SFTP_OPTS=(-P "$PORT" -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts_deploy -o LogLevel=ERROR -o ConnectTimeout=20)
 
           # Secrets only ever touch 0600 files in a private temp dir that is
           # removed on exit; nothing here prints a value (key names only).
@@ -417,7 +430,7 @@ jobs:
 
           # No separate ssh "probe" session: it gated nothing and every extra
           # session counts against the host's exec throttle.
-          if sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -o ConnectTimeout=15 "$USER@$HOST" bash -lc '
+          if sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts_deploy -o LogLevel=ERROR -o ServerAliveInterval=10 -o ServerAliveCountMax=6 -o TCPKeepAlive=yes -o ConnectTimeout=15 "$USER@$HOST" bash -lc '
             set -euo pipefail
             BASE_DIR="/srv/customer/sites/ark-fid.ch"
             RELEASES_DIR="$BASE_DIR/releases"
@@ -503,7 +516,7 @@ jobs:
           # own: read the outcome back over SFTP (what current/ points at now).
           for attempt in 1 2 3; do
             rm -f deploy_state disk_build
-            sshpass -p "$PASS" sftp -P "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=20 "$USER@$HOST" >/dev/null <<SFTP || true
+            sshpass -p "$PASS" sftp -P "$PORT" -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts_deploy -o LogLevel=ERROR -o ConnectTimeout=20 "$USER@$HOST" >/dev/null <<SFTP || true
           get $BASE/deploy_state deploy_state
           get $BASE/current/.next/BUILD_ID disk_build
           SFTP
@@ -582,7 +595,7 @@ jobs:
           # over ssh (session may be throttled; retry with spacing).
           echo "[restart] ⚠ Supervisor respawn did not deliver the new build; invoking managed restart"
           for attempt in 1 2 3; do
-            if OUT=$(sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=15 "$USER@$HOST" "bash /srv/customer/sites/ark-fid.ch/shared/restart-server.sh" 2>&1); then
+            if OUT=$(sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts_deploy -o LogLevel=ERROR -o ConnectTimeout=15 "$USER@$HOST" "bash /srv/customer/sites/ark-fid.ch/shared/restart-server.sh" 2>&1); then
               echo "[restart] managed restart: $OUT"
               break
             fi
@@ -647,7 +660,7 @@ jobs:
           if [ -z "$PREV_REL" ] || [ -z "$PREV_BUILD_ID" ]; then
             for attempt in 1 2 3; do
               rm -f deploy_state
-              sshpass -p "$PASS" sftp -P "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=20 "$USER@$HOST" >/dev/null <<SFTP || true
+              sshpass -p "$PASS" sftp -P "$PORT" -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts_deploy -o LogLevel=ERROR -o ConnectTimeout=20 "$USER@$HOST" >/dev/null <<SFTP || true
           get $BASE/deploy_state deploy_state
           SFTP
               if [ -s deploy_state ]; then break; fi
@@ -673,7 +686,7 @@ jobs:
           DONE=0
           for attempt in 1 2 3; do
             rm -f rb_build
-            sshpass -p "$PASS" sftp -P "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=20 "$USER@$HOST" >/dev/null <<SFTP || true
+            sshpass -p "$PASS" sftp -P "$PORT" -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts_deploy -o LogLevel=ERROR -o ConnectTimeout=20 "$USER@$HOST" >/dev/null <<SFTP || true
           -rm $BASE/current.rollback
           symlink $PREV_REL $BASE/current.rollback
           rename $BASE/current.rollback $BASE/current
@@ -719,7 +732,7 @@ jobs:
           # exec-dependent path; session may be throttled, so retry spaced).
           echo "[rollback] previous build not answering; invoking managed restart"
           for attempt in 1 2 3; do
-            if OUT=$(sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -o ConnectTimeout=15 "$USER@$HOST" "bash /srv/customer/sites/ark-fid.ch/shared/restart-server.sh" 2>&1); then
+            if OUT=$(sshpass -p "$PASS" ssh -p "$PORT" -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts_deploy -o LogLevel=ERROR -o ConnectTimeout=15 "$USER@$HOST" "bash /srv/customer/sites/ark-fid.ch/shared/restart-server.sh" 2>&1); then
               echo "[rollback] managed restart: $OUT"
               break
             fi
