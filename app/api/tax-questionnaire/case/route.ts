@@ -1,5 +1,6 @@
 import { createSession, readCookie, revokeSession, sessionCookie, sessionTtlMs, STAFF_HASH } from "@/src/lib/tax-questionnaire/server/access";
 import { deadlinesFor } from "@/src/lib/tax-questionnaire/deadlines";
+import { isCaseAction } from "@/src/lib/tax-questionnaire/actions";
 import { json } from "@/src/lib/tax-questionnaire/server/http";
 import { route } from "@/src/lib/tax-questionnaire/server/route-kit";
 import {
@@ -67,10 +68,12 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const action = request.headers.get("x-tqf-action") || "";
+  // Before anything else: the action names a rate-limit store, so only known ones get one.
+  if (!isCaseAction(action)) return json({ error: "invalid_request" }, 400);
   const maxBytes = action === "submit" || action === "save" ? 600 * 1024 : 32 * 1024;
   const scope = ["additions", "feedback", "reopen", "upload", "resumeLink"].includes(action) ? "any" : "edit";
   const perIp = action === "save" ? 600 : action === "upload" ? 400 : 60;
-  return route(request, { name: `case-${action || "unknown"}`, perIp, maxBytes, scope }, async ({ body, storage, info, session }) => {
+  return route(request, { name: `case-${action}`, perIp, maxBytes, scope }, async ({ body, storage, info, session }) => {
     if (!info || !session) return json({ error: "session_expired" }, 401);
     if (session.staffBy && ["delete", "resumeLink", "partner", "additions"].includes(action)) return json({ error: "forbidden_scope" }, 403);
     switch (action) {
