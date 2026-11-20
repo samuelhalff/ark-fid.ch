@@ -1318,6 +1318,22 @@ test("a case sent with the layout folders files into them and nowhere else, besi
   assert.deepEqual((await fs.readdir(f.client)).sort(), ["2026", "Données techniques"]);
 });
 
+test("the PDF to sign is never a signed file, whatever the company name says (S-F5)", async () => {
+  const f = await layoutFixture();
+  const a = (await createCase(f.input(), { keyId: "cadence", idempotencyKey: "create-lay-f5", payloadHash: "f5" })).summary.caseId;
+  const answers = { ...pmOp, "a.name": "Acme SA - signé en ligne" };
+  await uploadViaForm(f, a, answers);
+  const session = { caseId: a, revision: 1, emailHash: JEAN };
+  assert.equal((await submit(session, { answers, submitKey: "f5" })).state, "awaiting_signature");
+  const rev = (await loadCase(a)).revisions[0];
+  assert.ok(rev.pdf?.name.includes("signé en ligne"), "the mark reached the file name");
+  const view = (await clientCase(session)) as { signedFiles: { id: string }[]; signing: { paperStarted: boolean } | null };
+  assert.ok(!view.signedFiles.some((x) => x.id === rev.pdf!.itemId), "not listed as a signed file");
+  assert.equal(view.signing?.paperStarted, false, "no paper scan is started");
+  await assert.rejects(deleteUpload(session, { fileId: rev.pdf!.itemId }), (e: unknown) => e instanceof KycError && e.code === "file_not_found");
+  assert.ok((await fs.readdir(f.piecesDir)).includes(rev.pdf!.name), "the PDF to sign is still there");
+});
+
 test("a case without the layout folders keeps its own folders, beside layout cases", async () => {
   const f = await layoutFixture();
   const legacy = (await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-lay-old", payloadHash: "o" })).summary.caseId;

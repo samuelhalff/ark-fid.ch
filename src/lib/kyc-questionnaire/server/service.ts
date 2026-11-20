@@ -1107,7 +1107,8 @@ async function signedStored(record: CaseRecord, rev: RevisionRecord) {
   // A client's document (it starts with its code) is never a signed form, whatever its file name says.
   const own = (name: string) =>
     !record.folders || (isOwnPiece(name, record.caseId, rev.n) && codeOf(name) === null && (name.startsWith(SIGNED_SCAN_PREFIX) || (name.startsWith("Formulaire KYC - ") && name.includes(ONLINE_SIGNED_MARK))));
-  const files = (await getPorts().storage.listFiles(record.driveId, folderId)).filter((f) => !f.folder && own(f.name));
+  // The PDF to sign is the server's own file: its id, not its name (which carries the client's company name), says so.
+  const files = (await getPorts().storage.listFiles(record.driveId, folderId)).filter((f) => !f.folder && f.id !== rev.pdf?.itemId && own(f.name));
   return { folderId, files };
 }
 
