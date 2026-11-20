@@ -1,3 +1,4 @@
+import { isCaseAction } from "@/src/lib/kyc-questionnaire/actions";
 import { clientRoute, json, limited } from "@/src/lib/kyc-questionnaire/server/http";
 import { askField, clientCase, searchCompanies, confirmSigned, createUpload, deleteUpload, saveDraft, signOnline, submit } from "@/src/lib/kyc-questionnaire/server/service";
 
@@ -11,8 +12,10 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const action = request.headers.get("x-kqf-action") || "";
+  // Before anything else: the action names a rate-limit store, so only known ones get one.
+  if (!isCaseAction(action)) return json({ error: "invalid_request" }, 400);
   const perIp = action === "save" || action === "companies" ? 600 : action === "ask" ? 30 : 120;
-  return clientRoute(request, { name: `kyc-case-${action || "none"}`, perIp, maxBytes: 512 * 1024, session: true }, async ({ body, session, ip, userAgent }) => {
+  return clientRoute(request, { name: `kyc-case-${action}`, perIp, maxBytes: 512 * 1024, session: true }, async ({ body, session, ip, userAgent }) => {
     switch (action) {
       case "save":
         return json(await saveDraft(session!, body));
