@@ -223,7 +223,7 @@ function baseRecord(
 /** Creates the case after the e-mail was verified: folders and tracker rows per year, first draft. */
 export async function createCase(
   storage: TaxStorage,
-  input: { identity: Identity; locale: QfLocale; answers: unknown; householdId?: string; source?: string; stepId?: string; clientKey?: string; planned?: ReturnRecord; caseId?: string; cadence?: Pick<ReturnRecord, "clientRef" | "spouseRef" | "createKey"> },
+  input: { identity: Identity; locale: QfLocale; answers: unknown; householdId?: string; source?: string; emailVerified?: boolean; stepId?: string; clientKey?: string; planned?: ReturnRecord; caseId?: string; cadence?: Pick<ReturnRecord, "clientRef" | "spouseRef" | "createKey"> },
 ) {
   // The staff API passes a case id derived from its Idempotency-Key (a retry finds the same case).
   const caseId = input.caseId || randomBytes(6).toString("hex");
@@ -247,7 +247,7 @@ export async function createCase(
   const records: ReturnRecord[] = [];
   for (const year of years) {
     const folder = await storage.createSubmissionFolder(year, folderName);
-    const record = baseRecord(head, year, folder, answers, { source: input.source, ...(input.clientKey ? { clientKey: input.clientKey } : {}), ...(input.cadence || {}) });
+    const record = baseRecord(head, year, folder, answers, { source: input.source, ...(input.emailVerified ? { emailVerified: true } : {}), ...(input.clientKey ? { clientKey: input.clientKey } : {}), ...(input.cadence || {}) });
     // A planned row (staff inventory) becomes the main year's row instead of a duplicate; what the
     // inventory knew (canton, CRM link) is kept when the answers do not say otherwise.
     if (input.planned?.trackerId && year === years[0]) {
@@ -980,6 +980,14 @@ export async function notifyAdditions(storage: TaxStorage, info: CaseInfo) {
 /** "Correct my answers": back to draft; the next submission creates a new version folder. */
 export async function reopenCase(info: CaseInfo) {
   for (const rec of info.records) await sharePointPorts().tracker.upsert({ ...rec, state: "draft" });
+  forget(info.caseId);
+}
+
+/** The e-mailed code was returned for this case: its address is verified (set once, never cleared). */
+export async function markEmailVerified(info: CaseInfo) {
+  const pending = info.records.filter((r) => r.emailVerified !== true);
+  if (!pending.length) return;
+  for (const rec of pending) await sharePointPorts().tracker.upsert({ ...rec, emailVerified: true });
   forget(info.caseId);
 }
 

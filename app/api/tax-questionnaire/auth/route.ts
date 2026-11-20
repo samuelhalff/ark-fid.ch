@@ -3,7 +3,7 @@ import { isClosed } from "@/src/lib/tax-questionnaire/server/campaign";
 import { json, rateLimited, skipTurnstile, verifyTurnstile, type Counter } from "@/src/lib/tax-questionnaire/server/http";
 import { otpMail } from "@/src/lib/tax-questionnaire/server/mails";
 import { route } from "@/src/lib/tax-questionnaire/server/route-kit";
-import { createCase, forgetCase, getCase, optOut, sendLinksForEmail } from "@/src/lib/tax-questionnaire/server/service";
+import { createCase, forgetCase, getCase, markEmailVerified, optOut, sendLinksForEmail } from "@/src/lib/tax-questionnaire/server/service";
 import { normalise } from "@/src/lib/tax-questionnaire/server/sharepoint-registry";
 import { EMAIL_RE } from "@/src/lib/tax-questionnaire/format";
 import { sanitizeAnswers, stepById, validateStep } from "@/src/lib/tax-questionnaire/logic";
@@ -88,6 +88,7 @@ export async function POST(request: Request) {
           locale: lang,
           answers,
           source: "web",
+          emailVerified: true,
         });
         caseId = info.caseId;
         scope = "edit";
@@ -96,6 +97,8 @@ export async function POST(request: Request) {
         if (info.emailHash !== payload.emailHash) return json({ error: "otp_invalid" }, 400);
         if (info.main.state === "submitted") scope = "status";
         if (info.main.state === "invited") scope = "edit";
+        // The code went to this case's address: it is verified from now on.
+        await markEmailVerified(info);
       }
       const value = await createSession({ caseId, emailHash: payload.emailHash, scope });
       const response = json({ ok: true, scope });

@@ -317,6 +317,7 @@ const TRACKER_COLUMNS: Column[] = [
   text("LinkCrm", "Client CRM (lien)", { text: { allowMultipleLines: true, textType: "plain" } }),
   text("CrmMatch", "Correspondance CRM"),
   text("Source", "Provenance"),
+  bool("EmailVerified", "E-mail vérifié par code"),
   { name: "InvitedAt", displayName: "Invité le", dateTime: { format: "dateTime" } },
   num("RemindersSent", "Rappels envoyés"),
   { name: "LastReminderAt", displayName: "Dernier rappel", dateTime: { format: "dateTime" } },
@@ -376,6 +377,8 @@ function trackerFields(r: ReturnRecord): Json {
   if (r.submittedAt) fields.SubmittedAt = r.submittedAt;
   // Each submission says who sent it (blank: the client), so a later client submission clears it.
   if (r.state === "submitted") fields.SubmittedBy = r.submittedBy || "";
+  // Written only when true: nothing but an e-mailed code sets it, and nothing clears it.
+  if (r.emailVerified === true) fields.EmailVerified = true;
   if (r.invitedAt) fields.InvitedAt = r.invitedAt;
   if (r.lastReminderAt) fields.LastReminderAt = r.lastReminderAt;
   if (r.missingDocs !== undefined) fields.DocumentsManquants = r.missingDocs;
@@ -418,6 +421,7 @@ function trackerRecord(id: string, f: Json): ReturnRecord {
     crmUrl: str(f.LinkCrm) || undefined,
     crmMatch: (str(f.CrmMatch) || undefined) as ReturnRecord["crmMatch"],
     source: str(f.Source) || undefined,
+    emailVerified: f.EmailVerified === true ? true : undefined,
     invitedAt: isoDate(f.InvitedAt),
     remindersSent: Number(f.RemindersSent) || 0,
     lastReminderAt: isoDate(f.LastReminderAt),

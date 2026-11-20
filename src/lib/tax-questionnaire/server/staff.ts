@@ -110,6 +110,23 @@ export interface LinkResult {
 
 const lines = (text: string | undefined) => (text || "").split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
 
+/**
+ * Whether the return's address answered an e-mailed code. Explicit flag first; rows written before the
+ * flag existed fall back to the old reading of their provenance, minus "partner" (an address typed by
+ * another person, never verified).
+ */
+export function isEmailVerified(r: ReturnRecord): boolean {
+  if (r.emailVerified === true) return true;
+  if (r.source === "partner") return false;
+  return (r.state === "submitted" && !r.submittedBy) || (r.source !== "campaign" && r.source !== "ark" && r.source !== "inventaire");
+}
+
+/**
+ * An address typed by another person (a "partner" invitation) and never answered with a code: such a
+ * case is never adopted by e-mail. Campaign, Ark and inventory rows come from the firm's own lists.
+ */
+export const isTypedByAnother = (r: ReturnRecord) => r.source === "partner" && r.emailVerified !== true;
+
 /** Never the answers: those are served by staffReturn only. */
 export function summarize(r: ReturnRecord): ReturnSummary {
   return {
@@ -121,7 +138,7 @@ export function summarize(r: ReturnRecord): ReturnSummary {
     name: r.name,
     email: r.email,
     // A submission by Ark staff (office session) proves nothing about the client's address.
-    emailVerified: (r.state === "submitted" && !r.submittedBy) || (r.source !== "campaign" && r.source !== "ark" && r.source !== "inventaire"),
+    emailVerified: isEmailVerified(r),
     language: r.language,
     canton: r.canton,
     state: r.state,
@@ -291,7 +308,7 @@ export async function createReturn(
     const hash = (deps.campaign.hashEmail || emailHash)(email);
     const existing =
       yearRows.find((r) => !isPlanned(r) && (r.clientRef === clientRef || r.spouseRef === clientRef)) ||
-      (await tracker.findByEmailHash(hash)).find((r) => !isPlanned(r) && r.taxYear === taxYear && r.state !== "declined" && normalise(r.email) === normalise(email));
+      (await tracker.findByEmailHash(hash)).find((r) => !isPlanned(r) && !isTypedByAnother(r) && r.taxYear === taxYear && r.state !== "declined" && normalise(r.email) === normalise(email));
     if (existing) {
       // Adopted, never "return_exists": Cadence now knows this return; the site knows Cadence's client.
       let adopted = existing;

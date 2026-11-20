@@ -80,6 +80,8 @@ export interface ReturnRecord {
   crmUrl?: string;
   crmMatch?: "matched" | "ambiguous" | "created" | "none";
   source?: string;
+  /** Set only when the address received and returned an e-mailed code (a new case, or a link opened). Absent on older rows. */
+  emailVerified?: boolean;
   invitedAt?: string;
   remindersSent?: number;
   lastReminderAt?: string;
