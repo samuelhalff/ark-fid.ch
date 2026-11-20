@@ -73,8 +73,15 @@ export function upgradeAnswers(input: Answers, options: { infer?: boolean } = {}
     const key = (r: Row) => `${norm(r.lastName)}|${norm(r.firstName)}`;
     const ids = new Set(people.map((r) => r._id));
     const matched = new Set<Row>();
+    // Each person's key is computed once (a Map keeps the first of equal keys, as a scan would).
+    const byKey = new Map<string, Row>();
+    const index = (p: Row) => {
+      const k = key(p);
+      if (k !== "|" && !byKey.has(k)) byKey.set(k, p);
+    };
+    people.forEach(index);
     for (const s of signatories) {
-      const person = people.find((p) => key(p) === key(s) && key(s) !== "|");
+      const person = byKey.get(key(s));
       if (person) {
         matched.add(person);
         if (!person.signing && s.signing) person.signing = s.signing;
@@ -86,6 +93,7 @@ export function upgradeAnswers(input: Answers, options: { infer?: boolean } = {}
       ids.add(row._id);
       matched.add(row);
       people.push(row);
+      index(row);
     }
     // A draft: the old list of signatories was complete, so a director not on it did not sign.
     if (options.infer && signatories.length) for (const person of people) if (!matched.has(person) && !person.signing) person.signing = "none";

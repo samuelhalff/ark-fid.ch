@@ -151,13 +151,23 @@ function sanitizeValue(field: FieldDef, raw: unknown): string | string[] | undef
   return cleaned.slice(0, max + 1); // one extra character so "too_long" is still detected
 }
 
+/** Most rows any list may hold (the largest `maxRows`); earlier ids that are no longer groups get it too. */
+const MAX_LIST = Math.max(...[...GROUPS.values()].map((g) => g.maxRows), 0);
+
+/** Every list cut to its `maxRows` before the upgrade walks it: the browser's input is never unbounded there. */
+export function cappedLists(raw: Answers): Answers {
+  const out: Answers = {};
+  for (const [id, value] of Object.entries(raw)) out[id] = Array.isArray(value) ? value.slice(0, GROUPS.get(id)?.maxRows ?? MAX_LIST) : value;
+  return out;
+}
+
 /** Keeps only known ids with values of the right shape; server-owned ids are always dropped. */
 export function sanitizeAnswers(raw: unknown): Answers {
   const out: Answers = {};
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) return out;
   // Earlier ids map to the current questions; a question no longer asked is never taken in
   // (the client cannot see it, so it must not reach what they sign). Ark keeps old cases' answers.
-  const input = upgradeAnswers(raw as Answers) as Record<string, unknown>;
+  const input = upgradeAnswers(cappedLists(raw as Answers)) as Record<string, unknown>;
   for (const [id, field] of TOP_FIELDS) {
     if (SERVER_OWNED.has(id) || field.retired) continue;
     const value = sanitizeValue(field, input[id]);
