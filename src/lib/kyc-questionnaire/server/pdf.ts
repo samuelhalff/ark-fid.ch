@@ -75,7 +75,14 @@ const TEXT = {
       drawn: { fr: "Dessinée", en: "Drawn" },
       image: { fr: "Image importée", en: "Uploaded image" },
     },
-    present: { fr: "Signé en présence de {name}", en: "Signed in the presence of {name}" },
+    present: { fr: "Signé sur l'écran du cabinet, en présence de {name}", en: "Signed on the firm's screen, in the presence of {name}" },
+    introFirm: {
+      fr: "Les signatures marquées « sur l'écran du cabinet » ont été données devant un collaborateur d'Ark Fiduciaire SA, depuis son appareil, sans code envoyé au signataire : l'adresse IP et le navigateur indiqués sont ceux de l'appareil du cabinet. Le signataire en reçoit un avis à son adresse e-mail.",
+      en: "Signatures marked « on the firm's screen » were given in front of a member of Ark Fiduciaire SA, on their device, with no code sent to the signatory: the IP address and browser shown are those of the firm's device. The signatory is notified at their e-mail address.",
+    },
+    ipFirm: { fr: "Adresse IP (appareil du cabinet)", en: "IP address (firm's device)" },
+    userAgentFirm: { fr: "Navigateur (appareil du cabinet)", en: "Browser (firm's device)" },
+    emailFirm: { fr: "Adresse e-mail du signataire (aucun code envoyé)", en: "Signatory's e-mail address (no code sent)" },
     signatureId: { fr: "ID de signature", en: "Signature ID" },
     hash: { fr: "SHA-256 de la signature", en: "SHA-256 of the signature" },
     email: { fr: "Adresse e-mail du code", en: "E-mail address of the code" },
@@ -329,14 +336,15 @@ export async function appendOnlineSignatures(
   const bold = await doc.embedFont(StandardFonts.HelveticaBold);
   const w = new Writer(doc, font, bold);
   w.heading(T.title[L]);
-  w.text(T.intro[L], { gap: 10 });
+  w.text(T.intro[L], { gap: info.signers.some((x) => x.presentBy) ? 4 : 10 });
+  if (info.signers.some((x) => x.presentBy)) w.text(T.introFirm[L], { gap: 10 });
   for (const signer of info.signers) {
     w.pair(T.signer[L], signer.name + (signer.function ? `, ${signer.function}` : "") + (signer.setByArk ? T.setByArk[L] : ""));
     w.pair(T.typed[L], signer.typed);
-    w.pair(T.email[L], signer.email + (signer.byArk ? T.byArk[L] : ""));
+    w.pair((signer.presentBy ? T.emailFirm : T.email)[L], signer.email + (signer.byArk ? T.byArk[L] : ""));
     w.pair(T.at[L], swissDate(signer.at));
-    if (signer.ip) w.pair(T.ip[L], signer.ip);
-    if (signer.userAgent) w.pair(T.userAgent[L], signer.userAgent);
+    if (signer.ip) w.pair((signer.presentBy ? T.ipFirm : T.ip)[L], signer.ip);
+    if (signer.userAgent) w.pair((signer.presentBy ? T.userAgentFirm : T.userAgent)[L], signer.userAgent);
     if (signer.linkRef) w.pair(T.link[L], signer.linkRef);
     if (signer.method) w.pair(T.method[L], T.methods[signer.method][L]);
     if (signer.presentBy) w.text(T.present[L].replace("{name}", signer.presentBy), { bold: true, gap: 4 });

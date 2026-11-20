@@ -18,6 +18,7 @@ import { apiKeys } from "./server/config";
 import { signRequest, verifyStaffRequest } from "./server/signature";
 import { memoryAccess, memoryTracker } from "./server/ports";
 import { signatureHash, signatureId } from "./server/signature-proof";
+import { caseFileName } from "./server/layout";
 import { accessFor, askField, changes, clientCase, confirmSigned, contactOf, createCase, createUpload, deleteUpload, formPdfName, KycError, readPdf, signOnline, loadCase, saveDraft, staffAction, staffCase, submit } from "./server/service";
 import { KycMockStorage, getPorts, setPorts } from "./server/sharepoint";
 import type { Answers } from "./types";
@@ -652,6 +653,83 @@ test("automatic signature: the browser renders the name to the 600x180 PNG the s
   }
 });
 
+test("assistance protections: presence only from the session, image caps, no staff signature over a scan, sign-only session, tamper stops filing", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0014", payloadHash: "h" });
+  const caseId = created.summary.caseId;
+  const contact = { caseId, revision: 1, emailHash: JEAN };
+  const staff = { caseId, revision: 1, emailHash: STAFF_HASH, staffBy: "Samuel Halff" };
+  const two: Answers = {
+    ...pmOp,
+    "i.signers": [row("sgn0001", { lastName: "Dupont", firstName: "Jean", function: "Administrateur", email: "jean@example.ch" }), row("sgn0002", { lastName: "Martin", firstName: "Paul", function: "Administrateur", email: "paul@example.ch" })],
+  };
+  await uploadAll(f, caseId, two);
+  await submit(contact, { answers: two, submitKey: "s14" });
+  const declarationId = (await clientCase(contact)).declarationId;
+  const body = async (extra: Record<string, unknown> = {}) => ({ accept: true, declarationId, method: "auto", signerId: "sgn0002", drawing: await drawing(), ...extra });
+  const refused = (code: string) => (e: unknown) => e instanceof KycError && e.code === code;
+  const unsigned = async () => (await loadCase(caseId)).revisions[0].signers!.every((x) => !x.signature);
+
+  // Image checks, each alone: too many bytes, wrong dimensions, blank, JPEG bytes under a PNG label, JPEG label.
+  const noise = Buffer.alloc(600 * 180 * 4);
+  // Invisible colour noise (alpha 0) plus a real stroke: only its size makes it refused.
+  for (let i = 0; i < noise.length; i++) noise[i] = i % 4 === 3 ? 0 : (i * 2654435761) >>> 24;
+  for (let x = 80; x < 320; x++) for (let y = 65; y < 69; y++) { const at = (y * 600 + x) * 4; noise.set([0, 0, 0, 255], at); }
+  const big = await sharp(noise, { raw: { width: 600, height: 180, channels: 4 } }).png({ compressionLevel: 0 }).toBuffer();
+  await assert.rejects(signOnline(staff, await body({ drawing: `data:image/png;base64,${big.toString("base64")}` })), refused("signature_image"));
+  const wrong = await sharp({ create: { width: 601, height: 180, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 1 } } }).png().toBuffer();
+  await assert.rejects(signOnline(staff, await body({ drawing: `data:image/png;base64,${wrong.toString("base64")}` })), refused("signature_image"));
+  await assert.rejects(signOnline(staff, await body({ drawing: await drawing(false) })), refused("signature_image"));
+  const jpeg = await sharp(Buffer.alloc(600 * 180 * 3, 40), { raw: { width: 600, height: 180, channels: 3 } }).jpeg().toBuffer();
+  await assert.rejects(signOnline(staff, await body({ drawing: `data:image/png;base64,${jpeg.toString("base64")}` })), refused("signature_image"));
+  await assert.rejects(signOnline(staff, await body({ drawing: `data:image/jpeg;base64,${jpeg.toString("base64")}` })), refused("signature_image"));
+  assert.ok(await unsigned(), "no refused image left a signature");
+
+  // « Présent » comes from the session only: a name in the body is ignored.
+  assert.equal((await signOnline(staff, await body({ presentBy: "Mallory", by: "Mallory", staffBy: "Mallory" }))).state, "awaiting_signature");
+  assert.equal((await loadCase(caseId)).revisions[0].signers![1].signature!.presentBy, "Samuel Halff");
+  // The signatory is told at their own address, with the ID.
+  const notice = f.mails.map((m) => m as { to: string[]; html: string }).find((m) => m.to[0] === "paul@example.ch" && m.html.includes("ID de signature"));
+  assert.ok(notice && notice.html.includes(signatureId((await loadCase(caseId)).revisions[0].signers![1].signature!.hash!)));
+
+  // A sign-only session while awaiting signature: signs, never edits.
+  const issued = (await staffAction(caseId, "assist", { by: "Samuel Halff" }, { idempotencyKey: "assist-sign-only", payloadHash: "so" })).assist!;
+  assert.equal((await redeemAssist({ code: issued.code }))?.by, "Samuel Halff");
+  await assert.rejects(saveDraft(staff, { answers: two }), refused("not_editable"));
+  await assert.rejects(createUpload(staff, { kind: "signed", fileName: "s.pdf", size: 1000, mime: "application/pdf" }), refused("not_allowed"));
+
+  // The stored signature is re-derived when the form is filed: an altered time stops it.
+  const record = await loadCase(caseId);
+  const tampered = structuredClone(record);
+  tampered.revisions[0].signers![1].signature!.at = "2026-01-01T00:00:00.000Z";
+  await f.storage.putFile(record.driveId, record.folderId, caseFileName(caseId, !!record.folders), new TextEncoder().encode(JSON.stringify(tampered)), "application/json");
+  await assert.rejects(signOnline(contact, await body({ signerId: undefined })), refused("signature_changed"));
+  await f.storage.putFile(record.driveId, record.folderId, caseFileName(caseId, !!record.folders), new TextEncoder().encode(JSON.stringify(record)), "application/json");
+  assert.equal((await signOnline(contact, await body({ signerId: undefined }))).state, "signed");
+});
+
+test("staff cannot sign once a paper scan was started, nor when the answers' hash is missing", async () => {
+  const f = await fixture();
+  const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0015", payloadHash: "h" });
+  const caseId = created.summary.caseId;
+  const contact = { caseId, revision: 1, emailHash: JEAN };
+  const staff = { caseId, revision: 1, emailHash: STAFF_HASH, staffBy: "Samuel Halff" };
+  await uploadAll(f, caseId, pmOp);
+  await submit(contact, { answers: pmOp });
+  const declarationId = (await clientCase(contact)).declarationId;
+  const signerId = (await clientCase(staff)).signing!.signers[0].id;
+  const attempt = async () => signOnline(staff, { accept: true, declarationId, method: "auto", signerId, drawing: await drawing() });
+  const record = await loadCase(caseId);
+  const put = (r: unknown) => f.storage.putFile(record.driveId, record.folderId, caseFileName(caseId, !!record.folders), new TextEncoder().encode(JSON.stringify(r)), "application/json");
+  const noHash = structuredClone(record);
+  delete (noHash.revisions[0] as { json?: unknown }).json;
+  await put(noHash);
+  await assert.rejects(attempt(), (e: unknown) => e instanceof KycError && e.code === "pdf_not_ready");
+  await put(record);
+  await createUpload(contact, { kind: "signed", fileName: "scan.pdf", size: 1000, mime: "application/pdf" });
+  await assert.rejects(attempt(), (e: unknown) => e instanceof KycError && e.code === "paper_started");
+});
+
 test("addresses given in two steps: both signatories get their request once the second is known", async () => {
   const f = await fixture();
   const created = await createCase(createInput(f.clientFolder), { keyId: "cadence", idempotencyKey: "create-0014", payloadHash: "h" });
@@ -1073,7 +1151,8 @@ test("assist is refused when the revision is not open, and a new link revokes as
   await saveDraft(session, { answers: pmOp });
   await uploadAll(f, caseId, pmOp);
   await submit(session, { answers: pmOp });
-  await assert.rejects(staffAction(caseId, "assist", { by: "Sam" }, { idempotencyKey: "assist-submitted", payloadHash: "x" }), (e: unknown) => e instanceof KycError && e.code === "invalid_state");
+  // Awaiting signature: a sign-only access is allowed (the contact comes to the office to sign).
+  assert.ok((await staffAction(caseId, "assist", { by: "Sam" }, { idempotencyKey: "assist-submitted", payloadHash: "x" })).assist?.code);
   await staffAction(caseId, "close", { expectedRevision: 1 }, { idempotencyKey: "assist-close", payloadHash: "cl" });
   await assert.rejects(staffAction(caseId, "assist", { by: "Sam" }, { idempotencyKey: "assist-closed", payloadHash: "y" }), (e: unknown) => e instanceof KycError && (e.code === "case_closed" || e.code === "invalid_state"));
 });

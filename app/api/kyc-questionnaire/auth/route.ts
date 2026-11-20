@@ -127,7 +127,7 @@ export async function POST(request: Request) {
       if (!assist) return json({ error: "assist_invalid" }, 400);
       const state = await contactOf(assist.caseId);
       if (state.closed) return json({ error: "case_closed" }, 410);
-      if (state.state !== "open" || state.revision !== assist.revision) return json({ error: "assist_invalid" }, 410);
+      if ((state.state !== "open" && state.state !== "awaiting_signature") || state.revision !== assist.revision) return json({ error: "assist_invalid" }, 410);
       const value = await createSession({ caseId: assist.caseId, revision: assist.revision, emailHash: STAFF_HASH, staffBy: assist.by }, { ttlMs: STAFF_SESSION_TTL_MS });
       const response = json({ ok: true, staff: true });
       response.headers.append("Set-Cookie", sessionCookie(value, STAFF_SESSION_TTL_MS / 1000));

@@ -524,7 +524,7 @@ export async function staffAction(
       if (action === "documents") return { summary: summarize(record), replayed: true };
       if (action === "assist") {
         // The secrets are never stored, so a replay issues a fresh access (still single use).
-        const open = !record.closedAt && rev.state === "open";
+        const open = !record.closedAt && (rev.state === "open" || rev.state === "awaiting_signature");
         return { summary: summarize(record), assist: open ? await assistFor(record, rev, body) : undefined, replayed: true };
       }
       const relinkable = action !== "close" && !record.closedAt && (rev.state === "open" || rev.state === "awaiting_signature");
@@ -644,7 +644,8 @@ export async function staffAction(
     }
 
     if (action === "assist") {
-      if (rev.state !== "open") throw new KycError("invalid_state", 409, { state: rev.state });
+      // Open: fill in with the client. Awaiting signature: a sign-only session (the signing rules of the staff role).
+      if (rev.state !== "open" && rev.state !== "awaiting_signature") throw new KycError("invalid_state", 409, { state: rev.state });
       const assist = await assistFor(record, rev, body);
       remember(rev.n);
       await saveCase(record);
@@ -1465,21 +1466,59 @@ export async function signOnline(session: Session, body: { signerId?: unknown; m
     const drawnPng = await checkedDrawing(body.drawing);
     const original = await getPorts().storage.readFile(record.driveId, readableFolderId(record, rev), rev.pdf.name);
     if (!original) throw new KycError("pdf_not_ready", 409);
+    const jsonSha256 = rev.json?.sha256 || "";
+    if (!jsonSha256) throw new KycError("pdf_not_ready", 409);
     const at = now();
     const presentBy = staffSigns ? traceText(session.staffBy || "", 100) || "Ark" : undefined;
     const pdfSha256 = sha256(original);
     // The evidence is saved before the PDF is built: a later failure never asks to sign again.
     pending.signature = { typed: pending.name, email: pending.email || "", at, pdfSha256, drawnPng, method, ...(presentBy ? { presentBy } : {}),
-      hash: signatureHash({ pdfSha256, jsonSha256: rev.json?.sha256 || "", signerId: pending.id, png: drawnPng, at, method, presentBy }),
+      hash: signatureHash({ pdfSha256, jsonSha256, signerId: pending.id, png: drawnPng, at, method, presentBy }),
       ip: isIP(evidence.ip || "") ? evidence.ip : undefined,
       userAgent: traceText(evidence.userAgent || "", 200) || undefined,
       linkRef: staffSigns ? undefined : session.linkRef,
     };
     await saveCase(record);
     await track(record, rev);
+    if (staffSigns) await noticeOfStaffSignature(record, pending);
     if (signers.every((s) => s.signature)) await finishOnline(record, rev);
     return { state: rev.state };
   });
+}
+
+const COPY_MAIL = {
+  fr: {
+    subject: (company: string) => `Votre signature du formulaire KYC – ${company}`,
+    blocks: (name: string, company: string, by: string, id: string) => [
+      `Bonjour ${name},`,
+      `Vous avez signé le formulaire de connaissance du client (KYC) de ${company} sur l'écran d'Ark Fiduciaire SA, en présence de ${by}.`,
+      `ID de signature : ${id}`,
+      "Si vous n'êtes pas à l'origine de cette signature, répondez à ce message.",
+      "Ark Fiduciaire SA",
+    ],
+  },
+  en: {
+    subject: (company: string) => `Your signature of the KYC form – ${company}`,
+    blocks: (name: string, company: string, by: string, id: string) => [
+      `Dear ${name},`,
+      `You signed the know-your-customer (KYC) form of ${company} on the screen of Ark Fiduciaire SA, in the presence of ${by}.`,
+      `Signature ID: ${id}`,
+      "If you did not make this signature, reply to this message.",
+      "Ark Fiduciaire SA",
+    ],
+  },
+} as const;
+
+/** The signatory is told, at their own address, that the firm recorded their signature (ID included). A failure never undoes the signature. */
+async function noticeOfStaffSignature(record: CaseRecord, signer: SignerRecord) {
+  const proof = signer.signature;
+  if (!proof?.hash || !proof.presentBy || !signer.email) return;
+  try {
+    const text = COPY_MAIL[record.language];
+    await getPorts().sendMail({ from: mailSender(), to: [signer.email], cc: [], subject: text.subject(record.displayName), html: plainHtml([...text.blocks(signer.name, record.displayName, proof.presentBy, signatureId(proof.hash))]) });
+  } catch (error) {
+    console.error("kyc signature notice", error instanceof Error ? error.message : "error");
+  }
 }
 
 /** Every signatory has signed: the checked PDF plus the signature page, filed in "Signé". */
@@ -1491,12 +1530,15 @@ async function finishOnline(record: CaseRecord, rev: RevisionRecord) {
   const pdfSha256 = sha256(original);
   // Everyone signed this very document.
   if (signers.some((s) => s.signature?.pdfSha256 !== pdfSha256)) throw new KycError("pdf_changed", 409);
+  const jsonSha256 = rev.json?.sha256 || "";
+  // Each signature is re-derived from what is stored: any stored input altered since signing stops the filing.
+  if (!jsonSha256 || signers.some((s) => !s.signature?.drawnPng || !s.signature.method || s.signature.hash !== signatureHash({ pdfSha256, jsonSha256, signerId: s.id, png: s.signature.drawnPng, at: s.signature.at, method: s.signature.method, presentBy: s.signature.presentBy }))) throw new KycError("signature_changed", 409);
   const signedPdf = await appendOnlineSignatures(original, {
     language: record.language,
     declarationId: rev.declarationId || "",
     signers: signers.map((s) => ({ name: s.name, function: s.function, setByArk: !!s.setBy, typed: s.signature!.typed, email: s.signature!.email, at: s.signature!.at, drawnPng: s.signature!.drawnPng, ip: s.signature!.ip, userAgent: s.signature!.userAgent, linkRef: s.signature!.linkRef, byArk: s.emailBy === "ark", method: s.signature!.method, presentBy: s.signature!.presentBy, hash: s.signature!.hash })),
     pdfSha256,
-    jsonSha256: rev.json?.sha256 || "",
+    jsonSha256,
   });
   const folderId = await signedFolderId(record, rev);
   const fileName = formPdfName(record, rev, record.displayName, "signé en ligne");
