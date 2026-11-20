@@ -63,6 +63,47 @@ export function toWinAnsi(input: string): string {
 
 const str = (v: unknown) => (typeof v === "string" ? v : "");
 
+/** Longest stretch of one unbroken word measured at once: wider than any column, narrow glyphs included. */
+const WORD_HEAD = 400;
+
+export function wrapText(text: string, font: PDFFont, size: number, width: number): string[] {
+  const lines: string[] = [];
+  for (const paragraph of toWinAnsi(text).split("\n")) {
+    let line = "";
+    for (const word of paragraph.split(/ +/)) {
+      const candidate = line ? `${line} ${word}` : word;
+      if (font.widthOfTextAtSize(candidate, size) <= width) {
+        line = candidate;
+        continue;
+      }
+      if (line) lines.push(line);
+      // Break words longer than the column. Only a bounded head of the word is ever measured, and the
+      // cut is found by bisection: the cost is linear in the word's length, whatever its length.
+      let rest = word;
+      while (rest.length > 1 && font.widthOfTextAtSize(rest.slice(0, WORD_HEAD + 1), size) > width) {
+        const head = rest.slice(0, WORD_HEAD);
+        let lo = 1;
+        let hi = head.length;
+        while (lo < hi) {
+          const mid = (lo + hi + 1) >> 1;
+          if (font.widthOfTextAtSize(head.slice(0, mid), size) <= width) lo = mid;
+          else hi = mid - 1;
+        }
+        lines.push(rest.slice(0, lo));
+        rest = rest.slice(lo);
+      }
+      // A word that fits the column on a long run of narrow glyphs is cut every WORD_HEAD characters.
+      while (rest.length > WORD_HEAD) {
+        lines.push(rest.slice(0, WORD_HEAD));
+        rest = rest.slice(WORD_HEAD);
+      }
+      line = rest;
+    }
+    lines.push(line);
+  }
+  return lines;
+}
+
 class Writer {
   page!: PDFPage;
   y = 0;
@@ -88,29 +129,7 @@ class Writer {
     if (this.y - height < MARGIN + FOOTER) this.newPage();
   }
   wrap(text: string, font: PDFFont, size: number, width: number): string[] {
-    const lines: string[] = [];
-    for (const paragraph of toWinAnsi(text).split("\n")) {
-      let line = "";
-      for (const word of paragraph.split(/ +/)) {
-        const candidate = line ? `${line} ${word}` : word;
-        if (font.widthOfTextAtSize(candidate, size) <= width) {
-          line = candidate;
-          continue;
-        }
-        if (line) lines.push(line);
-        // Break words longer than the column.
-        let rest = word;
-        while (font.widthOfTextAtSize(rest, size) > width && rest.length > 1) {
-          let cut = rest.length - 1;
-          while (cut > 1 && font.widthOfTextAtSize(rest.slice(0, cut), size) > width) cut--;
-          lines.push(rest.slice(0, cut));
-          rest = rest.slice(cut);
-        }
-        line = rest;
-      }
-      lines.push(line);
-    }
-    return lines;
+    return wrapText(text, font, size, width);
   }
   text(text: string, opts: { size?: number; font?: PDFFont; color?: ReturnType<typeof rgb>; indent?: number; gapAfter?: number } = {}) {
     const size = opts.size ?? 9.5;
