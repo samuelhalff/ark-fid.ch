@@ -1689,6 +1689,15 @@ async function pdfPages(bytes: Uint8Array) {
 const ACCOUNT = row("acc0001", { bank: "UBS", country: "Suisse", holder: "Anne Martin" });
 const withAccess = (a: Answers): Answers => ({ ...a, "f.bankAccess": "yes", "f.accounts": [{ ...ACCOUNT, access: ["view", "execute"] }] });
 
+test("bank access: « Depuis quel compte ? » is not asked again once the accounts are listed", () => {
+  const funds = { ...pp, "f.funds": "yes", "f.origin": "Vente", "f.amount": "1000.00", "f.currency": "CHF" };
+  assert.ok(isBlockAsked(getField("f.bank")!, { ...funds, "f.bankAccess": "no" }), "no account listed: asked");
+  assert.ok(!isBlockAsked(getField("f.bank")!, { ...funds, "f.bankAccess": "yes" }), "accounts listed: not asked");
+  const listed = pruneHidden({ ...withAccess(funds), "f.bank": "UBS, Suisse, Anne Martin" });
+  assert.equal(listed["f.bank"], undefined, "the duplicate answer goes with the hidden field");
+  assert.deepEqual(validateAll(listed), {}, "complete without it");
+});
+
 test("bank access: asked on every route, its accounts only on « oui », each with its kinds of access", () => {
   for (const a of [pp, pmOp, pmNonOp]) {
     assert.ok(isBlockAsked(getField("f.bankAccess")!, a), `${a.route}: asked`);

@@ -724,7 +724,6 @@ export const STEPS: StepDef[] = [
       { kind: "field", id: "f.amount", type: "money", label: t("Montant", "Amount"), required: true, width: "half", showIf: is("f.funds", "yes") },
       { kind: "field", id: "f.currency", type: "select", label: t("Devise", "Currency"), required: true, width: "half", options: CURRENCIES, showIf: is("f.funds", "yes") },
       { kind: "field", id: "f.currencyOther", type: "text", label: t("Quelle devise ?", "Which currency?"), required: true, width: "half", maxLength: 40, showIf: (a) => a["f.funds"] === "yes" && a["f.currency"] === "other" },
-      { kind: "field", id: "f.bank", type: "text", label: t("Depuis quel compte ?", "From which account?"), help: t("Banque, pays et titulaire.", "Bank, country and account holder."), required: true, maxLength: 450, showIf: is("f.funds", "yes") },
       // A client's own account Ark can reach (power of attorney, signature, e-banking) counts for the
       // LBA even when no money is entrusted (Ricci, 2026-11-17; Sam « Ok mieux », 2026-11-17). A fact only.
       yesNo("f.bankAccess", t("Aurons-nous accès à l'un de vos comptes bancaires (procuration, signature ou e-banking) ?", "Will we have access to one of your bank accounts (power of attorney, signature or e-banking)?")),
@@ -756,6 +755,8 @@ export const STEPS: StepDef[] = [
           },
         ],
       },
+      // Asked only when no account was listed just above: the bank, country and holder are never asked twice.
+      { kind: "field", id: "f.bank", type: "text", label: t("Depuis quel compte ?", "From which account?"), help: t("Banque, pays et titulaire.", "Bank, country and account holder."), required: true, maxLength: 450, showIf: (a) => a["f.funds"] === "yes" && a["f.bankAccess"] !== "yes" },
 
       { kind: "heading", id: "g.heading", section: "G", label: t("Activité prévue", "Expected activity") },
       { kind: "field", id: "g.turnover", type: "money", label: t("Chiffre d’affaires annuel (CHF)", "Annual turnover (CHF)"), help: t("Celui du dernier exercice. Pour une société nouvelle, une estimation suffit.", "The last financial year's. For a new company, an estimate is enough."), width: "half", required: true, showIf: isOp },
