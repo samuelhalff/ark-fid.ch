@@ -125,10 +125,6 @@
         {
           "labelKey": "Odoo Accounting Documentation",
           "url": "https://www.odoo.com/documentation/17.0/applications/finance/accounting.html"
-        },
-        {
-          "labelKey": "Odoo - Documentation officielle",
-          "url": "https://www.odoo.com/documentation"
         }
       ],
       "title": "Plan comptable suisse PME : tendances 2026, plan analytique et pilotage Odoo",
@@ -189,10 +185,6 @@
         {
           "labelKey": "Portail PME de la Confédération",
           "url": "https://www.kmu.admin.ch/fr"
-        },
-        {
-          "labelKey": "Portail PME de la Confédération",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "incorporation",
@@ -221,10 +213,6 @@
         {
           "labelKey": "Portail PME de la Confédération",
           "url": "https://www.kmu.admin.ch/fr"
-        },
-        {
-          "labelKey": "Portail PME de la Confédération",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -296,10 +284,6 @@
         {
           "labelKey": "Portail PME de la Confédération",
           "url": "https://www.kmu.admin.ch/fr"
-        },
-        {
-          "labelKey": "Portail PME de la Confédération",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",

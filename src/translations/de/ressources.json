@@ -158,10 +158,6 @@
         {
           "labelKey": "Portail PME de la Confédération",
           "url": "https://www.kmu.admin.ch/fr"
-        },
-        {
-          "labelKey": "Portail PME de la Confédération",
-          "url": "https://www.kmu.admin.ch/kmu/fr/home.html"
         }
       ],
       "category": "general",
@@ -205,10 +201,6 @@
         {
           "labelKey": "Obligationenrecht (OR)",
           "url": "https://www.fedlex.admin.ch/eli/cc/27/317_321_377/fr"
-        },
-        {
-          "labelKey": "Registre du commerce - Canton de Genève",
-          "url": "https://www.ge.ch/organisation/registre-du-commerce"
         }
       ],
       "category": "corporate",
@@ -235,10 +227,6 @@
         {
           "labelKey": "KMU-Portal – Steuern",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
-        },
-        {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
-          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -264,10 +252,6 @@
         {
           "labelKey": "KMU-Portal – Steuern",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
-        },
-        {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
-          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -292,10 +276,6 @@
         {
           "labelKey": "KMU-Portal – Steuern",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
-        },
-        {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
-          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -322,10 +302,6 @@
         {
           "labelKey": "KMU-Portal – Steuern",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
-        },
-        {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
-          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
@@ -352,10 +328,6 @@
         {
           "labelKey": "KMU-Portal – Steuern",
           "url": "https://www.kmu.admin.ch/fr/la-liste-des-impots-pour-les-entrepreneurs"
-        },
-        {
-          "labelKey": "Impôts - Portail officiel suisse (ch.ch)",
-          "url": "https://www.ch.ch/fr/impots/"
         }
       ],
       "category": "tax",
