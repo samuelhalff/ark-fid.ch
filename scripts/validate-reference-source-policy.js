@@ -23,7 +23,7 @@ const allLocales = flag("--all-locales");
 const locale = value("--locale", "fr");
 const asJson = flag("--json");
 
-const GROUP_SITE_DOMAINS = ["ridger.ch", "switzerlandresidency.ch", "houle.ai"];
+const GROUP_SITE_DOMAINS = ["ridger.ch", "switzerlandresidency.ch", "houle.ai", "guide-assurance.ch"];
 
 function normalizeUrl(raw) {
   if (typeof raw !== "string") return "";
