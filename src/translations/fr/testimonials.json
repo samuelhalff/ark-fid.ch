@@ -6,6 +6,24 @@
     "Anonymous": "Anonyme",
     "List": [
         {
+            "name": "Pierre S.",
+            "rating": 5,
+            "source": "google",
+            "date": "2026-07",
+            "lang": "en",
+            "original": "After two years working with Ark Fiduciaire SA, I can confidently recommend their services. They handled the transfer of my company from my previous fiduciary with professionalism, empathy, and remarkable attention to detail. Throughout the process, they were accommodating, responsive, and genuinely supportive. I am extremely pleased with their service and grateful to have them as a trusted partner.",
+            "testimonial": "Après deux ans de collaboration avec Ark Fiduciaire SA, je recommande leurs services en toute confiance. Ils ont géré le transfert de ma société depuis ma précédente fiduciaire avec professionnalisme, empathie et un souci du détail remarquable. Tout au long du processus, ils se sont montrés arrangeants, réactifs et sincèrement présents. Je suis extrêmement satisfait de leur service et reconnaissant de pouvoir compter sur eux comme partenaire de confiance."
+        },
+        {
+            "name": "Mathis L.",
+            "rating": 5,
+            "source": "google",
+            "date": "2026-10",
+            "lang": "fr",
+            "original": "Une équipe à l’écoute, professionnelle et compétente, qui maîtrise parfaitement son domaine !",
+            "testimonial": "Une équipe à l’écoute, professionnelle et compétente, qui maîtrise parfaitement son domaine !"
+        },
+        {
             "name": "Julien Roques",
             "company": "Florissant 1928 Sàrl",
             "service": "Odoo & ERP",
@@ -22,12 +40,6 @@
             "company": "Austrenis Capital SA",
             "service": "Comptabilité",
             "testimonial": "Nous nous reposons sur Ark pour l'ensemble de notre comptabilité, salaires et notre fiscalité. L'équipe de Ark est toujours disponible et réactive. Nous pouvons nous concentrer pleinement sur notre activité et être confiants que ces tâches sont gérées parfaitement."
-        },
-        {
-            "name": "Pierre Saouter",
-            "company": "Principles Analytics Sàrl",
-            "service": "Comptabilité & Fiscalité",
-            "testimonial": "Ark gère notre comptabilité et nos affaires fiscales avec un professionnalisme remarquable. Leur expertise nous donne une tranquillité d'esprit totale, nous permettant de nous concentrer entièrement sur le développement de notre activité."
         },
         {
             "service": "Comptabilité",
@@ -59,5 +71,13 @@
             "rating": 5,
             "testimonial": "L'implémentation d'Odoo a transformé notre façon de travailler. Processus automatisés, données centralisées et une visibilité en temps réel sur notre activité."
         }
-    ]
+    ],
+    "GoogleSource": "Avis Google",
+    "TranslatedFrom": {
+        "fr": "Traduit du français",
+        "en": "Traduit de l’anglais"
+    },
+    "Original": "Texte original :",
+    "ReadMore": "Lire la suite",
+    "ReadLess": "Réduire"
 }

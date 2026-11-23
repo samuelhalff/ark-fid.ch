@@ -1,0 +1,49 @@
+name: Google rating weekly refresh
+
+# Pulls the firm's real Google rating and review count (Places API, New) into
+# src/data/google-rating.json. Commits only when the file changes; the push (PAT)
+# triggers Build and Deploy. A failed fetch leaves the last good value in place,
+# and the site hides the banner once that value is older than 60 days.
+on:
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: google-rating
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "20.x"
+
+      - name: Fetch rating
+        env:
+          GSC_SA_JSON: ${{ secrets.GSC_SA_JSON }}
+        run: node scripts/fetch-google-rating.mjs
+
+      - name: Commit if changed
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- src/data/google-rating.json; then
+            echo "No change."; exit 0
+          fi
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add src/data/google-rating.json
+          summary=$(node -e 'const d=require("./src/data/google-rating.json");console.log(`${d.rating} / ${d.count} avis`)')
+          git commit -m "chore(avis): note Google mise à jour (${summary})"
+          git push origin HEAD:main

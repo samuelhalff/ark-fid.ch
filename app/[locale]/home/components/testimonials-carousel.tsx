@@ -11,12 +11,24 @@ interface Testimonial {
   service?: string;
   testimonial: string;
   rating?: number;
+  lang?: string;
+  original?: string;
+  sourceLabel?: string;
+  sourceUrl?: string;
+  dateLabel?: string;
+  translationNote?: string;
+  originalLabel?: string;
 }
 
 interface TestimonialsCarouselProps {
   testimonials: Testimonial[];
   anonymousLabel: string;
+  readMore: string;
+  readLess: string;
 }
+
+// Quotes longer than this are clamped to five lines with a toggle; the full text stays in the DOM.
+const CLAMP_AT = 240;
 
 const StarIcon = ({ filled }: { filled: boolean }) => (
   <Star
@@ -74,11 +86,18 @@ function TestimonialCard({
   testimonial,
   anonymousLabel,
   index,
+  readMore,
+  readLess,
 }: {
   testimonial: Testimonial;
   anonymousLabel: string;
   index: number;
+  readMore: string;
+  readLess: string;
 }) {
+  const [expanded, setExpanded] = React.useState(false);
+  const isLong = testimonial.testimonial.length > CLAMP_AT;
+  const quoteId = React.useId();
   const isNamed = !!testimonial.name;
   const authorName = isNamed ? testimonial.name : anonymousLabel;
   const effectiveRating = getEffectiveRating(testimonial);
@@ -119,7 +138,19 @@ function TestimonialCard({
               <cite className="font-semibold text-base text-foreground not-italic block">
                 {authorName}
               </cite>
-              {isNamed && testimonial.company ? (
+              {testimonial.sourceUrl ? (
+                <p className="text-sm text-muted-foreground">
+                  <a
+                    href={testimonial.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-current"
+                  >
+                    {testimonial.sourceLabel}
+                  </a>
+                  {testimonial.dateLabel ? <span> · {testimonial.dateLabel}</span> : null}
+                </p>
+              ) : isNamed && testimonial.company ? (
                 <p className="text-sm text-muted-foreground">
                   {testimonial.company}
                 </p>
@@ -135,8 +166,32 @@ function TestimonialCard({
 
         {/* Testimonial quote */}
         <blockquote className="text-[15px] leading-relaxed text-foreground/80">
-          <p>&quot;{testimonial.testimonial}&quot;</p>
+          <p id={quoteId} className={isLong && !expanded ? "line-clamp-5" : undefined}>
+            &quot;{testimonial.testimonial}&quot;
+          </p>
         </blockquote>
+        {isLong ? (
+          <button
+            type="button"
+            aria-expanded={expanded}
+            aria-controls={quoteId}
+            onClick={() => setExpanded((v) => !v)}
+            className="mt-2 rounded-sm text-sm font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-current focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+          >
+            {expanded ? readLess : readMore}
+          </button>
+        ) : null}
+        {testimonial.translationNote && testimonial.original ? (
+          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+            {testimonial.translationNote}
+            {!isLong || expanded ? (
+              <>
+                {" "}· {testimonial.originalLabel}{" "}
+                <span lang={testimonial.lang}>&quot;{testimonial.original}&quot;</span>
+              </>
+            ) : null}
+          </p>
+        ) : null}
       </figure>
     </article>
   );
@@ -145,6 +200,8 @@ function TestimonialCard({
 export default function TestimonialsCarousel({
   testimonials,
   anonymousLabel,
+  readMore,
+  readLess,
 }: TestimonialsCarouselProps) {
   const interleavedTestimonials = React.useMemo(
     () => interleaveTestimonials(testimonials),
@@ -171,6 +228,8 @@ export default function TestimonialsCarousel({
             testimonial={testimonial}
             anonymousLabel={anonymousLabel}
             index={index}
+            readMore={readMore}
+            readLess={readLess}
           />
         ))}
       </div>

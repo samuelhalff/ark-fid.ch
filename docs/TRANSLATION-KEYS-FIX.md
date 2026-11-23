@@ -389,3 +389,18 @@ Changed values in all locales: `cookie:Text`, `legal:Cookies.Introduction.Conten
 Added in all locales (`fr`, `en`, `de`, `es`, `pt`):
 
 - `navbar:AllServices` — "all services" hub link at the end of the collapsible services list in the mobile menu (`src/components/navigation/ServicesMobile.tsx`).
+
+## Google rating (Nov 2026)
+
+`services:GoogleReviews` now holds only copy; the figures come from `src/data/google-rating.json` (Places API, refreshed weekly by `.github/workflows/google-rating-weekly.yml`, hidden after 60 days without a successful fetch). Rendered by `src/components/ui/google-rating.tsx` under the hero CTAs (home and service pages) and as a pill lower down (`google-reviews-badge.tsx`).
+
+In all locales (`fr`, `en`, `de`, `es`, `pt`):
+
+- `services:GoogleReviews.One` / `.Other` — review count phrase, `{count}` placeholder, chosen with `Intl.PluralRules`.
+- `services:GoogleReviews.AriaLabel` — link label, `{rating}` and `{reviews}` placeholders.
+
+Removed: `services:GoogleReviews.Rating`, `.Count`, `.Label`, `.CTA` (the hardcoded "30+" was never shown and is gone).
+
+## Google reviews in the testimonials carousel (Nov 2026)
+
+Two verbatim Google reviews at the top of `testimonials:List` in all locales: Pierre S. (Jul 2026, written in English; replaces the earlier paraphrased « Pierre Saouter » entry) and Mathis L. (Oct 2026, written in French). Fields: `source: "google"`, `date` (YYYY-MM), `lang`, `original`. In other languages the card shows the translation plus « translated from … · original: "…" »; quotes over 240 characters are clamped to five lines with a toggle. New keys in all locales: `testimonials:GoogleSource`, `testimonials:TranslatedFrom.fr` / `.en`, `testimonials:Original`, `testimonials:ReadMore`, `testimonials:ReadLess`.

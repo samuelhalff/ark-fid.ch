@@ -60,9 +60,8 @@
     "TrustLine": ""
   },
   "GoogleReviews": {
-    "Rating": "5.0",
-    "Count": "30+",
-    "Label": "avaliações Google",
-    "CTA": "Ver nossas avaliações"
+    "One": "{count} avaliação no Google",
+    "Other": "{count} avaliações no Google",
+    "AriaLabel": "Classificação de {rating} em 5 no Google ({reviews}). Abre o nosso perfil Google num novo separador."
   }
 }

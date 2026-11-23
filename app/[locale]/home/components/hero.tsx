@@ -5,6 +5,7 @@ import TrackedLink from "@/src/components/ui/tracked-link";
 // import { useTranslation } from "react-i18next";
 // import "@/src/i18n";
 import { splitTitle } from "@/src/lib/typography";
+import GoogleRating from "@/src/components/ui/google-rating";
 
 interface HeroFact {
   label: string;
@@ -79,6 +80,8 @@ const Hero = ({ locale, heroIndex, translations, facts }: HeroProps) => {
               </Button>
             </Link>
           </div>
+
+          <GoogleRating locale={currentLocale} className="mt-6" />
 
           {facts && facts.length > 0 && (
             <div className="mt-16 border-t border-border/50 pt-10 grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-10">

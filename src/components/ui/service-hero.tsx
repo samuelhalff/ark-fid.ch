@@ -3,6 +3,7 @@ import Image from "next/image";
 import TrackedLink from "@/src/components/ui/tracked-link";
 import { getTranslations, type Locale } from "@/src/lib/i18n";
 import { tidyTitle, splitTitle } from "@/src/lib/typography";
+import GoogleRating from "@/src/components/ui/google-rating";
 
 interface ServiceHeroProps {
   namespace: string;
@@ -103,6 +104,7 @@ const ServiceHero = async ({
               </Button>
             </TrackedLink>
           </div>
+          <GoogleRating locale={currentLocale} className="mt-6" />
           {/* Inline Odoo partner branding for accounting only (reverted position) */}
           {namespace === "accounting" && (
             <div className="mt-8">

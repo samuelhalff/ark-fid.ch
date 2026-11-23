@@ -60,9 +60,8 @@
     "TrustLine": ""
   },
   "GoogleReviews": {
-    "Rating": "5.0",
-    "Count": "30+",
-    "Label": "Google-Bewertungen",
-    "CTA": "Bewertungen ansehen"
+    "One": "{count} Google-Bewertung",
+    "Other": "{count} Google-Bewertungen",
+    "AriaLabel": "Auf Google mit {rating} von 5 bewertet ({reviews}). Öffnet unser Google-Profil in einem neuen Tab."
   }
 }
