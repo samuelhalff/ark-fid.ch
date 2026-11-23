@@ -131,5 +131,30 @@
                 ]
             }
         ]
+    },
+    "Faq": {
+        "Title": "Questions fréquentes",
+        "Questions": [
+            {
+                "Question": "Que comprend l'administration corporate d'une société ?",
+                "Answer": "Nous vous accompagnons de la constitution à la gestion quotidienne, en passant par les modifications statutaires et les liquidations. Nous documentons les décisions, tenons les registres à jour et préparons des procès-verbaux clairs."
+            },
+            {
+                "Question": "Pouvez-vous organiser nos assemblées générales et conseils d'administration ?",
+                "Answer": "Oui, nous organisons et documentons les assemblées du conseil et les assemblées générales, avec des procès-verbaux clairs pour des audits sans friction."
+            },
+            {
+                "Question": "Gérez-vous les modifications de statuts ?",
+                "Answer": "Oui, nous gérons de façon professionnelle toutes les modifications de structure de la société, dans le respect du Code des obligations et des exigences du registre du commerce."
+            },
+            {
+                "Question": "Pour quelles sociétés intervenez-vous ?",
+                "Answer": "Nous travaillons avec des PME, des groupes internationaux, des holdings et des filiales à Genève, à Lausanne et en Suisse romande."
+            },
+            {
+                "Question": "Aurai-je un interlocuteur dédié ?",
+                "Answer": "Oui, une personne de contact dédiée vous accompagne à chaque étape. Chaque mission débute par un court diagnostic, puis par un plan d'action écrit."
+            }
+        ]
     }
 }

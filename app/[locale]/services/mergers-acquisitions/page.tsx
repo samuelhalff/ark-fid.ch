@@ -1,3 +1,4 @@
+import PageFaq from "@/src/components/site/page-faq";
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import StructuredData from "@/src/components/seo/StructuredData";
@@ -112,6 +113,7 @@ const MAServicesPage = async (props: { params: Promise<{ locale: string }> }) =>
         </ol>
       </nav>
       <Presentation />
+      <PageFaq locale={params.locale as Locale} ns="mna" />
     </div>
   );
 };

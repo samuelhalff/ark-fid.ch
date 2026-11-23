@@ -97,16 +97,45 @@
             "LinkLabel": "Entdecken Sie unseren Payroll-Service."
         }
     },
-  "TypicalSituations": {
-    "Cases": [
-      {
-        "Situation": "Der interne Buchhalter eines KMU geht in Pension; niemand möchte die Lohnabrechnung und die Fakturierung übernehmen.",
-        "WhatWeDo": "Schrittweise Übernahme von Buchhaltung, Lohnbuchhaltung, Fakturierung und MWST mit einfachen SLA und einem monatlichen Austausch mit der Geschäftsleitung."
-      },
-      {
-        "Situation": "Ein internationales Unternehmen hat eine kleine Präsenz in Genf und möchte kein lokales Verwaltungsteam einstellen.",
-        "WhatWeDo": "Ausgelagertes Back-Office: Buchhaltung, Lohnbuchhaltung und Sozialversicherungen, Fakturierung, MWST und administrative Betreuung."
-      }
-    ]
-  }
+    "TypicalSituations": {
+        "Cases": [
+            {
+                "Situation": "Der interne Buchhalter eines KMU geht in Pension; niemand möchte die Lohnabrechnung und die Fakturierung übernehmen.",
+                "WhatWeDo": "Schrittweise Übernahme von Buchhaltung, Lohnbuchhaltung, Fakturierung und MWST mit einfachen SLA und einem monatlichen Austausch mit der Geschäftsleitung."
+            },
+            {
+                "Situation": "Ein internationales Unternehmen hat eine kleine Präsenz in Genf und möchte kein lokales Verwaltungsteam einstellen.",
+                "WhatWeDo": "Ausgelagertes Back-Office: Buchhaltung, Lohnbuchhaltung und Sozialversicherungen, Fakturierung, MWST und administrative Betreuung."
+            }
+        ]
+    },
+    "Faq": {
+        "Title": "Häufige Fragen",
+        "Questions": [
+            {
+                "Question": "Welche Aufgaben kann ich an eine Treuhandgesellschaft auslagern?",
+                "Answer": "Sie können die laufende Buchhaltung, Lieferantenrechnungen, Spesenabrechnungen, die Lohnbuchhaltung, Mahnungen, administrative Dokumente, das Reporting und die Koordination mit Ihren Partnern delegieren. Der Umfang wird dokumentiert, um Grauzonen zu vermeiden."
+            },
+            {
+                "Question": "Was kostet die Auslagerung des Backoffice?",
+                "Answer": "Die Kosten hängen vom Transaktionsvolumen, der Zahl der Ansprechpartner, den Tools, der Reporting-Häufigkeit und dem Koordinationsaufwand ab. Mit unserer Online-Sofortofferte erhalten Sie sofort und unverbindlich eine Schätzung, den Preis legen wir danach in einem schriftlichen Angebot fest."
+            },
+            {
+                "Question": "Wie lagere ich die Lohnbuchhaltung in Genf oder Lausanne aus?",
+                "Answer": "Wir decken den gesamten Lohnzyklus ab: monatliche Lohnabrechnungen, Meldungen an AHV, BVG, UVG und Familienzulagen, Quellensteuer, jährliche Lohnausweise und elektronische Übermittlungen."
+            },
+            {
+                "Question": "Wie läuft die Übernahme meiner Buchhaltung ab?",
+                "Answer": "Wir analysieren den Ist-Zustand, übernehmen die Salden und die Historie, richten den Kontenplan ein und definieren die Dokumentenflüsse. Vor der vollständigen Umstellung läuft eine kurze Parallelphase, und Sie bleiben Eigentümer Ihrer Daten."
+            },
+            {
+                "Question": "Arbeiten Sie mit Odoo oder mit meinen eigenen Tools?",
+                "Answer": "Wir arbeiten vorrangig mit Odoo, auf das wir spezialisiert sind. Wenn Sie bereits ein anderes Tool nutzen, können wir direkt in Ihrer bestehenden Umgebung arbeiten."
+            },
+            {
+                "Question": "Sind Sie auch ausserhalb von Genf tätig?",
+                "Answer": "Ja. Von unserem Büro in Genf aus betreuen wir Unternehmen in Lausanne, im Kanton Waadt und in der Westschweiz, aus der Ferne über sichere Kanäle oder vor Ort, je nach Bedarf."
+            }
+        ]
+    }
 }

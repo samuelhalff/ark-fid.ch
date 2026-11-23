@@ -66,5 +66,26 @@
         "CallToAction": "Contáctanos para discutir cómo podemos colaborar para servir mejor a nuestros clientes.",
         "ButtonText": "Contáctanos",
         "SecondaryButtonText": "Obtenga un presupuesto instantáneo"
+    },
+    "Faq": {
+        "Title": "Preguntas frecuentes",
+        "Questions": [
+            {
+                "Question": "¿Con qué socios colabora Ark Fiduciaire?",
+                "Answer": "Colaboramos con PBM Avocats, un despacho de abogados especializado en derecho mercantil y gobierno corporativo, y con HelveBroker, una correduría de seguros."
+            },
+            {
+                "Question": "¿Por qué trabajar con socios?",
+                "Answer": "Nuestras alianzas nos permiten cubrir todas sus necesidades, acceder a experiencia especializada y ofrecer una derivación de clientes y una colaboración fluidas."
+            },
+            {
+                "Question": "¿Quién se ocupa del asesoramiento jurídico y de los seguros?",
+                "Answer": "El asesoramiento jurídico pasa por nuestros abogados asociados, entre ellos PBM Avocats. Los seguros y la evaluación de riesgos pasan por HelveBroker."
+            },
+            {
+                "Question": "¿Puedo ser socio de Ark Fiduciaire?",
+                "Answer": "Sí, la página está abierta a oportunidades de colaboración: escríbanos a través de la página de contacto para hablarlo."
+            }
+        ]
     }
 }

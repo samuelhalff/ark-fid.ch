@@ -111,5 +111,34 @@
         "WhatWeDo": "Professionelle Sitzadresse im Handelsregister, Entgegennahme und Digitalisierung der Post, administrative Unterstützung und bei Bedarf Sitzungsräume zur Miete."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Häufige Fragen",
+    "Questions": [
+      {
+        "Question": "Was ist eine Firmendomizilierung in Genf?",
+        "Answer": "Dabei legen Sie den rechtlichen Sitz Ihrer Gesellschaft an einer anerkannten Geschäftsadresse fest, ohne eigene Büros zu mieten. Sie umfasst die im Handelsregister eingetragene Adresse, den Empfang, das Einscannen und die Weiterleitung der Post sowie administrative Unterstützung."
+      },
+      {
+        "Question": "Was kostet eine Firmendomizilierung in Genf?",
+        "Answer": "Der Preis hängt von den enthaltenen Leistungen (reine Sitzadresse oder Komplettservice), dem Postvolumen, der Komplexität der Struktur und den zugehörigen Treuhanddienstleistungen ab. Wir erstellen eine transparente Offerte und senden Ihnen innerhalb von 24 Arbeitsstunden ein detailliertes Angebot."
+      },
+      {
+        "Question": "Wie lautet die Domiziladresse und wie wird die Post behandelt?",
+        "Answer": "Wir domizilieren Ihre Gesellschaft am Boulevard Georges Favon 26 in Genf. Die Post wird am selben Tag eingescannt und nach Ihren Vorgaben weitergeleitet, mit einer einfachen monatlichen Übersicht."
+      },
+      {
+        "Question": "Bieten Sie eine Domizilierung in Lausanne oder im Kanton Waadt an?",
+        "Answer": "Unser Büro befindet sich in Genf, wir begleiten aber auch Unternehmen, die in Lausanne und im Kanton Waadt tätig sind, zum Beispiel mit einem Sitz in Genf und Postbearbeitung aus der Ferne oder bei einer Sitzverlegung von einem Kanton in einen anderen."
+      },
+      {
+        "Question": "Genügt eine Domizilierung, wenn meine Tätigkeit Substanz erfordert?",
+        "Answer": "Nein. Die Domizilierung ersetzt keine operative Präsenz, wenn die Situation echte wirtschaftliche Substanz verlangt, etwa bei bestimmten regulierten Tätigkeiten. Wir besprechen das offen, bevor wir ein Mandat annehmen."
+      },
+      {
+        "Question": "Was brauche ich, um meine Gesellschaft bei Ihnen zu domizilieren?",
+        "Answer": "Wir prüfen Identität, Struktur, Tätigkeit, wirtschaftlich Berechtigte und Postbedarf, bevor wir das Mandat bestätigen. Nach Unterzeichnung des Domizilvertrags stellen wir die Bestätigung für das Handelsregister aus."
+      }
+    ]
   }
 }

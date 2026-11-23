@@ -114,5 +114,30 @@
         ]
       }
     ]
+  },
+  "Faq": {
+    "Title": "Frequently asked questions",
+    "Questions": [
+      {
+        "Question": "Which residence and work permits can you coordinate?",
+        "Answer": "We coordinate L, B, C and G permits as well as ANobAG files, with the cantonal authorities and the social insurance funds."
+      },
+      {
+        "Question": "How do I get a work permit in Geneva?",
+        "Answer": "We start by analysing your status (EU/EFTA or third country) and your options, then we prepare and check the documents in the file to limit requests for corrections from the authorities."
+      },
+      {
+        "Question": "How much does a permit file cost?",
+        "Answer": "Costs depend on the complexity, the volume of work and the level of coordination required, and we clarify them from the start. We first assess your situation to avoid unnecessary fees."
+      },
+      {
+        "Question": "Do you also help me settle in when I arrive?",
+        "Answer": "Yes, we support the administrative steps on arrival, such as your address, insurance and bank."
+      },
+      {
+        "Question": "Do you handle renewals and changes of employer?",
+        "Answer": "Yes, our follow-up after arrival covers renewals, changes of employer and setting up a company."
+      }
+    ]
   }
 }

@@ -106,5 +106,30 @@
         ]
       }
     ]
+  },
+  "Faq": {
+    "Title": "Questions fréquentes",
+    "Questions": [
+      {
+        "Question": "Quels permis de séjour et de travail pouvez-vous coordonner ?",
+        "Answer": "Nous coordonnons les permis L, B, C et G ainsi que les dossiers ANobAG, avec les autorités cantonales et les caisses sociales."
+      },
+      {
+        "Question": "Comment obtenir un permis de travail à Genève ?",
+        "Answer": "Nous commençons par analyser votre statut (UE/AELE ou pays tiers) et vos options, puis nous préparons et vérifions les pièces du dossier pour limiter les retours des autorités."
+      },
+      {
+        "Question": "Combien coûte un dossier de permis ?",
+        "Answer": "Les coûts dépendent de la complexité, du volume d'opérations et du niveau de coordination requis, et nous les clarifions dès le début. Nous évaluons d'abord votre situation pour éviter des frais inutiles."
+      },
+      {
+        "Question": "M'aidez-vous aussi à m'installer à mon arrivée ?",
+        "Answer": "Oui, nous accompagnons les démarches administratives à l'arrivée, comme l'adresse, les assurances et la banque."
+      },
+      {
+        "Question": "Gérez-vous les renouvellements et les changements d'employeur ?",
+        "Answer": "Oui, notre suivi après l'arrivée couvre les renouvellements, les changements d'employeur et la création de société."
+      }
+    ]
   }
 }

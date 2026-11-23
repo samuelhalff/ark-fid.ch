@@ -1,3 +1,4 @@
+import PageFaq from "@/src/components/site/page-faq";
 import { Metadata } from "next";
 import Image from "next/image";
 import ImageWithFallback from "@/src/components/ui/image-with-fallback";
@@ -34,10 +35,30 @@ export async function generateMetadata(
   const params = await props.params;
   const member = findMemberBySlug(params.slug);
   const name = member?.name ?? "Team Member";
-  const title = `${name} — Ark Fiduciaire`;
+  // Localized role and short bio (team.json, team-bios.json); the bio is cut
+  // at a sentence end to stay within the ~155 characters Google displays.
+  const tTeam = await getTranslations(params.locale as Locale, "team");
+  const tBiosMeta = await getTranslations(params.locale as Locale, "team-bios");
+  const roleKey = member ? `Role.${member.role}` : "";
+  const roleRaw = roleKey ? (tTeam(roleKey) as string) : "";
+  const role = roleRaw && roleRaw !== roleKey ? roleRaw : member?.role ?? "";
+  const bioKey = `Bios.${params.slug}.short`;
+  const bioRaw = tBiosMeta(bioKey) as string;
+  const bio = (bioRaw && bioRaw !== bioKey ? bioRaw : member?.bioShort ?? "").replace(/\s+/g, " ").trim();
+  const fitBio = (text: string, max: number) => {
+    if (text.length <= max) return text;
+    const sentences = text.match(/[^.!?]+[.!?]+/g) ?? [];
+    let out = "";
+    for (const sentence of sentences) {
+      if ((out + sentence).trim().length > max) break;
+      out += sentence;
+    }
+    return out.trim() || text.slice(0, max).replace(/\s+\S*$/, "");
+  };
+  const title = role ? `${name}, ${role} | Ark Fiduciaire` : `${name} | Ark Fiduciaire`;
   const description = member
-    ? `${name} — ${member.role} at Ark Fiduciaire.`
-    : "Ark Fiduciaire team member.";
+    ? fitBio(`${role ? `${name}, ${role}. ` : ""}${bio}`, 155)
+    : "Ark Fiduciaire";
   // Start from base page metadata to ensure canonical, alternates (hreflang) and robots are present
   const base = await getPageMetadata(
     params.locale as Locale,
@@ -339,6 +360,7 @@ export default async function TeamMemberPage(props: { params: Promise<Params> })
           : pbm.law
         </p>
       ) : null}
+      <PageFaq locale={params.locale as Locale} ns="team" memberSlug={params.slug} />
     </div>
   );
 }

@@ -108,5 +108,34 @@
         "WhatWeDo": "Back-office externalisé : comptabilité, paie et assurances sociales, facturation, TVA et suivi administratif."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Questions fréquentes",
+    "Questions": [
+      {
+        "Question": "Quelles tâches peut-on externaliser à une fiduciaire ?",
+        "Answer": "Vous pouvez déléguer la comptabilité courante, les factures fournisseurs, les notes de frais, la paie, les relances, les documents administratifs, le reporting et la coordination avec vos partenaires. Le périmètre est documenté pour éviter les zones grises."
+      },
+      {
+        "Question": "Combien coûte l'externalisation du back-office ?",
+        "Answer": "Le coût dépend du volume de transactions, du nombre d'interlocuteurs, des outils, de la fréquence de reporting et du niveau de coordination. Vous pouvez obtenir une estimation immédiate et sans engagement avec notre devis instantané en ligne, puis nous précisons le tarif dans une proposition écrite."
+      },
+      {
+        "Question": "Comment externaliser la paie à Genève ou à Lausanne ?",
+        "Answer": "Nous couvrons tout le cycle salarial : bulletins mensuels, déclarations AVS, LPP, LAA et allocations familiales, impôt à la source, certificats de salaire annuels et transmissions électroniques."
+      },
+      {
+        "Question": "Comment se passe la reprise de ma comptabilité ?",
+        "Answer": "Nous analysons l'existant, reprenons les soldes et l'historique, paramétrons le plan comptable et définissons les flux de documents. Une courte période de fonctionnement en parallèle précède la bascule complète, et vous restez propriétaire de vos données."
+      },
+      {
+        "Question": "Travaillez-vous avec Odoo ou avec mes propres outils ?",
+        "Answer": "Nous travaillons en priorité sur Odoo, dont nous sommes spécialistes. Si vous utilisez déjà un autre outil, nous pouvons intervenir directement dans votre environnement existant."
+      },
+      {
+        "Question": "Intervenez-vous en dehors de Genève ?",
+        "Answer": "Oui, depuis notre bureau de Genève nous servons des entreprises à Lausanne, dans le canton de Vaud et en Suisse romande, à distance par des canaux sécurisés ou sur site selon vos besoins."
+      }
+    ]
   }
 }

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * SEO Validation Script (Non-blocking)
- * Validates sitemap format and URL consistency
- * Always exits with code 0 to not block CI
+ * SEO validation (blocking): configuration checks that must hold before a
+ * merge. Exit code 1 on any error. The rendered HTML is checked after each
+ * deploy by scripts/check-rendered-seo.mjs.
  */
 
 const fs = require('fs');
@@ -76,15 +76,33 @@ function checkSitemapRoute() {
   }
 }
 
+function checkCrawlerConfig() {
+  const read = (f) => fs.readFileSync(path.join(process.cwd(), f), 'utf8');
+  const config = read('next.config.js');
+  if (/htmlLimitedBots:\s*\/\.\*\//.test(config)) success('Metadata rendered in <head> for every client (htmlLimitedBots)');
+  else error('next.config.js: htmlLimitedBots must be /.*/ so crawlers get metadata in <head>');
+  const assetsBlock = config.match(/source:\s*"\/assets\/:path\*"[\s\S]*?\]\s*,\s*\}/);
+  if (assetsBlock && /noindex/.test(assetsBlock[0])) error('next.config.js: /assets must stay indexable (logo, share images)');
+  else success('/assets served without noindex');
+  const robots = read('public/robots.txt');
+  if (/^Disallow:\s*\/_next\//m.test(robots)) error('robots.txt blocks /_next/ (Googlebot needs CSS and JS to render)');
+  else success('robots.txt does not block /_next/');
+  if (!/User-agent:\s*ClaudeBot/.test(robots) || !/User-agent:\s*PerplexityBot/.test(robots)) error('robots.txt: AI crawler group missing');
+  else success('robots.txt names the AI crawlers');
+  const sitemap = read('app/sitemap.xml/route.ts');
+  if (/<changefreq>|<priority>/.test(sitemap)) error('sitemap: remove changefreq/priority');
+  else success('sitemap: loc + lastmod + alternates only');
+}
+
 // Main
 console.log('\n🔍 SEO Configuration Validation\n');
 console.log('='.repeat(50));
 
 checkTrailingSlashConfig();
 checkSitemapRoute();
+checkCrawlerConfig();
 
 console.log('='.repeat(50));
 console.log(`\nSummary: ${errors} errors, ${warnings} warnings\n`);
 
-// Always exit 0 to not block CI
-process.exit(0);
+process.exit(errors > 0 ? 1 : 0);

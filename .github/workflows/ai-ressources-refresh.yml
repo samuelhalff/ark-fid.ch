@@ -143,12 +143,6 @@ jobs:
           SEO_MAX_WORDS: "2800"
         run: timeout -k 30s 7m node scripts/refresh-next-article.js --finalize
 
-      - name: Ping sitemaps
-        if: steps.finalize.outputs.status == 'done'
-        continue-on-error: true
-        timeout-minutes: 3
-        run: timeout -k 30s 3m node scripts/ping-sitemaps.js
-
       - name: Submit refreshed article to IndexNow
         if: steps.finalize.outputs.status == 'done'
         continue-on-error: true

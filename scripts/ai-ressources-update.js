@@ -541,6 +541,8 @@ function buildSystemPrompt(frJson, trendData = null, topicAnalysis = null) {
     '    "slug": "<slug-unique-fr>",',
     '    "title": "<titre FR>",',
     '    "description": "<description FR>",',
+    '    "metaTitle": "<titre pour Google, 60 caractères au plus, mot-clé principal au début, sans le nom du cabinet>",',
+    '    "metaDescription": "<description pour Google, entre 120 et 155 caractères, phrase naturelle>",',
     '    "content": "<contenu FR complet (Markdown autorisé)>",',
     '    "author": "Ark Fiduciaire",',
     '    "date": "YYYY-MM-DD",',
@@ -555,10 +557,25 @@ function buildSystemPrompt(frJson, trendData = null, topicAnalysis = null) {
   ].join("\n");
 }
 
+/**
+ * SERP title/description written by the model, kept only within Google's
+ * display limits (60 / 155 characters); otherwise the page falls back to the
+ * article title and description.
+ */
+function seoMetaFields(article) {
+  const out = {};
+  const title = typeof article?.metaTitle === "string" ? article.metaTitle.trim() : "";
+  const description = typeof article?.metaDescription === "string" ? article.metaDescription.trim() : "";
+  if (title && title.length <= 60) out.metaTitle = title;
+  if (description && description.length <= 155) out.metaDescription = description;
+  return out;
+}
+
 function buildTranslatePrompt(newArticle, newLabels, locales = LOCALES) {
   const list = locales.join(", ");
   return [
     "Tu es traducteur professionnel. Traduis les champs ci-dessous en conservant les structures, slugs, URLs et clés.",
+    "La section « ## Questions fréquentes » devient « ## Frequently asked questions » (en), « ## Häufige Fragen » (de), « ## Preguntas frecuentes » (es), « ## Perguntas frequentes » (pt); garde chaque question en « ### … ? ».",
     'Respecte les minuscules/majuscules d\'origine et garde "Ark Fiduciaire" tel quel.',
     "Fourni uniquement le JSON demandé, sans commentaire.",
     `IMPORTANT: Chaque locale (${list}) doit être traduite, et uniquement ces locales. Ne retourne jamais le texte français pour une autre langue.`,
@@ -567,7 +584,7 @@ function buildTranslatePrompt(newArticle, newLabels, locales = LOCALES) {
     "{",
     ...locales.map((locale, i) =>
       i === 0
-        ? `  "${locale}": { "Article": { "title": "...", "description": "...", "content": "..." }, "labels": { "Libellé FR": "Traduction" } }${i < locales.length - 1 ? "," : ""}`
+        ? `  "${locale}": { "Article": { "title": "...", "description": "...", "metaTitle": "... (60 caractères au plus)", "metaDescription": "... (155 caractères au plus)", "content": "..." }, "labels": { "Libellé FR": "Traduction" } }${i < locales.length - 1 ? "," : ""}`
         : `  "${locale}": { "Article": { ... }, "labels": { ... } }${i < locales.length - 1 ? "," : ""}`,
     ),
     "}",
@@ -736,7 +753,7 @@ function buildDraftPromptFromResearch(research, validatedReferences) {
     "- Titres: utilise ## pour H2 et ### pour H3, sans préfixer les titres par « H2 » ou « H3 ».",
     "- Utilise exactement le slug, titre et description fournis.",
     "",
-    "Plan indicatif (adapte-le au sujet ; pas de FAQ si elle n'apporte rien, au plus 3 questions):",
+    "Plan indicatif (adapte-le au sujet ; termine par la section « ## Questions fréquentes » décrite dans les règles):",
     JSON.stringify(research.outline || [], null, 2),
     "",
     "Références disponibles (ne pas modifier, ne pas ajouter):",
@@ -1387,7 +1404,7 @@ function buildDraftAppendPromptFromExistingArticle(
     "IMPORTANT:",
     "- Ne modifie pas le texte existant: tu ajoutes uniquement de nouvelles sections à la fin.",
     "- Ajoute les sections H2 que le sujet exige encore (H3 si utile), sans remplissage.",
-    "- Tableau ou checklist uniquement s'ils apportent une information que le texte n'exprime pas mieux. Pas de FAQ ajoutée pour faire du volume (3 questions réelles au plus au total).",
+    "- Tableau ou checklist uniquement s'ils apportent une information que le texte n'exprime pas mieux. Ne crée pas de seconde section « Questions fréquentes » si l'article en a déjà une.",
     "- Aucune anecdote, aucun cas client, aucun chiffre qui ne soit pas sourcé (références de l'article) ou légal. Exemple chiffré seulement s'il est signalé « Exemple fictif ».",
     "- N'inclus AUCUNE URL dans le texte (pas de http/https).",
     "- Quand tu cites une source, écris seulement (source: <labelKey>) et utilise uniquement des labelKey déjà présents dans les références de l'article.",
@@ -2661,6 +2678,12 @@ async function generateArticleWithRetries(
       validateNewArticle(frData, newArticle);
       enforceTopicRotation(frData, newArticle, topicAnalysis);
       normalizeArticleDates(newArticle);
+      {
+        const meta = seoMetaFields(newArticle);
+        delete newArticle.metaTitle;
+        delete newArticle.metaDescription;
+        Object.assign(newArticle, meta);
+      }
       return { newArticle, newLabels, trendData };
     } catch (error) {
       lastError = error;
@@ -3298,6 +3321,12 @@ async function main() {
   normalizeMarkdownHeadings(newArticle);
   normalizeArticleUiLabelsInPlace(newArticle, frData.ArticleUiLabels);
   normalizeArticleDates(newArticle);
+      {
+        const meta = seoMetaFields(newArticle);
+        delete newArticle.metaTitle;
+        delete newArticle.metaDescription;
+        Object.assign(newArticle, meta);
+      }
   logArticleMetrics(newArticle, "FR");
 
   if (DRY || !APPLY) {
@@ -3355,6 +3384,7 @@ async function main() {
       slug: newArticle.slug,
       title: articleTr.title,
       description: articleTr.description,
+      ...seoMetaFields(articleTr),
       content: articleTr.content,
       author: newArticle.author,
       date: newArticle.date,

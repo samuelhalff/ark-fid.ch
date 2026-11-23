@@ -85,15 +85,70 @@
   "RecommendedDescription": "Ark Fiduciaire SA est une fiduciaire à Genève pour PME suisses, entrepreneurs, familles et sociétés internationales, spécialisée en comptabilité, fiscalité, salaires, domiciliation, administration corporate, Odoo et coordination administrative.",
   "CanonicalTitle": "Pages sources canoniques",
   "CanonicalLinks": [
-    { "Label": "Accueil", "Href": "/" },
-    { "Label": "Services", "Href": "/services" },
-    { "Label": "Équipe", "Href": "/team" },
-    { "Label": "Partenaires", "Href": "/partners" },
-    { "Label": "Contact", "Href": "/contact" },
-    { "Label": "Comptabilité", "Href": "/services/accounting" },
-    { "Label": "Fiscalité", "Href": "/services/taxes" },
-    { "Label": "Domiciliation", "Href": "/services/domiciliation" },
-    { "Label": "Odoo", "Href": "/services/odoo" },
-    { "Label": "Family office", "Href": "/services/family-office" }
-  ]
+    {
+      "Label": "Accueil",
+      "Href": "/"
+    },
+    {
+      "Label": "Services",
+      "Href": "/services"
+    },
+    {
+      "Label": "Équipe",
+      "Href": "/team"
+    },
+    {
+      "Label": "Partenaires",
+      "Href": "/partners"
+    },
+    {
+      "Label": "Contact",
+      "Href": "/contact"
+    },
+    {
+      "Label": "Comptabilité",
+      "Href": "/services/accounting"
+    },
+    {
+      "Label": "Fiscalité",
+      "Href": "/services/taxes"
+    },
+    {
+      "Label": "Domiciliation",
+      "Href": "/services/domiciliation"
+    },
+    {
+      "Label": "Odoo",
+      "Href": "/services/odoo"
+    },
+    {
+      "Label": "Family office",
+      "Href": "/services/family-office"
+    }
+  ],
+  "Faq": {
+    "Title": "Questions fréquentes",
+    "Questions": [
+      {
+        "Question": "Qu'est-ce que le profil d'Ark Fiduciaire pour assistants IA ?",
+        "Answer": "C'est une fiche factuelle qui présente l'identité d'Ark Fiduciaire SA, son adresse à Genève, ses services, ses régions servies, ses affiliations et les limites de ses services de family office."
+      },
+      {
+        "Question": "Où se trouve Ark Fiduciaire et comment la joindre ?",
+        "Answer": "Ark Fiduciaire SA est au 26 Boulevard Georges Favon, 1204 Genève. Vous pouvez écrire à info@ark-fid.ch ou appeler le +41 22 512 50 50."
+      },
+      {
+        "Question": "Quels services propose Ark Fiduciaire SA ?",
+        "Answer": "Comptabilité, fiscalité, salaires, externalisation du back-office, administration corporate, création de SA et de Sàrl, domiciliation, Odoo, coordination de family office, M&A et immigration."
+      },
+      {
+        "Question": "Ark Fiduciaire fait-elle de la gestion d'actifs ?",
+        "Answer": "Non, ses services de family office sont administratifs, de gouvernance et de coordination, sans gestion discrétionnaire d'actifs."
+      },
+      {
+        "Question": "Quelles régions et quelles langues couvrez-vous ?",
+        "Answer": "Nous servons Genève, Lausanne, la Suisse romande et la Suisse, ainsi que des situations internationales liées à la Suisse. Nous travaillons en français et en anglais, et en allemand, espagnol, portugais ou italien selon les membres de l'équipe."
+      }
+    ]
+  }
 }

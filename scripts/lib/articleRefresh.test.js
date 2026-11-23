@@ -61,7 +61,7 @@ test("editorial rules forbid invention and require Geneva anchor + Ark paragraph
   const rules = buildEditorialRules({ servicePath: "/services/payroll" }).join("\n");
   assert.match(rules, /AUCUNE INVENTION/);
   assert.match(rules, /Exemple fictif/);
-  assert.match(rules, /au plus 3 questions/);
+  assert.match(rules, /Questions fréquentes » de 3 à 5 questions/);
   assert.match(rules, /AFC-GE/);
   assert.match(rules, /Ce que nous faisons chez Ark/);
   assert.match(rules, /\/services\/payroll/);

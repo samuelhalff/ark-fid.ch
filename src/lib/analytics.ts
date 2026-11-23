@@ -1,6 +1,6 @@
 "use client";
 
-import posthog from "posthog-js";
+import posthog from "@/src/lib/posthog-lazy";
 import { gaClientIdFromCookies, readConsentChoice } from "@/src/lib/consent-mode";
 
 const posthogConfigured = Boolean(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN && process.env.NEXT_PUBLIC_POSTHOG_HOST);

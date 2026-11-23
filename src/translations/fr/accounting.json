@@ -221,5 +221,30 @@
       }
     ],
     "PriceNote": "Suivi comptable digital simple : dès CHF 149 par mois. Prix fixe lorsque la mission est bien définie."
+  },
+  "Faq": {
+    "Title": "Questions fréquentes",
+    "Questions": [
+      {
+        "Question": "Combien coûte une comptabilité externalisée à Genève ?",
+        "Answer": "Notre suivi comptable digital simple démarre à CHF 149 par mois, avec un prix fixe lorsque la mission est bien définie. Au-delà, le coût dépend du volume d'écritures, du nombre d'entités, du niveau de reporting, des outils utilisés et du besoin de coordination externe."
+      },
+      {
+        "Question": "Que comprend un service de comptabilité pour PME ?",
+        "Answer": "Il couvre la comptabilité générale (plan comptable personnalisé, comptes fournisseurs et clients, paiements, trésorerie), la comptabilité analytique, le reporting financier et des tableaux de bord adaptés à votre entreprise."
+      },
+      {
+        "Question": "Gérez-vous aussi la TVA et les clôtures ?",
+        "Answer": "Oui, nous préparons la clôture intermédiaire ou annuelle, la TVA semestrielle ou trimestrielle, les assurances sociales et la déclaration fiscale. Nous pouvons aussi préparer les assemblées générales et le conseil d'administration."
+      },
+      {
+        "Question": "Pouvez-vous travailler avec mes outils actuels ?",
+        "Answer": "Oui, nous travaillons avec vos outils ou nous mettons en place des tableaux de bord simples pour que vous voyiez toujours l'essentiel."
+      },
+      {
+        "Question": "Comment démarre un mandat de comptabilité ?",
+        "Answer": "Nous commençons par un diagnostic des volumes, des outils, des délais et des obligations. Nous fixons ensuite un calendrier, les responsabilités et le format des livrables, comme les balances, les comptes annuels, le reporting périodique ou les dossiers TVA."
+      }
+    ]
   }
 }

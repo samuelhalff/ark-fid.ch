@@ -1,4 +1,6 @@
-import posthog from "posthog-js";
+// PostHog loads after the load event, in idle time, without storage before
+// consent: src/lib/posthog-lazy.ts.
+import { startPostHogAfterLoad } from "@/src/lib/posthog-lazy";
 
 const projectToken = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
 const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST;
@@ -16,11 +18,5 @@ if (!projectToken) {
     );
   }
 } else {
-  posthog.init(projectToken, {
-    api_host: posthogHost,
-    ui_host: "https://eu.posthog.com",
-    defaults: "2026-05-30",
-    capture_exceptions: true,
-    debug: process.env.NODE_ENV === "development",
-  });
+  startPostHogAfterLoad();
 }

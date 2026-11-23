@@ -209,7 +209,7 @@ Notes:
 - References are validated (no 404/empty pages). The Markdown `Références` section is regenerated from the validated `newArticle.references` list to avoid mismatches/hallucinated links.
 - Public reference domains are restricted to the curated policy in `docs/reference-source-policy.md`; competitor/firm URLs may be used as private research inspiration but must not be published as sources.
 - CI also requires at least 1 trusted/official source via `REFERENCE_MIN_TRUSTED_DOMAINS=1`.
-- GitHub workflow `.github/workflows/ai-ressources-every-4-days.yml` automates the run every four days using OIDC-based Azure login.
+- GitHub workflow `.github/workflows/ai-ressources-twice-monthly.yml` automates the run on the 2nd and 16th of each month using OIDC-based Azure login.
 
 ## Ressources Link Integrity
 

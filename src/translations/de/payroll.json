@@ -206,5 +206,34 @@
         "WhatWeDo": "ANOBAG-Lohnbuchhaltung für ausländische Arbeitgeber ohne Schweizer Gesellschaft (AHV-Abkommen, Abrechnungen, Compliance), Vorbereitung der Verträge, HR-Administration und eine feste Ansprechperson für die Mitarbeitenden."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Häufige Fragen",
+    "Questions": [
+      {
+        "Question": "Wie lagere ich die Lohnbuchhaltung in der Schweiz aus?",
+        "Answer": "Sie übergeben Ark Fiduciaire die Lohnberechnung, die Lohnabrechnungen, die Zertifikate und die Meldungen an die Sozialversicherungen. Wir liefern Swissdec-kompatible Ausgaben und eine monatliche Checkliste für die Personalabteilung."
+      },
+      {
+        "Question": "Was ist die ANOBAG-Lohnbuchhaltung?",
+        "Answer": "Das ist die Verwaltung von Löhnen und Sozialversicherungen für ausländische Arbeitgeber ohne Gesellschaft in der Schweiz, einschliesslich AHV-Vereinbarungen, Abrechnungen und Compliance."
+      },
+      {
+        "Question": "Welche Dokumente liefern Sie?",
+        "Answer": "Wir erstellen die Lohnabrechnungen, die Meldungen an AHV/IV/EO, BVG und UVG sowie die Lohnausweise."
+      },
+      {
+        "Question": "Übernehmen Sie die Quellensteuer und Grenzgänger?",
+        "Answer": "Ja. Für Arbeitgeber in Genf und der Waadt wenden wir die Tarife gemäss der gemeldeten persönlichen Situation an, übermitteln die periodischen Abrechnungen und bereiten die Bescheinigungen für die Mitarbeitenden vor."
+      },
+      {
+        "Question": "Bleiben meine Lohndaten vertraulich?",
+        "Answer": "Ja. Wir beschränken den Zugriff auf befugte Personen und nutzen sichere Übertragungswege."
+      },
+      {
+        "Question": "Wovon hängt der Preis für die ausgelagerte Lohnbuchhaltung ab?",
+        "Answer": "Er hängt von der Zahl der Mitarbeitenden, der Häufigkeit der Mutationen, von Quellensteuer oder Grenzgängern und von variablen Bestandteilen wie Boni oder Überstunden ab. Wir erstellen eine transparente Preisgestaltung nach diesen Kriterien und überprüfen sie, wenn sich Ihre Situation ändert."
+      }
+    ]
   }
 }

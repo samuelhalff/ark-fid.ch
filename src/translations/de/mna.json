@@ -112,5 +112,30 @@
         ]
       }
     ]
+  },
+  "Faq": {
+    "Title": "Häufige Fragen",
+    "Questions": [
+      {
+        "Question": "Was macht ein M&A-Berater in der Schweiz?",
+        "Answer": "Wir beraten Unternehmen der West- und Deutschschweiz während der gesamten Transaktion: Kauf- und Verkaufsmandate, Finanzmodelle, Due Diligence und Verhandlung."
+      },
+      {
+        "Question": "Können Sie mein Unternehmen bewerten?",
+        "Answer": "Ja, wir erstellen Finanzmodelle, Szenarien und eine unabhängige Bewertung, die Marktdaten, Branchenvergleiche und die operative Realität verbindet."
+      },
+      {
+        "Question": "Wie läuft ein M&A-Mandat ab?",
+        "Answer": "Es verläuft in Etappen: Bestandsaufnahme, Vorbereitung, Umsetzung, Verhandlung, Closing und bei Bedarf Begleitung nach der Transaktion."
+      },
+      {
+        "Question": "Wer übernimmt den juristischen Teil und den SPA?",
+        "Answer": "Für die rechtliche Strukturierung, die Ausarbeitung des SPA und die behördlichen Einreichungen arbeiten wir mit unserer Partnerkanzlei zusammen."
+      },
+      {
+        "Question": "Für wen sind Sie tätig?",
+        "Answer": "Wir begleiten Gründer, Familien, KMU, Investoren und Gruppen, die eine Übernahme, einen Verkauf, eine Nachfolge oder eine bedeutende Kapitalbeschaffung vorbereiten."
+      }
+    ]
   }
 }

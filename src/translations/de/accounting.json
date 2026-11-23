@@ -245,17 +245,42 @@
             }
         ]
     },
-  "TypicalSituations": {
-    "Cases": [
-      {
-        "Situation": "Eine Dienstleistungs-GmbH ist mit ihrer Buchhaltung und ihren MWST-Abrechnungen im Rückstand.",
-        "WhatWeDo": "Aufarbeitung der Buchhaltung, MWST-Abrechnungen, Jahresabschluss und anschliessend regelmässige Betreuung durch ein festes Team."
-      },
-      {
-        "Situation": "Ein finanziertes Start-up möchte verlässliche Abschlüsse und regelmässige Berichte für seine Investoren.",
-        "WhatWeDo": "Individueller Kontenplan, Zwischenabschlüsse, Jahresrechnung und Managementberichte sowie auf die Tätigkeit zugeschnittene Dashboards."
-      }
-    ],
-    "PriceNote": "Einfache digitale Buchhaltung: ab CHF 149 pro Monat. Festpreis, sobald der Auftrag klar umrissen ist."
-  }
+    "TypicalSituations": {
+        "Cases": [
+            {
+                "Situation": "Eine Dienstleistungs-GmbH ist mit ihrer Buchhaltung und ihren MWST-Abrechnungen im Rückstand.",
+                "WhatWeDo": "Aufarbeitung der Buchhaltung, MWST-Abrechnungen, Jahresabschluss und anschliessend regelmässige Betreuung durch ein festes Team."
+            },
+            {
+                "Situation": "Ein finanziertes Start-up möchte verlässliche Abschlüsse und regelmässige Berichte für seine Investoren.",
+                "WhatWeDo": "Individueller Kontenplan, Zwischenabschlüsse, Jahresrechnung und Managementberichte sowie auf die Tätigkeit zugeschnittene Dashboards."
+            }
+        ],
+        "PriceNote": "Einfache digitale Buchhaltung: ab CHF 149 pro Monat. Festpreis, sobald der Auftrag klar umrissen ist."
+    },
+    "Faq": {
+        "Title": "Häufige Fragen",
+        "Questions": [
+            {
+                "Question": "Was kostet ausgelagerte Buchhaltung in Genf?",
+                "Answer": "Unsere einfache digitale Buchhaltung beginnt bei CHF 149 pro Monat, zu einem Fixpreis, wenn der Auftrag klar umrissen ist. Darüber hinaus hängen die Kosten vom Buchungsvolumen, der Zahl der Gesellschaften, dem Umfang des Reportings, den eingesetzten Tools und dem externen Koordinationsaufwand ab."
+            },
+            {
+                "Question": "Was umfasst ein Buchhaltungsservice für KMU?",
+                "Answer": "Er umfasst die Finanzbuchhaltung (individueller Kontenplan, Kreditoren und Debitoren, Zahlungen, Liquiditätsmanagement), die Kostenrechnung, das Finanzreporting und auf Ihr Unternehmen zugeschnittene Dashboards."
+            },
+            {
+                "Question": "Übernehmen Sie auch die Mehrwertsteuer und die Abschlüsse?",
+                "Answer": "Ja. Wir bereiten Zwischen- und Jahresabschlüsse, die halbjährliche oder vierteljährliche Mehrwertsteuer, die Sozialversicherungen und die Steuererklärung vor. Auch Generalversammlungen und Verwaltungsratssitzungen können wir vorbereiten."
+            },
+            {
+                "Question": "Können Sie mit meinen bestehenden Tools arbeiten?",
+                "Answer": "Ja. Wir arbeiten mit Ihren Tools oder richten einfache Dashboards ein, damit Sie immer das Wesentliche sehen."
+            },
+            {
+                "Question": "Wie beginnt ein Buchhaltungsmandat?",
+                "Answer": "Wir beginnen mit einer Bestandsaufnahme von Volumen, Tools, Fristen und Pflichten. Danach legen wir einen Zeitplan, die Verantwortlichkeiten und das Format der Ergebnisse fest, etwa Saldenlisten, Jahresrechnungen, periodisches Reporting oder Mehrwertsteuerdossiers."
+            }
+        ]
+    }
 }

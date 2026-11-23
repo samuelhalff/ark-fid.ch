@@ -111,5 +111,30 @@
                 ]
             }
         ]
+    },
+    "Faq": {
+        "Title": "Preguntas frecuentes",
+        "Questions": [
+            {
+                "Question": "¿Qué es un family office administrativo?",
+                "Answer": "Es un punto de coordinación en Suiza para el gobierno, la fiscalidad, los asuntos jurídicos y el reporting de una familia o de un empresario. Nuestro papel es administrativo, en contacto con bancos, gestores externos, juristas y fiscalistas."
+            },
+            {
+                "Question": "¿Gestionan el patrimonio de mi familia?",
+                "Answer": "No, Ark Fiduciaire no presta gestión discrecional de activos. Las decisiones de inversión y los mandatos de gestión corresponden a los bancos, gestores o asesores autorizados."
+            },
+            {
+                "Question": "¿Qué coordinan exactamente?",
+                "Answer": "Coordinamos los calendarios de decisiones, los documentos de gobierno, los resúmenes administrativos, el seguimiento fiscal y los intercambios con bancos, gestores externos, abogados y notarios. También preparamos transferencias y seguimos los expedientes."
+            },
+            {
+                "Question": "¿Ayudan con el gobierno familiar y la filantropía?",
+                "Answer": "Sí, acompañamos los protocolos familiares, los pactos de accionistas, los programas nextgen y la planificación sucesoria. También creamos fundaciones y seguimos las donaciones."
+            },
+            {
+                "Question": "¿De qué depende el coste de un family office?",
+                "Answer": "Depende del número de entidades, de intervinientes, de países, de reuniones, de informes y de documentos que haya que coordinar."
+            }
+        ]
     }
 }

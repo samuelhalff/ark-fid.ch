@@ -1,3 +1,4 @@
+import PageFaq from "@/src/components/site/page-faq";
 import { Metadata } from "next";
 import Hero from "./components/hero";
 import { headers } from "next/headers";
@@ -109,6 +110,7 @@ const Outsourcing = async (props: { params: Promise<{ locale: string }> }) => {
         </ol>
       </nav>
       <Presentation />
+      <PageFaq locale={params.locale as Locale} ns="outsourcing" />
     </div>
   );
 };

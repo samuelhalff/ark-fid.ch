@@ -19,5 +19,185 @@
     "PBM": {
         "Note": "Senior partner at PBM law firm.",
         "LearnMore": "Learn more"
+    },
+    "Faq": {
+        "Title": "Frequently asked questions",
+        "Questions": [
+            {
+                "Question": "Who is on the Ark Fiduciaire team?",
+                "Answer": "The team brings together four partners (Hassan Barbir, Samuel Halff, Rodrigue Sperisen and Lassana Dioum), a tax expert (Anthony Touboul), a project manager (Celeste Leal), a senior accountant (Sébastien Gallié), a team member (Catia Cardoso) and an office manager (Dima Ukbabe)."
+            },
+            {
+                "Question": "Who runs the firm?",
+                "Answer": "Samuel Halff, managing partner, runs the firm."
+            },
+            {
+                "Question": "Who handles tax?",
+                "Answer": "Lassana Dioum is a partner and tax specialist, Anthony Touboul is a tax expert (personnel and compensation taxation, Swiss lump-sum taxation) and Rodrigue Sperisen specialises in international taxation and estates."
+            },
+            {
+                "Question": "Who handles foundations and trusts?",
+                "Answer": "Hassan Barbir advises businesses and individuals, including foundations and trusts. Rodrigue Sperisen also handles trusts and inheritance matters."
+            },
+            {
+                "Question": "Who runs payroll and day-to-day accounting?",
+                "Answer": "Sébastien Gallié, senior accountant and payroll manager, handles bookkeeping, monthly closings and reporting. Catia Cardoso and Dima Ukbabe support clients' day-to-day needs."
+            }
+        ]
+    },
+    "MemberFaq": {
+        "samuel-halff": {
+            "Title": "Frequently asked questions",
+            "Questions": [
+                {
+                    "Question": "Who is Samuel Halff?",
+                    "Answer": "Samuel Halff is managing partner of Ark Fiduciaire and runs the firm. He advises on accounting, tax, payroll and company law, sits as a director of international groups and sets up AI solutions to streamline processes and reporting."
+                },
+                {
+                    "Question": "What is Samuel Halff's education?",
+                    "Answer": "He holds an LL.M. from UCLA and a master's in law from the University of Geneva, and has been admitted to the Geneva bar since 2013."
+                },
+                {
+                    "Question": "Which languages does Samuel Halff speak?",
+                    "Answer": "Samuel Halff works in French, English and German."
+                }
+            ]
+        },
+        "hassan-barbir": {
+            "Title": "Frequently asked questions",
+            "Questions": [
+                {
+                    "Question": "Who is Hassan Barbir?",
+                    "Answer": "Hassan Barbir is a partner at Ark Fiduciaire. He advises on accounting, tax, payroll and company law (formation, shareholdings and agreements) and sits as a director within international groups."
+                },
+                {
+                    "Question": "What does Hassan Barbir work on?",
+                    "Answer": "He supports foundations and trusts, and handles tax matters and reorganisations."
+                },
+                {
+                    "Question": "What is Hassan Barbir's background?",
+                    "Answer": "He holds an LL.M. in tax law, a master's and a bachelor's in law from the University of Geneva, and has been admitted to the Geneva bar since 2013. He speaks French, English and Italian, and is a member of ODAGE and the FSA."
+                }
+            ]
+        },
+        "rodrigue-sperisen": {
+            "Title": "Frequently asked questions",
+            "Questions": [
+                {
+                    "Question": "Who is Rodrigue Sperisen?",
+                    "Answer": "Rodrigue Sperisen is a partner at Ark Fiduciaire. He works in accounting, tax and company law, with a focus on international taxation."
+                },
+                {
+                    "Question": "What is Rodrigue Sperisen's specialty?",
+                    "Answer": "He specialises in trusts and inheritance matters, and sets up clear governance and ownership frameworks."
+                },
+                {
+                    "Question": "What are Rodrigue Sperisen's qualifications?",
+                    "Answer": "He holds a master's in law from the University of Neuchâtel, has been admitted to the Geneva bar since 2005 and holds the STEP diploma since 2009. He speaks French and English, and is a member of ODAGE, the FSA, OAR SFA-FSN, STEP, ASDS and the Art Law Foundation."
+                }
+            ]
+        },
+        "lassana-dioum": {
+            "Title": "Frequently asked questions",
+            "Questions": [
+                {
+                    "Question": "Who is Lassana Dioum?",
+                    "Answer": "Lassana Dioum is a partner and tax specialist at Ark Fiduciaire. He advises businesses and individuals on direct and indirect taxation and acts as a director for international companies."
+                },
+                {
+                    "Question": "What does Lassana Dioum do on tax?",
+                    "Answer": "He supports accounting and compliance from a tax angle and coordinates tax returns and tax rulings across several jurisdictions."
+                },
+                {
+                    "Question": "What is Lassana Dioum's background?",
+                    "Answer": "He holds a master's in business law, a bachelor's in law and HEC training from the University of Geneva, and has been admitted to the Geneva bar since 2012. He speaks French, English and Spanish, and is a member of ODAGE, the FSA, the IBA, the IFA and AIJA."
+                }
+            ]
+        },
+        "anthony-touboul": {
+            "Title": "Frequently asked questions",
+            "Questions": [
+                {
+                    "Question": "Who is Anthony Touboul?",
+                    "Answer": "Anthony Touboul is a tax expert at Ark Fiduciaire. He supports compliance for companies and individuals and sits as a director for local and international companies."
+                },
+                {
+                    "Question": "Which tax topics does Anthony Touboul cover?",
+                    "Answer": "He specialises in personnel and compensation taxation and in Swiss lump-sum taxation."
+                },
+                {
+                    "Question": "What is Anthony Touboul's education?",
+                    "Answer": "He holds an LL.M. in tax law from the University of Geneva (2011 to 2013) and a master's in business law and taxation (DJCE) from Université Jean Moulin Lyon III (2004 to 2006)."
+                }
+            ]
+        },
+        "celeste-leal": {
+            "Title": "Frequently asked questions",
+            "Questions": [
+                {
+                    "Question": "Who is Celeste Leal?",
+                    "Answer": "Celeste Leal is a project manager at Ark Fiduciaire."
+                },
+                {
+                    "Question": "What does Celeste Leal do at the firm?",
+                    "Answer": "She leads client and internal projects, supports the team and makes sure delivery runs smoothly."
+                },
+                {
+                    "Question": "How do I contact Celeste Leal?",
+                    "Answer": "The easiest way is to email info@ark-fid.ch or use the contact page on the site. We usually reply within 24 hours."
+                }
+            ]
+        },
+        "sebastien-gallie": {
+            "Title": "Frequently asked questions",
+            "Questions": [
+                {
+                    "Question": "Who is Sébastien Gallié?",
+                    "Answer": "Sébastien Gallié is a senior accountant and payroll manager at Ark Fiduciaire."
+                },
+                {
+                    "Question": "What does Sébastien Gallié do day to day?",
+                    "Answer": "He handles bookkeeping, monthly closings and reporting, and makes sure the figures are reliable and the deliverables arrive on time."
+                },
+                {
+                    "Question": "What is Sébastien Gallié's education?",
+                    "Answer": "He holds the federal fiduciary agent certificate (2018 to 2021) and the federal diploma of fiduciary expert (2022 to 2025)."
+                }
+            ]
+        },
+        "catia-cardoso": {
+            "Title": "Frequently asked questions",
+            "Questions": [
+                {
+                    "Question": "Who is Catia Cardoso?",
+                    "Answer": "Catia Cardoso is a team member in administrative and accounting operations at Ark Fiduciaire."
+                },
+                {
+                    "Question": "What does Catia Cardoso do at the firm?",
+                    "Answer": "She supports the day-to-day follow-up of client needs."
+                },
+                {
+                    "Question": "How do I contact Catia Cardoso?",
+                    "Answer": "The easiest way is to email info@ark-fid.ch or use the contact page on the site. We usually reply within 24 hours."
+                }
+            ]
+        },
+        "dima-ukbabe": {
+            "Title": "Frequently asked questions",
+            "Questions": [
+                {
+                    "Question": "Who is Dima Ukbabe?",
+                    "Answer": "Dima Ukbabe is an office manager at Ark Fiduciaire."
+                },
+                {
+                    "Question": "What does Dima Ukbabe do at the firm?",
+                    "Answer": "Dima Ukbabe is responsible for administration and accounting, and supports clients' day-to-day operations."
+                },
+                {
+                    "Question": "How do I contact Dima Ukbabe?",
+                    "Answer": "The easiest way is to email info@ark-fid.ch or use the contact page on the site. We usually reply within 24 hours."
+                }
+            ]
+        }
     }
 }

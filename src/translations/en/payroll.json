@@ -170,5 +170,34 @@
         "WhatWeDo": "ANOBAG payroll for foreign employers without a Swiss entity (AVS agreements, statements, compliance), preparation of contracts, HR administration and a dedicated contact person for the employees."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Frequently asked questions",
+    "Questions": [
+      {
+        "Question": "How do I outsource payroll in Switzerland?",
+        "Answer": "You hand Ark Fiduciaire the salary calculations, payslips, certificates and social insurance filings. We deliver Swissdec-compatible outputs and a monthly checklist for HR."
+      },
+      {
+        "Question": "What is ANOBAG payroll?",
+        "Answer": "It is the administration of salaries and social insurance for foreign employers without an entity in Switzerland, including AVS agreements, statements and compliance."
+      },
+      {
+        "Question": "Which documents do you deliver?",
+        "Answer": "We produce payslips, AVS/AI/APG, LPP and LAA declarations, and salary certificates."
+      },
+      {
+        "Question": "Do you handle withholding tax and cross-border workers?",
+        "Answer": "Yes. For employers in Geneva and Vaud, we apply the tax scales according to the personal situation declared, send the periodic statements and prepare the certificates employees need."
+      },
+      {
+        "Question": "Does my payroll data stay confidential?",
+        "Answer": "Yes. We restrict access to authorised people only and use secure transmission channels."
+      },
+      {
+        "Question": "What determines the price of payroll outsourcing?",
+        "Answer": "It depends on the number of employees, how often there are changes, whether there is withholding tax or cross-border workers, and variable items such as bonuses or overtime. We set transparent pricing on these criteria and review it when your situation changes."
+      }
+    ]
   }
 }

@@ -202,16 +202,41 @@
         "CTA": "Iniciar mi constitución",
         "SecondaryCTA": "Saber más"
     },
-  "TypicalSituations": {
-    "Cases": [
-      {
-        "Situation": "Dos socios quieren constituir una S.à r.l. en Ginebra y dudan sobre la forma jurídica y el capital.",
-        "WhatWeDo": "Elección de la forma jurídica, estatutos, cuenta de consignación del capital, escritura notarial, inscripción en el registro mercantil y después alta en el IVA."
-      },
-      {
-        "Situation": "Un empresario extranjero quiere constituir una S.A. en Ginebra y no conoce los trámites suizos.",
-        "WhatWeDo": "Elección de la estructura, domicilio social, cuenta de consignación del capital, escritura notarial e inscripción en el registro mercantil, y después contabilidad y secretaría jurídica tras la inscripción."
-      }
-    ]
-  }
+    "TypicalSituations": {
+        "Cases": [
+            {
+                "Situation": "Dos socios quieren constituir una S.à r.l. en Ginebra y dudan sobre la forma jurídica y el capital.",
+                "WhatWeDo": "Elección de la forma jurídica, estatutos, cuenta de consignación del capital, escritura notarial, inscripción en el registro mercantil y después alta en el IVA."
+            },
+            {
+                "Situation": "Un empresario extranjero quiere constituir una S.A. en Ginebra y no conoce los trámites suizos.",
+                "WhatWeDo": "Elección de la estructura, domicilio social, cuenta de consignación del capital, escritura notarial e inscripción en el registro mercantil, y después contabilidad y secretaría jurídica tras la inscripción."
+            }
+        ]
+    },
+    "Faq": {
+        "Title": "Preguntas frecuentes",
+        "Questions": [
+            {
+                "Question": "¿Cómo se crea una SA o una Sàrl en Ginebra?",
+                "Answer": "Usted elige el tipo de sociedad y aporta los documentos necesarios, y nosotros nos ocupamos del registro y de los trámites. Los pasos incluyen la elección de la forma jurídica, los estatutos, la cuenta de consignación, la escritura notarial y la inscripción en el registro mercantil."
+            },
+            {
+                "Question": "¿Sàrl o SA: cuál elegir?",
+                "Answer": "Depende del capital, del gobierno corporativo, de la fiscalidad y de sus necesidades operativas. Le asesoramos sobre la forma jurídica y la estructura antes de iniciar los trámites."
+            },
+            {
+                "Question": "¿Cuánto cuesta y cuánto tarda crear una sociedad?",
+                "Answer": "Los costes y los plazos dependen de la forma elegida, del número de fundadores, del banco, del notario, de los permisos y de las necesidades de domiciliación. Preferimos una lista de documentos corta y verificable para evitar retrasos en el registro mercantil."
+            },
+            {
+                "Question": "¿Pueden ayudarme a abrir una cuenta bancaria para mi sociedad?",
+                "Answer": "Sí, ayudamos con la apertura de la cuenta bancaria, el depósito del capital y el alta en el IVA, con un calendario claro."
+            },
+            {
+                "Question": "¿Qué hacen después de inscribir la sociedad?",
+                "Answer": "Ayudamos a poner en marcha la contabilidad, las nóminas, los contratos administrativos y el calendario de obligaciones. También ofrecemos una dirección registrada y servicios de mandatario."
+            }
+        ]
+    }
 }

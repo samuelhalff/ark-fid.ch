@@ -110,5 +110,30 @@
         ]
       }
     ]
+  },
+  "Faq": {
+    "Title": "Preguntas frecuentes",
+    "Questions": [
+      {
+        "Question": "¿Qué permisos de residencia y de trabajo pueden coordinar?",
+        "Answer": "Coordinamos los permisos L, B, C y G, así como los expedientes ANobAG, con las autoridades cantonales y las cajas de seguros sociales."
+      },
+      {
+        "Question": "¿Cómo se obtiene un permiso de trabajo en Ginebra?",
+        "Answer": "Empezamos analizando su estatus (UE/AELC o tercer país) y sus opciones, y después preparamos y revisamos la documentación del expediente para limitar las devoluciones de las autoridades."
+      },
+      {
+        "Question": "¿Cuánto cuesta un expediente de permiso?",
+        "Answer": "Los costes dependen de la complejidad, del volumen de trabajo y del nivel de coordinación necesario, y los aclaramos desde el principio. Primero evaluamos su situación para evitar gastos innecesarios."
+      },
+      {
+        "Question": "¿Me ayudan también a instalarme a mi llegada?",
+        "Answer": "Sí, acompañamos los trámites administrativos a la llegada, como la dirección, los seguros y el banco."
+      },
+      {
+        "Question": "¿Gestionan las renovaciones y los cambios de empleador?",
+        "Answer": "Sí, nuestro seguimiento tras la llegada cubre las renovaciones, los cambios de empleador y la creación de una sociedad."
+      }
+    ]
   }
 }

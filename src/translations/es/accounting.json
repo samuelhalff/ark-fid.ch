@@ -241,17 +241,42 @@
             }
         ]
     },
-  "TypicalSituations": {
-    "Cases": [
-      {
-        "Situation": "Una S.à r.l. de servicios se ha retrasado en su contabilidad y en sus liquidaciones de IVA.",
-        "WhatWeDo": "Puesta al día de la contabilidad, liquidaciones de IVA, cierre anual y después seguimiento regular con un equipo dedicado."
-      },
-      {
-        "Situation": "Una start-up financiada quiere cuentas fiables e informes periódicos para sus inversores.",
-        "WhatWeDo": "Plan contable personalizado, cierres intermedios, estados financieros e informes de gestión, y cuadros de mando adaptados a la actividad."
-      }
-    ],
-    "PriceNote": "Contabilidad digital sencilla: desde CHF 149 al mes. Precio fijo cuando el encargo está bien definido."
-  }
+    "TypicalSituations": {
+        "Cases": [
+            {
+                "Situation": "Una S.à r.l. de servicios se ha retrasado en su contabilidad y en sus liquidaciones de IVA.",
+                "WhatWeDo": "Puesta al día de la contabilidad, liquidaciones de IVA, cierre anual y después seguimiento regular con un equipo dedicado."
+            },
+            {
+                "Situation": "Una start-up financiada quiere cuentas fiables e informes periódicos para sus inversores.",
+                "WhatWeDo": "Plan contable personalizado, cierres intermedios, estados financieros e informes de gestión, y cuadros de mando adaptados a la actividad."
+            }
+        ],
+        "PriceNote": "Contabilidad digital sencilla: desde CHF 149 al mes. Precio fijo cuando el encargo está bien definido."
+    },
+    "Faq": {
+        "Title": "Preguntas frecuentes",
+        "Questions": [
+            {
+                "Question": "¿Cuánto cuesta externalizar la contabilidad en Ginebra?",
+                "Answer": "Nuestro seguimiento contable digital sencillo empieza en CHF 149 al mes, con precio fijo cuando el encargo está bien definido. Más allá de eso, el coste depende del volumen de asientos, el número de entidades, el nivel de reporting, las herramientas utilizadas y la coordinación externa necesaria."
+            },
+            {
+                "Question": "¿Qué incluye un servicio de contabilidad para pymes?",
+                "Answer": "Cubre la contabilidad general (plan contable personalizado, cuentas de proveedores y clientes, pagos, tesorería), la contabilidad analítica, el reporting financiero y cuadros de mando adaptados a su empresa."
+            },
+            {
+                "Question": "¿Se encargan también del IVA y de los cierres?",
+                "Answer": "Sí. Preparamos el cierre intermedio o anual, el IVA semestral o trimestral, los seguros sociales y la declaración fiscal. También podemos preparar las juntas generales y las reuniones del consejo de administración."
+            },
+            {
+                "Question": "¿Pueden trabajar con las herramientas que ya uso?",
+                "Answer": "Sí. Trabajamos con sus herramientas o ponemos en marcha cuadros de mando sencillos para que siempre vea lo esencial."
+            },
+            {
+                "Question": "¿Cómo empieza un encargo de contabilidad?",
+                "Answer": "Empezamos con un diagnóstico de volúmenes, herramientas, plazos y obligaciones. Después fijamos un calendario, las responsabilidades y el formato de los entregables, como balances, cuentas anuales, reporting periódico o expedientes de IVA."
+            }
+        ]
+    }
 }

@@ -51,8 +51,9 @@ const TRANSLATED_FIELDS = ["title", "description", "content"];
 function buildStructureRules() {
   return [
     "- STRUCTURE DICTÉE PAR LE SUJET: autant de sections H2 que le sujet en demande (généralement 5 à 8), des H3 seulement si utile. Pas de plan imposé.",
-    "- Un tableau ou une checklist uniquement s'il apporte une information que le texte n'exprime pas mieux. Pas de FAQ systématique: au plus 3 questions, seulement si des clients les posent réellement.",
-    "- Ne rallonge jamais par remplissage (sections génériques, répétitions, FAQ ou tableaux ajoutés pour faire du volume).",
+    "- Un tableau ou une checklist uniquement s'il apporte une information que le texte n'exprime pas mieux.",
+    "- FAQ OBLIGATOIRE EN FIN D'ARTICLE (avant les références): une section « ## Questions fréquentes » de 3 à 5 questions, chacune en « ### <question> ? » (formulée comme une recherche réelle, différente des titres H2) suivie d'une réponse de 1 à 3 phrases dont la première répond directement. Uniquement des faits déjà présents dans l'article. Le site en tire le balisage FAQPage, le texte doit donc se suffire à lui-même (pas de « voir ci-dessus »).",
+    "- Ne rallonge jamais par remplissage (sections génériques, répétitions, tableaux ajoutés pour faire du volume).",
   ];
 }
 

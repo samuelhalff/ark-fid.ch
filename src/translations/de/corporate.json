@@ -113,5 +113,30 @@
                 ]
             }
         ]
+    },
+    "Faq": {
+        "Title": "Häufige Fragen",
+        "Questions": [
+            {
+                "Question": "Was umfasst die Corporate-Administration einer Gesellschaft?",
+                "Answer": "Wir begleiten Sie von der Gründung bis zur laufenden Verwaltung, einschliesslich Statutenänderungen und Liquidationen. Wir dokumentieren Entscheide, führen die Register nach und erstellen klare Protokolle."
+            },
+            {
+                "Question": "Können Sie unsere Generalversammlungen und Verwaltungsratssitzungen organisieren?",
+                "Answer": "Ja, wir organisieren und dokumentieren Verwaltungsrats- und Generalversammlungen, mit klaren Protokollen für reibungslose Prüfungen."
+            },
+            {
+                "Question": "Übernehmen Sie Statutenänderungen?",
+                "Answer": "Ja, wir übernehmen alle Änderungen der Gesellschaftsstruktur professionell, im Einklang mit dem Obligationenrecht und den Vorgaben des Handelsregisters."
+            },
+            {
+                "Question": "Für welche Gesellschaften sind Sie tätig?",
+                "Answer": "Wir arbeiten mit KMU, internationalen Gruppen, Holdinggesellschaften und Tochtergesellschaften in Genf, Lausanne und der Westschweiz."
+            },
+            {
+                "Question": "Habe ich eine feste Ansprechperson?",
+                "Answer": "Ja, eine feste Ansprechperson begleitet Sie bei jedem Schritt. Jedes Mandat beginnt mit einer kurzen Bestandsaufnahme und einem schriftlichen Aktionsplan."
+            }
+        ]
     }
 }

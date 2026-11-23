@@ -70,5 +70,30 @@
         "Description": "Descubre cómo nuestra experiencia combinada puede beneficiar a tu negocio.",
         "ContactButton": "Ponte en Contacto",
         "TeamButton": "Conoce Nuestro Equipo"
+    },
+    "Faq": {
+        "Title": "Preguntas frecuentes",
+        "Questions": [
+            {
+                "Question": "¿Quién es Ark Fiduciaire?",
+                "Answer": "Ark Fiduciaire SA es una fiduciaria de proximidad en Ginebra que acompaña a empresas y particulares en su gestión contable y fiscal."
+            },
+            {
+                "Question": "¿Cuándo se fundó Ark Fiduciaire?",
+                "Answer": "Ark Fiduciaire SA se fundó en 2025 por la unión de dos fiduciarias suizas consolidadas, que pusieron en común su experiencia y sus relaciones con clientes."
+            },
+            {
+                "Question": "¿Cuáles son los valores de la firma?",
+                "Answer": "Defendemos la precisión suiza, la innovación, un enfoque centrado en el cliente y la excelencia colaborativa."
+            },
+            {
+                "Question": "¿Qué clientes atienden?",
+                "Answer": "Atendemos tanto a pymes locales como a multinacionales, con una experiencia que va desde la práctica contable suiza tradicional hasta las dinámicas empresariales internacionales."
+            },
+            {
+                "Question": "¿Cuál es su visión?",
+                "Answer": "Queremos simplificar la gestión financiera y el cumplimiento normativo de nuestros clientes. Con innovación y herramientas como el ERP Odoo, buscamos convertir la fiduciaria tradicional en una alianza empresarial dinámica."
+            }
+        ]
     }
 }

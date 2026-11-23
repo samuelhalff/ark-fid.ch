@@ -111,5 +111,34 @@
         "WhatWeDo": "Adresse de siège professionnelle inscrite au registre du commerce, réception et numérisation du courrier, appui administratif et salles de réunion à la location en cas de besoin."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Questions fréquentes",
+    "Questions": [
+      {
+        "Question": "Qu'est-ce que la domiciliation d'entreprise à Genève ?",
+        "Answer": "C'est l'établissement du siège légal de votre société à une adresse commerciale reconnue, sans louer vos propres bureaux. Elle comprend l'adresse inscrite au registre du commerce, la réception, la numérisation et la réexpédition du courrier, ainsi qu'un appui administratif."
+      },
+      {
+        "Question": "Combien coûte une domiciliation d'entreprise à Genève ?",
+        "Answer": "Le prix dépend des prestations incluses (simple adresse de siège ou service complet), du volume de courrier, de la complexité de la structure et des services fiduciaires associés. Nous établissons un devis transparent et vous envoyons une offre détaillée sous 24 heures ouvrables."
+      },
+      {
+        "Question": "Quelle est l'adresse de domiciliation et comment est géré le courrier ?",
+        "Answer": "Nous domicilions votre société au 26 Boulevard Georges Favon, à Genève. Le courrier est numérisé le jour même et réexpédié selon vos préférences, avec un récapitulatif mensuel simple."
+      },
+      {
+        "Question": "Proposez-vous une domiciliation à Lausanne ou dans le canton de Vaud ?",
+        "Answer": "Notre bureau est à Genève, mais nous accompagnons aussi les entreprises actives à Lausanne et dans le canton de Vaud, par exemple pour un siège à Genève avec gestion du courrier à distance ou un transfert de siège d'un canton à l'autre."
+      },
+      {
+        "Question": "Une domiciliation suffit-elle si mon activité exige de la substance ?",
+        "Answer": "Non. La domiciliation ne remplace pas une présence opérationnelle lorsque la situation exige de la substance économique réelle, par exemple pour certaines activités réglementées. Nous en discutons ouvertement avant d'accepter un mandat."
+      },
+      {
+        "Question": "Que faut-il pour domicilier ma société chez vous ?",
+        "Answer": "Nous vérifions l'identité, la structure, l'activité, les ayants droit économiques et les besoins de courrier avant de confirmer le mandat. Une fois le contrat de domiciliation signé, nous délivrons l'attestation destinée au registre du commerce."
+      }
+    ]
   }
 }

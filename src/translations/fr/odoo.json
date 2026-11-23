@@ -78,5 +78,30 @@
         ]
       }
     ]
+  },
+  "Faq": {
+    "Title": "Questions fréquentes",
+    "Questions": [
+      {
+        "Question": "Qu'est-ce qu'une fiduciaire Odoo ?",
+        "Answer": "C'est une fiduciaire qui tient votre comptabilité directement dans Odoo : TVA, QR-factures, salaires, clôtures, migration et externalisation comptable. Ark Fiduciaire est à la fois fiduciaire et intégrateur Odoo à Genève."
+      },
+      {
+        "Question": "Que configurez-vous dans Odoo ?",
+        "Answer": "Nous cadrons vos flux et configurons le plan comptable suisse, la TVA, la QR-facture, les modules comptables et métiers, les droits utilisateurs et les tableaux de bord. Nous évitons de surconfigurer : chaque module répond à un besoin clair."
+      },
+      {
+        "Question": "Pouvez-vous migrer mes données vers Odoo ?",
+        "Answer": "Oui, la migration des données fait partie de nos services, avec des contrôles de migration et une formation de vos équipes."
+      },
+      {
+        "Question": "Qu'est-ce qui fait varier le coût d'un projet Odoo ?",
+        "Answer": "Le coût dépend du nombre de modules, des intégrations, de la qualité des données, des règles TVA, du reporting attendu et du niveau d'accompagnement."
+      },
+      {
+        "Question": "Proposez-vous de la formation et du support après la mise en route ?",
+        "Answer": "Oui, nous formons vos équipes et assurons un support technique pour la continuité et la sécurité de votre environnement Odoo."
+      }
+    ]
   }
 }

@@ -110,5 +110,30 @@
                 ]
             }
         ]
+    },
+    "Faq": {
+        "Title": "Perguntas frequentes",
+        "Questions": [
+            {
+                "Question": "O que é uma fiduciária Odoo?",
+                "Answer": "É uma fiduciária que mantém a sua contabilidade diretamente no Odoo: IVA, faturas QR, salários, fechos, migração e externalização contabilística. A Ark Fiduciaire é ao mesmo tempo fiduciária e integradora de Odoo em Genebra."
+            },
+            {
+                "Question": "O que configuram no Odoo?",
+                "Answer": "Mapeamos os seus fluxos e configuramos o plano de contas suíço, o IVA, a fatura QR, os módulos contabilísticos e de negócio, os direitos de utilizador e os painéis de controlo. Evitamos configurar em excesso: cada módulo responde a uma necessidade clara."
+            },
+            {
+                "Question": "Podem migrar os meus dados para o Odoo?",
+                "Answer": "Sim, a migração de dados faz parte dos nossos serviços, com controlos de migração e formação das suas equipas."
+            },
+            {
+                "Question": "O que faz variar o custo de um projeto Odoo?",
+                "Answer": "O custo depende do número de módulos, das integrações, da qualidade dos dados, das regras de IVA, do reporting esperado e do nível de acompanhamento."
+            },
+            {
+                "Question": "Oferecem formação e suporte depois do arranque?",
+                "Answer": "Sim, formamos as suas equipas e damos suporte técnico para a continuidade e a segurança do seu ambiente Odoo."
+            }
+        ]
     }
 }

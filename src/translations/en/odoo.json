@@ -78,5 +78,30 @@
         ]
       }
     ]
+  },
+  "Faq": {
+    "Title": "Frequently asked questions",
+    "Questions": [
+      {
+        "Question": "What is an Odoo fiduciary?",
+        "Answer": "It is a fiduciary that keeps your accounts directly in Odoo: VAT, QR-bills, payroll, closings, migration and accounting outsourcing. Ark Fiduciaire is both a fiduciary and an Odoo integrator in Geneva."
+      },
+      {
+        "Question": "What do you configure in Odoo?",
+        "Answer": "We map your flows and configure the Swiss chart of accounts, VAT, the QR-bill, accounting and business modules, user rights and dashboards. We avoid over-configuring: each module answers a clear need."
+      },
+      {
+        "Question": "Can you migrate my data to Odoo?",
+        "Answer": "Yes, data migration is part of our services, with migration checks and training for your teams."
+      },
+      {
+        "Question": "What makes the cost of an Odoo project vary?",
+        "Answer": "The cost depends on the number of modules, the integrations, the quality of the data, the VAT rules, the reporting you expect and the level of support."
+      },
+      {
+        "Question": "Do you offer training and support after go-live?",
+        "Answer": "Yes, we train your teams and provide technical support for the continuity and security of your Odoo environment."
+      }
+    ]
   }
 }

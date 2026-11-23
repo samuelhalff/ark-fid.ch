@@ -66,5 +66,26 @@
         "CallToAction": "Kontaktieren Sie uns, um zu besprechen, wie wir zusammenarbeiten können, um unsere Kunden besser zu bedienen.",
         "ButtonText": "Kontakt aufnehmen",
         "SecondaryButtonText": "Sofortangebot erhalten"
+    },
+    "Faq": {
+        "Title": "Häufige Fragen",
+        "Questions": [
+            {
+                "Question": "Mit welchen Partnern arbeitet Ark Fiduciaire zusammen?",
+                "Answer": "Wir arbeiten mit PBM Avocats zusammen, einer auf Wirtschaftsrecht und Corporate Governance spezialisierten Anwaltskanzlei, und mit HelveBroker, einem Versicherungsmakler."
+            },
+            {
+                "Question": "Warum arbeiten Sie mit Partnern zusammen?",
+                "Answer": "Dank unserer Partnerschaften decken wir alle Ihre Bedürfnisse ab, haben Zugang zu spezialisierter Expertise und bieten nahtlose Kundenempfehlungen und Zusammenarbeit."
+            },
+            {
+                "Question": "Wer übernimmt die Rechtsberatung und die Versicherung?",
+                "Answer": "Die Rechtsberatung läuft über unsere Partneranwälte, darunter PBM Avocats. Versicherung und Risikobewertung laufen über HelveBroker."
+            },
+            {
+                "Question": "Kann ich Partner von Ark Fiduciaire werden?",
+                "Answer": "Ja, die Seite ist offen für Partnerschaftsmöglichkeiten: Schreiben Sie uns über die Kontaktseite, um darüber zu sprechen."
+            }
+        ]
     }
 }

@@ -1,3 +1,4 @@
+import PageFaq from "@/src/components/site/page-faq";
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import Hero from "./components/hero";
@@ -171,6 +172,7 @@ const Incorporation = async (props: { params: Promise<{ locale: string }> }) => 
         </ol>
       </nav>
       <Presentation />
+      <PageFaq locale={params.locale as Locale} ns="incorporation" />
     </div>
   );
 };

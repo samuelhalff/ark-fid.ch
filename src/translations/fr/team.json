@@ -19,5 +19,185 @@
     "PBM": {
         "Note": "Associé senior chez le cabinet PBM.",
         "LearnMore": "En savoir plus"
+    },
+    "Faq": {
+        "Title": "Questions fréquentes",
+        "Questions": [
+            {
+                "Question": "Qui compose l'équipe d'Ark Fiduciaire ?",
+                "Answer": "L'équipe réunit quatre associés (Hassan Barbir, Samuel Halff, Rodrigue Sperisen et Lassana Dioum), un expert fiscal (Anthony Touboul), une cheffe de projet (Celeste Leal), un comptable senior (Sébastien Gallié), une collaboratrice (Catia Cardoso) et une office manager (Dima Ukbabe)."
+            },
+            {
+                "Question": "Qui dirige le cabinet ?",
+                "Answer": "Samuel Halff, associé gérant, dirige le cabinet."
+            },
+            {
+                "Question": "Qui s'occupe de la fiscalité ?",
+                "Answer": "Lassana Dioum est associé et fiscaliste, Anthony Touboul est expert fiscal (fiscalité du personnel et de la rémunération, forfait fiscal suisse) et Rodrigue Sperisen est spécialisé en fiscalité internationale et successions."
+            },
+            {
+                "Question": "Qui s'occupe des fondations et des trusts ?",
+                "Answer": "Hassan Barbir conseille entreprises et particuliers, y compris fondations et trusts. Rodrigue Sperisen traite aussi les trusts et les questions d'héritage."
+            },
+            {
+                "Question": "Qui gère la paie et la comptabilité courante ?",
+                "Answer": "Sébastien Gallié, comptable senior et responsable paie, gère la tenue des comptes, les clôtures mensuelles et le reporting. Catia Cardoso et Dima Ukbabe soutiennent le suivi quotidien des clients."
+            }
+        ]
+    },
+    "MemberFaq": {
+        "samuel-halff": {
+            "Title": "Questions fréquentes",
+            "Questions": [
+                {
+                    "Question": "Qui est Samuel Halff ?",
+                    "Answer": "Samuel Halff est associé gérant d'Ark Fiduciaire et dirige le cabinet. Il conseille en comptabilité, fiscalité, salaires et droit des sociétés, siège comme administrateur de groupes internationaux et met en place des solutions d'IA pour fluidifier les processus et le reporting."
+                },
+                {
+                    "Question": "Quelle est la formation de Samuel Halff ?",
+                    "Answer": "Il est titulaire d'un LL.M. de l'UCLA et d'un master en droit de l'Université de Genève, et avocat au barreau de Genève depuis 2013."
+                },
+                {
+                    "Question": "Quelles langues parle Samuel Halff ?",
+                    "Answer": "Samuel Halff travaille en français, en anglais et en allemand."
+                }
+            ]
+        },
+        "hassan-barbir": {
+            "Title": "Questions fréquentes",
+            "Questions": [
+                {
+                    "Question": "Qui est Hassan Barbir ?",
+                    "Answer": "Hassan Barbir est associé d'Ark Fiduciaire. Il conseille en comptabilité, fiscalité, salaires et droit des sociétés (création, actionnariat et conventions) et siège comme administrateur au sein de groupes internationaux."
+                },
+                {
+                    "Question": "Sur quels sujets Hassan Barbir intervient-il ?",
+                    "Answer": "Il accompagne les fondations et les trusts, et traite les questions fiscales et les réorganisations."
+                },
+                {
+                    "Question": "Quelle est la formation de Hassan Barbir ?",
+                    "Answer": "Il est titulaire d'un LL.M. en fiscalité, d'un master et d'un bachelor en droit de l'Université de Genève, avocat au barreau de Genève depuis 2013. Il parle français, anglais et italien, et il est membre de l'ODAGE et de la FSA."
+                }
+            ]
+        },
+        "rodrigue-sperisen": {
+            "Title": "Questions fréquentes",
+            "Questions": [
+                {
+                    "Question": "Qui est Rodrigue Sperisen ?",
+                    "Answer": "Rodrigue Sperisen est associé d'Ark Fiduciaire. Il intervient en comptabilité, fiscalité et droit des sociétés, avec un accent sur la fiscalité internationale."
+                },
+                {
+                    "Question": "Quelle est la spécialité de Rodrigue Sperisen ?",
+                    "Answer": "Il est spécialiste des trusts et des questions d'héritage, et met en place des cadres de gouvernance et de propriété clairs."
+                },
+                {
+                    "Question": "Quelles sont les qualifications de Rodrigue Sperisen ?",
+                    "Answer": "Il est titulaire d'un master en droit de l'Université de Neuchâtel, avocat au barreau de Genève depuis 2005 et diplômé STEP depuis 2009. Il parle français et anglais, et il est membre de l'ODAGE, de la FSA, de l'OAR SFA-FSN, de STEP, de l'ASDS et de la Fondation pour le droit de l'art."
+                }
+            ]
+        },
+        "lassana-dioum": {
+            "Title": "Questions fréquentes",
+            "Questions": [
+                {
+                    "Question": "Qui est Lassana Dioum ?",
+                    "Answer": "Lassana Dioum est associé et fiscaliste d'Ark Fiduciaire. Il conseille des entreprises et des particuliers en fiscalité directe et indirecte et agit comme administrateur pour des sociétés internationales."
+                },
+                {
+                    "Question": "Que fait Lassana Dioum en matière de fiscalité ?",
+                    "Answer": "Il soutient la comptabilité et la conformité sous l'angle fiscal et coordonne les déclarations et les rulings fiscaux dans plusieurs juridictions."
+                },
+                {
+                    "Question": "Quelle est la formation de Lassana Dioum ?",
+                    "Answer": "Il est titulaire d'un master en droit économique, d'un bachelor en droit et d'une formation HEC de l'Université de Genève, avocat au barreau de Genève depuis 2012. Il parle français, anglais et espagnol, et il est membre de l'ODAGE, de la FSA, de l'IBA, de l'IFA et de l'AIJA."
+                }
+            ]
+        },
+        "anthony-touboul": {
+            "Title": "Questions fréquentes",
+            "Questions": [
+                {
+                    "Question": "Qui est Anthony Touboul ?",
+                    "Answer": "Anthony Touboul est expert fiscal chez Ark Fiduciaire. Il appuie la conformité des sociétés et des particuliers et siège comme administrateur pour des sociétés locales et internationales."
+                },
+                {
+                    "Question": "Sur quels sujets fiscaux Anthony Touboul intervient-il ?",
+                    "Answer": "Il est spécialisé dans la fiscalité du personnel et de la rémunération ainsi que dans le forfait fiscal suisse."
+                },
+                {
+                    "Question": "Quelle est la formation d'Anthony Touboul ?",
+                    "Answer": "Il est titulaire d'un LL.M. en droit fiscal de l'Université de Genève (2011 à 2013) et d'un master en droit des affaires et fiscalité (DJCE) de l'Université Jean Moulin Lyon III (2004 à 2006)."
+                }
+            ]
+        },
+        "celeste-leal": {
+            "Title": "Questions fréquentes",
+            "Questions": [
+                {
+                    "Question": "Qui est Celeste Leal ?",
+                    "Answer": "Celeste Leal est cheffe de projet chez Ark Fiduciaire."
+                },
+                {
+                    "Question": "Que fait Celeste Leal au sein du cabinet ?",
+                    "Answer": "Elle pilote les projets clients et internes, soutient l'équipe et veille à une exécution fluide."
+                },
+                {
+                    "Question": "Comment contacter Celeste Leal ?",
+                    "Answer": "Le plus simple est d'écrire à info@ark-fid.ch ou d'utiliser la page contact du site. Nous répondons généralement dans les 24 heures."
+                }
+            ]
+        },
+        "sebastien-gallie": {
+            "Title": "Questions fréquentes",
+            "Questions": [
+                {
+                    "Question": "Qui est Sébastien Gallié ?",
+                    "Answer": "Sébastien Gallié est comptable senior et responsable paie chez Ark Fiduciaire."
+                },
+                {
+                    "Question": "Que fait Sébastien Gallié au quotidien ?",
+                    "Answer": "Il gère la tenue des comptes, les clôtures mensuelles et le reporting, et garantit des chiffres fiables et des livrables dans les délais."
+                },
+                {
+                    "Question": "Quelle est la formation de Sébastien Gallié ?",
+                    "Answer": "Il est titulaire du brevet fédéral d'agent fiduciaire (2018 à 2021) et du diplôme fédéral d'expert fiduciaire (2022 à 2025)."
+                }
+            ]
+        },
+        "catia-cardoso": {
+            "Title": "Questions fréquentes",
+            "Questions": [
+                {
+                    "Question": "Qui est Catia Cardoso ?",
+                    "Answer": "Catia Cardoso est collaboratrice en opérations administratives et comptables chez Ark Fiduciaire."
+                },
+                {
+                    "Question": "Que fait Catia Cardoso au sein du cabinet ?",
+                    "Answer": "Elle accompagne le suivi quotidien des besoins des clients."
+                },
+                {
+                    "Question": "Comment contacter Catia Cardoso ?",
+                    "Answer": "Le plus simple est d'écrire à info@ark-fid.ch ou d'utiliser la page contact du site. Nous répondons généralement dans les 24 heures."
+                }
+            ]
+        },
+        "dima-ukbabe": {
+            "Title": "Questions fréquentes",
+            "Questions": [
+                {
+                    "Question": "Qui est Dima Ukbabe ?",
+                    "Answer": "Dima Ukbabe est office manager chez Ark Fiduciaire."
+                },
+                {
+                    "Question": "Que fait Dima Ukbabe au sein du cabinet ?",
+                    "Answer": "Dima Ukbabe est responsable de l'administration et de la comptabilité, et soutient les opérations quotidiennes des clients."
+                },
+                {
+                    "Question": "Comment contacter Dima Ukbabe ?",
+                    "Answer": "Le plus simple est d'écrire à info@ark-fid.ch ou d'utiliser la page contact du site. Nous répondons généralement dans les 24 heures."
+                }
+            ]
+        }
     }
 }

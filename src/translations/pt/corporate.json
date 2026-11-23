@@ -105,5 +105,30 @@
                 ]
             }
         ]
+    },
+    "Faq": {
+        "Title": "Perguntas frequentes",
+        "Questions": [
+            {
+                "Question": "O que inclui a administração corporate de uma sociedade?",
+                "Answer": "Acompanhamo-lo desde a constituição até à gestão diária, passando pelas alterações aos estatutos e pelas liquidações. Documentamos as decisões, mantemos os registos atualizados e preparamos atas claras."
+            },
+            {
+                "Question": "Podem organizar as nossas assembleias gerais e reuniões do conselho?",
+                "Answer": "Sim, organizamos e documentamos as reuniões do conselho e as assembleias gerais, com atas claras para auditorias sem atritos."
+            },
+            {
+                "Question": "Tratam das alterações aos estatutos?",
+                "Answer": "Sim, gerimos de forma profissional todas as alterações à estrutura da sociedade, em conformidade com o Código das Obrigações e com os requisitos do registo comercial."
+            },
+            {
+                "Question": "Para que sociedades trabalham?",
+                "Answer": "Trabalhamos com PME, grupos internacionais, holdings e filiais em Genebra, Lausana e na Suíça francófona."
+            },
+            {
+                "Question": "Terei um interlocutor dedicado?",
+                "Answer": "Sim, uma pessoa de contacto dedicada acompanha-o em cada etapa. Cada mandato começa com um breve diagnóstico e prossegue com um plano de ação escrito."
+            }
+        ]
     }
 }

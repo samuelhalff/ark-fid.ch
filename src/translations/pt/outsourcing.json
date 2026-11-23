@@ -97,16 +97,45 @@
             "LinkLabel": "Conheça o nosso serviço de folha salarial."
         }
     },
-  "TypicalSituations": {
-    "Cases": [
-      {
-        "Situation": "O contabilista interno de uma PME vai reformar-se e ninguém quer assumir os salários e a faturação.",
-        "WhatWeDo": "Assunção progressiva da contabilidade, dos salários, da faturação e do IVA, com SLA simples e um ponto mensal com a direção."
-      },
-      {
-        "Situation": "Uma empresa internacional tem uma pequena presença em Genebra e não quer recrutar uma equipa administrativa local.",
-        "WhatWeDo": "Back-office externalizado: contabilidade, salários e seguros sociais, faturação, IVA e acompanhamento administrativo."
-      }
-    ]
-  }
+    "TypicalSituations": {
+        "Cases": [
+            {
+                "Situation": "O contabilista interno de uma PME vai reformar-se e ninguém quer assumir os salários e a faturação.",
+                "WhatWeDo": "Assunção progressiva da contabilidade, dos salários, da faturação e do IVA, com SLA simples e um ponto mensal com a direção."
+            },
+            {
+                "Situation": "Uma empresa internacional tem uma pequena presença em Genebra e não quer recrutar uma equipa administrativa local.",
+                "WhatWeDo": "Back-office externalizado: contabilidade, salários e seguros sociais, faturação, IVA e acompanhamento administrativo."
+            }
+        ]
+    },
+    "Faq": {
+        "Title": "Perguntas frequentes",
+        "Questions": [
+            {
+                "Question": "Que tarefas posso externalizar a uma fiduciária?",
+                "Answer": "Pode delegar a contabilidade corrente, as faturas de fornecedores, as notas de despesas, o processamento salarial, as cobranças, os documentos administrativos, o reporting e a coordenação com os seus parceiros. O âmbito fica documentado para evitar zonas cinzentas."
+            },
+            {
+                "Question": "Quanto custa externalizar o back-office?",
+                "Answer": "O custo depende do volume de transações, do número de interlocutores, das ferramentas, da frequência do reporting e do nível de coordenação. Com o nosso orçamento instantâneo online obtém uma estimativa imediata e sem compromisso, e depois fixamos o preço numa proposta escrita."
+            },
+            {
+                "Question": "Como externalizo o processamento salarial em Genebra ou Lausana?",
+                "Answer": "Cobrimos todo o ciclo salarial: recibos de vencimento mensais, declarações AVS, LPP, LAA e abonos de família, retenção na fonte, certificados de salário anuais e transmissões eletrónicas."
+            },
+            {
+                "Question": "Como é feita a transição da minha contabilidade?",
+                "Answer": "Analisamos o que existe, retomamos os saldos e o histórico, configuramos o plano de contas e definimos os fluxos de documentos. Antes da mudança completa há um curto período de funcionamento em paralelo, e continua a ser o proprietário dos seus dados."
+            },
+            {
+                "Question": "Trabalham com Odoo ou com as minhas próprias ferramentas?",
+                "Answer": "Trabalhamos sobretudo com Odoo, no qual somos especialistas. Se já usa outra ferramenta, podemos intervir diretamente no seu ambiente atual."
+            },
+            {
+                "Question": "Intervêm fora de Genebra?",
+                "Answer": "Sim. A partir do nosso escritório de Genebra servimos empresas em Lausana, no cantão de Vaud e na Suíça francófona, à distância por canais seguros ou nas suas instalações, conforme as necessidades."
+            }
+        ]
+    }
 }

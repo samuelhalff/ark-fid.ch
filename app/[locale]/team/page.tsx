@@ -1,3 +1,4 @@
+import PageFaq from "@/src/components/site/page-faq";
 import { Metadata } from "next";
 import {
   Card,
@@ -279,6 +280,7 @@ export default async function TeamPage(
           "Get an instant quote"
         }
       />
+      <PageFaq locale={params.locale as Locale} ns="team" />
     </div>
   );
 }

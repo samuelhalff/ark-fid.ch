@@ -114,5 +114,30 @@
         ]
       }
     ]
+  },
+  "Faq": {
+    "Title": "Häufige Fragen",
+    "Questions": [
+      {
+        "Question": "Welche Aufenthalts- und Arbeitsbewilligungen koordinieren Sie?",
+        "Answer": "Wir koordinieren die Bewilligungen L, B, C und G sowie ANobAG-Dossiers, mit den kantonalen Behörden und den Sozialversicherungskassen."
+      },
+      {
+        "Question": "Wie erhalte ich eine Arbeitsbewilligung in Genf?",
+        "Answer": "Wir beginnen mit der Analyse Ihres Status (EU/EFTA oder Drittstaat) und Ihrer Optionen, dann bereiten wir die Unterlagen des Dossiers vor und prüfen sie, um Rückfragen der Behörden zu begrenzen."
+      },
+      {
+        "Question": "Was kostet ein Bewilligungsdossier?",
+        "Answer": "Die Kosten hängen von der Komplexität, dem Arbeitsvolumen und dem Koordinationsaufwand ab, und wir klären sie von Anfang an. Zuerst beurteilen wir Ihre Situation, um unnötige Kosten zu vermeiden."
+      },
+      {
+        "Question": "Helfen Sie mir auch beim Ankommen?",
+        "Answer": "Ja, wir begleiten die administrativen Schritte bei der Ankunft, etwa Adresse, Versicherungen und Bank."
+      },
+      {
+        "Question": "Übernehmen Sie Verlängerungen und Arbeitgeberwechsel?",
+        "Answer": "Ja, unsere Begleitung nach der Ankunft umfasst Verlängerungen, Arbeitgeberwechsel und die Gründung einer Gesellschaft."
+      }
+    ]
   }
 }

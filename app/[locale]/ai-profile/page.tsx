@@ -1,3 +1,4 @@
+import PageFaq from "@/src/components/site/page-faq";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import StructuredData from "@/src/components/seo/StructuredData";
@@ -136,6 +137,7 @@ export default async function AiProfilePage(
             : null}
         </ul>
       </section>
+      <PageFaq locale={params.locale as Locale} ns="ai-profile" />
     </main>
   );
 }

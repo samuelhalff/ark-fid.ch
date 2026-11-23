@@ -73,5 +73,30 @@
         ]
       }
     ]
+  },
+  "Faq": {
+    "Title": "Frequently asked questions",
+    "Questions": [
+      {
+        "Question": "What does corporate administration for a company include?",
+        "Answer": "We support you from incorporation to day-to-day management, including amendments to the articles and liquidations. We document decisions, keep registers up to date and prepare clear minutes."
+      },
+      {
+        "Question": "Can you organise our general meetings and board meetings?",
+        "Answer": "Yes, we organise and document board and general meetings, with clear minutes for audits without friction."
+      },
+      {
+        "Question": "Do you handle amendments to the articles of association?",
+        "Answer": "Yes, we professionally manage all changes to the company's structure, in line with the Code of Obligations and commercial register requirements."
+      },
+      {
+        "Question": "Which companies do you work with?",
+        "Answer": "We work with SMEs, international groups, holdings and subsidiaries in Geneva, Lausanne and French-speaking Switzerland."
+      },
+      {
+        "Question": "Will I have a dedicated contact?",
+        "Answer": "Yes, a dedicated contact person supports you at every step. Each engagement starts with a short diagnosis, followed by a written action plan."
+      }
+    ]
   }
 }

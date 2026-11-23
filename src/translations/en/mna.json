@@ -76,5 +76,30 @@
         ]
       }
     ]
+  },
+  "Faq": {
+    "Title": "Frequently asked questions",
+    "Questions": [
+      {
+        "Question": "What does an M&A adviser do in Switzerland?",
+        "Answer": "We advise companies in French-speaking and German-speaking Switzerland throughout the transaction: buy-side and sell-side mandates, financial models, due diligence and negotiation."
+      },
+      {
+        "Question": "Can you value my company?",
+        "Answer": "Yes, we prepare financial models, scenarios and an independent valuation, combining market data, sector comparables and operational reality."
+      },
+      {
+        "Question": "How does an M&A engagement run?",
+        "Answer": "It moves in stages: diagnosis, preparation, execution, negotiation, closing, and follow-up after the transaction when needed."
+      },
+      {
+        "Question": "Who handles the legal side and the SPA?",
+        "Answer": "For legal structuring, drafting the SPA and regulatory filings, we work with our partner law firm."
+      },
+      {
+        "Question": "Who do you work for?",
+        "Answer": "We support founders, families, SMEs, investors and groups preparing an acquisition, a sale, a succession or a significant fundraising."
+      }
+    ]
   }
 }

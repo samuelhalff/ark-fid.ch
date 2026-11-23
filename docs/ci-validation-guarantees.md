@@ -73,7 +73,7 @@ function isPdfLikeResponse(res) {
 
 ## Defense Layer 3: CI Validation Steps (FAIL-SAFE)
 
-**Workflow:** `.github/workflows/ai-ressources-every-4-days.yml`
+**Workflow:** `.github/workflows/ai-ressources-twice-monthly.yml`
 
 ### Step 1: Generate Content
 

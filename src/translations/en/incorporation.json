@@ -181,5 +181,30 @@
         "WhatWeDo": "Choice of structure, registered office, capital deposit account, notarial deed and commercial register filing, then bookkeeping and company secretarial work after registration."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Frequently asked questions",
+    "Questions": [
+      {
+        "Question": "How do I set up an SA or a Sàrl in Geneva?",
+        "Answer": "You choose the type of company and provide the required documents, and we take care of the registration and formalities. The steps include choosing the legal form, the articles of association, the capital deposit account, the notarial deed and the commercial register entry."
+      },
+      {
+        "Question": "Sàrl or SA: which should I choose?",
+        "Answer": "It depends on the capital, the governance, the tax position and your operational needs. We advise you on the legal form and the structure before starting the process."
+      },
+      {
+        "Question": "How much does it cost and how long does it take to incorporate a company?",
+        "Answer": "Costs and timing depend on the chosen form, the number of founders, the bank, the notary, permits and domiciliation needs. We favour a short, verifiable list of documents to avoid delays at the commercial register."
+      },
+      {
+        "Question": "Can you help me open a bank account for my company?",
+        "Answer": "Yes, we help with opening the bank account, depositing the capital and registering for VAT, with a clear timeline."
+      },
+      {
+        "Question": "What do you do after the company is registered?",
+        "Answer": "We help set up accounting, payroll, administrative contracts and the calendar of obligations. We also offer a registered address and nominee services."
+      }
+    ]
   }
 }

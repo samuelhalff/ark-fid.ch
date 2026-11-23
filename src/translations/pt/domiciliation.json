@@ -111,5 +111,34 @@
         "WhatWeDo": "Morada de sede profissional inscrita no registo comercial, receção e digitalização do correio, apoio administrativo e salas de reuniões para alugar quando necessário."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Perguntas frequentes",
+    "Questions": [
+      {
+        "Question": "O que é a domiciliação de empresas em Genebra?",
+        "Answer": "Consiste em fixar a sede legal da sua sociedade numa morada comercial reconhecida, sem arrendar escritórios próprios. Inclui a morada inscrita no registo comercial, a receção, a digitalização e o reenvio do correio, e apoio administrativo."
+      },
+      {
+        "Question": "Quanto custa a domiciliação de uma empresa em Genebra?",
+        "Answer": "O preço depende dos serviços incluídos (simples morada de sede ou serviço completo), do volume de correio, da complexidade da estrutura e dos serviços fiduciários associados. Elaboramos um orçamento transparente e enviamos-lhe uma oferta detalhada no prazo de 24 horas úteis."
+      },
+      {
+        "Question": "Qual é a morada de domiciliação e como é gerido o correio?",
+        "Answer": "Domiciliamos a sua sociedade no 26 Boulevard Georges Favon, em Genebra. O correio é digitalizado no próprio dia e reenviado segundo as suas preferências, com um resumo mensal simples."
+      },
+      {
+        "Question": "Oferecem domiciliação em Lausana ou no cantão de Vaud?",
+        "Answer": "O nosso escritório fica em Genebra, mas acompanhamos também empresas ativas em Lausana e no cantão de Vaud, por exemplo com uma sede em Genebra e gestão do correio à distância, ou com uma transferência de sede de um cantão para outro."
+      },
+      {
+        "Question": "A domiciliação basta se a minha atividade exigir substância?",
+        "Answer": "Não. A domiciliação não substitui uma presença operacional quando a situação exige substância económica real, por exemplo em certas atividades reguladas. Falamos disso abertamente antes de aceitar um mandato."
+      },
+      {
+        "Question": "O que preciso para domiciliar a minha sociedade convosco?",
+        "Answer": "Verificamos a identidade, a estrutura, a atividade, os beneficiários efetivos e as necessidades de correio antes de confirmar o mandato. Depois de assinado o contrato de domiciliação, emitimos o certificado para o registo comercial."
+      }
+    ]
   }
 }

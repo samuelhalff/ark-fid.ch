@@ -2,7 +2,7 @@
 
 import NextError from "next/error";
 import { useEffect } from "react";
-import posthog from "posthog-js";
+import posthog from "@/src/lib/posthog-lazy";
 
 export default function GlobalError({
   error,

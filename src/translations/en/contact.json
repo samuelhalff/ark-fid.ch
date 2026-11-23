@@ -48,5 +48,34 @@
     "MapDisclaimer": "The map is provided by Google Maps. Load it only if you agree to possible data transfer (see our privacy policy).",
     "MapLoadButton": "Display interactive map",
     "MapOpenExternal": "Open in Google Maps",
-    "MapPrivacyPlaceholder": "For privacy reasons, the map is not loaded automatically."
+    "MapPrivacyPlaceholder": "For privacy reasons, the map is not loaded automatically.",
+    "Faq": {
+        "Title": "Frequently asked questions",
+        "Questions": [
+            {
+                "Question": "How do I contact Ark Fiduciaire in Geneva?",
+                "Answer": "You can call +41 22 512 50 50, email info@ark-fid.ch, use the form on this page or message us on WhatsApp."
+            },
+            {
+                "Question": "How quickly do you reply?",
+                "Answer": "We usually reply within 24 hours."
+            },
+            {
+                "Question": "How do I book a call with the team?",
+                "Answer": "Use the \"Book a call\" button on this page, which suits a planned conversation with our team. You can also call us directly to speak with the team."
+            },
+            {
+                "Question": "Can I message you on WhatsApp?",
+                "Answer": "Yes, WhatsApp works for quick questions and quick answers."
+            },
+            {
+                "Question": "Where is your office?",
+                "Answer": "Our office is at 26 Boulevard Georges Favon, 1204 Geneva, Switzerland."
+            },
+            {
+                "Question": "Which languages can you answer in?",
+                "Answer": "Our advisers speak French, English and German. Depending on the team members and the file, we also work in Spanish, Portuguese or Italian."
+            }
+        ]
+    }
 }

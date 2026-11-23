@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Locale, locales } from "./i18n";
 import { localizePath } from "./paths";
 import { hreflangFor } from "./hreflang";
+import { ogImageFor } from "./public-pages";
 import fs from 'fs';
 import { join as pathJoin } from 'path';
 
@@ -101,8 +102,15 @@ export async function getPageMetadata(
   
   // Handle dynamic pages (like articles)
   if (normalizedPath.startsWith("/ressources/articles/") && customData?.articleTitle) {
-    title = config.dynamic.articles.titleTemplate.replace("{articleTitle}", customData.articleTitle);
-    description = config.dynamic.articles.descriptionTemplate.replace("{articleDescription}", customData.articleDescription || "");
+    // Google shows about 60 / 155 characters: the branded template is used
+    // only when it fits, then "<title> | Ark Fiduciaire", then the bare title.
+    const articleTitle = customData.articleTitle;
+    const articleDescription = customData.articleDescription || "";
+    const templatedTitle = config.dynamic.articles.titleTemplate.replace("{articleTitle}", articleTitle);
+    const shortBranded = `${articleTitle} | Ark Fiduciaire`;
+    title = templatedTitle.length <= 60 ? templatedTitle : shortBranded.length <= 60 ? shortBranded : articleTitle;
+    const templatedDescription = config.dynamic.articles.descriptionTemplate.replace("{articleDescription}", articleDescription);
+    description = templatedDescription.length <= 155 ? templatedDescription : articleDescription;
     if (customData.articleMetaTitle) title = customData.articleMetaTitle;
     if (customData.articleMetaDescription) description = customData.articleMetaDescription;
   }
@@ -139,6 +147,13 @@ export async function getPageMetadata(
       ogImage = ogLocaleImage;
     }
   } catch {}
+  // Per-page share image (FR/EN pages of the sitemap, built at build time by
+  // app/assets/og-pages); the per-language image above stays the fallback.
+  let pageOgImage: string | null = null;
+  try {
+    pageOgImage = ogImageFor(locale, normalizedPath);
+  } catch {}
+  if (pageOgImage) ogImage = pageOgImage;
 
   const metadata: Metadata = {
     metadataBase: new URL('https://ark-fid.ch'),
@@ -173,7 +188,7 @@ export async function getPageMetadata(
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: "Ark Fiduciaire",
+          alt: pageOgImage ? title : "Ark Fiduciaire",
         },
       ],
     },

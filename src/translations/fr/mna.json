@@ -92,5 +92,30 @@
         ]
       }
     ]
+  },
+  "Faq": {
+    "Title": "Questions fréquentes",
+    "Questions": [
+      {
+        "Question": "Que fait un conseiller M&A en Suisse ?",
+        "Answer": "Nous conseillons les entreprises romandes et alémaniques tout au long de la transaction : mandats d'achat et de vente, modèles financiers, due diligences et négociation."
+      },
+      {
+        "Question": "Pouvez-vous valoriser mon entreprise ?",
+        "Answer": "Oui, nous préparons des modèles financiers, des scénarios et une valorisation indépendante, en combinant données de marché, comparables sectoriels et réalité opérationnelle."
+      },
+      {
+        "Question": "Comment se déroule un mandat M&A ?",
+        "Answer": "Il avance par étapes : diagnostic, préparation, exécution, négociation, closing, puis suivi après la transaction si nécessaire."
+      },
+      {
+        "Question": "Qui s'occupe de la partie juridique et du SPA ?",
+        "Answer": "Pour la structuration juridique, la rédaction du SPA et les dépôts réglementaires, nous travaillons avec notre étude d'avocats partenaire."
+      },
+      {
+        "Question": "Pour qui intervenez-vous ?",
+        "Answer": "Nous accompagnons les fondateurs, les familles, les PME, les investisseurs et les groupes qui préparent une acquisition, une cession, une transmission ou une levée de fonds structurante."
+      }
+    ]
   }
 }

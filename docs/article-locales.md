@@ -2,7 +2,7 @@
 
 ## New articles: FR + EN + DE only
 
-- The article pipeline (`.github/workflows/ai-ressources-every-4-days.yml`) runs on the 2nd and 16th of each month (about 2 new articles a month).
+- The article pipeline (`.github/workflows/ai-ressources-twice-monthly.yml`) runs on the 2nd and 16th of each month (about 2 new articles a month).
 - New articles are written in French and translated to English and German only. The locale policy lives in `scripts/lib/articleLocales.js`.
 - Spanish and Portuguese are kept for existing articles only. `translate-articles.js` and the refresh flow (`--refresh`) update an ES/PT entry only if it already exists, and never create a new one.
 - Validators accept an article that is missing in ES/PT (`validate-article-translations.js`, `refreshedArticleValidator.js`). An ES/PT entry that is a raw copy of the French text still fails.

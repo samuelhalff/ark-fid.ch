@@ -145,5 +145,30 @@
         "WhatWeDo": "Choix de la structure, domiciliation du siège, compte de consignation, acte notarié et inscription au registre du commerce, puis comptabilité et secrétariat juridique après l'immatriculation."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Questions fréquentes",
+    "Questions": [
+      {
+        "Question": "Comment créer une SA ou une Sàrl à Genève ?",
+        "Answer": "Vous choisissez le type de société et fournissez les documents requis, puis nous nous occupons de l'enregistrement et des formalités. Les étapes comprennent le choix de la forme juridique, les statuts, le compte de consignation, l'acte notarié et l'inscription au registre du commerce."
+      },
+      {
+        "Question": "Sàrl ou SA : laquelle choisir ?",
+        "Answer": "Cela dépend du capital, de la gouvernance, de la fiscalité et de vos besoins opérationnels. Nous vous conseillons sur la forme juridique et la structuration avant de lancer les démarches."
+      },
+      {
+        "Question": "Combien coûte et combien de temps prend une création de société ?",
+        "Answer": "Les coûts et les délais dépendent de la forme choisie, du nombre de fondateurs, de la banque, du notaire, des permis et des besoins de domiciliation. Nous privilégions une liste de pièces courte et vérifiable pour éviter les retards au registre du commerce."
+      },
+      {
+        "Question": "Pouvez-vous m'aider à ouvrir un compte bancaire pour ma société ?",
+        "Answer": "Oui, nous aidons à l'ouverture du compte bancaire, au dépôt du capital et à l'inscription TVA, avec un calendrier clair."
+      },
+      {
+        "Question": "Que faites-vous après l'inscription de la société ?",
+        "Answer": "Nous aidons à mettre en place la comptabilité, les salaires, les contrats administratifs et le calendrier des obligations. Nous proposons aussi une adresse enregistrée et des services de mandataire."
+      }
+    ]
   }
 }

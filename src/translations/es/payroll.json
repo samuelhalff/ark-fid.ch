@@ -202,5 +202,34 @@
         "WhatWeDo": "Nóminas ANOBAG para empleadores extranjeros sin entidad en Suiza (acuerdos AVS, liquidaciones, cumplimiento), preparación de contratos, administración de RR. HH. y una persona de contacto dedicada para los empleados."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Preguntas frecuentes",
+    "Questions": [
+      {
+        "Question": "¿Cómo externalizo las nóminas en Suiza?",
+        "Answer": "Usted confía a Ark Fiduciaire el cálculo de los salarios, las nóminas, los certificados y las declaraciones de seguros sociales. Entregamos salidas compatibles con Swissdec y una lista de comprobación mensual para RR. HH."
+      },
+      {
+        "Question": "¿Qué es la nómina ANOBAG?",
+        "Answer": "Es la administración de salarios y seguros sociales para empleadores extranjeros sin entidad en Suiza, con los acuerdos AVS, las liquidaciones y el cumplimiento normativo."
+      },
+      {
+        "Question": "¿Qué documentos entregan?",
+        "Answer": "Elaboramos las nóminas, las declaraciones AVS/AI/APG, LPP y LAA y los certificados de salario."
+      },
+      {
+        "Question": "¿Gestionan la retención en la fuente y a los trabajadores transfronterizos?",
+        "Answer": "Sí. Para empleadores de Ginebra y Vaud, aplicamos los baremos según la situación personal declarada, enviamos las liquidaciones periódicas y preparamos los certificados que necesitan los empleados."
+      },
+      {
+        "Question": "¿Mis datos salariales siguen siendo confidenciales?",
+        "Answer": "Sí. Limitamos el acceso a las personas autorizadas y usamos canales de transmisión seguros."
+      },
+      {
+        "Question": "¿De qué depende el precio de externalizar las nóminas?",
+        "Answer": "Depende del número de empleados, de la frecuencia de los cambios, de la presencia de retención en la fuente o de transfronterizos y de elementos variables como bonus u horas extra. Establecemos una tarificación transparente según esos criterios y la revisamos cuando cambia su situación."
+      }
+    ]
   }
 }

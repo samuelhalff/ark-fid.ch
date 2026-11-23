@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useMemo } from "react";
-import posthog from "posthog-js";
+import posthog from "@/src/lib/posthog-lazy";
 import { cn } from "@/src/lib/utils";
 import { getGaClientId, trackEvent } from "@/src/lib/analytics";
 import { currentPageUrl, getAttributionPayload } from "@/src/lib/attribution";

@@ -115,5 +115,30 @@
                 ]
             }
         ]
+    },
+    "Faq": {
+        "Title": "Häufige Fragen",
+        "Questions": [
+            {
+                "Question": "Was ist ein administratives Family Office?",
+                "Answer": "Es ist eine Koordinationsstelle in der Schweiz für Governance, Steuern, Rechtsfragen und Reporting einer Familie oder eines Unternehmers. Unsere Rolle ist administrativ, in Zusammenarbeit mit Banken, externen Vermögensverwaltern, Juristen und Steuerberatern."
+            },
+            {
+                "Question": "Verwalten Sie das Vermögen meiner Familie?",
+                "Answer": "Nein, Ark Fiduciaire bietet keine diskretionäre Vermögensverwaltung an. Anlageentscheide und Verwaltungsmandate bleiben bei den zuständigen Banken, Vermögensverwaltern oder zugelassenen Beratern."
+            },
+            {
+                "Question": "Was koordinieren Sie konkret?",
+                "Answer": "Wir koordinieren Entscheidkalender, Governance-Dokumente, administrative Übersichten, die Steuerüberwachung und den Austausch mit Banken, externen Vermögensverwaltern, Anwälten und Notaren. Zudem bereiten wir Zahlungen vor und verfolgen die Dossiers."
+            },
+            {
+                "Question": "Helfen Sie bei Familien-Governance und Philanthropie?",
+                "Answer": "Ja, wir begleiten Familienchartas, Aktionärbindungsverträge, Next-Gen-Programme und die Nachfolgeplanung. Zudem gründen wir Stiftungen und verfolgen Spenden."
+            },
+            {
+                "Question": "Wovon hängen die Kosten eines Family Office ab?",
+                "Answer": "Sie hängen von der Zahl der Gesellschaften, Beteiligten, Länder, Sitzungen, Berichte und Dokumente ab, die zu koordinieren sind."
+            }
+        ]
     }
 }

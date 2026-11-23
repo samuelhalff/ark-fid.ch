@@ -366,10 +366,9 @@ export default async function ArticlePage(props: Params) {
     timeRequired: reading?.timeRequiredISO,
   });
 
-  // Opt-in per article (faqSchema: true): the FAQPage JSON-LD mirrors the visible FAQ.
-  const faqEntries = article.faqSchema
-    ? extractFaqFromContent(article.content ?? "")
-    : [];
+  // Every article with a visible FAQ ("## FAQ" + "### question?" blocks)
+  // gets FAQPage JSON-LD built from that same text.
+  const faqEntries = extractFaqFromContent(article.content ?? "");
   const faqJsonLd = faqEntries.length >= 3 ? buildFAQPage(faqEntries) : null;
 
   return (
@@ -426,7 +425,8 @@ export default async function ArticlePage(props: Params) {
           {ressources.By} {article.author}
         </p>
         <p>
-          {ressources.Published} {formatDateDeterministic(article.date, locale)}
+          {ressources.Published}{" "}
+          <time dateTime={article.date}>{formatDateDeterministic(article.date, locale)}</time>
         </p>
         {publicationResponsible && publicationLabel && (
           <p>
@@ -458,10 +458,10 @@ export default async function ArticlePage(props: Params) {
             </p>
           );
         })()}
-        {article.updated && (
+        {article.updated && article.updated !== article.date && (
           <p>
-            {ressources.LastUpdated}:{" "}
-            {formatDateDeterministic(article.updated, locale)}
+            {ressources.LastUpdated}{" "}
+            <time dateTime={article.updated}>{formatDateDeterministic(article.updated, locale)}</time>
           </p>
         )}
         {reading && (

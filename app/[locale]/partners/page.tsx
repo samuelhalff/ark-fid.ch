@@ -1,3 +1,4 @@
+import PageFaq from "@/src/components/site/page-faq";
 import React from "react";
 import { Metadata } from "next";
 import Hero from "./components/hero";
@@ -92,6 +93,7 @@ const PartnersPage = async (props: { params: Promise<{ locale: string }> }) => {
           contactSecondaryCta: t("Contact.SecondaryButtonText"),
         }}
       />
+      <PageFaq locale={params.locale as Locale} ns="partners" />
     </div>
   );
 };

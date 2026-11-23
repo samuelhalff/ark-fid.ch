@@ -111,5 +111,34 @@
         "WhatWeDo": "Professional registered office address entered in the commercial register, mail reception and scanning, administrative support and meeting rooms for rent when needed."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Frequently asked questions",
+    "Questions": [
+      {
+        "Question": "What is company domiciliation in Geneva?",
+        "Answer": "It means setting the legal seat of your company at a recognised business address without renting your own offices. It includes the address entered in the commercial register, mail reception, scanning and forwarding, and administrative support."
+      },
+      {
+        "Question": "How much does company domiciliation cost in Geneva?",
+        "Answer": "The price depends on the services included (a simple registered address or a full service), the volume of mail, the complexity of the structure and the related fiduciary services. We prepare a transparent quote and send you a detailed offer within 24 working hours."
+      },
+      {
+        "Question": "What is the domiciliation address and how is mail handled?",
+        "Answer": "We domicile your company at 26 Boulevard Georges Favon in Geneva. Mail is scanned the same day and forwarded according to your preferences, with a simple monthly summary."
+      },
+      {
+        "Question": "Do you offer domiciliation in Lausanne or the canton of Vaud?",
+        "Answer": "Our office is in Geneva, but we also support companies active in Lausanne and the canton of Vaud, for example with a Geneva seat and remote mail handling, or a transfer of the seat from one canton to another."
+      },
+      {
+        "Question": "Is domiciliation enough if my business needs substance?",
+        "Answer": "No. Domiciliation does not replace an operational presence when the situation requires real economic substance, for example for some regulated activities. We discuss this openly before accepting an engagement."
+      },
+      {
+        "Question": "What do I need to domicile my company with you?",
+        "Answer": "We verify the identity, structure, activity, beneficial owners and mail needs before confirming the engagement. Once the domiciliation contract is signed, we issue the certificate for the commercial register."
+      }
+    ]
   }
 }

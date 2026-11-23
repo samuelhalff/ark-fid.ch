@@ -122,6 +122,13 @@ jobs:
       # the GitHub artifact upload/download round-trip on the critical path;
       # the artifact is retained at the end, after production is healthy) ───
 
+      # Live sitemap before the switch, compared after the deploy so that
+      # IndexNow only receives the URLs whose lastmod changed.
+      - name: Snapshot live sitemap (IndexNow diff)
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        continue-on-error: true
+        run: curl --connect-timeout 5 --max-time 20 -fsS "https://ark-fid.ch/sitemap.xml" -o "$RUNNER_TEMP/sitemap-before.xml" || true
+
       - name: Install deploy tools
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: command -v sshpass >/dev/null || { sudo apt-get update && sudo apt-get install -y sshpass; }
@@ -790,6 +797,17 @@ jobs:
           else
             echo "Notice: Sitemap URLs may be missing trailing slashes"
           fi
+
+      - name: IndexNow (changed URLs only, non-blocking)
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        continue-on-error: true
+        timeout-minutes: 2
+        run: node scripts/indexnow-changed.mjs --before "$RUNNER_TEMP/sitemap-before.xml"
+
+      - name: Check rendered SEO (title, canonical, hreflang in <head>)
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        timeout-minutes: 3
+        run: node scripts/check-rendered-seo.mjs https://ark-fid.ch
 
       # Retained for manual/emergency access (nothing downloads it in CI:
       # the merged job deploys the local tarball directly). Runs last so the

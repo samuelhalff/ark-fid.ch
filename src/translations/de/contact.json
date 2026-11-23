@@ -48,5 +48,34 @@
     "MapDisclaimer": "Die Karte wird von Google Maps bereitgestellt. Laden Sie sie nur, wenn Sie einer möglichen Datenübertragung zustimmen (siehe Datenschutzrichtlinie).",
     "MapLoadButton": "Interaktive Karte anzeigen",
     "MapOpenExternal": "In Google Maps öffnen",
-    "MapPrivacyPlaceholder": "Aus Datenschutzgründen wird die Karte nicht automatisch geladen."
+    "MapPrivacyPlaceholder": "Aus Datenschutzgründen wird die Karte nicht automatisch geladen.",
+    "Faq": {
+        "Title": "Häufige Fragen",
+        "Questions": [
+            {
+                "Question": "Wie erreiche ich Ark Fiduciaire in Genf?",
+                "Answer": "Sie können unter +41 22 512 50 50 anrufen, an info@ark-fid.ch schreiben, das Formular auf dieser Seite nutzen oder uns per WhatsApp schreiben."
+            },
+            {
+                "Question": "Wie schnell antworten Sie?",
+                "Answer": "Wir antworten normalerweise innerhalb von 24 Stunden."
+            },
+            {
+                "Question": "Wie buche ich einen Termin mit dem Team?",
+                "Answer": "Nutzen Sie die Schaltfläche \"Einen Termin buchen\" auf dieser Seite, ideal für ein geplantes Gespräch mit unserem Team. Sie können uns auch direkt anrufen, um mit dem Team zu sprechen."
+            },
+            {
+                "Question": "Kann ich Ihnen über WhatsApp schreiben?",
+                "Answer": "Ja, WhatsApp eignet sich für kurze Fragen und schnelle Antworten."
+            },
+            {
+                "Question": "Wo befindet sich Ihr Büro?",
+                "Answer": "Unser Büro befindet sich am Boulevard Georges Favon 26, 1204 Genf, Schweiz."
+            },
+            {
+                "Question": "In welchen Sprachen können Sie mir antworten?",
+                "Answer": "Unsere Berater sprechen Französisch, Englisch und Deutsch. Je nach Teammitglied und Dossier arbeiten wir auch auf Spanisch, Portugiesisch oder Italienisch."
+            }
+        ]
+    }
 }

@@ -1,3 +1,4 @@
+import PageFaq from "@/src/components/site/page-faq";
 import Link from "next/link";
 import { headers } from "next/headers";
 import { Metadata } from "next";
@@ -237,6 +238,7 @@ export default async function AboutUsPage(props: {
           }}
         />
       </div>
+      <PageFaq locale={params.locale as Locale} ns="about-us" />
     </div>
   );
 }

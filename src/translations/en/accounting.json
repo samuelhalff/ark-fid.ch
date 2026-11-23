@@ -250,5 +250,30 @@
       }
     ],
     "PriceNote": "Simple digital bookkeeping: from CHF 149 per month. Fixed price once the scope is well defined."
+  },
+  "Faq": {
+    "Title": "Frequently asked questions",
+    "Questions": [
+      {
+        "Question": "How much does outsourced accounting cost in Geneva?",
+        "Answer": "Our simple digital bookkeeping starts at CHF 149 per month, at a fixed price when the engagement is well defined. Beyond that, the cost depends on the volume of entries, the number of entities, the level of reporting, the tools used and the external coordination needed."
+      },
+      {
+        "Question": "What does an accounting service for SMEs include?",
+        "Answer": "It covers general accounting (a tailored chart of accounts, supplier and customer accounts, payments, cash management), cost accounting, financial reporting and dashboards adapted to your business."
+      },
+      {
+        "Question": "Do you also handle VAT and year-end closings?",
+        "Answer": "Yes. We prepare interim or annual closings, half-yearly or quarterly VAT, social insurance and the tax return. We can also prepare general meetings and board meetings."
+      },
+      {
+        "Question": "Can you work with the tools I already use?",
+        "Answer": "Yes. We work with your tools or set up simple dashboards so you always see what matters."
+      },
+      {
+        "Question": "How does an accounting engagement start?",
+        "Answer": "We begin with a diagnosis of your volumes, tools, deadlines and obligations. We then set a calendar, responsibilities and the format of the deliverables, such as trial balances, annual accounts, periodic reporting or VAT files."
+      }
+    ]
   }
 }

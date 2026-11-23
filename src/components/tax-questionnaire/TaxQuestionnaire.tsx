@@ -15,7 +15,7 @@ import { Label } from "@/src/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/components/ui/select";
 import { Separator } from "@/src/components/ui/separator";
 import { Textarea } from "@/src/components/ui/textarea";
-import posthog from "posthog-js";
+import posthog from "@/src/lib/posthog-lazy";
 import { trackEvent } from "@/src/lib/analytics";
 import { docCode } from "@/src/lib/tax-questionnaire/documents";
 import { checklistFor, displayValue, isBlockVisible, isRowFieldVisible, label as interpolate, missingAnswers, pruneHidden, stepOfKey, visibleSteps } from "@/src/lib/tax-questionnaire/logic";

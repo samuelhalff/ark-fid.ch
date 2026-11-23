@@ -111,5 +111,34 @@
         "WhatWeDo": "Dirección de domicilio social profesional inscrita en el registro mercantil, recepción y digitalización del correo, apoyo administrativo y salas de reuniones en alquiler cuando haga falta."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Preguntas frecuentes",
+    "Questions": [
+      {
+        "Question": "¿Qué es la domiciliación de empresas en Ginebra?",
+        "Answer": "Consiste en fijar el domicilio legal de su sociedad en una dirección comercial reconocida, sin alquilar oficinas propias. Incluye la dirección inscrita en el registro mercantil, la recepción, el escaneado y el reenvío del correo, y apoyo administrativo."
+      },
+      {
+        "Question": "¿Cuánto cuesta la domiciliación de una empresa en Ginebra?",
+        "Answer": "El precio depende de los servicios incluidos (simple dirección de domicilio o servicio completo), del volumen de correo, de la complejidad de la estructura y de los servicios fiduciarios asociados. Elaboramos un presupuesto transparente y le enviamos una oferta detallada en un plazo de 24 horas laborables."
+      },
+      {
+        "Question": "¿Cuál es la dirección de domiciliación y cómo se gestiona el correo?",
+        "Answer": "Domiciliamos su sociedad en el 26 de Boulevard Georges Favon, en Ginebra. El correo se escanea el mismo día y se reenvía según sus preferencias, con un resumen mensual sencillo."
+      },
+      {
+        "Question": "¿Ofrecen domiciliación en Lausana o en el cantón de Vaud?",
+        "Answer": "Nuestra oficina está en Ginebra, pero también acompañamos a empresas activas en Lausana y en el cantón de Vaud, por ejemplo con un domicilio en Ginebra y gestión del correo a distancia, o con un traslado de domicilio de un cantón a otro."
+      },
+      {
+        "Question": "¿Basta la domiciliación si mi actividad exige sustancia?",
+        "Answer": "No. La domiciliación no sustituye una presencia operativa cuando la situación exige sustancia económica real, por ejemplo en ciertas actividades reguladas. Lo hablamos abiertamente antes de aceptar un encargo."
+      },
+      {
+        "Question": "¿Qué necesito para domiciliar mi sociedad con ustedes?",
+        "Answer": "Verificamos la identidad, la estructura, la actividad, los beneficiarios efectivos y las necesidades de correo antes de confirmar el encargo. Una vez firmado el contrato de domiciliación, emitimos el certificado para el registro mercantil."
+      }
+    ]
   }
 }

@@ -70,5 +70,30 @@
         "Description": "Entdecken Sie, wie unsere kombinierte Expertise Ihrem Unternehmen zugutekommen kann.",
         "ContactButton": "Kontakt Aufnehmen",
         "TeamButton": "Unser Team Kennenlernen"
+    },
+    "Faq": {
+        "Title": "Häufige Fragen",
+        "Questions": [
+            {
+                "Question": "Wer ist Ark Fiduciaire?",
+                "Answer": "Ark Fiduciaire SA ist eine Treuhandgesellschaft in Genf, die Unternehmen und Privatpersonen bei der Buchhaltung und der Steuerverwaltung begleitet."
+            },
+            {
+                "Question": "Wann wurde Ark Fiduciaire gegründet?",
+                "Answer": "Ark Fiduciaire SA wurde 2025 durch den Zusammenschluss zweier etablierter Schweizer Treuhandgesellschaften gegründet, die ihre Expertise und ihre Kundenbeziehungen gebündelt haben."
+            },
+            {
+                "Question": "Welche Werte vertritt die Gesellschaft?",
+                "Answer": "Wir stehen für Schweizer Präzision, Innovation, einen kundenorientierten Ansatz und gemeinsame Exzellenz."
+            },
+            {
+                "Question": "Welche Kunden betreuen Sie?",
+                "Answer": "Wir betreuen lokale KMU ebenso wie multinationale Unternehmen, mit einer Expertise, die von der traditionellen Schweizer Buchhaltungspraxis bis zur internationalen Geschäftsdynamik reicht."
+            },
+            {
+                "Question": "Welche Vision verfolgen Sie?",
+                "Answer": "Wir wollen die Finanzverwaltung und die Compliance unserer Kunden vereinfachen. Mit Innovation und Werkzeugen wie dem ERP Odoo wollen wir die klassische Treuhand zu einer dynamischen Geschäftspartnerschaft weiterentwickeln."
+            }
+        ]
     }
 }

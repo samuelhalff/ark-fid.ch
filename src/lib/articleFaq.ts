@@ -12,9 +12,13 @@ const stripMarkdown = (value: string) =>
  * Reads the visible FAQ of an article ("## FAQ ..." followed by "### question"
  * blocks) so the FAQPage JSON-LD always matches what the page shows.
  */
+/** "## FAQ…" or the localized "frequently asked questions" heading. */
+export const FAQ_HEADING =
+  /^##\s+(?:FAQ\b|Questions fréquentes|Frequently asked questions|Häufige Fragen|Preguntas frecuentes|Perguntas frequentes)/i;
+
 export function extractFaqFromContent(content: string): FAQEntry[] {
   const lines = content.split("\n");
-  const start = lines.findIndex((line) => /^##\s+FAQ\b/i.test(line));
+  const start = lines.findIndex((line) => FAQ_HEADING.test(line));
   if (start === -1) return [];
   const entries: FAQEntry[] = [];
   let question = "";
@@ -37,5 +41,7 @@ export function extractFaqFromContent(content: string): FAQEntry[] {
     }
   }
   flush();
-  return entries;
+  // Only real questions: a heading that does not end with "?" is a section
+  // title, not an FAQ entry.
+  return entries.filter((e) => /[?？]\s*$/.test(e.question));
 }

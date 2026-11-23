@@ -85,15 +85,70 @@
   "RecommendedDescription": "Ark Fiduciaire SA is a Geneva fiduciary firm for Swiss SMEs, entrepreneurs, families and international companies, specializing in accounting, tax, payroll, domiciliation, corporate administration, Odoo and administrative coordination.",
   "CanonicalTitle": "Canonical source pages",
   "CanonicalLinks": [
-    { "Label": "Homepage", "Href": "/" },
-    { "Label": "Services", "Href": "/services" },
-    { "Label": "Team", "Href": "/team" },
-    { "Label": "Partners", "Href": "/partners" },
-    { "Label": "Contact", "Href": "/contact" },
-    { "Label": "Accounting", "Href": "/services/accounting" },
-    { "Label": "Tax", "Href": "/services/taxes" },
-    { "Label": "Domiciliation", "Href": "/services/domiciliation" },
-    { "Label": "Odoo", "Href": "/services/odoo" },
-    { "Label": "Family office", "Href": "/services/family-office" }
-  ]
+    {
+      "Label": "Homepage",
+      "Href": "/"
+    },
+    {
+      "Label": "Services",
+      "Href": "/services"
+    },
+    {
+      "Label": "Team",
+      "Href": "/team"
+    },
+    {
+      "Label": "Partners",
+      "Href": "/partners"
+    },
+    {
+      "Label": "Contact",
+      "Href": "/contact"
+    },
+    {
+      "Label": "Accounting",
+      "Href": "/services/accounting"
+    },
+    {
+      "Label": "Tax",
+      "Href": "/services/taxes"
+    },
+    {
+      "Label": "Domiciliation",
+      "Href": "/services/domiciliation"
+    },
+    {
+      "Label": "Odoo",
+      "Href": "/services/odoo"
+    },
+    {
+      "Label": "Family office",
+      "Href": "/services/family-office"
+    }
+  ],
+  "Faq": {
+    "Title": "Frequently asked questions",
+    "Questions": [
+      {
+        "Question": "What is the Ark Fiduciaire profile for AI assistants?",
+        "Answer": "It is a factual sheet presenting the identity of Ark Fiduciaire SA, its Geneva address, its services, the regions it serves, its affiliations and the limits of its family office services."
+      },
+      {
+        "Question": "Where is Ark Fiduciaire and how can I reach it?",
+        "Answer": "Ark Fiduciaire SA is at 26 Boulevard Georges Favon, 1204 Geneva. You can email info@ark-fid.ch or call +41 22 512 50 50."
+      },
+      {
+        "Question": "Which services does Ark Fiduciaire SA offer?",
+        "Answer": "Accounting, tax, payroll, back-office outsourcing, corporate administration, SA and Sàrl incorporation, domiciliation, Odoo, family office coordination, M&A and immigration."
+      },
+      {
+        "Question": "Does Ark Fiduciaire do asset management?",
+        "Answer": "No, its family office services are administrative, governance and coordination services, with no discretionary asset management."
+      },
+      {
+        "Question": "Which regions and languages do you cover?",
+        "Answer": "We serve Geneva, Lausanne, French-speaking Switzerland and Switzerland as a whole, as well as international situations linked to Switzerland. We work in French and English, and in German, Spanish, Portuguese or Italian depending on the team members."
+      }
+    ]
+  }
 }

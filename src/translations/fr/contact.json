@@ -48,5 +48,34 @@
     "MapDisclaimer": "La carte est fournie par Google Maps. Chargez-la seulement si vous acceptez un éventuel transfert de données (voir notre politique de confidentialité).",
     "MapLoadButton": "Afficher la carte interactive",
     "MapOpenExternal": "Ouvrir dans Google Maps",
-    "MapPrivacyPlaceholder": "Pour des raisons de confidentialité, la carte n'est pas chargée automatiquement."
+    "MapPrivacyPlaceholder": "Pour des raisons de confidentialité, la carte n'est pas chargée automatiquement.",
+    "Faq": {
+        "Title": "Questions fréquentes",
+        "Questions": [
+            {
+                "Question": "Comment contacter Ark Fiduciaire à Genève ?",
+                "Answer": "Vous pouvez appeler le +41 22 512 50 50, écrire à info@ark-fid.ch, utiliser le formulaire de cette page ou nous écrire sur WhatsApp."
+            },
+            {
+                "Question": "Sous quel délai répondez-vous ?",
+                "Answer": "Nous répondons généralement dans les 24 heures."
+            },
+            {
+                "Question": "Comment réserver un appel avec l'équipe ?",
+                "Answer": "Utilisez le bouton « Réserver un appel » de cette page, idéal pour un échange planifié avec notre équipe. Vous pouvez aussi nous appeler directement pour parler à l'équipe."
+            },
+            {
+                "Question": "Puis-je vous écrire sur WhatsApp ?",
+                "Answer": "Oui, WhatsApp convient pour les questions rapides et les réponses rapides."
+            },
+            {
+                "Question": "Où se trouve votre bureau ?",
+                "Answer": "Notre bureau est au 26 Boulevard Georges Favon, 1204 Genève, Suisse."
+            },
+            {
+                "Question": "Dans quelles langues pouvez-vous me répondre ?",
+                "Answer": "Nos conseillers parlent français, anglais et allemand. Selon les membres de l'équipe et les dossiers, nous travaillons aussi en espagnol, en portugais ou en italien."
+            }
+        ]
+    }
 }

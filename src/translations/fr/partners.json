@@ -67,5 +67,26 @@
         "CallToAction": "Contactez-nous pour discuter de la façon dont nous pouvons collaborer pour mieux servir nos clients.",
         "ButtonText": "Nous contacter",
         "SecondaryButtonText": "Obtenez un devis instantané"
+    },
+    "Faq": {
+        "Title": "Questions fréquentes",
+        "Questions": [
+            {
+                "Question": "Avec quels partenaires travaille Ark Fiduciaire ?",
+                "Answer": "Nous collaborons avec PBM Avocats, cabinet d'avocats spécialisé en droit des affaires et en gouvernance d'entreprise, et avec HelveBroker, cabinet de courtage d'assurance."
+            },
+            {
+                "Question": "Pourquoi travailler avec des partenaires ?",
+                "Answer": "Nos partenariats nous permettent de couvrir tous vos besoins, d'accéder à une expertise spécialisée et d'offrir des références clients et une collaboration transparentes."
+            },
+            {
+                "Question": "Qui s'occupe du conseil juridique et de l'assurance ?",
+                "Answer": "Le conseil juridique passe par nos partenaires avocats, dont PBM Avocats. L'assurance et l'évaluation des risques passent par HelveBroker."
+            },
+            {
+                "Question": "Puis-je devenir partenaire d'Ark Fiduciaire ?",
+                "Answer": "Oui, la page est ouverte aux opportunités de partenariat : écrivez-nous via la page contact pour en discuter."
+            }
+        ]
     }
 }

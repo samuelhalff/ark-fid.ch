@@ -118,5 +118,34 @@
         "WhatWeDo": "Processamento salarial ANOBAG para empregadores estrangeiros sem entidade na Suíça (acordos AVS, liquidações, conformidade), preparação de contratos, administração de RH e uma pessoa de contacto dedicada para os colaboradores."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Perguntas frequentes",
+    "Questions": [
+      {
+        "Question": "Como externalizo o processamento salarial na Suíça?",
+        "Answer": "Entrega à Ark Fiduciaire o cálculo dos salários, os recibos de vencimento, os certificados e as declarações de seguros sociais. Fornecemos saídas compatíveis com Swissdec e uma lista de verificação mensal para os RH."
+      },
+      {
+        "Question": "O que é o processamento salarial ANOBAG?",
+        "Answer": "É a administração de salários e seguros sociais para empregadores estrangeiros sem entidade na Suíça, com os acordos AVS, os acertos de contas e a conformidade."
+      },
+      {
+        "Question": "Que documentos entregam?",
+        "Answer": "Elaboramos os recibos de vencimento, as declarações AVS/AI/APG, LPP e LAA e os certificados de salário."
+      },
+      {
+        "Question": "Tratam da retenção na fonte e dos trabalhadores fronteiriços?",
+        "Answer": "Sim. Para empregadores de Genebra e Vaud, aplicamos as tabelas segundo a situação pessoal declarada, enviamos os acertos periódicos e preparamos os certificados de que os colaboradores precisam."
+      },
+      {
+        "Question": "Os meus dados salariais mantêm-se confidenciais?",
+        "Answer": "Sim. Limitamos o acesso às pessoas autorizadas e usamos canais de transmissão seguros."
+      },
+      {
+        "Question": "De que depende o preço da externalização do processamento salarial?",
+        "Answer": "Depende do número de colaboradores, da frequência das alterações, da existência de retenção na fonte ou de fronteiriços e de elementos variáveis como bónus ou horas extraordinárias. Definimos uma tarifação transparente com base nestes critérios e revemo-la quando a sua situação muda."
+      }
+    ]
   }
 }

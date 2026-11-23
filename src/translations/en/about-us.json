@@ -70,5 +70,30 @@
         "Description": "Discover how our combined expertise can benefit your business.",
         "ContactButton": "Get in touch",
         "TeamButton": "Meet our team"
+    },
+    "Faq": {
+        "Title": "Frequently asked questions",
+        "Questions": [
+            {
+                "Question": "Who is Ark Fiduciaire?",
+                "Answer": "Ark Fiduciaire SA is a local fiduciary firm in Geneva that supports businesses and individuals with their accounting and tax management."
+            },
+            {
+                "Question": "When was Ark Fiduciaire founded?",
+                "Answer": "Ark Fiduciaire SA was founded in 2025 through the union of two established Swiss fiduciary firms, which pooled their expertise and client relationships."
+            },
+            {
+                "Question": "What are the firm's values?",
+                "Answer": "We stand for Swiss precision, innovation, a client-centred approach and collaborative excellence."
+            },
+            {
+                "Question": "Which clients do you serve?",
+                "Answer": "We serve local SMEs and multinationals alike, with expertise that ranges from traditional Swiss accounting practice to international business dynamics."
+            },
+            {
+                "Question": "What is your vision?",
+                "Answer": "We want to simplify our clients' financial management and compliance. Through innovation and tools such as the Odoo ERP, we aim to turn the traditional fiduciary into a dynamic business partnership."
+            }
+        ]
     }
 }

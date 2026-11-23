@@ -210,16 +210,41 @@
         "CTA": "Gründung starten",
         "SecondaryCTA": "Mehr erfahren"
     },
-  "TypicalSituations": {
-    "Cases": [
-      {
-        "Situation": "Zwei Gesellschafter möchten in Genf eine GmbH gründen und sind unsicher bei der Rechtsform und beim Kapital.",
-        "WhatWeDo": "Wahl der Rechtsform, Statuten, Kapitaleinzahlungskonto, öffentliche Urkunde, Eintragung im Handelsregister und anschliessend MWST-Anmeldung."
-      },
-      {
-        "Situation": "Ein ausländischer Unternehmer möchte in Genf eine AG gründen und kennt die Schweizer Schritte nicht.",
-        "WhatWeDo": "Wahl der Struktur, Sitz der Gesellschaft, Kapitaleinzahlungskonto, öffentliche Urkunde und Handelsregistereintrag, danach Buchhaltung und Corporate-Secretarial-Leistungen nach der Eintragung."
-      }
-    ]
-  }
+    "TypicalSituations": {
+        "Cases": [
+            {
+                "Situation": "Zwei Gesellschafter möchten in Genf eine GmbH gründen und sind unsicher bei der Rechtsform und beim Kapital.",
+                "WhatWeDo": "Wahl der Rechtsform, Statuten, Kapitaleinzahlungskonto, öffentliche Urkunde, Eintragung im Handelsregister und anschliessend MWST-Anmeldung."
+            },
+            {
+                "Situation": "Ein ausländischer Unternehmer möchte in Genf eine AG gründen und kennt die Schweizer Schritte nicht.",
+                "WhatWeDo": "Wahl der Struktur, Sitz der Gesellschaft, Kapitaleinzahlungskonto, öffentliche Urkunde und Handelsregistereintrag, danach Buchhaltung und Corporate-Secretarial-Leistungen nach der Eintragung."
+            }
+        ]
+    },
+    "Faq": {
+        "Title": "Häufige Fragen",
+        "Questions": [
+            {
+                "Question": "Wie gründe ich eine AG oder GmbH in Genf?",
+                "Answer": "Sie wählen die Gesellschaftsform und reichen die erforderlichen Unterlagen ein, wir kümmern uns um die Eintragung und die Formalitäten. Die Schritte umfassen die Wahl der Rechtsform, die Statuten, das Kapitaleinzahlungskonto, die öffentliche Urkunde und die Eintragung ins Handelsregister."
+            },
+            {
+                "Question": "GmbH oder AG: welche Form soll ich wählen?",
+                "Answer": "Das hängt vom Kapital, der Governance, der Besteuerung und Ihren betrieblichen Bedürfnissen ab. Wir beraten Sie zur Rechtsform und zur Struktur, bevor die Schritte beginnen."
+            },
+            {
+                "Question": "Was kostet eine Gesellschaftsgründung und wie lange dauert sie?",
+                "Answer": "Kosten und Dauer hängen von der gewählten Form, der Zahl der Gründer, der Bank, dem Notar, den Bewilligungen und dem Domizilbedarf ab. Wir setzen auf eine kurze, überprüfbare Liste der Unterlagen, um Verzögerungen beim Handelsregister zu vermeiden."
+            },
+            {
+                "Question": "Können Sie mir bei der Eröffnung eines Bankkontos für meine Gesellschaft helfen?",
+                "Answer": "Ja, wir helfen bei der Kontoeröffnung, der Kapitaleinzahlung und der Mehrwertsteuer-Anmeldung, mit einem klaren Zeitplan."
+            },
+            {
+                "Question": "Was tun Sie nach der Eintragung der Gesellschaft?",
+                "Answer": "Wir helfen beim Aufbau der Buchhaltung, der Lohnbuchhaltung, der administrativen Verträge und des Fristenkalenders. Zudem bieten wir eine Domiziladresse und Mandatsdienstleistungen an."
+            }
+        ]
+    }
 }

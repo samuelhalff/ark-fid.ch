@@ -110,5 +110,30 @@
         ]
       }
     ]
+  },
+  "Faq": {
+    "Title": "Perguntas frequentes",
+    "Questions": [
+      {
+        "Question": "Que autorizações de residência e de trabalho podem coordenar?",
+        "Answer": "Coordenamos as autorizações L, B, C e G, bem como os processos ANobAG, com as autoridades cantonais e as caixas de seguros sociais."
+      },
+      {
+        "Question": "Como se obtém uma autorização de trabalho em Genebra?",
+        "Answer": "Começamos por analisar o seu estatuto (UE/AELC ou país terceiro) e as suas opções, e depois preparamos e verificamos os documentos do processo para limitar as devoluções por parte das autoridades."
+      },
+      {
+        "Question": "Quanto custa um processo de autorização?",
+        "Answer": "Os custos dependem da complexidade, do volume de trabalho e do nível de coordenação necessário, e esclarecemo-los desde o início. Avaliamos primeiro a sua situação para evitar despesas desnecessárias."
+      },
+      {
+        "Question": "Ajudam-me também a instalar-me à chegada?",
+        "Answer": "Sim, acompanhamos os trâmites administrativos à chegada, como a morada, os seguros e o banco."
+      },
+      {
+        "Question": "Tratam das renovações e das mudanças de empregador?",
+        "Answer": "Sim, o nosso acompanhamento depois da chegada abrange as renovações, as mudanças de empregador e a criação de uma sociedade."
+      }
+    ]
   }
 }

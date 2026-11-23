@@ -5,7 +5,6 @@ import TrackedLink from "@/src/components/ui/tracked-link";
 // import { useTranslation } from "react-i18next";
 // import "@/src/i18n";
 import { splitTitle } from "@/src/lib/typography";
-import Reveal from "@/src/components/motion/reveal";
 
 interface HeroFact {
   label: string;
@@ -32,7 +31,9 @@ const Hero = ({ locale, heroIndex, translations, facts }: HeroProps) => {
   return (
     <section className="relative w-full bg-background px-5 pb-12 pt-14 sm:px-8 sm:pb-16 sm:pt-16 lg:pt-20">
       <div className="mx-auto w-full max-w-[1240px]">
-        <Reveal className="max-w-5xl" from="bottom">
+        {/* No Reveal here: hiding the hero after hydration and fading it back
+            in pushed the mobile LCP to about 8 s. */}
+        <div className="max-w-5xl">
           <h1 className="max-w-[14ch] text-balance text-5xl font-semibold leading-[0.98] tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
             {title}
             {subtitle ? (
@@ -96,7 +97,7 @@ const Hero = ({ locale, heroIndex, translations, facts }: HeroProps) => {
               ))}
             </div>
           )}
-        </Reveal>
+        </div>
       </div>
     </section>
   );

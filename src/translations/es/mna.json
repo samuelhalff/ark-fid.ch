@@ -108,5 +108,30 @@
         ]
       }
     ]
+  },
+  "Faq": {
+    "Title": "Preguntas frecuentes",
+    "Questions": [
+      {
+        "Question": "¿Qué hace un asesor de M&A en Suiza?",
+        "Answer": "Asesoramos a empresas de la Suiza francófona y germanófona durante toda la transacción: mandatos de compra y de venta, modelos financieros, due diligence y negociación."
+      },
+      {
+        "Question": "¿Pueden valorar mi empresa?",
+        "Answer": "Sí, elaboramos modelos financieros, escenarios y una valoración independiente que combina datos de mercado, comparables sectoriales y realidad operativa."
+      },
+      {
+        "Question": "¿Cómo se desarrolla un encargo de M&A?",
+        "Answer": "Avanza por etapas: diagnóstico, preparación, ejecución, negociación, cierre y, si hace falta, seguimiento tras la transacción."
+      },
+      {
+        "Question": "¿Quién se ocupa de la parte jurídica y del SPA?",
+        "Answer": "Para la estructuración jurídica, la redacción del SPA y los trámites regulatorios, trabajamos con nuestro despacho de abogados asociado."
+      },
+      {
+        "Question": "¿Para quién trabajan?",
+        "Answer": "Acompañamos a fundadores, familias, pymes, inversores y grupos que preparan una adquisición, una venta, una sucesión o una captación de fondos relevante."
+      }
+    ]
   }
 }

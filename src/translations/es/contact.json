@@ -48,5 +48,34 @@
     "MapDisclaimer": "El mapa es proporcionado por Google Maps. Cárguelo solo si acepta la posible transferencia de datos (consulte nuestra política de privacidad).",
     "MapLoadButton": "Mostrar mapa interactivo",
     "MapOpenExternal": "Abrir en Google Maps",
-    "MapPrivacyPlaceholder": "Por razones de privacidad, el mapa no se carga automáticamente."
+    "MapPrivacyPlaceholder": "Por razones de privacidad, el mapa no se carga automáticamente.",
+    "Faq": {
+        "Title": "Preguntas frecuentes",
+        "Questions": [
+            {
+                "Question": "¿Cómo contacto con Ark Fiduciaire en Ginebra?",
+                "Answer": "Puede llamar al +41 22 512 50 50, escribir a info@ark-fid.ch, usar el formulario de esta página o escribirnos por WhatsApp."
+            },
+            {
+                "Question": "¿En cuánto tiempo responden?",
+                "Answer": "Normalmente respondemos en 24 horas."
+            },
+            {
+                "Question": "¿Cómo reservo una llamada con el equipo?",
+                "Answer": "Use el botón \"Reservar una llamada\" de esta página, ideal para una conversación planificada con nuestro equipo. También puede llamarnos directamente para hablar con el equipo."
+            },
+            {
+                "Question": "¿Puedo escribirles por WhatsApp?",
+                "Answer": "Sí, WhatsApp sirve para preguntas rápidas y respuestas rápidas."
+            },
+            {
+                "Question": "¿Dónde está su oficina?",
+                "Answer": "Nuestra oficina está en el 26 de Boulevard Georges Favon, 1204 Ginebra, Suiza."
+            },
+            {
+                "Question": "¿En qué idiomas pueden atenderme?",
+                "Answer": "Nuestros asesores hablan francés, inglés y alemán. Según los miembros del equipo y el expediente, también trabajamos en español, portugués o italiano."
+            }
+        ]
+    }
 }

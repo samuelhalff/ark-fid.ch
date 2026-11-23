@@ -19,5 +19,185 @@
     "PBM": {
         "Note": "Senior‑Partner bei der Kanzlei PBM.",
         "LearnMore": "Mehr erfahren"
+    },
+    "Faq": {
+        "Title": "Häufige Fragen",
+        "Questions": [
+            {
+                "Question": "Wer gehört zum Team von Ark Fiduciaire?",
+                "Answer": "Das Team besteht aus vier Partnern (Hassan Barbir, Samuel Halff, Rodrigue Sperisen und Lassana Dioum), einem Steuerexperten (Anthony Touboul), einer Projektleiterin (Celeste Leal), einem Senior-Buchhalter (Sébastien Gallié), einer Mitarbeiterin (Catia Cardoso) und einem Office Manager (Dima Ukbabe)."
+            },
+            {
+                "Question": "Wer leitet die Gesellschaft?",
+                "Answer": "Samuel Halff, geschäftsführender Partner, leitet die Gesellschaft."
+            },
+            {
+                "Question": "Wer ist für die Steuern zuständig?",
+                "Answer": "Lassana Dioum ist Partner und Steuerspezialist, Anthony Touboul ist Steuerexperte (Personal- und Vergütungsbesteuerung, Schweizer Pauschalbesteuerung) und Rodrigue Sperisen ist auf internationales Steuerrecht und Nachlässe spezialisiert."
+            },
+            {
+                "Question": "Wer betreut Stiftungen und Trusts?",
+                "Answer": "Hassan Barbir berät Unternehmen und Privatpersonen, einschliesslich Stiftungen und Trusts. Auch Rodrigue Sperisen befasst sich mit Trusts und Erbschaftsfragen."
+            },
+            {
+                "Question": "Wer führt die Lohnbuchhaltung und die laufende Buchhaltung?",
+                "Answer": "Sébastien Gallié, Senior-Buchhalter und Verantwortlicher für die Lohnbuchhaltung, führt die Buchhaltung, die Monatsabschlüsse und das Reporting. Catia Cardoso und Dima Ukbabe unterstützen die tägliche Betreuung der Kunden."
+            }
+        ]
+    },
+    "MemberFaq": {
+        "samuel-halff": {
+            "Title": "Häufige Fragen",
+            "Questions": [
+                {
+                    "Question": "Wer ist Samuel Halff?",
+                    "Answer": "Samuel Halff ist geschäftsführender Partner von Ark Fiduciaire und leitet die Gesellschaft. Er berät in Buchhaltung, Steuern, Lohnbuchhaltung und Gesellschaftsrecht, sitzt als Verwaltungsrat in internationalen Gruppen und führt KI-Lösungen ein, um Abläufe und Reporting zu vereinfachen."
+                },
+                {
+                    "Question": "Welche Ausbildung hat Samuel Halff?",
+                    "Answer": "Er hat einen LL.M. der UCLA und einen Master in Recht der Universität Genf und ist seit 2013 im Genfer Anwaltsregister eingetragen."
+                },
+                {
+                    "Question": "Welche Sprachen spricht Samuel Halff?",
+                    "Answer": "Samuel Halff arbeitet auf Französisch, Englisch und Deutsch."
+                }
+            ]
+        },
+        "hassan-barbir": {
+            "Title": "Häufige Fragen",
+            "Questions": [
+                {
+                    "Question": "Wer ist Hassan Barbir?",
+                    "Answer": "Hassan Barbir ist Partner bei Ark Fiduciaire. Er berät in Buchhaltung, Steuern, Lohnbuchhaltung und Gesellschaftsrecht (Gründung, Beteiligungen und Verträge) und sitzt als Verwaltungsrat in internationalen Gruppen."
+                },
+                {
+                    "Question": "Womit befasst sich Hassan Barbir?",
+                    "Answer": "Er begleitet Stiftungen und Trusts und befasst sich mit Steuerfragen und Reorganisationen."
+                },
+                {
+                    "Question": "Welchen Hintergrund hat Hassan Barbir?",
+                    "Answer": "Er hat einen LL.M. in Steuerrecht sowie einen Master und einen Bachelor in Recht der Universität Genf und ist seit 2013 im Genfer Anwaltsregister eingetragen. Er spricht Französisch, Englisch und Italienisch und ist Mitglied von ODAGE und FSA."
+                }
+            ]
+        },
+        "rodrigue-sperisen": {
+            "Title": "Häufige Fragen",
+            "Questions": [
+                {
+                    "Question": "Wer ist Rodrigue Sperisen?",
+                    "Answer": "Rodrigue Sperisen ist Partner bei Ark Fiduciaire. Er ist in Buchhaltung, Steuern und Gesellschaftsrecht tätig, mit Schwerpunkt auf internationalem Steuerrecht."
+                },
+                {
+                    "Question": "Worauf ist Rodrigue Sperisen spezialisiert?",
+                    "Answer": "Er ist Spezialist für Trusts und Erbschaftsfragen und schafft klare Governance- und Eigentumsstrukturen."
+                },
+                {
+                    "Question": "Welche Qualifikationen hat Rodrigue Sperisen?",
+                    "Answer": "Er hat einen Master in Recht der Universität Neuenburg, ist seit 2005 im Genfer Anwaltsregister eingetragen und hat seit 2009 das STEP-Diplom. Er spricht Französisch und Englisch und ist Mitglied von ODAGE, FSA, OAR SFA-FSN, STEP, ASDS und der Stiftung für Kunstrecht."
+                }
+            ]
+        },
+        "lassana-dioum": {
+            "Title": "Häufige Fragen",
+            "Questions": [
+                {
+                    "Question": "Wer ist Lassana Dioum?",
+                    "Answer": "Lassana Dioum ist Partner und Steuerspezialist bei Ark Fiduciaire. Er berät Unternehmen und Privatpersonen in direkter und indirekter Besteuerung und ist Verwaltungsrat internationaler Gesellschaften."
+                },
+                {
+                    "Question": "Was macht Lassana Dioum im Steuerbereich?",
+                    "Answer": "Er unterstützt Buchhaltung und Compliance aus steuerlicher Sicht und koordiniert Steuererklärungen und Steuerrulings in mehreren Rechtsordnungen."
+                },
+                {
+                    "Question": "Welchen Hintergrund hat Lassana Dioum?",
+                    "Answer": "Er hat einen Master in Wirtschaftsrecht, einen Bachelor in Recht und eine HEC-Ausbildung der Universität Genf und ist seit 2012 im Genfer Anwaltsregister eingetragen. Er spricht Französisch, Englisch und Spanisch und ist Mitglied von ODAGE, FSA, IBA, IFA und AIJA."
+                }
+            ]
+        },
+        "anthony-touboul": {
+            "Title": "Häufige Fragen",
+            "Questions": [
+                {
+                    "Question": "Wer ist Anthony Touboul?",
+                    "Answer": "Anthony Touboul ist Steuerexperte bei Ark Fiduciaire. Er unterstützt die Compliance von Gesellschaften und Privatpersonen und sitzt als Verwaltungsrat in lokalen und internationalen Gesellschaften."
+                },
+                {
+                    "Question": "Welche Steuerthemen deckt Anthony Touboul ab?",
+                    "Answer": "Er ist spezialisiert auf Personal- und Vergütungsbesteuerung und auf die Schweizer Pauschalbesteuerung."
+                },
+                {
+                    "Question": "Welche Ausbildung hat Anthony Touboul?",
+                    "Answer": "Er hat einen LL.M. in Steuerrecht der Universität Genf (2011 bis 2013) und einen Master in Wirtschaftsrecht und Steuern (DJCE) der Université Jean Moulin Lyon III (2004 bis 2006)."
+                }
+            ]
+        },
+        "celeste-leal": {
+            "Title": "Häufige Fragen",
+            "Questions": [
+                {
+                    "Question": "Wer ist Celeste Leal?",
+                    "Answer": "Celeste Leal ist Projektleiterin bei Ark Fiduciaire."
+                },
+                {
+                    "Question": "Was macht Celeste Leal in der Gesellschaft?",
+                    "Answer": "Sie steuert die Kunden- und internen Projekte, unterstützt das Team und sorgt für eine reibungslose Umsetzung."
+                },
+                {
+                    "Question": "Wie erreiche ich Celeste Leal?",
+                    "Answer": "Am einfachsten schreiben Sie an info@ark-fid.ch oder nutzen die Kontaktseite der Website. Wir antworten normalerweise innerhalb von 24 Stunden."
+                }
+            ]
+        },
+        "sebastien-gallie": {
+            "Title": "Häufige Fragen",
+            "Questions": [
+                {
+                    "Question": "Wer ist Sébastien Gallié?",
+                    "Answer": "Sébastien Gallié ist Senior-Buchhalter und Verantwortlicher für die Lohnbuchhaltung bei Ark Fiduciaire."
+                },
+                {
+                    "Question": "Was macht Sébastien Gallié im Alltag?",
+                    "Answer": "Er führt die Buchhaltung, die Monatsabschlüsse und das Reporting und sorgt für verlässliche Zahlen und termingerechte Ergebnisse."
+                },
+                {
+                    "Question": "Welche Ausbildung hat Sébastien Gallié?",
+                    "Answer": "Er hat den eidgenössischen Fachausweis als Treuhänder (2018 bis 2021) und das eidgenössische Diplom als Treuhandexperte (2022 bis 2025)."
+                }
+            ]
+        },
+        "catia-cardoso": {
+            "Title": "Häufige Fragen",
+            "Questions": [
+                {
+                    "Question": "Wer ist Catia Cardoso?",
+                    "Answer": "Catia Cardoso ist Mitarbeiterin in den administrativen und buchhalterischen Abläufen bei Ark Fiduciaire."
+                },
+                {
+                    "Question": "Was macht Catia Cardoso in der Gesellschaft?",
+                    "Answer": "Sie begleitet die tägliche Betreuung der Kundenbedürfnisse."
+                },
+                {
+                    "Question": "Wie erreiche ich Catia Cardoso?",
+                    "Answer": "Am einfachsten schreiben Sie an info@ark-fid.ch oder nutzen die Kontaktseite der Website. Wir antworten normalerweise innerhalb von 24 Stunden."
+                }
+            ]
+        },
+        "dima-ukbabe": {
+            "Title": "Häufige Fragen",
+            "Questions": [
+                {
+                    "Question": "Wer ist Dima Ukbabe?",
+                    "Answer": "Dima Ukbabe ist Office Manager bei Ark Fiduciaire."
+                },
+                {
+                    "Question": "Was macht Dima Ukbabe in der Gesellschaft?",
+                    "Answer": "Dima Ukbabe ist für Administration und Buchhaltung zuständig und unterstützt die tägliche Arbeit für die Kunden."
+                },
+                {
+                    "Question": "Wie erreiche ich Dima Ukbabe?",
+                    "Answer": "Am einfachsten schreiben Sie an info@ark-fid.ch oder nutzen die Kontaktseite der Website. Wir antworten normalerweise innerhalb von 24 Stunden."
+                }
+            ]
+        }
     }
 }

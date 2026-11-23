@@ -408,7 +408,7 @@ export function buildOrganizationGraph(locale: string = "fr") {
           { "@type": "Country", name: "Switzerland" },
         ],
         knowsAbout: arkOrganization.knowsAbout,
-        priceRange: "$$",
+        priceRange: "From CHF 149 per month",
         sameAs: arkOrganization.sameAs,
         knowsLanguage: arkOrganization.languages,
         description:
@@ -571,17 +571,19 @@ export function buildArticleSchema(cfg: ArticleSchemaConfig) {
     "@type": cfg.schemaType || "Article",
     headline: cfg.headline,
     ...(cfg.description ? { description: cfg.description } : {}),
+    // A team member who wrote the text is the author; otherwise the firm,
+    // referenced by @id (the texts are not signed by a person).
     ...(cfg.authorPerson
       ? { author: toPersonNode(cfg.authorPerson) }
-      : cfg.author
-      ? {
+      : cfg.author && !/ark fiduciaire/i.test(cfg.author)
+      ? { author: { "@type": "Person", name: cfg.author } }
+      : {
           author: {
-            "@type": cfg.authorUrl ? "Person" : "Organization",
-            name: cfg.author,
-            ...(cfg.authorUrl ? { url: cfg.authorUrl } : {}),
+            "@type": "Organization",
+            "@id": `${arkOrganization.url}/#organization`,
+            name: arkOrganization.name,
           },
-        }
-      : {}),
+        }),
     ...(cfg.reviewedBy ? { reviewedBy: toPersonNode(cfg.reviewedBy) } : {}),
     ...(cfg.accountablePerson
       ? { accountablePerson: toPersonNode(cfg.accountablePerson) }

@@ -14,7 +14,7 @@ import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { Separator } from "@/src/components/ui/separator";
 import { ToggleGroup, ToggleGroupItem } from "@/src/components/ui/toggle-group";
-import posthog from "posthog-js";
+import posthog from "@/src/lib/posthog-lazy";
 import { declaredFor, documentsFor, holdsFile } from "@/src/lib/kyc-questionnaire/documents";
 import { stepText, displayValue, fieldText, isBlockAsked, isRowFieldVisible, label, missingAnswers, pruneHidden, rowsOf, rowTitle, stepById, validateAll, visibleSteps } from "@/src/lib/kyc-questionnaire/engine";
 import { routeMismatch } from "@/src/lib/kyc-questionnaire/flags";

@@ -1,3 +1,4 @@
+import PageFaq from "@/src/components/site/page-faq";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { generateMetadataForPage } from "@/src/lib/metadata";
@@ -293,6 +294,7 @@ export default async function ContactPage(
           </Defer>
         </Reveal>
       </section>
+      <PageFaq locale={params.locale as Locale} ns="contact" />
     </div>
   );
 }

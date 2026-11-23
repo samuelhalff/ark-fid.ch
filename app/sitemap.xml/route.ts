@@ -130,32 +130,7 @@ export async function GET(request: Request) {
       // Add trailing slash to match trailingSlash: true in next.config.js
       const loc = `${BASE}/${locale}${localized}/`;
       const lastmod = pObj.date || STATIC_LASTMOD;
-      // derive changefreq/priority
-      const isHome = p === "/";
-      const isArticle = p.startsWith("/ressources/articles/");
-      const isResources = p.startsWith("/ressources") && !isArticle;
-      const isService = p.startsWith("/services");
-      const isLegal = p.startsWith("/legal/");
-      const changefreq =
-        isHome || isArticle
-          ? "weekly"
-          : isService || isResources
-          ? "monthly"
-          : isLegal
-          ? "yearly"
-          : "monthly";
-      const priority = isHome
-        ? "1.0"
-        : isArticle
-        ? "0.8"
-        : isService
-        ? "0.7"
-        : isResources
-        ? "0.6"
-        : isLegal
-        ? "0.3"
-        : "0.5";
-
+      // No changefreq/priority: Google ignores both; loc + lastmod + alternates only.
       // build alternates block
       const alternates = [
         ...pathLocales.map((alt) => {
@@ -189,8 +164,6 @@ export async function GET(request: Request) {
       return `  <url>
     <loc>${escapeXml(loc)}</loc>
     <lastmod>${lastmod}</lastmod>
-    <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
 ${alternates}
   </url>`;
     });

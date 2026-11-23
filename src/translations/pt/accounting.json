@@ -157,17 +157,42 @@
             }
         ]
     },
-  "TypicalSituations": {
-    "Cases": [
-      {
-        "Situation": "Uma Sàrl de serviços atrasou-se na contabilidade e nas declarações de IVA.",
-        "WhatWeDo": "Atualização da contabilidade, declarações de IVA, encerramento anual e, depois, acompanhamento regular por uma equipa dedicada."
-      },
-      {
-        "Situation": "Uma start-up financiada quer contas fiáveis e relatórios regulares para os seus investidores.",
-        "WhatWeDo": "Plano de contas personalizado, encerramentos intercalares, demonstrações financeiras e relatórios de gestão, e painéis de controlo adaptados à atividade."
-      }
-    ],
-    "PriceNote": "Contabilidade digital simples: a partir de CHF 149 por mês. Preço fixo quando o mandato está bem definido."
-  }
+    "TypicalSituations": {
+        "Cases": [
+            {
+                "Situation": "Uma Sàrl de serviços atrasou-se na contabilidade e nas declarações de IVA.",
+                "WhatWeDo": "Atualização da contabilidade, declarações de IVA, encerramento anual e, depois, acompanhamento regular por uma equipa dedicada."
+            },
+            {
+                "Situation": "Uma start-up financiada quer contas fiáveis e relatórios regulares para os seus investidores.",
+                "WhatWeDo": "Plano de contas personalizado, encerramentos intercalares, demonstrações financeiras e relatórios de gestão, e painéis de controlo adaptados à atividade."
+            }
+        ],
+        "PriceNote": "Contabilidade digital simples: a partir de CHF 149 por mês. Preço fixo quando o mandato está bem definido."
+    },
+    "Faq": {
+        "Title": "Perguntas frequentes",
+        "Questions": [
+            {
+                "Question": "Quanto custa externalizar a contabilidade em Genebra?",
+                "Answer": "O nosso acompanhamento contabilístico digital simples começa em CHF 149 por mês, com preço fixo quando o mandato está bem definido. Para além disso, o custo depende do volume de lançamentos, do número de entidades, do nível de reporting, das ferramentas utilizadas e da coordenação externa necessária."
+            },
+            {
+                "Question": "O que inclui um serviço de contabilidade para PME?",
+                "Answer": "Abrange a contabilidade geral (plano de contas personalizado, contas de fornecedores e clientes, pagamentos, tesouraria), a contabilidade analítica, o reporting financeiro e painéis de controlo adaptados à sua empresa."
+            },
+            {
+                "Question": "Tratam também do IVA e dos fechos de contas?",
+                "Answer": "Sim. Preparamos o fecho intercalar ou anual, o IVA semestral ou trimestral, os seguros sociais e a declaração fiscal. Podemos também preparar as assembleias gerais e as reuniões do conselho de administração."
+            },
+            {
+                "Question": "Podem trabalhar com as ferramentas que já uso?",
+                "Answer": "Sim. Trabalhamos com as suas ferramentas ou criamos painéis de controlo simples para que veja sempre o essencial."
+            },
+            {
+                "Question": "Como começa um mandato de contabilidade?",
+                "Answer": "Começamos por um diagnóstico dos volumes, das ferramentas, dos prazos e das obrigações. Depois definimos um calendário, as responsabilidades e o formato dos entregáveis, como balancetes, contas anuais, reporting periódico ou processos de IVA."
+            }
+        ]
+    }
 }

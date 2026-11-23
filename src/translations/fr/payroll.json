@@ -185,5 +185,34 @@
         "WhatWeDo": "Paie ANOBAG pour employeurs étrangers sans entité en Suisse (accords AVS, décomptes, conformité), préparation des contrats, administration RH et personne de contact dédiée pour les collaborateurs."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Questions fréquentes",
+    "Questions": [
+      {
+        "Question": "Comment externaliser la paie en Suisse ?",
+        "Answer": "Vous confiez à Ark Fiduciaire les calculs de salaire, les fiches de paie, les certificats et les déclarations d'assurances sociales. Nous livrons des sorties compatibles Swissdec et une checklist mensuelle pour les RH."
+      },
+      {
+        "Question": "Qu'est-ce que la paie ANOBAG ?",
+        "Answer": "C'est l'administration des salaires et des assurances sociales pour les employeurs étrangers sans entité en Suisse, avec les accords AVS, les décomptes et la conformité."
+      },
+      {
+        "Question": "Quels documents livrez-vous ?",
+        "Answer": "Nous établissons les bulletins de salaire, les déclarations AVS/AI/APG, LPP et LAA ainsi que les certificats de salaire."
+      },
+      {
+        "Question": "Gérez-vous l'impôt à la source et les frontaliers ?",
+        "Answer": "Oui. Pour les employeurs genevois et vaudois, nous appliquons les barèmes selon la situation personnelle annoncée, transmettons les décomptes périodiques et préparons les attestations destinées aux collaborateurs."
+      },
+      {
+        "Question": "Mes données salariales restent-elles confidentielles ?",
+        "Answer": "Oui. Nous limitons les accès aux seules personnes autorisées et utilisons des canaux de transmission sécurisés."
+      },
+      {
+        "Question": "De quoi dépend le prix de l'externalisation de la paie ?",
+        "Answer": "Il dépend du nombre de collaborateurs, de la fréquence des mutations, de la présence d'impôt à la source ou de frontaliers et des éléments variables comme les bonus ou les heures supplémentaires. Nous établissons une tarification transparente sur ces critères et la revoyons lorsque votre situation évolue."
+      }
+    ]
   }
 }

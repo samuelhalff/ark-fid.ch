@@ -229,9 +229,13 @@ Assembles deployable bundle:
 - `public/` → `dist/public`
 - Required manifests (build/routes/prerender)
 
-### `scripts/ping-sitemaps.js`
+### `scripts/indexnow-changed.mjs`
 
-Notifies search engines of sitemap updates (IndexNow, Google, Bing)
+After each deploy, compares the sitemap saved before the switch with the live one and sends only the new or changed URLs (different `lastmod`) to IndexNow through `api.indexnow.org` (key file `public/ebd95385d7154f45ba37d076b4efd008.txt`). Google and Bing no longer accept sitemap pings, so there is no ping step any more.
+
+### `scripts/check-rendered-seo.mjs`
+
+After each deploy, fetches key pages with a Googlebot user agent and fails if `<title>`, meta description, canonical or hreflang are missing from `<head>`, if a JSON-LD block does not parse, if `robots.txt` blocks `/_next/` or if the sitemap still has `priority`/`changefreq`.
 
 ---
 

@@ -114,5 +114,30 @@
                 ]
             }
         ]
+    },
+    "Faq": {
+        "Title": "Häufige Fragen",
+        "Questions": [
+            {
+                "Question": "Was ist eine Odoo-Treuhandgesellschaft?",
+                "Answer": "Das ist eine Treuhandgesellschaft, die Ihre Buchhaltung direkt in Odoo führt: Mehrwertsteuer, QR-Rechnungen, Löhne, Abschlüsse, Migration und Auslagerung der Buchhaltung. Ark Fiduciaire ist in Genf zugleich Treuhandgesellschaft und Odoo-Integrator."
+            },
+            {
+                "Question": "Was konfigurieren Sie in Odoo?",
+                "Answer": "Wir erfassen Ihre Abläufe und konfigurieren den Schweizer Kontenplan, die Mehrwertsteuer, die QR-Rechnung, Buchhaltungs- und Fachmodule, Benutzerrechte und Dashboards. Wir vermeiden Überkonfiguration: Jedes Modul erfüllt einen klaren Bedarf."
+            },
+            {
+                "Question": "Können Sie meine Daten nach Odoo migrieren?",
+                "Answer": "Ja, die Datenmigration gehört zu unseren Leistungen, mit Migrationskontrollen und Schulung Ihrer Teams."
+            },
+            {
+                "Question": "Wovon hängen die Kosten eines Odoo-Projekts ab?",
+                "Answer": "Die Kosten hängen von der Zahl der Module, den Integrationen, der Datenqualität, den Mehrwertsteuerregeln, dem erwarteten Reporting und dem Umfang der Begleitung ab."
+            },
+            {
+                "Question": "Bieten Sie nach dem Start Schulung und Support an?",
+                "Answer": "Ja, wir schulen Ihre Teams und bieten technischen Support für die Kontinuität und Sicherheit Ihrer Odoo-Umgebung."
+            }
+        ]
     }
 }

@@ -108,5 +108,34 @@
         "WhatWeDo": "Outsourced back-office: bookkeeping, payroll and social insurance, invoicing, VAT and administrative follow-up."
       }
     ]
+  },
+  "Faq": {
+    "Title": "Frequently asked questions",
+    "Questions": [
+      {
+        "Question": "Which tasks can I outsource to a fiduciary?",
+        "Answer": "You can delegate day-to-day accounting, supplier invoices, expense reports, payroll, reminders, administrative documents, reporting and coordination with your partners. The scope is documented to avoid grey areas."
+      },
+      {
+        "Question": "How much does back-office outsourcing cost?",
+        "Answer": "The cost depends on transaction volume, the number of contacts, the tools, the reporting frequency and the level of coordination. You can get an immediate, no-obligation estimate with our online instant quote, and we then set the price in a written proposal."
+      },
+      {
+        "Question": "How do I outsource payroll in Geneva or Lausanne?",
+        "Answer": "We cover the whole salary cycle: monthly payslips, AVS, LPP, LAA and family allowance filings, withholding tax, annual salary certificates and electronic transmissions."
+      },
+      {
+        "Question": "How does the takeover of my accounting work?",
+        "Answer": "We review what exists, take over the balances and history, set up the chart of accounts and define the document flows. A short period of parallel running comes before the full switch, and you remain the owner of your data."
+      },
+      {
+        "Question": "Do you work in Odoo or with my own tools?",
+        "Answer": "We work primarily in Odoo, which we specialise in. If you already use another tool, we can work directly in your existing environment."
+      },
+      {
+        "Question": "Do you work outside Geneva?",
+        "Answer": "Yes. From our Geneva office we serve companies in Lausanne, the canton of Vaud and French-speaking Switzerland, remotely through secure channels or on site as you need."
+      }
+    ]
   }
 }
