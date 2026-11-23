@@ -4,7 +4,6 @@ import { Metadata, Viewport } from "next";
 import { buildOrganizationGraph } from "@/src/lib/structuredData";
 import { inter } from "./fonts";
 import { headers } from "next/headers";
-import Defer from "@/src/components/Defer";
 import ErrorBoundary from "@/src/components/ErrorBoundary";
 import { CookieConsent } from "@/src/components/ClientOnlyDynamic";
 import ConsentAnalytics from "@/src/components/ConsentAnalytics";
@@ -191,12 +190,12 @@ export default async function RootLayout({
               <OpenAiPixel nonce={nonce} />
               <AttributionTracker />
 
-              <Defer rootMargin="0px" idle={200} placeholder={null}>
-                <ConsentAnalytics
-                  gtmId="GTM-P6QT792D"
-                  nonce={nonce}
-                />
-              </Defer>
+              {/* Pas de <Defer> ici : il ne montait GTM qu'une fois le bas de page atteint, et les visites courtes
+                  n'étaient pas mesurées. ConsentAnalytics attend déjà la fin du chargement puis un moment libre. */}
+              <ConsentAnalytics
+                gtmId="GTM-P6QT792D"
+                nonce={nonce}
+              />
             </div>
           </ErrorBoundary>
         </Providers>
