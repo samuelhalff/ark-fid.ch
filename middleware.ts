@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { locales } from "./src/lib/i18n-locales";
+import { ANALYTICS_FREE_HEADER, analyticsFreeCsp, isAnalyticsFree } from "./src/lib/analytics-free";
 
 type SecurityHeaderOptions = {
   nonce: string;
@@ -198,8 +199,10 @@ export function middleware(request: NextRequest) {
       requestHeaders.set("x-pathname", target);
       requestHeaders.set("x-nonce", nonce);
       requestHeaders.set("x-tax-host", "1");
+      // Client data: no analytics at all (src/lib/analytics-free.ts).
+      requestHeaders.set(ANALYTICS_FREE_HEADER, "1");
       const response = NextResponse.rewrite(new URL(target, request.url), { request: { headers: requestHeaders } });
-      applySecurityHeaders(response, { nonce, csp, isProd, noIndex: true });
+      applySecurityHeaders(response, { nonce, csp: analyticsFreeCsp(nonce, isProd), isProd, noIndex: true });
       response.headers.set("Cache-Control", "no-store");
       return response;
     }
@@ -235,8 +238,10 @@ export function middleware(request: NextRequest) {
       requestHeaders.set("x-locale", kycLocale[1]);
       requestHeaders.set("x-pathname", target);
       requestHeaders.set("x-nonce", nonce);
+      // KYC: no analytics at all (src/lib/analytics-free.ts).
+      requestHeaders.set(ANALYTICS_FREE_HEADER, "1");
       const response = NextResponse.rewrite(new URL(target, request.url), { request: { headers: requestHeaders } });
-      applySecurityHeaders(response, { nonce, csp, isProd, noIndex: true });
+      applySecurityHeaders(response, { nonce, csp: analyticsFreeCsp(nonce, isProd), isProd, noIndex: true });
       response.headers.set("Cache-Control", "no-store");
       response.headers.set("Referrer-Policy", "no-referrer");
       return response;
@@ -355,6 +360,11 @@ export function middleware(request: NextRequest) {
     requestHeaders.set("x-locale", locale);
     requestHeaders.set("x-pathname", pathname);
     requestHeaders.set("x-nonce", nonce);
+    // KYC and tax questionnaires on the main host: no analytics at all. The
+    // header is always overwritten, so a visitor cannot set it from outside.
+    const analyticsFree = isAnalyticsFree(hostname, pathname);
+    if (analyticsFree) requestHeaders.set(ANALYTICS_FREE_HEADER, "1");
+    else requestHeaders.delete(ANALYTICS_FREE_HEADER);
     const response = NextResponse.next({
       request: { headers: requestHeaders },
     });
@@ -363,7 +373,12 @@ export function middleware(request: NextRequest) {
     // Expose the pathname to server components for active nav styling
     response.headers.set("x-pathname", pathname);
     // Security headers
-    applySecurityHeaders(response, { nonce, csp, isProd, noIndex: shouldNoIndex });
+    applySecurityHeaders(response, {
+      nonce,
+      csp: analyticsFree ? analyticsFreeCsp(nonce, isProd) : csp,
+      isProd,
+      noIndex: shouldNoIndex,
+    });
     return response;
   }
 

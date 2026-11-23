@@ -16,9 +16,12 @@
  *   `ph-no-capture` (forms, chat transcripts) are blocked from replay and
  *   autocapture everywhere.
  * Calls made before the library is ready are queued, then replayed.
+ * KYC and tax questionnaire pages (isAnalyticsFree): PostHog never loads and
+ * every call is dropped, see src/lib/analytics-free.ts.
  */
 import { hasEffectiveConsent } from "@/src/lib/consent-mode";
 import { isReplayExcluded } from "@/src/lib/replay-policy";
+import { isAnalyticsFree } from "@/src/lib/analytics-free";
 
 type Props = Record<string, unknown>;
 type PostHogLike = {
@@ -50,7 +53,9 @@ export function syncSessionRecording() {
   if (!instance || typeof window === "undefined") return;
   try {
     const want =
-      hasEffectiveConsent() && !isReplayExcluded(window.location.hostname, window.location.pathname);
+      hasEffectiveConsent() &&
+      !analyticsFreePage() &&
+      !isReplayExcluded(window.location.hostname, window.location.pathname);
     const started = instance.sessionRecordingStarted();
     if (want && !started) instance.startSessionRecording({ sampling: true, linked_flag: true });
     else if (!want && started) instance.stopSessionRecording();
@@ -69,8 +74,11 @@ function wipeIdentifiers() {
   } catch {}
 }
 
+const analyticsFreePage = () =>
+  typeof window !== "undefined" && isAnalyticsFree(window.location.hostname, window.location.pathname);
+
 async function load() {
-  if (!TOKEN || !HOST || typeof window === "undefined") return;
+  if (!TOKEN || !HOST || typeof window === "undefined" || analyticsFreePage()) return;
   const { default: posthog } = await import("posthog-js");
   posthog.init(TOKEN, {
     api_host: HOST,
@@ -95,6 +103,7 @@ async function load() {
     },
     // Pages with client data: no click/heatmap events at all (replay is off there too).
     before_send: <T extends { event?: string } | null>(event: T): T | null => {
+      if (analyticsFreePage()) return null;
       if (event && CLICK_EVENTS.has(event.event || "") && isReplayExcluded(location.hostname, location.pathname)) return null;
       return event;
     },
@@ -119,7 +128,7 @@ async function load() {
 
 /** Starts PostHog after the load event, in idle time (3 s at most). */
 export function startPostHogAfterLoad() {
-  if (typeof window === "undefined" || loading) return;
+  if (typeof window === "undefined" || loading || analyticsFreePage()) return;
   loading = new Promise<void>((resolve) => {
     const go = () => {
       load()
@@ -136,7 +145,7 @@ export function startPostHogAfterLoad() {
 }
 
 function call(method: Call[0], args: unknown[]) {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || analyticsFreePage()) return;
   if (instance) {
     try {
       (instance[method] as (...a: unknown[]) => unknown)(...args);

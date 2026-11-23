@@ -3,6 +3,7 @@
 import posthog from "@/src/lib/posthog-lazy";
 import { getAttribution } from "@/src/lib/attribution";
 import { AI_SOURCE_KEY, gaClientIdFromCookies, readConsentChoice } from "@/src/lib/consent-mode";
+import { isAnalyticsFree } from "@/src/lib/analytics-free";
 
 const posthogConfigured = Boolean(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN && process.env.NEXT_PUBLIC_POSTHOG_HOST);
 const posthogEvents = new Set([
@@ -10,8 +11,6 @@ const posthogEvents = new Set([
   "contact_form_start",
   "form_submit_error",
   "generate_lead",
-  "tax_qf_step_complete",
-  "tax_qf_submit",
 ]);
 
 /**
@@ -28,6 +27,8 @@ const posthogEvents = new Set([
 export type AnalyticsParams = Record<string, string | number | boolean>;
 
 export function trackEvent(name: string, params?: AnalyticsParams) {
+  // KYC and tax questionnaire pages: nothing leaves the browser (src/lib/analytics-free.ts).
+  if (typeof window !== "undefined" && isAnalyticsFree(window.location.hostname, window.location.pathname)) return;
   if (name === "generate_lead") {
     params = { ...leadContext(), ...params };
     trackOpenAiLead();

@@ -14,6 +14,7 @@ import {
   isValidMeasurementId,
 } from "@/src/lib/consent-mode";
 import WhatsAppLink from "@/src/components/ui/whatsapp-link";
+import { ANALYTICS_FREE_HEADER, isAnalyticsFree } from "@/src/lib/analytics-free";
 import "./globals.css";
 import { getTranslations, getCurrentLocale } from "@/src/lib/i18n";
 import {
@@ -80,7 +81,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   // ✅ read nonce from the middleware
-  const nonce = (await headers()).get("x-nonce") || undefined;
+  const requestHeaders = await headers();
+  const nonce = requestHeaders.get("x-nonce") || undefined;
+  // KYC and tax questionnaires (client data): no analytics at all, see src/lib/analytics-free.ts.
+  const analyticsFree =
+    requestHeaders.get(ANALYTICS_FREE_HEADER) === "1" ||
+    isAnalyticsFree(requestHeaders.get("host") || "", requestHeaders.get("x-pathname") || "");
   const configuredGaId =
     process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || process.env.NEXT_PUBLIC_GA_ID;
   const gaId = isValidMeasurementId(configuredGaId)
@@ -114,10 +120,12 @@ export default async function RootLayout({
       <head>
         {/* Consent Mode v2 bootstrap: regional defaults + stored choice, then
             gtag.js and gtm.js after load + idle. Must run before any other gtag call. */}
-        <script
-          nonce={nonce}
-          dangerouslySetInnerHTML={{ __html: buildConsentBootstrap(gaId, GTM_ID) }}
-        />
+        {analyticsFree ? null : (
+          <script
+            nonce={nonce}
+            dangerouslySetInnerHTML={{ __html: buildConsentBootstrap(gaId, GTM_ID) }}
+          />
+        )}
         {nonce ? <meta name="csp-nonce" content={nonce} /> : null}
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
         <link
@@ -183,17 +191,21 @@ export default async function RootLayout({
                 ctaLabel={whatsappLabels.cta}
               />
 
-              <CookieConsent
-                nonce={nonce}
-                locale={currentLocale}
-                labels={cookieLabels}
-              />
+              {analyticsFree ? null : (
+                <>
+                  <CookieConsent
+                    nonce={nonce}
+                    locale={currentLocale}
+                    labels={cookieLabels}
+                  />
 
-              <OpenAiPixel nonce={nonce} />
-              <AttributionTracker />
+                  <OpenAiPixel nonce={nonce} />
+                  <AttributionTracker />
 
-              {/* GTM se charge dans l'amorce du <head> (après chargement + moment libre), pour tous les visiteurs. */}
-              <EngagementTracker />
+                  {/* GTM se charge dans l'amorce du <head> (après chargement + moment libre), pour tous les visiteurs sauf KYC et questionnaire fiscal. */}
+                  <EngagementTracker />
+                </>
+              )}
             </div>
           </ErrorBoundary>
         </Providers>
