@@ -29,6 +29,7 @@ BOT = "ark-seo-bot"
 DEPLOIEMENT_LLM = "gpt-4.1"
 VERSION_API_LLM = "2024-05-01-preview"
 APOSTROPHE_COURBE = False
+CASSE = ["Ark Fiduciaire", "Genève", "Suisse", "Suisse romande", "Geneva", "Switzerland", "Genf", "Schweiz", "Ginebra", "Suiza", "Genebra", "Suíça", "Lausanne", "Vaud", "Odoo", "Ridger", "Sàrl"]
 MARQUE = r"\bark\b|ark.?fid|ridger"
 LOCALES = ["fr", "en", "de", "es", "pt"]
 THEME = ("fiduciaire en Suisse romande pour PME, entrepreneurs et familles : comptabilité, fiscalité, salaires, "
@@ -42,7 +43,7 @@ INTERDITS = [
     (r"\bCHF\b|\bfrancs?\b|\bFr\.\s?\d|€|\bEUR\b", "prix ou montant"),
     (r"\bKYC\b", "KYC (hors champ)"),
     (r"\bgaranti\w*|\bguarantee\w*|\bgarantiert\w*", "garantie"),
-    (r"\bmeilleur\w*|\bn[°o]\s?1\b|\bleader\b|\bbest\b|\bbeste\w*|\bmejor\w*|\bmelhor\w*", "superlatif"),
+    (r"\bmeilleur\w*|\bn[°o]\s?1\b|\bleader\b|\bbest\b|\bbeste[nrs]?\b|\bmejor\w*|\bmelhor\w*", "superlatif"),
     (r"\bgratuit\w*|\bfree of charge\b|\bkostenlos\w*", "gratuit"),
 ]
 # Titres imposés par scripts/seo-geo-check.js : pas de réécriture automatique en FR et EN.

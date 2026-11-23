@@ -225,8 +225,13 @@ def typo_autres(s: str) -> str:
     return s.replace(" ", " ").replace(" ", " ").strip()
 
 
+CASSE = getattr(A, "CASSE", [])  # graphies imposées (marques, lieux) : « ark fiduciaire » -> « Ark Fiduciaire »
+
+
 def nettoyer(s: str, locale: str) -> str:
     s = re.sub(r"\s+", " ", str(s or "")).strip().strip('"')
+    for mot in CASSE:
+        s = re.sub(rf"(?<![\w-]){re.escape(mot)}(?![\w-])", mot, s, flags=re.I)
     return typo_fr(s) if locale == "fr" else typo_autres(s)
 
 
@@ -306,7 +311,9 @@ Règles impératives (contrôlées automatiquement, une réponse fautive est jet
 - Garde la requête principale « {kw} » dans le titre, au plus près du début ; si elle est longue, garde ses 2 à 4
   mots les plus importants, pas la phrase entière. Si elle nomme une autre entreprise, une marque ou une personne,
   choisis à la place la requête suivante de la liste qui n'en nomme pas. Indique la requête gardée dans "requete".
-- Majuscule normale en début de titre et de description (pas tout en minuscules, pas de majuscule à chaque mot).
+- Orthographe et majuscules correctes de la langue : majuscule en début de titre et de description, noms propres,
+  lieux et marques avec leur graphie (en allemand, tous les noms communs prennent la majuscule). Les requêtes Google
+  sont en minuscules : n'en recopie jamais les minuscules. Pas de majuscule à chaque mot en français.
 - Le titre et la description répondent à l'intention des requêtes listées et donnent une raison concrète de cliquer,
   tirée du texte de la page.
 - N'utilise QUE des faits présents dans le TEXTE DE LA PAGE. Aucun chiffre, prix, montant, délai, taux ou promesse
@@ -364,6 +371,8 @@ def meta_valide(prop: dict, page, kw: str, texte: str) -> tuple[str, str, list[s
         if not t or len(t) > max_titre(page):
             e.append(f"title « {t} » de {len(t)} caractères ({max_titre(page)} au plus)")
         t = t[:1].upper() + t[1:]
+        if page.suffixe and re.search(A.MARQUE, t, re.I):
+            e.append(f"title « {t} » : la marque est déjà dans le suffixe « {page.suffixe.strip()} »")
         if kj and len(kj & jetons(t)) < besoin:
             e.append(f"la requête principale « {kw} » n'est pas dans le titre « {t} »")
         e += defauts_communs(t, ref)
