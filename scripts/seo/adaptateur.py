@@ -43,7 +43,7 @@ INTERDITS = [
     (r"\bCHF\b|\bfrancs?\b|\bFr\.\s?\d|€|\bEUR\b", "prix ou montant"),
     (r"\bKYC\b", "KYC (hors champ)"),
     (r"\bgaranti\w*|\bguarantee\w*|\bgarantiert\w*", "garantie"),
-    (r"\bmeilleur\w*|\bn[°o]\s?1\b|\bleader\b|\bbest\b|\bbeste[nrs]?\b|\bmejor\w*|\bmelhor\w*", "superlatif"),
+    (r"\bmeilleur\w*|\bn[°o]\s?1\b|\bleader\b|\bbest\b|\bbeste[nrs]?\b|\bmejor(es)?\b|\bmelhor(es)?\b", "superlatif"),
     (r"\bgratuit\w*|\bfree of charge\b|\bkostenlos\w*", "gratuit"),
 ]
 # Titres imposés par scripts/seo-geo-check.js : pas de réécriture automatique en FR et EN.
