@@ -4,6 +4,7 @@ import { tidyTitle } from "@/src/lib/typography";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import ServiceLongForm from "@/src/components/ui/service-longform";
+import { renderInlineLinks } from "@/src/components/ui/inline-links";
 import ServiceRelatedArticles from "@/src/components/ui/service-related-articles";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
@@ -42,7 +43,7 @@ const OdooPresentation = async () => {
         <div className="text-left w-full">
           <div className="mb-12 max-w-3xl space-y-6">
             {intro.map((text, idx) => (
-              <p key={idx} className="mb-8 text-base leading-8 text-muted-foreground sm:text-lg">{text}</p>
+              <p key={idx} className="mb-8 text-base leading-8 text-muted-foreground sm:text-lg">{renderInlineLinks(text)}</p>
             ))}
           </div>
           <div className="space-y-16">

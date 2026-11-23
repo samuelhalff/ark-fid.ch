@@ -40,7 +40,7 @@ const staticPaths = [
 ];
 
 // dynamic routes
-const servicePaths = [
+const servicePaths: PathEntry[] = [
   "/services/accounting",
   "/services/taxes",
   "/services/payroll",
@@ -48,8 +48,9 @@ const servicePaths = [
   "/services/outsourcing",
   "/services/corporate",
   "/services/domiciliation",
-  "/services/odoo",
-  "/services/family-office",
+  // Per-page lastmod when one page changed meaningfully after STATIC_LASTMOD.
+  { path: "/services/odoo", date: "2026-11-23" },
+  { path: "/services/family-office", date: "2026-11-23" },
   "/services/mergers-acquisitions",
   "/services/immigration",
 ];

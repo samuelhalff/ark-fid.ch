@@ -336,6 +336,8 @@ Added for the discreet SO-FIT (OAR/SRO) affiliation mention across the site. Ens
 ### Footer namespace
 
 - `footer:SoFitAffiliationPrefix` — rendered as small-print text next to a single external link to `https://so-fit.ch` in the footer legal area.
+- `footer:OtherSites` (Nov 2026) — label of the small-print line linking the sister sites Ridger and houle.ai (brand names, never translated). Includes its colon (« Nos autres sites : »).
+- `footer:MadeBy` (Nov 2026) — « Site réalisé par » credit; the link wraps this text and the houle.ai logo (`public/assets/houle-logo.svg` / `houle-logo-dark.svg`).
 
 ### Legal namespace
 

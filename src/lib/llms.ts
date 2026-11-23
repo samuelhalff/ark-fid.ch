@@ -115,6 +115,11 @@ export function llmsTxt(): string {
     `- [Full text of the public pages](${SITE_URL}/llms-full.txt): every public page of ark-fid.ch in French and English, in Markdown, in a single file.`,
     "- [Swiss AMLA 2026 decision trees for advisers](https://lba.ark-fid.ch/): law firms, fiduciaries and the transparency register (FR, EN, DE, ES, PT).",
     "",
+    "## Related sites",
+    "",
+    "- [Ridger](https://ridger.ch/en/): digital multi-family office in Geneva, a brand of Ark Fiduciaire SA (consolidated reporting, investment oversight, administrative coordination; no asset management).",
+    "- [houle.ai](https://houle.ai/en/): AI consulting firm in Geneva (West Bay SA) that built Ark Fiduciaire's quote agent, part of its accounting automation and this website.",
+    "",
     DESCRIBE,
     "",
   ].join("\n");

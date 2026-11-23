@@ -15,7 +15,8 @@
     "Intro": [
       "Odoo est une solution ERP modulaire et flexible, idéale pour digitaliser et optimiser la gestion de votre entreprise. Ark Fiduciaire, fiduciaire et intégrateur Odoo à Genève, vous accompagne dans l'intégration, la personnalisation et l'évolution de votre système Odoo.",
       "Nous analysons vos besoins, configurons les bons modules et formons vos équipes pour assurer une adoption rapide et efficace. Notre support technique garantit la continuité et la sécurité de votre environnement Odoo.",
-      "Vos équipes restent autonomes : automatiser les tâches répétitives, extraire automatiquement les données des factures et reçus, et créer des rapports simples sans informatique."
+      "Vos équipes restent autonomes : automatiser les tâches répétitives, extraire automatiquement les données des factures et reçus, et créer des rapports simples sans informatique.",
+      "Si votre projet va plus loin, par exemple le tri automatique des factures fournisseurs par un modèle d'IA ou un agent relié à votre CRM Odoo, nous travaillons avec [les consultants en IA de houle.ai](https://houle.ai/fr/services/ai-consulting/), à Genève, qui ont mis en place ce type d'outils chez nous."
     ],
     "ServicesTitle": "Nos Services Odoo",
     "Services": [

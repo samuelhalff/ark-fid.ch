@@ -426,8 +426,10 @@
     --tw-prose-captions: oklch(0.70 0 0);
   }
 
+  /* Links in article prose must read as links: brand colour (same pair as
+     the footer links, AA on both themes), visible underline, thicker on hover. */
   .prose a {
-    @apply text-foreground underline decoration-brand/40 underline-offset-4 transition-colors hover:text-brand hover:decoration-brand;
+    @apply font-medium text-[#b6542b] underline decoration-[#b6542b]/50 decoration-1 underline-offset-4 transition-colors hover:decoration-2 hover:decoration-[#b6542b] dark:text-[#f2b294] dark:decoration-[#f2b294]/60 dark:hover:decoration-[#f2b294];
   }
 
   .prose h2 {
@@ -594,7 +596,8 @@ summary.faq-summary::marker {
   will-change: transform; /* GPU acceleration for smooth scrolling */
 }
 
-.animate-testimonials-scroll:hover {
+.animate-testimonials-scroll:hover,
+.animate-testimonials-scroll:focus-within {
   animation-play-state: paused;
 }
 

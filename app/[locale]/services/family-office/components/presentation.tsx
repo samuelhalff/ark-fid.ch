@@ -3,6 +3,7 @@ import React from "react";
 import ServiceExpertBanner from "@/src/components/ui/service-expert-banner";
 import GoogleReviewsBadge from "@/src/components/ui/google-reviews-badge";
 import ServiceLongForm from "@/src/components/ui/service-longform";
+import { renderInlineLinks } from "@/src/components/ui/inline-links";
 import ServiceRelatedArticles from "@/src/components/ui/service-related-articles";
 import { CtaBanner } from "@/src/components/ui/surface";
 import {
@@ -40,7 +41,7 @@ const FamilyOfficePresentation = ({
           <div className="space-y-4 text-base leading-relaxed">
             {t("Presentation.Intro").map((text: string, index: number) => (
               <p key={index} className="text-muted-foreground">
-                {text}
+                {renderInlineLinks(text)}
               </p>
             ))}
           </div>
