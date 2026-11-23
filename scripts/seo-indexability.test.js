@@ -183,8 +183,9 @@ describe("lba.ark-fid.ch standalone pages", () => {
       assert.ok(js.includes(`var ID='${gaId}'`), `${locale}: measurement id`);
       assert.ok(js.includes(`EEA_UK=${JSON.stringify(regions)}`), `${locale}: regions`);
       assert.doesNotMatch(js, /__GA_ID__|__EEA_UK__/);
-      // Defaults before the stored choice, choice before config, config before gtag.js.
-      const order = ["'consent','default',eea", "region=['CH']", "gtag('consent','default',granted)", "'consent','update'", "gtag('config'", "googletagmanager.com/gtag/js"];
+      // Single default (granted everywhere since 23.11.2026) before the stored choice, choice before config, config before gtag.js.
+      assert.doesNotMatch(js, /'consent','default',(eea|ch)\b/, `${locale}: no regional default`);
+      const order = ["gtag('consent','default',granted)", "'consent','update'", "gtag('config'", "googletagmanager.com/gtag/js"];
       const at = order.map((s) => js.indexOf(s));
       assert.ok(at.every((i, n) => i >= 0 && (n === 0 || i > at[n - 1])), `${locale}: bootstrap order ${at}`);
       // Consent banner: hidden until JS decides, links to the cookie policy of the main site.

@@ -22,9 +22,9 @@ The Odoo token must stay server-side. Contact forms submit to `/api/contact`; th
 
 ## Analytics and consent
 
-- `app/layout.tsx` inlines the Consent Mode v2 bootstrap from `src/lib/consent-mode.ts` (nonced): defaults denied for EEA+UK, analytics granted / ad signals denied for CH, all granted elsewhere, then the stored choice (`cookieConsent`) as an update, then gtag.js.
-- `CookieConsent` only stores the choice and sends `consent update` for all four keys. GTM (`GTM-P6QT792D`) and the OpenAI pixel load only after "Accept"; GTM uses its own dataLayer (`gtmDataLayer`) and receives `generate_lead` via `trackEvent`.
-- Unit tests: `npm run test:unit` (`src/lib/consent-mode.test.ts`, `src/lib/attribution.test.ts`).
+- `app/layout.tsx` inlines the Consent Mode v2 bootstrap from `src/lib/consent-mode.ts` (nonced): one default, all four signals granted everywhere (Sam, 23.11.2026: ignoring the banner = accepting; see docs/DECISIONS.md), then the stored choice (`cookieConsent` / `ark_consent`) as an update, `ai_source` for AI-assistant referrers, then gtag.js and gtm.js after load + idle.
+- `CookieConsent` only stores the choice and sends `consent update` for all four keys (both layers). GTM (`GTM-P6QT792D`) loads for every visitor on its own dataLayer (`gtmDataLayer`) and receives `generate_lead` via `trackEvent` (enriched with `lead_utm_*` and `ai_source`). The OpenAI pixel and PostHog (persistent, replay outside client-data pages, `src/lib/replay-policy.ts`) follow `hasEffectiveConsent()`: on unless refused. `EngagementTracker` sends scroll, outbound click, file_download, select_content, faq_open, web_vitals.
+- Unit tests: `npm run test:unit` (`src/lib/consent-mode.test.ts`, `src/lib/engagement.test.ts`, `src/lib/attribution.test.ts`).
 
 ## Minimal SharePoint Setup
 

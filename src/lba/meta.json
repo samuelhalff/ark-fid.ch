@@ -35,7 +35,7 @@
       },
       "cookies": {
         "label": "Cookies et mesure d'audience",
-        "text": "Nous utilisons Google Analytics pour mesurer les visites. En Suisse, la mesure est active sauf si vous la refusez. Dans l'UE, l'EEE et au Royaume-Uni, rien n'est enregistré avant votre accord. En acceptant, vous autorisez aussi la mesure publicitaire.",
+        "text": "Nous utilisons Google Analytics pour mesurer les visites et nos annonces. Si vous continuez à naviguer sans refuser, vous acceptez ces cookies ; « Refuser » les désactive.",
         "more": "Politique cookies",
         "accept": "Accepter",
         "refuse": "Refuser",
@@ -105,7 +105,7 @@
       },
       "cookies": {
         "label": "Cookies and measurement",
-        "text": "We use Google Analytics to measure visits. In Switzerland it runs unless you refuse. In the EU, the EEA and the UK nothing is stored until you accept. Accepting also allows advertising measurement.",
+        "text": "We use Google Analytics to measure visits and our ads. If you keep browsing without refusing, you accept these cookies; \"Refuse\" turns them off.",
         "more": "Cookie policy",
         "accept": "Accept",
         "refuse": "Refuse",
@@ -175,7 +175,7 @@
       },
       "cookies": {
         "label": "Cookies und Reichweitenmessung",
-        "text": "Wir messen Besuche mit Google Analytics. In der Schweiz ist die Messung aktiv, solange Sie nicht ablehnen. In der EU, im EWR und im Vereinigten Königreich wird erst nach Ihrer Zustimmung etwas gespeichert. Mit „Akzeptieren“ erlauben Sie auch die Werbemessung.",
+        "text": "Wir messen Besuche und unsere Anzeigen mit Google Analytics. Wenn Sie weitersurfen, ohne abzulehnen, akzeptieren Sie diese Cookies; mit „Ablehnen“ schalten Sie sie aus.",
         "more": "Cookie-Richtlinie",
         "accept": "Akzeptieren",
         "refuse": "Ablehnen",
@@ -245,7 +245,7 @@
       },
       "cookies": {
         "label": "Cookies y medición",
-        "text": "Usamos Google Analytics para medir las visitas. En Suiza la medición está activa salvo que la rechace. En la UE, el EEE y el Reino Unido no se guarda nada hasta que acepte. Al aceptar, también permite la medición publicitaria.",
+        "text": "Usamos Google Analytics para medir las visitas y nuestros anuncios. Si sigue navegando sin rechazarlas, acepta estas cookies; «Rechazar» las desactiva.",
         "more": "Política de cookies",
         "accept": "Aceptar",
         "refuse": "Rechazar",
@@ -315,7 +315,7 @@
       },
       "cookies": {
         "label": "Cookies e medição",
-        "text": "Usamos o Google Analytics para medir as visitas. Na Suíça, a medição está ativa, a menos que você a recuse. Na UE, no EEE e no Reino Unido, nada é armazenado até você aceitar. Ao aceitar, você também autoriza a medição publicitária.",
+        "text": "Usamos o Google Analytics para medir as visitas e os nossos anúncios. Se você continuar navegando sem recusar, aceita esses cookies; \"Recusar\" os desativa.",
         "more": "Política de cookies",
         "accept": "Aceitar",
         "refuse": "Recusar",

@@ -6,7 +6,7 @@ import { inter } from "./fonts";
 import { headers } from "next/headers";
 import ErrorBoundary from "@/src/components/ErrorBoundary";
 import { CookieConsent } from "@/src/components/ClientOnlyDynamic";
-import ConsentAnalytics from "@/src/components/ConsentAnalytics";
+import EngagementTracker from "@/src/components/EngagementTracker";
 import OpenAiPixel from "@/src/components/OpenAiPixel";
 import AttributionTracker from "@/src/components/AttributionTracker";
 import {
@@ -20,6 +20,8 @@ import {
   WHATSAPP_BADGE_FALLBACK,
   WHATSAPP_CTA_FALLBACK,
 } from "@/src/lib/whatsapp";
+
+const GTM_ID = "GTM-P6QT792D";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -111,10 +113,10 @@ export default async function RootLayout({
     >
       <head>
         {/* Consent Mode v2 bootstrap: regional defaults + stored choice, then
-            gtag.js. Must run before any other gtag call. */}
+            gtag.js and gtm.js after load + idle. Must run before any other gtag call. */}
         <script
           nonce={nonce}
-          dangerouslySetInnerHTML={{ __html: buildConsentBootstrap(gaId) }}
+          dangerouslySetInnerHTML={{ __html: buildConsentBootstrap(gaId, GTM_ID) }}
         />
         {nonce ? <meta name="csp-nonce" content={nonce} /> : null}
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
@@ -190,12 +192,8 @@ export default async function RootLayout({
               <OpenAiPixel nonce={nonce} />
               <AttributionTracker />
 
-              {/* Pas de <Defer> ici : il ne montait GTM qu'une fois le bas de page atteint, et les visites courtes
-                  n'étaient pas mesurées. ConsentAnalytics attend déjà la fin du chargement puis un moment libre. */}
-              <ConsentAnalytics
-                gtmId="GTM-P6QT792D"
-                nonce={nonce}
-              />
+              {/* GTM se charge dans l'amorce du <head> (après chargement + moment libre), pour tous les visiteurs. */}
+              <EngagementTracker />
             </div>
           </ErrorBoundary>
         </Providers>

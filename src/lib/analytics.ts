@@ -1,7 +1,8 @@
 "use client";
 
 import posthog from "@/src/lib/posthog-lazy";
-import { gaClientIdFromCookies, readConsentChoice } from "@/src/lib/consent-mode";
+import { getAttribution } from "@/src/lib/attribution";
+import { AI_SOURCE_KEY, gaClientIdFromCookies, readConsentChoice } from "@/src/lib/consent-mode";
 
 const posthogConfigured = Boolean(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN && process.env.NEXT_PUBLIC_POSTHOG_HOST);
 const posthogEvents = new Set([
@@ -28,6 +29,7 @@ export type AnalyticsParams = Record<string, string | number | boolean>;
 
 export function trackEvent(name: string, params?: AnalyticsParams) {
   if (name === "generate_lead") {
+    params = { ...leadContext(), ...params };
     trackOpenAiLead();
     mirrorToGtm(name, params);
   }
@@ -43,14 +45,44 @@ export function trackEvent(name: string, params?: AnalyticsParams) {
 }
 
 /**
- * GTM has its own dataLayer (see ConsentAnalytics) that only exists after the
- * visitor accepted; lead events are copied there while consent is active.
+ * Campaign context of the visit for generate_lead: the first-touch UTM values
+ * kept for the session (src/lib/attribution.ts) and the AI assistant that
+ * sent the visitor (ai_source, set by the consent bootstrap). Prefixed names,
+ * GA4 reserves source/medium/campaign for its own campaign handling.
+ */
+export function leadContext(): AnalyticsParams {
+  const out: AnalyticsParams = {};
+  try {
+    const utm = getAttribution()?.utm;
+    if (utm) {
+      if (utm.source) out.lead_utm_source = utm.source;
+      if (utm.medium) out.lead_utm_medium = utm.medium;
+      if (utm.campaign) out.lead_utm_campaign = utm.campaign;
+      if (utm.term) out.lead_utm_term = utm.term;
+      if (utm.content) out.lead_utm_content = utm.content;
+    }
+    const w = window as { __aiSource?: string };
+    let ai = w.__aiSource;
+    if (!ai) {
+      try {
+        ai = window.sessionStorage.getItem(AI_SOURCE_KEY) || undefined;
+      } catch {}
+    }
+    if (ai) out.ai_source = ai;
+  } catch {}
+  return out;
+}
+
+/**
+ * GTM has its own dataLayer (created by the consent bootstrap, gtm.js loads
+ * for every visitor); lead events are copied there. Consent Mode decides
+ * what its tags may do.
  */
 function mirrorToGtm(name: string, params?: AnalyticsParams) {
   try {
     if (typeof window === "undefined") return;
     const layer = (window as { gtmDataLayer?: unknown[] }).gtmDataLayer;
-    if (!Array.isArray(layer) || readConsentChoice() !== "accepted") return;
+    if (!Array.isArray(layer)) return;
     layer.push({ event: name, ...params });
   } catch {
     // Analytics must never surface errors to users.
@@ -59,9 +91,8 @@ function mirrorToGtm(name: string, params?: AnalyticsParams) {
 
 /**
  * ChatGPT Ads conversion: a lead (contact form or instant quote) counts as
- * "registration_completed". window.oaiq only exists once the user accepted
- * marketing cookies (ConsentAnalytics loads the pixel), so this is
- * consent-gated by construction. GA4 keeps the per-channel split (method).
+ * "registration_completed". window.oaiq only exists where OpenAiPixel loaded
+ * it (effective consent: every visitor unless refused), so this is consent-gated by construction. GA4 keeps the per-channel split (method).
  */
 function trackOpenAiLead() {
   try {

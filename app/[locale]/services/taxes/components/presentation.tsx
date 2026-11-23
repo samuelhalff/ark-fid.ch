@@ -95,7 +95,7 @@ const Presentation = async () => {
               </p>
               <div className="space-y-4 max-w-4xl">
                 {internationalTaxFaq.entries.map((entry) => (
-                  <details
+                  <details data-faq
                     key={entry.question}
                     className="group rounded-[22px] bg-surface-warm px-5 py-4 shadow-sm transition-shadow open:shadow-md dark:bg-card"
                   >

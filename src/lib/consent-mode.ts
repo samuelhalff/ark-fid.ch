@@ -3,13 +3,19 @@
  * cookie banner and the analytics helpers. Dependency-free so it can be unit
  * tested with `node --test`.
  *
- * Legal line (see privacy/cookie policy):
- * - EEA + UK: everything denied until the visitor accepts (opt-in).
- * - Switzerland: analytics measurement on by default, ad signals denied until
- *   the visitor accepts (Swiss information + opt-out; Google's EU user consent
- *   policy also covers CH for ad signals).
- * - Rest of world: granted by default, the visitor can refuse.
- * A stored choice always overrides the regional default.
+ * Legal line (Sam, 23.11.2026, decided knowing the GDPR/Planet49 risk for
+ * EU/EEA/UK visitors, see docs/DECISIONS.md and the privacy/cookie policy):
+ * everywhere, a visitor who ignores the banner is treated like one who
+ * clicked "Accepter": all four Consent Mode signals granted by default,
+ * PostHog persistent with replay, OpenAI pixel loaded. Only "Refuser" stops
+ * it. A stored choice always overrides the default.
+ *
+ * The defaults are a list of rules (CONSENT_DEFAULT_RULES, most specific
+ * region first, last rule without region = rest of world) so a regional
+ * split can be restored by adding a rule, e.g.
+ * { region: EEA_UK_REGIONS, granted: false, waitForUpdate: 500 }. Client-side
+ * tools follow defaultGrantedClientSide(), which must then be revisited too
+ * (the browser does not know Google's IP region).
  */
 
 export const CONSENT_KEY = "cookieConsent";
@@ -32,6 +38,84 @@ export const EEA_UK_REGIONS = [
   "HU", "IS", "IE", "IT", "LV", "LI", "LT", "LU", "MT", "NL", "NO", "PL",
   "PT", "RO", "SK", "SI", "ES", "SE", "GB",
 ] as const;
+
+export type ConsentDefaultRule = {
+  /** ISO 3166 codes; omitted = every other region. */
+  region?: readonly string[];
+  granted: boolean;
+  /** ms the tags wait for the banner's update (opt-in regions). */
+  waitForUpdate?: number;
+};
+
+/** Single rule since 23.11.2026: granted everywhere until "Refuser". */
+export const CONSENT_DEFAULT_RULES: readonly ConsentDefaultRule[] = [{ granted: true }];
+
+/** Default for our own client-side tools (PostHog, OpenAI pixel, attribution session copy). */
+export function defaultGrantedClientSide(): boolean {
+  return CONSENT_DEFAULT_RULES.every((rule) => rule.granted);
+}
+
+/** Stored choice wins; otherwise the default (granted). */
+export function effectiveConsent(choice: ConsentChoice | null, defaultGranted = defaultGrantedClientSide()): boolean {
+  if (choice === "accepted") return true;
+  if (choice === "refused") return false;
+  return defaultGranted;
+}
+
+/** Browser: may our own tools store identifiers and measure fully right now? */
+export function hasEffectiveConsent(): boolean {
+  if (typeof window === "undefined") return false;
+  return effectiveConsent(readConsentChoice());
+}
+
+/** Known AI assistants (referrer host or utm_source value) → ai_source label. */
+export const AI_SOURCES: ReadonlyArray<[string, string]> = [
+  ["chatgpt.com", "chatgpt"],
+  ["chat.openai.com", "chatgpt"],
+  ["perplexity.ai", "perplexity"],
+  ["claude.ai", "claude"],
+  ["copilot.microsoft.com", "copilot"],
+  ["copilot.cloud.microsoft", "copilot"],
+  ["gemini.google.com", "gemini"],
+  ["bard.google.com", "gemini"],
+  ["chat.deepseek.com", "deepseek"],
+  ["chat.mistral.ai", "mistral"],
+  ["meta.ai", "meta_ai"],
+  ["grok.com", "grok"],
+  ["you.com", "you"],
+  ["phind.com", "phind"],
+  ["kagi.com", "kagi"],
+];
+
+function matchAiHost(host: string): string | null {
+  const h = host.toLowerCase().replace(/^www\./, "");
+  if (!h) return null;
+  for (const [domain, label] of AI_SOURCES) {
+    if (h === domain || h.endsWith(`.${domain}`)) return label;
+  }
+  return null;
+}
+
+/**
+ * ai_source from the referrer (host only) or utm_source (ChatGPT adds
+ * utm_source=chatgpt.com). Returns a fixed label, never the raw value.
+ */
+export function detectAiSource(referrer: string | null | undefined, utmSource: string | null | undefined): string | null {
+  if (referrer) {
+    try {
+      const fromRef = matchAiHost(new URL(referrer).hostname);
+      if (fromRef) return fromRef;
+    } catch {}
+  }
+  const utm = (utmSource || "").trim().toLowerCase();
+  if (!utm) return null;
+  const byHost = matchAiHost(utm);
+  if (byHost) return byHost;
+  const labels = new Set(AI_SOURCES.map(([, label]) => label));
+  return labels.has(utm) ? utm : null;
+}
+
+export const AI_SOURCE_KEY = "ai_source";
 
 export function consentStateFor(granted: boolean): ConsentModeState {
   const value = granted ? "granted" : "denied";
@@ -169,7 +253,15 @@ export function updateConsentMode(choice: ConsentChoice) {
     if (typeof window === "undefined") return;
     const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
     if (typeof gtag !== "function") return;
-    gtag("consent", "update", consentStateFor(choice === "accepted"));
+    const state = consentStateFor(choice === "accepted");
+    gtag("consent", "update", state);
+    // Same update for GTM, which reads its own layer.
+    const layer = (window as { gtmDataLayer?: unknown[] }).gtmDataLayer;
+    if (Array.isArray(layer)) {
+      (function (..._args: unknown[]) {
+        layer.push(arguments);
+      })("consent", "update", state);
+    }
   } catch {
     // Analytics must never surface errors to users.
   }
@@ -180,10 +272,9 @@ export function updateConsentMode(choice: ConsentChoice) {
  * Used to join a lead sent by the visitor back to GA acquisition data.
  *
  * Returned whenever a valid _ga cookie exists and the stored choice is not a
- * refusal. Undecided visitors only carry a _ga cookie where the regional
- * default grants analytics storage (Switzerland, rest of world); EEA/UK
- * defaults deny it, so no cookie is set there before "accept". A refusal
- * always wins, even over a leftover cookie from an earlier "accept".
+ * refusal (undecided visitors carry one: the default grants analytics
+ * storage). A refusal always wins, even over a leftover cookie from an
+ * earlier "accept".
  */
 export function gaClientIdFromCookies(
   cookies: string,
@@ -208,32 +299,44 @@ export function isValidMeasurementId(id: string | undefined | null): id is strin
   return typeof id === "string" && MEASUREMENT_ID_PATTERN.test(id);
 }
 
+const GTM_ID_PATTERN = /^GTM-[A-Z0-9]{4,12}$/;
+export const GTM_DATA_LAYER = "gtmDataLayer";
+
 /**
  * Inline script for the root layout. Runs before any gtag 'js'/'config' or
- * event: regional defaults (most specific region wins, no region = rest of
- * world), then the stored choice as an update, then gtag.js is injected
- * after the load event, in idle time.
+ * event: the defaults (CONSENT_DEFAULT_RULES, most specific region first),
+ * then the stored choice as an update, the AI-assistant referrer as
+ * ai_source, then gtag.js (GA4) and gtm.js are injected after the load event,
+ * in idle time, whatever the consent: Consent Mode governs what the tags do.
+ *
+ * GTM runs on its own layer (GTM_DATA_LAYER); the same consent defaults and
+ * the stored choice are pushed there too, before gtm.js.
  */
-export function buildConsentBootstrap(measurementId: string): string {
+export function buildConsentBootstrap(measurementId: string, gtmId?: string): string {
   if (!isValidMeasurementId(measurementId)) {
     throw new Error(`Invalid GA4 measurement id: ${measurementId}`);
   }
+  const gtm = gtmId && GTM_ID_PATTERN.test(gtmId) ? gtmId : null;
   const denied = consentStateFor(false);
   const granted = consentStateFor(true);
-  const ch = { ...denied, analytics_storage: "granted" as const };
   const id = JSON.stringify(measurementId);
   const key = JSON.stringify(CONSENT_KEY);
+  const layer = JSON.stringify(GTM_DATA_LAYER);
   return [
     "(function(){",
     "window.dataLayer=window.dataLayer||[];",
     "function gtag(){window.dataLayer.push(arguments);}",
     "window.gtag=gtag;",
-    // wait_for_update: tags wait up to 500 ms for the banner's update
-    // (every default region, so a stored or new choice is applied first).
-    `gtag('consent','default',${JSON.stringify({ ...denied, region: EEA_UK_REGIONS, wait_for_update: 500 })});`,
-    `gtag('consent','default',${JSON.stringify({ ...ch, region: ["CH"], wait_for_update: 500 })});`,
-    `gtag('consent','default',${JSON.stringify({ ...granted, wait_for_update: 500 })});`,
-    "gtag('set','ads_data_redaction',true);",
+    `var g=window[${layer}]=window[${layer}]||[];`,
+    "function gt(){g.push(arguments);}",
+    "function both(){gtag.apply(null,arguments);gt.apply(null,arguments);}",
+    ...CONSENT_DEFAULT_RULES.map((rule) => {
+      const state: Record<string, unknown> = { ...consentStateFor(rule.granted) };
+      if (rule.region) state.region = rule.region;
+      if (rule.waitForUpdate) state.wait_for_update = rule.waitForUpdate;
+      return `both('consent','default',${JSON.stringify(state)});`;
+    }),
+    "both('set','ads_data_redaction',true);",
     // Same rule as pickStoredConsent: the cookie wins, localStorage only
     // counts where cookies cannot be stored.
     "var c=null,l=null,k=null,ce=true;",
@@ -242,19 +345,36 @@ export function buildConsentBootstrap(measurementId: string): string {
     `try{var m=document.cookie.match(/(?:^|; )${CONSENT_KEY}=([^;]*)/);if(m)c=m[1];var n=document.cookie.match(/(?:^|; )${SHARED_CONSENT_COOKIE}=([^;]*)/);if(n)k=n[1];}catch(e){}`,
     "try{ce=navigator.cookieEnabled!==false;}catch(e){}",
     "if(ok(k)){c=k;}else if(!ok(c)){c=(!ce&&ok(l))?l:null;}",
-    `if(c==='accepted'){gtag('consent','update',${JSON.stringify(granted)});}`,
-    `else if(c==='minimal'||c==='declined'){gtag('consent','update',${JSON.stringify(denied)});}`,
+    `if(c==='accepted'){both('consent','update',${JSON.stringify(granted)});}`,
+    `else if(c==='minimal'||c==='declined'){both('consent','update',${JSON.stringify(denied)});}`,
+    // Client-side consent (same rule as hasEffectiveConsent) only decides
+    // whether ai_source may be kept in sessionStorage.
+    `var okc=c==='accepted'||(c===null&&${JSON.stringify(defaultGrantedClientSide())});`,
+    // AI assistant referrer (fixed label only) as event param + user property.
+    `var A=${JSON.stringify(AI_SOURCES)};`,
+    "function mh(h){h=(h||'').toLowerCase().replace(/^www\\./,'');if(!h)return null;for(var i=0;i<A.length;i++){if(h===A[i][0]||h.slice(-A[i][0].length-1)==='.'+A[i][0])return A[i][1];}return null;}",
+    `var ai=null;try{ai=window.sessionStorage.getItem(${JSON.stringify(AI_SOURCE_KEY)});}catch(e){}`,
+    "if(!ai){var rh='';try{rh=new URL(document.referrer).hostname;}catch(e){}ai=mh(rh);",
+    "if(!ai){var us='';try{us=(new URLSearchParams(location.search).get('utm_source')||'').toLowerCase();}catch(e){}ai=mh(us);if(!ai){for(var j=0;j<A.length;j++){if(A[j][1]===us){ai=us;break;}}}}",
+    `if(ai&&okc){try{window.sessionStorage.setItem(${JSON.stringify(AI_SOURCE_KEY)},ai);}catch(e){}}}`,
+    "if(ai){window.__aiSource=ai;gtag('set','user_properties',{ai_source:ai});gtag('set',{ai_source:ai});g.push({ai_source:ai});}",
     "gtag('js',new Date());",
     `gtag('config',${id});`,
-    // gtag.js itself waits for the load event, then idle time (3 s at most):
-    // the consent defaults and the js/config calls above are already queued
-    // in dataLayer and are read when the library arrives. The nonce is read
-    // now, document.currentScript is gone once this script has run.
+    // gtag.js and gtm.js wait for the load event, then idle time (3 s at
+    // most): the consent defaults and the js/config calls above are already
+    // queued and are read when the libraries arrive. The nonce is read now,
+    // document.currentScript is gone once this script has run.
     "var cs=document.currentScript,nn=cs&&cs.nonce;",
-    "function ld(){var s=document.createElement('script');s.async=true;",
-    `s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(${id});`,
-    "if(nn)s.nonce=nn;",
-    "(document.head||document.documentElement).appendChild(s);}",
+    "function add(src){var s=document.createElement('script');s.async=true;s.src=src;if(nn)s.nonce=nn;(document.head||document.documentElement).appendChild(s);}",
+    "function ld(){",
+    `add('https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(${id}));`,
+    ...(gtm
+      ? [
+          `g.push({'gtm.start':new Date().getTime(),event:'gtm.js'});`,
+          `add('https://www.googletagmanager.com/gtm.js?id='+${JSON.stringify(gtm)}+'&l='+${layer});`,
+        ]
+      : []),
+    "}",
     "function idle(){if(typeof window.requestIdleCallback==='function'){window.requestIdleCallback(ld,{timeout:3000});}else{setTimeout(ld,1);}}",
     "if(document.readyState==='complete'){idle();}else{window.addEventListener('load',idle,{once:true});}",
     "})();",

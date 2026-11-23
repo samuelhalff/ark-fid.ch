@@ -206,7 +206,7 @@ const ContactForm: FC<ContactFormProps> = ({
             />
             <Form {...form}>
               <form
-                className="flex flex-col gap-6"
+                className="ph-no-capture flex flex-col gap-6"
                 id="contact-form"
                 onSubmit={form.handleSubmit(onSubmit)}
                 onFocusCapture={handleFormFocus}

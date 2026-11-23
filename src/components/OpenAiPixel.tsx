@@ -1,24 +1,26 @@
 "use client";
 
 /**
- * ChatGPT Ads measurement pixel (oaiq). Marketing tracking, so it loads only
- * once cookie consent is "accepted"; if consent is withdrawn the SDK is told
- * to stop. Rendered outside <Defer> so it exists before an early lead submit
+ * ChatGPT Ads measurement pixel (oaiq). Marketing measurement, so it follows
+ * the effective consent (hasEffectiveConsent): loaded by default for every
+ * visitor (ignoring the banner = accepting, Sam 23.11.2026); after "Refuser"
+ * the SDK is
+ * told to stop. Rendered outside <Defer> so it exists before an early lead submit
  * (trackEvent("generate_lead") → registration_completed, see lib/analytics).
  * Add ?oaiq_debug=1 to any URL to see Pixel activity in the console.
  */
 
 import { useEffect, useState } from "react";
-import { getConsent, type ConsentPref } from "./ConsentAnalytics";
+import { hasEffectiveConsent } from "@/src/lib/consent-mode";
 
 const OPENAI_PIXEL_ID = "QyP6CF1DnGvrLSxLza28qc";
 
 export default function OpenAiPixel({ nonce }: { nonce?: string }) {
-  const [consent, setConsent] = useState<ConsentPref>(null);
+  const [allowed, setAllowed] = useState<boolean | null>(null);
 
   useEffect(() => {
-    setConsent(getConsent());
-    const refresh = () => setConsent(getConsent());
+    setAllowed(hasEffectiveConsent());
+    const refresh = () => setAllowed(hasEffectiveConsent());
     window.addEventListener("storage", refresh);
     window.addEventListener("cookie-consent-changed", refresh);
     return () => {
@@ -29,7 +31,8 @@ export default function OpenAiPixel({ nonce }: { nonce?: string }) {
 
   useEffect(() => {
     const w = window as any;
-    if (consent !== "accepted") {
+    if (allowed === null) return;
+    if (!allowed) {
       if (typeof w.oaiq === "function") w.oaiq("consent", false);
       return;
     }
@@ -52,7 +55,7 @@ export default function OpenAiPixel({ nonce }: { nonce?: string }) {
       debug = new URLSearchParams(window.location.search).has("oaiq_debug");
     } catch {}
     w.oaiq("init", { pixelId: OPENAI_PIXEL_ID, debug });
-  }, [consent, nonce]);
+  }, [allowed, nonce]);
 
   return null;
 }

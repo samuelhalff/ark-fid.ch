@@ -934,7 +934,7 @@ export default function AgentChat({
   return (
     <>
       {/* Messages — grow with page scroll */}
-      <div role="log" aria-live="polite">
+      <div role="log" aria-live="polite" className="ph-no-capture">
         <div className="mx-auto max-w-4xl space-y-5 px-5 py-5 sm:px-8 md:py-6">
           {messages.map((message) => (
             <div

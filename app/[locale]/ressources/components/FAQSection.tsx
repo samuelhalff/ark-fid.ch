@@ -41,7 +41,7 @@ export default function FAQSection({
       </h2>
       <div className="space-y-6">
         {faq.Items.map((item, idx) => (
-          <details
+          <details data-faq
             key={idx}
             className="group rounded-md bg-surface-warm/60 p-4 shadow-sm"
           >

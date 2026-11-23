@@ -1,16 +1,24 @@
 "use client";
 
 /**
- * PostHog, loaded late and without storage before consent (same rule as
- * guide-assurance.ch):
+ * PostHog, loaded late (same policy on ark-fid.ch, houle.ai and
+ * guide-assurance.ch, Sam 23.11.2026):
  * - posthog-js is imported dynamically after the load event, in idle time,
- *   so it stays out of the first-render bundle;
- * - until the visitor accepts the cookie banner, persistence is "memory"
- *   (no cookie, no localStorage); after "accept" it switches to
- *   localStorage+cookie, after a refusal back to memory.
+ *   so it stays out of the first-render bundle (never at instrumentation time);
+ * - persistence follows the effective consent (hasEffectiveConsent): stored
+ *   choice first, otherwise the default, granted everywhere since 23.11.2026
+ *   (ignoring the banner = accepting): localStorage+cookie. "Refuser" →
+ *   memory, identifiers wiped, no replay;
+ * - autocapture (never input values), heatmaps, dead and rage clicks, web
+ *   vitals, page leave with scroll depth;
+ * - session replay only for persistent visitors, all inputs masked, and never
+ *   on pages carrying client data (isReplayExcluded). Elements marked
+ *   `ph-no-capture` (forms, chat transcripts) are blocked from replay and
+ *   autocapture everywhere.
  * Calls made before the library is ready are queued, then replayed.
  */
-import { readConsentChoice } from "@/src/lib/consent-mode";
+import { hasEffectiveConsent } from "@/src/lib/consent-mode";
+import { isReplayExcluded } from "@/src/lib/replay-policy";
 
 type Props = Record<string, unknown>;
 type PostHogLike = {
@@ -20,8 +28,11 @@ type PostHogLike = {
   reset: () => unknown;
   captureException: (error: unknown) => unknown;
   set_config: (config: Record<string, unknown>) => unknown;
+  startSessionRecording: (override?: unknown) => unknown;
+  stopSessionRecording: () => unknown;
+  sessionRecordingStarted: () => boolean;
 };
-type Call = [keyof Omit<PostHogLike, "init" | "set_config">, unknown[]];
+type Call = [keyof Pick<PostHogLike, "capture" | "identify" | "reset" | "captureException">, unknown[]];
 
 const TOKEN = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
 const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST;
@@ -30,8 +41,33 @@ let instance: PostHogLike | null = null;
 let loading: Promise<void> | null = null;
 const queue: Call[] = [];
 const MAX_QUEUE = 100;
+const CLICK_EVENTS = new Set(["$autocapture", "$rageclick", "$dead_click", "$copy_autocapture", "$$heatmap"]);
 
-const persistence = () => (readConsentChoice() === "accepted" ? "localStorage+cookie" : "memory");
+const persistence = () => (hasEffectiveConsent() ? "localStorage+cookie" : "memory");
+
+/** Starts or stops the replay for the current page and consent. */
+export function syncSessionRecording() {
+  if (!instance || typeof window === "undefined") return;
+  try {
+    const want =
+      hasEffectiveConsent() && !isReplayExcluded(window.location.hostname, window.location.pathname);
+    const started = instance.sessionRecordingStarted();
+    if (want && !started) instance.startSessionRecording({ sampling: true, linked_flag: true });
+    else if (!want && started) instance.stopSessionRecording();
+  } catch {}
+}
+
+function wipeIdentifiers() {
+  if (!instance) return;
+  try {
+    instance.reset();
+    const key = `ph_${TOKEN}_posthog`;
+    window.localStorage.removeItem(key);
+    window.localStorage.removeItem(`${key}__flags`);
+    document.cookie = `${key}=; Max-Age=0; path=/`;
+    document.cookie = `${key}=; Max-Age=0; path=/; domain=.${location.hostname.replace(/^www\./, "")}`;
+  } catch {}
+}
 
 async function load() {
   if (!TOKEN || !HOST || typeof window === "undefined") return;
@@ -42,6 +78,26 @@ async function load() {
     defaults: "2026-05-30",
     capture_exceptions: true,
     persistence: persistence(),
+    autocapture: { capture_copied_text: false },
+    capture_pageview: "history_change",
+    capture_pageleave: true,
+    enable_heatmaps: true,
+    capture_dead_clicks: true,
+    rageclick: true,
+    capture_performance: { web_vitals: true, network_timing: true },
+    // Replay is started by syncSessionRecording only (consent + page check).
+    disable_session_recording: true,
+    session_recording: {
+      maskAllInputs: true,
+      maskTextSelector: ".ph-mask, [data-ph-mask]",
+      blockSelector: ".ph-no-capture",
+      recordCrossOriginIframes: false,
+    },
+    // Pages with client data: no click/heatmap events at all (replay is off there too).
+    before_send: <T extends { event?: string } | null>(event: T): T | null => {
+      if (event && CLICK_EVENTS.has(event.event || "") && isReplayExcluded(location.hostname, location.pathname)) return null;
+      return event;
+    },
     debug: process.env.NODE_ENV === "development",
   });
   instance = posthog as unknown as PostHogLike;
@@ -50,21 +106,14 @@ async function load() {
       (instance[method] as (...a: unknown[]) => unknown)(...args);
     } catch {}
   }
+  syncSessionRecording();
   window.addEventListener("cookie-consent-changed", () => {
     if (!instance) return;
     const next = persistence();
     instance.set_config({ persistence: next });
-    // Consent withdrawn: drop the identifiers stored while it was given.
-    if (next === "memory") {
-      try {
-        instance.reset();
-        const key = `ph_${TOKEN}_posthog`;
-        window.localStorage.removeItem(key);
-        window.localStorage.removeItem(`${key}__flags`);
-        document.cookie = `${key}=; Max-Age=0; path=/`;
-        document.cookie = `${key}=; Max-Age=0; path=/; domain=.${location.hostname.replace(/^www\./, "")}`;
-      } catch {}
-    }
+    // Consent withdrawn: no replay, drop the identifiers stored meanwhile.
+    if (next === "memory") wipeIdentifiers();
+    syncSessionRecording();
   });
 }
 

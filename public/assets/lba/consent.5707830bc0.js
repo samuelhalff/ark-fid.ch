@@ -7,10 +7,10 @@
   function gtag(){window.dataLayer.push(arguments)}
   window.gtag=gtag;
   function state(v){return {ad_storage:v,analytics_storage:v,ad_user_data:v,ad_personalization:v}}
-  var denied=state('denied'),granted=state('granted'),ch=state('denied');ch.analytics_storage='granted';
-  // Most specific region wins; no region = rest of the world.
-  var eea=state('denied');eea.region=EEA_UK;gtag('consent','default',eea);
-  ch.region=['CH'];gtag('consent','default',ch);
+  var denied=state('denied'),granted=state('granted');
+  // Since 23.11.2026 (Sam): ignoring the banner = accepting, everywhere. Single default; the EEA_UK
+  // list stays available to restore a regional opt-in rule (see CONSENT_DEFAULT_RULES).
+  void EEA_UK;
   gtag('consent','default',granted);
   gtag('set','ads_data_redaction',true);
   // A saved choice overrides the regional default. Same rule as the main site (pickStoredConsent):

@@ -20,7 +20,7 @@ export default async function PageFaq({ locale, ns, memberSlug }: { locale: Loca
       <SectionHeading eyebrow="FAQ" title={faq.title} className="max-w-4xl" />
       <div className="mx-auto mt-8 max-w-4xl space-y-4">
         {faq.entries.map(({ question, answer }) => (
-          <details
+          <details data-faq
             key={question}
             className="group rounded-[22px] bg-surface-warm px-5 py-4 shadow-sm transition-shadow open:shadow-md dark:bg-card"
           >

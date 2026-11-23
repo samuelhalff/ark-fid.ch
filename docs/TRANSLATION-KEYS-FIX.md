@@ -376,6 +376,12 @@ Added in all locales (`fr`, `en`, `de`, `es`, `pt`):
 
 Changed values: `cookie:Title`, `cookie:Text`, `cookie:Accept` ("Accept"), `cookie:Decline` ("Refuse"), `legal:Cookies.Introduction.Content[1]`, `legal:Cookies.Types.Analytics.Description`, `legal:Cookies.Types.Marketing.Description`, `legal:Cookies.Types.Marketing.Providers`, `legal:Cookies.Management.ConsentBanner.Description`, `legal:Cookies.Management.ConsentBanner.Options[0..1]`.
 
+## Same opt-out rule for every country (Nov 2026)
+
+`legal:Cookies.Measurement.Content` now has 8 paragraphs (`[0..7]`, rendered by `app/[locale]/legal/cookies/page.tsx`): [0] the rule (no refusal counts as « Accepter »), [1] tools (GA4, GTM, PostHog, OpenAI pixel), [2] what is measured, [3] PostHog session replay, [4] retention, [5] US transfers (Swiss-U.S. DPF / standard contractual clauses), [6] how to refuse and what a refusal stops, [7] lba.ark-fid.ch. The regional (Switzerland / EU-EEA-UK / other countries) paragraphs are gone.
+
+Changed values in all locales: `cookie:Text`, `legal:Cookies.Introduction.Content[1]`, `legal:Cookies.Types.Analytics.Providers`, `legal:Cookies.Types.Marketing.Description`, `legal:Cookies.Management.ConsentBanner.Options[0..1]`, `legal:Privacy.WebAnalytics.Content[0]` and `[2]`, `legal:Privacy.InternationalTransfers.Destinations.1`, and `locales.<locale>.cookies.text` in `src/lba/meta.json`.
+
 ## Mobile menu (Oct 2026)
 
 Added in all locales (`fr`, `en`, `de`, `es`, `pt`):

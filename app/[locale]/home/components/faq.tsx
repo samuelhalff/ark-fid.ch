@@ -62,7 +62,7 @@ export default async function FAQ() {
             className="mb-4 break-inside-avoid"
             delay={Math.min((index % 6) * 0.03, 0.15)}
           >
-            <details
+            <details data-faq
               className="group rounded-[22px] bg-surface-warm px-5 py-4 shadow-sm transition-shadow open:shadow-md dark:bg-card"
             >
               <summary className="faq-summary flex items-center justify-between gap-4 cursor-pointer select-none py-1 pr-2">

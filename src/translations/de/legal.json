@@ -140,9 +140,9 @@
         "WebAnalytics": {
             "Title": "Webanalyse und Herkunft von Anfragen",
             "Content": [
-                "Wir messen die Nutzung unserer Website mit Google Analytics 4 und dem Google-Einwilligungsmodus. Was erfasst wird, hängt von Ihrer Region und Ihrer Wahl im Cookie-Banner ab: In der Schweiz ist die Messung aktiv, solange Sie nicht ablehnen; in der EU, im EWR und im Vereinigten Königreich wird vor Ihrer Zustimmung nichts gespeichert. Die verwendeten Cookies und wie Sie ablehnen, beschreibt unsere Cookie-Richtlinie. Dies gilt auch für unsere Subdomain lba.ark-fid.ch.",
+                "Wir messen die Nutzung unserer Website und die Wirksamkeit unserer Anzeigen mit Google Analytics 4, Google Tag Manager, PostHog und dem Pixel zur Messung von ChatGPT-Anzeigen (OpenAI). Für alle Besucher, unabhängig vom Land, ist diese Messung ab der ersten Seite aktiv, außer Sie klicken im Cookie-Banner auf „Ablehnen“ oder später auf den Link „Cookies“ unten auf der Seite. Was Sie in ein Feld eingeben, erfassen wir nie, und die Sitzungsaufzeichnung von PostHog läuft nicht auf Seiten mit Kundendaten. Unsere Cookie-Richtlinie beschreibt im Einzelnen, was gemessen wird, wie lange es aufbewahrt wird und welche Daten in die USA gehen. Dieselbe Regel gilt für unsere Subdomain lba.ark-fid.ch.",
                 "Wenn Sie über unser Kontaktformular oder unseren Assistenten eine Anfrage senden, fügen wir hinzu, wie Sie auf unsere Website gekommen sind: die erste besuchte Seite, die verweisende Website (nur Domain), Kampagnenparameter (utm_source, utm_medium, utm_campaign, utm_term, utm_content), die Google-Ads-Klickkennung (gclid), falls vorhanden, und bis zu 20 während des Besuchs angesehene Seiten. Für diese Zuordnung speichern wir nie vollständige Adressen oder andere URL-Parameter.",
-                "Diese Angaben bleiben während des Besuchs im Speicher Ihres Browsers (und, wenn Sie Cookies akzeptiert haben, im Sitzungsspeicher, der beim Schließen des Tabs gelöscht wird). Sie werden nur mit Ihrer Anfrage an uns übermittelt und mit ihr aufbewahrt. Wir nutzen sie auf Grundlage unseres berechtigten Interesses, um zu verstehen, über welche Kanäle Anfragen zu uns kommen.",
+                "Diese Angaben bleiben während des Besuchs im Speicher Ihres Browsers (und, außer wenn Sie Cookies abgelehnt haben, im Sitzungsspeicher, der beim Schließen des Tabs gelöscht wird). Sie werden nur mit Ihrer Anfrage an uns übermittelt und mit ihr aufbewahrt. Wir nutzen sie auf Grundlage unseres berechtigten Interesses, um zu verstehen, über welche Kanäle Anfragen zu uns kommen.",
                 "Außer wenn Sie die Analyse abgelehnt haben, fügen wir einer Anfrage, die Sie uns senden, auch die in Ihrem Browser gespeicherte Google-Analytics-Kennung hinzu, um sie mit unseren Besuchsstatistiken zu verknüpfen. Eine Ablehnung hindert Sie nicht daran, uns zu kontaktieren."
             ]
         },
@@ -248,7 +248,7 @@
             "Description": "Wir können persönliche Daten außerhalb der Schweiz übertragen an:",
             "Destinations": {
                 "0": "EU/EWR-Länder mit angemessenem Datenschutz",
-                "1": "Länder mit Angemessenheitsbeschlüssen der schweizerischen Behörden",
+                "1": "Länder, die der Bundesrat als angemessen anerkennt, einschließlich US-Unternehmen, die nach dem Swiss-U.S. Data Privacy Framework zertifiziert sind (zum Beispiel Google LLC und PostHog Inc. für die Webanalyse)",
                 "2": "Drittländer mit angemessenen Schutzmaßnahmen (Standardvertragsklauseln)"
             },
             "Safeguards": "Alle internationalen Übertragungen werden mit angemessenen rechtlichen Schutzmaßnahmen durchgeführt, um sicherzustellen, dass Ihre Daten nach schweizerischen Standards geschützt bleiben."
@@ -283,19 +283,20 @@
             "Title": "Einführung",
             "Content": [
                 "Diese Cookie-Richtlinie erklärt, wie Ark Fiduciaire Cookies und ähnliche Tracking-Technologien auf unserer Website verwendet. Sie bietet Informationen darüber, was Cookies sind, wie wir sie verwenden und Ihre Wahlmöglichkeiten bezüglich ihrer Verwendung.",
-                "Je nach Ihrem Standort sind manche dieser Technologien standardmäßig aktiv, andere nur mit Ihrer Zustimmung. Der folgende Abschnitt erklärt, was für Sie gilt und wie Sie ablehnen oder Ihre Wahl ändern können."
+                "Für alle Besucher gilt dieselbe Regel, unabhängig vom Land: Reichweiten- und Werbemessung sind aktiv, solange Sie sie nicht ablehnen. Der folgende Abschnitt erklärt, was wir messen und wie Sie ablehnen oder Ihre Wahl ändern können."
             ]
         },
         "Measurement": {
             "Title": "Wie wir Besuche messen",
             "Content": [
-                "Wir verwenden Google Analytics 4 (Google Ireland Limited und Google LLC) mit dem Google-Einwilligungsmodus (Consent Mode). Das Google-Tag wird bei jedem Besuch geladen. Was es speichern darf, hängt von Ihrem Standort ab, den Google anhand Ihrer IP-Adresse schätzt, und von Ihrer Wahl im Cookie-Banner. Wie bei jeder Google-Analytics-Einrichtung enthält jede Messung die Adresse der aufgerufenen Seite, mit Kampagnenparametern wie utm_source oder gclid, wenn diese im aufgerufenen Link stehen.",
-                "Schweiz: Analyse-Cookies (_ga, _ga_*) werden verwendet, solange Sie nicht auf „Ablehnen“ klicken. Werbesignale (Werbe-Cookies, Nutzerdaten für Werbung und personalisierte Werbung) bleiben ausgeschaltet, bis Sie auf „Akzeptieren“ klicken.",
-                "Europäische Union, EWR und Vereinigtes Königreich: Analyse- oder Werbe-Cookies werden erst gesetzt, wenn Sie auf „Akzeptieren“ klicken. Bis dahin sendet das Tag nur cookielose Messsignale (zum Beispiel einen Seitenaufruf oder ein gesendetes Formular), ohne Kennung, die Sie von einem Besuch zum nächsten wiedererkennt. Google erhält die technischen Daten, die jede Webanfrage enthält, etwa Ihre IP-Adresse und den Browsertyp, und nutzt diese Signale für aggregierte Statistiken.",
-                "Andere Länder: Analyse und Werbesignale sind standardmäßig aktiv. Sie können sie mit „Ablehnen“ ausschalten.",
-                "Google Tag Manager und das Messpixel für ChatGPT-Anzeigen (OpenAI) werden überall erst nach einem Klick auf „Akzeptieren“ geladen.",
-                "Ihre Wahl wird in Ihrem Browser gespeichert (Cookie und lokaler Speichereintrag „cookieConsent“, 12 Monate). „Ablehnen“ schaltet Analyse- und Werbe-Cookies und -Signale aus; das Tag sendet dann nur noch die oben beschriebenen cookielosen Signale. Sie können Ihre Wahl jederzeit über die Cookie-Schaltfläche unten auf der Seite ändern.",
-                "Dieselben Regeln gelten für unsere Subdomain lba.ark-fid.ch (Seiten zu den neuen GwG-Regeln). Sie verwendet dieselbe Google-Analytics-Property und dasselbe _ga-Cookie, das ark-fid.ch und seine Subdomains gemeinsam nutzen. Sie hat ein eigenes Cookie-Banner: Ihre Wahl wird dort separat gespeichert (gleicher Schlüssel „cookieConsent“) und lässt sich über den Link „Cookie-Einstellungen“ unten auf der Seite ändern. Google Tag Manager und das Pixel für ChatGPT-Anzeigen werden dort nicht geladen. Wir messen dort zudem den gewählten Reiter, die Anzeige des Ergebnisses eines Entscheidungsbaums, das Öffnen des Assistenten und das Senden einer ersten Frage; diese Ereignisse enthalten weder den Text Ihrer Frage noch Ihre E-Mail-Adresse."
+                "Die Regel ist für alle Besucher in allen Ländern gleich: Wenn Sie nicht auf „Ablehnen“ klicken, behandeln wir Sie genau so, als hätten Sie auf „Akzeptieren“ geklickt. Reichweitenmessung und Werbesignale sind deshalb ab der ersten Seite aktiv. Das Cookie-Banner wird allen angezeigt und hat eine Schaltfläche „Ablehnen“.",
+                "Wir verwenden Google Analytics 4 und Google Tag Manager (Google Ireland Limited und Google LLC) mit dem Google-Einwilligungsmodus (Consent Mode). Google Tag Manager wird bei jedem Besuch geladen. Solange Sie nicht ablehnen, sind alle vier Signale des Einwilligungsmodus erteilt: Speicherung für die Analyse, Speicherung für Werbung, Nutzerdaten für Werbung und personalisierte Werbung. Wie bei jeder Google-Analytics-Einrichtung enthält jede Messung die Adresse der aufgerufenen Seite, mit Kampagnenparametern wie utm_source oder gclid, wenn diese im aufgerufenen Link stehen. Außerdem nutzen wir PostHog (PostHog Inc.) für die Reichweitenmessung und für die unten beschriebene Sitzungsaufzeichnung. Die Daten liegen in der EU-Cloud von PostHog in Frankfurt und werden über unsere eigene Subdomain t.ark-fid.ch übermittelt. Das Pixel zur Messung von ChatGPT-Anzeigen (OpenAI) misst, wie gut unsere Anzeigen in ChatGPT wirken.",
+                "Wir messen aufgerufene Seiten, wie weit Sie scrollen, Klicks auf Links und Schaltflächen, Datei-Downloads, die FAQ-Fragen, die Sie öffnen, und die Ladegeschwindigkeit der Seiten (Web Vitals). Wir erfassen auch, welcher KI-Assistent Sie zu uns geschickt hat (ChatGPT, Perplexity, Claude, Copilot, Gemini oder ein ähnlicher Dienst), anhand der verweisenden Website oder des Parameters utm_source im Link, und speichern nur den Namen des Assistenten. Wenn Sie eine Kontaktanfrage senden, enthält das erfasste Ereignis die Kampagnenparameter Ihres Besuchs. Was Sie in ein Feld eingeben, erfassen wir nie.",
+                "PostHog zeichnet außerdem Sitzungen auf, also wie eine Seite benutzt wird (Klicks, Scrollen, Mausbewegungen und Seitenaufbau), damit wir erkennen, was die Bedienung erschwert. Alle Eingabefelder sind maskiert, eingegebener Text wird nie aufgezeichnet. Auf Seiten mit Kundendaten findet keine Aufzeichnung statt: beim KYC-Fragebogen (kyc.ark-fid.ch), beim Steuerfragebogen (tax.ark-fid.ch), beim Assistenten (/agent) und auf der Kontaktseite. Auf anderen Seiten sind Kontaktformulare und Chat-Unterhaltungen in den Aufzeichnungen ausgeblendet. PostHog erfasst zudem Klicks für Heatmaps, wiederholte oder wirkungslose Klicks und das Verlassen einer Seite.",
+                "Google Analytics bewahrt Ereignisdaten 14 Monate auf, die Cookies _ga und _ga_* bleiben höchstens 2 Jahre in Ihrem Browser. PostHog bewahrt Ereignisse 1 Jahr und Sitzungsaufzeichnungen 30 Tage auf; sein Cookie und sein lokaler Speichereintrag ph_<projekt>_posthog bleiben 1 Jahr bestehen.",
+                "Google LLC, OpenAI und PostHog Inc. sind US-Unternehmen, daher können Daten in die USA übermittelt werden. Google LLC und PostHog Inc. sind nach dem Swiss-U.S. Data Privacy Framework zertifiziert, das der Bundesrat seit dem 15. September 2024 als angemessen anerkennt; Übermittlungen an diese beiden Unternehmen stützen sich auf diese Zertifizierung. OpenAI steht nicht auf der Liste der zertifizierten Unternehmen, Übermittlungen an OpenAI stützen sich auf Standardvertragsklauseln.",
+                "Zum Ablehnen klicken Sie im Banner auf „Ablehnen“ oder später auf die Cookie-Schaltfläche oder den Link „Cookies“ unten auf der Seite. Sie können Cookies auch in den Einstellungen Ihres Browsers blockieren oder löschen. Nach einer Ablehnung werden keine Analyse- oder Werbe-Cookies gesetzt. Google erhält dann nur noch cookielose Signale ohne Kennung (Pings des Einwilligungsmodus) sowie die technischen Daten, die jede Webanfrage enthält, etwa Ihre IP-Adresse und den Browsertyp. PostHog speichert nichts in Ihrem Browser und zeichnet keine Sitzungen auf, und das OpenAI-Pixel wird gestoppt. Ihre Wahl wird 12 Monate im Cookie und lokalen Speichereintrag „cookieConsent“ gespeichert, außerdem im Cookie „ark_consent“, das unsere Subdomains mitnutzen. Eine Ablehnung hindert Sie nie daran, uns zu kontaktieren.",
+                "Für unsere Subdomain lba.ark-fid.ch (Seiten zu den neuen GwG-Regeln) gilt dieselbe Regel. Sie verwendet nur Google Analytics 4, mit derselben Property und demselben _ga-Cookie, das ark-fid.ch und seine Subdomains gemeinsam nutzen. Google Tag Manager, PostHog und das Pixel für ChatGPT-Anzeigen werden dort nicht geladen. Sie hat ein eigenes Cookie-Banner, die Wahl wird aber über das Cookie „ark_consent“ geteilt: Eine Ablehnung auf ark-fid.ch gilt auch auf lba.ark-fid.ch und umgekehrt. Sie können sie über den Link „Cookie-Einstellungen“ unten auf der Seite ändern. Wir messen dort zudem den gewählten Reiter, die Anzeige des Ergebnisses eines Entscheidungsbaums, das Öffnen des Assistenten und das Senden einer ersten Frage; diese Ereignisse enthalten weder den Text Ihrer Frage noch Ihre E-Mail-Adresse."
             ]
         },
         "WhatAreCookies": {
@@ -331,7 +332,7 @@
                     "Benutzerverhaltensmuster",
                     "Website-Optimierung und -Verbesserung"
                 ],
-                "Providers": "Anbieter: Google Analytics, interne Analyse-Tools"
+                "Providers": "Anbieter: Google Analytics, PostHog"
             },
             "Functional": {
                 "Title": "3. Funktionale Cookies",
@@ -346,7 +347,7 @@
             },
             "Marketing": {
                 "Title": "4. Marketing-Cookies",
-                "Description": "Diese Technologien messen die Wirksamkeit unserer Anzeigen, zum Beispiel eine Kontaktanfrage nach einem Klick auf eine Anzeige. Wo sie standardmäßig gelten und wo sie Ihre Zustimmung benötigen, erklärt der Abschnitt „Wie wir Besuche messen“ oben.",
+                "Description": "Diese Technologien messen die Wirksamkeit unserer Anzeigen, zum Beispiel eine Kontaktanfrage nach einem Klick auf eine Anzeige. Sie sind aktiv, solange Sie nicht auf „Ablehnen“ klicken (siehe „Wie wir Besuche messen“ oben).",
                 "Purpose": "Zweck:",
                 "Items": [
                     "Zielgerichtete Werbung",
@@ -399,8 +400,8 @@
                 "Title": "Cookie-Einwilligungsbanner",
                 "Description": "Das Cookie-Banner bietet zwei Optionen:",
                 "Options": [
-                    "„Akzeptieren“: Analyse- und Werbe-Cookies und -Signale, Google Tag Manager und das Pixel für ChatGPT-Anzeigen sind erlaubt.",
-                    "„Ablehnen“: Analyse- und Werbe-Cookies und -Signale sind ausgeschaltet. Google Analytics sendet dann nur cookielose Signale."
+                    "„Akzeptieren“: Reichweitenmessung, Werbesignale, Sitzungsaufzeichnung und das Pixel für ChatGPT-Anzeigen sind aktiv. Dasselbe gilt, wenn Sie weitersurfen, ohne eine Wahl zu treffen.",
+                    "„Ablehnen“: Es werden keine Analyse- oder Werbe-Cookies gesetzt. Google erhält nur cookielose Signale, PostHog speichert nichts in Ihrem Browser und zeichnet keine Sitzungen auf, und das OpenAI-Pixel wird gestoppt."
                 ],
                 "ChangePreferences": "Sie können Ihre Einstellungen jederzeit über die Cookie-Einstellungsschaltfläche auf der Website ändern."
             },
