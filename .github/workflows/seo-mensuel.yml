@@ -1,0 +1,100 @@
+name: "SEO mensuel : titres, FAQ et sujets (Search Console)"
+
+# scripts/seo/seo_mensuel.py (+ adaptateur.py) : Search Console des 28 derniers jours contre les 28 précédents, puis
+# titres et descriptions des pages à CTR faible pour leur position, une question de FAQ pour les requêtes en
+# position 5 à 20, et les requêtes sans page adaptée notées dans docs/seo-sujets.md. Contrôles complets ; tout
+# passe : commit sur main (checkout avec PAT_TOKEN, le push déclenche build-and-deploy.yml comme pour les articles).
+# Un échec : rien n'est committé, e-mail d'alerte à sh@houle.ai (même boîte d'envoi que guide-assurance.ch).
+# Premier lundi du mois à 05:00 (Zurich) : lignes UTC été et hiver, le plan ne garde que la bonne.
+on:
+  schedule:
+    - cron: "0 3 * * 1"
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Simulation : propose et contrôle tout, ne committe ni ne publie rien, pas d'e-mail"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      go: ${{ steps.plan.outputs.go }}
+    steps:
+      - id: plan
+        env:
+          SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then echo "go=1" >> "$GITHUB_OUTPUT"; exit 0; fi
+          h=$(echo "$SCHEDULE" | awk '{print $2}')
+          zh=$(TZ=Europe/Zurich date -d "$(date -u +%F) ${h}:00 UTC" +%-H)
+          jour=$(TZ=Europe/Zurich date +%-d)
+          if [ "$zh" = "5" ] && [ "$jour" -le 7 ]; then echo "go=1" >> "$GITHUB_OUTPUT"
+          else echo "go=0" >> "$GITHUB_OUTPUT"; echo "ligne $h h UTC = $zh h à Zurich, le $jour : pas le premier lundi à 05:00"; fi
+
+  seo:
+    needs: plan
+    if: needs.plan.outputs.go == '1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    concurrency:
+      group: production-deploy
+      cancel-in-progress: false
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "20.x"
+          cache: npm
+
+      - name: Dépendances
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Modules Python
+        run: python -m pip install --quiet google-auth==2.38.0 requests==2.32.3
+
+      - name: SEO mensuel
+        env:
+          GSC_SA_JSON: ${{ secrets.GSC_SA_JSON }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}
+        run: python scripts/seo/seo_mensuel.py ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      - name: Alerte e-mail (échec)
+        if: failure() && !inputs.dry_run
+        env:
+          ENTRA_TENANT_ID: ${{ secrets.ENTRA_TENANT_ID }}
+          ENTRA_CLIENT_ID: ${{ secrets.ENTRA_CLIENT_ID }}
+          ENTRA_CLIENT_SECRET: ${{ secrets.ENTRA_CLIENT_SECRET }}
+        run: |
+          python3 - <<'PY'
+          import html, os, sys
+          from pathlib import Path
+          sys.path.insert(0, "scripts/seo")
+          from mailer import send_mail
+          run = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
+          f = Path(".seo-echec.txt")
+          detail = html.escape(f.read_text(encoding="utf-8")) if f.exists() else "échec avant ou après le script (voir le passage)"
+          send_mail("ark-fid.ch : SEO mensuel en échec",
+                    "<p>Le passage mensuel d'amélioration SEO d'ark-fid.ch a échoué. Rien n'a été committé ni publié.</p>"
+                    f"<pre>{detail[:4000]}</pre><p>Passage : <a href='{run}'>{run}</a></p>")
+          PY
