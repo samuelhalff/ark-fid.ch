@@ -310,7 +310,9 @@ Règles impératives (contrôlées automatiquement, une réponse fautive est jet
   qui n'y figure pas tel quel.
 - {humain}
 - Règles du site : {regles}
-Réponds uniquement par un objet JSON : {{"title": "...", "description": "..."}}"""
+Les longueurs sont contrôlées au caractère près : propose 4 titres de plus en plus courts (du plus long, proche de
+la limite, au plus court, environ 15 caractères de moins) et 3 descriptions de longueurs différentes dans la fourchette.
+Réponds uniquement par un objet JSON : {{"titles": ["...", "...", "...", "..."], "descriptions": ["...", "...", "..."]}}"""
 
 SYS_FAQ = """Tu ajoutes UNE question de FAQ à une page du site {site}, pour répondre à une recherche Google pour laquelle la
 page est en position 5 à 20.
@@ -340,22 +342,39 @@ def max_titre(page) -> int:
 
 
 def meta_valide(prop: dict, page, kw: str, texte: str) -> tuple[str, str, list[str]]:
-    t = nettoyer(prop.get("title", ""), page.locale)
-    if page.suffixe and t.endswith(page.suffixe.strip()):
-        t = t[: -len(page.suffixe.strip())].rstrip(" |-")
-    d = nettoyer(prop.get("description", ""), page.locale)
-    e = []
-    if not t or len(t) > max_titre(page):
-        e.append(f"title de {len(t)} caractères ({max_titre(page)} au plus)")
-    if not 130 <= len(d) <= 155:
-        e.append(f"description de {len(d)} caractères (130 à 155)")
+    """Garde le premier titre et la première description qui passent tous les contrôles."""
+    titres = prop.get("titles") or [prop.get("title", "")]
+    descs = prop.get("descriptions") or [prop.get("description", "")]
+    ref = texte + " " + page.title + " " + page.description
     kj = jetons(kw)
-    if kj and len(kj & jetons(t)) < math.ceil(len(kj) / 2):
-        e.append(f"la requête principale « {kw} » n'est plus dans le titre")
-    if t + page.suffixe == page.title and d == page.description:
+    et, t_ok = [], None
+    for t in titres:
+        t = nettoyer(t, page.locale)
+        if page.suffixe and t.endswith(page.suffixe.strip()):
+            t = t[: -len(page.suffixe.strip())].rstrip(" |-")
+        e = []
+        if not t or len(t) > max_titre(page):
+            e.append(f"title « {t} » de {len(t)} caractères ({max_titre(page)} au plus)")
+        if kj and len(kj & jetons(t)) < math.ceil(len(kj) / 2):
+            e.append(f"la requête principale « {kw} » n'est pas dans le titre « {t} »")
+        e += defauts_communs(t, ref)
+        if not e:
+            t_ok = t
+            break
+        et += e
+    ed, d_ok = [], None
+    for d in descs:
+        d = nettoyer(d, page.locale)
+        e = [] if 130 <= len(d) <= 155 else [f"description de {len(d)} caractères (130 à 155)"]
+        e += defauts_communs(d, ref)
+        if not e:
+            d_ok = d
+            break
+        ed += e
+    e = ([] if t_ok else et) + ([] if d_ok else ed)
+    if not e and t_ok + page.suffixe == page.title and d_ok == page.description:
         e.append("aucun changement")
-    e += defauts_communs(t + " \n " + d, texte + " " + page.title + " " + page.description)
-    return t, d, e
+    return t_ok or "", d_ok or "", e
 
 
 def proposer_meta(page, kw: str, requetes: list[tuple[str, dict]]) -> tuple[str, str] | None:
@@ -429,7 +448,7 @@ def proposer_faq(page, req: str) -> tuple[str, str] | None:
 
 SYS_TRAD = """Tu adaptes une question de FAQ du site {site} et sa réponse dans d'autres langues, pour les versions
 de la même page dans ces langues. Garde exactement le même sens, les mêmes faits et les mêmes chiffres, sans rien
-ajouter. Formulation naturelle dans chaque langue, comme un rédacteur natif. La question finit par un point
+ajouter, aucune promesse ni garantie (jamais « garantir », « guarantee », « garantizar »...). Formulation naturelle dans chaque langue, comme un rédacteur natif. La question finit par un point
 d'interrogation. Pas de tiret long ni demi-cadratin, pas de markdown, pas de lien. Français : espace fine insécable
 avant ; : ! ? et dans les guillemets « ». Autres langues : ponctuation collée au mot.
 Règles du site : {regles}
@@ -553,6 +572,7 @@ def commit_push(fichiers: list[Path], message: str) -> str:
 # ------------------------------------------------------------------ passage
 def run(a) -> int:
     today = dt.date.today()
+    A.LLM = llm
     g = donnees_gsc()
     (d0, d1), (p0, p1) = g["periode"], g["periode_prec"]
     j = lire_journal()
@@ -594,7 +614,7 @@ def run(a) -> int:
     for _, u, m, att in cands[:MAX_META]:
         page = pages[u]
         reqs = par_page.get(u, [])
-        kw = reqs[0][0] if reqs else ""
+        kw = next((q for q, _ in reqs if not re.search(A.MARQUE, q, re.I)), "")  # la marque est déjà dans le suffixe
         log(f"titre {u} : {m['impressions']} impr., CTR {pct(m['ctr'])} (attendu ~{pct(att)}), position "
             f"{num(m['position'])}, requête principale « {kw} »")
         try:
