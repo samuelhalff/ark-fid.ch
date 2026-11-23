@@ -1,13 +1,15 @@
 "use client";
 
 import posthog from "@/src/lib/posthog-lazy";
-import { getAttribution } from "@/src/lib/attribution";
-import { AI_SOURCE_KEY, gaClientIdFromCookies, readConsentChoice } from "@/src/lib/consent-mode";
+import { getAnalyticsAttribution, getAttribution, withConversionAttribution } from "@/src/lib/attribution";
+import { AI_SOURCE_KEY, gaClientIdFromCookies, hasEffectiveConsent, readConsentChoice } from "@/src/lib/consent-mode";
 import { isAnalyticsFree } from "@/src/lib/analytics-free";
 
 const posthogConfigured = Boolean(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN && process.env.NEXT_PUBLIC_POSTHOG_HOST);
 const posthogEvents = new Set([
   "agent_first_message",
+  "agent_open",
+  "contact_channel_click",
   "contact_form_start",
   "form_submit_error",
   "generate_lead",
@@ -29,6 +31,8 @@ export type AnalyticsParams = Record<string, string | number | boolean>;
 export function trackEvent(name: string, params?: AnalyticsParams) {
   // KYC and tax questionnaire pages: nothing leaves the browser (src/lib/analytics-free.ts).
   if (typeof window !== "undefined" && isAnalyticsFree(window.location.hostname, window.location.pathname)) return;
+  // Lead and conversion events: first-touch attribution unless refused (src/lib/attribution.ts).
+  params = withConversionAttribution(name, params, getAnalyticsAttribution(hasEffectiveConsent())) as AnalyticsParams | undefined;
   if (name === "generate_lead") {
     params = { ...leadContext(), ...params };
     trackOpenAiLead();
@@ -37,6 +41,10 @@ export function trackEvent(name: string, params?: AnalyticsParams) {
   try {
     if (typeof window === "undefined") return;
     if (posthogConfigured && posthogEvents.has(name)) posthog.capture(name, params);
+    // tel: and mailto: links reach PostHog as contact_channel_click (WhatsApp links already send it).
+    else if (posthogConfigured && name === "select_content" && (params?.item_id === "tel" || params?.item_id === "mailto")) {
+      posthog.capture("contact_channel_click", { channel: params.item_id === "tel" ? "phone" : "email", placement: "link" });
+    }
     const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
     if (typeof gtag !== "function") return;
     gtag("event", name, { transport_type: "beacon", ...params });

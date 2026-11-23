@@ -18,10 +18,14 @@
  * Calls made before the library is ready are queued, then replayed.
  * KYC and tax questionnaire pages (isAnalyticsFree): PostHog never loads and
  * every call is dropped, see src/lib/analytics-free.ts.
+ * First-touch attribution (src/lib/attribution.ts), unless refused: lead and
+ * conversion events carry it; canal and ai_source are session properties,
+ * unregistered on "Refuser".
  */
 import { hasEffectiveConsent } from "@/src/lib/consent-mode";
 import { isReplayExcluded } from "@/src/lib/replay-policy";
 import { isAnalyticsFree } from "@/src/lib/analytics-free";
+import { getAnalyticsAttribution, withConversionAttribution } from "@/src/lib/attribution";
 
 type Props = Record<string, unknown>;
 type PostHogLike = {
@@ -34,6 +38,8 @@ type PostHogLike = {
   startSessionRecording: (override?: unknown) => unknown;
   stopSessionRecording: () => unknown;
   sessionRecordingStarted: () => boolean;
+  register_for_session: (props: Props) => unknown;
+  unregister_for_session: (key: string) => unknown;
 };
 type Call = [keyof Pick<PostHogLike, "capture" | "identify" | "reset" | "captureException">, unknown[]];
 
@@ -59,6 +65,18 @@ export function syncSessionRecording() {
     const started = instance.sessionRecordingStarted();
     if (want && !started) instance.startSessionRecording({ sampling: true, linked_flag: true });
     else if (!want && started) instance.stopSessionRecording();
+  } catch {}
+}
+
+const SESSION_KEYS = ["canal", "ai_source"] as const;
+
+/** canal and ai_source on every event of the session (page views included), for funnels by channel. */
+function syncSessionAttribution() {
+  if (!instance) return;
+  try {
+    const a = hasEffectiveConsent() ? getAnalyticsAttribution(true) : {};
+    if (a.canal) instance.register_for_session({ canal: a.canal, ...(a.ai_source ? { ai_source: a.ai_source } : {}) });
+    else for (const k of SESSION_KEYS) instance.unregister_for_session(k);
   } catch {}
 }
 
@@ -115,6 +133,7 @@ async function load() {
       (instance[method] as (...a: unknown[]) => unknown)(...args);
     } catch {}
   }
+  syncSessionAttribution();
   syncSessionRecording();
   window.addEventListener("cookie-consent-changed", () => {
     if (!instance) return;
@@ -122,6 +141,7 @@ async function load() {
     instance.set_config({ persistence: next });
     // Consent withdrawn: no replay, drop the identifiers stored meanwhile.
     if (next === "memory") wipeIdentifiers();
+    syncSessionAttribution();
     syncSessionRecording();
   });
 }
@@ -158,7 +178,8 @@ function call(method: Call[0], args: unknown[]) {
 
 /** Same calls as the posthog-js singleton used before (capture, identify, reset, captureException). */
 const posthog = {
-  capture: (event: string, props?: Props) => call("capture", [event, props]),
+  capture: (event: string, props?: Props) =>
+    call("capture", [event, withConversionAttribution(event, props, getAnalyticsAttribution(hasEffectiveConsent()))]),
   identify: (id: string, props?: Props) => call("identify", [id, props]),
   reset: () => call("reset", []),
   captureException: (error: unknown) => call("captureException", [error]),

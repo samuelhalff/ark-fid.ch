@@ -6,7 +6,7 @@ import {
   recordAttributionPage,
   syncAttributionStorage,
 } from "@/src/lib/attribution";
-import { hasEffectiveConsent } from "@/src/lib/consent-mode";
+import { detectAiSource, hasEffectiveConsent } from "@/src/lib/consent-mode";
 
 /**
  * Keeps the first-party lead attribution (src/lib/attribution.ts) up to date
@@ -17,7 +17,11 @@ export default function AttributionTracker() {
   const pathname = usePathname();
 
   useEffect(() => {
-    recordAttributionPage(pathname || "/", hasEffectiveConsent());
+    let ai = "";
+    try {
+      ai = detectAiSource(document.referrer, new URLSearchParams(window.location.search).get("utm_source")) || "";
+    } catch {}
+    recordAttributionPage(pathname || "/", hasEffectiveConsent(), ai);
   }, [pathname]);
 
   useEffect(() => {
