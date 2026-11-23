@@ -271,7 +271,7 @@ def llm(systeme: str, utilisateur: str) -> dict:
     q.setdefault("api-version", [ver])
     url = urllib.parse.urlunparse((u.scheme, u.netloc, p, "", urllib.parse.urlencode(q, doseq=True), ""))
     body = {"messages": [{"role": "system", "content": systeme}, {"role": "user", "content": utilisateur}],
-            "temperature": 0.4, "max_tokens": 1200, "response_format": {"type": "json_object"}}
+            "temperature": 0.4, "max_tokens": 4000, "response_format": {"type": "json_object"}}
     for essai in range(3):
         req = urllib.request.Request(url, data=json.dumps(body).encode(), method="POST",
                                      headers={"api-key": key, "content-type": "application/json"})
@@ -303,7 +303,10 @@ clic dans Google. La page est déjà bien placée mais trop peu cliquée.
 Règles impératives (contrôlées automatiquement, une réponse fautive est jetée) :
 - Langue : {langue}, celle de la page.
 - title : 60 caractères au plus, espaces compris (vise 45 à 58). description : de 130 à 155 caractères.
-- Garde la requête principale « {kw} » (ses mots importants) dans le titre, au plus près du début.
+- Garde la requête principale « {kw} » dans le titre, au plus près du début ; si elle est longue, garde ses 2 à 4
+  mots les plus importants, pas la phrase entière. Si elle nomme une autre entreprise, une marque ou une personne,
+  choisis à la place la requête suivante de la liste qui n'en nomme pas. Indique la requête gardée dans "requete".
+- Majuscule normale en début de titre et de description (pas tout en minuscules, pas de majuscule à chaque mot).
 - Le titre et la description répondent à l'intention des requêtes listées et donnent une raison concrète de cliquer,
   tirée du texte de la page.
 - N'utilise QUE des faits présents dans le TEXTE DE LA PAGE. Aucun chiffre, prix, montant, délai, taux ou promesse
@@ -312,7 +315,7 @@ Règles impératives (contrôlées automatiquement, une réponse fautive est jet
 - Règles du site : {regles}
 Les longueurs sont contrôlées au caractère près : propose 4 titres de plus en plus courts (du plus long, proche de
 la limite, au plus court, environ 15 caractères de moins) et 3 descriptions de longueurs différentes dans la fourchette.
-Réponds uniquement par un objet JSON : {{"titles": ["...", "...", "...", "..."], "descriptions": ["...", "...", "..."]}}"""
+Réponds uniquement par un objet JSON : {{"requete": "...", "titles": ["...", "...", "...", "..."], "descriptions": ["...", "...", "..."]}}"""
 
 SYS_FAQ = """Tu ajoutes UNE question de FAQ à une page du site {site}, pour répondre à une recherche Google pour laquelle la
 page est en position 5 à 20.
@@ -323,7 +326,8 @@ Règles impératives (contrôlées automatiquement, une réponse fautive est jet
 - La réponse fait de 35 à 90 mots, commence par répondre directement, et n'utilise QUE des faits présents dans le TEXTE
   DE LA PAGE (aucun chiffre, prix, délai, nom ou promesse qui n'y figure pas). Pas de lien, pas de markdown.
 - Si une question existante de la FAQ répond déjà à cette intention, mets "deja_couverte": true. Si le texte de la
-  page ne contient pas les faits pour répondre, mets "faits_suffisants": false.
+  page ne contient pas les faits pour répondre, ou si la requête nomme une autre entreprise, une marque ou une
+  personne, mets "faits_suffisants": false.
 - {humain}
 - Règles du site : {regles}
 Réponds uniquement par un objet JSON : {{"deja_couverte": false, "faits_suffisants": true, "q": "...", "a": "..."}}"""
@@ -346,7 +350,11 @@ def meta_valide(prop: dict, page, kw: str, texte: str) -> tuple[str, str, list[s
     titres = prop.get("titles") or [prop.get("title", "")]
     descs = prop.get("descriptions") or [prop.get("description", "")]
     ref = texte + " " + page.title + " " + page.description
+    gardee = str(prop.get("requete") or "").strip().lower()
+    if gardee and gardee in getattr(page, "_requetes", set()):
+        kw = gardee
     kj = jetons(kw)
+    besoin = 2 if len(kj) > 4 else math.ceil(len(kj) / 2)
     et, t_ok = [], None
     for t in titres:
         t = nettoyer(t, page.locale)
@@ -355,7 +363,8 @@ def meta_valide(prop: dict, page, kw: str, texte: str) -> tuple[str, str, list[s
         e = []
         if not t or len(t) > max_titre(page):
             e.append(f"title « {t} » de {len(t)} caractères ({max_titre(page)} au plus)")
-        if kj and len(kj & jetons(t)) < math.ceil(len(kj) / 2):
+        t = t[:1].upper() + t[1:]
+        if kj and len(kj & jetons(t)) < besoin:
             e.append(f"la requête principale « {kw} » n'est pas dans le titre « {t} »")
         e += defauts_communs(t, ref)
         if not e:
@@ -365,6 +374,7 @@ def meta_valide(prop: dict, page, kw: str, texte: str) -> tuple[str, str, list[s
     ed, d_ok = [], None
     for d in descs:
         d = nettoyer(d, page.locale)
+        d = d[:1].upper() + d[1:]
         e = [] if 130 <= len(d) <= 155 else [f"description de {len(d)} caractères (130 à 155)"]
         e += defauts_communs(d, ref)
         if not e:
@@ -391,6 +401,7 @@ def proposer_meta(page, kw: str, requetes: list[tuple[str, dict]]) -> tuple[str,
            + "\n".join(f"- « {q} » : {m['impressions']} impressions, position {num(m['position'])}, CTR {pct(m['ctr'])}"
                        for q, m in requetes[:8])
            + f"\n\nTEXTE DE LA PAGE :\n{texte}")
+    page._requetes = {q for q, _ in requetes[:8]}
     prop = llm(sysm, usr)
     t, d, e = meta_valide(prop, page, kw, texte)
     if e:
@@ -401,6 +412,7 @@ def proposer_meta(page, kw: str, requetes: list[tuple[str, dict]]) -> tuple[str,
         if e:
             log(f"  essai 2 rejeté : {' | '.join(e)} ; page laissée telle quelle")
             return None
+    log(f"  → « {t}{page.suffixe} » / « {d} »")
     return t, d
 
 
@@ -437,6 +449,7 @@ def proposer_faq(page, req: str) -> tuple[str, str] | None:
             return None
         q, a, e = faq_valide(prop, page, texte)
         if not e:
+            log(f"  → {q} {a}")
             return q, a
         log(f"  essai {essai} rejeté : {' | '.join(e)}")
         if essai == 1:
@@ -703,9 +716,13 @@ def run(a) -> int:
                 ecartes.append(q)
     log(f"sujets : {len(bruts)} requête(s) sans page adaptée, {len(sujets)} retenue(s)")
     if sujets:
-        f, n = A.ajouter_sujets(sujets)
-        fichiers += f
-        nouveaux += n
+        try:
+            f, n = A.ajouter_sujets(sujets)
+            fichiers += f
+            nouveaux += n
+        except Exception as e:  # noqa: BLE001 - les sujets ne doivent pas bloquer titres et FAQ
+            log(f"sujets non versés ({e})")
+            sujets = []
 
     # --- résumé des propositions
     md = ["### Changements " + ("proposés (non publiés)" if a.dry_run else "")]
