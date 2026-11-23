@@ -69,7 +69,7 @@ PORT=3000
 NODE_ENV=production
 
 # IndexNow Configuration (required for /api/indexnow/reindex)
-INDEXNOW_KEY=ebd95385d7154f45ba37d076b4efd008
+INDEXNOW_KEY=67f6f602e998b5fa9d1ad472d8359d84
 INDEXNOW_SECRET=<match-github-actions-secret>
 NEXT_PUBLIC_SITE_URL=https://ark-fid.ch
 
@@ -231,7 +231,7 @@ Assembles deployable bundle:
 
 ### `scripts/indexnow-changed.mjs`
 
-After each deploy, compares the sitemap saved before the switch with the live one and sends only the new or changed URLs (different `lastmod`) to IndexNow through `api.indexnow.org` (key file `public/ebd95385d7154f45ba37d076b4efd008.txt`). Google and Bing no longer accept sitemap pings, so there is no ping step any more.
+After each deploy, compares the sitemap saved before the switch with the live one and sends only the new or changed URLs (different `lastmod`) to IndexNow through `api.indexnow.org` (key file `public/67f6f602e998b5fa9d1ad472d8359d84.txt`). Google and Bing no longer accept sitemap pings, so there is no ping step any more.
 
 ### `scripts/check-rendered-seo.mjs`
 

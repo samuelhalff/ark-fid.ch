@@ -11,7 +11,7 @@
 import fs from "node:fs";
 
 const HOST = "ark-fid.ch";
-const KEY = "ebd95385d7154f45ba37d076b4efd008";
+const KEY = "67f6f602e998b5fa9d1ad472d8359d84";
 const KEY_LOCATION = `https://${HOST}/${KEY}.txt`;
 
 const args = process.argv.slice(2);

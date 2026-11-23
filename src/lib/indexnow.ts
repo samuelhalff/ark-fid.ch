@@ -41,7 +41,7 @@ export function parseIndexNowUrls(
   return { success: true, urls: [...out] };
 }
 
-const INDEXNOW_KEY = "ebd95385d7154f45ba37d076b4efd008"; // served at https://ark-fid.ch/ebd95385d7154f45ba37d076b4efd008.txt
+const INDEXNOW_KEY = "67f6f602e998b5fa9d1ad472d8359d84"; // served at https://ark-fid.ch/67f6f602e998b5fa9d1ad472d8359d84.txt
 const INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow";
 
 /**
