@@ -154,6 +154,10 @@
             {
                 "Question": "Aurai-je un interlocuteur dédié ?",
                 "Answer": "Oui, une personne de contact dédiée vous accompagne à chaque étape. Chaque mission débute par un court diagnostic, puis par un plan d'action écrit."
+            },
+            {
+                "Question": "Que comprennent les services de secrétariat pour les entreprises en Suisse ?",
+                "Answer": "Les services de secrétariat en Suisse couvrent généralement la création de société, les modifications statutaires, l’organisation des conseils d’administration et des assemblées générales, ainsi que le suivi de la conformité. Cela inclut la tenue à jour des registres, la rédaction des procès-verbaux, le suivi des obligations et la coordination avec les notaires ou avocats si besoin. Ark Fiduciaire veille à ce que votre société reste conforme à la réglementation Suisse et aide à maintenir tous les aspects administratifs et juridiques en ordre."
             }
         ]
     }

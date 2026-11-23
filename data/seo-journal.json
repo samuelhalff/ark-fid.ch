@@ -1,0 +1,364 @@
+{
+ "_lisezmoi": "Tenu par scripts/seo/seo_mensuel.py (workflow seo-mensuel.yml) : chaque changement avec sa date et les mesures Search Console d'avant, pour en mesurer l'effet le mois suivant.",
+ "passages": [
+  {
+   "date": "2026-11-23",
+   "passage": "https://github.com/samuelhalff/ark-fid.ch/actions/runs/45173841419",
+   "periode": [
+    "2026-10-24",
+    "2026-11-20"
+   ],
+   "changements": [
+    {
+     "type": "meta",
+     "url": "/en/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
+     "fichier": "src/translations/en/ressources.json",
+     "locale": "en",
+     "requete": "swiss company register",
+     "avant": {
+      "title": "Swiss commercial register: how to register a company",
+      "description": "Registering a company in the Swiss commercial register: documents to prepare, realistic timelines, costs and the mistakes that delay the filing."
+     },
+     "apres": {
+      "title": "Swiss company register: how to register and common mistakes",
+      "description": "Find out the steps, documents and deadlines for Swiss company register registration, plus advice on avoiding common errors and post-registration duties."
+     },
+     "mesures_avant": {
+      "clics": 2,
+      "impressions": 2177,
+      "ctr": 0.0009,
+      "position": 13.2
+     },
+     "ctr_attendu": 0.012
+    },
+    {
+     "type": "meta",
+     "url": "/fr/ressources/articles/proces-verbal-assemblee-generale-obligations-redaction-suisse-2025/",
+     "fichier": "src/translations/fr/ressources.json",
+     "locale": "fr",
+     "requete": "rédaction pv assemblée générale genève",
+     "avant": {
+      "title": "Rédaction du PV d’assemblée générale à Genève : modèle 2026",
+      "description": "Contenu minimal, modèle de PV, signatures et conservation (10 ans) pour une SA ou une Sàrl à Genève : le guide pour rédiger un PV d’AG conforme."
+     },
+     "apres": {
+      "title": "Rédaction PV assemblée générale Genève : conseils pratiques",
+      "description": "Comment rédiger un PV d’assemblée générale à Genève ? Modèle, obligations légales, conseils et erreurs à éviter pour SA et Sàrl par Ark Fiduciaire."
+     },
+     "mesures_avant": {
+      "clics": 8,
+      "impressions": 461,
+      "ctr": 0.0174,
+      "position": 4.0
+     },
+     "ctr_attendu": 0.065
+    },
+    {
+     "type": "meta",
+     "url": "/en/ressources/articles/gestion-et-optimisation-du-patrimoine-en-suisse-strategies-pme-hni-geneve-2025/",
+     "fichier": "src/translations/en/ressources.json",
+     "locale": "en",
+     "requete": "wealth preservation strategies for entrepreneurs in switzerland",
+     "avant": {
+      "title": "Wealth management and optimisation in Switzerland (Geneva)",
+      "description": "How entrepreneurs and wealthy individuals can optimise and protect their wealth in Geneva in 2025: practical advice, case studies and the legal framework."
+     },
+     "apres": {
+      "title": "Wealth preservation for entrepreneurs in Switzerland, Geneva",
+      "description": "Practical strategies for entrepreneurs in Switzerland to protect and optimise wealth in Geneva. Legal updates, risks and opportunities for 2025."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 290,
+      "ctr": 0.0,
+      "position": 4.5
+     },
+     "ctr_attendu": 0.065
+    },
+    {
+     "type": "meta",
+     "url": "/de/ressources/articles/proces-verbal-assemblee-generale-obligations-redaction-suisse-2025/",
+     "fichier": "src/translations/de/ressources.json",
+     "locale": "de",
+     "requete": "generalversammlung protokoll",
+     "avant": {
+      "title": "GV-Protokoll in der Schweiz: Inhalt, Vorlage, Pflichten 2026",
+      "description": "Mindestinhalt, Grundvorlage, Unterschriften und Aufbewahrung (10 Jahre) des Protokolls der Generalversammlung einer AG oder GmbH. Praxisleitfaden."
+     },
+     "apres": {
+      "title": "Generalversammlung Protokoll: Recht, Vorlage und Tipps",
+      "description": "Erfahren Sie alles zum Generalversammlung Protokoll: gesetzliche Anforderungen, Vorlagen, Tipps und Risiken für AG und GmbH. Leitfaden von Ark Fiduciaire."
+     },
+     "mesures_avant": {
+      "clics": 2,
+      "impressions": 428,
+      "ctr": 0.0047,
+      "position": 7.7
+     },
+     "ctr_attendu": 0.027
+    },
+    {
+     "type": "meta",
+     "url": "/fr/about/",
+     "fichier": "src/translations/fr/metadata.json",
+     "locale": "fr",
+     "requete": "fiduciaire ar conseils sa",
+     "avant": {
+      "title": "Ark Fiduciaire Genève – Partenaire fiduciaire de proximité",
+      "description": "Ark Fiduciaire, cabinet de confiance à Genève, accompagne entreprises et particuliers dans leur gestion comptable et fiscale."
+     },
+     "apres": {
+      "title": "Ark Fiduciaire à Genève, accompagnement comptable et fiscal",
+      "description": "Ark Fiduciaire à Genève accompagne entreprises et particuliers avec une expertise issue de deux cabinets suisses pour une gestion comptable fiable."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 143,
+      "ctr": 0.0,
+      "position": 3.7
+     },
+     "ctr_attendu": 0.065
+    },
+    {
+     "type": "faq",
+     "url": "/en/services/corporate/",
+     "fichier": "src/translations/en/metadata.json",
+     "locale": "en",
+     "requete": "secretarial services switzerland",
+     "apres": {
+      "q": "What do secretarial services in Switzerland include for companies?",
+      "a": "Secretarial services in Switzerland typically cover company incorporation, statutory changes, board and general meeting organization, and ongoing compliance. This includes keeping registers updated, preparing minutes, tracking obligations, and coordinating with notaries or lawyers when needed. Ark Fiduciaire ensures your company stays compliant with Swiss regulations and helps keep all administrative and legal aspects in order."
+     },
+     "autres_langues": {
+      "de": "/de/services/corporate/",
+      "es": "/es/services/corporate/",
+      "fr": "/fr/services/services-corporatifs/",
+      "pt": "/pt/services/corporate/"
+     },
+     "mesures_requete": {
+      "clics": 0,
+      "impressions": 265,
+      "ctr": 0.0,
+      "position": 13.1
+     },
+     "mesures_avant": {
+      "clics": 1,
+      "impressions": 318,
+      "ctr": 0.0031,
+      "position": 14.4
+     }
+    },
+    {
+     "type": "faq",
+     "url": "/en/services/accounting/",
+     "fichier": "src/translations/en/metadata.json",
+     "locale": "en",
+     "requete": "accounting company switzerland",
+     "apres": {
+      "q": "What services does an accounting company in Switzerland provide?",
+      "a": "An accounting company in Switzerland like Ark Fiduciaire offers bookkeeping, VAT management, financial reporting, and analytical accounting for Swiss SMEs. Services include managing accounts payable and receivable, preparing financial statements, setting up dashboards, and ensuring compliance with Swiss regulations. The team also provides strategic advice and custom solutions tailored to each client's needs, using advanced accounting technology."
+     },
+     "autres_langues": {
+      "de": "/de/services/accounting/",
+      "es": "/es/services/accounting/",
+      "fr": "/fr/services/comptabilite/",
+      "pt": "/pt/services/accounting/"
+     },
+     "mesures_requete": {
+      "clics": 0,
+      "impressions": 261,
+      "ctr": 0.0,
+      "position": 13.3
+     },
+     "mesures_avant": {
+      "clics": 1,
+      "impressions": 1063,
+      "ctr": 0.0009,
+      "position": 21.0
+     }
+    },
+    {
+     "type": "faq",
+     "url": "/en/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
+     "fichier": "src/translations/en/ressources.json",
+     "locale": "en",
+     "requete": "swiss company register",
+     "apres": {
+      "q": "What is the Swiss company register and what information does it contain?",
+      "a": "The Swiss company register is a public database listing active businesses in Switzerland. It identifies companies and their legal representatives, ensuring economic transparency and legal security. The register provides official recognition for companies, protects business names, and makes company details visible to business partners, clients, and authorities."
+     },
+     "autres_langues": {},
+     "mesures_requete": {
+      "clics": 1,
+      "impressions": 195,
+      "ctr": 0.0051,
+      "position": 8.9
+     },
+     "mesures_avant": {
+      "clics": 2,
+      "impressions": 2177,
+      "ctr": 0.0009,
+      "position": 13.2
+     }
+    },
+    {
+     "type": "faq",
+     "url": "/en/ressources/articles/creer-sarl-sa-geneve-criteres-capital-fiscalite-gouvernance-2026/",
+     "fichier": "src/translations/en/ressources.json",
+     "locale": "en",
+     "requete": "llc registration",
+     "apres": {
+      "q": "What are the key steps to register an LLC in Geneva?",
+      "a": "To register an LLC in Geneva, you need to choose a company name, define its purpose and structure, prepare statutes, open a capital deposit account, sign a notarial deed, and submit the complete file to the commercial register. Once registration is published, the company can operate. Each step involves specific documents and coordination with notary, bank, and authorities."
+     },
+     "autres_langues": {},
+     "mesures_requete": {
+      "clics": 0,
+      "impressions": 111,
+      "ctr": 0.0,
+      "position": 6.1
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 563,
+      "ctr": 0.0,
+      "position": 19.1
+     }
+    },
+    {
+     "type": "faq",
+     "url": "/fr/team/",
+     "fichier": "src/translations/fr/metadata.json",
+     "locale": "fr",
+     "requete": "lassana dioum",
+     "apres": {
+      "q": "Qui est Lassana Dioum chez Ark Fiduciaire ?",
+      "a": "Lassana Dioum est associé et fiscaliste chez Ark Fiduciaire. Il conseille entreprises et particuliers en fiscalité directe et indirecte, soutient la comptabilité et la conformité fiscale, et coordonne les déclarations et rulings fiscaux dans plusieurs juridictions. Il agit aussi comme administrateur pour des sociétés internationales."
+     },
+     "autres_langues": {
+      "de": "/de/team/",
+      "en": "/en/team/",
+      "es": "/es/team/",
+      "pt": "/pt/team/"
+     },
+     "mesures_requete": {
+      "clics": 0,
+      "impressions": 88,
+      "ctr": 0.0,
+      "position": 6.2
+     },
+     "mesures_avant": {
+      "clics": 14,
+      "impressions": 350,
+      "ctr": 0.04,
+      "position": 14.0
+     }
+    }
+   ],
+   "sujets": [
+    {
+     "requete": "tax compliance switzerland",
+     "angle": "comprendre les obligations fiscales des entreprises en Suisse et comment s'assurer de leur conformité",
+     "impressions": 495,
+     "position": 28.4,
+     "ajoute": "2026-11-23"
+    },
+    {
+     "requete": "payroll services switzerland",
+     "angle": "les services de gestion des salaires pour entreprises en Suisse : enjeux et solutions",
+     "impressions": 472,
+     "position": 39.0,
+     "ajoute": "2026-11-23"
+    },
+    {
+     "requete": "domiciliation entreprise",
+     "angle": "domicilier son entreprise en Suisse romande : aspects pratiques et réglementaires",
+     "impressions": 182,
+     "position": 29.5,
+     "ajoute": "2026-11-23"
+    },
+    {
+     "requete": "anobag",
+     "angle": "le statut anobag en Suisse : définition et implications pour les employeurs et travailleurs",
+     "impressions": 90,
+     "position": 29.8,
+     "ajoute": "2026-11-23"
+    },
+    {
+     "requete": "bouclement annuel pme",
+     "angle": "le bouclement annuel pour les pme en Suisse : étapes et points d’attention",
+     "impressions": 82,
+     "position": 24.3,
+     "ajoute": "2026-11-23"
+    },
+    {
+     "requete": "domiciliation société lausanne",
+     "angle": "domicilier une société à Lausanne : démarches et avantages",
+     "impressions": 77,
+     "position": 20.3,
+     "ajoute": "2026-11-23"
+    },
+    {
+     "requete": "externalisation paie",
+     "angle": "pourquoi et comment externaliser la gestion de la paie en Suisse",
+     "impressions": 76,
+     "position": 66.4,
+     "ajoute": "2026-11-23"
+    },
+    {
+     "requete": "optimisation fiscale",
+     "angle": "l’optimisation fiscale en Suisse : principes et limites pour entrepreneurs et pme",
+     "impressions": 74,
+     "position": 39.7,
+     "ajoute": "2026-11-23"
+    },
+    {
+     "requete": "externalisation de la paie",
+     "angle": "externalisation de la paie en Suisse : avantages et points de vigilance",
+     "impressions": 73,
+     "position": 67.2,
+     "ajoute": "2026-11-23"
+    },
+    {
+     "requete": "revision",
+     "angle": "la révision des comptes en Suisse : obligations et déroulement",
+     "impressions": 69,
+     "position": 38.4,
+     "ajoute": "2026-11-23"
+    }
+   ],
+   "sujets_ecartes": [
+    "payroll outsourcing schweiz",
+    "ordentliche revision",
+    "регистрация швейцарских компаний",
+    "domiziladresse schweiz",
+    "odoo suisse",
+    "création sa suisse",
+    "payroll company switzerland",
+    "inscription registre du commerce",
+    "création sàrl genève",
+    "zweigniederlassung",
+    "création sa",
+    "externalisation comptabilité",
+    "eingeschränkte revision schweiz",
+    "créer une sàrl en suisse",
+    "solutions de payroll pour entrepreneurs en suisse conformité",
+    "payroll provider switzerland",
+    "domiziladresse",
+    "revisionspflicht schweiz",
+    "domiciliation professionnelle suisse",
+    "créer une holding en suisse",
+    "taux tva suisse 2026",
+    "création entreprise genève",
+    "switzerland payroll services",
+    "swiss company registration",
+    "outsourcing buchhaltung",
+    "optimisation fiscale suisse",
+    "fiduciaire geneve",
+    "подача финансовой отчетности в швейцарии",
+    "mergers and acquisitions services",
+    "payroll compliance switzerland"
+   ]
+  }
+ ]
+}
