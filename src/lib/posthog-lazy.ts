@@ -3,8 +3,8 @@
 /**
  * PostHog, loaded late (same policy on ark-fid.ch, houle.ai and
  * guide-assurance.ch, Sam 23.11.2026):
- * - posthog-js is imported dynamically after the load event, in idle time,
- *   so it stays out of the first-render bundle (never at instrumentation time);
+ * - posthog-js is imported dynamically after the load event, at the first
+ *   gesture (or 8 s later), in idle time, so it stays out of the first-render bundle (never at instrumentation time);
  * - persistence follows the effective consent (hasEffectiveConsent): stored
  *   choice first, otherwise the default, granted everywhere since 23.11.2026
  *   (ignoring the banner = accepting): localStorage+cookie. "Refuser" →
@@ -23,6 +23,7 @@
  * unregistered on "Refuser".
  */
 import { hasEffectiveConsent } from "@/src/lib/consent-mode";
+import { afterFirstInteraction } from "@/src/lib/first-interaction";
 import { isReplayExcluded } from "@/src/lib/replay-policy";
 import { isAnalyticsFree } from "@/src/lib/analytics-free";
 import { getAnalyticsAttribution, withConversionAttribution } from "@/src/lib/attribution";
@@ -146,7 +147,7 @@ async function load() {
   });
 }
 
-/** Starts PostHog after the load event, in idle time (3 s at most). */
+/** Starts PostHog at the first gesture after load (or 8 s after load), in idle time. */
 export function startPostHogAfterLoad() {
   if (typeof window === "undefined" || loading || analyticsFreePage()) return;
   loading = new Promise<void>((resolve) => {
@@ -155,12 +156,7 @@ export function startPostHogAfterLoad() {
         .catch(() => {})
         .finally(resolve);
     };
-    const idle = () => {
-      if (typeof window.requestIdleCallback === "function") window.requestIdleCallback(go, { timeout: 3000 });
-      else window.setTimeout(go, 1);
-    };
-    if (document.readyState === "complete") idle();
-    else window.addEventListener("load", idle, { once: true });
+    afterFirstInteraction(go);
   });
 }
 

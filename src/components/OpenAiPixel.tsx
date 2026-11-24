@@ -12,6 +12,7 @@
 
 import { useEffect, useState } from "react";
 import { hasEffectiveConsent } from "@/src/lib/consent-mode";
+import { afterFirstInteraction } from "@/src/lib/first-interaction";
 
 const OPENAI_PIXEL_ID = "QyP6CF1DnGvrLSxLza28qc";
 
@@ -45,11 +46,13 @@ export default function OpenAiPixel({ nonce }: { nonce?: string }) {
     };
     q.q = [];
     w.oaiq = q;
-    const s = document.createElement("script");
-    s.async = true;
-    s.src = "https://bzrcdn.openai.com/sdk/oaiq.min.js";
-    if (nonce) s.setAttribute("nonce", nonce);
-    document.head.appendChild(s);
+    afterFirstInteraction(() => {
+      const s = document.createElement("script");
+      s.async = true;
+      s.src = "https://bzrcdn.openai.com/sdk/oaiq.min.js";
+      if (nonce) s.setAttribute("nonce", nonce);
+      document.head.appendChild(s);
+    });
     let debug = false;
     try {
       debug = new URLSearchParams(window.location.search).has("oaiq_debug");

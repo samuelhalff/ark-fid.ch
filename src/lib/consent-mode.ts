@@ -307,7 +307,7 @@ export const GTM_DATA_LAYER = "gtmDataLayer";
  * event: the defaults (CONSENT_DEFAULT_RULES, most specific region first),
  * then the stored choice as an update, the AI-assistant referrer as
  * ai_source, then gtag.js (GA4) and gtm.js are injected after the load event,
- * in idle time, whatever the consent: Consent Mode governs what the tags do.
+ * at the first gesture (or 8 s later), in idle time, whatever the consent: Consent Mode governs what the tags do.
  *
  * GTM runs on its own layer (GTM_DATA_LAYER); the same consent defaults and
  * the stored choice are pushed there too, before gtm.js.
@@ -360,8 +360,8 @@ export function buildConsentBootstrap(measurementId: string, gtmId?: string): st
     "if(ai){window.__aiSource=ai;gtag('set','user_properties',{ai_source:ai});gtag('set',{ai_source:ai});g.push({ai_source:ai});}",
     "gtag('js',new Date());",
     `gtag('config',${id});`,
-    // gtag.js and gtm.js wait for the load event, then idle time (3 s at
-    // most): the consent defaults and the js/config calls above are already
+    // gtag.js and gtm.js wait for the load event, the first gesture (8 s at
+    // most), then idle time: the consent defaults and the js/config calls above are already
     // queued and are read when the libraries arrive. The nonce is read now,
     // document.currentScript is gone once this script has run.
     "var cs=document.currentScript,nn=cs&&cs.nonce;",
@@ -376,7 +376,11 @@ export function buildConsentBootstrap(measurementId: string, gtmId?: string): st
       : []),
     "}",
     "function idle(){if(typeof window.requestIdleCallback==='function'){window.requestIdleCallback(ld,{timeout:3000});}else{setTimeout(ld,1);}}",
-    "if(document.readyState==='complete'){idle();}else{window.addEventListener('load',idle,{once:true});}",
+    // After load: first gesture, or 8 s without one (same rule as src/lib/first-interaction.ts).
+    "var E=['pointerdown','keydown','scroll','touchstart','mousemove'],gone=false;",
+    "function go(){if(gone)return;gone=true;for(var i=0;i<E.length;i++){window.removeEventListener(E[i],go,true);}idle();}",
+    "function arm(){for(var i=0;i<E.length;i++){window.addEventListener(E[i],go,{capture:true,passive:true});}setTimeout(go,8000);}",
+    "if(document.readyState==='complete'){arm();}else{window.addEventListener('load',arm,{once:true});}",
     "})();",
   ].join("");
 }

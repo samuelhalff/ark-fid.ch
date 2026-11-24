@@ -29,8 +29,10 @@ function runBootstrap(opts: {
   search?: string;
   gtmId?: string;
   session?: Record<string, string>;
-}): Run & { fireLoad: () => void; flushIdle: () => void; idleOptions: unknown[] } {
+}): Run & { fireLoad: () => void; fireGesture: () => void; flushIdle: () => void; timers: number[]; idleOptions: unknown[] } {
   const loadListeners: (() => void)[] = [];
+  const gestureListeners: (() => void)[] = [];
+  const timers: number[] = [];
   const idleQueue: (() => void)[] = [];
   const idleOptions: unknown[] = [];
   const dataLayer: unknown[] = [];
@@ -42,7 +44,9 @@ function runBootstrap(opts: {
     window: {
       addEventListener: (type: string, fn: () => void) => {
         if (type === "load") loadListeners.push(fn);
+        else if (type === "pointerdown") gestureListeners.push(fn);
       },
+      removeEventListener: () => {},
       requestIdleCallback: (fn: () => void, options: unknown) => {
         idleOptions.push(options);
         idleQueue.push(fn);
@@ -62,6 +66,7 @@ function runBootstrap(opts: {
     URLSearchParams,
     Date,
     encodeURIComponent,
+    setTimeout: (_fn: () => void, ms: number) => timers.push(ms),
   };
   (sandbox.document as Record<string, unknown>).referrer = opts.referrer || "";
   const session: Record<string, string> = { ...(opts.session || {}) };
@@ -77,9 +82,11 @@ function runBootstrap(opts: {
   };
   vm.runInNewContext(buildConsentBootstrap("G-TEST1234", opts.gtmId), sandbox);
   const fireLoad = () => loadListeners.splice(0).forEach((fn) => fn());
+  const fireGesture = () => gestureListeners.splice(0).forEach((fn) => fn());
   const flushIdle = () => idleQueue.splice(0).forEach((fn) => fn());
   if (!opts.hold) {
     fireLoad();
+    fireGesture();
     flushIdle();
   }
   // Normalise objects created inside the vm realm.
@@ -98,8 +105,10 @@ function runBootstrap(opts: {
     session,
     win: sandbox.window,
     fireLoad,
+    fireGesture,
     flushIdle,
     idleOptions,
+    timers,
   };
 }
 
@@ -129,6 +138,7 @@ test("bootstrap always loads gtm.js on its own layer with the same consent defau
   assert.deepEqual(firstGtm.slice(0, 2), ["consent", "default"]);
   assert.equal((firstGtm[2] as Record<string, unknown>).ad_personalization, "granted");
   run.fireLoad();
+  run.fireGesture();
   run.flushIdle();
   assert.deepEqual(
     run.scripts.map((s) => s.src),
@@ -202,6 +212,9 @@ test("bootstrap queues consent and config at once but loads gtag.js after load, 
   assert.ok(commands.includes("config:G-TEST1234"));
   assert.equal(run.scripts.length, 0, "no script before the load event");
   run.fireLoad();
+  assert.equal(run.scripts.length, 0, "no script before the first gesture");
+  assert.deepEqual(run.timers, [8000], "fallback after 8 s without a gesture");
+  run.fireGesture();
   assert.equal(run.scripts.length, 0, "no script before idle time");
   assert.deepEqual(JSON.parse(JSON.stringify(run.idleOptions)), [{ timeout: 3000 }]);
   run.flushIdle();
