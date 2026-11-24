@@ -103,6 +103,11 @@ export default function CookieConsent({ locale = "fr", labels }: Props) {
       window.removeEventListener("storage", onStorage);
     };
   }, []);
+  // The floating WhatsApp button reads the banner height only when the banner
+  // appears or goes away, instead of watching every DOM change in the page.
+  useEffect(() => {
+    window.dispatchEvent(new Event("cookie-banner-change"));
+  }, [consent]);
   // Minimal focus trap when the dialog is open
   useEffect(() => {
     if (consent !== null) return; // only when banner is visible
@@ -202,7 +207,7 @@ export default function CookieConsent({ locale = "fr", labels }: Props) {
         >
           <div
             ref={dialogRef}
-            className="mx-auto mb-4 max-w-4xl rounded-lg bg-background/95 p-4 shadow-lg backdrop-blur supports-[backdrop-filter]:bg-background/75"
+            className="mx-auto mb-4 max-w-4xl rounded-lg bg-background p-4 shadow-lg"
           >
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="text-sm leading-relaxed">

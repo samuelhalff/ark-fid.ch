@@ -42,7 +42,6 @@ export default function WhatsAppLink({
     if (variant !== "floating") return;
 
     let observer: ResizeObserver | null = null;
-    let mutationObserver: MutationObserver | null = null;
     let frameId: ReturnType<typeof requestAnimationFrame> | null = null;
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
@@ -76,15 +75,8 @@ export default function WhatsAppLink({
     scheduleSync();
     timeoutId = setTimeout(scheduleSync, FLOATING_VISIBILITY_SYNC_DELAY_MS);
 
-    if (typeof MutationObserver !== "undefined") {
-      mutationObserver = new MutationObserver(scheduleSync);
-      mutationObserver.observe(document.body, {
-        childList: true,
-        subtree: true,
-      });
-    }
-
     window.addEventListener("resize", scheduleSync);
+    window.addEventListener("cookie-banner-change", scheduleSync);
     window.addEventListener("cookie-consent-changed", scheduleSync);
     window.addEventListener("open-cookie-settings", scheduleSync);
 
@@ -92,8 +84,8 @@ export default function WhatsAppLink({
       if (frameId !== null) window.cancelAnimationFrame(frameId);
       if (timeoutId !== null) clearTimeout(timeoutId);
       observer?.disconnect();
-      mutationObserver?.disconnect();
       window.removeEventListener("resize", scheduleSync);
+      window.removeEventListener("cookie-banner-change", scheduleSync);
       window.removeEventListener("cookie-consent-changed", scheduleSync);
       window.removeEventListener("open-cookie-settings", scheduleSync);
     };
