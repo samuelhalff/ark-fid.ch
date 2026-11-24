@@ -37,6 +37,16 @@ export default function WhatsAppLink({
     undefined
   );
   const [isCookieBannerVisible, setIsCookieBannerVisible] = useState(false);
+  // Hidden until the first screen (hero CTAs) has scrolled away.
+  const [isPastHero, setIsPastHero] = useState(false);
+
+  useEffect(() => {
+    if (variant !== "floating") return;
+    const onScroll = () => setIsPastHero(window.scrollY > window.innerHeight * 0.9);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [variant]);
 
   useEffect(() => {
     if (variant !== "floating") return;
@@ -124,7 +134,7 @@ export default function WhatsAppLink({
     );
   }
 
-  if (!isFloatingVisible) return null;
+  if (!isFloatingVisible || !isPastHero) return null;
 
   return (
     <a

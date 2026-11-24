@@ -61,7 +61,8 @@ const Hero = ({ locale, heroIndex, translations, facts }: HeroProps) => {
             >
               <Button
                 size="lg"
-                className="btn-main-cta w-full rounded-full bg-foreground px-6 text-base text-background transition-colors hover:text-white sm:w-auto"
+                variant="brand"
+                className="btn-main-cta w-full rounded-full px-6 text-base transition-colors sm:w-auto"
               >
                 <span>{t("Hero.SecondaryCTA")}</span>
               </Button>

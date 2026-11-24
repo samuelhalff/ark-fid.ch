@@ -130,14 +130,14 @@ export default async function RootLayout({
         <meta httpEquiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
         <link
           rel="preload"
-          href="/assets/fonts/Inter-Regular.woff2"
+          href="/assets/fonts/Inter-Regular.woff2?v=2"
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
         <link
           rel="preload"
-          href="/assets/fonts/Inter-SemiBold.woff2"
+          href="/assets/fonts/Inter-SemiBold.woff2?v=2"
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"

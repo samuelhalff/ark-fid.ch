@@ -7,7 +7,7 @@
 
 @font-face {
   font-family: 'Inter';
-  src: url('/assets/fonts/Inter-Regular.woff2') format('woff2');
+  src: url('/assets/fonts/Inter-Regular.woff2?v=2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -15,7 +15,7 @@
 
 @font-face {
   font-family: 'Inter';
-  src: url('/assets/fonts/Inter-SemiBold.woff2') format('woff2');
+  src: url('/assets/fonts/Inter-SemiBold.woff2?v=2') format('woff2');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -23,7 +23,7 @@
 
 @font-face {
   font-family: 'Inter';
-  src: url('/assets/fonts/Inter-Bold.woff2') format('woff2');
+  src: url('/assets/fonts/Inter-Bold.woff2?v=2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -58,6 +58,7 @@
     --brand-hover: 0.553 0.116 44;
     --brand-soft: 0.928 0.022 58;
     --brand-on-dark: 0.738 0.099 50;
+    --brand-foreground: 0.205 0 0;
     --surface-warm: 0.928 0.012 68;
   }
 
@@ -88,6 +89,7 @@
     --brand-hover: 0.85 0.085 55;
     --brand-soft: 0.31 0.045 50;
     --brand-on-dark: 0.738 0.099 50;
+    --brand-foreground: 0.205 0 0;
     --surface-warm: 0.245 0.008 70;
   }
 
@@ -258,7 +260,7 @@
   }
 
   .btn-main-cta {
-    --btn-wave-fill: oklch(var(--brand));
+    --btn-wave-fill: oklch(var(--foreground));
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -304,7 +306,7 @@
   .btn-main-cta:hover,
   .btn-main-cta:focus-visible {
     transform: none;
-    color: #fff;
+    color: oklch(var(--background));
   }
 
   .btn-main-cta:hover::after,

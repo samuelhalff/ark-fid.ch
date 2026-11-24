@@ -21,3 +21,4 @@ Reprend la méthode de guide-assurance.ch (24.11.2026) et ce qui a été appris 
 - Ordinateur : TBT 48 ms → 0 ms, score 98 → 99.
 - Mobile : TBT 812 ms → 105 ms, score 60 → 83 (LCP 5,2 s → 4,5 s, encore à travailler : image d'arrière-plan et hydratation).
 - Bandeau cookies : fond opaque au jeton `card`, bordure haute au jeton `border`, sans flou (contrôlé à 390 px en clair et en sombre).
+- Polices Inter allégées au sous-ensemble latin (3 × 110 Ko → 3 × 25 Ko, pyftsubset, kerning et chiffres tabulaires conservés), URL en ?v=2 car le cache dure 30 jours : LCP mobile du nouveau poids à vérifier en ligne, un poids de police de 110 Ko coûtait environ 1 s de rendu retardé.

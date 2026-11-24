@@ -65,6 +65,7 @@ module.exports = {
           hover: "oklch(var(--brand-hover) / <alpha-value>)",
           soft: "oklch(var(--brand-soft) / <alpha-value>)",
           onDark: "oklch(var(--brand-on-dark) / <alpha-value>)",
+          foreground: "oklch(var(--brand-foreground) / <alpha-value>)",
         },
         surface: {
           warm: "oklch(var(--surface-warm) / <alpha-value>)",

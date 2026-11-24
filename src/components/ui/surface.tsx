@@ -207,11 +207,10 @@ export function CtaBanner({
               <Button
                 asChild
                 size="lg"
+                variant="brand"
                 className={cn(
                   "w-full rounded-full sm:w-auto sm:min-w-[14rem]",
-                  variant === "contrast"
-                    ? "btn-main-cta !bg-foreground !text-background hover:!text-white dark:!bg-foreground dark:!text-background dark:hover:!text-white"
-                    : "btn-main-cta !bg-foreground !text-background hover:!text-white",
+                  "btn-main-cta",
                 )}
               >
                 <TrackedLink
