@@ -209,11 +209,11 @@ export default function CookieConsent({ locale = "fr", labels }: Props) {
           <div
             ref={dialogRef}
             tabIndex={-1}
-            className="outline-none mx-auto mb-4 max-w-4xl rounded-lg border-t border-border bg-card p-4 shadow-lg"
+            className="outline-none mx-2 mb-2 max-w-4xl rounded-lg border-t border-border bg-card p-3 shadow-lg sm:mx-auto sm:mb-4 sm:p-4"
           >
-            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-              <div className="text-sm leading-relaxed">
-                <p id="cookie-consent-title" className="font-medium mb-1">
+            <div className="flex flex-col gap-2 sm:gap-3 md:flex-row md:items-center md:justify-between">
+              <div className="text-xs leading-snug sm:text-sm sm:leading-relaxed">
+                <p id="cookie-consent-title" className="font-medium mb-0.5 sm:mb-1">
                   {labels.Title}
                 </p>
                 <p>
@@ -228,18 +228,18 @@ export default function CookieConsent({ locale = "fr", labels }: Props) {
                   .
                 </p>
               </div>
-              <div className="flex gap-2 shrink-0">
+              <div className="flex gap-2 shrink-0 max-md:[&>button]:flex-1">
                 <button
                   type="button"
                   onClick={enableMinimal}
-                  className="inline-flex items-center justify-center rounded-md bg-surface-warm px-3 py-2 text-sm shadow-sm hover:bg-muted"
+                  className="inline-flex items-center justify-center rounded-md bg-surface-warm px-3 py-2 text-sm max-sm:py-1.5 shadow-sm hover:bg-muted"
                 >
                   {minimalLabel}
                 </button>
                 <button
                   type="button"
                   onClick={accept}
-                  className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-sm text-primary-foreground hover:opacity-90"
+                  className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-sm max-sm:py-1.5 text-primary-foreground hover:opacity-90"
                 >
                   {fullLabel}
                 </button>

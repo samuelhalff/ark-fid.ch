@@ -1,7 +1,7 @@
 import { type Metadata } from "next";
 import { headers } from "next/headers";
 import Hero from "@/app/[locale]/home/components/hero";
-import ContactForm from "@/src/components/ui/contact-form";
+import ContactForm from "@/src/components/ui/lazy-contact-form";
 import Services from "@/app/[locale]/home/components/services";
 import About from "@/app/[locale]/home/components/about";
 import FAQ from "@/app/[locale]/home/components/faq";
@@ -274,7 +274,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
         <Defer
           rootMargin="300px"
           idle={200}
-          maxDelay={1200}
+          maxDelay={8000}
           placeholder={<div className="h-40 w-full rounded-lg bg-muted/40" />}
         >
           <About />
@@ -284,7 +284,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
         <Defer
           rootMargin="300px"
           idle={200}
-          maxDelay={1200}
+          maxDelay={8000}
           placeholder={<div className="h-40 w-full rounded-lg bg-muted/40" />}
         >
           <FAQ />
@@ -294,7 +294,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
         <Defer
           rootMargin="400px"
           idle={300}
-          maxDelay={1400}
+          maxDelay={8000}
           placeholder={<div className="h-64 w-full rounded-lg bg-muted/40" />}
         >
           <Testimonials />
@@ -304,7 +304,7 @@ export default async function Home(props: { params: Promise<{ locale: string }> 
         <Defer
           rootMargin="300px"
           idle={200}
-          maxDelay={1400}
+          maxDelay={8000}
           placeholder={<div className="h-64 w-full rounded-lg bg-muted/40" />}
         >
           <ContactForm strings={contactStrings} redirectPath={`${localePrefix}/`} />

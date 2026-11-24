@@ -6,9 +6,7 @@ import { inter } from "./fonts";
 import { headers } from "next/headers";
 import ErrorBoundary from "@/src/components/ErrorBoundary";
 import { CookieConsent } from "@/src/components/ClientOnlyDynamic";
-import EngagementTracker from "@/src/components/EngagementTracker";
-import OpenAiPixel from "@/src/components/OpenAiPixel";
-import AttributionTracker from "@/src/components/AttributionTracker";
+import LateTrackers from "@/src/components/LateTrackers";
 import {
   buildConsentBootstrap,
   isValidMeasurementId,
@@ -199,11 +197,9 @@ export default async function RootLayout({
                     labels={cookieLabels}
                   />
 
-                  <OpenAiPixel nonce={nonce} />
-                  <AttributionTracker />
+                  <LateTrackers nonce={nonce} />
 
                   {/* GTM se charge dans l'amorce du <head> (après chargement + moment libre), pour tous les visiteurs sauf KYC et questionnaire fiscal. */}
-                  <EngagementTracker />
                 </>
               )}
             </div>

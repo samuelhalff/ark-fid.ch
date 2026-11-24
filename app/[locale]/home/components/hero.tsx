@@ -28,14 +28,19 @@ const Hero = ({ locale, heroIndex, translations, facts }: HeroProps) => {
 
   const rawTitle = t("Hero.Title") as string;
   const { title, subtitle } = splitTitle(rawTitle);
+  // First sentence stays above the CTAs; any further sentences follow them.
+  const rawIntro = t("Hero.Description") as string;
+  const sentenceEnd = rawIntro.search(/[.!?](\s+)(?=\S)/);
+  const intro = sentenceEnd === -1 ? rawIntro : rawIntro.slice(0, sentenceEnd + 1);
+  const introRest = sentenceEnd === -1 ? "" : rawIntro.slice(sentenceEnd + 1).trim();
 
   return (
-    <section className="relative w-full bg-background px-5 pb-12 pt-14 sm:px-8 sm:pb-16 sm:pt-16 lg:pt-20">
+    <section className="relative w-full bg-background px-5 pb-10 pt-4 sm:px-8 sm:pb-16 sm:pt-16 lg:pt-20">
       <div className="mx-auto w-full max-w-[1240px]">
         {/* No Reveal here: hiding the hero after hydration and fading it back
             in pushed the mobile LCP to about 8 s. */}
         <div className="max-w-5xl">
-          <h1 className="max-w-[14ch] text-balance text-5xl font-semibold leading-[0.98] tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
+          <h1 className="max-w-[14ch] text-balance text-[1.875rem] font-semibold leading-[1.02] min-[400px]:text-5xl tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
             {title}
             {subtitle ? (
               <>
@@ -47,11 +52,11 @@ const Hero = ({ locale, heroIndex, translations, facts }: HeroProps) => {
             ) : null}
           </h1>
 
-          <p className="mt-8 max-w-[56ch] text-lg leading-8 text-muted-foreground sm:text-xl">
-            {t("Hero.Description")}
+          <p className="mt-3 max-w-[56ch] text-sm leading-6 text-muted-foreground sm:mt-8 sm:text-xl sm:leading-8">
+            {intro}
           </p>
 
-          <div className="mt-10 flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center">
+          <div className="mt-4 flex w-full flex-col sm:mt-10 items-stretch gap-2 sm:gap-3 sm:w-auto sm:flex-row sm:items-center">
             <TrackedLink
               cta="home_hero_agent"
               href={`${localePrefix}/agent/`}
@@ -81,6 +86,12 @@ const Hero = ({ locale, heroIndex, translations, facts }: HeroProps) => {
               </Button>
             </Link>
           </div>
+
+          {introRest ? (
+            <p className="mt-5 max-w-[56ch] text-sm leading-6 text-muted-foreground sm:text-lg">
+              {introRest}
+            </p>
+          ) : null}
 
           <GoogleRating locale={currentLocale} className="mt-6" />
 
