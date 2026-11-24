@@ -35,3 +35,4 @@ Reprend la méthode de guide-assurance.ch (24.11.2026) et ce qui a été appris 
 - Environ 4 min 20 sur GitHub : `next build` 2 min 20 (dont 1 min 20 pour générer 459 pages statiques), le reste en installation, cache, envoi chez Infomaniak et vérification.
 - `optimizeCss` n'est pas en cause (build local 71 s avec, 73 s sans). Le runner GitHub standard est environ deux fois plus lent que le poste local.
 - Seuls leviers : runner plus puissant (payant) ou sortir lint et types du build (20 s, mais aucun autre contrôle ne les fait). Décision : on ne change rien.
+- Bouton flottant de réglage des cookies (24.11.2026) : discret, couleur neutre (fond, bord et icône aux jetons muted), environ 36 px à l'œil avec une zone tactile de 44 px, en bas à gauche pour ne couvrir ni texte, ni bulle, ni barre d'appel.
