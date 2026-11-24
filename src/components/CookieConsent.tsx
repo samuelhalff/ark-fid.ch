@@ -207,7 +207,7 @@ export default function CookieConsent({ locale = "fr", labels }: Props) {
         >
           <div
             ref={dialogRef}
-            className="mx-auto mb-4 max-w-4xl rounded-lg bg-background p-4 shadow-lg"
+            className="mx-auto mb-4 max-w-4xl rounded-lg border-t border-border bg-card p-4 shadow-lg"
           >
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="text-sm leading-relaxed">
