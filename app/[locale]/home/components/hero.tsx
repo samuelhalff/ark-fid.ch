@@ -96,7 +96,7 @@ const Hero = ({ locale, heroIndex, translations, facts }: HeroProps) => {
           <GoogleRating locale={currentLocale} className="mt-6" />
 
           {facts && facts.length > 0 && (
-            <div className="mt-16 border-t border-border/50 pt-10 grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-10">
+            <div className="mt-8 border-t border-border/50 pt-6 grid grid-cols-1 gap-8 sm:mt-16 sm:pt-10 sm:grid-cols-3 sm:gap-10">
               {facts.map((fact) => (
                 <div key={fact.label} className="flex flex-col gap-2">
                   <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/60">
