@@ -30,3 +30,8 @@ Reprend la méthode de guide-assurance.ch (24.11.2026) et ce qui a été appris 
 - Bulle WhatsApp affichée seulement après le premier écran, pour ne jamais couvrir un bouton du hero.
 - Bandeau cookies compact sur mobile (moins d'un tiers de l'écran, boutons côte à côte), fond plein `bg-card` avec bord, focus sur le panneau et non sur un lien.
 - Brotli impossible ici : l'hébergement mutualisé Infomaniak gère le serveur web (gzip seulement). Sur un VPS avec notre nginx, brotli a réduit le HTML de 27 à 39 % (guide-assurance.ch).
+
+## Temps de déploiement (24.11.2026)
+- Environ 4 min 20 sur GitHub : `next build` 2 min 20 (dont 1 min 20 pour générer 459 pages statiques), le reste en installation, cache, envoi chez Infomaniak et vérification.
+- `optimizeCss` n'est pas en cause (build local 71 s avec, 73 s sans). Le runner GitHub standard est environ deux fois plus lent que le poste local.
+- Seuls leviers : runner plus puissant (payant) ou sortir lint et types du build (20 s, mais aucun autre contrôle ne les fait). Décision : on ne change rien.
