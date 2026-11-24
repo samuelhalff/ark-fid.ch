@@ -22,3 +22,11 @@ Reprend la méthode de guide-assurance.ch (24.11.2026) et ce qui a été appris 
 - Mobile : TBT 812 ms → 105 ms, score 60 → 83 (LCP 5,2 s → 4,5 s, encore à travailler : image d'arrière-plan et hydratation).
 - Bandeau cookies : fond opaque au jeton `card`, bordure haute au jeton `border`, sans flou (contrôlé à 390 px en clair et en sombre).
 - Polices Inter allégées au sous-ensemble latin (3 × 110 Ko → 3 × 25 Ko, pyftsubset, kerning et chiffres tabulaires conservés), URL en ?v=2 car le cache dure 30 jours : LCP mobile en ligne 3,6 s → 3,15 s, score 86 → 91 (médiane de trois). Reste 2,5 s de délai de rendu, dû au JavaScript (chunk 1255 : 393 ms de scripting).
+- Scripts sans rendu (pixel OpenAI, suivi d'attribution et d'engagement) chargés après inactivité, premier geste ou 3 s ; formulaire de contact de l'accueil chargé à l'affichage de sa section ; sections sous la ligne de flottaison hydratées plus tard (Defer maxDelay 8 s) : LCP mobile 3,15 s → 2,7 s, score 91 → 95. Le chunk 1255 est le runtime de Next, pas du code du site. Prochain levier : remplacer l'animation Reveal (framer-motion) des Services, qui change l'effet visuel.
+
+## Premier écran mobile et bandeau cookies (24.11.2026)
+- Tester à 375 × 600 et 390 × 660 px (Safari avec ses barres), bandeau ouvert et fermé, et regarder la capture : à 390 × 844, les boutons semblaient visibles mais ne l'étaient pas sur un vrai téléphone.
+- Titre de 30 px sous 400 px de large, une phrase d'introduction, bouton principal à la couleur de la marque (variante `brand`, jeton `--brand-foreground`), espacements resserrés sous la note Google.
+- Bulle WhatsApp affichée seulement après le premier écran, pour ne jamais couvrir un bouton du hero.
+- Bandeau cookies compact sur mobile (moins d'un tiers de l'écran, boutons côte à côte), fond plein `bg-card` avec bord, focus sur le panneau et non sur un lien.
+- Brotli impossible ici : l'hébergement mutualisé Infomaniak gère le serveur web (gzip seulement). Sur un VPS avec notre nginx, brotli a réduit le HTML de 27 à 39 % (guide-assurance.ch).
