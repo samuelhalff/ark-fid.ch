@@ -1,6 +1,5 @@
 {
   "queue": [
-    "risques-faillite-administrateurs",
     "lba-aml-obligations-kyc-risques-fiduciaire-suisse",
     "guide-cotisations-sociales-employeurs-suisse-2026",
     "anobag-suisse-permis-travail",
@@ -22,9 +21,11 @@
       "slug": "proces-verbal-assemblee-generale-obligations-redaction-suisse-2025",
       "date": "2026-10-25",
       "reason": "step refresh: failure - ...n allowed reference domains) | [refs] Rejected: https://www.ch.ch/fr/democratie/organiser-vie-associative/assemblee-generale/ (unverifiable-spa: SPA domain cannot be verified over HTTP; not accepted for new references) | [refs] Rejected: https://www.vemoir.ch/fr/outils/modele-proces-verbal/assemblee-generale-sa (blocked-domain: Domain not in allowed reference domains) | refresh: proces-verbal-assemblee-generale-obligations-redaction-suisse-2025: refreshed article too short (1087 < 1200 words) (refresh: proces-verbal-assemblee-generale-obligations-redaction-suisse-2025: refreshed article too short (1087 < 1200 words))"
+    },
+    {
+      "slug": "risques-faillite-administrateurs",
+      "date": "2026-11-25",
+      "reason": "step refresh: failure - ...duplicate domain references | [refs] Validation results: 7 valid, 0 invalid | [refs] Final reference count: 6 (trusted: 6) | [refresh] risques-faillite-administrateurs: draft | [openai] refresh draft model=gpt-5.2-2025-12-11 finish_reason=stop prompt_tokens=3767 completion_tokens=2245 total_tokens=6012 requested_max_tokens=8192 | PostHog AI Observability is not configured; skipping generation capture. | refresh: risques-faillite-administrateurs: refreshed article too short (1192 < 1200 words) (refresh: risques-faillite-administrateurs: refreshed article too short (1192 < 1200 words))"
     }
-  ],
-  "attempts": {
-    "risques-faillite-administrateurs": 1
-  }
+  ]
 }
