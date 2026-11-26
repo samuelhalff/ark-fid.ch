@@ -359,6 +359,480 @@
     "mergers and acquisitions services",
     "payroll compliance switzerland"
    ]
+  },
+  {
+   "date": "2026-11-26",
+   "passage": "manuel (Claude Code) : pages de services en position 15 à 40 et cannibalisations révision, domiciliation, registre du commerce",
+   "periode": [
+    "2026-10-26",
+    "2026-11-22"
+   ],
+   "changements": [
+    {
+     "type": "meta",
+     "url": "/fr/services/constitution-entreprise/",
+     "fichier": "src/translations/fr/metadata.json",
+     "locale": "fr",
+     "requete": "creation societe geneve",
+     "avant": {
+      "title": "Création de SA ou Sàrl à Genève | Ark Fiduciaire",
+      "description": "Création de société à Genève (Sàrl, SA). Constitution rapide et conforme. Choix du type de société, documents requis et démarches administratives."
+     },
+     "apres": {
+      "title": "Création de société à Genève : Sàrl ou SA | Ark Fiduciaire",
+      "description": "Création de société à Genève, Sàrl ou SA : choix de la forme, documents, dépôt du capital, inscription au registre du commerce et suivi administratif."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 1430,
+      "ctr": 0.0,
+      "position": 21.3
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/fr/ressources/articles/domiciliation-entreprise-geneve/",
+     "fichier": "src/translations/fr/ressources.json",
+     "locale": "fr",
+     "requete": "",
+     "avant": {
+      "title": "Domiciliation d’entreprise à Genève : siège, options, coûts",
+      "description": "Ce que comprend une domiciliation commerciale à Genève (adresse de siège, courrier, attestation), pour qui, comment choisir et à quels prix indicatifs."
+     },
+     "apres": {
+      "title": "Domiciliation, coworking ou bureau à Genève : que choisir ?",
+      "description": "Ce que comprend une domiciliation commerciale à Genève (adresse de siège, courrier, attestation), pour qui, comment choisir et à quels prix indicatifs."
+     },
+     "mesures_avant": {
+      "clics": 1,
+      "impressions": 1418,
+      "ctr": 0.0007,
+      "position": 30.0
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/fr/ressources/articles/registre-commerce-suisse-inscription-etapes-documents-delais-erreurs-2026/",
+     "fichier": "src/translations/fr/ressources.json",
+     "locale": "fr",
+     "requete": "",
+     "avant": {
+      "title": "Registre du commerce : enregistrement d’entreprise en Suisse",
+      "description": "Enregistrer une entreprise en Suisse : documents à préparer, délais d’inscription au registre du commerce, coûts et erreurs qui retardent le dossier."
+     },
+     "apres": {
+      "title": "Registre du commerce suisse : inscription, documents, délais",
+      "description": "Enregistrer une entreprise en Suisse : documents à préparer, délais d’inscription au registre du commerce, coûts et erreurs qui retardent le dossier."
+     },
+     "mesures_avant": {
+      "clics": 2,
+      "impressions": 478,
+      "ctr": 0.0042,
+      "position": 23.9
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/fr/ressources/articles/revision-controle-restreint-ordinaire-opting-out-suisse-2026/",
+     "fichier": "src/translations/fr/ressources.json",
+     "locale": "fr",
+     "requete": "",
+     "avant": {
+      "title": "Révision, contrôle restreint et opting-out en Suisse (2026)",
+      "description": "Obligations de révision en Suisse : contrôle restreint ou ordinaire, nouveautés 2025-2026 pour l’opting-out et impacts pour PME et grandes entreprises."
+     },
+     "apres": {
+      "title": "Contrôle restreint ou ordinaire : règles de révision 2026",
+      "description": "Obligations de révision en Suisse : contrôle restreint ou ordinaire, nouveautés 2025-2026 pour l’opting-out et impacts pour PME et grandes entreprises."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 6.5
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/fr/ressources/articles/revision-audit-controle-restreint-ordinaire-pme-suisse-2026/",
+     "fichier": "src/translations/fr/ressources.json",
+     "locale": "fr",
+     "requete": "",
+     "avant": {
+      "title": "Révision des comptes en Suisse 2026 : ordinaire ou restreint",
+      "description": "Obligations de révision des PME en Suisse : seuils 2026, contrôle ordinaire ou restreint, procédure, erreurs courantes et préparation du dossier."
+     },
+     "apres": {
+      "title": "Préparer la révision des comptes : checklist PME 2026",
+      "description": "Préparer la révision des comptes d'une PME suisse : dossier pour le réviseur, checklists, étapes et erreurs relevées le plus souvent."
+     },
+     "mesures_avant": {
+      "clics": 1,
+      "impressions": 157,
+      "ctr": 0.0064,
+      "position": 11.5
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/en/services/accounting/",
+     "fichier": "src/translations/en/metadata.json",
+     "locale": "en",
+     "requete": "accounting services switzerland",
+     "avant": {
+      "title": "Accounting services in Switzerland (Geneva) | Ark Fiduciaire",
+      "description": "Accounting services in Switzerland from our Geneva team: bookkeeping in Switzerland, VAT, closings and reporting for Swiss SMEs."
+     },
+     "apres": {
+      "title": "Accounting services in Switzerland (Geneva) | Ark Fiduciaire",
+      "description": "Accounting services and bookkeeping in Switzerland from our Geneva team: VAT, closings and reporting for Swiss SMEs, in your tools or in Odoo."
+     },
+     "mesures_avant": {
+      "clics": 1,
+      "impressions": 1049,
+      "ctr": 0.001,
+      "position": 20.4
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/en/services/corporate/",
+     "fichier": "src/translations/en/metadata.json",
+     "locale": "en",
+     "requete": "secretarial services switzerland",
+     "avant": {
+      "title": "Corporate administration in geneva | Ark Fiduciaire",
+      "description": "Corporate administration and company secretarial in geneva. We support you at every stage, from incorporation to daily management and statutory changes."
+     },
+     "apres": {
+      "title": "Company secretarial services in Switzerland | Ark Fiduciaire",
+      "description": "Company secretarial and corporate administration in Switzerland, from Geneva: board and general meetings, minutes, registers and statutory changes."
+     },
+     "mesures_avant": {
+      "clics": 1,
+      "impressions": 337,
+      "ctr": 0.003,
+      "position": 13.4
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/en/services/mergers-acquisitions/",
+     "fichier": "src/translations/en/metadata.json",
+     "locale": "en",
+     "requete": "transaction advisory switzerland",
+     "avant": {
+      "title": "M&a advisory for swiss deals | Ark Fiduciaire",
+      "description": "M&A advisory for swiss deals. Ark Fiduciaire delivers hands-on support across French and German-speaking Switzerland, shaping deal strategy and due diligence."
+     },
+     "apres": {
+      "title": "M&A and transaction advisory in Switzerland | Ark Fiduciaire",
+      "description": "Transaction advisory and M&A support in Switzerland: buy-side and sell-side processes, valuation, due diligence coordination and post-deal integration."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 359,
+      "ctr": 0.0,
+      "position": 28.2
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/en/services/payroll/",
+     "fichier": "src/translations/en/metadata.json",
+     "locale": "en",
+     "requete": "payroll services switzerland",
+     "avant": {
+      "title": "Swiss Payroll Outsourcing & ANOBAG | Ark Fiduciaire",
+      "description": "Outsource your Swiss payroll: payslips, salary certificates, social insurance, ANOBAG and Swissdec reporting — managed by a Geneva accounting firm."
+     },
+     "apres": {
+      "title": "Payroll services in Switzerland, outsourced | Ark Fiduciaire",
+      "description": "Outsource your Swiss payroll: payslips, salary certificates, social insurance, ANOBAG and Swissdec reporting — managed by a Geneva accounting firm."
+     },
+     "mesures_avant": {
+      "clics": 2,
+      "impressions": 1068,
+      "ctr": 0.0019,
+      "position": 41.5
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/en/services/taxes/",
+     "fichier": "src/translations/en/metadata.json",
+     "locale": "en",
+     "requete": "tax compliance switzerland",
+     "avant": {
+      "title": "Tax Advice in Geneva for Companies | Ark Fiduciaire",
+      "description": "Tax advice and tax returns in Geneva. Our tax specialists support you in all your tax obligations, from declarations to strategic planning."
+     },
+     "apres": {
+      "title": "Tax compliance and advice in Switzerland | Ark Fiduciaire",
+      "description": "Tax compliance in Switzerland for companies and individuals: tax returns, VAT and tax planning, handled by our Geneva tax team."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 540,
+      "ctr": 0.0,
+      "position": 27.7
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/en/services/incorporation/",
+     "fichier": "src/translations/en/metadata.json",
+     "locale": "en",
+     "requete": "incorporation services",
+     "avant": {
+      "title": "Company Incorporation in Geneva, SA or Sàrl | Ark Fiduciaire",
+      "description": "Company incorporation in Geneva for SA or Sàrl: structure choice, documents, capital deposit, commercial register, VAT and administrative follow-up."
+     },
+     "apres": {
+      "title": "Company incorporation services in Geneva | Ark Fiduciaire",
+      "description": "Company incorporation services in Switzerland from Geneva: SA or Sàrl choice, documents, capital deposit, commercial register, VAT and follow-up."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 269,
+      "ctr": 0.0,
+      "position": 31.9
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/en/ressources/articles/domiciliation-entreprise-geneve/",
+     "fichier": "src/translations/en/ressources.json",
+     "locale": "en",
+     "requete": "",
+     "avant": {
+      "title": "Business Address in Geneva from CHF 90/month, excl. VAT",
+      "description": "Registered office in Geneva without a full-time office: mail handling, domiciliation attestation, indicative CHF 90–180/month excl. VAT, live in 24–72h."
+     },
+     "apres": {
+      "title": "Domiciliation, coworking or office in Geneva?",
+      "description": "Registered office in Geneva without a full-time office: mail handling, domiciliation attestation, indicative CHF 90–180/month excl. VAT, live in 24–72h."
+     },
+     "mesures_avant": {
+      "clics": 2,
+      "impressions": 1060,
+      "ctr": 0.0019,
+      "position": 21.8
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/en/ressources/articles/revision-controle-restreint-ordinaire-opting-out-suisse-2026/",
+     "fichier": "src/translations/en/ressources.json",
+     "locale": "en",
+     "requete": "",
+     "avant": {
+      "title": "Audit, limited review and opting-out: Swiss rules 2026",
+      "description": "Audit obligations in Switzerland: limited versus ordinary review, the 2025-2026 changes on opting-out and the impact for SMEs and larger companies."
+     },
+     "apres": {
+      "title": "Limited or ordinary audit in Switzerland: 2026 rules",
+      "description": "Audit obligations in Switzerland: limited versus ordinary review, the 2025-2026 changes on opting-out and the impact for SMEs and larger companies."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 0,
+      "ctr": 0.0,
+      "position": 0.0
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/en/ressources/articles/revision-audit-controle-restreint-ordinaire-pme-suisse-2026/",
+     "fichier": "src/translations/en/ressources.json",
+     "locale": "en",
+     "requete": "",
+     "avant": {
+      "title": "Audit in Switzerland 2026: ordinary or limited review?",
+      "description": "Audit obligations for Swiss SMEs: 2026 thresholds, choosing between ordinary and limited review, criteria, procedure, common errors and file preparation."
+     },
+     "apres": {
+      "title": "Preparing for a Swiss audit: SME checklist 2026",
+      "description": "How a Swiss SME prepares for its audit: the file the auditor expects, checklists, a step-by-step method and the most common findings."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 45,
+      "ctr": 0.0,
+      "position": 8.9
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/de/services/accounting/",
+     "fichier": "src/translations/de/metadata.json",
+     "locale": "de",
+     "requete": "",
+     "avant": {
+      "title": "Buchhaltung in genf und lausanne für KMU | Ark Fiduciaire",
+      "description": "Buchhaltung in Genf und Lausanne für KMU. Umfassende und personalisierte Lösungen für Ihre finanzielle und buchhalterische Verwaltung."
+     },
+     "apres": {
+      "title": "Buchhaltung in Genf und Lausanne für KMU | Ark Fiduciaire",
+      "description": "Buchhaltung in Genf und Lausanne für KMU. Umfassende und personalisierte Lösungen für Ihre finanzielle und buchhalterische Verwaltung."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 10,
+      "ctr": 0.0,
+      "position": 29.4
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/de/services/outsourcing/",
+     "fichier": "src/translations/de/metadata.json",
+     "locale": "de",
+     "requete": "backoffice outsourcing",
+     "avant": {
+      "title": "Backoffice-outsourcing in der romandie | Ark Fiduciaire",
+      "description": "Backoffice-Outsourcing in der Romandie. Wir übernehmen Buchhaltung, Lohnabrechnung und Verwaltung, damit Sie sich auf Ihr Kerngeschäft konzentrieren."
+     },
+     "apres": {
+      "title": "Backoffice-Outsourcing in der Romandie | Ark Fiduciaire",
+      "description": "Backoffice-Outsourcing in der Romandie. Wir übernehmen Buchhaltung, Lohnabrechnung und Verwaltung, damit Sie sich auf Ihr Kerngeschäft konzentrieren."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 204,
+      "ctr": 0.0,
+      "position": 33.6
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/de/services/mergers-acquisitions/",
+     "fichier": "src/translations/de/metadata.json",
+     "locale": "de",
+     "requete": "",
+     "avant": {
+      "title": "M&a beratung für schweizer transaktionen | Ark Fiduciaire",
+      "description": "M&A-Beratung für Schweizer Transaktionen. Ark Fiduciaire begleitet Mandanten in der Romandie und Deutschschweiz durch den gesamten Transaktionsablauf."
+     },
+     "apres": {
+      "title": "M&A-Beratung für Schweizer Transaktionen | Ark Fiduciaire",
+      "description": "M&A-Beratung für Schweizer Transaktionen. Ark Fiduciaire begleitet Mandanten in der Romandie und Deutschschweiz durch den gesamten Transaktionsablauf."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 61,
+      "ctr": 0.0,
+      "position": 52.0
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/de/services/payroll/",
+     "fichier": "src/translations/de/metadata.json",
+     "locale": "de",
+     "requete": "payroll outsourcing schweiz",
+     "avant": {
+      "title": "Lohn-Outsourcing Schweiz & ANOBAG | Ark Fiduciaire",
+      "description": "Lagern Sie Ihre Lohnbuchhaltung aus: Lohnabrechnungen, Lohnausweise, Sozialversicherungen, ANOBAG und Swissdec – betreut von einem Treuhandbüro in Genf."
+     },
+     "apres": {
+      "title": "Lohn-Outsourcing Schweiz, Lohnbuchhaltung | Ark Fiduciaire",
+      "description": "Lagern Sie Ihre Lohnbuchhaltung aus: Lohnabrechnungen, Lohnausweise, Sozialversicherungen, ANOBAG und Swissdec – betreut von einem Treuhandbüro in Genf."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 335,
+      "ctr": 0.0,
+      "position": 49.1
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/de/services/incorporation/",
+     "fichier": "src/translations/de/metadata.json",
+     "locale": "de",
+     "requete": "",
+     "avant": {
+      "title": "Firmengründung in genf (sàrl/sa) | Ark Fiduciaire",
+      "description": "Firmengründung in Genf (Sàrl/SA). Wir helfen Ihnen, Ihr Unternehmen schnell und korrekt zu gründen – von der Gesellschaftsform bis zur Eintragung."
+     },
+     "apres": {
+      "title": "Firmengründung in Genf (Sàrl/SA) | Ark Fiduciaire",
+      "description": "Firmengründung in Genf (Sàrl/SA). Wir helfen Ihnen, Ihr Unternehmen schnell und korrekt zu gründen – von der Gesellschaftsform bis zur Eintragung."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 18,
+      "ctr": 0.0,
+      "position": 10.9
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/de/ressources/articles/domiciliation-entreprise-geneve/",
+     "fichier": "src/translations/de/ressources.json",
+     "locale": "de",
+     "requete": "",
+     "avant": {
+      "title": "Firmendomizil in Genf: Geschäftssitz, Optionen, Kosten",
+      "description": "Was eine Domizilierung in Genf bietet (Geschäftssitzadresse, Postbearbeitung, Bescheinigung), für wen sie geeignet ist, Auswahlkriterien und Richtpreise."
+     },
+     "apres": {
+      "title": "Domizil, Coworking oder Büro in Genf: was wählen?",
+      "description": "Domizilierung, Coworking oder eigenes Büro in Genf: enthaltene Leistungen, für wen sich was eignet, Schritte und Richtpreise."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 1121,
+      "ctr": 0.0,
+      "position": 16.3
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/de/ressources/articles/revision-controle-restreint-ordinaire-opting-out-suisse-2026/",
+     "fichier": "src/translations/de/ressources.json",
+     "locale": "de",
+     "requete": "",
+     "avant": {
+      "title": "Revision, Opting-out und Prüfungsarten in der Schweiz 2026",
+      "description": "Revisionspflicht in der Schweiz: eingeschränkte oder ordentliche Revision, Neuerungen 2025 und 2026 zum Opting-out und Folgen für KMU und Grossunternehmen."
+     },
+     "apres": {
+      "title": "Eingeschränkte oder ordentliche Revision: Regeln 2026",
+      "description": "Revisionspflicht in der Schweiz: eingeschränkte oder ordentliche Revision, Neuerungen 2025 und 2026 zum Opting-out und Folgen für KMU und Grossunternehmen."
+     },
+     "mesures_avant": {
+      "clics": 1,
+      "impressions": 1133,
+      "ctr": 0.0009,
+      "position": 30.1
+     }
+    },
+    {
+     "type": "meta",
+     "url": "/de/ressources/articles/revision-audit-controle-restreint-ordinaire-pme-suisse-2026/",
+     "fichier": "src/translations/de/ressources.json",
+     "locale": "de",
+     "requete": "",
+     "avant": {
+      "title": "Revision 2026: Ordentliche oder eingeschränkte Prüfung?",
+      "description": "Revisionspflicht für Schweizer KMU 2026: Schwellenwerte, Wahl zwischen ordentlicher und eingeschränkter Revision, Ablauf, typische Fehler und Vorbereitung."
+     },
+     "apres": {
+      "title": "Revision vorbereiten: Checkliste für KMU 2026",
+      "description": "So bereitet ein Schweizer KMU die Revision vor: Unterlagen für die Revisionsstelle, Checklisten, Schritte und die häufigsten Feststellungen."
+     },
+     "mesures_avant": {
+      "clics": 0,
+      "impressions": 7,
+      "ctr": 0.0,
+      "position": 6.4
+     }
+    }
+   ],
+   "sujets": [],
+   "sujets_ecartes": []
   }
  ]
 }

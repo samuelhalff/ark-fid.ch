@@ -311,6 +311,18 @@ const baseConfig = {
         destination: "/:locale/ressources/articles/creations-entreprises-geneve-suisse-romande-statistiques/",
         statusCode: 301,
       },
+      // Slug published with an accent ("barèmes"): every locale answered 404 while the
+      // sitemap listed it. Slugs are ASCII only now; the accented URL keeps working.
+      {
+        source: "/:locale/ressources/articles/frais-professionnels-dirigeant-pme-suisse-bar%C3%A8mes-2026-limites-justificatifs-controles/",
+        destination: "/:locale/ressources/articles/frais-professionnels-dirigeant-pme-suisse-baremes-2026-limites-justificatifs-controles/",
+        permanent: true,
+      },
+      {
+        source: "/:locale/ressources/articles/frais-professionnels-dirigeant-pme-suisse-bar%C3%A8mes-2026-limites-justificatifs-controles",
+        destination: "/:locale/ressources/articles/frais-professionnels-dirigeant-pme-suisse-baremes-2026-limites-justificatifs-controles/",
+        permanent: true,
+      },
       // Consolidated article redirects — avoid 404s for merged content
       {
         source: "/:locale/ressources/articles/odoo-18-nouveautes-comptabilite-suisse-2025/",

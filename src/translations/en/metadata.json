@@ -66,12 +66,12 @@
     },
     "/services/accounting": {
       "title": "Accounting services in Switzerland (Geneva) | Ark Fiduciaire",
-      "description": "Accounting services in Switzerland from our Geneva team: bookkeeping in Switzerland, VAT, closings and reporting for Swiss SMEs.",
+      "description": "Accounting services and bookkeeping in Switzerland from our Geneva team: VAT, closings and reporting for Swiss SMEs, in your tools or in Odoo.",
       "keywords": "accounting geneva, fiduciary geneva, SME accounting geneva, chartered accountant geneva, accounting lausanne"
     },
     "/services/corporate": {
-      "title": "Corporate administration in geneva | Ark Fiduciaire",
-      "description": "Corporate administration and company secretarial in geneva. We support you at every stage, from incorporation to daily management and statutory changes.",
+      "title": "Company secretarial services in Switzerland | Ark Fiduciaire",
+      "description": "Company secretarial and corporate administration in Switzerland, from Geneva: board and general meetings, minutes, registers and statutory changes.",
       "keywords": "corporate administration switzerland, company secretarial switzerland, corporate governance switzerland, company administration geneva, commercial register switzerland"
     },
     "/services/domiciliation": {
@@ -95,23 +95,23 @@
       "keywords": "back office outsourcing switzerland, accounting outsourcing switzerland, administrative outsourcing, outsourcing geneva, back office switzerland"
     },
     "/services/mergers-acquisitions": {
-      "title": "M&a advisory for swiss deals | Ark Fiduciaire",
-      "description": "M&A advisory for swiss deals. Ark Fiduciaire delivers hands-on support across French and German-speaking Switzerland, shaping deal strategy and due diligence.",
+      "title": "M&A and transaction advisory in Switzerland | Ark Fiduciaire",
+      "description": "Transaction advisory and M&A support in Switzerland: buy-side and sell-side processes, valuation, due diligence coordination and post-deal integration.",
       "keywords": "m&a switzerland, m&a advisory switzerland, company valuation switzerland, due diligence switzerland, SME succession switzerland"
     },
     "/services/payroll": {
-      "title": "Swiss Payroll Outsourcing & ANOBAG | Ark Fiduciaire",
+      "title": "Payroll services in Switzerland, outsourced | Ark Fiduciaire",
       "description": "Outsource your Swiss payroll: payslips, salary certificates, social insurance, ANOBAG and Swissdec reporting — managed by a Geneva accounting firm.",
       "keywords": "payroll switzerland, payroll geneva, salary payslip switzerland, payroll management geneva, social contributions switzerland"
     },
     "/services/taxes": {
-      "title": "Tax Advice in Geneva for Companies | Ark Fiduciaire",
-      "description": "Tax advice and tax returns in Geneva. Our tax specialists support you in all your tax obligations, from declarations to strategic planning.",
+      "title": "Tax compliance and advice in Switzerland | Ark Fiduciaire",
+      "description": "Tax compliance in Switzerland for companies and individuals: tax returns, VAT and tax planning, handled by our Geneva tax team.",
       "keywords": "tax advice geneva, tax advisor geneva, tax return geneva, swiss tax advisor, expat tax geneva, tax filing geneva, corporate tax geneva, personal tax geneva, international tax geneva, tax planning geneva, tax consultancy geneva, tax help geneva, business tax advice geneva, tax preparation geneva, geneva tax specialist, tax optimization geneva, tax declaration geneva, swiss tax compliance, tax support geneva, tax solutions geneva"
     },
     "/services/incorporation": {
-      "title": "Company Incorporation in Geneva, SA or Sàrl | Ark Fiduciaire",
-      "description": "Company incorporation in Geneva for SA or Sàrl: structure choice, documents, capital deposit, commercial register, VAT and administrative follow-up.",
+      "title": "Company incorporation services in Geneva | Ark Fiduciaire",
+      "description": "Company incorporation services in Switzerland from Geneva: SA or Sàrl choice, documents, capital deposit, commercial register, VAT and follow-up.",
       "keywords": "company incorporation geneva, sàrl formation switzerland, sa company formation, open company geneva, company formation switzerland",
       "topics": [
         "start a company geneva",

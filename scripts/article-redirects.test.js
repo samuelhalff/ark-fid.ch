@@ -58,7 +58,23 @@ const PAIRS = [
     "mise-en-place-ou-amelioration-du-controle-des-proces-verbaux-et-assemblees-generales-en-pme-geneve-2025-solutions-pratiques",
     "proces-verbal-assemblee-generale-obligations-redaction-suisse-2025",
   ],
+  // Accented slug renamed to ASCII 2026-11-26 (the accented URL answered 404). Next.js
+  // matches redirect sources against the percent-encoded path, hence "%C3%A8" for "è".
+  [
+    "frais-professionnels-dirigeant-pme-suisse-bar%C3%A8mes-2026-limites-justificatifs-controles",
+    "frais-professionnels-dirigeant-pme-suisse-baremes-2026-limites-justificatifs-controles",
+  ],
 ];
+
+describe("article slugs", () => {
+  it("are lowercase ASCII (an accented slug answered 404 in every locale)", () => {
+    for (const locale of LOCALES) {
+      for (const slug of slugsFor(locale)) {
+        assert.match(slug, /^[a-z0-9-]+$/, `${locale}: ${slug}`);
+      }
+    }
+  });
+});
 
 const slugsFor = (locale) => {
   const file = path.join(ROOT, "src/translations", locale, "ressources.json");
@@ -119,8 +135,11 @@ describe("duplicate article redirects", () => {
         "utf8",
       );
       for (const [source] of PAIRS) {
-        const re = new RegExp(`articles/${source}(?![\\w-])`);
-        assert.equal(re.test(raw), false, `${locale} still links to ${source}`);
+        // encoded and decoded forms (a source may be percent-encoded, e.g. "%C3%A8")
+        for (const form of new Set([source, decodeURIComponent(source)])) {
+          const re = new RegExp(`articles/${form}(?![\\w-])`);
+          assert.equal(re.test(raw), false, `${locale} still links to ${form}`);
+        }
       }
     }
   });
